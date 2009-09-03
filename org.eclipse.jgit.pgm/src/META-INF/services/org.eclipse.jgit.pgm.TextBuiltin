@@ -1,6 +1,7 @@
 org.eclipse.jgit.pgm.Branch
 org.eclipse.jgit.pgm.Clone
 org.eclipse.jgit.pgm.Daemon
+org.eclipse.jgit.pgm.Diff
 org.eclipse.jgit.pgm.DiffTree
 org.eclipse.jgit.pgm.Fetch
 org.eclipse.jgit.pgm.Glog
