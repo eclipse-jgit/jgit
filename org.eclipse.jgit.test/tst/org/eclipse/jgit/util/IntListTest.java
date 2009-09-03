@@ -150,6 +150,27 @@ public class IntListTest extends TestCase {
 		}
 	}
 
+	public void testSet() {
+		final IntList i = new IntList();
+		i.add(1);
+		assertEquals(1, i.size());
+		assertEquals(1, i.get(0));
+
+		i.set(0, 5);
+		assertEquals(5, i.get(0));
+
+		try {
+			i.set(5, 5);
+			fail("accepted set of 5 beyond end of list");
+		} catch (ArrayIndexOutOfBoundsException e){
+			assertTrue(true);
+		}
+
+		i.set(1, 2);
+		assertEquals(2, i.size());
+		assertEquals(2, i.get(1));
+	}
+
 	public void testToString() {
 		final IntList i = new IntList();
 		i.add(1);

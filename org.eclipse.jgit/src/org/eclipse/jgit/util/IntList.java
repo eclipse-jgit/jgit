@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2008, Google Inc.
+ * Copyright (C) 2009, Johannes Schindelin <johannes.schindelin@gmx.de>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -97,6 +98,23 @@ public class IntList {
 		if (count == entries.length)
 			grow();
 		entries[count++] = n;
+	}
+
+	/**
+	 * Assign an entry in the list.
+	 *
+	 * @param index
+	 *            index to set, must be in the range [0, {@link #size()}).
+	 * @param n
+	 *            value to store at the position.
+	 */
+	public void set(final int index, final int n) {
+		if (count < index)
+			throw new ArrayIndexOutOfBoundsException(index);
+		else if (count == index)
+			add(n);
+		else
+			entries[index] = n;
 	}
 
 	/**
