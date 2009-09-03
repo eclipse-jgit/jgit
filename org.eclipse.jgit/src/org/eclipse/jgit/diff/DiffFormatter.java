@@ -114,7 +114,7 @@ public class DiffFormatter {
 		formatEdits(out, a, b, head.toEditList());
 	}
 
-	private void formatEdits(final OutputStream out, final RawText a,
+	public void formatEdits(final OutputStream out, final RawText a,
 			final RawText b, final EditList edits) throws IOException {
 		for (int curIdx = 0; curIdx < edits.size();) {
 			Edit curEdit = edits.get(curIdx);
