@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008, Google Inc.
+ * Copyright (C) 2008-2009, Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -46,6 +46,7 @@ package org.eclipse.jgit.dircache;
 import java.io.IOException;
 
 import org.eclipse.jgit.errors.CorruptObjectException;
+import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.RepositoryTestCase;
 
 public class DirCacheLargePathTest extends RepositoryTestCase {
@@ -76,6 +77,10 @@ public class DirCacheLargePathTest extends RepositoryTestCase {
 
 		final DirCacheEntry longEnt = new DirCacheEntry(longPath);
 		final DirCacheEntry shortEnt = new DirCacheEntry(shortPath);
+
+		longEnt.setFileMode(FileMode.REGULAR_FILE);
+		shortEnt.setFileMode(FileMode.REGULAR_FILE);
+
 		assertEquals(longPath, longEnt.getPathString());
 		assertEquals(shortPath, shortEnt.getPathString());
 

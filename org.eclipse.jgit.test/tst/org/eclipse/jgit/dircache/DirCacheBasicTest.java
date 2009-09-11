@@ -46,6 +46,7 @@ package org.eclipse.jgit.dircache;
 import java.io.File;
 
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.RepositoryTestCase;
 
 public class DirCacheBasicTest extends RepositoryTestCase {
@@ -176,8 +177,10 @@ public class DirCacheBasicTest extends RepositoryTestCase {
 
 		final String[] paths = { "a.", "a.b", "a/b", "a0b" };
 		final DirCacheEntry[] ents = new DirCacheEntry[paths.length];
-		for (int i = 0; i < paths.length; i++)
+		for (int i = 0; i < paths.length; i++) {
 			ents[i] = new DirCacheEntry(paths[i]);
+			ents[i].setFileMode(FileMode.REGULAR_FILE);
+		}
 
 		final DirCacheBuilder b = dc.builder();
 		for (int i = 0; i < ents.length; i++)
