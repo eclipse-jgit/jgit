@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008, Google Inc.
+ * Copyright (C) 2008-2009, Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -74,8 +74,10 @@ public class DirCacheIteratorTest extends RepositoryTestCase {
 
 		final String[] paths = { "a.", "a0b" };
 		final DirCacheEntry[] ents = new DirCacheEntry[paths.length];
-		for (int i = 0; i < paths.length; i++)
+		for (int i = 0; i < paths.length; i++) {
 			ents[i] = new DirCacheEntry(paths[i]);
+			ents[i].setFileMode(FileMode.REGULAR_FILE);
+		}
 
 		final DirCacheBuilder b = dc.builder();
 		for (int i = 0; i < ents.length; i++)

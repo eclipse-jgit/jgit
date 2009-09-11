@@ -41,11 +41,12 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.spearce.jgit.dircache;
+package org.eclipse.jgit.dircache;
 
 import junit.framework.TestCase;
 
-import org.spearce.jgit.lib.Constants;
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.FileMode;
 
 public class DirCacheEntryTest extends TestCase {
 	public void testIsValidPath() {
@@ -116,6 +117,42 @@ public class DirCacheEntryTest extends TestCase {
 			fail("Incorrectly created DirCacheEntry");
 		} catch (IllegalArgumentException err) {
 			assertEquals("Invalid stage 4 for path a", err.getMessage());
+		}
+	}
+
+	public void testSetFileMode() {
+		final DirCacheEntry e = new DirCacheEntry("a");
+
+		assertEquals(0, e.getRawMode());
+
+		e.setFileMode(FileMode.REGULAR_FILE);
+		assertSame(FileMode.REGULAR_FILE, e.getFileMode());
+		assertEquals(FileMode.REGULAR_FILE.getBits(), e.getRawMode());
+
+		e.setFileMode(FileMode.EXECUTABLE_FILE);
+		assertSame(FileMode.EXECUTABLE_FILE, e.getFileMode());
+		assertEquals(FileMode.EXECUTABLE_FILE.getBits(), e.getRawMode());
+
+		e.setFileMode(FileMode.SYMLINK);
+		assertSame(FileMode.SYMLINK, e.getFileMode());
+		assertEquals(FileMode.SYMLINK.getBits(), e.getRawMode());
+
+		e.setFileMode(FileMode.GITLINK);
+		assertSame(FileMode.GITLINK, e.getFileMode());
+		assertEquals(FileMode.GITLINK.getBits(), e.getRawMode());
+
+		try {
+			e.setFileMode(FileMode.MISSING);
+			fail("incorrectly accepted FileMode.MISSING");
+		} catch (IllegalArgumentException err) {
+			assertEquals("Invalid mode 0 for path a", err.getMessage());
+		}
+
+		try {
+			e.setFileMode(FileMode.TREE);
+			fail("incorrectly accepted FileMode.TREE");
+		} catch (IllegalArgumentException err) {
+			assertEquals("Invalid mode 40000 for path a", err.getMessage());
 		}
 	}
 }
