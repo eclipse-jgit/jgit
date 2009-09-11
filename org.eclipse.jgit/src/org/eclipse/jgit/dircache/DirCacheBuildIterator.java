@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008, Google Inc.
+ * Copyright (C) 2008-2009, Google Inc.
  * Copyright (C) 2009, Robin Rosenberg <robin.rosenberg@dewire.com>
  * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org>
  * and other copyright owners as documented in the project's IP log.
@@ -119,7 +119,7 @@ public class DirCacheBuildIterator extends DirCacheIterator {
 		if (currentSubtree != null)
 			builder.keep(ptr, currentSubtree.getEntrySpan());
 		else
-			builder.add(currentEntry);
+			builder.keep(ptr, 1);
 		next(1);
 	}
 
