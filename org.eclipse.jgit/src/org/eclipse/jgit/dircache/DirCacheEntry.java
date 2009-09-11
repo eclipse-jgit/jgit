@@ -174,6 +174,10 @@ public class DirCacheEntry {
 	 *
 	 * @param newPath
 	 *            name of the cache entry.
+	 * @throws IllegalArgumentException
+	 *             If the path starts or ends with "/", or contains "//" either
+	 *             "\0". These sequences are not permitted in a git tree object
+	 *             or DirCache file.
 	 */
 	public DirCacheEntry(final String newPath) {
 		this(Constants.encode(newPath));
@@ -186,6 +190,11 @@ public class DirCacheEntry {
 	 *            name of the cache entry.
 	 * @param stage
 	 *            the stage index of the new entry.
+	 * @throws IllegalArgumentException
+	 *             If the path starts or ends with "/", or contains "//" either
+	 *             "\0". These sequences are not permitted in a git tree object
+	 *             or DirCache file.  Or if {@code stage} is outside of the
+	 *             range 0..3, inclusive.
 	 */
 	public DirCacheEntry(final String newPath, final int stage) {
 		this(Constants.encode(newPath), stage);
@@ -196,6 +205,10 @@ public class DirCacheEntry {
 	 *
 	 * @param newPath
 	 *            name of the cache entry, in the standard encoding.
+	 * @throws IllegalArgumentException
+	 *             If the path starts or ends with "/", or contains "//" either
+	 *             "\0". These sequences are not permitted in a git tree object
+	 *             or DirCache file.
 	 */
 	public DirCacheEntry(final byte[] newPath) {
 		this(newPath, STAGE_0);
@@ -208,8 +221,20 @@ public class DirCacheEntry {
 	 *            name of the cache entry, in the standard encoding.
 	 * @param stage
 	 *            the stage index of the new entry.
+	 * @throws IllegalArgumentException
+	 *             If the path starts or ends with "/", or contains "//" either
+	 *             "\0". These sequences are not permitted in a git tree object
+	 *             or DirCache file.  Or if {@code stage} is outside of the
+	 *             range 0..3, inclusive.
 	 */
 	public DirCacheEntry(final byte[] newPath, final int stage) {
+		if (!isValidPath(newPath))
+			throw new IllegalArgumentException("Invalid path: "
+					+ toString(newPath));
+		if (stage < 0 || 3 < stage)
+			throw new IllegalArgumentException("Invalid stage " + stage
+					+ " for path " + toString(newPath));
+
 		info = new byte[INFO_LEN];
 		infoOffset = 0;
 		path = newPath;
@@ -469,7 +494,7 @@ public class DirCacheEntry {
 	 *         returned string.
 	 */
 	public String getPathString() {
-		return Constants.CHARSET.decode(ByteBuffer.wrap(path)).toString();
+		return toString(path);
 	}
 
 	/**
@@ -499,5 +524,33 @@ public class DirCacheEntry {
 		final int base = infoOffset + pIdx;
 		NB.encodeInt32(info, base, (int) (when / 1000));
 		NB.encodeInt32(info, base + 4, ((int) (when % 1000)) * 1000000);
+	}
+
+	private static String toString(final byte[] path) {
+		return Constants.CHARSET.decode(ByteBuffer.wrap(path)).toString();
+	}
+
+	static boolean isValidPath(final byte[] path) {
+		if (path.length == 0)
+			return false; // empty path is not permitted.
+
+		boolean componentHasChars = false;
+		for (final byte c : path) {
+			switch (c) {
+			case 0:
+				return false; // NUL is never allowed within the path.
+
+			case '/':
+				if (componentHasChars)
+					componentHasChars = false;
+				else
+					return false;
+				break;
+
+			default:
+				componentHasChars = true;
+			}
+		}
+		return componentHasChars;
 	}
 }
