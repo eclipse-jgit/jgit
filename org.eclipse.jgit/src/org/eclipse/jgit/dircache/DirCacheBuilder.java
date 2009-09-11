@@ -48,7 +48,6 @@ import java.io.IOException;
 import java.util.Arrays;
 
 import org.eclipse.jgit.lib.AnyObjectId;
-import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.WindowCursor;
 import org.eclipse.jgit.treewalk.AbstractTreeIterator;
@@ -97,8 +96,13 @@ public class DirCacheBuilder extends BaseDirCacheEditor {
 	 *
 	 * @param newEntry
 	 *            the new entry to add.
+	 * @throws IllegalArgumentException
+	 *             If the FileMode of the entry was not set by the caller.
 	 */
 	public void add(final DirCacheEntry newEntry) {
+		if (newEntry.getRawMode() == 0)
+			throw new IllegalArgumentException("FileMode not set for path "
+					+ newEntry.getPathString());
 		beforeAdd(newEntry);
 		fastAdd(newEntry);
 	}
@@ -194,8 +198,6 @@ public class DirCacheBuilder extends BaseDirCacheEditor {
 	}
 
 	private void beforeAdd(final DirCacheEntry newEntry) {
-		if (FileMode.TREE.equals(newEntry.getRawMode()))
-			throw bad(newEntry, "Adding subtree not allowed");
 		if (sorted && entryCnt > 0) {
 			final DirCacheEntry lastEntry = entries[entryCnt - 1];
 			final int cr = DirCache.cmp(lastEntry, newEntry);

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008, Google Inc.
+ * Copyright (C) 2008-2009, Google Inc.
  * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org>
  * and other copyright owners as documented in the project's IP log.
  *
@@ -145,11 +145,16 @@ public class DirCacheEditor extends BaseDirCacheEditor {
 			}
 
 			final DirCacheEntry ent;
-			if (missing)
+			if (missing) {
 				ent = new DirCacheEntry(e.path);
-			else
+				e.apply(ent);
+				if (ent.getRawMode() == 0)
+					throw new IllegalArgumentException("FileMode not set"
+							+ " for path " + ent.getPathString());							
+			} else {
 				ent = cache.getEntry(eIdx);
-			e.apply(ent);
+				e.apply(ent);
+			}
 			fastAdd(ent);
 		}
 

@@ -388,8 +388,18 @@ public class DirCacheEntry {
 	 *
 	 * @param mode
 	 *            the new mode constant.
+	 * @throws IllegalArgumentException
+	 *             If {@code mode} is {@link FileMode#MISSING},
+	 *             {@link FileMode#TREE}, or any other type code not permitted
+	 *             in a tree object.
 	 */
 	public void setFileMode(final FileMode mode) {
+		switch (mode.getBits() & FileMode.TYPE_MASK) {
+		case FileMode.TYPE_MISSING:
+		case FileMode.TYPE_TREE:
+			throw new IllegalArgumentException("Invalid mode " + mode
+					+ " for path " + getPathString());
+		}
 		NB.encodeInt32(info, infoOffset + P_MODE, mode.getBits());
 	}
 
