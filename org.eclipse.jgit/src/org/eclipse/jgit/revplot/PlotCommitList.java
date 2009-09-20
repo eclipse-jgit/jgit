@@ -70,7 +70,15 @@ public class PlotCommitList<L extends PlotLane> extends
 
 	private final TreeSet<Integer> freeLanes = new TreeSet<Integer>();
 
-	private HashSet<PlotLane> activeLanes = new HashSet<PlotLane>(32);
+	private final HashSet<PlotLane> activeLanes = new HashSet<PlotLane>(32);
+
+	@Override
+	public void clear() {
+		super.clear();
+		lanesAllocated = 0;
+		freeLanes.clear();
+		activeLanes.clear();
+	}
 
 	@Override
 	public void source(final RevWalk w) {
@@ -139,7 +147,7 @@ public class PlotCommitList<L extends PlotLane> extends
 				final PlotCommit c = currCommit.children[i];
 				if (activeLanes.remove(c.lane)) {
 					recycleLane((L) c.lane);
-					freeLanes.add(Integer.valueOf(c.lane.position));
+					freeLanes.add(Integer.valueOf(c.lane.getPosition()));
 				}
 			}
 
