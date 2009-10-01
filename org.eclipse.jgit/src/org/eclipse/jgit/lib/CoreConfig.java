@@ -1,4 +1,5 @@
 /*
+ * Copyright (C) 2009, Christian Halstrick <christian.halstrick@sap.com>
  * Copyright (C) 2009, Google Inc.
  * Copyright (C) 2007, Robin Rosenberg <robin.rosenberg@dewire.com>
  * Copyright (C) 2006-2008, Shawn O. Pearce <spearce@spearce.org>
@@ -64,9 +65,12 @@ public class CoreConfig {
 
 	private final int packIndexVersion;
 
+	private final boolean logAllRefUpdates;
+
 	private CoreConfig(final Config rc) {
 		compression = rc.getInt("core", "compression", DEFAULT_COMPRESSION);
 		packIndexVersion = rc.getInt("pack", "indexversion", 2);
+		logAllRefUpdates = rc.getBoolean("core", "logallrefupdates", true);
 	}
 
 	/**
@@ -83,5 +87,12 @@ public class CoreConfig {
 	 */
 	public int getPackIndexVersion() {
 		return packIndexVersion;
+	}
+
+	/**
+	 * @return whether to log all refUpdates
+	 */
+	public boolean isLogAllRefUpdates() {
+		return logAllRefUpdates;
 	}
 }
