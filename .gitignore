@@ -4,3 +4,4 @@
 /jgit_docs.zip
 /org.eclipse.jgit/lib/jsch-*.jar
 /org.eclipse.jgit.pgm/lib/args4j-*.jar
+/target
