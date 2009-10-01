@@ -1,4 +1,5 @@
 /*
+ * Copyright (C) 2009, Christian Halstrick <christian.halstrick@sap.com>
  * Copyright (C) 2007, Dave Watson <dwatson@mimvista.com>
  * Copyright (C) 2009, Google Inc.
  * Copyright (C) 2007-2009, Robin Rosenberg <robin.rosenberg@dewire.com>
@@ -119,16 +120,18 @@ public class RefLogWriter {
 		final byte[] rec = Constants.encode(r.toString());
 		final File logdir = new File(db.getDirectory(), Constants.LOGS);
 		final File reflog = new File(logdir, refName);
-		final File refdir = reflog.getParentFile();
+		if (reflog.exists() || db.getConfig().getCore().isLogAllRefUpdates()) {
+			final File refdir = reflog.getParentFile();
 
-		if (!refdir.exists() && !refdir.mkdirs())
-			throw new IOException("Cannot create directory " + refdir);
+			if (!refdir.exists() && !refdir.mkdirs())
+				throw new IOException("Cannot create directory " + refdir);
 
-		final FileOutputStream out = new FileOutputStream(reflog, true);
-		try {
-			out.write(rec);
-		} finally {
-			out.close();
+			final FileOutputStream out = new FileOutputStream(reflog, true);
+			try {
+				out.write(rec);
+			} finally {
+				out.close();
+			}
 		}
 	}
 
