@@ -3,24 +3,15 @@ Short Version:
  - Make small logical changes.
  - Provide a meaningful commit message.
 
- - Include your Signed-Off-By line to note you agree with the
-   Developer's Certificate of Origin (see below).
- - Make sure all code is under the proper license:
+ - Review and follow the Eclipse Due Diligence Process
 
-      3-clause BSD
+	 http://www.eclipse.org/projects/dev_process/ip-process-in-cartoons.php
+     http://www.eclipse.org/legal/EclipseLegalProcessPoster.pdf
 
- - Use a subject prefix of "[PATCH JGIT ...]"  when sending any
-   patches directly by email.
+ - Review and follow the current guidelines:
 
- - Send by email to the maintainers, cc'ing the git mailing list
-   which is currently used for both Git and JGit:
+     http://wiki.eclipse.org/EGit/Contributor_Guide
 
-   maintainers   : "Shawn O. Pearce" <spearce@spearce.org>
-                   Robin Rosenberg <robin.rosenberg@dewire.com>
-
-   git list      : git@vger.kernel.org
-
-   git list info : http://vger.kernel.org/vger-lists.html#git    
 
 Long Version:
 
