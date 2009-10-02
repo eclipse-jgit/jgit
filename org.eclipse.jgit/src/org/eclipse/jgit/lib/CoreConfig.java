@@ -70,7 +70,7 @@ public class CoreConfig {
 	private CoreConfig(final Config rc) {
 		compression = rc.getInt("core", "compression", DEFAULT_COMPRESSION);
 		packIndexVersion = rc.getInt("pack", "indexversion", 2);
-		logAllRefUpdates = rc.getBoolean("core", "logAllRefUpdates", true);
+		logAllRefUpdates = rc.getBoolean("core", "logallrefupdates", true);
 	}
 
 	/**

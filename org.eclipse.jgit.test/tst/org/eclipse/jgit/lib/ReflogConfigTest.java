@@ -50,14 +50,12 @@ public class ReflogConfigTest extends RepositoryTestCase {
 	public void testlogAllRefUpdates() throws Exception {
 		long commitTime = 1154236443000L;
 		int tz = -4 * 60;
-		int nrOfReflogs;
 
-		// check how many entries exist in the reflog and turn off writing
+		// check that there are no entries in the reflog and turn off writing
 		// reflogs
-		assertTrue(db.getConfig().getCore().isLogAllRefUpdates());
-		nrOfReflogs = db.getReflogReader(Constants.HEAD).getReverseEntries()
-				.size();
-		db.getConfig().setBoolean("core", null, "logAllRefUpdates", false);
+		assertTrue("there should be no entries in reflog", db.getReflogReader(
+				Constants.HEAD).getReverseEntries().size() == 0);
+		db.getConfig().setBoolean("core", null, "logallrefupdates", false);
 
 		// do one commit and check that reflog size is 0: no reflogs should be
 		// written
@@ -67,24 +65,24 @@ public class ReflogConfigTest extends RepositoryTestCase {
 				new PersonIdent(jcommitter, commitTime, tz));
 		commitTime += 100;
 		assertTrue(
-				"Reflog for HEAD should contain one entry",
-				db.getReflogReader(Constants.HEAD).getReverseEntries().size() == nrOfReflogs);
+				"Reflog for HEAD still contain no entry",
+				db.getReflogReader(Constants.HEAD).getReverseEntries().size() == 0);
 
 		// set the logAllRefUpdates parameter to true and check it
-		db.getConfig().setBoolean("core", null, "logAllRefUpdates", true);
+		db.getConfig().setBoolean("core", null, "logallrefupdates", true);
 		assertTrue(db.getConfig().getCore().isLogAllRefUpdates());
 
-		// do one commit and check that reflog size is increased
+		// do one commit and check that reflog size is increased to 1
 		addFileToTree(t, "i-am-another-file", "and this is other data in me\n");
 		commit(t, "A Commit\n", new PersonIdent(jauthor, commitTime, tz),
 				new PersonIdent(jcommitter, commitTime, tz));
 		commitTime += 100;
 		assertTrue(
-				"Reflog for HEAD should contain one additional entry",
-				db.getReflogReader(Constants.HEAD).getReverseEntries().size() == nrOfReflogs + 1);
+				"Reflog for HEAD should contain one entry",
+				db.getReflogReader(Constants.HEAD).getReverseEntries().size() == 1);
 
 		// set the logAllRefUpdates parameter to false and check it
-		db.getConfig().setBoolean("core", null, "logAllRefUpdates", false);
+		db.getConfig().setBoolean("core", null, "logallrefupdates", false);
 		assertFalse(db.getConfig().getCore().isLogAllRefUpdates());
 
 		// do one commit and check that reflog size is 2
@@ -93,8 +91,8 @@ public class ReflogConfigTest extends RepositoryTestCase {
 		commit(t, "A Commit\n", new PersonIdent(jauthor, commitTime, tz),
 				new PersonIdent(jcommitter, commitTime, tz));
 		assertTrue(
-				"Reflog for HEAD should contain two additional entries",
-				db.getReflogReader(Constants.HEAD).getReverseEntries().size() == nrOfReflogs + 2);
+				"Reflog for HEAD should contain two entries",
+				db.getReflogReader(Constants.HEAD).getReverseEntries().size() == 2);
 	}
 
 	private void addFileToTree(final Tree t, String filename, String content)
