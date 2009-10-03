@@ -16,6 +16,7 @@ Import-Package: org.eclipse.jgit.awtui,
  org.eclipse.jgit.transport,
  org.eclipse.jgit.treewalk,
  org.eclipse.jgit.treewalk.filter,
+ org.eclipse.jgit.util,
  org.kohsuke.args4j,
  org.kohsuke.args4j.spi
 Bundle-ActivationPolicy: lazy
