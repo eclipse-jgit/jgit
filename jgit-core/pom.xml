@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-   Copyright (C) 2009, Constantine Plotnikov <constantine.plotnikov@gmail.com>
    Copyright (C) 2009, Google Inc.
    Copyright (C) 2008, Imran M Yousuf <imyousuf@smartitengineering.com>
    Copyright (C) 2009, Mark Struberg <struberg@yahoo.de>
@@ -90,30 +89,6 @@
             <manifestFile>META-INF/MANIFEST.MF</manifestFile>
           </archive>
         </configuration>
-      </plugin>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-source-plugin</artifactId>
-        <executions>
-          <execution>
-            <goals>
-              <goal>jar</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <executions>
-          <execution>
-            <goals>
-              <goal>jar</goal>
-            </goals>
-          </execution>
-        </executions>
       </plugin>
     </plugins>
   </build>
