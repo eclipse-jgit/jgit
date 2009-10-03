@@ -229,6 +229,17 @@ public abstract class TextBuiltin {
 		return new Die(why);
 	}
 
+	/**
+	 * @param why
+	 *            textual explanation
+	 * @param cause
+	 *            why the command has failed.
+	 * @return a runtime exception the caller is expected to throw
+	 */
+	protected static Die die(final String why, final Throwable cause) {
+		return new Die(why, cause);
+	}
+
 	String abbreviateRef(String dst, boolean abbreviateRemote) {
 		if (dst.startsWith(R_HEADS))
 			dst = dst.substring(R_HEADS.length());
