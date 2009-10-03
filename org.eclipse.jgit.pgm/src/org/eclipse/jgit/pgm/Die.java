@@ -1,4 +1,5 @@
 /*
+ * Copyright (C) 2009, Google Inc.
  * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org>
  * and other copyright owners as documented in the project's IP log.
  *
@@ -61,5 +62,17 @@ public class Die extends RuntimeException {
 	 */
 	public Die(final String why) {
 		super(why);
+	}
+
+	/**
+	 * Construct a new message explaining what has gone wrong.
+	 *
+	 * @param why
+	 *            the message to show to the end-user.
+	 * @param cause
+	 *            why the command has failed.
+	 */
+	public Die(final String why, final Throwable cause) {
+		super(why, cause);
 	}
 }
