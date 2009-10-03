@@ -210,6 +210,12 @@
 
       <dependency>
         <groupId>org.eclipse.jgit</groupId>
+        <artifactId>org.eclipse.jgit.junit</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.eclipse.jgit</groupId>
         <artifactId>org.eclipse.jgit.ui</artifactId>
         <version>${project.version}</version>
       </dependency>
@@ -229,6 +235,7 @@
     <module>org.eclipse.jgit</module>
     <module>org.eclipse.jgit.ui</module>
     <module>org.eclipse.jgit.pgm</module>
+    <module>org.eclipse.jgit.junit</module>
     <module>org.eclipse.jgit.test</module>
   </modules>
 </project>
