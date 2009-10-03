@@ -49,7 +49,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class T0002_Tree extends RepositoryTestCase {
+public class T0002_Tree extends SampleDataRepositoryTestCase {
 	private static final ObjectId SOME_FAKE_ID = ObjectId.fromString(
 			"0123456789abcdef0123456789abcdef01234567");
 

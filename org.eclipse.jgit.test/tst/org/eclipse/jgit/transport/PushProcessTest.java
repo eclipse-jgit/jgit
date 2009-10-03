@@ -54,12 +54,12 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.lib.RepositoryTestCase;
+import org.eclipse.jgit.lib.SampleDataRepositoryTestCase;
 import org.eclipse.jgit.lib.TextProgressMonitor;
 import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.transport.RemoteRefUpdate.Status;
 
-public class PushProcessTest extends RepositoryTestCase {
+public class PushProcessTest extends SampleDataRepositoryTestCase {
 	private PushProcess process;
 
 	private MockTransport transport;
