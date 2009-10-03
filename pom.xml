@@ -203,12 +203,12 @@
   </dependencyManagement>
 
   <distributionManagement>
-    <snapshotRepository>
-      <id>jgit-maven-snapshot-repository</id>
-      <name>JGit Maven Snapshot Repository</name>
-      <url>dav:https://egit.googlecode.com/svn/maven/snapshot-repository/</url>
+    <repository>
+      <id>jgit-maven-repository</id>
+      <name>JGit Maven Repository</name>
+      <url>dav:https://egit.googlecode.com/svn/maven/</url>
       <uniqueVersion>true</uniqueVersion>
-    </snapshotRepository>
+    </repository>
   </distributionManagement>
 
   <modules>
