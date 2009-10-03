@@ -55,7 +55,7 @@ import java.io.PrintWriter;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
-public class T0003_Basic extends RepositoryTestCase {
+public class T0003_Basic extends SampleDataRepositoryTestCase {
 	public void test001_Initalize() {
 		final File gitdir = new File(trash, ".git");
 		final File objects = new File(gitdir, "objects");

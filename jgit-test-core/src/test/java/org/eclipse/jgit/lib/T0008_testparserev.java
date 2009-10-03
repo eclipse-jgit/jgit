@@ -1,4 +1,5 @@
 /*
+ * Copyright (C) 2009, Google Inc.
  * Copyright (C) 2008, Jonas Fonseca <fonseca@diku.dk>
  * Copyright (C) 2007-2008, Robin Rosenberg <robin.rosenberg@dewire.com>
  * Copyright (C) 2006, Shawn O. Pearce <spearce@spearce.org>
@@ -47,7 +48,7 @@ package org.eclipse.jgit.lib;
 
 import java.io.IOException;
 
-public class T0008_testparserev extends RepositoryTestCase {
+public class T0008_testparserev extends SampleDataRepositoryTestCase {
 
 	public void testObjectId_existing() throws IOException {
 		assertEquals("49322bb17d3acc9146f98c97d078513228bbf3c0",db.resolve("49322bb17d3acc9146f98c97d078513228bbf3c0").name());

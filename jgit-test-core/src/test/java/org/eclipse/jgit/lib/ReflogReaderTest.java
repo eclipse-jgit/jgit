@@ -53,7 +53,7 @@ import java.util.List;
 
 import org.eclipse.jgit.lib.ReflogReader.Entry;
 
-public class ReflogReaderTest extends RepositoryTestCase {
+public class ReflogReaderTest extends SampleDataRepositoryTestCase {
 
 	static byte[] oneLine = "da85355dfc525c9f6f3927b876f379f46ccf826e 3e7549db262d1e836d9bf0af7e22355468f1717c A O Thor Too <authortoo@wri.tr> 1243028200 +0200\tcommit: Add a toString for debugging to RemoteRefUpdate\n"
 			.getBytes();
