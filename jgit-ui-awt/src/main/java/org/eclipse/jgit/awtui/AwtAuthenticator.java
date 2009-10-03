@@ -1,4 +1,5 @@
 /*
+ * Copyright (C) 2009, Google Inc.
  * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org>
  * and other copyright owners as documented in the project's IP log.
  *
@@ -47,10 +48,7 @@ import java.awt.Container;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.net.Authenticator;
 import java.net.PasswordAuthentication;
-import java.util.ArrayList;
-import java.util.Collection;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -58,37 +56,17 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-/** Basic network prompt for username/password when using AWT. */
-public class AwtAuthenticator extends Authenticator {
-	private static final AwtAuthenticator me = new AwtAuthenticator();
+import org.eclipse.jgit.util.CachedAuthenticator;
 
+/** Basic network prompt for username/password when using AWT. */
+public class AwtAuthenticator extends CachedAuthenticator {
 	/** Install this authenticator implementation into the JVM. */
 	public static void install() {
-		setDefault(me);
+		setDefault(new AwtAuthenticator());
 	}
-
-	/**
-	 * Add a cached authentication for future use.
-	 * 
-	 * @param ca
-	 *            the information we should remember.
-	 */
-	public static void add(final CachedAuthentication ca) {
-		synchronized (me) {
-			me.cached.add(ca);
-		}
-	}
-
-	private final Collection<CachedAuthentication> cached = new ArrayList<CachedAuthentication>();
 
 	@Override
-	protected PasswordAuthentication getPasswordAuthentication() {
-		for (final CachedAuthentication ca : cached) {
-			if (ca.host.equals(getRequestingHost())
-					&& ca.port == getRequestingPort())
-				return ca.toPasswordAuthentication();
-		}
-
+	protected PasswordAuthentication promptPasswordAuthentication() {
 		final GridBagConstraints gbc = new GridBagConstraints(0, 0, 1, 1, 1, 1,
 				GridBagConstraints.NORTHWEST, GridBagConstraints.NONE,
 				new Insets(0, 0, 0, 0), 0, 0);
@@ -150,48 +128,10 @@ public class AwtAuthenticator extends Authenticator {
 		if (JOptionPane.showConfirmDialog(null, panel,
 				"Authentication Required", JOptionPane.OK_CANCEL_OPTION,
 				JOptionPane.QUESTION_MESSAGE) == JOptionPane.OK_OPTION) {
-			final CachedAuthentication ca = new CachedAuthentication(
-					getRequestingHost(), getRequestingPort(), username
-							.getText(), new String(password.getPassword()));
-			cached.add(ca);
-			return ca.toPasswordAuthentication();
+			return new PasswordAuthentication(username.getText(), password
+					.getPassword());
 		}
 
 		return null; // cancel
-	}
-
-	/** Authentication data to remember and reuse. */
-	public static class CachedAuthentication {
-		final String host;
-
-		final int port;
-
-		final String user;
-
-		final String pass;
-
-		/**
-		 * Create a new cached authentication.
-		 * 
-		 * @param aHost
-		 *            system this is for.
-		 * @param aPort
-		 *            port number of the service.
-		 * @param aUser
-		 *            username at the service.
-		 * @param aPass
-		 *            password at the service.
-		 */
-		public CachedAuthentication(final String aHost, final int aPort,
-				final String aUser, final String aPass) {
-			host = aHost;
-			port = aPort;
-			user = aUser;
-			pass = aPass;
-		}
-
-		PasswordAuthentication toPasswordAuthentication() {
-			return new PasswordAuthentication(user, pass.toCharArray());
-		}
 	}
 }

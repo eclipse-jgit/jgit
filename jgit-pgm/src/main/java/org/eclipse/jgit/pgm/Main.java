@@ -56,6 +56,7 @@ import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.pgm.opt.CmdLineParser;
 import org.eclipse.jgit.pgm.opt.SubcommandHandler;
+import org.eclipse.jgit.util.CachedAuthenticator;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.ExampleMode;
@@ -217,8 +218,9 @@ public class Main {
 			final int c = userpass.indexOf(':');
 			final String user = userpass.substring(0, c);
 			final String pass = userpass.substring(c + 1);
-			AwtAuthenticator.add(new AwtAuthenticator.CachedAuthentication(
-					proxyHost, proxyPort, user, pass));
+			CachedAuthenticator
+					.add(new CachedAuthenticator.CachedAuthentication(
+							proxyHost, proxyPort, user, pass));
 		}
 	}
 }
