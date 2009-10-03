@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
    Copyright (C) 2009, Constantine Plotnikov <constantine.plotnikov@gmail.com>
+   Copyright (C) 2009, Google Inc.
    Copyright (C) 2008, Imran M Yousuf <imyousuf@smartitengineering.com>
    Copyright (C) 2009, Mark Struberg <struberg@yahoo.de>
    and other copyright owners as documented in the project's IP log.
@@ -52,7 +53,7 @@
   <parent>
     <groupId>org.eclipse.jgit</groupId>
     <artifactId>jgit-parent</artifactId>
-    <version>0.5.0-SNAPSHOT</version>
+    <version>0.6-SNAPSHOT</version>
   </parent>
 
   <artifactId>jgit-core</artifactId>
