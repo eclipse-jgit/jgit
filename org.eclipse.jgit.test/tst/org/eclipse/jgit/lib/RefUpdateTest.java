@@ -54,7 +54,7 @@ import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
-public class RefUpdateTest extends RepositoryTestCase {
+public class RefUpdateTest extends SampleDataRepositoryTestCase {
 
 	private RefUpdate updateRef(final String name) throws IOException {
 		final RefUpdate ref = db.updateRef(name);

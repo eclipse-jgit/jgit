@@ -65,7 +65,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.IndexPack;
 import org.eclipse.jgit.util.JGitTestUtil;
 
-public class PackWriterTest extends RepositoryTestCase {
+public class PackWriterTest extends SampleDataRepositoryTestCase {
 
 	private static final List<ObjectId> EMPTY_LIST_OBJECT = Collections
 			.<ObjectId> emptyList();

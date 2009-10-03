@@ -56,7 +56,7 @@ import org.eclipse.jgit.lib.RefUpdate.Result;
  * Misc tests for refs. A lot of things are tested elsewhere so not having a
  * test for a ref related method, does not mean it is untested.
  */
-public class RefTest extends RepositoryTestCase {
+public class RefTest extends SampleDataRepositoryTestCase {
 
 	public void testReadAllIncludingSymrefs() throws Exception {
 		ObjectId masterId = db.resolve("refs/heads/master");
