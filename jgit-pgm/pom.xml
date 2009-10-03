@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-   Copyright (C) 2009, Constantine Plotnikov <constantine.plotnikov@gmail.com>
    Copyright (C) 2009, Google Inc.
    Copyright (C) 2008, Imran M Yousuf <imyousuf@smartitengineering.com>
    Copyright (C) 2009, Mark Struberg <struberg@yahoo.de>
@@ -135,6 +134,29 @@
             <goals>
               <goal>run</goal>
             </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <version>1.3</version>
+        <executions>
+          <execution>
+            <id>attach_jgit</id>
+            <phase>package</phase>
+            <goals>
+              <goal>attach-artifact</goal>
+            </goals>
+            <configuration>
+              <artifacts>
+                <artifact>
+                  <file>${basedir}/target/jgit</file>
+                  <type>sh</type>
+                </artifact>
+              </artifacts>
+            </configuration>
           </execution>
         </executions>
       </plugin>
