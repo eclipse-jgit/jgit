@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
+   Copyright (C) 2009, Google Inc.
    Copyright (C) 2008, Imran M Yousuf <imyousuf@smartitengineering.com>
    Copyright (C) 2009, Mark Struberg <struberg@yahoo.de>
    and other copyright owners as documented in the project's IP log.
@@ -67,6 +68,13 @@
       <groupId>org.eclipse.jgit</groupId>
       <artifactId>jgit-core</artifactId>
       <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.eclipse.jgit</groupId>
+      <artifactId>jgit-test-util</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
     </dependency>
   </dependencies>
 
