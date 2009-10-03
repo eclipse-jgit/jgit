@@ -218,7 +218,7 @@ public class CommitGraphPane extends JTable {
 	class GraphCellRender extends DefaultTableCellRenderer {
 		private static final long serialVersionUID = 1L;
 
-		private final AWTPlotRenderer renderer = new AWTPlotRenderer(this);
+		private final AwtPlotRenderer renderer = new AwtPlotRenderer(this);
 
 		PlotCommit<SwingLane> commit;
 

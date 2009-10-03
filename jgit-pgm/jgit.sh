@@ -51,6 +51,7 @@ then
 else
 	jgit_home=`dirname $0`
 	cp="$jgit_home/../jgit-core/target/classes"
+	cp="$cp:$jgit_home/../jgit-ui-awt/target/classes"
 	cp="$cp:$jgit_home/../jgit-pgm/target/classes"
 	cp="$cp:$jgit_home/target/jgit-cli.jar"
 	unset jgit_home

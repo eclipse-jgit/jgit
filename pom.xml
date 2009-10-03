@@ -213,6 +213,7 @@
 
   <modules>
     <module>jgit-core</module>
+    <module>jgit-ui-awt</module>
     <module>jgit-test-util</module>
     <module>jgit-test-core</module>
     <module>jgit-test-ext</module>

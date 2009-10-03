@@ -1,4 +1,5 @@
 /*
+ * Copyright (C) 2009, Google Inc.
  * Copyright (C) 2008, Robin Rosenberg <robin.rosenberg@dewire.com>
  * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org>
  * and other copyright owners as documented in the project's IP log.
@@ -56,13 +57,13 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.revplot.AbstractPlotRenderer;
 import org.eclipse.jgit.revplot.PlotCommit;
 
-final class AWTPlotRenderer extends AbstractPlotRenderer<SwingLane, Color> {
+final class AwtPlotRenderer extends AbstractPlotRenderer<SwingLane, Color> {
 
 	final GraphCellRender cell;
 
 	Graphics2D g;
 
-	AWTPlotRenderer(final GraphCellRender c) {
+	AwtPlotRenderer(final GraphCellRender c) {
 		cell = c;
 	}
 
