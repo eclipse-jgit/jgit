@@ -83,7 +83,7 @@ public class T0003_Basic extends RepositoryTestCase {
 		// open when we create it we won't write the object file out as a loose
 		// object (as it already exists in the pack).
 		//
-		final Repository newdb = createNewEmptyRepo();
+		final Repository newdb = createBareRepository();
 		final Tree t = new Tree(newdb);
 		t.accept(new WriteTree(trash, newdb), TreeEntry.MODIFIED_ONLY);
 		assertEquals("4b825dc642cb6eb9a060e54bf8d69288fbee4904", t.getId()
@@ -101,7 +101,8 @@ public class T0003_Basic extends RepositoryTestCase {
 		t.accept(new WriteTree(trash, db), TreeEntry.MODIFIED_ONLY);
 		assertEquals("4b825dc642cb6eb9a060e54bf8d69288fbee4904", t.getId()
 				.name());
-		final File o = new File(new File(new File(trash_git, "objects"), "4b"),
+		final File o = new File(new File(
+				new File(db.getDirectory(), "objects"), "4b"),
 				"825dc642cb6eb9a060e54bf8d69288fbee4904");
 		assertFalse("Exists " + o, o.isFile());
 	}
@@ -115,12 +116,12 @@ public class T0003_Basic extends RepositoryTestCase {
 				.name());
 
 		File o;
-		o = new File(new File(new File(trash_git, "objects"), "7b"),
+		o = new File(new File(new File(db.getDirectory(), "objects"), "7b"),
 				"b943559a305bdd6bdee2cef6e5df2413c3d30a");
 		assertTrue("Exists " + o, o.isFile());
 		assertTrue("Read-only " + o, !o.canWrite());
 
-		o = new File(new File(new File(trash_git, "objects"), "e6"),
+		o = new File(new File(new File(db.getDirectory(), "objects"), "e6"),
 				"9de29bb2d1d6434b8b29ae775ad8c2e48c5391");
 		assertTrue("Exists " + o, o.isFile());
 		assertTrue("Read-only " + o, !o.canWrite());
@@ -212,8 +213,8 @@ public class T0003_Basic extends RepositoryTestCase {
 				t.getTreeId());
 
 		final Commit c = new Commit(db);
-		c.setAuthor(new PersonIdent(jauthor, 1154236443000L, -4 * 60));
-		c.setCommitter(new PersonIdent(jcommitter, 1154236443000L, -4 * 60));
+		c.setAuthor(new PersonIdent(author, 1154236443000L, -4 * 60));
+		c.setCommitter(new PersonIdent(committer, 1154236443000L, -4 * 60));
 		c.setMessage("A Commit\n");
 		c.setTree(t);
 		assertEquals(t.getTreeId(), c.getTreeId());
@@ -268,7 +269,7 @@ public class T0003_Basic extends RepositoryTestCase {
 		t.setObjId(emptyId);
 		t.setType("blob");
 		t.setTag("test020");
-		t.setAuthor(new PersonIdent(jauthor, 1154236443000L, -4 * 60));
+		t.setAuthor(new PersonIdent(author, 1154236443000L, -4 * 60));
 		t.setMessage("test020 tagged\n");
 		t.tag();
 		assertEquals("6759556b09fbb4fd8ae5e315134481cc25d46954", t.getTagId().name());
@@ -276,7 +277,7 @@ public class T0003_Basic extends RepositoryTestCase {
 		Tag mapTag = db.mapTag("test020");
 		assertEquals("blob", mapTag.getType());
 		assertEquals("test020 tagged\n", mapTag.getMessage());
-		assertEquals(new PersonIdent(jauthor, 1154236443000L, -4 * 60), mapTag.getAuthor());
+		assertEquals(new PersonIdent(author, 1154236443000L, -4 * 60), mapTag.getAuthor());
 		assertEquals("e69de29bb2d1d6434b8b29ae775ad8c2e48c5391", mapTag.getObjId().name());
 	}
 
@@ -302,7 +303,7 @@ public class T0003_Basic extends RepositoryTestCase {
 		t.setObjId(almostEmptyTreeId);
 		t.setType("tree");
 		t.setTag("test021");
-		t.setAuthor(new PersonIdent(jauthor, 1154236443000L, -4 * 60));
+		t.setAuthor(new PersonIdent(author, 1154236443000L, -4 * 60));
 		t.setMessage("test021 tagged\n");
 		t.tag();
 		assertEquals("b0517bc8dbe2096b419d42424cd7030733f4abe5", t.getTagId().name());
@@ -310,7 +311,7 @@ public class T0003_Basic extends RepositoryTestCase {
 		Tag mapTag = db.mapTag("test021");
 		assertEquals("tree", mapTag.getType());
 		assertEquals("test021 tagged\n", mapTag.getMessage());
-		assertEquals(new PersonIdent(jauthor, 1154236443000L, -4 * 60), mapTag.getAuthor());
+		assertEquals(new PersonIdent(author, 1154236443000L, -4 * 60), mapTag.getAuthor());
 		assertEquals("417c01c8795a35b8e835113a85a5c0c1c77f67fb", mapTag.getObjId().name());
 	}
 
@@ -320,8 +321,8 @@ public class T0003_Basic extends RepositoryTestCase {
 		almostEmptyTree.addEntry(new FileTreeEntry(almostEmptyTree, emptyId, "empty".getBytes(), false));
 		final ObjectId almostEmptyTreeId = new ObjectWriter(db).writeTree(almostEmptyTree);
 		final Commit almostEmptyCommit = new Commit(db);
-		almostEmptyCommit.setAuthor(new PersonIdent(jauthor, 1154236443000L, -2 * 60)); // not exactly the same
-		almostEmptyCommit.setCommitter(new PersonIdent(jauthor, 1154236443000L, -2 * 60));
+		almostEmptyCommit.setAuthor(new PersonIdent(author, 1154236443000L, -2 * 60)); // not exactly the same
+		almostEmptyCommit.setCommitter(new PersonIdent(author, 1154236443000L, -2 * 60));
 		almostEmptyCommit.setMessage("test022\n");
 		almostEmptyCommit.setTreeId(almostEmptyTreeId);
 		ObjectId almostEmptyCommitId = new ObjectWriter(db).writeCommit(almostEmptyCommit);
@@ -329,7 +330,7 @@ public class T0003_Basic extends RepositoryTestCase {
 		t.setObjId(almostEmptyCommitId);
 		t.setType("commit");
 		t.setTag("test022");
-		t.setAuthor(new PersonIdent(jauthor, 1154236443000L, -4 * 60));
+		t.setAuthor(new PersonIdent(author, 1154236443000L, -4 * 60));
 		t.setMessage("test022 tagged\n");
 		t.tag();
 		assertEquals("0ce2ebdb36076ef0b38adbe077a07d43b43e3807", t.getTagId().name());
@@ -337,7 +338,7 @@ public class T0003_Basic extends RepositoryTestCase {
 		Tag mapTag = db.mapTag("test022");
 		assertEquals("commit", mapTag.getType());
 		assertEquals("test022 tagged\n", mapTag.getMessage());
-		assertEquals(new PersonIdent(jauthor, 1154236443000L, -4 * 60), mapTag.getAuthor());
+		assertEquals(new PersonIdent(author, 1154236443000L, -4 * 60), mapTag.getAuthor());
 		assertEquals("b5d3b45a96b340441f5abb9080411705c51cc86c", mapTag.getObjId().name());
 	}
 	
@@ -399,19 +400,19 @@ public class T0003_Basic extends RepositoryTestCase {
 		assertNotNull("have tag test020", mapTag20);
 		assertEquals("blob", mapTag20.getType());
 		assertEquals("test020 tagged\n", mapTag20.getMessage());
-		assertEquals(new PersonIdent(jauthor, 1154236443000L, -4 * 60), mapTag20.getAuthor());
+		assertEquals(new PersonIdent(author, 1154236443000L, -4 * 60), mapTag20.getAuthor());
 		assertEquals("e69de29bb2d1d6434b8b29ae775ad8c2e48c5391", mapTag20.getObjId().name());
 
 		Tag mapTag21 = db.mapTag("test021");
 		assertEquals("tree", mapTag21.getType());
 		assertEquals("test021 tagged\n", mapTag21.getMessage());
-		assertEquals(new PersonIdent(jauthor, 1154236443000L, -4 * 60), mapTag21.getAuthor());
+		assertEquals(new PersonIdent(author, 1154236443000L, -4 * 60), mapTag21.getAuthor());
 		assertEquals("417c01c8795a35b8e835113a85a5c0c1c77f67fb", mapTag21.getObjId().name());
 
 		Tag mapTag22 = db.mapTag("test022");
 		assertEquals("commit", mapTag22.getType());
 		assertEquals("test022 tagged\n", mapTag22.getMessage());
-		assertEquals(new PersonIdent(jauthor, 1154236443000L, -4 * 60), mapTag22.getAuthor());
+		assertEquals(new PersonIdent(author, 1154236443000L, -4 * 60), mapTag22.getAuthor());
 		assertEquals("b5d3b45a96b340441f5abb9080411705c51cc86c", mapTag22.getObjId().name());
 	}
 
@@ -433,8 +434,8 @@ public class T0003_Basic extends RepositoryTestCase {
 				t.getTreeId());
 
 		final Commit c1 = new Commit(db);
-		c1.setAuthor(new PersonIdent(jauthor, 1154236443000L, -4 * 60));
-		c1.setCommitter(new PersonIdent(jcommitter, 1154236443000L, -4 * 60));
+		c1.setAuthor(new PersonIdent(author, 1154236443000L, -4 * 60));
+		c1.setCommitter(new PersonIdent(committer, 1154236443000L, -4 * 60));
 		c1.setMessage("A Commit\n");
 		c1.setTree(t);
 		assertEquals(t.getTreeId(), c1.getTreeId());
@@ -444,8 +445,8 @@ public class T0003_Basic extends RepositoryTestCase {
 		assertEquals(cmtid1, c1.getCommitId());
 
 		final Commit c2 = new Commit(db);
-		c2.setAuthor(new PersonIdent(jauthor, 1154236443000L, -4 * 60));
-		c2.setCommitter(new PersonIdent(jcommitter, 1154236443000L, -4 * 60));
+		c2.setAuthor(new PersonIdent(author, 1154236443000L, -4 * 60));
+		c2.setCommitter(new PersonIdent(committer, 1154236443000L, -4 * 60));
 		c2.setMessage("A Commit 2\n");
 		c2.setTree(t);
 		assertEquals(t.getTreeId(), c2.getTreeId());
@@ -465,8 +466,8 @@ public class T0003_Basic extends RepositoryTestCase {
 		assertEquals(c1.getCommitId(), rm2.getParentIds()[0]);
 
 		final Commit c3 = new Commit(db);
-		c3.setAuthor(new PersonIdent(jauthor, 1154236443000L, -4 * 60));
-		c3.setCommitter(new PersonIdent(jcommitter, 1154236443000L, -4 * 60));
+		c3.setAuthor(new PersonIdent(author, 1154236443000L, -4 * 60));
+		c3.setCommitter(new PersonIdent(committer, 1154236443000L, -4 * 60));
 		c3.setMessage("A Commit 3\n");
 		c3.setTree(t);
 		assertEquals(t.getTreeId(), c3.getTreeId());
@@ -487,8 +488,8 @@ public class T0003_Basic extends RepositoryTestCase {
 		assertEquals(c2.getCommitId(), rm3.getParentIds()[1]);
 
 		final Commit c4 = new Commit(db);
-		c4.setAuthor(new PersonIdent(jauthor, 1154236443000L, -4 * 60));
-		c4.setCommitter(new PersonIdent(jcommitter, 1154236443000L, -4 * 60));
+		c4.setAuthor(new PersonIdent(author, 1154236443000L, -4 * 60));
+		c4.setCommitter(new PersonIdent(committer, 1154236443000L, -4 * 60));
 		c4.setMessage("A Commit 4\n");
 		c4.setTree(t);
 		assertEquals(t.getTreeId(), c3.getTreeId());

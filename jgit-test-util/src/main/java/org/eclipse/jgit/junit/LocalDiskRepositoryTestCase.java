@@ -62,6 +62,8 @@ import org.eclipse.jgit.lib.FileBasedConfig;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryCache;
+import org.eclipse.jgit.lib.WindowCache;
+import org.eclipse.jgit.lib.WindowCacheConfig;
 import org.eclipse.jgit.util.NB;
 import org.eclipse.jgit.util.SystemReader;
 
@@ -73,11 +75,22 @@ import org.eclipse.jgit.util.SystemReader;
  * <p>
  * Callers should not use {@link RepositoryCache} from within these tests as it
  * may wedge file descriptors open past the end of the test.
+ * <p>
+ * A system property {@code jgit.junit.usemmap} defines whether memory mapping
+ * is used. Memory mapping has an effect on the file system, in that memory
+ * mapped files in Java cannot be deleted as long as the mapped arrays have not
+ * been reclaimed by the garbage collector. The programmer cannot control this
+ * with precision, so temporary files may hang around longer than desired during
+ * a test, or tests may fail altogether if there is insufficient file
+ * descriptors or address space for the test process.
  */
 public abstract class LocalDiskRepositoryTestCase extends TestCase {
 	private static Thread shutdownHook;
 
 	private static int testCount;
+
+	private static final boolean useMMAP = "true".equals(System
+			.getProperty("jgit.junit.usemmap"));
 
 	/** A fake (but stable) identity for author fields in the test. */
 	protected PersonIdent author;
@@ -115,11 +128,18 @@ public abstract class LocalDiskRepositoryTestCase extends TestCase {
 
 		final long now = mockSystemReader.getCurrentTime();
 		final int tz = mockSystemReader.getTimezone(now);
-		author = new PersonIdent("J. Author", "ja@example.com");
+		author = new PersonIdent("J. Author", "jauthor@example.com");
 		author = new PersonIdent(author, now, tz);
 
-		committer = new PersonIdent("J. Committer", "jc@example.com");
+		committer = new PersonIdent("J. Committer", "jcommitter@example.com");
 		committer = new PersonIdent(committer, now, tz);
+
+		final WindowCacheConfig c = new WindowCacheConfig();
+		c.setPackedGitLimit(128 * WindowCacheConfig.KB);
+		c.setPackedGitWindowSize(8 * WindowCacheConfig.KB);
+		c.setPackedGitMMAP(useMMAP);
+		c.setDeltaBaseCacheLimit(8 * WindowCacheConfig.KB);
+		WindowCache.reconfigure(c);
 	}
 
 	@Override
@@ -128,6 +148,13 @@ public abstract class LocalDiskRepositoryTestCase extends TestCase {
 		for (Repository r : toClose)
 			r.close();
 		toClose.clear();
+
+		// Since memory mapping is controlled by the GC we need to
+		// tell it this is a good time to clean up and unlock
+		// memory mapped files.
+		//
+		if (useMMAP)
+			System.gc();
 
 		recursiveDelete(testName(), trash, false, true);
 		super.tearDown();
