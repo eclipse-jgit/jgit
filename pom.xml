@@ -84,7 +84,7 @@
 
   <scm>
     <connection>scm:git:git://egit.eclipse.org/egit/parallelip-jgit.git</connection>
-    <developerConnection>scm:git:git://egit.eclipse.org/egit/parallelip-jgit.git</developerConnection>
+    <developerConnection>scm:git:ssh://${username}@egit.eclipse.org:29418/egit/parallelip-jgit.git</developerConnection>
     <url>http://egit.eclipse.org/egit/parallelip-jgit.git</url>
   </scm>
 
