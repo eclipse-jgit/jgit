@@ -270,6 +270,19 @@
   </reporting>
 
   <profiles>
+    <!-- Set -Djgit.java6.skip=true to compile with only Java 5 -->
+    <profile>
+      <id>java6</id>
+      <activation>
+        <property>
+          <name>!jgit.java6.skip</name>
+        </property>
+      </activation>
+      <modules>
+        <module>jgit-ui-console</module>
+      </modules>
+    </profile>
+
     <!-- Release -->
     <profile>
       <id>jgit-release</id>

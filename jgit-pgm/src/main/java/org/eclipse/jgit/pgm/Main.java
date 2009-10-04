@@ -45,6 +45,7 @@
 package org.eclipse.jgit.pgm;
 
 import java.io.File;
+import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -88,8 +89,10 @@ public class Main {
 	public static void main(final String[] argv) {
 		final Main me = new Main();
 		try {
-			AwtAuthenticator.install();
-			AwtSshSessionFactory.install();
+			if (!installConsole()) {
+				AwtAuthenticator.install();
+				AwtSshSessionFactory.install();
+			}
 			configureHttpProxy();
 			me.execute(argv);
 		} catch (Die err) {
@@ -182,6 +185,37 @@ public class Main {
 			current = current.getParentFile();
 		}
 		return null;
+	}
+
+	private static boolean installConsole() {
+		try {
+			install("org.eclipse.jgit.ui.console.ConsoleAuthenticator");
+			install("org.eclipse.jgit.ui.console.ConsoleSshSessionFactory");
+			return true;
+		} catch (ClassNotFoundException e) {
+			return false;
+		} catch (NoClassDefFoundError e) {
+			return false;
+		} catch (UnsupportedClassVersionError e) {
+			return false;
+
+		} catch (IllegalArgumentException e) {
+			throw new RuntimeException("Cannot setup console", e);
+		} catch (SecurityException e) {
+			throw new RuntimeException("Cannot setup console", e);
+		} catch (IllegalAccessException e) {
+			throw new RuntimeException("Cannot setup console", e);
+		} catch (InvocationTargetException e) {
+			throw new RuntimeException("Cannot setup console", e);
+		} catch (NoSuchMethodException e) {
+			throw new RuntimeException("Cannot setup console", e);
+		}
+	}
+
+	private static void install(final String name)
+			throws IllegalAccessException, InvocationTargetException,
+			NoSuchMethodException, ClassNotFoundException {
+		Class.forName(name).getMethod("install").invoke(null);
 	}
 
 	/**
