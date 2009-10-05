@@ -64,7 +64,7 @@ public class RepositoryCacheTest extends RepositoryTestCase {
 	}
 
 	public void testBareFileKey() throws IOException {
-		Repository bare = createNewEmptyRepo(true);
+		Repository bare = createBareRepository();
 		File gitdir = bare.getDirectory();
 		File parent = gitdir.getParentFile();
 		String name = gitdir.getName();
@@ -92,7 +92,7 @@ public class RepositoryCacheTest extends RepositoryTestCase {
 	}
 
 	public void testFileKeyOpenNew() throws IOException {
-		final Repository n = createNewEmptyRepo(true);
+		final Repository n = createBareRepository();
 		final File gitdir = n.getDirectory();
 		n.close();
 		recursiveDelete(gitdir);

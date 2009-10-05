@@ -1,6 +1,9 @@
 /*
+ * Copyright (C) 2009, Google Inc.
+ * Copyright (C) 2008-2009, Jonas Fonseca <fonseca@diku.dk>
  * Copyright (C) 2007-2009, Robin Rosenberg <robin.rosenberg@dewire.com>
- * Copyright (C) 2007, Shawn O. Pearce <spearce@spearce.org>
+ * Copyright (C) 2006-2007, Shawn O. Pearce <spearce@spearce.org>
+ * Copyright (C) 2009, Yann Simon <yann.simon.fr@gmail.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -49,117 +52,18 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.io.Reader;
-import java.util.ArrayList;
-import java.util.List;
 
-import junit.framework.TestCase;
-
+import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
 import org.eclipse.jgit.util.JGitTestUtil;
-import org.eclipse.jgit.util.SystemReader;
 
 /**
  * Base class for most JGit unit tests.
  *
  * Sets up a predefined test repository and has support for creating additional
  * repositories and destroying them when the tests are finished.
- *
- * A system property <em>jgit.junit.usemmap</em> defines whether memory mapping
- * is used. Memory mapping has an effect on the file system, in that memory
- * mapped files in java cannot be deleted as long as they mapped arrays have not
- * been reclaimed by the garbage collector. The programmer cannot control this
- * with precision, though hinting using <em>{@link java.lang.System#gc}</em>
- * often helps.
  */
-public abstract class RepositoryTestCase extends TestCase {
-
-	protected final File trashParent = new File("trash");
-
-	protected File trash;
-
-	protected File trash_git;
-
-	protected static final PersonIdent jauthor;
-
-	protected static final PersonIdent jcommitter;
-
-	static {
-		jauthor = new PersonIdent("J. Author", "jauthor@example.com");
-		jcommitter = new PersonIdent("J. Committer", "jcommitter@example.com");
-	}
-
-	protected boolean packedGitMMAP;
-
-	/**
-	 * Configure JGit before setting up test repositories.
-	 */
-	protected void configure() {
-		final WindowCacheConfig c = new WindowCacheConfig();
-		c.setPackedGitLimit(128 * WindowCacheConfig.KB);
-		c.setPackedGitWindowSize(8 * WindowCacheConfig.KB);
-		c.setPackedGitMMAP("true".equals(System.getProperty("jgit.junit.usemmap")));
-		c.setDeltaBaseCacheLimit(8 * WindowCacheConfig.KB);
-		WindowCache.reconfigure(c);
-	}
-
-	/**
-	 * Utility method to delete a directory recursively. It is
-	 * also used internally. If a file or directory cannot be removed
-	 * it throws an AssertionFailure.
-	 *
-	 * @param dir
-	 */
-	protected void recursiveDelete(final File dir) {
-		recursiveDelete(dir, false, getClass().getName() + "." + getName(), true);
-	}
-
-	protected static boolean recursiveDelete(final File dir, boolean silent,
-			final String name, boolean failOnError) {
-		assert !(silent && failOnError);
-		if (!dir.exists())
-			return silent;
-		final File[] ls = dir.listFiles();
-		if (ls != null) {
-			for (int k = 0; k < ls.length; k++) {
-				final File e = ls[k];
-				if (e.isDirectory()) {
-					silent = recursiveDelete(e, silent, name, failOnError);
-				} else {
-					if (!e.delete()) {
-						if (!silent) {
-							reportDeleteFailure(name, failOnError, e);
-						}
-						silent = !failOnError;
-					}
-				}
-			}
-		}
-		if (!dir.delete()) {
-			if (!silent) {
-				reportDeleteFailure(name, failOnError, dir);
-			}
-			silent = !failOnError;
-		}
-		return silent;
-	}
-
-	private static void reportDeleteFailure(final String name,
-			boolean failOnError, final File e) {
-		String severity;
-		if (failOnError)
-			severity = "Error";
-		else
-			severity = "Warning";
-		String msg = severity + ": Failed to delete " + e;
-		if (name != null)
-			msg += " in " + name;
-		if (failOnError)
-			fail(msg);
-		else
-			System.out.println(msg);
-	}
-
+public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 	protected static void copyFile(final File src, final File dst)
 			throws IOException {
 		final FileInputStream fis = new FileInputStream(src);
@@ -181,18 +85,9 @@ public abstract class RepositoryTestCase extends TestCase {
 
 	protected File writeTrashFile(final String name, final String data)
 			throws IOException {
-		File tf = new File(trash, name);
-		File tfp = tf.getParentFile();
-		if (!tfp.exists() && !tf.getParentFile().mkdirs())
-			throw new Error("Could not create directory " + tf.getParentFile());
-		final OutputStreamWriter fw = new OutputStreamWriter(
-				new FileOutputStream(tf), "UTF-8");
-		try {
-			fw.write(data);
-		} finally {
-			fw.close();
-		}
-		return tf;
+		File path = new File(db.getWorkDir(), name);
+		write(path, data);
+		return path;
 	}
 
 	protected static void checkFile(File f, final String checkData)
@@ -208,46 +103,17 @@ public abstract class RepositoryTestCase extends TestCase {
 		}
 	}
 
+	/** Test repository, initialized for this test case. */
 	protected Repository db;
 
-	private static Thread shutdownhook;
-	private static List<Runnable> shutDownCleanups = new ArrayList<Runnable>();
-	private static int testcount;
+	/** Working directory of {@link #db}. */
+	protected File trash;
 
-	private ArrayList<Repository> repositoriesToClose = new ArrayList<Repository>();
-
-	public void setUp() throws Exception {
+	@Override
+	protected void setUp() throws Exception {
 		super.setUp();
-		configure();
-		final String name = getClass().getName() + "." + getName();
-		recursiveDelete(trashParent, true, name, false); // Cleanup old failed stuff
-		trash = new File(trashParent,"trash"+System.currentTimeMillis()+"."+(testcount++));
-		trash_git = new File(trash, ".git").getCanonicalFile();
-		if (shutdownhook == null) {
-			shutdownhook = new Thread() {
-				@Override
-				public void run() {
-					// This may look superfluous, but is an extra attempt
-					// to clean up. First GC to release as many resources
-					// as possible and then try to clean up one test repo
-					// at a time (to record problems) and finally to drop
-					// the directory containing all test repositories.
-					System.gc();
-					for (Runnable r : shutDownCleanups)
-						r.run();
-					recursiveDelete(trashParent, false, null, false);
-				}
-			};
-			Runtime.getRuntime().addShutdownHook(shutdownhook);
-		}
-
-		final MockSystemReader mockSystemReader = new MockSystemReader();
-		mockSystemReader.userGitConfig = new FileBasedConfig(new File(
-				trash_git, "usergitconfig"));
-		SystemReader.setInstance(mockSystemReader);
-
-		db = new Repository(trash_git);
-		db.create();
+		db = createWorkRepository();
+		trash = db.getWorkDir();
 
 		final String[] packs = {
 				"pack-34be9032ac282b11fa9babdc2b2a93ca996c9c2f",
@@ -259,70 +125,12 @@ public abstract class RepositoryTestCase extends TestCase {
 				"pack-3280af9c07ee18a87705ef50b0cc4cd20266cf12"
 		};
 		final File packDir = new File(db.getObjectsDirectory(), "pack");
-		for (int k = 0; k < packs.length; k++) {
-			copyFile(JGitTestUtil.getTestResourceFile(packs[k] + ".pack"), new File(packDir,
-					packs[k] + ".pack"));
-			copyFile(JGitTestUtil.getTestResourceFile(packs[k] + ".idx"), new File(packDir,
-					packs[k] + ".idx"));
+		for (String n : packs) {
+			copyFile(JGitTestUtil.getTestResourceFile(n + ".pack"), new File(packDir, n + ".pack"));
+			copyFile(JGitTestUtil.getTestResourceFile(n + ".idx"), new File(packDir, n + ".idx"));
 		}
 
-		copyFile(JGitTestUtil.getTestResourceFile("packed-refs"), new File(trash_git,"packed-refs"));
-	}
-
-	protected void tearDown() throws Exception {
-		RepositoryCache.clear();
-		db.close();
-		for (Repository r : repositoriesToClose)
-			r.close();
-
-		// Since memory mapping is controlled by the GC we need to
-		// tell it this is a good time to clean up and unlock
-		// memory mapped files.
-		if (packedGitMMAP)
-			System.gc();
-
-		final String name = getClass().getName() + "." + getName();
-		recursiveDelete(trash, false, name, true);
-		for (Repository r : repositoriesToClose)
-			recursiveDelete(r.getWorkDir(), false, name, true);
-		repositoriesToClose.clear();
-
-		super.tearDown();
-	}
-
-	/**
-	 * Helper for creating extra empty repos
-	 *
-	 * @return a new empty git repository for testing purposes
-	 *
-	 * @throws IOException
-	 */
-	protected Repository createNewEmptyRepo() throws IOException {
-		return createNewEmptyRepo(false);
-	}
-
-	/**
-	 * Helper for creating extra empty repos
-	 *
-	 * @param bare if true, create a bare repository.
-	 * @return a new empty git repository for testing purposes
-	 *
-	 * @throws IOException
-	 */
-	protected Repository createNewEmptyRepo(boolean bare) throws IOException {
-		final File newTestRepo = new File(trashParent, "new"
-				+ System.currentTimeMillis() + "." + (testcount++)
-				+ (bare ? "" : "/") + ".git").getCanonicalFile();
-		assertFalse(newTestRepo.exists());
-		final Repository newRepo = new Repository(newTestRepo);
-		newRepo.create();
-		final String name = getClass().getName() + "." + getName();
-		shutDownCleanups.add(new Runnable() {
-			public void run() {
-				recursiveDelete(newTestRepo, false, name, false);
-			}
-		});
-		repositoriesToClose.add(newRepo);
-		return newRepo;
+		copyFile(JGitTestUtil.getTestResourceFile("packed-refs"), new File(db
+				.getDirectory(), "packed-refs"));
 	}
 }
