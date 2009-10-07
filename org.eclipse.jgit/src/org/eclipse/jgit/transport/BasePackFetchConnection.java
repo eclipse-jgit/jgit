@@ -198,6 +198,10 @@ abstract class BasePackFetchConnection extends BasePackConnection implements
 		return false;
 	}
 
+	boolean isBiDirectionalPipe() {
+		return true;
+	}
+
 	public void setPackLockMessage(final String message) {
 		lockMessage = message;
 	}
@@ -299,7 +303,7 @@ abstract class BasePackFetchConnection extends BasePackConnection implements
 		}
 	}
 
-	private boolean sendWants(final Collection<Ref> want) throws IOException {
+	boolean sendWants(final Collection<Ref> want) throws IOException {
 		boolean first = true;
 		for (final Ref r : want) {
 			try {
@@ -379,7 +383,7 @@ abstract class BasePackFetchConnection extends BasePackConnection implements
 			pckOut.end();
 			resultsPending++; // Each end will cause a result to come back.
 
-			if (havesSent == 32) {
+			if (isBiDirectionalPipe() && havesSent == 32) {
 				// On the first block we race ahead and try to send
 				// more of the second block while waiting for the
 				// remote to respond to our first block request.
@@ -516,7 +520,7 @@ abstract class BasePackFetchConnection extends BasePackConnection implements
 		}
 	}
 
-	private void markCommon(final RevObject obj) {
+	void markCommon(final RevObject obj) {
 		obj.add(COMMON);
 		if (obj instanceof RevCommit)
 			((RevCommit) obj).carry(COMMON);
