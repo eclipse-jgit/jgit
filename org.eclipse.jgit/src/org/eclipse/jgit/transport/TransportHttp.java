@@ -1,4 +1,5 @@
 /*
+ * Copyright (C) 2009, Google Inc.
  * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org>
  * and other copyright owners as documented in the project's IP log.
  *
@@ -43,10 +44,13 @@
 
 package org.eclipse.jgit.transport;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.Proxy;
@@ -57,13 +61,18 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.TreeMap;
 
+import org.eclipse.jgit.errors.NoRemoteRepositoryException;
 import org.eclipse.jgit.errors.NotSupportedException;
 import org.eclipse.jgit.errors.PackProtocolException;
 import org.eclipse.jgit.errors.TransportException;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.util.HttpSupport;
+import org.eclipse.jgit.util.NB;
+import org.eclipse.jgit.util.RawParseUtils;
 
 /**
  * Transport over the non-Git aware HTTP and FTP protocol.
@@ -75,7 +84,8 @@ import org.eclipse.jgit.util.HttpSupport;
  * 
  * @see WalkFetchConnection
  */
-public class TransportHttp extends HttpTransport implements WalkTransport {
+public class TransportHttp extends HttpTransport implements WalkTransport,
+		PackTransport {
 	static boolean canHandle(final URIish uri) {
 		if (!uri.isRemote())
 			return false;
@@ -115,13 +125,97 @@ public class TransportHttp extends HttpTransport implements WalkTransport {
 	@Override
 	public PushConnection openPush() throws NotSupportedException,
 			TransportException {
-		final String s = getURI().getScheme();
-		throw new NotSupportedException("Push not supported over " + s + ".");
+		return new SmartHttpPushConnection(connect("git-receive-pack"));
 	}
 
 	@Override
 	public void close() {
 		// No explicit connections are maintained.
+	}
+
+	private InputStream connect(final String service)
+			throws TransportException, NotSupportedException {
+		final String expType = "application/x-" + service + "-advertisement";
+		final URL u;
+		try {
+			final String args = "service=" + service;
+			u = new URL(baseUrl, Constants.INFO_REFS + "?" + args);
+		} catch (MalformedURLException e) {
+			throw new NotSupportedException("Invalid URL " + uri, e);
+		}
+
+		try {
+			final Proxy proxy = HttpSupport.proxyFor(proxySelector, u);
+			final HttpURLConnection c;
+
+			c = (HttpURLConnection) u.openConnection(proxy);
+			switch (HttpSupport.response(c)) {
+			case HttpURLConnection.HTTP_OK: {
+				boolean close = true;
+				InputStream in = new BufferedInputStream(c.getInputStream());
+				try {
+					String actType = c.getContentType();
+					if (!expType.equals(actType)) {
+						String msg = "Smart HTTP transport not supported";
+						IOException why = wrongContentType(expType, actType);
+						throw new NotSupportedException(msg, why);
+					}
+					checkPacketLineStream(in, service);
+					close = false;
+					return in;
+				} finally {
+					if (close)
+						in.close();
+				}
+			}
+
+			case HttpURLConnection.HTTP_NOT_FOUND:
+				throw new NoRemoteRepositoryException(uri, u + " not found");
+
+			case HttpURLConnection.HTTP_FORBIDDEN:
+				throw new TransportException(uri, service + " not permitted");
+
+			default:
+				throw new TransportException(uri, HttpSupport.response(c) + " "
+						+ c.getResponseMessage());
+			}
+		} catch (NotSupportedException e) {
+			throw e;
+		} catch (TransportException e) {
+			throw e;
+		} catch (IOException e) {
+			throw new TransportException(uri, "cannot open " + service, e);
+		}
+	}
+
+	static IOException wrongContentType(String expType, String actType) {
+		final String why = "Expected Content-Type " + expType
+				+ "; received Content-Type " + actType;
+		return new IOException(why);
+	}
+
+	private void checkPacketLineStream(final InputStream in,
+			final String service) throws IOException {
+		final byte[] test = new byte[5];
+		in.mark(test.length);
+		NB.readFully(in, test, 0, test.length);
+
+		final int lineLen;
+		try {
+			lineLen = RawParseUtils.parseHexInt16(test, 0);
+		} catch (ArrayIndexOutOfBoundsException e) {
+			throw new IOException("Expected pkt-line packet header");
+		}
+		if (test[4] != '#')
+			throw new IOException("Expected pkt-line with '# service='");
+		if (lineLen <= 0 || 1000 < lineLen)
+			throw new IOException("First pkt-line is too large");
+
+		in.reset();
+		String exp = "# service=" + service;
+		String act = new PacketLineIn(in).readString().trim();
+		if (!exp.equals(act))
+			throw new IOException("Expected '" + exp + "', got '" + act + "'");
 	}
 
 	class HttpObjectDB extends WalkRemoteObjectDatabase {
@@ -277,6 +371,125 @@ public class TransportHttp extends HttpTransport implements WalkTransport {
 		@Override
 		void close() {
 			// We do not maintain persistent connections.
+		}
+	}
+
+	class SmartHttpPushConnection extends BasePackPushConnection {
+		private static final String REQ_TYPE = "application/x-git-receive-pack-input";
+
+		private static final String RSP_TYPE = "application/x-git-receive-pack-status";
+
+		SmartHttpPushConnection(final InputStream advertisement)
+				throws TransportException {
+			super(TransportHttp.this);
+
+			init(advertisement, new OutputStream() {
+				@Override
+				public void write(int b) throws IOException {
+					// We shouldn't be writing output at this stage, there
+					// is nobody listening to us.
+					//
+					throw new IllegalStateException("Writing not permitted");
+				}
+			});
+			outNeedsEnd = false;
+			try {
+				readAdvertisedRefs();
+			} catch (IOException err) {
+				close();
+				throw new TransportException(uri,
+						"remote hung up unexpectedly", err);
+			} finally {
+				try {
+					advertisement.close();
+				} catch (IOException e) {
+					// Ignore errors during close.
+				}
+			}
+		}
+
+		protected void doPush(final ProgressMonitor monitor,
+				final Map<String, RemoteRefUpdate> refUpdates)
+				throws TransportException {
+			final InputStream httpIn;
+			final OutputStream httpOut;
+			try {
+				final URL url = new URL(baseUrl, "git-receive-pack");
+				final Proxy proxy = HttpSupport.proxyFor(proxySelector, url);
+				final HttpURLConnection conn;
+
+				conn = (HttpURLConnection) url.openConnection(proxy);
+				conn.setRequestMethod("POST");
+				conn.setInstanceFollowRedirects(false);
+				conn.setDoOutput(true);
+				conn.setChunkedStreamingMode(0);
+				conn.setRequestProperty("Content-Type", REQ_TYPE);
+
+				httpOut = new BufferedOutputStream(conn.getOutputStream());
+				httpIn = new HttpInputStream(conn, httpOut, RSP_TYPE);
+			} catch (IOException e) {
+				throw new TransportException(uri, "Cannot begin HTTP push", e);
+			}
+
+			init(new BufferedInputStream(httpIn), httpOut);
+			super.doPush(monitor, refUpdates);
+		}
+	}
+
+	class HttpInputStream extends InputStream {
+		private final HttpURLConnection conn;
+
+		private final OutputStream httpOut;
+
+		private final String expectedContentType;
+
+		private InputStream httpIn;
+
+		private HttpInputStream(HttpURLConnection conn, OutputStream httpOut,
+				String contentType) {
+			this.conn = conn;
+			this.httpOut = httpOut;
+			this.expectedContentType = contentType;
+		}
+
+		private InputStream self() throws IOException {
+			if (httpIn == null)
+				endOutput();
+			return httpIn;
+		}
+
+		private void endOutput() throws IOException {
+			httpOut.close();
+
+			final int status = HttpSupport.response(conn);
+			if (status != HttpURLConnection.HTTP_OK)
+				throw new IOException(status + " " + conn.getResponseMessage());
+
+			httpIn = conn.getInputStream();
+			final String actualContentType = conn.getContentType();
+			if (!expectedContentType.equals(actualContentType))
+				throw wrongContentType(expectedContentType, actualContentType);
+		}
+
+		public int available() throws IOException {
+			return self().available();
+		}
+
+		public int read() throws IOException {
+			return self().read();
+		}
+
+		public int read(byte[] b, int off, int len) throws IOException {
+			return self().read(b, off, len);
+		}
+
+		public long skip(long n) throws IOException {
+			return self().skip(n);
+		}
+
+		public void close() throws IOException {
+			if (httpIn != null)
+				httpIn.close();
 		}
 	}
 }
