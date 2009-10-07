@@ -47,9 +47,11 @@ package org.eclipse.jgit.transport;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -58,7 +60,9 @@ import java.net.ProxySelector;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 
 import org.eclipse.jgit.errors.NoRemoteRepositoryException;
@@ -70,6 +74,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.util.HttpSupport;
 import org.eclipse.jgit.util.NB;
 import org.eclipse.jgit.util.RawParseUtils;
@@ -116,10 +121,38 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 
 	@Override
 	public FetchConnection openFetch() throws TransportException {
-		final HttpObjectDB c = new HttpObjectDB(objectsUrl);
-		final WalkFetchConnection r = new WalkFetchConnection(this, c);
-		r.available(c.readAdvertisedRefs());
-		return r;
+		try {
+			final String service = "git-upload-pack";
+			final HttpURLConnection c = connect(service);
+			final InputStream in = new BufferedInputStream(c.getInputStream());
+			try {
+				String expType = "application/x-" + service + "-advertisement";
+				String actType = c.getContentType();
+				if (expType.equals(actType)) {
+					checkPacketLineStream(in, service);
+					return new SmartHttpFetchConnection(in);
+
+				} else {
+					// Assume this server doesn't support smart HTTP fetch
+					// and fall back on dumb object walking.
+					//
+					HttpObjectDB d = new HttpObjectDB(objectsUrl);
+					WalkFetchConnection r = new WalkFetchConnection(this, d);
+					BufferedReader br = new BufferedReader(
+							new InputStreamReader(in, Constants.CHARSET));
+					try {
+						r.available(d.readAdvertisedImpl(br));
+					} finally {
+						br.close();
+					}
+					return r;
+				}
+			} finally {
+				in.close();
+			}
+		} catch (IOException err) {
+			throw new TransportException(uri, "error reading info/refs", err);
+		}
 	}
 
 	@Override
@@ -302,26 +335,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 			}
 		}
 
-		Map<String, Ref> readAdvertisedRefs() throws TransportException {
-			try {
-				final BufferedReader br = openReader(INFO_REFS);
-				try {
-					return readAdvertisedImpl(br);
-				} finally {
-					br.close();
-				}
-			} catch (IOException err) {
-				try {
-					throw new TransportException(new URL(objectsUrl, INFO_REFS)
-							+ ": cannot read available refs", err);
-				} catch (MalformedURLException mue) {
-					throw new TransportException(objectsUrl + INFO_REFS
-							+ ": cannot read available refs", err);
-				}
-			}
-		}
-
-		private Map<String, Ref> readAdvertisedImpl(final BufferedReader br)
+		Map<String, Ref> readAdvertisedImpl(final BufferedReader br)
 				throws IOException, PackProtocolException {
 			final TreeMap<String, Ref> avail = new TreeMap<String, Ref>();
 			for (;;) {
@@ -378,6 +392,118 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		}
 	}
 
+	class SmartHttpFetchConnection extends BasePackFetchConnection {
+		private static final String REQ_TYPE = "application/x-git-upload-pack-input";
+
+		private static final String RSP_TYPE = "application/x-git-upload-pack-data";
+
+		private final Set<RevObject> commonObjects = new HashSet<RevObject>();
+
+		private final ByteArrayOutputStream bufOut;
+
+		private byte[] bufferedWants = {};
+
+		SmartHttpFetchConnection(final InputStream advertisement)
+				throws TransportException {
+			super(TransportHttp.this);
+
+			init(advertisement, new OutputStream() {
+				@Override
+				public void write(int b) throws IOException {
+					// We shouldn't be writing output at this stage, there
+					// is nobody listening to us.
+					//
+					throw new IllegalStateException("Writing not permitted");
+				}
+			});
+			outNeedsEnd = false;
+			try {
+				readAdvertisedRefs();
+			} catch (IOException err) {
+				close();
+				throw new TransportException(uri,
+						"remote hung up unexpectedly", err);
+			}
+
+			in = new HttpInputStream(RSP_TYPE) {
+				@Override
+				HttpURLConnection call() throws IOException {
+					return completeCall();
+				}
+			};
+			pckIn = new PacketLineIn(in);
+
+			bufOut = new ByteArrayOutputStream();
+			out = new OutputStream() {
+				@Override
+				public void write(int b) throws IOException {
+					startCall();
+					bufOut.write(b);
+				}
+
+				@Override
+				public void write(byte[] b, int off, int len)
+						throws IOException {
+					startCall();
+					bufOut.write(b, off, len);
+				}
+			};
+			pckOut = new PacketLineOut(out);
+			outNeedsEnd = true;
+		}
+
+		@Override
+		boolean isBiDirectionalPipe() {
+			return false;
+		}
+
+		void startCall() throws IOException {
+			if (bufOut.size() == 0) {
+				in.close();
+				bufOut.write(bufferedWants);
+				for (RevObject c : commonObjects)
+					pckOut.writeString("have " + c.getId().name() + "\n");
+			}
+		}
+
+		HttpURLConnection completeCall() throws IOException {
+			final URL url = new URL(baseUrl, "git-upload-pack");
+			Proxy proxy = HttpSupport.proxyFor(proxySelector, url);
+			HttpURLConnection conn;
+
+			final byte[] body = bufOut.toByteArray();
+			bufOut.reset();
+
+			conn = (HttpURLConnection) url.openConnection(proxy);
+			conn.setRequestMethod("POST");
+			conn.setInstanceFollowRedirects(false);
+			conn.setDoOutput(true);
+			conn.setFixedLengthStreamingMode(body.length);
+			conn.setRequestProperty("Content-Type", REQ_TYPE);
+			final OutputStream os = conn.getOutputStream();
+			try {
+				os.write(body);
+			} finally {
+				os.close();
+			}
+			return conn;
+		}
+
+		@Override
+		boolean sendWants(Collection<Ref> want) throws IOException {
+			final boolean have = super.sendWants(want);
+			bufferedWants = bufOut.toByteArray();
+			bufOut.reset();
+			return have;
+		}
+
+		@Override
+		void markCommon(final RevObject obj) {
+			super.markCommon(obj);
+			commonObjects.add(obj);
+		}
+	}
+
 	class SmartHttpPushConnection extends BasePackPushConnection {
 		private static final String REQ_TYPE = "application/x-git-receive-pack-input";
 
@@ -424,7 +550,13 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 				conn.setRequestProperty("Content-Type", REQ_TYPE);
 
 				httpOut = new BufferedOutputStream(conn.getOutputStream());
-				httpIn = new HttpInputStream(conn, httpOut, RSP_TYPE);
+				httpIn = new HttpInputStream(RSP_TYPE) {
+					@Override
+					HttpURLConnection call() throws IOException {
+						httpOut.close();
+						return conn;
+					}
+				};
 			} catch (IOException e) {
 				throw new TransportException(uri, "Cannot begin HTTP push", e);
 			}
@@ -434,21 +566,16 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		}
 	}
 
-	class HttpInputStream extends InputStream {
-		private final HttpURLConnection conn;
-
-		private final OutputStream httpOut;
-
+	abstract class HttpInputStream extends InputStream {
 		private final String expectedContentType;
 
 		private InputStream httpIn;
 
-		private HttpInputStream(HttpURLConnection conn, OutputStream httpOut,
-				String contentType) {
-			this.conn = conn;
-			this.httpOut = httpOut;
+		HttpInputStream(String contentType) {
 			this.expectedContentType = contentType;
 		}
+
+		abstract HttpURLConnection call() throws IOException;
 
 		private InputStream self() throws IOException {
 			if (httpIn == null)
@@ -457,8 +584,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		}
 
 		private void endOutput() throws IOException {
-			httpOut.close();
-
+			final HttpURLConnection conn = call();
 			final int status = HttpSupport.response(conn);
 			if (status != HttpURLConnection.HTTP_OK)
 				throw new IOException(status + " " + conn.getResponseMessage());
@@ -486,8 +612,10 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		}
 
 		public void close() throws IOException {
-			if (httpIn != null)
+			if (httpIn != null) {
 				httpIn.close();
+				httpIn = null;
+			}
 		}
 	}
 }
