@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008, Google Inc.
+ * Copyright (C) 2008-2009, Google Inc.
  * Copyright (C) 2008-2009, Robin Rosenberg <robin.rosenberg@dewire.com>
  * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org>
  * and other copyright owners as documented in the project's IP log.
@@ -50,21 +50,56 @@ import java.io.OutputStream;
 
 import org.eclipse.jgit.lib.Constants;
 
-class PacketLineOut {
+/**
+ * Write Git style pkt-line formatting to an output stream.
+ * <p>
+ * This class is not thread safe and may issue multiple writes to the underlying
+ * stream for each method call made.
+ * <p>
+ * This class performs no buffering on its own. This makes it suitable to
+ * interleave writes performed by this class with writes performed directly
+ * against the underlying OutputStream.
+ */
+public class PacketLineOut {
 	private final OutputStream out;
 
 	private final byte[] lenbuffer;
 
-	PacketLineOut(final OutputStream i) {
-		out = i;
+	/**
+	 * Create a new packet line writer.
+	 *
+	 * @param outputStream
+	 *            stream.
+	 */
+	public PacketLineOut(final OutputStream outputStream) {
+		out = outputStream;
 		lenbuffer = new byte[5];
 	}
 
-	void writeString(final String s) throws IOException {
+	/**
+	 * Write a UTF-8 encoded string as a single length-delimited packet.
+	 *
+	 * @param s
+	 *            string to write.
+	 * @throws IOException
+	 *             the packet could not be written, the stream is corrupted as
+	 *             the packet may have been only partially written.
+	 */
+	public void writeString(final String s) throws IOException {
 		writePacket(Constants.encode(s));
 	}
 
-	void writePacket(final byte[] packet) throws IOException {
+	/**
+	 * Write a binary packet to the stream.
+	 *
+	 * @param packet
+	 *            the packet to write; the length of the packet is equal to the
+	 *            size of the byte array.
+	 * @throws IOException
+	 *             the packet could not be written, the stream is corrupted as
+	 *             the packet may have been only partially written.
+	 */
+	public void writePacket(final byte[] packet) throws IOException {
 		formatLength(packet.length + 4);
 		out.write(lenbuffer, 0, 4);
 		out.write(packet);
@@ -78,13 +113,35 @@ class PacketLineOut {
 		out.write(buf, off, len);
 	}
 
-	void end() throws IOException {
+	/**
+	 * Write a packet end marker, sometimes referred to as a flush command.
+	 * <p>
+	 * Technically this is a magical packet type which can be detected
+	 * separately from an empty string or an empty packet.
+	 * <p>
+	 * Implicitly performs a flush on the underlying OutputStream to ensure the
+	 * peer will receive all data written thus far.
+	 *
+	 * @throws IOException
+	 *             the end marker could not be written, the stream is corrupted
+	 *             as the end marker may have been only partially written.
+	 */
+	public void end() throws IOException {
 		formatLength(0);
 		out.write(lenbuffer, 0, 4);
 		flush();
 	}
 
-	void flush() throws IOException {
+	/**
+	 * Flush the underlying OutputStream.
+	 * <p>
+	 * Performs a flush on the underlying OutputStream to ensure the peer will
+	 * receive all data written thus far.
+	 *
+	 * @throws IOException
+	 *             the underlying stream failed to flush.
+	 */
+	public void flush() throws IOException {
 		out.flush();
 	}
 
