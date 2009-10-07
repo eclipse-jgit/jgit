@@ -76,6 +76,7 @@ import org.eclipse.jgit.revwalk.RevFlag;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand.Result;
+import org.eclipse.jgit.transport.RefAdvertiser.PacketLineOutRefAdvertiser;
 import org.eclipse.jgit.util.io.InterruptTimer;
 import org.eclipse.jgit.util.io.TimeoutInputStream;
 import org.eclipse.jgit.util.io.TimeoutOutputStream;
@@ -519,7 +520,7 @@ public class ReceivePack {
 
 	private void service() throws IOException {
 		if (biDirectionalPipe)
-			sendAdvertisedRefs();
+			sendAdvertisedRefs(new PacketLineOutRefAdvertiser(pckOut));
 		else
 			refs = db.getAllRefs();
 		recvCommands();
@@ -574,9 +575,17 @@ public class ReceivePack {
 		}
 	}
 
-	private void sendAdvertisedRefs() throws IOException {
+	/**
+	 * Generate an advertisement of available refs and capabilities.
+	 *
+	 * @param adv
+	 *            the advertisement formatter.
+	 * @throws IOException
+	 *             the formatter failed to write an advertisement.
+	 */
+	public void sendAdvertisedRefs(final RefAdvertiser adv) throws IOException {
 		final RevFlag advertised = walk.newFlag("ADVERTISED");
-		final RefAdvertiser adv = new RefAdvertiser(pckOut, walk, advertised);
+		adv.init(walk, advertised);
 		adv.advertiseCapability(CAPABILITY_DELETE_REFS);
 		adv.advertiseCapability(CAPABILITY_REPORT_STATUS);
 		if (allowOfsDelta)
@@ -589,7 +598,7 @@ public class ReceivePack {
 		adv.includeAdditionalHaves();
 		if (adv.isEmpty())
 			adv.advertiseId(ObjectId.zeroId(), "capabilities^{}");
-		pckOut.end();
+		adv.end();
 	}
 
 	private void recvCommands() throws IOException {
