@@ -46,6 +46,8 @@ package org.eclipse.jgit.http.server;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -57,6 +59,7 @@ import org.eclipse.jgit.lib.AlternateRepositoryDatabase;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectDatabase;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefComparator;
 import org.eclipse.jgit.lib.Repository;
@@ -70,6 +73,8 @@ class InfoRefsServlet extends RepositoryServlet {
 	private static final long serialVersionUID = 1L;
 
 	private static final String ENCODING = "UTF-8";
+
+	private static final String CAPABILITY_SMART_HTTP = "smart-http";
 
 	@Override
 	public void doGet(final HttpServletRequest req,
@@ -94,10 +99,35 @@ class InfoRefsServlet extends RepositoryServlet {
 	}
 
 	private RefAdvertiser compute(final HttpServletRequest req) {
+		final Set<String> want = wantCapabilities(req);
+		final boolean smartHttp = want.contains(CAPABILITY_SMART_HTTP);
+
 		final Repository db = getRepository(req);
 		final RefAdvertiser adv = new RefAdvertiser(new RevWalk(db));
+		if (smartHttp) {
+			// TODO: We should also advertise the capabilities of services
+			// for example, can receive-pack accept ofs-delta or delete-refs
+			//
+			adv.advertiseCapability(CAPABILITY_SMART_HTTP);
+		}
 		adv.send(db.getAllRefs().values());
+		if (smartHttp)
+			adv.includeAdditionalHaves();
+		if (adv.isEmpty() && smartHttp)
+			adv.advertiseId(ObjectId.zeroId(), "capabilities^{}");
 		return adv;
+	}
+
+	private static Set<String> wantCapabilities(final HttpServletRequest req) {
+		final String[] requestedCapabilityList = req.getParameterValues("want");
+		if (requestedCapabilityList == null)
+			return Collections.emptySet();
+		final HashSet<String> want = new HashSet<String>();
+		for (String singleWant : requestedCapabilityList) {
+			for (String token : singleWant.split(" "))
+				want.add(token);
+		}
+		return want;
 	}
 
 	private static class RefAdvertiser {
