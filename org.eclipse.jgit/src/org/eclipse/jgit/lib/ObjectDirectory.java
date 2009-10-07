@@ -143,6 +143,18 @@ public class ObjectDirectory extends ObjectDatabase {
 	}
 
 	/**
+	 * @return unmodifiable collection of all known pack files local to this
+	 *         directory. Most recent packs are presented first. Packs most
+	 *         likely to contain more recent objects appear before packs
+	 *         containing objects referenced by commits further back in the
+	 *         history of the repository.
+	 */
+	public Collection<PackFile> getPacks() {
+		final PackFile[] packs = packList.get().packs;
+		return Collections.unmodifiableCollection(Arrays.asList(packs));
+	}
+
+	/**
 	 * Add a single existing pack to the list of available pack files.
 	 *
 	 * @param pack
