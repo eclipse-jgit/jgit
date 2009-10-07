@@ -96,6 +96,14 @@ public class ReceivePack {
 	/** Revision traversal support over {@link #db}. */
 	private final RevWalk walk;
 
+	/**
+	 * Should we start by advertising our refs to the client?
+	 * <p>
+	 * If false this class runs in a read everything then output results mode,
+	 * making it suitable for single call RPCs like HTTP.
+	 */
+	private boolean biDirectionalPipe = true;
+
 	/** Should an incoming transfer validate objects? */
 	private boolean checkReceivedObjects;
 
@@ -217,6 +225,27 @@ public class ReceivePack {
 	/** @return all refs which were advertised to the client. */
 	public final Map<String, Ref> getAdvertisedRefs() {
 		return refs;
+	}
+
+	/**
+	 * @return true if this class expects a bi-directional pipe opened between
+	 *         the client and itself. The default is true.
+	 */
+	public boolean isBiDirectionalPipe() {
+		return biDirectionalPipe;
+	}
+
+	/**
+	 * @param twoWay
+	 *            if true, this class will assume the socket is a fully
+	 *            bidirectional pipe between the two peers and takes advantage
+	 *            of that by first transmitting the known refs, then waiting to
+	 *            read commands. If false, this class assumes it must read the
+	 *            commands before writing output and does not perform the
+	 *            initial advertising.
+	 */
+	public void setBiDirectionalPipe(final boolean twoWay) {
+		biDirectionalPipe = twoWay;
 	}
 
 	/**
@@ -484,7 +513,10 @@ public class ReceivePack {
 	}
 
 	private void service() throws IOException {
-		sendAdvertisedRefs();
+		if (biDirectionalPipe)
+			sendAdvertisedRefs();
+		else
+			refs = db.getAllRefs();
 		recvCommands();
 		if (!commands.isEmpty()) {
 			enableCapabilities();
@@ -587,7 +619,11 @@ public class ReceivePack {
 			final ObjectId newId = ObjectId.fromString(line.substring(41, 81));
 			final String name = line.substring(82);
 			final ReceiveCommand cmd = new ReceiveCommand(oldId, newId, name);
-			cmd.setRef(refs.get(cmd.getRefName()));
+			if (name.equals(Constants.HEAD)) {
+				cmd.setResult(Result.REJECTED_CURRENT_BRANCH);
+			} else {
+				cmd.setRef(refs.get(cmd.getRefName()));
+			}
 			commands.add(cmd);
 		}
 	}
