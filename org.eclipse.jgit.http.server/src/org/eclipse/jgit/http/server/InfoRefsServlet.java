@@ -43,22 +43,33 @@
 
 package org.eclipse.jgit.http.server;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.eclipse.jgit.http.server.resolver.ReceivePackFactory;
+import org.eclipse.jgit.http.server.resolver.ServiceNotEnabledException;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevFlag;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.transport.PacketLineOut;
+import org.eclipse.jgit.transport.ReceivePack;
 import org.eclipse.jgit.transport.RefAdvertiser;
+import org.eclipse.jgit.transport.RefAdvertiser.PacketLineOutRefAdvertiser;
 
 /** Send a complete list of current refs, including peeled values for tags. */
 class InfoRefsServlet extends RepositoryServlet {
 	private static final long serialVersionUID = 1L;
 
-	private static final String ENCODING = "UTF-8";
+	private final ReceivePackFactory receivePackFactory;
+
+	InfoRefsServlet(final ReceivePackFactory receivePackFactory) {
+		this.receivePackFactory = receivePackFactory;
+	}
 
 	@Override
 	public void doGet(final HttpServletRequest req,
@@ -75,17 +86,50 @@ class InfoRefsServlet extends RepositoryServlet {
 	private void serve(final HttpServletRequest req,
 			final HttpServletResponse rsp, final boolean sendBody)
 			throws IOException {
-		final byte[] raw = compute(req);
-		rsp.setContentType("text/plain");
-		rsp.setCharacterEncoding(ENCODING);
+		final byte[] raw;
+		try {
+			final Repository db = getRepository(req);
+			final String name = req.getParameter("service");
+
+			if (name != null && name.startsWith("git-")) {
+				final ByteArrayOutputStream buf = new ByteArrayOutputStream();
+				final PacketLineOut out = new PacketLineOut(buf);
+				out.writeString("# service=" + name + "\n");
+
+				if ("git-receive-pack".equals(name)) {
+					final ReceivePack rp = receivePackFactory.create(req, db);
+					rp.sendAdvertisedRefs(new PacketLineOutRefAdvertiser(out));
+
+				} else {
+					throw new ServiceNotEnabledException();
+				}
+
+				raw = buf.toByteArray();
+				rsp.setContentType("application/x-" + name + "-advertisement");
+
+			} else {
+				// We don't recognize the service request, or none was made.
+				// Assume a dumb client and send back the dumb version of the
+				// info/refs file.
+				//
+				raw = dumbHttp(db);
+				rsp.setContentType("text/plain");
+				rsp.setCharacterEncoding(Constants.CHARACTER_ENCODING);
+			}
+
+		} catch (ServiceNotEnabledException e) {
+			rsp.reset();
+			rsp.sendError(HttpServletResponse.SC_FORBIDDEN);
+			return;
+		}
+
 		send(raw, req, rsp, sendBody);
 	}
 
-	private byte[] compute(final HttpServletRequest req) throws IOException {
-		final Repository db = getRepository(req);
+	private byte[] dumbHttp(final Repository db) throws IOException {
+		final StringBuilder out = new StringBuilder();
 		final RevWalk walk = new RevWalk(db);
 		final RevFlag ADVERTISED = walk.newFlag("ADVERTISED");
-		final StringBuilder out = new StringBuilder();
 		final RefAdvertiser adv = new RefAdvertiser() {
 			@Override
 			protected void writeOne(final CharSequence line) {
@@ -100,6 +144,6 @@ class InfoRefsServlet extends RepositoryServlet {
 		adv.init(walk, ADVERTISED);
 		adv.setDerefTags(true);
 		adv.send(db.getAllRefs().values());
-		return out.toString().getBytes(ENCODING);
+		return Constants.encode(out.toString());
 	}
 }
