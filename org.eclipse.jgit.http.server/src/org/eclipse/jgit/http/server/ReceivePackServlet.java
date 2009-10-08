@@ -45,91 +45,67 @@ package org.eclipse.jgit.http.server;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.eclipse.jgit.http.server.resolver.ReceivePackFactory;
 import org.eclipse.jgit.http.server.resolver.ServiceNotEnabledException;
-import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.revwalk.RevFlag;
-import org.eclipse.jgit.revwalk.RevWalk;
-import org.eclipse.jgit.transport.PacketLineOut;
 import org.eclipse.jgit.transport.ReceivePack;
-import org.eclipse.jgit.transport.RefAdvertiser;
-import org.eclipse.jgit.transport.RefAdvertiser.PacketLineOutRefAdvertiser;
 
-/** Send a complete list of current refs, including peeled values for tags. */
-class InfoRefsServlet extends RepositoryServlet {
+/** Server side implementation of smart push over HTTP. */
+class ReceivePackServlet extends RepositoryServlet {
+	private static final String REQ_TYPE = "application/x-git-receive-pack-input";
+
+	private static final String RSP_TYPE = "application/x-git-receive-pack-status";
+
 	private static final long serialVersionUID = 1L;
-
 	private final ReceivePackFactory receivePackFactory;
 
-	InfoRefsServlet(final ReceivePackFactory receivePackFactory) {
+	ReceivePackServlet(final ReceivePackFactory receivePackFactory) {
 		this.receivePackFactory = receivePackFactory;
 	}
 
-	public void doGet(final HttpServletRequest req,
+	@Override
+	public void doPost(final HttpServletRequest req,
 			final HttpServletResponse rsp) throws IOException {
-		final byte[] raw;
-		try {
-			final Repository db = getRepository(req);
-			final String name = req.getParameter("service");
-
-			if (name != null && name.startsWith("git-")) {
-				final ByteArrayOutputStream buf = new ByteArrayOutputStream();
-				final PacketLineOut out = new PacketLineOut(buf);
-				out.writeString("# service=" + name + "\n");
-
-				if ("git-receive-pack".equals(name)) {
-					final ReceivePack rp = receivePackFactory.create(req, db);
-					rp.sendAdvertisedRefs(new PacketLineOutRefAdvertiser(out));
-
-				} else {
-					throw new ServiceNotEnabledException();
-				}
-
-				raw = buf.toByteArray();
-				rsp.setContentType("application/x-" + name + "-advertisement");
-
-			} else {
-				// We don't recognize the service request, or none was made.
-				// Assume a dumb client and send back the dumb version of the
-				// info/refs file.
-				//
-				raw = dumbHttp(db);
-				rsp.setContentType("text/plain");
-				rsp.setCharacterEncoding(Constants.CHARACTER_ENCODING);
-			}
-
-		} catch (ServiceNotEnabledException e) {
-			rsp.reset();
-			rsp.sendError(HttpServletResponse.SC_FORBIDDEN);
+		if (!REQ_TYPE.equals(req.getContentType())) {
+			rsp.sendError(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE);
 			return;
 		}
 
-		send(raw, req, rsp);
+		final Repository db = getRepository(req);
+		final ByteArrayOutputStream out = new ByteArrayOutputStream();
+		try {
+			final ReceivePack rp = receivePackFactory.create(req, db);
+			rp.setBiDirectionalPipe(false);
+			rp.receive(req.getInputStream(), out, null);
+
+		} catch (ServiceNotEnabledException e) {
+			rsp.sendError(HttpServletResponse.SC_FORBIDDEN);
+			return;
+
+		} catch (IOException e) {
+			getServletContext().log("Internal error during receive-pack", e);
+			rsp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			return;
+		}
+
+		reply(rsp, out.toByteArray());
 	}
 
-	private byte[] dumbHttp(final Repository db) throws IOException {
-		final StringBuilder out = new StringBuilder();
-		final RevWalk walk = new RevWalk(db);
-		final RevFlag ADVERTISED = walk.newFlag("ADVERTISED");
-		final RefAdvertiser adv = new RefAdvertiser() {
-			@Override
-			protected void writeOne(final CharSequence line) {
-				out.append(line.toString().replace(' ', '\t'));
-			}
-
-			@Override
-			protected void end() {
-				// No end marker required for info/refs format.
-			}
-		};
-		adv.init(walk, ADVERTISED);
-		adv.setDerefTags(true);
-		adv.send(db.getAllRefs().values());
-		return Constants.encode(out.toString());
+	private void reply(final HttpServletResponse rsp, final byte[] result)
+			throws IOException {
+		nocache(rsp);
+		rsp.setContentType(RSP_TYPE);
+		rsp.setContentLength(result.length);
+		final OutputStream os = rsp.getOutputStream();
+		try {
+			os.write(result);
+		} finally {
+			os.close();
+		}
 	}
 }
