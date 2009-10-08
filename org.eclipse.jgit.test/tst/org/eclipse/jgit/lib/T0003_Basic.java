@@ -344,6 +344,9 @@ public class T0003_Basic extends RepositoryTestCase {
 		commit.setMessage("\u00dcbergeeks");
 		ObjectId cid = new ObjectWriter(db).writeCommit(commit);
 		assertEquals("4680908112778718f37e686cbebcc912730b3154", cid.name());
+		Commit loadedCommit = db.mapCommit(cid);
+		assertNotSame(loadedCommit, commit);
+		assertEquals(commit.getMessage(), loadedCommit.getMessage());
 	}
 
 	public void test024_createCommitNonAscii() throws IOException {
