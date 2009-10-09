@@ -1148,8 +1148,7 @@ public class Repository {
 	}
 
 	/**
-	 * @param refName
-	 *
+	 * @param refName ref name to shorten
 	 * @return a more user friendly ref name
 	 */
 	public String shortenRefName(String refName) {
