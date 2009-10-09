@@ -1,0 +1,12 @@
+Bundle-Localization: plugin
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %plugin_name
+Bundle-SymbolicName: org.eclipse.jgit.ui
+Bundle-Version: 0.6.0.qualifier
+Bundle-Vendor: %provider_name
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Export-Package: org.eclipse.jgit.awtui;version="0.6.0"
+Import-Package: org.eclipse.jgit.lib,
+ org.eclipse.jgit.revplot,
+ org.eclipse.jgit.revwalk;version="0.6.0"

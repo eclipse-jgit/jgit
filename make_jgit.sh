@@ -3,6 +3,7 @@
 # Copyright (C) 2008-2009, Google Inc.
 # Copyright (C) 2009, Johannes Schindelin <Johannes.Schindelin@gmx.de>
 # Copyright (C) 2008, Mike Ralphson <mike@abacus.co.uk>
+# Copyright (C) 2009, Mykola Nikishov <mn@mn.com.ua>
 # Copyright (C) 2009, Nicholas Campbell <nicholas.j.campbell@gmail.com>
 # Copyright (C) 2009, Robin Rosenberg <robin.rosenberg@gmail.com>
 # Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org>
@@ -54,6 +55,7 @@ O_DOC=jgit_docs.zip
 
 PLUGINS="
 	org.eclipse.jgit
+	org.eclipse.jgit.ui
 	org.eclipse.jgit.pgm
 "
 JARS="
