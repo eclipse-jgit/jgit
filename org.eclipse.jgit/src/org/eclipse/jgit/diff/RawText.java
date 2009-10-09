@@ -96,6 +96,7 @@ public class RawText implements Sequence {
 	 *
 	 * @param file
 	 *            the text file.
+	 * @throws IOException if Exceptions occur while reading the file
 	 */
 	public RawText(File file) throws IOException {
 		this(readFile(file));

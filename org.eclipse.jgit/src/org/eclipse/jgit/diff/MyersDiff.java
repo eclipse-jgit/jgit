@@ -44,23 +44,92 @@
 
 package org.eclipse.jgit.diff;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 import org.eclipse.jgit.util.IntList;
 import org.eclipse.jgit.util.LongList;
 
+/**
+ * Diff algorithm, based on "An O(ND) Difference Algorithm and its
+ * Variations", by Eugene Myers.
+ *
+ * The basic idea is to put the line numbers of text A as columns ("x") and the
+ * lines of text B as rows ("y").  Now you try to find the shortest "edit path"
+ * from the upper left corner to the lower right corner, where you can
+ * always go horizontally or vertically, but diagonally from (x,y) to
+ * (x+1,y+1) only if line x in text A is identical to line y in text B.
+ *
+ * Myers' fundamental concept is the "furthest reaching D-path on diagonal k":
+ * a D-path is an edit path starting at the upper left corner and containing
+ * exactly D non-diagonal elements ("differences").  The furthest reaching
+ * D-path on diagonal k is the one that contains the most (diagonal) elements
+ * which ends on diagonal k (where k = y - x).
+ *
+ * Example:
+ *
+ *    H E L L O   W O R L D
+ *    ____
+ *  L     \___
+ *  O         \___
+ *  W             \________
+ *
+ * Since every D-path has exactly D horizontal or vertical elements, it can
+ * only end on the diagonals -D, -D+2, ..., D-2, D.
+ *
+ * Since every furthest reaching D-path contains at least one furthest
+ * reaching (D-1)-path (except for D=0), we can construct them recursively.
+ *
+ * Since we are really interested in the shortest edit path, we can start
+ * looking for a 0-path, then a 1-path, and so on, until we find a path that
+ * ends in the lower right corner.
+ *
+ * To save space, we do not need to store all paths (which has quadratic space
+ * requirements), but generate the D-paths simultaneously from both sides.
+ * When the ends meet, we will have found "the middle" of the path.  From the
+ * end points of that diagonal part, we can generate the rest recursively.
+ *
+ * This only requires linear space.
+ *
+ * The overall (runtime) complexity is
+ *
+ *	O(N * D^2 + 2 * N/2 * (D/2)^2 + 4 * N/4 * (D/4)^2 + ...)
+ *	= O(N * D^2 * 5 / 4) = O(N * D^2),
+ *
+ * (With each step, we have to find the middle parts of twice as many regions
+ * as before, but the regions (as well as the D) are halved.)
+ *
+ * So the overall runtime complexity stays the same with linear space,
+ * albeit with a larger constant factor.
+ */
 public class MyersDiff {
+	/**
+	 * The list of edits found during the last call to {@link #calculateEdits()}
+	 */
 	protected EditList edits;
-	protected Sequence a, b;
 
+	/**
+	 * The first text to be compared. Referred to as "Text A" in the comments
+	 */
+	protected Sequence a;
+
+	/**
+	 * The second text to be compared. Referred to as "Text B" in the comments
+	 */
+	protected Sequence b;
+
+	/**
+	 * The only constructor
+	 *
+	 * @param a   the text A which should be compared
+	 * @param b   the text B which should be compared
+	 */
 	public MyersDiff(Sequence a, Sequence b) {
 		this.a = a;
 		this.b = b;
 		calculateEdits();
 	}
 
+	/**
+	 * @return the list of edits found during the last call to {@link #calculateEdits()}
+	 */
 	public EditList getEdits() {
 		return edits;
 	}
@@ -68,6 +137,10 @@ public class MyersDiff {
 	// TODO: use ThreadLocal for future multi-threaded operations
 	MiddleEdit middle = new MiddleEdit();
 
+	/**
+	 * Entrypoint into the algorithm this class is all about. This method triggers that the
+	 * differences between A and B are calculated in form of a list of edits.
+	 */
 	protected void calculateEdits() {
 		edits = new EditList();
 
@@ -80,6 +153,13 @@ public class MyersDiff {
 				middle.beginB, middle.endB);
 	}
 
+	/**
+	 * Calculates the differences between a given part of A against another given part of B
+	 * @param beginA start of the part of A which should be compared (0<=beginA<sizeof(A))
+	 * @param endA end of the part of A which should be compared (beginA<=endA<sizeof(A))
+	 * @param beginB start of the part of B which should be compared (0<=beginB<sizeof(B))
+	 * @param endB end of the part of B which should be compared (beginB<=endB<sizeof(B))
+	 */
 	protected void calculateEdits(int beginA, int endA,
 			int beginB, int endB) {
 		Edit edit = middle.calculate(beginA, endA, beginB, endB);
@@ -435,26 +515,9 @@ if (k < beginK || k > endK)
 		}
 	}
 
-	// debugging (TODO: remove)
-	public void print(Sequence s, int begin, int end) {
-		RawText raw = (RawText)s;
-		try {
-			while (begin < end) {
-				System.err.print("" + begin + ": ");
-				raw.writeLine(System.err, begin++);
-				System.err.println("");
-			}
-		} catch (Exception e) { e.printStackTrace(); }
-	}
-
-	public void print(int beginA, int endA, int beginB, int endB) {
-		System.err.println("<<<<<<");
-		print(a, beginA, endA);
-		System.err.println("======");
-		print(b, beginB, endB);
-		System.err.println(">>>>>>");
-	}
-
+	/**
+	 * @param args two filenames specifying the contents to be diffed
+	 */
 	public static void main(String[] args) {
 		if (args.length != 2) {
 			System.err.println("Need 2 arguments");
