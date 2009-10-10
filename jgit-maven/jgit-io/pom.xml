@@ -53,17 +53,17 @@
         <version>0.6.0-SNAPSHOT</version>
     </parent>
     <groupId>org.eclipse</groupId>
-    <artifactId>jgit</artifactId>
+    <artifactId>jgit-io</artifactId>
     <packaging>jar</packaging>
-    <name>jgit</name>
+    <name>jgit-io</name>
     <build>
-        <sourceDirectory>../../org.eclipse.jgit/src/</sourceDirectory>
+        <sourceDirectory>../../org.eclipse.jgit.io/src/</sourceDirectory>
         <testResources>
             <testResource>
                 <directory>../../org.eclipse.jgit.test/tst-rsrc/</directory>
             </testResource>
         </testResources>
-        <testSourceDirectory>../../org.eclipse.jgit.test/tst/</testSourceDirectory>
+        <testSourceDirectory>../../org.eclipse.jgit.io/tst/</testSourceDirectory>
     </build>
     <dependencies>
         <dependency>
@@ -71,12 +71,6 @@
             <artifactId>junit</artifactId>
             <version>3.8.1</version>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.jcraft</groupId>
-            <artifactId>jsch</artifactId>
-            <version>0.1.41</version>
-            <scope>compile</scope>
         </dependency>
     </dependencies>
 </project>
