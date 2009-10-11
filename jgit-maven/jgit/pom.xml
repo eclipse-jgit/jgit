@@ -50,7 +50,7 @@
     <artifactId>jgit</artifactId>
     <packaging>jar</packaging>
     <version>0.6.0-SNAPSHOT</version>
-    <name>jgit</name>
+    <name>JGit Core</name>
     <url>http://repo.or.cz/w/jgit.git</url>
     <mailingLists>
         <mailingList>
