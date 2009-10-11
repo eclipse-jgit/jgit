@@ -1,0 +1,155 @@
+/*
+ * Copyright (C) 2009, Imran M Yousuf <imyousuf@smartitengineering.com>
+ * and other copyright owners as documented in the project's IP log.
+ *
+ * This program and the accompanying materials are made available
+ * under the terms of the Eclipse Distribution License v1.0 which
+ * accompanies this distribution, is reproduced below, and is
+ * available at http://www.eclipse.org/org/documents/edl-v10.php
+ *
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or
+ * without modification, are permitted provided that the following
+ * conditions are met:
+ *
+ * - Redistributions of source code must retain the above copyright
+ *   notice, this list of conditions and the following disclaimer.
+ *
+ * - Redistributions in binary form must reproduce the above
+ *   copyright notice, this list of conditions and the following
+ *   disclaimer in the documentation and/or other materials provided
+ *   with the distribution.
+ *
+ * - Neither the name of the Eclipse Foundation, Inc. nor the
+ *   names of its contributors may be used to endorse or promote
+ *   products derived from this software without specific prior
+ *   written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND
+ * CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
+ * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+ * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package org.eclipse.jgit.io;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URI;
+
+/**
+ * Represents each entry in a storage system. For example, in a local filesystem
+ * storage it would represent {@link java.io.File}. Here the storage system
+ * mainly refers to where repository meta data such as git objects, ref logs,
+ * packs are stored; for example a '.git' directory and all its contents in a
+ * clone repo would correspond to an entry.
+ * @author Imran M Yousuf (imyousuf at smartitengineering.com)
+ * @since 0.6
+ */
+public interface Entry {
+
+  /**
+   * Retrieves the name of the entry
+   * @return Name of the entry
+   */
+  public String getName();
+
+  /**
+   * Retrieves the absolute path of the entry.
+   * @return Absoluth path
+   */
+  public String getAbsolutePath();
+
+  /**
+   * Retrieves whether the entry represents a directory or not
+   * @return True if represents a directory else false
+   */
+  public boolean isDirectory();
+
+  /**
+   * Signifies whether the entry is a new one or being read from the
+   * persistent storage
+   * @return True if being read form storage else false
+   */
+  public boolean isExists();
+
+  /**
+   * Make directories upto the entry represented by this instance, provided
+   * that this instance itself is a directory.
+   * @return True if directories were created.
+   */
+  public boolean mkdirs();
+
+  /**
+   * Retrieves the URI of this entry. URI in this case acts as a primary key
+   * to identify an entry.
+   * @return URI to identify this entry instance
+   */
+  public URI getURI();
+
+  /**
+   * Retrieves the length of the entry if its predictable.
+   * @return < 0 if the length is unpredictable else the length of the entry's
+   *         content
+   */
+  public long length();
+
+  /**
+   * Retrieves the InputStream for reading the content of the entry
+   * @return Input stream to read entry content
+   * @throws IOException If no such file exists or there is any other error
+   */
+  public InputStream getInputStream()
+          throws IOException;
+
+  /**
+   * Retrieves the OutputStream for writing content into the entry. It can be
+   * opened to either overwrite it or append to it.
+   * @param overwrite False if to write in append mode else true
+   * @return Output stream to write content to
+   * @throws IOException If no such file exists in append mode or there is any
+   *                     error in retrieving it.
+   */
+  public OutputStream getOutputStream(boolean overwrite)
+          throws IOException;
+
+  /**
+   * Retrieve all the child entries of this entries if its a directory.
+   * @return If not a directory then a empty array else array of sub-entries.
+   */
+  public Entry[] getChildren();
+
+  /**
+   * Retrieve a specific child of an entry. It will basically match
+   * {@link Entry#getName() name} of the children to find and that too only
+   * the direct children.
+   * @param name Name of the child to find
+   * @return If child is not found then NULL or else the child specified by
+   *         the name
+   */
+  public Entry getChild(String name);
+
+  /**
+   * Retrieve the parent entry of the current entry.
+   * @return NULL if no parent or else the direct parent of the current entry
+   */
+  public Entry getParent();
+
+  /**
+   * Retrieve the storage system this entry either is from or will be
+   * persisted to.
+   * @return Storage system of the entry, will never be NULL.
+   */
+  public StorageSystem getStorageSystem();
+}
