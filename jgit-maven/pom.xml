@@ -204,5 +204,6 @@
     </distributionManagement>
     <modules>
         <module>jgit</module>
+        <module>jgit-ui</module>
     </modules>
 </project>
