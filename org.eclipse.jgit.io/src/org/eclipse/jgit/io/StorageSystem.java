@@ -72,4 +72,20 @@ public interface StorageSystem {
    * @return Entry for current working directory.
    */
   public Entry getWorkingDirectory();
+
+  /**
+   * Retrieve the home directory of the current user
+   * @return Home directory
+   */
+  public Entry getHomeDirectory();
+
+  /**
+   * Resolve relative path with respect to a path and return the absolute
+   * entry representing the relative path.
+   * @param entry The point of reference for the relative path
+   * @param path The relative path
+   * @return The absolute entry representing the relative path entry
+   */
+  public Entry resolve(Entry entry,
+                       String path);
 }

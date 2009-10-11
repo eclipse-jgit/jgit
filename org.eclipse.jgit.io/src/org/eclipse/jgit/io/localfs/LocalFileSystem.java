@@ -43,8 +43,14 @@
 
 package org.eclipse.jgit.io.localfs;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.lang.reflect.Method;
 import java.net.URI;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 import org.eclipse.jgit.io.Entry;
 import org.eclipse.jgit.io.StorageSystem;
 
@@ -57,6 +63,14 @@ public class LocalFileSystem
         implements StorageSystem {
 
   public static final String PROTOCOL_FILE = "file";
+  public static final Platform platform;
+  public static Method canExecute;
+  public static Method setExecute;
+  public static String cygpath;
+
+  static {
+    platform = Platform.detect();
+  }
 
   public String getURIScheme() {
     return PROTOCOL_FILE;
@@ -74,5 +88,150 @@ public class LocalFileSystem
   public Entry getWorkingDirectory() {
     String curDir = System.getProperty("user.dir");
     return new LocalFileEntry(new File(curDir), this);
+  }
+
+  public Entry resolve(Entry entry,
+                       String path) {
+    if (!(entry instanceof LocalFileEntry)) {
+      return null;
+    }
+    LocalFileEntry fileEntry = (LocalFileEntry) entry;
+    File localFile = fileEntry.getLocalFile();
+    if (platform.equals(Platform.WIN32_CYGWIN)) {
+      try {
+        final Process p;
+
+        p = Runtime.getRuntime().exec(
+                new String[] {cygpath, "--windows", "--absolute", path},
+                null, localFile);
+        p.getOutputStream().close();
+
+        final BufferedReader lineRead = new BufferedReader(
+                new InputStreamReader(p.getInputStream(), "UTF-8"));
+        String r = null;
+        try {
+          r = lineRead.readLine();
+        }
+        finally {
+          lineRead.close();
+        }
+
+        for (;;) {
+          try {
+            if (p.waitFor() == 0 && r != null && r.length() > 0) {
+              return new LocalFileEntry(new File(r), this);
+            }
+            break;
+          }
+          catch (InterruptedException ie) {
+            // Stop bothering me, I have a zombie to reap.
+          }
+        }
+      }
+      catch (IOException ioe) {
+        // Fall through and use the default return.
+      }
+
+    }
+    final File abspn = new File(path);
+    if (abspn.isAbsolute()) {
+      return new LocalFileEntry(abspn, this);
+    }
+    return new LocalFileEntry(new File(localFile, path), this);
+  }
+
+  public Entry getHomeDirectory() {
+    if (platform.equals(Platform.WIN32_CYGWIN)) {
+      final String home = AccessController.doPrivileged(new PrivilegedAction<String>() {
+
+        public String run() {
+          return System.getenv("HOME");
+        }
+      });
+      if (!(home == null || home.length() == 0)) {
+        return resolve(new LocalFileEntry(new File("."), this), home);
+      }
+    }
+    final String home = AccessController.doPrivileged(new PrivilegedAction<String>() {
+
+      public String run() {
+        return System.getProperty("user.home");
+      }
+    });
+    if (home == null || home.length() == 0) {
+      return null;
+    }
+    return new LocalFileEntry(new File(home).getAbsoluteFile(), this);
+  }
+
+  public enum Platform {
+
+    WIN32_CYGWIN(false),
+    WIN32(false),
+    POSIX_JAVA5(false),
+    POSIX_JAVA6(true);
+    private boolean executableSupproted;
+
+    private Platform(boolean executableSupproted) {
+      this.executableSupproted = executableSupproted;
+    }
+
+    public boolean isExecutableSupproted() {
+      return executableSupproted;
+    }
+
+    public static Platform detect() {
+      final String osDotName = AccessController.doPrivileged(new PrivilegedAction<String>() {
+
+        public String run() {
+          return System.getProperty("os.name");
+        }
+      });
+      if (osDotName != null &&
+          osDotName.toLowerCase().indexOf("windows") != -1) {
+        final String path = AccessController.doPrivileged(new PrivilegedAction<String>() {
+
+          public String run() {
+            return System.getProperty("java.library.path");
+          }
+        });
+        if (path == null) {
+          return WIN32;
+        }
+        for (final String p : path.split(";")) {
+          final File e = new File(p, "cygpath.exe");
+          if (e.isFile()) {
+            cygpath = e.getAbsolutePath();
+            return WIN32_CYGWIN;
+          }
+        }
+        return WIN32;
+      }
+      else {
+        canExecute = needMethod(File.class, "canExecute");
+        setExecute = needMethod(File.class, "setExecutable",
+                Boolean.TYPE);
+        if (canExecute != null && setExecute != null) {
+          return POSIX_JAVA6;
+        }
+        else {
+          return POSIX_JAVA5;
+        }
+      }
+    }
+
+    private static Method needMethod(final Class<?> on,
+                                     final String name,
+                                     final Class<?>... args) {
+      try {
+        return on.getMethod(name, args);
+      }
+      catch (SecurityException e) {
+        return null;
+      }
+      catch (NoSuchMethodException e) {
+        return null;
+      }
+    }
   }
 }

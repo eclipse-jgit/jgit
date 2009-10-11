@@ -85,11 +85,42 @@ public interface Entry {
   public boolean isExists();
 
   /**
+   * Does this operating system and JRE support the execute flag on entries?
+   *
+   * @return true if this implementation can provide reasonably accurate
+   *         executable bit information; false otherwise.
+   */
+  public boolean isExecutableSupported();
+
+  /**
+   * Determine if the entry is executable (or not).
+   * <p>
+   * Not all platforms and JREs support executable flags on entries. If the
+   * feature is unsupported this method will always return false.
+   *
+   * @return true if the entry is believed to be executable by the user.
+   */
+  public boolean isExecutable();
+
+  /**
    * Make directories upto the entry represented by this instance, provided
    * that this instance itself is a directory.
    * @return True if directories were created.
    */
   public boolean mkdirs();
+
+  /**
+   * Set an entry to be executable by the user.
+   * <p>
+   * Not all platforms and JREs support executable flags on entries. If the
+   * feature is unsupported this method will always return false and no
+   * changes will be made to the entry specified.
+   *
+   * @param executable
+   *            true to enable execution; false to disable it.
+   * @return true if the change succeeded; false otherwise.
+   */
+  public boolean setExecutable(boolean executable);
 
   /**
    * Retrieves the URI of this entry. URI in this case acts as a primary key
@@ -108,7 +139,7 @@ public interface Entry {
   /**
    * Retrieves the InputStream for reading the content of the entry
    * @return Input stream to read entry content
-   * @throws IOException If no such file exists or there is any other error
+   * @throws IOException If no such entry exists or there is any other error
    */
   public InputStream getInputStream()
           throws IOException;
@@ -118,7 +149,7 @@ public interface Entry {
    * opened to either overwrite it or append to it.
    * @param overwrite False if to write in append mode else true
    * @return Output stream to write content to
-   * @throws IOException If no such file exists in append mode or there is any
+   * @throws IOException If no such entry exists in append mode or there is any
    *                     error in retrieving it.
    */
   public OutputStream getOutputStream(boolean overwrite)
