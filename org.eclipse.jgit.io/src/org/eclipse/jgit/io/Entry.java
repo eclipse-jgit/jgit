@@ -43,6 +43,7 @@
 
 package org.eclipse.jgit.io;
 
+import org.eclipse.jgit.io.lock.Lockable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -57,7 +58,8 @@ import java.net.URI;
  * @author Imran M Yousuf (imyousuf at smartitengineering.com)
  * @since 0.6
  */
-public interface Entry {
+public interface Entry
+        extends Lockable {
 
   /**
    * Retrieves the name of the entry
@@ -145,12 +147,26 @@ public interface Entry {
           throws IOException;
 
   /**
-   * Retrieves the OutputStream for writing content into the entry. It can be
-   * opened to either overwrite it or append to it.
+   * Retrieves a locked channeled output stream. When the output stream is closed
+   * the channel is released automatically.
+   * @param overwrite False if to write in append mode else true
+   * @param lock Whether to attain lock or not
+   * @return Output stream to write content to
+   * @throws IOException If no such entry exists in append mode or there is any
+   *                     error in retrieving it or retrieving the lock.
+   */
+  public OutputStream getOutputStream(boolean overwrite,
+                                      boolean lock)
+          throws IOException;
+
+  /**
+   * Behaves in as if {@link Entry#getOutputStream(boolean, boolean)} is called
+   * with lock param as false.
    * @param overwrite False if to write in append mode else true
    * @return Output stream to write content to
    * @throws IOException If no such entry exists in append mode or there is any
    *                     error in retrieving it.
+   * @see Entry#getOutputStream(boolean, boolean) 
    */
   public OutputStream getOutputStream(boolean overwrite)
           throws IOException;
@@ -176,6 +192,28 @@ public interface Entry {
    * @return NULL if no parent or else the direct parent of the current entry
    */
   public Entry getParent();
+
+  /**
+   * Create this entry in the underlying system storage.
+   * @return True if created else false
+   * @throws IOException If any I/O during creation
+   */
+  public boolean createNew()
+          throws IOException;
+
+  /**
+   * Delete current entry
+   * @return True if deleted successfully else false
+   * @throws IOException If any error during writing
+   */
+  public boolean delete()
+          throws IOException;
+
+  /**
+   * Retrieve the entry for lock file
+   * @return Null if lock is attained else null
+   */
+  public Entry getLockEntry();
 
   /**
    * Retrieve the storage system this entry either is from or will be

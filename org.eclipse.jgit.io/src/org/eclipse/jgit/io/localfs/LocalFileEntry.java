@@ -52,9 +52,13 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
+import java.nio.channels.FileLock;
+import java.nio.channels.OverlappingFileLockException;
+import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.io.Entry;
 import org.eclipse.jgit.io.StorageSystem;
 import org.eclipse.jgit.io.StorageSystemManager;
+import org.eclipse.jgit.io.lock.AbstractLockable;
 
 /**
  * Entry implementation for local file system. This class should not be
@@ -65,10 +69,15 @@ import org.eclipse.jgit.io.StorageSystemManager;
  * @since 0.6
  */
 public class LocalFileEntry
+        extends AbstractLockable
         implements Entry {
 
+  public static final String LOCK_FILE_EXT = ".lock";
+  public static final long DEFAULT_WAIT_TIME_MS = 200;
   private File localFile;
   private LocalFileSystem storageSystem;
+  private File localLockFile;
+  private String lockFileName;
 
   /**
    * Contructs an entry based of on the local file system storage and a file
@@ -159,25 +168,86 @@ public class LocalFileEntry
     }
   }
 
-  public OutputStream getOutputStream(boolean overwrite)
+  public OutputStream getOutputStream(boolean overwrite,
+                                      boolean lock)
           throws IOException {
+    final FileOutputStream fileOutputStream;
     try {
       if (!isExists()) {
-
-        return new FileOutputStream(getLocalFile());
+        fileOutputStream = new FileOutputStream(getLocalFile());
       }
       else {
         if (overwrite) {
-          return new FileOutputStream(getLocalFile());
+          fileOutputStream = new FileOutputStream(getLocalFile());
         }
         else {
-          return new FileOutputStream(getLocalFile(), true);
+          fileOutputStream = new FileOutputStream(getLocalFile(), true);
         }
       }
+      if (lock) {
+        final FileLock fileLock;
+        try {
+          fileLock = fileOutputStream.getChannel().lock();
+        }
+        catch (IOException ex) {
+          fileOutputStream.close();
+          throw ex;
+        }
+        catch (Exception ex) {
+          fileOutputStream.close();
+          throw new IOException(ex);
+        }
+        if (fileLock == null) {
+          fileOutputStream.close();
+          throw new OverlappingFileLockException();
+        }
+        return new OutputStream() {
+
+          @Override
+          public void write(int b)
+                  throws IOException {
+            fileOutputStream.write(b);
+          }
+
+          @Override
+          public void close()
+                  throws IOException {
+            fileLock.release();
+            fileOutputStream.close();
+          }
+
+          @Override
+          public void flush()
+                  throws IOException {
+            fileOutputStream.flush();
+          }
+
+          @Override
+          public void write(byte[] b)
+                  throws IOException {
+            fileOutputStream.write(b);
+          }
+
+          @Override
+          public void write(byte[] b,
+                            int off,
+                            int len)
+                  throws IOException {
+            fileOutputStream.write(b, off, len);
+          }
+        };
+      }
+      return fileOutputStream;
     }
     catch (FileNotFoundException ex) {
       throw ex;
     }
+
+  }
+
+  public OutputStream getOutputStream(boolean overwrite)
+          throws IOException {
+    return getOutputStream(overwrite, false);
   }
 
   public Entry[] getChildren() {
@@ -267,6 +337,103 @@ public class LocalFileEntry
     }
     catch (InvocationTargetException e) {
       throw new Error(e);
+    }
+  }
+
+  public boolean createNew()
+          throws IOException {
+    return getLocalFile().createNewFile();
+  }
+
+  public boolean delete()
+          throws IOException {
+    return getLocalFile().delete();
+  }
+
+  public Entry getLockEntry() {
+    if (localLockFile == null) {
+      return null;
+    }
+    else {
+      return getStorageSystem().getEntry(localLockFile.toURI());
+    }
+  }
+
+  @Override
+  protected void performLock()
+          throws Exception {
+    boolean lock = performTryLock(Long.MAX_VALUE, TimeUnit.MILLISECONDS);
+    if (!lock) {
+      throw new IOException("Could not attain lock!");
+    }
+  }
+
+  @Override
+  protected boolean performTryLock(long time,
+                                   TimeUnit unit) {
+    final long milliSecTime = TimeUnit.MILLISECONDS.convert(time, unit);
+    long waitLeft = milliSecTime;
+    boolean tryAgain = true;
+    do {
+      long nextWaitDuration = Math.min(waitLeft, DEFAULT_WAIT_TIME_MS);
+      waitLeft = waitLeft - nextWaitDuration;
+      boolean success = performTryLock();
+      if (success) {
+        return success;
+      }
+      else {
+        if (nextWaitDuration > 0) {
+          try {
+            Thread.sleep(nextWaitDuration);
+          }
+          catch (InterruptedException ex) {
+          }
+        }
+        else {
+          tryAgain = false;
+        }
+      }
+    }
+    while (tryAgain);
+    return false;
+  }
+
+  @Override
+  protected boolean performTryLock() {
+    StringBuilder lockFileNameBuilder = new StringBuilder();
+    if (this.lockFileName == null) {
+      lockFileNameBuilder.append(getLocalFile().getName());
+      lockFileNameBuilder.append(LOCK_FILE_EXT);
+      this.lockFileName = lockFileNameBuilder.toString();
+    }
+    final File parent = getLocalFile().getParentFile();
+    if (parent != null) {
+      parent.mkdirs();
+    }
+    localLockFile = new File(parent, this.lockFileName);
+    if (localLockFile.exists()) {
+      localLockFile = null;
+      return false;
+    }
+    else {
+      boolean createNewFile;
+      try {
+        createNewFile = localLockFile.createNewFile();
+      }
+      catch (IOException ex) {
+        createNewFile = false;
+      }
+      if (!createNewFile) {
+        localLockFile = null;
+      }
+      return createNewFile;
+    }
+  }
+
+  @Override
+  protected void performUnlock() {
+    if (localLockFile != null) {
+      localLockFile.delete();
     }
   }
 }
