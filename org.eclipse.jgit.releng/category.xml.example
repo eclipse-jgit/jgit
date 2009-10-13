@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site pack200="true">
+	<!--
+	This template will expand any embedded Ant properties using <expandproperties/>.
+
+	Rename this file to category.xml for Athena to notice it and use it instead of generating
+	a default site.xml with all features shown in a single category.
+
+
+	For any feature id="org.eclipse.foo", set version="${org.eclipse.foo.version}" and
+		url="features/org.eclipse.foo_${org.eclipse.foo.version}"
+
+	if "${buildAlias}" == "${buildID}"
+		${category.name} == "${zipPrefix} ${version} ${buildID}"
+	else
+		${category.name} == "${zipPrefix} ${buildAlias} ${buildID}"
+	-->
+
+		<!-- ${category.name} -->
+		<category-def label="${category.name}" name="${category.name}">
+			<description>
+				${category.name}: contains individual runtimes and an all-in-one feature (runtimes, sources, docs, and examples).
+			</description>
+		</category-def>
+
+		<feature id="org.eclipse.jgit" version="${org.eclipse.jgit.version}" url="features/org.eclipse.jgit_${org.eclipse.jgit.version}.jar" patch="false">
+			<category name="${category.name}"/>
+		</feature>
+
+</site>

@@ -1,0 +1,44 @@
+<project default="run" name="org.eclipse.pde.visualization.releng/promote.xml - Promote a build from build server to production server">
+	<target name="run">
+		<!--
+			To use this script, you must have configured a promote.properties file.
+
+			Then, run commandline:
+
+			ant -f promote.xml
+
+			If you need to reuse this script with multiple properties files (eg., from
+			multiple Hudson builds across multiple branches), use the commandline
+			flag -Dpromote.properties:
+
+			ant -f promote.xml -Dpromote.properties=promote.properties.R2_0_branch
+		-->
+		<property name="promote.properties" value="promote.properties" />
+		<property file="${promote.properties}"/>
+
+		<!-- load build properties -->
+		<property file="build.properties" />
+
+		<!-- calculate workspaceDir as parent of this folder, the project's .releng folder (relengBuilderDir) -->
+		<property name="relengBuilderDir" value="${basedir}" />
+		<dirname file="${relengBuilderDir}" property="workspaceDir" />
+
+		<!--
+			can build in /tmp, eg., in /tmp/build, or in workspace, eg.,
+			${relengBuilderDir}/build
+		-->
+		<property name="writableBuildRoot" value="/tmp/build" />
+
+		<!--
+			can be simple path, eg.,
+			${writableBuildRoot}/${buildType}${buildTimestamp} or longer, eg.,
+			${writableBuildRoot}/${topprojectName}/${projectName}/downloads/drops/${version}/${buildType}${buildTimestamp} or
+			${writableBuildRoot}/${topprojectName}/${projectName}/${subprojectName}/downloads/drops/${version}/${buildType}${buildTimestamp}
+		-->
+		<property name="buildDir" value="${writableBuildRoot}/${buildType}${buildTimestamp}-ve" />
+
+		<!-- invoke common promotion script -->
+		<property name="relengCommonBuilderDir" value="${workspaceDir}/org.eclipse.dash.common.releng" />
+		<ant antfile="${relengCommonBuilderDir}/promote.xml" dir="${relengCommonBuilderDir}" />
+	</target>
+</project>
