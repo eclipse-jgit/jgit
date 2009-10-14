@@ -5,6 +5,5 @@ feature@org.eclipse.jgit.feature=SVN,trunk,svn://dev.eclipse.org/svnroot/technol
 plugin@org.eclipse.jgit=SVN,trunk,svn://dev.eclipse.org/svnroot/technology/org.eclipse.egit/jgit,,org.eclipse.jgit
 
 !*** orbit dependencies
-plugin@org.kohsuke.args4j,2.0.12=p2IU,id=org.kohsuke.args4j,version=2.0.12.v200902170519,repository=http://download.eclipse.org/tools/orbit/downloads/drops/S20090911225403/updateSite
 plugin@javax.servlet,2.5.0=p2IU,id=javax.servlet,version=2.5.0.v200806031605,repository=http://download.eclipse.org/tools/orbit/downloads/drops/S20090911225403/updateSite
 plugin@com.jcraft.jsch,0.1.41=p2IU,id=com.jcraft.jsch,version=0.1.41.v200903070017,repository=http://download.eclipse.org/tools/orbit/downloads/drops/S20090911225403/updateSite
