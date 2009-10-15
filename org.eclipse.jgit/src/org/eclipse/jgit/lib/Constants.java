@@ -255,6 +255,9 @@ public final class Constants {
 	/** Beginning of the common "Signed-off-by: " commit message line */
 	public static final String SIGNED_OFF_BY_TAG = "Signed-off-by: ";
 
+	/** A gitignore file name */
+	public static final String GITIGNORE_FILENAME = ".gitignore";
+
 	/**
 	 * Create a new digest function for objects.
 	 * 
