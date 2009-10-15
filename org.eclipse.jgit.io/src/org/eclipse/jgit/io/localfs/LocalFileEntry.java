@@ -52,9 +52,11 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
+import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.io.Entry;
 import org.eclipse.jgit.io.StorageSystem;
 import org.eclipse.jgit.io.StorageSystemManager;
+import org.eclipse.jgit.io.lock.AbstractLockable;
 
 /**
  * Entry implementation for local file system. This class should not be
@@ -65,8 +67,11 @@ import org.eclipse.jgit.io.StorageSystemManager;
  * @since 0.6
  */
 public class LocalFileEntry
+        extends AbstractLockable
         implements Entry {
 
+  public static final String LOCK_FILE_EXT = ".lock";
+  public static final long DEFAULT_WAIT_TIME_MS = 200;
   private File localFile;
   private LocalFileSystem storageSystem;
 
@@ -159,25 +164,55 @@ public class LocalFileEntry
     }
   }
 
-  public OutputStream getOutputStream(boolean overwrite)
+  public OutputStream getOutputStream(boolean overwrite,
+                                      boolean lock)
           throws IOException {
-    try {
-      if (!isExists()) {
+    final OutputStream fileOutputStream;
+    final File outstreamFile;
+    if (lock) {
+      boolean newLock = !isHeldByCurrentThread();
+      if (!tryLock()) {
+        throw new IOException("Could not attain lock!");
+      }
+      outstreamFile = getLockFile();
+      if (newLock) {
+        fileOutputStream = new GitLockOutputStream(getLocalFile(), outstreamFile,
+                overwrite) {
 
-        return new FileOutputStream(getLocalFile());
+          @Override
+          public void close()
+                  throws IOException {
+            super.close();
+            unlock();
+          }
+        };
+      }
+      else {
+        fileOutputStream = new GitLockOutputStream(getLocalFile(), outstreamFile,
+                overwrite);
+      }
+
+    }
+    else {
+      outstreamFile = getLocalFile();
+      if (!isExists()) {
+        fileOutputStream = new FileOutputStream(outstreamFile);
       }
       else {
         if (overwrite) {
-          return new FileOutputStream(getLocalFile());
+          fileOutputStream = new FileOutputStream(outstreamFile);
         }
         else {
-          return new FileOutputStream(getLocalFile(), true);
+          fileOutputStream = new FileOutputStream(outstreamFile, true);
         }
       }
     }
-    catch (FileNotFoundException ex) {
-      throw ex;
-    }
+    return fileOutputStream;
+  }
+
+  public OutputStream getOutputStream(boolean overwrite)
+          throws IOException {
+    return getOutputStream(overwrite, false);
   }
 
   public Entry[] getChildren() {
@@ -268,5 +303,99 @@ public class LocalFileEntry
     catch (InvocationTargetException e) {
       throw new Error(e);
     }
+  }
+
+  public boolean create()
+          throws IOException {
+    return getLocalFile().createNewFile();
+  }
+
+  public boolean delete()
+          throws IOException {
+    return getLocalFile().delete();
+  }
+
+  @Override
+  protected void performLock()
+          throws Exception {
+    boolean lock = performTryLock(Long.MAX_VALUE, TimeUnit.MILLISECONDS);
+    if (!lock) {
+      throw new IOException("Could not attain lock!");
+    }
+  }
+
+  @Override
+  protected boolean performTryLock(long time,
+                                   TimeUnit unit) {
+    final long milliSecTime = TimeUnit.MILLISECONDS.convert(time, unit);
+    long waitLeft = milliSecTime;
+    boolean tryAgain = true;
+    do {
+      long nextWaitDuration = Math.min(waitLeft, DEFAULT_WAIT_TIME_MS);
+      waitLeft = waitLeft - nextWaitDuration;
+      boolean success = performTryLock();
+      if (success) {
+        return success;
+      }
+      else {
+        if (nextWaitDuration > 0) {
+          try {
+            Thread.sleep(nextWaitDuration);
+          }
+          catch (InterruptedException ex) {
+          }
+        }
+        else {
+          tryAgain = false;
+        }
+      }
+    }
+    while (tryAgain);
+    return false;
+  }
+
+  @Override
+  protected boolean performTryLock() {
+    return createLockFile() != null;
+  }
+
+  @Override
+  protected void performUnlock() {
+    final File lockFile = getLockFile();
+    if (lockFile.exists()) {
+      lockFile.delete();
+    }
+  }
+
+  protected File getLockFile() {
+    StringBuilder lockFileNameBuilder = new StringBuilder();
+    lockFileNameBuilder.append(getLocalFile().getName());
+    lockFileNameBuilder.append(LOCK_FILE_EXT);
+    final File parent = getLocalFile().getParentFile();
+    if (parent != null) {
+      parent.mkdirs();
+    }
+    File localLockFile = new File(parent, lockFileNameBuilder.toString());
+    return localLockFile;
+  }
+
+  protected File createLockFile() {
+    File localLockFile = getLockFile();
+    if (localLockFile.exists()) {
+      localLockFile = null;
+    }
+    else {
+      boolean createNewFile;
+      try {
+        createNewFile = localLockFile.createNewFile();
+      }
+      catch (IOException ex) {
+        createNewFile = false;
+      }
+      if (!createNewFile) {
+        localLockFile = null;
+      }
+    }
+    return localLockFile;
   }
 }
