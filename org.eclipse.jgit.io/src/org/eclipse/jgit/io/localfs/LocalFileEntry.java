@@ -315,6 +315,10 @@ public class LocalFileEntry
     return getLocalFile().delete();
   }
 
+  public long getLastModifiedDate() {
+    return getLocalFile().lastModified();
+  }
+
   @Override
   protected void performLock()
           throws Exception {

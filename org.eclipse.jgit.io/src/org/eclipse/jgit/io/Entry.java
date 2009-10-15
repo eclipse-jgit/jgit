@@ -215,6 +215,12 @@ public interface Entry
           throws IOException;
 
   /**
+   * Retrieve the last date the entry was modified.
+   * @return Long representing the last modification date.
+   */
+  public long getLastModifiedDate();
+
+  /**
    * Retrieve the storage system this entry either is from or will be
    * persisted to.
    * @return Storage system of the entry, will never be NULL.
