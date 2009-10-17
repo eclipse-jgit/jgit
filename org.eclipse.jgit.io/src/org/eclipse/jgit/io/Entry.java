@@ -226,4 +226,34 @@ public interface Entry
    * @return Storage system of the entry, will never be NULL.
    */
   public StorageSystem getStorageSystem();
+
+  /**
+   * Check whether this entry instance supports random access or not.
+   * @return True if random access is supported else false.
+   */
+  public boolean isRandomAccessSupported();
+
+  /**
+   * Read a byte sequence randomly. It could be particularly be useful to check
+   * some format or checksum of a file. It might not be supported by
+   * implementations, thus before using it plese check it is
+   * {@link #isRandomAccessSupported() supported or not}.
+   * @param position Position in the file to start reading from
+   * @param size How many bytes to read
+   * @param buffer The buffer to fill the read data
+   * @param offset Offset to start filling buffer from
+   * @return If buffer.length &lt; offset+size or buffer is null it will return a
+   *         new buffer instance.
+   * @throws UnsupportedOperationException If {@link #isRandomAccessSupported()}
+   *                                       is false
+   * @throws IllegalArgumentException If size, position or offset non-positive
+   * @throws IOException If there is any exception while reading
+   */
+  public byte[] readRandomly(long position,
+                             int size,
+                             byte[] buffer,
+                             int offset)
+          throws UnsupportedOperationException,
+                 IllegalArgumentException,
+                 IOException;
 }

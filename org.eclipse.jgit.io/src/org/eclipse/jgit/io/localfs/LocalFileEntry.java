@@ -50,8 +50,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.RandomAccessFile;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
+import java.nio.ByteBuffer;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.io.Entry;
 import org.eclipse.jgit.io.StorageSystem;
@@ -317,6 +319,40 @@ public class LocalFileEntry
 
   public long getLastModifiedDate() {
     return getLocalFile().lastModified();
+  }
+
+  public boolean isRandomAccessSupported() {
+    return true;
+  }
+
+  public byte[] readRandomly(long position,
+                             int size,
+                             byte[] buffer,
+                             int offset)
+          throws UnsupportedOperationException,
+                 IllegalArgumentException,
+                 IOException {
+    if (position < 0 || size <= 0 ||
+        (buffer != null && (offset < 0 || (offset + size) > buffer.length))) {
+      throw new IllegalArgumentException("Position must be non-negative, " +
+                                         "size must be non-zero positive, " +
+                                         "offset+size must be < buffer.length!");
+    }
+    if(!getLocalFile().exists()) {
+      throw new IOException("File does not exist");
+    }
+    final byte[] result;
+    if(buffer == null) {
+      result = new byte[size];
+      offset = 0;
+    }
+    else {
+      result = buffer;
+    }
+    RandomAccessFile raf = new RandomAccessFile(getLocalFile(), "r");
+    raf.getChannel().read(ByteBuffer.wrap(result, offset, size), position);
+    raf.close();
+    return result;
   }
 
   @Override
