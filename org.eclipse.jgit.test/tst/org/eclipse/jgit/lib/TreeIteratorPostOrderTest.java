@@ -59,7 +59,7 @@ public class TreeIteratorPostOrderTest extends RepositoryTestCase {
 
 	/**
 	 * one file
-	 * 
+	 *
 	 * @throws IOException
 	 */
 	public void testSimpleF1() throws IOException {
@@ -75,7 +75,7 @@ public class TreeIteratorPostOrderTest extends RepositoryTestCase {
 
 	/**
 	 * two files
-	 * 
+	 *
 	 * @throws IOException
 	 */
 	public void testSimpleF2() throws IOException {
@@ -93,7 +93,7 @@ public class TreeIteratorPostOrderTest extends RepositoryTestCase {
 
 	/**
 	 * Empty tree
-	 * 
+	 *
 	 * @throws IOException
 	 */
 	public void testSimpleT() throws IOException {
@@ -106,7 +106,7 @@ public class TreeIteratorPostOrderTest extends RepositoryTestCase {
 		assertEquals("", i.next().getFullName());
 		assertFalse(i.hasNext());
 	}
-	
+
 	public void testTricky() throws IOException {
 		Tree tree = new Tree(db);
 		tree.addFile("a.b");

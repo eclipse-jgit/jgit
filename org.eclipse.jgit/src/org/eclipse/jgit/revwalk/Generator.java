@@ -55,7 +55,7 @@ import org.eclipse.jgit.errors.MissingObjectException;
  * Conceptually a Generator is an iterator or a queue, it returns commits until
  * there are no more relevant. Generators may be piped/stacked together to
  * create a more complex set of operations.
- * 
+ *
  * @see PendingGenerator
  * @see StartGenerator
  */
@@ -77,7 +77,7 @@ abstract class Generator {
 
 	/**
 	 * Connect the supplied queue to this generator's own free list (if any).
-	 * 
+	 *
 	 * @param q
 	 *            another FIFO queue that wants to share our queue's free list.
 	 */
@@ -87,7 +87,7 @@ abstract class Generator {
 
 	/**
 	 * Obtain flags describing the output behavior of this generator.
-	 * 
+	 *
 	 * @return one or more of the constants declared in this class, describing
 	 *         how this generator produces its results.
 	 */
@@ -95,7 +95,7 @@ abstract class Generator {
 
 	/**
 	 * Return the next commit to the application, or the next generator.
-	 * 
+	 *
 	 * @return next available commit; null if no more are to be returned.
 	 * @throws MissingObjectException
 	 * @throws IncorrectObjectTypeException

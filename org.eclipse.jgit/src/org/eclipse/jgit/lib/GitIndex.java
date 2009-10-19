@@ -210,7 +210,7 @@ public class GitIndex {
 	 * @param f
 	 *            the file whose path shall be removed.
 	 * @return true if such a path was found (and thus removed)
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	public boolean remove(File wd, File f) throws IOException {
 		byte[] key = makeKey(wd, f);
@@ -530,13 +530,13 @@ public class GitIndex {
 		}
 
 		/**
-		 * Check if an entry's content is different from the cache, 
-		 * 
+		 * Check if an entry's content is different from the cache,
+		 *
 		 * File status information is used and status is same we
 		 * consider the file identical to the state in the working
 		 * directory. Native git uses more stat fields than we
 		 * have accessible in Java.
-		 * 
+		 *
 		 * @param wd working directory to compare content with
 		 * @return true if content is most likely different.
 		 */
@@ -545,17 +545,17 @@ public class GitIndex {
 		}
 
 		/**
-		 * Check if an entry's content is different from the cache, 
-		 * 
+		 * Check if an entry's content is different from the cache,
+		 *
 		 * File status information is used and status is same we
 		 * consider the file identical to the state in the working
 		 * directory. Native git uses more stat fields than we
 		 * have accessible in Java.
-		 * 
+		 *
 		 * @param wd working directory to compare content with
 		 * @param forceContentCheck True if the actual file content
 		 * should be checked if modification time differs.
-		 * 
+		 *
 		 * @return true if content is most likely different.
 		 */
 		public boolean isModified(File wd, boolean forceContentCheck) {
@@ -806,7 +806,7 @@ public class GitIndex {
 			}
 		}
 	}
-	
+
 	/**
 	 * Add tree entry to index
 	 * @param te tree entry
@@ -834,7 +834,7 @@ public class GitIndex {
 			checkoutEntry(wd, e);
 		}
 	}
-	
+
 	/**
 	 * Check out content of the specified index entry
 	 *
@@ -948,7 +948,7 @@ public class GitIndex {
 	 * Small beware: Unaccounted for are unmerged entries. You may want
 	 * to abort if members with stage != 0 are found if you are doing
 	 * any updating operations. All stages will be found after one another
-	 * here later. Currently only one stage per name is returned.	
+	 * here later. Currently only one stage per name is returned.
 	 *
 	 * @return The index entries sorted
 	 */

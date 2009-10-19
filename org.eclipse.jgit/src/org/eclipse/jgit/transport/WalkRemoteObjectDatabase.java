@@ -90,7 +90,7 @@ abstract class WalkRemoteObjectDatabase {
 	 * Pack names should be the file name in the packs directory, that is
 	 * <code>pack-035760ab452d6eebd123add421f253ce7682355a.pack</code>. Index
 	 * names should not be included in the returned collection.
-	 * 
+	 *
 	 * @return list of pack names; null or empty list if none are available.
 	 * @throws IOException
 	 *             The connection is unable to read the remote repository's list
@@ -108,7 +108,7 @@ abstract class WalkRemoteObjectDatabase {
 	 * <p>
 	 * Alternates may reuse the same network connection handle, however the
 	 * fetch connection will {@link #close()} each created alternate.
-	 * 
+	 *
 	 * @return list of additional object databases the caller could fetch from;
 	 *         null or empty list if none are configured.
 	 * @throws IOException
@@ -129,7 +129,7 @@ abstract class WalkRemoteObjectDatabase {
 	 * Callers such as {@link WalkFetchConnection} are prepared to handle this
 	 * by validating the content received, and assuming content that fails to
 	 * match its hash is an incorrectly phrased FileNotFoundException.
-	 * 
+	 *
 	 * @param path
 	 *            location of the file to read, relative to this objects
 	 *            directory (e.g.
@@ -153,7 +153,7 @@ abstract class WalkRemoteObjectDatabase {
 	 * This method is typically called by {@link #readAlternates(String)} when
 	 * subclasses us the generic alternate parsing logic for their
 	 * implementation of {@link #getAlternates()}.
-	 * 
+	 *
 	 * @param location
 	 *            the location of the new alternate, relative to the current
 	 *            object database.
@@ -344,7 +344,7 @@ abstract class WalkRemoteObjectDatabase {
 	 * <p>
 	 * This is shorthand for calling {@link #open(String)} and then wrapping it
 	 * in a reader suitable for line oriented files like the alternates list.
-	 * 
+	 *
 	 * @return a stream to read from the file. Never null.
 	 * @param path
 	 *            location of the file to read, relative to this objects
@@ -371,7 +371,7 @@ abstract class WalkRemoteObjectDatabase {
 	 * <p>
 	 * Alternates appear one per line, with paths expressed relative to this
 	 * object database.
-	 * 
+	 *
 	 * @param listPath
 	 *            location of the alternate file to read, relative to this
 	 *            object database (e.g. <code>info/alternates</code>).
@@ -466,7 +466,7 @@ abstract class WalkRemoteObjectDatabase {
 
 		/**
 		 * Create a new stream of unknown length.
-		 * 
+		 *
 		 * @param i
 		 *            stream containing the file data. This stream will be
 		 *            closed by the caller when reading is complete.
@@ -478,7 +478,7 @@ abstract class WalkRemoteObjectDatabase {
 
 		/**
 		 * Create a new stream of known length.
-		 * 
+		 *
 		 * @param i
 		 *            stream containing the file data. This stream will be
 		 *            closed by the caller when reading is complete.

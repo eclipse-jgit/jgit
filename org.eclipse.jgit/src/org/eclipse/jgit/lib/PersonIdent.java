@@ -54,7 +54,7 @@ import org.eclipse.jgit.util.SystemReader;
 
 /**
  * A combination of a person identity and time in Git.
- * 
+ *
  * Git combines Name + email + time + time zone to specify who wrote or
  * committed something.
  */
@@ -71,7 +71,7 @@ public class PersonIdent {
 	 * Creates new PersonIdent from config info in repository, with current time.
 	 * This new PersonIdent gets the info from the default committer as available
 	 * from the configuration.
-	 * 
+	 *
 	 * @param repo
 	 */
 	public PersonIdent(final Repository repo) {
@@ -84,7 +84,7 @@ public class PersonIdent {
 
 	/**
 	 * Copy a {@link PersonIdent}.
-	 * 
+	 *
 	 * @param pi
 	 *            Original {@link PersonIdent}
 	 */
@@ -94,7 +94,7 @@ public class PersonIdent {
 
 	/**
 	 * Construct a new {@link PersonIdent} with current time.
-	 * 
+	 *
 	 * @param aName
 	 * @param aEmailAddress
 	 */
@@ -104,7 +104,7 @@ public class PersonIdent {
 
 	/**
 	 * Copy a PersonIdent, but alter the clone's time stamp
-	 * 
+	 *
 	 * @param pi
 	 *            original {@link PersonIdent}
 	 * @param when
@@ -118,7 +118,7 @@ public class PersonIdent {
 
 	/**
 	 * Copy a {@link PersonIdent}, but alter the clone's time stamp
-	 * 
+	 *
 	 * @param pi
 	 *            original {@link PersonIdent}
 	 * @param aWhen
@@ -133,7 +133,7 @@ public class PersonIdent {
 
 	/**
 	 * Construct a PersonIdent from simple data
-	 * 
+	 *
 	 * @param aName
 	 * @param aEmailAddress
 	 * @param aWhen
@@ -151,7 +151,7 @@ public class PersonIdent {
 
 	/**
 	 * Construct a {@link PersonIdent}
-	 * 
+	 *
 	 * @param aName
 	 * @param aEmailAddress
 	 * @param aWhen
@@ -169,7 +169,7 @@ public class PersonIdent {
 
 	/**
 	 * Copy a PersonIdent, but alter the clone's time stamp
-	 * 
+	 *
 	 * @param pi
 	 *            original {@link PersonIdent}
 	 * @param aWhen
@@ -187,7 +187,7 @@ public class PersonIdent {
 	/**
 	 * Construct a PersonIdent from a string with full name, email, time time
 	 * zone string. The input string must be valid.
-	 * 
+	 *
 	 * @param in
 	 *            a Git internal format author/committer string.
 	 */
@@ -278,7 +278,7 @@ public class PersonIdent {
 
 	/**
 	 * Format for Git storage.
-	 * 
+	 *
 	 * @return a string in the git author format
 	 */
 	public String toExternalString() {

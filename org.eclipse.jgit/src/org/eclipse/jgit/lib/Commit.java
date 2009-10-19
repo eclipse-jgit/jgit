@@ -67,7 +67,7 @@ public class Commit implements Treeish {
 	private ObjectId treeId;
 
 	private ObjectId[] parentIds;
-	
+
 	private PersonIdent author;
 
 	private PersonIdent committer;
@@ -91,7 +91,7 @@ public class Commit implements Treeish {
 		objdb = db;
 		parentIds = EMPTY_OBJECTID_LIST;
 	}
-	
+
 	/**
 	 * Create a commit associated with these parents and associate it with a
 	 * repository.

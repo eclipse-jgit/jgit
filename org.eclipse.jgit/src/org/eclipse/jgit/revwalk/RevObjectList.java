@@ -49,7 +49,7 @@ import java.util.AbstractList;
 
 /**
  * An ordered list of {@link RevObject} subclasses.
- * 
+ *
  * @param <E>
  *            type of subclass of RevObject the list is storing.
  */

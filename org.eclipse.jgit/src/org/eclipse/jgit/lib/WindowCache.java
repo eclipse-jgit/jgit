@@ -78,7 +78,7 @@ public class WindowCache extends OffsetCache<ByteWindow, WindowCache.WindowRef> 
 	 * The new configuration is applied immediately. If the new limits are
 	 * smaller than what what is currently cached, older entries will be purged
 	 * as soon as possible to allow the cache to meet the new limit.
-	 * 
+	 *
 	 * @param packedGitLimit
 	 *            maximum number of bytes to hold within this instance.
 	 * @param packedGitWindowSize

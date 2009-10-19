@@ -64,7 +64,7 @@ import org.eclipse.jgit.treewalk.filter.TreeFilter;
  * the commit is colored with {@link RevWalk#REWRITE}, allowing a later pass
  * implemented by {@link RewriteGenerator} to remove those colored commits from
  * the DAG.
- * 
+ *
  * @see RewriteGenerator
  */
 class RewriteTreeFilter extends RevFilter {

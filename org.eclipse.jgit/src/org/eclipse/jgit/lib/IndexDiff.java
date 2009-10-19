@@ -56,7 +56,7 @@ import org.eclipse.jgit.lib.GitIndex.Entry;
 public class IndexDiff {
 	private GitIndex index;
 	private Tree tree;
-	
+
 	/**
 	 * Construct an indexdiff for diffing the workdir against
 	 * the index.
@@ -80,9 +80,9 @@ public class IndexDiff {
 		this.tree = tree;
 		this.index = index;
 	}
-	
+
 	boolean anyChanges = false;
-	
+
 	/**
 	 * Run the diff operation. Until this is called, all lists will be empty
 	 * @return if anything is different between index, tree, and workdir
@@ -105,7 +105,7 @@ public class IndexDiff {
 						anyChanges = true;
 					}
 				}
-				
+
 				if (indexEntry != null) {
 					if (!file.exists()) {
 						missing.add(indexEntry.getName());
@@ -119,7 +119,7 @@ public class IndexDiff {
 				}
 			}
 		}).walk();
-		
+
 		return anyChanges;
 	}
 
@@ -156,7 +156,7 @@ public class IndexDiff {
 	public HashSet<String> getMissing() {
 		return missing;
 	}
-	
+
 	/**
 	 * @return list of files on modified on disk relative to the index
 	 */

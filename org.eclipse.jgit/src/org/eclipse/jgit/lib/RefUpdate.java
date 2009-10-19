@@ -189,7 +189,7 @@ public class RefUpdate {
 
 	/**
 	 * Get the name of the ref this update will operate on.
-	 * 
+	 *
 	 * @return name of underlying ref.
 	 */
 	public String getName() {
@@ -207,7 +207,7 @@ public class RefUpdate {
 
 	/**
 	 * Get the new value the ref will be (or was) updated to.
-	 * 
+	 *
 	 * @return new value. Null if the caller has not configured it.
 	 */
 	public ObjectId getNewObjectId() {
@@ -216,7 +216,7 @@ public class RefUpdate {
 
 	/**
 	 * Set the new value the ref will update to.
-	 * 
+	 *
 	 * @param id
 	 *            the new value.
 	 */
@@ -247,7 +247,7 @@ public class RefUpdate {
 
 	/**
 	 * Check if this update wants to forcefully change the ref.
-	 * 
+	 *
 	 * @return true if this update should ignore merge tests.
 	 */
 	public boolean isForceUpdate() {
@@ -256,7 +256,7 @@ public class RefUpdate {
 
 	/**
 	 * Set if this update wants to forcefully change the ref.
-	 * 
+	 *
 	 * @param b
 	 *            true if this update should ignore merge tests.
 	 */
@@ -287,7 +287,7 @@ public class RefUpdate {
 
 	/**
 	 * Get the message to include in the reflog.
-	 * 
+	 *
 	 * @return message the caller wants to include in the reflog; null if the
 	 *         update should not be logged.
 	 */
@@ -297,7 +297,7 @@ public class RefUpdate {
 
 	/**
 	 * Set the message to include in the reflog.
-	 * 
+	 *
 	 * @param msg
 	 *            the message to describe this change. It may be null
 	 *            if appendStatus is null in order not to append to the reflog
@@ -331,7 +331,7 @@ public class RefUpdate {
 	 * populated with the value of the ref before the lock is taken, but the old
 	 * value may change if someone else modified the ref between the time we
 	 * last read it and when the ref was locked for update.
-	 * 
+	 *
 	 * @return the value of the ref prior to the update being attempted; null if
 	 *         the updated has not been attempted yet.
 	 */
@@ -343,7 +343,7 @@ public class RefUpdate {
 	 * Get the status of this update.
 	 * <p>
 	 * The same value that was previously returned from an update method.
-	 * 
+	 *
 	 * @return the status of the update.
 	 */
 	public Result getResult() {
@@ -360,7 +360,7 @@ public class RefUpdate {
 	 * <p>
 	 * This is just a convenient helper for setting the force flag, and as such
 	 * the merge test is performed.
-	 * 
+	 *
 	 * @return the result status of the update.
 	 * @throws IOException
 	 *             an unexpected IO error occurred while writing changes.
@@ -376,11 +376,11 @@ public class RefUpdate {
 	 * Merge test will be performed according to {@link #isForceUpdate()}.
 	 * <p>
 	 * This is the same as:
-	 * 
+	 *
 	 * <pre>
 	 * return update(new RevWalk(repository));
 	 * </pre>
-	 * 
+	 *
 	 * @return the result status of the update.
 	 * @throws IOException
 	 *             an unexpected IO error occurred while writing changes.
@@ -393,7 +393,7 @@ public class RefUpdate {
 	 * Gracefully update the ref to the new value.
 	 * <p>
 	 * Merge test will be performed according to {@link #isForceUpdate()}.
-	 * 
+	 *
 	 * @param walk
 	 *            a RevWalk instance this update command can borrow to perform
 	 *            the merge test. The walk will be reset to perform the test.
@@ -415,11 +415,11 @@ public class RefUpdate {
 	 * Delete the ref.
 	 * <p>
 	 * This is the same as:
-	 * 
+	 *
 	 * <pre>
 	 * return delete(new RevWalk(repository));
 	 * </pre>
-	 * 
+	 *
 	 * @return the result status of the delete.
 	 * @throws IOException
 	 */
@@ -429,7 +429,7 @@ public class RefUpdate {
 
 	/**
 	 * Delete the ref.
-	 * 
+	 *
 	 * @param walk
 	 *            a RevWalk instance this delete command can borrow to perform
 	 *            the merge test. The walk will be reset to perform the test.

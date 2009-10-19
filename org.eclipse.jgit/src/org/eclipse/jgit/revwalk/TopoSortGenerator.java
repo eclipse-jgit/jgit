@@ -62,7 +62,7 @@ class TopoSortGenerator extends Generator {
 	 * When the constructor completes the supplied generator will have no
 	 * commits remaining, as all of the commits will be held inside of this
 	 * generator's internal buffer.
-	 * 
+	 *
 	 * @param s
 	 *            generator to pull all commits out of, and into this buffer.
 	 * @throws MissingObjectException

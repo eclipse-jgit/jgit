@@ -65,7 +65,7 @@ import org.eclipse.jgit.transport.RemoteRefUpdate.Status;
  * <p>
  * PushConnection instances are not thread safe and may be accessed by only one
  * thread at a time.
- * 
+ *
  * @see Transport
  */
 public interface PushConnection extends Connection {

@@ -59,7 +59,7 @@ public final class WindowCursor {
 
 	/**
 	 * Copy bytes from the window to a caller supplied buffer.
-	 * 
+	 *
 	 * @param pack
 	 *            the file the desired window is stored within.
 	 * @param position
@@ -95,7 +95,7 @@ public final class WindowCursor {
 
 	/**
 	 * Pump bytes into the supplied inflater as input.
-	 * 
+	 *
 	 * @param pack
 	 *            the file the desired window is stored within.
 	 * @param position

@@ -84,7 +84,7 @@ public class PackProtocolException extends TransportException {
 
 	/**
 	 * Constructs an PackProtocolException with the specified detail message.
-	 * 
+	 *
 	 * @param s
 	 *            message
 	 */
@@ -94,7 +94,7 @@ public class PackProtocolException extends TransportException {
 
 	/**
 	 * Constructs an PackProtocolException with the specified detail message.
-	 * 
+	 *
 	 * @param s
 	 *            message
 	 * @param cause

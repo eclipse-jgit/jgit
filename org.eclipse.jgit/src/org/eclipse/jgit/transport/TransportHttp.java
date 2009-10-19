@@ -72,7 +72,7 @@ import org.eclipse.jgit.util.HttpSupport;
  * (server side) repository. Object files are retrieved directly through
  * standard HTTP GET requests, making it easy to serve a Git repository through
  * a standard web host provider that does not offer specific support for Git.
- * 
+ *
  * @see WalkFetchConnection
  */
 public class TransportHttp extends HttpTransport implements WalkTransport {

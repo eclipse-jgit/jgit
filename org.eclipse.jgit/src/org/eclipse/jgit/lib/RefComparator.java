@@ -66,7 +66,7 @@ public class RefComparator implements Comparator<Ref> {
 
 	/**
 	 * Sorts the collection of refs, returning a new collection.
-	 * 
+	 *
 	 * @param refs
 	 *            collection to be sorted
 	 * @return sorted collection of refs

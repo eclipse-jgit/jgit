@@ -68,7 +68,7 @@ public abstract class ObjectLoader {
 	 * <p>
 	 * Unlike {@link #getCachedBytes()} this method returns an array that might
 	 * be modified by the caller.
-	 * 
+	 *
 	 * @return the bytes of this object.
 	 */
 	public final byte[] getBytes() {
@@ -85,7 +85,7 @@ public abstract class ObjectLoader {
 	 * saving on data copies between the internal cache and higher level code.
 	 * Callers who receive this reference <b>must not</b> modify its contents.
 	 * Changes (if made) will affect the cache but not the repository itself.
-	 * 
+	 *
 	 * @return the cached bytes of this object. Do not modify it.
 	 */
 	public abstract byte[] getCachedBytes();

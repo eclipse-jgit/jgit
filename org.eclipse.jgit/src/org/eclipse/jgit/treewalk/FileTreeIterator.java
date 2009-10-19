@@ -67,7 +67,7 @@ public class FileTreeIterator extends WorkingTreeIterator {
 
 	/**
 	 * Create a new iterator to traverse the given directory and its children.
-	 * 
+	 *
 	 * @param root
 	 *            the starting directory. This directory should correspond to
 	 *            the root of the repository.
@@ -79,7 +79,7 @@ public class FileTreeIterator extends WorkingTreeIterator {
 
 	/**
 	 * Create a new iterator to traverse a subdirectory.
-	 * 
+	 *
 	 * @param p
 	 *            the parent iterator we were created from.
 	 * @param root

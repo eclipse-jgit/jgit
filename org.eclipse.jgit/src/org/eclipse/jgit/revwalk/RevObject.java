@@ -89,14 +89,14 @@ public abstract class RevObject extends ObjectId {
 
 	/**
 	 * Get Git object type. See {@link Constants}.
-	 * 
+	 *
 	 * @return object type
 	 */
 	public abstract int getType();
 
 	/**
 	 * Get the name of this object.
-	 * 
+	 *
 	 * @return unique hash of this object.
 	 */
 	public final ObjectId getId() {
@@ -115,7 +115,7 @@ public abstract class RevObject extends ObjectId {
 
 	/**
 	 * Test to see if the flag has been set on this object.
-	 * 
+	 *
 	 * @param flag
 	 *            the flag to test.
 	 * @return true if the flag has been added to this object; false if not.
@@ -126,7 +126,7 @@ public abstract class RevObject extends ObjectId {
 
 	/**
 	 * Test to see if any flag in the set has been set on this object.
-	 * 
+	 *
 	 * @param set
 	 *            the flags to test.
 	 * @return true if any flag in the set has been added to this object; false
@@ -138,7 +138,7 @@ public abstract class RevObject extends ObjectId {
 
 	/**
 	 * Test to see if all flags in the set have been set on this object.
-	 * 
+	 *
 	 * @param set
 	 *            the flags to test.
 	 * @return true if all flags of the set have been added to this object;
@@ -152,7 +152,7 @@ public abstract class RevObject extends ObjectId {
 	 * Add a flag to this object.
 	 * <p>
 	 * If the flag is already set on this object then the method has no effect.
-	 * 
+	 *
 	 * @param flag
 	 *            the flag to mark on this object, for later testing.
 	 */
@@ -162,7 +162,7 @@ public abstract class RevObject extends ObjectId {
 
 	/**
 	 * Add a set of flags to this object.
-	 * 
+	 *
 	 * @param set
 	 *            the set of flags to mark on this object, for later testing.
 	 */
@@ -174,7 +174,7 @@ public abstract class RevObject extends ObjectId {
 	 * Remove a flag from this object.
 	 * <p>
 	 * If the flag is not set on this object then the method has no effect.
-	 * 
+	 *
 	 * @param flag
 	 *            the flag to remove from this object.
 	 */
@@ -184,7 +184,7 @@ public abstract class RevObject extends ObjectId {
 
 	/**
 	 * Remove a set of flags from this object.
-	 * 
+	 *
 	 * @param set
 	 *            the flag to remove from this object.
 	 */

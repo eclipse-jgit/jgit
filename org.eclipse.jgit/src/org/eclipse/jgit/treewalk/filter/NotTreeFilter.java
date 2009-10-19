@@ -54,7 +54,7 @@ import org.eclipse.jgit.treewalk.TreeWalk;
 public class NotTreeFilter extends TreeFilter {
 	/**
 	 * Create a filter that negates the result of another filter.
-	 * 
+	 *
 	 * @param a
 	 *            filter to negate.
 	 * @return a filter that does the reverse of <code>a</code>.

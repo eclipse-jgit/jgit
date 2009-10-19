@@ -61,19 +61,19 @@ import org.eclipse.jgit.treewalk.TreeWalk;
  * their instances during {@link #include(TreeWalk)} if it is beneficial to
  * their implementation. Deep clones created by {@link #clone()} may be used to
  * construct a thread-safe copy of an existing filter.
- * 
+ *
  * <p>
  * <b>Path filters:</b>
  * <ul>
  * <li>Matching pathname: {@link PathFilter}</li>
  * </ul>
- * 
+ *
  * <p>
  * <b>Difference filters:</b>
  * <ul>
  * <li>Only select differences: {@link #ANY_DIFF}.</li>
  * </ul>
- * 
+ *
  * <p>
  * <b>Boolean modifiers:</b>
  * <ul>
@@ -153,7 +153,7 @@ public abstract class TreeFilter {
 
 	/**
 	 * Create a new filter that does the opposite of this filter.
-	 * 
+	 *
 	 * @return a new filter that includes tree entries this filter rejects.
 	 */
 	public TreeFilter negate() {
@@ -167,7 +167,7 @@ public abstract class TreeFilter {
 	 * {@link TreeWalk#isRecursive()} is enabled. The consultation allows the
 	 * filter to bypass subtree recursion on a case-by-case basis, even when
 	 * recursion is enabled at the application level.
-	 * 
+	 *
 	 * @param walker
 	 *            the walker the filter needs to examine.
 	 * @return true if the current entry should be seen by the application;
@@ -196,7 +196,7 @@ public abstract class TreeFilter {
 	 * is looking for a '/' then the filter would require a recursive TreeWalk
 	 * to accurately make its decisions. The walker is not required to enable
 	 * recursive behavior for any particular filter, this is only a hint.
-	 * 
+	 *
 	 * @return true if the filter would like to have the walker recurse into
 	 *         subtrees to make sure it matches everything correctly; false if
 	 *         the filter does not require entering subtrees.
@@ -208,7 +208,7 @@ public abstract class TreeFilter {
 	 * <p>
 	 * This is a deep clone. If this filter embeds objects or other filters it
 	 * must also clone those, to ensure the instances do not share mutable data.
-	 * 
+	 *
 	 * @return another copy of this filter, suitable for another thread.
 	 */
 	public abstract TreeFilter clone();

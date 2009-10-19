@@ -75,7 +75,7 @@ public class PathFilterGroup {
 	 * Paths may appear in any order within the collection. Sorting may be done
 	 * internally when the group is constructed if doing so will improve path
 	 * matching performance.
-	 * 
+	 *
 	 * @param paths
 	 *            the paths to test against. Must have at least one entry.
 	 * @return a new filter for the list of paths supplied.
@@ -96,7 +96,7 @@ public class PathFilterGroup {
 	 * Paths may appear in any order within the collection. Sorting may be done
 	 * internally when the group is constructed if doing so will improve path
 	 * matching performance.
-	 * 
+	 *
 	 * @param paths
 	 *            the paths to test against. Must have at least one entry.
 	 * @return a new filter for the list of paths supplied.

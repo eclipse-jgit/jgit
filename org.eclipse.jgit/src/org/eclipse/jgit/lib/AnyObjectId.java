@@ -71,7 +71,7 @@ public abstract class AnyObjectId implements Comparable {
 
 	/**
 	 * Compare to object identifier byte sequences for equality.
-	 * 
+	 *
 	 * @param firstObjectId
 	 *            the first identifier to compare. Must not be null.
 	 * @param secondObjectId
@@ -108,7 +108,7 @@ public abstract class AnyObjectId implements Comparable {
 
 	/**
 	 * For ObjectIdMap
-	 * 
+	 *
 	 * @return a discriminator usable for a fan-out style map
 	 */
 	public final int getFirstByte() {
@@ -117,7 +117,7 @@ public abstract class AnyObjectId implements Comparable {
 
 	/**
 	 * Compare this ObjectId to another and obtain a sort ordering.
-	 * 
+	 *
 	 * @param other
 	 *            the other id to compare to. Must not be null.
 	 * @return < 0 if this id comes before other; 0 if this id is equal to
@@ -213,7 +213,7 @@ public abstract class AnyObjectId implements Comparable {
 
 	/**
 	 * Determine if this ObjectId has exactly the same value as another.
-	 * 
+	 *
 	 * @param other
 	 *            the other id to compare to. May be null.
 	 * @return true only if both ObjectIds have identical bits.
@@ -231,7 +231,7 @@ public abstract class AnyObjectId implements Comparable {
 
 	/**
 	 * Copy this ObjectId to an output writer in raw binary.
-	 * 
+	 *
 	 * @param w
 	 *            the buffer to copy to. Must be in big endian order.
 	 */
@@ -245,7 +245,7 @@ public abstract class AnyObjectId implements Comparable {
 
 	/**
 	 * Copy this ObjectId to a byte array.
-	 * 
+	 *
 	 * @param b
 	 *            the buffer to copy to.
 	 * @param o
@@ -277,7 +277,7 @@ public abstract class AnyObjectId implements Comparable {
 
 	/**
 	 * Copy this ObjectId to an output writer in raw binary.
-	 * 
+	 *
 	 * @param w
 	 *            the stream to write to.
 	 * @throws IOException
@@ -301,7 +301,7 @@ public abstract class AnyObjectId implements Comparable {
 
 	/**
 	 * Copy this ObjectId to an output writer in hex format.
-	 * 
+	 *
 	 * @param w
 	 *            the stream to copy to.
 	 * @throws IOException
@@ -336,7 +336,7 @@ public abstract class AnyObjectId implements Comparable {
 
 	/**
 	 * Copy this ObjectId to an output writer in hex format.
-	 * 
+	 *
 	 * @param w
 	 *            the stream to copy to.
 	 * @throws IOException
@@ -348,7 +348,7 @@ public abstract class AnyObjectId implements Comparable {
 
 	/**
 	 * Copy this ObjectId to an output writer in hex format.
-	 * 
+	 *
 	 * @param tmp
 	 *            temporary char array to buffer construct into before writing.
 	 *            Must be at least large enough to hold 2 digits for each byte
@@ -469,7 +469,7 @@ public abstract class AnyObjectId implements Comparable {
 	 * This method is useful to shed any additional memory that may be tied to
 	 * the subclass, yet retain the unique identity of the object id for future
 	 * lookups within maps and repositories.
-	 * 
+	 *
 	 * @return an immutable copy, using the smallest memory footprint possible.
 	 */
 	public final ObjectId copy() {
@@ -484,7 +484,7 @@ public abstract class AnyObjectId implements Comparable {
 	 * See {@link #copy()} if <code>this</code> is a possibly subclassed (but
 	 * immutable) identity and the application needs a lightweight identity
 	 * <i>only</i> reference.
-	 * 
+	 *
 	 * @return an immutable copy. May be <code>this</code> if this is already
 	 *         an immutable instance.
 	 */

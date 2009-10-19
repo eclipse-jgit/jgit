@@ -76,7 +76,7 @@ public class URIish {
 
 	/**
 	 * Parse and construct an {@link URIish} from a string
-	 * 
+	 *
 	 * @param s
 	 * @throws URISyntaxException
 	 */
@@ -159,7 +159,7 @@ public class URIish {
 
 	/**
 	 * Return a new URI matching this one, but with a different host.
-	 * 
+	 *
 	 * @param n
 	 *            the new value for host.
 	 * @return a new URI with the updated value.
@@ -179,7 +179,7 @@ public class URIish {
 
 	/**
 	 * Return a new URI matching this one, but with a different scheme.
-	 * 
+	 *
 	 * @param n
 	 *            the new value for scheme.
 	 * @return a new URI with the updated value.
@@ -199,7 +199,7 @@ public class URIish {
 
 	/**
 	 * Return a new URI matching this one, but with a different path.
-	 * 
+	 *
 	 * @param n
 	 *            the new value for path.
 	 * @return a new URI with the updated value.
@@ -219,7 +219,7 @@ public class URIish {
 
 	/**
 	 * Return a new URI matching this one, but with a different user.
-	 * 
+	 *
 	 * @param n
 	 *            the new value for user.
 	 * @return a new URI with the updated value.
@@ -239,7 +239,7 @@ public class URIish {
 
 	/**
 	 * Return a new URI matching this one, but with a different password.
-	 * 
+	 *
 	 * @param n
 	 *            the new value for password.
 	 * @return a new URI with the updated value.
@@ -259,7 +259,7 @@ public class URIish {
 
 	/**
 	 * Return a new URI matching this one, but with a different port.
-	 * 
+	 *
 	 * @param n
 	 *            the new value for port.
 	 * @return a new URI with the updated value.

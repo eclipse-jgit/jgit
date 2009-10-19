@@ -69,7 +69,7 @@ import org.eclipse.jgit.lib.Ref;
  * <p>
  * FetchConnection instances are not thread safe and may be accessed by only one
  * thread at a time.
- * 
+ *
  * @see Transport
  */
 public interface FetchConnection extends Connection {
@@ -88,7 +88,7 @@ public interface FetchConnection extends Connection {
 	 * should always be preferred over remotely available objects and packs.
 	 * {@link Transport#isFetchThin()} should be honored if applicable.
 	 * </p>
-	 * 
+	 *
 	 * @param monitor
 	 *            progress monitor to inform the end-user about the amount of
 	 *            work completed, or to indicate cancellation. Implementations
@@ -124,7 +124,7 @@ public interface FetchConnection extends Connection {
 	 * By returning only true/false (and not the actual list of tags obtained)
 	 * the transport itself does not need to be aware of whether or not tags
 	 * were included in the transfer.
-	 * 
+	 *
 	 * @return true if the last fetch call implicitly included tag objects;
 	 *         false if tags were not implicitly obtained.
 	 */

@@ -64,7 +64,7 @@ public class MutableObjectId extends AnyObjectId {
 
 	/**
 	 * Copying constructor.
-	 * 
+	 *
 	 * @param src
 	 *            original entry, to copy id from
 	 */
@@ -87,7 +87,7 @@ public class MutableObjectId extends AnyObjectId {
 
 	/**
 	 * Convert an ObjectId from raw binary representation.
-	 * 
+	 *
 	 * @param bs
 	 *            the raw byte buffer to read from. At least 20 bytes must be
 	 *            available within this byte array.
@@ -98,7 +98,7 @@ public class MutableObjectId extends AnyObjectId {
 
 	/**
 	 * Convert an ObjectId from raw binary representation.
-	 * 
+	 *
 	 * @param bs
 	 *            the raw byte buffer to read from. At least 20 bytes after p
 	 *            must be available within this byte array.
@@ -115,7 +115,7 @@ public class MutableObjectId extends AnyObjectId {
 
 	/**
 	 * Convert an ObjectId from binary representation expressed in integers.
-	 * 
+	 *
 	 * @param ints
 	 *            the raw int buffer to read from. At least 5 integers must be
 	 *            available within this integers array.
@@ -126,13 +126,13 @@ public class MutableObjectId extends AnyObjectId {
 
 	/**
 	 * Convert an ObjectId from binary representation expressed in integers.
-	 * 
+	 *
 	 * @param ints
 	 *            the raw int buffer to read from. At least 5 integers after p
 	 *            must be available within this integers array.
 	 * @param p
 	 *            position to read the first integer of data from.
-	 * 
+	 *
 	 */
 	public void fromRaw(final int[] ints, final int p) {
 		w1 = ints[p];
@@ -144,7 +144,7 @@ public class MutableObjectId extends AnyObjectId {
 
 	/**
 	 * Convert an ObjectId from hex characters (US-ASCII).
-	 * 
+	 *
 	 * @param buf
 	 *            the US-ASCII buffer to read from. At least 40 bytes after
 	 *            offset must be available within this byte array.
@@ -157,7 +157,7 @@ public class MutableObjectId extends AnyObjectId {
 
 	/**
 	 * Convert an ObjectId from hex characters.
-	 * 
+	 *
 	 * @param str
 	 *            the string to read from. Must be 40 characters long.
 	 */

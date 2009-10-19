@@ -102,7 +102,7 @@ public class CommitGraphPane extends JTable {
 
 	/**
 	 * Get the commit list this pane renders from.
-	 * 
+	 *
 	 * @return the list the caller must populate.
 	 */
 	public PlotCommitList getCommitList() {

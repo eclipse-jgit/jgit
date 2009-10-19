@@ -52,7 +52,7 @@ package org.eclipse.jgit.transport;
  * Implementations of PackTransport setup connections and move objects back and
  * forth by creating pack files on the source side and indexing them on the
  * receiving side.
- * 
+ *
  * @see BasePackFetchConnection
  * @see BasePackPushConnection
  */

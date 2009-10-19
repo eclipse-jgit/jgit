@@ -73,7 +73,7 @@ public class PlotWalk extends RevWalk {
 
 	/**
 	 * Create a new revision walker for a given repository.
-	 * 
+	 *
 	 * @param repo
 	 *            the repository the walker will obtain data from.
 	 */

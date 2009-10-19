@@ -102,7 +102,7 @@ import org.eclipse.jgit.treewalk.TreeWalk;
  * Instead it delegates the transfer to a {@link WalkRemoteObjectDatabase},
  * which knows how to read individual files from the remote repository and
  * supply the data as a standard Java InputStream.
- * 
+ *
  * @see WalkRemoteObjectDatabase
  */
 class WalkFetchConnection extends BaseFetchConnection {
@@ -285,7 +285,7 @@ class WalkFetchConnection extends BaseFetchConnection {
 
 		switch (obj.getType()) {
 		case Constants.OBJ_BLOB:
-			processBlob(obj);	
+			processBlob(obj);
 			break;
 		case Constants.OBJ_TREE:
 			processTree(obj);
@@ -703,7 +703,7 @@ class WalkFetchConnection extends BaseFetchConnection {
 		case Constants.OBJ_BLOB:
 			obj.add(COMPLETE);
 			break;
-		case Constants.OBJ_COMMIT:			
+		case Constants.OBJ_COMMIT:
 			pushLocalCommit((RevCommit) obj);
 			break;
 		case Constants.OBJ_TREE:

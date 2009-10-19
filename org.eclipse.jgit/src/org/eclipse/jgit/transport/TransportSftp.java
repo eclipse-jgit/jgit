@@ -87,7 +87,7 @@ import com.jcraft.jsch.SftpException;
  * <p>
  * Concurrent pushing over this transport is not supported. Multiple concurrent
  * push operations may cause confusion in the repository state.
- * 
+ *
  * @see WalkFetchConnection
  */
 public class TransportSftp extends SshTransport implements WalkTransport {

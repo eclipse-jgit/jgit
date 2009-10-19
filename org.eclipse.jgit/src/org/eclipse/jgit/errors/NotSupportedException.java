@@ -64,7 +64,7 @@ public class NotSupportedException extends IOException {
 
 	/**
 	 * Construct a NotSupportedException for some issue JGit cannot yet handle.
-	 * 
+	 *
 	 * @param s
 	 *            message describing the issue
 	 * @param why

@@ -68,7 +68,7 @@ public class RevTag extends RevObject {
 
 	/**
 	 * Create a new tag reference.
-	 * 
+	 *
 	 * @param id
 	 *            object name for the tag.
 	 */
@@ -188,7 +188,7 @@ public class RevTag extends RevObject {
 
 	/**
 	 * Parse this tag buffer for display.
-	 * 
+	 *
 	 * @param walk
 	 *            revision walker owning this reference.
 	 * @return parsed tag.
@@ -199,7 +199,7 @@ public class RevTag extends RevObject {
 
 	/**
 	 * Get a reference to the object this tag was placed on.
-	 * 
+	 *
 	 * @return object this tag refers to.
 	 */
 	public final RevObject getObject() {
@@ -208,7 +208,7 @@ public class RevTag extends RevObject {
 
 	/**
 	 * Get the name of this tag, from the tag header.
-	 * 
+	 *
 	 * @return name of the tag, according to the tag header.
 	 */
 	public final String getTagName() {

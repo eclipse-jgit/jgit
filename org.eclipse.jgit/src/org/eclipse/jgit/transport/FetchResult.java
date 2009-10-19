@@ -52,7 +52,7 @@ import java.util.List;
 
 /**
  * Final status after a successful fetch from a remote repository.
- * 
+ *
  * @see Transport#fetch(org.eclipse.jgit.lib.ProgressMonitor, Collection)
  */
 public class FetchResult extends OperationResult {

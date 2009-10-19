@@ -51,7 +51,7 @@ import java.util.List;
 
 /**
  * Multiple application level mark bits for {@link RevObject}s.
- * 
+ *
  * @see RevFlag
  */
 public class RevFlagSet extends AbstractSet<RevFlag> {
@@ -66,7 +66,7 @@ public class RevFlagSet extends AbstractSet<RevFlag> {
 
 	/**
 	 * Create a set of flags, copied from an existing set.
-	 * 
+	 *
 	 * @param s
 	 *            the set to copy flags from.
 	 */
@@ -77,7 +77,7 @@ public class RevFlagSet extends AbstractSet<RevFlag> {
 
 	/**
 	 * Create a set of flags, copied from an existing collection.
-	 * 
+	 *
 	 * @param s
 	 *            the collection to copy flags from.
 	 */

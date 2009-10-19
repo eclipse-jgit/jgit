@@ -79,7 +79,7 @@ abstract class BlockRevQueue extends AbstractRevQueue {
 	 * <p>
 	 * Free lists are not thread-safe. Applications must ensure that all queues
 	 * sharing the same free list are doing so from only a single thread.
-	 * 
+	 *
 	 * @param q
 	 *            the other queue we will steal entries from.
 	 */

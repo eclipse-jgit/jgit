@@ -53,7 +53,7 @@ import java.io.IOException;
 
 /**
  * Utility class to work with reflog files
- * 
+ *
  * @author Dave Watson
  */
 public class RefLogWriter {
@@ -137,7 +137,7 @@ public class RefLogWriter {
 
 	/**
 	 * Writes reflog entry for ref specified by refName
-	 * 
+	 *
 	 * @param repo
 	 *            repository to use
 	 * @param oldCommit

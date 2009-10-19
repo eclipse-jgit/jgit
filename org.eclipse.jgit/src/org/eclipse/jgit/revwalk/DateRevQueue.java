@@ -98,7 +98,7 @@ public class DateRevQueue extends AbstractRevQueue {
 
 	/**
 	 * Peek at the next commit, without removing it.
-	 * 
+	 *
 	 * @return the next available commit; null if there are no commits left.
 	 */
 	public RevCommit peek() {
