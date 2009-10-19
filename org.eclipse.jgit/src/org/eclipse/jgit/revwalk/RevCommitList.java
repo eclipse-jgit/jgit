@@ -51,7 +51,7 @@ import org.eclipse.jgit.revwalk.filter.RevFilter;
 
 /**
  * An ordered list of {@link RevCommit} subclasses.
- * 
+ *
  * @param <E>
  *            type of subclass of RevCommit the list is storing.
  */
@@ -69,7 +69,7 @@ public class RevCommitList<E extends RevCommit> extends RevObjectList<E> {
 	 * <p>
 	 * Same as <code>applyFlag(matching, flag, 0, size())</code>, but without
 	 * the incremental behavior.
-	 * 
+	 *
 	 * @param matching
 	 *            the filter to test commits with. If the filter includes a
 	 *            commit it will have the flag set; if the filter does not
@@ -102,7 +102,7 @@ public class RevCommitList<E extends RevCommit> extends RevObjectList<E> {
 	 * This version allows incremental testing and application, such as from a
 	 * background thread that needs to periodically halt processing and send
 	 * updates to the UI.
-	 * 
+	 *
 	 * @param matching
 	 *            the filter to test commits with. If the filter includes a
 	 *            commit it will have the flag set; if the filter does not
@@ -159,7 +159,7 @@ public class RevCommitList<E extends RevCommit> extends RevObjectList<E> {
 	 * <p>
 	 * Same as <code>clearFlag(flag, 0, size())</code>, but without the
 	 * incremental behavior.
-	 * 
+	 *
 	 * @param flag
 	 *            the flag to remove. Applications are responsible for
 	 *            allocating this flag from the source RevWalk.
@@ -173,7 +173,7 @@ public class RevCommitList<E extends RevCommit> extends RevObjectList<E> {
 	 * <p>
 	 * This method is actually implemented in terms of:
 	 * <code>applyFlag(RevFilter.NONE, flag, rangeBegin, rangeEnd)</code>.
-	 * 
+	 *
 	 * @param flag
 	 *            the flag to remove. Applications are responsible for
 	 *            allocating this flag from the source RevWalk.
@@ -197,7 +197,7 @@ public class RevCommitList<E extends RevCommit> extends RevObjectList<E> {
 
 	/**
 	 * Find the next commit that has the given flag set.
-	 * 
+	 *
 	 * @param flag
 	 *            the flag to test commits against.
 	 * @param begin
@@ -227,7 +227,7 @@ public class RevCommitList<E extends RevCommit> extends RevObjectList<E> {
 
 	/**
 	 * Find the next commit that has the given flag set.
-	 * 
+	 *
 	 * @param flag
 	 *            the flag to test commits against.
 	 * @param begin
@@ -259,7 +259,7 @@ public class RevCommitList<E extends RevCommit> extends RevObjectList<E> {
 
 	/**
 	 * Set the revision walker this list populates itself from.
-	 * 
+	 *
 	 * @param w
 	 *            the walker to populate from.
 	 * @see #fillTo(int)
@@ -270,7 +270,7 @@ public class RevCommitList<E extends RevCommit> extends RevObjectList<E> {
 
 	/**
 	 * Is this list still pending more items?
-	 * 
+	 *
 	 * @return true if {@link #fillTo(int)} might be able to extend the list
 	 *         size when called.
 	 */
@@ -286,7 +286,7 @@ public class RevCommitList<E extends RevCommit> extends RevObjectList<E> {
 	 * fewer total commits available from the walk then the method will return
 	 * early. Callers can test the final size of the list by {@link #size()} to
 	 * determine if the high water mark specified was met.
-	 * 
+	 *
 	 * @param highMark
 	 *            number of commits the caller wants this list to contain when
 	 *            the fill operation is complete.
@@ -347,7 +347,7 @@ public class RevCommitList<E extends RevCommit> extends RevObjectList<E> {
 	 * Optional callback invoked when commits enter the list by fillTo.
 	 * <p>
 	 * This method is only called during {@link #fillTo(int)}.
-	 * 
+	 *
 	 * @param index
 	 *            the list position this object will appear at.
 	 * @param e

@@ -46,7 +46,7 @@ package org.eclipse.jgit.errors;
 
 /**
  * Stops the driver loop of walker and finish with current results.
- * 
+ *
  * @see org.eclipse.jgit.revwalk.filter.RevFilter
  */
 public class StopWalkException extends RuntimeException {

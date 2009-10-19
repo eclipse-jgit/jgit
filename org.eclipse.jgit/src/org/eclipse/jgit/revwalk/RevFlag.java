@@ -76,7 +76,7 @@ public class RevFlag {
 
 	/**
 	 * Get the revision walk instance this flag was created from.
-	 * 
+	 *
 	 * @return the walker this flag was allocated out of, and belongs to.
 	 */
 	public RevWalk getRevWalk() {

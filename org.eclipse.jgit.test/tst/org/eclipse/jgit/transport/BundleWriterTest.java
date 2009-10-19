@@ -89,7 +89,7 @@ public class BundleWriterTest extends RepositoryTestCase {
 
 	/**
 	 * Incremental bundle test
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public void testWrite1() throws Exception {

@@ -104,7 +104,7 @@ public class IndexPack {
 	 * files within the repository's <code>objects</code> directory. To use the
 	 * data contained within them call {@link #renameAndOpenPack()} once the
 	 * indexing is complete.
-	 * 
+	 *
 	 * @param db
 	 *            the repository that will receive the new pack.
 	 * @param is
@@ -187,7 +187,7 @@ public class IndexPack {
 
 	/**
 	 * Create a new pack indexer utility.
-	 * 
+	 *
 	 * @param db
 	 * @param src
 	 *            stream to read the pack data from. If the stream is buffered
@@ -239,7 +239,7 @@ public class IndexPack {
 	 * Thin packs are sometimes used during network transfers to allow a delta
 	 * to be sent without a base object. Such packs are not permitted on disk.
 	 * They can be fixed by copying the base object onto the end of the pack.
-	 * 
+	 *
 	 * @param fix
 	 *            true to enable fixing a thin pack.
 	 */
@@ -296,10 +296,10 @@ public class IndexPack {
 
 	/**
 	 * Consume data from the input stream until the packfile is indexed.
-	 * 
+	 *
 	 * @param progress
 	 *            progress feedback
-	 * 
+	 *
 	 * @throws IOException
 	 */
 	public void index(final ProgressMonitor progress) throws IOException {
@@ -997,7 +997,7 @@ public class IndexPack {
 	 * If the call completes successfully the repository this IndexPack instance
 	 * was created with will have the objects in the pack available for reading
 	 * and use, without needing to scan for packs.
-	 * 
+	 *
 	 * @throws IOException
 	 *             The pack could not be inserted into the repository's objects
 	 *             directory. The pack no longer exists on disk, as it was

@@ -126,7 +126,7 @@ class RefDatabase {
 
 	/**
 	 * Create a command to update, create or delete a ref in this repository.
-	 * 
+	 *
 	 * @param name
 	 *            name of the ref the caller wants to modify.
 	 * @return an update command. The caller must finish populating this command
@@ -172,7 +172,7 @@ class RefDatabase {
 
 	/**
 	 * Writes a symref (e.g. HEAD) to disk
-	 * 
+	 *
 	 * @param name
 	 *            symref name
 	 * @param target
@@ -382,7 +382,7 @@ class RefDatabase {
 				return new Ref(Ref.Storage.LOOSE, origName, target, null);
 			if (!origName.equals(r.getName()))
 				r = new Ref(Ref.Storage.LOOSE_PACKED, origName, r.getName(), r.getObjectId(), r.getPeeledObjectId(), true);
-			return r; 
+			return r;
 		}
 
 		setModified();

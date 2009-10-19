@@ -57,7 +57,7 @@ import java.util.Iterator;
  * not reference equality and not <code>.equals(Object)</code> equality. This
  * allows subclasses to override <code>equals</code> to supply their own
  * extended semantics.
- * 
+ *
  * @param <V>
  *            type of subclass of ObjectId that will be stored in the map.
  */
@@ -79,7 +79,7 @@ public class ObjectIdSubclassMap<V extends ObjectId> implements Iterable<V> {
 
 	/**
 	 * Lookup an existing mapping.
-	 * 
+	 *
 	 * @param toFind
 	 *            the object identifier to find.
 	 * @return the instance mapped to toFind, or null if no mapping exists.
@@ -103,7 +103,7 @@ public class ObjectIdSubclassMap<V extends ObjectId> implements Iterable<V> {
 	 * An existing mapping for <b>must not</b> be in this map. Callers must
 	 * first call {@link #get(AnyObjectId)} to verify there is no current
 	 * mapping prior to adding a new mapping.
-	 * 
+	 *
 	 * @param newValue
 	 *            the object to store.
 	 * @param

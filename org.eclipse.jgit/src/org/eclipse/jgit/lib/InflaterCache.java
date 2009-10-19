@@ -63,7 +63,7 @@ public class InflaterCache {
 	 * <p>
 	 * Inflaters obtained through this cache should be returned (if possible) by
 	 * {@link #release(Inflater)} to avoid garbage collection and reallocation.
-	 * 
+	 *
 	 * @return an available inflater. Never null.
 	 */
 	public static Inflater get() {
@@ -82,7 +82,7 @@ public class InflaterCache {
 
 	/**
 	 * Release an inflater previously obtained from this cache.
-	 * 
+	 *
 	 * @param i
 	 *            the inflater to return. May be null, in which case this method
 	 *            does nothing.

@@ -58,7 +58,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
  * <p>
  * The source of the list must be a {@link PlotWalk} and {@link #fillTo(int)}
  * must be used to populate the list.
- * 
+ *
  * @param <L>
  *            type of lane used by the application.
  */
@@ -98,7 +98,7 @@ public class PlotCommitList<L extends PlotLane> extends
 	 * <p>
 	 * This method modifies the passed collection by adding the lanes in any
 	 * order.
-	 * 
+	 *
 	 * @param currCommit
 	 *            the commit the caller needs to get the lanes from.
 	 * @param result
@@ -195,7 +195,7 @@ public class PlotCommitList<L extends PlotLane> extends
 	/**
 	 * Return colors and other reusable information to the plotter when a lane
 	 * is no longer needed.
-	 * 
+	 *
 	 * @param lane
 	 */
 	protected void recycleLane(final L lane) {

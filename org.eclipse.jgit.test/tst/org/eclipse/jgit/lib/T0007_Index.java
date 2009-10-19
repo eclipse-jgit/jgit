@@ -179,7 +179,7 @@ public class T0007_Index extends RepositoryTestCase {
 
 		ObjectId id = index.writeTree();
 		assertEquals("c696abc3ab8e091c665f49d00eb8919690b3aec3", id.name());
-		
+
 		writeTrashFile("a/b", "data:a/b");
 		index.add(trash, new File(trash, "a/b"));
 

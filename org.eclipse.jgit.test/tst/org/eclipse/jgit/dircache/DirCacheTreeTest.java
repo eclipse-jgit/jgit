@@ -162,7 +162,7 @@ public class DirCacheTreeTest extends RepositoryTestCase {
 	 * index larger than the default BufferedInputStream buffer size. This made
 	 * the DirCache unable to read the extensions when index size exceeded the
 	 * buffer size (in some cases at least).
-	 * 
+	 *
 	 * @throws CorruptObjectException
 	 * @throws IOException
 	 */

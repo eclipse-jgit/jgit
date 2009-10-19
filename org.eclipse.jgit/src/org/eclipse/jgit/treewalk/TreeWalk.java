@@ -90,7 +90,7 @@ public class TreeWalk {
 	 * The returned tree walk is already positioned on the requested path, so
 	 * the caller should not need to invoke {@link #next()} unless they are
 	 * looking for a possible directory/file name conflict.
-	 * 
+	 *
 	 * @param db
 	 *            repository to read tree object data from.
 	 * @param path
@@ -126,7 +126,7 @@ public class TreeWalk {
 	 * The returned tree walk is already positioned on the requested path, so
 	 * the caller should not need to invoke {@link #next()} unless they are
 	 * looking for a possible directory/file name conflict.
-	 * 
+	 *
 	 * @param db
 	 *            repository to read tree object data from.
 	 * @param path
@@ -175,7 +175,7 @@ public class TreeWalk {
 
 	/**
 	 * Create a new tree walker for a given repository.
-	 * 
+	 *
 	 * @param repo
 	 *            the repository the walker will obtain data from.
 	 */
@@ -187,7 +187,7 @@ public class TreeWalk {
 
 	/**
 	 * Get the repository this tree walker is reading from.
-	 * 
+	 *
 	 * @return the repository configured when the walker was created.
 	 */
 	public Repository getRepository() {
@@ -196,7 +196,7 @@ public class TreeWalk {
 
 	/**
 	 * Get the currently configured filter.
-	 * 
+	 *
 	 * @return the current filter. Never null as a filter is always needed.
 	 */
 	public TreeFilter getFilter() {
@@ -216,7 +216,7 @@ public class TreeWalk {
 	 * filter, unless the filter implementation specifically states it is (and
 	 * always will be) thread-safe. Callers may use {@link TreeFilter#clone()}
 	 * to create a unique filter tree for this TreeWalk instance.
-	 * 
+	 *
 	 * @param newFilter
 	 *            the new filter. If null the special {@link TreeFilter#ALL}
 	 *            filter will be used instead, as it matches every entry.
@@ -232,7 +232,7 @@ public class TreeWalk {
 	 * <p>
 	 * If the walker is recursive then the caller will not see a subtree node
 	 * and instead will only receive file nodes in all relevant subtrees.
-	 * 
+	 *
 	 * @return true if automatically entering subtrees is enabled.
 	 */
 	public boolean isRecursive() {
@@ -247,7 +247,7 @@ public class TreeWalk {
 	 * (directory) is deleted then all of the file level nodes will appear to be
 	 * deleted, recursively, through as many levels as necessary to account for
 	 * all entries.
-	 * 
+	 *
 	 * @param b
 	 *            true to skip subtree nodes and only obtain files nodes.
 	 */
@@ -334,7 +334,7 @@ public class TreeWalk {
 
 	/**
 	 * Reset this walker to run over a set of existing trees.
-	 * 
+	 *
 	 * @param ids
 	 *            the trees we need to parse. The walker will execute over this
 	 *            many parallel trees if the reset is successful.
@@ -388,7 +388,7 @@ public class TreeWalk {
 	 * has lost track of the order they added the trees into the walker.
 	 * <p>
 	 * The tree must have the same root as existing trees in the walk.
-	 * 
+	 *
 	 * @param id
 	 *            identity of the tree object the caller wants walked.
 	 * @return position of this tree within the walker.
@@ -417,7 +417,7 @@ public class TreeWalk {
 	 * <p>
 	 * The tree which the iterator operates on must have the same root as
 	 * existing trees in the walk.
-	 * 
+	 *
 	 * @param p
 	 *            an iterator to walk over. The iterator should be new, with no
 	 *            parent, and should still be positioned before the first entry.
@@ -445,7 +445,7 @@ public class TreeWalk {
 
 	/**
 	 * Get the number of trees known to this walker.
-	 * 
+	 *
 	 * @return the total number of trees this walker is iterating over.
 	 */
 	public int getTreeCount() {
@@ -454,7 +454,7 @@ public class TreeWalk {
 
 	/**
 	 * Advance this walker to the next relevant entry.
-	 * 
+	 *
 	 * @return true if there is an entry available; false if all entries have
 	 *         been walked and the walk of this set of tree iterators is over.
 	 * @throws MissingObjectException
@@ -547,7 +547,7 @@ public class TreeWalk {
 	 * Every added tree supplies mode bits, even if the tree does not contain
 	 * the current entry. In the latter case {@link FileMode#MISSING}'s mode
 	 * bits (0) are returned.
-	 * 
+	 *
 	 * @param nth
 	 *            tree to obtain the mode bits from.
 	 * @return mode bits for the current entry of the nth tree.
@@ -563,7 +563,7 @@ public class TreeWalk {
 	 * <p>
 	 * Every added tree supplies a mode, even if the tree does not contain the
 	 * current entry. In the latter case {@link FileMode#MISSING} is returned.
-	 * 
+	 *
 	 * @param nth
 	 *            tree to obtain the mode from.
 	 * @return mode for the current entry of the nth tree.
@@ -582,7 +582,7 @@ public class TreeWalk {
 	 * <p>
 	 * Every tree supplies an object id, even if the tree does not contain the
 	 * current entry. In the latter case {@link ObjectId#zeroId()} is returned.
-	 * 
+	 *
 	 * @param nth
 	 *            tree to obtain the object identifier from.
 	 * @return object identifier for the current tree entry.
@@ -620,7 +620,7 @@ public class TreeWalk {
 
 	/**
 	 * Compare two tree's current ObjectId values for equality.
-	 * 
+	 *
 	 * @param nthA
 	 *            first tree to compare the object id from.
 	 * @param nthB
@@ -670,7 +670,7 @@ public class TreeWalk {
 	 * and final output generation. Applications should try to avoid calling it,
 	 * and if invoked do so only once per interesting entry, where the name is
 	 * absolutely required for correct function.
-	 * 
+	 *
 	 * @return complete path of the current entry, from the root of the
 	 *         repository. If the current entry is in a subtree there will be at
 	 *         least one '/' in the returned string.
@@ -702,7 +702,7 @@ public class TreeWalk {
 	 * method then to use {@link #getPathString()} to first create a String
 	 * object, then test <code>startsWith</code> or some other type of string
 	 * match function.
-	 * 
+	 *
 	 * @param p
 	 *            path buffer to test. Callers should ensure the path does not
 	 *            end with '/' prior to invocation.
@@ -791,7 +791,7 @@ public class TreeWalk {
 	 * This method is faster then testing the raw mode bits of all trees to see
 	 * if any of them are a subtree. If at least one is a subtree then this
 	 * method will return true.
-	 * 
+	 *
 	 * @return true if {@link #enterSubtree()} will work on the current node.
 	 */
 	public boolean isSubtree() {
@@ -814,7 +814,7 @@ public class TreeWalk {
 	 * <p>
 	 * If the current entry is a subtree this method arranges for its children
 	 * to be returned before the next sibling following the subtree is returned.
-	 * 
+	 *
 	 * @throws MissingObjectException
 	 *             a subtree was found, but the subtree object does not exist in
 	 *             this repository. The repository may be missing objects.

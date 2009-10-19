@@ -63,7 +63,7 @@ public class PathFilter extends TreeFilter {
 	 * caller must prepend the subdirectory's path prior to creating the filter.
 	 * <p>
 	 * Path strings use '/' to delimit directories on all platforms.
-	 * 
+	 *
 	 * @param path
 	 *            the path to filter on. Must not be the empty string. All
 	 *            trailing '/' characters will be trimmed before string's length

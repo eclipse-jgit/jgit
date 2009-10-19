@@ -141,7 +141,7 @@ public class RemoteConfig {
 	 * This constructor succeeds even if the requested remote is not defined
 	 * within the supplied configuration file. If that occurs then there will be
 	 * no URIs and no ref specifications known to the new instance.
-	 * 
+	 *
 	 * @param rc
 	 *            the existing configuration to get the remote settings from.
 	 *            The configuration must already be loaded into memory.
@@ -195,7 +195,7 @@ public class RemoteConfig {
 
 	/**
 	 * Update this remote's definition within the configuration.
-	 * 
+	 *
 	 * @param rc
 	 *            the configuration file to store ourselves into.
 	 */
@@ -259,7 +259,7 @@ public class RemoteConfig {
 
 	/**
 	 * Get the local name this remote configuration is recognized as.
-	 * 
+	 *
 	 * @return name assigned by the user to this configuration block.
 	 */
 	public String getName() {
@@ -268,7 +268,7 @@ public class RemoteConfig {
 
 	/**
 	 * Get all configured URIs under this remote.
-	 * 
+	 *
 	 * @return the set of URIs known to this remote.
 	 */
 	public List<URIish> getURIs() {
@@ -277,7 +277,7 @@ public class RemoteConfig {
 
 	/**
 	 * Add a new URI to the end of the list of URIs.
-	 * 
+	 *
 	 * @param toAdd
 	 *            the new URI to add to this remote.
 	 * @return true if the URI was added; false if it already exists.
@@ -290,7 +290,7 @@ public class RemoteConfig {
 
 	/**
 	 * Remove a URI from the list of URIs.
-	 * 
+	 *
 	 * @param toRemove
 	 *            the URI to remove from this remote.
 	 * @return true if the URI was added; false if it already exists.
@@ -334,7 +334,7 @@ public class RemoteConfig {
 
 	/**
 	 * Remembered specifications for fetching from a repository.
-	 * 
+	 *
 	 * @return set of specs used by default when fetching.
 	 */
 	public List<RefSpec> getFetchRefSpecs() {
@@ -343,7 +343,7 @@ public class RemoteConfig {
 
 	/**
 	 * Add a new fetch RefSpec to this remote.
-	 * 
+	 *
 	 * @param s
 	 *            the new specification to add.
 	 * @return true if the specification was added; false if it already exists.
@@ -380,7 +380,7 @@ public class RemoteConfig {
 
 	/**
 	 * Remove a fetch RefSpec from this remote.
-	 * 
+	 *
 	 * @param s
 	 *            the specification to remove.
 	 * @return true if the specification existed and was removed.
@@ -391,7 +391,7 @@ public class RemoteConfig {
 
 	/**
 	 * Remembered specifications for pushing to a repository.
-	 * 
+	 *
 	 * @return set of specs used by default when pushing.
 	 */
 	public List<RefSpec> getPushRefSpecs() {
@@ -400,7 +400,7 @@ public class RemoteConfig {
 
 	/**
 	 * Add a new push RefSpec to this remote.
-	 * 
+	 *
 	 * @param s
 	 *            the new specification to add.
 	 * @return true if the specification was added; false if it already exists.
@@ -413,7 +413,7 @@ public class RemoteConfig {
 
 	/**
 	 * Remove a push RefSpec from this remote.
-	 * 
+	 *
 	 * @param s
 	 *            the specification to remove.
 	 * @return true if the specification existed and was removed.
@@ -428,7 +428,7 @@ public class RemoteConfig {
 	 * This value is only useful for an SSH style connection, where Git is
 	 * asking the remote system to execute a program that provides the necessary
 	 * network protocol.
-	 * 
+	 *
 	 * @return location of 'git-upload-pack' on the remote system. If no
 	 *         location has been configured the default of 'git-upload-pack' is
 	 *         returned instead.
@@ -443,7 +443,7 @@ public class RemoteConfig {
 	 * This value is only useful for an SSH style connection, where Git is
 	 * asking the remote system to execute a program that provides the necessary
 	 * network protocol.
-	 * 
+	 *
 	 * @return location of 'git-receive-pack' on the remote system. If no
 	 *         location has been configured the default of 'git-receive-pack' is
 	 *         returned instead.
@@ -454,7 +454,7 @@ public class RemoteConfig {
 
 	/**
 	 * Get the description of how annotated tags should be treated during fetch.
-	 * 
+	 *
 	 * @return option indicating the behavior of annotated tags in fetch.
 	 */
 	public TagOpt getTagOpt() {
@@ -463,7 +463,7 @@ public class RemoteConfig {
 
 	/**
 	 * Set the description of how annotated tags should be treated on fetch.
-	 * 
+	 *
 	 * @param option
 	 *            method to use when handling annotated tags.
 	 */

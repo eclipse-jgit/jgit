@@ -66,7 +66,7 @@ public abstract class SshSessionFactory {
 	 * <p>
 	 * A factory is always available. By default the factory will read from the
 	 * user's <code>$HOME/.ssh</code> and assume OpenSSH compatibility.
-	 * 
+	 *
 	 * @return factory the current factory for this JVM.
 	 */
 	public static SshSessionFactory getInstance() {
@@ -75,7 +75,7 @@ public abstract class SshSessionFactory {
 
 	/**
 	 * Change the JVM-wide factory to a different implementation.
-	 * 
+	 *
 	 * @param newFactory
 	 *            factory for future sessions to be created through. If null the
 	 *            default factory will be restored.s
@@ -95,7 +95,7 @@ public abstract class SshSessionFactory {
 	 * <p>
 	 * The caller must connect the session by invoking <code>connect()</code>
 	 * if it has not already been connected.
-	 * 
+	 *
 	 * @param user
 	 *            username to authenticate as. If null a reasonable default must
 	 *            be selected by the implementation. This may be
@@ -118,7 +118,7 @@ public abstract class SshSessionFactory {
 
 	/**
 	 * Close (or recycle) a session to a host.
-	 * 
+	 *
 	 * @param session
 	 *            a session previously obtained from this factory's
 	 *            {@link #getSession(String,String, String, int)} method.s

@@ -70,7 +70,7 @@ import org.eclipse.jgit.revwalk.RevFlag;
  * starts at (upper left corner is) 0,0. If this is not true (like say in SWT)
  * the implementation must perform the cell offset computations within the
  * various draw methods.
- * 
+ *
  * @param <TLane>
  *            type of lane being used by the application.
  * @param <TColor>
@@ -85,7 +85,7 @@ public abstract class AbstractPlotRenderer<TLane extends PlotLane, TColor> {
 
 	/**
 	 * Paint one commit using the underlying graphics library.
-	 * 
+	 *
 	 * @param commit
 	 *            the commit to render in this cell. Must not be null.
 	 * @param h
@@ -185,7 +185,7 @@ public abstract class AbstractPlotRenderer<TLane extends PlotLane, TColor> {
 	 * If a null lane is supplied the return value must still be acceptable to a
 	 * drawing method. Usually this means the implementation should return a
 	 * default color.
-	 * 
+	 *
 	 * @param myLane
 	 *            the current lane. May be null.
 	 * @return graphics specific color reference. Must be a valid color.
@@ -194,7 +194,7 @@ public abstract class AbstractPlotRenderer<TLane extends PlotLane, TColor> {
 
 	/**
 	 * Draw a single line within this cell.
-	 * 
+	 *
 	 * @param color
 	 *            the color to use while drawing the line.
 	 * @param x1
@@ -216,7 +216,7 @@ public abstract class AbstractPlotRenderer<TLane extends PlotLane, TColor> {
 	 * <p>
 	 * Usually the commit dot is a filled oval in blue, then a drawn oval in
 	 * black, using the same coordinates for both operations.
-	 * 
+	 *
 	 * @param x
 	 *            upper left of the oval's bounding box.
 	 * @param y
@@ -232,7 +232,7 @@ public abstract class AbstractPlotRenderer<TLane extends PlotLane, TColor> {
 	 * Draw a single boundary commit (aka uninteresting commit) dot.
 	 * <p>
 	 * Usually a boundary commit dot is a light gray oval with a white center.
-	 * 
+	 *
 	 * @param x
 	 *            upper left of the oval's bounding box.
 	 * @param y
@@ -249,7 +249,7 @@ public abstract class AbstractPlotRenderer<TLane extends PlotLane, TColor> {
 	 * <p>
 	 * The font and colors used to render the text are left up to the
 	 * implementation.
-	 * 
+	 *
 	 * @param msg
 	 *            the text to draw. Does not contain LFs.
 	 * @param x

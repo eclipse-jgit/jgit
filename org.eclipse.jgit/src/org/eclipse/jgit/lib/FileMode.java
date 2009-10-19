@@ -138,7 +138,7 @@ public abstract class FileMode {
 
 	/**
 	 * Convert a set of mode bits into a FileMode enumerated value.
-	 * 
+	 *
 	 * @param bits
 	 *            the mode bits the caller has somehow obtained.
 	 * @return the FileMode instance that represents the given bits.
@@ -198,7 +198,7 @@ public abstract class FileMode {
 
 	/**
 	 * Test a file mode for equality with this {@link FileMode} object.
-	 * 
+	 *
 	 * @param modebits
 	 * @return true if the mode bits represent the same mode as this object
 	 */
@@ -212,7 +212,7 @@ public abstract class FileMode {
 	 * indicate octal notation. This method is suitable for generation of a mode
 	 * string within a GIT tree object.
 	 * </p>
-	 * 
+	 *
 	 * @param os
 	 *            stream to copy the mode to.
 	 * @throws IOException
@@ -233,7 +233,7 @@ public abstract class FileMode {
 	 * Get the object type that should appear for this type of mode.
 	 * <p>
 	 * See the object type constants in {@link Constants}.
-	 * 
+	 *
 	 * @return one of the well known object type constants.
 	 */
 	public int getObjectType() {

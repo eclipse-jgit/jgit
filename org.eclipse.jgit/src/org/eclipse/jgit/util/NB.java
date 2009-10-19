@@ -106,7 +106,7 @@ public final class NB {
 
 	/**
 	 * Read the entire byte array into memory, or throw an exception.
-	 * 
+	 *
 	 * @param fd
 	 *            input stream to read the data from.
 	 * @param dst
@@ -194,7 +194,7 @@ public final class NB {
 	 * This function performs an unsigned compare operation, even though Java
 	 * does not natively support unsigned integer values. Negative numbers are
 	 * treated as larger than positive ones.
-	 * 
+	 *
 	 * @param a
 	 *            the first value to compare.
 	 * @param b
@@ -226,7 +226,7 @@ public final class NB {
 
 	/**
 	 * Convert sequence of 4 bytes (network byte order) into signed value.
-	 * 
+	 *
 	 * @param intbuf
 	 *            buffer to acquire the 4 bytes of data from.
 	 * @param offset
@@ -247,7 +247,7 @@ public final class NB {
 
 	/**
 	 * Convert sequence of 4 bytes (network byte order) into unsigned value.
-	 * 
+	 *
 	 * @param intbuf
 	 *            buffer to acquire the 4 bytes of data from.
 	 * @param offset
@@ -267,7 +267,7 @@ public final class NB {
 
 	/**
 	 * Convert sequence of 8 bytes (network byte order) into unsigned value.
-	 * 
+	 *
 	 * @param intbuf
 	 *            buffer to acquire the 8 bytes of data from.
 	 * @param offset
@@ -302,7 +302,7 @@ public final class NB {
 
 	/**
 	 * Write a 32 bit integer as a sequence of 4 bytes (network byte order).
-	 * 
+	 *
 	 * @param intbuf
 	 *            buffer to write the 4 bytes of data into.
 	 * @param offset

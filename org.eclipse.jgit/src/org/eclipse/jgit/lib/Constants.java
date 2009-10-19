@@ -123,7 +123,7 @@ public final class Constants {
 	 * Indicates the associated object is a commit.
 	 * <p>
 	 * <b>This constant is fixed and is defined by the Git packfile format.</b>
-	 * 
+	 *
 	 * @see #TYPE_COMMIT
 	 */
 	public static final int OBJ_COMMIT = 1;
@@ -134,7 +134,7 @@ public final class Constants {
 	 * Indicates the associated object is a tree.
 	 * <p>
 	 * <b>This constant is fixed and is defined by the Git packfile format.</b>
-	 * 
+	 *
 	 * @see #TYPE_BLOB
 	 */
 	public static final int OBJ_TREE = 2;
@@ -145,7 +145,7 @@ public final class Constants {
 	 * Indicates the associated object is a blob.
 	 * <p>
 	 * <b>This constant is fixed and is defined by the Git packfile format.</b>
-	 * 
+	 *
 	 * @see #TYPE_BLOB
 	 */
 	public static final int OBJ_BLOB = 3;
@@ -156,7 +156,7 @@ public final class Constants {
 	 * Indicates the associated object is an annotated tag.
 	 * <p>
 	 * <b>This constant is fixed and is defined by the Git packfile format.</b>
-	 * 
+	 *
 	 * @see #TYPE_TAG
 	 */
 	public static final int OBJ_TAG = 4;
@@ -203,7 +203,7 @@ public final class Constants {
 	 * <b>This constant is fixed and is defined by the Git packfile format.</b>
 	 */
 	public static final byte[] PACK_SIGNATURE = { 'P', 'A', 'C', 'K' };
-	
+
 	/** Native character encoding for commit messages, file names... */
 	public static final String CHARACTER_ENCODING = "UTF-8";
 
@@ -257,7 +257,7 @@ public final class Constants {
 
 	/**
 	 * Create a new digest function for objects.
-	 * 
+	 *
 	 * @return a new digest object.
 	 * @throws RuntimeException
 	 *             this Java virtual machine does not support the required hash
@@ -320,7 +320,7 @@ public final class Constants {
 
 	/**
 	 * Parse an encoded type string into a type constant.
-	 * 
+	 *
 	 * @param id
 	 *            object id this type string came from; may be null if that is
 	 *            not known at the time the parse is occurring.
@@ -395,7 +395,7 @@ public final class Constants {
 
 	/**
 	 * Convert an integer into its decimal representation.
-	 * 
+	 *
 	 * @param s
 	 *            the integer to convert.
 	 * @return a decimal representation of the input integer. The returned array
@@ -407,7 +407,7 @@ public final class Constants {
 
 	/**
 	 * Convert a string to US-ASCII encoding.
-	 * 
+	 *
 	 * @param s
 	 *            the string to convert. Must not contain any characters over
 	 *            127 (outside of 7-bit ASCII).

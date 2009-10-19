@@ -53,7 +53,7 @@ public interface ProgressMonitor {
 	 * Advise the monitor of the total number of subtasks.
 	 * <p>
 	 * This should be invoked at most once per progress monitor interface.
-	 * 
+	 *
 	 * @param totalTasks
 	 *            the total number of tasks the caller will need to complete
 	 *            their processing.
@@ -62,7 +62,7 @@ public interface ProgressMonitor {
 
 	/**
 	 * Begin processing a single task.
-	 * 
+	 *
 	 * @param title
 	 *            title to describe the task. Callers should publish these as
 	 *            stable string constants that implementations could match
@@ -79,7 +79,7 @@ public interface ProgressMonitor {
 	 * This is an incremental update; if invoked once per work unit the correct
 	 * value for our argument is <code>1</code>, to indicate a single unit of
 	 * work has been finished by the caller.
-	 * 
+	 *
 	 * @param completed
 	 *            the number of work units completed since the last call.
 	 */
@@ -90,7 +90,7 @@ public interface ProgressMonitor {
 
 	/**
 	 * Check for user task cancellation.
-	 * 
+	 *
 	 * @return true if the user asked the process to stop working.
 	 */
 	boolean isCancelled();

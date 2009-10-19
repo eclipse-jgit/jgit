@@ -94,11 +94,11 @@ public class IndexDiffTest extends RepositoryTestCase {
 
 	public void testModified() throws IOException {
 		GitIndex index = new GitIndex(db);
-		
-		
+
+
 		index.add(trash, writeTrashFile("file2", "file2"));
 		index.add(trash, writeTrashFile("dir/file3", "dir/file3"));
-		
+
 		writeTrashFile("dir/file3", "changed");
 
 		Tree tree = new Tree(db);

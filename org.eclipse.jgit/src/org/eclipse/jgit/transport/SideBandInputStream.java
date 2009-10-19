@@ -68,7 +68,7 @@ import org.eclipse.jgit.util.RawParseUtils;
  * <p>
  * Channel 3 results in an exception being thrown, as the remote side has issued
  * an unrecoverable error.
- * 
+ *
  * @see PacketLineIn#sideband(ProgressMonitor)
  */
 class SideBandInputStream extends InputStream {

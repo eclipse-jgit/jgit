@@ -75,12 +75,12 @@ public class IndexTreeWalker {
 		this.root = root;
 		this.visitor = visitor;
 		this.newTree = null;
-		
+
 		threeTrees = false;
-		
+
 		indexMembers = index.getMembers();
 	}
-	
+
 	/**
 	 * Construct a walker for the index and two trees.
 	 *
@@ -95,15 +95,15 @@ public class IndexTreeWalker {
 		this.newTree = newTree;
 		this.root = root;
 		this.visitor = visitor;
-		
+
 		threeTrees = true;
-		
+
 		indexMembers = index.getMembers();
 	}
 
 	Entry[] indexMembers;
 	int indexCounter = 0;
-	
+
 	/**
 	 * Actually walk the index tree
 	 *
@@ -124,7 +124,7 @@ public class IndexTreeWalker {
 			int cmpma = compare(m, a);
 			int cmpmi = compare(m, i);
 			int cmpai = compare(a, i);
-			
+
 			TreeEntry pm = cmpma <= 0 && cmpmi <= 0 ? m : null;
 			TreeEntry pa = cmpma >= 0 && cmpai <= 0 ? a : null;
 			Entry     pi = cmpmi >= 0 && cmpai >= 0 ? i : null;
@@ -201,7 +201,7 @@ public class IndexTreeWalker {
 	static boolean lt(TreeEntry h, Entry i) {
 		return compare(h, i) < 0;
 	}
-	
+
 	static boolean lt(Entry i, TreeEntry t) {
 		return compare(t, i) > 0;
 	}
@@ -209,11 +209,11 @@ public class IndexTreeWalker {
 	static boolean lt(TreeEntry h, TreeEntry m) {
 		return compare(h, m) < 0;
 	}
-	
+
 	static boolean eq(TreeEntry t1, TreeEntry t2) {
 		return compare(t1, t2) == 0;
 	}
-	
+
 	static boolean eq(TreeEntry t1, Entry e) {
 		return compare(t1, e) == 0;
 	}
@@ -225,9 +225,9 @@ public class IndexTreeWalker {
 			return 1;
 		if (i == null)
 			return -1;
-		return Tree.compareNames(t.getFullNameUTF8(), i.getNameUTF8(), TreeEntry.lastChar(t), TreeEntry.lastChar(i)); 
+		return Tree.compareNames(t.getFullNameUTF8(), i.getNameUTF8(), TreeEntry.lastChar(t), TreeEntry.lastChar(i));
 	}
-	
+
 	static int compare(TreeEntry t1, TreeEntry t2) {
 		if (t1 != null && t1.getParent() == null && t2 != null && t2.getParent() == null)
 			return 0;
@@ -244,5 +244,5 @@ public class IndexTreeWalker {
 			return -1;
 		return Tree.compareNames(t1.getFullNameUTF8(), t2.getFullNameUTF8(), TreeEntry.lastChar(t1), TreeEntry.lastChar(t2));
 	}
-	
+
 }

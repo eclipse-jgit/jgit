@@ -55,7 +55,7 @@ abstract class AbstractRevQueue extends Generator {
 	 * This method always adds the commit, even if it is already in the queue or
 	 * previously was in the queue but has already been removed. To control
 	 * queue admission use {@link #add(RevCommit, RevFlag)}.
-	 * 
+	 *
 	 * @param c
 	 *            commit to add.
 	 */
@@ -68,7 +68,7 @@ abstract class AbstractRevQueue extends Generator {
 	 * flag; if it does not already have the flag than the commit is added to
 	 * the queue and the flag is set. This later will prevent the commit from
 	 * being added twice.
-	 * 
+	 *
 	 * @param c
 	 *            commit to add.
 	 * @param queueControl
@@ -88,7 +88,7 @@ abstract class AbstractRevQueue extends Generator {
 	 * flag; if it does not already have the flag than the commit is added to
 	 * the queue and the flag is set. This later will prevent the commit from
 	 * being added twice.
-	 * 
+	 *
 	 * @param c
 	 *            commit whose parents should be added.
 	 * @param queueControl
@@ -104,7 +104,7 @@ abstract class AbstractRevQueue extends Generator {
 
 	/**
 	 * Remove the first commit from the queue.
-	 * 
+	 *
 	 * @return the first commit of this queue.
 	 */
 	public abstract RevCommit next();

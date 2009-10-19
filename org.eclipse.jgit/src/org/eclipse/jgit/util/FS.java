@@ -66,7 +66,7 @@ public abstract class FS {
 
 	/**
 	 * Does this operating system and JRE support the execute flag on files?
-	 * 
+	 *
 	 * @return true if this implementation can provide reasonably accurate
 	 *         executable bit information; false otherwise.
 	 */
@@ -77,7 +77,7 @@ public abstract class FS {
 	 * <p>
 	 * Not all platforms and JREs support executable flags on files. If the
 	 * feature is unsupported this method will always return false.
-	 * 
+	 *
 	 * @param f
 	 *            abstract path to test.
 	 * @return true if the file is believed to be executable by the user.
@@ -90,7 +90,7 @@ public abstract class FS {
 	 * Not all platforms and JREs support executable flags on files. If the
 	 * feature is unsupported this method will always return false and no
 	 * changes will be made to the file specified.
-	 * 
+	 *
 	 * @param f
 	 *            path to modify the executable status of.
 	 * @param canExec
@@ -109,7 +109,7 @@ public abstract class FS {
 	 * <p>
 	 * Not all platforms and JREs require path name translation. Currently only
 	 * Cygwin on Win32 require translation for Cygwin based paths.
-	 * 
+	 *
 	 * @param dir
 	 *            directory relative to which the path name is.
 	 * @param name
@@ -131,7 +131,7 @@ public abstract class FS {
 	 * <p>
 	 * Not all platforms and JREs require path name translation. Currently only
 	 * Cygwin on Win32 require translation for Cygwin based paths.
-	 * 
+	 *
 	 * @param dir
 	 *            directory relative to which the path name is.
 	 * @param name
@@ -154,7 +154,7 @@ public abstract class FS {
 	 * <p>
 	 * Not all platforms and JREs require path name translation. Currently only
 	 * Cygwin on Win32 requires translation of the Cygwin HOME directory.
-	 * 
+	 *
 	 * @return the user's home directory; null if the user does not have one.
 	 */
 	public static File userHome() {
@@ -167,7 +167,7 @@ public abstract class FS {
 
 	/**
 	 * Determine the user's home directory (location where preferences are).
-	 * 
+	 *
 	 * @return the user's home directory; null if the user does not have one.
 	 */
 	protected File userHomeImpl() {

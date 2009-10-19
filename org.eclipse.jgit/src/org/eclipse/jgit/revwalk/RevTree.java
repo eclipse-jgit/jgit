@@ -52,7 +52,7 @@ import org.eclipse.jgit.lib.Constants;
 public class RevTree extends RevObject {
 	/**
 	 * Create a new tree reference.
-	 * 
+	 *
 	 * @param id
 	 *            object name for the tree.
 	 */

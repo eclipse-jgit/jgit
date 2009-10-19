@@ -67,7 +67,7 @@ public class CompoundException extends Exception {
 
 	/**
 	 * Constructs an exception detailing many potential reasons for failure.
-	 * 
+	 *
 	 * @param why
 	 *            Two or more exceptions that may have been the problem.
 	 */
@@ -78,7 +78,7 @@ public class CompoundException extends Exception {
 
 	/**
 	 * Get the complete list of reasons why this failure happened.
-	 * 
+	 *
 	 * @return unmodifiable collection of all possible reasons.
 	 */
 	public List<Throwable> getAllCauses() {

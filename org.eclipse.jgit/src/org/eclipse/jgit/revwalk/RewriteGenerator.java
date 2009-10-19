@@ -65,7 +65,7 @@ import org.eclipse.jgit.errors.MissingObjectException;
  * that makes the DAG dense. Not fully buffering the commits first would cause
  * this loop to abort early, due to commits not being parsed and colored
  * correctly.
- * 
+ *
  * @see RewriteTreeFilter
  */
 class RewriteGenerator extends Generator {

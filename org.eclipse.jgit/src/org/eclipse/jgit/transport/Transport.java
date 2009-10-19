@@ -91,7 +91,7 @@ public abstract class Transport {
 	 * Open a new transport instance to connect two repositories.
 	 * <p>
 	 * This method assumes {@link Operation#FETCH}.
-	 * 
+	 *
 	 * @param local
 	 *            existing local repository.
 	 * @param remote
@@ -197,7 +197,7 @@ public abstract class Transport {
 	 * Open a new transport instance to connect two repositories.
 	 * <p>
 	 * This method assumes {@link Operation#FETCH}.
-	 * 
+	 *
 	 * @param local
 	 *            existing local repository.
 	 * @param cfg
@@ -319,7 +319,7 @@ public abstract class Transport {
 
 	/**
 	 * Open a new transport instance to connect two repositories.
-	 * 
+	 *
 	 * @param local
 	 *            existing local repository.
 	 * @param remote
@@ -520,7 +520,7 @@ public abstract class Transport {
 
 	/**
 	 * Create a new transport instance.
-	 * 
+	 *
 	 * @param local
 	 *            the repository this instance will fetch into, or push out of.
 	 *            This must be the repository passed to
@@ -540,7 +540,7 @@ public abstract class Transport {
 	 * Get the URI this transport connects to.
 	 * <p>
 	 * Each transport instance connects to at most one URI at any point in time.
-	 * 
+	 *
 	 * @return the URI describing the location of the remote repository.
 	 */
 	public URIish getURI() {
@@ -549,7 +549,7 @@ public abstract class Transport {
 
 	/**
 	 * Get the name of the remote executable providing upload-pack service.
-	 * 
+	 *
 	 * @return typically "git-upload-pack".
 	 */
 	public String getOptionUploadPack() {
@@ -558,7 +558,7 @@ public abstract class Transport {
 
 	/**
 	 * Set the name of the remote executable providing upload-pack services.
-	 * 
+	 *
 	 * @param where
 	 *            name of the executable.
 	 */
@@ -571,7 +571,7 @@ public abstract class Transport {
 
 	/**
 	 * Get the description of how annotated tags should be treated during fetch.
-	 * 
+	 *
 	 * @return option indicating the behavior of annotated tags in fetch.
 	 */
 	public TagOpt getTagOpt() {
@@ -580,7 +580,7 @@ public abstract class Transport {
 
 	/**
 	 * Set the description of how annotated tags should be treated on fetch.
-	 * 
+	 *
 	 * @param option
 	 *            method to use when handling annotated tags.
 	 */
@@ -762,7 +762,7 @@ public abstract class Transport {
 	 * tracking refs associated with the remote repository are automatically
 	 * updated if this transport was created from a {@link RemoteConfig} with
 	 * fetch RefSpecs defined.
-	 * 
+	 *
 	 * @param monitor
 	 *            progress monitor to inform the user about our processing
 	 *            activity. Must not be null. Use {@link NullProgressMonitor} if
@@ -898,7 +898,7 @@ public abstract class Transport {
 
 	/**
 	 * Begins a new connection for fetching from the remote repository.
-	 * 
+	 *
 	 * @return a fresh connection to fetch from the remote repository.
 	 * @throws NotSupportedException
 	 *             the implementation does not support fetching.
@@ -910,7 +910,7 @@ public abstract class Transport {
 
 	/**
 	 * Begins a new connection for pushing into the remote repository.
-	 * 
+	 *
 	 * @return a fresh connection to push into the remote repository.
 	 * @throws NotSupportedException
 	 *             the implementation does not support pushing.

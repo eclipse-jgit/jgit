@@ -84,7 +84,7 @@ public enum TagOpt {
 
 	/**
 	 * Get the command line/configuration file text for this value.
-	 * 
+	 *
 	 * @return text that appears in the configuration file to activate this.
 	 */
 	public String option() {
@@ -93,7 +93,7 @@ public enum TagOpt {
 
 	/**
 	 * Convert a command line/configuration file text into a value instance.
-	 * 
+	 *
 	 * @param o
 	 *            the configuration file text value.
 	 * @return the option that matches the passed parameter.

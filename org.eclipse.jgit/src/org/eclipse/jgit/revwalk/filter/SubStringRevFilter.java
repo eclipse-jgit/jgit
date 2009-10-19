@@ -56,7 +56,7 @@ import org.eclipse.jgit.util.RawSubStringPattern;
 public abstract class SubStringRevFilter extends RevFilter {
 	/**
 	 * Can this string be safely handled by a substring filter?
-	 * 
+	 *
 	 * @param pattern
 	 *            the pattern text proposed by the user.
 	 * @return true if a substring filter can perform this pattern match; false
@@ -87,7 +87,7 @@ public abstract class SubStringRevFilter extends RevFilter {
 
 	/**
 	 * Construct a new matching filter.
-	 * 
+	 *
 	 * @param patternText
 	 *            text to locate. This should be a safe string as described by
 	 *            the {@link #safe(String)} as regular expression meta
@@ -106,7 +106,7 @@ public abstract class SubStringRevFilter extends RevFilter {
 
 	/**
 	 * Obtain the raw text to match against.
-	 * 
+	 *
 	 * @param cmit
 	 *            current commit being evaluated.
 	 * @return sequence for the commit's content that we need to match on.

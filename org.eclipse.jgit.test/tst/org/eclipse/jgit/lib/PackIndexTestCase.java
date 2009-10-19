@@ -64,14 +64,14 @@ public abstract class PackIndexTestCase extends RepositoryTestCase {
 
 	/**
 	 * Return file with appropriate index version for prepared pack.
-	 * 
+	 *
 	 * @return file with index
 	 */
 	public abstract File getFileForPack34be9032();
 
 	/**
 	 * Return file with appropriate index version for prepared pack.
-	 * 
+	 *
 	 * @return file with index
 	 */
 	public abstract File getFileForPackdf2982f28();

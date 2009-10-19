@@ -136,7 +136,7 @@ public class Ref {
 
 	/**
 	 * Create a new ref pairing.
-	 * 
+	 *
 	 * @param st
 	 *            method used to store this ref.
 	 * @param origName
@@ -153,7 +153,7 @@ public class Ref {
 
 	/**
 	 * Create a new ref pairing.
-	 * 
+	 *
 	 * @param st
 	 *            method used to store this ref.
 	 * @param refName
@@ -168,7 +168,7 @@ public class Ref {
 
 	/**
 	 * Create a new ref pairing.
-	 * 
+	 *
 	 * @param st
 	 *            method used to store this ref.
 	 * @param origName
@@ -196,7 +196,7 @@ public class Ref {
 
 	/**
 	 * Create a new ref pairing.
-	 * 
+	 *
 	 * @param st
 	 *            method used to store this ref.
 	 * @param refName
@@ -217,7 +217,7 @@ public class Ref {
 
 	/**
 	 * What this ref is called within the repository.
-	 * 
+	 *
 	 * @return name of this ref.
 	 */
 	public String getName() {
@@ -233,7 +233,7 @@ public class Ref {
 
 	/**
 	 * Cached value of this ref.
-	 * 
+	 *
 	 * @return the value of this ref at the last time we read it.
 	 */
 	public ObjectId getObjectId() {
@@ -242,7 +242,7 @@ public class Ref {
 
 	/**
 	 * Cached value of <code>ref^{}</code> (the ref peeled to commit).
-	 * 
+	 *
 	 * @return if this ref is an annotated tag the id of the commit (or tree or
 	 *         blob) that the annotated tag refers to; null if this ref does not
 	 *         refer to an annotated tag.

@@ -55,7 +55,7 @@ package org.eclipse.jgit.transport;
  * <p>
  * WalkTransports are not as efficient as {@link PackTransport} instances, but
  * can be useful in situations where a pack transport is not acceptable.
- * 
+ *
  * @see WalkFetchConnection
  */
 public interface WalkTransport {

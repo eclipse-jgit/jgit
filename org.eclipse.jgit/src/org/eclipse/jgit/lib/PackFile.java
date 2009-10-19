@@ -105,7 +105,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 
 	/**
 	 * Construct a reader for an existing, pre-indexed packfile.
-	 * 
+	 *
 	 * @param idxFile
 	 *            path of the <code>.idx</code> file listing the contents.
 	 * @param packFile
@@ -161,7 +161,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 	 * For performance reasons only the index file is searched; the main pack
 	 * content is ignored entirely.
 	 * </p>
-	 * 
+	 *
 	 * @param id
 	 *            the object to look for. Must not be null.
 	 * @return true if the object is in this pack; false otherwise.
@@ -174,7 +174,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 
 	/**
 	 * Get an object from this pack.
-	 * 
+	 *
 	 * @param curs
 	 *            temporary working space associated with the calling thread.
 	 * @param id
@@ -209,9 +209,9 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 	 * <p>
 	 * Iterator returns objects in SHA-1 lexicographical order.
 	 * </p>
-	 * 
+	 *
 	 * @return iterator over entries of associated pack index
-	 * 
+	 *
 	 * @see PackIndex#iterator()
 	 */
 	public Iterator<PackIndex.MutableEntry> iterator() {
@@ -225,7 +225,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 	/**
 	 * Obtain the total number of objects available in this pack. This method
 	 * relies on pack index, giving number of effectively available objects.
-	 * 
+	 *
 	 * @return number of objects in index of this pack, likewise in this pack
 	 * @throws IOException
 	 *             the index file cannot be loaded into memory.
