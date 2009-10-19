@@ -4,7 +4,7 @@
       label="%featureName"
       version="0.6.0.qualifier"
       provider-name="%providerName"
-      plugin="org.eclipse.jgit">
+      plugin="org.eclipse.egit">
 
    <description url="http://www.eclipse.org/egit/">
      %description
