@@ -50,7 +50,7 @@ import java.io.PipedOutputStream;
 import java.util.Arrays;
 import java.util.List;
 
-import org.eclipse.jgit.util.NB;
+import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.io.InterruptTimer;
 import org.eclipse.jgit.util.io.TimeoutInputStream;
 
@@ -115,7 +115,7 @@ public class TimeoutInputStreamTest extends TestCase {
 		final byte[] exp = new byte[] { 'a', 'b', 'c' };
 		final byte[] act = new byte[exp.length];
 		out.write(exp);
-		NB.readFully(is, act, 0, act.length);
+		IO.readFully(is, act, 0, act.length);
 		assertTrue(Arrays.equals(exp, act));
 	}
 
@@ -123,16 +123,16 @@ public class TimeoutInputStreamTest extends TestCase {
 		final byte[] exp = new byte[] { 'a', 'b', 'c' };
 		final byte[] act = new byte[exp.length];
 		out.write(exp);
-		NB.readFully(is, act, 0, 1);
-		NB.readFully(is, act, 1, 1);
-		NB.readFully(is, act, 2, 1);
+		IO.readFully(is, act, 0, 1);
+		IO.readFully(is, act, 1, 1);
+		IO.readFully(is, act, 2, 1);
 		assertTrue(Arrays.equals(exp, act));
 	}
 
 	public void testTimeout_readBuffer_Timeout() throws IOException {
 		beginRead();
 		try {
-			NB.readFully(is, new byte[512], 0, 512);
+			IO.readFully(is, new byte[512], 0, 512);
 			fail("incorrectly read bytes");
 		} catch (InterruptedIOException e) {
 			// expected

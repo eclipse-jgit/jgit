@@ -3,7 +3,7 @@
  * Copyright (C) 2007, Dave Watson <dwatson@mimvista.com>
  * Copyright (C) 2009, Google Inc.
  * Copyright (C) 2009, JetBrains s.r.o.
- * Copyright (C) 2008, Robin Rosenberg <robin.rosenberg@dewire.com>
+ * Copyright (C) 2008-2009, Robin Rosenberg <robin.rosenberg@dewire.com>
  * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org>
  * Copyright (C) 2008, Thad Hughes <thadh@thad.corp.google.com>
  * and other copyright owners as documented in the project's IP log.
@@ -54,7 +54,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.util.NB;
+import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
 
 /**
@@ -104,7 +104,7 @@ public class FileBasedConfig extends Config {
 	 */
 	public void load() throws IOException, ConfigInvalidException {
 		try {
-			fromText(RawParseUtils.decode(NB.readFully(getFile())));
+			fromText(RawParseUtils.decode(IO.readFully(getFile())));
 		} catch (FileNotFoundException noFile) {
 			clear();
 		} catch (IOException e) {
