@@ -50,6 +50,7 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.NB;
 
 /** Support for the pack index v2 format. */
@@ -80,7 +81,7 @@ class PackIndexV2 extends PackIndex {
 
 	PackIndexV2(final InputStream fd) throws IOException {
 		final byte[] fanoutRaw = new byte[4 * FANOUT];
-		NB.readFully(fd, fanoutRaw, 0, fanoutRaw.length);
+		IO.readFully(fd, fanoutRaw, 0, fanoutRaw.length);
 		fanoutTable = new long[FANOUT];
 		for (int k = 0; k < FANOUT; k++)
 			fanoutTable[k] = NB.decodeUInt32(fanoutRaw, k * 4);
@@ -115,7 +116,7 @@ class PackIndexV2 extends PackIndex {
 			final int intNameLen = (int) nameLen;
 			final byte[] raw = new byte[intNameLen];
 			final int[] bin = new int[intNameLen >>> 2];
-			NB.readFully(fd, raw, 0, raw.length);
+			IO.readFully(fd, raw, 0, raw.length);
 			for (int i = 0; i < bin.length; i++)
 				bin[i] = NB.decodeInt32(raw, i << 2);
 
@@ -126,7 +127,7 @@ class PackIndexV2 extends PackIndex {
 
 		// CRC32 table.
 		for (int k = 0; k < FANOUT; k++)
-			NB.readFully(fd, crc32[k], 0, crc32[k].length);
+			IO.readFully(fd, crc32[k], 0, crc32[k].length);
 
 		// 32 bit offset table. Any entries with the most significant bit
 		// set require a 64 bit offset entry in another table.
@@ -134,7 +135,7 @@ class PackIndexV2 extends PackIndex {
 		int o64cnt = 0;
 		for (int k = 0; k < FANOUT; k++) {
 			final byte[] ofs = offset32[k];
-			NB.readFully(fd, ofs, 0, ofs.length);
+			IO.readFully(fd, ofs, 0, ofs.length);
 			for (int p = 0; p < ofs.length; p += 4)
 				if (ofs[p] < 0)
 					o64cnt++;
@@ -144,13 +145,13 @@ class PackIndexV2 extends PackIndex {
 		//
 		if (o64cnt > 0) {
 			offset64 = new byte[o64cnt * 8];
-			NB.readFully(fd, offset64, 0, offset64.length);
+			IO.readFully(fd, offset64, 0, offset64.length);
 		} else {
 			offset64 = NO_BYTES;
 		}
 
 		packChecksum = new byte[20];
-		NB.readFully(fd, packChecksum, 0, packChecksum.length);
+		IO.readFully(fd, packChecksum, 0, packChecksum.length);
 	}
 
 	@Override

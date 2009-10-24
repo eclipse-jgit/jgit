@@ -57,6 +57,7 @@ import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.NB;
 
 /**
@@ -125,20 +126,20 @@ public class DirCacheEntry {
 		info = sharedInfo;
 		infoOffset = infoAt;
 
-		NB.readFully(in, info, infoOffset, INFO_LEN);
+		IO.readFully(in, info, infoOffset, INFO_LEN);
 		md.update(info, infoOffset, INFO_LEN);
 
 		int pathLen = NB.decodeUInt16(info, infoOffset + P_FLAGS) & NAME_MASK;
 		int skipped = 0;
 		if (pathLen < NAME_MASK) {
 			path = new byte[pathLen];
-			NB.readFully(in, path, 0, pathLen);
+			IO.readFully(in, path, 0, pathLen);
 			md.update(path, 0, pathLen);
 		} else {
 			final ByteArrayOutputStream tmp = new ByteArrayOutputStream();
 			{
 				final byte[] buf = new byte[NAME_MASK];
-				NB.readFully(in, buf, 0, NAME_MASK);
+				IO.readFully(in, buf, 0, NAME_MASK);
 				tmp.write(buf);
 			}
 			for (;;) {
@@ -163,7 +164,7 @@ public class DirCacheEntry {
 		final int expLen = (actLen + 8) & ~7;
 		final int padLen = expLen - actLen - skipped;
 		if (padLen > 0) {
-			NB.skipFully(in, padLen);
+			IO.skipFully(in, padLen);
 			md.update(nullpad, 0, padLen);
 		}
 	}

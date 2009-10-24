@@ -64,6 +64,7 @@ import org.eclipse.jgit.lib.LockFile;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectWriter;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.MutableInteger;
 import org.eclipse.jgit.util.NB;
 import org.eclipse.jgit.util.TemporaryBuffer;
@@ -357,7 +358,7 @@ public class DirCache {
 		// Read the index header and verify we understand it.
 		//
 		final byte[] hdr = new byte[20];
-		NB.readFully(in, hdr, 0, 12);
+		IO.readFully(in, hdr, 0, 12);
 		md.update(hdr, 0, 12);
 		if (!is_DIRC(hdr))
 			throw new CorruptObjectException("Not a DIRC file.");
@@ -380,7 +381,7 @@ public class DirCache {
 		//
 		for (;;) {
 			in.mark(21);
-			NB.readFully(in, hdr, 0, 20);
+			IO.readFully(in, hdr, 0, 20);
 			if (in.read() < 0) {
 				// No extensions present; the file ended where we expected.
 				//
@@ -392,8 +393,8 @@ public class DirCache {
 			case EXT_TREE: {
 				final byte[] raw = new byte[NB.decodeInt32(hdr, 4)];
 				md.update(hdr, 0, 8);
-				NB.skipFully(in, 8);
-				NB.readFully(in, raw, 0, raw.length);
+				IO.skipFully(in, 8);
+				IO.readFully(in, raw, 0, raw.length);
 				md.update(raw, 0, raw.length);
 				tree = new DirCacheTree(raw, new MutableInteger(), null);
 				break;
@@ -404,7 +405,7 @@ public class DirCache {
 					// a performance optimization. Since we do not
 					// understand it, we can safely skip past it.
 					//
-					NB.skipFully(in, NB.decodeUInt32(hdr, 4));
+					IO.skipFully(in, NB.decodeUInt32(hdr, 4));
 				} else {
 					// The extension is not an optimization and is
 					// _required_ to understand this index format.

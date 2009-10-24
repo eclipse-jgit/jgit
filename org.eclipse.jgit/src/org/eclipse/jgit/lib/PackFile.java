@@ -63,6 +63,7 @@ import java.util.zip.DataFormatException;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.PackInvalidException;
 import org.eclipse.jgit.errors.PackMismatchException;
+import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.NB;
 import org.eclipse.jgit.util.RawParseUtils;
 
@@ -400,7 +401,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 		if (length < pos + size)
 			size = (int) (length - pos);
 		final byte[] buf = new byte[size];
-		NB.readFully(fd.getChannel(), pos, buf, 0, size);
+		IO.readFully(fd.getChannel(), pos, buf, 0, size);
 		return new ByteArrayWindow(this, pos, buf);
 	}
 
@@ -430,7 +431,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 		final PackIndex idx = idx();
 		final byte[] buf = new byte[20];
 
-		NB.readFully(fd.getChannel(), 0, buf, 0, 12);
+		IO.readFully(fd.getChannel(), 0, buf, 0, 12);
 		if (RawParseUtils.match(buf, 0, Constants.PACK_SIGNATURE) != 4)
 			throw new IOException("Not a PACK file.");
 		final long vers = NB.decodeUInt32(buf, 4);
@@ -444,7 +445,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 					+ " index " + idx.getObjectCount()
 					+ ": " + getPackFile());
 
-		NB.readFully(fd.getChannel(), length - 20, buf, 0, 20);
+		IO.readFully(fd.getChannel(), length - 20, buf, 0, 20);
 		if (!Arrays.equals(buf, packChecksum))
 			throw new PackMismatchException("Pack checksum mismatch:"
 					+ " pack " + ObjectId.fromRaw(buf).name()
