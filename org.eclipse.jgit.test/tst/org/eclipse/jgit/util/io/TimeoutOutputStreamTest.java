@@ -51,7 +51,7 @@ import java.io.PipedOutputStream;
 import java.util.Arrays;
 import java.util.List;
 
-import org.eclipse.jgit.util.NB;
+import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.io.InterruptTimer;
 import org.eclipse.jgit.util.io.TimeoutOutputStream;
 
@@ -275,11 +275,11 @@ public class TimeoutOutputStreamTest extends TestCase {
 		}
 
 		void want(int cnt) throws IOException {
-			NB.skipFully(this, PIPE_SIZE - cnt);
+			IO.skipFully(this, PIPE_SIZE - cnt);
 		}
 
 		void free(int cnt) throws IOException {
-			NB.skipFully(this, cnt);
+			IO.skipFully(this, cnt);
 		}
 	}
 }

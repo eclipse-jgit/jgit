@@ -53,7 +53,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.util.FS;
-import org.eclipse.jgit.util.NB;
+import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
 
 /** Cache of active {@link Repository} instances. */
@@ -346,7 +346,7 @@ public class RepositoryCache {
 
 		private static String readFirstLine(final File head) {
 			try {
-				final byte[] buf = NB.readFully(head, 4096);
+				final byte[] buf = IO.readFully(head, 4096);
 				int n = buf.length;
 				if (n == 0)
 					return null;

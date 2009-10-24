@@ -58,7 +58,7 @@ import java.util.Map;
 import org.eclipse.jgit.errors.ObjectWritingException;
 import org.eclipse.jgit.lib.Ref.Storage;
 import org.eclipse.jgit.util.FS;
-import org.eclipse.jgit.util.NB;
+import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
 
 class RefDatabase {
@@ -502,7 +502,7 @@ class RefDatabase {
 
 	private static String readLine(final File file)
 			throws FileNotFoundException, IOException {
-		final byte[] buf = NB.readFully(file, 4096);
+		final byte[] buf = IO.readFully(file, 4096);
 		int n = buf.length;
 
 		// remove trailing whitespaces

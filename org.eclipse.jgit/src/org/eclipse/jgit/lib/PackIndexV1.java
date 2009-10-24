@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2008-2009, Google Inc.
  * Copyright (C) 2008, Marek Zawirski <marek.zawirski@gmail.com>
- * Copyright (C) 2007, Robin Rosenberg <robin.rosenberg@dewire.com>
+ * Copyright (C) 2007-2009, Robin Rosenberg <robin.rosenberg@dewire.com>
  * Copyright (C) 2006-2008, Shawn O. Pearce <spearce@spearce.org>
  * and other copyright owners as documented in the project's IP log.
  *
@@ -53,6 +53,7 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 import org.eclipse.jgit.errors.CorruptObjectException;
+import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.NB;
 
 class PackIndexV1 extends PackIndex {
@@ -68,7 +69,7 @@ class PackIndexV1 extends PackIndex {
 			throws CorruptObjectException, IOException {
 		final byte[] fanoutTable = new byte[IDX_HDR_LEN];
 		System.arraycopy(hdr, 0, fanoutTable, 0, hdr.length);
-		NB.readFully(fd, fanoutTable, hdr.length, IDX_HDR_LEN - hdr.length);
+		IO.readFully(fd, fanoutTable, hdr.length, IDX_HDR_LEN - hdr.length);
 
 		idxHeader = new long[256]; // really unsigned 32-bit...
 		for (int k = 0; k < idxHeader.length; k++)
@@ -83,13 +84,13 @@ class PackIndexV1 extends PackIndex {
 			}
 			if (n > 0) {
 				idxdata[k] = new byte[n * (Constants.OBJECT_ID_LENGTH + 4)];
-				NB.readFully(fd, idxdata[k], 0, idxdata[k].length);
+				IO.readFully(fd, idxdata[k], 0, idxdata[k].length);
 			}
 		}
 		objectCnt = idxHeader[255];
 
 		packChecksum = new byte[20];
-		NB.readFully(fd, packChecksum, 0, packChecksum.length);
+		IO.readFully(fd, packChecksum, 0, packChecksum.length);
 	}
 
 	long getObjectCount() {

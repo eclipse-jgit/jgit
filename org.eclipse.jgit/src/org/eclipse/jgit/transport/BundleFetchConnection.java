@@ -1,8 +1,7 @@
 /*
  * Copyright (C) 2009, Constantine Plotnikov <constantine.plotnikov@gmail.com>
  * Copyright (C) 2008-2009, Google Inc.
- * Copyright (C) 2009, Matthias Sohn <matthias.sohn@sap.com>
- * Copyright (C) 2008, Robin Rosenberg <robin.rosenberg@dewire.com>
+ * Copyright (C) 2008-2009, Robin Rosenberg <robin.rosenberg@dewire.com>
  * Copyright (C) 2009, Sasa Zivkov <sasa.zivkov@sap.com>
  * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org>
  * and other copyright owners as documented in the project's IP log.
@@ -73,7 +72,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.eclipse.jgit.util.NB;
+import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
 
 /**
@@ -161,9 +160,9 @@ class BundleFetchConnection extends BaseFetchConnection {
 		while (lf < cnt && hdrbuf[lf] != '\n')
 			lf++;
 		bin.reset();
-		NB.skipFully(bin, lf);
+		IO.skipFully(bin, lf);
 		if (lf < cnt && hdrbuf[lf] == '\n')
-			NB.skipFully(bin, 1);
+			IO.skipFully(bin, 1);
 		return RawParseUtils.decode(Constants.CHARSET, hdrbuf, 0, lf);
 	}
 
