@@ -60,8 +60,9 @@ please make sure it cleanly applies to the "master" branch head.
 
 (3) Check the license.
 
-JGit is licensed under the Eclipse Development License (EDL),
-which is a renamed version of the new style/3-clause BSD license.
+JGit is licensed under the Eclipse Distribution License (EDL,
+http://www.eclipse.org/org/documents/edl-v10.html), which is a
+renamed version of the new style/3-clause BSD license.
 
 Under this licensing model *every* file within the project
 *must* list which license covers it in the header of the file.
