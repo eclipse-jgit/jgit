@@ -42,20 +42,9 @@
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
-if [ "@@use_self@@" = "1" ]
-then
-	this_script=`which "$0" 2>/dev/null`
-	[ $? -gt 0 -a -f "$0" ] && this_script="$0"
-	cp=$this_script
-else
-	jgit_home=`dirname $0`
-	cp="$jgit_home/org.eclipse.jgit/bin"
-	cp="$cp:$jgit_home/org.eclipse.jgit/lib/jsch-0.1.37.jar"
-	cp="$cp:$jgit_home/org.eclipse.jgit.pgm/bin"
-	cp="$cp:$jgit_home/org.eclipse.jgit.pgm/lib/args4j-2.0.9.jar"
-	unset jgit_home
-	java_args=
-fi
+this_script=`which "$0" 2>/dev/null`
+[ $? -gt 0 -a -f "$0" ] && this_script="$0"
+cp=$this_script
 
 if [ -n "$JGIT_CLASSPATH" ]
 then

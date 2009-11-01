@@ -27,3 +27,5 @@ Import-Package: com.jcraft.jsch,
  org.eclipse.jgit.util.io
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.jgit.pgm
+Main-Class: org.eclipse.jgit.pgm.Main
+Implementation-Title: JGit Command Line Interface
