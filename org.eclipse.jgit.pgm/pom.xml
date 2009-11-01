@@ -77,6 +77,22 @@
     </dependency>
   </dependencies>
 
+  <profiles>
+    <profile>
+      <id>java6</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <dependencies>
+        <dependency>
+          <groupId>org.eclipse.jgit</groupId>
+          <artifactId>org.eclipse.jgit.console</artifactId>
+          <version>${project.version}</version>
+        </dependency>
+      </dependencies>
+    </profile>
+  </profiles>
+
   <build>
     <sourceDirectory>src/</sourceDirectory>
 
