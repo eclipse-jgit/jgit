@@ -20,3 +20,5 @@ Import-Package: org.eclipse.jgit.awtui,
  org.kohsuke.args4j.spi
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.jgit.pgm
+Main-Class: org.eclipse.jgit.pgm.Main
+Implementation-Title: JGit Command Line Interface
