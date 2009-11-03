@@ -147,8 +147,8 @@ public abstract class RevWalkTestCase extends RepositoryTestCase {
 		final Commit c = new Commit(db);
 		c.setTreeId(tree);
 		c.setParentIds(parents);
-		c.setAuthor(new PersonIdent(jauthor, new Date(nowTick)));
-		c.setCommitter(new PersonIdent(jcommitter, new Date(nowTick)));
+		c.setAuthor(new PersonIdent(author, new Date(nowTick)));
+		c.setCommitter(new PersonIdent(committer, new Date(nowTick)));
 		c.setMessage("");
 		return rw.lookupCommit(ow.writeCommit(c));
 	}
@@ -159,7 +159,7 @@ public abstract class RevWalkTestCase extends RepositoryTestCase {
 		t.setType(Constants.typeString(dst.getType()));
 		t.setObjId(dst.toObjectId());
 		t.setTag(name);
-		t.setTagger(new PersonIdent(jcommitter, new Date(nowTick)));
+		t.setTagger(new PersonIdent(committer, new Date(nowTick)));
 		t.setMessage("");
 		return (RevTag) rw.lookupAny(ow.writeTag(t), Constants.OBJ_TAG);
 	}

@@ -56,10 +56,10 @@ import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectWriter;
 import org.eclipse.jgit.lib.PersonIdent;
-import org.eclipse.jgit.lib.RepositoryTestCase;
+import org.eclipse.jgit.lib.SampleDataRepositoryTestCase;
 import org.eclipse.jgit.treewalk.TreeWalk;
 
-public class SimpleMergeTest extends RepositoryTestCase {
+public class SimpleMergeTest extends SampleDataRepositoryTestCase {
 
 	public void testOurs() throws IOException {
 		Merger ourMerger = MergeStrategy.OURS.newMerger(db);

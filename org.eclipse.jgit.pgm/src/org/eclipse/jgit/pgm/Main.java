@@ -45,16 +45,19 @@
 package org.eclipse.jgit.pgm;
 
 import java.io.File;
+import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.jgit.awtui.AwtAuthenticator;
+import org.eclipse.jgit.awtui.AwtSshSessionFactory;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.pgm.opt.CmdLineParser;
 import org.eclipse.jgit.pgm.opt.SubcommandHandler;
+import org.eclipse.jgit.util.CachedAuthenticator;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.ExampleMode;
@@ -86,7 +89,10 @@ public class Main {
 	public static void main(final String[] argv) {
 		final Main me = new Main();
 		try {
-			AwtAuthenticator.install();
+			if (!installConsole()) {
+				AwtAuthenticator.install();
+				AwtSshSessionFactory.install();
+			}
 			configureHttpProxy();
 			me.execute(argv);
 		} catch (Die err) {
@@ -181,6 +187,45 @@ public class Main {
 		return null;
 	}
 
+	private static boolean installConsole() {
+		try {
+			install("org.eclipse.jgit.console.ConsoleAuthenticator");
+			install("org.eclipse.jgit.console.ConsoleSshSessionFactory");
+			return true;
+		} catch (ClassNotFoundException e) {
+			return false;
+		} catch (NoClassDefFoundError e) {
+			return false;
+		} catch (UnsupportedClassVersionError e) {
+			return false;
+
+		} catch (IllegalArgumentException e) {
+			throw new RuntimeException("Cannot setup console", e);
+		} catch (SecurityException e) {
+			throw new RuntimeException("Cannot setup console", e);
+		} catch (IllegalAccessException e) {
+			throw new RuntimeException("Cannot setup console", e);
+		} catch (InvocationTargetException e) {
+			throw new RuntimeException("Cannot setup console", e);
+		} catch (NoSuchMethodException e) {
+			throw new RuntimeException("Cannot setup console", e);
+		}
+	}
+
+	private static void install(final String name)
+			throws IllegalAccessException, InvocationTargetException,
+			NoSuchMethodException, ClassNotFoundException {
+		try {
+		Class.forName(name).getMethod("install").invoke(null);
+		} catch (InvocationTargetException e) {
+			if (e.getCause() instanceof RuntimeException)
+				throw (RuntimeException) e.getCause();
+			if (e.getCause() instanceof Error)
+				throw (Error) e.getCause();
+			throw e;
+		}
+	}
+
 	/**
 	 * Configure the JRE's standard HTTP based on <code>http_proxy</code>.
 	 * <p>
@@ -215,8 +260,9 @@ public class Main {
 			final int c = userpass.indexOf(':');
 			final String user = userpass.substring(0, c);
 			final String pass = userpass.substring(c + 1);
-			AwtAuthenticator.add(new AwtAuthenticator.CachedAuthentication(
-					proxyHost, proxyPort, user, pass));
+			CachedAuthenticator
+					.add(new CachedAuthenticator.CachedAuthentication(
+							proxyHost, proxyPort, user, pass));
 		}
 	}
 }

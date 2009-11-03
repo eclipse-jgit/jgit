@@ -53,6 +53,7 @@ import java.util.LinkedList;
 import junit.framework.TestCase;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.junit.MockSystemReader;
 import org.eclipse.jgit.util.SystemReader;
 
 /**
@@ -115,9 +116,9 @@ public class RepositoryConfigTest extends TestCase {
 		final MockSystemReader mockSystemReader = new MockSystemReader();
 		SystemReader.setInstance(mockSystemReader);
 		final String hostname = mockSystemReader.getHostname();
-		final Config userGitConfig = mockSystemReader.userGitConfig;
+		final Config userGitConfig = mockSystemReader.openUserConfig();
 		final Config localConfig = new Config(userGitConfig);
-		mockSystemReader.values.clear();
+		mockSystemReader.clearProperties();
 
 		String authorName;
 		String authorEmail;
@@ -129,7 +130,7 @@ public class RepositoryConfigTest extends TestCase {
 		assertEquals(Constants.UNKNOWN_USER_DEFAULT + "@" + hostname, authorEmail);
 
 		// the system user name is defined
-		mockSystemReader.values.put(Constants.OS_USER_NAME_KEY, "os user name");
+		mockSystemReader.setProperty(Constants.OS_USER_NAME_KEY, "os user name");
 		localConfig.uncache(UserConfig.KEY);
 		authorName = localConfig.get(UserConfig.KEY).getAuthorName();
 		assertEquals("os user name", authorName);
@@ -140,8 +141,8 @@ public class RepositoryConfigTest extends TestCase {
 		}
 
 		// the git environment variables are defined
-		mockSystemReader.values.put(Constants.GIT_AUTHOR_NAME_KEY, "git author name");
-		mockSystemReader.values.put(Constants.GIT_AUTHOR_EMAIL_KEY, "author@email");
+		mockSystemReader.setProperty(Constants.GIT_AUTHOR_NAME_KEY, "git author name");
+		mockSystemReader.setProperty(Constants.GIT_AUTHOR_EMAIL_KEY, "author@email");
 		localConfig.uncache(UserConfig.KEY);
 		authorName = localConfig.get(UserConfig.KEY).getAuthorName();
 		authorEmail = localConfig.get(UserConfig.KEY).getAuthorEmail();

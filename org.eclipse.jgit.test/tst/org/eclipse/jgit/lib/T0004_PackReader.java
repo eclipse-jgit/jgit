@@ -51,7 +51,7 @@ import java.io.IOException;
 
 import org.eclipse.jgit.util.JGitTestUtil;
 
-public class T0004_PackReader extends RepositoryTestCase {
+public class T0004_PackReader extends SampleDataRepositoryTestCase {
 	private static final String PACK_NAME = "pack-34be9032ac282b11fa9babdc2b2a93ca996c9c2f";
 	private static final File TEST_PACK = JGitTestUtil.getTestResourceFile(PACK_NAME + ".pack");
 	private static final File TEST_IDX = JGitTestUtil.getTestResourceFile(PACK_NAME + ".idx");
