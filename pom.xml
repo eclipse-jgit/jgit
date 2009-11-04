@@ -76,7 +76,7 @@
   </mailingLists>
 
   <issueManagement>
-    <url>https://bugs.eclipse.org/bugs/</url>
+    <url>https://bugs.eclipse.org/bugs/buglist.cgi?query_format=advanced;component=JGit;product=EGit;classification=Technology</url>
     <system>Bugzilla</system>
   </issueManagement>
 
