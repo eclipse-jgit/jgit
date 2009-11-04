@@ -43,6 +43,8 @@
 
 package org.eclipse.jgit.transport;
 
+import static org.eclipse.jgit.transport.BasePackFetchConnection.MultiAck;
+
 import java.io.BufferedOutputStream;
 import java.io.EOFException;
 import java.io.IOException;
@@ -79,6 +81,8 @@ public class UploadPack {
 	static final String OPTION_INCLUDE_TAG = BasePackFetchConnection.OPTION_INCLUDE_TAG;
 
 	static final String OPTION_MULTI_ACK = BasePackFetchConnection.OPTION_MULTI_ACK;
+
+	static final String OPTION_MULTI_ACK_DETAILED = BasePackFetchConnection.OPTION_MULTI_ACK_DETAILED;
 
 	static final String OPTION_THIN_PACK = BasePackFetchConnection.OPTION_THIN_PACK;
 
@@ -142,7 +146,7 @@ public class UploadPack {
 
 	private final RevFlagSet SAVE;
 
-	private boolean multiAck;
+	private MultiAck multiAck = MultiAck.OFF;
 
 	/**
 	 * Create a new pack upload for an open repository.
@@ -247,7 +251,14 @@ public class UploadPack {
 		recvWants();
 		if (wantAll.isEmpty())
 			return;
-		multiAck = options.contains(OPTION_MULTI_ACK);
+
+		if (options.contains(OPTION_MULTI_ACK_DETAILED))
+			multiAck = MultiAck.DETAILED;
+		else if (options.contains(OPTION_MULTI_ACK))
+			multiAck = MultiAck.CONTINUE;
+		else
+			multiAck = MultiAck.OFF;
+
 		negotiate();
 		sendPack();
 	}
@@ -255,6 +266,7 @@ public class UploadPack {
 	private void sendAdvertisedRefs() throws IOException {
 		final RefAdvertiser adv = new RefAdvertiser(pckOut, walk, ADVERTISED);
 		adv.advertiseCapability(OPTION_INCLUDE_TAG);
+		adv.advertiseCapability(OPTION_MULTI_ACK_DETAILED);
 		adv.advertiseCapability(OPTION_MULTI_ACK);
 		adv.advertiseCapability(OPTION_OFS_DELTA);
 		adv.advertiseCapability(OPTION_SIDE_BAND);
@@ -335,7 +347,7 @@ public class UploadPack {
 			}
 
 			if (line == PacketLineIn.END) {
-				if (commonBase.isEmpty() || multiAck)
+				if (commonBase.isEmpty() || multiAck != MultiAck.OFF)
 					pckOut.writeString("NAK\n");
 				pckOut.flush();
 			} else if (line.startsWith("have ") && line.length() == 45) {
@@ -343,23 +355,39 @@ public class UploadPack {
 				if (matchHave(id)) {
 					// Both sides have the same object; let the client know.
 					//
-					if (multiAck) {
-						last = id;
+					last = id;
+					switch (multiAck) {
+					case OFF:
+						if (commonBase.size() == 1)
+							pckOut.writeString("ACK " + id.name() + "\n");
+						break;
+					case CONTINUE:
 						pckOut.writeString("ACK " + id.name() + " continue\n");
-					} else if (commonBase.size() == 1)
-						pckOut.writeString("ACK " + id.name() + "\n");
-				} else {
+						break;
+					case DETAILED:
+						pckOut.writeString("ACK " + id.name() + " common\n");
+						break;
+					}
+				} else if (okToGiveUp()) {
 					// They have this object; we don't.
 					//
-					if (multiAck && okToGiveUp())
+					switch (multiAck) {
+					case OFF:
+						break;
+					case CONTINUE:
 						pckOut.writeString("ACK " + id.name() + " continue\n");
+						break;
+					case DETAILED:
+						pckOut.writeString("ACK " + id.name() + " ready\n");
+						break;
+					}
 				}
 
 			} else if (line.equals("done")) {
 				if (commonBase.isEmpty())
 					pckOut.writeString("NAK\n");
 
-				else if (multiAck)
+				else if (multiAck != MultiAck.OFF)
 					pckOut.writeString("ACK " + last.name() + "\n");
 				break;
 

@@ -225,6 +225,28 @@ public class PacketLineInTest extends TestCase {
 		assertEOF();
 	}
 
+	public void testReadACK_ACKcommon1() throws IOException {
+		final ObjectId expid = ObjectId
+				.fromString("fcfcfb1fd94829c1a1704f894fc111d14770d34e");
+		final MutableObjectId actid = new MutableObjectId();
+
+		init("0038ACK fcfcfb1fd94829c1a1704f894fc111d14770d34e common\n");
+		assertSame(PacketLineIn.AckNackResult.ACK_COMMON, in.readACK(actid));
+		assertTrue(actid.equals(expid));
+		assertEOF();
+	}
+
+	public void testReadACK_ACKready1() throws IOException {
+		final ObjectId expid = ObjectId
+				.fromString("fcfcfb1fd94829c1a1704f894fc111d14770d34e");
+		final MutableObjectId actid = new MutableObjectId();
+
+		init("0037ACK fcfcfb1fd94829c1a1704f894fc111d14770d34e ready\n");
+		assertSame(PacketLineIn.AckNackResult.ACK_READY, in.readACK(actid));
+		assertTrue(actid.equals(expid));
+		assertEOF();
+	}
+
 	public void testReadACK_Invalid1() {
 		init("HELO");
 		try {
@@ -246,6 +268,17 @@ public class PacketLineInTest extends TestCase {
 	}
 
 	public void testReadACK_Invalid3() {
+		String s = "ACK fcfcfb1fd94829c1a1704f894fc111d14770d34e neverhappen";
+		init("003d" + s + "\n");
+		try {
+			in.readACK(new MutableObjectId());
+			fail("incorrectly accepted unsupported ACK status");
+		} catch (IOException e) {
+			assertEquals("Expected ACK/NAK, got: " + s, e.getMessage());
+		}
+	}
+
+	public void testReadACK_Invalid4() {
 		init("0000");
 		try {
 			in.readACK(new MutableObjectId());
