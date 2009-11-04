@@ -1,4 +1,5 @@
 /*
+ * Copyright (C) 2008-2009, Google Inc.
  * Copyright (C) 2008, Robin Rosenberg <robin.rosenberg@dewire.com>
  * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org>
  * and other copyright owners as documented in the project's IP log.
@@ -110,6 +111,8 @@ abstract class BasePackFetchConnection extends BasePackConnection implements
 
 	static final String OPTION_MULTI_ACK = "multi_ack";
 
+	static final String OPTION_MULTI_ACK_DETAILED = "multi_ack_detailed";
+
 	static final String OPTION_THIN_PACK = "thin-pack";
 
 	static final String OPTION_SIDE_BAND = "side-band";
@@ -121,6 +124,10 @@ abstract class BasePackFetchConnection extends BasePackConnection implements
 	static final String OPTION_SHALLOW = "shallow";
 
 	static final String OPTION_NO_PROGRESS = "no-progress";
+
+	static enum MultiAck {
+		OFF, CONTINUE, DETAILED;
+	}
 
 	private final RevWalk walk;
 
@@ -136,7 +143,7 @@ abstract class BasePackFetchConnection extends BasePackConnection implements
 	/** Marks a commit listed in the advertised refs. */
 	final RevFlag ADVERTISED;
 
-	private boolean multiAck;
+	private MultiAck multiAck = MultiAck.OFF;
 
 	private boolean thinPack;
 
@@ -335,7 +342,14 @@ abstract class BasePackFetchConnection extends BasePackConnection implements
 			includeTags = wantCapability(line, OPTION_INCLUDE_TAG);
 		if (allowOfsDelta)
 			wantCapability(line, OPTION_OFS_DELTA);
-		multiAck = wantCapability(line, OPTION_MULTI_ACK);
+
+		if (wantCapability(line, OPTION_MULTI_ACK_DETAILED))
+			multiAck = MultiAck.DETAILED;
+		else if (wantCapability(line, OPTION_MULTI_ACK))
+			multiAck = MultiAck.CONTINUE;
+		else
+			multiAck = MultiAck.OFF;
+
 		if (thinPack)
 			thinPack = wantCapability(line, OPTION_THIN_PACK);
 		if (wantCapability(line, OPTION_SIDE_BAND_64K))
@@ -353,13 +367,12 @@ abstract class BasePackFetchConnection extends BasePackConnection implements
 		int havesSinceLastContinue = 0;
 		boolean receivedContinue = false;
 		boolean receivedAck = false;
-		boolean sendHaves = true;
 
 		negotiateBegin();
-		while (sendHaves) {
+		SEND_HAVES: for (;;) {
 			final RevCommit c = walk.next();
 			if (c == null)
-				break;
+				break SEND_HAVES;
 
 			pckOut.writeString("have " + c.getId().name() + "\n");
 			havesSent++;
@@ -388,31 +401,31 @@ abstract class BasePackFetchConnection extends BasePackConnection implements
 				continue;
 			}
 
-			for (;;) {
+			READ_RESULT: for (;;) {
 				final PacketLineIn.AckNackResult anr;
 
 				anr = pckIn.readACK(ackId);
-				if (anr == PacketLineIn.AckNackResult.NAK) {
+				switch (anr) {
+				case NAK:
 					// More have lines are necessary to compute the
 					// pack on the remote side. Keep doing that.
 					//
 					resultsPending--;
-					break;
-				}
+					break READ_RESULT;
 
-				if (anr == PacketLineIn.AckNackResult.ACK) {
+				case ACK:
 					// The remote side is happy and knows exactly what
 					// to send us. There is no further negotiation and
 					// we can break out immediately.
 					//
-					multiAck = false;
+					multiAck = MultiAck.OFF;
 					resultsPending = 0;
 					receivedAck = true;
-					sendHaves = false;
-					break;
-				}
+					break SEND_HAVES;
 
-				if (anr == PacketLineIn.AckNackResult.ACK_CONTINUE) {
+				case ACK_CONTINUE:
+				case ACK_COMMON:
+				case ACK_READY:
 					// The server knows this commit (ackId). We don't
 					// need to send any further along its ancestry, but
 					// we need to continue to talk about other parts of
@@ -422,6 +435,7 @@ abstract class BasePackFetchConnection extends BasePackConnection implements
 					receivedAck = true;
 					receivedContinue = true;
 					havesSinceLastContinue = 0;
+					break;
 				}
 
 				if (monitor.isCancelled())
@@ -450,23 +464,36 @@ abstract class BasePackFetchConnection extends BasePackConnection implements
 			// there is one more result expected from the done we
 			// just sent to the remote.
 			//
-			multiAck = false;
+			multiAck = MultiAck.OFF;
 			resultsPending++;
 		}
 
-		while (resultsPending > 0 || multiAck) {
+		READ_RESULT: while (resultsPending > 0 || multiAck != MultiAck.OFF) {
 			final PacketLineIn.AckNackResult anr;
 
 			anr = pckIn.readACK(ackId);
 			resultsPending--;
 
-			if (anr == PacketLineIn.AckNackResult.ACK)
-				break; // commit negotiation is finished.
-
-			if (anr == PacketLineIn.AckNackResult.ACK_CONTINUE) {
-				// There must be a normal ACK following this.
+			switch (anr) {
+			case NAK:
+				// A NAK is a response to an end we queued earlier
+				// we eat it and look for another ACK/NAK message.
 				//
-				multiAck = true;
+				break;
+
+			case ACK:
+				// A solitary ACK at this point means the remote won't
+				// speak anymore, but is going to send us a pack now.
+				//
+				break READ_RESULT;
+
+			case ACK_CONTINUE:
+			case ACK_COMMON:
+			case ACK_READY:
+				// We will expect a normal ACK to break out of the loop.
+				//
+				multiAck = MultiAck.CONTINUE;
+				break;
 			}
 
 			if (monitor.isCancelled())
