@@ -89,7 +89,7 @@ public class OpenSshConfig {
 		if (home == null)
 			home = new File(".").getAbsoluteFile();
 
-		final File config = new File(new File(home, ".ssh"), "config");
+		final File config = new File(SshConfigSessionFactory.getSshUserDir(home), "config");
 		final OpenSshConfig osc = new OpenSshConfig(home, config);
 		osc.refresh();
 		return osc;
