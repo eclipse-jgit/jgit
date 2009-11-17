@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (C) 2009, Robin Rosenberg <robin.rosenberg@dewire.com>
+# Copyright (C) 2009, Google Inc.
 # and other copyright owners as documented in the project's IP log.
 #
 # This program and the accompanying materials are made available
@@ -41,39 +41,67 @@
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
-# Updates MANIFEST.MF files for EGit plugins.
+# Update all pom.xml and MANIFEST.MF with new build number
+#
+# TODO(spearce) This should be converted to some sort of
+# Java based Maven plugin so its fully portable.
+#
 
-v=$1
-if [ -z "$v" ]
-then
-	echo >&2 "usage: $0 version"
+case "$1" in
+--snapshot=*)
+	V=$(echo "$1" | perl -pe 's/^--snapshot=//')
+	if [ -z "$V" ]
+	then
+		echo >&2 "usage: $0 --snapshot=0.n.0"
+		exit 1
+	fi
+	case "$V" in
+	*-SNAPSHOT) : ;;
+	*) V=$V-SNAPSHOT ;;
+	esac
+	;;
+
+--release)
+	V=$(git describe HEAD) || exit
+	;;
+
+*)
+	echo >&2 "usage: $0 {--snapshot=0.n.0 | --release}"
 	exit 1
-fi
+esac
 
-MF=$(git ls-files | grep META-INF/MANIFEST.MF)
-MV=jgit-maven/jgit/pom.xml
-ALL="$MF $MV"
+case "$V" in
+v*) V=$(echo "$V" | perl -pe s/^v//) ;;
+esac
 
-replace() {
-	version=$1
+case "$V" in
+*-SNAPSHOT)
+	POM_V=$V
+	MF_V=$(echo "$V" | perl -pe 's/-SNAPSHOT$/.qualifier/')
+	;;
+*-[1-9]*-g[0-9a-f]*)
+	POM_V=$(echo "$V" | perl -pe 's/-(\d+-g.*)$/.$1/')
+	MF_V=$POM_V
+	;;
+*)
+	POM_V=$V
+	MF_V=$V
+	;;
+esac
 
-	perl -pi -e 's/^(Bundle-Version:).*/$1 '$version/ $MF
-	perl -pi -e 's,^    <version>.*</version>,    <version>'$2'</version>,' $MV
-}
+perl -pi -e '
+	s/^(Bundle-Version:).*/$1 '"$MF_V"'/
+	' $(git ls-files | grep META-INF/MANIFEST.MF)
 
-replace $v $v
-git commit -s -m "JGit $v" $ALL &&
-c=$(git rev-parse HEAD) &&
+perl -pi -e '
+	if ($ARGV ne $old_argv) {
+		$seen_version = 0;
+		$old_argv = $ARGV;
+	}
+	if (!$seen_version) {
+		$seen_version = 1 if
+		s{(<version>).*(</version>)}{${1}'"$POM_V"'${2}};
+	}
+	' $(git ls-files | grep pom.xml)
 
-replace $v.qualifier $v-SNAPSHOT &&
-git commit -s -m "Re-add version qualifier suffix to $v" $ALL &&
-
-echo &&
-tagcmd="git tag -s -m 'JGit $v' v$v $c" &&
-if ! eval $tagcmd
-then
-	echo >&2
-	echo >&2 "Tag with:"
-	echo >&2 "  $tagcmd"
-	exit 1
-fi || exit
+git diff
