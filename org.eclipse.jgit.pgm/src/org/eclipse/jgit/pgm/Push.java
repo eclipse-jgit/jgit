@@ -65,7 +65,7 @@ class Push extends TextBuiltin {
 	int timeout = -1;
 
 	@Argument(index = 0, metaVar = "uri-ish")
-	private String remote = "origin";
+	private String remote = Constants.REMOTE;
 
 	@Argument(index = 1, metaVar = "refspec")
 	private final List<RefSpec> refSpecs = new ArrayList<RefSpec>();
