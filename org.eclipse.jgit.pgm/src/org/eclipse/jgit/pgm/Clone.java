@@ -73,7 +73,7 @@ import org.eclipse.jgit.transport.URIish;
 @Command(common = true, usage = "Clone a repository into a new directory")
 class Clone extends AbstractFetchCommand {
 	@Option(name = "--origin", aliases = { "-o" }, metaVar = "name", usage = "use <name> instead of 'origin' to track upstream")
-	private String remoteName = "origin";
+	private String remoteName = Constants.DEFAULT_REMOTE_NAME;
 
 	@Argument(index = 0, required = true, metaVar = "uri-ish")
 	private String sourceUri;

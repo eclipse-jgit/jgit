@@ -258,6 +258,9 @@ public final class Constants {
 	/** A gitignore file name */
 	public static final String GITIGNORE_FILENAME = ".gitignore";
 
+	/** Default remote name used by clone, push and fetch operations */
+	public static final String DEFAULT_REMOTE_NAME = "origin";
+
 	/**
 	 * Create a new digest function for objects.
 	 *

@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2008-2009, Google Inc.
+ * Copyright (C) 2009, Mykola Nikishov <mn@mn.com.ua>
  * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org>
  * and other copyright owners as documented in the project's IP log.
  *
@@ -48,6 +49,7 @@ import java.util.List;
 
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.TextProgressMonitor;
 import org.eclipse.jgit.transport.FetchResult;
 import org.eclipse.jgit.transport.RefSpec;
@@ -81,7 +83,7 @@ class Fetch extends AbstractFetchCommand {
 	}
 
 	@Argument(index = 0, metaVar = "uri-ish")
-	private String remote = "origin";
+	private String remote = Constants.DEFAULT_REMOTE_NAME;
 
 	@Argument(index = 1, metaVar = "refspec")
 	private List<RefSpec> toget;
