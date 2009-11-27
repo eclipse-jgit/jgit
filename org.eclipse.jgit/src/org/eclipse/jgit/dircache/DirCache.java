@@ -518,7 +518,7 @@ public class DirCache {
 		}
 
 		if (tree != null) {
-			final TemporaryBuffer bb = new TemporaryBuffer();
+			final TemporaryBuffer bb = new TemporaryBuffer.LocalFile();
 			tree.write(tmp, bb);
 			bb.close();
 
