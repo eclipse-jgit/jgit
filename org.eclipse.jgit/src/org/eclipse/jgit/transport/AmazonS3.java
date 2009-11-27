@@ -450,7 +450,7 @@ public class AmazonS3 {
 			final ProgressMonitor monitor, final String monitorTask)
 			throws IOException {
 		final MessageDigest md5 = newMD5();
-		final TemporaryBuffer buffer = new TemporaryBuffer() {
+		final TemporaryBuffer buffer = new TemporaryBuffer.LocalFile() {
 			@Override
 			public void close() throws IOException {
 				super.close();
