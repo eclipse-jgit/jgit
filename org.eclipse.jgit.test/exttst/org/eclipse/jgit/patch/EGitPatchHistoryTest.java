@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008, Google Inc.
+ * Copyright (C) 2008-2009, Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -211,7 +211,7 @@ public class EGitPatchHistoryTest extends TestCase {
 						buf.destroy();
 					}
 					commitId = line.substring("commit ".length());
-					buf = new TemporaryBuffer();
+					buf = new TemporaryBuffer.LocalFile();
 				} else if (buf != null) {
 					buf.write(line.getBytes("ISO-8859-1"));
 					buf.write('\n');

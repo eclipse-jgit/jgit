@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008, Google Inc.
+ * Copyright (C) 2008-2009, Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -52,7 +52,7 @@ import junit.framework.TestCase;
 
 public class TemporaryBufferTest extends TestCase {
 	public void testEmpty() throws IOException {
-		final TemporaryBuffer b = new TemporaryBuffer();
+		final TemporaryBuffer b = new TemporaryBuffer.LocalFile();
 		try {
 			b.close();
 			assertEquals(0, b.length());
@@ -65,7 +65,7 @@ public class TemporaryBufferTest extends TestCase {
 	}
 
 	public void testOneByte() throws IOException {
-		final TemporaryBuffer b = new TemporaryBuffer();
+		final TemporaryBuffer b = new TemporaryBuffer.LocalFile();
 		final byte test = (byte) new TestRng(getName()).nextInt();
 		try {
 			b.write(test);
@@ -91,7 +91,7 @@ public class TemporaryBufferTest extends TestCase {
 	}
 
 	public void testOneBlock_BulkWrite() throws IOException {
-		final TemporaryBuffer b = new TemporaryBuffer();
+		final TemporaryBuffer b = new TemporaryBuffer.LocalFile();
 		final byte[] test = new TestRng(getName())
 				.nextBytes(TemporaryBuffer.Block.SZ);
 		try {
@@ -121,7 +121,7 @@ public class TemporaryBufferTest extends TestCase {
 	}
 
 	public void testOneBlockAndHalf_BulkWrite() throws IOException {
-		final TemporaryBuffer b = new TemporaryBuffer();
+		final TemporaryBuffer b = new TemporaryBuffer.LocalFile();
 		final byte[] test = new TestRng(getName())
 				.nextBytes(TemporaryBuffer.Block.SZ * 3 / 2);
 		try {
@@ -151,7 +151,7 @@ public class TemporaryBufferTest extends TestCase {
 	}
 
 	public void testOneBlockAndHalf_SingleWrite() throws IOException {
-		final TemporaryBuffer b = new TemporaryBuffer();
+		final TemporaryBuffer b = new TemporaryBuffer.LocalFile();
 		final byte[] test = new TestRng(getName())
 				.nextBytes(TemporaryBuffer.Block.SZ * 3 / 2);
 		try {
@@ -179,7 +179,7 @@ public class TemporaryBufferTest extends TestCase {
 	}
 
 	public void testOneBlockAndHalf_Copy() throws IOException {
-		final TemporaryBuffer b = new TemporaryBuffer();
+		final TemporaryBuffer b = new TemporaryBuffer.LocalFile();
 		final byte[] test = new TestRng(getName())
 				.nextBytes(TemporaryBuffer.Block.SZ * 3 / 2);
 		try {
@@ -208,7 +208,7 @@ public class TemporaryBufferTest extends TestCase {
 	}
 
 	public void testLarge_SingleWrite() throws IOException {
-		final TemporaryBuffer b = new TemporaryBuffer();
+		final TemporaryBuffer b = new TemporaryBuffer.LocalFile();
 		final byte[] test = new TestRng(getName())
 				.nextBytes(TemporaryBuffer.DEFAULT_IN_CORE_LIMIT * 3);
 		try {
@@ -235,7 +235,7 @@ public class TemporaryBufferTest extends TestCase {
 	}
 
 	public void testInCoreLimit_SwitchOnAppendByte() throws IOException {
-		final TemporaryBuffer b = new TemporaryBuffer();
+		final TemporaryBuffer b = new TemporaryBuffer.LocalFile();
 		final byte[] test = new TestRng(getName())
 				.nextBytes(TemporaryBuffer.DEFAULT_IN_CORE_LIMIT + 1);
 		try {
@@ -263,7 +263,7 @@ public class TemporaryBufferTest extends TestCase {
 	}
 
 	public void testInCoreLimit_SwitchBeforeAppendByte() throws IOException {
-		final TemporaryBuffer b = new TemporaryBuffer();
+		final TemporaryBuffer b = new TemporaryBuffer.LocalFile();
 		final byte[] test = new TestRng(getName())
 				.nextBytes(TemporaryBuffer.DEFAULT_IN_CORE_LIMIT * 3);
 		try {
@@ -291,7 +291,7 @@ public class TemporaryBufferTest extends TestCase {
 	}
 
 	public void testInCoreLimit_SwitchOnCopy() throws IOException {
-		final TemporaryBuffer b = new TemporaryBuffer();
+		final TemporaryBuffer b = new TemporaryBuffer.LocalFile();
 		final byte[] test = new TestRng(getName())
 				.nextBytes(TemporaryBuffer.DEFAULT_IN_CORE_LIMIT * 2);
 		try {
@@ -322,7 +322,7 @@ public class TemporaryBufferTest extends TestCase {
 	}
 
 	public void testDestroyWhileOpen() throws IOException {
-		final TemporaryBuffer b = new TemporaryBuffer();
+		final TemporaryBuffer b = new TemporaryBuffer.LocalFile();
 		try {
 			b.write(new TestRng(getName())
 					.nextBytes(TemporaryBuffer.DEFAULT_IN_CORE_LIMIT * 2));
@@ -332,7 +332,7 @@ public class TemporaryBufferTest extends TestCase {
 	}
 
 	public void testRandomWrites() throws IOException {
-		final TemporaryBuffer b = new TemporaryBuffer();
+		final TemporaryBuffer b = new TemporaryBuffer.LocalFile();
 		final TestRng rng = new TestRng(getName());
 		final int max = TemporaryBuffer.DEFAULT_IN_CORE_LIMIT * 2;
 		final byte[] expect = new byte[max];
@@ -377,4 +377,16 @@ public class TemporaryBufferTest extends TestCase {
 		}
 	}
 
+	public void testHeap() throws IOException {
+		final TemporaryBuffer b = new TemporaryBuffer.Heap(2 * 8 * 1024);
+		final byte[] r = new byte[8 * 1024];
+		b.write(r);
+		b.write(r);
+		try {
+			b.write(1);
+			fail("accepted too many bytes of data");
+		} catch (IOException e) {
+			assertEquals("In-memory buffer limit exceeded", e.getMessage());
+		}
+	}
 }
