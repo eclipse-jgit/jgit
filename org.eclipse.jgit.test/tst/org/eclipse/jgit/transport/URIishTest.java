@@ -244,4 +244,50 @@ public class URIishTest extends TestCase {
 		assertEquals(u.setPass(null).toPrivateString(), u.toString());
 		assertEquals(u, new URIish(str));
 	}
+
+	/**
+	 * we don't test the path for <code>null</code>
+	 */
+	public void testGetNullHumanishName() {
+		try {
+			URIish.getHumanishName(null);
+			fail("path must be not null");
+		} catch (NullPointerException e) {
+			// expected
+		}
+	}
+
+	/**
+	 * empty path is useless
+	 */
+	public void testGetEmptyHumanishName() {
+		try {
+			URIish.getHumanishName("");
+			fail("empty path is useless");
+		} catch (IllegalArgumentException e) {
+			// expected
+		}
+	}
+
+	/**
+	 * <code>.git</code> as a path doesn't make sense
+	 */
+	public void testGetDotGitHumanishName() {
+		try {
+			URIish.getHumanishName(".git");
+			fail("path '.git' is useless");
+		} catch (IllegalArgumentException e) {
+			// expected
+		}
+	}
+
+	public void testGetValidDotGitHumanishName() {
+		String humanishName = URIish.getHumanishName("abc.git");
+		assertEquals("abc", humanishName);
+	}
+
+	public void testGetValidWithSlashDotGitHumanishName() {
+		String humanishName = URIish.getHumanishName("/abc.git");
+		assertEquals("abc", humanishName);
+	}
 }

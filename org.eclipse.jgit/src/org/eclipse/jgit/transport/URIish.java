@@ -56,6 +56,8 @@ import java.util.regex.Pattern;
  * any special character is written as-is.
  */
 public class URIish {
+	private static final String DOT_GIT = ".git";
+
 	private static final Pattern FULL_URI = Pattern
 			.compile("^(?:([a-z][a-z0-9+-]+)://(?:([^/]+?)(?::([^/]+?))?@)?(?:([^/]+?))?(?::(\\d+))?)?((?:[A-Za-z]:)?/.+)$");
 
@@ -362,5 +364,25 @@ public class URIish {
 		}
 
 		return r.toString();
+	}
+
+	/**
+	 * @param aPath
+	 * @return the "humanish" part of the path
+	 */
+	public static String getHumanishName(String aPath) {
+		if ("".equals(aPath)) {
+			throw new IllegalArgumentException();
+		}
+		String path = aPath;
+		int s = path.lastIndexOf('/');
+		if (s != -1)
+			path = path.substring(s + 1);
+		if (path.endsWith(DOT_GIT)) { //$NON-NLS-1$
+			if (path.equals(DOT_GIT))
+				throw new IllegalArgumentException();
+			path = path.substring(0, path.length() - DOT_GIT.length());
+		}
+		return path;
 	}
 }
