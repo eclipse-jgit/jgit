@@ -56,6 +56,8 @@ import java.util.regex.Pattern;
  * any special character is written as-is.
  */
 public class URIish {
+	private static final String DOT_GIT = ".git";
+
 	private static final Pattern FULL_URI = Pattern
 			.compile("^(?:([a-z][a-z0-9+-]+)://(?:([^/]+?)(?::([^/]+?))?@)?(?:([^/]+?))?(?::(\\d+))?)?((?:[A-Za-z]:)?/.+)$");
 
@@ -362,5 +364,60 @@ public class URIish {
 		}
 
 		return r.toString();
+	}
+
+	/**
+	 * Get the "humanish" part of the given path. Some examples of a 'humanish'
+	 * part for a full path:
+	 * <table>
+	 * <tr>
+	 * <th>Path</th>
+	 * <th>Humanish part</th>
+	 * </tr>
+	 * <tr>
+	 * <td><code>/path/to/repo.git</code></td>
+	 * <td rowspan="4"><code>repo</code></td>
+	 * </tr>
+	 * <tr>
+	 * <td><code>/path/to/repo.git/</code></td>
+	 * </tr>
+	 * <tr>
+	 * <td><code>/path/to/repo/.git</code></td>
+	 * </tr>
+	 * <tr>
+	 * <td><code>/path/to/repo/</code></td>
+	 * </tr>
+	 * </table>
+	 *
+	 * @param aPath
+	 * @return the "humanish" part of the path. Never empty or <code>null</code>
+	 *         .
+	 * @throws IllegalArgumentException
+	 */
+	public static String getHumanishName(String aPath)
+			throws IllegalArgumentException {
+		if ("".equals(aPath))
+			throw new IllegalArgumentException();
+		if (aPath.equals(DOT_GIT))
+			throw new IllegalArgumentException();
+		String[] elements = aPath.split("/");
+		String lastSegment = elements[elements.length - 1];
+		String result = lastSegment;
+		if (lastSegment.endsWith(DOT_GIT))
+			result = lastSegment.substring(0, lastSegment.length()
+					- DOT_GIT.length());
+		if (result.equals(""))
+			result = elements[elements.length - 2];
+		if ("".equals(result))
+			throw new IllegalArgumentException();
+		return result;
+	}
+
+	/**
+	 * @return the "humanish" part of the path
+	 * @see #getHumanishName(String)
+	 */
+	public String getHumanishName() {
+		return getHumanishName(getPath());
 	}
 }

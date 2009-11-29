@@ -1,4 +1,5 @@
 /*
+ * Copyright (C) 2009, Mykola Nikishov <mn@mn.com.ua>
  * Copyright (C) 2008, Robin Rosenberg <robin.rosenberg@dewire.com>
  * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org>
  * and other copyright owners as documented in the project's IP log.
@@ -244,4 +245,110 @@ public class URIishTest extends TestCase {
 		assertEquals(u.setPass(null).toPrivateString(), u.toString());
 		assertEquals(u, new URIish(str));
 	}
+
+	public void testGetNullHumanishName() {
+		try {
+			URIish.getHumanishName(null);
+			fail("path must be not null");
+		} catch (NullPointerException e) {
+			// expected
+		}
+	}
+
+	public void testGetEmptyHumanishName() {
+		try {
+			URIish.getHumanishName("");
+			fail("empty path is useless");
+		} catch (IllegalArgumentException e) {
+			// expected
+		}
+	}
+
+	public void testGetDotGitHumanishName() {
+		try {
+			URIish.getHumanishName(".git");
+			fail("path '.git' is useless");
+		} catch (IllegalArgumentException e) {
+			// expected
+		}
+	}
+
+	public void testGetValidWithEmptySlashDotGitHumanishName() {
+		String humanishName = URIish.getHumanishName("/a/b/.git");
+		assertEquals("b", humanishName);
+	}
+
+	public void testGetWithSlashDotGitHumanishName() {
+		try {
+			URIish.getHumanishName("/.git");
+			fail("never returns an empty value");
+		} catch (IllegalArgumentException e) {
+			// expected
+		}
+	}
+
+	public void testGetTwoSlashesDotGitHumanishName() {
+		try {
+			URIish.getHumanishName("//.git");
+			fail("never returns an empty value");
+		} catch (IllegalArgumentException e) {
+			// expected
+		}
+	}
+
+	public void testGetValidHumanishName() {
+		String humanishName = URIish.getHumanishName("abc");
+		assertEquals("abc", humanishName);
+	}
+
+	public void testGetValidSlashHumanishName() {
+		String humanishName = URIish.getHumanishName("abc/");
+		assertEquals("abc", humanishName);
+	}
+
+	public void testGetSlashValidSlashHumanishName() {
+		String humanishName = URIish.getHumanishName("/abc/");
+		assertEquals("abc", humanishName);
+	}
+
+	public void testGetSlashValidSlashDotGitSlashHumanishName() {
+		String humanishName = URIish.getHumanishName("/abc/.git");
+		assertEquals("abc", humanishName);
+	}
+
+	public void testGetSlashesValidSlashHumanishName() {
+		String humanishName = URIish.getHumanishName("/a/b/c/");
+		assertEquals("c", humanishName);
+	}
+
+	public void testGetValidDotGitHumanishName() {
+		String humanishName = URIish.getHumanishName("abc.git");
+		assertEquals("abc", humanishName);
+	}
+
+	public void testGetValidDotGitSlashHumanishName() {
+		String humanishName = URIish.getHumanishName("abc.git/");
+		assertEquals("abc", humanishName);
+	}
+
+	public void testGetValidWithSlashDotGitHumanishName() {
+		String humanishName = URIish.getHumanishName("/abc.git");
+		assertEquals("abc", humanishName);
+	}
+
+	public void testGetValidWithSlashDotGitSlashHumanishName() {
+		String humanishName = URIish.getHumanishName("/abc.git/");
+		assertEquals("abc", humanishName);
+	}
+
+	public void testGetValidWithSlashesDotGitHumanishName() {
+		String humanishName = URIish.getHumanishName("/a/b/c.git");
+		assertEquals("c", humanishName);
+	}
+
+	public void testGetValidWithSlashesDotGitSlashHumanishName() {
+		String humanishName = URIish.getHumanishName("/a/b/c.git/");
+		assertEquals("c", humanishName);
+	}
+
 }
