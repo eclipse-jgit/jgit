@@ -1,0 +1,195 @@
+/*
+ * Copyright (C) 2009, Christian Halstrick <christian.halstrick@sap.com>
+ * and other copyright owners as documented in the project's IP log.
+ *
+ * This program and the accompanying materials are made available
+ * under the terms of the Eclipse Distribution License v1.0 which
+ * accompanies this distribution, is reproduced below, and is
+ * available at http://www.eclipse.org/org/documents/edl-v10.php
+ *
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or
+ * without modification, are permitted provided that the following
+ * conditions are met:
+ *
+ * - Redistributions of source code must retain the above copyright
+ *   notice, this list of conditions and the following disclaimer.
+ *
+ * - Redistributions in binary form must reproduce the above
+ *   copyright notice, this list of conditions and the following
+ *   disclaimer in the documentation and/or other materials provided
+ *   with the distribution.
+ *
+ * - Neither the name of the Eclipse Foundation, Inc. nor the
+ *   names of its contributors may be used to endorse or promote
+ *   products derived from this software without specific prior
+ *   written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND
+ * CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
+ * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+ * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package org.eclipse.jgit.merge;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import org.eclipse.jgit.diff.Edit;
+import org.eclipse.jgit.diff.EditList;
+import org.eclipse.jgit.diff.MyersDiff;
+import org.eclipse.jgit.diff.Sequence;
+import org.eclipse.jgit.merge.MergeChunk.ConflictState;
+
+/**
+ * Provides (currently as static methods) the merge algorithm which does a
+ * three-way merge on content provided as RawText. Makes use of {@link MyersDiff} to
+ * compute the diffs.
+ *
+ * @todo move code into a better class
+ */
+public class MergeAlgorithm {
+	/**
+	 * @param base
+	 * @param ours
+	 * @param theirs
+	 * @return the resulting content
+	 */
+	public static MergeResult merge(Sequence base, Sequence ours, Sequence theirs) {
+		List<Sequence> sequences=new ArrayList<Sequence>(3);
+		sequences.add(base);
+		sequences.add(ours);
+		sequences.add(theirs);
+		MergeResult result=new MergeResult(sequences);
+		EditList oursEdits = new MyersDiff(base, ours).getEdits();
+		Iterator<Edit> baseToOurs=oursEdits.iterator();
+		EditList theirsEdits = new MyersDiff(base, theirs).getEdits();
+		Iterator<Edit> baseToTheirs=theirsEdits.iterator();
+		int current=0; // points to the next line (first line is 0) of base which was not handled yet
+		Edit oursEdit = baseToOurs.hasNext() ? baseToOurs.next() : null;
+		Edit theirsEdit = baseToTheirs.hasNext() ? baseToTheirs.next() : null;
+
+		// iterate over all edits from base to ours and from base to theirs
+		// as long as we have at least one unprocessed edit from ours or theirs stay in the loop
+		while(theirsEdit!=null || oursEdit!=null) {
+			switch ((oursEdit==null) ? 1 : oursEdit.compareTo(theirsEdit)) {
+			case -1:
+				// something was changed in ours not overlapping with any change from theirs
+
+				// add the common part
+				result.add(0, current, oursEdit.getBeginA(), ConflictState.NO_CONFLICT);
+
+				result.add(1, oursEdit.getBeginB(), oursEdit.getEndB(), ConflictState.NO_CONFLICT);
+				current=oursEdit.getEndA();
+				oursEdit = baseToOurs.hasNext() ? baseToOurs.next() : null;
+				break;
+
+			case 1:
+				// something was changed in theirs not overlapping with any change from ours
+
+				// add the common part
+				result.add(0, current, theirsEdit.getBeginA(), ConflictState.NO_CONFLICT);
+
+				result.add(2, theirsEdit.getBeginB(), theirsEdit.getEndB(), ConflictState.NO_CONFLICT);
+				current=theirsEdit.getEndA();
+				theirsEdit = baseToTheirs.hasNext() ? baseToTheirs.next() : null;
+				break;
+
+			case 0:
+				// here we found a real overlapping modification
+
+				// add the common part
+				result.add(0, current, Math.min(oursEdit.getBeginA(), theirsEdit.getBeginA()), ConflictState.NO_CONFLICT);
+
+				// set some initial values for the ranges in A and B which we want to handle
+				int oursBeginB=oursEdit.getBeginB();
+				int theirsBeginB=theirsEdit.getBeginB();
+				int oursEndB=oursEdit.getEndB();
+				int theirsEndB=theirsEdit.getEndB();
+
+				// harmonize the start of the ranges in A and B
+				if (oursEdit.getBeginA()<theirsEdit.getBeginA()) {
+					theirsBeginB-=theirsEdit.getBeginA()-oursEdit.getBeginA();
+				} else {
+					oursBeginB-=oursEdit.getBeginA()-theirsEdit.getBeginA();
+				}
+
+				// combine edits:
+				// Maybe an Edit on one side corresponds to multiple Edits on
+				// the other side. Then we have to combine the Edits of the
+				// other side - so in the end we can merge together two single
+				// edits.
+				//
+				// It is important to notice that this combining will extend the
+				// ranges of our conflict always downwards (towards the end of
+				// the content). The starts of the conflicting ranges in ours
+				// and theirs are not touched here.
+				//
+				// This combining is an iterative process: after we have
+				// combined some edits we have to do the check again. The
+				// combined edits could now correspond to multiple edits on the
+				// other side.
+				//
+				// Example: when this combining algorithm works on the following
+				// edits
+				// oursEdits=((0-5,0-5),(6-8,6-8),(10-11,10-11)) and
+				// theirsEdits=((0-1,0-1),(2-3,2-3),(5-7,5-7))
+				// it will merge them into
+				// oursEdits=((0-8,0-8),(10-11,10-11)) and
+				// theirsEdits=((0-7,0-7))
+				//
+				// Since the only interesting thing to us is how in ours and
+				// theirs the end of the conflicting range is changing we let
+				// oursEdit and theirsEdit point to the last conflicting edit
+				Edit nextOursEdit = baseToOurs.hasNext() ? baseToOurs.next() : null;
+				Edit nextTheirsEdit = baseToTheirs.hasNext() ? baseToTheirs.next() : null;
+				for(;;) {
+					if (nextTheirsEdit!=null && oursEdit.getEndA()>nextTheirsEdit.getBeginA()) {
+						theirsEndB=nextTheirsEdit.getEndB();
+						theirsEdit=nextTheirsEdit;
+						nextTheirsEdit = baseToTheirs.hasNext() ? baseToTheirs.next() : null;
+					} else if (nextOursEdit!=null && theirsEdit.getEndA()>nextOursEdit.getBeginA()) {
+						oursEndB=nextOursEdit.getEndB();
+						oursEdit=nextOursEdit;
+						nextOursEdit = baseToOurs.hasNext() ? baseToOurs.next() : null;
+					} else {
+						break;
+					}
+				}
+
+				// harmonize the end of the ranges in A and B
+				if (oursEdit.getEndA()<theirsEdit.getEndA()) {
+					oursEndB+=theirsEdit.getEndA()-oursEdit.getEndA();
+				} else {
+					theirsEndB+=oursEdit.getEndA()-theirsEdit.getEndA();
+				}
+
+				// Add the conflict
+				result.add(1, oursBeginB, oursEndB, ConflictState.FIRST_CONFLICTING_RANGE);
+				result.add(2, theirsBeginB, theirsEndB, ConflictState.NEXT_CONFLICTING_RANGE);
+
+				current=Math.max(oursEdit.getEndA(), theirsEdit.getEndA());
+				oursEdit=nextOursEdit;
+				theirsEdit=nextTheirsEdit;
+			}
+		}
+		// maybe we have a common part behind the last edit: copy it to the result
+		if (current < base.size()) {
+			result.add(0, current, base.size(), ConflictState.NO_CONFLICT);
+		}
+
+		return result;
+	}
+}
