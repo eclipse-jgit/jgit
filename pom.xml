@@ -224,6 +224,13 @@
       </dependency>
 
       <dependency>
+        <!-- CQ 3565 -->
+        <groupId>javax.servlet</groupId>
+        <artifactId>servlet-api</artifactId>
+        <version>2.5</version>
+      </dependency>
+
+      <dependency>
         <!-- CQ 3589 -->
         <groupId>junit</groupId>
         <artifactId>junit</artifactId>
@@ -277,6 +284,7 @@
   <modules>
     <module>org.eclipse.jgit</module>
     <module>org.eclipse.jgit.ui</module>
+    <module>org.eclipse.jgit.http.server</module>
     <module>org.eclipse.jgit.pgm</module>
     <module>org.eclipse.jgit.junit</module>
     <module>org.eclipse.jgit.test</module>
