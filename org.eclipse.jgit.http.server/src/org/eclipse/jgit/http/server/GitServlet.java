@@ -56,12 +56,15 @@ import org.eclipse.jgit.http.server.glue.MetaServlet;
 import org.eclipse.jgit.http.server.glue.RegexGroupFilter;
 import org.eclipse.jgit.http.server.glue.ServletBinder;
 import org.eclipse.jgit.http.server.resolver.DefaultReceivePackFactory;
+import org.eclipse.jgit.http.server.resolver.DefaultUploadPackFactory;
 import org.eclipse.jgit.http.server.resolver.FileResolver;
 import org.eclipse.jgit.http.server.resolver.GetAnyFile;
 import org.eclipse.jgit.http.server.resolver.ReceivePackFactory;
 import org.eclipse.jgit.http.server.resolver.RepositoryResolver;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.http.server.resolver.UploadPackFactory;
 import org.eclipse.jgit.transport.ReceivePack;
+import org.eclipse.jgit.transport.UploadPack;
 
 /**
  * Handles Git repository access over HTTP.
@@ -98,6 +101,8 @@ public class GitServlet extends MetaServlet {
 
 	private final GetAnyFile getAnyFile;
 
+	private final UploadPackFactory uploadPackFactory;
+
 	private final ReceivePackFactory receivePackFactory;
 
 	private RepositoryResolver resolver;
@@ -109,7 +114,8 @@ public class GitServlet extends MetaServlet {
 	 * the local filesystem directory where all served Git repositories reside.
 	 */
 	public GitServlet() {
-		this(null, new GetAnyFile(), new DefaultReceivePackFactory());
+		this(null, new GetAnyFile(), new DefaultUploadPackFactory(),
+				new DefaultReceivePackFactory());
 	}
 
 	/**
@@ -124,19 +130,26 @@ public class GitServlet extends MetaServlet {
 	 *            the filter to validate direct access to repository files
 	 *            through a dumb client. If {@code null} then dumb client
 	 *            support is completely disabled.
+	 * @param uploadPackFactory
+	 *            the factory to construct and configure an {@link UploadPack}
+	 *            session when a fetch or clone is requested by a client.
 	 * @param receivePackFactory
 	 *            the factory to construct and configure a {@link ReceivePack}
 	 *            session when a push is requested by a client.
 	 */
 	public GitServlet(final RepositoryResolver resolver, GetAnyFile getAnyFile,
+			UploadPackFactory uploadPackFactory,
 			ReceivePackFactory receivePackFactory) {
 		if (getAnyFile == null)
 			getAnyFile = GetAnyFile.DISABLED;
+		if (uploadPackFactory == null)
+			uploadPackFactory = UploadPackFactory.DISABLED;
 		if (receivePackFactory == null)
 			receivePackFactory = ReceivePackFactory.DISABLED;
 
 		this.resolver = resolver;
 		this.getAnyFile = getAnyFile;
+		this.uploadPackFactory = uploadPackFactory;
 		this.receivePackFactory = receivePackFactory;
 	}
 
@@ -151,12 +164,21 @@ public class GitServlet extends MetaServlet {
 			resolver = new FileResolver(new File(basePath));
 		}
 
+		if (uploadPackFactory != ReceivePackFactory.DISABLED) {
+			serve("*/git-upload-pack")//
+					.with(new UploadPackServlet(uploadPackFactory));
+		}
+
 		if (receivePackFactory != ReceivePackFactory.DISABLED) {
 			serve("*/git-receive-pack")//
 					.with(new ReceivePackServlet(receivePackFactory));
 		}
 
 		ServletBinder refs = serve("*/" + Constants.INFO_REFS);
+		if (uploadPackFactory != UploadPackFactory.DISABLED) {
+			refs = refs.through(//
+					new UploadPackServlet.InfoRefs(uploadPackFactory));
+		}
 		if (receivePackFactory != ReceivePackFactory.DISABLED) {
 			refs = refs.through(//
 					new ReceivePackServlet.InfoRefs(receivePackFactory));
