@@ -135,6 +135,9 @@
 
     <args4j-CQ>CQ 3454</args4j-CQ>
     <args4j-version>2.0.12</args4j-version>
+
+    <servlet-api-CQ>CQ 3565</servlet-api-CQ>
+    <servlet-api-version>2.5</servlet-api-version>
   </properties>
 
   <build>
@@ -291,6 +294,12 @@
         <artifactId>junit</artifactId>
         <version>${junit-version}</version>
       </dependency>
+
+      <dependency>
+        <groupId>javax.servlet</groupId>
+        <artifactId>servlet-api</artifactId>
+        <version>${servlet-api-version}</version>
+      </dependency>
     </dependencies>
   </dependencyManagement>
 
@@ -321,6 +330,7 @@
   <modules>
     <module>org.eclipse.jgit</module>
     <module>org.eclipse.jgit.ui</module>
+    <module>org.eclipse.jgit.http.server</module>
     <module>org.eclipse.jgit.pgm</module>
     <module>org.eclipse.jgit.junit</module>
     <module>org.eclipse.jgit.test</module>
