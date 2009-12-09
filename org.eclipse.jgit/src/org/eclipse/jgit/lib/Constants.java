@@ -249,6 +249,40 @@ public final class Constants {
 	/** The environment variable that contains the commiter's email */
 	public static final String GIT_COMMITTER_EMAIL_KEY = "GIT_COMMITTER_EMAIL";
 
+	/**
+	 * The environment variable that limits how close to the root of the file
+	 * systems JGit will traverse when looking for a repository root.
+	 */
+	public static final String GIT_CEILING_DIRECTORIES_KEY = "GIT_CEILING_DIRECTORIES";
+
+	/**
+	 * The environment variable that tells us which directory is the ".git"
+	 * directory
+	 */
+	public static final String GIT_DIR_KEY = "GIT_DIR";
+
+	/**
+	 * The environment variable that tells us which directory is the working
+	 * directory.
+	 */
+	public static final String GIT_WORK_TREE_KEY = "GIT_WORK_TREE";
+
+	/**
+	 * The environment variable that tells us which file holds the Git index.
+	 */
+	public static final String GIT_INDEX_KEY = "GIT_INDEX";
+
+	/**
+	 * The environment variable that tells us where objects are stored
+	 */
+	public static final String GIT_OBJECT_DIRECTORY_KEY = "GIT_OBJECT_DIRECTORY";
+
+	/**
+	 * The environment variable that tells us where to look for objects, besides
+	 * the default objects directory.
+	 */
+	public static final String GIT_ALTERNATE_OBJECT_DIRECTORIES_KEY = "GIT_ALTERNATE_OBJECT_DIRECTORIES";
+
 	/** Default value for the user name if no other information is available */
 	public static final String UNKNOWN_USER_DEFAULT = "unknown-user";
 

@@ -84,14 +84,19 @@ public class ObjectDirectory extends ObjectDatabase {
 
 	private final AtomicReference<PackList> packList;
 
+	private final File[] alternateObjectDir;
+
 	/**
 	 * Initialize a reference to an on-disk object directory.
 	 *
 	 * @param dir
 	 *            the location of the <code>objects</code> directory.
+	 * @param alternateObjectDir
+	 *            a list of alternate object directories
 	 */
-	public ObjectDirectory(final File dir) {
+	public ObjectDirectory(final File dir, File[] alternateObjectDir) {
 		objects = dir;
+		this.alternateObjectDir = alternateObjectDir;
 		infoDirectory = new File(objects, "info");
 		packDirectory = new File(objects, "pack");
 		alternatesFile = new File(infoDirectory, "alternates");
@@ -422,15 +427,21 @@ public class ObjectDirectory extends ObjectDatabase {
 
 	@Override
 	protected ObjectDatabase[] loadAlternates() throws IOException {
-		final BufferedReader br = open(alternatesFile);
 		final List<ObjectDatabase> l = new ArrayList<ObjectDatabase>(4);
-		try {
-			String line;
-			while ((line = br.readLine()) != null) {
-				l.add(openAlternate(line));
+		if (alternateObjectDir != null) {
+			for (File d : alternateObjectDir) {
+				l.add(openAlternate(d));
 			}
-		} finally {
-			br.close();
+		} else {
+			final BufferedReader br = open(alternatesFile);
+			try {
+				String line;
+				while ((line = br.readLine()) != null) {
+					l.add(openAlternate(line));
+				}
+			} finally {
+				br.close();
+			}
 		}
 
 		if (l.isEmpty()) {
@@ -447,12 +458,16 @@ public class ObjectDirectory extends ObjectDatabase {
 	private ObjectDatabase openAlternate(final String location)
 			throws IOException {
 		final File objdir = FS.resolve(objects, location);
+		return openAlternate(objdir);
+	}
+
+	private ObjectDatabase openAlternate(File objdir) throws IOException {
 		final File parent = objdir.getParentFile();
 		if (FileKey.isGitRepository(parent)) {
 			final Repository db = RepositoryCache.open(FileKey.exact(parent));
 			return new AlternateRepositoryDatabase(db);
 		}
-		return new ObjectDirectory(objdir);
+		return new ObjectDirectory(objdir, null);
 	}
 
 	private static final class PackList {
