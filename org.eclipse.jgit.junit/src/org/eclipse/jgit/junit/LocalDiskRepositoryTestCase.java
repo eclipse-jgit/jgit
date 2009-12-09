@@ -51,6 +51,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -58,6 +59,7 @@ import java.util.concurrent.TimeUnit;
 
 import junit.framework.TestCase;
 
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileBasedConfig;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
@@ -124,6 +126,7 @@ public abstract class LocalDiskRepositoryTestCase extends TestCase {
 		mockSystemReader = new MockSystemReader();
 		mockSystemReader.userGitConfig = new FileBasedConfig(new File(trash,
 				"usergitconfig"));
+		ceilTestDirectories(getCeilings());
 		SystemReader.setInstance(mockSystemReader);
 
 		final long now = mockSystemReader.getCurrentTime();
@@ -140,6 +143,25 @@ public abstract class LocalDiskRepositoryTestCase extends TestCase {
 		c.setPackedGitMMAP(useMMAP);
 		c.setDeltaBaseCacheLimit(8 * WindowCacheConfig.KB);
 		WindowCache.reconfigure(c);
+	}
+
+
+	protected List<File> getCeilings() {
+		return Collections.singletonList(trash.getParentFile().getAbsoluteFile());
+	}
+
+	private void ceilTestDirectories(List<File> ceilings) {
+		mockSystemReader.setProperty(Constants.GIT_CEILING_DIRECTORIES_KEY, makePath(ceilings));
+	}
+
+	private String makePath(List<?> objects) {
+		final StringBuilder stringBuilder = new StringBuilder();
+		for (Object object : objects) {
+			if (stringBuilder.length() > 0)
+				stringBuilder.append(File.pathSeparatorChar);
+			stringBuilder.append(object.toString());
+		}
+		return stringBuilder.toString();
 	}
 
 	@Override

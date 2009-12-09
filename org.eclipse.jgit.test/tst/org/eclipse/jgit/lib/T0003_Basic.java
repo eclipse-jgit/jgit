@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2007, Dave Watson <dwatson@mimvista.com>
- * Copyright (C) 2007-2008, Robin Rosenberg <robin.rosenberg@dewire.com>
+ * Copyright (C) 2007-2009, Robin Rosenberg <robin.rosenberg@dewire.com>
  * Copyright (C) 2006-2008, Shawn O. Pearce <spearce@spearce.org>
  * and other copyright owners as documented in the project's IP log.
  *
@@ -76,6 +76,161 @@ public class T0003_Basic extends SampleDataRepositoryTestCase {
 		assertTrue("Exists " + refs_tags, refs_tags.isDirectory());
 		assertTrue("Exists " + HEAD, HEAD.isFile());
 		assertEquals(23, HEAD.length());
+	}
+
+	public void test000_openRepoBadArgs() throws IOException {
+		try {
+			new Repository(null, null);
+			fail("Must pass either GIT_DIR or GIT_WORK_TREE");
+		} catch (IllegalArgumentException e) {
+			assertEquals(
+					"Either GIT_DIR or GIT_WORK_TREE must be passed to Repository constructor",
+					e.getMessage());
+		}
+	}
+
+	/**
+	 * Check the default rules for looking up directories and files within a
+	 * repo when the gitDir is given.
+	 *
+	 * @throws IOException
+	 */
+	public void test000_openrepo_default_gitDirSet() throws IOException {
+		File repo1Parent = new File(trash.getParentFile(), "r1");
+		Repository repo1initial = new Repository(new File(repo1Parent, ".git"));
+		repo1initial.create();
+		repo1initial.close();
+
+		File theDir = new File(repo1Parent, ".git");
+		Repository r = new Repository(theDir, null);
+		assertEqualsPath(theDir, r.getDirectory());
+		assertEqualsPath(repo1Parent, r.getWorkDir());
+		assertEqualsPath(new File(theDir, "index"), r.getIndexFile());
+		assertEqualsPath(new File(theDir, "objects"), r.getObjectsDirectory());
+	}
+
+	/**
+	 * Check that we can pass both a git directory and a work tree
+	 * repo when the gitDir is given.
+	 *
+	 * @throws IOException
+	 */
+	public void test000_openrepo_default_gitDirAndWorkTreeSet() throws IOException {
+		File repo1Parent = new File(trash.getParentFile(), "r1");
+		Repository repo1initial = new Repository(new File(repo1Parent, ".git"));
+		repo1initial.create();
+		repo1initial.close();
+
+		File theDir = new File(repo1Parent, ".git");
+		Repository r = new Repository(theDir, repo1Parent.getParentFile());
+		assertEqualsPath(theDir, r.getDirectory());
+		assertEqualsPath(repo1Parent.getParentFile(), r.getWorkDir());
+		assertEqualsPath(new File(theDir, "index"), r.getIndexFile());
+		assertEqualsPath(new File(theDir, "objects"), r.getObjectsDirectory());
+	}
+
+	/**
+	 * Check the default rules for looking up directories and files within a
+	 * repo when the workTree is given.
+	 *
+	 * @throws IOException
+	 */
+	public void test000_openrepo_default_workDirSet() throws IOException {
+		File repo1Parent = new File(trash.getParentFile(), "r1");
+		Repository repo1initial = new Repository(new File(repo1Parent, ".git"));
+		repo1initial.create();
+		repo1initial.close();
+
+		File theDir = new File(repo1Parent, ".git");
+		Repository r = new Repository(null, repo1Parent);
+		assertEqualsPath(theDir, r.getDirectory());
+		assertEqualsPath(repo1Parent, r.getWorkDir());
+		assertEqualsPath(new File(theDir, "index"), r.getIndexFile());
+		assertEqualsPath(new File(theDir, "objects"), r.getObjectsDirectory());
+	}
+
+	/**
+	 * Check that worktree config has an effect, given absolute path.
+	 *
+	 * @throws IOException
+	 */
+	public void test000_openrepo_default_absolute_workdirconfig()
+			throws IOException {
+		File repo1Parent = new File(trash.getParentFile(), "r1");
+		File workdir = new File(trash.getParentFile(), "rw");
+		workdir.mkdir();
+		Repository repo1initial = new Repository(new File(repo1Parent, ".git"));
+		repo1initial.create();
+		repo1initial.getConfig().setString("core", null, "worktree",
+				workdir.getAbsolutePath());
+		repo1initial.getConfig().save();
+		repo1initial.close();
+
+		File theDir = new File(repo1Parent, ".git");
+		Repository r = new Repository(theDir, null);
+		assertEqualsPath(theDir, r.getDirectory());
+		assertEqualsPath(workdir, r.getWorkDir());
+		assertEqualsPath(new File(theDir, "index"), r.getIndexFile());
+		assertEqualsPath(new File(theDir, "objects"), r.getObjectsDirectory());
+	}
+
+	/**
+	 * Check that worktree config has an effect, given a relative path.
+	 *
+	 * @throws IOException
+	 */
+	public void test000_openrepo_default_relative_workdirconfig()
+			throws IOException {
+		File repo1Parent = new File(trash.getParentFile(), "r1");
+		File workdir = new File(trash.getParentFile(), "rw");
+		workdir.mkdir();
+		Repository repo1initial = new Repository(new File(repo1Parent, ".git"));
+		repo1initial.create();
+		repo1initial.getConfig()
+				.setString("core", null, "worktree", "../../rw");
+		repo1initial.getConfig().save();
+		repo1initial.close();
+
+		File theDir = new File(repo1Parent, ".git");
+		Repository r = new Repository(theDir, null);
+		assertEqualsPath(theDir, r.getDirectory());
+		assertEqualsPath(workdir, r.getWorkDir());
+		assertEqualsPath(new File(theDir, "index"), r.getIndexFile());
+		assertEqualsPath(new File(theDir, "objects"), r.getObjectsDirectory());
+	}
+
+	/**
+	 * Check that the given index file is honored and the alternate object
+	 * directories too
+	 *
+	 * @throws IOException
+	 */
+	public void test000_openrepo_alternate_index_file_and_objdirs()
+			throws IOException {
+		File repo1Parent = new File(trash.getParentFile(), "r1");
+		File indexFile = new File(trash, "idx");
+		File objDir = new File(trash, "../obj");
+		File[] altObjDirs = new File[] { db.getObjectsDirectory() };
+		Repository repo1initial = new Repository(new File(repo1Parent, ".git"));
+		repo1initial.create();
+		repo1initial.close();
+
+		File theDir = new File(repo1Parent, ".git");
+		Repository r = new Repository(theDir, null, objDir, altObjDirs,
+				indexFile);
+		assertEqualsPath(theDir, r.getDirectory());
+		assertEqualsPath(theDir.getParentFile(), r.getWorkDir());
+		assertEqualsPath(indexFile, r.getIndexFile());
+		assertEqualsPath(objDir, r.getObjectsDirectory());
+		assertNotNull(r.mapCommit("6db9c2ebf75590eef973081736730a9ea169a0c4"));
+		// Must close or the default repo pack files created by this test gets
+		// locked via the alternate object directories on Windows.
+		r.close();
+	}
+
+	protected void assertEqualsPath(File expected, File actual)
+			throws IOException {
+		assertEquals(expected.getCanonicalPath(), actual.getCanonicalPath());
 	}
 
 	public void test002_WriteEmptyTree() throws IOException {
