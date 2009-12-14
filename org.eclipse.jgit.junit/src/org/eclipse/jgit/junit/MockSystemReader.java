@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2009, Google Inc.
+ * Copyright (C) 2009, Robin Rosenberg <robin.rosenberg@dewire.com>
  * Copyright (C) 2009, Yann Simon <yann.simon.fr@gmail.com>
  * and other copyright owners as documented in the project's IP log.
  *
@@ -44,10 +45,12 @@
 
 package org.eclipse.jgit.junit;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TimeZone;
 
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileBasedConfig;
 import org.eclipse.jgit.util.SystemReader;
@@ -63,7 +66,11 @@ public class MockSystemReader extends SystemReader {
 		init(Constants.GIT_AUTHOR_EMAIL_KEY);
 		init(Constants.GIT_COMMITTER_NAME_KEY);
 		init(Constants.GIT_COMMITTER_EMAIL_KEY);
-		userGitConfig = new FileBasedConfig(null);
+		userGitConfig = new FileBasedConfig(null) {
+			@Override
+			public void load() throws IOException, ConfigInvalidException {
+				// Do nothing
+			}};
 	}
 
 	private void init(final String n) {
