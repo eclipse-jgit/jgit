@@ -191,7 +191,7 @@ public class DirCacheBasicTest extends RepositoryTestCase {
 
 	public void testFindOnEmpty() throws Exception {
 		final DirCache dc = DirCache.newInCore();
-		final byte[] path = Constants.encode("a");
+		final byte[] path = Constants.encode("a", Constants.SYSTEM_CHARSET);
 		assertEquals(-1, dc.findEntry(path, path.length));
 	}
 }

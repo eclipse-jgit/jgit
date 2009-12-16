@@ -52,6 +52,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
+import java.nio.charset.Charset;
 import java.security.DigestOutputStream;
 import java.security.MessageDigest;
 import java.util.Arrays;
@@ -64,6 +65,7 @@ import org.eclipse.jgit.lib.LockFile;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectWriter;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.RepositoryConfig;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.MutableInteger;
 import org.eclipse.jgit.util.NB;
@@ -120,6 +122,8 @@ public class DirCache {
 
 	/**
 	 * Create a new empty index which is never stored on disk.
+     * <p>
+     * Paths will be encoded by the system default character encoding.
 	 *
 	 * @return an empty cache which has no backing store file. The cache may not
 	 *         be read or written, but it may be queried and updated (in
@@ -129,13 +133,32 @@ public class DirCache {
 		return new DirCache(null);
 	}
 
+    /**
+     * Create a new empty index which is never stored on disk.
+     * <p>
+     * Paths will be encoded by the character encoding specified at the repository
+     * configuration.
+     *
+     * @param rc
+     *         repository configuration
+     * 
+     * @return an empty cache which has no backing store file. The cache may not
+     *         be read or written, but it may be queried and updated (in
+     *         memory).
+     */
+    public static DirCache newInCore(RepositoryConfig rc) {
+        return new DirCache(null, rc);
+    }
+
 	/**
 	 * Create a new in-core index representation and read an index from disk.
 	 * <p>
 	 * The new index will be read before it is returned to the caller. Read
 	 * failures are reported as exceptions and therefore prevent the method from
 	 * returning a partially populated index.
-	 *
+     * <p>
+     * Paths will be encoded by the system default character encoding.
+     *
 	 * @param indexLocation
 	 *            location of the index file on disk.
 	 * @return a cache representing the contents of the specified index file (if
@@ -153,13 +176,45 @@ public class DirCache {
 		return c;
 	}
 
+    /**
+     * Create a new in-core index representation and read an index from disk.
+     * <p>
+     * The new index will be read before it is returned to the caller. Read
+     * failures are reported as exceptions and therefore prevent the method from
+     * returning a partially populated index.
+     * <p>
+     * Paths will be encoded by the character encoding specified at the repository
+     * configuration.
+     *
+     * @param indexLocation
+     *            location of the index file on disk.
+     * @param rc
+     *            repository configuration.
+     * @return a cache representing the contents of the specified index file (if
+     *         it exists) or an empty cache if the file does not exist.
+     * @throws IOException
+     *             the index file is present but could not be read.
+     * @throws CorruptObjectException
+     *             the index file is using a format or extension that this
+     *             library does not support.
+     */
+    public static DirCache read(final File indexLocation, final RepositoryConfig rc)
+            throws CorruptObjectException, IOException {
+        final DirCache c = new DirCache(indexLocation, rc);
+        c.read();
+        return c;
+    }
+
 	/**
 	 * Create a new in-core index representation and read an index from disk.
 	 * <p>
 	 * The new index will be read before it is returned to the caller. Read
 	 * failures are reported as exceptions and therefore prevent the method from
 	 * returning a partially populated index.
-	 *
+	 * <p>
+     * Paths will be encoded by the character encoding specified at the repository
+     * configuration.
+     *
 	 * @param db
 	 *            repository the caller wants to read the default index of.
 	 * @return a cache representing the contents of the specified index file (if
@@ -172,7 +227,7 @@ public class DirCache {
 	 */
 	public static DirCache read(final Repository db)
 			throws CorruptObjectException, IOException {
-		return read(new File(db.getDirectory(), "index"));
+		return read(new File(db.getDirectory(), "index"), db.getConfig());
 	}
 
 	/**
@@ -182,6 +237,8 @@ public class DirCache {
 	 * caller. Read failures are reported as exceptions and therefore prevent
 	 * the method from returning a partially populated index.  On read failure,
 	 * the lock is released.
+     * <p>
+     * Paths will be encoded by the system default character encodng.
 	 *
 	 * @param indexLocation
 	 *            location of the index file on disk.
@@ -216,13 +273,58 @@ public class DirCache {
 		return c;
 	}
 
+    /**
+     * Create a new in-core index representation, lock it, and read from disk.
+     * <p/>
+     * The new index will be locked and then read before it is returned to the
+     * caller. Read failures are reported as exceptions and therefore prevent
+     * the method from returning a partially populated index.  On read failure,
+     * the lock is released.
+     * <p/>
+     * Paths will be encoded by the character encodng specified at the repository
+     * configuration.
+     *
+     * @param indexLocation location of the index file on disk.
+     * @param rc            repository configuration.
+     * @return a cache representing the contents of the specified index file (if
+     *         it exists) or an empty cache if the file does not exist.
+     * @throws IOException            the index file is present but could not be read, or the lock
+     *                                could not be obtained.
+     * @throws CorruptObjectException the index file is using a format or extension that this
+     *                                library does not support.
+     */
+    public static DirCache lock(final File indexLocation, final RepositoryConfig rc)
+            throws CorruptObjectException, IOException {
+        final DirCache c = new DirCache(indexLocation, rc);
+        if (!c.lock())
+            throw new IOException("Cannot lock " + indexLocation);
+
+        try {
+            c.read();
+        } catch (IOException e) {
+            c.unlock();
+            throw e;
+        } catch (RuntimeException e) {
+			c.unlock();
+			throw e;
+		} catch (Error e) {
+			c.unlock();
+			throw e;
+		}
+
+		return c;
+	}
+
 	/**
 	 * Create a new in-core index representation, lock it, and read from disk.
 	 * <p>
 	 * The new index will be locked and then read before it is returned to the
 	 * caller. Read failures are reported as exceptions and therefore prevent
 	 * the method from returning a partially populated index.
-	 *
+     * <p>
+	 * Paths will be encoded by the character encoding specified at the repository
+     * configuration.
+     *
 	 * @param db
 	 *            repository the caller wants to read the default index of.
 	 * @return a cache representing the contents of the specified index file (if
@@ -236,11 +338,14 @@ public class DirCache {
 	 */
 	public static DirCache lock(final Repository db)
 			throws CorruptObjectException, IOException {
-		return lock(new File(db.getDirectory(), "index"));
+		return lock(new File(db.getDirectory(), "index"), db.getConfig());
 	}
 
 	/** Location of the current version of the index file. */
 	private final File liveFile;
+
+    /** Charset for file names encoding. */
+    private final Charset pathEncoding;
 
 	/** Modification time of the file at the last read/write we did. */
 	private long lastModified;
@@ -259,6 +364,8 @@ public class DirCache {
 
 	/**
 	 * Create a new in-core index representation.
+     * <p>
+     * File names will be encoded by system default character encoding.
 	 * <p>
 	 * The new index will be empty. Callers may wish to read from the on disk
 	 * file first with {@link #read()}.
@@ -267,9 +374,37 @@ public class DirCache {
 	 *            location of the index file on disk.
 	 */
 	public DirCache(final File indexLocation) {
-		liveFile = indexLocation;
-		clear();
+        this(indexLocation, Constants.SYSTEM_CHARSET);
 	}
+
+    /**
+     * Create a new in-core index representation.
+     * <p>
+     * File names will be encoded by character encoding specified at
+     * per-repository configuration. If no path encoding option found,
+     * use system default character encoding.
+     * <p>
+     * The new index will be empty. Callers may wish to read from the on disk
+     * file first with {@link #read()}.
+     *
+     * @param indexLocation
+     *            location of the index file on disk.
+     * @param rc
+     *            repository configuration.
+     */
+    public DirCache(final File indexLocation, final RepositoryConfig rc) {
+        this(indexLocation, rc.getPathEncoding());
+    }
+
+    private DirCache(final File indexLocation, final Charset pathNameEncoding) {
+        liveFile = indexLocation;
+        pathEncoding = pathNameEncoding;
+        clear();
+    }
+
+    Charset getPathEncoding() {
+        return pathEncoding;
+    }
 
 	/**
 	 * Create a new builder to update this cache.
@@ -374,7 +509,7 @@ public class DirCache {
 		final byte[] infos = new byte[INFO_LEN * entryCnt];
 		sortedEntries = new DirCacheEntry[entryCnt];
 		for (int i = 0; i < entryCnt; i++)
-			sortedEntries[i] = new DirCacheEntry(infos, i * INFO_LEN, in, md);
+			sortedEntries[i] = new DirCacheEntry(infos, i * INFO_LEN, in, md, pathEncoding);
 		lastModified = liveFile.lastModified();
 
 		// After the file entries are index extensions, and then a footer.
@@ -396,7 +531,7 @@ public class DirCache {
 				IO.skipFully(in, 8);
 				IO.readFully(in, raw, 0, raw.length);
 				md.update(raw, 0, raw.length);
-				tree = new DirCacheTree(raw, new MutableInteger(), null);
+				tree = new DirCacheTree(raw, new MutableInteger(), null, pathEncoding);
 				break;
 			}
 			default:
@@ -591,7 +726,7 @@ public class DirCache {
 	 *         information. If < 0 the entry does not exist in the index.
 	 */
 	public int findEntry(final String path) {
-		final byte[] p = Constants.encode(path);
+		final byte[] p = Constants.encode(path, pathEncoding);
 		return findEntry(p, p.length);
 	}
 
@@ -636,6 +771,11 @@ public class DirCache {
 		}
 		return nextIdx;
 	}
+
+    int nextEntry(String path, int nextIdx) {
+        final byte[] encodedPath = Constants.encode(path, pathEncoding);
+        return nextEntry(encodedPath, encodedPath.length, nextIdx);
+    }
 
 	int nextEntry(final byte[] p, final int pLen, int nextIdx) {
 		while (nextIdx < entryCnt) {
@@ -697,7 +837,7 @@ public class DirCache {
 	public DirCacheEntry[] getEntriesWithin(String path) {
 		if (!path.endsWith("/"))
 			path += "/";
-		final byte[] p = Constants.encode(path);
+		final byte[] p = Constants.encode(path, pathEncoding);
 		final int pLen = p.length;
 
 		int eIdx = findEntry(p, pLen);
@@ -730,7 +870,7 @@ public class DirCache {
 		if (build) {
 			if (tree == null)
 				tree = new DirCacheTree();
-			tree.validate(sortedEntries, entryCnt, 0, 0);
+			tree.validate(sortedEntries, entryCnt, 0, 0, pathEncoding);
 		}
 		return tree;
 	}

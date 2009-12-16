@@ -49,6 +49,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.nio.charset.Charset;
 
 import org.eclipse.jgit.lib.Constants;
 
@@ -66,13 +67,6 @@ import org.eclipse.jgit.lib.Constants;
  * @see DirCacheBuilder
  */
 public class DirCacheEditor extends BaseDirCacheEditor {
-	private static final Comparator<PathEdit> EDIT_CMP = new Comparator<PathEdit>() {
-		public int compare(final PathEdit o1, final PathEdit o2) {
-			final byte[] a = o1.path;
-			final byte[] b = o2.path;
-			return DirCache.cmp(a, a.length, b, b.length);
-		}
-	};
 
 	private final List<PathEdit> edits;
 
@@ -123,12 +117,13 @@ public class DirCacheEditor extends BaseDirCacheEditor {
 	}
 
 	private void applyEdits() {
-		Collections.sort(edits, EDIT_CMP);
+        final PathEditComparator comparator = new PathEditComparator(cache.getPathEncoding());
+        Collections.sort(edits, comparator);
 
 		final int maxIdx = cache.getEntryCount();
 		int lastIdx = 0;
 		for (final PathEdit e : edits) {
-			int eIdx = cache.findEntry(e.path, e.path.length);
+			int eIdx = cache.findEntry(e.path);
 			final boolean missing = eIdx < 0;
 			if (eIdx < 0)
 				eIdx = -(eIdx + 1);
@@ -140,7 +135,7 @@ public class DirCacheEditor extends BaseDirCacheEditor {
 			if (e instanceof DeletePath)
 				continue;
 			if (e instanceof DeleteTree) {
-				lastIdx = cache.nextEntry(e.path, e.path.length, eIdx);
+				lastIdx = cache.nextEntry(e.path, eIdx);
 				continue;
 			}
 
@@ -168,7 +163,7 @@ public class DirCacheEditor extends BaseDirCacheEditor {
 	 * will be called multiple times, once for each stage.
 	 */
 	public abstract static class PathEdit {
-		final byte[] path;
+		final String path;
 
 		/**
 		 * Create a new update command by path name.
@@ -177,7 +172,7 @@ public class DirCacheEditor extends BaseDirCacheEditor {
 		 *            path of the file within the repository.
 		 */
 		public PathEdit(final String entryPath) {
-			path = Constants.encode(entryPath);
+			path = entryPath;
 		}
 
 		/**
@@ -188,7 +183,7 @@ public class DirCacheEditor extends BaseDirCacheEditor {
 		 *            entry is actually considered during command evaluation.
 		 */
 		public PathEdit(final DirCacheEntry ent) {
-			path = ent.path;
+			path = ent.getPathString();
 		}
 
 		/**
@@ -269,4 +264,18 @@ public class DirCacheEditor extends BaseDirCacheEditor {
 			throw new UnsupportedOperationException("No apply in delete");
 		}
 	}
+
+    private static final class PathEditComparator implements Comparator<PathEdit>{
+        private final Charset pathEncoding;
+
+        private PathEditComparator(Charset pathNameEncoding) {
+            pathEncoding = pathNameEncoding;
+        }
+
+        public int compare(final PathEdit o1, final PathEdit o2) {
+            final byte[] a = Constants.encode(o1.path, pathEncoding);
+            final byte[] b = Constants.encode(o2.path, pathEncoding);
+            return DirCache.cmp(a, a.length, b, b.length);
+        }
+    }
 }

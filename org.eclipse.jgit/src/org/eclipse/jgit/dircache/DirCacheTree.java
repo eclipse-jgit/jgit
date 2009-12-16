@@ -50,6 +50,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
+import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.Comparator;
 
@@ -117,26 +118,32 @@ public class DirCacheTree {
 	/** Number of valid children in {@link #children}. */
 	private int childCnt;
 
+    /** Charset for file names encoding. */
+    private Charset pathEncoding;
+
 	DirCacheTree() {
 		encodedName = NO_NAME;
 		children = NO_CHILDREN;
 		childCnt = 0;
 		entrySpan = -1;
+        pathEncoding = Constants.SYSTEM_CHARSET;
 	}
 
 	private DirCacheTree(final DirCacheTree myParent, final byte[] path,
-			final int pathOff, final int pathLen) {
+			final int pathOff, final int pathLen, Charset cs) {
 		parent = myParent;
 		encodedName = new byte[pathLen];
 		System.arraycopy(path, pathOff, encodedName, 0, pathLen);
 		children = NO_CHILDREN;
 		childCnt = 0;
 		entrySpan = -1;
+        pathEncoding = cs;
 	}
 
 	DirCacheTree(final byte[] in, final MutableInteger off,
-			final DirCacheTree myParent) {
+			final DirCacheTree myParent, Charset cs) {
 		parent = myParent;
+        pathEncoding = cs;
 
 		int ptr = RawParseUtils.next(in, off.value, '\0');
 		final int nameLen = ptr - off.value - 1;
@@ -162,7 +169,7 @@ public class DirCacheTree {
 			boolean alreadySorted = true;
 			children = new DirCacheTree[subcnt];
 			for (int i = 0; i < subcnt; i++) {
-				children[i] = new DirCacheTree(in, off, this);
+				children[i] = new DirCacheTree(in, off, this, pathEncoding);
 
 				// C Git's ordering differs from our own; it prefers to
 				// sort by length first. This sometimes produces a sort
@@ -265,7 +272,7 @@ public class DirCacheTree {
 	 */
 	public String getNameString() {
 		final ByteBuffer bb = ByteBuffer.wrap(encodedName);
-		return Constants.CHARSET.decode(bb).toString();
+		return pathEncoding.decode(bb).toString();
 	}
 
 	/**
@@ -439,9 +446,12 @@ public class DirCacheTree {
 	 *            matches this tree's path. The value at array position
 	 *            <code>cache[cacheIdx].path[pathOff-1]</code> is always '/' if
 	 *            <code>pathOff</code> is > 0.
+	 * @param cs
+	 *            character encoding for path names.
 	 */
 	void validate(final DirCacheEntry[] cache, final int cCnt, int cIdx,
-			final int pathOff) {
+			final int pathOff, Charset cs) {
+        pathEncoding = cs;
 		if (entrySpan >= 0) {
 			// If we are valid, our children are also valid.
 			// We have no need to validate them.
@@ -489,13 +499,13 @@ public class DirCacheTree {
 
 				// Build a new subtree for this entry.
 				//
-				st = new DirCacheTree(this, currPath, pathOff, p - pathOff);
+				st = new DirCacheTree(this, currPath, pathOff, p - pathOff, pathEncoding);
 				insertChild(stIdx, st);
 			}
 
 			// The entry is contained in this subtree.
 			//
-			st.validate(cache, cCnt, cIdx, pathOff + st.nameLength() + 1);
+			st.validate(cache, cCnt, cIdx, pathOff + st.nameLength() + 1, pathEncoding);
 			cIdx += st.entrySpan;
 			entrySpan += st.entrySpan;
 			stIdx++;

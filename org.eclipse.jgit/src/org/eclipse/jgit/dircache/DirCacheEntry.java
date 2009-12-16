@@ -50,6 +50,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
+import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.util.Arrays;
 
@@ -57,6 +58,7 @@ import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.RepositoryConfig;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.NB;
 
@@ -118,13 +120,17 @@ public class DirCacheEntry {
 	/** First location within {@link #info} where our header starts. */
 	private final int infoOffset;
 
+    /** Encoding to use for paths. */
+    private final Charset pathEncoding;
+
 	/** Our encoded path name, from the root of the repository. */
 	final byte[] path;
 
 	DirCacheEntry(final byte[] sharedInfo, final int infoAt,
-			final InputStream in, final MessageDigest md) throws IOException {
+			final InputStream in, final MessageDigest md, Charset pathEncoding) throws IOException {
 		info = sharedInfo;
 		infoOffset = infoAt;
+        this.pathEncoding = pathEncoding;
 
 		IO.readFully(in, info, infoOffset, INFO_LEN);
 		md.update(info, infoOffset, INFO_LEN);
@@ -176,11 +182,12 @@ public class DirCacheEntry {
 	 *            name of the cache entry.
 	 */
 	public DirCacheEntry(final String newPath) {
-		this(Constants.encode(newPath));
+		this(Constants.encode(newPath, Constants.SYSTEM_CHARSET));
 	}
 
 	/**
 	 * Create an empty entry at the specified stage.
+     * Path will be encoded by system default character encoding.
 	 *
 	 * @param newPath
 	 *            name of the cache entry.
@@ -188,8 +195,28 @@ public class DirCacheEntry {
 	 *            the stage index of the new entry.
 	 */
 	public DirCacheEntry(final String newPath, final int stage) {
-		this(Constants.encode(newPath), stage);
+		this(newPath, stage, Constants.SYSTEM_CHARSET);
 	}
+
+    /**
+     * Create an empty entry at the specified stage.
+     * Path will be encoded by the character encoding specified
+     * at the repository configuration.
+     *
+     * @param newPath
+     *            name of the cache entry.
+     * @param stage
+     *            the stage index of the new entry.
+     * @param rc
+     *            repository configuration.
+     */
+    public DirCacheEntry(final String newPath, final int stage, RepositoryConfig rc) {
+        this(newPath, stage, rc.getPathEncoding());
+    }
+
+    private DirCacheEntry(final String newPath, final int stage, Charset cs) {
+        this(Constants.encode(newPath, cs), stage, cs);
+    }
 
 	/**
 	 * Create an empty entry at stage 0.
@@ -203,24 +230,46 @@ public class DirCacheEntry {
 
 	/**
 	 * Create an empty entry at the specified stage.
-	 *
+     * Further path decoding will use the system default character encoding.
+     *
 	 * @param newPath
 	 *            name of the cache entry, in the standard encoding.
 	 * @param stage
 	 *            the stage index of the new entry.
 	 */
 	public DirCacheEntry(final byte[] newPath, final int stage) {
-		info = new byte[INFO_LEN];
-		infoOffset = 0;
-		path = newPath;
-
-		int flags = ((stage & 0x3) << 12);
-		if (path.length < NAME_MASK)
-			flags |= path.length;
-		else
-			flags |= NAME_MASK;
-		NB.encodeInt16(info, infoOffset + P_FLAGS, flags);
+        this(newPath, stage, Constants.SYSTEM_CHARSET);
 	}
+
+    /**
+     * Create an empty entry at the specified stage.
+     * Further path decoding will use the character encoding specified
+     * at the repository configuration.
+     *
+     * @param newPath
+     *            name of the cache entry, in the standard encoding.
+     * @param stage
+     *            the stage index of the new entry.
+     * @param rc
+     *            repository configuration. 
+     */
+    public DirCacheEntry(final byte[] newPath, final int stage, RepositoryConfig rc) {
+        this(newPath, stage, rc.getPathEncoding());
+    }
+
+    private DirCacheEntry(final byte[] newPath, final int stage, Charset cs) {
+        info = new byte[INFO_LEN];
+        infoOffset = 0;
+        path = newPath;
+        pathEncoding = cs;
+
+        int flags = ((stage & 0x3) << 12);
+        if (path.length < NAME_MASK)
+            flags |= path.length;
+        else
+            flags |= NAME_MASK;
+        NB.encodeInt16(info, infoOffset + P_FLAGS, flags);
+    }
 
 	void write(final OutputStream os) throws IOException {
 		final int pathLen = path.length;
@@ -469,7 +518,7 @@ public class DirCacheEntry {
 	 *         returned string.
 	 */
 	public String getPathString() {
-		return Constants.CHARSET.decode(ByteBuffer.wrap(path)).toString();
+		return pathEncoding.decode(ByteBuffer.wrap(path)).toString();
 	}
 
 	/**
