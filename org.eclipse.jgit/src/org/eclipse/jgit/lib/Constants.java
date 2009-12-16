@@ -204,11 +204,17 @@ public final class Constants {
 	 */
 	public static final byte[] PACK_SIGNATURE = { 'P', 'A', 'C', 'K' };
 
-	/** Native character encoding for commit messages, file names... */
+	/** Native character encoding for commit messages, ... */
 	public static final String CHARACTER_ENCODING = "UTF-8";
 
-	/** Native character encoding for commit messages, file names... */
+    /** System default character encoding */
+    public static final String SYSTEM_CHARACTER_ENCODING = System.getProperty("file.encoding", CHARACTER_ENCODING);
+
+	/** Native character encoding for commit messages, ... */
 	public static final Charset CHARSET;
+
+    /** System default character encoding */
+	public static final Charset SYSTEM_CHARSET;
 
 	/** Default main branch name */
 	public static final String MASTER = "master";
@@ -444,15 +450,27 @@ public final class Constants {
 	 * @see #CHARACTER_ENCODING
 	 */
 	public static byte[] encode(final String str) {
-		final ByteBuffer bb = Constants.CHARSET.encode(str);
-		final int len = bb.limit();
-		if (bb.hasArray() && bb.arrayOffset() == 0) {
-			final byte[] arr = bb.array();
-			if (arr.length == len)
-				return arr;
-		}
+		return encode(str, Constants.CHARSET);
+	}
 
-		final byte[] arr = new byte[len];
+    /**
+     * Convert a string to a byte array in the specified encoding.
+     *
+     * @param str the string to convert.
+     * @param cs charset to use for character encoding.
+     * @return a byte array representing the requested string, encoded using the
+     *         specified character encoding.
+     */
+    public static byte[] encode(final String str, final Charset cs) {
+        final ByteBuffer bb = cs.encode(str);
+        final int len = bb.limit();
+        if (bb.hasArray() && bb.arrayOffset() == 0) {
+            final byte[] arr = bb.array();
+            if (arr.length == len)
+                return arr;
+        }
+
+        final byte[] arr = new byte[len];
 		bb.get(arr);
 		return arr;
 	}
@@ -461,6 +479,7 @@ public final class Constants {
 		if (OBJECT_ID_LENGTH != newMessageDigest().getDigestLength())
 			throw new LinkageError("Incorrect OBJECT_ID_LENGTH.");
 		CHARSET = Charset.forName(CHARACTER_ENCODING);
+        SYSTEM_CHARSET = Charset.forName(SYSTEM_CHARACTER_ENCODING);
 	}
 
 	private Constants() {

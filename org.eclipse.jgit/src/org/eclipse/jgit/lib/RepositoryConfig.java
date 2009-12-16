@@ -4,6 +4,7 @@
  * Copyright (C) 2008-2009, Google Inc.
  * Copyright (C) 2009, JetBrains s.r.o.
  * Copyright (C) 2007-2008, Robin Rosenberg <robin.rosenberg@dewire.com>
+ * Copyright (C) 2009, Semen Vadishev <semen.vadishev@syntevo.com>
  * Copyright (C) 2006-2008, Shawn O. Pearce <spearce@spearce.org>
  * Copyright (C) 2008, Thad Hughes <thadh@thad.corp.google.com>
  * Copyright (C) 2009, Yann Simon <yann.simon.fr@gmail.com>
@@ -51,6 +52,7 @@
 package org.eclipse.jgit.lib;
 
 import java.io.File;
+import java.nio.charset.Charset;
 
 /**
  * An object representing the Git config file.
@@ -131,5 +133,14 @@ public class RepositoryConfig extends FileBasedConfig {
 	 */
 	public String getCommitterEmail() {
 		return getUserConfig().getCommitterEmail();
+	}
+
+    /**
+     * @return encoding to use for file names as defined in git
+     *         configuration. If no encoding property could be found,
+     *         use system default encoding.
+     */
+    public Charset getPathEncoding() {
+        return getCore().getPathEncoding();
 	}
 }
