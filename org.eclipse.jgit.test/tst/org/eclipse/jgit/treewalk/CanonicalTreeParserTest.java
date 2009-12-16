@@ -53,7 +53,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.util.RawParseUtils;
 
 public class CanonicalTreeParserTest extends TestCase {
-	private final CanonicalTreeParser ctp = new CanonicalTreeParser();
+	private final CanonicalTreeParser ctp = new CanonicalTreeParser(Constants.SYSTEM_CHARSET);
 
 	private final FileMode m644 = FileMode.REGULAR_FILE;
 
@@ -95,14 +95,14 @@ public class CanonicalTreeParserTest extends TestCase {
 		final ByteArrayOutputStream out = new ByteArrayOutputStream();
 		mode.copyTo(out);
 		out.write(' ');
-		out.write(Constants.encode(name));
+		out.write(Constants.encode(name, Constants.SYSTEM_CHARSET));
 		out.write(0);
 		id.copyRawTo(out);
 		return out.toByteArray();
 	}
 
 	private String path() {
-		return RawParseUtils.decode(Constants.CHARSET, ctp.path,
+		return RawParseUtils.decode(Constants.SYSTEM_CHARSET, ctp.path,
 				ctp.pathOffset, ctp.pathLen);
 	}
 
@@ -347,7 +347,7 @@ public class CanonicalTreeParserTest extends TestCase {
 		final String name = b.toString();
 		ctp.reset(entry(m644, name, hash_a));
 		assertFalse(ctp.eof());
-		assertEquals(name, RawParseUtils.decode(Constants.CHARSET, ctp.path,
+		assertEquals(name, RawParseUtils.decode(Constants.SYSTEM_CHARSET, ctp.path,
 				ctp.pathOffset, ctp.pathLen));
 	}
 }

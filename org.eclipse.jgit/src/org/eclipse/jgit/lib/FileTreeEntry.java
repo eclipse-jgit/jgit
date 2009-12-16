@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2007, Robin Rosenberg <robin.rosenberg@dewire.com>
+ * Copyright (C) 2009, Semen Vadishev <semen.vadishev@syntevo.com>
  * Copyright (C) 2006-2007, Shawn O. Pearce <spearce@spearce.org>
  * and other copyright owners as documented in the project's IP log.
  *
@@ -59,14 +60,14 @@ public class FileTreeEntry extends TreeEntry {
 	 *            The {@link Tree} holding this object (or null)
 	 * @param id
 	 *            the SHA-1 of the blob (or null for a yet unhashed file)
-	 * @param nameUTF8
+	 * @param nameEncoded
 	 *            raw object name in the parent tree
 	 * @param execute
 	 *            true if the executable flag is set
 	 */
 	public FileTreeEntry(final Tree parent, final ObjectId id,
-			final byte[] nameUTF8, final boolean execute) {
-		super(parent, id, nameUTF8);
+			final byte[] nameEncoded, final boolean execute) {
+		super(parent, id, nameEncoded);
 		setExecutable(execute);
 	}
 

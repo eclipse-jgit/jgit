@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2007, Robin Rosenberg <robin.rosenberg@dewire.com>
+ * Copyright (C) 2009, Semen Vadishev <semen.vadishev@syntevo.com>
  * Copyright (C) 2006-2007, Shawn O. Pearce <spearce@spearce.org>
  * and other copyright owners as documented in the project's IP log.
  *
@@ -60,11 +61,11 @@ public class SymlinkTreeEntry extends TreeEntry {
 	 *
 	 * @param parent
 	 * @param id
-	 * @param nameUTF8
+	 * @param nameEncoded
 	 */
 	public SymlinkTreeEntry(final Tree parent, final ObjectId id,
-			final byte[] nameUTF8) {
-		super(parent, id, nameUTF8);
+			final byte[] nameEncoded) {
+		super(parent, id, nameEncoded);
 	}
 
 	public FileMode getMode() {

@@ -1,8 +1,6 @@
 /*
- * Copyright (C) 2008, Google Inc.
  * Copyright (C) 2007, Robin Rosenberg <robin.rosenberg@dewire.com>
  * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org>
- * Copyright (C) 2009, Tor Arne Vestbø <torarnv@gmail.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -52,8 +50,10 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.RepositoryConfig;
 import org.eclipse.jgit.util.FS;
 
 /**
@@ -67,13 +67,37 @@ public class FileTreeIterator extends WorkingTreeIterator {
 
 	/**
 	 * Create a new iterator to traverse the given directory and its children.
+     * <p>
+     * Paths will be encoded by the system default character encoding.
 	 *
 	 * @param root
 	 *            the starting directory. This directory should correspond to
 	 *            the root of the repository.
+     *
+     * @deprecated use FileTreeIterator(RepositoryConfig) constructor instead.
 	 */
 	public FileTreeIterator(final File root) {
+        super(Constants.SYSTEM_CHARSET);
 		directory = root;
+		init(entries());
+	}
+
+    /**
+	 * Create a new iterator to traverse the given directory and its children.
+     * <p>
+     * Paths will be encoded by the character encoding specified at the repository
+     * configuration or by the system default character encoding, if no corresponding
+     * option found.
+     *
+	 * @param root
+	 *            the starting directory. This directory should correspond to
+	 *            the root of the repository.
+     * @param rc
+     *            repository configuration.
+	 */
+	public FileTreeIterator(final File root, final RepositoryConfig rc) {
+		super(rc.getPathEncoding());
+        directory = root;
 		init(entries());
 	}
 
@@ -95,7 +119,7 @@ public class FileTreeIterator extends WorkingTreeIterator {
 	@Override
 	public AbstractTreeIterator createSubtreeIterator(final Repository repo)
 			throws IncorrectObjectTypeException, IOException {
-		return new FileTreeIterator(this, ((FileEntry) current()).file);
+        return new FileTreeIterator(this, ((FileEntry) current()).file);
 	}
 
 	private Entry[] entries() {

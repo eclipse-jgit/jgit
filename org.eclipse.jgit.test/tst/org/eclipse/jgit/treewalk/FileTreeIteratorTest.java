@@ -156,7 +156,7 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 		md.update((byte) ' ');
 		md.update(Constants.encodeASCII(paths[0].length()));
 		md.update((byte) 0);
-		md.update(Constants.encode(paths[0]));
+		md.update(Constants.encode(paths[0], Constants.SYSTEM_CHARSET));
 		final ObjectId expect = ObjectId.fromRaw(md.digest());
 
 		assertEquals(expect, top.getEntryObjectId());
@@ -168,6 +168,6 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 	}
 
 	private static String nameOf(final AbstractTreeIterator i) {
-		return RawParseUtils.decode(Constants.CHARSET, i.path, 0, i.pathLen);
+		return RawParseUtils.decode(Constants.SYSTEM_CHARSET, i.path, 0, i.pathLen);
 	}
 }

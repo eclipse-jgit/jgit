@@ -99,7 +99,7 @@ public class ObjectWalk extends RevWalk {
 	public ObjectWalk(final Repository repo) {
 		super(repo);
 		pendingObjects = new BlockObjQueue();
-		treeWalk = new CanonicalTreeParser();
+		treeWalk = new CanonicalTreeParser(repo.getConfig());
 	}
 
 	/**

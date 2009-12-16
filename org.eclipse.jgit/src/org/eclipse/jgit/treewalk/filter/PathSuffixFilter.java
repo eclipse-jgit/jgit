@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2009, Google Inc.
+ * Copyright (C) 2009, Semen Vadishev <semen.vadishev@syntevo.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -47,7 +48,6 @@ import java.io.IOException;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
-import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.treewalk.TreeWalk;
 
 /**
@@ -73,11 +73,9 @@ public class PathSuffixFilter extends TreeFilter {
 	}
 
 	final String pathStr;
-	final byte[] pathRaw;
 
 	private PathSuffixFilter(final String s) {
 		pathStr = s;
-		pathRaw = Constants.encode(pathStr);
 	}
 
 	@Override
@@ -91,7 +89,7 @@ public class PathSuffixFilter extends TreeFilter {
 		if (walker.isSubtree())
 			return true;
 		else
-			return walker.isPathSuffix(pathRaw, pathRaw.length);
+			return walker.isPathSuffix(pathStr);
 
 	}
 

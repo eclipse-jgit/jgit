@@ -157,7 +157,7 @@ public class ObjectWriter {
 
 			e.getMode().copyTo(o);
 			o.write(' ');
-			o.write(e.getNameUTF8());
+			o.write(e.getNameRaw());
 			o.write(0);
 			id.copyRawTo(o);
 		}

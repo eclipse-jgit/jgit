@@ -118,16 +118,16 @@ public class PathFilterGroup {
 	static class Single extends TreeFilter {
 		private final PathFilter path;
 
-		private final byte[] raw;
+        private final String pathStr;
 
 		private Single(final PathFilter p) {
 			path = p;
-			raw = path.pathRaw;
+            pathStr = p.pathStr;
 		}
 
 		@Override
 		public boolean include(final TreeWalk walker) {
-			final int cmp = walker.isPathPrefix(raw, raw.length);
+			final int cmp = walker.isPathPrefix(pathStr);
 			if (cmp > 0)
 				throw StopWalkException.INSTANCE;
 			return cmp == 0;
@@ -166,8 +166,8 @@ public class PathFilterGroup {
 		public boolean include(final TreeWalk walker) {
 			final int n = paths.length;
 			for (int i = 0;;) {
-				final byte[] r = paths[i].pathRaw;
-				final int cmp = walker.isPathPrefix(r, r.length);
+				final String p = paths[i].pathStr;
+				final int cmp = walker.isPathPrefix(p);
 				if (cmp == 0)
 					return true;
 				if (++i < n)

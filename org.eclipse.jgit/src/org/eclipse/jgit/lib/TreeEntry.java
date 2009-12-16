@@ -45,6 +45,7 @@
 package org.eclipse.jgit.lib;
 
 import java.io.IOException;
+import java.nio.charset.Charset;
 
 import org.eclipse.jgit.lib.GitIndex.Entry;
 import org.eclipse.jgit.util.RawParseUtils;
@@ -68,22 +69,22 @@ public abstract class TreeEntry implements Comparable {
 	 */
 	public static final int CONCURRENT_MODIFICATION = 1 << 2;
 
-	private byte[] nameUTF8;
+	private byte[] nameRaw;
 
 	private Tree parent;
 
 	private ObjectId id;
 
-	/**
+    /**
 	 * Construct a named tree entry.
 	 *
 	 * @param myParent
 	 * @param myId
-	 * @param myNameUTF8
+	 * @param nameEncoded
 	 */
 	protected TreeEntry(final Tree myParent, final ObjectId myId,
-			final byte[] myNameUTF8) {
-		nameUTF8 = myNameUTF8;
+			final byte[] nameEncoded) {
+		nameRaw = nameEncoded;
 		parent = myParent;
 		id = myId;
 	}
@@ -123,17 +124,29 @@ public abstract class TreeEntry implements Comparable {
 
 	/**
 	 * @return the raw byte name of this entry.
+     * @deprecated use #getNameRaw() method instead.
 	 */
 	public byte[] getNameUTF8() {
-		return nameUTF8;
+		return getNameRaw();
 	}
+
+    /**
+     * @return path name for this entry as byte array, encoded by the
+     * character encoding specified at the repository configuration or
+     * by the system default encoding, if such option not found.
+     */
+    public byte[] getNameRaw() {
+        return nameRaw;
+    }
 
 	/**
 	 * @return the name of this entry.
 	 */
 	public String getName() {
-		if (nameUTF8 != null)
-			return RawParseUtils.decode(nameUTF8);
+        if (nameRaw != null) {
+            final Charset cs = getRepository().getConfig().getPathEncoding();
+            return RawParseUtils.decode(cs, nameRaw);
+        }
 		return null;
 	}
 
@@ -144,7 +157,8 @@ public abstract class TreeEntry implements Comparable {
 	 * @throws IOException
 	 */
 	public void rename(final String n) throws IOException {
-		rename(Constants.encode(n));
+        final Charset cs = getRepository().getConfig().getPathEncoding();
+		rename(Constants.encode(n, cs));
 	}
 
 	/**
@@ -158,7 +172,7 @@ public abstract class TreeEntry implements Comparable {
 		if (t != null) {
 			delete();
 		}
-		nameUTF8 = n;
+		nameRaw = n;
 		if (t != null) {
 			t.addEntry(this);
 		}
@@ -217,17 +231,28 @@ public abstract class TreeEntry implements Comparable {
 
 	/**
 	 * @return repository relative name of the entry
-	 * FIXME better encoding
+	 * @deprecated use #getFullNameRaw() method instead.
 	 */
 	public byte[] getFullNameUTF8() {
-		return getFullName().getBytes();
+		return getFullNameRaw();
 	}
+
+    /**
+     * @return repository relative name of the entry as byte array,
+     * encoded by the character encoding specified at the repository
+     * configuration or by the system default encoding,
+     * if such option not found.
+     */
+    public byte[] getFullNameRaw() {
+        final Charset cs = getRepository().getConfig().getPathEncoding();
+        return Constants.encode(getFullName(), cs);
+    }
 
 	public int compareTo(final Object o) {
 		if (this == o)
 			return 0;
 		if (o instanceof TreeEntry)
-			return Tree.compareNames(nameUTF8, ((TreeEntry) o).nameUTF8, lastChar(this), lastChar((TreeEntry)o));
+			return Tree.compareNames(nameRaw, ((TreeEntry) o).nameRaw, lastChar(this), lastChar((TreeEntry)o));
 		return -1;
 	}
 

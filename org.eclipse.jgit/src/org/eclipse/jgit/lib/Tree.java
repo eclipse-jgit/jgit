@@ -46,6 +46,7 @@
 package org.eclipse.jgit.lib;
 
 import java.io.IOException;
+import java.nio.charset.Charset;
 
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.EntryExistsException;
@@ -77,12 +78,12 @@ public class Tree extends TreeEntry implements Treeish {
 		return compareNames(a, b, 0, b.length, lasta, lastb);
 	}
 
-	private static final int compareNames(final byte[] a, final byte[] nameUTF8,
+	private static final int compareNames(final byte[] a, final byte[] nameEncoded,
 			final int nameStart, final int nameEnd, final int lasta, int lastb) {
 		int j,k;
 		for (j = 0, k = nameStart; j < a.length && k < nameEnd; j++, k++) {
 			final int aj = a[j] & 0xff;
-			final int bk = nameUTF8[k] & 0xff;
+			final int bk = nameEncoded[k] & 0xff;
 			if (aj < bk)
 				return -1;
 			else if (aj > bk)
@@ -101,7 +102,7 @@ public class Tree extends TreeEntry implements Treeish {
 					return -1;
 		}
 		if (k < nameEnd) {
-			int bk = nameUTF8[k] & 0xff;
+			int bk = nameEncoded[k] & 0xff;
 			if (lasta < bk)
 				return -1;
 			else if (lasta > bk)
@@ -136,15 +137,15 @@ public class Tree extends TreeEntry implements Treeish {
 	}
 
 	private static final int binarySearch(final TreeEntry[] entries,
-			final byte[] nameUTF8, final int nameUTF8last, final int nameStart, final int nameEnd) {
+			final byte[] nameEncoded, final int nameEncodedLast, final int nameStart, final int nameEnd) {
 		if (entries.length == 0)
 			return -1;
 		int high = entries.length;
 		int low = 0;
 		do {
 			final int mid = (low + high) >>> 1;
-			final int cmp = compareNames(entries[mid].getNameUTF8(), nameUTF8,
-					nameStart, nameEnd, TreeEntry.lastChar(entries[mid]), nameUTF8last);
+			final int cmp = compareNames(entries[mid].getNameRaw(), nameEncoded,
+					nameStart, nameEnd, TreeEntry.lastChar(entries[mid]), nameEncodedLast);
 			if (cmp < 0)
 				low = mid + 1;
 			else if (cmp == 0)
@@ -189,10 +190,10 @@ public class Tree extends TreeEntry implements Treeish {
 	 * Construct a new Tree under another Tree
 	 *
 	 * @param parent
-	 * @param nameUTF8
+	 * @param nameEncoded
 	 */
-	public Tree(final Tree parent, final byte[] nameUTF8) {
-		super(parent, null, nameUTF8);
+	public Tree(final Tree parent, final byte[] nameEncoded) {
+		super(parent, null, nameEncoded);
 		db = parent.getRepository();
 		contents = EMPTY_TREE;
 	}
@@ -203,10 +204,10 @@ public class Tree extends TreeEntry implements Treeish {
 	 *
 	 * @param parent
 	 * @param id
-	 * @param nameUTF8
+	 * @param nameEncoded
 	 */
-	public Tree(final Tree parent, final ObjectId id, final byte[] nameUTF8) {
-		super(parent, id, nameUTF8);
+	public Tree(final Tree parent, final ObjectId id, final byte[] nameEncoded) {
+		super(parent, id, nameEncoded);
 		db = parent.getRepository();
 	}
 
@@ -249,6 +250,11 @@ public class Tree extends TreeEntry implements Treeish {
 		contents = null;
 	}
 
+    private byte[] encodePath(String path) {
+        Charset cs = db.getConfig().getPathEncoding();
+        return Constants.encode(path, cs);
+    }
+
 	/**
 	 * Adds a new or existing file with the specified name to this tree.
 	 * Trees are added if necessary as the name may contain '/':s.
@@ -258,7 +264,7 @@ public class Tree extends TreeEntry implements Treeish {
 	 * @throws IOException
 	 */
 	public FileTreeEntry addFile(final String name) throws IOException {
-		return addFile(Repository.gitInternalSlash(Constants.encode(name)), 0);
+		return addFile(Repository.gitInternalSlash(encodePath(name)), 0);
 	}
 
 	/**
@@ -287,9 +293,10 @@ public class Tree extends TreeEntry implements Treeish {
 			return ((Tree) contents[p]).addFile(s, slash + 1);
 
 		final byte[] newName = substring(s, offset, slash);
-		if (p >= 0)
-			throw new EntryExistsException(RawParseUtils.decode(newName));
-		else if (slash < s.length) {
+		if (p >= 0) {
+            final Charset cs = db.getConfig().getPathEncoding();
+			throw new EntryExistsException(RawParseUtils.decode(cs, newName));
+        } else if (slash < s.length) {
 			final Tree t = new Tree(this, newName);
 			insertEntry(p, t);
 			return t.addFile(s, slash + 1);
@@ -310,7 +317,7 @@ public class Tree extends TreeEntry implements Treeish {
 	 * @throws IOException
 	 */
 	public Tree addTree(final String name) throws IOException {
-		return addTree(Repository.gitInternalSlash(Constants.encode(name)), 0);
+		return addTree(Repository.gitInternalSlash(encodePath(name)), 0);
 	}
 
 	/**
@@ -337,8 +344,10 @@ public class Tree extends TreeEntry implements Treeish {
 			return ((Tree) contents[p]).addTree(s, slash + 1);
 
 		final byte[] newName = substring(s, offset, slash);
-		if (p >= 0)
-			throw new EntryExistsException(RawParseUtils.decode(newName));
+		if (p >= 0) {
+            final Charset cs = db.getConfig().getPathEncoding();
+			throw new EntryExistsException(RawParseUtils.decode(cs, newName));
+        }
 
 		final Tree t = new Tree(this, newName);
 		insertEntry(p, t);
@@ -355,7 +364,7 @@ public class Tree extends TreeEntry implements Treeish {
 		final int p;
 
 		ensureLoaded();
-		p = binarySearch(contents, e.getNameUTF8(), TreeEntry.lastChar(e), 0, e.getNameUTF8().length);
+		p = binarySearch(contents, e.getNameRaw(), TreeEntry.lastChar(e), 0, e.getNameRaw().length);
 		if (p < 0) {
 			e.attachParent(this);
 			insertEntry(p, e);
@@ -379,8 +388,8 @@ public class Tree extends TreeEntry implements Treeish {
 
 	void removeEntry(final TreeEntry e) {
 		final TreeEntry[] c = contents;
-		final int p = binarySearch(c, e.getNameUTF8(), TreeEntry.lastChar(e), 0,
-				e.getNameUTF8().length);
+		final int p = binarySearch(c, e.getNameRaw(), TreeEntry.lastChar(e), 0,
+				e.getNameRaw().length);
 		if (p >= 0) {
 			final TreeEntry[] n = new TreeEntry[c.length - 1];
 			for (int k = c.length - 1; k > p; k--)
@@ -454,7 +463,7 @@ public class Tree extends TreeEntry implements Treeish {
 	}
 
 	private TreeEntry findMember(final String s, byte slast) throws IOException {
-		return findMember(Repository.gitInternalSlash(Constants.encode(s)), slast, 0);
+		return findMember(Repository.gitInternalSlash(encodePath(s)), slast, 0);
 	}
 
 	private TreeEntry findMember(final byte[] s, final byte slast, final int offset)

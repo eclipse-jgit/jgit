@@ -178,7 +178,7 @@ public class PostOrderTreeWalkTest extends RepositoryTestCase {
 	}
 
 	private DirCacheEntry makeFile(final String path) throws Exception {
-		final byte[] pathBytes = Constants.encode(path);
+		final byte[] pathBytes = Constants.encode(path, Constants.SYSTEM_CHARSET);
 		final DirCacheEntry ent = new DirCacheEntry(path);
 		ent.setFileMode(REGULAR_FILE);
 		ent.setObjectId(new ObjectWriter(db).computeBlobSha1(pathBytes.length,

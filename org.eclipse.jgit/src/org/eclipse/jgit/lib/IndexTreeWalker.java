@@ -225,7 +225,7 @@ public class IndexTreeWalker {
 			return 1;
 		if (i == null)
 			return -1;
-		return Tree.compareNames(t.getFullNameUTF8(), i.getNameUTF8(), TreeEntry.lastChar(t), TreeEntry.lastChar(i));
+		return Tree.compareNames(t.getFullNameRaw(), i.getNameRaw(), TreeEntry.lastChar(t), TreeEntry.lastChar(i));
 	}
 
 	static int compare(TreeEntry t1, TreeEntry t2) {
@@ -242,7 +242,7 @@ public class IndexTreeWalker {
 			return 1;
 		if (t2 == null)
 			return -1;
-		return Tree.compareNames(t1.getFullNameUTF8(), t2.getFullNameUTF8(), TreeEntry.lastChar(t1), TreeEntry.lastChar(t2));
+		return Tree.compareNames(t1.getFullNameRaw(), t2.getFullNameRaw(), TreeEntry.lastChar(t1), TreeEntry.lastChar(t2));
 	}
 
 }

@@ -103,7 +103,7 @@ public class T0002_Tree extends SampleDataRepositoryTestCase {
 		assertTrue("no parent", t.getParent() == null);
 		assertTrue("isRoot", t.isRoot());
 		assertTrue("no name", t.getName() == null);
-		assertTrue("no nameUTF8", t.getNameUTF8() == null);
+		assertTrue("no nameRaw", t.getNameRaw() == null);
 		assertTrue("has entries array", t.members() != null);
 		assertTrue("entries is empty", t.members().length == 0);
 		assertEquals("full name is empty", "", t.getFullName());
@@ -124,8 +124,8 @@ public class T0002_Tree extends SampleDataRepositoryTestCase {
 		final FileTreeEntry f = t.addFile(n);
 		assertNotNull("have file", f);
 		assertEquals("name matches", n, f.getName());
-		assertEquals("name matches", f.getName(), new String(f.getNameUTF8(),
-				"UTF-8"));
+		assertEquals("name matches", f.getName(), new String(f.getNameRaw(),
+				Constants.SYSTEM_CHARACTER_ENCODING));
 		assertEquals("full name matches", n, f.getFullName());
 		assertTrue("no id", f.getId() == null);
 		assertTrue("is modified", t.isModified());
@@ -149,8 +149,8 @@ public class T0002_Tree extends SampleDataRepositoryTestCase {
 		final Tree f = t.addTree(n);
 		assertNotNull("have tree", f);
 		assertEquals("name matches", n, f.getName());
-		assertEquals("name matches", f.getName(), new String(f.getNameUTF8(),
-				"UTF-8"));
+		assertEquals("name matches", f.getName(), new String(f.getNameRaw(),
+				Constants.SYSTEM_CHARACTER_ENCODING));
 		assertEquals("full name matches", n, f.getFullName());
 		assertTrue("no id", f.getId() == null);
 		assertTrue("parent matches", f.getParent() == t);
