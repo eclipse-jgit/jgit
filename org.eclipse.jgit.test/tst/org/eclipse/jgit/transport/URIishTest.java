@@ -1,4 +1,5 @@
 /*
+ * Copyright (C) 2009, Mykola Nikishov <mn@mn.com.ua>
  * Copyright (C) 2008, Robin Rosenberg <robin.rosenberg@dewire.com>
  * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org>
  * and other copyright owners as documented in the project's IP log.
@@ -44,9 +45,13 @@
 
 package org.eclipse.jgit.transport;
 
+import java.net.URISyntaxException;
+
 import junit.framework.TestCase;
 
 public class URIishTest extends TestCase {
+
+	private static final String GIT_SCHEME = "git://";
 
 	public void testUnixFile() throws Exception {
 		final String str = "/home/m y";
@@ -244,4 +249,121 @@ public class URIishTest extends TestCase {
 		assertEquals(u.setPass(null).toPrivateString(), u.toString());
 		assertEquals(u, new URIish(str));
 	}
+
+	public void testGetNullHumanishName() {
+		try {
+			new URIish().getHumanishName();
+			fail("path must be not null");
+		} catch (IllegalArgumentException e) {
+			// expected
+		}
+	}
+
+	public void testGetEmptyHumanishName() throws URISyntaxException {
+		try {
+			new URIish(GIT_SCHEME).getHumanishName();
+			fail("empty path is useless");
+		} catch (IllegalArgumentException e) {
+			// expected
+		}
+	}
+
+	public void testGetAbsEmptyHumanishName() {
+		try {
+			new URIish().getHumanishName();
+			fail("empty path is useless");
+		} catch (IllegalArgumentException e) {
+			// expected
+		}
+	}
+
+	public void testGetValidWithEmptySlashDotGitHumanishName()
+			throws IllegalArgumentException, URISyntaxException {
+		String humanishName = new URIish("/a/b/.git").getHumanishName();
+		assertEquals("b", humanishName);
+	}
+
+	public void testGetWithSlashDotGitHumanishName() throws URISyntaxException {
+		assertEquals("", new URIish("/.git").getHumanishName());
+	}
+
+	public void testGetTwoSlashesDotGitHumanishName() throws URISyntaxException {
+		assertEquals("", new URIish("/.git").getHumanishName());
+	}
+
+	public void testGetValidHumanishName() throws IllegalArgumentException,
+			URISyntaxException {
+		String humanishName = new URIish(GIT_SCHEME + "abc").getHumanishName();
+		assertEquals("abc", humanishName);
+	}
+
+	public void testGetValidSlashHumanishName()
+			throws IllegalArgumentException, URISyntaxException {
+		String humanishName = new URIish(GIT_SCHEME + "abc/").getHumanishName();
+		assertEquals("abc", humanishName);
+	}
+
+	public void testGetSlashValidSlashHumanishName()
+			throws IllegalArgumentException, URISyntaxException {
+		String humanishName = new URIish("/abc/").getHumanishName();
+		assertEquals("abc", humanishName);
+	}
+
+	public void testGetSlashValidSlashDotGitSlashHumanishName()
+			throws IllegalArgumentException, URISyntaxException {
+		String humanishName = new URIish("/abc/.git").getHumanishName();
+		assertEquals("abc", humanishName);
+	}
+
+	public void testGetSlashSlashDotGitSlashHumanishName()
+			throws IllegalArgumentException, URISyntaxException {
+		final String humanishName = new URIish(GIT_SCHEME + "/abc//.git")
+				.getHumanishName();
+		assertEquals("may return an empty humanish name", "", humanishName);
+	}
+
+	public void testGetSlashesValidSlashHumanishName()
+			throws IllegalArgumentException, URISyntaxException {
+		String humanishName = new URIish("/a/b/c/").getHumanishName();
+		assertEquals("c", humanishName);
+	}
+
+	public void testGetValidDotGitHumanishName()
+			throws IllegalArgumentException, URISyntaxException {
+		String humanishName = new URIish(GIT_SCHEME + "abc.git")
+				.getHumanishName();
+		assertEquals("abc", humanishName);
+	}
+
+	public void testGetValidDotGitSlashHumanishName()
+			throws IllegalArgumentException, URISyntaxException {
+		String humanishName = new URIish(GIT_SCHEME + "abc.git/")
+				.getHumanishName();
+		assertEquals("abc", humanishName);
+	}
+
+	public void testGetValidWithSlashDotGitHumanishName()
+			throws IllegalArgumentException, URISyntaxException {
+		String humanishName = new URIish("/abc.git").getHumanishName();
+		assertEquals("abc", humanishName);
+	}
+
+	public void testGetValidWithSlashDotGitSlashHumanishName()
+			throws IllegalArgumentException, URISyntaxException {
+		String humanishName = new URIish("/abc.git/").getHumanishName();
+		assertEquals("abc", humanishName);
+	}
+
+	public void testGetValidWithSlashesDotGitHumanishName()
+			throws IllegalArgumentException, URISyntaxException {
+		String humanishName = new URIish("/a/b/c.git").getHumanishName();
+		assertEquals("c", humanishName);
+	}
+
+	public void testGetValidWithSlashesDotGitSlashHumanishName()
+			throws IllegalArgumentException, URISyntaxException {
+		String humanishName = new URIish("/a/b/c.git/").getHumanishName();
+		assertEquals("c", humanishName);
+	}
+
 }
