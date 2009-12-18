@@ -293,6 +293,35 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 	}
 
 	/**
+	 * Update the HEAD ref. Only it should be changed, not what it points to.
+	 *
+	 * @throws Exception
+	 */
+	public void testUpdateRefDetached() throws Exception {
+		ObjectId pid = db.resolve("refs/heads/master");
+		ObjectId ppid = db.resolve("refs/heads/master^");
+		RefUpdate updateRef = db.updateRef("HEAD", true);
+		updateRef.setForceUpdate(true);
+		updateRef.setNewObjectId(ppid);
+		Result update = updateRef.update();
+		assertEquals(Result.FORCED, update);
+		assertEquals(ppid, db.resolve("HEAD"));
+		Ref ref = db.getRef("HEAD");
+		assertEquals("HEAD", ref.getName());
+		assertEquals("HEAD", ref.getOrigName());
+
+		// the branch HEAD referred to is left untouched
+		assertEquals(pid, db.resolve("refs/heads/master"));
+		ReflogReader reflogReader = new  ReflogReader(db, "HEAD");
+		org.eclipse.jgit.lib.ReflogReader.Entry e = reflogReader.getReverseEntries().get(0);
+		assertEquals(pid, e.getOldId());
+		assertEquals(ppid, e.getNewId());
+		assertEquals("GIT_COMMITTER_EMAIL", e.getWho().getEmailAddress());
+		assertEquals("GIT_COMMITTER_NAME", e.getWho().getName());
+		assertEquals(1250379778000L, e.getWho().getWhen().getTime());
+	}
+
+	/**
 	 * Delete a ref that exists both as packed and loose. Make sure the ref
 	 * cannot be resolved after delete.
 	 *

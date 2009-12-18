@@ -137,10 +137,55 @@ class RefDatabase {
 	 *             to the base ref, as the symbolic ref could not be read.
 	 */
 	RefUpdate newUpdate(final String name) throws IOException {
+		return newUpdate(name, false);
+	}
+
+	/**
+	 * Create a command to update, create or delete a ref in this repository.
+	 *
+	 * @param name
+	 *            name of the ref the caller wants to modify.
+	 * @param detach
+	 *            true to detach the ref, i.e. deplace symref with object ref
+	 * @return an update command. The caller must finish populating this command
+	 *         and then invoke one of the update methods to actually make a
+	 *         change.
+	 * @throws IOException
+	 *             a symbolic ref was passed in and could not be resolved back
+	 *             to the base ref, as the symbolic ref could not be read.
+	 */
+	RefUpdate newUpdate(final String name, boolean detach) throws IOException {
 		refreshPackedRefs();
 		Ref r = readRefBasic(name, 0);
-		if (r == null)
-			r = new Ref(Ref.Storage.NEW, name, null);
+		if (detach) {
+			if (r == null)
+				r = new Ref(Ref.Storage.NEW, name, null);
+			else {
+				r = peel(r);
+				r = new Ref(Ref.Storage.NEW, name, r.getPeeledObjectId());
+			}
+		} else {
+			if (r == null)
+				r = new Ref(Ref.Storage.NEW, name, null);
+		}
+		return new RefUpdate(this, r, fileForRef(r.getName()));
+	}
+
+	/**
+	 * Create a command to update a detached ref
+	 *
+	 * @param name
+	 *            name of the ref the caller wants to modify as detached
+	 * @return an update command. The caller must finish populating this command
+	 *         and then invoke one of the update methods to actually make a
+	 *         change.
+	 * @throws IOException
+	 *             a symbolic ref was passed in and could not be resolved back
+	 *             to the base ref, as the symbolic ref could not be read.
+	 */
+	RefUpdate newUpdateDetached(final String name) throws IOException {
+		refreshPackedRefs();
+		Ref r = new Ref(Ref.Storage.NEW, name, null);
 		return new RefUpdate(this, r, fileForRef(r.getName()));
 	}
 
