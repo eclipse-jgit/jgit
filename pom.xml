@@ -124,7 +124,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-    <tycho-version>0.6.0-SNAPSHOT</tycho-version>
+    <tycho-version>0.6.0</tycho-version>
   </properties>
 
   <repositories>
@@ -134,23 +134,6 @@
       <url>http://download.eclipse.org/releases/galileo</url>
     </repository>
   </repositories>
-
-  <!--
-    Temporary, until we sycn Tycho to maven central,
-    see https://issues.sonatype.org/browse/TYCHO-312
-   -->
-  <pluginRepositories>
-    <pluginRepository>
-      <id>nexus</id>
-      <url>http://repository.sonatype.org/content/groups/public</url>
-      <releases>
-        <enabled>true</enabled>
-      </releases>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-    </pluginRepository>
-  </pluginRepositories>
 
   <build>
     <plugins>
