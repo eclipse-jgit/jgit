@@ -110,6 +110,9 @@ abstract class BasePackConnection extends BaseConnection {
 	/** Send {@link PacketLineOut#end()} before closing {@link #out}? */
 	protected boolean outNeedsEnd;
 
+	/** True if this is a stateless RPC connection. */
+	protected boolean statelessRPC;
+
 	/** Capability tokens advertised by the remote side. */
 	private final Set<String> remoteCapablities = new HashSet<String>();
 
@@ -117,7 +120,7 @@ abstract class BasePackConnection extends BaseConnection {
 	protected final Set<ObjectId> additionalHaves = new HashSet<ObjectId>();
 
 	BasePackConnection(final PackTransport packTransport) {
-		transport = (Transport)packTransport;
+		transport = (Transport) packTransport;
 		local = transport.local;
 		uri = transport.uri;
 	}
