@@ -58,16 +58,19 @@ import org.eclipse.jgit.util.NB;
  * represent a different object name.
  */
 public abstract class AnyObjectId implements Comparable {
-	static final int RAW_LEN = Constants.OBJECT_ID_LENGTH;
-
-	static final int STR_LEN = RAW_LEN * 2;
+	static final int RAW_LEN = 20;
 
 	static {
-		if (RAW_LEN != 20)
-			throw new LinkageError("ObjectId expects"
-					+ " Constants.OBJECT_ID_LENGTH = 20; it is " + RAW_LEN
-					+ ".");
+		/*
+		 * Throughout the code of JGIT it is assumed that RAW_LEN is 20.
+		 * If someone were to change the hashing algorithm this would not necessary be the case
+		 * anymore. We'd rather fail here then somewhere deeper down.
+		 */
+		assert RAW_LEN == 20;
 	}
+
+
+	static final int STR_LEN = RAW_LEN * 2;
 
 	/**
 	 * Compare to object identifier byte sequences for equality.
