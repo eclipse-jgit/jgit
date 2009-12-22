@@ -1,2 +1,7 @@
 /target
 /compile.org.eclipse.jgit.xml
+/META-INF/MANIFEST.MF
+/.project
+/.classpath
+/.settings/org.eclipse.jdt.core.prefs
+/.settings/org.maven.ide.eclipse.prefs
