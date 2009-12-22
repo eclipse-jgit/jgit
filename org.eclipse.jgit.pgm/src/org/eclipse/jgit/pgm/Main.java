@@ -192,6 +192,8 @@ public class Main {
 			install("org.eclipse.jgit.console.ConsoleAuthenticator");
 			install("org.eclipse.jgit.console.ConsoleSshSessionFactory");
 			return true;
+		} catch (NoSuchMethodError e) {
+			return false;
 		} catch (ClassNotFoundException e) {
 			return false;
 		} catch (NoClassDefFoundError e) {
@@ -216,7 +218,7 @@ public class Main {
 			throws IllegalAccessException, InvocationTargetException,
 			NoSuchMethodException, ClassNotFoundException {
 		try {
-		Class.forName(name).getMethod("install").invoke(null);
+			Class.forName(name).getMethod("install").invoke(null);
 		} catch (InvocationTargetException e) {
 			if (e.getCause() instanceof RuntimeException)
 				throw (RuntimeException) e.getCause();

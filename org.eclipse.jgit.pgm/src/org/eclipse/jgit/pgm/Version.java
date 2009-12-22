@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008, Google Inc.
+ * Copyright (C) 2008-2009, Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -43,16 +43,39 @@
 
 package org.eclipse.jgit.pgm;
 
+import java.io.IOException;
+import java.net.URL;
+import java.util.Enumeration;
+import java.util.jar.Attributes;
+import java.util.jar.Manifest;
+
 @Command(common = true, usage = "Display the version of jgit")
 class Version extends TextBuiltin {
 	@Override
 	protected void run() throws Exception {
-		final Package pkg = getClass().getPackage();
-		if (pkg == null || pkg.getImplementationVersion() == null)
+		String version = discoverVersion();
+		if (version == null)
 			throw die("Cannot read package information.");
 
 		out.print("jgit version ");
-		out.print(pkg.getImplementationVersion());
+		out.print(version);
 		out.println();
+	}
+
+	private static String discoverVersion() throws IOException {
+		Enumeration<URL> e;
+
+		e = Version.class.getClassLoader().getResources("META-INF/MANIFEST.MF");
+		while (e.hasMoreElements()) {
+			Manifest m = new Manifest(e.nextElement().openStream());
+			Attributes a = m.getMainAttributes();
+			if (a != null) {
+				String bundle = a.getValue("Bundle-SymbolicName");
+				if ("org.eclipse.jgit.pgm".equals(bundle)) {
+					return a.getValue("Bundle-Version");
+				}
+			}
+		}
+		return null;
 	}
 }

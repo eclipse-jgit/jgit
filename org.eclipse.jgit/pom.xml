@@ -62,25 +62,4 @@
   <description>
     Repository access and algorithms
   </description>
-
-  <dependencies>
-    <dependency>
-      <groupId>com.jcraft</groupId>
-      <artifactId>jsch</artifactId>
-    </dependency>
-  </dependencies>
-
-  <build>
-    <sourceDirectory>src/</sourceDirectory>
-
-    <resources>
-      <resource>
-        <directory>.</directory>
-        <includes>
-          <include>plugin.properties</include>
-        </includes>
-      </resource>
-    </resources>
-  </build>
-
 </project>
