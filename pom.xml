@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
+   Copyright (C) 2009, Constantine Plotnikov <constantine.plotnikov@gmail.com>
    Copyright (C) 2009, Google Inc.
+   Copyright (C) 2009, Igor Fedorenko <igor@ifedorenko.com>
+   Copyright (C) 2008, Imran M Yousuf <imyousuf@smartitengineering.com>
+   Copyright (C) 2008, Jonas Fonseca <fonseca@diku.dk>
    and other copyright owners as documented in the project's IP log.
 
    This program and the accompanying materials are made available
@@ -131,22 +135,18 @@
     <repository>
       <id>galileo</id>
       <layout>p2</layout>
-      <url>http://download.eclipse.org/releases/galileo</url>
+      <url>http://download.eclipse.org/releases/galileo/</url>
+    </repository>
+
+    <repository>
+      <id>orbit</id>
+      <layout>p2</layout>
+      <url>http://download.eclipse.org/tools/orbit/downloads/drops/S20091203150826/updateSite</url>
     </repository>
   </repositories>
 
   <build>
     <plugins>
-      <plugin>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>2.0.2</version>
-        <configuration>
-          <source>1.5</source>
-          <target>1.5</target>
-          <encoding>UTF-8</encoding>
-        </configuration>
-      </plugin>
-
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-source-plugin</artifactId>
@@ -199,57 +199,6 @@
     </plugins>
   </build>
 
-  <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
-
-  <dependencyManagement>
-    <dependencies>
-      <dependency>
-        <!-- CQ 3493 -->
-        <groupId>com.jcraft</groupId>
-        <artifactId>jsch</artifactId>
-        <version>0.1.41</version>
-      </dependency>
-
-      <dependency>
-        <!-- CQ 3454 -->
-        <groupId>args4j</groupId>
-        <artifactId>args4j</artifactId>
-        <version>2.0.12</version>
-      </dependency>
-
-      <dependency>
-        <!-- CQ 3589 -->
-        <groupId>junit</groupId>
-        <artifactId>junit</artifactId>
-        <version>3.8.2</version>
-      </dependency>
-
-      <dependency>
-        <groupId>org.eclipse.jgit</groupId>
-        <artifactId>org.eclipse.jgit</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-
-      <dependency>
-        <groupId>org.eclipse.jgit</groupId>
-        <artifactId>org.eclipse.jgit.junit</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-
-      <dependency>
-        <groupId>org.eclipse.jgit</groupId>
-        <artifactId>org.eclipse.jgit.ui</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
-
   <distributionManagement>
     <snapshotRepository>
       <id>jgit-maven-snapshot</id>
@@ -259,24 +208,10 @@
     </snapshotRepository>
   </distributionManagement>
 
-  <profiles>
-    <!-- Set -Djgit.java6.skip=true to compile with only Java 5 -->
-    <profile>
-      <id>java6</id>
-      <activation>
-        <property>
-          <name>!jgit.java6.skip</name>
-        </property>
-      </activation>
-      <modules>
-        <module>org.eclipse.jgit.console</module>
-      </modules>
-    </profile>
-  </profiles>
-
   <modules>
     <module>org.eclipse.jgit</module>
     <module>org.eclipse.jgit.ui</module>
+    <module>org.eclipse.jgit.console</module>
     <module>org.eclipse.jgit.pgm</module>
     <module>org.eclipse.jgit.junit</module>
     <module>org.eclipse.jgit.test</module>
