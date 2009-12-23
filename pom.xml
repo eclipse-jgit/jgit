@@ -2,6 +2,7 @@
 <!--
    Copyright (C) 2009, Constantine Plotnikov <constantine.plotnikov@gmail.com>
    Copyright (C) 2009, Google Inc.
+   Copyright (C) 2009, Igor Fedorenko <ifedorenko@sonatype.com>
    Copyright (C) 2009, Igor Fedorenko <igor@ifedorenko.com>
    Copyright (C) 2008, Imran M Yousuf <imyousuf@smartitengineering.com>
    Copyright (C) 2008, Jonas Fonseca <fonseca@diku.dk>
@@ -65,11 +66,11 @@
 
   <mailingLists>
     <mailingList>
-      <name>egit-dev Mailing List</name>
-      <post>egit-dev@eclipse.org</post>
-      <subscribe>https://dev.eclipse.org/mailman/listinfo/egit-dev</subscribe>
-      <unsubscribe>https://dev.eclipse.org/mailman/listinfo/egit-dev</unsubscribe>
-      <archive>http://dev.eclipse.org/mhonarc/lists/egit-dev</archive>
+      <name>jgit-dev Mailing List</name>
+      <post>jgit-dev@eclipse.org</post>
+      <subscribe>https://dev.eclipse.org/mailman/listinfo/jgit-dev</subscribe>
+      <unsubscribe>https://dev.eclipse.org/mailman/listinfo/jgit-dev</unsubscribe>
+      <archive>http://dev.eclipse.org/mhonarc/lists/jgit-dev</archive>
     </mailingList>
 
     <mailingList>
@@ -80,7 +81,7 @@
   </mailingLists>
 
   <issueManagement>
-    <url>https://bugs.eclipse.org/bugs/buglist.cgi?query_format=advanced;component=JGit;product=EGit;classification=Technology</url>
+    <url>https://bugs.eclipse.org/bugs/buglist.cgi?query_format=advanced;component=JGit;product=JGit;classification=Technology</url>
     <system>Bugzilla</system>
   </issueManagement>
 
@@ -197,6 +198,27 @@
       </plugin>
 
     </plugins>
+
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.sonatype.tycho</groupId>
+          <artifactId>maven-osgi-compiler-plugin</artifactId>
+          <version>${tycho-version}</version>
+          <configuration>
+            <encoding>UTF-8</encoding>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-resources-plugin</artifactId>
+          <version>2.4.1</version>
+          <configuration>
+            <encoding>ISO-8859-1</encoding>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
   </build>
 
   <distributionManagement>
