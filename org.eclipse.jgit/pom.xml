@@ -55,7 +55,6 @@
     <version>0.6.0-SNAPSHOT</version>
   </parent>
 
-  <packaging>eclipse-plugin</packaging>
   <artifactId>org.eclipse.jgit</artifactId>
   <name>JGit - Core</name>
 
@@ -81,6 +80,40 @@
         </includes>
       </resource>
     </resources>
-  </build>
 
+    <plugins>
+      <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <configuration>
+          <instructions>
+            <Import-Package>
+              !org.xml.sax.*,
+              !javax.crypto.*,
+              com.jcraft.jsch;version="${jsch-version}",
+              *
+            </Import-Package>
+          </instructions>
+        </configuration>
+        <executions>
+          <execution>
+            <id>bundle-manifest</id>
+            <phase>process-classes</phase>
+            <goals>
+              <goal>manifest</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <archive>
+            <manifestFile>META-INF/MANIFEST.MF</manifestFile>
+          </archive>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 </project>

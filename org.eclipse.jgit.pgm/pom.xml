@@ -69,11 +69,13 @@
     <dependency>
       <groupId>org.eclipse.jgit</groupId>
       <artifactId>org.eclipse.jgit</artifactId>
+      <version>${project.version}</version>
     </dependency>
 
     <dependency>
       <groupId>org.eclipse.jgit</groupId>
       <artifactId>org.eclipse.jgit.ui</artifactId>
+      <version>${project.version}</version>
     </dependency>
   </dependencies>
 
@@ -105,7 +107,6 @@
       </resource>
     </resources>
 
-
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -126,7 +127,6 @@
                   <manifestEntries>
                     <Main-Class>org.eclipse.jgit.pgm.Main</Main-Class>
                     <Implementation-Title>JGit Command Line Interface</Implementation-Title>
-                    <Implementation-Version>${project.version}</Implementation-Version>
                   </manifestEntries>
                 </transformer>
               </transformers>

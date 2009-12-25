@@ -53,7 +53,7 @@
   <version>0.6.0-SNAPSHOT</version>
 
   <name>JGit - Parent</name>
-  <url>http://www.eclipse.org/egit/</url>
+  <url>${jgit-url}</url>
 
   <description>
     Pure Java implementation of Git
@@ -61,11 +61,11 @@
 
   <mailingLists>
     <mailingList>
-      <name>egit-dev Mailing List</name>
-      <post>egit-dev@eclipse.org</post>
-      <subscribe>https://dev.eclipse.org/mailman/listinfo/egit-dev</subscribe>
-      <unsubscribe>https://dev.eclipse.org/mailman/listinfo/egit-dev</unsubscribe>
-      <archive>http://dev.eclipse.org/mhonarc/lists/egit-dev</archive>
+      <name>jgit-dev Mailing List</name>
+      <post>jgit-dev@eclipse.org</post>
+      <subscribe>https://dev.eclipse.org/mailman/listinfo/jgit-dev</subscribe>
+      <unsubscribe>https://dev.eclipse.org/mailman/listinfo/jgit-dev</unsubscribe>
+      <archive>http://dev.eclipse.org/mhonarc/lists/jgit-dev</archive>
     </mailingList>
 
     <mailingList>
@@ -76,7 +76,7 @@
   </mailingLists>
 
   <issueManagement>
-    <url>https://bugs.eclipse.org/bugs/buglist.cgi?query_format=advanced;component=JGit;product=EGit;classification=Technology</url>
+    <url>https://bugs.eclipse.org/bugs/buglist.cgi?query_format=advanced;component=JGit;product=JGit;classification=Technology</url>
     <system>Bugzilla</system>
   </issueManagement>
 
@@ -121,25 +121,74 @@
   </licenses>
 
   <properties>
+    <jgit-url>http://www.eclipse.org/jgit/</jgit-url>
+    <jgit-copyright>Copyright (c) 2005, 2009 Shawn Pearce, Robin Rosenberg, et.al.</jgit-copyright>
+
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
     <tycho-version>0.6.0</tycho-version>
+
+    <!-- CQ 3493 -->
+    <jsch-version>0.1.41</jsch-version>
+
+    <!-- CQ 3589 -->
+    <junit-version>3.8.2</junit-version>
+
+    <!-- CQ 3454 -->
+    <args4j-version>2.0.12</args4j-version>
   </properties>
 
-  <repositories>
-    <repository>
-      <id>galileo</id>
-      <layout>p2</layout>
-      <url>http://download.eclipse.org/releases/galileo</url>
-    </repository>
-  </repositories>
-
   <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.felix</groupId>
+          <artifactId>maven-bundle-plugin</artifactId>
+          <version>2.0.1</version>
+          <configuration>
+            <manifestLocation>META-INF</manifestLocation>
+            <instructions>
+              <Bundle-RequiredExecutionEnvironment>J2SE-1.5</Bundle-RequiredExecutionEnvironment>
+              <Bundle-DocURL>${jgit-url}</Bundle-DocURL>
+              <Bundle-Vendor>%provider_name</Bundle-Vendor>
+              <Bundle-Name>%plugin_name</Bundle-Name>
+              <Bundle-Description>%plugin_description</Bundle-Description>
+              <Bundle-Localization>plugin</Bundle-Localization>
+              <Bundle-Copyright>${jgit-copyright}</Bundle-Copyright>
+              <Bundle-License>http://www.eclipse.org/org/documents/edl-v10.php</Bundle-License>
+              <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+              <_versionpolicy>[$(version;==;$(@)),$(version;+;$(@)))</_versionpolicy>
+            </instructions>
+          </configuration>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-jar-plugin</artifactId>
+          <configuration>
+            <archive>
+              <manifestEntries>
+                <Implementation-Title>JGit ${project.artifactId}</Implementation-Title>
+                <Implementation-Version>${project.version}</Implementation-Version>
+                <Implementation-Vendor>Eclipse.org - JGit</Implementation-Vendor>
+                <Implementation-Vendor-Id>org.eclipse.jgit</Implementation-Vendor-Id>
+                <Implementation-Vendor-URL>${jgit-url}</Implementation-Vendor-URL>
+              </manifestEntries>
+            </archive>
+          </configuration>
+        </plugin>
+
+        <plugin>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>2.0.2</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>2.0.2</version>
         <configuration>
           <source>1.5</source>
           <target>1.5</target>
@@ -158,6 +207,21 @@
             </goals>
           </execution>
         </executions>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-clean-plugin</artifactId>
+        <version>2.2</version>
+        <configuration>
+          <filesets>
+            <fileset>
+              <directory>${basedir}</directory>
+              <includes>
+                <include>META-INF/MANIFEST.MF</include>
+              </includes>
+            </fileset>
+          </filesets>
+        </configuration>
       </plugin>
 
       <plugin>
@@ -195,17 +259,8 @@
           <resolver>p2</resolver>
         </configuration>
       </plugin>
-
     </plugins>
   </build>
-
-  <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
 
   <dependencyManagement>
     <dependencies>
@@ -213,39 +268,21 @@
         <!-- CQ 3493 -->
         <groupId>com.jcraft</groupId>
         <artifactId>jsch</artifactId>
-        <version>0.1.41</version>
+        <version>${jsch-version}</version>
       </dependency>
 
       <dependency>
         <!-- CQ 3454 -->
         <groupId>args4j</groupId>
         <artifactId>args4j</artifactId>
-        <version>2.0.12</version>
+        <version>${args4j-version}</version>
       </dependency>
 
       <dependency>
         <!-- CQ 3589 -->
         <groupId>junit</groupId>
         <artifactId>junit</artifactId>
-        <version>3.8.2</version>
-      </dependency>
-
-      <dependency>
-        <groupId>org.eclipse.jgit</groupId>
-        <artifactId>org.eclipse.jgit</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-
-      <dependency>
-        <groupId>org.eclipse.jgit</groupId>
-        <artifactId>org.eclipse.jgit.junit</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-
-      <dependency>
-        <groupId>org.eclipse.jgit</groupId>
-        <artifactId>org.eclipse.jgit.ui</artifactId>
-        <version>${project.version}</version>
+        <version>${junit-version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
@@ -262,7 +299,7 @@
   <profiles>
     <!-- Set -Djgit.java6.skip=true to compile with only Java 5 -->
     <profile>
-      <id>java6</id>
+      <id>jgit.java6</id>
       <activation>
         <property>
           <name>!jgit.java6.skip</name>
@@ -270,6 +307,19 @@
       </activation>
       <modules>
         <module>org.eclipse.jgit.console</module>
+      </modules>
+    </profile>
+
+    <!-- Set -Djgit.p2.skip=true to compile without Eclipse P2-->
+    <profile>
+      <id>jgit.p2</id>
+      <activation>
+        <property>
+          <name>!jgit.p2.skip</name>
+        </property>
+      </activation>
+      <modules>
+        <module>org.eclipse.jgit-feature</module>
       </modules>
     </profile>
   </profiles>
@@ -280,7 +330,5 @@
     <module>org.eclipse.jgit.pgm</module>
     <module>org.eclipse.jgit.junit</module>
     <module>org.eclipse.jgit.test</module>
-
-    <module>org.eclipse.jgit-feature</module>
   </modules>
 </project>
