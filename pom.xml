@@ -320,6 +320,7 @@
       </activation>
       <modules>
         <module>org.eclipse.jgit-feature</module>
+        <module>org.eclipse.jgit-site</module>
       </modules>
     </profile>
   </profiles>

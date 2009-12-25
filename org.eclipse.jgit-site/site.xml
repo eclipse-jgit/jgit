@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+  <feature url="features/org.eclipse.jgit_0.6.0.jar" id="org.eclipse.jgit" version="0.0.0"/>
+</site>
