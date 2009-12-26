@@ -58,16 +58,6 @@ import org.eclipse.jgit.util.NB;
  * represent a different object name.
  */
 public abstract class AnyObjectId implements Comparable {
-	static final int RAW_LEN = Constants.OBJECT_ID_LENGTH;
-
-	static final int STR_LEN = RAW_LEN * 2;
-
-	static {
-		if (RAW_LEN != 20)
-			throw new LinkageError("ObjectId expects"
-					+ " Constants.OBJECT_ID_LENGTH = 20; it is " + RAW_LEN
-					+ ".");
-	}
 
 	/**
 	 * Compare to object identifier byte sequences for equality.
@@ -312,7 +302,7 @@ public abstract class AnyObjectId implements Comparable {
 	}
 
 	private byte[] toHexByteArray() {
-		final byte[] dst = new byte[STR_LEN];
+		final byte[] dst = new byte[Constants.OBJECT_ID_STRING_LENGTH];
 		formatHexByte(dst, 0, w1);
 		formatHexByte(dst, 8, w2);
 		formatHexByte(dst, 16, w3);
@@ -360,7 +350,7 @@ public abstract class AnyObjectId implements Comparable {
 	 */
 	public void copyTo(final char[] tmp, final Writer w) throws IOException {
 		toHexCharArray(tmp);
-		w.write(tmp, 0, STR_LEN);
+		w.write(tmp, 0, Constants.OBJECT_ID_STRING_LENGTH);
 	}
 
 	/**
@@ -375,11 +365,11 @@ public abstract class AnyObjectId implements Comparable {
 	 */
 	public void copyTo(final char[] tmp, final StringBuilder w) {
 		toHexCharArray(tmp);
-		w.append(tmp, 0, STR_LEN);
+		w.append(tmp, 0, Constants.OBJECT_ID_STRING_LENGTH);
 	}
 
 	private char[] toHexCharArray() {
-		final char[] dst = new char[STR_LEN];
+		final char[] dst = new char[Constants.OBJECT_ID_STRING_LENGTH];
 		toHexCharArray(dst);
 		return dst;
 	}
