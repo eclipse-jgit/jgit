@@ -130,7 +130,7 @@ public class ObjectChecker {
 	private int id(final byte[] raw, final int ptr) {
 		try {
 			tempId.fromString(raw, ptr);
-			return ptr + AnyObjectId.STR_LEN;
+			return ptr + Constants.OBJECT_ID_STRING_LENGTH;
 		} catch (IllegalArgumentException e) {
 			return -1;
 		}
