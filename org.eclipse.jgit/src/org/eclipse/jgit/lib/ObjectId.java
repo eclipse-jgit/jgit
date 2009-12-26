@@ -80,10 +80,10 @@ public class ObjectId extends AnyObjectId {
 	 * @return true if the string can converted into an ObjectId.
 	 */
 	public static final boolean isId(final String id) {
-		if (id.length() != STR_LEN)
+		if (id.length() != Constants.OBJECT_ID_STRING_LENGTH)
 			return false;
 		try {
-			for (int i = 0; i < STR_LEN; i++) {
+			for (int i = 0; i < Constants.OBJECT_ID_STRING_LENGTH; i++) {
 				RawParseUtils.parseHexInt4((byte) id.charAt(i));
 			}
 			return true;
@@ -221,7 +221,7 @@ public class ObjectId extends AnyObjectId {
 	 * @return the converted object id.
 	 */
 	public static final ObjectId fromString(final String str) {
-		if (str.length() != STR_LEN)
+		if (str.length() != Constants.OBJECT_ID_STRING_LENGTH)
 			throw new IllegalArgumentException("Invalid id: " + str);
 		return fromHexString(Constants.encodeASCII(str), 0);
 	}
@@ -235,7 +235,8 @@ public class ObjectId extends AnyObjectId {
 			final int e = RawParseUtils.parseHexInt32(bs, p + 32);
 			return new ObjectId(a, b, c, d, e);
 		} catch (ArrayIndexOutOfBoundsException e1) {
-			throw new InvalidObjectIdException(bs, p, STR_LEN);
+			throw new InvalidObjectIdException(bs, p,
+					Constants.OBJECT_ID_STRING_LENGTH);
 		}
 	}
 
