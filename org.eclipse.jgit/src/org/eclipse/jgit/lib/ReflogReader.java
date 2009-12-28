@@ -72,12 +72,12 @@ public class ReflogReader {
 
 		Entry(byte[] raw, int pos) {
 			oldId = ObjectId.fromString(raw, pos);
-			pos += Constants.OBJECT_ID_LENGTH * 2;
+			pos += Constants.OBJECT_ID_STRING_LENGTH;
 			if (raw[pos++] != ' ')
 				throw new IllegalArgumentException(
 						"Raw log message does not parse as log entry");
 			newId = ObjectId.fromString(raw, pos);
-			pos += Constants.OBJECT_ID_LENGTH * 2;
+			pos += Constants.OBJECT_ID_STRING_LENGTH;
 			if (raw[pos++] != ' ') {
 				throw new IllegalArgumentException(
 						"Raw log message does not parse as log entry");

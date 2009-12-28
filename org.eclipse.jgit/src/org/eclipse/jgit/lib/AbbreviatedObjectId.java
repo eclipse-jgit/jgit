@@ -73,7 +73,7 @@ public final class AbbreviatedObjectId {
 	 */
 	public static final AbbreviatedObjectId fromString(final byte[] buf,
 			final int offset, final int end) {
-		if (end - offset > AnyObjectId.STR_LEN)
+		if (end - offset > Constants.OBJECT_ID_STRING_LENGTH)
 			throw new IllegalArgumentException("Invalid id");
 		return fromHexString(buf, offset, end);
 	}
@@ -86,7 +86,7 @@ public final class AbbreviatedObjectId {
 	 * @return the converted object id.
 	 */
 	public static final AbbreviatedObjectId fromString(final String str) {
-		if (str.length() > AnyObjectId.STR_LEN)
+		if (str.length() > Constants.OBJECT_ID_STRING_LENGTH)
 			throw new IllegalArgumentException("Invalid id: " + str);
 		final byte[] b = Constants.encodeASCII(str);
 		return fromHexString(b, 0, b.length);
@@ -167,7 +167,7 @@ public final class AbbreviatedObjectId {
 
 	/** @return true if this ObjectId is actually a complete id. */
 	public boolean isComplete() {
-		return length() == AnyObjectId.RAW_LEN * 2;
+		return length() == Constants.OBJECT_ID_STRING_LENGTH;
 	}
 
 	/** @return a complete ObjectId; null if {@link #isComplete()} is false */
@@ -231,7 +231,7 @@ public final class AbbreviatedObjectId {
 	 * @return string form of the abbreviation, in lower case hexadecimal.
 	 */
 	public final String name() {
-		final char[] b = new char[AnyObjectId.STR_LEN];
+		final char[] b = new char[Constants.OBJECT_ID_STRING_LENGTH];
 
 		AnyObjectId.formatHexChar(b, 0, w1);
 		if (nibbles <= 8)

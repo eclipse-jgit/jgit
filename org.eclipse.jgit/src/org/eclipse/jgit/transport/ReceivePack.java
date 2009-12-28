@@ -882,7 +882,7 @@ public class ReceivePack {
 			case REJECTED_MISSING_OBJECT:
 				if (cmd.getMessage() == null)
 					r.append("missing object(s)");
-				else if (cmd.getMessage().length() == 2 * Constants.OBJECT_ID_LENGTH)
+				else if (cmd.getMessage().length() == Constants.OBJECT_ID_STRING_LENGTH)
 					r.append("object " + cmd.getMessage() + " missing");
 				else
 					r.append(cmd.getMessage());

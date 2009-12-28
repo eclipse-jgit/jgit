@@ -210,7 +210,7 @@ public class LockFile {
 		requireLock();
 		try {
 			final BufferedOutputStream b;
-			b = new BufferedOutputStream(os, Constants.OBJECT_ID_LENGTH * 2 + 1);
+			b = new BufferedOutputStream(os, Constants.OBJECT_ID_STRING_LENGTH + 1);
 			id.copyTo(b);
 			b.write('\n');
 			b.flush();
