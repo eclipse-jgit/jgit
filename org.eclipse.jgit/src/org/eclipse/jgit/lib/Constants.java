@@ -58,8 +58,21 @@ public final class Constants {
 	/** Hash function used natively by Git for all objects. */
 	private static final String HASH_FUNCTION = "SHA-1";
 
-	/** Length of an object hash. */
+	/**
+	 * A Git object hash is 160 bits, i.e. 20 bytes.
+	 * <p>
+	 * Changing this assumption is not going to be as easy as changing this
+	 * declaration.
+	 */
 	public static final int OBJECT_ID_LENGTH = 20;
+
+	/**
+	 * A Git object can be expressed as a 40 character string of hexadecimal
+	 * digits.
+	 *
+	 * @see #OBJECT_ID_LENGTH
+	 */
+	public static final int OBJECT_ID_STRING_LENGTH = OBJECT_ID_LENGTH * 2;
 
 	/** Special name for the "HEAD" symbolic-ref. */
 	public static final String HEAD = "HEAD";
