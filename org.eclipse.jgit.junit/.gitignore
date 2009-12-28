@@ -1,2 +1,5 @@
-/bin
 /target
+/META-INF/MANIFEST.MF
+/.project
+/.classpath
+/.settings/org.maven.ide.eclipse.prefs

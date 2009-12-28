@@ -41,7 +41,7 @@
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
-# Update all pom.xml and MANIFEST.MF with new build number
+# Update all pom.xml with new build number
 #
 # TODO(spearce) This should be converted to some sort of
 # Java based Maven plugin so its fully portable.
@@ -77,21 +77,14 @@ esac
 case "$V" in
 *-SNAPSHOT)
 	POM_V=$V
-	MF_V=$(echo "$V" | perl -pe 's/-SNAPSHOT$/.qualifier/')
 	;;
 *-[1-9]*-g[0-9a-f]*)
 	POM_V=$(echo "$V" | perl -pe 's/-(\d+-g.*)$/.$1/')
-	MF_V=$POM_V
 	;;
 *)
 	POM_V=$V
-	MF_V=$V
 	;;
 esac
-
-perl -pi -e '
-	s/^(Bundle-Version:).*/$1 '"$MF_V"'/
-	' $(git ls-files | grep META-INF/MANIFEST.MF)
 
 perl -pi -e '
 	if ($ARGV ne $old_argv) {
@@ -100,7 +93,7 @@ perl -pi -e '
 	}
 	if (!$seen_version) {
 		$seen_version = 1 if
-		s{(<version>).*(</version>)}{${1}'"$POM_V"'${2}};
+		s{<(version)>.*</\1>}{<${1}>'"$POM_V"'</${1}>};
 	}
 	' $(git ls-files | grep pom.xml)
 
