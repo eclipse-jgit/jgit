@@ -83,7 +83,7 @@ public abstract class RefWriter {
 	 */
 	public void writeInfoRefs() throws IOException {
 		final StringWriter w = new StringWriter();
-		final char[] tmp = new char[Constants.OBJECT_ID_LENGTH * 2];
+		final char[] tmp = new char[Constants.OBJECT_ID_STRING_LENGTH];
 		for (final Ref r : refs) {
 			if (Constants.HEAD.equals(r.getName())) {
 				// Historically HEAD has never been published through
@@ -137,7 +137,7 @@ public abstract class RefWriter {
 			w.write('\n');
 		}
 
-		final char[] tmp = new char[Constants.OBJECT_ID_LENGTH * 2];
+		final char[] tmp = new char[Constants.OBJECT_ID_STRING_LENGTH];
 		for (final Ref r : refs) {
 			if (r.getStorage() != Ref.Storage.PACKED)
 				continue;

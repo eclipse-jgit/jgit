@@ -179,7 +179,7 @@ public class BundleWriter {
 		w.write(TransportBundle.V2_BUNDLE_SIGNATURE);
 		w.write('\n');
 
-		final char[] tmp = new char[Constants.OBJECT_ID_LENGTH * 2];
+		final char[] tmp = new char[Constants.OBJECT_ID_STRING_LENGTH];
 		for (final RevCommit a : assume) {
 			w.write('-');
 			a.copyTo(tmp, w);

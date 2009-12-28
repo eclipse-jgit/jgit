@@ -308,7 +308,7 @@ abstract class WalkRemoteObjectDatabase {
 	void writeRef(final String name, final ObjectId value) throws IOException {
 		final ByteArrayOutputStream b;
 
-		b = new ByteArrayOutputStream(Constants.OBJECT_ID_LENGTH * 2 + 1);
+		b = new ByteArrayOutputStream(Constants.OBJECT_ID_STRING_LENGTH + 1);
 		value.copyTo(b);
 		b.write('\n');
 

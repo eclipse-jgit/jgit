@@ -70,7 +70,7 @@ class RefAdvertiser {
 
 	private final StringBuilder tmpLine = new StringBuilder(100);
 
-	private final char[] tmpId = new char[2 * Constants.OBJECT_ID_LENGTH];
+	private final char[] tmpId = new char[Constants.OBJECT_ID_STRING_LENGTH];
 
 	private final Set<String> capablities = new LinkedHashSet<String>();
 
