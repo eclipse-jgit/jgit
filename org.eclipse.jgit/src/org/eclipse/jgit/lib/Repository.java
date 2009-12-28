@@ -502,6 +502,24 @@ public class Repository {
 	}
 
 	/**
+	 * Create a command to update, create or delete a ref in this repository.
+	 *
+	 * @param ref
+	 *            name of the ref the caller wants to modify.
+	 * @param detach
+	 *            true to create a detached head
+	 * @return an update command. The caller must finish populating this command
+	 *         and then invoke one of the update methods to actually make a
+	 *         change.
+	 * @throws IOException
+	 *             a symbolic ref was passed in and could not be resolved back
+	 *             to the base ref, as the symbolic ref could not be read.
+	 */
+	public RefUpdate updateRef(final String ref, final boolean detach) throws IOException {
+		return refs.newUpdate(ref, detach);
+	}
+
+	/**
 	 * Create a command to rename a ref in this repository
 	 *
 	 * @param fromRef
