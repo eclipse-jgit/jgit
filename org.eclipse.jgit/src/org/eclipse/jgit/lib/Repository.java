@@ -215,15 +215,11 @@ public class Repository {
 		}
 
 		if (workDir == null) {
-			if (d != null) {
-				// Only read core.worktree if GIT_DIR is set explicitly. See
-				// git-config(1).
-				String workTreeConfig = getConfig().getString("core", null, "worktree");
-				if (workTreeConfig != null) {
-					workDir = FS.resolve(d, workTreeConfig);
-				} else {
-					workDir = gitDir.getParentFile();
-				}
+			String workTreeConfig = getConfig().getString("core", null, "worktree");
+			if (workTreeConfig != null) {
+				workDir = FS.resolve(d, workTreeConfig);
+			} else {
+				workDir = gitDir.getParentFile();
 			}
 		}
 
