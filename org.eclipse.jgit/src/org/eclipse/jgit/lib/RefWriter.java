@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2008, Charles O'Farrell <charleso@charleso.org>
- * Copyright (C) 2009, Google Inc.
+ * Copyright (C) 2009-2010, Google Inc.
  * Copyright (C) 2009, Robin Rosenberg <robin.rosenberg@dewire.com>
  * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org>
  * and other copyright owners as documented in the project's IP log.
@@ -85,7 +85,7 @@ public abstract class RefWriter {
 		final StringWriter w = new StringWriter();
 		final char[] tmp = new char[Constants.OBJECT_ID_STRING_LENGTH];
 		for (final Ref r : refs) {
-			if (Constants.HEAD.equals(r.getName())) {
+			if (Constants.HEAD.equals(r.getOrigName())) {
 				// Historically HEAD has never been published through
 				// the INFO_REFS file. This is a mistake, but its the
 				// way things are.
