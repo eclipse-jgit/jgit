@@ -171,16 +171,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 					// Assume this server doesn't support smart HTTP fetch
 					// and fall back on dumb object walking.
 					//
-					HttpObjectDB d = new HttpObjectDB(objectsUrl);
-					WalkFetchConnection wfc = new WalkFetchConnection(this, d);
-					BufferedReader br = new BufferedReader(
-							new InputStreamReader(in, Constants.CHARSET));
-					try {
-						wfc.available(d.readAdvertisedImpl(br));
-					} finally {
-						br.close();
-					}
-					return wfc;
+					return newDumbConnection(in);
 				}
 			} finally {
 				in.close();
@@ -192,6 +183,64 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		} catch (IOException err) {
 			throw new TransportException(uri, "error reading info/refs", err);
 		}
+	}
+
+	private FetchConnection newDumbConnection(InputStream in)
+			throws IOException, PackProtocolException {
+		HttpObjectDB d = new HttpObjectDB(objectsUrl);
+		BufferedReader br = toBufferedReader(in);
+		Map<String, Ref> refs;
+		try {
+			refs = d.readAdvertisedImpl(br);
+		} finally {
+			br.close();
+		}
+
+		if (!refs.containsKey(Constants.HEAD)) {
+			// If HEAD was not published in the info/refs file (it usually
+			// is not there) download HEAD by itself as a loose file and do
+			// the resolution by hand.
+			//
+			HttpURLConnection conn = httpOpen(new URL(baseUrl, Constants.HEAD));
+			int status = HttpSupport.response(conn);
+			switch (status) {
+			case HttpURLConnection.HTTP_OK: {
+				br = toBufferedReader(openInputStream(conn));
+				try {
+					String line = br.readLine();
+					if (line != null && line.startsWith("ref: ")) {
+						Ref src = refs.get(line.substring(5));
+						if (src != null) {
+							refs.put(Constants.HEAD, new Ref(
+									Ref.Storage.NETWORK, Constants.HEAD, src
+											.getName(), src.getObjectId()));
+						}
+					} else if (line != null && ObjectId.isId(line)) {
+						refs.put(Constants.HEAD, new Ref(Ref.Storage.NETWORK,
+								Constants.HEAD, ObjectId.fromString(line)));
+					}
+				} finally {
+					br.close();
+				}
+				break;
+			}
+
+			case HttpURLConnection.HTTP_NOT_FOUND:
+				break;
+
+			default:
+				throw new TransportException(uri, "cannot read HEAD: " + status
+						+ " " + conn.getResponseMessage());
+			}
+		}
+
+		WalkFetchConnection wfc = new WalkFetchConnection(this, d);
+		wfc.available(refs);
+		return wfc;
+	}
+
+	private BufferedReader toBufferedReader(InputStream in) {
+		return new BufferedReader(new InputStreamReader(in, Constants.CHARSET));
 	}
 
 	@Override
