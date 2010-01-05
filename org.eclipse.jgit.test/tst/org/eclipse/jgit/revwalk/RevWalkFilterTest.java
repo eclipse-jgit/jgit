@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009, Google Inc.
+ * Copyright (C) 2009-2010, Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -231,14 +231,14 @@ public class RevWalkFilterTest extends RevWalkTestCase {
 		final RevCommit b = commit(a);
 		tick(100);
 
-		Date since = new Date(nowTick);
+		Date since = getClock();
 		final RevCommit c1 = commit(b);
 		tick(100);
 
 		final RevCommit c2 = commit(b);
 		tick(100);
 
-		Date until =  new Date(nowTick);
+		Date until = getClock();
 		final RevCommit d = commit(c1, c2);
 		tick(100);
 

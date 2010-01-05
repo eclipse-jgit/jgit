@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009, Google Inc.
+ * Copyright (C) 2009-2010, Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -61,8 +61,8 @@ public abstract class RevQueueTestCase<T extends AbstractRevQueue> extends
 	}
 
 	public void testClear() throws Exception {
-		final RevCommit a = parse(commit());
-		final RevCommit b = parse(commit(a));
+		final RevCommit a = parseBody(commit());
+		final RevCommit b = parseBody(commit(a));
 
 		q.add(a);
 		q.add(b);
@@ -71,8 +71,8 @@ public abstract class RevQueueTestCase<T extends AbstractRevQueue> extends
 	}
 
 	public void testHasFlags() throws Exception {
-		final RevCommit a = parse(commit());
-		final RevCommit b = parse(commit(a));
+		final RevCommit a = parseBody(commit());
+		final RevCommit b = parseBody(commit(a));
 
 		q.add(a);
 		q.add(b);
