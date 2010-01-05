@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009, Google Inc.
+ * Copyright (C) 2009-2010, Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -60,10 +60,10 @@ public class DateRevQueueTest extends RevQueueTestCase<DateRevQueue> {
 	}
 
 	public void testInsertOutOfOrder() throws Exception {
-		final RevCommit a = parse(commit());
-		final RevCommit b = parse(commit(10, a));
-		final RevCommit c1 = parse(commit(5, b));
-		final RevCommit c2 = parse(commit(-50, b));
+		final RevCommit a = parseBody(commit());
+		final RevCommit b = parseBody(commit(10, a));
+		final RevCommit c1 = parseBody(commit(5, b));
+		final RevCommit c2 = parseBody(commit(-50, b));
 
 		q.add(c2);
 		q.add(a);
@@ -78,8 +78,8 @@ public class DateRevQueueTest extends RevQueueTestCase<DateRevQueue> {
 	}
 
 	public void testInsertTie() throws Exception {
-		final RevCommit a = parse(commit());
-		final RevCommit b = parse(commit(0, a));
+		final RevCommit a = parseBody(commit());
+		final RevCommit b = parseBody(commit(0, a));
 		{
 			q = create();
 			q.add(a);
@@ -101,9 +101,9 @@ public class DateRevQueueTest extends RevQueueTestCase<DateRevQueue> {
 	}
 
 	public void testCloneFIFO() throws Exception {
-		final RevCommit a = parse(commit());
-		final RevCommit b = parse(commit(200, a));
-		final RevCommit c = parse(commit(200, b));
+		final RevCommit a = parseBody(commit());
+		final RevCommit b = parseBody(commit(200, a));
+		final RevCommit c = parseBody(commit(200, b));
 
 		final FIFORevQueue src = new FIFORevQueue();
 		src.add(a);
