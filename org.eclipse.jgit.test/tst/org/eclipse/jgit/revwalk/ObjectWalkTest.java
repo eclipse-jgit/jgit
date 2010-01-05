@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009, Google Inc.
+ * Copyright (C) 2009-2010, Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -46,6 +46,7 @@ package org.eclipse.jgit.revwalk;
 public class ObjectWalkTest extends RevWalkTestCase {
 	protected ObjectWalk objw;
 
+	@Override
 	protected RevWalk createRevWalk() {
 		return objw = new ObjectWalk(db);
 	}
@@ -64,7 +65,7 @@ public class ObjectWalkTest extends RevWalkTestCase {
 		assertCommit(a, objw.next());
 		assertNull(objw.next());
 
-		assertSame(emptyTree, objw.nextObject());
+		assertSame(tree(), objw.nextObject());
 		assertNull(objw.nextObject());
 	}
 

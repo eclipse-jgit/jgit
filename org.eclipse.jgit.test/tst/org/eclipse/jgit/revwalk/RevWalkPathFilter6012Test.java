@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009, Google Inc.
+ * Copyright (C) 2009-2010, Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -80,10 +80,10 @@ public class RevWalkPathFilter6012Test extends RevWalkTestCase {
 		b = commit(tree(file(pF, zI)), a);
 		c = commit(tree(file(pF, zI)), a);
 		d = commit(tree(file(pA, zS), file(pF, zI)), c);
-		parse(d);
+		parseBody(d);
 		e = commit(d.getTree(), d, b);
 		f = commit(tree(file(pA, zS), file(pE, zY), file(pF, zI)), e);
-		parse(f);
+		parseBody(f);
 		g = commit(tree(file(pE, zY), file(pF, zI)), b);
 		h = commit(f.getTree(), g, f);
 		i = commit(tree(file(pA, zS), file(pE, zY), file(pF, zF)), h);

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009, Google Inc.
+ * Copyright (C) 2009-2010, Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -96,8 +96,8 @@ public class RevWalkSortTest extends RevWalkTestCase {
 		final RevCommit b = commit(a);
 		final RevCommit c = commit(-5, b);
 		final RevCommit d = commit(10, c);
-		assertTrue(parse(a).getCommitTime() < parse(d).getCommitTime());
-		assertTrue(parse(c).getCommitTime() < parse(b).getCommitTime());
+		assertTrue(parseBody(a).getCommitTime() < parseBody(d).getCommitTime());
+		assertTrue(parseBody(c).getCommitTime() < parseBody(b).getCommitTime());
 
 		rw.sort(RevSort.COMMIT_TIME_DESC);
 		markStart(d);
