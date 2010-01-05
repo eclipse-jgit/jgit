@@ -1,8 +1,8 @@
-#Sat Oct 31 14:53:06 PDT 2009
+#Tue Jan 05 09:30:22 PST 2010
 eclipse.preferences.version=1
 editor_save_participant_org.eclipse.jdt.ui.postsavelistener.cleanup=true
-formatter_profile=_JGit
-formatter_settings_version=10
+formatter_profile=_JGit Format
+formatter_settings_version=11
 internal.default.compliance=default
 org.eclipse.jdt.ui.ignorelowercasenames=true
 org.eclipse.jdt.ui.importorder=java;javax;org;com;
