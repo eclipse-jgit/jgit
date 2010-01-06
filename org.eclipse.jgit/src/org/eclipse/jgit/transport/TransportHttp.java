@@ -44,9 +44,11 @@
 package org.eclipse.jgit.transport;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.Proxy;
@@ -56,11 +58,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.Map.Entry;
 
 import org.eclipse.jgit.errors.NotSupportedException;
 import org.eclipse.jgit.errors.PackProtocolException;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.util.HttpSupport;
@@ -112,11 +116,61 @@ public class TransportHttp extends HttpTransport implements WalkTransport {
 		return r;
 	}
 
+	class HttpPushConnection extends BaseConnection implements PushConnection {
+
+		@Override
+		public void close() {
+			// it's not a real connection, so we don't need to close.
+		}
+
+		public void push(ProgressMonitor monitor,
+				Map<String, RemoteRefUpdate> refUpdates)
+				throws TransportException {
+			for (Entry<String, RemoteRefUpdate> entry : refUpdates.entrySet()) {
+				RemoteRefUpdate refUpdate = entry.getValue();
+				File workDir = local.getWorkDir();
+
+				String srcRef = refUpdate.getSrcRef();
+				String dstRef = refUpdate.getRemoteName();
+
+				String repository = baseUrl.toString();
+
+				String command = "git push "+ repository +" +" + srcRef + ":" + dstRef;
+				execute(command, workDir);
+			}
+		}
+
+		private void execute(String command, File workDir)
+				throws TransportException {
+			System.out.println("Executing command: " + command);
+
+			try {
+				Process proc = Runtime.getRuntime().exec(command, null, workDir);
+				printResult(proc);
+			} catch (IOException e) {
+				throw new TransportException("Error executing git push", e);
+			}
+		}
+
+		private void printResult(Process proc) throws IOException {
+			BufferedReader output = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+			BufferedReader error = new BufferedReader(new InputStreamReader(proc.getErrorStream()));
+
+			String stdOut = null, stdErr = null;
+			while (((stdOut = output.readLine()) != null) || ((stdErr = error.readLine()) != null)) {
+				if (stdOut != null)
+					System.out.println(stdOut);
+				if (stdErr != null)
+					System.out.println(stdErr);
+			}
+		}
+
+	}
+
 	@Override
 	public PushConnection openPush() throws NotSupportedException,
 			TransportException {
-		final String s = getURI().getScheme();
-		throw new NotSupportedException("Push not supported over " + s + ".");
+		return new HttpPushConnection();
 	}
 
 	@Override
