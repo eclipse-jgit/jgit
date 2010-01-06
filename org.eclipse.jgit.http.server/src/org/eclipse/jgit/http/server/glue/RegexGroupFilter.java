@@ -41,59 +41,57 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.eclipse.jgit.errors;
+package org.eclipse.jgit.http.server.glue;
 
-import java.io.File;
+import java.io.IOException;
 
-/** Indicates a local repository does not exist. */
-public class RepositoryNotFoundException extends TransportException {
-	private static final long serialVersionUID = 1L;
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 
-	/**
-	 * Constructs an exception indicating a local repository does not exist.
-	 *
-	 * @param location
-	 *            description of the repository not found, usually file path.
-	 */
-	public RepositoryNotFoundException(final File location) {
-		this(location.getPath());
-	}
-
-	/**
-	 * Constructs an exception indicating a local repository does not exist.
-	 *
-	 * @param location
-	 *            description of the repository not found, usually file path.
-	 * @param why
-	 *            why the repository does not exist.
-	 */
-	public RepositoryNotFoundException(final File location, Throwable why) {
-		this(location.getPath(), why);
-	}
+/**
+ * Switch servlet path and path info to use another regex match group.
+ * <p>
+ * This filter is meant to be installed in the middle of a pipeline created by
+ * {@link MetaServlet#serveRegex(String)}. The passed request's servlet path is
+ * updated to be all text up to the start of the designated capture group, and
+ * the path info is changed to the contents of the capture group.
+ **/
+public class RegexGroupFilter implements Filter {
+	private final int groupIdx;
 
 	/**
-	 * Constructs an exception indicating a local repository does not exist.
-	 *
-	 * @param location
-	 *            description of the repository not found, usually file path.
+	 * @param groupIdx
+	 *            capture group number, 1 through the number of groups.
 	 */
-	public RepositoryNotFoundException(final String location) {
-		super(message(location));
+	public RegexGroupFilter(final int groupIdx) {
+		if (groupIdx < 1)
+			throw new IllegalArgumentException("Invalid index: " + groupIdx);
+		this.groupIdx = groupIdx - 1;
 	}
 
-	/**
-	 * Constructs an exception indicating a local repository does not exist.
-	 *
-	 * @param location
-	 *            description of the repository not found, usually file path.
-	 * @param why
-	 *            why the repository does not exist.
-	 */
-	public RepositoryNotFoundException(String location, Throwable why) {
-		super(message(location), why);
+	public void init(FilterConfig config) throws ServletException {
+		// Do nothing.
 	}
 
-	private static String message(final String location) {
-		return "repository not found: " + location;
+	public void destroy() {
+		// Do nothing.
+	}
+
+	public void doFilter(final ServletRequest request,
+			final ServletResponse rsp, final FilterChain chain)
+			throws IOException, ServletException {
+		final WrappedRequest[] g = groupsFor(request);
+		if (groupIdx < g.length)
+			chain.doFilter(g[groupIdx], rsp);
+		else
+			throw new ServletException("Invalid regex group " + (groupIdx + 1));
+	}
+
+	private static WrappedRequest[] groupsFor(final ServletRequest r) {
+		return (WrappedRequest[]) r.getAttribute(MetaServlet.REGEX_GROUPS);
 	}
 }
