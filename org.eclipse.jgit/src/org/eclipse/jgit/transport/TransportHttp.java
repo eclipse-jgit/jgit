@@ -161,7 +161,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport {
 				if (stdOut != null)
 					System.out.println(stdOut);
 				if (stdErr != null)
-					System.out.println(stdErr);
+					System.err.println(stdErr);
 			}
 		}
 
