@@ -47,14 +47,19 @@ import java.io.File;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletResponse;
 
+import org.eclipse.jgit.http.server.glue.ErrorServlet;
 import org.eclipse.jgit.http.server.glue.MetaServlet;
 import org.eclipse.jgit.http.server.glue.RegexGroupFilter;
 import org.eclipse.jgit.http.server.glue.ServletBinder;
+import org.eclipse.jgit.http.server.resolver.DefaultReceivePackFactory;
 import org.eclipse.jgit.http.server.resolver.FileResolver;
 import org.eclipse.jgit.http.server.resolver.AsIsFileService;
+import org.eclipse.jgit.http.server.resolver.ReceivePackFactory;
 import org.eclipse.jgit.http.server.resolver.RepositoryResolver;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.transport.ReceivePack;
 import org.eclipse.jgit.util.StringUtils;
 
 /**
@@ -100,6 +105,8 @@ public class GitServlet extends MetaServlet {
 
 	private AsIsFileService asIs = new AsIsFileService();
 
+	private ReceivePackFactory receivePackFactory = new DefaultReceivePackFactory();
+
 	/**
 	 * New servlet that will load its base directory from {@code web.xml}.
 	 * <p>
@@ -135,6 +142,16 @@ public class GitServlet extends MetaServlet {
 		this.asIs = f != null ? f : AsIsFileService.DISABLED;
 	}
 
+	/**
+	 * @param f
+	 *            the factory to construct and configure a {@link ReceivePack}
+	 *            session when a push is requested by a client.
+	 */
+	public void setReceivePackFactory(ReceivePackFactory f) {
+		assertNotInitialized();
+		this.receivePackFactory = f != null ? f : ReceivePackFactory.DISABLED;
+	}
+
 	private void assertNotInitialized() {
 		if (initialized)
 			throw new IllegalStateException("Already initialized by container");
@@ -152,14 +169,26 @@ public class GitServlet extends MetaServlet {
 
 		initialized = true;
 
+		if (receivePackFactory != ReceivePackFactory.DISABLED) {
+			serve("*/git-receive-pack")//
+					.with(new ReceivePackServlet(receivePackFactory));
+		}
+
+		ServletBinder refs = serve("*/" + Constants.INFO_REFS);
+		if (receivePackFactory != ReceivePackFactory.DISABLED) {
+			refs = refs.through(//
+					new ReceivePackServlet.InfoRefs(receivePackFactory));
+		}
+		if (asIs != AsIsFileService.DISABLED) {
+			refs = refs.through(new IsLocalFilter());
+			refs = refs.through(new AsIsFileFilter(asIs));
+			refs.with(new InfoRefsServlet());
+		} else
+			refs.with(new ErrorServlet(HttpServletResponse.SC_FORBIDDEN));
+
 		if (asIs != AsIsFileService.DISABLED) {
 			final IsLocalFilter mustBeLocal = new IsLocalFilter();
 			final AsIsFileFilter enabled = new AsIsFileFilter(asIs);
-
-			serve("*/" + Constants.INFO_REFS)//
-					.through(mustBeLocal)//
-					.through(enabled)//
-					.with(new InfoRefsServlet());
 
 			serve("*/" + Constants.HEAD)//
 					.through(mustBeLocal)//
