@@ -45,6 +45,7 @@ package org.eclipse.jgit.junit;
 
 import java.io.File;
 import java.io.IOException;
+import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -60,12 +61,15 @@ import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.dircache.DirCacheEditor.DeletePath;
 import org.eclipse.jgit.dircache.DirCacheEditor.DeleteTree;
 import org.eclipse.jgit.dircache.DirCacheEditor.PathEdit;
+import org.eclipse.jgit.errors.IncorrectObjectTypeException;
+import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.ObjectWritingException;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Commit;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.LockFile;
+import org.eclipse.jgit.lib.ObjectChecker;
 import org.eclipse.jgit.lib.ObjectDirectory;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectWriter;
@@ -75,6 +79,7 @@ import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.RefWriter;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.Tag;
+import org.eclipse.jgit.revwalk.ObjectWalk;
 import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
@@ -482,6 +487,62 @@ public class TestRepository {
 		} else
 			ref = Constants.R_HEADS + ref;
 		return new BranchBuilder(ref);
+	}
+
+	/**
+	 * Run consistency checks against the object database.
+	 * <p>
+	 * This method completes silently if the checks pass. A temporary revision
+	 * pool is constructed during the checking.
+	 *
+	 * @param tips
+	 *            the tips to start checking from; if not supplied the refs of
+	 *            the repository are used instead.
+	 * @throws MissingObjectException
+	 * @throws IncorrectObjectTypeException
+	 * @throws IOException
+	 */
+	public void fsck(RevObject... tips) throws MissingObjectException,
+			IncorrectObjectTypeException, IOException {
+		ObjectWalk ow = new ObjectWalk(db);
+		if (tips.length != 0) {
+			for (RevObject o : tips)
+				ow.markStart(ow.parseAny(o));
+		} else {
+			for (Ref r : db.getAllRefs().values())
+				ow.markStart(ow.parseAny(r.getObjectId()));
+		}
+
+		ObjectChecker oc = new ObjectChecker();
+		for (;;) {
+			final RevCommit o = ow.next();
+			if (o == null)
+				break;
+
+			final byte[] bin = db.openObject(o).getCachedBytes();
+			oc.checkCommit(bin);
+			assertHash(o, bin);
+		}
+
+		for (;;) {
+			final RevObject o = ow.nextObject();
+			if (o == null)
+				break;
+
+			final byte[] bin = db.openObject(o).getCachedBytes();
+			oc.check(o.getType(), bin);
+			assertHash(o, bin);
+		}
+	}
+
+	private static void assertHash(RevObject id, byte[] bin) {
+		MessageDigest md = Constants.newMessageDigest();
+		md.update(Constants.encodedTypeString(id.getType()));
+		md.update((byte) ' ');
+		md.update(Constants.encodeASCII(bin.length));
+		md.update((byte) 0);
+		md.update(bin);
+		Assert.assertEquals(id.copy(), ObjectId.fromRaw(md.digest()));
 	}
 
 	/** Helper to build a branch with one or more commits */
