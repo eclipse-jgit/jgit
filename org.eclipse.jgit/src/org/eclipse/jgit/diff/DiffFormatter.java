@@ -114,7 +114,15 @@ public class DiffFormatter {
 		formatEdits(out, a, b, head.toEditList());
 	}
 
-	private void formatEdits(final OutputStream out, final RawText a,
+	/**
+	 * Formats a list of edits in unified diff format
+	 * @param out where the unified diff is written to
+	 * @param a the text A which was compared
+	 * @param b the text B which was compared
+	 * @param edits some differences which have been calculated between A and B
+	 * @throws IOException
+	 */
+	public void formatEdits(final OutputStream out, final RawText a,
 			final RawText b, final EditList edits) throws IOException {
 		for (int curIdx = 0; curIdx < edits.size();) {
 			Edit curEdit = edits.get(curIdx);

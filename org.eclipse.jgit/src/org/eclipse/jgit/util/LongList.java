@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2008, Google Inc.
- * Copyright (C) 2009, Johannes Schindelin <johannes.schindelin@gmx.de>
+ * Copyright (C) 2009, Christian Halstrick <christian.halstrick@sap.com>
+ * Copyright (C) 2009, Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -44,14 +44,14 @@
 
 package org.eclipse.jgit.util;
 
-/** A more efficient List<Integer> using a primitive integer array. */
-public class IntList {
-	private int[] entries;
+/** A more efficient List<Long> using a primitive long array. */
+public class LongList {
+	private long[] entries;
 
 	private int count;
 
 	/** Create an empty list with a default capacity. */
-	public IntList() {
+	public LongList() {
 		this(10);
 	}
 
@@ -61,8 +61,8 @@ public class IntList {
 	 * @param capacity
 	 *            number of entries the list can initially hold.
 	 */
-	public IntList(final int capacity) {
-		entries = new int[capacity];
+	public LongList(final int capacity) {
+		entries = new long[capacity];
 	}
 
 	/** @return number of entries in this list */
@@ -77,7 +77,7 @@ public class IntList {
 	 * @throws ArrayIndexOutOfBoundsException
 	 *             the index outside the valid range
 	 */
-	public int get(final int i) {
+	public long get(final int i) {
 		if (count <= i)
 			throw new ArrayIndexOutOfBoundsException(i);
 		return entries[i];
@@ -94,7 +94,7 @@ public class IntList {
 	 * @param n
 	 *            the number to add.
 	 */
-	public void add(final int n) {
+	public void add(final long n) {
 		if (count == entries.length)
 			grow();
 		entries[count++] = n;
@@ -108,7 +108,7 @@ public class IntList {
 	 * @param n
 	 *            value to store at the position.
 	 */
-	public void set(final int index, final int n) {
+	public void set(final int index, final long n) {
 		if (count < index)
 			throw new ArrayIndexOutOfBoundsException(index);
 		else if (count == index)
@@ -127,13 +127,13 @@ public class IntList {
 	 * @param val
 	 *            value to insert into padded positions.
 	 */
-	public void fillTo(int toIndex, final int val) {
+	public void fillTo(int toIndex, final long val) {
 		while (count < toIndex)
 			add(val);
 	}
 
 	private void grow() {
-		final int[] n = new int[(entries.length + 16) * 3 / 2];
+		final long[] n = new long[(entries.length + 16) * 3 / 2];
 		System.arraycopy(entries, 0, n, 0, count);
 		entries = n;
 	}
