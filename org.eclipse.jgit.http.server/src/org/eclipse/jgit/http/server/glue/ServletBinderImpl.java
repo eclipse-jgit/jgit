@@ -41,59 +41,52 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.eclipse.jgit.errors;
+package org.eclipse.jgit.http.server.glue;
 
-import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
-/** Indicates a local repository does not exist. */
-public class RepositoryNotFoundException extends TransportException {
-	private static final long serialVersionUID = 1L;
+import javax.servlet.Filter;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletResponse;
 
-	/**
-	 * Constructs an exception indicating a local repository does not exist.
-	 *
-	 * @param location
-	 *            description of the repository not found, usually file path.
-	 */
-	public RepositoryNotFoundException(final File location) {
-		this(location.getPath());
+abstract class ServletBinderImpl implements ServletBinder {
+	private final List<Filter> filters;
+
+	private HttpServlet httpServlet;
+
+	ServletBinderImpl() {
+		this.filters = new ArrayList<Filter>();
 	}
 
-	/**
-	 * Constructs an exception indicating a local repository does not exist.
-	 *
-	 * @param location
-	 *            description of the repository not found, usually file path.
-	 * @param why
-	 *            why the repository does not exist.
-	 */
-	public RepositoryNotFoundException(final File location, Throwable why) {
-		this(location.getPath(), why);
+	public ServletBinder through(Filter filter) {
+		if (filter == null)
+			throw new NullPointerException("filter must not be null");
+		filters.add(filter);
+		return this;
 	}
 
-	/**
-	 * Constructs an exception indicating a local repository does not exist.
-	 *
-	 * @param location
-	 *            description of the repository not found, usually file path.
-	 */
-	public RepositoryNotFoundException(final String location) {
-		super(message(location));
+	public void with(HttpServlet servlet) {
+		if (servlet == null)
+			throw new NullPointerException("servlet must not be null");
+		if (httpServlet != null)
+			throw new IllegalStateException("servlet was already bound");
+		httpServlet = servlet;
 	}
 
-	/**
-	 * Constructs an exception indicating a local repository does not exist.
-	 *
-	 * @param location
-	 *            description of the repository not found, usually file path.
-	 * @param why
-	 *            why the repository does not exist.
-	 */
-	public RepositoryNotFoundException(String location, Throwable why) {
-		super(message(location), why);
+	/** @return the configured servlet, or singleton returning 404 if none. */
+	protected HttpServlet getServlet() {
+		if (httpServlet != null)
+			return httpServlet;
+		else
+			return new ErrorServlet(HttpServletResponse.SC_NOT_FOUND);
 	}
 
-	private static String message(final String location) {
-		return "repository not found: " + location;
+	/** @return the configured filters; zero-length array if none. */
+	protected Filter[] getFilters() {
+		return filters.toArray(new Filter[filters.size()]);
 	}
+
+	/** @return the pipeline that matches and executes this chain. */
+	abstract UrlPipeline create();
 }

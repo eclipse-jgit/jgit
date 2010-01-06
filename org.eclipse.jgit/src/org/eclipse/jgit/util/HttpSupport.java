@@ -1,4 +1,5 @@
 /*
+ * Copyright (C) 2010, Google Inc.
  * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org>
  * and other copyright owners as documented in the project's IP log.
  *
@@ -55,6 +56,60 @@ import java.net.URLEncoder;
 
 /** Extra utilities to support usage of HTTP. */
 public class HttpSupport {
+	/** The {@code POST} HTTP method. */
+	public static final String METHOD_POST = "POST";
+
+	/** The {@code Cache-Control} header. */
+	public static final String HDR_CACHE_CONTROL = "Cache-Control";
+
+	/** The {@code Pragma} header. */
+	public static final String HDR_PRAGMA = "Pragma";
+
+	/** The {@code Date} header. */
+	public static final String HDR_DATE = "Date";
+
+	/** The {@code Expires} header. */
+	public static final String HDR_EXPIRES = "Expires";
+
+	/** The {@code ETag} header. */
+	public static final String HDR_ETAG = "ETag";
+
+	/** The {@code If-None-Match} header. */
+	public static final String HDR_IF_NONE_MATCH = "If-None-Match";
+
+	/** The {@code Last-Modified} header. */
+	public static final String HDR_LAST_MODIFIED = "Last-Modified";
+
+	/** The {@code If-Modified-Since} header. */
+	public static final String HDR_IF_MODIFIED_SINCE = "If-Modified-Since";
+
+	/** The {@code Content-Type} header. */
+	public static final String HDR_CONTENT_TYPE = "Content-Type";
+
+	/** The {@code Content-Length} header. */
+	public static final String HDR_CONTENT_LENGTH = "Content-Length";
+
+	/** The {@code Content-Encoding} header. */
+	public static final String HDR_CONTENT_ENCODING = "Content-Encoding";
+
+	/** The {@code Content-Range} header. */
+	public static final String HDR_CONTENT_RANGE = "Content-Range";
+
+	/** The {@code Accept-Ranges} header. */
+	public static final String HDR_ACCEPT_RANGES = "Accept-Ranges";
+
+	/** The {@code If-Range} header. */
+	public static final String HDR_IF_RANGE = "If-Range";
+
+	/** The {@code Range} header. */
+	public static final String HDR_RANGE = "Range";
+
+	/** The {@code Accept-Encoding} header. */
+	public static final String HDR_ACCEPT_ENCODING = "Accept-Encoding";
+
+	/** The {@code gzip} encoding value for {@link #HDR_ACCEPT_ENCODING}. */
+	public static final String ENCODING_GZIP = "gzip";
+
 	/**
 	 * URL encode a value string into an output buffer.
 	 *

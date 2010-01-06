@@ -41,59 +41,44 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.eclipse.jgit.errors;
+package org.eclipse.jgit.http.server;
+
+import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
+import static org.eclipse.jgit.http.server.ServletUtils.getRepository;
+import static org.eclipse.jgit.http.server.ServletUtils.send;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
-/** Indicates a local repository does not exist. */
-public class RepositoryNotFoundException extends TransportException {
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.eclipse.jgit.util.IO;
+
+/** Sends a small text meta file from the repository. */
+class TextFileServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * Constructs an exception indicating a local repository does not exist.
-	 *
-	 * @param location
-	 *            description of the repository not found, usually file path.
-	 */
-	public RepositoryNotFoundException(final File location) {
-		this(location.getPath());
+	private final String fileName;
+
+	TextFileServlet(final String name) {
+		this.fileName = name;
 	}
 
-	/**
-	 * Constructs an exception indicating a local repository does not exist.
-	 *
-	 * @param location
-	 *            description of the repository not found, usually file path.
-	 * @param why
-	 *            why the repository does not exist.
-	 */
-	public RepositoryNotFoundException(final File location, Throwable why) {
-		this(location.getPath(), why);
+	public void doGet(final HttpServletRequest req,
+			final HttpServletResponse rsp) throws IOException {
+		try {
+			rsp.setContentType("text/plain");
+			send(read(req), req, rsp);
+		} catch (FileNotFoundException noFile) {
+			rsp.sendError(SC_NOT_FOUND);
+		}
 	}
 
-	/**
-	 * Constructs an exception indicating a local repository does not exist.
-	 *
-	 * @param location
-	 *            description of the repository not found, usually file path.
-	 */
-	public RepositoryNotFoundException(final String location) {
-		super(message(location));
-	}
-
-	/**
-	 * Constructs an exception indicating a local repository does not exist.
-	 *
-	 * @param location
-	 *            description of the repository not found, usually file path.
-	 * @param why
-	 *            why the repository does not exist.
-	 */
-	public RepositoryNotFoundException(String location, Throwable why) {
-		super(message(location), why);
-	}
-
-	private static String message(final String location) {
-		return "repository not found: " + location;
+	private byte[] read(final HttpServletRequest req) throws IOException {
+		final File gitdir = getRepository(req).getDirectory();
+		return IO.readFully(new File(gitdir, fileName));
 	}
 }
