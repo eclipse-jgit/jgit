@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009-2010, Google Inc.
+ * Copyright (C) 2010, Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -41,59 +41,42 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.eclipse.jgit.errors;
+package org.eclipse.jgit.http.server;
 
-import java.io.File;
+import static org.eclipse.jgit.util.HttpSupport.HDR_CACHE_CONTROL;
+import static org.eclipse.jgit.util.HttpSupport.HDR_EXPIRES;
+import static org.eclipse.jgit.util.HttpSupport.HDR_PRAGMA;
 
-/** Indicates a local repository does not exist. */
-public class RepositoryNotFoundException extends TransportException {
-	private static final long serialVersionUID = 1L;
+import java.io.IOException;
 
-	/**
-	 * Constructs an exception indicating a local repository does not exist.
-	 *
-	 * @param location
-	 *            description of the repository not found, usually file path.
-	 */
-	public RepositoryNotFoundException(final File location) {
-		this(location.getPath());
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletResponse;
+
+/** Adds HTTP response headers to prevent caching by proxies/browsers. */
+class NoCacheFilter implements Filter {
+	public void init(FilterConfig config) throws ServletException {
+		// Do nothing.
 	}
 
-	/**
-	 * Constructs an exception indicating a local repository does not exist.
-	 *
-	 * @param location
-	 *            description of the repository not found, usually file path.
-	 * @param why
-	 *            why the repository does not exist.
-	 */
-	public RepositoryNotFoundException(final File location, Throwable why) {
-		this(location.getPath(), why);
+	public void destroy() {
+		// Do nothing.
 	}
 
-	/**
-	 * Constructs an exception indicating a local repository does not exist.
-	 *
-	 * @param location
-	 *            description of the repository not found, usually file path.
-	 */
-	public RepositoryNotFoundException(final String location) {
-		super(message(location));
-	}
+	public void doFilter(ServletRequest request, ServletResponse response,
+			FilterChain chain) throws IOException, ServletException {
+		HttpServletResponse rsp = (HttpServletResponse) response;
 
-	/**
-	 * Constructs an exception indicating a local repository does not exist.
-	 *
-	 * @param location
-	 *            description of the repository not found, usually file path.
-	 * @param why
-	 *            why the repository does not exist.
-	 */
-	public RepositoryNotFoundException(String location, Throwable why) {
-		super(message(location), why);
-	}
+		rsp.setHeader(HDR_EXPIRES, "Fri, 01 Jan 1980 00:00:00 GMT");
+		rsp.setHeader(HDR_PRAGMA, "no-cache");
 
-	private static String message(final String location) {
-		return "repository not found: " + location;
+		final String nocache = "no-cache, max-age=0, must-revalidate";
+		rsp.setHeader(HDR_CACHE_CONTROL, nocache);
+
+		chain.doFilter(request, response);
 	}
 }

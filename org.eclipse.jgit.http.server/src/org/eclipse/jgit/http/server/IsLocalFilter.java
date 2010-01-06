@@ -41,59 +41,48 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.eclipse.jgit.errors;
+package org.eclipse.jgit.http.server;
 
-import java.io.File;
+import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
+import static org.eclipse.jgit.http.server.ServletUtils.getRepository;
 
-/** Indicates a local repository does not exist. */
-public class RepositoryNotFoundException extends TransportException {
-	private static final long serialVersionUID = 1L;
+import java.io.IOException;
 
-	/**
-	 * Constructs an exception indicating a local repository does not exist.
-	 *
-	 * @param location
-	 *            description of the repository not found, usually file path.
-	 */
-	public RepositoryNotFoundException(final File location) {
-		this(location.getPath());
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletResponse;
+
+import org.eclipse.jgit.lib.ObjectDirectory;
+import org.eclipse.jgit.lib.Repository;
+
+/**
+ * Requires the target {@link Repository} to be available via local filesystem.
+ * <p>
+ * The target {@link Repository} must be using a {@link ObjectDirectory}, so the
+ * downstream servlet can directly access its contents on disk.
+ */
+class IsLocalFilter implements Filter {
+	public void init(FilterConfig config) throws ServletException {
+		// Do nothing.
 	}
 
-	/**
-	 * Constructs an exception indicating a local repository does not exist.
-	 *
-	 * @param location
-	 *            description of the repository not found, usually file path.
-	 * @param why
-	 *            why the repository does not exist.
-	 */
-	public RepositoryNotFoundException(final File location, Throwable why) {
-		this(location.getPath(), why);
+	public void destroy() {
+		// Do nothing.
 	}
 
-	/**
-	 * Constructs an exception indicating a local repository does not exist.
-	 *
-	 * @param location
-	 *            description of the repository not found, usually file path.
-	 */
-	public RepositoryNotFoundException(final String location) {
-		super(message(location));
+	public void doFilter(ServletRequest request, ServletResponse response,
+			FilterChain chain) throws IOException, ServletException {
+		if (isLocal(getRepository(request)))
+			chain.doFilter(request, response);
+		else
+			((HttpServletResponse) response).sendError(SC_FORBIDDEN);
 	}
 
-	/**
-	 * Constructs an exception indicating a local repository does not exist.
-	 *
-	 * @param location
-	 *            description of the repository not found, usually file path.
-	 * @param why
-	 *            why the repository does not exist.
-	 */
-	public RepositoryNotFoundException(String location, Throwable why) {
-		super(message(location), why);
-	}
-
-	private static String message(final String location) {
-		return "repository not found: " + location;
+	private static boolean isLocal(final Repository db) {
+		return db.getObjectDatabase() instanceof ObjectDirectory;
 	}
 }
