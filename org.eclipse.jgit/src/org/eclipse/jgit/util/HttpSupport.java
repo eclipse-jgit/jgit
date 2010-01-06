@@ -65,6 +65,9 @@ public class HttpSupport {
 	/** The {@code Pragma} header. */
 	public static final String HDR_PRAGMA = "Pragma";
 
+	/** The {@code User-Agent} header. */
+	public static final String HDR_USER_AGENT = "User-Agent";
+
 	/** The {@code Date} header. */
 	public static final String HDR_DATE = "Date";
 
@@ -82,6 +85,9 @@ public class HttpSupport {
 
 	/** The {@code If-Modified-Since} header. */
 	public static final String HDR_IF_MODIFIED_SINCE = "If-Modified-Since";
+
+	/** The {@code Accept} header. */
+	public static final String HDR_ACCEPT = "Accept";
 
 	/** The {@code Content-Type} header. */
 	public static final String HDR_CONTENT_TYPE = "Content-Type";
