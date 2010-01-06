@@ -48,6 +48,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Arrays;
 
+import org.eclipse.jgit.junit.TestRng;
+
 import junit.framework.TestCase;
 
 public class TemporaryBufferTest extends TestCase {
