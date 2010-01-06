@@ -128,14 +128,12 @@ public class TransportHttp extends HttpTransport implements WalkTransport {
 				throws TransportException {
 			for (Entry<String, RemoteRefUpdate> entry : refUpdates.entrySet()) {
 				RemoteRefUpdate refUpdate = entry.getValue();
-				File workDir = local.getWorkDir();
-
 				String srcRef = refUpdate.getSrcRef();
 				String dstRef = refUpdate.getRemoteName();
 
 				String repository = baseUrl.toString();
-
 				String command = "git push "+ repository +" +" + srcRef + ":" + dstRef;
+				File workDir = local.getWorkDir();
 				execute(command, workDir);
 			}
 		}
