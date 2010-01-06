@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009-2010, Google Inc.
+ * Copyright (C) 2010, Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -41,59 +41,34 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.eclipse.jgit.errors;
+package org.eclipse.jgit.http.server.glue;
 
-import java.io.File;
+import java.io.IOException;
 
-/** Indicates a local repository does not exist. */
-public class RepositoryNotFoundException extends TransportException {
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/** Sends a fixed status code to the client. */
+public class ErrorServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * Constructs an exception indicating a local repository does not exist.
-	 *
-	 * @param location
-	 *            description of the repository not found, usually file path.
-	 */
-	public RepositoryNotFoundException(final File location) {
-		this(location.getPath());
-	}
+	private final int status;
 
 	/**
-	 * Constructs an exception indicating a local repository does not exist.
+	 * Sends a specific status code.
 	 *
-	 * @param location
-	 *            description of the repository not found, usually file path.
-	 * @param why
-	 *            why the repository does not exist.
+	 * @param status
+	 *            the HTTP status code to always send.
 	 */
-	public RepositoryNotFoundException(final File location, Throwable why) {
-		this(location.getPath(), why);
+	public ErrorServlet(final int status) {
+		this.status = status;
 	}
 
-	/**
-	 * Constructs an exception indicating a local repository does not exist.
-	 *
-	 * @param location
-	 *            description of the repository not found, usually file path.
-	 */
-	public RepositoryNotFoundException(final String location) {
-		super(message(location));
-	}
-
-	/**
-	 * Constructs an exception indicating a local repository does not exist.
-	 *
-	 * @param location
-	 *            description of the repository not found, usually file path.
-	 * @param why
-	 *            why the repository does not exist.
-	 */
-	public RepositoryNotFoundException(String location, Throwable why) {
-		super(message(location), why);
-	}
-
-	private static String message(final String location) {
-		return "repository not found: " + location;
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse rsp)
+			throws ServletException, IOException {
+		rsp.sendError(status);
 	}
 }

@@ -41,59 +41,37 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.eclipse.jgit.errors;
+package org.eclipse.jgit.http.server.resolver;
 
-import java.io.File;
+import javax.servlet.http.HttpServletRequest;
 
-/** Indicates a local repository does not exist. */
-public class RepositoryNotFoundException extends TransportException {
-	private static final long serialVersionUID = 1L;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.Repository;
 
+/** Locate a Git {@link Repository} by name from the URL. */
+public interface RepositoryResolver {
 	/**
-	 * Constructs an exception indicating a local repository does not exist.
+	 * Locate and open a reference to a {@link Repository}.
+	 * <p>
+	 * The caller is responsible for closing the returned Repository.
 	 *
-	 * @param location
-	 *            description of the repository not found, usually file path.
+	 * @param req
+	 *            the current HTTP request, may be used to inspect session state
+	 *            including cookies or user authentication.
+	 * @param name
+	 *            name of the repository, as parsed out of the URL.
+	 * @return the opened repository instance, never null.
+	 * @throws RepositoryNotFoundException
+	 *             the repository does not exist or the name is incorrectly
+	 *             formatted as a repository name.
+	 * @throws ServiceNotAuthorizedException
+	 *             the repository exists, but HTTP access is not allowed for the
+	 *             current user.
+	 * @throws ServiceNotEnabledException
+	 *             the repository exists, but HTTP access is not allowed on the
+	 *             target repository, by any user.
 	 */
-	public RepositoryNotFoundException(final File location) {
-		this(location.getPath());
-	}
-
-	/**
-	 * Constructs an exception indicating a local repository does not exist.
-	 *
-	 * @param location
-	 *            description of the repository not found, usually file path.
-	 * @param why
-	 *            why the repository does not exist.
-	 */
-	public RepositoryNotFoundException(final File location, Throwable why) {
-		this(location.getPath(), why);
-	}
-
-	/**
-	 * Constructs an exception indicating a local repository does not exist.
-	 *
-	 * @param location
-	 *            description of the repository not found, usually file path.
-	 */
-	public RepositoryNotFoundException(final String location) {
-		super(message(location));
-	}
-
-	/**
-	 * Constructs an exception indicating a local repository does not exist.
-	 *
-	 * @param location
-	 *            description of the repository not found, usually file path.
-	 * @param why
-	 *            why the repository does not exist.
-	 */
-	public RepositoryNotFoundException(String location, Throwable why) {
-		super(message(location), why);
-	}
-
-	private static String message(final String location) {
-		return "repository not found: " + location;
-	}
+	Repository open(HttpServletRequest req, String name)
+			throws RepositoryNotFoundException, ServiceNotAuthorizedException,
+			ServiceNotEnabledException;
 }

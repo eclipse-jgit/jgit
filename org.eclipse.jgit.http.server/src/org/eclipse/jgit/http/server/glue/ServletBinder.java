@@ -41,59 +41,23 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.eclipse.jgit.errors;
+package org.eclipse.jgit.http.server.glue;
 
-import java.io.File;
+import javax.servlet.Filter;
+import javax.servlet.http.HttpServlet;
 
-/** Indicates a local repository does not exist. */
-public class RepositoryNotFoundException extends TransportException {
-	private static final long serialVersionUID = 1L;
+/** Binds a servlet to a URL. */
+public interface ServletBinder {
+	/**
+	 * @param filter
+	 *            the filter to trigger while processing the path.
+	 * @return {@code this}.
+	 */
+	public ServletBinder through(Filter filter);
 
 	/**
-	 * Constructs an exception indicating a local repository does not exist.
-	 *
-	 * @param location
-	 *            description of the repository not found, usually file path.
+	 * @param servlet
+	 *            the servlet to execute on this path.
 	 */
-	public RepositoryNotFoundException(final File location) {
-		this(location.getPath());
-	}
-
-	/**
-	 * Constructs an exception indicating a local repository does not exist.
-	 *
-	 * @param location
-	 *            description of the repository not found, usually file path.
-	 * @param why
-	 *            why the repository does not exist.
-	 */
-	public RepositoryNotFoundException(final File location, Throwable why) {
-		this(location.getPath(), why);
-	}
-
-	/**
-	 * Constructs an exception indicating a local repository does not exist.
-	 *
-	 * @param location
-	 *            description of the repository not found, usually file path.
-	 */
-	public RepositoryNotFoundException(final String location) {
-		super(message(location));
-	}
-
-	/**
-	 * Constructs an exception indicating a local repository does not exist.
-	 *
-	 * @param location
-	 *            description of the repository not found, usually file path.
-	 * @param why
-	 *            why the repository does not exist.
-	 */
-	public RepositoryNotFoundException(String location, Throwable why) {
-		super(message(location), why);
-	}
-
-	private static String message(final String location) {
-		return "repository not found: " + location;
-	}
+	public void with(HttpServlet servlet);
 }

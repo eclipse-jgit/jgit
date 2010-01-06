@@ -41,59 +41,68 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.eclipse.jgit.errors;
+package org.eclipse.jgit.http.server.glue;
 
-import java.io.File;
+import java.io.IOException;
 
-/** Indicates a local repository does not exist. */
-public class RepositoryNotFoundException extends TransportException {
-	private static final long serialVersionUID = 1L;
+import javax.servlet.Filter;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
-	/**
-	 * Constructs an exception indicating a local repository does not exist.
-	 *
-	 * @param location
-	 *            description of the repository not found, usually file path.
-	 */
-	public RepositoryNotFoundException(final File location) {
-		this(location.getPath());
+/**
+ * Selects requests by matching the suffix of the URI.
+ * <p>
+ * The suffix string is literally matched against the path info of the servlet
+ * request, as this class assumes it is invoked by {@link MetaServlet}. Suffix
+ * strings may include path components. Examples include {@code /info/refs}, or
+ * just simple extension matches like {@code .txt}.
+ * <p>
+ * When dispatching to the rest of the pipeline the HttpServletRequest is
+ * modified so that {@code getPathInfo()} does not contain the suffix that
+ * caused this pipeline to be selected.
+ */
+class SuffixPipeline extends UrlPipeline {
+	static class Binder extends ServletBinderImpl {
+		private final String suffix;
+
+		Binder(final String suffix) {
+			this.suffix = suffix;
+		}
+
+		UrlPipeline create() {
+			return new SuffixPipeline(suffix, getFilters(), getServlet());
+		}
 	}
 
-	/**
-	 * Constructs an exception indicating a local repository does not exist.
-	 *
-	 * @param location
-	 *            description of the repository not found, usually file path.
-	 * @param why
-	 *            why the repository does not exist.
-	 */
-	public RepositoryNotFoundException(final File location, Throwable why) {
-		this(location.getPath(), why);
+	private final String suffix;
+
+	private final int suffixLen;
+
+	SuffixPipeline(final String suffix, final Filter[] filters,
+			final HttpServlet servlet) {
+		super(filters, servlet);
+		this.suffix = suffix;
+		this.suffixLen = suffix.length();
 	}
 
-	/**
-	 * Constructs an exception indicating a local repository does not exist.
-	 *
-	 * @param location
-	 *            description of the repository not found, usually file path.
-	 */
-	public RepositoryNotFoundException(final String location) {
-		super(message(location));
+	boolean match(final HttpServletRequest req) {
+		final String pathInfo = req.getPathInfo();
+		return pathInfo != null && pathInfo.endsWith(suffix);
 	}
 
-	/**
-	 * Constructs an exception indicating a local repository does not exist.
-	 *
-	 * @param location
-	 *            description of the repository not found, usually file path.
-	 * @param why
-	 *            why the repository does not exist.
-	 */
-	public RepositoryNotFoundException(String location, Throwable why) {
-		super(message(location), why);
+	@Override
+	void service(HttpServletRequest req, HttpServletResponse rsp)
+			throws ServletException, IOException {
+		String curInfo = req.getPathInfo();
+		String newPath = req.getServletPath() + curInfo;
+		String newInfo = curInfo.substring(0, curInfo.length() - suffixLen);
+		super.service(new WrappedRequest(req, newPath, newInfo), rsp);
 	}
 
-	private static String message(final String location) {
-		return "repository not found: " + location;
+	@Override
+	public String toString() {
+		return "Pipeline[ *" + suffix + " ]";
 	}
 }

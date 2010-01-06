@@ -41,59 +41,14 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.eclipse.jgit.errors;
+package org.eclipse.jgit.http.server.resolver;
 
-import java.io.File;
-
-/** Indicates a local repository does not exist. */
-public class RepositoryNotFoundException extends TransportException {
+/** Indicates the request service is not authorized for current user. */
+public class ServiceNotAuthorizedException extends Exception {
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * Constructs an exception indicating a local repository does not exist.
-	 *
-	 * @param location
-	 *            description of the repository not found, usually file path.
-	 */
-	public RepositoryNotFoundException(final File location) {
-		this(location.getPath());
-	}
-
-	/**
-	 * Constructs an exception indicating a local repository does not exist.
-	 *
-	 * @param location
-	 *            description of the repository not found, usually file path.
-	 * @param why
-	 *            why the repository does not exist.
-	 */
-	public RepositoryNotFoundException(final File location, Throwable why) {
-		this(location.getPath(), why);
-	}
-
-	/**
-	 * Constructs an exception indicating a local repository does not exist.
-	 *
-	 * @param location
-	 *            description of the repository not found, usually file path.
-	 */
-	public RepositoryNotFoundException(final String location) {
-		super(message(location));
-	}
-
-	/**
-	 * Constructs an exception indicating a local repository does not exist.
-	 *
-	 * @param location
-	 *            description of the repository not found, usually file path.
-	 * @param why
-	 *            why the repository does not exist.
-	 */
-	public RepositoryNotFoundException(String location, Throwable why) {
-		super(message(location), why);
-	}
-
-	private static String message(final String location) {
-		return "repository not found: " + location;
+	/** Indicates the request service is not available. */
+	public ServiceNotAuthorizedException() {
+		super("Service not permitted");
 	}
 }
