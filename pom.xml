@@ -156,6 +156,7 @@
               <Bundle-Copyright>${jgit-copyright}</Bundle-Copyright>
               <Bundle-License>http://www.eclipse.org/org/documents/edl-v10.php</Bundle-License>
               <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+              <Bundle-Version>$(replace;$(project.version);-SNAPSHOT;"").$(tstamp;yyyyMMdd-HHmm)</Bundle-Version>
               <_versionpolicy>[$(version;==;$(@)),$(version;+;$(@)))</_versionpolicy>
             </instructions>
           </configuration>
