@@ -67,6 +67,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.transport.RemoteRefUpdate.Status;
 import org.eclipse.jgit.util.HttpSupport;
 
 /**
@@ -134,17 +135,22 @@ public class TransportHttp extends HttpTransport implements WalkTransport {
 				String repository = baseUrl.toString();
 				String command = "git push "+ repository +" +" + srcRef + ":" + dstRef;
 				File workDir = local.getWorkDir();
-				execute(command, workDir);
+				int exitCode = execute(command, workDir);
+				if (exitCode == 0)
+					refUpdate.setStatus(Status.OK);
+				else
+					refUpdate.setStatus(Status.REJECTED_OTHER_REASON);
 			}
 		}
 
-		private void execute(String command, File workDir)
+		private int execute(String command, File workDir)
 				throws TransportException {
 			System.out.println("Executing command: " + command);
 
 			try {
 				Process proc = Runtime.getRuntime().exec(command, null, workDir);
 				printResult(proc);
+				return proc.exitValue();
 			} catch (IOException e) {
 				throw new TransportException("Error executing git push", e);
 			}
