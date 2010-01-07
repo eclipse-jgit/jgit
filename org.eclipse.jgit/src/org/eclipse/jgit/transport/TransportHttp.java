@@ -139,6 +139,8 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 
 	private final ProxySelector proxySelector;
 
+	private boolean useSmartHttp = true;
+
 	TransportHttp(final Repository local, final URIish uri)
 			throws NotSupportedException {
 		super(local, uri);
@@ -153,6 +155,20 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		}
 		http = local.getConfig().get(HTTP_KEY);
 		proxySelector = ProxySelector.getDefault();
+	}
+
+	/**
+	 * Toggle whether or not smart HTTP transport should be used.
+	 * <p>
+	 * This flag exists primarily to support backwards compatibility testing
+	 * within a testing framework, there is no need to modify it in most
+	 * applications.
+	 *
+	 * @param on
+	 *            if {@code true} (default), smart HTTP is enabled.
+	 */
+	public void setUseSmartHttp(final boolean on) {
+		useSmartHttp = on;
 	}
 
 	@Override
@@ -255,6 +271,10 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 					readSmartHeaders(in, service);
 					return new SmartHttpPushConnection(in);
 
+				} else if (!useSmartHttp) {
+					final String msg = "smart HTTP push disabled";
+					throw new NotSupportedException(msg);
+
 				} else {
 					final String msg = "remote does not support smart HTTP push";
 					throw new NotSupportedException(msg);
@@ -287,9 +307,11 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 				b.append('/');
 			b.append(Constants.INFO_REFS);
 
-			b.append(b.indexOf("?") < 0 ? '?' : '&');
-			b.append("service=");
-			b.append(service);
+			if (useSmartHttp) {
+				b.append(b.indexOf("?") < 0 ? '?' : '&');
+				b.append("service=");
+				b.append(service);
+			}
 
 			u = new URL(b.toString());
 		} catch (MalformedURLException e) {
