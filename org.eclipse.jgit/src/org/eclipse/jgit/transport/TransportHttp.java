@@ -49,10 +49,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.Authenticator;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
-import java.net.PasswordAuthentication;
 import java.net.Proxy;
 import java.net.ProxySelector;
 import java.net.URL;
@@ -70,6 +68,7 @@ import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.RemoteRefUpdate.Status;
+import org.eclipse.jgit.util.Base64;
 import org.eclipse.jgit.util.HttpSupport;
 
 /**
@@ -83,23 +82,6 @@ import org.eclipse.jgit.util.HttpSupport;
  * @see WalkFetchConnection
  */
 public class TransportHttp extends HttpTransport implements WalkTransport {
-
-	private class URLCodedBasicAuthenticator extends Authenticator {
-        public PasswordAuthentication getPasswordAuthentication () {
-        	URL url = getRequestingURL();
-        	String userInfo = url.getUserInfo();
-			if (userInfo != null) {
-				String[] info = userInfo.split(":", -1);
-				if (info.length == 2) {
-					String user = info[0];
-					String pass = info[1];
-					return new PasswordAuthentication (user, pass.toCharArray());
-				}
-			}
-			return super.getPasswordAuthentication();
-        }
-    }
-
 	static boolean canHandle(final URIish uri) {
 		if (!uri.isRemote())
 			return false;
@@ -266,8 +248,16 @@ public class TransportHttp extends HttpTransport implements WalkTransport {
 			final Proxy proxy = HttpSupport.proxyFor(proxySelector, u);
 			final HttpURLConnection c;
 
-		    Authenticator.setDefault(new URLCodedBasicAuthenticator());
 			c = (HttpURLConnection) u.openConnection(proxy);
+
+			String userInfo = u.getUserInfo();
+			if (userInfo != null) {
+				byte[] bytes = u.getUserInfo().getBytes();
+				String encodedUserInfo = Base64.encodeBytes(bytes);
+				c.setRequestProperty("Authorization", "Basic "
+						+ encodedUserInfo);
+			}
+
 			switch (HttpSupport.response(c)) {
 			case HttpURLConnection.HTTP_OK:
 				final InputStream in = c.getInputStream();
