@@ -543,6 +543,7 @@ public class T0003_Basic extends SampleDataRepositoryTestCase {
 		w.println("0ce2ebdb36076ef0b38adbe077a07d43b43e3807 refs/tags/test022");
 		w.println("^b5d3b45a96b340441f5abb9080411705c51cc86c");
 		w.close();
+		((RefDirectory)db.getRefDatabase()).rescan();
 
 		Tag mapTag20 = db.mapTag("test020");
 		assertNotNull("have tag test020", mapTag20);

@@ -55,7 +55,7 @@ package org.eclipse.jgit.lib;
  * to and (for tags) the peeled target object id, i.e. the tag resolved
  * recursively until a non-tag object is referenced.
  */
-public class Ref {
+public abstract class Ref {
 	/** Location where a {@link Ref} is stored. */
 	public static enum Storage {
 		/**
@@ -122,97 +122,17 @@ public class Ref {
 		}
 	}
 
-	private final Storage storage;
-
 	private final String name;
 
-	private ObjectId objectId;
-
-	private ObjectId peeledObjectId;
-
-	private final String origName;
-
-	private final boolean peeled;
-
 	/**
-	 * Create a new ref pairing.
+	 * Initialize a new reference with its name.
 	 *
-	 * @param st
-	 *            method used to store this ref.
-	 * @param origName
-	 *            The name used to resolve this ref
-	 * @param refName
-	 *            name of this ref.
-	 * @param id
-	 *            current value of the ref. May be null to indicate a ref that
-	 *            does not exist yet.
+	 * @param name
+	 *            unique name of this reference; typically starting with
+	 *            {@link Constants#R_REFS}.
 	 */
-	public Ref(final Storage st, final String origName, final String refName, final ObjectId id) {
-		this(st, origName, refName, id, null, false);
-	}
-
-	/**
-	 * Create a new ref pairing.
-	 *
-	 * @param st
-	 *            method used to store this ref.
-	 * @param refName
-	 *            name of this ref.
-	 * @param id
-	 *            current value of the ref. May be null to indicate a ref that
-	 *            does not exist yet.
-	 */
-	public Ref(final Storage st, final String refName, final ObjectId id) {
-		this(st, refName, refName, id, null, false);
-	}
-
-	/**
-	 * Create a new ref pairing.
-	 *
-	 * @param st
-	 *            method used to store this ref.
-	 * @param origName
-	 *            The name used to resolve this ref
-	 * @param refName
-	 *            name of this ref.
-	 * @param id
-	 *            current value of the ref. May be null to indicate a ref that
-	 *            does not exist yet.
-	 * @param peel
-	 *            peeled value of the ref's tag. May be null if this is not a
-	 *            tag or not yet peeled (in which case the next parameter should be null)
-	 * @param peeled
-	 * 			  true if peel represents a the peeled value of the object
-	 */
-	public Ref(final Storage st, final String origName, final String refName, final ObjectId id,
-			final ObjectId peel, final boolean peeled) {
-		storage = st;
-		this.origName = origName;
-		name = refName;
-		objectId = id;
-		peeledObjectId = peel;
-		this.peeled = peeled;
-	}
-
-	/**
-	 * Create a new ref pairing.
-	 *
-	 * @param st
-	 *            method used to store this ref.
-	 * @param refName
-	 *            name of this ref.
-	 * @param id
-	 *            current value of the ref. May be null to indicate a ref that
-	 *            does not exist yet.
-	 * @param peel
-	 *            peeled value of the ref's tag. May be null if this is not a
-	 *            tag or the peeled value is not known.
-	 * @param peeled
-	 * 			  true if peel represents a the peeled value of the object
-	 */
-	public Ref(final Storage st, final String refName, final ObjectId id,
-			final ObjectId peel, boolean peeled) {
-		this(st, refName, refName, id, peel, peeled);
+	protected Ref(String name) {
+		this.name = name;
 	}
 
 	/**
@@ -225,10 +145,16 @@ public class Ref {
 	}
 
 	/**
-	 * @return the originally resolved name
+	 * Traverse symbolic references until the leaf (non-SymbolicRef) is found.
+	 *
+	 * @return the leaf node of {@code this}; or {@code this} if this is not a
+	 *         symbolic reference (instance of {@link SymbolicRef}).
 	 */
-	public String getOrigName() {
-		return origName;
+	public Ref getLeaf() {
+		Ref dst = this;
+		while (dst instanceof SymbolicRef)
+			dst = ((SymbolicRef) dst).getTarget();
+		return dst;
 	}
 
 	/**
@@ -236,9 +162,7 @@ public class Ref {
 	 *
 	 * @return the value of this ref at the last time we read it.
 	 */
-	public ObjectId getObjectId() {
-		return objectId;
-	}
+	public abstract ObjectId getObjectId();
 
 	/**
 	 * Cached value of <code>ref^{}</code> (the ref peeled to commit).
@@ -247,18 +171,12 @@ public class Ref {
 	 *         blob) that the annotated tag refers to; null if this ref does not
 	 *         refer to an annotated tag.
 	 */
-	public ObjectId getPeeledObjectId() {
-		if (!peeled)
-			return null;
-		return peeledObjectId;
-	}
+	public abstract ObjectId getPeeledObjectId();
 
 	/**
 	 * @return whether the Ref represents a peeled tag
 	 */
-	public boolean isPeeled() {
-		return peeled;
-	}
+	public abstract boolean isPeeled();
 
 	/**
 	 * How was this ref obtained?
@@ -268,18 +186,5 @@ public class Ref {
 	 *
 	 * @return type of ref.
 	 */
-	public Storage getStorage() {
-		return storage;
-	}
-
-	public String toString() {
-		String o = "";
-		if (!origName.equals(name))
-			o = "(" + origName + ")";
-		return "Ref[" + o + name + "=" + ObjectId.toString(getObjectId()) + "]";
-	}
-
-	void setPeeledObjectId(final ObjectId id) {
-		peeledObjectId = id;
-	}
+	public abstract Storage getStorage();
 }

@@ -61,9 +61,11 @@ import org.eclipse.jgit.errors.NotSupportedException;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectIdRef;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.SymbolicRef;
 import org.eclipse.jgit.lib.Ref.Storage;
 import org.eclipse.jgit.util.FS;
 
@@ -305,16 +307,15 @@ public class TransportAmazonS3 extends HttpTransport implements WalkTransport {
 				if (r == null)
 					r = readRef(avail, target);
 				if (r == null)
-					return null;
-				r = new Ref(r.getStorage(), rn, r.getObjectId(), r
-						.getPeeledObjectId(), r.isPeeled());
+					r = new ObjectIdRef(Ref.Storage.NEW, target, null);
+				r = new SymbolicRef(r, rn);
 				avail.put(r.getName(), r);
 				return r;
 			}
 
 			if (ObjectId.isId(s)) {
-				final Ref r = new Ref(loose(avail.get(rn)), rn, ObjectId
-						.fromString(s));
+				final Ref r = new ObjectIdRef(loose(avail.get(rn)), rn,
+						ObjectId.fromString(s));
 				avail.put(r.getName(), r);
 				return r;
 			}
