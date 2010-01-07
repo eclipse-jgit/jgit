@@ -58,6 +58,7 @@ import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectIdRef;
 import org.eclipse.jgit.lib.PackWriter;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
@@ -324,7 +325,7 @@ class WalkPushConnection extends BaseConnection implements PushConnection {
 	private void updateCommand(final RemoteRefUpdate u) {
 		try {
 			dest.writeRef(u.getRemoteName(), u.getNewObjectId());
-			newRefs.put(u.getRemoteName(), new Ref(Storage.LOOSE, u
+			newRefs.put(u.getRemoteName(), new ObjectIdRef(Storage.LOOSE, u
 					.getRemoteName(), u.getNewObjectId()));
 			u.setStatus(Status.OK);
 		} catch (IOException e) {

@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2007, Dave Watson <dwatson@mimvista.com>
+ * Copyright (C) 2008-2010, Google Inc.
  * Copyright (C) 2006-2009, Robin Rosenberg <robin.rosenberg@dewire.com>
  * Copyright (C) 2006-2008, Shawn O. Pearce <spearce@spearce.org>
  * and other copyright owners as documented in the project's IP log.
@@ -45,10 +46,7 @@
 
 package org.eclipse.jgit.lib;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -223,7 +221,7 @@ public class Repository {
 			}
 		}
 
-		refs = new RefDatabase(this);
+		refs = new RefDirectory(this);
 		if (objectDir != null)
 			objectDatabase = new ObjectDirectory(FS.resolve(objectDir, ""),
 					alternateObjectDir);
@@ -308,6 +306,11 @@ public class Repository {
 	 */
 	public ObjectDatabase getObjectDatabase() {
 		return objectDatabase;
+	}
+
+	/** @return the reference database which stores the reference namespace. */
+	public RefDatabase getRefDatabase() {
+		return refs;
 	}
 
 	/**
@@ -591,7 +594,7 @@ public class Repository {
 	 *             to the base ref, as the symbolic ref could not be read.
 	 */
 	public RefUpdate updateRef(final String ref) throws IOException {
-		return refs.newUpdate(ref);
+		return updateRef(ref, false);
 	}
 
 	/**
@@ -862,7 +865,7 @@ public class Repository {
 	private ObjectId resolveSimple(final String revstr) throws IOException {
 		if (ObjectId.isId(revstr))
 			return ObjectId.fromString(revstr);
-		final Ref r = refs.readRef(revstr);
+		final Ref r = refs.getRef(revstr);
 		return r != null ? r.getObjectId() : null;
 	}
 
@@ -875,8 +878,10 @@ public class Repository {
 	 * Close all resources used by this repository
 	 */
 	public void close() {
-		if (useCnt.decrementAndGet() == 0)
+		if (useCnt.decrementAndGet() == 0) {
 			objectDatabase.close();
+			refs.close();
+		}
 	}
 
 	/**
@@ -911,53 +916,46 @@ public class Repository {
 	}
 
 	/**
-	 * @return name of current branch
+	 * Get the name of the reference that {@code HEAD} points to.
+	 * <p>
+	 * This is essentially the same as doing:
+	 *
+	 * <pre>
+	 * return ((SymbolicRef)getRef(Constants.HEAD)).getTarget().getName()
+	 * </pre>
+	 *
+	 * Except when HEAD is detached in which case this method returns the
+	 * current ObjectId in hexadecimal string format.
+	 *
+	 * @return name of current branch (for example {@code refs/heads/master}) or
+	 *         an ObjectId in hex format if the current branch is detached.
 	 * @throws IOException
 	 */
 	public String getFullBranch() throws IOException {
-		final File ptr = new File(getDirectory(),Constants.HEAD);
-		final BufferedReader br = new BufferedReader(new FileReader(ptr));
-		String ref;
-		try {
-			ref = br.readLine();
-		} finally {
-			br.close();
-		}
-		if (ref.startsWith("ref: "))
-			ref = ref.substring(5);
-		return ref;
+		Ref head = getRef(Constants.HEAD);
+		if (head instanceof SymbolicRef)
+			return ((SymbolicRef)head).getTarget().getName();
+		if (head != null && head.getObjectId() != null)
+			return head.getObjectId().name();
+		return null;
 	}
 
 	/**
-	 * @return name of current branch.
+	 * Get the short name of the current branch that {@code HEAD} points to.
+	 * <p>
+	 * This is essentially the same as {@link #getFullBranch()}, except the
+	 * leading prefix {@code refs/heads/} is removed from the reference before
+	 * it is returned to the caller.
+	 *
+	 * @return name of current branch (for example {@code master}), or an
+	 *         ObjectId in hex format if the current branch is detached.
 	 * @throws IOException
 	 */
 	public String getBranch() throws IOException {
-		try {
-			final File ptr = new File(getDirectory(), Constants.HEAD);
-			final BufferedReader br = new BufferedReader(new FileReader(ptr));
-			String ref;
-			try {
-				ref = br.readLine();
-			} finally {
-				br.close();
-			}
-			if (ref.startsWith("ref: "))
-				ref = ref.substring(5);
-			if (ref.startsWith("refs/heads/"))
-				ref = ref.substring(11);
-			return ref;
-		} catch (FileNotFoundException e) {
-			final File ptr = new File(getDirectory(),"head-name");
-			final BufferedReader br = new BufferedReader(new FileReader(ptr));
-			String ref;
-			try {
-				ref = br.readLine();
-			} finally {
-				br.close();
-			}
-			return ref;
-		}
+		String name = getFullBranch();
+		if (name != null)
+			return shortenRefName(name);
+		return name;
 	}
 
 	/**
@@ -971,14 +969,18 @@ public class Repository {
 	 * @throws IOException
 	 */
 	public Ref getRef(final String name) throws IOException {
-		return refs.readRef(name);
+		return refs.getRef(name);
 	}
 
 	/**
 	 * @return all known refs (heads, tags, remotes).
 	 */
 	public Map<String, Ref> getAllRefs() {
-		return refs.getAllRefs();
+		try {
+			return refs.getRefs(RefDatabase.ALL);
+		} catch (IOException e) {
+			return new HashMap<String, Ref>();
+		}
 	}
 
 	/**
@@ -986,11 +988,15 @@ public class Repository {
 	 *         contains the ref with the full tag name ("refs/tags/v1.0").
 	 */
 	public Map<String, Ref> getTags() {
-		return refs.getTags();
+		try {
+			return refs.getRefs(Constants.R_TAGS);
+		} catch (IOException e) {
+			return new HashMap<String, Ref>();
+		}
 	}
 
 	/**
-	 * Peel a possibly unpeeled ref and updates it.
+	 * Peel a possibly unpeeled reference to an annotated tag.
 	 * <p>
 	 * If the ref cannot be peeled (as it does not refer to an annotated tag)
 	 * the peeled id stays null, but {@link Ref#isPeeled()} will be true.
@@ -1003,7 +1009,14 @@ public class Repository {
 	 *         (or null).
 	 */
 	public Ref peel(final Ref ref) {
-		return refs.peel(ref);
+		try {
+			return refs.peel(ref);
+		} catch (IOException e) {
+			// Historical accident; if the reference cannot be peeled due
+			// to some sort of repository access problem we claim that the
+			// same as if the reference was not an annotated tag.
+			return ref;
+		}
 	}
 
 	/**
@@ -1013,8 +1026,7 @@ public class Repository {
 		Map<String, Ref> allRefs = getAllRefs();
 		Map<AnyObjectId, Set<Ref>> ret = new HashMap<AnyObjectId, Set<Ref>>(allRefs.size());
 		for (Ref ref : allRefs.values()) {
-			if (!ref.isPeeled())
-				ref = peel(ref);
+			ref = peel(ref);
 			AnyObjectId target = ref.getPeeledObjectId();
 			if (target == null)
 				target = ref.getObjectId();
@@ -1031,11 +1043,6 @@ public class Repository {
 			}
 		}
 		return ret;
-	}
-
-	/** Clean up stale caches */
-	public void refreshFromDisk() {
-		refs.clearCache();
 	}
 
 	/**
@@ -1115,7 +1122,7 @@ public class Repository {
 		final int len = refName.length();
 		if (len == 0)
 			return false;
-		if (refName.endsWith(".lock"))
+		if (refName.endsWith(LockFile.SUFFIX))
 			return false;
 
 		int components = 1;
@@ -1233,20 +1240,17 @@ public class Repository {
 		allListeners.remove(l);
 	}
 
-	void fireRefsMaybeChanged() {
-		if (refs.lastRefModification != refs.lastNotifiedRefModification) {
-			refs.lastNotifiedRefModification = refs.lastRefModification;
-			final RefsChangedEvent event = new RefsChangedEvent(this);
-			List<RepositoryListener> all;
-			synchronized (listeners) {
-				all = new ArrayList<RepositoryListener>(listeners);
-			}
-			synchronized (allListeners) {
-				all.addAll(allListeners);
-			}
-			for (final RepositoryListener l : all) {
-				l.refsChanged(event);
-			}
+	void fireRefsChanged() {
+		final RefsChangedEvent event = new RefsChangedEvent(this);
+		List<RepositoryListener> all;
+		synchronized (listeners) {
+			all = new ArrayList<RepositoryListener>(listeners);
+		}
+		synchronized (allListeners) {
+			all.addAll(allListeners);
+		}
+		for (final RepositoryListener l : all) {
+			l.refsChanged(event);
 		}
 	}
 
@@ -1298,7 +1302,7 @@ public class Repository {
 	public ReflogReader getReflogReader(String refName) throws IOException {
 		Ref ref = getRef(refName);
 		if (ref != null)
-			return new ReflogReader(this, ref.getOrigName());
+			return new ReflogReader(this, ref.getName());
 		return null;
 	}
 }

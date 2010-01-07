@@ -46,6 +46,7 @@ package org.eclipse.jgit.lib;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -65,6 +66,15 @@ import java.nio.channels.OverlappingFileLockException;
  * name.
  */
 public class LockFile {
+	static final String SUFFIX = ".lock"; //$NON-NLS-1$
+
+	/** Filter to skip over active lock files when listing a directory. */
+	static final FileFilter FILTER = new FileFilter() {
+		public boolean accept(File path) {
+			return !path.getName().endsWith(SUFFIX);
+		}
+	};
+
 	private final File ref;
 
 	private final File lck;
@@ -87,7 +97,7 @@ public class LockFile {
 	 */
 	public LockFile(final File f) {
 		ref = f;
-		lck = new File(ref.getParentFile(), ref.getName() + ".lock");
+		lck = new File(ref.getParentFile(), ref.getName() + SUFFIX);
 	}
 
 	/**
@@ -332,6 +342,30 @@ public class LockFile {
 	 */
 	public void setNeedStatInformation(final boolean on) {
 		needStatInformation = on;
+	}
+
+	/**
+	 * Wait until the lock file information differs from the old file.
+	 * <p>
+	 * This method tests both the length and the last modification date. If both
+	 * are the same, this method sleeps until it can force the new lock file's
+	 * modification date to be later than the target file.
+	 *
+	 * @throws InterruptedException
+	 *             the thread was interrupted before the last modified date of
+	 *             the lock file was different from the last modified date of
+	 *             the target file.
+	 */
+	public void waitForStatChange() throws InterruptedException {
+		if (ref.length() == lck.length()) {
+			long otime = ref.lastModified();
+			long ntime = lck.lastModified();
+			while (otime == ntime) {
+				Thread.sleep(25 /* milliseconds */);
+				lck.setLastModified(System.currentTimeMillis());
+				ntime = lck.lastModified();
+			}
+		}
 	}
 
 	/**

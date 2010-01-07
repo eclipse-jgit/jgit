@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008-2009, Google Inc.
+ * Copyright (C) 2008-2010, Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -64,6 +64,7 @@ import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectIdRef;
 import org.eclipse.jgit.lib.PackLock;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
@@ -593,7 +594,7 @@ public class ReceivePack {
 		refs = new HashMap<String, Ref>(db.getAllRefs());
 		final Ref head = refs.remove(Constants.HEAD);
 		adv.send(refs.values());
-		if (head != null && head.getName().equals(head.getOrigName()))
+		if (head instanceof ObjectIdRef)
 			adv.advertiseHave(head.getObjectId());
 		adv.includeAdditionalHaves();
 		if (adv.isEmpty())

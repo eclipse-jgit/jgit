@@ -1,5 +1,4 @@
 /*
- * Copyright (C) 2008, Charles O'Farrell <charleso@charleso.org>
  * Copyright (C) 2010, Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
@@ -44,36 +43,67 @@
 
 package org.eclipse.jgit.lib;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-
 /**
- * Util for sorting (or comparing) Ref instances by name.
+ * A reference that indirectly points at another {@link Ref}.
  * <p>
- * Useful for command line tools or writing out refs to file.
+ * A symbolic reference always derives its current value from the target
+ * reference.
  */
-public class RefComparator implements Comparator<Ref> {
-
-	/** Singleton instance of RefComparator */
-	public static final RefComparator INSTANCE = new RefComparator();
-
-	public int compare(final Ref o1, final Ref o2) {
-		return o1.getName().compareTo(o2.getName());
-	}
+public class SymbolicRef extends Ref {
+	private final Ref target;
 
 	/**
-	 * Sorts the collection of refs, returning a new collection.
+	 * Create a new ref pairing.
 	 *
-	 * @param refs
-	 *            collection to be sorted
-	 * @return sorted collection of refs
+	 * @param target
+	 *            the ref we reference and derive our value from.
+	 * @param refName
+	 *            name of this ref.
 	 */
-	public static Collection<Ref> sort(final Collection<Ref> refs) {
-		final List<Ref> r = new ArrayList<Ref>(refs);
-		Collections.sort(r, INSTANCE);
-		return r;
+	public SymbolicRef(Ref target, String refName) {
+		super(refName);
+		this.target = target;
+	}
+
+	/** @return the {@link Ref} this reference derives its value from. */
+	public Ref getTarget() {
+		return target;
+	}
+
+	@Override
+	public ObjectId getObjectId() {
+		return getTarget().getObjectId();
+	}
+
+	@Override
+	public Storage getStorage() {
+		return Storage.LOOSE;
+	}
+
+	@Override
+	public ObjectId getPeeledObjectId() {
+		return getTarget().getPeeledObjectId();
+	}
+
+	@Override
+	public boolean isPeeled() {
+		return getTarget().isPeeled();
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder r = new StringBuilder();
+		r.append("SymbolicRef[");
+		Ref cur = this;
+		while (cur instanceof SymbolicRef) {
+			r.append(cur.getName());
+			r.append(" -> ");
+			cur = ((SymbolicRef) cur).getTarget();
+		}
+		r.append(cur.getName());
+		r.append('=');
+		r.append(ObjectId.toString(cur.getObjectId()));
+		r.append("]");
+		return r.toString();
 	}
 }
