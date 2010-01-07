@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009, Google Inc.
+ * Copyright (C) 2009-2010, Google Inc.
  * Copyright (C) 2008, Robin Rosenberg <robin.rosenberg@dewire.com>
  * Copyright (C) 2007, Shawn O. Pearce <spearce@spearce.org>
  * and other copyright owners as documented in the project's IP log.
@@ -57,8 +57,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import junit.framework.Assert;
 import junit.framework.TestCase;
 
+import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileBasedConfig;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -402,6 +404,14 @@ public abstract class LocalDiskRepositoryTestCase extends TestCase {
 	protected String read(final File f) throws IOException {
 		final byte[] body = IO.readFully(f);
 		return new String(body, 0, body.length, "UTF-8");
+	}
+
+	protected static void assertEquals(AnyObjectId exp, AnyObjectId act) {
+		if (exp != null)
+			exp = exp.copy();
+		if (act != null)
+			act = act.copy();
+		Assert.assertEquals(exp, act);
 	}
 
 	private static String[] toEnvArray(final Map<String, String> env) {
