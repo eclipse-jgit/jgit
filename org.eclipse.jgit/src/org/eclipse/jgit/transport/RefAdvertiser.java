@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008-2009, Google Inc.
+ * Copyright (C) 2008-2010, Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -170,9 +170,9 @@ public abstract class RefAdvertiser {
 		for (final Ref r : RefComparator.sort(refs)) {
 			final RevObject obj = parseAnyOrNull(r.getObjectId());
 			if (obj != null) {
-				advertiseAny(obj, r.getOrigName());
+				advertiseAny(obj, r.getName());
 				if (derefTags && obj instanceof RevTag)
-					advertiseTag((RevTag) obj, r.getOrigName() + "^{}");
+					advertiseTag((RevTag) obj, r.getName() + "^{}");
 			}
 		}
 	}
