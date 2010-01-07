@@ -61,7 +61,7 @@ public final class StringUtils {
 	 * This method does not honor the JVM locale, but instead always behaves as
 	 * though it is in the US-ASCII locale. Only characters in the range 'A'
 	 * through 'Z' are converted. All other characters are left as-is, even if
-	 * they otherwise would have a lowercase character equivilant.
+	 * they otherwise would have a lowercase character equivalent.
 	 *
 	 * @param c
 	 *            the input character.
@@ -77,7 +77,7 @@ public final class StringUtils {
 	 * This method does not honor the JVM locale, but instead always behaves as
 	 * though it is in the US-ASCII locale. Only characters in the range 'A'
 	 * through 'Z' are converted, all other characters are left as-is, even if
-	 * they otherwise would have a lowercase character equivilant.
+	 * they otherwise would have a lowercase character equivalent.
 	 *
 	 * @param in
 	 *            the input string. Must not be null.
