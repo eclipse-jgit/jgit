@@ -50,18 +50,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.kohsuke.args4j.Argument;
-import org.kohsuke.args4j.ExampleMode;
-import org.kohsuke.args4j.Option;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefComparator;
+import org.eclipse.jgit.lib.RefRename;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.pgm.opt.CmdLineParser;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.kohsuke.args4j.Argument;
+import org.kohsuke.args4j.ExampleMode;
+import org.kohsuke.args4j.Option;
 
 @Command(common = true, usage = "List, create, or delete branches")
 class Branch extends TextBuiltin {
@@ -80,6 +81,9 @@ class Branch extends TextBuiltin {
 
 	@Option(name = "--create-force", aliases = { "-f" }, usage = "force create branch even exists")
 	private boolean createForce = false;
+
+	@Option(name = "-m", usage = "move/rename a branch")
+	private boolean rename = false;
 
 	@Option(name = "--verbose", aliases = { "-v" }, usage = "be verbose")
 	private boolean verbose = false;
@@ -102,7 +106,36 @@ class Branch extends TextBuiltin {
 			if (branches.size() > 2)
 				throw die("Too many refs given\n" + new CmdLineParser(this).printExample(ExampleMode.ALL));
 
-			if (branches.size() > 0) {
+			if (rename) {
+				String src, dst;
+				if (branches.size() == 1) {
+					final Ref head = db.getRef(Constants.HEAD);
+					if (head != null && head.isSymbolic())
+						src = head.getLeaf().getName();
+					else
+						throw die("Cannot rename detached HEAD");
+					dst = branches.get(0);
+				} else {
+					src = branches.get(0);
+					final Ref old = db.getRef(src);
+					if (old == null)
+						throw die(String.format("%s does not exist", src));
+					if (!old.getName().startsWith(Constants.R_HEADS))
+						throw die(String.format("%s is not a branch", src));
+					src = old.getName();
+					dst = branches.get(1);
+				}
+
+				if (!dst.startsWith(Constants.R_HEADS))
+					dst = Constants.R_HEADS + dst;
+				if (!Repository.isValidRefName(dst))
+					throw die(String.format("%s is not a valid ref name", dst));
+
+				RefRename r = db.renameRef(src, dst);
+				if (r.rename() != Result.RENAMED)
+					throw die(String.format("%s cannot be renamed", src));
+
+			} else if (branches.size() > 0) {
 				String newHead = branches.get(0);
 				String startBranch;
 				if (branches.size() == 2)
