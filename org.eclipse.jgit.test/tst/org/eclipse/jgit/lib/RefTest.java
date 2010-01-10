@@ -58,15 +58,26 @@ import org.eclipse.jgit.lib.RefUpdate.Result;
  */
 public class RefTest extends SampleDataRepositoryTestCase {
 
+	private void writeSymref(String src, String dst) throws IOException {
+		RefUpdate u = db.updateRef(src);
+		switch (u.link(dst)) {
+		case NEW:
+		case FORCED:
+		case NO_CHANGE:
+			break;
+		default:
+			fail("link " + src + " to " + dst);
+		}
+	}
+
 	public void testReadAllIncludingSymrefs() throws Exception {
 		ObjectId masterId = db.resolve("refs/heads/master");
 		RefUpdate updateRef = db.updateRef("refs/remotes/origin/master");
 		updateRef.setNewObjectId(masterId);
 		updateRef.setForceUpdate(true);
 		updateRef.update();
-		db
-				.writeSymref("refs/remotes/origin/HEAD",
-						"refs/remotes/origin/master");
+		writeSymref("refs/remotes/origin/HEAD",
+					"refs/remotes/origin/master");
 
 		ObjectId r = db.resolve("refs/remotes/origin/HEAD");
 		assertEquals(masterId, r);
@@ -85,7 +96,7 @@ public class RefTest extends SampleDataRepositoryTestCase {
 	}
 
 	public void testReadSymRefToPacked() throws IOException {
-		db.writeSymref("HEAD", "refs/heads/b");
+		writeSymref("HEAD", "refs/heads/b");
 		Ref ref = db.getRef("HEAD");
 		assertEquals(Ref.Storage.LOOSE, ref.getStorage());
 		assertTrue("is symref", ref instanceof SymbolicRef);
@@ -102,7 +113,7 @@ public class RefTest extends SampleDataRepositoryTestCase {
 		Result update = updateRef.update();
 		assertEquals(Result.FORCED, update); // internal
 
-		db.writeSymref("HEAD", "refs/heads/master");
+		writeSymref("HEAD", "refs/heads/master");
 		Ref ref = db.getRef("HEAD");
 		assertEquals(Ref.Storage.LOOSE, ref.getStorage());
 		ref = ((SymbolicRef)ref).getTarget();
