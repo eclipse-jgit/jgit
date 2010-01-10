@@ -439,24 +439,11 @@ public class RefDirectory extends RefDatabase {
 		return leaf;
 	}
 
-	@Override
-	public void link(String name, String target) throws IOException {
-		LockFile lck = new LockFile(fileFor(name));
-		if (!lck.lock())
-			throw new IOException("Cannot lock " + name);
-		lck.setNeedStatInformation(true);
-		try {
-			lck.write(encode(SYMREF + target + '\n'));
-			if (!lck.commit())
-				throw new IOException("Cannot write " + name);
-		} finally {
-			lck.unlock();
-		}
-		putLooseRef(newSymbolicRef(lck.getCommitLastModified(), name, target));
+	void storedSymbolicRef(RefDirectoryUpdate u, long modified, String target) {
+		putLooseRef(newSymbolicRef(modified, u.getRef().getName(), target));
 		fireRefsChanged();
 	}
 
-	@Override
 	public RefDirectoryUpdate newUpdate(String name, boolean detach)
 			throws IOException {
 		final RefList<Ref> packed = getPackedRefs();
@@ -536,7 +523,8 @@ public class RefDirectory extends RefDatabase {
 		fireRefsChanged();
 	}
 
-	void log(final RefUpdate update, final String msg) throws IOException {
+	void log(final RefUpdate update, final String msg, final boolean deref)
+			throws IOException {
 		final ObjectId oldId = update.getOldObjectId();
 		final ObjectId newId = update.getNewObjectId();
 		final Ref ref = update.getRef();
@@ -558,9 +546,12 @@ public class RefDirectory extends RefDatabase {
 		r.append('\n');
 		final byte[] rec = encode(r.toString());
 
-		if (ref.isSymbolic())
+		if (deref && ref.isSymbolic()) {
 			log(ref.getName(), rec);
-		log(ref.getLeaf().getName(), rec);
+			log(ref.getLeaf().getName(), rec);
+		} else {
+			log(ref.getName(), rec);
+		}
 	}
 
 	private void log(final String refName, final byte[] rec) throws IOException {

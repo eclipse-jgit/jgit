@@ -183,13 +183,17 @@ public abstract class RefUpdate {
 	 * If the locking was successful the implementor must set the current
 	 * identity value by calling {@link #setOldObjectId(ObjectId)}.
 	 *
+	 * @param deref
+	 *            true if the lock should be taken against the leaf level
+	 *            reference; false if it should be taken exactly against the
+	 *            current reference.
 	 * @return true if the lock was acquired and the reference is likely
 	 *         protected from concurrent modification; false if it failed.
 	 * @throws IOException
 	 *             the lock couldn't be taken due to an unexpected storage
 	 *             failure, and not because of a concurrent update.
 	 */
-	protected abstract boolean tryLock() throws IOException;
+	protected abstract boolean tryLock(boolean deref) throws IOException;
 
 	/** Releases the lock taken by {@link #tryLock} if it succeeded. */
 	protected abstract void unlock();
@@ -207,6 +211,13 @@ public abstract class RefUpdate {
 	 * @throws IOException
 	 */
 	protected abstract Result doDelete(Result desiredResult) throws IOException;
+
+	/**
+	 * @param target
+	 * @return {@link Result#NEW} on success.
+	 * @throws IOException
+	 */
+	protected abstract Result doLink(String target) throws IOException;
 
 	/**
 	 * Get the name of the ref this update will operate on.
@@ -499,6 +510,50 @@ public abstract class RefUpdate {
 		}
 	}
 
+	/**
+	 * Replace this reference with a symbolic reference to another reference.
+	 * <p>
+	 * This exact reference (not its traversed leaf) is replaced with a symbolic
+	 * reference to the requested name.
+	 *
+	 * @param target
+	 *            name of the new target for this reference. The new target name
+	 *            must be absolute, so it must begin with {@code refs/}.
+	 * @return {@link Result#NEW} or {@link Result#FORCED} on success.
+	 * @throws IOException
+	 */
+	public Result link(String target) throws IOException {
+		if (!target.startsWith(Constants.R_REFS))
+			throw new IllegalArgumentException("Not " + Constants.R_REFS);
+		if (getRefDatabase().isNameConflicting(getName()))
+			return Result.LOCK_FAILURE;
+		try {
+			if (!tryLock(false))
+				return Result.LOCK_FAILURE;
+
+			final Ref old = getRefDatabase().getRef(getName());
+			if (old != null && old.isSymbolic()) {
+				final Ref dst = old.getTarget();
+				if (target.equals(dst.getName()))
+					return result = Result.NO_CHANGE;
+			}
+
+			if (old != null && old.getObjectId() != null)
+				setOldObjectId(old.getObjectId());
+
+			final Ref dst = getRefDatabase().getRef(target);
+			if (dst != null && dst.getObjectId() != null)
+				setNewObjectId(dst.getObjectId());
+
+			return result = doLink(target);
+		} catch (IOException x) {
+			result = Result.IO_FAILURE;
+			throw x;
+		} finally {
+			unlock();
+		}
+	}
+
 	private Result updateImpl(final RevWalk walk, final Store store)
 			throws IOException {
 		RevObject newObj;
@@ -507,7 +562,7 @@ public abstract class RefUpdate {
 		if (getRefDatabase().isNameConflicting(getName()))
 			return Result.LOCK_FAILURE;
 		try {
-			if (!tryLock())
+			if (!tryLock(true))
 				return Result.LOCK_FAILURE;
 			if (expValue != null) {
 				final ObjectId o;
