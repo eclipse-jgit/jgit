@@ -280,8 +280,10 @@ public class Repository {
 		objectDatabase.create();
 
 		new File(gitDir, "branches").mkdir();
-		final String master = Constants.R_HEADS + Constants.MASTER;
-		refs.link(Constants.HEAD, master);
+
+		RefUpdate head = updateRef(Constants.HEAD);
+		head.disableRefLog();
+		head.link(Constants.R_HEADS + Constants.MASTER);
 
 		cfg.setInt("core", null, "repositoryformatversion", 0);
 		cfg.setBoolean("core", null, "filemode", true);
@@ -901,18 +903,6 @@ public class Repository {
 	 */
 	public void openPack(final File pack, final File idx) throws IOException {
 		objectDatabase.openPack(pack, idx);
-	}
-
-    /**
-     * Writes a symref (e.g. HEAD) to disk
-     *
-     * @param name symref name
-     * @param target pointed to ref
-     * @throws IOException
-     */
-    public void writeSymref(final String name, final String target)
-			throws IOException {
-		refs.link(name, target);
 	}
 
 	public String toString() {
