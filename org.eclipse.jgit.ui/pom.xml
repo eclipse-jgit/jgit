@@ -83,20 +83,6 @@
 
     <plugins>
       <plugin>
-        <groupId>org.apache.felix</groupId>
-        <artifactId>maven-bundle-plugin</artifactId>
-        <configuration>
-          <instructions>
-            <Import-Package>
-              !javax.swing.*,
-              com.jcraft.jsch;version="${jsch-version}",
-              *
-            </Import-Package>
-          </instructions>
-        </configuration>
-      </plugin>
-
-      <plugin>
         <artifactId>maven-jar-plugin</artifactId>
         <configuration>
           <archive>

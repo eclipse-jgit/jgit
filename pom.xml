@@ -141,28 +141,6 @@
     <pluginManagement>
       <plugins>
         <plugin>
-          <groupId>org.apache.felix</groupId>
-          <artifactId>maven-bundle-plugin</artifactId>
-          <version>2.0.1</version>
-          <configuration>
-            <manifestLocation>META-INF</manifestLocation>
-            <instructions>
-              <Bundle-RequiredExecutionEnvironment>J2SE-1.5</Bundle-RequiredExecutionEnvironment>
-              <Bundle-DocURL>${jgit-url}</Bundle-DocURL>
-              <Bundle-Vendor>%provider_name</Bundle-Vendor>
-              <Bundle-Name>%plugin_name</Bundle-Name>
-              <Bundle-Description>%plugin_description</Bundle-Description>
-              <Bundle-Localization>plugin</Bundle-Localization>
-              <Bundle-Copyright>${jgit-copyright}</Bundle-Copyright>
-              <Bundle-License>http://www.eclipse.org/org/documents/edl-v10.php</Bundle-License>
-              <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-              <Bundle-Version>$(replace;$(project.version);-SNAPSHOT;"").$(tstamp;yyyyMMdd-HHmm)</Bundle-Version>
-              <_versionpolicy>[$(version;==;$(@)),$(version;+;$(@)))</_versionpolicy>
-            </instructions>
-          </configuration>
-        </plugin>
-
-        <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-jar-plugin</artifactId>
           <configuration>
@@ -235,20 +213,6 @@
             </goals>
           </execution>
         </executions>
-      </plugin>
-
-      <plugin>
-        <artifactId>maven-clean-plugin</artifactId>
-        <configuration>
-          <filesets>
-            <fileset>
-              <directory>${basedir}</directory>
-              <includes>
-                <include>META-INF/MANIFEST.MF</include>
-              </includes>
-            </fileset>
-          </filesets>
-        </configuration>
       </plugin>
 
       <plugin>
