@@ -7,6 +7,7 @@ Bundle-Vendor: %provider_name
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Import-Package: org.eclipse.jgit.awtui,
+ org.eclipse.jgit.diff,
  org.eclipse.jgit.dircache,
  org.eclipse.jgit.errors,
  org.eclipse.jgit.lib,
