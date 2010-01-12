@@ -138,6 +138,8 @@
 
     <servlet-api-CQ>CQ 3565</servlet-api-CQ>
     <servlet-api-version>2.5</servlet-api-version>
+
+    <jetty-version>7.0.1.v20091125</jetty-version>
   </properties>
 
   <build>
@@ -265,6 +267,12 @@
         <artifactId>servlet-api</artifactId>
         <version>${servlet-api-version}</version>
       </dependency>
+
+      <dependency>
+        <groupId>org.eclipse.jetty</groupId>
+        <artifactId>jetty-servlet</artifactId>
+        <version>${jetty-version}</version>
+      </dependency>
     </dependencies>
   </dependencyManagement>
 
@@ -298,6 +306,8 @@
     <module>org.eclipse.jgit.http.server</module>
     <module>org.eclipse.jgit.pgm</module>
     <module>org.eclipse.jgit.junit</module>
+
     <module>org.eclipse.jgit.test</module>
+    <module>org.eclipse.jgit.http.test</module>
   </modules>
 </project>
