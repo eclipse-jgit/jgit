@@ -5,7 +5,7 @@
       version="0.6.0.qualifier"
       provider-name="%providerName">
 
-   <description url="http://www.eclipse.org/egit/">
+   <description url="http://www.eclipse.org/jgit/">
      %description
    </description>
 
