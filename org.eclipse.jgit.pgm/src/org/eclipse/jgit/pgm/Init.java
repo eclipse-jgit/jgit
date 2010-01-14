@@ -1,6 +1,7 @@
 /*
  * Copyright (C) 2009, Constantine Plotnikov <constantine.plotnikov@gmail.com>
  * Copyright (C) 2008, Google Inc.
+ * Copyright (C) 2010, Robin Rosenberg <robin.rosenberg@dewire.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -62,7 +63,7 @@ class Init extends TextBuiltin {
 	@Override
 	protected void run() throws Exception {
 		if (gitdir == null)
-			gitdir = new File(bare ? "." : ".git");
+			gitdir = new File(bare ? "." : Constants.DOT_GIT);
 		db = new Repository(gitdir);
 		db.create(bare);
 		out.println("Initialized empty Git repository in "

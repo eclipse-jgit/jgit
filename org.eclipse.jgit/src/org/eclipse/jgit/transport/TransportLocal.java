@@ -56,6 +56,7 @@ import java.io.PipedOutputStream;
 
 import org.eclipse.jgit.errors.NotSupportedException;
 import org.eclipse.jgit.errors.TransportException;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.util.FS;
 
@@ -101,8 +102,8 @@ class TransportLocal extends Transport implements PackTransport {
 		super(local, uri);
 
 		File d = FS.resolve(new File(PWD), uri.getPath()).getAbsoluteFile();
-		if (new File(d, ".git").isDirectory())
-			d = new File(d, ".git");
+		if (new File(d, Constants.DOT_GIT).isDirectory())
+			d = new File(d, Constants.DOT_GIT);
 		remoteGitDir = d;
 	}
 

@@ -1,4 +1,5 @@
 /*
+ * Copyright (C) 2010, Robin Rosenberg <robin.rosenberg@dewire.com>
  * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org>
  * and other copyright owners as documented in the project's IP log.
  *
@@ -125,7 +126,7 @@ class Glog extends RevWalkTextBuiltin {
 	private String repoName() {
 		final File f = db.getDirectory();
 		String n = f.getName();
-		if (".git".equals(n))
+		if (Constants.DOT_GIT.equals(n))
 			n = f.getParentFile().getName();
 		return n;
 	}
