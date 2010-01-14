@@ -410,8 +410,9 @@ public class URIish {
 		String result = elements[elements.length - 1];
 		if (Constants.DOT_GIT.equals(result))
 			result = elements[elements.length - 2];
-		else if (result.endsWith(DOT_GIT))
-			result = result.substring(0, result.length() - DOT_GIT.length());
+		else if (result.endsWith(Constants.DOT_GIT_EXT))
+			result = result.substring(0, result.length()
+					- Constants.DOT_GIT_EXT.length());
 		return result;
 	}
 
