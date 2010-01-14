@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <description url="JGit">
+      This is a pure Java implementation of the Git version control system. The native Git version is also required in this version.
+   </description>
+   <feature url="features/org.eclipse.jgit_0.0.0.qualifier.jar" id="org.eclipse.jgit" version="0.0.0" patch="true">
+      <category name="JGit (Incubation)"/>
+   </feature>
+   <category-def name="JGit (Incubation)" label="JGit (Incubation)">
+      <description>
+         JGit (Incubation)
+      </description>
+   </category-def>
+</site>
