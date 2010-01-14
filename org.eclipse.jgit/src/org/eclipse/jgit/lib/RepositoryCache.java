@@ -382,8 +382,8 @@ public class RepositoryCache {
 
 			final String name = directory.getName();
 			final File parent = directory.getParentFile();
-			if (isGitRepository(new File(parent, name + ".git")))
-				return new File(parent, name + ".git");
+			if (isGitRepository(new File(parent, name + Constants.DOT_GIT_EXT)))
+				return new File(parent, name + Constants.DOT_GIT_EXT);
 			return null;
 		}
 	}
