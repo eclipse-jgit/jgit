@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2007, Dave Watson <dwatson@mimvista.com>
- * Copyright (C) 2006-2009, Robin Rosenberg <robin.rosenberg@dewire.com>
+ * Copyright (C) 2006-2010, Robin Rosenberg <robin.rosenberg@dewire.com>
  * Copyright (C) 2006-2008, Shawn O. Pearce <spearce@spearce.org>
  * and other copyright owners as documented in the project's IP log.
  *
@@ -183,7 +183,7 @@ public class Repository {
 		if (workTree != null) {
 			workDir = workTree;
 			if (d == null)
-				gitDir = new File(workTree, ".git");
+				gitDir = new File(workTree, Constants.DOT_GIT);
 			else
 				gitDir = d;
 		} else {

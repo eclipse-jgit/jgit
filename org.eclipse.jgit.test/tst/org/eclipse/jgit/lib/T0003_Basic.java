@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2007, Dave Watson <dwatson@mimvista.com>
- * Copyright (C) 2007-2009, Robin Rosenberg <robin.rosenberg@dewire.com>
+ * Copyright (C) 2007-2010, Robin Rosenberg <robin.rosenberg@dewire.com>
  * Copyright (C) 2006-2008, Shawn O. Pearce <spearce@spearce.org>
  * and other copyright owners as documented in the project's IP log.
  *
@@ -57,7 +57,7 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 
 public class T0003_Basic extends SampleDataRepositoryTestCase {
 	public void test001_Initalize() {
-		final File gitdir = new File(trash, ".git");
+		final File gitdir = new File(trash, Constants.DOT_GIT);
 		final File objects = new File(gitdir, "objects");
 		final File objects_pack = new File(objects, "pack");
 		final File objects_info = new File(objects, "info");
@@ -97,11 +97,11 @@ public class T0003_Basic extends SampleDataRepositoryTestCase {
 	 */
 	public void test000_openrepo_default_gitDirSet() throws IOException {
 		File repo1Parent = new File(trash.getParentFile(), "r1");
-		Repository repo1initial = new Repository(new File(repo1Parent, ".git"));
+		Repository repo1initial = new Repository(new File(repo1Parent, Constants.DOT_GIT));
 		repo1initial.create();
 		repo1initial.close();
 
-		File theDir = new File(repo1Parent, ".git");
+		File theDir = new File(repo1Parent, Constants.DOT_GIT);
 		Repository r = new Repository(theDir, null);
 		assertEqualsPath(theDir, r.getDirectory());
 		assertEqualsPath(repo1Parent, r.getWorkDir());
@@ -117,11 +117,11 @@ public class T0003_Basic extends SampleDataRepositoryTestCase {
 	 */
 	public void test000_openrepo_default_gitDirAndWorkTreeSet() throws IOException {
 		File repo1Parent = new File(trash.getParentFile(), "r1");
-		Repository repo1initial = new Repository(new File(repo1Parent, ".git"));
+		Repository repo1initial = new Repository(new File(repo1Parent, Constants.DOT_GIT));
 		repo1initial.create();
 		repo1initial.close();
 
-		File theDir = new File(repo1Parent, ".git");
+		File theDir = new File(repo1Parent, Constants.DOT_GIT);
 		Repository r = new Repository(theDir, repo1Parent.getParentFile());
 		assertEqualsPath(theDir, r.getDirectory());
 		assertEqualsPath(repo1Parent.getParentFile(), r.getWorkDir());
@@ -137,11 +137,11 @@ public class T0003_Basic extends SampleDataRepositoryTestCase {
 	 */
 	public void test000_openrepo_default_workDirSet() throws IOException {
 		File repo1Parent = new File(trash.getParentFile(), "r1");
-		Repository repo1initial = new Repository(new File(repo1Parent, ".git"));
+		Repository repo1initial = new Repository(new File(repo1Parent, Constants.DOT_GIT));
 		repo1initial.create();
 		repo1initial.close();
 
-		File theDir = new File(repo1Parent, ".git");
+		File theDir = new File(repo1Parent, Constants.DOT_GIT);
 		Repository r = new Repository(null, repo1Parent);
 		assertEqualsPath(theDir, r.getDirectory());
 		assertEqualsPath(repo1Parent, r.getWorkDir());
@@ -159,14 +159,14 @@ public class T0003_Basic extends SampleDataRepositoryTestCase {
 		File repo1Parent = new File(trash.getParentFile(), "r1");
 		File workdir = new File(trash.getParentFile(), "rw");
 		workdir.mkdir();
-		Repository repo1initial = new Repository(new File(repo1Parent, ".git"));
+		Repository repo1initial = new Repository(new File(repo1Parent, Constants.DOT_GIT));
 		repo1initial.create();
 		repo1initial.getConfig().setString("core", null, "worktree",
 				workdir.getAbsolutePath());
 		repo1initial.getConfig().save();
 		repo1initial.close();
 
-		File theDir = new File(repo1Parent, ".git");
+		File theDir = new File(repo1Parent, Constants.DOT_GIT);
 		Repository r = new Repository(theDir, null);
 		assertEqualsPath(theDir, r.getDirectory());
 		assertEqualsPath(workdir, r.getWorkDir());
@@ -184,14 +184,14 @@ public class T0003_Basic extends SampleDataRepositoryTestCase {
 		File repo1Parent = new File(trash.getParentFile(), "r1");
 		File workdir = new File(trash.getParentFile(), "rw");
 		workdir.mkdir();
-		Repository repo1initial = new Repository(new File(repo1Parent, ".git"));
+		Repository repo1initial = new Repository(new File(repo1Parent, Constants.DOT_GIT));
 		repo1initial.create();
 		repo1initial.getConfig()
 				.setString("core", null, "worktree", "../../rw");
 		repo1initial.getConfig().save();
 		repo1initial.close();
 
-		File theDir = new File(repo1Parent, ".git");
+		File theDir = new File(repo1Parent, Constants.DOT_GIT);
 		Repository r = new Repository(theDir, null);
 		assertEqualsPath(theDir, r.getDirectory());
 		assertEqualsPath(workdir, r.getWorkDir());
@@ -211,11 +211,11 @@ public class T0003_Basic extends SampleDataRepositoryTestCase {
 		File indexFile = new File(trash, "idx");
 		File objDir = new File(trash, "../obj");
 		File[] altObjDirs = new File[] { db.getObjectsDirectory() };
-		Repository repo1initial = new Repository(new File(repo1Parent, ".git"));
+		Repository repo1initial = new Repository(new File(repo1Parent, Constants.DOT_GIT));
 		repo1initial.create();
 		repo1initial.close();
 
-		File theDir = new File(repo1Parent, ".git");
+		File theDir = new File(repo1Parent, Constants.DOT_GIT);
 		Repository r = new Repository(theDir, null, objDir, altObjDirs,
 				indexFile);
 		assertEqualsPath(theDir, r.getDirectory());

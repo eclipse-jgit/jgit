@@ -377,13 +377,13 @@ public class RepositoryCache {
 		public static File resolve(final File directory) {
 			if (isGitRepository(directory))
 				return directory;
-			if (isGitRepository(new File(directory, ".git")))
-				return new File(directory, ".git");
+			if (isGitRepository(new File(directory, Constants.DOT_GIT)))
+				return new File(directory, Constants.DOT_GIT);
 
 			final String name = directory.getName();
 			final File parent = directory.getParentFile();
-			if (isGitRepository(new File(parent, name + ".git")))
-				return new File(parent, name + ".git");
+			if (isGitRepository(new File(parent, name + Constants.DOT_GIT_EXT)))
+				return new File(parent, name + Constants.DOT_GIT_EXT);
 			return null;
 		}
 	}

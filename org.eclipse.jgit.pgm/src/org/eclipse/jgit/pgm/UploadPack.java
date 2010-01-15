@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2008-2009, Google Inc.
- * Copyright (C) 2009, Robin Rosenberg <robin.rosenberg@dewire.com>
+ * Copyright (C) 2009-2010, Robin Rosenberg <robin.rosenberg@dewire.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -48,6 +48,7 @@ import java.io.File;
 
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
 
 @Command(common = false, usage = "Server side backend for 'jgit fetch'")
@@ -67,8 +68,8 @@ class UploadPack extends TextBuiltin {
 	protected void run() throws Exception {
 		final org.eclipse.jgit.transport.UploadPack rp;
 
-		if (new File(srcGitdir, ".git").isDirectory())
-			srcGitdir = new File(srcGitdir, ".git");
+		if (new File(srcGitdir, Constants.DOT_GIT).isDirectory())
+			srcGitdir = new File(srcGitdir, Constants.DOT_GIT);
 		db = new Repository(srcGitdir);
 		if (!db.getObjectsDirectory().isDirectory())
 			throw die("'" + srcGitdir.getPath() + "' not a git repository");

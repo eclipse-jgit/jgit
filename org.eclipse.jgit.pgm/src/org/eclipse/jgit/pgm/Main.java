@@ -228,7 +228,7 @@ public class Main {
 		}
 		File current = new File("").getAbsoluteFile();
 		while (current != null) {
-			final File gitDir = new File(current, ".git");
+			final File gitDir = new File(current, Constants.DOT_GIT);
 			if (gitDir.isDirectory())
 				return gitDir;
 			current = current.getParentFile();

@@ -100,7 +100,7 @@ class Clone extends AbstractFetchCommand {
 			}
 		}
 		if (gitdir == null)
-			gitdir = new File(localName, ".git");
+			gitdir = new File(localName, Constants.DOT_GIT);
 
 		db = new Repository(gitdir);
 		db.create();

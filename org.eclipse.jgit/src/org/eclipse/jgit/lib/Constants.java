@@ -308,6 +308,12 @@ public final class Constants {
 	/** Default remote name used by clone, push and fetch operations */
 	public static final String DEFAULT_REMOTE_NAME = "origin";
 
+	/** Default name for the Git repository directory */
+	public static final String DOT_GIT = ".git";
+
+	/** A bare repository typically ends with this string */
+	public static final String DOT_GIT_EXT = ".git";
+
 	/**
 	 * Create a new digest function for objects.
 	 *
