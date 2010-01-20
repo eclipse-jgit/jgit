@@ -65,6 +65,7 @@
   <modules>
     <module>org.eclipse.jgit.feature</module>
     <module>org.eclipse.jgit.updatesite</module>
+    <module>..</module>
   </modules>
 
   <repositories>
