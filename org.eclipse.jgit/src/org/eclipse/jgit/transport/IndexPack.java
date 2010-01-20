@@ -68,6 +68,7 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.InflaterCache;
 import org.eclipse.jgit.lib.MutableObjectId;
 import org.eclipse.jgit.lib.ObjectChecker;
+import org.eclipse.jgit.lib.ObjectDatabase;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdSubclassMap;
 import org.eclipse.jgit.lib.ObjectLoader;
@@ -129,6 +130,10 @@ public class IndexPack {
 	}
 
 	private final Repository repo;
+	/**
+	 * Object database used for loading existing objects
+	 */
+	private final ObjectDatabase objectDatabase;
 
 	private Inflater inflater;
 
@@ -199,6 +204,7 @@ public class IndexPack {
 	public IndexPack(final Repository db, final InputStream src,
 			final File dstBase) throws IOException {
 		repo = db;
+		objectDatabase = db.getObjectDatabase().newCachedDatabase();
 		in = src;
 		inflater = InflaterCache.get();
 		readCurs = new WindowCursor();
@@ -350,6 +356,7 @@ public class IndexPack {
 					InflaterCache.release(inflater);
 				} finally {
 					inflater = null;
+					objectDatabase.close();
 				}
 				readCurs = WindowCursor.release(readCurs);
 
@@ -756,7 +763,7 @@ public class IndexPack {
 			}
 		}
 
-		final ObjectLoader ldr = repo.openObject(readCurs, id);
+		final ObjectLoader ldr = objectDatabase.openObject(readCurs, id);
 		if (ldr != null) {
 			final byte[] existingData = ldr.getCachedBytes();
 			if (ldr.getType() != type || !Arrays.equals(data, existingData)) {

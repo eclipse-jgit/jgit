@@ -380,4 +380,16 @@ public abstract class ObjectDatabase {
 			d.close();
 		}
 	}
+
+	/**
+	 * Create a new cached database instance over this database. This instance might
+	 * optimize queries by caching some information about database. So some modifications
+	 * done after instance creation might fail to be noticed.
+	 *
+	 * @return new cached database instance
+	 * @see CachedObjectDatabase
+	 */
+	public ObjectDatabase newCachedDatabase() {
+		return new CachedObjectDatabase(this);
+	}
 }
