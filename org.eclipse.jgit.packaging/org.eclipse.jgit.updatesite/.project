@@ -4,6 +4,7 @@
 	<comment></comment>
 	<projects>
 		<project>org.eclipse.jgit</project>
+		<project>org.eclipse.jgit.junit</project>
 		<project>org.eclipse.jgit.feature</project>
 	</projects>
 	<buildSpec>
