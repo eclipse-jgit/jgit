@@ -47,7 +47,6 @@ import static org.eclipse.jgit.http.server.ServletUtils.getRepository;
 import static org.eclipse.jgit.http.server.ServletUtils.send;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServlet;
@@ -98,7 +97,7 @@ class InfoRefsServlet extends HttpServlet {
 		adv.init(walk, ADVERTISED);
 		adv.setDerefTags(true);
 
-		Map<String, Ref> refs = new HashMap<String, Ref>(db.getAllRefs());
+		Map<String, Ref> refs = db.getAllRefs();
 		refs.remove(Constants.HEAD);
 		adv.send(refs.values());
 		return out.toString().getBytes(Constants.CHARACTER_ENCODING);

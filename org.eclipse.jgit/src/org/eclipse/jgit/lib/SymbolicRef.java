@@ -1,7 +1,5 @@
 /*
  * Copyright (C) 2010, Google Inc.
- * Copyright (C) 2008, Jonas Fonseca <fonseca@diku.dk>
- * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -43,38 +41,81 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.eclipse.jgit.pgm;
+package org.eclipse.jgit.lib;
 
-import java.util.Map;
-import java.util.SortedMap;
+/**
+ * A reference that indirectly points at another {@link Ref}.
+ * <p>
+ * A symbolic reference always derives its current value from the target
+ * reference.
+ */
+public class SymbolicRef implements Ref {
+	private final String name;
 
-import org.eclipse.jgit.lib.AnyObjectId;
-import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.RefComparator;
-import org.eclipse.jgit.util.RefMap;
+	private final Ref target;
 
-class ShowRef extends TextBuiltin {
+	/**
+	 * Create a new ref pairing.
+	 *
+	 * @param refName
+	 *            name of this ref.
+	 * @param target
+	 *            the ref we reference and derive our value from.
+	 */
+	public SymbolicRef(String refName, Ref target) {
+		this.name = refName;
+		this.target = target;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public boolean isSymbolic() {
+		return true;
+	}
+
+	public Ref getLeaf() {
+		Ref dst = getTarget();
+		while (dst.isSymbolic())
+			dst = dst.getTarget();
+		return dst;
+	}
+
+	public Ref getTarget() {
+		return target;
+	}
+
+	public ObjectId getObjectId() {
+		return getLeaf().getObjectId();
+	}
+
+	public Storage getStorage() {
+		return Storage.LOOSE;
+	}
+
+	public ObjectId getPeeledObjectId() {
+		return getLeaf().getPeeledObjectId();
+	}
+
+	public boolean isPeeled() {
+		return getLeaf().isPeeled();
+	}
+
 	@Override
-	protected void run() throws Exception {
-		for (final Ref r : getSortedRefs()) {
-			show(r.getObjectId(), r.getName());
-			if (r.getPeeledObjectId() != null)
-				show(r.getPeeledObjectId(), r.getName() + "^{}");
+	public String toString() {
+		StringBuilder r = new StringBuilder();
+		r.append("SymbolicRef[");
+		Ref cur = this;
+		while (cur.isSymbolic()) {
+			r.append(cur.getName());
+			r.append(" -> ");
+			cur = cur.getTarget();
 		}
-	}
-
-	private Iterable<Ref> getSortedRefs() {
-		Map<String, Ref> all = db.getAllRefs();
-		if (all instanceof RefMap
-				|| (all instanceof SortedMap && ((SortedMap) all).comparator() == null))
-			return all.values();
-		return RefComparator.sort(all.values());
-	}
-
-	private void show(final AnyObjectId id, final String name) {
-		out.print(id.name());
-		out.print('\t');
-		out.print(name);
-		out.println();
+		r.append(cur.getName());
+		r.append('=');
+		r.append(ObjectId.toString(cur.getObjectId()));
+		r.append("]");
+		return r.toString();
 	}
 }
