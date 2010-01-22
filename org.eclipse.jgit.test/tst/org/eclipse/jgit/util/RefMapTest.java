@@ -50,7 +50,9 @@ import java.util.NoSuchElementException;
 import junit.framework.TestCase;
 
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectIdRef;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.SymbolicRef;
 
 public class RefMapTest extends TestCase {
 	private static final ObjectId ID_ONE = ObjectId
@@ -176,6 +178,49 @@ public class RefMapTest extends TestCase {
 		}
 	}
 
+	public void testIterator_MissingUnresolvedSymbolicRefIsBug() {
+		final Ref master = newRef("refs/heads/master", ID_ONE);
+		final Ref headR = newRef("HEAD", master);
+
+		loose = toList(master);
+		// loose should have added newRef("HEAD", "refs/heads/master")
+		resolved = toList(headR);
+
+		RefMap map = new RefMap("", packed, loose, resolved);
+		Iterator<Ref> itr = map.values().iterator();
+		try {
+			itr.hasNext();
+			fail("iterator did not catch bad input");
+		} catch (IllegalStateException err) {
+			// expected
+		}
+	}
+
+	public void testMerge_HeadMaster() {
+		final Ref master = newRef("refs/heads/master", ID_ONE);
+		final Ref headU = newRef("HEAD", "refs/heads/master");
+		final Ref headR = newRef("HEAD", master);
+
+		loose = toList(headU, master);
+		resolved = toList(headR);
+
+		RefMap map = new RefMap("", packed, loose, resolved);
+		assertEquals(2, map.size());
+		assertFalse(map.isEmpty());
+		assertTrue(map.containsKey("refs/heads/master"));
+		assertSame(master, map.get("refs/heads/master"));
+
+		// resolved overrides loose given same name
+		assertSame(headR, map.get("HEAD"));
+
+		Iterator<Ref> itr = map.values().iterator();
+		assertTrue(itr.hasNext());
+		assertSame(headR, itr.next());
+		assertTrue(itr.hasNext());
+		assertSame(master, itr.next());
+		assertFalse(itr.hasNext());
+	}
+
 	public void testMerge_PackedLooseLoose() {
 		final Ref refA = newRef("A", ID_ONE);
 		final Ref refB_ONE = newRef("B", ID_ONE);
@@ -297,6 +342,42 @@ public class RefMapTest extends TestCase {
 		assertSame(refA_one, map.get("A"));
 	}
 
+	public void testPut_CollapseResolved() {
+		final Ref master = newRef("refs/heads/master", ID_ONE);
+		final Ref headU = newRef("HEAD", "refs/heads/master");
+		final Ref headR = newRef("HEAD", master);
+		final Ref a = newRef("refs/heads/A", ID_ONE);
+
+		loose = toList(headU, master);
+		resolved = toList(headR);
+
+		RefMap map = new RefMap("", packed, loose, resolved);
+		assertNull(map.put(a.getName(), a));
+		assertSame(a, map.get(a.getName()));
+		assertSame(headR, map.get("HEAD"));
+	}
+
+	public void testRemove() {
+		final Ref master = newRef("refs/heads/master", ID_ONE);
+		final Ref headU = newRef("HEAD", "refs/heads/master");
+		final Ref headR = newRef("HEAD", master);
+
+		packed = toList(master);
+		loose = toList(headU, master);
+		resolved = toList(headR);
+
+		RefMap map = new RefMap("", packed, loose, resolved);
+		assertNull(map.remove("not.a.reference"));
+
+		assertSame(master, map.remove("refs/heads/master"));
+		assertNull(map.get("refs/heads/master"));
+
+		assertSame(headR, map.remove("HEAD"));
+		assertNull(map.get("HEAD"));
+
+		assertTrue(map.isEmpty());
+	}
+
 	public void testToString_NoPrefix() {
 		final Ref a = newRef("refs/heads/A", ID_ONE);
 		final Ref b = newRef("refs/heads/B", ID_TWO);
@@ -376,7 +457,16 @@ public class RefMapTest extends TestCase {
 		return b.toRefList();
 	}
 
+	private static Ref newRef(String name, String dst) {
+		return newRef(name,
+				new ObjectIdRef.Unpeeled(Ref.Storage.NEW, dst, null));
+	}
+
+	private static Ref newRef(String name, Ref dst) {
+		return new SymbolicRef(name, dst);
+	}
+
 	private static Ref newRef(String name, ObjectId id) {
-		return new Ref(Ref.Storage.LOOSE, name, id);
+		return new ObjectIdRef.Unpeeled(Ref.Storage.LOOSE, name, id);
 	}
 }
