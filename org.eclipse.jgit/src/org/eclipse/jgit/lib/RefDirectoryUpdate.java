@@ -1,6 +1,5 @@
 /*
- * Copyright (C) 2010, Google Inc.
- * Copyright (C) 2008, Jonas Fonseca <fonseca@diku.dk>
+ * Copyright (C) 2009-2010, Google Inc.
  * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org>
  * and other copyright owners as documented in the project's IP log.
  *
@@ -43,38 +42,94 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.eclipse.jgit.pgm;
+package org.eclipse.jgit.lib;
 
-import java.util.Map;
-import java.util.SortedMap;
+import java.io.IOException;
 
-import org.eclipse.jgit.lib.AnyObjectId;
-import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.RefComparator;
-import org.eclipse.jgit.util.RefMap;
+/** Updates any reference stored by {@link RefDirectory}. */
+class RefDirectoryUpdate extends RefUpdate {
+	private final RefDirectory database;
 
-class ShowRef extends TextBuiltin {
+	private LockFile lock;
+
+	RefDirectoryUpdate(final RefDirectory r, final Ref ref) {
+		super(ref);
+		database = r;
+	}
+
 	@Override
-	protected void run() throws Exception {
-		for (final Ref r : getSortedRefs()) {
-			show(r.getObjectId(), r.getName());
-			if (r.getPeeledObjectId() != null)
-				show(r.getPeeledObjectId(), r.getName() + "^{}");
+	protected RefDirectory getRefDatabase() {
+		return database;
+	}
+
+	@Override
+	protected Repository getRepository() {
+		return database.getRepository();
+	}
+
+	@Override
+	protected boolean tryLock() throws IOException {
+		Ref dst = getRef().getLeaf();
+		String name = dst.getName();
+		lock = new LockFile(database.fileFor(name));
+		if (lock.lock()) {
+			dst = database.getRef(name);
+			setOldObjectId(dst != null ? dst.getObjectId() : null);
+			return true;
+		} else {
+			return false;
 		}
 	}
 
-	private Iterable<Ref> getSortedRefs() {
-		Map<String, Ref> all = db.getAllRefs();
-		if (all instanceof RefMap
-				|| (all instanceof SortedMap && ((SortedMap) all).comparator() == null))
-			return all.values();
-		return RefComparator.sort(all.values());
+	@Override
+	protected void unlock() {
+		if (lock != null) {
+			lock.unlock();
+			lock = null;
+		}
 	}
 
-	private void show(final AnyObjectId id, final String name) {
-		out.print(id.name());
-		out.print('\t');
-		out.print(name);
-		out.println();
+	@Override
+	protected Result doUpdate(final Result status) throws IOException {
+		lock.setNeedStatInformation(true);
+		lock.write(getNewObjectId());
+
+		String msg = getRefLogMessage();
+		if (msg != null) {
+			if (isRefLogIncludingResult()) {
+				String strResult = toResultString(status);
+				if (strResult != null) {
+					if (msg.length() > 0)
+						msg = msg + ": " + strResult;
+					else
+						msg = strResult;
+				}
+			}
+			database.log(this, msg);
+		}
+		if (!lock.commit())
+			return Result.LOCK_FAILURE;
+		database.stored(this, lock.getCommitLastModified());
+		return status;
+	}
+
+	private String toResultString(final Result status) {
+		switch (status) {
+		case FORCED:
+			return "forced-update";
+		case FAST_FORWARD:
+			return "fast forward";
+		case NEW:
+			return "created";
+		default:
+			return null;
+		}
+	}
+
+	@Override
+	protected Result doDelete(final Result status) throws IOException {
+		if (getRef().getLeaf().getStorage() != Ref.Storage.NEW)
+			database.delete(this);
+		return status;
 	}
 }
