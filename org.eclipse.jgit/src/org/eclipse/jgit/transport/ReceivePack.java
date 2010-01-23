@@ -591,7 +591,7 @@ public class ReceivePack {
 			adv.advertiseCapability(CAPABILITY_OFS_DELTA);
 		refs = db.getAllRefs();
 		final Ref head = refs.remove(Constants.HEAD);
-		adv.send(refs.values());
+		adv.send(refs);
 		if (!head.isSymbolic())
 			adv.advertiseHave(head.getObjectId());
 		adv.includeAdditionalHaves();
