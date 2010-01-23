@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2009, Christian Halstrick <christian.halstrick@sap.com>
  * Copyright (C) 2009, Christian Halstrick, Matthias Sohn, SAP AG
- * Copyright (C) 2009, Google Inc.
+ * Copyright (C) 2009-2010, Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -54,7 +54,7 @@ public class ReflogConfigTest extends RepositoryTestCase {
 
 		// check that there are no entries in the reflog and turn off writing
 		// reflogs
-		assertNull(db.getReflogReader(Constants.HEAD));
+		assertEquals(0, db.getReflogReader(Constants.HEAD).getReverseEntries().size());
 		db.getConfig().setBoolean("core", null, "logallrefupdates", false);
 
 		// do one commit and check that reflog size is 0: no reflogs should be

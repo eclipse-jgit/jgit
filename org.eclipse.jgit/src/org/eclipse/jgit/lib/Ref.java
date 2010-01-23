@@ -50,12 +50,12 @@ package org.eclipse.jgit.lib;
  * identifier. The object identifier can be any valid Git object (blob, tree,
  * commit, annotated tag, ...).
  * <p>
- * The ref name has the attributes of the ref that was asked for as well as
- * the ref it was resolved to for symbolic refs plus the object id it points
- * to and (for tags) the peeled target object id, i.e. the tag resolved
- * recursively until a non-tag object is referenced.
+ * The ref name has the attributes of the ref that was asked for as well as the
+ * ref it was resolved to for symbolic refs plus the object id it points to and
+ * (for tags) the peeled target object id, i.e. the tag resolved recursively
+ * until a non-tag object is referenced.
  */
-public class Ref {
+public interface Ref {
 	/** Location where a {@link Ref} is stored. */
 	public static enum Storage {
 		/**
@@ -73,8 +73,7 @@ public class Ref {
 		LOOSE(true, false),
 
 		/**
-		 * The ref is stored in the <code>packed-refs</code> file, with
-		 * others.
+		 * The ref is stored in the <code>packed-refs</code> file, with others.
 		 * <p>
 		 * Updating this ref requires rewriting the file, with perhaps many
 		 * other refs being included at the same time.
@@ -122,123 +121,63 @@ public class Ref {
 		}
 	}
 
-	private final Storage storage;
-
-	private final String name;
-
-	private ObjectId objectId;
-
-	private ObjectId peeledObjectId;
-
-	private final String origName;
-
-	private final boolean peeled;
-
-	/**
-	 * Create a new ref pairing.
-	 *
-	 * @param st
-	 *            method used to store this ref.
-	 * @param origName
-	 *            The name used to resolve this ref
-	 * @param refName
-	 *            name of this ref.
-	 * @param id
-	 *            current value of the ref. May be null to indicate a ref that
-	 *            does not exist yet.
-	 */
-	public Ref(final Storage st, final String origName, final String refName, final ObjectId id) {
-		this(st, origName, refName, id, null, false);
-	}
-
-	/**
-	 * Create a new ref pairing.
-	 *
-	 * @param st
-	 *            method used to store this ref.
-	 * @param refName
-	 *            name of this ref.
-	 * @param id
-	 *            current value of the ref. May be null to indicate a ref that
-	 *            does not exist yet.
-	 */
-	public Ref(final Storage st, final String refName, final ObjectId id) {
-		this(st, refName, refName, id, null, false);
-	}
-
-	/**
-	 * Create a new ref pairing.
-	 *
-	 * @param st
-	 *            method used to store this ref.
-	 * @param origName
-	 *            The name used to resolve this ref
-	 * @param refName
-	 *            name of this ref.
-	 * @param id
-	 *            current value of the ref. May be null to indicate a ref that
-	 *            does not exist yet.
-	 * @param peel
-	 *            peeled value of the ref's tag. May be null if this is not a
-	 *            tag or not yet peeled (in which case the next parameter should be null)
-	 * @param peeled
-	 * 			  true if peel represents a the peeled value of the object
-	 */
-	public Ref(final Storage st, final String origName, final String refName, final ObjectId id,
-			final ObjectId peel, final boolean peeled) {
-		storage = st;
-		this.origName = origName;
-		name = refName;
-		objectId = id;
-		peeledObjectId = peel;
-		this.peeled = peeled;
-	}
-
-	/**
-	 * Create a new ref pairing.
-	 *
-	 * @param st
-	 *            method used to store this ref.
-	 * @param refName
-	 *            name of this ref.
-	 * @param id
-	 *            current value of the ref. May be null to indicate a ref that
-	 *            does not exist yet.
-	 * @param peel
-	 *            peeled value of the ref's tag. May be null if this is not a
-	 *            tag or the peeled value is not known.
-	 * @param peeled
-	 * 			  true if peel represents a the peeled value of the object
-	 */
-	public Ref(final Storage st, final String refName, final ObjectId id,
-			final ObjectId peel, boolean peeled) {
-		this(st, refName, refName, id, peel, peeled);
-	}
-
 	/**
 	 * What this ref is called within the repository.
 	 *
 	 * @return name of this ref.
 	 */
-	public String getName() {
-		return name;
-	}
+	public String getName();
 
 	/**
-	 * @return the originally resolved name
+	 * Test if this reference is a symbolic reference.
+	 * <p>
+	 * A symbolic reference does not have its own {@link ObjectId} value, but
+	 * instead points to another {@code Ref} in the same database and always
+	 * uses that other reference's value as its own.
+	 *
+	 * @return true if this is a symbolic reference; false if this reference
+	 *         contains its own ObjectId.
 	 */
-	public String getOrigName() {
-		return origName;
-	}
+	public abstract boolean isSymbolic();
+
+	/**
+	 * Traverse target references until {@link #isSymbolic()} is false.
+	 * <p>
+	 * If {@link #isSymbolic()} is false, returns {@code this}.
+	 * <p>
+	 * If {@link #isSymbolic()} is true, this method recursively traverses
+	 * {@link #getTarget()} until {@link #isSymbolic()} returns false.
+	 * <p>
+	 * This method is effectively
+	 *
+	 * <pre>
+	 * return isSymbolic() ? getTarget().getLeaf() : this;
+	 * </pre>
+	 *
+	 * @return the reference that actually stores the ObjectId value.
+	 */
+	public abstract Ref getLeaf();
+
+	/**
+	 * Get the reference this reference points to, or {@code this}.
+	 * <p>
+	 * If {@link #isSymbolic()} is true this method returns the reference it
+	 * directly names, which might not be the leaf reference, but could be
+	 * another symbolic reference.
+	 * <p>
+	 * If this is a leaf level reference that contains its own ObjectId,this
+	 * method returns {@code this}.
+	 *
+	 * @return the target reference, or {@code this}.
+	 */
+	public abstract Ref getTarget();
 
 	/**
 	 * Cached value of this ref.
 	 *
 	 * @return the value of this ref at the last time we read it.
 	 */
-	public ObjectId getObjectId() {
-		return objectId;
-	}
+	public abstract ObjectId getObjectId();
 
 	/**
 	 * Cached value of <code>ref^{}</code> (the ref peeled to commit).
@@ -247,18 +186,12 @@ public class Ref {
 	 *         blob) that the annotated tag refers to; null if this ref does not
 	 *         refer to an annotated tag.
 	 */
-	public ObjectId getPeeledObjectId() {
-		if (!peeled)
-			return null;
-		return peeledObjectId;
-	}
+	public abstract ObjectId getPeeledObjectId();
 
 	/**
 	 * @return whether the Ref represents a peeled tag
 	 */
-	public boolean isPeeled() {
-		return peeled;
-	}
+	public abstract boolean isPeeled();
 
 	/**
 	 * How was this ref obtained?
@@ -268,18 +201,5 @@ public class Ref {
 	 *
 	 * @return type of ref.
 	 */
-	public Storage getStorage() {
-		return storage;
-	}
-
-	public String toString() {
-		String o = "";
-		if (!origName.equals(name))
-			o = "(" + origName + ")";
-		return "Ref[" + o + name + "=" + ObjectId.toString(getObjectId()) + "]";
-	}
-
-	void setPeeledObjectId(final ObjectId id) {
-		peeledObjectId = id;
-	}
+	public abstract Storage getStorage();
 }

@@ -57,8 +57,10 @@ import java.util.Map;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectIdRef;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefDirectory;
 import org.eclipse.jgit.util.IO;
 
 /**
@@ -433,18 +435,24 @@ abstract class WalkRemoteObjectDatabase {
 	private void readPackedRefsImpl(final Map<String, Ref> avail,
 			final BufferedReader br) throws IOException {
 		Ref last = null;
+		boolean peeled = false;
 		for (;;) {
 			String line = br.readLine();
 			if (line == null)
 				break;
-			if (line.charAt(0) == '#')
+			if (line.charAt(0) == '#') {
+				if (line.startsWith(RefDirectory.PACKED_REFS_HEADER)) {
+					line = line.substring(RefDirectory.PACKED_REFS_HEADER.length());
+					peeled = line.contains(RefDirectory.PACKED_REFS_PEELED);
+				}
 				continue;
+			}
 			if (line.charAt(0) == '^') {
 				if (last == null)
 					throw new TransportException("Peeled line before ref.");
 				final ObjectId id = ObjectId.fromString(line.substring(1));
-				last = new Ref(Ref.Storage.PACKED, last.getName(), last
-						.getObjectId(), id, true);
+				last = new ObjectIdRef.PeeledTag(Ref.Storage.PACKED, last
+						.getName(), last.getObjectId(), id);
 				avail.put(last.getName(), last);
 				continue;
 			}
@@ -454,7 +462,10 @@ abstract class WalkRemoteObjectDatabase {
 				throw new TransportException("Unrecognized ref: " + line);
 			final ObjectId id = ObjectId.fromString(line.substring(0, sp));
 			final String name = line.substring(sp + 1);
-			last = new Ref(Ref.Storage.PACKED, name, id);
+			if (peeled)
+				last = new ObjectIdRef.PeeledNonTag(Ref.Storage.PACKED, name, id);
+			else
+				last = new ObjectIdRef.Unpeeled(Ref.Storage.PACKED, name, id);
 			avail.put(last.getName(), last);
 		}
 	}

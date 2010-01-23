@@ -61,6 +61,7 @@ import org.eclipse.jgit.errors.NoRemoteRepositoryException;
 import org.eclipse.jgit.errors.PackProtocolException;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectIdRef;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.util.io.InterruptTimer;
@@ -209,11 +210,11 @@ abstract class BasePackConnection extends BaseConnection {
 				if (prior.getPeeledObjectId() != null)
 					throw duplicateAdvertisement(name + "^{}");
 
-				avail.put(name, new Ref(Ref.Storage.NETWORK, name, prior
-						.getObjectId(), id, true));
+				avail.put(name, new ObjectIdRef.PeeledTag(
+						Ref.Storage.NETWORK, name, prior.getObjectId(), id));
 			} else {
-				final Ref prior;
-				prior = avail.put(name, new Ref(Ref.Storage.NETWORK, name, id));
+				final Ref prior = avail.put(name, new ObjectIdRef.PeeledNonTag(
+						Ref.Storage.NETWORK, name, id));
 				if (prior != null)
 					throw duplicateAdvertisement(name);
 			}
