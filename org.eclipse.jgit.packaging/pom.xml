@@ -117,7 +117,7 @@
           <version>${tycho-version}</version>
           <configuration>
             <resolver>p2</resolver>
-	    <pomDependencies>consider</pomDependencies>
+            <pomDependencies>consider</pomDependencies>
           </configuration>
         </plugin>
       </plugins>
