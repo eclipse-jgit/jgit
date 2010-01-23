@@ -1,9 +1,10 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Java Git HTTP Tests (Incubation)
+Bundle-Name: %plugin_name
 Bundle-SymbolicName: org.eclipse.jgit.http.test
 Bundle-Version: 0.6.0.qualifier
-Bundle-Vendor: Eclipse.org
+Bundle-Vendor: %provider_name
+Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Import-Package: javax.servlet;version="2.5.0",
  javax.servlet.http;version="2.5.0",
