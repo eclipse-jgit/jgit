@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008-2009, Google Inc.
+ * Copyright (C) 2008-2010, Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -164,8 +164,11 @@ class Clone extends AbstractFetchCommand {
 	private void doCheckout(final Ref branch) throws IOException {
 		if (branch == null)
 			throw die("cannot checkout; no HEAD advertised by remote");
-		if (!Constants.HEAD.equals(branch.getName()))
-			db.writeSymref(Constants.HEAD, branch.getName());
+		if (!Constants.HEAD.equals(branch.getName())) {
+			RefUpdate u = db.updateRef(Constants.HEAD);
+			u.disableRefLog();
+			u.link(branch.getName());
+		}
 
 		final Commit commit = db.mapCommit(branch.getObjectId());
 		final RefUpdate u = db.updateRef(Constants.HEAD);
