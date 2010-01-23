@@ -60,6 +60,7 @@
 
   <properties>
     <tycho-version>0.6.0</tycho-version>
+    <eclipse-site>http://download.eclipse.org/releases/galileo</eclipse-site>
   </properties>
 
   <modules>
@@ -71,7 +72,7 @@
     <repository>
       <id>galileo</id>
       <layout>p2</layout>
-      <url>http://download.eclipse.org/releases/galileo</url>
+      <url>${eclipse-site}</url>
     </repository>
   </repositories>
 
