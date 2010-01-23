@@ -99,7 +99,7 @@ class InfoRefsServlet extends HttpServlet {
 
 		Map<String, Ref> refs = db.getAllRefs();
 		refs.remove(Constants.HEAD);
-		adv.send(refs.values());
+		adv.send(refs);
 		return out.toString().getBytes(Constants.CHARACTER_ENCODING);
 	}
 }
