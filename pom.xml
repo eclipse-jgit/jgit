@@ -127,6 +127,9 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
+    <maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
+    <bundle-manifest>${project.build.directory}/META-INF/MANIFEST.MF</bundle-manifest>
+
     <jsch-CQ>CQ 3493</jsch-CQ>
     <jsch-version>0.1.41</jsch-version>
 
@@ -205,6 +208,28 @@
           <target>1.5</target>
           <encoding>UTF-8</encoding>
         </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>translate-qualifier</id>
+            <phase>generate-resources</phase>
+            <configuration>
+	      <tasks unless="${translate-qualifier}">
+		<copy file="META-INF/MANIFEST.MF" tofile="${bundle-manifest}" overwrite="true"/>
+		<replace file="${bundle-manifest}">
+		  <replacefilter token=".qualifier" value=".${maven.build.timestamp}"/>
+	        </replace>
+	      </tasks>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
 
       <plugin>

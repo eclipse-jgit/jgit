@@ -2,6 +2,7 @@
 <!--
    Copyright (C) 2009, Google Inc.
    Copyright (C) 2008, Imran M Yousuf <imyousuf@smartitengineering.com>
+   Copyright (C) 2010, Matthias Sohn <matthias.sohn@sap.com>
    and other copyright owners as documented in the project's IP log.
 
    This program and the accompanying materials are made available
@@ -61,6 +62,10 @@
     Console based user interface
   </description>
 
+  <properties>
+    <translate-qualifier/>
+  </properties>
+
   <dependencies>
     <dependency>
       <groupId>org.eclipse.jgit</groupId>
@@ -86,7 +91,7 @@
         <artifactId>maven-jar-plugin</artifactId>
         <configuration>
           <archive>
-            <manifestFile>META-INF/MANIFEST.MF</manifestFile>
+            <manifestFile>${bundle-manifest}</manifestFile>
           </archive>
         </configuration>
       </plugin>
