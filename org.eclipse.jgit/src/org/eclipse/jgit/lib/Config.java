@@ -715,9 +715,10 @@ public class Config {
 				if (e.prefix == null || "".equals(e.prefix))
 					out.append('\t');
 				out.append(e.name);
-				if (e.value != null) {
-					if (MAGIC_EMPTY_VALUE != e.value) {
-						out.append(" = ");
+				if (MAGIC_EMPTY_VALUE != e.value) {
+					out.append(" =");
+					if (e.value != null) {
+						out.append(' ');
 						out.append(escapeValue(e.value));
 					}
 				}
