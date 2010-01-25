@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2007, Dave Watson <dwatson@mimvista.com>
- * Copyright (C) 2009, Google Inc.
+ * Copyright (C) 2009-2010, Google Inc.
  * Copyright (C) 2008, Marek Zawirski <marek.zawirski@gmail.com>
  * Copyright (C) 2008, Robin Rosenberg <robin.rosenberg@dewire.com>
  * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org>
@@ -240,6 +240,35 @@ public class RepositoryConfigTest extends TestCase {
 		} catch (IllegalArgumentException e) {
 			assertEquals("Invalid integer value: s.a=1.5g", e.getMessage());
 		}
+	}
+
+	public void testBooleanWithNoValue() throws ConfigInvalidException {
+		Config c = parse("[my]\n\tempty\n");
+		assertEquals("", c.getString("my", null, "empty"));
+		assertEquals(1, c.getStringList("my", null, "empty").length);
+		assertEquals("", c.getStringList("my", null, "empty")[0]);
+		assertTrue(c.getBoolean("my", "empty", false));
+		assertEquals("[my]\n\tempty\n", c.toText());
+	}
+
+	public void testEmptyString() throws ConfigInvalidException {
+		Config c = parse("[my]\n\tempty =\n");
+		assertNull(c.getString("my", null, "empty"));
+
+		String[] values = c.getStringList("my", null, "empty");
+		assertNotNull(values);
+		assertEquals(1, values.length);
+		assertNull(values[0]);
+
+		// always matches the default, because its non-boolean
+		assertTrue(c.getBoolean("my", "empty", true));
+		assertFalse(c.getBoolean("my", "empty", false));
+
+		assertEquals("[my]\n\tempty =\n", c.toText());
+
+		c = new Config();
+		c.setStringList("my", null, "empty", Arrays.asList(values));
+		assertEquals("[my]\n\tempty =\n", c.toText());
 	}
 
 	private void assertReadLong(long exp) throws ConfigInvalidException {
