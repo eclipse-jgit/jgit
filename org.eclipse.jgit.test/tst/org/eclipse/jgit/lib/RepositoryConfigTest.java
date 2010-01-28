@@ -271,6 +271,47 @@ public class RepositoryConfigTest extends TestCase {
 		assertEquals("[my]\n\tempty =\n", c.toText());
 	}
 
+	public void testUnsetBranchSection() throws ConfigInvalidException {
+		Config c = parse("" //
+				+ "[branch \"keep\"]\n"
+				+ "  merge = master.branch.to.keep.in.the.file\n"
+				+ "\n"
+				+ "[branch \"remove\"]\n"
+				+ "  merge = this.will.get.deleted\n"
+				+ "  remote = origin-for-some-long-gone-place\n"
+				+ "\n"
+				+ "[core-section-not-to-remove-in-test]\n"
+				+ "  packedGitLimit = 14\n");
+		c.unsetSection("branch", "does.not.exist");
+		c.unsetSection("branch", "remove");
+		assertEquals("" //
+				+ "[branch \"keep\"]\n"
+				+ "  merge = master.branch.to.keep.in.the.file\n"
+				+ "\n"
+				+ "[core-section-not-to-remove-in-test]\n"
+				+ "  packedGitLimit = 14\n", c.toText());
+	}
+
+	public void testUnsetSingleSection() throws ConfigInvalidException {
+		Config c = parse("" //
+				+ "[branch \"keep\"]\n"
+				+ "  merge = master.branch.to.keep.in.the.file\n"
+				+ "\n"
+				+ "[single]\n"
+				+ "  merge = this.will.get.deleted\n"
+				+ "  remote = origin-for-some-long-gone-place\n"
+				+ "\n"
+				+ "[core-section-not-to-remove-in-test]\n"
+				+ "  packedGitLimit = 14\n");
+		c.unsetSection("single", null);
+		assertEquals("" //
+				+ "[branch \"keep\"]\n"
+				+ "  merge = master.branch.to.keep.in.the.file\n"
+				+ "\n"
+				+ "[core-section-not-to-remove-in-test]\n"
+				+ "  packedGitLimit = 14\n", c.toText());
+	}
+
 	private void assertReadLong(long exp) throws ConfigInvalidException {
 		assertReadLong(exp, String.valueOf(exp));
 	}
