@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-   Copyright (C) 2009, Google Inc.
+   Copyright (C) 2009-2010, Google Inc.
    and other copyright owners as documented in the project's IP log.
 
    This program and the accompanying materials are made available
@@ -69,6 +69,12 @@
     <dependency>
       <groupId>org.eclipse.jgit</groupId>
       <artifactId>org.eclipse.jgit</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.eclipse.jgit</groupId>
+      <artifactId>org.eclipse.jgit.iplog</artifactId>
       <version>${project.version}</version>
     </dependency>
 
