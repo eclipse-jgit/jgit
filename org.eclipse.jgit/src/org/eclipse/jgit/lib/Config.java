@@ -577,6 +577,43 @@ public class Config {
 	}
 
 	/**
+	 * Remove all configuration values under a single section.
+	 *
+	 * @param section
+	 *            section name, e.g "branch"
+	 * @param subsection
+	 *            optional subsection value, e.g. a branch name
+	 */
+	public void unsetSection(String section, String subsection) {
+		State src, res;
+		do {
+			src = state.get();
+			res = unsetSection(src, section, subsection);
+		} while (!state.compareAndSet(src, res));
+	}
+
+	private State unsetSection(final State srcState, final String section,
+			final String subsection) {
+		final int max = srcState.entryList.size();
+		final ArrayList<Entry> r = new ArrayList<Entry>(max);
+
+		boolean lastWasMatch = false;
+		for (Entry e : srcState.entryList) {
+			if (e.match(section, subsection)) {
+				// Skip this record, its for the section we are removing.
+				lastWasMatch = true;
+				continue;
+			}
+
+			if (lastWasMatch && e.section == null && e.subsection == null)
+				continue; // skip this padding line in the section.
+			r.add(e);
+		}
+
+		return newState(r);
+	}
+
+	/**
 	 * Set a configuration value.
 	 *
 	 * <pre>
@@ -1102,6 +1139,11 @@ public class Config {
 			return eqIgnoreCase(section, aSection)
 					&& eqSameCase(subsection, aSubsection)
 					&& eqIgnoreCase(name, aKey);
+		}
+
+		boolean match(final String aSection, final String aSubsection) {
+			return eqIgnoreCase(section, aSection)
+					&& eqSameCase(subsection, aSubsection);
 		}
 
 		private static boolean eqIgnoreCase(final String a, final String b) {
