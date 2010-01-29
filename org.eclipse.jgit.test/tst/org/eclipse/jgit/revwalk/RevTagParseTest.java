@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008-2009, Google Inc.
+ * Copyright (C) 2008-2010, Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -138,6 +138,51 @@ public class RevTagParseTest extends RepositoryTestCase {
 		assertNotNull(cTagger);
 		assertEquals(taggerName, cTagger.getName());
 		assertEquals(taggerEmail, cTagger.getEmailAddress());
+	}
+
+	public void testParseOldStyleNoTagger() throws Exception {
+		final ObjectId treeId = id("9788669ad918b6fcce64af8882fc9a81cb6aba67");
+		final String name = "v1.2.3.4.5";
+		final String message = "test\n" //
+				+ "\n" //
+				+ "-----BEGIN PGP SIGNATURE-----\n" //
+				+ "Version: GnuPG v1.4.1 (GNU/Linux)\n" //
+				+ "\n" //
+				+ "iD8DBQBC0b9oF3Y\n" //
+				+ "-----END PGP SIGNATURE------n";
+
+		final StringBuilder body = new StringBuilder();
+
+		body.append("object ");
+		body.append(treeId.name());
+		body.append("\n");
+
+		body.append("type tree\n");
+
+		body.append("tag ");
+		body.append(name);
+		body.append("\n");
+		body.append("\n");
+		body.append(message);
+
+		final RevWalk rw = new RevWalk(db);
+		final RevTag c;
+
+		c = new RevTag(id("9473095c4cb2f12aefe1db8a355fe3fafba42f67"));
+		assertNull(c.getObject());
+		assertNull(c.getTagName());
+
+		c.parseCanonical(rw, body.toString().getBytes("UTF-8"));
+		assertNotNull(c.getObject());
+		assertEquals(treeId, c.getObject().getId());
+		assertSame(rw.lookupTree(treeId), c.getObject());
+
+		assertNotNull(c.getTagName());
+		assertEquals(name, c.getTagName());
+		assertEquals("test", c.getShortMessage());
+		assertEquals(message, c.getFullMessage());
+
+		assertNull(c.getTaggerIdent());
 	}
 
 	private RevTag create(final String msg) throws Exception {
