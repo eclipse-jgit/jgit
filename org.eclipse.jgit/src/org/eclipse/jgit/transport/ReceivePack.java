@@ -592,7 +592,7 @@ public class ReceivePack {
 		refs = db.getAllRefs();
 		final Ref head = refs.remove(Constants.HEAD);
 		adv.send(refs);
-		if (!head.isSymbolic())
+		if (head != null && !head.isSymbolic())
 			adv.advertiseHave(head.getObjectId());
 		adv.includeAdditionalHaves();
 		if (adv.isEmpty())
