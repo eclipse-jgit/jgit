@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008, Google Inc.
+ * Copyright (C) 2008-2010, Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -52,13 +52,14 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.RepositoryTestCase;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.util.JGitTestUtil;
 
-public class DirCacheCGitCompatabilityTest extends RepositoryTestCase {
+public class DirCacheCGitCompatabilityTest extends LocalDiskRepositoryTestCase {
 	private final File index = pathOf("gitgit.index");
 
 	public void testReadIndex_LsFiles() throws Exception {
@@ -75,6 +76,7 @@ public class DirCacheCGitCompatabilityTest extends RepositoryTestCase {
 	}
 
 	public void testTreeWalk_LsFiles() throws Exception {
+		final Repository db = createBareRepository();
 		final Map<String, CGitIndexRecord> ls = readLsFiles();
 		final DirCache dc = new DirCache(index);
 		assertEquals(0, dc.getEntryCount());
