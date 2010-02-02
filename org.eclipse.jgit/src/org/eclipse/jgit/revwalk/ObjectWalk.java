@@ -283,9 +283,9 @@ public class ObjectWalk extends RevWalk {
 					break;
 				treeWalk.getEntryObjectId(idBuffer);
 				throw new CorruptObjectException("Invalid mode " + mode
-						+ " for " + idBuffer.name() + " "
-						+ treeWalk.getEntryPathString() + " in " + currentTree
-						+ ".");
+						+ " for " + idBuffer.name() + " '"
+						+ treeWalk.getEntryPathString() + "' in "
+						+ currentTree.name() + ".");
 			}
 
 			treeWalk = treeWalk.next();
