@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008-2009, Google Inc.
+ * Copyright (C) 2008-2010, Google Inc.
  * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org>
  * and other copyright owners as documented in the project's IP log.
  *
@@ -122,7 +122,9 @@ public class CanonicalTreeParser extends AbstractTreeIterator {
 		raw = treeData;
 		prevPtr = -1;
 		currPtr = 0;
-		if (!eof())
+		if (eof())
+			nextPtr = 0;
+		else
 			parseEntry();
 	}
 
@@ -159,15 +161,19 @@ public class CanonicalTreeParser extends AbstractTreeIterator {
 	public CanonicalTreeParser next() {
 		CanonicalTreeParser p = this;
 		for (;;) {
-			p.next(1);
-			if (p.eof() && p.parent != null) {
-				// Parent was left pointing at the entry for us; advance
-				// the parent to the next entry, possibly unwinding many
-				// levels up the tree.
-				//
+			if (p.nextPtr == p.raw.length) {
+				// This parser has reached EOF, return to the parent.
+				if (p.parent == null) {
+					p.currPtr = p.nextPtr;
+					return p;
+				}
 				p = (CanonicalTreeParser) p.parent;
 				continue;
 			}
+
+			p.prevPtr = p.currPtr;
+			p.currPtr = p.nextPtr;
+			p.parseEntry();
 			return p;
 		}
 	}
