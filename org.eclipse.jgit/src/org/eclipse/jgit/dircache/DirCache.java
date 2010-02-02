@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008-2009, Google Inc.
+ * Copyright (C) 2008-2010, Google Inc.
  * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org>
  * and other copyright owners as documented in the project's IP log.
  *
@@ -46,12 +46,14 @@ package org.eclipse.jgit.dircache;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
-import java.nio.ByteBuffer;
+import java.io.UnsupportedEncodingException;
 import java.security.DigestOutputStream;
 import java.security.MessageDigest;
 import java.util.Arrays;
@@ -387,13 +389,20 @@ public class DirCache {
 				//
 				break;
 			}
-			in.reset();
 
+			in.reset();
+			md.update(hdr, 0, 8);
+			IO.skipFully(in, 8);
+
+			long sz = NB.decodeUInt32(hdr, 4);
 			switch (NB.decodeInt32(hdr, 0)) {
 			case EXT_TREE: {
-				final byte[] raw = new byte[NB.decodeInt32(hdr, 4)];
-				md.update(hdr, 0, 8);
-				IO.skipFully(in, 8);
+				if (Integer.MAX_VALUE < sz) {
+					throw new CorruptObjectException("DIRC extension "
+							+ formatExtensionName(hdr) + " is too large at "
+							+ sz + " bytes.");
+				}
+				final byte[] raw = new byte[(int) sz];
 				IO.readFully(in, raw, 0, raw.length);
 				md.update(raw, 0, raw.length);
 				tree = new DirCacheTree(raw, new MutableInteger(), null);
@@ -403,18 +412,18 @@ public class DirCache {
 				if (hdr[0] >= 'A' && hdr[0] <= 'Z') {
 					// The extension is optional and is here only as
 					// a performance optimization. Since we do not
-					// understand it, we can safely skip past it.
+					// understand it, we can safely skip past it, after
+					// we include its data in our checksum.
 					//
-					IO.skipFully(in, NB.decodeUInt32(hdr, 4));
+					skipOptionalExtension(in, md, hdr, sz);
 				} else {
 					// The extension is not an optimization and is
 					// _required_ to understand this index format.
 					// Since we did not trap it above we must abort.
 					//
-					throw new CorruptObjectException("DIRC extension '"
-							+ Constants.CHARSET.decode(
-									ByteBuffer.wrap(hdr, 0, 4)).toString()
-							+ "' not supported by this version.");
+					throw new CorruptObjectException("DIRC extension "
+							+ formatExtensionName(hdr)
+							+ " not supported by this version.");
 				}
 			}
 		}
@@ -423,6 +432,27 @@ public class DirCache {
 		if (!Arrays.equals(exp, hdr)) {
 			throw new CorruptObjectException("DIRC checksum mismatch");
 		}
+	}
+
+	private void skipOptionalExtension(final InputStream in,
+			final MessageDigest md, final byte[] hdr, long sz)
+			throws IOException {
+		final byte[] b = new byte[4096];
+		while (0 < sz) {
+			int n = in.read(b, 0, (int) Math.min(b.length, sz));
+			if (n < 0) {
+				throw new EOFException("Short read of optional DIRC extension "
+						+ formatExtensionName(hdr) + "; expected another " + sz
+						+ " bytes within the section.");
+			}
+			md.update(b, 0, n);
+			sz -= n;
+		}
+	}
+
+	private static String formatExtensionName(final byte[] hdr)
+			throws UnsupportedEncodingException {
+		return "'" + new String(hdr, 0, 4, "ISO-8859-1") + "'";
 	}
 
 	private static boolean is_DIRC(final byte[] hdr) {
