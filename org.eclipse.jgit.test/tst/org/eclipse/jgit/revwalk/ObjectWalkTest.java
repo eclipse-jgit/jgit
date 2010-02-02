@@ -43,6 +43,11 @@
 
 package org.eclipse.jgit.revwalk;
 
+import org.eclipse.jgit.lib.FileTreeEntry;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectWriter;
+import org.eclipse.jgit.lib.Tree;
+
 public class ObjectWalkTest extends RevWalkTestCase {
 	protected ObjectWalk objw;
 
@@ -192,6 +197,45 @@ public class ObjectWalkTest extends RevWalkTestCase {
 		assertSame(tb, objw.nextObject());
 		assertSame(get(tb, "a"), objw.nextObject());
 		assertSame(f2, objw.nextObject());
+		assertNull(objw.nextObject());
+	}
+
+	public void testEmptyTreeCorruption() throws Exception {
+		ObjectId bId = ObjectId
+				.fromString("abbbfafe3129f85747aba7bfac992af77134c607");
+		final RevTree tree_root, tree_A, tree_AB;
+		final RevCommit b;
+		{
+			Tree root = new Tree(db);
+			Tree A = root.addTree("A");
+			FileTreeEntry B = root.addFile("B");
+			B.setId(bId);
+
+			Tree A_A = A.addTree("A");
+			Tree A_B = A.addTree("B");
+
+			final ObjectWriter ow = new ObjectWriter(db);
+			A_A.setId(ow.writeTree(A_A));
+			A_B.setId(ow.writeTree(A_B));
+			A.setId(ow.writeTree(A));
+			root.setId(ow.writeTree(root));
+
+			tree_root = rw.parseTree(root.getId());
+			tree_A = rw.parseTree(A.getId());
+			tree_AB = rw.parseTree(A_A.getId());
+			assertSame(tree_AB, rw.parseTree(A_B.getId()));
+			b = commit(rw.parseTree(root.getId()));
+		}
+
+		markStart(b);
+
+		assertCommit(b, objw.next());
+		assertNull(objw.next());
+
+		assertSame(tree_root, objw.nextObject());
+		assertSame(tree_A, objw.nextObject());
+		assertSame(tree_AB, objw.nextObject());
+		assertSame(rw.lookupBlob(bId), objw.nextObject());
 		assertNull(objw.nextObject());
 	}
 }

@@ -86,9 +86,7 @@ public class ObjectWalk extends RevWalk {
 
 	private RevTree currentTree;
 
-	private boolean fromTreeWalk;
-
-	private RevTree nextSubtree;
+	private RevObject last;
 
 	/**
 	 * Create a new revision and object walker for a given repository.
@@ -243,18 +241,12 @@ public class ObjectWalk extends RevWalk {
 	 */
 	public RevObject nextObject() throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
-		fromTreeWalk = false;
-
-		if (nextSubtree != null) {
-			treeWalk = treeWalk.createSubtreeIterator0(db, nextSubtree, curs);
-			nextSubtree = null;
-		}
+		if (last != null)
+			treeWalk = last instanceof RevTree ? enter(last) : treeWalk.next();
 
 		while (!treeWalk.eof()) {
 			final FileMode mode = treeWalk.getEntryFileMode();
-			final int sType = mode.getObjectType();
-
-			switch (sType) {
+			switch (mode.getObjectType()) {
 			case Constants.OBJ_BLOB: {
 				treeWalk.getEntryObjectId(idBuffer);
 				final RevBlob o = lookupBlob(idBuffer);
@@ -263,7 +255,7 @@ public class ObjectWalk extends RevWalk {
 				o.flags |= SEEN;
 				if (shouldSkipObject(o))
 					break;
-				fromTreeWalk = true;
+				last = o;
 				return o;
 			}
 			case Constants.OBJ_TREE: {
@@ -274,8 +266,7 @@ public class ObjectWalk extends RevWalk {
 				o.flags |= SEEN;
 				if (shouldSkipObject(o))
 					break;
-				nextSubtree = o;
-				fromTreeWalk = true;
+				last = o;
 				return o;
 			}
 			default:
@@ -291,6 +282,7 @@ public class ObjectWalk extends RevWalk {
 			treeWalk = treeWalk.next();
 		}
 
+		last = null;
 		for (;;) {
 			final RevObject o = pendingObjects.next();
 			if (o == null)
@@ -306,6 +298,18 @@ public class ObjectWalk extends RevWalk {
 			}
 			return o;
 		}
+	}
+
+	private CanonicalTreeParser enter(RevObject tree) throws IOException {
+		CanonicalTreeParser p = treeWalk.createSubtreeIterator0(db, tree, curs);
+		if (p.eof()) {
+			// We can't tolerate the subtree being an empty tree, as
+			// that will break us out early before we visit all names.
+			// If it is, advance to the parent's next record.
+			//
+			return treeWalk.next();
+		}
+		return p;
 	}
 
 	private final boolean shouldSkipObject(final RevObject o) {
@@ -364,7 +368,7 @@ public class ObjectWalk extends RevWalk {
 	 *         has no path, such as for annotated tags or root level trees.
 	 */
 	public String getPathString() {
-		return fromTreeWalk ? treeWalk.getEntryPathString() : null;
+		return last != null ? treeWalk.getEntryPathString() : null;
 	}
 
 	@Override
@@ -372,8 +376,8 @@ public class ObjectWalk extends RevWalk {
 		super.dispose();
 		pendingObjects = new BlockObjQueue();
 		treeWalk = new CanonicalTreeParser();
-		nextSubtree = null;
 		currentTree = null;
+		last = null;
 	}
 
 	@Override
@@ -381,7 +385,8 @@ public class ObjectWalk extends RevWalk {
 		super.reset(retainFlags);
 		pendingObjects = new BlockObjQueue();
 		treeWalk = new CanonicalTreeParser();
-		nextSubtree = null;
+		currentTree = null;
+		last = null;
 	}
 
 	private void addObject(final RevObject o) {
