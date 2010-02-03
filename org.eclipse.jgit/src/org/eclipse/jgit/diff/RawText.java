@@ -212,6 +212,7 @@ public class RawText implements Sequence {
 				throw new IOException("Early EOF");
 			off += read;
 		}
+		in.close();
 		return result;
 	}
 }
