@@ -45,10 +45,10 @@
 package org.eclipse.jgit.diff;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.IntList;
 import org.eclipse.jgit.util.RawParseUtils;
 
@@ -99,7 +99,7 @@ public class RawText implements Sequence {
 	 * @throws IOException if Exceptions occur while reading the file
 	 */
 	public RawText(File file) throws IOException {
-		this(readFile(file));
+		this(IO.readFully(file));
 	}
 
 	public int size() {
@@ -201,17 +201,5 @@ public class RawText implements Sequence {
 		for (; ptr < end; ptr++)
 			hash = (hash << 5) ^ (raw[ptr] & 0xff);
 		return hash;
-	}
-
-	private static byte[] readFile(File file) throws IOException {
-		byte[] result = new byte[(int)file.length()];
-		FileInputStream in = new FileInputStream(file);
-		for (int off = 0; off < result.length; ) {
-			int read = in.read(result, off, result.length - off);
-			if (read < 0)
-				throw new IOException("Early EOF");
-			off += read;
-		}
-		return result;
 	}
 }
