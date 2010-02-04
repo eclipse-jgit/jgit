@@ -286,6 +286,7 @@ public class Repository {
 		if (bare)
 			cfg.setBoolean("core", null, "bare", true);
 		cfg.setBoolean("core", null, "logallrefupdates", !bare);
+		cfg.setBoolean("core", null, "autocrlf", false);
 		cfg.save();
 	}
 
