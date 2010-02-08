@@ -59,7 +59,7 @@
   <name>JGit Tycho Parent (Incubation)</name>
 
   <properties>
-    <tycho-version>0.6.0</tycho-version>
+    <tycho-version>0.7.0</tycho-version>
     <eclipse-site>http://download.eclipse.org/releases/galileo</eclipse-site>
   </properties>
 
