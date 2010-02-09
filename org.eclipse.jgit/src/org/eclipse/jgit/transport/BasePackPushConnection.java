@@ -86,6 +86,8 @@ class BasePackPushConnection extends BasePackConnection implements
 
 	static final String CAPABILITY_OFS_DELTA = "ofs-delta";
 
+	static final String CAPABILITY_SIDE_BAND_64K = "side-band-64k";
+
 	private final boolean thinPack;
 
 	private boolean capableDeleteRefs;
