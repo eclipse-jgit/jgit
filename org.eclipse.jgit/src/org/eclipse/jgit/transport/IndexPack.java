@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008-2009, Google Inc.
+ * Copyright (C) 2008-2010, Google Inc.
  * Copyright (C) 2007-2008, Robin Rosenberg <robin.rosenberg@dewire.com>
  * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org>
  * and other copyright owners as documented in the project's IP log.
@@ -54,7 +54,10 @@ import java.io.RandomAccessFile;
 import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.zip.CRC32;
 import java.util.zip.DataFormatException;
 import java.util.zip.Deflater;
@@ -158,6 +161,8 @@ public class IndexPack {
 
 	private boolean keepEmpty;
 
+	private boolean needBaseObjectIds;
+
 	private int outputVersion;
 
 	private final File dstPack;
@@ -168,6 +173,8 @@ public class IndexPack {
 
 	private PackedObjectInfo[] entries;
 
+	private Set<ObjectId> newObjectIds;
+
 	private int deltaCount;
 
 	private int entryCount;
@@ -175,6 +182,8 @@ public class IndexPack {
 	private final CRC32 crc = new CRC32();
 
 	private ObjectIdSubclassMap<DeltaChain> baseById;
+
+	private Set<ObjectId> baseIds;
 
 	private LongMap<UnresolvedDelta> baseByPos;
 
@@ -268,6 +277,54 @@ public class IndexPack {
 	}
 
 	/**
+	 * Configure this index pack instance to keep track of new objects.
+	 * <p>
+	 * By default an index pack doesn't save the new objects that were created
+	 * when it was instantiated. Setting this flag to {@code true} allows the
+	 * caller to use {@link #getNewObjectIds()} to retrieve that list.
+	 *
+	 * @param b {@code true} to enable keeping track of new objects.
+	 */
+	public void setNeedNewObjectIds(boolean b) {
+		if (b)
+			newObjectIds = new HashSet<ObjectId>();
+		else
+			newObjectIds = null;
+	}
+
+	private boolean needNewObjectIds() {
+		return newObjectIds != null;
+	}
+
+	/**
+	 * Configure this index pack instance to keep track of the objects assumed
+	 * for delta bases.
+	 * <p>
+	 * By default an index pack doesn't save the objects that were used as delta
+	 * bases. Setting this flag to {@code true} will allow the caller to
+	 * use {@link #getBaseObjectIds()} to retrieve that list.
+	 *
+	 * @param b {@code true} to enable keeping track of delta bases.
+	 */
+	public void setNeedBaseObjectIds(boolean b) {
+		this.needBaseObjectIds = b;
+	}
+
+	/** @return the new objects that were sent by the user */
+	public Set<ObjectId> getNewObjectIds() {
+		return newObjectIds == null ?
+				Collections.<ObjectId>emptySet() : newObjectIds;
+	}
+
+	/**
+	 *  @return the set of objects the incoming pack assumed for delta purposes
+	 */
+	public Set<ObjectId> getBaseObjectIds() {
+		return baseIds == null ?
+				Collections.<ObjectId>emptySet() : baseIds;
+	}
+
+	/**
 	 * Configure the checker used to validate received objects.
 	 * <p>
 	 * Usually object checking isn't necessary, as Git implementations only
@@ -333,6 +390,12 @@ public class IndexPack {
 					if (packOut == null)
 						throw new IOException("need packOut");
 					resolveDeltas(progress);
+					if (needBaseObjectIds) {
+						baseIds = new HashSet<ObjectId>();
+						for (DeltaChain c : baseById) {
+							baseIds.add(c);
+						}
+					}
 					if (entryCount < objectCount) {
 						if (!fixThin) {
 							throw new IOException("pack has "
@@ -453,7 +516,7 @@ public class IndexPack {
 
 			verifySafeObject(tempObjectId, type, data);
 			oe = new PackedObjectInfo(pos, crc32, tempObjectId);
-			entries[entryCount++] = oe;
+			addObjectAndTrack(oe);
 		}
 
 		resolveChildDeltas(pos, type, data, oe);
@@ -749,7 +812,7 @@ public class IndexPack {
 
 		verifySafeObject(tempObjectId, type, data);
 		final int crc32 = (int) crc.getValue();
-		entries[entryCount++] = new PackedObjectInfo(pos, crc32, tempObjectId);
+		addObjectAndTrack(new PackedObjectInfo(pos, crc32, tempObjectId));
 	}
 
 	private void verifySafeObject(final AnyObjectId id, final int type,
@@ -1111,5 +1174,11 @@ public class IndexPack {
 			dstIdx.deleteOnExit();
 		if (!dstPack.delete())
 			dstPack.deleteOnExit();
+	}
+
+	private void addObjectAndTrack(PackedObjectInfo oe) {
+		entries[entryCount++] = oe;
+		if (needNewObjectIds())
+			newObjectIds.add(oe);
 	}
 }

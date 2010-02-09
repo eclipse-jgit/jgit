@@ -153,6 +153,8 @@ public class ReceivePack {
 
 	private PrintWriter msgs;
 
+	private IndexPack ip;
+
 	/** The refs we advertised as existing at the start of the connection. */
 	private Map<String, Ref> refs;
 
@@ -170,6 +172,10 @@ public class ReceivePack {
 
 	/** Lock around the received pack file, while updating refs. */
 	private PackLock packLock;
+
+	private boolean needNewObjectIds;
+
+	private boolean needBaseObjectIds;
 
 	/**
 	 * Create a new pack receive for an open repository.
@@ -234,6 +240,45 @@ public class ReceivePack {
 	/** @return all refs which were advertised to the client. */
 	public final Map<String, Ref> getAdvertisedRefs() {
 		return refs;
+	}
+
+	/**
+	 * Configure this receive pack instance to keep track of the objects assumed
+	 * for delta bases.
+	 * <p>
+	 * By default a receive pack doesn't save the objects that were used as
+	 * delta bases. Setting this flag to {@code true} will allow the caller to
+	 * use {@link #getBaseObjectIds()} to retrieve that list.
+	 *
+	 * @param b {@code true} to enable keeping track of delta bases.
+	 */
+	public void setNeedBaseObjectIds(boolean b) {
+		this.needBaseObjectIds = b;
+	}
+
+	/**
+	 *  @return the set of objects the incoming pack assumed for delta purposes
+	 */
+	public final Set<ObjectId> getBaseObjectIds() {
+		return ip.getBaseObjectIds();
+	}
+
+	/**
+	 * Configure this receive pack instance to keep track of new objects.
+	 * <p>
+	 * By default a receive pack doesn't save the new objects that were created
+	 * when it was instantiated. Setting this flag to {@code true} allows the
+	 * caller to use {@link #getNewObjectIds()} to retrieve that list.
+	 *
+	 * @param b {@code true} to enable keeping track of new objects.
+	 */
+	public void setNeedNewObjectIds(boolean b) {
+		this.needNewObjectIds = b;
+	}
+
+	/** @return the new objects that were sent by the user */
+	public final Set<ObjectId> getNewObjectIds() {
+		return ip.getNewObjectIds();
 	}
 
 	/**
@@ -685,8 +730,10 @@ public class ReceivePack {
 		if (timeoutIn != null)
 			timeoutIn.setTimeout(10 * timeout * 1000);
 
-		final IndexPack ip = IndexPack.create(db, rawIn);
+		ip = IndexPack.create(db, rawIn);
 		ip.setFixThin(true);
+		ip.setNeedNewObjectIds(needNewObjectIds);
+		ip.setNeedBaseObjectIds(needBaseObjectIds);
 		ip.setObjectChecking(isCheckReceivedObjects());
 		ip.index(NullProgressMonitor.INSTANCE);
 
