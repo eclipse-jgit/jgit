@@ -178,7 +178,7 @@ class BasePackPushConnection extends BasePackConnection implements
 			}
 
 			pckOut.writeString(sb.toString());
-			rru.setStatus(sentCommand ? Status.AWAITING_REPORT : Status.OK);
+			rru.setStatus(Status.AWAITING_REPORT);
 			if (!rru.isDelete())
 				writePack = true;
 		}
