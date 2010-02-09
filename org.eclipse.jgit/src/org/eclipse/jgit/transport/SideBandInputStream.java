@@ -148,7 +148,7 @@ class SideBandInputStream extends InputStream {
 				return;
 			}
 
-			channel = rawIn.read();
+			channel = rawIn.read() & 0xff;
 			available -= HDR_SIZE; // length header plus channel indicator
 			if (available == 0)
 				continue;
