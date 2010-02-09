@@ -43,6 +43,14 @@
 
 package org.eclipse.jgit.transport;
 
+import static org.eclipse.jgit.transport.BasePackPushConnection.CAPABILITY_DELETE_REFS;
+import static org.eclipse.jgit.transport.BasePackPushConnection.CAPABILITY_OFS_DELTA;
+import static org.eclipse.jgit.transport.BasePackPushConnection.CAPABILITY_REPORT_STATUS;
+import static org.eclipse.jgit.transport.BasePackPushConnection.CAPABILITY_SIDE_BAND_64K;
+import static org.eclipse.jgit.transport.SideBandOutputStream.CH_DATA;
+import static org.eclipse.jgit.transport.SideBandOutputStream.CH_PROGRESS;
+import static org.eclipse.jgit.transport.SideBandOutputStream.MAX_BUF;
+
 import java.io.BufferedWriter;
 import java.io.EOFException;
 import java.io.IOException;
@@ -84,12 +92,6 @@ import org.eclipse.jgit.util.io.TimeoutOutputStream;
  * Implements the server side of a push connection, receiving objects.
  */
 public class ReceivePack {
-	static final String CAPABILITY_REPORT_STATUS = BasePackPushConnection.CAPABILITY_REPORT_STATUS;
-
-	static final String CAPABILITY_DELETE_REFS = BasePackPushConnection.CAPABILITY_DELETE_REFS;
-
-	static final String CAPABILITY_OFS_DELTA = BasePackPushConnection.CAPABILITY_OFS_DELTA;
-
 	/** Database we write the stored objects into. */
 	private final Repository db;
 
@@ -162,8 +164,11 @@ public class ReceivePack {
 	/** An exception caught while unpacking and fsck'ing the objects. */
 	private Throwable unpackError;
 
-	/** if {@link #enabledCapablities} has {@link #CAPABILITY_REPORT_STATUS} */
+	/** If {@link BasePackPushConnection#CAPABILITY_REPORT_STATUS} is enabled. */
 	private boolean reportStatus;
+
+	/** If {@link BasePackPushConnection#CAPABILITY_SIDE_BAND_64K} is enabled. */
+	private boolean sideBand;
 
 	/** Lock around the received pack file, while updating refs. */
 	private PackLock packLock;
@@ -560,10 +565,19 @@ public class ReceivePack {
 						msgs.println(s);
 					}
 				});
-				msgs.flush();
 			}
 
 			postReceive.onPostReceive(this, filterCommands(Result.OK));
+
+			if (msgs != null)
+				msgs.flush();
+			if (sideBand) {
+				// If side band is enabled this stream is actually band #1.
+				// Closing it will send a flush-pkt indicating the side-band
+				// data segment is over.  But the stream itself remains open.
+				//
+				rawOut.close();
+			}
 		}
 	}
 
@@ -585,6 +599,7 @@ public class ReceivePack {
 	public void sendAdvertisedRefs(final RefAdvertiser adv) throws IOException {
 		final RevFlag advertised = walk.newFlag("ADVERTISED");
 		adv.init(walk, advertised);
+		adv.advertiseCapability(CAPABILITY_SIDE_BAND_64K);
 		adv.advertiseCapability(CAPABILITY_DELETE_REFS);
 		adv.advertiseCapability(CAPABILITY_REPORT_STATUS);
 		if (allowOfsDelta)
@@ -643,6 +658,17 @@ public class ReceivePack {
 
 	private void enableCapabilities() {
 		reportStatus = enabledCapablities.contains(CAPABILITY_REPORT_STATUS);
+
+		sideBand = enabledCapablities.contains(CAPABILITY_SIDE_BAND_64K);
+		if (sideBand) {
+			OutputStream out = rawOut;
+
+			rawOut = new SideBandOutputStream(CH_DATA, MAX_BUF, out);
+			pckOut = new PacketLineOut(rawOut);
+			msgs = new PrintWriter(new OutputStreamWriter(
+					new SideBandOutputStream(CH_PROGRESS, MAX_BUF, out),
+					Constants.CHARSET));
+		}
 	}
 
 	private boolean needPack() {

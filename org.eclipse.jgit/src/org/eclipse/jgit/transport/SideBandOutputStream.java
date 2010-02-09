@@ -134,6 +134,13 @@ class SideBandOutputStream extends OutputStream {
 		buffer[cnt++] = (byte) b;
 	}
 
+	@Override
+	public void close() throws IOException {
+		PacketLineOut.formatLength(buffer, 0);
+		out.write(buffer, 0, 4);
+		out.flush();
+	}
+
 	private void writeBuffer() throws IOException {
 		PacketLineOut.formatLength(buffer, cnt);
 		out.write(buffer, 0, cnt);
