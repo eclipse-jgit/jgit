@@ -51,7 +51,6 @@ import java.io.InputStream;
 import org.eclipse.jgit.errors.PackProtocolException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.MutableObjectId;
-import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
 
@@ -78,10 +77,6 @@ class PacketLineIn {
 	PacketLineIn(final InputStream i) {
 		in = i;
 		lenbuffer = new byte[4];
-	}
-
-	InputStream sideband(final ProgressMonitor pm) {
-		return new SideBandInputStream(this, in, pm);
 	}
 
 	AckNackResult readACK(final MutableObjectId returnedId) throws IOException {
