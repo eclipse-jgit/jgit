@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008-2009, Google Inc.
+ * Copyright (C) 2008-2010, Google Inc.
  * Copyright (C) 2007-2008, Robin Rosenberg <robin.rosenberg@dewire.com>
  * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org>
  * and other copyright owners as documented in the project's IP log.
@@ -54,7 +54,11 @@ import java.io.RandomAccessFile;
 import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.zip.CRC32;
 import java.util.zip.DataFormatException;
 import java.util.zip.Deflater;
@@ -158,6 +162,10 @@ public class IndexPack {
 
 	private boolean keepEmpty;
 
+	private boolean needNewObjectIds;
+
+	private boolean needBaseObjectIds;
+
 	private int outputVersion;
 
 	private final File dstPack;
@@ -168,6 +176,8 @@ public class IndexPack {
 
 	private PackedObjectInfo[] entries;
 
+	private Set<ObjectId> newObjectIds;
+
 	private int deltaCount;
 
 	private int entryCount;
@@ -175,6 +185,8 @@ public class IndexPack {
 	private final CRC32 crc = new CRC32();
 
 	private ObjectIdSubclassMap<DeltaChain> baseById;
+
+	private Set<ObjectId> baseIds;
 
 	private LongMap<UnresolvedDelta> baseByPos;
 
@@ -268,6 +280,33 @@ public class IndexPack {
 	}
 
 	/**
+	 * Configure this index pack instance to keep track of new objects.
+	 * <p>
+	 * By default an index pack doesn't save the new objects that were created
+	 * when it was instantiated. Setting this flag to {@code true} allows the
+	 * caller to use {@link #getNewObjectIds()} to retrieve that list.
+	 *
+	 * @param b {@code true} to enable keeping track of new objects.
+	 */
+	public void setNeedNewObjectIds(boolean b) {
+		this.needNewObjectIds = b;
+	}
+
+	/**
+	 * Configure this index pack instance to keep track of the objects assumed
+	 * for delta bases.
+	 * <p>
+	 * By default an index pack doesn't save the objects that were used as delta
+	 * bases. Setting this flag to {@code true} will allow the caller to
+	 * use {@link #getBaseObjectIds()} to retrieve that list.
+	 *
+	 * @param b {@code true} to enable keeping track of delta bases.
+	 */
+	public void setNeedBaseObjectIds(boolean b) {
+		this.needBaseObjectIds = b;
+	}
+
+	/**
 	 * Configure the checker used to validate received objects.
 	 * <p>
 	 * Usually object checking isn't necessary, as Git implementations only
@@ -328,6 +367,19 @@ public class IndexPack {
 				}
 				readPackFooter();
 				endInput();
+				if (needNewObjectIds) {
+					newObjectIds = new HashSet<ObjectId>();
+					for (int i = 0; i < entryCount; i++) {
+						newObjectIds.add(entries[i]);
+					}
+				}
+				if (needBaseObjectIds) {
+					Iterator<DeltaChain> iter = baseById.iterator();
+					baseIds = new HashSet<ObjectId>();
+					while (iter.hasNext()) {
+						baseIds.add(iter.next());
+					}
+				}
 				progress.endTask();
 				if (deltaCount > 0) {
 					if (packOut == null)
@@ -1112,4 +1164,15 @@ public class IndexPack {
 		if (!dstPack.delete())
 			dstPack.deleteOnExit();
 	}
+
+	Set<ObjectId> getNewObjectIds() {
+		return newObjectIds == null ?
+				Collections.<ObjectId>emptySet() : newObjectIds;
+	}
+
+	Set<ObjectId> getBaseObjectIds() {
+		return baseIds == null ?
+				Collections.<ObjectId>emptySet() : baseIds;
+	}
+
 }
