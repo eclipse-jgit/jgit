@@ -171,6 +171,12 @@ public class ReceivePack {
 	/** Lock around the received pack file, while updating refs. */
 	private PackLock packLock;
 
+	/** The objects that were used as the base for this change */
+	private Set<ObjectId> baseIds;
+
+	/** The new objects that were sent by the user */
+	private Set<ObjectId> entries;
+
 	/**
 	 * Create a new pack receive for an open repository.
 	 *
@@ -234,6 +240,16 @@ public class ReceivePack {
 	/** @return all refs which were advertised to the client. */
 	public final Map<String, Ref> getAdvertisedRefs() {
 		return refs;
+	}
+
+	/** @return the objects that were used as the base for this change */
+	public final Set<ObjectId> getBaseIds() {
+		return baseIds;
+	}
+
+	/** @return the new objects that were sent by the user */
+	public final Set<ObjectId> getEntries() {
+		return entries;
 	}
 
 	/**
@@ -694,6 +710,9 @@ public class ReceivePack {
 		if (getRefLogIdent() != null)
 			lockMsg += " from " + getRefLogIdent().toExternalString();
 		packLock = ip.renameAndOpenPack(lockMsg);
+
+		baseIds = ip.getBaseIds();
+		entries = ip.getEntries();
 
 		if (timeoutIn != null)
 			timeoutIn.setTimeout(timeout * 1000);

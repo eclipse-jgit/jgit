@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008-2009, Google Inc.
+ * Copyright (C) 2008-2010, Google Inc.
  * Copyright (C) 2007-2008, Robin Rosenberg <robin.rosenberg@dewire.com>
  * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org>
  * and other copyright owners as documented in the project's IP log.
@@ -54,7 +54,11 @@ import java.io.RandomAccessFile;
 import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.zip.CRC32;
 import java.util.zip.DataFormatException;
 import java.util.zip.Deflater;
@@ -172,9 +176,13 @@ public class IndexPack {
 
 	private int entryCount;
 
+	private int initialEntryCount;
+
 	private final CRC32 crc = new CRC32();
 
 	private ObjectIdSubclassMap<DeltaChain> baseById;
+
+	private Set<ObjectId> baseIds;
 
 	private LongMap<UnresolvedDelta> baseByPos;
 
@@ -328,6 +336,7 @@ public class IndexPack {
 				}
 				readPackFooter();
 				endInput();
+				initialEntryCount = entryCount;
 				progress.endTask();
 				if (deltaCount > 0) {
 					if (packOut == null)
@@ -1111,5 +1120,36 @@ public class IndexPack {
 			dstIdx.deleteOnExit();
 		if (!dstPack.delete())
 			dstPack.deleteOnExit();
+	}
+
+	/**
+	 *
+	 * @return
+	 *            the {@code Set} of {@link ObjectId} that this pack contains.
+	 */
+	Set<ObjectId> getEntries() {
+		Set<ObjectId> result = new HashSet<ObjectId>();
+		for (int i = 0; i < initialEntryCount; i++) {
+			result.add(entries[i]);
+		}
+		return Collections.unmodifiableSet(result);
+	}
+
+	/**
+	 *
+	 * @return
+	 *            the {@code Set} of {@link ObjectId} of the delta this pack
+	 *            applies to.
+	 */
+	Set<ObjectId> getBaseIds() {
+		if (baseIds == null) {
+			Iterator<DeltaChain> iter = baseById.iterator();
+			Set<ObjectId> result = new HashSet<ObjectId>();
+			while (iter.hasNext()) {
+				result.add(iter.next());
+			}
+			baseIds = Collections.unmodifiableSet(result);
+		}
+		return baseIds;
 	}
 }
