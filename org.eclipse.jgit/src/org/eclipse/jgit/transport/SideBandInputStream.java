@@ -82,11 +82,11 @@ class SideBandInputStream extends InputStream {
 
 	static final int CH_ERROR = 3;
 
-	private static Pattern P_UNBOUNDED = Pattern.compile(
-			"^([\\w ]+): (\\d+)( |, done)?.*", Pattern.DOTALL);
+	private static Pattern P_UNBOUNDED = Pattern
+			.compile("^([\\w ]+): +(\\d+)(?:, done\\.)? *$");
 
-	private static Pattern P_BOUNDED = Pattern.compile(
-			"^([\\w ]+):.*\\((\\d+)/(\\d+)\\).*", Pattern.DOTALL);
+	private static Pattern P_BOUNDED = Pattern
+			.compile("^([\\w ]+): +\\d+% +\\( *(\\d+)/ *(\\d+)\\)(?:, done\\.)? *$");
 
 	private final InputStream rawIn;
 
