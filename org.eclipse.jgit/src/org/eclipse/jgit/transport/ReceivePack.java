@@ -51,13 +51,12 @@ import static org.eclipse.jgit.transport.SideBandOutputStream.CH_DATA;
 import static org.eclipse.jgit.transport.SideBandOutputStream.CH_PROGRESS;
 import static org.eclipse.jgit.transport.SideBandOutputStream.MAX_BUF;
 
-import java.io.BufferedWriter;
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -150,7 +149,7 @@ public class ReceivePack {
 
 	private PacketLineOut pckOut;
 
-	private PrintWriter msgs;
+	private Writer msgs;
 
 	/** The refs we advertised as existing at the start of the connection. */
 	private Map<String, Ref> refs;
@@ -421,7 +420,12 @@ public class ReceivePack {
 	 *            string must not end with an LF, and must not contain an LF.
 	 */
 	public void sendError(final String what) {
-		sendMessage("error", what);
+		try {
+			if (msgs != null)
+				msgs.write("error: " + what + "\n");
+		} catch (IOException e) {
+			// Ignore write failures.
+		}
 	}
 
 	/**
@@ -435,12 +439,12 @@ public class ReceivePack {
 	 *            string must not end with an LF, and must not contain an LF.
 	 */
 	public void sendMessage(final String what) {
-		sendMessage("remote", what);
-	}
-
-	private void sendMessage(final String type, final String what) {
-		if (msgs != null)
-			msgs.println(type + ": " + what);
+		try {
+			if (msgs != null)
+				msgs.write(what + "\n");
+		} catch (IOException e) {
+			// Ignore write failures.
+		}
 	}
 
 	/**
@@ -480,16 +484,8 @@ public class ReceivePack {
 
 			pckIn = new PacketLineIn(rawIn);
 			pckOut = new PacketLineOut(rawOut);
-			if (messages != null) {
-				msgs = new PrintWriter(new BufferedWriter(
-						new OutputStreamWriter(messages, Constants.CHARSET),
-						8192)) {
-					@Override
-					public void println() {
-						print('\n');
-					}
-				};
-			}
+			if (messages != null)
+				msgs = new OutputStreamWriter(messages, Constants.CHARSET);
 
 			enabledCapablities = new HashSet<String>();
 			commands = new ArrayList<ReceiveCommand>();
@@ -562,7 +558,7 @@ public class ReceivePack {
 			} else if (msgs != null) {
 				sendStatusReport(false, new Reporter() {
 					void sendString(final String s) throws IOException {
-						msgs.println(s);
+						msgs.write(s + "\n");
 					}
 				});
 			}
@@ -665,9 +661,8 @@ public class ReceivePack {
 
 			rawOut = new SideBandOutputStream(CH_DATA, MAX_BUF, out);
 			pckOut = new PacketLineOut(rawOut);
-			msgs = new PrintWriter(new OutputStreamWriter(
-					new SideBandOutputStream(CH_PROGRESS, MAX_BUF, out),
-					Constants.CHARSET));
+			msgs = new OutputStreamWriter(new SideBandOutputStream(CH_PROGRESS,
+					MAX_BUF, out), Constants.CHARSET);
 		}
 	}
 

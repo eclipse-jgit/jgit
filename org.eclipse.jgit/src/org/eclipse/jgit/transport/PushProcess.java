@@ -122,8 +122,12 @@ class PushProcess {
 	PushResult execute(final ProgressMonitor monitor)
 			throws NotSupportedException, TransportException {
 		monitor.beginTask(PROGRESS_OPENING_CONNECTION, ProgressMonitor.UNKNOWN);
+
+		final PushResult res = new PushResult();
 		connection = transport.openPush();
 		try {
+			res.setAdvertisedRefs(transport.getURI(), connection.getRefsMap());
+			res.setRemoteUpdates(toPush);
 			monitor.endTask();
 
 			final Map<String, RemoteRefUpdate> preprocessed = prepareRemoteUpdates();
@@ -133,10 +137,16 @@ class PushProcess {
 				connection.push(monitor, preprocessed);
 		} finally {
 			connection.close();
+			res.addMessages(connection.getMessages());
 		}
 		if (!transport.isDryRun())
 			updateTrackingRefs();
-		return prepareOperationResult();
+		for (final RemoteRefUpdate rru : toPush.values()) {
+			final TrackingRefUpdate tru = rru.getTrackingRefUpdate();
+			if (tru != null)
+				res.add(tru);
+		}
+		return res;
 	}
 
 	private Map<String, RemoteRefUpdate> prepareRemoteUpdates()
@@ -225,18 +235,5 @@ class PushProcess {
 				}
 			}
 		}
-	}
-
-	private PushResult prepareOperationResult() {
-		final PushResult result = new PushResult();
-		result.setAdvertisedRefs(transport.getURI(), connection.getRefsMap());
-		result.setRemoteUpdates(toPush);
-
-		for (final RemoteRefUpdate rru : toPush.values()) {
-			final TrackingRefUpdate tru = rru.getTrackingRefUpdate();
-			if (tru != null)
-				result.add(tru);
-		}
-		return result;
 	}
 }
