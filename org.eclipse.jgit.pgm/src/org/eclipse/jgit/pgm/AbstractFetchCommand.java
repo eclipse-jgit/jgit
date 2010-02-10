@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2008, Charles O'Farrell <charleso@charleso.org>
- * Copyright (C) 2008-2009, Google Inc.
+ * Copyright (C) 2008-2010, Google Inc.
  * Copyright (C) 2008, Marek Zawirski <marek.zawirski@gmail.com>
  * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org>
  * and other copyright owners as documented in the project's IP log.
@@ -79,6 +79,34 @@ abstract class AbstractFetchCommand extends TextBuiltin {
 			out.format(" %c %-17s %-10s -> %s", type, longType, src, dst);
 			out.println();
 		}
+
+		showRemoteMessages(r.getMessages());
+	}
+
+	static void showRemoteMessages(String pkt) {
+		while (0 < pkt.length()) {
+			final int lf = pkt.indexOf('\n');
+			final int cr = pkt.indexOf('\r');
+			final int s;
+			if (0 <= lf && 0 <= cr)
+				s = Math.min(lf, cr);
+			else if (0 <= lf)
+				s = lf;
+			else if (0 <= cr)
+				s = cr;
+			else {
+				System.err.println("remote: " + pkt);
+				break;
+			}
+
+			if (pkt.charAt(s) == '\r')
+				System.err.print("remote: " + pkt.substring(0, s) + "\r");
+			else
+				System.err.println("remote: " + pkt.substring(0, s));
+
+			pkt = pkt.substring(s + 1);
+		}
+		System.err.flush();
 	}
 
 	private String longTypeOf(final TrackingRefUpdate u) {
