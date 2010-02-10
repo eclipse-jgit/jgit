@@ -1,4 +1,5 @@
 /*
+ * Copyright (C) 2010, Google Inc.
  * Copyright (C) 2008, Marek Zawirski <marek.zawirski@gmail.com>
  * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org>
  * and other copyright owners as documented in the project's IP log.
@@ -104,7 +105,26 @@ public interface Connection {
 	 * must close that network socket, disconnecting the two peers. If the
 	 * remote repository is actually local (same system) this method must close
 	 * any open file handles used to read the "remote" repository.
+	 * <p>
+	 * If additional messages were produced by the remote peer, these should
+	 * still be retained in the connection instance for {@link #getMessages()}.
 	 */
 	public void close();
 
+	/**
+	 * Get the additional messages, if any, returned by the remote process.
+	 * <p>
+	 * These messages are most likely informational or error messages, sent by
+	 * the remote peer, to help the end-user correct any problems that may have
+	 * prevented the operation from completing successfully. Application UIs
+	 * should try to show these in an appropriate context.
+	 * <p>
+	 * The message buffer is available after {@link #close()} has been called.
+	 * Prior to closing the connection, the message buffer may be empty.
+	 *
+	 * @return the messages returned by the remote, most likely terminated by a
+	 *         newline (LF) character. The empty string is returned if the
+	 *         remote produced no additional messages.
+	 */
+	public String getMessages();
 }
