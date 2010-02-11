@@ -163,6 +163,9 @@ public class ReceivePack {
 	/** Commands to execute, as received by the client. */
 	private List<ReceiveCommand> commands;
 
+	/** Error to display instead of advertising the references. */
+	private StringBuilder advertiseError;
+
 	/** An exception caught while unpacking and fsck'ing the objects. */
 	private Throwable unpackError;
 
@@ -428,10 +431,17 @@ public class ReceivePack {
 	}
 
 	/**
-	 * Send an error message to the client, if it supports receiving them.
+	 * Send an error message to the client.
 	 * <p>
-	 * If the client doesn't support receiving messages, the message will be
-	 * discarded, with no other indication to the caller or to the client.
+	 * If any error messages are sent before the references are advertised to
+	 * the client, the errors will be sent instead of the advertisement and the
+	 * receive operation will be aborted. All clients should receive and display
+	 * such early stage errors.
+	 * <p>
+	 * If the reference advertisements have already been sent, messages are sent
+	 * in a side channel. If the client doesn't support receiving messages, the
+	 * message will be discarded, with no other indication to the caller or to
+	 * the client.
 	 * <p>
 	 * {@link PreReceiveHook}s should always try to use
 	 * {@link ReceiveCommand#setResult(Result, String)} with a result status of
@@ -444,11 +454,17 @@ public class ReceivePack {
 	 *            string must not end with an LF, and must not contain an LF.
 	 */
 	public void sendError(final String what) {
-		try {
-			if (msgs != null)
-				msgs.write("error: " + what + "\n");
-		} catch (IOException e) {
-			// Ignore write failures.
+		if (refs == null) {
+			if (advertiseError == null)
+				advertiseError = new StringBuilder();
+			advertiseError.append(what).append('\n');
+		} else {
+			try {
+				if (msgs != null)
+					msgs.write("error: " + what + "\n");
+			} catch (IOException e) {
+				// Ignore write failures.
+			}
 		}
 	}
 
@@ -558,6 +574,8 @@ public class ReceivePack {
 			sendAdvertisedRefs(new PacketLineOutRefAdvertiser(pckOut));
 		else
 			refs = refFilter.filter(db.getAllRefs());
+		if (advertiseError != null)
+			return;
 		recvCommands();
 		if (!commands.isEmpty()) {
 			enableCapabilities();
@@ -618,6 +636,11 @@ public class ReceivePack {
 	 *             the formatter failed to write an advertisement.
 	 */
 	public void sendAdvertisedRefs(final RefAdvertiser adv) throws IOException {
+		if (advertiseError != null) {
+			adv.writeOne("ERR " + advertiseError);
+			return;
+		}
+
 		final RevFlag advertised = walk.newFlag("ADVERTISED");
 		adv.init(walk, advertised);
 		adv.advertiseCapability(CAPABILITY_SIDE_BAND_64K);
