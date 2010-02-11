@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009-2010, Google Inc.
+ * Copyright (C) 2008-2010, Google Inc.
  * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org>
  * and other copyright owners as documented in the project's IP log.
  *
@@ -572,12 +572,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 
 			init(advertisement, DisabledOutputStream.INSTANCE);
 			outNeedsEnd = false;
-			try {
-				readAdvertisedRefs();
-			} catch (IOException err) {
-				close();
-				throw new TransportException(uri, "remote hung up", err);
-			}
+			readAdvertisedRefs();
 		}
 
 		@Override
@@ -598,12 +593,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 
 			init(advertisement, DisabledOutputStream.INSTANCE);
 			outNeedsEnd = false;
-			try {
-				readAdvertisedRefs();
-			} catch (IOException err) {
-				close();
-				throw new TransportException(uri, "remote hung up", err);
-			}
+			readAdvertisedRefs();
 		}
 
 		protected void doPush(final ProgressMonitor monitor,
