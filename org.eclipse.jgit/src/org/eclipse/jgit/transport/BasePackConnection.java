@@ -59,6 +59,7 @@ import java.util.Set;
 
 import org.eclipse.jgit.errors.NoRemoteRepositoryException;
 import org.eclipse.jgit.errors.PackProtocolException;
+import org.eclipse.jgit.errors.RemoteRepositoryException;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdRef;
@@ -149,6 +150,19 @@ abstract class BasePackConnection extends BaseConnection {
 		outNeedsEnd = true;
 	}
 
+	/**
+	 * Reads the advertised references through the initialized stream.
+	 * <p>
+	 * Subclass implementations may call this method only after setting up the
+	 * input and output streams with {@link #init(InputStream, OutputStream)}.
+	 * <p>
+	 * If any errors occur, this connection is automatically closed by invoking
+	 * {@link #close()} and the exception is wrapped (if necessary) and thrown
+	 * as a {@link TransportException}.
+	 *
+	 * @throws TransportException
+	 *             the reference list could not be scanned.
+	 */
 	protected void readAdvertisedRefs() throws TransportException {
 		try {
 			readAdvertisedRefsImpl();
@@ -178,6 +192,12 @@ abstract class BasePackConnection extends BaseConnection {
 			}
 			if (line == PacketLineIn.END)
 				break;
+
+			if (line.startsWith("ERR ")) {
+				// This is a customized remote service error.
+				// Users should be informed about it.
+				throw new RemoteRepositoryException(uri, line.substring(4));
+			}
 
 			if (avail.isEmpty()) {
 				final int nul = line.indexOf('\0');
