@@ -47,6 +47,8 @@
 
 package org.eclipse.jgit.transport;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -259,8 +261,12 @@ class TransportLocal extends Transport implements PackTransport {
 			errorReaderThread = new StreamCopyThread(upErr, msg.getRawStream());
 			errorReaderThread.start();
 
-			final InputStream upIn = uploadPack.getInputStream();
-			final OutputStream upOut = uploadPack.getOutputStream();
+			InputStream upIn = uploadPack.getInputStream();
+			OutputStream upOut = uploadPack.getOutputStream();
+
+			upIn = new BufferedInputStream(upIn);
+			upOut = new BufferedOutputStream(upOut);
+
 			init(upIn, upOut);
 			readAdvertisedRefs();
 		}
@@ -385,8 +391,12 @@ class TransportLocal extends Transport implements PackTransport {
 			errorReaderThread = new StreamCopyThread(rpErr, msg.getRawStream());
 			errorReaderThread.start();
 
-			final InputStream rpIn = receivePack.getInputStream();
-			final OutputStream rpOut = receivePack.getOutputStream();
+			InputStream rpIn = receivePack.getInputStream();
+			OutputStream rpOut = receivePack.getOutputStream();
+
+			rpIn = new BufferedInputStream(rpIn);
+			rpOut = new BufferedOutputStream(rpOut);
+
 			init(rpIn, rpOut);
 			readAdvertisedRefs();
 		}

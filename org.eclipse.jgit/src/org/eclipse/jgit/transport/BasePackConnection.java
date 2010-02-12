@@ -1,5 +1,4 @@
 /*
- * Copyright (C) 2009, Constantine Plotnikov <constantine.plotnikov@gmail.com>
  * Copyright (C) 2008-2010, Google Inc.
  * Copyright (C) 2008, Marek Zawirski <marek.zawirski@gmail.com>
  * Copyright (C) 2008, Robin Rosenberg <robin.rosenberg@dewire.com>
@@ -47,8 +46,6 @@
 
 package org.eclipse.jgit.transport;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -97,10 +94,10 @@ abstract class BasePackConnection extends BaseConnection {
 	/** Timer to manage {@link #timeoutIn} and {@link #timeoutOut}. */
 	private InterruptTimer myTimer;
 
-	/** Buffered input stream reading from the remote. */
+	/** Input stream reading from the remote. */
 	protected InputStream in;
 
-	/** Buffered output stream sending to the remote. */
+	/** Output stream sending to the remote. */
 	protected OutputStream out;
 
 	/** Packet line decoder around {@link #in}. */
@@ -127,6 +124,17 @@ abstract class BasePackConnection extends BaseConnection {
 		uri = transport.uri;
 	}
 
+	/**
+	 * Configure this connection with the directional pipes.
+	 *
+	 * @param myIn
+	 *            input stream to receive data from the peer. Caller must ensure
+	 *            the input is buffered, otherwise read performance may suffer.
+	 * @param myOut
+	 *            output stream to transmit data to the peer. Caller must ensure
+	 *            the output is buffered, otherwise write performance may
+	 *            suffer.
+	 */
 	protected final void init(InputStream myIn, OutputStream myOut) {
 		final int timeout = transport.getTimeout();
 		if (timeout > 0) {
@@ -140,10 +148,8 @@ abstract class BasePackConnection extends BaseConnection {
 			myOut = timeoutOut;
 		}
 
-		in = myIn instanceof BufferedInputStream ? myIn
-				: new BufferedInputStream(myIn, IndexPack.BUFFER_SIZE);
-		out = myOut instanceof BufferedOutputStream ? myOut
-				: new BufferedOutputStream(myOut);
+		in = myIn;
+		out = myOut;
 
 		pckIn = new PacketLineIn(in);
 		pckOut = new PacketLineOut(out);
