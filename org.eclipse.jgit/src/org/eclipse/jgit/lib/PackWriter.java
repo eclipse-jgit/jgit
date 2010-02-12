@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008-2009, Google Inc.
+ * Copyright (C) 2008-2010, Google Inc.
  * Copyright (C) 2008, Marek Zawirski <marek.zawirski@gmail.com>
  * and other copyright owners as documented in the project's IP log.
  *
@@ -44,7 +44,6 @@
 
 package org.eclipse.jgit.lib;
 
-import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.security.MessageDigest;
@@ -97,7 +96,6 @@ import org.eclipse.jgit.util.NB;
  * undefined behavior.
  * </p>
  */
-
 public class PackWriter {
 	/**
 	 * Title of {@link ProgressMonitor} task used during counting objects to
@@ -578,9 +576,8 @@ public class PackWriter {
 	 * </p>
 	 *
 	 * @param packStream
-	 *            output stream of pack data. If the stream is not buffered it
-	 *            will be buffered by the writer. Caller is responsible for
-	 *            closing the stream.
+	 *            output stream of pack data. The stream should be buffered by
+	 *            the caller. The caller is responsible for closing the stream.
 	 * @throws IOException
 	 *             an error occurred reading a local object's data to include in
 	 *             the pack, or writing compressed object data to the output
@@ -590,8 +587,6 @@ public class PackWriter {
 		if (reuseDeltas || reuseObjects)
 			searchForReuse();
 
-		if (!(packStream instanceof BufferedOutputStream))
-			packStream = new BufferedOutputStream(packStream);
 		out = new PackOutputStream(packStream);
 
 		writeMonitor.beginTask(WRITING_OBJECTS_PROGRESS, getObjectsNumber());
@@ -599,7 +594,6 @@ public class PackWriter {
 		writeObjects();
 		writeChecksum();
 
-		out.flush();
 		windowCursor.release();
 		writeMonitor.endTask();
 	}
