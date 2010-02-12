@@ -44,9 +44,9 @@
 package org.eclipse.jgit.http.server;
 
 import static org.eclipse.jgit.http.server.ServletUtils.getRepository;
-import static org.eclipse.jgit.http.server.ServletUtils.send;
 
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.Map;
 
 import javax.servlet.http.HttpServlet;
@@ -69,20 +69,18 @@ class InfoRefsServlet extends HttpServlet {
 			final HttpServletResponse rsp) throws IOException {
 		// Assume a dumb client and send back the dumb client
 		// version of the info/refs file.
-		final byte[] raw = dumbHttp(req);
 		rsp.setContentType(HttpSupport.TEXT_PLAIN);
 		rsp.setCharacterEncoding(Constants.CHARACTER_ENCODING);
-		send(raw, req, rsp);
-	}
 
-	private byte[] dumbHttp(final HttpServletRequest req) throws IOException {
 		final Repository db = getRepository(req);
 		final RevWalk walk = new RevWalk(db);
 		final RevFlag ADVERTISED = walk.newFlag("ADVERTISED");
-		final StringBuilder out = new StringBuilder();
+
+		final OutputStreamWriter out = new OutputStreamWriter(
+				new SmartOutputStream(req, rsp), Constants.CHARSET);
 		final RefAdvertiser adv = new RefAdvertiser() {
 			@Override
-			protected void writeOne(final CharSequence line) {
+			protected void writeOne(final CharSequence line) throws IOException {
 				// Whoever decided that info/refs should use a different
 				// delimiter than the native git:// protocol shouldn't
 				// be allowed to design this sort of stuff. :-(
@@ -100,6 +98,6 @@ class InfoRefsServlet extends HttpServlet {
 		Map<String, Ref> refs = db.getAllRefs();
 		refs.remove(Constants.HEAD);
 		adv.send(refs);
-		return out.toString().getBytes(Constants.CHARACTER_ENCODING);
+		out.close();
 	}
 }
