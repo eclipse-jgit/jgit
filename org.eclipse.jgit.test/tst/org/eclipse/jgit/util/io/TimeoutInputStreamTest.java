@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009, Google Inc.
+ * Copyright (C) 2009-2010, Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -170,7 +170,7 @@ public class TimeoutInputStreamTest extends TestCase {
 		// 50 ms of the expected timeout.
 		//
 		final long wait = now() - start;
-		assertTrue(Math.abs(wait - timeout) < 50);
+		assertTrue("waited only " + wait + " ms", timeout - wait < 50);
 	}
 
 	private static List<Thread> active() {
