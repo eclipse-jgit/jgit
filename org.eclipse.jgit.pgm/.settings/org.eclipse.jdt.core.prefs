@@ -1,4 +1,4 @@
-#Fri Oct 02 18:44:57 PDT 2009
+#Fri Mar 05 09:27:58 CET 2010
 eclipse.preferences.version=1
 org.eclipse.jdt.core.compiler.codegen.inlineJsrBytecode=enabled
 org.eclipse.jdt.core.compiler.codegen.targetPlatform=1.5
@@ -318,6 +318,8 @@ org.eclipse.jdt.core.formatter.insert_space_between_empty_parens_in_constructor_
 org.eclipse.jdt.core.formatter.insert_space_between_empty_parens_in_enum_constant=do not insert
 org.eclipse.jdt.core.formatter.insert_space_between_empty_parens_in_method_declaration=do not insert
 org.eclipse.jdt.core.formatter.insert_space_between_empty_parens_in_method_invocation=do not insert
+org.eclipse.jdt.core.formatter.join_lines_in_comments=true
+org.eclipse.jdt.core.formatter.join_wrapped_lines=true
 org.eclipse.jdt.core.formatter.keep_else_statement_on_same_line=false
 org.eclipse.jdt.core.formatter.keep_empty_array_initializer_on_one_line=false
 org.eclipse.jdt.core.formatter.keep_imple_if_on_one_line=false
