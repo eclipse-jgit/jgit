@@ -22,6 +22,7 @@ org.eclipse.jgit.pgm.ShowRef
 org.eclipse.jgit.pgm.Tag
 org.eclipse.jgit.pgm.UploadPack
 org.eclipse.jgit.pgm.Version
+org.eclipse.jgit.pgm.Merge
 
 org.eclipse.jgit.pgm.debug.MakeCacheTree
 org.eclipse.jgit.pgm.debug.ReadDirCache
