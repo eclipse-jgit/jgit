@@ -1,0 +1,211 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAAn////g\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/diff/MyersDiffPerformanceTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "I think this should be a different commit, separate from your overflow bug fix.",
+      "revId": "8d2ef883509207dcf9ae6dacfa0b5f504265aaa3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAAn////c\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/diff/MyersDiffPerformanceTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Should this go in the public diff package?",
+      "revId": "8d2ef883509207dcf9ae6dacfa0b5f504265aaa3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAAn///7A\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/MyersDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Yea,  I guess profiling is a good choice here rather than just assuming, though I suspect List\u003cIntPair\u003e is going to cost a pretty sizeable chunk of memory over a specialized LongList.  (Tangent: why the heck doesn\u0027t the J2SE provide IntList, LongList?  We shouldn\u0027t have to write them!)\n\nA good thing is, this appears to be fairly isolated to the internals of the MyersDiff class and thus isn\u0027t something we need to expose in our public API to consumers.  snake2x(snake) vs. snake.getX() isn\u0027t a big difference either way to higher level code built on top of this.",
+      "parentUuid": "AAAAAn///8Y\u003d",
+      "revId": "8d2ef883509207dcf9ae6dacfa0b5f504265aaa3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAAn////k\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/MyersDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "If we only need 2 ints, why not use a long here?  Most processors are 64 bits these days, and we don\u0027t have to perform a heap object allocation with the 8 byte object header.",
+      "revId": "8d2ef883509207dcf9ae6dacfa0b5f504265aaa3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAAn////o\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/MyersDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 459,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Unnecessary trailing whitespace.",
+      "revId": "8d2ef883509207dcf9ae6dacfa0b5f504265aaa3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAAn///7E\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/IntPair.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Yes, we do read copyright statements.  :-)",
+      "parentUuid": "AAAAAn///8o\u003d",
+      "revId": "8d2ef883509207dcf9ae6dacfa0b5f504265aaa3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAAn////8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/IntPair.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Copyright 2008 or 2009?",
+      "revId": "8d2ef883509207dcf9ae6dacfa0b5f504265aaa3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAAn////0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/IntPair.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "We should also implement some normal Java features:\n\n* hashCode\n* equals\n* toString",
+      "revId": "8d2ef883509207dcf9ae6dacfa0b5f504265aaa3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAAn////4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/IntPair.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Should these be declared private final?\n\nStyle-nit: We prefer one declaration per line.",
+      "revId": "8d2ef883509207dcf9ae6dacfa0b5f504265aaa3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAAn////w\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/IntPair.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Style nit: Blank line between methods, and getters, even this short, use 4 lines (header, return (x); close brace, blank trailing line).",
+      "revId": "8d2ef883509207dcf9ae6dacfa0b5f504265aaa3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAAn////s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/IntPairList.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Is this really necessary vs. using ArrayList\u003cIntPair\u003e?\n\nWe created IntList because storing int in an ArrayList requires allocating an Integer wrapper object for each element.  But now that you are using IntPair which is a full blown object that advantage is gone.",
+      "revId": "8d2ef883509207dcf9ae6dacfa0b5f504265aaa3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAAn///7I\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/IntPairList.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Yea, we try not to reinvent the wheel and generally assume that the J2SE libraries are \"good enough\".  But we\u0027ve also found that memory consumption is important.  Wasting 12 bytes to store 4 bytes is fine when you have 1000 items.  Do that for 100,000 items and suddenly it starts to hurt.",
+      "parentUuid": "AAAAAn///8s\u003d",
+      "revId": "8d2ef883509207dcf9ae6dacfa0b5f504265aaa3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
