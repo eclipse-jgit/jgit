@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAAAn///6Y\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/MyersDiff.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "I decided to go for long when I was trying to add good hashcode() to a LongPair. Thats expensive if x,y are not completely unrelated but are not so different. Standard hashcode which just XOR x and y are pretty bad when x is similar to y (hashcodes have only few binary \u00271\u0027 and therefore we have a lot of collisions). And while I was trying hashcodes like x^somePrime+y I knew that this will loose the performance battle. So I switched to squeezing into longs and get around the problem of having to write good hashcodes.",
+      "revId": "3b5ea5f748ac4fff4aa342bc9cac4a7b5e9a611b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAAn///6k\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/MyersDiff.java",
         "patchSetId": 2
@@ -99,6 +116,23 @@
       "side": 1,
       "message": "Oops.  set(size(), value) also doesn\u0027t match the Javadoc which says exclusive to size.  *sigh*",
       "parentUuid": "AAAAAn///6o\u003d",
+      "revId": "3b5ea5f748ac4fff4aa342bc9cac4a7b5e9a611b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAAn///6o\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/LongList.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "just for info: be aware that this feature that list.set(list.size(), value) is allowed and is equivalent to list.add(value) makes this list incompatible with standard List implementations. When replacing LongList by ArrayList\u003cLong\u003e Myersdiff will not work anymore. Costed me some minutes testing :-)",
       "revId": "3b5ea5f748ac4fff4aa342bc9cac4a7b5e9a611b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
