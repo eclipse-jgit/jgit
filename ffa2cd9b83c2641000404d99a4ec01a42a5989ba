@@ -1,0 +1,40 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAA3///9s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Why, what does making this service string static buy us?\n\nThat service name is part of the protocol, it can\u0027t change.  Its used in two locations, once in the client, once in the server.",
+      "parentUuid": "AAAAA3////o\u003d",
+      "revId": "ffa2cd9b83c2641000404d99a4ec01a42a5989ba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///9o\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "The old code called it \"r\", I just changed the indentation level here.  We have a rule about not changing old code unless absolutely required.  For what its worth we/I have a habit of using \"r\" for return values when the scope is really small and there is little chance of confusing the meaning of the value.",
+      "parentUuid": "AAAAA3////k\u003d",
+      "revId": "ffa2cd9b83c2641000404d99a4ec01a42a5989ba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
