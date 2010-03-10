@@ -1,0 +1,22 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAABH///7o\u003d",
+        "filename": ".gitignore",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T15:26:29Z",
+      "side": 0,
+      "message": "If I used a single ignore at the top level with the lines:\n\n  bin\n  target\n\nthese would match in *every* subdirectory within the entire repository.  Thus a source package called \"bin\" or \"target\" would be omitted, which may lead a contributor to forget to git add something they have created.\n\nThe only safe way to force limit these to the top of each plugin directory is to use a leading \"/\" as I have done.  I could use an identical file in each plugin (as this patch does), or I could have used a single top-level file with every plugin:\n\n  /org.eclipse.jgit/bin\n  /org.eclipse.jgit/target\n  /org.eclipse.jgit.test/bin\n  /org.eclipse.jgit.test/target\n\nEither form is ugly, but using the identical file makes it easier to setup a new project as you just need to cp .gitignore.",
+      "parentUuid": "AAAABH///90\u003d",
+      "revId": "5b89088f877fdc52d6e5de23be47da940838e4df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
