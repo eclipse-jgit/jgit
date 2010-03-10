@@ -1,0 +1,174 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAA3///2k\u003d",
+        "filename": "org.eclipse.jgit.io/src/org/eclipse/jgit/io/Entry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Why isn\u0027t this a property for the StorageSystem?  Is it because some filesystems might not support executable bit, while others do, e.g. mounting an MS-DOS partition on a Linux system, the ext2 directories might support executable bits, but the MS-DOS directory doesn\u0027t.\n\nThe method Javadoc implies its only the OS and JRE that matter here, but then it could just be on the StorageSystem.",
+      "revId": "2de0a242c3dc41ece3a3d8ff02c0795d2c32358a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///2g\u003d",
+        "filename": "org.eclipse.jgit.io/src/org/eclipse/jgit/io/Entry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Or we could define a 3-way value:\n\n  public static enum Executable {\n    EXECUTABLE,\n    NORMAL_ENTRY,\n    UNSUPPORTED\n  }\n\nsince pretty much any caller of this method should *also* consult isExecutableSupported above, which makes for 4 states when only 3 make sense (what does it say when isExecutableSupported \u003d false but isExecutable \u003d true)?",
+      "revId": "2de0a242c3dc41ece3a3d8ff02c0795d2c32358a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///2c\u003d",
+        "filename": "org.eclipse.jgit.io/src/org/eclipse/jgit/io/Entry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Should be moved to the prior commit, don\u0027t fix up prior commit bugs in later commits, especially if the later commit isn\u0027t specifically addressing that one issue.",
+      "revId": "2de0a242c3dc41ece3a3d8ff02c0795d2c32358a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///2U\u003d",
+        "filename": "org.eclipse.jgit.io/src/org/eclipse/jgit/io/Entry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Should be moved to the prior commit, don\u0027t fix up prior commit bugs in later commits, especially if the later commit isn\u0027t specifically addressing that one issue.",
+      "revId": "2de0a242c3dc41ece3a3d8ff02c0795d2c32358a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///2Q\u003d",
+        "filename": "org.eclipse.jgit.io/src/org/eclipse/jgit/io/StorageSystem.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "You never talk about home directory in the commit message.",
+      "revId": "2de0a242c3dc41ece3a3d8ff02c0795d2c32358a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///2M\u003d",
+        "filename": "org.eclipse.jgit.io/src/org/eclipse/jgit/io/StorageSystem.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Why isn\u0027t this a method on Entry?\n\n   public Entry resolveChild(String path);\n\nWhich... isn\u0027t that just like getChild?  Except we accept a path here, not just a name, and we may incur a very expensive stat hit due to forking to compute a symlink on some systems, and getChild doesn\u0027t do that.\n\nIf you are trying to replace FS.resolve you really should also drag over the discussion in the method\u0027s Javadoc, like how expensive it is to execute, why this should be used over getChild(), why getChild should be used over resolve().  Etc.",
+      "revId": "2de0a242c3dc41ece3a3d8ff02c0795d2c32358a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///2I\u003d",
+        "filename": "org.eclipse.jgit.io/src/org/eclipse/jgit/io/localfs/LocalFileEntry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Why can\u0027t these be inside of LocalFileSystem?\n\nHeck, we could actually do two different versions of LocalFileSystem, one compiled against Java5 which always fails in these methods, and one which extends it, is compiled against Java6, and uses a direct method call to the java.io.File executable methods, rather than relying on reflection.  And use reflection to actually load the class code.\n\nBasically, this is a mess here, I\u0027d rather shift this into the LFS class where we can at least extend and override with a JVM specific variant that doesn\u0027t require reflection, or this mess of try/catch/throw Error.",
+      "revId": "2de0a242c3dc41ece3a3d8ff02c0795d2c32358a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///2A\u003d",
+        "filename": "org.eclipse.jgit.io/src/org/eclipse/jgit/io/localfs/LocalFileSystem.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Non final static fields should not be public.",
+      "revId": "2de0a242c3dc41ece3a3d8ff02c0795d2c32358a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///14\u003d",
+        "filename": "org.eclipse.jgit.io/src/org/eclipse/jgit/io/localfs/LocalFileSystem.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "You shouldn\u0027t be able to get here.  See my remark about putting this method on Entry/LocalFileEntry such that this is impossible.",
+      "revId": "2de0a242c3dc41ece3a3d8ff02c0795d2c32358a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///10\u003d",
+        "filename": "org.eclipse.jgit.io/src/org/eclipse/jgit/io/localfs/LocalFileSystem.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "With all of the branches this has caused, I *much* prefer the existing FS interface and its 4 subclasses with their overridden methods.\n\nWhy can\u0027t this IO package use those until its the last caller, and then integrate them into itself?  Its extremely difficult to review this reformatted version of the code to ensure the logic is still equivalent.",
+      "revId": "2de0a242c3dc41ece3a3d8ff02c0795d2c32358a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
