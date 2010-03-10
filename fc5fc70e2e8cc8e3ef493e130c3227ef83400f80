@@ -16,6 +16,42 @@
       "revId": "fc5fc70e2e8cc8e3ef493e130c3227ef83400f80",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAD3///r8\u003d",
+        "filename": "org.eclipse.jgit.console/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 0,
+      "message": "How is it partially configured? We have a manifest, dont\u0027 we?se\nCan we somehow have make it an option to generate a mmanifest, but not get it generated just because I try to make sure mvn test works?",
+      "parentUuid": "AAAAD3///sM\u003d",
+      "revId": "fc5fc70e2e8cc8e3ef493e130c3227ef83400f80",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAD3///sA\u003d",
+        "filename": "org.eclipse.jgit.console/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 0,
+      "message": "ok. I have no real to verify it anyway.",
+      "parentUuid": "AAAAD3///sM\u003d",
+      "revId": "fc5fc70e2e8cc8e3ef493e130c3227ef83400f80",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
