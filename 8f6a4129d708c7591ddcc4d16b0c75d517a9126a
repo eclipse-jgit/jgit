@@ -2,6 +2,24 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAAD3///1I\u003d",
+        "filename": "org.eclipse.jgit.http.server/.gitignore",
+        "patchSetId": 9
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T15:26:29Z",
+      "side": 1,
+      "message": "Right now none of the projects have a .project file.  My intent is to merge smart-http as soon as folks will let me.  If someone follows with a patch to reintroduce the .project files as has been discussed on egit-dev, then they would need to add it here as well as in the other project directories.  So really I\u0027m just following the current code convention and not trying to start a new one.",
+      "parentUuid": "AAAAD3///2Y\u003d",
+      "revId": "8f6a4129d708c7591ddcc4d16b0c75d517a9126a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAD3///1E\u003d",
         "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/GitServlet.java",
         "patchSetId": 9
