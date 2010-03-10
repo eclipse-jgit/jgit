@@ -1,0 +1,40 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAA3///9A\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefAdvertiser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "This doesn\u0027t buy us much.  The charset encoder needs a random access char object, which is either String or CharBuffer, and CharSequence is neither of those.",
+      "parentUuid": "AAAAA3///+o\u003d",
+      "revId": "4312373473512eade79371390101bca05b4ab253",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///88\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefAdvertiser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Fixed.",
+      "parentUuid": "AAAAA3///+k\u003d",
+      "revId": "4312373473512eade79371390101bca05b4ab253",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
