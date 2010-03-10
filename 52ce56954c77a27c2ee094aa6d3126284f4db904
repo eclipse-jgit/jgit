@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAE3///30\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 604,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Removing an entry from the map while iterating it isn\u0027t safe.  To do this safely you must use an Iterator\u0027s remove() method to whack the entry you don\u0027t want anymore.\n\nWorse, the default map returned by getAllRefs() doesn\u0027t fully implement the Map contract here.  More specifically, its Iterator is broken and doesn\u0027t implement remove().\n\nAlso, how are we going to do this efficiently in Gerrit Code Review?  Remember we are getting refs/changes/nn/ccnn/p refs one at a time in this loop.  Doing a database query to see what branch that change is on is horribly inefficient.  Instead it would be more efficient to query Gerrit\u0027s database and do a sort-merge-join thing inside of the filter.\n\nSo basically I wonder if we shouldn\u0027t just pass the entire map into the filter, and let it return to us a map that we work with.  Where that map might be the original map, or the original map after making changes, or just a whole new map instance that holds a selection of the original map\u0027s entries.",
+      "revId": "52ce56954c77a27c2ee094aa6d3126284f4db904",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAE3///4E\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Wrong copyright year.",
+      "revId": "52ce56954c77a27c2ee094aa6d3126284f4db904",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAE3///4A\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "You probably should say it shows all refs.",
+      "revId": "52ce56954c77a27c2ee094aa6d3126284f4db904",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAE3///34\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Be nice to have at least a one sentence summary of the method, given that this is a public interface applications can choose to implement in their code.",
+      "revId": "52ce56954c77a27c2ee094aa6d3126284f4db904",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAE3///38\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Style-nit: Final in an interface argument is pointless.",
+      "revId": "52ce56954c77a27c2ee094aa6d3126284f4db904",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
