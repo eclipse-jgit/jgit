@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAC3///+c\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/AbbreviatedObjectId.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Should be OBJECT_ID_STRING_LENGTH.",
+      "revId": "bda142687de77dafe955e4c8a1a33f0640005935",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAC3///+g\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Style-nit: We don\u0027t use \u003cbr\u003e, but we instead use \\n\u003cp\u003e\\n to break the line:\n\n  /**\n   * A Git object hash is 160 bits, i.e. 20 bytes.\n   * \u003cp\u003e\n   * Changing that is not going to be as easy as changing this declaration.\n   */",
+      "revId": "bda142687de77dafe955e4c8a1a33f0640005935",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
