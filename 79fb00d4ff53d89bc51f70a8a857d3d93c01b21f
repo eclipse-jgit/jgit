@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAABH///+Q\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/diff/MyersDiffPerformanceTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Can we get a more consistent copyright line for your work?  Here you use SAP AG with no email, but in your new CPUTimeStopWatch class you use a different copyright line that I guess is the same (you at a sap email address).\n\nI\u0027m not against two copyright lines for you if one is \"stuff at work owned by SAP\" and the other is \"stuff on free time that SAP doesn\u0027t own\", but if they are the same (\"stuff at work that SAP owns\") it\u0027d be nice if they were consistent.",
+      "revId": "79fb00d4ff53d89bc51f70a8a857d3d93c01b21f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAABH///+U\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/diff/MyersDiffPerformanceTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Since this is used only within the one test method, wouldn\u0027t it be a good idea to make it a local variable of that test method and avoid making it static?",
+      "revId": "79fb00d4ff53d89bc51f70a8a857d3d93c01b21f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAABH///+I\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/diff/MyersDiffPerformanceTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "If I understood your code right, this loop never terminates if the stopwatch doesn\u0027t work correctly on this VM.  We never increment cpuTimeChanges because readout always returns 0, and interimTime is always below longTaskBoundary.",
+      "revId": "79fb00d4ff53d89bc51f70a8a857d3d93c01b21f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAABH///+k\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/diff/MyersDiffPerformanceTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Style-nit: trailing whitespace",
+      "revId": "79fb00d4ff53d89bc51f70a8a857d3d93c01b21f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAABH///+c\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/CPUTimeStopWatch.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Why not private?  Were you planning to access this from another class?  How is that useful without the mxBean?\n\nAnd why initialize to 0 when the JVM will automatically do that for you?",
+      "revId": "79fb00d4ff53d89bc51f70a8a857d3d93c01b21f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAABH///+g\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/CPUTimeStopWatch.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Aren\u0027t you missing a test here on cpuTimeSupported flag?  This test always throws if the parameter was \"true\", even if the JVM actually supports the feature.",
+      "revId": "79fb00d4ff53d89bc51f70a8a857d3d93c01b21f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
