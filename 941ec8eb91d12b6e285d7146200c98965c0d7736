@@ -1,0 +1,480 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAA3///2w\u003d",
+        "filename": "org.eclipse.jgit.io/src/org/eclipse/jgit/io/Entry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "You should also declare hashCode, equals and toString in the interface so they are abstract and an implementor is encouraged to override them in their implementation.",
+      "revId": "941ec8eb91d12b6e285d7146200c98965c0d7736",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///4E\u003d",
+        "filename": "org.eclipse.jgit.io/src/org/eclipse/jgit/io/Entry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Why are we exposing this?  If a caller needs the path, shouldn\u0027t they only rely on the URI\u0027s external form?",
+      "revId": "941ec8eb91d12b6e285d7146200c98965c0d7736",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///4A\u003d",
+        "filename": "org.eclipse.jgit.io/src/org/eclipse/jgit/io/Entry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "isExists is awkward to me.  Both java.io.File and Eclipse\u0027s IContainer just use exists for this operation.",
+      "revId": "941ec8eb91d12b6e285d7146200c98965c0d7736",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///34\u003d",
+        "filename": "org.eclipse.jgit.io/src/org/eclipse/jgit/io/Entry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Since we are re-inventing the wheel here, I\u0027ve always thought java.io.File screwed up by not having an equivalent for POSIX\u0027s struct stat.\n\nIn other words, I wonder if we shouldn\u0027t define the API to return an object that can obtain information about the entry, but which can also cache that information.  So \"Entry\" is just the pointer to the location with:\n\n  public interface Entry {\n    ...\n    /** Obtain information about the entry; the resulting object\n         may use caches internally to reduce calls.  If you need\n         up-to-date information, obtain a new EntryStatus. */\n    public EntryStatus status();\n    ...\n  } \n\n  /** Cached status information about an Entry */\n  public interface EntryStatus {\n      public static enum Type {\n        FILE, DIRECTORY\n      }\n\n      public long length();\n      public boolean exists();\n      public Type type();\n  }\n\nAnd then we can write a java.io.File version of this interface as:\n\n    static class FileEntryStatus {\n        private final File path \u003d ...;\n        private long length \u003d -1;\n\n        public long length() {\n          if (length \u003c 0)\n            length \u003d path.length();\n          return length;\n        }\n    }",
+      "revId": "941ec8eb91d12b6e285d7146200c98965c0d7736",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///38\u003d",
+        "filename": "org.eclipse.jgit.io/src/org/eclipse/jgit/io/Entry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Maybe we should define FileNotFoundException if the item doesn\u0027t exist, and IOException for other failures?",
+      "revId": "941ec8eb91d12b6e285d7146200c98965c0d7736",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///30\u003d",
+        "filename": "org.eclipse.jgit.io/src/org/eclipse/jgit/io/Entry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "I think this should be the other direction.  java.io.FileOutputStream defines \"boolean append\", which defaults to false, because most often you want to overwrite a file.",
+      "revId": "941ec8eb91d12b6e285d7146200c98965c0d7736",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///4M\u003d",
+        "filename": "org.eclipse.jgit.io/src/org/eclipse/jgit/io/StorageSystem.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Please don\u0027t use short URLs in javadoc, we don\u0027t know how long the short URL service is going to stay around.  Use the complete original URL.",
+      "revId": "941ec8eb91d12b6e285d7146200c98965c0d7736",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///4Q\u003d",
+        "filename": "org.eclipse.jgit.io/src/org/eclipse/jgit/io/StorageSystem.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "URI calls this getScheme(), why not use the same name here?",
+      "revId": "941ec8eb91d12b6e285d7146200c98965c0d7736",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///3o\u003d",
+        "filename": "org.eclipse.jgit.io/src/org/eclipse/jgit/io/StorageSystem.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Should implementers return null if passed null?  Or should they throw NPE right away?",
+      "revId": "941ec8eb91d12b6e285d7146200c98965c0d7736",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///4I\u003d",
+        "filename": "org.eclipse.jgit.io/src/org/eclipse/jgit/io/StorageSystem.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Does this really matter for anything that isn\u0027t java.io.File?",
+      "revId": "941ec8eb91d12b6e285d7146200c98965c0d7736",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///4U\u003d",
+        "filename": "org.eclipse.jgit.io/src/org/eclipse/jgit/io/StorageSystemManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "We don\u0027t do @author tags.",
+      "revId": "941ec8eb91d12b6e285d7146200c98965c0d7736",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///4g\u003d",
+        "filename": "org.eclipse.jgit.io/src/org/eclipse/jgit/io/StorageSystemManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "IIRC our style guide is 1 tab indent, not 2 spaces.",
+      "revId": "941ec8eb91d12b6e285d7146200c98965c0d7736",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///4c\u003d",
+        "filename": "org.eclipse.jgit.io/src/org/eclipse/jgit/io/StorageSystemManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Why would someone pass null here and not expect a failure?",
+      "revId": "941ec8eb91d12b6e285d7146200c98965c0d7736",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///4Y\u003d",
+        "filename": "org.eclipse.jgit.io/src/org/eclipse/jgit/io/StorageSystemManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Again, why would someone want to register null and not have a failure?",
+      "revId": "941ec8eb91d12b6e285d7146200c98965c0d7736",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///2s\u003d",
+        "filename": "org.eclipse.jgit.io/src/org/eclipse/jgit/io/localfs/LocalFileEntry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Missing the following methods:\n\n* hashCode\n* equals\n* toString",
+      "revId": "941ec8eb91d12b6e285d7146200c98965c0d7736",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///3k\u003d",
+        "filename": "org.eclipse.jgit.io/src/org/eclipse/jgit/io/localfs/LocalFileEntry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "final",
+      "revId": "941ec8eb91d12b6e285d7146200c98965c0d7736",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///3g\u003d",
+        "filename": "org.eclipse.jgit.io/src/org/eclipse/jgit/io/localfs/LocalFileEntry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "final",
+      "revId": "941ec8eb91d12b6e285d7146200c98965c0d7736",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///3c\u003d",
+        "filename": "org.eclipse.jgit.io/src/org/eclipse/jgit/io/localfs/LocalFileEntry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "\"based of on the\" is awkward",
+      "revId": "941ec8eb91d12b6e285d7146200c98965c0d7736",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///3Y\u003d",
+        "filename": "org.eclipse.jgit.io/src/org/eclipse/jgit/io/localfs/LocalFileEntry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Why are you allowed to change this?  It should be immutable.",
+      "revId": "941ec8eb91d12b6e285d7146200c98965c0d7736",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///3U\u003d",
+        "filename": "org.eclipse.jgit.io/src/org/eclipse/jgit/io/localfs/LocalFileEntry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Why are you allowed to change this?  It should be immutable.",
+      "revId": "941ec8eb91d12b6e285d7146200c98965c0d7736",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///3M\u003d",
+        "filename": "org.eclipse.jgit.io/src/org/eclipse/jgit/io/localfs/LocalFileEntry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Pointless test.  The FileInputStream constructor already does this stat call, and throws FileNotFoundException if the item doesn\u0027t exist in the filesystem.",
+      "revId": "941ec8eb91d12b6e285d7146200c98965c0d7736",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///3E\u003d",
+        "filename": "org.eclipse.jgit.io/src/org/eclipse/jgit/io/localfs/LocalFileEntry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Pointless catch block.",
+      "revId": "941ec8eb91d12b6e285d7146200c98965c0d7736",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///3A\u003d",
+        "filename": "org.eclipse.jgit.io/src/org/eclipse/jgit/io/localfs/LocalFileEntry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "This entire method is overly complicated.  It can be written just fine as:\n\n  public OutputStream getOutputStream(boolean append) throws IOException {\n    return new FileOutputStream(getLocalFile(), append);\n  }",
+      "revId": "941ec8eb91d12b6e285d7146200c98965c0d7736",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///3I\u003d",
+        "filename": "org.eclipse.jgit.io/src/org/eclipse/jgit/io/localfs/LocalFileEntry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Pointless catch block.",
+      "revId": "941ec8eb91d12b6e285d7146200c98965c0d7736",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///20\u003d",
+        "filename": "org.eclipse.jgit.io/src/org/eclipse/jgit/io/localfs/LocalFileEntry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Why the hell are we converting from File to URI just to convert back to File?  Why can\u0027t we just create a LocalFileEntry directly right here?",
+      "revId": "941ec8eb91d12b6e285d7146200c98965c0d7736",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///24\u003d",
+        "filename": "org.eclipse.jgit.io/src/org/eclipse/jgit/io/localfs/LocalFileEntry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "This seems like a really expensive way to do:\n\n  File c \u003d new File(getLocalFile(), name);\n  if (c.exists())\n    return new LocalFileEntry(c, getStorageSystem());\n  return null;",
+      "revId": "941ec8eb91d12b6e285d7146200c98965c0d7736",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///3w\u003d",
+        "filename": "org.eclipse.jgit.io/src/org/eclipse/jgit/io/localfs/LocalFileSystem.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "SCHEME_FILE instead?",
+      "revId": "941ec8eb91d12b6e285d7146200c98965c0d7736",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///3s\u003d",
+        "filename": "org.eclipse.jgit.io/src/org/eclipse/jgit/io/localfs/LocalFileSystem.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Our style usually cuddles the else on the prior line with the closing brace.  But when there\u0027s only one line inside a block we often omit the braces.",
+      "revId": "941ec8eb91d12b6e285d7146200c98965c0d7736",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
