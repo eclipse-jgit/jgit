@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAA3///xY\u003d",
+        "filename": "org.eclipse.jgit.io/src/org/eclipse/jgit/io/Entry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 13
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Well I like the mkdirs as it is more common for file like operations so I would go for \"create\" :).",
+      "parentUuid": "AAAAA3///04\u003d",
+      "revId": "24f082371926cf1660c7b8a777e10903c18437b0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAA3///1E\u003d",
         "filename": "org.eclipse.jgit.io/src/org/eclipse/jgit/io/Entry.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2010-03-10T05:19:08Z",
       "side": 1,
       "message": "Why are we exposing this implementation detail?",
+      "revId": "24f082371926cf1660c7b8a777e10903c18437b0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///xU\u003d",
+        "filename": "org.eclipse.jgit.io/src/org/eclipse/jgit/io/Entry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 13
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "I did that part for minimizing change in FileLock code, I just wanted to API\u0027zd it, it was a serious mistake :(, will fix the whole locking issue in next round.",
+      "parentUuid": "AAAAA3///1E\u003d",
       "revId": "24f082371926cf1660c7b8a777e10903c18437b0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAA3///xQ\u003d",
+        "filename": "org.eclipse.jgit.io/src/org/eclipse/jgit/io/localfs/LocalFileEntry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 13
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Never thought of it that way :(, will surely pay more attention next round.",
+      "parentUuid": "AAAAA3///1A\u003d",
+      "revId": "24f082371926cf1660c7b8a777e10903c18437b0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAA3///08\u003d",
         "filename": "org.eclipse.jgit.io/src/org/eclipse/jgit/io/localfs/LocalFileEntry.java",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2010-03-10T05:19:08Z",
       "side": 1,
       "message": "If lock is true you just truncated a file that wasn\u0027t supposed to be modified until the new version was fully written to disk *and* the lock was released.\n\nGit relies on doing atomic updates on the filesystem by writing the new content to a new temporary file, and renaming that over the real file name once the new content is completely written.  This method *COMPLETELY* ignores that scheme, making it incompatible and useless for JGit.",
+      "revId": "24f082371926cf1660c7b8a777e10903c18437b0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///x0\u003d",
+        "filename": "org.eclipse.jgit.io/src/org/eclipse/jgit/io/localfs/LocalFileEntry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 13
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "I actually probably made a disastrous design issue here :( as I was giving priority to port FileLock more easily and was not giving priority to lock simplification, I guess, thats a mistake I made, will fix this lock staff in next round, at least will try.",
+      "parentUuid": "AAAAA3///08\u003d",
       "revId": "24f082371926cf1660c7b8a777e10903c18437b0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAA3///xM\u003d",
+        "filename": "org.eclipse.jgit.io/src/org/eclipse/jgit/io/lock/AbstractLockable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 13
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Agree! Will change in LockManager.",
+      "parentUuid": "AAAAA3///1M\u003d",
+      "revId": "24f082371926cf1660c7b8a777e10903c18437b0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAA3///1I\u003d",
         "filename": "org.eclipse.jgit.io/src/org/eclipse/jgit/io/lock/AbstractLockable.java",
         "patchSetId": 1
@@ -104,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAA3///xI\u003d",
+        "filename": "org.eclipse.jgit.io/src/org/eclipse/jgit/io/lock/AbstractLockable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 13
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Well, the issue is with the Lock interface it does not throw IOException for lock() and lockInteruptablly() so needed to take this way; but should have had\nit documented in Lockable by overriding them, that will be done in next round.",
+      "parentUuid": "AAAAA3///1I\u003d",
+      "revId": "24f082371926cf1660c7b8a777e10903c18437b0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAA3///1k\u003d",
         "filename": "org.eclipse.jgit.io/src/org/eclipse/jgit/io/lock/LockManager.java",
         "patchSetId": 1
@@ -115,6 +223,24 @@
       "writtenOn": "2010-03-10T05:19:08Z",
       "side": 1,
       "message": "Race condition, multiple instances could be constructed at once.",
+      "revId": "24f082371926cf1660c7b8a777e10903c18437b0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///xw\u003d",
+        "filename": "org.eclipse.jgit.io/src/org/eclipse/jgit/io/lock/LockManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 13
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Agree! Don\u0027t know why I made this trivial mistake. Will instead make it final and move it to a static initializer block.",
+      "parentUuid": "AAAAA3///1k\u003d",
       "revId": "24f082371926cf1660c7b8a777e10903c18437b0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -155,6 +281,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAA3///xs\u003d",
+        "filename": "org.eclipse.jgit.io/src/org/eclipse/jgit/io/lock/LockManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 13
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "I was actually a bit confused what to use, so will be switching to HashMap",
+      "parentUuid": "AAAAA3///1c\u003d",
+      "revId": "24f082371926cf1660c7b8a777e10903c18437b0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAA3///1Y\u003d",
         "filename": "org.eclipse.jgit.io/src/org/eclipse/jgit/io/lock/LockManager.java",
         "patchSetId": 1
@@ -166,6 +310,24 @@
       "writtenOn": "2010-03-10T05:19:08Z",
       "side": 1,
       "message": "Unnecessary given the next two lines which perform a get and test for null on the result.",
+      "revId": "24f082371926cf1660c7b8a777e10903c18437b0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///xo\u003d",
+        "filename": "org.eclipse.jgit.io/src/org/eclipse/jgit/io/lock/LockManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 13
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Some habits just die hard :(, thanks for pointing it, it will simply vanish in next round...",
+      "parentUuid": "AAAAA3///1Y\u003d",
       "revId": "24f082371926cf1660c7b8a777e10903c18437b0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -189,6 +351,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAA3///xk\u003d",
+        "filename": "org.eclipse.jgit.io/src/org/eclipse/jgit/io/lock/LockManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 13
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Well, I know its unnecessary but I like to initialize to default values, if its not a performance issue, I guess I will still retain it.",
+      "parentUuid": "AAAAA3///1Q\u003d",
+      "revId": "24f082371926cf1660c7b8a777e10903c18437b0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAA3///1U\u003d",
         "filename": "org.eclipse.jgit.io/src/org/eclipse/jgit/io/lock/LockManager.java",
         "patchSetId": 1
@@ -206,6 +386,41 @@
     },
     {
       "key": {
+        "uuid": "AAAAA3///xg\u003d",
+        "filename": "org.eclipse.jgit.io/src/org/eclipse/jgit/io/lock/LockManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 13
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Agree!",
+      "parentUuid": "AAAAA3///1U\u003d",
+      "revId": "24f082371926cf1660c7b8a777e10903c18437b0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///xc\u003d",
+        "filename": "org.eclipse.jgit.io/src/org/eclipse/jgit/io/lock/LockManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 13
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "This unlocking will go from here to retain the lock for infinity as commented on abstract lockable.",
+      "revId": "24f082371926cf1660c7b8a777e10903c18437b0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAA3///1o\u003d",
         "filename": "org.eclipse.jgit.io/src/org/eclipse/jgit/io/lock/Lockable.java",
         "patchSetId": 1
@@ -217,6 +432,24 @@
       "writtenOn": "2010-03-10T05:19:08Z",
       "side": 1,
       "message": "Do we really want to have to implement something like newCondition() as specified by the Lock interface?  Why do we even need to conform to their semantics?",
+      "revId": "24f082371926cf1660c7b8a777e10903c18437b0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///xE\u003d",
+        "filename": "org.eclipse.jgit.io/src/org/eclipse/jgit/io/lock/Lockable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 13
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "It is useless if we think from egit perspective, but in the long run conforming a standard lock API will benefit us when using HBase or AppEngine at the backend; I am not sure why it will be used just now, but it might and the implementation is not that difficult. IMHO, we should retain it.",
+      "parentUuid": "AAAAA3///1o\u003d",
       "revId": "24f082371926cf1660c7b8a777e10903c18437b0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
