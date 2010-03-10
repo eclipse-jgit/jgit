@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAA3///oE\u003d",
+        "filename": "org.eclipse.jgit.pgm/META-INF/MANIFEST.MF",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-03-10T15:26:29Z",
+      "side": 1,
+      "message": "Eclipse claims that the pgm plugin currently does not depend on the following packages in the current import-package list :\n\n- com.jcraft.jsch\n- org.eclipse.jgit.diff\n- org.eclipse.jgit.fnmatch\n- org.eclipse.jgit.merge\n- org.eclipse.jgit.patch\n- org.eclipse.jgit.util\n- org.eclipse.jgit.util.io\n\nIs it by intention that you already declare dependencies on these packages or should we better wait until we need them ?",
+      "revId": "4aaf98e44a910049848c000b5d800a3b94e7961e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
