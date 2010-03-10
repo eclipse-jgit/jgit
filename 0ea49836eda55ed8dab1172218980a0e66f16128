@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAA3///ss\u003d",
+        "filename": "org.eclipse.jgit.io/src/org/eclipse/jgit/io/Entry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "What units?  I\u0027m sure you mean milliseconds here, but lets be specific about it in the documentation.",
+      "revId": "0ea49836eda55ed8dab1172218980a0e66f16128",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///so\u003d",
+        "filename": "org.eclipse.jgit.io/src/org/eclipse/jgit/io/Entry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Most would call this getLastModifiedTime since it includes the time and isn\u0027t just the date.",
+      "revId": "0ea49836eda55ed8dab1172218980a0e66f16128",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
