@@ -17,6 +17,41 @@
       "revId": "f6fbd761272ba4120065f56cd9953cca18af6c4d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAABX///2s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 11
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "We need this check because org.eclipse.jgit.transport.URIish.URIish(String) accepts these URIs and we\u0027ll return an empty string:\n\n- \"git://\" + \".git\"\n- \"/.git\"\n- \"//.git\"\n- \"git://\" + \"/abc//.git\"",
+      "revId": "f6fbd761272ba4120065f56cd9953cca18af6c4d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAABX///0Y\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 11
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "It seems to me we shouldn\u0027t return an empty value because it\u0027s not a name if it\u0027s empty.\n\nHowever I\u0027m not sure which solution would be the best: a) always using a try/catch block (even if an empty value is absolutely OK for some case) or b) just use \"\".equals(getHumanishName()) if an empty string isn\u0027t suitable in a particular case.\n\nAnother question is should we behave in this case in an exactly same way as a C implementation does.",
+      "parentUuid": "AAAABX///2k\u003d",
+      "revId": "f6fbd761272ba4120065f56cd9953cca18af6c4d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
