@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAA3///0Q\u003d",
+        "filename": "org.eclipse.jgit.releng/build.linux.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T15:26:29Z",
+      "side": 1,
+      "message": "Our sources are encoded UTF-8.",
+      "revId": "992ea5dd7d0c5ca5fd815945cd2e323436f40c6d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///0U\u003d",
+        "filename": "org.eclipse.jgit.releng/build.macosx.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T15:26:29Z",
+      "side": 1,
+      "message": "Our sources are encoded UTF-8.",
+      "revId": "992ea5dd7d0c5ca5fd815945cd2e323436f40c6d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///0Y\u003d",
+        "filename": "org.eclipse.jgit.releng/build.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T15:26:29Z",
+      "side": 1,
+      "message": "Our sources are encoded UTF-8.",
+      "revId": "992ea5dd7d0c5ca5fd815945cd2e323436f40c6d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///0c\u003d",
+        "filename": "org.eclipse.jgit.releng/build.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T15:26:29Z",
+      "side": 1,
+      "message": "These are all mixed spaces-before-tabs indentation.\n\nWe prefer tab indentation in JGit, and if you must use spaces to get alignment right, tabs should still be used before spaces on a line.",
+      "revId": "992ea5dd7d0c5ca5fd815945cd2e323436f40c6d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
