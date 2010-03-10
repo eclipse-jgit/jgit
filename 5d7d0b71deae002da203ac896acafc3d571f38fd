@@ -1,0 +1,56 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAACX////4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Why are we peeling the ref if it exists?  Shouldn\u0027t we be using the exact ObjectId it currently points at and not the peeled identity?",
+      "revId": "5d7d0b71deae002da203ac896acafc3d571f38fd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAACn///+0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Even if HEAD is currently pointing at an annotated tag\u0027s ref (e.g. HEAD \u003d \"ref: refs/tags/v1.0\" and v1.0 is an annotated tag) peeling here when we prepare the updateRef is wrong.  We want to know what the ref currently points at during the update, which is the tag, not the commit under the tag.",
+      "parentUuid": "AAAACn///+8\u003d",
+      "revId": "5d7d0b71deae002da203ac896acafc3d571f38fd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAACX////8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "This appears to be unused?",
+      "revId": "5d7d0b71deae002da203ac896acafc3d571f38fd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
