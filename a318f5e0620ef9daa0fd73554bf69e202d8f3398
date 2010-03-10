@@ -2,6 +2,74 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAAD3///8I\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/FileSender.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "We should probably handle large sizes too or reject such requests. Just truncating could lead to nasty data corruption.\n\nSee also http://bugs.sun.com/bugdatabase/view_bug.do?bug_id\u003d4187336",
+      "revId": "a318f5e0620ef9daa0fd73554bf69e202d8f3398",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAD3///8M\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/FileSender.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "I dont\u0027 think this will work for very large end-pos.",
+      "revId": "a318f5e0620ef9daa0fd73554bf69e202d8f3398",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAD3///8Q\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/FileSender.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "We don\u0027t need this much space, drop this and other similar extra  empty comments",
+      "revId": "a318f5e0620ef9daa0fd73554bf69e202d8f3398",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAD3///7c\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/InfoRefsServlet.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Why this extra encoding constant",
+      "revId": "a318f5e0620ef9daa0fd73554bf69e202d8f3398",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAD3///54\u003d",
         "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ObjectFileServlet.java",
         "patchSetId": 8
@@ -13,6 +81,40 @@
       "writtenOn": "2010-03-10T05:19:08Z",
       "side": 1,
       "message": "Worth putting a //$NON-NLS-1$ here, several more occurrences in this patch",
+      "revId": "a318f5e0620ef9daa0fd73554bf69e202d8f3398",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAD3///68\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/glue/UrlPipeline.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "It would be nice with some javadocs even though this is not a public class",
+      "revId": "a318f5e0620ef9daa0fd73554bf69e202d8f3398",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAD3///8E\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/resolver/FileResolver.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Add a constructor to support the cause parameter instead",
       "revId": "a318f5e0620ef9daa0fd73554bf69e202d8f3398",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -37,6 +139,23 @@
     },
     {
       "key": {
+        "uuid": "AAAAD3///8A\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/resolver/FileResolver.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "finally {\n db.close()\n}\ninstead",
+      "revId": "a318f5e0620ef9daa0fd73554bf69e202d8f3398",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAD3///6A\u003d",
         "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/resolver/FileResolver.java",
         "patchSetId": 8
@@ -55,6 +174,23 @@
     },
     {
       "key": {
+        "uuid": "AAAAD3///74\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/resolver/FileResolver.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "reformat",
+      "revId": "a318f5e0620ef9daa0fd73554bf69e202d8f3398",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAD3///+I\u003d",
         "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/resolver/FileResolver.java",
         "patchSetId": 8
@@ -66,6 +202,40 @@
       "writtenOn": "2010-03-10T05:19:08Z",
       "side": 1,
       "message": "I think discussion on the C Git list has changed git-http-backend to use git-daemon-export-ok check here, just like git-daemon performs.  We should do the same thing by default.",
+      "revId": "a318f5e0620ef9daa0fd73554bf69e202d8f3398",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAD3///78\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/resolver/FileResolver.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "spelling",
+      "revId": "a318f5e0620ef9daa0fd73554bf69e202d8f3398",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAD3///70\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/resolver/FileResolver.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Redundant. Absolute paths will not be so common that we\u0027ll have to shortcut testing for unix style absolute paths",
       "revId": "a318f5e0620ef9daa0fd73554bf69e202d8f3398",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -90,6 +260,23 @@
     },
     {
       "key": {
+        "uuid": "AAAAD3///7w\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/resolver/FileResolver.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "But such paths are absolute and thus rejected above. // is only a UNC marker at the beginning of a path.\nWe could possibly want to disallow double slashes anway since that\u0027s just sloppy path encodings. Change the comment to reflect what we are really doing here.",
+      "revId": "a318f5e0620ef9daa0fd73554bf69e202d8f3398",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAD3///5w\u003d",
         "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/resolver/GetAnyFile.java",
         "patchSetId": 8
@@ -102,6 +289,23 @@
       "side": 1,
       "message": "Respin will rename this to AsIsFileService.  Its more thing like.",
       "parentUuid": "AAAAD3///7g\u003d",
+      "revId": "a318f5e0620ef9daa0fd73554bf69e202d8f3398",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAD3///7g\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/resolver/GetAnyFile.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "This name look lika a name of a method and not a thing.",
       "revId": "a318f5e0620ef9daa0fd73554bf69e202d8f3398",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
