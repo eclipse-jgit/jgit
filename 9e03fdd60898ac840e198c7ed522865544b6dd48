@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAE3///2s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Like in UploadPack I find this awkward wording.  Maybe:\n\n  * \u003cp\u003e\n  * Only refs allowed by this filter will be shown to the client.\n  * Clients may still attempt to create or update a reference\n  * hidden by the configured RefFilter.  These attempts should\n  * be rejected by a matching {@link PreReceiveHook}.\n\nBasically one of the corner conditions here is, lets say the RefFilter hides refs/heads/sekret from the client.  The client might still try to create that branch, as he can\u0027t see it, so he assumes its available.  We loosely enforce the security of that update within validateCommands(), but the PreReceiveHook really should be playing in partnership with the RefFilter to ensure the client doesn\u0027t overwrite a branch he can\u0027t see.",
+      "revId": "9e03fdd60898ac840e198c7ed522865544b6dd48",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAE3///20\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "No, this is the repository the upload is reading from.",
+      "revId": "9e03fdd60898ac840e198c7ed522865544b6dd48",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAE3///2w\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Reading this again, this is awkward.  It makes no sense to me in context.  I would instead suggest:\n\n  * \u003cp\u003e\n  * Only refs allowed by this filter will be sent to the client.  This\n  * can be used by a server to restrict the list of references the\n  * client can obtain through clone or fetch, effectively limiting the\n  * access to only certain refs.",
+      "revId": "9e03fdd60898ac840e198c7ed522865544b6dd48",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
