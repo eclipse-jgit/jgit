@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "AAAAA3///50\u003d",
+        "filename": "org.eclipse.jgit.releng/build.linux.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-03-10T15:26:29Z",
+      "side": 1,
+      "message": "doubt: where do we depend on GEF-zest ?",
+      "revId": "992ea5dd7d0c5ca5fd815945cd2e323436f40c6d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAA3///0U\u003d",
         "filename": "org.eclipse.jgit.releng/build.macosx.properties",
         "patchSetId": 1
@@ -64,6 +81,74 @@
       "writtenOn": "2010-03-10T15:26:29Z",
       "side": 1,
       "message": "These are all mixed spaces-before-tabs indentation.\n\nWe prefer tab indentation in JGit, and if you must use spaces to get alignment right, tabs should still be used before spaces on a line.",
+      "revId": "992ea5dd7d0c5ca5fd815945cd2e323436f40c6d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///5w\u003d",
+        "filename": "org.eclipse.jgit.releng/build.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-03-10T15:26:29Z",
+      "side": 1,
+      "message": "please remove the trailing whitespace",
+      "revId": "992ea5dd7d0c5ca5fd815945cd2e323436f40c6d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///5s\u003d",
+        "filename": "org.eclipse.jgit.releng/category.xml.example",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-03-10T15:26:29Z",
+      "side": 1,
+      "message": "please remove trailing whitespace",
+      "revId": "992ea5dd7d0c5ca5fd815945cd2e323436f40c6d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///54\u003d",
+        "filename": "org.eclipse.jgit.releng/promote.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-03-10T15:26:29Z",
+      "side": 1,
+      "message": "please remove the trailing whitespace",
+      "revId": "992ea5dd7d0c5ca5fd815945cd2e323436f40c6d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///5o\u003d",
+        "filename": "org.eclipse.jgit.releng/testing.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-03-10T15:26:29Z",
+      "side": 1,
+      "message": "please remove trailing whitespace",
       "revId": "992ea5dd7d0c5ca5fd815945cd2e323436f40c6d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
