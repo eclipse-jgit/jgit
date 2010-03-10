@@ -17,6 +17,23 @@
       "revId": "b12eea70cd60c5fdf99e12afac732c7503c1cc7f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAAn///4g\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 0,
+      "message": "I\u0027ve always found \u0027while(true)\u0027 more canonical way of looping forever.",
+      "revId": "b12eea70cd60c5fdf99e12afac732c7503c1cc7f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }

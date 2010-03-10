@@ -17,6 +17,23 @@
       "revId": "05ee1e21df5ac5fab6321446f031911619dd8a4c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAAn///4k\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Might be worth documenting here what the return value of \u0027negotiate\u0027 means, even if it\u0027s not a public method",
+      "revId": "05ee1e21df5ac5fab6321446f031911619dd8a4c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
