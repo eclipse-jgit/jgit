@@ -17,6 +17,23 @@
       "revId": "5b89088f877fdc52d6e5de23be47da940838e4df",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAABH///90\u003d",
+        "filename": ".gitignore",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 11
+      },
+      "writtenOn": "2010-03-10T15:26:29Z",
+      "side": 0,
+      "message": "Why not using single .gitignore in the project\u0027s root? Any reason for duplicating same lines for every project?",
+      "revId": "5b89088f877fdc52d6e5de23be47da940838e4df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
