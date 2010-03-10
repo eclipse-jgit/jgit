@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAE3///tU\u003d",
+        "filename": "tools/fixHeaders.pl",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-03-10T15:26:29Z",
+      "side": 1,
+      "message": "line is still unused",
+      "revId": "033860212a8074ca16d1529c8d4b9d2febaf13f0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
