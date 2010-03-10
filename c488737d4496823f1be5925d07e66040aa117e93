@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAEH///44\u003d",
+        "filename": "org.eclipse.jgit.http.test/META-INF/MANIFEST.MF",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-03-10T15:26:29Z",
+      "side": 1,
+      "message": "We probably shlould be consistent, but I don\u0027t think much thought has been done regarding what to prefer. Bundles are closer to the unit of packaging and versioning , than packages themselves.\n\nMaking sure we re-export everything seems easier in  Eclipse with biundles than packages. but other than that I have no clear preferenvce myself.",
+      "parentUuid": "AAAAEH///6g\u003d",
+      "revId": "c488737d4496823f1be5925d07e66040aa117e93",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAEH///6c\u003d",
         "filename": "org.eclipse.jgit.http.test/build.properties",
         "patchSetId": 1
