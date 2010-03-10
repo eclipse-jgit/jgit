@@ -17,6 +17,23 @@
       "revId": "ea63bba9b5d7af8d0fbd0620e092d177bed54f58",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAD3///9g\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/GitServlet.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "1) Gerrit colour coding gets this wrong, probably because of the */ in the string. Not that it\u0027s a biggie, I\u0027m just pointing it out so you can have a look in context.\n2) Not a big fan of the // with no comment at the end just so the .with goes onto a new line. I appreciate that it\u0027s in keeping with the rest of these though.",
+      "revId": "ea63bba9b5d7af8d0fbd0620e092d177bed54f58",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
