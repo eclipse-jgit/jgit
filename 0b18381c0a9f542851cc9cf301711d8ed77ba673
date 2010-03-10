@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAE3///84\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawText.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Of course your right, we leaked here.  Shouldn\u0027t we also wrap the for loop above in a try/finally so that if we hit the IOException \"Early EOF\" above we still don\u0027t leak the file handle?\n\nBetter, we can just replace the entire method with our IO.readFully() method....  I\u0027ll post a patch in a second.",
+      "revId": "0b18381c0a9f542851cc9cf301711d8ed77ba673",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
