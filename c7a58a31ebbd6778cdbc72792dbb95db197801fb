@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAD3///xA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "That\u0027s better than the prior patch.  You should squash these two together into a single commit.\n\nAlso, I think you can avoid using the toPrivateString() method on URIish when you do that and instead get the password data directly from the URIish.  This reduces the chances that we\u0027ll publish the password as part of an error messages when things fail.",
+      "revId": "c7a58a31ebbd6778cdbc72792dbb95db197801fb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
