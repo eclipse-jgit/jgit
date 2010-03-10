@@ -1,0 +1,22 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAAn////U\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/MyersDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Christian, would you prefer to submit this as-is to the repository and apply your IntPair type of fix on top of it, or would you prefer to squash your fix into this commit and just note your contribution in the commit message?",
+      "parentUuid": "AAAAAX///9g\u003d",
+      "revId": "7ea3d6b00658d72b4f542ea50115fc7c4446d156",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
