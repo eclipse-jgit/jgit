@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAABH///6k\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/WrappedRequest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "This class seems to do some kind of path rewriting?\nWould it make more sense to name it something like PathRewritingRequest?\nIt achieves path rewriting by wrapping the original request but naming it WrappedRequest tells more about its implementation details than about its intention.",
+      "revId": "f09b501c64887d800cbdd0317030ffde47b48f66",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
