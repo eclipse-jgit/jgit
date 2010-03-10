@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAABX///z4\u003d",
+        "filename": "org.eclipse.jgit-feature/.gitignore",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-03-10T15:26:29Z",
+      "side": 1,
+      "message": "this project has no java nature -\u003e no need to ignore /bin\n\ninstead we should ignore compile.org.eclipse.jgit.xml which is generated on \"Export / Deployable Features\"",
+      "revId": "bfbf306d56057eb3583e4b331dedde4a793bff84",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
