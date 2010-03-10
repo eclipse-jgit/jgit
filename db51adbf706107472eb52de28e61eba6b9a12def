@@ -1,0 +1,22 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAEX///vo\u003d",
+        "filename": "org.eclipse.jgit.iplog/src/org/eclipse/jgit/iplog/CSV.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "No, we can\u0027t rename it readLines(), because it reads exactly one line and returns it.  The values in the list are the columns on that read line.",
+      "parentUuid": "AAAAEX///vw\u003d",
+      "revId": "db51adbf706107472eb52de28e61eba6b9a12def",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
