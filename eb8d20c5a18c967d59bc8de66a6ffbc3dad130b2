@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAAA3////M\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/InfoRefsServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "See other comment - \u0027Constants\u0027 feels like the wrong named class for a utility method to perform encoding, even if it does define the UTF-8 string.",
+      "revId": "eb8d20c5a18c967d59bc8de66a6ffbc3dad130b2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAA3///9g\u003d",
         "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ReceivePackServlet.java",
         "patchSetId": 3
@@ -38,6 +55,41 @@
     },
     {
       "key": {
+        "uuid": "AAAAA3///8k\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ReceivePackServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "The general contract of close doesn\u0027t enforce this, and there have been cases where the close doesn\u0027t in fact do this (and just drops the connection). I don\u0027t think it\u0027s wrong to do it as well inside the try, but in the general bug-free case, you\u0027re right.",
+      "parentUuid": "AAAAA3///9g\u003d",
+      "revId": "eb8d20c5a18c967d59bc8de66a6ffbc3dad130b2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3////I\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ReceivePackServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Worth doing a flush here as well?",
+      "revId": "eb8d20c5a18c967d59bc8de66a6ffbc3dad130b2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAA3///9U\u003d",
         "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/RepositoryRouter.java",
         "patchSetId": 3
@@ -50,6 +102,23 @@
       "side": 1,
       "message": "Fixed.",
       "parentUuid": "AAAAA3////E\u003d",
+      "revId": "eb8d20c5a18c967d59bc8de66a6ffbc3dad130b2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3////E\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/RepositoryRouter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Personally, I\u0027d put this dummy implementation inside the ReceivePackFactory as a static named inner class, like:\npublic class ReceivePackFactory {\n  public static final Empty \u003d new Empty();\n  public static class Empty extends ReceivePackFactory {\n    ... // methods throwing exception\n  }\n}\n\nYou can then use receivePackFactory \u003d ReceivePackFactory.EMTPY (or substitute favourite name of choice). Possibly doesn\u0027t add much to reuse, but if you ever add a new method that you need to override in the ReceivePackFactory, you can add a dummy (exception-throwing) impl to the Empty class in the same file without having to change 2 source files (the client will still work in exactly the same way).\n\nI appreciate this is a minor, almost stylistic comment, and I\u0027d be OK with you ignoring it; but should we need to change the dummy methods in the future, it\u0027d be my preference to only have to do that in one source file instead of two (as well as permitting other callers to re-use the Empty one should they have the same requirements).",
       "revId": "eb8d20c5a18c967d59bc8de66a6ffbc3dad130b2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -92,6 +161,41 @@
     },
     {
       "key": {
+        "uuid": "AAAAA3///80\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/resolver/DefaultReceivePackFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "I only mentioned it in case we had something post-processing later on which does something like indexOf(\u0027@\u0027) to split the string up. It\u0027s not a big deal, if you think we won\u0027t see that kind of bug.",
+      "parentUuid": "AAAAA3///9M\u003d",
+      "revId": "eb8d20c5a18c967d59bc8de66a6ffbc3dad130b2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3////A\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/resolver/DefaultReceivePackFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Is there the danger that the \u0027user\u0027 will in fact be an e-mail address in the future, like alex.blewitt@gmail.com is my bugzilla login ID? If so, and you\u0027re using a @ to separate out the two, won\u0027t this end up in alex.blewitt@gmail.com@egit.eclipse.org? Maybe pass in the (default) host and user separately,and then let PersonIdent append the default host if needed.",
+      "revId": "eb8d20c5a18c967d59bc8de66a6ffbc3dad130b2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAA3///9I\u003d",
         "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/resolver/ReceivePackFactory.java",
         "patchSetId": 3
@@ -104,6 +208,40 @@
       "side": 1,
       "message": "I rebased the entire series with --whitespace\u003dfix, the red blobs should disappear.",
       "parentUuid": "AAAAA3///+8\u003d",
+      "revId": "eb8d20c5a18c967d59bc8de66a6ffbc3dad130b2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///+8\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/resolver/ReceivePackFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Red blob?",
+      "revId": "eb8d20c5a18c967d59bc8de66a6ffbc3dad130b2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///+4\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/resolver/ReceivePackFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Good practice to put \u0027public\u0027 on interface methods, even though it\u0027s not necessary? Argument for: if you put \u0027public\u0027 you can just copy/paste the line into an implementing class, which would otherwise be an error. Argument against: it\u0027s the default for interfaces (but not for classes that you might paste it into). A suitable decision probably should be recorded on the EGit contributor code guidelines.",
       "revId": "eb8d20c5a18c967d59bc8de66a6ffbc3dad130b2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
