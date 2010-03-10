@@ -1,0 +1,112 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAA3///9g\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ReceivePackServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Not necessary, our final block calls close, which has to flush any buffered data before the close completes.",
+      "parentUuid": "AAAAA3////I\u003d",
+      "revId": "eb8d20c5a18c967d59bc8de66a6ffbc3dad130b2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///8Q\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ReceivePackServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "OK, os.flush() added to all of these sites where we are dealing with the output stream from the response object.",
+      "parentUuid": "AAAAA3///8k\u003d",
+      "revId": "eb8d20c5a18c967d59bc8de66a6ffbc3dad130b2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///9U\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/RepositoryRouter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Fixed.",
+      "parentUuid": "AAAAA3////E\u003d",
+      "revId": "eb8d20c5a18c967d59bc8de66a6ffbc3dad130b2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///8M\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/resolver/DefaultReceivePackFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "I don\u0027t think we do that anywhere, and if we did, we\u0027d probably want to use lastIndexOf for exactly this reason.",
+      "parentUuid": "AAAAA3///80\u003d",
+      "revId": "eb8d20c5a18c967d59bc8de66a6ffbc3dad130b2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///9M\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/resolver/DefaultReceivePackFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "There isn\u0027t really anything wrong with the \"email\" field in the reflog holding user@domain@host.  And we are passing in the *remote* host here, which should be the hostname or IP address of the client (or proxy) which has connected.  That may be useful in the reflog to help track down where the connection originated from, which is why we are storing it at all.",
+      "parentUuid": "AAAAA3////A\u003d",
+      "revId": "eb8d20c5a18c967d59bc8de66a6ffbc3dad130b2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///9I\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/resolver/ReceivePackFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "I rebased the entire series with --whitespace\u003dfix, the red blobs should disappear.",
+      "parentUuid": "AAAAA3///+8\u003d",
+      "revId": "eb8d20c5a18c967d59bc8de66a6ffbc3dad130b2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
