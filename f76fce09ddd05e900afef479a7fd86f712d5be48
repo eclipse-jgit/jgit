@@ -1,0 +1,22 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAD3///6c\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackFetchConnection.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 590,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Fixed in my upcoming respin, thanks.",
+      "parentUuid": "AAAAD3///9o\u003d",
+      "revId": "f76fce09ddd05e900afef479a7fd86f712d5be48",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
