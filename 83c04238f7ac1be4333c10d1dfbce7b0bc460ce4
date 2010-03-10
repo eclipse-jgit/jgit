@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAABX///5k\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/URIishTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "I think we should also test a couple more cases:\n\n* /a/b/c.git  --\u003e \"c\"\n* /abc  --\u003e \"abc\"\n* /a/b/c  --\u003e \"c\"\n* /abc/.git  --\u003e \"abc\"",
+      "revId": "83c04238f7ac1be4333c10d1dfbce7b0bc460ce4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAABX////g\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "I\u0027d like to see a bit more detailed Javadoc of this method.  Can you list example input URIs, and their outputs?",
+      "revId": "83c04238f7ac1be4333c10d1dfbce7b0bc460ce4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAABX////c\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Why isn\u0027t this just an instance method of URIish, calling getPath() itself internally?\n\nAlso, I wonder if \"getBaseName()\" or \"getName()\" isn\u0027t more suitable as a name for this method.  The former mirrors with the UNIX basename utility, while the latter mirrors more with java.io.File or IResource API.",
+      "revId": "83c04238f7ac1be4333c10d1dfbce7b0bc460ce4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAABX///5o\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "OK,  I understand now why you want getHumanishName to be static and accept a string.  I still think the instance method form would also be useful because most uses of it will have a URIish instance object on hand that they want the humanish name off of.\n\nRegarding the name of the method, I guess we can keep it getHumanishName.  After thinking about the other suggestions I gave, they are perhaps worse than getHumanishName when it comes to describing their intended result.",
+      "parentUuid": "AAAABX///8A\u003d",
+      "revId": "83c04238f7ac1be4333c10d1dfbce7b0bc460ce4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAABX///4c\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Style-nit: curly braces aren\u0027t used when there\u0027s only one statement nested inside of the if.",
+      "revId": "83c04238f7ac1be4333c10d1dfbce7b0bc460ce4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAABX///4Y\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Should we include a message like \"empty path\"?",
+      "revId": "83c04238f7ac1be4333c10d1dfbce7b0bc460ce4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAABX///4g\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Isn\u0027t this NON-NLS-1 tag unnecessary given that DOT_GIT is now a string constant?",
+      "revId": "83c04238f7ac1be4333c10d1dfbce7b0bc460ce4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAABX///4U\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Yea, we probably should throw IAE if the return string would be empty here.  We do it for most of the other conditions where the input string looks too wrong to continue processing, e.g. above you throw IAE if the input string was \"\".",
+      "parentUuid": "AAAABX///5E\u003d",
+      "revId": "83c04238f7ac1be4333c10d1dfbce7b0bc460ce4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
