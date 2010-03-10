@@ -20,6 +20,41 @@
     },
     {
       "key": {
+        "uuid": "AAAAD3///2Y\u003d",
+        "filename": "org.eclipse.jgit.http.server/.gitignore",
+        "patchSetId": 9
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2010-03-10T15:26:29Z",
+      "side": 1,
+      "message": "We want to check in the Eclipse settings to make it easier/possible for people to develop this",
+      "revId": "8f6a4129d708c7591ddcc4d16b0c75d517a9126a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAD3///z8\u003d",
+        "filename": "org.eclipse.jgit.http.server/.gitignore",
+        "patchSetId": 9
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2010-03-10T15:26:29Z",
+      "side": 1,
+      "message": "Fair enough.",
+      "parentUuid": "AAAAD3///1I\u003d",
+      "revId": "8f6a4129d708c7591ddcc4d16b0c75d517a9126a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAD3///1E\u003d",
         "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/GitServlet.java",
         "patchSetId": 9
