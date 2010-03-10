@@ -1,0 +1,148 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAAn///3A\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/GetRefServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Yes, servlets have to be public to be loaded from web.xml.\n\nThese servlets are not meant to load from web.xml, but instead are loaded by the RepositoryRouter filter.  Applications would map RepositoryRouter into their namespace by some means, one of which can be by adding the filter in their web.xml.  Another possibility is to directly create the RepositoryRouter filter in their own Filter, delegating where necessary.  This is the approach any Guice based web application (like Gerrit Code Review) would prefer to use.",
+      "parentUuid": "AAAAAn///30\u003d",
+      "revId": "d643e5c530ab8f4e41def119ba544dd7a1797327",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAAn///28\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/GetRefServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Hmm, good point, we do repeat UTF-8 encoding in a lot of places.  We already have a constant that says UTF-8, but I wanted to document it here explicitly that we were using UTF-8 for the output of this servlet.  Its unlikely to ever change.",
+      "parentUuid": "AAAAAn///3w\u003d",
+      "revId": "d643e5c530ab8f4e41def119ba544dd7a1797327",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAAn///24\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/InfoPacksServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Yes, I missed that obvious refactoring on the doGet/doHead.\n\nActually, looking at the servlet spec, doHead by default calls doGet with a null output stream.  Since are already computing the response content and discarding it, its cleaner to just use the default doHead implementation.",
+      "parentUuid": "AAAAAn///3s\u003d",
+      "revId": "d643e5c530ab8f4e41def119ba544dd7a1797327",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAAn///20\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/RepositoryServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "The red blob marks a whitespace error, in this case trailing whitespace since it is on the end of a line.  (Same display as git diff gives you when coloring is turned on.)",
+      "parentUuid": "AAAAAn///3o\u003d",
+      "revId": "d643e5c530ab8f4e41def119ba544dd7a1797327",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAAn///2w\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/RepositoryServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "These were copied from Gerrit Code Review, which in turn has copied them from internal Google documentation describing how to properly mark HTTP entities as not cacheable by browsers or proxies.\n\nThe date doesn\u0027t matter, just that it is behind the Date header sent by the HTTP server.",
+      "parentUuid": "AAAAAn///3U\u003d",
+      "revId": "d643e5c530ab8f4e41def119ba544dd7a1797327",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAAn///2s\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/RepositoryServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "I just went back and reread our internal documentation, we now recommend that the header be:\n\n  Cache-Control: no-cache, no-store, max-age\u003d0, must-revalidate\n\nwhich is fairly aggressive in not caching content.  I\u0027m fairly inclined to trust our internal documentation here, we are quite good at keeping this information current and valid across our entire product line.  And we have a rather large user base on the web.\n\nI\u0027m not an HTTP 1.1 expert, but it seems to me that sending multiple Cache-Control lines isn\u0027t what the standard recommends and may inadvertently break a user agent or proxy that recognizes a proper Cache-Control line.",
+      "parentUuid": "AAAAAn///3Q\u003d",
+      "revId": "d643e5c530ab8f4e41def119ba544dd7a1797327",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAAn///2o\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/RepositoryServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "See the no-cache case above.\n\nOur internal docs actually suggest:\n\n  Cache-Control: public, max-age\u003d31536000\n\ninstead of the reverse above, so we might want to change this.  But IIRC public is needed to let proper HTTP 1.1 proxies know its OK to cache this content for all users of the proxy, not just the original requester.\n\nIf a proxy isn\u0027t able to honor this, its a busted proxy and is going to be doomed to fetching content it could have served from cache.  That\u0027s less of an issue than above with the no-cache case where a busted proxy might serve a cached result when it wasn\u0027t supposed to.",
+      "parentUuid": "AAAAAn///3M\u003d",
+      "revId": "d643e5c530ab8f4e41def119ba544dd7a1797327",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAAn///2k\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/RepositoryServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Good point, I\u0027ll add raw.length + 32 to the constructor.  Sadly we wind up with a copy anyway at the end because we cast back to a byte[] and will need to compact, but at least we save a handful of doubling expansions during compression.",
+      "parentUuid": "AAAAAn///3I\u003d",
+      "revId": "d643e5c530ab8f4e41def119ba544dd7a1797327",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
