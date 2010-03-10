@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAE3///xw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/IndexPack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "I think this is being computed too early.  If there are deltas in this pack, they won\u0027t appear in the entry collection yet.  They don\u0027t get added until resolveDeltas runs.  Worse, if this is a thin pack, some detals don\u0027t get added until the middle of fixThinPack().\n\nI think instead of doing this loop here, write a utility function that does:\n\n  entries[entryCount++] \u003d entry;\n\n  if (needNewObjectIds)\n    newObjectIds.add(entry);\n\nand replace any location that assigns into the entries array with this utility method.  Except in fixThinPack when we add oe right after writeWholeObject.\n\nAnd since you now need to allocate the set kind of early, maybe drop the boolean field altogether and use the set !\u003d null to determine if the set should be updated or not.",
+      "revId": "af34d0d1e50949b73480f2c41b96fc1c90cb2944",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAE3///x0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/IndexPack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "I think you should compute needBaseObjectIds right before this method call.  Prior to resolveDeltas baseById can contain objects which are also in this pack file, and thus aren\u0027t in the assumed base and shouldn\u0027t be reported in that baseIds collection.  After resolveDeltas, baseById contains only the objects which aren\u0027t in this pack, and must come from the local repository.  That\u0027s the set you want.",
+      "revId": "af34d0d1e50949b73480f2c41b96fc1c90cb2944",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAE3///xs\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 704,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Not every ReceivePack user wants these collections.  So we probably should expose these set methods as pass-throughs.  But that means we actually need booleans here in ReceivePack to hold the flags until the IndexPack can be allocated.",
+      "revId": "af34d0d1e50949b73480f2c41b96fc1c90cb2944",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
