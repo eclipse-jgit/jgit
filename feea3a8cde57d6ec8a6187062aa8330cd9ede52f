@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAD3///tk\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/GitServlet.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Same comment as elsewhere",
+      "revId": "feea3a8cde57d6ec8a6187062aa8330cd9ede52f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
