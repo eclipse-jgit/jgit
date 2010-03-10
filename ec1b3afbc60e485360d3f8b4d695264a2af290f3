@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAABH///5A\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "How about DEFAULT_REMOTE_NAME instead of REMOTE in order to be more explicit ? That\u0027s how the corresponding constant in EGit was named (see your other patch).",
+      "revId": "ec1b3afbc60e485360d3f8b4d695264a2af290f3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
