@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAAn///6k\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/MyersDiff.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Style nit: Spaces around operators, so this line should read:\n\n  long ret \u003d ((long)x) \u003c\u003c 32;",
+      "revId": "3b5ea5f748ac4fff4aa342bc9cac4a7b5e9a611b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAAn///6g\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/MyersDiff.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Style nit: We avoid parens in return so this line should read:\n\n  return ret | (k + x);\n\nBut I\u0027d even more prefer that we state what \"y\" is:\n\n  long y \u003d k + x;\n  return ret | y;",
+      "revId": "3b5ea5f748ac4fff4aa342bc9cac4a7b5e9a611b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAAn///6c\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/MyersDiff.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Style nit: Spaces around operators:\n\n  return (int) (snake \u003e\u003e\u003e 32);",
+      "revId": "3b5ea5f748ac4fff4aa342bc9cac4a7b5e9a611b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAAn///6Q\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/MyersDiff.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Isn\u0027t this going to have the same result as\n\n  return (int) snake;\n\nbut without needing to first push a long constant onto the stack and issuing a boolean and instruction?",
+      "revId": "3b5ea5f748ac4fff4aa342bc9cac4a7b5e9a611b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAAn///6s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/LongList.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "s/ integer array / long array /",
+      "revId": "3b5ea5f748ac4fff4aa342bc9cac4a7b5e9a611b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAAn///6M\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/LongList.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Oops.  set(size(), value) also doesn\u0027t match the Javadoc which says exclusive to size.  *sigh*",
+      "parentUuid": "AAAAAn///6o\u003d",
+      "revId": "3b5ea5f748ac4fff4aa342bc9cac4a7b5e9a611b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
