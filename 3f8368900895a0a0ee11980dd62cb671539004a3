@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAEX///60\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CachedObjectDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Style-nit:  We don\u0027t use @author tags.\n\nAlso, please try to reorganize the Javadoc to have a single short sentence for the first line, and then use \u003cp\u003e to break paragraphs.  E.g.:\n\n /** \n  * {@link ObjectDatabase} wrapper providing temporary lookup caching.\n  * \u003cp\u003e\n  * The base class for {@code ObjectDatabase}s that wrap other \n  * database instances and optimize querying for objects by caching\n  * some database dependent information.  Instances of this class  \n  * (or any of its subclasses) can be returned from the method \n  * {@link ObjectDatabase#newCachedDatabase()}.  This class can be \n  * used in scenarios where the database does not change, or when\n  * changes in the database while some operation is in progress is   \n  * an acceptable risk.\n  * \u003cp\u003e\n  * The default implementation delegates all requests to the wrapped\n  * database.  The instance might be indirectly invalidated if the \n  * wrapped instance is closed.  Closing the delegating instance\n  * does not implies closing the wrapped instance. For alternative\n  * databases, cached instances are used as well.\n  */",
+      "revId": "3f8368900895a0a0ee11980dd62cb671539004a3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAEX///6w\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CachedObjectDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Why not just return this?",
+      "revId": "3f8368900895a0a0ee11980dd62cb671539004a3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAEX///6o\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CachedObjectDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "I would reword this with a reference to the class:\n\n  * The cached instance of an {@link ObjectDirectory}.\n  * \u003cp\u003e\n  * This class caches the list of loose objects in memory, so\n  * the file system is not queried with stat calls.",
+      "revId": "3f8368900895a0a0ee11980dd62cb671539004a3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAEX///6s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CachedObjectDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Style nit:  We don\u0027t use @author tags.",
+      "revId": "3f8368900895a0a0ee11980dd62cb671539004a3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAEX///6k\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CachedObjectDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "You should use ObjectId, to prevent a MutableObjectId from being stored and changed behind your back.\n\nAlso, due to the need to support AnyObjectId during openObject2 below, and the oddity of how RevObject gets used, I would actually use a ObjectIdSubclassMap\u003cObjectId\u003e here instead of the HashSet.  Its the same type we use to support efficient traversal in a RevWalk, but probably will use a lot less memory, and knows how to work around the RevObject hashCode/equals braindamage.",
+      "revId": "3f8368900895a0a0ee11980dd62cb671539004a3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAEX///6g\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CachedObjectDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "This is some pretty deeply nested code, and I\u0027m not sure I like the idea of having the hex string test logic duplicated here.\n\nWhat about this alternative implementation?\n\n  String[] fanout \u003d objects.list();\n  if (fanout \u003d\u003d null)\n    fanout \u003d new String[0];\n\n  for (String d : fanout) {\n    if (d.length() !\u003d 2)\n      continue;\n\n    String[] entries \u003d new File(objects, d).list();\n    if (entries \u003d\u003d null)\n      continue;\n\n    for (String e : entries) {\n      if (e.length() !\u003d Constants.OBJECT_ID_STRING_LENGTH - 2)\n        continue;\n\n      try {\n        unpackedObjects.add(ObjectId.fromString(d + e));\n      } catch (IllegalArgumentException notAnObject) {\n      }\n    }\n  }\n\nThe odds of finding a non-hex file inside of a loose object directory is incredibly low, especially once you include the test for length \u003d 38 like we do at the start of the loop.  So we are very unlikely to throw an exception during the scan.",
+      "revId": "3f8368900895a0a0ee11980dd62cb671539004a3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAEX///6c\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CachedObjectDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Given how this is line wrapping (and with the ObjectIdSubclassMap switch), I\u0027d actually prefer:\n\n  if (unpackedObjects.get(objectId) \u003d\u003d null)\n    return null;\n  return super.openObject2(curs, objectName, objectId);\n\nAlso, you should implement hasObject on this database, but given the way the signature is, we have to do it through two methods:\n\n  @Override\n  protected abstract boolean hasObject1(AnyObjectId objectId) {\n    if (unpackedObjects.get(objectId) !\u003d null)\n      return true;  // known to be loose\n    return super.hasObject1(objectId);\n  }\n\n  @Override\n  protected abstract boolean hasObject2(String name) {\n    return false;  // loose objects were tested by hasObject1\n  }",
+      "revId": "3f8368900895a0a0ee11980dd62cb671539004a3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAEX///6Y\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/IndexPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Style-nit:  Please add a blank line before the documentation and declaration of this new member.",
+      "revId": "3f8368900895a0a0ee11980dd62cb671539004a3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
