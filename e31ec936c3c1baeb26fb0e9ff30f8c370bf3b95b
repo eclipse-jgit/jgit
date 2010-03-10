@@ -1,0 +1,22 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAAn///4I\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefAdvertiser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Fixed, thanks.",
+      "parentUuid": "AAAAAn///4s\u003d",
+      "revId": "e31ec936c3c1baeb26fb0e9ff30f8c370bf3b95b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
