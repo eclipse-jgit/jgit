@@ -17,6 +17,23 @@
       "revId": "4312373473512eade79371390101bca05b4ab253",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3////U\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PacketLineOut.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 0,
+      "message": "Why is there a class called \u0027Constants\u0027 that does encoding with UTF-8? Doesn\u0027t sound like there should be a utility method like that in a class containing constants.",
+      "revId": "4312373473512eade79371390101bca05b4ab253",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
