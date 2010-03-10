@@ -135,6 +135,24 @@
       "revId": "b5bcb7abda67d249e33c8601237b9906482f681d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAABX///3g\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 11
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": ":-) No, it\u0027s from the \u0027man git-clone\u0027, the directory option: The \"humanish\" part of the source repository is used if no directory is explicitly given (repo for /path/to/repo.git and foo for host.xz:foo/.git).",
+      "parentUuid": "AAAABX///30\u003d",
+      "revId": "b5bcb7abda67d249e33c8601237b9906482f681d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
