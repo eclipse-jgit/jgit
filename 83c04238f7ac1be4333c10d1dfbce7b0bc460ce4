@@ -71,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "AAAABX///48\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "getDisplayName() seems to be a common name for getting strings suitable for UI purposes",
+      "parentUuid": "AAAABX////c\u003d",
+      "revId": "83c04238f7ac1be4333c10d1dfbce7b0bc460ce4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAABX///4c\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
         "patchSetId": 1
