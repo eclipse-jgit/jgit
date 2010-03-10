@@ -1,0 +1,22 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAA3///+w\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PacketLineOut.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 0,
+      "message": "Hysterical raisins.   Yes, this encode method does not belong in a class called Constants.  Yes, we could refactor it.  Everyone references it.  A lot.  Including application code.  We\u0027re somewhat hesitant to move the method because it might break someone linking to us.\n\nFWIW, this is the wrong context to be raising that in.  We assume existing code is fine if its not touched by the current change.  If it bothers you much, open a bug against yourself in Bugzilla to attempt to refactor this at some point in the future and start doing said refactoring work yourself.  :-)",
+      "parentUuid": "AAAAA3////U\u003d",
+      "revId": "4312373473512eade79371390101bca05b4ab253",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
