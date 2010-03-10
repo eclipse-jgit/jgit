@@ -1,0 +1,22 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAD3///wY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/StringUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Good question, but a lot of other Java code takes the style that a check for a null throws NPE rather than IAE.\n\nI could just omit the null check altogether, in which case we\u0027d probably crash during equalsIgnoreCase due to one of the arguments being null, and result in the same NPE message.\n\nMy preference is for what I wrote.  :-)",
+      "parentUuid": "AAAAD3///ws\u003d",
+      "revId": "f39d3490260980ee1ccb248c0a564490344c6ba5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
