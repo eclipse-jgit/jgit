@@ -1,0 +1,58 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAEX///+U\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RefTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Good point.  I\u0027ll add getTarget() and isSymbolic() to the Ref API, so we don\u0027t have to do instanceof and downcasts.  I\u0027ll respin the series on the same base and upload replacements shortly.",
+      "parentUuid": "AAAAEX////s\u003d",
+      "revId": "b5e96bba1ff49c01fdc790096f5b69f348664813",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAEX///+Q\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/RefSpecTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Yea, there\u0027s a known bug where Gerrit starts a comment in the middle of a string containing /*.  Gerrit\u0027s syntax coloring doesn\u0027t have a full grasp on the language model because its seeing text one line at a time, not the full file content.",
+      "parentUuid": "AAAAEX////w\u003d",
+      "revId": "b5e96bba1ff49c01fdc790096f5b69f348664813",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAEX///+M\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Thanks, create() and close() will be abstract in the next iteration.",
+      "parentUuid": "AAAAEX///+8\u003d",
+      "revId": "b5e96bba1ff49c01fdc790096f5b69f348664813",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
