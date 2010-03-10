@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "AAAACn///+8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "I was thinking about tags, but maybe that does not make sense...\nFor HEAD it most surely doesn\u0027t, but this routine allow us to detach any symbolic ref. Through peeling that would work even if the symref refers to a tag.",
+      "parentUuid": "AAAACX////4\u003d",
+      "revId": "5d7d0b71deae002da203ac896acafc3d571f38fd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAACX////8\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
         "patchSetId": 1
@@ -48,6 +66,24 @@
       "writtenOn": "2010-03-10T05:19:08Z",
       "side": 1,
       "message": "This appears to be unused?",
+      "revId": "5d7d0b71deae002da203ac896acafc3d571f38fd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAACn///+4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "yep, the intent was to have a one-argument function in Repository, not here.",
+      "parentUuid": "AAAACX////8\u003d",
       "revId": "5d7d0b71deae002da203ac896acafc3d571f38fd",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
