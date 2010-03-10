@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAE3///2A\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/IndexPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1132,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Since this is called after writeIdx() executes the initialEntryCount can\u0027t be relied upon to cut the list at the proper point.  Its been sorted inside of writeIdx() which means this position is now bogus and has no relationship with what the user actually sent.\n\nUnfortunately you\u0027ll have to have the caller set a flag whether or not they need this data, and if they do, grab it before we get as far as writeIdx() being invoked.  That makes my remarks in ReceivePack even more complex, because I think you may need to add a flag method to ReceivePack to let the ReceivePack caller tell us if they need this collection or not, so IndexPack can do the bookkeeping if they do.",
+      "revId": "fe02f5ba3591f80d1ffe7b0b0303944e71dd43a1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAE3///18\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/IndexPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1146,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "This collection has to be empty by the time writeIdx comes around.  If its not the pack is corrupt and unusable, because the caller asked for something we don\u0027t actually have.\n\nYou need to process the baseById collection before fixThinPack gets called.\n\nAnd I think I just found a bug in IndexPack.  We are iterating baseById and mutating it at the same time during fixThinPack.  Which isn\u0027t exactly safe.  We must be getting lucky here.",
+      "revId": "fe02f5ba3591f80d1ffe7b0b0303944e71dd43a1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAE3///2E\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "I\u0027d call this getBaseObjectIds().  Also, I think its Javadoc needs a bit more explanation:\n\n  /** @return the set of objects the incoming pack assumed for delta bases. */",
+      "revId": "fe02f5ba3591f80d1ffe7b0b0303944e71dd43a1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAE3///2I\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Call this getNewObjectIds() since that\u0027s really what it is.\n\nAlso, I\u0027d like to lazily pull this off the IndexPack instance, rather than always pulling it.  Which means maybe promote the IndexPack object to being a member field, and returning an empty collection here if it didn\u0027t successfully complete the ip.index method.",
+      "revId": "fe02f5ba3591f80d1ffe7b0b0303944e71dd43a1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
