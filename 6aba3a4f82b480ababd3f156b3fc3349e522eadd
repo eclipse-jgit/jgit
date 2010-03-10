@@ -20,6 +20,41 @@
     },
     {
       "key": {
+        "uuid": "AAAAA3///9c\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "I don\u0027t think you need to create a new exception object for every message; rather, a class should be for a class of problems and the code could be a subclass of that problem (or a specific instance of that). However, let\u0027s leave the NLS aside for now so that we can get this going.",
+      "parentUuid": "AAAAA3///94\u003d",
+      "revId": "6aba3a4f82b480ababd3f156b3fc3349e522eadd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3////8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Should this be some kind of constant rather than a String, to facilitate future NLS? We could pass in an int code INVALID_URL and a string:\nclass NotSupportException(int code, String data )\ntoString() { switch(code) case INVALID_URL: \"Invalid URL \" + data}\netc.",
+      "revId": "6aba3a4f82b480ababd3f156b3fc3349e522eadd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAA3///+c\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
         "patchSetId": 3
@@ -32,6 +67,23 @@
       "side": 1,
       "message": "Fixed",
       "parentUuid": "AAAAA3////4\u003d",
+      "revId": "6aba3a4f82b480ababd3f156b3fc3349e522eadd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3////4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "This could be a pre-defined (static final) instance of a static class, rather than an instance class instantiated anew each time.",
       "revId": "6aba3a4f82b480ababd3f156b3fc3349e522eadd",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -56,6 +108,23 @@
     },
     {
       "key": {
+        "uuid": "AAAAA3////0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "We should have a constants file for representing e.g. HTTP_METHOD_POST and HTTP_HEADER_CONTENT_TYPE",
+      "revId": "6aba3a4f82b480ababd3f156b3fc3349e522eadd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAA3///+Y\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
         "patchSetId": 3
@@ -68,6 +137,23 @@
       "side": 1,
       "message": "Fixed, yes, it should be static",
       "parentUuid": "AAAAA3////w\u003d",
+      "revId": "6aba3a4f82b480ababd3f156b3fc3349e522eadd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3////w\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Can this be \u0027static\u0027 ? I don\u0027t see that it\u0027s referring to anything in the enclosing class, but I could have missed where it is.",
       "revId": "6aba3a4f82b480ababd3f156b3fc3349e522eadd",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
