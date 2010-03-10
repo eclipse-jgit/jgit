@@ -37,6 +37,23 @@
     },
     {
       "key": {
+        "uuid": "AAAAD3///so\u003d",
+        "filename": "org.eclipse.jgit.console/.classpath",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-03-10T15:26:29Z",
+      "side": 1,
+      "message": "console is the only project requiring 1.6 and it\u0027s only used if we run on 1.6, see http://egit.eclipse.org/w/?p\u003djgit.git;a\u003dcommit;h\u003d5f177bde33423689176494415cab3204193e965b",
+      "revId": "5eac1a4896175065065133dbc8d213dacba201b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAD3///sQ\u003d",
         "filename": "org.eclipse.jgit.console/META-INF/MANIFEST.MF",
         "patchSetId": 1
