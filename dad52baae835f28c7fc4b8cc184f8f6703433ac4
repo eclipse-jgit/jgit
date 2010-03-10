@@ -20,6 +20,23 @@
     },
     {
       "key": {
+        "uuid": "AAAABH///9E\u003d",
+        "filename": "org.eclipse.jgit.pgm/jgit.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 11
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Why this was recorded as delete/add and not a move?",
+      "revId": "dad52baae835f28c7fc4b8cc184f8f6703433ac4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAABH///7g\u003d",
         "filename": "pom.xml",
         "patchSetId": 2
@@ -32,6 +49,23 @@
       "side": 1,
       "message": "Good point.  I\u0027ll send another patch shortly to use this URL.",
       "parentUuid": "AAAABH///9I\u003d",
+      "revId": "dad52baae835f28c7fc4b8cc184f8f6703433ac4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAABH///9I\u003d",
+        "filename": "pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 11
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "What about using more specific URL like https://bugs.eclipse.org/bugs/buglist.cgi?query_format\u003dadvanced;component\u003dJGit;product\u003dEGit;classification\u003dTechnology ?",
       "revId": "dad52baae835f28c7fc4b8cc184f8f6703433ac4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
