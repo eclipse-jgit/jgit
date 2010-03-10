@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAE3///t4\u003d",
+        "filename": "tools/fixHeaders-TestData.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T15:26:29Z",
+      "side": 1,
+      "message": "Same note as in the script, we shouldn\u0027t use real sounding entities here in the example data.",
+      "revId": "f5d4d62de325fa66a9a35cd28a7875b006d556b1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAE3///t8\u003d",
+        "filename": "tools/fixHeaders.pl",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T15:26:29Z",
+      "side": 1,
+      "message": "I love that you wrote examples down.  But I\u0027d prefer that these not name real sounding entities.  I don\u0027t want someone grepping out code to actually think that this company owns something in here.",
+      "revId": "f5d4d62de325fa66a9a35cd28a7875b006d556b1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAE3///uI\u003d",
+        "filename": "tools/fixHeaders.pl",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T15:26:29Z",
+      "side": 1,
+      "message": "IIRC in Perl this needs to be eq not \u003d\u003d.",
+      "revId": "f5d4d62de325fa66a9a35cd28a7875b006d556b1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAE3///uA\u003d",
+        "filename": "tools/fixHeaders.pl",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T15:26:29Z",
+      "side": 1,
+      "message": "This line is unused.",
+      "revId": "f5d4d62de325fa66a9a35cd28a7875b006d556b1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAE3///uE\u003d",
+        "filename": "tools/fixHeaders.pl",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T15:26:29Z",
+      "side": 1,
+      "message": "For what its worth, I prefer the formatting of the current header where there is a blank line between each paragraph and the bullet items use - rather than * for each clause.  The current header is actually more similar to most uses of the BSD in the wild.",
+      "revId": "f5d4d62de325fa66a9a35cd28a7875b006d556b1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
