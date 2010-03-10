@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAE3///xE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/IndexPack.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Why not use a for(DeltaChain c : baseById) loop instead of Iterator?",
+      "revId": "e2e14a732c0f461839f3fc31202d6a7de2a04d32",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAE3///w8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/IndexPack.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1173,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "I think you should make both of these getters public, with proper Javadoc.  If the flag to enable their collection is public, then their contents should also be public.",
+      "revId": "e2e14a732c0f461839f3fc31202d6a7de2a04d32",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAE3///xA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/IndexPack.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1182,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Style-nit: Unnecessary blank line.",
+      "revId": "e2e14a732c0f461839f3fc31202d6a7de2a04d32",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
