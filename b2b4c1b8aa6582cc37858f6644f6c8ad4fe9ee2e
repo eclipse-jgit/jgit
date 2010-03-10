@@ -20,6 +20,23 @@
     },
     {
       "key": {
+        "uuid": "AAAAA3///+U\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/InfoRefsServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Might be more efficient to walk the chars in line and do the replacement on the fly, like:\nint l \u003d line.length();\nfor(i\u003d0;i\u003cl;i++) {\n  char c \u003d line.charAt(i);\n  if( c \u003d\u003d \u0027 \u0027 ) out.append( \u0027\\t\u0027 ) else out.append (c );\n}\nWould be worth testing to see if this is faster/slower than the above; it may well be slower.",
+      "revId": "b2b4c1b8aa6582cc37858f6644f6c8ad4fe9ee2e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAA3///8o\u003d",
         "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/RepositoryRouter.java",
         "patchSetId": 4
@@ -32,6 +49,23 @@
       "side": 1,
       "message": "The ordering is the ordering above in init, which must be carefully updated to prevent problems.  Since its maintained by hand its easy enough to ensure the ordering is correct.  Doing longest match is a pain just because we\u0027d have to have knowledge of how the servlet decided to take a request.  In my opinion its not worth the effort to ensure longest match here.\n\nI\u0027m putting a warning comment in the binding code above.  If it ever becomes something we simply can\u0027t manage by code reviews someone can revisit this to do longest match, or something better.",
       "parentUuid": "AAAAA3///+Q\u003d",
+      "revId": "b2b4c1b8aa6582cc37858f6644f6c8ad4fe9ee2e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///+Q\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/RepositoryRouter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "There\u0027s an implicit ordering here. We might have overlaps in servlets (e.g. one serving info/ and one serving info/refs). Can we ensure that the sorting does the longest/most specific URL first somehow?",
       "revId": "b2b4c1b8aa6582cc37858f6644f6c8ad4fe9ee2e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -56,6 +90,75 @@
     },
     {
       "key": {
+        "uuid": "AAAAA3///+M\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/RepositoryServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "May have lost this comment from before - isn\u0027t the epoch 1970?",
+      "revId": "b2b4c1b8aa6582cc37858f6644f6c8ad4fe9ee2e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///8U\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/RepositoryServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "I don\u0027t see any of your comments on http://egit.eclipse.org/r/#patch,unified,41,3,org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/RepositoryServlet.java if that\u0027s what you mean. Can you point me to where you\u0027re talking about ? All of the 9 comments shown against that file are mine, as far as I can tell.",
+      "parentUuid": "AAAAA3///8g\u003d",
+      "revId": "b2b4c1b8aa6582cc37858f6644f6c8ad4fe9ee2e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///+I\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/RepositoryServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Some proxies may not grok the comma-separated headers; any reason we can\u0027t just do Cache-Control: no-cache here?",
+      "revId": "b2b4c1b8aa6582cc37858f6644f6c8ad4fe9ee2e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///+E\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/RepositoryServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "See above; any reason we can\u0027t just do max-age\u003d here?",
+      "revId": "b2b4c1b8aa6582cc37858f6644f6c8ad4fe9ee2e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAA3///8c\u003d",
         "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/WrappedRequest.java",
         "patchSetId": 4
@@ -68,6 +171,23 @@
       "side": 1,
       "message": "Our coding convention is what we have written:\n\n  a !\u003d null ? a : defaultValueWhenAIsNull\n\nThus that is the way we code it.",
       "parentUuid": "AAAAA3///+A\u003d",
+      "revId": "b2b4c1b8aa6582cc37858f6644f6c8ad4fe9ee2e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///+A\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/WrappedRequest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Bit of negation going on here; why not:\n\nreturn p \u003d\u003d null ? null : getRealPath(p)",
       "revId": "b2b4c1b8aa6582cc37858f6644f6c8ad4fe9ee2e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
