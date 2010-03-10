@@ -1,0 +1,22 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAAn///38\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "We don\u0027t document private methods.  If the code isn\u0027t obvious to the reader it should be refactored to be obvious as-is, rather than documenting it.  That is part of the reason why this project has maintained (and continues to maintain) the rule \"thou shall not commit a change without a review by another committer\".  If its not obvious to another committer, its not obvious enough to survive.",
+      "parentUuid": "AAAAAn///4k\u003d",
+      "revId": "05ee1e21df5ac5fab6321446f031911619dd8a4c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAAn///4A\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 0,
+      "message": "Long ago I worked with C compilers that were too stupid to remove the boolean test for \"while (1)\".  So unending loops were written as \"for (;;)\" to work around it.  The Java compiler is obviously not that stupid, and neither are any modern C compilers, but habit is habit.\n\nOur coding standard at this point is more-or-less \"loop with no conditional\" is spelled as \"for (;;)\" because most of them have been written by me.",
+      "parentUuid": "AAAAAn///4g\u003d",
+      "revId": "b12eea70cd60c5fdf99e12afac732c7503c1cc7f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
