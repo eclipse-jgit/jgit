@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAC3///+s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/AnyObjectId.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "style nit: I think this comment should be left untouched",
+      "revId": "1cecf004c8491f463e32ced154d09c4be4355d9a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
