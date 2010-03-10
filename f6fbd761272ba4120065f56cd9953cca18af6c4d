@@ -1,0 +1,22 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAABX///2k\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "So we allow cloning /.git but cannot get the humanish name of it?\n\nC Git allows this\n$ git clone /.git\nInitialized empty Git repository in /home/me/tmp/.git/.git/\n\nShouldn\u0027t we return \"\" then?\n\nTried some other combinations with C git that \"workded\", but made no sense.",
+      "parentUuid": "AAAABX///2s\u003d",
+      "revId": "f6fbd761272ba4120065f56cd9953cca18af6c4d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
