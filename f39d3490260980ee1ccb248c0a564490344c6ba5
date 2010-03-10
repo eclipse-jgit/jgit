@@ -17,6 +17,24 @@
       "revId": "f39d3490260980ee1ccb248c0a564490344c6ba5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAD3///wE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/StringUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "I\u0027ve never seen that style before. Furthermore, an NPE is something which usually occurs when a method is invoked against a null value, which is semantically different from a value with a bad value. So I\u0027m with Mykola that we should probably use IAE here.",
+      "parentUuid": "AAAAD3///wY\u003d",
+      "revId": "f39d3490260980ee1ccb248c0a564490344c6ba5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
