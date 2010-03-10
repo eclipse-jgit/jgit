@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAAX///+k\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/ReflogConfigTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "yes, you are right. I wanted to express that number of entries in the reflog doesn\u0027t change - but this will only be true of reflog entries 0 before we come here. And the comment is completely wrong. I post a fix.",
+      "parentUuid": "AAAAAX////Y\u003d",
+      "revId": "a80777d45677fdd2f09a2036bd2fec68b5554d27",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAAX////c\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CoreConfig.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAAX///+g\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CoreConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "good to know. I\u0027ll post a fix for this",
+      "parentUuid": "AAAAAX////c\u003d",
+      "revId": "a80777d45677fdd2f09a2036bd2fec68b5554d27",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAAX////g\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2010-03-10T05:19:08Z",
       "side": 1,
       "message": "I would prefer it if the case was consistent here, since we will store exactly this string in the configuration file.\n\nSince our other properties like repositoryformatversion are all lowercase strings, I think we should to the same thing here and make this all lowercase.  Plus, I think that is what git.git does.",
+      "revId": "a80777d45677fdd2f09a2036bd2fec68b5554d27",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAAX///+c\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "agreed - I\u0027ll fix",
+      "parentUuid": "AAAAAX////g\u003d",
       "revId": "a80777d45677fdd2f09a2036bd2fec68b5554d27",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
