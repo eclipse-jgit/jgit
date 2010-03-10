@@ -1,0 +1,22 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAD3///1M\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/GitServlet.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "ErrorServlet class was already introduced 3 commits back, in change Ia0f1a425d07d035e344ae54faf8aeb04763e7487.  So we can assume it exists here.",
+      "parentUuid": "AAAAD3///2s\u003d",
+      "revId": "3a534ec1a0cc855614b40570fac8ffe5315471a1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
