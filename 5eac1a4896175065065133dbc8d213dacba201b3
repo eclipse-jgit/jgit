@@ -88,6 +88,42 @@
     },
     {
       "key": {
+        "uuid": "AAAAD3///sc\u003d",
+        "filename": "org.eclipse.jgit.console/META-INF/MANIFEST.MF",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-03-10T15:26:29Z",
+      "side": 1,
+      "message": "The console parts require 1.6. Everything else works with 1.5.",
+      "parentUuid": "AAAAD3///tA\u003d",
+      "revId": "5eac1a4896175065065133dbc8d213dacba201b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAD3///sE\u003d",
+        "filename": "org.eclipse.jgit.console/META-INF/MANIFEST.MF",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-03-10T15:26:29Z",
+      "side": 1,
+      "message": "I\u0027d rather do just a minimal revert here and do other fixes on top of this.\nOther than thay, yes we probably should.",
+      "parentUuid": "AAAAD3///sQ\u003d",
+      "revId": "5eac1a4896175065065133dbc8d213dacba201b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAD3///s8\u003d",
         "filename": "org.eclipse.jgit.junit/.classpath",
         "patchSetId": 1
@@ -99,6 +135,24 @@
       "writtenOn": "2010-03-10T15:26:29Z",
       "side": 1,
       "message": "This is 1.5, for example.",
+      "revId": "5eac1a4896175065065133dbc8d213dacba201b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAD3///sg\u003d",
+        "filename": "org.eclipse.jgit.junit/.classpath",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-03-10T15:26:29Z",
+      "side": 1,
+      "message": "That is a 1.5 compatible JRE, not 1.5 specifically. Look up \"execution environment\" for more information.",
+      "parentUuid": "AAAAD3///s8\u003d",
       "revId": "5eac1a4896175065065133dbc8d213dacba201b3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
