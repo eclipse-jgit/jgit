@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAABH///8g\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/diff/MyersDiffPerformanceTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "I\u0027ll go for the pure email-adress copyright without again mentioning the company.",
+      "parentUuid": "AAAABH///+Q\u003d",
+      "revId": "79fb00d4ff53d89bc51f70a8a857d3d93c01b21f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAABH///+U\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/diff/MyersDiffPerformanceTest.java",
         "patchSetId": 3
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAAABH///8o\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/diff/MyersDiffPerformanceTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Yes, you are right. This parameter is for performance tests where we diff random data. Such tests do not exist yet. I added the parameter just to be prepared when such tests are written.",
+      "parentUuid": "AAAABH///8w\u003d",
+      "revId": "79fb00d4ff53d89bc51f70a8a857d3d93c01b21f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAABH///+I\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/diff/MyersDiffPerformanceTest.java",
         "patchSetId": 3
@@ -47,6 +83,24 @@
       "writtenOn": "2010-03-10T05:19:08Z",
       "side": 1,
       "message": "If I understood your code right, this loop never terminates if the stopwatch doesn\u0027t work correctly on this VM.  We never increment cpuTimeChanges because readout always returns 0, and interimTime is always below longTaskBoundary.",
+      "revId": "79fb00d4ff53d89bc51f70a8a857d3d93c01b21f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAABH///8k\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/diff/MyersDiffPerformanceTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Yes, you are right. That\u0027s a major bug. To be honest: this code never run on VMs which don\u0027t support CPU-time. I was not able to find such VMs and too lazy to mock the cpu-time feature. My idea was to skip test execution completely if cpu-time info is not available. I\u0027ll add this",
+      "parentUuid": "AAAABH///+I\u003d",
       "revId": "79fb00d4ff53d89bc51f70a8a857d3d93c01b21f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -98,6 +152,24 @@
       "writtenOn": "2010-03-10T05:19:08Z",
       "side": 1,
       "message": "Aren\u0027t you missing a test here on cpuTimeSupported flag?  This test always throws if the parameter was \"true\", even if the JVM actually supports the feature.",
+      "revId": "79fb00d4ff53d89bc51f70a8a857d3d93c01b21f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAABH///8c\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/CPUTimeStopWatch.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Yes, you are right. I\u0027ll fix it.",
+      "parentUuid": "AAAABH///+g\u003d",
       "revId": "79fb00d4ff53d89bc51f70a8a857d3d93c01b21f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
