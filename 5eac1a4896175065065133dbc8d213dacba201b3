@@ -1,0 +1,39 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAD3///sU\u003d",
+        "filename": "org.eclipse.jgit.console/.classpath",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T15:26:29Z",
+      "side": 1,
+      "message": "Correct, this project must be a 1.6 project.",
+      "parentUuid": "AAAAD3///so\u003d",
+      "revId": "5eac1a4896175065065133dbc8d213dacba201b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAD3///sQ\u003d",
+        "filename": "org.eclipse.jgit.console/META-INF/MANIFEST.MF",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T15:26:29Z",
+      "side": 1,
+      "message": "Shouldn\u0027t we have version tags on the import-package statements?",
+      "revId": "5eac1a4896175065065133dbc8d213dacba201b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
