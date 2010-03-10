@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAA3///sg\u003d",
+        "filename": "org.eclipse.jgit.io/src/org/eclipse/jgit/io/Entry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "No, I think we should return void here and throw:\n\n* ArrayIndexOutOfBoundsException:  when offset + size \u003c buffer.length\n* EOFException:  when position + size \u003c this.length()\n\nAlso, I\u0027m a bit concerned about the fact that the API is using the Entry to perform the read.  In the classical java.io implementation this is just a lightweight wrapper around java.io.File.  Which means a readRandomly must open the file, perform the read, then close it before returning.\n\nFor pack file data access that translates into 3 system calls per data block read, vs. the current situation where we have 1 call per block read, and are able to amortize out the file descriptor open and close over all of the accessed blocks.\n\nAlso, this opens some potential race conditions.  If we open a pack file on POSIX or Win32 we are certain we can continue to read from it until we close it.  If the repository is repacked while we are reading, we may get part of an object in one block, then need to go back and get the next block.  The repacker may delete this pack and replace it with something else entirely, or even evict the object to become loose.  It will significantly complicate our reading code if we have to handle the file disappearing or being replaced anytime we issue a read against it.",
+      "revId": "0ed42ae1b4c4b666b9c393ba0482c1a07f496fee",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
