@@ -1,0 +1,276 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAACX///+U\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeAlgorithm.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "This part in parens isn\u0027t relevant to the docs, I\u0027d drop it.",
+      "revId": "a7af3a55052c761b39651d62127f486e9724a72f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAACX///+Y\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeAlgorithm.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Strike this todo remark.\n\nIf you are still looking for a better name, \"ContentMerger\" ?",
+      "revId": "a7af3a55052c761b39651d62127f486e9724a72f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAACX///+Q\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeAlgorithm.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Since this class provides only static methods, provide a private constructor so instances cannot be created, and the class cannot be subclassed.",
+      "revId": "a7af3a55052c761b39651d62127f486e9724a72f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAACX////I\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeChunk.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Since these are immutable, mark them final so its clear to everyone they can\u0027t change once a MergeChunk has been created.",
+      "revId": "a7af3a55052c761b39651d62127f486e9724a72f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAACX////M\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeChunk.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Style-nit:  We don\u0027t call super if there are no arguments to it.",
+      "revId": "a7af3a55052c761b39651d62127f486e9724a72f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAACX///+g\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeFormatter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "I think the Javadoc should also clarify that not only are we dealing with RawText objects, but that its a line-oriented file with LF being used as the line delimiters when producing conflict regions.\n\nThis is good enough for most uses, but if someone comes along and wants to do a different merge function, they might be tempted to use this code until they start to discover our hidden LF assumptions.  We should be a bit more clear about that up front in the docs.",
+      "revId": "a7af3a55052c761b39651d62127f486e9724a72f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAACX///+s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeFormatter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "style-nit: we prefer spaces around operators.",
+      "revId": "a7af3a55052c761b39651d62127f486e9724a72f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAACX///+o\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeFormatter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Statement has no effect.",
+      "revId": "a7af3a55052c761b39651d62127f486e9724a72f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAACX///+k\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeFormatter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "I don\u0027t think we should assume the host character encoding here.  We should probably get the character encoding passed in to us.  We might be able to figure it out by looking at the input sequences and guessing, or by looking at a .gitattributes file.",
+      "revId": "a7af3a55052c761b39651d62127f486e9724a72f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAACX///+c\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeFormatter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Style-nit: spaces around operators.",
+      "revId": "a7af3a55052c761b39651d62127f486e9724a72f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAACX///+8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeResult.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "I think we should clarify that the list is used as-is and thus should be immutable so the MergeResult doesn\u0027t suddenly modify due to the caller changing the list and reusing it for some other purpose after making the MergeResult.",
+      "revId": "a7af3a55052c761b39651d62127f486e9724a72f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAACX////E\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeResult.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "typo on \"thex\" ?",
+      "revId": "a7af3a55052c761b39651d62127f486e9724a72f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAACX////A\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeResult.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "typo on \"the a\"",
+      "revId": "a7af3a55052c761b39651d62127f486e9724a72f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAACX///+w\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeResult.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "This worries me about being brittle with regards to the ordering of the enums inside of the enum declaration.  If they ever moved around, this switch might start reporting strange results.\n\nI wonder if this wouldn\u0027t be better:\n\n  private static final ConflictState[] states \u003d ConflictState.values();\n\n  state \u003d states[chunks.get(idx++)];\n\nMy only concern is would it be faster or slower than the switch.  I suspect it would be slower, but have nothing to back up that hunch.  :)",
+      "revId": "a7af3a55052c761b39651d62127f486e9724a72f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAACX///+4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeResult.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "typo on \"at least on\" (should be one).",
+      "revId": "a7af3a55052c761b39651d62127f486e9724a72f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAACX///+0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeResult.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "typo on \"his\" (should be this).",
+      "revId": "a7af3a55052c761b39651d62127f486e9724a72f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
