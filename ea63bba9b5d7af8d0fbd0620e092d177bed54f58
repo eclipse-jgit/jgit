@@ -1,0 +1,22 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAD3///7U\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/GitServlet.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Known bug on the color coding issue here.  Its issue 251 [1].\n\nRegarding the // at the end of the line, I rely very heavily on the Eclipse source code formatter style we have defined for the project.  When it doesn\u0027t break the lines nicely, I sometimes force the line breaking manually by renaming symbols until it breaks the way I want (and the name still makes sense), or I insert comments like this.\n\nIn this case the default breaking was unreadable compared to what I have forced manually.\n\n[1] http://code.google.com/p/gerrit/issues/detail?id\u003d251",
+      "parentUuid": "AAAAD3///9g\u003d",
+      "revId": "ea63bba9b5d7af8d0fbd0620e092d177bed54f58",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
