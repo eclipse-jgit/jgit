@@ -17,6 +17,23 @@
       "revId": "e31ec936c3c1baeb26fb0e9ff30f8c370bf3b95b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAAn///40\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PacketLineOut.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 0,
+      "message": "Is there a better place to do hex-processing than this script, say in a utility class? Do we need to do it anywhere else?",
+      "revId": "e31ec936c3c1baeb26fb0e9ff30f8c370bf3b95b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
