@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAD3///xI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Indentation and leading whitespace is all wrong here, our project standard is indent with tabs only.\n\nThis class also should be static if we have to use an Authenticator.  We don\u0027t want to publish an Authenticator instance to the JRE that has a handle back to the TransportHttp \"this\", as that could pin an entire Repository object and its data files in memory for the indefinite future.",
+      "revId": "ac9164f04553614c8343042c2c591f299fd0e7ff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAD3///xM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Indentation is wrong here; we use tabs not spaces.\n\nBut I have to wonder if this is the only way to inject authentication data into the JRE URL library.  If it is we\u0027re toast as a library because nobody else can install an HTTP authenticator while we are using the HTTP network connections, and that\u0027s just plain evil.",
+      "revId": "ac9164f04553614c8343042c2c591f299fd0e7ff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
