@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAC3////U\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/AnyObjectId.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Thiis is the most backward thing I\u0027ve seen for a long  time, You assert that 20 \u003d\u003d 20 which is so obvious I do think we need to check that, lest we port this code to FORTRAN. \n\nAck, for  the comment. Leave the rest or prove we need to \"optimize\" this,",
+      "revId": "f252b000fce1b3c0ed94701a998543b48385b95e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
