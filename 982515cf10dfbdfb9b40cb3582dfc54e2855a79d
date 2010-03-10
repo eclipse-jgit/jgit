@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAA3///uY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 0,
+      "message": "This directory has to stay.\n\nThe recent discussion on the Git mailing list has brought out the fact that Git has promised prominent kernel maintainers that this directory will stay, as it is part of their workflow.\n\nPlease edit your patch to insert it back.",
+      "revId": "982515cf10dfbdfb9b40cb3582dfc54e2855a79d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///uU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 0,
+      "message": "This directory can be safely removed.  It was removed from C Git in 75c384efb52d0e3eb1e8c2f53668b4066fe6a8d6 (\"Do not create $GIT_DIR/remotes/ directory anymore\") by Junio C Hamano on Dec 19 2006.  C Git hasn\u0027t made it for almost 3 years, time for JGit to stop.",
+      "revId": "982515cf10dfbdfb9b40cb3582dfc54e2855a79d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
