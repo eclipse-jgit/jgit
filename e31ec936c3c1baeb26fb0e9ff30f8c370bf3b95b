@@ -1,0 +1,22 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAAn///4Q\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PacketLineOut.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 0,
+      "message": "We do it in maybe two places, AnyObjectId for example has to support hex formatting, and here.  I think I just inlined it here because packet formatting should be reasonably efficient, and ObjectId formatting is already quite specific to the 20 byte format making it harder to handle the 16 bits used here by a pkt-line.\n\nRawParseUtils has some decode functions for hex parsing.  We might be able to move the hex formatting to a RawFormatUtils or something.  Hasn\u0027t been a high priority, we don\u0027t poke this code that often to care enough about the potential duplication.",
+      "parentUuid": "AAAAAn///40\u003d",
+      "revId": "e31ec936c3c1baeb26fb0e9ff30f8c370bf3b95b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
