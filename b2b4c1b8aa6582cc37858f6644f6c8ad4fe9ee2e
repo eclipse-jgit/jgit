@@ -1,0 +1,76 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAA3///8w\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/InfoRefsServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Possibly, but not sure its worth the code change.  This whole part of the code just sucks due to the several copies we are making of the data as we try to generate and convert it for output.",
+      "parentUuid": "AAAAA3///+U\u003d",
+      "revId": "b2b4c1b8aa6582cc37858f6644f6c8ad4fe9ee2e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///8o\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/RepositoryRouter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "The ordering is the ordering above in init, which must be carefully updated to prevent problems.  Since its maintained by hand its easy enough to ensure the ordering is correct.  Doing longest match is a pain just because we\u0027d have to have knowledge of how the servlet decided to take a request.  In my opinion its not worth the effort to ensure longest match here.\n\nI\u0027m putting a warning comment in the binding code above.  If it ever becomes something we simply can\u0027t manage by code reviews someone can revisit this to do longest match, or something better.",
+      "parentUuid": "AAAAA3///+Q\u003d",
+      "revId": "b2b4c1b8aa6582cc37858f6644f6c8ad4fe9ee2e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///8g\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/RepositoryServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "For this and the next 2 comments about Cache-Control see my remarks on patch set 3 of this change (expand the History Table at the top of the patch view screen).",
+      "parentUuid": "AAAAA3///+M\u003d",
+      "revId": "b2b4c1b8aa6582cc37858f6644f6c8ad4fe9ee2e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///8c\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/WrappedRequest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Our coding convention is what we have written:\n\n  a !\u003d null ? a : defaultValueWhenAIsNull\n\nThus that is the way we code it.",
+      "parentUuid": "AAAAA3///+A\u003d",
+      "revId": "b2b4c1b8aa6582cc37858f6644f6c8ad4fe9ee2e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
