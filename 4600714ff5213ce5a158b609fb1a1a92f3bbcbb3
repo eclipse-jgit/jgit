@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAEX///wE\u003d",
+        "filename": "org.eclipse.jgit.iplog/src/org/eclipse/jgit/iplog/gsql_query.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-03-10T15:26:29Z",
+      "side": 1,
+      "message": "trailing whitespace",
+      "revId": "4600714ff5213ce5a158b609fb1a1a92f3bbcbb3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAEX///wA\u003d",
+        "filename": "org.eclipse.jgit.iplog/src/org/eclipse/jgit/iplog/gsql_query.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-03-10T15:26:29Z",
+      "side": 1,
+      "message": "trailing whitespace",
+      "revId": "4600714ff5213ce5a158b609fb1a1a92f3bbcbb3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
