@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAAD3///54\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ObjectFileServlet.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Worth putting a //$NON-NLS-1$ here, several more occurrences in this patch",
+      "revId": "a318f5e0620ef9daa0fd73554bf69e202d8f3398",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAD3///6E\u003d",
         "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/resolver/FileResolver.java",
         "patchSetId": 8
