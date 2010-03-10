@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "AAAABX///3s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "We don\u0027t have any official recommendations here, buit so far we have not\nlisted copyright holders like this:\n\nThe header would be pretty crowded and unreadable. Just add your name to\nthe list like the rest. \n\nWe use blame and history for figuring out what you did.",
+      "revId": "b5bcb7abda67d249e33c8601237b9906482f681d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAABX///4M\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
         "patchSetId": 2
@@ -53,6 +70,23 @@
     },
     {
       "key": {
+        "uuid": "AAAABX///3w\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "What happens when you pass D:\\x\\x.git here?\n\nYou bypass the URIish parsing completely and miss all logic encoded in this class. By using the constructor logic you could make sure this method\nis consistent with the rest or the class.\n\nDoing so would mean you could do with fewer tests since all the illegall formats have already been taken care of.",
+      "revId": "b5bcb7abda67d249e33c8601237b9906482f681d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAABX///4E\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
         "patchSetId": 2
@@ -81,6 +115,23 @@
       "writtenOn": "2010-03-10T05:19:08Z",
       "side": 1,
       "message": "Isn\u0027t this case only relevant if lastSegment equals \".git\" ?\n\nCould we write this instead as:\n\n  String result \u003d elements[elements.length - 1];\n  if (DOT_GIT.equals(result))\n    result \u003d elements[elements.length - 2];\n  else if (result.endsWith(DOT_GIT))\n    result \u003d result.substring(0, result.length() - DOT_GIT.length());\n  return result;\n\nas it shouldn\u0027t be possible for result to be an empty string at this point?",
+      "revId": "b5bcb7abda67d249e33c8601237b9906482f681d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAABX///30\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Could we have a more humanish name for this? like getDisplayNameI(). \n\nThe reason I used the -ish in this class is becuase it is like an URI, but not quite. The -ish means \"like\" in Git context. \n\nThe name returned from this method is not like a \"human\". It is not a human at all.",
       "revId": "b5bcb7abda67d249e33c8601237b9906482f681d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
