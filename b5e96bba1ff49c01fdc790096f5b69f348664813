@@ -20,6 +20,23 @@
     },
     {
       "key": {
+        "uuid": "AAAAEX////s\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RefTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Can\u0027t we make getTarget a part of the Ref API?",
+      "revId": "b5e96bba1ff49c01fdc790096f5b69f348664813",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAEX///+Q\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/RefSpecTest.java",
         "patchSetId": 3
@@ -38,6 +55,23 @@
     },
     {
       "key": {
+        "uuid": "AAAAEX////w\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/RefSpecTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Gerrit thinks a comment starts here...",
+      "revId": "b5e96bba1ff49c01fdc790096f5b69f348664813",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAEX///+M\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
         "patchSetId": 3
@@ -50,6 +84,295 @@
       "side": 1,
       "message": "Thanks, create() and close() will be abstract in the next iteration.",
       "parentUuid": "AAAAEX///+8\u003d",
+      "revId": "b5e96bba1ff49c01fdc790096f5b69f348664813",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAEX///+8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Make abstract or call from subclasses",
+      "revId": "b5e96bba1ff49c01fdc790096f5b69f348664813",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAEX////o\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDirectory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "This condition is not covered by any tests",
+      "revId": "b5e96bba1ff49c01fdc790096f5b69f348664813",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAEX////k\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDirectory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "No tests anymore?",
+      "revId": "b5e96bba1ff49c01fdc790096f5b69f348664813",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAEX////g\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDirectory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "No test coveage",
+      "revId": "b5e96bba1ff49c01fdc790096f5b69f348664813",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAEX////c\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDirectory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "No test coverage",
+      "revId": "b5e96bba1ff49c01fdc790096f5b69f348664813",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAEX////Y\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDirectory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 585,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "no test coverage",
+      "revId": "b5e96bba1ff49c01fdc790096f5b69f348664813",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAEX///+k\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDirectoryUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "No test coverage?",
+      "revId": "b5e96bba1ff49c01fdc790096f5b69f348664813",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAEX///+o\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDirectoryUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "No test coverage?",
+      "revId": "b5e96bba1ff49c01fdc790096f5b69f348664813",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAEX///+w\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDirectoryUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "No test coverage",
+      "revId": "b5e96bba1ff49c01fdc790096f5b69f348664813",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAEX///+s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDirectoryUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "No test coverage",
+      "revId": "b5e96bba1ff49c01fdc790096f5b69f348664813",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAEX////U\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefRename.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "no coverage",
+      "revId": "b5e96bba1ff49c01fdc790096f5b69f348664813",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAEX////Q\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefRename.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "No test coverage",
+      "revId": "b5e96bba1ff49c01fdc790096f5b69f348664813",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAEX////M\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefRename.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "No test coverage",
+      "revId": "b5e96bba1ff49c01fdc790096f5b69f348664813",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAEX////I\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefRename.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "No test coverage",
+      "revId": "b5e96bba1ff49c01fdc790096f5b69f348664813",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAEX////E\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefRename.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "No test coverage (maye was not before either)",
+      "revId": "b5e96bba1ff49c01fdc790096f5b69f348664813",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAEX////A\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Littöe  test coverage",
+      "revId": "b5e96bba1ff49c01fdc790096f5b69f348664813",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAEX///+4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 597,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "I\u0027m not very fond of instanceof tests",
       "revId": "b5e96bba1ff49c01fdc790096f5b69f348664813",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
