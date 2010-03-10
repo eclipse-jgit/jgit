@@ -17,6 +17,41 @@
       "revId": "7ea3d6b00658d72b4f542ea50115fc7c4446d156",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAAn///8M\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/MyersDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "I have the fear that when I start modifiying this change we have to restart the IP-review process on bugzilla bug (291083). Since this fixes for the change are not that easy (long vs. intpair) I suggest that we first try to get this change through without modifications. And and do my fixes in a new changes which succeeds this one.\r\nI\u0027ll remove also my bug-fix attachment for the bugzilla.",
+      "parentUuid": "AAAAAn////U\u003d",
+      "revId": "7ea3d6b00658d72b4f542ea50115fc7c4446d156",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAAX///9g\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/MyersDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Here is the problem: What is returned by newSnake are two\npositions (x, k+x). These two positions are \u0027folded\u0027 here into one int. snake2x() and snake2y() are used to \u0027unfold\u0027. Stress test of the diff algorithm have shown that we reach the limits of int quite soon (when diffing strings of 100k size). Snakes should become pairs of ints. I\u0027ll post a fix for this",
+      "revId": "7ea3d6b00658d72b4f542ea50115fc7c4446d156",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
