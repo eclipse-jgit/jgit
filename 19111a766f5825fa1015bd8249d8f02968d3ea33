@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAA3///7U\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefAdvertiser.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Can we clarify which meaning this is:\n\n1) The argument \u0027line\u0027 must end in LF\n2) Regardless of what you pass in, I\u0027m going to put LF on the end for you\n\nI suspect from the usage the former, but I don\u0027t know why \u0027writeOne\u0027 needs to demand that lines must end in LF; if the protocol requires you to terminate each statement with a LF, then that\u0027s fine - but does this mean this fn can only be used to write out a complete \u0027sentence\u0027 each time? \n\nIf this is just \u0027writing output\u0027 then it should be possible to call this multiple times (e.g. writeOne(cap) writeOne(\u0027 \u0027) writeOne(capName)). But if the \u0027writeOne\u0027 is a single advertisment line (as is) then why doesn\u0027t it add the newline for you?\n\nPS I\u0027ve dealt with an API where the \u0027write\u0027 call automatically added a CRLF on the end for you, and it was a nightmare to maintain, esp. when writing out multiple \u0027lines\u0027 because you always had to remember that you only added the CRLF *between* lines rather than at the end.",
+      "revId": "19111a766f5825fa1015bd8249d8f02968d3ea33",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
