@@ -20,6 +20,23 @@
     },
     {
       "key": {
+        "uuid": "AAAAAn///30\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/GetRefServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Do Servlets have to be public in order to be instantiated from a web.xml?",
+      "revId": "d643e5c530ab8f4e41def119ba544dd7a1797327",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAAn///28\u003d",
         "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/GetRefServlet.java",
         "patchSetId": 3
@@ -32,6 +49,23 @@
       "side": 1,
       "message": "Hmm, good point, we do repeat UTF-8 encoding in a lot of places.  We already have a constant that says UTF-8, but I wanted to document it here explicitly that we were using UTF-8 for the output of this servlet.  Its unlikely to ever change.",
       "parentUuid": "AAAAAn///3w\u003d",
+      "revId": "d643e5c530ab8f4e41def119ba544dd7a1797327",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAAn///3w\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/GetRefServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "I\u0027m pretty sure this constant turns up a few times - can we pull it out to a shared location?",
       "revId": "d643e5c530ab8f4e41def119ba544dd7a1797327",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -56,6 +90,23 @@
     },
     {
       "key": {
+        "uuid": "AAAAAn///3s\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/InfoPacksServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "This seems to be a recurring pattern. Should we pull up into an abstract parent and then let subclasses merely handle serve(req,res,true/false)?",
+      "revId": "d643e5c530ab8f4e41def119ba544dd7a1797327",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAAn///20\u003d",
         "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/RepositoryServlet.java",
         "patchSetId": 3
@@ -68,6 +119,57 @@
       "side": 1,
       "message": "The red blob marks a whitespace error, in this case trailing whitespace since it is on the end of a line.  (Same display as git diff gives you when coloring is turned on.)",
       "parentUuid": "AAAAAn///3o\u003d",
+      "revId": "d643e5c530ab8f4e41def119ba544dd7a1797327",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAAn///3o\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/RepositoryServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "What does the red blob in Gerrit signify after the * on this line? Trailing whitespace?",
+      "revId": "d643e5c530ab8f4e41def119ba544dd7a1797327",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAAn///3k\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/RepositoryServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Red blob?",
+      "revId": "d643e5c530ab8f4e41def119ba544dd7a1797327",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAAn///3g\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/RepositoryServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Red blob?",
       "revId": "d643e5c530ab8f4e41def119ba544dd7a1797327",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -92,6 +194,23 @@
     },
     {
       "key": {
+        "uuid": "AAAAAn///3U\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/RepositoryServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "The epoch is usually 1970, rather than 1980 - any particular reason for the change? Functionally equivalent, of course.",
+      "revId": "d643e5c530ab8f4e41def119ba544dd7a1797327",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAAn///2s\u003d",
         "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/RepositoryServlet.java",
         "patchSetId": 3
@@ -104,6 +223,40 @@
       "side": 1,
       "message": "I just went back and reread our internal documentation, we now recommend that the header be:\n\n  Cache-Control: no-cache, no-store, max-age\u003d0, must-revalidate\n\nwhich is fairly aggressive in not caching content.  I\u0027m fairly inclined to trust our internal documentation here, we are quite good at keeping this information current and valid across our entire product line.  And we have a rather large user base on the web.\n\nI\u0027m not an HTTP 1.1 expert, but it seems to me that sending multiple Cache-Control lines isn\u0027t what the standard recommends and may inadvertently break a user agent or proxy that recognizes a proper Cache-Control line.",
       "parentUuid": "AAAAAn///3Q\u003d",
+      "revId": "d643e5c530ab8f4e41def119ba544dd7a1797327",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAAn///3Q\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/RepositoryServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Seen proxies before that didn\u0027t parse multiple entries on a Cache-Control line. Do we need both, or can we just use no-cache ?",
+      "revId": "d643e5c530ab8f4e41def119ba544dd7a1797327",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAAn///3Y\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/RepositoryServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Red Blob?",
       "revId": "d643e5c530ab8f4e41def119ba544dd7a1797327",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -128,6 +281,40 @@
     },
     {
       "key": {
+        "uuid": "AAAAAn///3M\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/RepositoryServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Seen proxies before that didn\u0027t parse multiple entries on a Cache-Control line. Do we need both, or can we just use max-age?",
+      "revId": "d643e5c530ab8f4e41def119ba544dd7a1797327",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAAn///3c\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/RepositoryServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Red blob?",
+      "revId": "d643e5c530ab8f4e41def119ba544dd7a1797327",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAAn///2k\u003d",
         "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/RepositoryServlet.java",
         "patchSetId": 3
@@ -140,6 +327,23 @@
       "side": 1,
       "message": "Good point, I\u0027ll add raw.length + 32 to the constructor.  Sadly we wind up with a copy anyway at the end because we cast back to a byte[] and will need to compact, but at least we save a handful of doubling expansions during compression.",
       "parentUuid": "AAAAAn///3I\u003d",
+      "revId": "d643e5c530ab8f4e41def119ba544dd7a1797327",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAAn///3I\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/RepositoryServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Worth initializing to raw.length+32, to save in-line expansion when writing out the byte array?",
       "revId": "d643e5c530ab8f4e41def119ba544dd7a1797327",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
