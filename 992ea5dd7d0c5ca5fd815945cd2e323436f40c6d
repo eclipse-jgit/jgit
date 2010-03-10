@@ -121,6 +121,23 @@
     },
     {
       "key": {
+        "uuid": "AAAABH///60\u003d",
+        "filename": "org.eclipse.jgit.releng/promote-N.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 11
+      },
+      "writtenOn": "2010-03-10T15:26:29Z",
+      "side": 1,
+      "message": "One more trailing whitespace... Shawn and Matthias would be dissappointed ;-)",
+      "revId": "992ea5dd7d0c5ca5fd815945cd2e323436f40c6d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAA3///54\u003d",
         "filename": "org.eclipse.jgit.releng/promote.xml",
         "patchSetId": 1
