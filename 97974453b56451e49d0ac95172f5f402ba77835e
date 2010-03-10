@@ -1,0 +1,259 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAA3///sQ\u003d",
+        "filename": "org.eclipse.jgit.io/src/org/eclipse/jgit/io/Entry.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "I\u0027m very confused from the Javadoc above.  When we ask for a lock, but the lock fails to be acquired (already held by someone else), what does this method do, exactly?",
+      "revId": "97974453b56451e49d0ac95172f5f402ba77835e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///r0\u003d",
+        "filename": "org.eclipse.jgit.io/src/org/eclipse/jgit/io/localfs/GitLockOutputStream.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "There\u0027s no way to abort.  If we fail to write to the lock file (e.g. because the disk is full) closing the lock file so we can delete it and abort to the caller will replace the main file, potentially destroying the user\u0027s repository.",
+      "revId": "97974453b56451e49d0ac95172f5f402ba77835e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///r4\u003d",
+        "filename": "org.eclipse.jgit.io/src/org/eclipse/jgit/io/localfs/GitLockOutputStream.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Just use + here, the compiler will rewrite it to use StringBuilder and the code will be easier to read.",
+      "revId": "97974453b56451e49d0ac95172f5f402ba77835e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///sE\u003d",
+        "filename": "org.eclipse.jgit.io/src/org/eclipse/jgit/io/localfs/GitLockOutputStream.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Flip the order, use appendMode \u0026\u0026 mainFile.exists() so we only pay the stat call if we enable append mode.",
+      "revId": "97974453b56451e49d0ac95172f5f402ba77835e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///sA\u003d",
+        "filename": "org.eclipse.jgit.io/src/org/eclipse/jgit/io/localfs/GitLockOutputStream.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Don\u0027t open the lock stream twice during append.  Open it once, copy the data from the main file, then leave it open for the other writing operations we will do.",
+      "revId": "97974453b56451e49d0ac95172f5f402ba77835e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///r8\u003d",
+        "filename": "org.eclipse.jgit.io/src/org/eclipse/jgit/io/localfs/GitLockOutputStream.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "You can\u0027t use this to reliably lock the file.\n\nYou must use java.io.File.createNewFile to create the entry on disk, because in POSIX we must use open with the O_CREAT flag to ensure we are the only process which created this entry in the parent directory.  This is required to be compatible with C Git\u0027s locking protocol on POSIX platforms.",
+      "revId": "97974453b56451e49d0ac95172f5f402ba77835e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///rw\u003d",
+        "filename": "org.eclipse.jgit.io/src/org/eclipse/jgit/io/localfs/LocalFileEntry.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "What good does a recursive file lock do when our calling thread already has this same file path open in a different OutputStream?  \n\nShouldn\u0027t this crash on Windows because you can\u0027t have two write handles open against the same path name at the same time, especially if you lock the entire file region on each?\n\nShouldn\u0027t this also crash on any POSIX system for the same reason?",
+      "revId": "97974453b56451e49d0ac95172f5f402ba77835e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///sM\u003d",
+        "filename": "org.eclipse.jgit.io/src/org/eclipse/jgit/io/localfs/LocalFileEntry.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "This entire set of conditions is insane.\n\nAll of it can be simplified down into:\n\n  return new FileOutputStream(getLocalFile(), !overwrite);\n\nThere is no need to racily stat for the file\u0027s existence before trying to setup the constructor call.",
+      "revId": "97974453b56451e49d0ac95172f5f402ba77835e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///rs\u003d",
+        "filename": "org.eclipse.jgit.io/src/org/eclipse/jgit/io/localfs/LocalFileEntry.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Style nit:  Given that the above if success returns, then fall-through into the else occurs only if we have more work to do.  It is much more readable to read code written as:\n\n  if (condition1)\n    return result;\n\n  try something else\n  if (condition2)\n    return result;\n\n  try something else\n  if (condition3)\n    return result;\n\n  fail\n\nThan it is to read:\n\n  if (condition1) {\n    return result;\n  } else {\n    try something else\n    if (condition2) {\n      return result;\n    } else {\n      if (condition3) {\n        return result;\n      } else {\n        fail\n      }\n    }\n  }",
+      "revId": "97974453b56451e49d0ac95172f5f402ba77835e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///ro\u003d",
+        "filename": "org.eclipse.jgit.io/src/org/eclipse/jgit/io/localfs/LocalFileEntry.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Style-nit: unnecessary local variable",
+      "revId": "97974453b56451e49d0ac95172f5f402ba77835e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///rk\u003d",
+        "filename": "org.eclipse.jgit.io/src/org/eclipse/jgit/io/lock/AbstractLockable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "I\u0027m quite unhappy with the fact that our lightweight java.io.File wrapper requires finalization for every instance.  Finalization really slows down GC because the object can\u0027t be removed immediately, it must be preserved through the GC and stuck on the Finalizer queue, and wait for the Finalizer to run.",
+      "revId": "97974453b56451e49d0ac95172f5f402ba77835e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///rg\u003d",
+        "filename": "org.eclipse.jgit.io/src/org/eclipse/jgit/io/lock/AbstractLockable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "This smells like its over-engineered.  We don\u0027t currently use conditions in JGit.  Why do we need to be able to create multiple of them per file entry?",
+      "revId": "97974453b56451e49d0ac95172f5f402ba77835e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///rY\u003d",
+        "filename": "org.eclipse.jgit.io/src/org/eclipse/jgit/io/lock/AbstractLockable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Why are we waiting for at most the amount of time we waited for the internal lock?  Shouldn\u0027t we wait time - duration here, that is, whatever is left over of the caller\u0027s maximum wait?",
+      "revId": "97974453b56451e49d0ac95172f5f402ba77835e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///sY\u003d",
+        "filename": "org.eclipse.jgit.io/src/org/eclipse/jgit/io/utils/IOUtils.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Why are you doing IO in such small odd-sized units?\n\nUse 2048, 4096, 8192 or 16384 for the buffer size.  If the underlying streams are BufferedInputStream or BufferedOutputStream you\u0027ll bypass the buffer and avoid unnecessary copying.  If the underlying streams are disk IO streams, you\u0027ll perform roughly page sized and page aligned IOs, which makes the filesystem code in most OS kernels rather happy.\n\nAlso, there is no reason for this to be public, its only relevant to the copy method in this class.",
+      "revId": "97974453b56451e49d0ac95172f5f402ba77835e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///sU\u003d",
+        "filename": "org.eclipse.jgit.io/src/org/eclipse/jgit/io/utils/IOUtils.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "You maybe should say you are copying the entire stream until EOF.",
+      "revId": "97974453b56451e49d0ac95172f5f402ba77835e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
