@@ -1,0 +1,93 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAD3///6E\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/resolver/FileResolver.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "You can\u0027t use\n\n  finally {\n    db.close();\n  }\n\nhere because that would decrement the close count no matter what, and then return to the caller a handle which would later be decremented a second time when the request completes.  Bad.\n\nNo, here we only want to decrement the close when we aren\u0027t going to complete normally, but have already incremented the open counter.",
+      "parentUuid": "AAAAD3///8A\u003d",
+      "revId": "a318f5e0620ef9daa0fd73554bf69e202d8f3398",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAD3///6A\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/resolver/FileResolver.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Reformat what here?  This @return line matches our style guidelines.",
+      "parentUuid": "AAAAD3///74\u003d",
+      "revId": "a318f5e0620ef9daa0fd73554bf69e202d8f3398",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAD3///+I\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/resolver/FileResolver.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "I think discussion on the C Git list has changed git-http-backend to use git-daemon-export-ok check here, just like git-daemon performs.  We should do the same thing by default.",
+      "revId": "a318f5e0620ef9daa0fd73554bf69e202d8f3398",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAD3///58\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/resolver/FileResolver.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Thanks, that\u0027s a good point about // being absolute already.  I\u0027m going to continue to reject //, not only because its ugly, like we reject /./.  So I\u0027ll update the comment.",
+      "parentUuid": "AAAAD3///7w\u003d",
+      "revId": "a318f5e0620ef9daa0fd73554bf69e202d8f3398",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAD3///5w\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/resolver/GetAnyFile.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Respin will rename this to AsIsFileService.  Its more thing like.",
+      "parentUuid": "AAAAD3///7g\u003d",
+      "revId": "a318f5e0620ef9daa0fd73554bf69e202d8f3398",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
