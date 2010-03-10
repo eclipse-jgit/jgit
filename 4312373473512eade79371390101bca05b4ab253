@@ -20,6 +20,41 @@
     },
     {
       "key": {
+        "uuid": "AAAAA3///8s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefAdvertiser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Both String and CharBuffer implement CharSequence; CharSequence is also random access. I\u0027m not sure what else the encoder needs?",
+      "parentUuid": "AAAAA3///9A\u003d",
+      "revId": "4312373473512eade79371390101bca05b4ab253",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///+o\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefAdvertiser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Since we\u0027re 1.5 based anyway, and we\u0027re using CharSequence, then why not make pckOut.writeString take a CharSequence instead of a String?",
+      "revId": "4312373473512eade79371390101bca05b4ab253",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAA3///88\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefAdvertiser.java",
         "patchSetId": 3
@@ -32,6 +67,23 @@
       "side": 1,
       "message": "Fixed.",
       "parentUuid": "AAAAA3///+k\u003d",
+      "revId": "4312373473512eade79371390101bca05b4ab253",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///+k\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefAdvertiser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "StringBuffer implements CharSequence, which the writeOne() method is looking for, so the toString is unnecessary here.",
       "revId": "4312373473512eade79371390101bca05b4ab253",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
