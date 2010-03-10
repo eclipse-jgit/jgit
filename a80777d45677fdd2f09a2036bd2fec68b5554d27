@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAAX////Y\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/ReflogConfigTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "I\u0027m confused, isn\u0027t this supposed to be an empty file at this point, because otherwise we\u0027d still write into it when we logAllRefUpdates to false because the log file exists.\n\nCan we put a better assertion about the starting value of nrOfReflogs before we start making changes?",
+      "revId": "a80777d45677fdd2f09a2036bd2fec68b5554d27",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAAX////c\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CoreConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Style-nit: Although not necessary, our convention is to typically use lowercase names in the code.",
+      "revId": "a80777d45677fdd2f09a2036bd2fec68b5554d27",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAAX////g\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "I would prefer it if the case was consistent here, since we will store exactly this string in the configuration file.\n\nSince our other properties like repositoryformatversion are all lowercase strings, I think we should to the same thing here and make this all lowercase.  Plus, I think that is what git.git does.",
+      "revId": "a80777d45677fdd2f09a2036bd2fec68b5554d27",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
