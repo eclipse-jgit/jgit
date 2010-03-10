@@ -673,6 +673,23 @@
     },
     {
       "key": {
+        "uuid": "AAAAD3///y8\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/resolver/RepositoryResolver.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Shouldn\u0027t that be a ServiceNotAuthorizedException then ?",
+      "revId": "8f6a4129d708c7591ddcc4d16b0c75d517a9126a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAD3///1g\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/HttpSupport.java",
         "patchSetId": 9
