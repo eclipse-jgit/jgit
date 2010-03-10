@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAD3///ts\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/GitServlet.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "In both places you\u0027ve used this, you\u0027ve had if(n\u003d\u003dnull) return false. Why not push that down into the StringUtils, and document that if you pass in a null, it returns false? That\u0027s probably less likely to be a problem than the NullPointerException in the general case; and if there are callers that expect a different default-if-missing value, then they can test before calling.",
+      "revId": "6f0154955e77da5c4b2b55614ce61027d08605a9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
