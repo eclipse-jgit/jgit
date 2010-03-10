@@ -1,0 +1,58 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAD3///7E\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/GitServlet.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Eh, doesn\u0027t really matter that much to me, but sure.",
+      "parentUuid": "AAAAD3///9U\u003d",
+      "revId": "50a939d2bf015c3bde5753e8f6a77ad33c6bc2eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAD3///7M\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/SmartServiceInfoRefs.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "We have empty blocks warning enabled in most JGit projects, so Eclipse issues a warning here when we implement an interface method which has no action.\n\nConsequently we have a convention to write a comment into the method to indicate we really did mean to leave the implementation empty, and that also shuts up the warning.",
+      "parentUuid": "AAAAD3///9Q\u003d",
+      "revId": "50a939d2bf015c3bde5753e8f6a77ad33c6bc2eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAD3///7I\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/SmartServiceInfoRefs.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Line 43 says nocache is an import:\n\n  import static org.eclipse.jgit.http.server.ServletUtils.nocache;\n\nThis method is actually defined in change Ia0f1a425d07d035e344ae54faf8aeb04763e7487 as part of the ServletUtils class.\n\nNot everything is using nocache, in particular we allow loose object files and pack files to be cacheable.  But I\u0027m starting to think that may not be a good idea if access controls are enabled on the repository in the container.  I might respin the series to have this set through a filter that\u0027s on every servlet.",
+      "parentUuid": "AAAAD3///9M\u003d",
+      "revId": "50a939d2bf015c3bde5753e8f6a77ad33c6bc2eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
