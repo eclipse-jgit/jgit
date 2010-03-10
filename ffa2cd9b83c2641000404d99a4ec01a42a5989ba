@@ -20,6 +20,41 @@
     },
     {
       "key": {
+        "uuid": "AAAAA3////o\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Maybe define these services in some kind of constants/Interface as static final in a future change",
+      "revId": "ffa2cd9b83c2641000404d99a4ec01a42a5989ba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///9Q\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "I know that it can\u0027t change, but as you say, it\u0027s used in two locations. So defining it once and then cross-referencing the constant means that we don\u0027t duplicate the string literal. \n\nIn addition, when it comes to pulling out strings to be translated, having these kind of strings as literals make for a more difficult job in figuring out magic strings (like this) vs human-readable text (which needs to be translated).\n\nFWIW Eclipse can put // $NON-NLS-1$ markers on the line (or similar) to indicate that it\u0027s a non-translatable string, but I thought we\u0027d see this string more than once.",
+      "parentUuid": "AAAAA3///9s\u003d",
+      "revId": "ffa2cd9b83c2641000404d99a4ec01a42a5989ba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAA3///9o\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
         "patchSetId": 3
@@ -32,6 +67,41 @@
       "side": 1,
       "message": "The old code called it \"r\", I just changed the indentation level here.  We have a rule about not changing old code unless absolutely required.  For what its worth we/I have a habit of using \"r\" for return values when the scope is really small and there is little chance of confusing the meaning of the value.",
       "parentUuid": "AAAAA3////k\u003d",
+      "revId": "ffa2cd9b83c2641000404d99a4ec01a42a5989ba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3////k\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Can we rename \u0027r\u0027 to something else? It looks like it should be \u0027reader\u0027 related, but it\u0027s a walk fetch connection.",
+      "revId": "ffa2cd9b83c2641000404d99a4ec01a42a5989ba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///9Y\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "In this case, the introduction of the BufferedReader caused that confusion, since \u0027r\u0027 can also mean \u0027reader\u0027 (as in \u0027br\u0027). It was confusing whether we should be calling br.flush() or r.flush() since normally one flushes the outer reader; so I think the confusion is higher because of this change and merits the renaming of the variable rather than the case where there as a 3 line method with an \u0027r\u0027 in it.",
+      "parentUuid": "AAAAA3///9o\u003d",
       "revId": "ffa2cd9b83c2641000404d99a4ec01a42a5989ba",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
