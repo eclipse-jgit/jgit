@@ -35,6 +35,41 @@
       "revId": "f39d3490260980ee1ccb248c0a564490344c6ba5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAD3///ws\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/StringUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 11
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Does NPE make sense here and wouldn\u0027t it be better to use the same IAE?",
+      "revId": "f39d3490260980ee1ccb248c0a564490344c6ba5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAD3///wA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/StringUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 11
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "\u003e Good question, but a lot of other Java code takes the style that a check for a null throws NPE rather than IAE.\n\nInstead of referencing to \u0027a lot of other code\u0027 just use NPE\u0027s javadoc. Let it be an NPE ;-)",
+      "parentUuid": "AAAAD3///wY\u003d",
+      "revId": "f39d3490260980ee1ccb248c0a564490344c6ba5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
