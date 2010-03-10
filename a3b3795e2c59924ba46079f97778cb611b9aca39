@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAE3///4w\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Style-nit: Keep the order consistent.  You declared the field before the preReceive field is declared.  Initialize it before too.",
+      "revId": "a3b3795e2c59924ba46079f97778cb611b9aca39",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAE3///4o\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Style-nit: You can get this all on one line:\n\n  /** @return the hook invoked before validation occurs. */",
+      "revId": "a3b3795e2c59924ba46079f97778cb611b9aca39",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAE3///4s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Style-nit: I don\u0027t think we use tabs to indent in Javadoc blocks.",
+      "revId": "a3b3795e2c59924ba46079f97778cb611b9aca39",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAE3///4k\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 716,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "I\u0027m not sure I see the value in a hook being right here.  There isn\u0027t any harm to doing the following for loop, and then immediately jumping into the PreReceiveHook implementation in Gerrit Code Review.\n\nBasically, I don\u0027t see what this hook gives us that we can\u0027t already do in PreReceiveHook.\n\nKnowing our conversations about the particular feature you are trying to implement in Gerrit, what we really need is to be able to influence the Map\u003cString,Ref\u003e that is used inside of sendAdvertisedRefs.  Altering that collection needs to be different from PreReceiveHook, because its fired so much earlier than the PreReceiveHook.\n\nWe also need to expose the Set\u003cObjectId\u003e that the IndexPack inside of receivePack generated.  That set needs to be visible to the PreReceiveHook.  Because then Gerrit can complain and reject everything flat out if that object set doesn\u0027t jive with what you can actually see.",
+      "revId": "a3b3795e2c59924ba46079f97778cb611b9aca39",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAE3///40\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ValidationHook.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Can you elaborate a bit more on the processing phase?  When is this hook invoked relative to PreReceiveHook?",
+      "revId": "a3b3795e2c59924ba46079f97778cb611b9aca39",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAE3///48\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ValidationHook.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Style-nit: If you drop final keyword from the two arguments, you might be able to avoid breaking the line on this method declaration.",
+      "revId": "a3b3795e2c59924ba46079f97778cb611b9aca39",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAE3///44\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ValidationHook.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Its unclear if its OK for the hook to mark a ReceiveCommand\u0027s status in order to reject the operation.  If you compare this class\u0027s Javadoc with the Javadoc in PreReceiveHook, you\u0027ll see what I mean.  We\u0027re a bit more verbose there about how to use the interface.",
+      "revId": "a3b3795e2c59924ba46079f97778cb611b9aca39",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
