@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAABX///1s\u003d",
+        "filename": "org.eclipse.jgit-feature/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 11
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "What about providing a human-readable name for this feature? It\u0027s unnamed now:\n\n[INFO] Unnamed - org.eclipse.jgit:org.eclipse.jgit-feature:eclipse-feature:0.6.0-SNAPSHOT  SUCCESS [1.338s]",
+      "revId": "96c7f75fade2bd36a0e7d9dbb2064de0ed452021",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
