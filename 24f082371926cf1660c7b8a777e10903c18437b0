@@ -1,0 +1,225 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAA3///04\u003d",
+        "filename": "org.eclipse.jgit.io/src/org/eclipse/jgit/io/Entry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Maybe \"create()\" is better.  I think the new is implied by the fact that we are creating it.\n\nBut given that an Entry can be a Directory or a Stream (aka a file) maybe this should indicate better that it creates a stream here and not a directory.\n\nSo instead:\n\n  public boolean createDirectory();  // instead of mkdirs\n  public boolean createStream();",
+      "revId": "24f082371926cf1660c7b8a777e10903c18437b0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///1E\u003d",
+        "filename": "org.eclipse.jgit.io/src/org/eclipse/jgit/io/Entry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Why are we exposing this implementation detail?",
+      "revId": "24f082371926cf1660c7b8a777e10903c18437b0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///1A\u003d",
+        "filename": "org.eclipse.jgit.io/src/org/eclipse/jgit/io/localfs/LocalFileEntry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Ugh.  It was bad enough that we had to use an extra 16 bytes per File (8 byte object header for LockFileEntry, 2 fields for localFile and storageSystem) but now we need *another* 8 bytes for the lock file data that few if any LocalFileEntries will need?",
+      "revId": "24f082371926cf1660c7b8a777e10903c18437b0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///08\u003d",
+        "filename": "org.eclipse.jgit.io/src/org/eclipse/jgit/io/localfs/LocalFileEntry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "If lock is true you just truncated a file that wasn\u0027t supposed to be modified until the new version was fully written to disk *and* the lock was released.\n\nGit relies on doing atomic updates on the filesystem by writing the new content to a new temporary file, and renaming that over the real file name once the new content is completely written.  This method *COMPLETELY* ignores that scheme, making it incompatible and useless for JGit.",
+      "revId": "24f082371926cf1660c7b8a777e10903c18437b0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///1M\u003d",
+        "filename": "org.eclipse.jgit.io/src/org/eclipse/jgit/io/lock/AbstractLockable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Ugh.  We shouldn\u0027t rely on GC to release locks.  If a caller leaks a lock and doesn\u0027t release it, the lock probably should stay held indefinitely.  The caller might not have fully cleaned up after themselves, another access to the same resource could find it in an inconsistent state.  Its also easier to identify a caller who didn\u0027t clean up if the entire system grinds to a halt because the lock is still valid and nobody can get it anymore.  If the system sometimes suddenly frees up because a GC ran and finalization ran, then its a lot harder to identify a problem.",
+      "revId": "24f082371926cf1660c7b8a777e10903c18437b0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///1I\u003d",
+        "filename": "org.eclipse.jgit.io/src/org/eclipse/jgit/io/lock/AbstractLockable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "So callers can easily catch IOException when dealing with file IO and abort and recover, but callers can\u0027t easily catch lock failures, abort and recover?",
+      "revId": "24f082371926cf1660c7b8a777e10903c18437b0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///1k\u003d",
+        "filename": "org.eclipse.jgit.io/src/org/eclipse/jgit/io/lock/LockManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Race condition, multiple instances could be constructed at once.",
+      "revId": "24f082371926cf1660c7b8a777e10903c18437b0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///1g\u003d",
+        "filename": "org.eclipse.jgit.io/src/org/eclipse/jgit/io/lock/LockManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Blank line after method before next declaration.",
+      "revId": "24f082371926cf1660c7b8a777e10903c18437b0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///1c\u003d",
+        "filename": "org.eclipse.jgit.io/src/org/eclipse/jgit/io/lock/LockManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "No point in Hashtable if you are protecting the map yourself anyway by your own synchronized methods.",
+      "revId": "24f082371926cf1660c7b8a777e10903c18437b0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///1Y\u003d",
+        "filename": "org.eclipse.jgit.io/src/org/eclipse/jgit/io/lock/LockManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Unnecessary given the next two lines which perform a get and test for null on the result.",
+      "revId": "24f082371926cf1660c7b8a777e10903c18437b0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///1Q\u003d",
+        "filename": "org.eclipse.jgit.io/src/org/eclipse/jgit/io/lock/LockManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Unnecessary assignment to 0.",
+      "revId": "24f082371926cf1660c7b8a777e10903c18437b0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///1U\u003d",
+        "filename": "org.eclipse.jgit.io/src/org/eclipse/jgit/io/lock/LockManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Should be final.",
+      "revId": "24f082371926cf1660c7b8a777e10903c18437b0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///1o\u003d",
+        "filename": "org.eclipse.jgit.io/src/org/eclipse/jgit/io/lock/Lockable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Do we really want to have to implement something like newCondition() as specified by the Lock interface?  Why do we even need to conform to their semantics?",
+      "revId": "24f082371926cf1660c7b8a777e10903c18437b0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
