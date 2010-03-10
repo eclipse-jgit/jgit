@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAD3///sM\u003d",
+        "filename": "org.eclipse.jgit.console/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 0,
+      "message": "If we\u0027re dropping the execution of this plugin, we should just drop the plugin entirely from the POM.  We don\u0027t want to leave it partially configured but never used.  That\u0027s worse than not using it all.",
+      "revId": "fc5fc70e2e8cc8e3ef493e130c3227ef83400f80",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
