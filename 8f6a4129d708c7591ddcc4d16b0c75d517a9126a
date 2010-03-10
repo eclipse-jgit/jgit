@@ -1,0 +1,238 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAD3///1E\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/GitServlet.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Yea, it has.  I actually copied this bit out of our Config class\u0027s getBoolean method.\n\nI guess I should pull this into our StringUtil class.  I\u0027ll do it as a follow-up commit to this series, it looks like its probably not worth rebasing and re-reviewing everything just to correct this copy-and-paste braindamage I suffered from yesterday.",
+      "parentUuid": "AAAAD3///2U\u003d",
+      "revId": "8f6a4129d708c7591ddcc4d16b0c75d517a9126a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAD3///1A\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/NoCacheFilter.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Line wrapping.  The nocache string when inlined causes the line to wrap, which looks worse to me than using a local variable to hold the constant.  Either way the Eclipse source code formatter wants two use two lines for this rsp.setHeader call.  Any decent compiler will produce the same bytecode either way.",
+      "parentUuid": "AAAAD3///2Q\u003d",
+      "revId": "8f6a4129d708c7591ddcc4d16b0c75d517a9126a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAD3///08\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ObjectFileServlet.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Actually, no.  The line is relying on the order of operations rules to actually truncate the milliseconds off the timestamp.  So if you really want parens you need to write:\n\n  lastModified \u003d (sender.getLastModified() / 1000) * 1000\n\nBut I don\u0027t bother because that\u0027s the natural order of operations as we are all taught in grade school, and as the language has defined it to be (because of our grade school teachings).",
+      "parentUuid": "AAAAD3///2M\u003d",
+      "revId": "8f6a4129d708c7591ddcc4d16b0c75d517a9126a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAD3///00\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ServletUtils.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Probably not worth making x-gzip constant.  We reference it in only one location.\n\nBut, we probably don\u0027t actually have to support it.  The only clients that really matter are the JRE\u0027s internal client, and libcurl.  I think both use \"gzip\" and not \"x-gzip\".\n\nBut, there isn\u0027t any real harm in supporting it either.  We know how to unfold what is commonly called \"x-gzip\", as that\u0027s just an alias for \"gzip\".  Code\u0027s written.  We might as well just honor it.",
+      "parentUuid": "AAAAD3///2I\u003d",
+      "revId": "8f6a4129d708c7591ddcc4d16b0c75d517a9126a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAD3///0w\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ServletUtils.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "It depends on what you are talking about as to what the encoding decision is.\n\nGit generally prefers UTF-8, whenever possible, because it plays nicely in C as a char*, and because it can contain any Unicode character.  Commit messages and tag messages for example are UTF-8 unless somehow otherwise specified.\n\nFor some data, Git hasn\u0027t yet specified a particular encoding, but its actually just being difficult and refusing to, because the data is derived from file names and is using the readdir() return as-is without checking the platform\u0027s LC settings.\n\nWithin JGit I think I only use this function to return the objects/info/pack file.  That file\u0027s format is actually strictly defined as being a limited subset of US-ASCII (e.g. the character \"Z\" cannot appear in that file, nor can a horizontal tab, let alone a smart quote or a Cyrillic character).\n\nCalling it UTF-8 when its really US-ASCII is fine, UTF-8 is slightly more widely recognized as a character encoding these days.",
+      "parentUuid": "AAAAD3///18\u003d",
+      "revId": "8f6a4129d708c7591ddcc4d16b0c75d517a9126a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAD3///0s\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ServletUtils.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Doh!  I have no good reason for why this wasn\u0027t just inlined into the getBytes and setCharacterEncoding calls that use it.  Though I can try to argue that by putting it into the local its harder to screw up the two calls that need the same encoding.  :-)",
+      "parentUuid": "AAAAD3///2E\u003d",
+      "revId": "8f6a4129d708c7591ddcc4d16b0c75d517a9126a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAD3///0o\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ServletUtils.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "No, we don\u0027t have a constant.  But we have 3 references to text/plain in the http server code package.  *sigh*",
+      "parentUuid": "AAAAD3///2A\u003d",
+      "revId": "8f6a4129d708c7591ddcc4d16b0c75d517a9126a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAD3///0k\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ServletUtils.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "The objects are all pretty small.  We\u0027re only deflating plain text streams that we\u0027ve created in-memory.  E.g. taking a 16 KiB text and chopping it down to 8 KiB.  Anything large like an actual file content or pack file is streamed as-is to the client without additional compression (because its already been compressed).",
+      "parentUuid": "AAAAD3///14\u003d",
+      "revId": "8f6a4129d708c7591ddcc4d16b0c75d517a9126a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAD3///0g\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ServletUtils.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Why is this a bad spot to create a MessageDigest?  We want to compute the SHA-1 hash of the content array, the standard way we do that in JGit is to create a MessageDigest though this factory function, use it, and discard.  We usually don\u0027t pool MessageDigests because they tend to be fairly inexpensive.",
+      "parentUuid": "AAAAD3///10\u003d",
+      "revId": "8f6a4129d708c7591ddcc4d16b0c75d517a9126a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAD3///0c\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/glue/UrlPipeline.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Yes, we\u0027re recursively calling ourselves as we walk through the array of filters.\n\nThere really isn\u0027t a nice way to use some sort of idiom like:\n\n  while (filter()) {\n  }\n\nbecause each filter in the chain gets to decide on its own whether or not we are allowed to call the next filter, or even call the servlet.  If the filter doesn\u0027t call our this.doFilter we can\u0027t continue down the chain.  If it does call us again, we have to keep going.\n\nThe only other alternative pattern would be to construct a new FilterChain instance on each filter invocation, e.g.:\n\n  private class DoFilter implements FilterChain {\n    private final int next;\n\n    DoFilter(int idx) {\n      next \u003d idx;\n    }\n\n    public void doFilter(ServletRequest req, ServletResponse rsp) {\n      if (next \u003c filters.length)\n        filters[next].doFilter(req, rsp, new DoFilter(next + 1));\n      else\n        servlet.service(req,rsp);\n    }\n  }\n\nBut this has the penalty of causing an object allocation per filter invocation and still has the same structure.\n\nI actually looked around a bit before implementing this code.  Both Jetty and Guice Servlet implement this same style of coding for filter dispatch, to reduce the number of temporary objects they have to create during request dispatching.",
+      "parentUuid": "AAAAD3///1s\u003d",
+      "revId": "8f6a4129d708c7591ddcc4d16b0c75d517a9126a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAD3///0Y\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/resolver/FileResolver.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Probably because it wouldn\u0027t line wrap nicely.  :-)",
+      "parentUuid": "AAAAD3///1o\u003d",
+      "revId": "8f6a4129d708c7591ddcc4d16b0c75d517a9126a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAD3///0U\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/resolver/FileResolver.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Yea, a regexp might perform better here by reducing the number of times we walk the string.  But would the regexp be easier to read and maintain?  Probably not.\n\nI actually can\u0027t think of how to write the regexp for this method.  Its pretty hideous.\n\nThis method is only called once per incoming HTTP request, and in servers like Gerrit Code Review, its actually not even going to be used.  (Gerrit will override it with its own database lookup.)  \n\nIts really not worth trying to optimize this in exchange for reduced readability.",
+      "parentUuid": "AAAAD3///1k\u003d",
+      "revId": "8f6a4129d708c7591ddcc4d16b0c75d517a9126a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAD3///xk\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/resolver/RepositoryResolver.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Yikes, I think you are right, we need to change this to ServiceNotAuthorizedException.",
+      "parentUuid": "AAAAD3///y8\u003d",
+      "revId": "8f6a4129d708c7591ddcc4d16b0c75d517a9126a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
