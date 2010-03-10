@@ -89,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAAABX///8A\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 11
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "@instance method: I think there are cases when you want just a \u0027humanish\u0027 name from the plain string without the need to create an instance of URIish and running through the validation. May be even for an invalid URI, you are interested in a \u0027humanish\u0027 name only and don\u0027t care about anything else.\n\n@method\u0027s name: what about the path of least resistance? ;-) There are three contexts when you may want a \u0027humanish\u0027 name: git, UNIX and java.io.File/IResource API. -1 for UNIX as it requires some specific \u0027knowledge\u0027 about it, +1 for Git (\u0027humanish\u0027 is a domain-specific to Git and should be known for a developer), +1 for java.io.File/IResource API (you are trying to work with the underlying filesystem and should be familiar with domain\u0027s specifics).",
+      "parentUuid": "AAAABX////c\u003d",
+      "revId": "83c04238f7ac1be4333c10d1dfbce7b0bc460ce4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAABX///4c\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
         "patchSetId": 1
@@ -152,6 +170,23 @@
       "side": 1,
       "message": "Yea, we probably should throw IAE if the return string would be empty here.  We do it for most of the other conditions where the input string looks too wrong to continue processing, e.g. above you throw IAE if the input string was \"\".",
       "parentUuid": "AAAABX///5E\u003d",
+      "revId": "83c04238f7ac1be4333c10d1dfbce7b0bc460ce4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAABX///5E\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 11
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "I think we should never return an empty \u0027humanish\u0027 name. Would it be reasonable to throw an IllegalArgumentException when the value to return is empty?",
       "revId": "83c04238f7ac1be4333c10d1dfbce7b0bc460ce4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
