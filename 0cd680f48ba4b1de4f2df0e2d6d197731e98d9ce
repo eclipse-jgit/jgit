@@ -1,0 +1,378 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAADn////A\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/MergeAlgorithmTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "defaultcharset warning. See merge utility.\nHaving both utility methods together looks nicer",
+      "revId": "0cd680f48ba4b1de4f2df0e2d6d197731e98d9ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAADn////o\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/MergeAlgorithmTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Make this a javadoc comment",
+      "revId": "0cd680f48ba4b1de4f2df0e2d6d197731e98d9ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAADn////k\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/MergeAlgorithmTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Make this a javadoc comment",
+      "revId": "0cd680f48ba4b1de4f2df0e2d6d197731e98d9ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAADn////g\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/MergeAlgorithmTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Make this a javadoc comment",
+      "revId": "0cd680f48ba4b1de4f2df0e2d6d197731e98d9ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAADn////c\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/MergeAlgorithmTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Make this a javadoc comment",
+      "revId": "0cd680f48ba4b1de4f2df0e2d6d197731e98d9ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAADn////Y\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/MergeAlgorithmTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Make this a javadoc comment",
+      "revId": "0cd680f48ba4b1de4f2df0e2d6d197731e98d9ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAADn///+4\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/MergeAlgorithmTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "spelling error",
+      "revId": "0cd680f48ba4b1de4f2df0e2d6d197731e98d9ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAADn////U\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/MergeAlgorithmTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Make this a javadoc comment",
+      "revId": "0cd680f48ba4b1de4f2df0e2d6d197731e98d9ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAADn////Q\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/MergeAlgorithmTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Make this a javadoc comment",
+      "revId": "0cd680f48ba4b1de4f2df0e2d6d197731e98d9ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAADn////M\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/MergeAlgorithmTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "nitpick: private",
+      "revId": "0cd680f48ba4b1de4f2df0e2d6d197731e98d9ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAADn////E\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/MergeAlgorithmTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Should we ever use defaultcharset? It makes no practical difference for this case, but could set a bad example.",
+      "revId": "0cd680f48ba4b1de4f2df0e2d6d197731e98d9ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAADn///+0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeAlgorithm.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "This only prevents instantiation: Add final to the class to prevent subclaasing. Some people subclass utility classes even though it rarely is a good idea.\n\nI didn\u0027t find anything in the coding guidelines abou this...",
+      "revId": "0cd680f48ba4b1de4f2df0e2d6d197731e98d9ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAADn///+8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeAlgorithm.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Here, and in general. Start complete sentences with a capital letter",
+      "revId": "0cd680f48ba4b1de4f2df0e2d6d197731e98d9ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAADn///+s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeFormatter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Reflow this paragraph. You would be better off using /* */ for multi line comments.",
+      "revId": "0cd680f48ba4b1de4f2df0e2d6d197731e98d9ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAADn///+w\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeFormatter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Avoid magic constants. Either define an LF contant or use \u0027\\n\u0027 which is less magic.\n\nWhether to always use LF is another topic, but I think we can accept it for the time being.",
+      "revId": "0cd680f48ba4b1de4f2df0e2d6d197731e98d9ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAADn///+k\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeFormatter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "conformant?\nGit",
+      "revId": "0cd680f48ba4b1de4f2df0e2d6d197731e98d9ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAADn///+g\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeFormatter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "\u003ethe caller\u003c to...",
+      "revId": "0cd680f48ba4b1de4f2df0e2d6d197731e98d9ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAADn///+o\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeFormatter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Either \"OutputStream\" or \"output stream\"",
+      "revId": "0cd680f48ba4b1de4f2df0e2d6d197731e98d9ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAADn///+c\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeFormatter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "character set\nmeta data is the right spelling in natural text. I think.",
+      "revId": "0cd680f48ba4b1de4f2df0e2d6d197731e98d9ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAADn///+Y\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeResult.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "\u003cp\u003e for separating paragraphs",
+      "revId": "0cd680f48ba4b1de4f2df0e2d6d197731e98d9ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAADn///+U\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeResult.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Seems private to the iterator below only",
+      "revId": "0cd680f48ba4b1de4f2df0e2d6d197731e98d9ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAADn///+Q\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeResult.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Duplicate comment, Keep @return only",
+      "revId": "0cd680f48ba4b1de4f2df0e2d6d197731e98d9ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
