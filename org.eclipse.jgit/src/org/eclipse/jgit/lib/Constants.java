@@ -1,6 +1,7 @@
 /*
  * Copyright (C) 2008, Google Inc.
  * Copyright (C) 2008, Robin Rosenberg <robin.rosenberg@dewire.com>
+ * Copyright (C) 2010, Semen Vadishev <semen.vadishev@syntevo.com>
  * Copyright (C) 2006-2008, Shawn O. Pearce <spearce@spearce.org>
  * and other copyright owners as documented in the project's IP log.
  *
@@ -217,10 +218,10 @@ public final class Constants {
 	 */
 	public static final byte[] PACK_SIGNATURE = { 'P', 'A', 'C', 'K' };
 
-	/** Native character encoding for commit messages, file names... */
+	/** Native character encoding for commit messages, ... */
 	public static final String CHARACTER_ENCODING = "UTF-8";
 
-	/** Native character encoding for commit messages, file names... */
+	/** Native character encoding for commit messages, ... */
 	public static final Charset CHARSET;
 
 	/** Default main branch name */
@@ -497,7 +498,21 @@ public final class Constants {
 	 * @see #CHARACTER_ENCODING
 	 */
 	public static byte[] encode(final String str) {
-		final ByteBuffer bb = Constants.CHARSET.encode(str);
+		return encode(str, Constants.CHARSET);
+	}
+
+	/**
+	 * Convert a string to a byte array in the specified encoding.
+	 *
+	 * @param str
+	 *            the string to convert.
+	 * @param cs
+	 *            charset to use for character encoding.
+	 * @return a byte array representing the requested string, encoded using the
+	 *         specified character encoding.
+	 */
+	public static byte[] encode(final String str, final Charset cs) {
+		final ByteBuffer bb = cs.encode(str);
 		final int len = bb.limit();
 		if (bb.hasArray() && bb.arrayOffset() == 0) {
 			final byte[] arr = bb.array();
