@@ -2,6 +2,8 @@
 	name = JGit
 	license = Eclipse Distribution License v1.0
 
+	skipCommit = 1a6964c8274c50f0253db75f010d78ef0e739343
+
 [CQ "3454"]
 	description = args4j Version: 2.0.12
 	license = BSD License

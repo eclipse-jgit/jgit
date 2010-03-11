@@ -59,6 +59,7 @@ import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileBasedConfig;
 import org.eclipse.jgit.lib.LockFile;
+import org.eclipse.jgit.lib.ObjectId;
 
 /**
  * Manages the {@code .eclipse_iplog} file in a project.
@@ -74,6 +75,8 @@ public class IpLogMeta {
 	private static final String K_NAME = "name";
 
 	private static final String K_COMMENTS = "comments";
+
+	private static final String K_SKIP_COMMIT = "skipCommit";
 
 	private static final String K_LICENSE = "license";
 
@@ -104,6 +107,8 @@ public class IpLogMeta {
 			Project project = new Project(id, name);
 			project.setComments(cfg.getString(S_PROJECT, id, K_COMMENTS));
 
+			for (String c : cfg.getStringList(S_PROJECT, id, K_SKIP_COMMIT))
+				project.addSkipCommit(ObjectId.fromString(c));
 			for (String license : cfg.getStringList(S_PROJECT, id, K_LICENSE))
 				project.addLicense(license);
 			projects.add(project);
