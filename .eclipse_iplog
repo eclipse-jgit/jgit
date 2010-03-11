@@ -28,6 +28,6 @@
 
 [CQ "3448"]
 	description = JGit
-	license = EDL or BSD (TBD)
-	state = awaiting_analysis
+	license = Eclipse Distribution License
+	state = approved
 
