@@ -1,0 +1,174 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAF3///8s\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/nls/TestNLS.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T15:26:29Z",
+      "side": 1,
+      "message": "I hate tests that sleep.  This is also prone to race conditions if the test is run on a heavily loaded system... which our automated Hudson CI builds are.  So please expend the extra effort to implement a proper barrier between the threads to ensure they both set their locale before they can continue.  It shouldn\u0027t that hard, use a java.util.concurrent.CyclicBarrier.",
+      "revId": "c866ca63c2e6ee1fbe15b51d4cca4e2ac471c04b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAF3///8w\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/nls/TestNLS.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T15:26:29Z",
+      "side": 1,
+      "message": "Did you mean to set a locale here in a test meant for the jvm default?",
+      "revId": "c866ca63c2e6ee1fbe15b51d4cca4e2ac471c04b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAF3///9I\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/nls/NLS.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T15:26:29Z",
+      "side": 1,
+      "message": "These fields should be marked final.\n\nMaybe a ConcurrentHashMap would be better here, then we can avoid the synchronized during reads.",
+      "revId": "c866ca63c2e6ee1fbe15b51d4cca4e2ac471c04b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAF3///9M\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/nls/NLS.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T15:26:29Z",
+      "side": 1,
+      "message": "Style-nit:  instance fields before constructor.",
+      "revId": "c866ca63c2e6ee1fbe15b51d4cca4e2ac471c04b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAF3///84\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/nls/NLS.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T15:26:29Z",
+      "side": 1,
+      "message": "Please document what happens if the bundle fails to load for the current locale.  I know you throw an Error below.  I\u0027d prefer it to be a specific Error type that a caller could catch if they want to more gracefully abort due to an invalid translation.",
+      "revId": "c866ca63c2e6ee1fbe15b51d4cca4e2ac471c04b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAF3///88\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/nls/NLS.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T15:26:29Z",
+      "side": 1,
+      "message": "See my comment below about the default value; setting to null here would cause that behavior to fail.  So you\u0027d need to set to the initial value instead.",
+      "revId": "c866ca63c2e6ee1fbe15b51d4cca4e2ac471c04b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAF3///9E\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/nls/NLS.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T15:26:29Z",
+      "side": 1,
+      "message": "Translation text can\u0027t change, its loaded from the code archive we ourselves came from.  So I think we should do a global table that holds a cached singleton of all translations.  Its a finite cost and \"leaking\" them after they are needed shouldn\u0027t be a problem.\n\nSo change this code to be:\n\n  TranslationBundle bundle \u003d map.get(type);\n  if (bundle \u003d\u003d null) {\n    bundle \u003d lookupBundle(locale, type);\n    map.putIfAbsent(type, bundle);\n  }\n\nand write a global cache:\n\n  private static final Map\u003cLocale, Map\u003cClass, TranslationBundle\u003e\u003e cachedBundles\n    \u003d new HashMap\u003cLocale, Map\u003cClass, TranslationBundle\u003e\u003e();\n\n  private static synchronized \u003cT extends TranslationBundle\u003e\n  T lookupBundle(Locale locale, Class\u003cT\u003e type) {\n    ...\n  }",
+      "revId": "c866ca63c2e6ee1fbe15b51d4cca4e2ac471c04b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAF3///9A\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/nls/NLS.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T15:26:29Z",
+      "side": 1,
+      "message": "Instead of doing this, extend InheritableThreadLocal above and implement its initialValue() method to construct this NLS instance.  That way when you are in default mode we still can maintain a thread-local cache of the bundles we\u0027ve examined.",
+      "revId": "c866ca63c2e6ee1fbe15b51d4cca4e2ac471c04b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAF3///80\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/nls/TranslationBundle.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T15:26:29Z",
+      "side": 1,
+      "message": "Style-nit:  We prefer \"public abstract\"",
+      "revId": "c866ca63c2e6ee1fbe15b51d4cca4e2ac471c04b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAF3///8o\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/nls/TranslationBundle.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-10T15:26:29Z",
+      "side": 1,
+      "message": "Style-nit:  This variable isn\u0027t necessary, just use the method in the for loop below.",
+      "revId": "c866ca63c2e6ee1fbe15b51d4cca4e2ac471c04b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
