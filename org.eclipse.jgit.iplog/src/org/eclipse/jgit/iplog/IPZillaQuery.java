@@ -48,6 +48,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 import java.net.ConnectException;
 import java.net.CookieHandler;
@@ -67,6 +68,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.eclipse.jgit.util.HttpSupport;
 
@@ -185,6 +188,41 @@ class IPZillaQuery {
 			throw new IOException("Login as " + username + " to " + login
 					+ " failed: " + c.getResponseCode() + " "
 					+ c.getResponseMessage());
+		}
+
+		String content = readFully(c);
+		Matcher matcher = Pattern.compile("<title>(.*)</title>",
+				Pattern.CASE_INSENSITIVE).matcher(content);
+		if (!matcher.find()) {
+			throw new IOException("Login as " + username + " to " + login
+					+ " failed: Response not HTML as expected");
+		}
+
+		String title = matcher.group(1);
+		if (!"IPZilla Main Page".equals(title)) {
+			throw new IOException("Login as " + username + " to " + login
+					+ " failed; page title was \"" + title + "\"");
+		}
+	}
+
+	private String readFully(HttpURLConnection c) throws IOException {
+		String enc = c.getContentEncoding();
+		Reader reader;
+		if (enc != null) {
+			reader = new InputStreamReader(c.getInputStream(), enc);
+		} else {
+			reader = new InputStreamReader(c.getInputStream(), "ISO-8859-1");
+		}
+		try {
+			StringBuilder b = new StringBuilder();
+			BufferedReader r = new BufferedReader(reader);
+			String line;
+			while ((line = r.readLine()) != null) {
+				b.append(line).append('\n');
+			}
+			return b.toString();
+		} finally {
+			reader.close();
 		}
 	}
 
