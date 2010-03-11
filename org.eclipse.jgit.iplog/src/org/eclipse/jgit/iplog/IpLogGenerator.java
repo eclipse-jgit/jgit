@@ -389,7 +389,7 @@ public class IpLogGenerator {
 					if (tw.getFileMode(0).getObjectType() == Constants.OBJ_BLOB) {
 						byte[] buf = openBlob(0);
 						for (int ptr = 0; ptr < buf.length;) {
-							ptr += RawParseUtils.nextLF(buf, ptr);
+							ptr = RawParseUtils.nextLF(buf, ptr);
 							addedLines++;
 						}
 					}
