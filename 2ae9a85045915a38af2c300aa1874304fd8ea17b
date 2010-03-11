@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAGn////w\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/errors/TranslationBundleException.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-11T20:17:16Z",
+      "side": 1,
+      "message": "Style-nit:  We prefer public final.  I\u0027ll let it slide.",
+      "revId": "2ae9a85045915a38af2c300aa1874304fd8ea17b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAGn////4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/nls/NLS.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-11T20:17:16Z",
+      "side": 1,
+      "message": "Style-nit:  We prefer \"private final\".  I\u0027ll let it slide.",
+      "revId": "2ae9a85045915a38af2c300aa1874304fd8ea17b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
