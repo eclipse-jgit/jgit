@@ -130,6 +130,9 @@ public class IpLogGenerator {
 	/** Root commits which were scanned to gather project data. */
 	private final Set<RevCommit> commits = new HashSet<RevCommit>();
 
+	/** The meta file we loaded to bootstrap our definitions. */
+	private IpLogMeta meta;
+
 	private String characterEncoding = "UTF-8";
 
 	private Repository db;
@@ -185,7 +188,7 @@ public class IpLogGenerator {
 
 			loadEclipseIpLog(version, c);
 			loadCommitters(repo);
-			scanProjectCommits(c);
+			scanProjectCommits(meta.getProjects().get(0), c);
 			commits.add(c);
 		} finally {
 			WindowCursor.release(curs);
@@ -202,7 +205,7 @@ public class IpLogGenerator {
 		if (log == null)
 			return;
 
-		IpLogMeta meta = new IpLogMeta();
+		meta = new IpLogMeta();
 		try {
 			meta.loadFrom(new BlobBasedConfig(null, db, log.getObjectId(0)));
 		} catch (ConfigInvalidException e) {
@@ -277,12 +280,17 @@ public class IpLogGenerator {
 		}
 	}
 
-	private void scanProjectCommits(RevCommit start) throws IOException {
+	private void scanProjectCommits(Project proj, RevCommit start)
+			throws IOException {
 		rw.reset();
 		rw.markStart(start);
 
 		RevCommit commit;
 		while ((commit = rw.next()) != null) {
+			if (proj.isSkippedCommit(commit)) {
+				continue;
+			}
+
 			final PersonIdent author = commit.getAuthorIdent();
 			final Date when = author.getWhen();
 
