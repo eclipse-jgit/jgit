@@ -180,7 +180,7 @@ public abstract class OrTreeFilter extends TreeFilter {
 
 		@Override
 		public String toString() {
-			final StringBuffer r = new StringBuffer();
+			final StringBuilder r = new StringBuilder();
 			r.append("(");
 			for (int i = 0; i < subfilters.length; i++) {
 				if (i > 0)

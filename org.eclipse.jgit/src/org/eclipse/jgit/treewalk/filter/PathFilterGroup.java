@@ -192,7 +192,7 @@ public class PathFilterGroup {
 		}
 
 		public String toString() {
-			final StringBuffer r = new StringBuffer();
+			final StringBuilder r = new StringBuilder();
 			r.append("FAST(");
 			for (int i = 0; i < paths.length; i++) {
 				if (i > 0)

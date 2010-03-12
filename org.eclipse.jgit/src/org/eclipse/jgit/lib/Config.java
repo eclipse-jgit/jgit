@@ -118,7 +118,7 @@ public class Config {
 	private static String escapeValue(final String x) {
 		boolean inquote = false;
 		int lineStart = 0;
-		final StringBuffer r = new StringBuffer(x.length());
+		final StringBuilder r = new StringBuilder(x.length());
 		for (int k = 0; k < x.length(); k++) {
 			final char c = x.charAt(k);
 			switch (c) {
@@ -897,7 +897,7 @@ public class Config {
 
 	private static String readKeyName(final StringReader in)
 			throws ConfigInvalidException {
-		final StringBuffer name = new StringBuffer();
+		final StringBuilder name = new StringBuilder();
 		for (;;) {
 			int c = in.read();
 			if (c < 0)
@@ -944,7 +944,7 @@ public class Config {
 
 	private static String readValue(final StringReader in, boolean quote,
 			final int eol) throws ConfigInvalidException {
-		final StringBuffer value = new StringBuffer();
+		final StringBuilder value = new StringBuilder();
 		boolean space = false;
 		for (;;) {
 			int c = in.read();

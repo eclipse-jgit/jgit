@@ -81,7 +81,7 @@ public class SymlinkTreeEntry extends TreeEntry {
 	}
 
 	public String toString() {
-		final StringBuffer r = new StringBuffer();
+		final StringBuilder r = new StringBuilder();
 		r.append(ObjectId.toString(getId()));
 		r.append(" S ");
 		r.append(getFullName());

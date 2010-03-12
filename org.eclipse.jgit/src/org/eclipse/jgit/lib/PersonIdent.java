@@ -251,7 +251,7 @@ public class PersonIdent {
 	 * @return this person's declared time zone; null if time zone is unknown.
 	 */
 	public TimeZone getTimeZone() {
-		StringBuffer tzId = new StringBuffer(8);
+		StringBuilder tzId = new StringBuilder(8);
 		tzId.append("GMT");
 		appendTimezone(tzId);
 		return TimeZone.getTimeZone(tzId.toString());
@@ -285,7 +285,7 @@ public class PersonIdent {
 	 * @return a string in the git author format
 	 */
 	public String toExternalString() {
-		final StringBuffer r = new StringBuffer();
+		final StringBuilder r = new StringBuilder();
 		r.append(getName());
 		r.append(" <");
 		r.append(getEmailAddress());
@@ -296,7 +296,7 @@ public class PersonIdent {
 		return r.toString();
 	}
 
-	private void appendTimezone(final StringBuffer r) {
+	private void appendTimezone(final StringBuilder r) {
 		int offset = tzOffset;
 		final char sign;
 		final int offsetHours;
@@ -324,7 +324,7 @@ public class PersonIdent {
 	}
 
 	public String toString() {
-		final StringBuffer r = new StringBuffer();
+		final StringBuilder r = new StringBuilder();
 		final SimpleDateFormat dtfmt;
 		dtfmt = new SimpleDateFormat("EEE MMM d HH:mm:ss yyyy Z", Locale.US);
 		dtfmt.setTimeZone(getTimeZone());

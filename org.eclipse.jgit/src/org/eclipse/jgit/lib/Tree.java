@@ -598,7 +598,7 @@ public class Tree extends TreeEntry implements Treeish {
 	}
 
 	public String toString() {
-		final StringBuffer r = new StringBuffer();
+		final StringBuilder r = new StringBuilder();
 		r.append(ObjectId.toString(getId()));
 		r.append(" T ");
 		r.append(getFullName());

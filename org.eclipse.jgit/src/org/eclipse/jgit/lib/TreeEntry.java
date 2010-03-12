@@ -210,7 +210,7 @@ public abstract class TreeEntry implements Comparable {
 	 * @return repository relative name of this entry
 	 */
 	public String getFullName() {
-		final StringBuffer r = new StringBuffer();
+		final StringBuilder r = new StringBuilder();
 		appendFullName(r);
 		return r.toString();
 	}
@@ -285,7 +285,7 @@ public abstract class TreeEntry implements Comparable {
 	 */
 	public abstract FileMode getMode();
 
-	private void appendFullName(final StringBuffer r) {
+	private void appendFullName(final StringBuilder r) {
 		final TreeEntry p = getParent();
 		final String n = getName();
 		if (p != null) {

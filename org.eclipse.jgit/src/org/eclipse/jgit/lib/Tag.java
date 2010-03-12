@@ -163,7 +163,7 @@ public class Tag {
 						throw new CorruptObjectException(tagId, "no tagger/bad header");
 
 				// Message should start with an empty line, but
-				StringBuffer tempMessage = new StringBuffer();
+				StringBuilder tempMessage = new StringBuilder();
 				char[] readBuf = new char[2048];
 				int readLen;
 				while ((readLen = br.read(readBuf)) > 0) {
