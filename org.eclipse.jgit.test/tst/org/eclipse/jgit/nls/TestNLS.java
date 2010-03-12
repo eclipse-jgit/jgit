@@ -53,9 +53,9 @@ import junit.framework.TestCase;
 public class TestNLS extends TestCase {
 
 	public void testNLSLocale() {
-		NLS.setLocale(Locale.ROOT);
+		NLS.setLocale(NLS.ROOT_LOCALE);
 		GermanTranslatedBundle bundle = GermanTranslatedBundle.get();
-		assertEquals(Locale.ROOT, bundle.getEffectiveLocale());
+		assertEquals(NLS.ROOT_LOCALE, bundle.getEffectiveLocale());
 
 		NLS.setLocale(Locale.GERMAN);
 		bundle = GermanTranslatedBundle.get();
@@ -63,10 +63,10 @@ public class TestNLS extends TestCase {
 	}
 
 	public void testJVMDefaultLocale() {
-		Locale.setDefault(Locale.ROOT);
+		Locale.setDefault(NLS.ROOT_LOCALE);
 		NLS.useJVMDefaultLocale();
 		GermanTranslatedBundle bundle = GermanTranslatedBundle.get();
-		assertEquals(Locale.ROOT, bundle.getEffectiveLocale());
+		assertEquals(NLS.ROOT_LOCALE, bundle.getEffectiveLocale());
 
 		Locale.setDefault(Locale.GERMAN);
 		NLS.useJVMDefaultLocale();
@@ -84,7 +84,7 @@ public class TestNLS extends TestCase {
 			}
 		}
 
-		NLS.setLocale(Locale.ROOT);
+		NLS.setLocale(NLS.ROOT_LOCALE);
 		GermanTranslatedBundle mainThreadsBundle = GermanTranslatedBundle.get();
 		T t = new T();
 		t.start();
@@ -126,7 +126,7 @@ public class TestNLS extends TestCase {
 			}
 		}
 
-		T t1 = new T(Locale.ROOT);
+		T t1 = new T(NLS.ROOT_LOCALE);
 		T t2 = new T(Locale.GERMAN);
 		t1.start();
 		t2.start();
@@ -135,7 +135,7 @@ public class TestNLS extends TestCase {
 
 		assertNull("t1 was interrupted or barrier was broken", t1.e);
 		assertNull("t2 was interrupted or barrier was broken", t2.e);
-		assertEquals(Locale.ROOT, t1.bundle.getEffectiveLocale());
+		assertEquals(NLS.ROOT_LOCALE, t1.bundle.getEffectiveLocale());
 		assertEquals(Locale.GERMAN, t2.bundle.getEffectiveLocale());
 	}
 }

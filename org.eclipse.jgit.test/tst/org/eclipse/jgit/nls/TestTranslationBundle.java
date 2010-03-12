@@ -54,23 +54,23 @@ public class TestTranslationBundle extends TestCase {
 
 	public void testMissingPropertiesFile() {
 		try {
-			new NoPropertiesBundle().load(Locale.ROOT);
+			new NoPropertiesBundle().load(NLS.ROOT_LOCALE);
 			fail("Expected TranslationBundleLoadingException");
 		} catch (TranslationBundleLoadingException e) {
 			assertEquals(NoPropertiesBundle.class, e.getBundleClass());
-			assertEquals(Locale.ROOT, e.getLocale());
+			assertEquals(NLS.ROOT_LOCALE, e.getLocale());
 			// pass
 		}
 	}
 
 	public void testMissingString() {
 		try {
-			new MissingPropertyBundle().load(Locale.ROOT);
+			new MissingPropertyBundle().load(NLS.ROOT_LOCALE);
 			fail("Expected TranslationStringMissingException");
 		} catch (TranslationStringMissingException e) {
 			assertEquals("nonTranslatedKey", e.getKey());
 			assertEquals(MissingPropertyBundle.class, e.getBundleClass());
-			assertEquals(Locale.ROOT, e.getLocale());
+			assertEquals(NLS.ROOT_LOCALE, e.getLocale());
 			// pass
 		}
 	}
@@ -78,24 +78,24 @@ public class TestTranslationBundle extends TestCase {
 	public void testNonTranslatedBundle() {
 		NonTranslatedBundle bundle = new NonTranslatedBundle();
 
-		bundle.load(Locale.ROOT);
-		assertEquals(Locale.ROOT, bundle.getEffectiveLocale());
+		bundle.load(NLS.ROOT_LOCALE);
+		assertEquals(NLS.ROOT_LOCALE, bundle.getEffectiveLocale());
 		assertEquals("Good morning {0}", bundle.goodMorning);
 
 		bundle.load(Locale.ENGLISH);
-		assertEquals(Locale.ROOT, bundle.getEffectiveLocale());
+		assertEquals(NLS.ROOT_LOCALE, bundle.getEffectiveLocale());
 		assertEquals("Good morning {0}", bundle.goodMorning);
 
 		bundle.load(Locale.GERMAN);
-		assertEquals(Locale.ROOT, bundle.getEffectiveLocale());
+		assertEquals(NLS.ROOT_LOCALE, bundle.getEffectiveLocale());
 		assertEquals("Good morning {0}", bundle.goodMorning);
 	}
 
 	public void testGermanTranslation() {
 		GermanTranslatedBundle bundle = new GermanTranslatedBundle();
 
-		bundle.load(Locale.ROOT);
-		assertEquals(Locale.ROOT, bundle.getEffectiveLocale());
+		bundle.load(NLS.ROOT_LOCALE);
+		assertEquals(NLS.ROOT_LOCALE, bundle.getEffectiveLocale());
 		assertEquals("Good morning {0}", bundle.goodMorning);
 
 		bundle.load(Locale.GERMAN);
