@@ -1,0 +1,40 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAGn///7Y\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SideBandInputStream.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-13T00:21:45Z",
+      "side": 1,
+      "message": "^ and $ in this regex are matching start and end of string, not start and end of line.  And the final character is either \\r or \\n, but not both.  C Git might produce a \\r if this is a continuation progress message with more messages coming, or \\n if this is the final message.  But it doesn\u0027t produce both over the network.",
+      "parentUuid": "AAAAE3///rg\u003d",
+      "revId": "a3048839a352f65c3bbbdeee80b46130eafb8933",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAGn///7U\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportLocal.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-13T00:21:45Z",
+      "side": 1,
+      "message": "The Gerrit diff bug you observed here appears to be fixed in 2.1.2 final release.  We tweaked the heuristics quite a bit between when you first reviewed the code, and now when I\u0027m looking through it again to address comments.",
+      "parentUuid": "AAAAE3///rc\u003d",
+      "revId": "a3048839a352f65c3bbbdeee80b46130eafb8933",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
