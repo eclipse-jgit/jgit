@@ -1,0 +1,22 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAGn///7w\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SideBandOutputStream.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-13T00:08:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAAGn///78\u003d",
+      "revId": "aa5a5508a7b41c2d6d2b160e7e060c47feeb8ed3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
