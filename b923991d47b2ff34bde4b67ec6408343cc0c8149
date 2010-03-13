@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAAE3///rI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 640,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Should this be a Constant reference? It\u0027s used in a few places.",
+      "revId": "b923991d47b2ff34bde4b67ec6408343cc0c8149",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAGn///7Q\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
         "patchSetId": 1
@@ -14,6 +31,23 @@
       "side": 1,
       "message": "I\u0027m not going to bother making \"ERR\" a constant.  Its used twice, once here to tell the client we\u0027re broken, and once in the client to detect the server is broken and abort.  Its just not worth complicating the code with an additional constant.",
       "parentUuid": "AAAAE3///rI\u003d",
+      "revId": "b923991d47b2ff34bde4b67ec6408343cc0c8149",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAE3///rE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 641,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Is this return; strictly necessary? We\u0027re at the end of a method, after all.",
       "revId": "b923991d47b2ff34bde4b67ec6408343cc0c8149",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
