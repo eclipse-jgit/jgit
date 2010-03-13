@@ -1,0 +1,22 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAGn///7o\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PacketLineIn.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-13T00:10:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAAE3///pk\u003d",
+      "revId": "d959729faef183d44745ff1227404461bf75c948",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
