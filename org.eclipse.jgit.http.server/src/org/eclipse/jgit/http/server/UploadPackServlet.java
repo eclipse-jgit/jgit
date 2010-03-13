@@ -106,7 +106,10 @@ class UploadPackServlet extends HttpServlet {
 			final UploadPack up = uploadPackFactory.create(req, db);
 			up.setBiDirectionalPipe(false);
 			rsp.setContentType(RSP_TYPE);
-			up.upload(getInputStream(req), rsp.getOutputStream(), null);
+
+			final SmartOutputStream out = new SmartOutputStream(req, rsp);
+			up.upload(getInputStream(req), out, null);
+			out.close();
 
 		} catch (ServiceNotAuthorizedException e) {
 			rsp.reset();

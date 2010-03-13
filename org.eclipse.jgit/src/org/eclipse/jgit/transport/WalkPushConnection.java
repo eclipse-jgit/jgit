@@ -45,6 +45,7 @@ package org.eclipse.jgit.transport;
 
 import static org.eclipse.jgit.transport.WalkRemoteObjectDatabase.ROOT_DIR;
 
+import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
@@ -251,6 +252,7 @@ class WalkPushConnection extends BaseConnection implements PushConnection {
 			final String wt = "Put " + base.substring(0, 12);
 			OutputStream os = dest.writeFile(pathPack, monitor, wt + "..pack");
 			try {
+				os = new BufferedOutputStream(os);
 				pw.writePack(os);
 			} finally {
 				os.close();
@@ -258,6 +260,7 @@ class WalkPushConnection extends BaseConnection implements PushConnection {
 
 			os = dest.writeFile(pathIdx, monitor, wt + "..idx");
 			try {
+				os = new BufferedOutputStream(os);
 				pw.writeIndex(os);
 			} finally {
 				os.close();

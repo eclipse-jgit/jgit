@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008-2009, Google Inc.
+ * Copyright (C) 2008-2010, Google Inc.
  * Copyright (C) 2008-2009, Robin Rosenberg <robin.rosenberg@dewire.com>
  * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org>
  * and other copyright owners as documented in the project's IP log.
@@ -105,14 +105,6 @@ public class PacketLineOut {
 		out.write(packet);
 	}
 
-	void writeChannelPacket(final int channel, final byte[] buf, int off,
-			int len) throws IOException {
-		formatLength(len + 5);
-		lenbuffer[4] = (byte) channel;
-		out.write(lenbuffer, 0, 5);
-		out.write(buf, off, len);
-	}
-
 	/**
 	 * Write a packet end marker, sometimes referred to as a flush command.
 	 * <p>
@@ -149,6 +141,10 @@ public class PacketLineOut {
 			'7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
 
 	private void formatLength(int w) {
+		formatLength(lenbuffer, w);
+	}
+
+	static void formatLength(byte[] lenbuffer, int w) {
 		int o = 3;
 		while (o >= 0 && w != 0) {
 			lenbuffer[o--] = hexchar[w & 0xf];

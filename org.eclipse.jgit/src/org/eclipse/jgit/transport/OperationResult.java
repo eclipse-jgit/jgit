@@ -1,4 +1,5 @@
 /*
+ * Copyright (C) 2010, Google Inc.
  * Copyright (C) 2008, Marek Zawirski <marek.zawirski@gmail.com>
  * Copyright (C) 2007-2009, Robin Rosenberg <robin.rosenberg@dewire.com>
  * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org>
@@ -64,6 +65,8 @@ public abstract class OperationResult {
 	URIish uri;
 
 	final SortedMap<String, TrackingRefUpdate> updates = new TreeMap<String, TrackingRefUpdate>();
+
+	StringBuilder messageBuffer;
 
 	/**
 	 * Get the URI this result came from.
@@ -135,5 +138,31 @@ public abstract class OperationResult {
 
 	void add(final TrackingRefUpdate u) {
 		updates.put(u.getLocalName(), u);
+	}
+
+	/**
+	 * Get the additional messages, if any, returned by the remote process.
+	 * <p>
+	 * These messages are most likely informational or error messages, sent by
+	 * the remote peer, to help the end-user correct any problems that may have
+	 * prevented the operation from completing successfully. Application UIs
+	 * should try to show these in an appropriate context.
+	 *
+	 * @return the messages returned by the remote, most likely terminated by a
+	 *         newline (LF) character. The empty string is returned if the
+	 *         remote produced no additional messages.
+	 */
+	public String getMessages() {
+		return messageBuffer != null ? messageBuffer.toString() : "";
+	}
+
+	void addMessages(final String msg) {
+		if (msg != null && msg.length() > 0) {
+			if (messageBuffer == null)
+				messageBuffer = new StringBuilder();
+			messageBuffer.append(msg);
+			if (!msg.endsWith("\n"))
+				messageBuffer.append('\n');
+		}
 	}
 }

@@ -46,6 +46,7 @@
 package org.eclipse.jgit.transport;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
@@ -609,7 +610,11 @@ abstract class BasePackFetchConnection extends BasePackConnection implements
 	private void receivePack(final ProgressMonitor monitor) throws IOException {
 		final IndexPack ip;
 
-		ip = IndexPack.create(local, sideband ? pckIn.sideband(monitor) : in);
+		InputStream input = in;
+		if (sideband)
+			input = new SideBandInputStream(input, monitor, getMessageWriter());
+
+		ip = IndexPack.create(local, input);
 		ip.setFixThin(thinPack);
 		ip.setObjectChecking(transport.isCheckFetchedObjects());
 		ip.index(monitor);

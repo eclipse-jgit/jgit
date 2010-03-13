@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009, Google Inc.
+ * Copyright (C) 2009-2010, Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -43,6 +43,13 @@
 
 package org.eclipse.jgit.transport;
 
+import static org.eclipse.jgit.transport.SideBandOutputStream.CH_DATA;
+import static org.eclipse.jgit.transport.SideBandOutputStream.CH_ERROR;
+import static org.eclipse.jgit.transport.SideBandOutputStream.CH_PROGRESS;
+import static org.eclipse.jgit.transport.SideBandOutputStream.HDR_SIZE;
+import static org.eclipse.jgit.transport.SideBandOutputStream.MAX_BUF;
+import static org.eclipse.jgit.transport.SideBandOutputStream.SMALL_BUF;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -58,62 +65,90 @@ import org.eclipse.jgit.lib.Constants;
 public class SideBandOutputStreamTest extends TestCase {
 	private ByteArrayOutputStream rawOut;
 
-	private PacketLineOut pckOut;
-
 	protected void setUp() throws Exception {
 		super.setUp();
 		rawOut = new ByteArrayOutputStream();
-		pckOut = new PacketLineOut(rawOut);
 	}
 
 	public void testWrite_CH_DATA() throws IOException {
 		final SideBandOutputStream out;
-		out = new SideBandOutputStream(SideBandOutputStream.CH_DATA, pckOut);
+		out = new SideBandOutputStream(CH_DATA, SMALL_BUF, rawOut);
 		out.write(new byte[] { 'a', 'b', 'c' });
+		out.flush();
 		assertBuffer("0008\001abc");
 	}
 
 	public void testWrite_CH_PROGRESS() throws IOException {
 		final SideBandOutputStream out;
-		out = new SideBandOutputStream(SideBandOutputStream.CH_PROGRESS, pckOut);
+		out = new SideBandOutputStream(CH_PROGRESS, SMALL_BUF, rawOut);
 		out.write(new byte[] { 'a', 'b', 'c' });
+		out.flush();
 		assertBuffer("0008\002abc");
 	}
 
 	public void testWrite_CH_ERROR() throws IOException {
 		final SideBandOutputStream out;
-		out = new SideBandOutputStream(SideBandOutputStream.CH_ERROR, pckOut);
+		out = new SideBandOutputStream(CH_ERROR, SMALL_BUF, rawOut);
 		out.write(new byte[] { 'a', 'b', 'c' });
+		out.flush();
 		assertBuffer("0008\003abc");
 	}
 
 	public void testWrite_Small() throws IOException {
 		final SideBandOutputStream out;
-		out = new SideBandOutputStream(SideBandOutputStream.CH_DATA, pckOut);
+		out = new SideBandOutputStream(CH_DATA, SMALL_BUF, rawOut);
 		out.write('a');
 		out.write('b');
 		out.write('c');
+		out.flush();
+		assertBuffer("0008\001abc");
+	}
+
+	public void testWrite_SmallBlocks1() throws IOException {
+		final SideBandOutputStream out;
+		out = new SideBandOutputStream(CH_DATA, 6, rawOut);
+		out.write('a');
+		out.write('b');
+		out.write('c');
+		out.flush();
 		assertBuffer("0006\001a0006\001b0006\001c");
 	}
 
+	public void testWrite_SmallBlocks2() throws IOException {
+		final SideBandOutputStream out;
+		out = new SideBandOutputStream(CH_DATA, 6, rawOut);
+		out.write(new byte[] { 'a', 'b', 'c' });
+		out.flush();
+		assertBuffer("0006\001a0006\001b0006\001c");
+	}
+
+	public void testWrite_SmallBlocks3() throws IOException {
+		final SideBandOutputStream out;
+		out = new SideBandOutputStream(CH_DATA, 7, rawOut);
+		out.write('a');
+		out.write(new byte[] { 'b', 'c' });
+		out.flush();
+		assertBuffer("0007\001ab0006\001c");
+	}
+
 	public void testWrite_Large() throws IOException {
-		final int buflen = SideBandOutputStream.MAX_BUF
-				- SideBandOutputStream.HDR_SIZE;
+		final int buflen = MAX_BUF - HDR_SIZE;
 		final byte[] buf = new byte[buflen];
 		for (int i = 0; i < buf.length; i++) {
 			buf[i] = (byte) i;
 		}
 
 		final SideBandOutputStream out;
-		out = new SideBandOutputStream(SideBandOutputStream.CH_DATA, pckOut);
+		out = new SideBandOutputStream(CH_DATA, MAX_BUF, rawOut);
 		out.write(buf);
+		out.flush();
 
 		final byte[] act = rawOut.toByteArray();
-		final String explen = Integer.toString(buf.length + 5, 16);
-		assertEquals(5 + buf.length, act.length);
+		final String explen = Integer.toString(buf.length + HDR_SIZE, 16);
+		assertEquals(HDR_SIZE + buf.length, act.length);
 		assertEquals(new String(act, 0, 4, "UTF-8"), explen);
 		assertEquals(1, act[4]);
-		for (int i = 0, j = 5; i < buf.length; i++, j++) {
+		for (int i = 0, j = HDR_SIZE; i < buf.length; i++, j++) {
 			assertEquals(buf[i], act[j]);
 		}
 	}
@@ -132,17 +167,63 @@ public class SideBandOutputStreamTest extends TestCase {
 			}
 		};
 
-		new SideBandOutputStream(SideBandOutputStream.CH_DATA,
-				new PacketLineOut(mockout)).flush();
-		assertEquals(0, flushCnt[0]);
-
-		new SideBandOutputStream(SideBandOutputStream.CH_ERROR,
-				new PacketLineOut(mockout)).flush();
+		new SideBandOutputStream(CH_DATA, SMALL_BUF, mockout).flush();
 		assertEquals(1, flushCnt[0]);
+	}
 
-		new SideBandOutputStream(SideBandOutputStream.CH_PROGRESS,
-				new PacketLineOut(mockout)).flush();
-		assertEquals(2, flushCnt[0]);
+	public void testConstructor_RejectsBadChannel() {
+		try {
+			new SideBandOutputStream(-1, MAX_BUF, rawOut);
+			fail("Accepted -1 channel number");
+		} catch (IllegalArgumentException e) {
+			assertEquals("channel -1 must be in range [0, 255]", e.getMessage());
+		}
+
+		try {
+			new SideBandOutputStream(0, MAX_BUF, rawOut);
+			fail("Accepted 0 channel number");
+		} catch (IllegalArgumentException e) {
+			assertEquals("channel 0 must be in range [0, 255]", e.getMessage());
+		}
+
+		try {
+			new SideBandOutputStream(256, MAX_BUF, rawOut);
+			fail("Accepted 256 channel number");
+		} catch (IllegalArgumentException e) {
+			assertEquals("channel 256 must be in range [0, 255]", e
+					.getMessage());
+		}
+	}
+
+	public void testConstructor_RejectsBadBufferSize() {
+		try {
+			new SideBandOutputStream(CH_DATA, -1, rawOut);
+			fail("Accepted -1 for buffer size");
+		} catch (IllegalArgumentException e) {
+			assertEquals("packet size -1 must be >= 5", e.getMessage());
+		}
+
+		try {
+			new SideBandOutputStream(CH_DATA, 0, rawOut);
+			fail("Accepted 0 for buffer size");
+		} catch (IllegalArgumentException e) {
+			assertEquals("packet size 0 must be >= 5", e.getMessage());
+		}
+
+		try {
+			new SideBandOutputStream(CH_DATA, 1, rawOut);
+			fail("Accepted 1 for buffer size");
+		} catch (IllegalArgumentException e) {
+			assertEquals("packet size 1 must be >= 5", e.getMessage());
+		}
+
+		try {
+			new SideBandOutputStream(CH_DATA, Integer.MAX_VALUE, rawOut);
+			fail("Accepted " + Integer.MAX_VALUE + " for buffer size");
+		} catch (IllegalArgumentException e) {
+			assertEquals("packet size " + Integer.MAX_VALUE
+					+ " must be <= 65520", e.getMessage());
+		}
 	}
 
 	private void assertBuffer(final String exp) throws IOException {

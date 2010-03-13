@@ -41,63 +41,88 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.eclipse.jgit.http.server;
-
-import static org.eclipse.jgit.http.server.ServletUtils.getRepository;
+package org.eclipse.jgit.util.io;
 
 import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.util.Map;
+import java.io.InputStream;
+import java.io.InterruptedIOException;
+import java.io.OutputStream;
 
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+/** Thread to copy from an input stream to an output stream. */
+public class StreamCopyThread extends Thread {
+	private static final int BUFFER_SIZE = 1024;
 
-import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.revwalk.RevFlag;
-import org.eclipse.jgit.revwalk.RevWalk;
-import org.eclipse.jgit.transport.RefAdvertiser;
-import org.eclipse.jgit.util.HttpSupport;
+	private final InputStream src;
 
-/** Send a complete list of current refs, including peeled values for tags. */
-class InfoRefsServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+	private final OutputStream dst;
 
-	public void doGet(final HttpServletRequest req,
-			final HttpServletResponse rsp) throws IOException {
-		// Assume a dumb client and send back the dumb client
-		// version of the info/refs file.
-		rsp.setContentType(HttpSupport.TEXT_PLAIN);
-		rsp.setCharacterEncoding(Constants.CHARACTER_ENCODING);
+	private volatile boolean doFlush;
 
-		final Repository db = getRepository(req);
-		final RevWalk walk = new RevWalk(db);
-		final RevFlag ADVERTISED = walk.newFlag("ADVERTISED");
+	/**
+	 * Create a thread to copy data from an input stream to an output stream.
+	 *
+	 * @param i
+	 *            stream to copy from. The thread terminates when this stream
+	 *            reaches EOF. The thread closes this stream before it exits.
+	 * @param o
+	 *            stream to copy into. The destination stream is automatically
+	 *            closed when the thread terminates.
+	 */
+	public StreamCopyThread(final InputStream i, final OutputStream o) {
+		setName(Thread.currentThread().getName() + "-StreamCopy");
+		src = i;
+		dst = o;
+	}
 
-		final OutputStreamWriter out = new OutputStreamWriter(
-				new SmartOutputStream(req, rsp), Constants.CHARSET);
-		final RefAdvertiser adv = new RefAdvertiser() {
-			@Override
-			protected void writeOne(final CharSequence line) throws IOException {
-				// Whoever decided that info/refs should use a different
-				// delimiter than the native git:// protocol shouldn't
-				// be allowed to design this sort of stuff. :-(
-				out.append(line.toString().replace(' ', '\t'));
+	/**
+	 * Request the thread to flush the output stream as soon as possible.
+	 * <p>
+	 * This is an asynchronous request to the thread. The actual flush will
+	 * happen at some future point in time, when the thread wakes up to process
+	 * the request.
+	 */
+	public void flush() {
+		if (!doFlush) {
+			doFlush = true;
+			interrupt();
+		}
+	}
+
+	@Override
+	public void run() {
+		try {
+			final byte[] buf = new byte[BUFFER_SIZE];
+			for (;;) {
+				try {
+					if (doFlush) {
+						doFlush = false;
+						dst.flush();
+					}
+
+					final int n;
+					try {
+						n = src.read(buf);
+					} catch (InterruptedIOException wakey) {
+						continue;
+					}
+					if (n < 0)
+						break;
+					dst.write(buf, 0, n);
+				} catch (IOException e) {
+					break;
+				}
 			}
-
-			@Override
-			protected void end() {
-				// No end marker required for info/refs format.
+		} finally {
+			try {
+				src.close();
+			} catch (IOException e) {
+				// Ignore IO errors on close
 			}
-		};
-		adv.init(walk, ADVERTISED);
-		adv.setDerefTags(true);
-
-		Map<String, Ref> refs = db.getAllRefs();
-		refs.remove(Constants.HEAD);
-		adv.send(refs);
-		out.close();
+			try {
+				dst.close();
+			} catch (IOException e) {
+				// Ignore IO errors on close
+			}
+		}
 	}
 }

@@ -632,9 +632,9 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 
 		private final String responseType;
 
-		private final UnionInputStream httpIn;
+		private final HttpExecuteStream execute;
 
-		final HttpInputStream in;
+		final UnionInputStream in;
 
 		final HttpOutputStream out;
 
@@ -645,8 +645,8 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 			this.requestType = "application/x-" + serviceName + "-request";
 			this.responseType = "application/x-" + serviceName + "-result";
 
-			this.httpIn = new UnionInputStream();
-			this.in = new HttpInputStream(httpIn);
+			this.execute = new HttpExecuteStream();
+			this.in = new UnionInputStream(execute);
 			this.out = new HttpOutputStream();
 		}
 
@@ -712,7 +712,8 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 				throw wrongContentType(responseType, contentType);
 			}
 
-			httpIn.add(openInputStream(conn));
+			in.add(openInputStream(conn));
+			in.add(execute);
 			conn = null;
 		}
 
@@ -729,43 +730,25 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 			}
 		}
 
-		class HttpInputStream extends InputStream {
-			private final UnionInputStream src;
-
-			HttpInputStream(UnionInputStream httpIn) {
-				this.src = httpIn;
-			}
-
-			private InputStream self() throws IOException {
-				if (src.isEmpty()) {
-					// If we have no InputStreams available it means we must
-					// have written data previously to the service, but have
-					// not yet finished the HTTP request in order to get the
-					// response from the service. Ensure we get it now.
-					//
-					execute();
-				}
-				return src;
-			}
-
+		class HttpExecuteStream extends InputStream {
 			public int available() throws IOException {
-				return self().available();
+				execute();
+				return 0;
 			}
 
 			public int read() throws IOException {
-				return self().read();
+				execute();
+				return -1;
 			}
 
 			public int read(byte[] b, int off, int len) throws IOException {
-				return self().read(b, off, len);
+				execute();
+				return -1;
 			}
 
 			public long skip(long n) throws IOException {
-				return self().skip(n);
-			}
-
-			public void close() throws IOException {
-				src.close();
+				execute();
+				return 0;
 			}
 		}
 	}
