@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008, Google Inc.
+ * Copyright (C) 2008-2010, Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -43,7 +43,7 @@
 
 package org.eclipse.jgit.transport;
 
-import java.io.BufferedOutputStream;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
@@ -66,12 +66,8 @@ class SideBandProgressMonitor implements ProgressMonitor {
 
 	private int totalWork;
 
-	SideBandProgressMonitor(final PacketLineOut pckOut) {
-		final int bufsz = SideBandOutputStream.SMALL_BUF
-				- SideBandOutputStream.HDR_SIZE;
-		out = new PrintWriter(new OutputStreamWriter(new BufferedOutputStream(
-				new SideBandOutputStream(SideBandOutputStream.CH_PROGRESS,
-						pckOut), bufsz), Constants.CHARSET));
+	SideBandProgressMonitor(final OutputStream os) {
+		out = new PrintWriter(new OutputStreamWriter(os, Constants.CHARSET));
 	}
 
 	public void start(final int totalTasks) {

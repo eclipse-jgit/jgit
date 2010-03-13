@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008-2009, Google Inc.
+ * Copyright (C) 2008-2010, Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -43,7 +43,6 @@
 
 package org.eclipse.jgit.transport;
 
-import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -155,18 +154,15 @@ public class BundleWriter {
 	 * This method can only be called once per BundleWriter instance.
 	 *
 	 * @param os
-	 *            the stream the bundle is written to. If the stream is not
-	 *            buffered it will be buffered by the writer. Caller is
-	 *            responsible for closing the stream.
+	 *            the stream the bundle is written to. The stream should be
+	 *            buffered by the caller. The caller is responsible for closing
+	 *            the stream.
 	 * @throws IOException
 	 *             an error occurred reading a local object's data to include in
 	 *             the bundle, or writing compressed object data to the output
 	 *             stream.
 	 */
 	public void writeBundle(OutputStream os) throws IOException {
-		if (!(os instanceof BufferedOutputStream))
-			os = new BufferedOutputStream(os);
-
 		final HashSet<ObjectId> inc = new HashSet<ObjectId>();
 		final HashSet<ObjectId> exc = new HashSet<ObjectId>();
 		inc.addAll(include.values());

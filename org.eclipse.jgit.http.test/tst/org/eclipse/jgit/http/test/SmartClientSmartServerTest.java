@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009-2010, Google Inc.
+ * Copyright (C) 2010, Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -253,8 +253,6 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 		assertEquals(200, service.getStatus());
 		assertEquals("application/x-git-upload-pack-result", service
 				.getResponseHeader(HDR_CONTENT_TYPE));
-		assertNull("no compression (never compressed)", service
-				.getResponseHeader(HDR_CONTENT_ENCODING));
 	}
 
 	public void testFetchUpdateExisting() throws Exception {

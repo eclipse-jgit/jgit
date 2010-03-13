@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2007, Dave Watson <dwatson@mimvista.com>
- * Copyright (C) 2008-2009, Google Inc.
+ * Copyright (C) 2008-2010, Google Inc.
  * Copyright (C) 2008, Marek Zawirski <marek.zawirski@gmail.com>
  * Copyright (C) 2008, Robin Rosenberg <robin.rosenberg@dewire.com>
  * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org>
@@ -47,6 +47,8 @@
 
 package org.eclipse.jgit.transport;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -59,6 +61,8 @@ import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.util.FS;
+import org.eclipse.jgit.util.io.MessageWriter;
+import org.eclipse.jgit.util.io.StreamCopyThread;
 
 /**
  * Transport to access a local directory as though it were a remote peer.
@@ -129,11 +133,10 @@ class TransportLocal extends Transport implements PackTransport {
 		// Resources must be established per-connection.
 	}
 
-	protected Process startProcessWithErrStream(final String cmd)
+	protected Process spawn(final String cmd)
 			throws TransportException {
 		try {
 			final String[] args;
-			final Process proc;
 
 			if (cmd.startsWith("git-")) {
 				args = new String[] { "git", cmd.substring(4), PWD };
@@ -148,9 +151,7 @@ class TransportLocal extends Transport implements PackTransport {
 				}
 			}
 
-			proc = Runtime.getRuntime().exec(args, null, remoteGitDir);
-			new StreamRewritingThread(cmd, proc.getErrorStream()).start();
-			return proc;
+			return Runtime.getRuntime().exec(args, null, remoteGitDir);
 		} catch (IOException err) {
 			throw new TransportException(uri, err.getMessage(), err);
 		}
@@ -246,11 +247,26 @@ class TransportLocal extends Transport implements PackTransport {
 	class ForkLocalFetchConnection extends BasePackFetchConnection {
 		private Process uploadPack;
 
+		private Thread errorReaderThread;
+
 		ForkLocalFetchConnection() throws TransportException {
 			super(TransportLocal.this);
-			uploadPack = startProcessWithErrStream(getOptionUploadPack());
-			final InputStream upIn = uploadPack.getInputStream();
-			final OutputStream upOut = uploadPack.getOutputStream();
+
+			final MessageWriter msg = new MessageWriter();
+			setMessageWriter(msg);
+
+			uploadPack = spawn(getOptionUploadPack());
+
+			final InputStream upErr = uploadPack.getErrorStream();
+			errorReaderThread = new StreamCopyThread(upErr, msg.getRawStream());
+			errorReaderThread.start();
+
+			InputStream upIn = uploadPack.getInputStream();
+			OutputStream upOut = uploadPack.getOutputStream();
+
+			upIn = new BufferedInputStream(upIn);
+			upOut = new BufferedOutputStream(upOut);
+
 			init(upIn, upOut);
 			readAdvertisedRefs();
 		}
@@ -266,6 +282,16 @@ class TransportLocal extends Transport implements PackTransport {
 					// Stop waiting and return anyway.
 				} finally {
 					uploadPack = null;
+				}
+			}
+
+			if (errorReaderThread != null) {
+				try {
+					errorReaderThread.join();
+				} catch (InterruptedException e) {
+					// Stop waiting and return anyway.
+				} finally {
+					errorReaderThread = null;
 				}
 			}
 		}
@@ -351,11 +377,26 @@ class TransportLocal extends Transport implements PackTransport {
 	class ForkLocalPushConnection extends BasePackPushConnection {
 		private Process receivePack;
 
+		private Thread errorReaderThread;
+
 		ForkLocalPushConnection() throws TransportException {
 			super(TransportLocal.this);
-			receivePack = startProcessWithErrStream(getOptionReceivePack());
-			final InputStream rpIn = receivePack.getInputStream();
-			final OutputStream rpOut = receivePack.getOutputStream();
+
+			final MessageWriter msg = new MessageWriter();
+			setMessageWriter(msg);
+
+			receivePack = spawn(getOptionReceivePack());
+
+			final InputStream rpErr = receivePack.getErrorStream();
+			errorReaderThread = new StreamCopyThread(rpErr, msg.getRawStream());
+			errorReaderThread.start();
+
+			InputStream rpIn = receivePack.getInputStream();
+			OutputStream rpOut = receivePack.getOutputStream();
+
+			rpIn = new BufferedInputStream(rpIn);
+			rpOut = new BufferedOutputStream(rpOut);
+
 			init(rpIn, rpOut);
 			readAdvertisedRefs();
 		}
@@ -373,34 +414,14 @@ class TransportLocal extends Transport implements PackTransport {
 					receivePack = null;
 				}
 			}
-		}
-	}
 
-	static class StreamRewritingThread extends Thread {
-		private final InputStream in;
-
-		StreamRewritingThread(final String cmd, final InputStream in) {
-			super("JGit " + cmd + " Errors");
-			this.in = in;
-		}
-
-		public void run() {
-			final byte[] tmp = new byte[512];
-			try {
-				for (;;) {
-					final int n = in.read(tmp);
-					if (n < 0)
-						break;
-					System.err.write(tmp, 0, n);
-					System.err.flush();
-				}
-			} catch (IOException err) {
-				// Ignore errors reading errors.
-			} finally {
+			if (errorReaderThread != null) {
 				try {
-					in.close();
-				} catch (IOException err2) {
-					// Ignore errors closing the pipe.
+					errorReaderThread.join();
+				} catch (InterruptedException e) {
+					// Stop waiting and return anyway.
+				} finally {
+					errorReaderThread = null;
 				}
 			}
 		}

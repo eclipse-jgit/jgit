@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009, Google Inc.
+ * Copyright (C) 2009-2010, Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -119,8 +119,7 @@ public class PacketLineOutTest extends TestCase {
 	}
 
 	public void testWritePacket3() throws IOException {
-		final int buflen = SideBandOutputStream.MAX_BUF
-				- SideBandOutputStream.HDR_SIZE;
+		final int buflen = SideBandOutputStream.MAX_BUF - 5;
 		final byte[] buf = new byte[buflen];
 		for (int i = 0; i < buf.length; i++) {
 			buf[i] = (byte) i;
@@ -135,23 +134,6 @@ public class PacketLineOutTest extends TestCase {
 		for (int i = 0, j = 4; i < buf.length; i++, j++) {
 			assertEquals(buf[i], act[j]);
 		}
-	}
-
-	// writeChannelPacket
-
-	public void testWriteChannelPacket1() throws IOException {
-		out.writeChannelPacket(1, new byte[] { 'a' }, 0, 1);
-		assertBuffer("0006\001a");
-	}
-
-	public void testWriteChannelPacket2() throws IOException {
-		out.writeChannelPacket(2, new byte[] { 'b' }, 0, 1);
-		assertBuffer("0006\002b");
-	}
-
-	public void testWriteChannelPacket3() throws IOException {
-		out.writeChannelPacket(3, new byte[] { 'c' }, 0, 1);
-		assertBuffer("0006\003c");
 	}
 
 	// flush
