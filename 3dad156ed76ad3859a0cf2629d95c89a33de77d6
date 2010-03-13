@@ -1,0 +1,40 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAGn///7I\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportGitAnon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-13T00:27:49Z",
+      "side": 1,
+      "message": "Inlining the construction of sIn and sOut here makes for very long lines, which are hard to read.  And they line wrap poorly by default in Eclipse\u0027s source code formatter.  So I went with this simple approach of:  declare them, then wrap them, and finally use them.",
+      "parentUuid": "AAAAE3///q4\u003d",
+      "revId": "3dad156ed76ad3859a0cf2629d95c89a33de77d6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAGn///7E\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportLocal.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-13T00:27:49Z",
+      "side": 1,
+      "message": "This weird diff marking has been vastly improved in Gerrit 2.1.2.",
+      "parentUuid": "AAAAE3///qw\u003d",
+      "revId": "3dad156ed76ad3859a0cf2629d95c89a33de77d6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
