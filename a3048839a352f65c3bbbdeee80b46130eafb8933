@@ -2,6 +2,24 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAAGn///7c\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Connection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-13T00:21:45Z",
+      "side": 1,
+      "message": "Although its an API breakage, we aren\u0027t promising API compatibility until we release 1.0.  But I would like to try to avoid breaking 0.7 builds until 0.8... and we\u0027ll probably break API again in 0.8.   Hopefully I can slide this whole series into 0.7.0, or quickly turn around 0.8 after.  Having the side band error data from server side hooks is necessary for proper use within Gerrit Code Review over http.",
+      "parentUuid": "AAAAE3///rk\u003d",
+      "revId": "a3048839a352f65c3bbbdeee80b46130eafb8933",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAGn///7Y\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SideBandInputStream.java",
         "patchSetId": 4
