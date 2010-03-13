@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009, Google Inc.
+ * Copyright (C) 2009-2010, Google Inc.
  * Copyright (C) 2009, Robin Rosenberg <robin.rosenberg@dewire.com>
  * and other copyright owners as documented in the project's IP log.
  *
@@ -44,9 +44,11 @@
 
 package org.eclipse.jgit.lib;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Arrays;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
@@ -203,16 +205,16 @@ public class ConcurrentRepackTest extends RepositoryTestCase {
 	private static void write(final File[] files, final PackWriter pw)
 			throws IOException {
 		final long begin = files[0].getParentFile().lastModified();
-		FileOutputStream out;
+		OutputStream out;
 
-		out = new FileOutputStream(files[0]);
+		out = new BufferedOutputStream(new FileOutputStream(files[0]));
 		try {
 			pw.writePack(out);
 		} finally {
 			out.close();
 		}
 
-		out = new FileOutputStream(files[1]);
+		out = new BufferedOutputStream(new FileOutputStream(files[1]));
 		try {
 			pw.writeIndex(out);
 		} finally {

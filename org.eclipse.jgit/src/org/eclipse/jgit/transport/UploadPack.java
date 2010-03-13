@@ -43,9 +43,6 @@
 
 package org.eclipse.jgit.transport;
 
-import static org.eclipse.jgit.transport.BasePackFetchConnection.MultiAck;
-
-import java.io.BufferedOutputStream;
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -70,6 +67,7 @@ import org.eclipse.jgit.revwalk.RevFlagSet;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevTag;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.transport.BasePackFetchConnection.MultiAck;
 import org.eclipse.jgit.transport.RefAdvertiser.PacketLineOutRefAdvertiser;
 import org.eclipse.jgit.util.io.InterruptTimer;
 import org.eclipse.jgit.util.io.TimeoutInputStream;
@@ -556,13 +554,12 @@ public class UploadPack {
 			int bufsz = SideBandOutputStream.SMALL_BUF;
 			if (options.contains(OPTION_SIDE_BAND_64K))
 				bufsz = SideBandOutputStream.MAX_BUF;
-			bufsz -= SideBandOutputStream.HDR_SIZE;
 
-			packOut = new BufferedOutputStream(new SideBandOutputStream(
-					SideBandOutputStream.CH_DATA, pckOut), bufsz);
-
+			packOut = new SideBandOutputStream(SideBandOutputStream.CH_DATA,
+					bufsz, rawOut);
 			if (progress)
-				pm = new SideBandProgressMonitor(pckOut);
+				pm = new SideBandProgressMonitor(new SideBandOutputStream(
+						SideBandOutputStream.CH_PROGRESS, bufsz, rawOut));
 		}
 
 		final PackWriter pw;
@@ -586,12 +583,9 @@ public class UploadPack {
 			}
 		}
 		pw.writePack(packOut);
+		packOut.flush();
 
-		if (sideband) {
-			packOut.flush();
+		if (sideband)
 			pckOut.end();
-		} else {
-			rawOut.flush();
-		}
 	}
 }
