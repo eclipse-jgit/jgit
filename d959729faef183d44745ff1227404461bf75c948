@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAAE3///pk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PacketLineIn.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "\u003c\u003d is more optrimal here. We don\u0027t need to reserve place for a NUL byte",
+      "revId": "d959729faef183d44745ff1227404461bf75c948",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAGn///7o\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PacketLineIn.java",
         "patchSetId": 1
