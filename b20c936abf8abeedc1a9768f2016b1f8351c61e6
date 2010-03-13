@@ -1,0 +1,22 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAGn///7g\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 447,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-13T00:16:44Z",
+      "side": 1,
+      "message": "No, I don\u0027t think its worth rejecting an LF in the string.  The reason we say \"must not contain LF\" in the javadoc is because we don\u0027t do a replaceAll of \"\\n\" with \"\\nerror: \" to get the prefix we insert injected at the start of each line.  Maybe I\u0027ll come back and actually relax that Javadoc to say \"should not\" instead of \"must not\".",
+      "parentUuid": "AAAAE3///rs\u003d",
+      "revId": "b20c936abf8abeedc1a9768f2016b1f8351c61e6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
