@@ -63,6 +63,7 @@ import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectIdSubclassMap;
 import org.eclipse.jgit.lib.PackLock;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
@@ -70,6 +71,7 @@ import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.Config.SectionParser;
 import org.eclipse.jgit.revwalk.ObjectWalk;
+import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
 import org.eclipse.jgit.revwalk.RevObject;
@@ -176,6 +178,8 @@ public class ReceivePack {
 	private boolean needNewObjectIds;
 
 	private boolean needBaseObjectIds;
+
+	private boolean paranoidMode;
 
 	/**
 	 * Create a new pack receive for an open repository.
@@ -757,7 +761,42 @@ public class ReceivePack {
 		}
 		for (final Ref ref : refs.values())
 			ow.markUninteresting(ow.parseAny(ref.getObjectId()));
-		ow.checkConnectivity();
+
+		ObjectIdSubclassMap<ObjectId> provided =
+			new ObjectIdSubclassMap<ObjectId>();
+		if (paranoidMode) {
+			for (ObjectId id : getNewObjectIds()) {
+				provided.add(id);
+			}
+		}
+
+		RevCommit c;
+		while ((c = ow.next()) != null) {
+			if (paranoidMode) {
+				if (!provided.contains(c)) {
+					reject(commands);
+					break;
+				}
+			}
+		}
+
+		RevObject o;
+		while ((o = ow.nextObject()) != null) {
+			if (o instanceof RevBlob && !db.hasObject(o))
+				throw new MissingObjectException(o, Constants.TYPE_BLOB);
+
+			if (paranoidMode) {
+				if (!provided.contains(o)) {
+					reject(commands);
+					break;
+				}
+			}
+		}
+	}
+
+	private static void reject(List<ReceiveCommand> commands) {
+		for (ReceiveCommand cmd : commands)
+			cmd.setResult(Result.REJECTED_OTHER_REASON);
 	}
 
 	private void validateCommands() {
