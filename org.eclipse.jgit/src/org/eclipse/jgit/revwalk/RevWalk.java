@@ -638,6 +638,26 @@ public class RevWalk implements Iterable<RevCommit> {
 	}
 
 	/**
+	 * Locate a reference to any object without loading it.
+	 * <p>
+	 * The object may or may not exist in the repository. It is impossible to
+	 * tell from this method's return value. Further, the type of the object is
+	 * always assumed to be a {@link RevBlob} and not added to the walk.
+	 *
+	 * @param id
+	 *            name of the object.
+
+	 * @return reference to the object. Never null.
+	 */
+	public RevObject lookupAny(final AnyObjectId id) {
+		RevObject r = objects.get(id);
+		if (r == null)
+			r = new RevBlob(id);
+		return r;
+	}
+
+
+	/**
 	 * Locate a reference to a commit and immediately parse its content.
 	 * <p>
 	 * Unlike {@link #lookupCommit(AnyObjectId)} this method only returns
