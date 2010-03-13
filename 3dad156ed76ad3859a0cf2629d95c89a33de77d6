@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAAE3///q4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportGitAnon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Can we not in-line sIn and sOut here?",
+      "revId": "3dad156ed76ad3859a0cf2629d95c89a33de77d6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAGn///7I\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportGitAnon.java",
         "patchSetId": 1
@@ -14,6 +31,40 @@
       "side": 1,
       "message": "Inlining the construction of sIn and sOut here makes for very long lines, which are hard to read.  And they line wrap poorly by default in Eclipse\u0027s source code formatter.  So I went with this simple approach of:  declare them, then wrap them, and finally use them.",
       "parentUuid": "AAAAE3///q4\u003d",
+      "revId": "3dad156ed76ad3859a0cf2629d95c89a33de77d6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAE3///q0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportGitAnon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "As above",
+      "revId": "3dad156ed76ad3859a0cf2629d95c89a33de77d6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAE3///qw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportLocal.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "More weird change diff markings in Gerrit",
       "revId": "3dad156ed76ad3859a0cf2629d95c89a33de77d6",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
