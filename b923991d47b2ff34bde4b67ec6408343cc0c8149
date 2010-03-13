@@ -1,0 +1,40 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAGn///7Q\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 640,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-13T00:26:02Z",
+      "side": 1,
+      "message": "I\u0027m not going to bother making \"ERR\" a constant.  Its used twice, once here to tell the client we\u0027re broken, and once in the client to detect the server is broken and abort.  Its just not worth complicating the code with an additional constant.",
+      "parentUuid": "AAAAE3///rI\u003d",
+      "revId": "b923991d47b2ff34bde4b67ec6408343cc0c8149",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAGn///7M\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 641,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-13T00:26:02Z",
+      "side": 1,
+      "message": "You thought this return wasn\u0027t necessary.  It is necessary, we\u0027re breaking out of the method early, before a whole lot of other work occurs.  So yes, it has to be here.  And I didn\u0027t want to reindent the rest of the method body into an else block just to avoid doing a return here.  That\u0027s a bigger patch, and possibly complicates reading the code worse than an early return does.",
+      "parentUuid": "AAAAE3///rE\u003d",
+      "revId": "b923991d47b2ff34bde4b67ec6408343cc0c8149",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
