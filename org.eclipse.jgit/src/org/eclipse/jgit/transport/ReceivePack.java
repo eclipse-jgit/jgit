@@ -63,6 +63,7 @@ import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectIdSubclassMap;
 import org.eclipse.jgit.lib.PackLock;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
@@ -70,6 +71,7 @@ import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.Config.SectionParser;
 import org.eclipse.jgit.revwalk.ObjectWalk;
+import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
 import org.eclipse.jgit.revwalk.RevObject;
@@ -177,6 +179,8 @@ public class ReceivePack {
 
 	private boolean needBaseObjectIds;
 
+	private boolean ensureObjectsProvidedVisible;
+
 	/**
 	 * Create a new pack receive for an open repository.
 	 *
@@ -279,6 +283,26 @@ public class ReceivePack {
 	/** @return the new objects that were sent by the user */
 	public final Set<ObjectId> getNewObjectIds() {
 		return ip.getNewObjectIds();
+	}
+
+	/**
+	 * Configure this receive pack instance to ensure that the provided
+	 * objects are visible to the user.
+	 * <p>
+	 * By default, a receive pack assumes that its user will only provide
+	 * references to objects that it can see. Setting this flag to {@code true}
+	 * will add an additional check that verifies that the objects that were
+	 * provided are reachable by a tree or a commit that the user can see.
+	 * <p>
+	 * This option is useful when the code doesn't trust the client not to
+	 * provide a forged SHA-1 reference to an object in an attempt to access
+	 * parts of the DAG that they aren't allowed to see, via the configured
+	 * {@link RefFilter}.
+	 *
+	 * @param b {@code true} to enable the additional check.
+	 */
+	public void setEnsureProvidedObjectsVisible(boolean b) {
+		this.ensureObjectsProvidedVisible = b;
 	}
 
 	/**
@@ -757,7 +781,42 @@ public class ReceivePack {
 		}
 		for (final Ref ref : refs.values())
 			ow.markUninteresting(ow.parseAny(ref.getObjectId()));
-		ow.checkConnectivity();
+
+		ObjectIdSubclassMap<ObjectId> provided =
+			new ObjectIdSubclassMap<ObjectId>();
+		if (ensureObjectsProvidedVisible) {
+			for (ObjectId id : getNewObjectIds()) {
+				provided.add(id);
+			}
+		}
+
+		RevCommit c;
+		while ((c = ow.next()) != null) {
+			if (ensureObjectsProvidedVisible) {
+				if (!provided.contains(c)) {
+					reject(commands);
+					break;
+				}
+			}
+		}
+
+		RevObject o;
+		while ((o = ow.nextObject()) != null) {
+			if (o instanceof RevBlob && !db.hasObject(o))
+				throw new MissingObjectException(o, Constants.TYPE_BLOB);
+
+			if (ensureObjectsProvidedVisible) {
+				if (!provided.contains(o)) {
+					reject(commands);
+					break;
+				}
+			}
+		}
+	}
+
+	private static void reject(List<ReceiveCommand> commands) {
+		for (ReceiveCommand cmd : commands)
+			cmd.setResult(Result.REJECTED_OTHER_REASON);
 	}
 
 	private void validateCommands() {
