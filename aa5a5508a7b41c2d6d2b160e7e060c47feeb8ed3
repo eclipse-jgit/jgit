@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAGn///78\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SideBandOutputStream.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-03-12T22:37:39Z",
+      "side": 1,
+      "message": "255 is allowed\nreverting the order of operands this way is unnatural makes it easy to read it the wrong way. When there is only one condition or the condition expresses a between condition it is easier to read correctly,  min \u003c v \u003c max style. Howevery I prefer the variable op constant pattern always, because that aligns with how we pronounce the expression.\n\nHence this one is easier to grasp\n\nif  (chan \u003c\u003d0 || chan \u003e 255) throw...\n\nAnd the valid range is [1..255], I think, according to the condition\n\nif (!( 0 \u003c chan \u0026\u0026 chan \u003c\u003d 255)) would be readable too, but perhaps top many parenthese for some people.",
+      "parentUuid": "AAAAE3///sA\u003d",
+      "revId": "aa5a5508a7b41c2d6d2b160e7e060c47feeb8ed3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAGn///7w\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SideBandOutputStream.java",
         "patchSetId": 3
