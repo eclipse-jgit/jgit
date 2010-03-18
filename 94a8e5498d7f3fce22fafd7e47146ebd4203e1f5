@@ -53,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAHH////M\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 787,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-18T01:26:40Z",
+      "side": 1,
+      "message": "The thing is, lookupAny(id, int) is safe, because if the object didn\u0027t exist in the walk before this point, it will be added, but we will discover the UNINTERESTING flag is missing and immediately abort with the exception.  So yea, the walk is polluted for a short period with an assumption of an object of a certain type... but it won\u0027t have the flag.\n\nI\u0027d rather not change the API of RevWalk right now just to implement this feature.  I\u0027m too afraid we might be forced to live with that new method forever, and its semantics.  So just use lookupAny(id, Constants.OBJ_BLOB) here and accept that the walk gets partially polluted right before the crash.",
+      "parentUuid": "AAAAHH////Y\u003d",
+      "revId": "94a8e5498d7f3fce22fafd7e47146ebd4203e1f5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAGn///0g\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
         "patchSetId": 2
@@ -81,6 +99,40 @@
       "writtenOn": "2010-03-17T00:30:49Z",
       "side": 1,
       "message": "Instead of reject(...), just do what we do in the missing blob case below:\n\n  throw new MissingObjectException(c, Constants.TYPE_COMMIT);\n\nThe caller is required to catch and handle this by reporting errors already.  So you don\u0027t need to add your own reject method below.",
+      "revId": "94a8e5498d7f3fce22fafd7e47146ebd4203e1f5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAGn///0k\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 809,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-17T00:30:49Z",
+      "side": 1,
+      "message": "Please combine with the parent if statement, to reduce a level of nesting.",
+      "revId": "94a8e5498d7f3fce22fafd7e47146ebd4203e1f5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAGn///0o\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 810,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-17T00:30:49Z",
+      "side": 1,
+      "message": "Like above, but you should do:\n\n  throw new MissingObjectException(o, o.getType());",
       "revId": "94a8e5498d7f3fce22fafd7e47146ebd4203e1f5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
