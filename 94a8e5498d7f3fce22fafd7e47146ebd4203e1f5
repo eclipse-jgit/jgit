@@ -53,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAHH////Y\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 787,
+      "author": {
+        "id": 31
+      },
+      "writtenOn": "2010-03-18T00:00:29Z",
+      "side": 1,
+      "message": "Good point. I don\u0027t think that this code works, though, because there is no way to get a plain RevObject from the RevWalk. I looked at lookupAny(id, int), and it doesn\u0027t seem safe to call it and assume that this is a RevBlob or something else, because that ends up adding it to the revwalk.\n\nI\u0027ve added another method that does something which I think is safer. Let me know what you think.",
+      "parentUuid": "AAAAGn///0U\u003d",
+      "revId": "94a8e5498d7f3fce22fafd7e47146ebd4203e1f5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAHH////M\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
         "patchSetId": 2
