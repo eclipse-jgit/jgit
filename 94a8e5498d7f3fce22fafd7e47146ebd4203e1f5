@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAGn///0w\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 759,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-17T00:30:49Z",
+      "side": 1,
+      "message": "Must be needNewObjectIds || ensureObjectsProvidedVisible",
+      "revId": "94a8e5498d7f3fce22fafd7e47146ebd4203e1f5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAGn///0Y\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 760,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-17T00:51:51Z",
+      "side": 1,
+      "message": "Must be needBaseObjectIds || ensureObjectsProvidedVisible.",
+      "revId": "94a8e5498d7f3fce22fafd7e47146ebd4203e1f5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAGn///0U\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 787,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-17T00:51:51Z",
+      "side": 1,
+      "message": "If ensureObjectsProvidedVisible is true I think we also need to do something to verify the user can \"see\" the base objects they have used in the pack file.  I failed to really give you a way to implement that as part of this method.\n\nIn theory, given how the send-pack/receive-pack protocol works in Git, the base objects *must* have been marked as UNINTERESTING above during the markUninteresting calls.  Therefore I think we can do this here:\n\n  for (ObjectId id : getBaseObjectIds()) {\n    RevObject b \u003d ow.lookupAny(id);\n    if (!b.has(RevFlag.UNINTERESTING))\n      throw new MissingObjectException(b, b.getType());\n  }",
+      "revId": "94a8e5498d7f3fce22fafd7e47146ebd4203e1f5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAGn///0g\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 796,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-17T00:30:49Z",
+      "side": 1,
+      "message": "Please combine with the parent if statement, to reduce a level of nesting.",
+      "revId": "94a8e5498d7f3fce22fafd7e47146ebd4203e1f5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAGn///0s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 797,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-17T00:30:49Z",
+      "side": 1,
+      "message": "Instead of reject(...), just do what we do in the missing blob case below:\n\n  throw new MissingObjectException(c, Constants.TYPE_COMMIT);\n\nThe caller is required to catch and handle this by reporting errors already.  So you don\u0027t need to add your own reject method below.",
+      "revId": "94a8e5498d7f3fce22fafd7e47146ebd4203e1f5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
