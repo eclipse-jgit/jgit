@@ -1,0 +1,22 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAHX///+4\u003d",
+        "filename": "org.eclipse.jgit.packaging/org.eclipse.jgit.updatesite/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-19T14:12:12Z",
+      "side": 1,
+      "message": "I moved the tag because it has no semantic difference to be earlier in the file, but then I can have tools/version.sh update the first 3 \u003cversion\u003e elements in the file and skip the 4th, which is the version of the maven-assembly-plugin below.",
+      "parentUuid": "AAAAHX////o\u003d",
+      "revId": "764f1635d4fec81e178bd98a08400eee2f633de0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
