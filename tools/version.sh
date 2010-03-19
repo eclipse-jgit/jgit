@@ -77,14 +77,69 @@ esac
 case "$V" in
 *-SNAPSHOT)
 	POM_V=$V
+	OSGI_V="${V%%-SNAPSHOT}.qualifier"
 	;;
 *-[1-9]*-g[0-9a-f]*)
 	POM_V=$(echo "$V" | perl -pe 's/-(\d+-g.*)$/.$1/')
+	OSGI_V=$(perl -e '
+		$ARGV[0] =~ /^(\d+)(?:\.(\d+)(?:\.(\d+))?)?-(\d+)-g(.*)$/;
+		my ($a, $b, $c, $p, $r) = ($1, $2, $3, $4, $5);
+		$b = '0' unless defined $b;
+		$c = '0' unless defined $c;
+
+		printf "%s.%s.%s.%6.6i_g%s\n", $a, $b, $c, $p, $r;
+		' "$V")
 	;;
 *)
 	POM_V=$V
+	OSGI_V=$V
 	;;
 esac
+
+API_V=$(perl -e '
+	$ARGV[0] =~ /^(\d+(?:\.\d+(?:\.\d+)?)?)/;
+	print $1
+	' "$V")
+
+API_N=$(perl -e '
+	$ARGV[0] =~ /^(\d+)(?:\.(\d+)(?:\.(\d+))?)?/;
+	my ($a, $b) = ($1, $2);
+	$b = 0 unless defined $b;
+	$b++;
+	print "$a.$b.0";
+	' "$API_V")
+
+perl -pi -e '
+	s/^(Bundle-Version:\s*).*$/${1}'"$OSGI_V"'/;
+	s/(org.eclipse.jgit.*;version=")[^"[(]*(")/${1}'"$API_V"'${2}/;
+	s/(org.eclipse.jgit.*;version="\[)[^"]*(\)")/${1}'"$API_V,$API_N"'${2}/;
+	' $(git ls-files | grep META-INF/MANIFEST.MF)
+
+perl -pi -e '
+	if ($ARGV ne $old_argv) {
+		$seen_version = 0;
+		$old_argv = $ARGV;
+	}
+	if (!$seen_version) {
+		$seen_version = 1 if (!/<\?xml/ &&
+		s/(version=")[^"]*(")/${1}'"$OSGI_V"'${2}/);
+	}
+	' org.eclipse.jgit.packaging/org.eclipse.jgit.feature/feature.xml
+
+perl -pi -e '
+	s{<(version)>.*</\1>}{<${1}>'"$POM_V"'</${1}>};
+	' org.eclipse.jgit.packaging/org.eclipse.jgit.feature/pom.xml
+
+perl -pi -e '
+	if ($ARGV ne $old_argv) {
+		$seen_version = 0;
+		$old_argv = $ARGV;
+	}
+	if ($seen_version < 3) {
+		$seen_version++ if
+		s{<(version)>.*</\1>}{<${1}>'"$POM_V"'</${1}>};
+	}
+	' org.eclipse.jgit.packaging/org.eclipse.jgit.updatesite/pom.xml
 
 perl -pi -e '
 	if ($ARGV ne $old_argv) {
