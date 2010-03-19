@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAAHX////o\u003d",
+        "filename": "org.eclipse.jgit.packaging/org.eclipse.jgit.updatesite/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 11
+      },
+      "writtenOn": "2010-03-19T08:02:00Z",
+      "side": 1,
+      "message": "Is it a cosmetic change? I see no difference instead of moving same lines.",
+      "revId": "764f1635d4fec81e178bd98a08400eee2f633de0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAHX///+4\u003d",
         "filename": "org.eclipse.jgit.packaging/org.eclipse.jgit.updatesite/pom.xml",
         "patchSetId": 1
