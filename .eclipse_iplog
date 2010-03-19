@@ -28,8 +28,3 @@
 	use = unmodified binary
 	state = approved
 
-[CQ "3448"]
-	description = JGit
-	license = Eclipse Distribution License
-	state = approved
-
