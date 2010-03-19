@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %plugin_name
 Bundle-SymbolicName: org.eclipse.jgit.http.test
-Bundle-Version: 0.7.1.qualifier
+Bundle-Version: 0.8.0.qualifier
 Bundle-Vendor: %provider_name
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
@@ -22,12 +22,12 @@ Import-Package: javax.servlet;version="[2.5.0,3.0.0)",
  org.eclipse.jetty.util.component;version="[7.0.1,8.0.0)",
  org.eclipse.jetty.util.log;version="[7.0.1,8.0.0)",
  org.eclipse.jetty.util.thread;version="[7.0.1,8.0.0)",
- org.eclipse.jgit.errors;version="[0.7.1,0.8.0)",
- org.eclipse.jgit.http.server;version="[0.7.1,0.8.0)",
- org.eclipse.jgit.http.server.glue;version="[0.7.1,0.8.0)",
- org.eclipse.jgit.http.server.resolver;version="[0.7.1,0.8.0)",
- org.eclipse.jgit.junit;version="[0.7.1,0.8.0)",
- org.eclipse.jgit.lib;version="[0.7.1,0.8.0)",
- org.eclipse.jgit.revwalk;version="[0.7.1,0.8.0)",
- org.eclipse.jgit.transport;version="[0.7.1,0.8.0)",
- org.eclipse.jgit.util;version="[0.7.1,0.8.0)"
+ org.eclipse.jgit.errors;version="[0.8.0,0.9.0)",
+ org.eclipse.jgit.http.server;version="[0.8.0,0.9.0)",
+ org.eclipse.jgit.http.server.glue;version="[0.8.0,0.9.0)",
+ org.eclipse.jgit.http.server.resolver;version="[0.8.0,0.9.0)",
+ org.eclipse.jgit.junit;version="[0.8.0,0.9.0)",
+ org.eclipse.jgit.lib;version="[0.8.0,0.9.0)",
+ org.eclipse.jgit.revwalk;version="[0.8.0,0.9.0)",
+ org.eclipse.jgit.transport;version="[0.8.0,0.9.0)",
+ org.eclipse.jgit.util;version="[0.8.0,0.9.0)"
