@@ -1,0 +1,317 @@
+/*
+ * Copyright (C) 2010, Google Inc.
+ * and other copyright owners as documented in the project's IP log.
+ *
+ * This program and the accompanying materials are made available
+ * under the terms of the Eclipse Distribution License v1.0 which
+ * accompanies this distribution, is reproduced below, and is
+ * available at http://www.eclipse.org/org/documents/edl-v10.php
+ *
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or
+ * without modification, are permitted provided that the following
+ * conditions are met:
+ *
+ * - Redistributions of source code must retain the above copyright
+ *   notice, this list of conditions and the following disclaimer.
+ *
+ * - Redistributions in binary form must reproduce the above
+ *   copyright notice, this list of conditions and the following
+ *   disclaimer in the documentation and/or other materials provided
+ *   with the distribution.
+ *
+ * - Neither the name of the Eclipse Foundation, Inc. nor the
+ *   names of its contributors may be used to endorse or promote
+ *   products derived from this software without specific prior
+ *   written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND
+ * CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
+ * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+ * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package org.eclipse.jgit.transport;
+
+import static org.eclipse.jgit.util.HttpSupport.HDR_AUTHORIZATION;
+import static org.eclipse.jgit.util.HttpSupport.HDR_WWW_AUTHENTICATE;
+
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
+
+import org.eclipse.jgit.util.Base64;
+
+/**
+ * Support class to populate user authentication data on a connection.
+ * <p>
+ * Instances of an HttpAuthMethod are not thread-safe, as some implementations
+ * may need to maintain per-connection state information.
+ */
+abstract class HttpAuthMethod {
+	/** No authentication is configured. */
+	static final HttpAuthMethod NONE = new None();
+
+	/**
+	 * Handle an authentication failure and possibly return a new response.
+	 *
+	 * @param conn
+	 *            the connection that failed.
+	 * @return new authentication method to try.
+	 */
+	static HttpAuthMethod scanResponse(HttpURLConnection conn) {
+		String hdr = conn.getHeaderField(HDR_WWW_AUTHENTICATE);
+		if (hdr == null || hdr.length() == 0)
+			return NONE;
+
+		int sp = hdr.indexOf(' ');
+		if (sp < 0)
+			return NONE;
+
+		String type = hdr.substring(0, sp);
+		if (Basic.NAME.equals(type))
+			return new Basic();
+		else if (Digest.NAME.equals(type))
+			return new Digest(hdr.substring(sp + 1));
+		else
+			return NONE;
+	}
+
+	/**
+	 * Update this method with the credentials from the URIish.
+	 *
+	 * @param uri
+	 *            the URI used to create the connection.
+	 */
+	void authorize(URIish uri) {
+		authorize(uri.getUser(), uri.getPass());
+	}
+
+	/**
+	 * Update this method with the given username and password pair.
+	 *
+	 * @param user
+	 * @param pass
+	 */
+	abstract void authorize(String user, String pass);
+
+	/**
+	 * Update connection properties based on this authentication method.
+	 *
+	 * @param conn
+	 * @throws IOException
+	 */
+	abstract void configureRequest(HttpURLConnection conn) throws IOException;
+
+	/** Performs no user authentication. */
+	private static class None extends HttpAuthMethod {
+		@Override
+		void authorize(String user, String pass) {
+			// Do nothing when no authentication is enabled.
+		}
+
+		@Override
+		void configureRequest(HttpURLConnection conn) throws IOException {
+			// Do nothing when no authentication is enabled.
+		}
+	}
+
+	/** Performs HTTP basic authentication (plaintext username/password). */
+	private static class Basic extends HttpAuthMethod {
+		static final String NAME = "Basic";
+
+		private String user;
+
+		private String pass;
+
+		@Override
+		void authorize(final String username, final String password) {
+			this.user = username;
+			this.pass = password;
+		}
+
+		@Override
+		void configureRequest(final HttpURLConnection conn) throws IOException {
+			String ident = user + ":" + pass;
+			String enc = Base64.encodeBytes(ident.getBytes("UTF-8"));
+			conn.setRequestProperty(HDR_AUTHORIZATION, NAME + " " + enc);
+		}
+	}
+
+	/** Performs HTTP digest authentication. */
+	private static class Digest extends HttpAuthMethod {
+		static final String NAME = "Digest";
+
+		private static final Random PRNG = new Random();
+
+		private final Map<String, String> params;
+
+		private int requestCount;
+
+		private String user;
+
+		private String pass;
+
+		Digest(String hdr) {
+			params = parse(hdr);
+
+			final String qop = params.get("qop");
+			if ("auth".equals(qop)) {
+				final byte[] bin = new byte[8];
+				PRNG.nextBytes(bin);
+				params.put("cnonce", Base64.encodeBytes(bin));
+			}
+		}
+
+		@Override
+		void authorize(final String username, final String password) {
+			this.user = username;
+			this.pass = password;
+		}
+
+		@SuppressWarnings("boxing")
+		@Override
+		void configureRequest(final HttpURLConnection conn) throws IOException {
+			final Map<String, String> p = new HashMap<String, String>(params);
+			p.put("username", user);
+
+			final String realm = p.get("realm");
+			final String nonce = p.get("nonce");
+			final String uri = p.get("uri");
+			final String qop = p.get("qop");
+			final String method = conn.getRequestMethod();
+
+			final String A1 = user + ":" + realm + ":" + pass;
+			final String A2 = method + ":" + uri;
+
+			final String expect;
+			if ("auth".equals(qop)) {
+				final String c = p.get("cnonce");
+				final String nc = String.format("%8.8x", ++requestCount);
+				p.put("nc", nc);
+				expect = KD(H(A1), nonce + ":" + nc + ":" + c + ":" + qop + ":"
+						+ H(A2));
+			} else {
+				expect = KD(H(A1), nonce + ":" + H(A2));
+			}
+			p.put("response", expect);
+
+			StringBuilder v = new StringBuilder();
+			for (Map.Entry<String, String> e : p.entrySet()) {
+				if (v.length() > 0) {
+					v.append(", ");
+				}
+				v.append(e.getKey());
+				v.append('=');
+				v.append('"');
+				v.append(e.getValue());
+				v.append('"');
+			}
+			conn.setRequestProperty(HDR_AUTHORIZATION, NAME + " " + v);
+		}
+
+		private static String H(String data) {
+			try {
+				MessageDigest md = newMD5();
+				md.update(data.getBytes("UTF-8"));
+				return LHEX(md.digest());
+			} catch (UnsupportedEncodingException e) {
+				throw new RuntimeException("UTF-8 encoding not available", e);
+			}
+		}
+
+		private static String KD(String secret, String data) {
+			try {
+				MessageDigest md = newMD5();
+				md.update(secret.getBytes("UTF-8"));
+				md.update((byte) ':');
+				md.update(data.getBytes("UTF-8"));
+				return LHEX(md.digest());
+			} catch (UnsupportedEncodingException e) {
+				throw new RuntimeException("UTF-8 encoding not available", e);
+			}
+		}
+
+		private static MessageDigest newMD5() {
+			try {
+				return MessageDigest.getInstance("MD5");
+			} catch (NoSuchAlgorithmException e) {
+				throw new RuntimeException("No MD5 available", e);
+			}
+		}
+
+		private static final char[] LHEX = { '0', '1', '2', '3', '4', '5', '6',
+				'7', '8', '9', //
+				'a', 'b', 'c', 'd', 'e', 'f' };
+
+		private static String LHEX(byte[] bin) {
+			StringBuilder r = new StringBuilder(bin.length * 2);
+			for (int i = 0; i < bin.length; i++) {
+				byte b = bin[i];
+				r.append(LHEX[(b >>> 4) & 0x0f]);
+				r.append(LHEX[b & 0x0f]);
+			}
+			return r.toString();
+		}
+
+		private static Map<String, String> parse(String auth) {
+			Map<String, String> p = new HashMap<String, String>();
+			int next = 0;
+			while (next < auth.length()) {
+				if (next < auth.length() && auth.charAt(next) == ',') {
+					next++;
+				}
+				while (next < auth.length()
+						&& Character.isWhitespace(auth.charAt(next))) {
+					next++;
+				}
+
+				int eq = auth.indexOf('=', next);
+				if (eq < 0 || eq + 1 == auth.length()) {
+					return Collections.emptyMap();
+				}
+
+				final String name = auth.substring(next, eq);
+				final String value;
+				if (auth.charAt(eq + 1) == '"') {
+					int dq = auth.indexOf('"', eq + 2);
+					if (dq < 0) {
+						return Collections.emptyMap();
+					}
+					value = auth.substring(eq + 2, dq);
+					next = dq + 1;
+
+				} else {
+					int space = auth.indexOf(' ', eq + 1);
+					int comma = auth.indexOf(',', eq + 1);
+					if (space < 0)
+						space = auth.length();
+					if (comma < 0)
+						comma = auth.length();
+
+					final int e = Math.min(space, comma);
+					value = auth.substring(eq + 1, e);
+					next = e + 1;
+				}
+				p.put(name, value);
+			}
+			return p;
+		}
+	}
+}
