@@ -51,6 +51,7 @@ import static org.eclipse.jgit.util.HttpSupport.HDR_CONTENT_ENCODING;
 import static org.eclipse.jgit.util.HttpSupport.HDR_CONTENT_TYPE;
 import static org.eclipse.jgit.util.HttpSupport.HDR_PRAGMA;
 import static org.eclipse.jgit.util.HttpSupport.HDR_USER_AGENT;
+import static org.eclipse.jgit.util.HttpSupport.METHOD_GET;
 import static org.eclipse.jgit.util.HttpSupport.METHOD_POST;
 
 import java.io.BufferedReader;
@@ -161,6 +162,8 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 	private final ProxySelector proxySelector;
 
 	private boolean useSmartHttp = true;
+
+	private HttpAuthMethod authMethod = HttpAuthMethod.NONE;
 
 	TransportHttp(final Repository local, final URIish uri)
 			throws NotSupportedException {
@@ -341,27 +344,42 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		}
 
 		try {
-			final HttpURLConnection conn = httpOpen(u);
-			if (useSmartHttp) {
-				String expType = "application/x-" + service + "-advertisement";
-				conn.setRequestProperty(HDR_ACCEPT, expType + ", */*");
-			} else {
-				conn.setRequestProperty(HDR_ACCEPT, "*/*");
-			}
-			final int status = HttpSupport.response(conn);
-			switch (status) {
-			case HttpURLConnection.HTTP_OK:
-				return conn;
+			int authAttempts = 1;
+			for (;;) {
+				final HttpURLConnection conn = httpOpen(u);
+				if (useSmartHttp) {
+					String exp = "application/x-" + service + "-advertisement";
+					conn.setRequestProperty(HDR_ACCEPT, exp + ", */*");
+				} else {
+					conn.setRequestProperty(HDR_ACCEPT, "*/*");
+				}
+				final int status = HttpSupport.response(conn);
+				switch (status) {
+				case HttpURLConnection.HTTP_OK:
+					return conn;
 
-			case HttpURLConnection.HTTP_NOT_FOUND:
-				throw new NoRemoteRepositoryException(uri, MessageFormat.format(JGitText.get().URLNotFound, u));
+				case HttpURLConnection.HTTP_NOT_FOUND:
+					throw new NoRemoteRepositoryException(uri, u + " not found");
 
-			case HttpURLConnection.HTTP_FORBIDDEN:
-				throw new TransportException(uri, MessageFormat.format(JGitText.get().serviceNotPermitted, service));
+				case HttpURLConnection.HTTP_UNAUTHORIZED:
+					authMethod = HttpAuthMethod.scanResponse(conn);
+					if (authMethod == HttpAuthMethod.NONE)
+						throw new TransportException(uri,
+								"authentication not supported");
+					if (1 < authAttempts || uri.getUser() == null)
+						throw new TransportException(uri, "not authorized");
+					authMethod.authorize(uri);
+					authAttempts++;
+					continue;
 
-			default:
-				String err = status + " " + conn.getResponseMessage();
-				throw new TransportException(uri, err);
+				case HttpURLConnection.HTTP_FORBIDDEN:
+					throw new TransportException(uri, service
+							+ " not permitted");
+
+				default:
+					String err = status + " " + conn.getResponseMessage();
+					throw new TransportException(uri, err);
+				}
 			}
 		} catch (NotSupportedException e) {
 			throw e;
@@ -372,15 +390,21 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		}
 	}
 
-	final HttpURLConnection httpOpen(final URL u) throws IOException {
+	final HttpURLConnection httpOpen(URL u) throws IOException {
+		return httpOpen(METHOD_GET, u);
+	}
+
+	final HttpURLConnection httpOpen(String method, URL u) throws IOException {
 		final Proxy proxy = HttpSupport.proxyFor(proxySelector, u);
 		HttpURLConnection conn = (HttpURLConnection) u.openConnection(proxy);
+		conn.setRequestMethod(method);
 		conn.setUseCaches(false);
 		conn.setRequestProperty(HDR_ACCEPT_ENCODING, ENCODING_GZIP);
 		conn.setRequestProperty(HDR_PRAGMA, "no-cache");//$NON-NLS-1$
 		conn.setRequestProperty(HDR_USER_AGENT, userAgent);
 		conn.setConnectTimeout(getTimeout() * 1000);
 		conn.setReadTimeout(getTimeout() * 1000);
+		authMethod.configureRequest(conn);
 		return conn;
 	}
 
@@ -652,8 +676,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		}
 
 		void openStream() throws IOException {
-			conn = httpOpen(new URL(baseUrl, serviceName));
-			conn.setRequestMethod(METHOD_POST);
+			conn = httpOpen(METHOD_POST, new URL(baseUrl, serviceName));
 			conn.setInstanceFollowRedirects(false);
 			conn.setDoOutput(true);
 			conn.setRequestProperty(HDR_CONTENT_TYPE, requestType);
