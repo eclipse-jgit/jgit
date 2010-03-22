@@ -264,6 +264,8 @@ public class TransportGitSsh extends SshTransport implements PackTransport {
 
 		@Override
 		public void close() {
+			endOut();
+
 			if (errorThread != null) {
 				try {
 					errorThread.join();
@@ -331,6 +333,8 @@ public class TransportGitSsh extends SshTransport implements PackTransport {
 
 		@Override
 		public void close() {
+			endOut();
+
 			if (errorThread != null) {
 				try {
 					errorThread.join();
