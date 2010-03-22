@@ -673,14 +673,26 @@ public final class RawParseUtils {
 		final Charset cs = parseEncoding(raw);
 		final int emailB = nextLF(raw, nameB, '<');
 		final int emailE = nextLF(raw, emailB, '>');
+		if (emailB <= nameB + 1 || // No name
+			emailB >= raw.length || // No email start
+			raw[emailB] == '\n' ||
+			emailE >= raw.length - 1 || // No email end at all or no trailing date
+			raw[emailE] == '\n') {
+			return null;
+		}
 
 		final String name = decode(cs, raw, nameB, emailB - 2);
 		final String email = decode(cs, raw, emailB, emailE - 1);
 
 		final MutableInteger ptrout = new MutableInteger();
 		final long when = parseLongBase10(raw, emailE + 1, ptrout);
-		final int tz = parseTimeZoneOffset(raw, ptrout.value);
+		final int whenE = ptrout.value;
+		if (whenE >= raw.length || // No trailing timezone
+			raw[whenE] == '\n') {
+			return null;
+		}
 
+		final int tz = parseTimeZoneOffset(raw, whenE);
 		return new PersonIdent(name, email, when * 1000L, tz);
 	}
 
