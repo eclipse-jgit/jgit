@@ -130,7 +130,7 @@
     <maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
     <bundle-manifest>${project.build.directory}/META-INF/MANIFEST.MF</bundle-manifest>
 
-    <jsch-version>0.1.41</jsch-version>
+    <jsch-version>0.1.37</jsch-version>
     <junit-version>3.8.2</junit-version>
     <args4j-version>2.0.12</args4j-version>
     <servlet-api-version>2.5</servlet-api-version>
