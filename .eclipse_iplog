@@ -22,6 +22,12 @@
 	use = unmodified binary
 	state = approved
 
+[CQ "3904"]
+	description = jsch Version: 0.1.37 (using Orbit CQ2014)
+	license = New BSD license
+	use = unmodified binary
+	state = approved
+
 [CQ "3655"]
 	description = Junit Version: 3.8.2 (PB CQ2206)
 	license = Common Public License 1.0

@@ -60,7 +60,7 @@
 
   <properties>
     <tycho-version>0.7.0</tycho-version>
-    <eclipse-site>http://download.eclipse.org/releases/galileo</eclipse-site>
+    <eclipse-site>http://download.eclipse.org/releases/ganymede</eclipse-site>
   </properties>
 
   <modules>
@@ -70,7 +70,7 @@
 
   <repositories>
     <repository>
-      <id>galileo</id>
+      <id>ganymede</id>
       <layout>p2</layout>
       <url>${eclipse-site}</url>
     </repository>
