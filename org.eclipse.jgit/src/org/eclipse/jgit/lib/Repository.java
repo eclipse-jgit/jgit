@@ -96,7 +96,11 @@ public class Repository {
 
 	private final File gitDir;
 
-	private final RepositoryConfig config;
+	private final FileBasedConfig userConfig;
+
+	private RepositoryConfig config;
+
+	private final Object configLock = new Object(); // guards config member
 
 	private final RefDatabase refs;
 
@@ -191,26 +195,9 @@ public class Repository {
 				throw new IllegalArgumentException("Either GIT_DIR or GIT_WORK_TREE must be passed to Repository constructor");
 		}
 
-		final FileBasedConfig userConfig;
 		userConfig = SystemReader.getInstance().openUserConfig();
-		try {
-			userConfig.load();
-		} catch (ConfigInvalidException e1) {
-			IOException e2 = new IOException("User config file "
-					+ userConfig.getFile().getAbsolutePath() + " invalid: "
-					+ e1);
-			e2.initCause(e1);
-			throw e2;
-		}
-		config = new RepositoryConfig(userConfig, FS.resolve(gitDir, "config"));
 
-		try {
-			getConfig().load();
-		} catch (ConfigInvalidException e1) {
-			IOException e2 = new IOException("Unknown repository format");
-			e2.initCause(e1);
-			throw e2;
-		}
+		loadConfig();
 
 		if (workDir == null) {
 			String workTreeConfig = getConfig().getString("core", null, "worktree");
@@ -240,6 +227,31 @@ public class Repository {
 			if (!"0".equals(repositoryFormatVersion)) {
 				throw new IOException("Unknown repository format \""
 						+ repositoryFormatVersion + "\"; expected \"0\".");
+			}
+		}
+	}
+
+	private void loadConfig() throws IOException {
+		synchronized (configLock) {
+			try {
+				userConfig.load();
+			} catch (ConfigInvalidException e1) {
+				IOException e2 = new IOException("User config file "
+						+ userConfig.getFile().getAbsolutePath() + " invalid: "
+						+ e1);
+				e2.initCause(e1);
+				throw e2;
+			}
+			// for thread safety reasons a new config object is created
+			// when the config is reloaded
+			config = new RepositoryConfig(userConfig, FS.resolve(gitDir,
+					"config"));
+			try {
+				config.load();
+			} catch (ConfigInvalidException e1) {
+				IOException e2 = new IOException("Unknown repository format");
+				e2.initCause(e1);
+				throw e2;
 			}
 		}
 	}
@@ -320,7 +332,15 @@ public class Repository {
 	 * @return the configuration of this repository
 	 */
 	public RepositoryConfig getConfig() {
-		return config;
+		synchronized (configLock) {
+			if (userConfig.isOutdated() || config.isOutdated())
+				try {
+					loadConfig();
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+				}
+			return config;
+		}
 	}
 
 	/**
