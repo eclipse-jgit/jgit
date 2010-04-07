@@ -117,9 +117,9 @@ public class RemoteConfig {
 
 	private String name;
 
-	private List<URIish> uris;
+	private URIish fetchUri;
 
-	private List<URIish> pushURIs;
+	private URIish pushURI;
 
 	private List<RefSpec> fetch;
 
@@ -157,15 +157,13 @@ public class RemoteConfig {
 		String[] vlst;
 		String val;
 
-		vlst = rc.getStringList(SECTION, name, KEY_URL);
-		uris = new ArrayList<URIish>(vlst.length);
-		for (final String s : vlst)
-			uris.add(new URIish(s));
+		val = rc.getString(SECTION, name, KEY_URL);
+		if (val != null)
+			fetchUri = new URIish(val);
 
-		vlst = rc.getStringList(SECTION, name, KEY_PUSHURL);
-		pushURIs = new ArrayList<URIish>(vlst.length);
-		for (final String s : vlst)
-			pushURIs.add(new URIish(s));
+		val = rc.getString(SECTION, name, KEY_PUSHURL);
+		if (val != null)
+			pushURI = new URIish(val);
 
 		vlst = rc.getStringList(SECTION, name, KEY_FETCH);
 		fetch = new ArrayList<RefSpec>(vlst.length);
@@ -202,15 +200,20 @@ public class RemoteConfig {
 	public void update(final Config rc) {
 		final List<String> vlst = new ArrayList<String>();
 
-		vlst.clear();
-		for (final URIish u : getURIs())
-			vlst.add(u.toPrivateString());
-		rc.setStringList(SECTION, getName(), KEY_URL, vlst);
+		if (fetchUri != null) {
+			rc.setString(SECTION, getName(), KEY_URL, fetchUri
+					.toPrivateString());
+		} else {
+			rc.unset(SECTION, getName(), KEY_URL);
+		}
 
-		vlst.clear();
-		for (final URIish u : getPushURIs())
-			vlst.add(u.toPrivateString());
-		rc.setStringList(SECTION, getName(), KEY_PUSHURL, vlst);
+
+		if (pushURI != null) {
+			rc.setString(SECTION, getName(), KEY_PUSHURL, pushURI
+					.toPrivateString());
+		} else {
+			rc.unset(SECTION, getName(), KEY_PUSHURL);
+		}
 
 		vlst.clear();
 		for (final RefSpec u : getFetchRefSpecs())
@@ -270,10 +273,22 @@ public class RemoteConfig {
 	 * Get all configured URIs under this remote.
 	 *
 	 * @return the set of URIs known to this remote.
+	 * @deprecated use {@link #getFetchUri()} instead
 	 */
 	public List<URIish> getURIs() {
-		return Collections.unmodifiableList(uris);
+		List<URIish> result = new ArrayList<URIish>();
+		if (fetchUri != null)
+			result.add(fetchUri);
+		return Collections.unmodifiableList(result);
 	}
+
+	/**
+	 * @return the fetch URI, or <code>null</code> if none is available
+	 */
+	public URIish getFetchUri() {
+		return fetchUri;
+	}
+
 
 	/**
 	 * Add a new URI to the end of the list of URIs.
@@ -281,11 +296,28 @@ public class RemoteConfig {
 	 * @param toAdd
 	 *            the new URI to add to this remote.
 	 * @return true if the URI was added; false if it already exists.
+	 * @deprecated use {@link #setFetchURI(URIish)} instead
 	 */
 	public boolean addURI(final URIish toAdd) {
-		if (uris.contains(toAdd))
-			return false;
-		return uris.add(toAdd);
+		if (!toAdd.equals(fetchUri)) {
+			fetchUri = toAdd;
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Sets the fetch URI.
+	 * <p>
+	 * The application is responsible for keeping the URI consistent with the
+	 * fetch specifications
+	 *
+	 * @param fetchUri
+	 *            the fetch URI for this remote, may be <code>null</code>
+	 */
+	public void setFetchURI(final URIish fetchUri) {
+		this.fetchUri = fetchUri;
 	}
 
 	/**
@@ -294,18 +326,31 @@ public class RemoteConfig {
 	 * @param toRemove
 	 *            the URI to remove from this remote.
 	 * @return true if the URI was added; false if it already exists.
+	 * @deprecated use {@link #setFetchURI(URIish)} instead
 	 */
 	public boolean removeURI(final URIish toRemove) {
-		return uris.remove(toRemove);
+		// does nothing anymore
+		return false;
 	}
 
 	/**
 	 * Get all configured push-only URIs under this remote.
 	 *
 	 * @return the set of URIs known to this remote.
+	 * @deprecated use {@link #getPushUri()} instead
 	 */
 	public List<URIish> getPushURIs() {
-		return Collections.unmodifiableList(pushURIs);
+		List<URIish> result = new ArrayList<URIish>();
+		if (pushURI != null)
+			result.add(pushURI);
+		return Collections.unmodifiableList(result);
+	}
+
+	/**
+	 * @return the push URI, or <code>null</code> if none is available
+	 */
+	public URIish getPushUri() {
+		return pushURI;
 	}
 
 	/**
@@ -314,11 +359,29 @@ public class RemoteConfig {
 	 * @param toAdd
 	 *            the new URI to add to this remote.
 	 * @return true if the URI was added; false if it already exists.
+	 * @deprecated use {@link #setPushURI(URIish)} instead
 	 */
 	public boolean addPushURI(final URIish toAdd) {
-		if (pushURIs.contains(toAdd))
-			return false;
-		return pushURIs.add(toAdd);
+
+		if (!toAdd.equals(pushURI)) {
+			pushURI = toAdd;
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Sets the push URI.
+	 * <p>
+	 * The application is responsible for keeping the URI consistent with the
+	 * push specifications
+	 *
+	 * @param pushUri
+	 *            the push URI for this remote, may be <code>null</code>
+	 */
+	public void setPushURI(final URIish pushUri) {
+		this.pushURI = pushUri;
 	}
 
 	/**
@@ -327,9 +390,11 @@ public class RemoteConfig {
 	 * @param toRemove
 	 *            the URI to remove from this remote.
 	 * @return true if the URI was added; false if it already exists.
+	 * @deprecated use {@link #setPushURI(URIish)} instead
 	 */
 	public boolean removePushURI(final URIish toRemove) {
-		return pushURIs.remove(toRemove);
+		// nothing anymore
+		return false;
 	}
 
 	/**
