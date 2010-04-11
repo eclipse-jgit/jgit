@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAHX///8E\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/RawParseUtils_MiscTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-22T20:35:19Z",
+      "side": 1,
+      "message": "Please update the copyright statement to be accurate.",
+      "revId": "995527ba998bc518a35d83ae17ef7401190e7c1f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAHX///8A\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/RawParseUtils_MiscTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-22T20:35:19Z",
+      "side": 1,
+      "message": "Please put spaces after commas, and line-wrap closer to 80 characters.",
+      "revId": "995527ba998bc518a35d83ae17ef7401190e7c1f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAHX///74\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/RawParseUtils_MiscTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-22T20:35:19Z",
+      "side": 1,
+      "message": "Would making this date a constant reduce the complexity of each of these tests?",
+      "revId": "995527ba998bc518a35d83ae17ef7401190e7c1f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAHX///70\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/RawParseUtils_MiscTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-22T20:35:19Z",
+      "side": 1,
+      "message": "What about the following cases:\n\n \"Me \u003cme@example.com\u003e\"\n \"\u003c\u003e\"\n \"\"\n \" \u003c\u003e\"",
+      "revId": "995527ba998bc518a35d83ae17ef7401190e7c1f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAHX///78\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/RawParseUtils_MiscTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-03-22T20:35:19Z",
+      "side": 1,
+      "message": "Please use an explicit character encoding here to prevent odd platform defaults from breaking tests.  ISO-8859-1 or UTF-8 should be suitable for this test given the inputs above.",
+      "revId": "995527ba998bc518a35d83ae17ef7401190e7c1f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
