@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAA3///8E\u003d",
+        "filename": "org.eclipse.jgit.console/META-INF/MANIFEST.MF",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 11
+      },
+      "writtenOn": "2010-04-03T19:27:22Z",
+      "side": 1,
+      "message": "\u0027[0.1.37,0.2.0)\u0027?",
+      "revId": "4626495762398efd203d6e330d95c4da4d70fe37",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
