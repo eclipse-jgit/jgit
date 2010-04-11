@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "AAAAHX///7k\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/RawParseUtils_MiscTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-03-23T00:53:54Z",
+      "side": 1,
+      "message": "Since this simply is about testing PersonIdent, please name this class accordingly.",
+      "revId": "995527ba998bc518a35d83ae17ef7401190e7c1f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAHX///8A\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/RawParseUtils_MiscTest.java",
         "patchSetId": 1
@@ -30,6 +47,24 @@
       "writtenOn": "2010-03-22T20:35:19Z",
       "side": 1,
       "message": "Please put spaces after commas, and line-wrap closer to 80 characters.",
+      "revId": "995527ba998bc518a35d83ae17ef7401190e7c1f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAHX///7o\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/RawParseUtils_MiscTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-03-23T00:53:54Z",
+      "side": 1,
+      "message": "If you use Ecplise, use it\u0027s formatting capabilities. We have the settings for these\nthings in the projects.",
+      "parentUuid": "AAAAHX///8A\u003d",
       "revId": "995527ba998bc518a35d83ae17ef7401190e7c1f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
