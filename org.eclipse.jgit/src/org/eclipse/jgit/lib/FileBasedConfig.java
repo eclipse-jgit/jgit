@@ -62,6 +62,7 @@ import org.eclipse.jgit.util.RawParseUtils;
  */
 public class FileBasedConfig extends Config {
 	private final File configFile;
+	private volatile long lastModified;
 
 	/**
 	 * Create a configuration with no default fallback.
@@ -103,6 +104,7 @@ public class FileBasedConfig extends Config {
 	 *             the file is not a properly formatted configuration file.
 	 */
 	public void load() throws IOException, ConfigInvalidException {
+		lastModified = getFile().lastModified();
 		try {
 			fromText(RawParseUtils.decode(IO.readFully(getFile())));
 		} catch (FileNotFoundException noFile) {
@@ -134,16 +136,26 @@ public class FileBasedConfig extends Config {
 		if (!lf.lock())
 			throw new IOException("Cannot lock " + getFile());
 		try {
+			lf.setNeedStatInformation(true);
 			lf.write(out);
 			if (!lf.commit())
 				throw new IOException("Cannot commit write to " + getFile());
 		} finally {
 			lf.unlock();
 		}
+		lastModified = lf.getCommitLastModified();
 	}
 
 	@Override
 	public String toString() {
 		return getClass().getSimpleName() + "[" + getFile().getPath() + "]";
+	}
+
+	/**
+	 * @return returns true if the currently loaded configuration file is older
+	 * than the file on disk
+	 */
+	public boolean isOutdated() {
+		return getFile().lastModified() != lastModified;
 	}
 }
