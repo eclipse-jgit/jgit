@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAA3///xI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/FileBasedConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-11T02:38:37Z",
+      "side": 1,
+      "message": "We prefer to cache the modification time before we read the file.  That way if the file is modified while we are scanning it, our cached time should be older than the final edit time, and we\u0027ll scan it again the next time we are asked about the file.\n\nCaching the time after the read opens a race condition where we finish reading the old version, and someone else changes the file before we can get the modification time from it.  In this case we would skip that update entirely and never notice it has occurred.",
+      "revId": "bd97515919ef66c6f8aa1a4fe8a11a6711335dad",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///xE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/FileBasedConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-11T02:38:37Z",
+      "side": 1,
+      "message": "You can get this data from LockFile.  Before we call lf.write above, add this line:\n\n  lf.setNeedStatInformation(true);\n\nThen after lf.commit() was successful you can use:\n\n  lastModified \u003d lf.getCommitLastModified()",
+      "revId": "bd97515919ef66c6f8aa1a4fe8a11a6711335dad",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///xA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-11T02:38:37Z",
+      "side": 1,
+      "message": "Locking the configuration shouldn\u0027t be necessary.\n\nFileBasedConfig extends from Config, and Config is thread-safe via atomic references.  So you just need to determine if either file needs to be refreshed, and if so, run its load() method again to pull it in from disk.",
+      "revId": "bd97515919ef66c6f8aa1a4fe8a11a6711335dad",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
