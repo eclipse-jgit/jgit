@@ -331,18 +331,19 @@ public class RefDirectory extends RefDatabase {
 			}
 		}
 
-		private void scanTree(String prefix, File dir) {
+		private boolean scanTree(String prefix, File dir) {
 			final String[] entries = dir.list(LockFile.FILTER);
-			if (entries != null && 0 < entries.length) {
+			if (entries == null) // not a directory or an I/O error
+				return false;
+			if (0 < entries.length) {
 				Arrays.sort(entries);
 				for (String name : entries) {
 					File e = new File(dir, name);
-					if (e.isDirectory())
-						scanTree(prefix + name + '/', e);
-					else
+					if (!scanTree(prefix + name + '/', e))
 						scanOne(prefix + name);
 				}
 			}
+			return true;
 		}
 
 		private void scanOne(String name) {
