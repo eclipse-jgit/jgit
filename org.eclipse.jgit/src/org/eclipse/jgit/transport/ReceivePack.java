@@ -82,6 +82,8 @@ import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
 import org.eclipse.jgit.revwalk.RevObject;
+import org.eclipse.jgit.revwalk.RevTag;
+import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand.Result;
 import org.eclipse.jgit.transport.RefAdvertiser.PacketLineOutRefAdvertiser;
@@ -817,6 +819,13 @@ public class ReceivePack {
 	}
 
 	private void checkConnectivity() throws IOException {
+		final Set<ObjectId> baseObjects;
+
+		if (ensureObjectsProvidedVisible)
+			baseObjects = getBaseObjectIds();
+		else
+			baseObjects = Collections.emptySet();
+
 		final ObjectWalk ow = new ObjectWalk(db);
 		for (final ReceiveCommand cmd : commands) {
 			if (cmd.getResult() != Result.NOT_ATTEMPTED)
@@ -825,13 +834,24 @@ public class ReceivePack {
 				continue;
 			ow.markStart(ow.parseAny(cmd.getNewId()));
 		}
-		for (final Ref ref : refs.values())
-			ow.markUninteresting(ow.parseAny(ref.getObjectId()));
+		for (final Ref ref : refs.values()) {
+			RevObject o = ow.parseAny(ref.getObjectId());
+			ow.markUninteresting(o);
+
+			if (ensureObjectsProvidedVisible && !baseObjects.isEmpty()) {
+				while (o instanceof RevTag)
+					o = ((RevTag) o).getObject();
+				if (o instanceof RevCommit)
+					o = ((RevCommit) o).getTree();
+				if (o instanceof RevTree)
+					ow.markUninteresting(o);
+			}
+		}
 
 		ObjectIdSubclassMap<ObjectId> provided =
 			new ObjectIdSubclassMap<ObjectId>();
 		if (ensureObjectsProvidedVisible) {
-			for (ObjectId id : getBaseObjectIds()) {
+			for (ObjectId id : baseObjects) {
 				   RevObject b = ow.lookupAny(id, Constants.OBJ_BLOB);
 				   if (!b.has(RevFlag.UNINTERESTING))
 				     throw new MissingObjectException(b, b.getType());
