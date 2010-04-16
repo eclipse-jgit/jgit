@@ -823,11 +823,15 @@ public class ReceivePack {
 
 		RevObject o;
 		while ((o = ow.nextObject()) != null) {
+			if (ensureObjectsProvidedVisible) {
+				if (providedObjects.contains(o))
+					continue;
+				else
+					throw new MissingObjectException(o, o.getType());
+			}
+
 			if (o instanceof RevBlob && !db.hasObject(o))
 				throw new MissingObjectException(o, Constants.TYPE_BLOB);
-
-			if (ensureObjectsProvidedVisible && !providedObjects.contains(o))
-				throw new MissingObjectException(o, o.getType());
 		}
 	}
 
