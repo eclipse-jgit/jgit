@@ -54,10 +54,7 @@ import java.io.RandomAccessFile;
 import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.zip.CRC32;
 import java.util.zip.DataFormatException;
 import java.util.zip.Deflater;
@@ -173,7 +170,14 @@ public class IndexPack {
 
 	private PackedObjectInfo[] entries;
 
-	private Set<ObjectId> newObjectIds;
+	/**
+	 * Every object contained within the incoming pack.
+	 * <p>
+	 * This is a subset of {@link #entries}, as thin packs can add additional
+	 * objects to {@code entries} by copying already existing objects from the
+	 * repository onto the end of the thin pack to make it self-contained.
+	 */
+	private ObjectIdSubclassMap<ObjectId> newObjectIds;
 
 	private int deltaCount;
 
@@ -183,7 +187,14 @@ public class IndexPack {
 
 	private ObjectIdSubclassMap<DeltaChain> baseById;
 
-	private Set<ObjectId> baseIds;
+	/**
+	 * Objects referenced by their name from deltas, that aren't in this pack.
+	 * <p>
+	 * This is the set of objects that were copied onto the end of this pack to
+	 * make it complete. These objects were not transmitted by the remote peer,
+	 * but instead were assumed to already exist in the local repository.
+	 */
+	private ObjectIdSubclassMap<ObjectId> baseObjectIds;
 
 	private LongMap<UnresolvedDelta> baseByPos;
 
@@ -287,7 +298,7 @@ public class IndexPack {
 	 */
 	public void setNeedNewObjectIds(boolean b) {
 		if (b)
-			newObjectIds = new HashSet<ObjectId>();
+			newObjectIds = new ObjectIdSubclassMap<ObjectId>();
 		else
 			newObjectIds = null;
 	}
@@ -311,17 +322,17 @@ public class IndexPack {
 	}
 
 	/** @return the new objects that were sent by the user */
-	public Set<ObjectId> getNewObjectIds() {
-		return newObjectIds == null ?
-				Collections.<ObjectId>emptySet() : newObjectIds;
+	public ObjectIdSubclassMap<ObjectId> getNewObjectIds() {
+		if (newObjectIds != null)
+			return newObjectIds;
+		return new ObjectIdSubclassMap<ObjectId>();
 	}
 
-	/**
-	 *  @return the set of objects the incoming pack assumed for delta purposes
-	 */
-	public Set<ObjectId> getBaseObjectIds() {
-		return baseIds == null ?
-				Collections.<ObjectId>emptySet() : baseIds;
+	/** @return set of objects the incoming pack assumed for delta purposes */
+	public ObjectIdSubclassMap<ObjectId> getBaseObjectIds() {
+		if (baseObjectIds != null)
+			return baseObjectIds;
+		return new ObjectIdSubclassMap<ObjectId>();
 	}
 
 	/**
@@ -390,12 +401,6 @@ public class IndexPack {
 					if (packOut == null)
 						throw new IOException("need packOut");
 					resolveDeltas(progress);
-					if (needBaseObjectIds) {
-						baseIds = new HashSet<ObjectId>();
-						for (DeltaChain c : baseById) {
-							baseIds.add(c);
-						}
-					}
 					if (entryCount < objectCount) {
 						if (!fixThin) {
 							throw new IOException("pack has "
@@ -566,6 +571,9 @@ public class IndexPack {
 	private void fixThinPack(final ProgressMonitor progress) throws IOException {
 		growEntries();
 
+		if (needBaseObjectIds)
+			baseObjectIds = new ObjectIdSubclassMap<ObjectId>();
+
 		packDigest.reset();
 		originalEOF = packOut.length() - 20;
 		final Deflater def = new Deflater(Deflater.DEFAULT_COMPRESSION, false);
@@ -574,6 +582,8 @@ public class IndexPack {
 		for (final DeltaChain baseId : baseById) {
 			if (baseId.head == null)
 				continue;
+			if (needBaseObjectIds)
+				baseObjectIds.add(baseId);
 			final ObjectLoader ldr = repo.openObject(readCurs, baseId);
 			if (ldr == null) {
 				missing.add(baseId);

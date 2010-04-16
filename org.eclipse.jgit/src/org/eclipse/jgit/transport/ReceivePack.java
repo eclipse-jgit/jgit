@@ -776,12 +776,14 @@ public class ReceivePack {
 	}
 
 	private void checkConnectivity() throws IOException {
-		final Set<ObjectId> baseObjects;
+		ObjectIdSubclassMap<ObjectId> baseObjects = null;
+		ObjectIdSubclassMap<ObjectId> providedObjects = null;
 
-		if (ensureObjectsProvidedVisible)
+		if (ensureObjectsProvidedVisible) {
 			baseObjects = ip.getBaseObjectIds();
-		else
-			baseObjects = Collections.emptySet();
+			providedObjects = ip.getNewObjectIds();
+		}
+		ip = null;
 
 		final ObjectWalk ow = new ObjectWalk(db);
 		for (final ReceiveCommand cmd : commands) {
@@ -805,21 +807,17 @@ public class ReceivePack {
 			}
 		}
 
-		ObjectIdSubclassMap<ObjectId> provided =
-			new ObjectIdSubclassMap<ObjectId>();
 		if (ensureObjectsProvidedVisible) {
 			for (ObjectId id : baseObjects) {
 				   RevObject b = ow.lookupAny(id, Constants.OBJ_BLOB);
 				   if (!b.has(RevFlag.UNINTERESTING))
 				     throw new MissingObjectException(b, b.getType());
 			}
-			for (ObjectId id : ip.getNewObjectIds())
-				provided.add(id);
 		}
 
 		RevCommit c;
 		while ((c = ow.next()) != null) {
-			if (ensureObjectsProvidedVisible && !provided.contains(c))
+			if (ensureObjectsProvidedVisible && !providedObjects.contains(c))
 				throw new MissingObjectException(c, Constants.TYPE_COMMIT);
 		}
 
@@ -828,7 +826,7 @@ public class ReceivePack {
 			if (o instanceof RevBlob && !db.hasObject(o))
 				throw new MissingObjectException(o, Constants.TYPE_BLOB);
 
-			if (ensureObjectsProvidedVisible && !provided.contains(o))
+			if (ensureObjectsProvidedVisible && !providedObjects.contains(o))
 				throw new MissingObjectException(o, Constants.TYPE_BLOB);
 		}
 	}
