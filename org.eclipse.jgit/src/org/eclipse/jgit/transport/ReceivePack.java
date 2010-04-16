@@ -184,10 +184,6 @@ public class ReceivePack {
 	/** Lock around the received pack file, while updating refs. */
 	private PackLock packLock;
 
-	private boolean needNewObjectIds;
-
-	private boolean needBaseObjectIds;
-
 	private boolean ensureObjectsProvidedVisible;
 
 	/**
@@ -253,45 +249,6 @@ public class ReceivePack {
 	/** @return all refs which were advertised to the client. */
 	public final Map<String, Ref> getAdvertisedRefs() {
 		return refs;
-	}
-
-	/**
-	 * Configure this receive pack instance to keep track of the objects assumed
-	 * for delta bases.
-	 * <p>
-	 * By default a receive pack doesn't save the objects that were used as
-	 * delta bases. Setting this flag to {@code true} will allow the caller to
-	 * use {@link #getBaseObjectIds()} to retrieve that list.
-	 *
-	 * @param b {@code true} to enable keeping track of delta bases.
-	 */
-	public void setNeedBaseObjectIds(boolean b) {
-		this.needBaseObjectIds = b;
-	}
-
-	/**
-	 *  @return the set of objects the incoming pack assumed for delta purposes
-	 */
-	public final Set<ObjectId> getBaseObjectIds() {
-		return ip.getBaseObjectIds();
-	}
-
-	/**
-	 * Configure this receive pack instance to keep track of new objects.
-	 * <p>
-	 * By default a receive pack doesn't save the new objects that were created
-	 * when it was instantiated. Setting this flag to {@code true} allows the
-	 * caller to use {@link #getNewObjectIds()} to retrieve that list.
-	 *
-	 * @param b {@code true} to enable keeping track of new objects.
-	 */
-	public void setNeedNewObjectIds(boolean b) {
-		this.needNewObjectIds = b;
-	}
-
-	/** @return the new objects that were sent by the user */
-	public final Set<ObjectId> getNewObjectIds() {
-		return ip.getNewObjectIds();
 	}
 
 	/**
@@ -804,9 +761,8 @@ public class ReceivePack {
 
 		ip = IndexPack.create(db, rawIn);
 		ip.setFixThin(true);
-		ip.setNeedNewObjectIds(needNewObjectIds || ensureObjectsProvidedVisible);
-		ip.setNeedBaseObjectIds(needBaseObjectIds
-				|| ensureObjectsProvidedVisible);
+		ip.setNeedNewObjectIds(ensureObjectsProvidedVisible);
+		ip.setNeedBaseObjectIds(ensureObjectsProvidedVisible);
 		ip.setObjectChecking(isCheckReceivedObjects());
 		ip.index(NullProgressMonitor.INSTANCE);
 
@@ -823,7 +779,7 @@ public class ReceivePack {
 		final Set<ObjectId> baseObjects;
 
 		if (ensureObjectsProvidedVisible)
-			baseObjects = getBaseObjectIds();
+			baseObjects = ip.getBaseObjectIds();
 		else
 			baseObjects = Collections.emptySet();
 
@@ -857,9 +813,8 @@ public class ReceivePack {
 				   if (!b.has(RevFlag.UNINTERESTING))
 				     throw new MissingObjectException(b, b.getType());
 			}
-			for (ObjectId id : getNewObjectIds()) {
+			for (ObjectId id : ip.getNewObjectIds())
 				provided.add(id);
-			}
 		}
 
 		RevCommit c;
