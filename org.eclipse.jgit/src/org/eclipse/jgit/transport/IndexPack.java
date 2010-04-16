@@ -601,6 +601,14 @@ public class IndexPack {
 				throw new MissingObjectException(base, "delta base");
 		}
 
+		if (end - originalEOF < 20) {
+			// Ugly corner case; if what we appended on to complete deltas
+			// doesn't completely cover the SHA-1 we have to truncate off
+			// we need to shorten the file, otherwise we will include part
+			// of the old footer as object content.
+			packOut.setLength(end);
+		}
+
 		fixHeaderFooter(packcsum, packDigest.digest());
 	}
 
