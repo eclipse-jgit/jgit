@@ -827,7 +827,7 @@ public class ReceivePack {
 				throw new MissingObjectException(o, Constants.TYPE_BLOB);
 
 			if (ensureObjectsProvidedVisible && !providedObjects.contains(o))
-				throw new MissingObjectException(o, Constants.TYPE_BLOB);
+				throw new MissingObjectException(o, o.getType());
 		}
 	}
 
