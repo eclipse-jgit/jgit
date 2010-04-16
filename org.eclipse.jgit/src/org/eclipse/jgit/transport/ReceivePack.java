@@ -656,6 +656,7 @@ public class ReceivePack {
 					receivePack();
 					if (isCheckReceivedObjects())
 						checkConnectivity();
+					ip = null;
 					unpackError = null;
 				} catch (IOException err) {
 					unpackError = err;
