@@ -186,7 +186,7 @@ public class ReceivePackRefFilterTest extends LocalDiskRepositoryTestCase {
 
 				final ReceivePack rp = super.createReceivePack(dst);
 				rp.setCheckReceivedObjects(true);
-				rp.setEnsureProvidedObjectsVisible(true);
+				rp.setCheckReferencedObjectsAreReachable(true);
 				rp.setRefFilter(new HidePrivateFilter());
 				return rp;
 			}
@@ -229,7 +229,7 @@ public class ReceivePackRefFilterTest extends LocalDiskRepositoryTestCase {
 		final TemporaryBuffer.Heap outBuf = new TemporaryBuffer.Heap(1024);
 		final ReceivePack rp = new ReceivePack(dst);
 		rp.setCheckReceivedObjects(true);
-		rp.setEnsureProvidedObjectsVisible(true);
+		rp.setCheckReferencedObjectsAreReachable(true);
 		rp.setRefFilter(new HidePrivateFilter());
 		rp.receive(new ByteArrayInputStream(inBuf.toByteArray()), outBuf, null);
 
@@ -264,7 +264,7 @@ public class ReceivePackRefFilterTest extends LocalDiskRepositoryTestCase {
 		final TemporaryBuffer.Heap outBuf = new TemporaryBuffer.Heap(1024);
 		final ReceivePack rp = new ReceivePack(dst);
 		rp.setCheckReceivedObjects(true);
-		rp.setEnsureProvidedObjectsVisible(true);
+		rp.setCheckReferencedObjectsAreReachable(true);
 		rp.setRefFilter(new HidePrivateFilter());
 		rp.receive(new ByteArrayInputStream(inBuf.toByteArray()), outBuf, null);
 
@@ -305,7 +305,7 @@ public class ReceivePackRefFilterTest extends LocalDiskRepositoryTestCase {
 		final TemporaryBuffer.Heap outBuf = new TemporaryBuffer.Heap(1024);
 		final ReceivePack rp = new ReceivePack(dst);
 		rp.setCheckReceivedObjects(true);
-		rp.setEnsureProvidedObjectsVisible(true);
+		rp.setCheckReferencedObjectsAreReachable(true);
 		rp.setRefFilter(new HidePrivateFilter());
 		rp.receive(new ByteArrayInputStream(inBuf.toByteArray()), outBuf, null);
 
@@ -347,7 +347,7 @@ public class ReceivePackRefFilterTest extends LocalDiskRepositoryTestCase {
 		final TemporaryBuffer.Heap outBuf = new TemporaryBuffer.Heap(1024);
 		final ReceivePack rp = new ReceivePack(dst);
 		rp.setCheckReceivedObjects(true);
-		rp.setEnsureProvidedObjectsVisible(true);
+		rp.setCheckReferencedObjectsAreReachable(true);
 		rp.setRefFilter(new HidePrivateFilter());
 		rp.receive(new ByteArrayInputStream(inBuf.toByteArray()), outBuf, null);
 
@@ -386,7 +386,7 @@ public class ReceivePackRefFilterTest extends LocalDiskRepositoryTestCase {
 		final TemporaryBuffer.Heap outBuf = new TemporaryBuffer.Heap(1024);
 		final ReceivePack rp = new ReceivePack(dst);
 		rp.setCheckReceivedObjects(true);
-		rp.setEnsureProvidedObjectsVisible(true);
+		rp.setCheckReferencedObjectsAreReachable(true);
 		rp.setRefFilter(new HidePrivateFilter());
 		rp.receive(new ByteArrayInputStream(inBuf.toByteArray()), outBuf, null);
 

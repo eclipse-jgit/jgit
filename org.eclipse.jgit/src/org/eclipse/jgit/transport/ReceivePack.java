@@ -184,7 +184,7 @@ public class ReceivePack {
 	/** Lock around the received pack file, while updating refs. */
 	private PackLock packLock;
 
-	private boolean ensureObjectsProvidedVisible;
+	private boolean checkReferencedIsReachable;
 
 	/**
 	 * Create a new pack receive for an open repository.
@@ -252,23 +252,36 @@ public class ReceivePack {
 	}
 
 	/**
-	 * Configure this receive pack instance to ensure that the provided
-	 * objects are visible to the user.
-	 * <p>
-	 * By default, a receive pack assumes that its user will only provide
-	 * references to objects that it can see. Setting this flag to {@code true}
-	 * will add an additional check that verifies that the objects that were
-	 * provided are reachable by a tree or a commit that the user can see.
-	 * <p>
-	 * This option is useful when the code doesn't trust the client not to
-	 * provide a forged SHA-1 reference to an object in an attempt to access
-	 * parts of the DAG that they aren't allowed to see, via the configured
-	 * {@link RefFilter}.
-	 *
-	 * @param b {@code true} to enable the additional check.
+	 * @return true if this instance will validate all referenced, but not
+	 *         supplied by the client, objects are reachable from another
+	 *         reference.
 	 */
-	public void setEnsureProvidedObjectsVisible(boolean b) {
-		this.ensureObjectsProvidedVisible = b;
+	public boolean isCheckReferencedObjectsAreReachable() {
+		return checkReferencedIsReachable;
+	}
+
+	/**
+	 * Validate all referenced but not supplied objects are reachable.
+	 * <p>
+	 * If enabled, this instance will verify that references to objects not
+	 * contained within the received pack are already reachable through at least
+	 * one other reference selected by the {@link #getRefFilter()} and displayed
+	 * as part of {@link #getAdvertisedRefs()}.
+	 * <p>
+	 * This feature is useful when the application doesn't trust the client to
+	 * not provide a forged SHA-1 reference to an object, in an attempt to
+	 * access parts of the DAG that they aren't allowed to see and which have
+	 * been hidden from them via the configured {@link RefFilter}.
+	 * <p>
+	 * Enabling this feature may imply at least some, if not all, of the same
+	 * functionality performed by {@link #setCheckReceivedObjects(boolean)}.
+	 * Applications are encouraged to enable both features, if desired.
+	 *
+	 * @param b
+	 *            {@code true} to enable the additional check.
+	 */
+	public void setCheckReferencedObjectsAreReachable(boolean b) {
+		this.checkReferencedIsReachable = b;
 	}
 
 	/**
@@ -611,7 +624,7 @@ public class ReceivePack {
 			if (needPack()) {
 				try {
 					receivePack();
-					if (isCheckReceivedObjects())
+					if (needCheckConnectivity())
 						checkConnectivity();
 					ip = null;
 					unpackError = null;
@@ -761,8 +774,8 @@ public class ReceivePack {
 
 		ip = IndexPack.create(db, rawIn);
 		ip.setFixThin(true);
-		ip.setNeedNewObjectIds(ensureObjectsProvidedVisible);
-		ip.setNeedBaseObjectIds(ensureObjectsProvidedVisible);
+		ip.setNeedNewObjectIds(checkReferencedIsReachable);
+		ip.setNeedBaseObjectIds(checkReferencedIsReachable);
 		ip.setObjectChecking(isCheckReceivedObjects());
 		ip.index(NullProgressMonitor.INSTANCE);
 
@@ -775,11 +788,16 @@ public class ReceivePack {
 			timeoutIn.setTimeout(timeout * 1000);
 	}
 
+	private boolean needCheckConnectivity() {
+		return isCheckReceivedObjects()
+				|| isCheckReferencedObjectsAreReachable();
+	}
+
 	private void checkConnectivity() throws IOException {
 		ObjectIdSubclassMap<ObjectId> baseObjects = null;
 		ObjectIdSubclassMap<ObjectId> providedObjects = null;
 
-		if (ensureObjectsProvidedVisible) {
+		if (checkReferencedIsReachable) {
 			baseObjects = ip.getBaseObjectIds();
 			providedObjects = ip.getNewObjectIds();
 		}
@@ -797,7 +815,7 @@ public class ReceivePack {
 			RevObject o = ow.parseAny(ref.getObjectId());
 			ow.markUninteresting(o);
 
-			if (ensureObjectsProvidedVisible && !baseObjects.isEmpty()) {
+			if (checkReferencedIsReachable && !baseObjects.isEmpty()) {
 				while (o instanceof RevTag)
 					o = ((RevTag) o).getObject();
 				if (o instanceof RevCommit)
@@ -807,7 +825,7 @@ public class ReceivePack {
 			}
 		}
 
-		if (ensureObjectsProvidedVisible) {
+		if (checkReferencedIsReachable) {
 			for (ObjectId id : baseObjects) {
 				   RevObject b = ow.lookupAny(id, Constants.OBJ_BLOB);
 				   if (!b.has(RevFlag.UNINTERESTING))
@@ -817,13 +835,13 @@ public class ReceivePack {
 
 		RevCommit c;
 		while ((c = ow.next()) != null) {
-			if (ensureObjectsProvidedVisible && !providedObjects.contains(c))
+			if (checkReferencedIsReachable && !providedObjects.contains(c))
 				throw new MissingObjectException(c, Constants.TYPE_COMMIT);
 		}
 
 		RevObject o;
 		while ((o = ow.nextObject()) != null) {
-			if (ensureObjectsProvidedVisible) {
+			if (checkReferencedIsReachable) {
 				if (providedObjects.contains(o))
 					continue;
 				else
