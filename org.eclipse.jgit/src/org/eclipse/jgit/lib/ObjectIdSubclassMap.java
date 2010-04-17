@@ -135,6 +135,11 @@ public class ObjectIdSubclassMap<V extends ObjectId> implements Iterable<V> {
 		return size;
 	}
 
+	/** @return true if {@link #size()} is 0. */
+	public boolean isEmpty() {
+		return size == 0;
+	}
+
 	public Iterator<V> iterator() {
 		return new Iterator<V>() {
 			private int found;
