@@ -46,16 +46,25 @@
 
 package org.eclipse.jgit.transport;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.security.MessageDigest;
+import java.util.zip.Deflater;
 
+import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PackFile;
 import org.eclipse.jgit.lib.RepositoryTestCase;
 import org.eclipse.jgit.lib.TextProgressMonitor;
+import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.util.JGitTestUtil;
+import org.eclipse.jgit.util.NB;
+import org.eclipse.jgit.util.TemporaryBuffer;
 
 /**
  * Test indexing of git packs. A pack is read from a stream, copied
@@ -119,5 +128,55 @@ public class IndexPackTest extends RepositoryTestCase {
 		} finally {
 			is.close();
 		}
+	}
+
+	public void testTinyThinPack() throws Exception {
+		TestRepository d = new TestRepository(db);
+		RevBlob a = d.blob("a");
+
+		TemporaryBuffer.Heap pack = new TemporaryBuffer.Heap(1024);
+
+		packHeader(pack, 1);
+
+		pack.write((Constants.OBJ_REF_DELTA) << 4 | 4);
+		a.copyRawTo(pack);
+		deflate(pack, new byte[] { 0x1, 0x1, 0x1, 'b' });
+
+		digest(pack);
+
+		final byte[] raw = pack.toByteArray();
+		IndexPack ip = IndexPack.create(db, new ByteArrayInputStream(raw));
+		ip.setFixThin(true);
+		ip.index(NullProgressMonitor.INSTANCE);
+		ip.renameAndOpenPack();
+	}
+
+	private void packHeader(TemporaryBuffer.Heap tinyPack, int cnt)
+			throws IOException {
+		final byte[] hdr = new byte[8];
+		NB.encodeInt32(hdr, 0, 2);
+		NB.encodeInt32(hdr, 4, cnt);
+
+		tinyPack.write(Constants.PACK_SIGNATURE);
+		tinyPack.write(hdr, 0, 8);
+	}
+
+	private void deflate(TemporaryBuffer.Heap tinyPack, final byte[] content)
+			throws IOException {
+		final Deflater deflater = new Deflater();
+		final byte[] buf = new byte[128];
+		deflater.setInput(content, 0, content.length);
+		deflater.finish();
+		do {
+			final int n = deflater.deflate(buf, 0, buf.length);
+			if (n > 0)
+				tinyPack.write(buf, 0, n);
+		} while (!deflater.finished());
+	}
+
+	private void digest(TemporaryBuffer.Heap buf) throws IOException {
+		MessageDigest md = Constants.newMessageDigest();
+		md.update(buf.toByteArray());
+		buf.write(md.digest());
 	}
 }
