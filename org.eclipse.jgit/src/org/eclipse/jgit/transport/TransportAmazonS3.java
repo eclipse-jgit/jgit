@@ -67,7 +67,6 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.SymbolicRef;
 import org.eclipse.jgit.lib.Ref.Storage;
-import org.eclipse.jgit.util.FS;
 
 /**
  * Transport over the non-Git aware Amazon S3 protocol.
@@ -128,7 +127,7 @@ public class TransportAmazonS3 extends HttpTransport implements WalkTransport {
 		Properties props = null;
 		File propsFile = new File(local.getDirectory(), uri.getUser());
 		if (!propsFile.isFile())
-			propsFile = new File(FS.userHome(), uri.getUser());
+			propsFile = new File(local.getFS().userHome(), uri.getUser());
 		if (propsFile.isFile()) {
 			try {
 				props = AmazonS3.properties(propsFile);
