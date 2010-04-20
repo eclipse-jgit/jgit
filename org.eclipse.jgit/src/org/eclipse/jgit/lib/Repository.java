@@ -102,6 +102,8 @@ public class Repository {
 
 	private final File gitDir;
 
+	private final FS fs;
+
 	private final FileBasedConfig userConfig;
 
 	private final RepositoryConfig config;
@@ -185,6 +187,41 @@ public class Repository {
 	 */
 	public Repository(final File d, final File workTree, final File objectDir,
 			final File[] alternateObjectDir, final File indexFile) throws IOException {
+		this(d, workTree, objectDir, alternateObjectDir, indexFile, FS.DETECTED);
+	}
+
+	/**
+	 * Construct a representation of a Git repository using the given parameters
+	 * possibly overriding default conventions.
+	 *
+	 * @param d
+	 *            GIT_DIR (the location of the repository metadata). May be null
+	 *            for default value in which case it depends on GIT_WORK_TREE.
+	 * @param workTree
+	 *            GIT_WORK_TREE (the root of the checkout). May be null for
+	 *            default value if GIT_DIR is
+	 * @param objectDir
+	 *            GIT_OBJECT_DIRECTORY (where objects and are stored). May be
+	 *            null for default value. Relative names ares resolved against
+	 *            GIT_WORK_TREE
+	 * @param alternateObjectDir
+	 *            GIT_ALTERNATE_OBJECT_DIRECTORIES (where more objects are read
+	 *            from). May be null for default value. Relative names ares
+	 *            resolved against GIT_WORK_TREE
+	 * @param indexFile
+	 *            GIT_INDEX_FILE (the location of the index file). May be null
+	 *            for default value. Relative names ares resolved against
+	 *            GIT_WORK_TREE.
+	 * @param fs
+	 *            the file system abstraction which will be necessary to
+	 *            perform certain file system operations.
+	 * @throws IOException
+	 *             the repository appears to already exist but cannot be
+	 *             accessed.
+	 */
+	public Repository(final File d, final File workTree, final File objectDir,
+			final File[] alternateObjectDir, final File indexFile,
+			FS fs) throws IOException {
 
 		if (workTree != null) {
 			workDir = workTree;
@@ -199,8 +236,10 @@ public class Repository {
 				throw new IllegalArgumentException(JGitText.get().eitherGIT_DIRorGIT_WORK_TREEmustBePassed);
 		}
 
-		userConfig = SystemReader.getInstance().openUserConfig();
-		config = new RepositoryConfig(userConfig, FS.resolve(gitDir, "config"));
+		this.fs = fs;
+
+		userConfig = SystemReader.getInstance().openUserConfig(fs);
+		config = new RepositoryConfig(userConfig, fs.resolve(gitDir, "config"));
 
 		loadUserConfig();
 		loadConfig();
@@ -208,7 +247,7 @@ public class Repository {
 		if (workDir == null) {
 			String workTreeConfig = getConfig().getString("core", null, "worktree");
 			if (workTreeConfig != null) {
-				workDir = FS.resolve(d, workTreeConfig);
+				workDir = fs.resolve(d, workTreeConfig);
 			} else {
 				workDir = gitDir.getParentFile();
 			}
@@ -216,11 +255,11 @@ public class Repository {
 
 		refs = new RefDirectory(this);
 		if (objectDir != null)
-			objectDatabase = new ObjectDirectory(FS.resolve(objectDir, ""),
-					alternateObjectDir);
+			objectDatabase = new ObjectDirectory(fs.resolve(objectDir, ""),
+					alternateObjectDir, fs);
 		else
-			objectDatabase = new ObjectDirectory(FS.resolve(gitDir, "objects"),
-					alternateObjectDir);
+			objectDatabase = new ObjectDirectory(fs.resolve(gitDir, "objects"),
+					alternateObjectDir, fs);
 
 		if (indexFile != null)
 			this.indexFile = indexFile;
@@ -349,6 +388,13 @@ public class Repository {
 				}
 		}
 		return config;
+	}
+
+	/**
+	 * @return the used file system abstraction
+	 */
+	public FS getFS() {
+		return fs;
 	}
 
 	/**

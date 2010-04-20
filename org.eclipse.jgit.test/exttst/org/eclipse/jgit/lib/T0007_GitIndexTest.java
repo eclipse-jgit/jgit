@@ -337,7 +337,7 @@ public class T0007_GitIndexTest extends LocalDiskRepositoryTestCase {
 	}
 
 	public void test030_executeBit_coreModeTrue() throws IllegalArgumentException, IllegalAccessException, InvocationTargetException, Error, Exception {
-		if (!FS.INSTANCE.supportsExecute()) {
+		if (!FS.DETECTED.supportsExecute()) {
 			System.err.println("Test ignored since platform FS does not support the execute permission");
 			return;
 		}
@@ -392,7 +392,7 @@ public class T0007_GitIndexTest extends LocalDiskRepositoryTestCase {
 	}
 
 	public void test031_executeBit_coreModeFalse() throws IllegalArgumentException, IllegalAccessException, InvocationTargetException, Error, Exception {
-		if (!FS.INSTANCE.supportsExecute()) {
+		if (!FS.DETECTED.supportsExecute()) {
 			System.err.println("Test ignored since platform FS does not support the execute permission");
 			return;
 		}

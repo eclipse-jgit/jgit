@@ -63,6 +63,7 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryCache;
 import org.eclipse.jgit.lib.RepositoryCache.FileKey;
+import org.eclipse.jgit.util.FS;
 
 /** Basic daemon for the anonymous <code>git://</code> transport protocol. */
 public class Daemon {
@@ -368,7 +369,7 @@ public class Daemon {
 		}
 
 		for (final File baseDir : exportBase) {
-			final File gitdir = FileKey.resolve(new File(baseDir, name));
+			final File gitdir = FileKey.resolve(new File(baseDir, name), FS.DETECTED);
 			if (gitdir != null && canExport(gitdir))
 				return openRepository(gitdir);
 		}
@@ -377,7 +378,7 @@ public class Daemon {
 
 	private static Repository openRepository(final File gitdir) {
 		try {
-			return RepositoryCache.open(FileKey.exact(gitdir));
+			return RepositoryCache.open(FileKey.exact(gitdir, FS.DETECTED));
 		} catch (IOException err) {
 			// null signals it "wasn't found", which is all that is suitable
 			// for the remote client to know.

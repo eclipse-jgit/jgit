@@ -66,6 +66,7 @@ import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.TransferConfig;
+import org.eclipse.jgit.util.FS;
 
 /**
  * Connects two Git repositories together and copies objects between them.
@@ -323,9 +324,11 @@ public abstract class Transport {
 	 *
 	 * @param remote
 	 *            location of the remote repository.
+	 * @param fs
+	 *            type of filesystem the local repository is stored on.
 	 * @return true if the protocol is supported.
 	 */
-	public static boolean canHandleProtocol(final URIish remote) {
+	public static boolean canHandleProtocol(final URIish remote, final FS fs) {
 		if (TransportGitSsh.canHandle(remote))
 			return true;
 
@@ -341,10 +344,10 @@ public abstract class Transport {
 		else if (TransportAmazonS3.canHandle(remote))
 			return true;
 
-		else if (TransportBundleFile.canHandle(remote))
+		else if (TransportBundleFile.canHandle(remote, fs))
 			return true;
 
-		else if (TransportLocal.canHandle(remote))
+		else if (TransportLocal.canHandle(remote, fs))
 			return true;
 
 		return false;
@@ -378,10 +381,10 @@ public abstract class Transport {
 		else if (TransportAmazonS3.canHandle(remote))
 			return new TransportAmazonS3(local, remote);
 
-		else if (TransportBundleFile.canHandle(remote))
+		else if (TransportBundleFile.canHandle(remote, local.getFS()))
 			return new TransportBundleFile(local, remote);
 
-		else if (TransportLocal.canHandle(remote))
+		else if (TransportLocal.canHandle(remote, local.getFS()))
 			return new TransportLocal(local, remote);
 
 		throw new NotSupportedException(MessageFormat.format(JGitText.get().URINotSupported, remote));

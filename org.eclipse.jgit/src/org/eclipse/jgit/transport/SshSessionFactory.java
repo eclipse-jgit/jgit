@@ -44,6 +44,8 @@
 
 package org.eclipse.jgit.transport;
 
+import org.eclipse.jgit.util.FS;
+
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 
@@ -109,19 +111,22 @@ public abstract class SshSessionFactory {
 	 * @param port
 	 *            port number the server is listening for connections on. May be <=
 	 *            0 to indicate the IANA registered port of 22 should be used.
+	 * @param fs
+	 *            the file system abstraction which will be necessary to
+	 *            perform certain file system operations.
 	 * @return a session that can contact the remote host.
 	 * @throws JSchException
 	 *             the session could not be created.
 	 */
 	public abstract Session getSession(String user, String pass, String host,
-			int port) throws JSchException;
+			int port, FS fs) throws JSchException;
 
 	/**
 	 * Close (or recycle) a session to a host.
 	 *
 	 * @param session
 	 *            a session previously obtained from this factory's
-	 *            {@link #getSession(String,String, String, int)} method.s
+	 *            {@link #getSession(String,String, String, int, FS)} method.s
 	 */
 	public void releaseSession(final Session session) {
 		if (session.isConnected())

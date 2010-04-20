@@ -64,6 +64,7 @@ import org.eclipse.jgit.pgm.CLIText;
 import org.eclipse.jgit.treewalk.AbstractTreeIterator;
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
+import org.eclipse.jgit.util.FS;
 
 /**
  * Custom argument handler {@link AbstractTreeIterator} from string values.
@@ -95,7 +96,7 @@ public class AbstractTreeIteratorHandler extends
 		final String name = params.getParameter(0);
 
 		if (new File(name).isDirectory()) {
-			setter.addValue(new FileTreeIterator(new File(name)));
+			setter.addValue(new FileTreeIterator(new File(name), FS.DETECTED));
 			return 1;
 		}
 
