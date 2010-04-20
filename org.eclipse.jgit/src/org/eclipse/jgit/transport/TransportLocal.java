@@ -96,7 +96,7 @@ class TransportLocal extends Transport implements PackTransport {
 			return false;
 
 		if ("file".equals(uri.getScheme()) || uri.getScheme() == null)
-			return FS.resolve(new File(PWD), uri.getPath()).isDirectory();
+			return FS.DETECTED.resolve(new File(PWD), uri.getPath()).isDirectory();
 		return false;
 	}
 
@@ -105,7 +105,7 @@ class TransportLocal extends Transport implements PackTransport {
 	TransportLocal(final Repository local, final URIish uri) {
 		super(local, uri);
 
-		File d = FS.resolve(new File(PWD), uri.getPath()).getAbsoluteFile();
+		File d = FS.DETECTED.resolve(new File(PWD), uri.getPath()).getAbsoluteFile();
 		if (new File(d, Constants.DOT_GIT).isDirectory())
 			d = new File(d, Constants.DOT_GIT);
 		remoteGitDir = d;

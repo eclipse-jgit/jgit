@@ -120,7 +120,7 @@ public class RepositoryCache {
 	 *            repository to register.
 	 */
 	public static void register(final Repository db) {
-		cache.registerRepository(FileKey.exact(db.getDirectory()), db);
+		cache.registerRepository(FileKey.exact(db.getDirectory(), db.getFs()), db);
 	}
 
 	/**
@@ -133,7 +133,7 @@ public class RepositoryCache {
 	 *            repository to unregister.
 	 */
 	public static void close(final Repository db) {
-		cache.unregisterRepository(FileKey.exact(db.getDirectory()));
+		cache.unregisterRepository(FileKey.exact(db.getDirectory(), db.getFs()));
 	}
 
 	/** Unregister all repositories from the cache. */
@@ -248,11 +248,14 @@ public class RepositoryCache {
 		 *
 		 * @param directory
 		 *            location where the repository database is.
+		 * @param fs
+		 *            the file system abstraction which will be necessary to
+		 *            perform certain file system operations.
 		 * @return a key for the given directory.
-		 * @see #lenient(File)
+		 * @see #lenient(File, FS)
 		 */
-		public static FileKey exact(final File directory) {
-			return new FileKey(directory);
+		public static FileKey exact(final File directory, FS fs) {
+			return new FileKey(directory, fs);
 		}
 
 		/**
@@ -268,22 +271,30 @@ public class RepositoryCache {
 		 *
 		 * @param directory
 		 *            location where the repository database might be.
+		 * @param fs
+		 *            the file system abstraction which will be necessary to
+		 *            perform certain file system operations.
 		 * @return a key for the given directory.
-		 * @see #exact(File)
+		 * @see #exact(File, FS)
 		 */
-		public static FileKey lenient(final File directory) {
-			final File gitdir = resolve(directory);
-			return new FileKey(gitdir != null ? gitdir : directory);
+		public static FileKey lenient(final File directory, FS fs) {
+			final File gitdir = resolve(directory, fs);
+			return new FileKey(gitdir != null ? gitdir : directory, fs);
 		}
 
 		private final File path;
+		private final FS fs;
 
 		/**
 		 * @param directory
 		 *            exact location of the repository.
+		 * @param fs
+		 *            the file system abstraction which will be necessary to
+		 *            perform certain file system operations.
 		 */
-		protected FileKey(final File directory) {
+		protected FileKey(final File directory, FS fs) {
 			path = canonical(directory);
+			this.fs = fs;
 		}
 
 		private static File canonical(final File path) {
@@ -300,7 +311,7 @@ public class RepositoryCache {
 		}
 
 		public Repository open(final boolean mustExist) throws IOException {
-			if (mustExist && !isGitRepository(path))
+			if (mustExist && !isGitRepository(path, fs))
 				throw new RepositoryNotFoundException(path);
 			return new Repository(path);
 		}
@@ -328,13 +339,16 @@ public class RepositoryCache {
 		 *
 		 * @param dir
 		 *            the location of the directory to examine.
+		 * @param fs
+		 *            the file system abstraction which will be necessary to
+		 *            perform certain file system operations.
 		 * @return true if the directory "looks like" a Git repository; false if
 		 *         it doesn't look enough like a Git directory to really be a
 		 *         Git directory.
 		 */
-		public static boolean isGitRepository(final File dir) {
-			return FS.resolve(dir, "objects").exists()
-					&& FS.resolve(dir, "refs").exists()
+		public static boolean isGitRepository(final File dir, FS fs) {
+			return fs.resolve(dir, "objects").exists()
+					&& fs.resolve(dir, "refs").exists()
 					&& isValidHead(new File(dir, Constants.HEAD));
 		}
 
@@ -371,18 +385,21 @@ public class RepositoryCache {
 		 *
 		 * @param directory
 		 *            location to guess from. Several permutations are tried.
+		 * @param fs
+		 *            the file system abstraction which will be necessary to
+		 *            perform certain file system operations.
 		 * @return the actual directory location if a better match is found;
 		 *         null if there is no suitable match.
 		 */
-		public static File resolve(final File directory) {
-			if (isGitRepository(directory))
+		public static File resolve(final File directory, FS fs) {
+			if (isGitRepository(directory, fs))
 				return directory;
-			if (isGitRepository(new File(directory, Constants.DOT_GIT)))
+			if (isGitRepository(new File(directory, Constants.DOT_GIT), fs))
 				return new File(directory, Constants.DOT_GIT);
 
 			final String name = directory.getName();
 			final File parent = directory.getParentFile();
-			if (isGitRepository(new File(parent, name + Constants.DOT_GIT_EXT)))
+			if (isGitRepository(new File(parent, name + Constants.DOT_GIT_EXT), fs))
 				return new File(parent, name + Constants.DOT_GIT_EXT);
 			return null;
 		}

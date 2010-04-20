@@ -128,7 +128,7 @@ public class TransportAmazonS3 extends HttpTransport implements WalkTransport {
 		Properties props = null;
 		File propsFile = new File(local.getDirectory(), uri.getUser());
 		if (!propsFile.isFile())
-			propsFile = new File(FS.userHome(), uri.getUser());
+			propsFile = new File(FS.DETECTED.userHome(), uri.getUser());
 		if (propsFile.isFile()) {
 			try {
 				props = AmazonS3.properties(propsFile);

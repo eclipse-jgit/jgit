@@ -86,6 +86,8 @@ public class ObjectDirectory extends ObjectDatabase {
 
 	private final File[] alternateObjectDir;
 
+	private final FS fs;
+
 	/**
 	 * Initialize a reference to an on-disk object directory.
 	 *
@@ -95,12 +97,28 @@ public class ObjectDirectory extends ObjectDatabase {
 	 *            a list of alternate object directories
 	 */
 	public ObjectDirectory(final File dir, File[] alternateObjectDir) {
+		this(dir, alternateObjectDir, FS.DETECTED);
+	}
+
+	/**
+	 * Initialize a reference to an on-disk object directory.
+	 *
+	 * @param dir
+	 *            the location of the <code>objects</code> directory.
+	 * @param alternateObjectDir
+	 *            a list of alternate object directories
+	 * @param fs
+	 *            the file system abstraction which will be necessary to
+	 *            perform certain file system operations.
+	 */
+	public ObjectDirectory(final File dir, File[] alternateObjectDir, FS fs) {
 		objects = dir;
 		this.alternateObjectDir = alternateObjectDir;
 		infoDirectory = new File(objects, "info");
 		packDirectory = new File(objects, "pack");
 		alternatesFile = new File(infoDirectory, "alternates");
 		packList = new AtomicReference<PackList>(NO_PACKS);
+		this.fs = fs;
 	}
 
 	/**
@@ -469,14 +487,14 @@ public class ObjectDirectory extends ObjectDatabase {
 
 	private ObjectDatabase openAlternate(final String location)
 			throws IOException {
-		final File objdir = FS.resolve(objects, location);
+		final File objdir = fs.resolve(objects, location);
 		return openAlternate(objdir);
 	}
 
 	private ObjectDatabase openAlternate(File objdir) throws IOException {
 		final File parent = objdir.getParentFile();
-		if (FileKey.isGitRepository(parent)) {
-			final Repository db = RepositoryCache.open(FileKey.exact(parent));
+		if (FileKey.isGitRepository(parent, fs)) {
+			final Repository db = RepositoryCache.open(FileKey.exact(parent, fs));
 			return new AlternateRepositoryDatabase(db);
 		}
 		return new ObjectDirectory(objdir, null);

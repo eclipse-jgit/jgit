@@ -49,20 +49,22 @@ import java.security.PrivilegedAction;
 
 /** Abstraction to support various file system operations not in Java. */
 public abstract class FS {
-	/** The implementation selected for this operating system and JRE. */
-	public static final FS INSTANCE;
+	/** The auto-detected implementation selected for this operating system and JRE. */
+	public static final FS DETECTED;
 
 	static {
 		if (FS_Win32.detect()) {
 			if (FS_Win32_Cygwin.detect())
-				INSTANCE = new FS_Win32_Cygwin();
+				DETECTED = new FS_Win32_Cygwin();
 			else
-				INSTANCE = new FS_Win32();
+				DETECTED = new FS_Win32();
 		} else if (FS_POSIX_Java6.detect())
-			INSTANCE = new FS_POSIX_Java6();
+			DETECTED = new FS_POSIX_Java6();
 		else
-			INSTANCE = new FS_POSIX_Java5();
+			DETECTED = new FS_POSIX_Java5();
 	}
+
+	private File userHome;
 
 	/**
 	 * Does this operating system and JRE support the execute flag on files?
@@ -117,29 +119,7 @@ public abstract class FS {
 	 * @return the translated path. <code>new File(dir,name)</code> if this
 	 *         platform does not require path name translation.
 	 */
-	public static File resolve(final File dir, final String name) {
-		return INSTANCE.resolveImpl(dir, name);
-	}
-
-	/**
-	 * Resolve this file to its actual path name that the JRE can use.
-	 * <p>
-	 * This method can be relatively expensive. Computing a translation may
-	 * require forking an external process per path name translated. Callers
-	 * should try to minimize the number of translations necessary by caching
-	 * the results.
-	 * <p>
-	 * Not all platforms and JREs require path name translation. Currently only
-	 * Cygwin on Win32 require translation for Cygwin based paths.
-	 *
-	 * @param dir
-	 *            directory relative to which the path name is.
-	 * @param name
-	 *            path name to translate.
-	 * @return the translated path. <code>new File(dir,name)</code> if this
-	 *         platform does not require path name translation.
-	 */
-	protected File resolveImpl(final File dir, final String name) {
+	public File resolve(final File dir, final String name) {
 		final File abspn = new File(name);
 		if (abspn.isAbsolute())
 			return abspn;
@@ -157,12 +137,11 @@ public abstract class FS {
 	 *
 	 * @return the user's home directory; null if the user does not have one.
 	 */
-	public static File userHome() {
-		return USER_HOME.home;
-	}
-
-	private static class USER_HOME {
-		static final File home = INSTANCE.userHomeImpl();
+	public File userHome() {
+		if (userHome == null) {
+			userHome = userHomeImpl();
+		}
+		return userHome;
 	}
 
 	/**
