@@ -1,0 +1,22 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAA3///lk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/IndexPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-19T02:00:35Z",
+      "side": 1,
+      "message": "I didn\u0027t want to do that here, because needNewObjectIds() is based on whether or not this field is non-null.  Assigning the new empty collection into newObjectIds would change the behavior of this class.  That violates the \"getter shouldn\u0027t change state\" rule that most programmers assume in Java.\n\nI\u0027m creating a new collection here, because we don\u0027t have a singleton that provides an empty map, because we don\u0027t have a concept of an immutable map.  And I didn\u0027t want to override the mutator methods to create an immutable singleton, because that would cause the JIT to be forced to assume a lot of these mutation methods need to be virtual dispatches rather than static, potentially resulting in slower runtime code.\n\nSo it seemed shorter to just alloc the new empty collection on each request.  They are pretty small, and we only do one call per ReceivePack execution anyway, so the amount of garbage is pretty low.",
+      "parentUuid": "AAAAA3///ls\u003d",
+      "revId": "2bb8defa5447c15a4fcbf23aaace9f11995f3ad0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
