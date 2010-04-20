@@ -85,7 +85,7 @@ public class OpenSshConfig {
 	 * @return a caching reader of the user's configuration file.
 	 */
 	public static OpenSshConfig get() {
-		File home = FS.userHome();
+		File home = FS.DETECTED.userHome();
 		if (home == null)
 			home = new File(".").getAbsoluteFile();
 

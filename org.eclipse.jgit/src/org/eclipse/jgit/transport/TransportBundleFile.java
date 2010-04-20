@@ -63,7 +63,7 @@ class TransportBundleFile extends Transport implements TransportBundle {
 			return false;
 
 		if ("file".equals(uri.getScheme()) || uri.getScheme() == null) {
-			final File f = FS.resolve(new File("."), uri.getPath());
+			final File f = FS.DETECTED.resolve(new File("."), uri.getPath());
 			return f.isFile() || f.getName().endsWith(".bundle");
 		}
 
@@ -74,7 +74,7 @@ class TransportBundleFile extends Transport implements TransportBundle {
 
 	TransportBundleFile(final Repository local, final URIish uri) {
 		super(local, uri);
-		bundle = FS.resolve(new File("."), uri.getPath()).getAbsoluteFile();
+		bundle = FS.DETECTED.resolve(new File("."), uri.getPath()).getAbsoluteFile();
 	}
 
 	@Override

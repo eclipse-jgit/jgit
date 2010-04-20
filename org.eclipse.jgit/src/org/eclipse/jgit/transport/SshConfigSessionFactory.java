@@ -194,7 +194,7 @@ public abstract class SshConfigSessionFactory extends SshSessionFactory {
 	}
 
 	private static void knownHosts(final JSch sch) throws JSchException {
-		final File home = FS.userHome();
+		final File home = FS.DETECTED.userHome();
 		if (home == null)
 			return;
 		final File known_hosts = new File(new File(home, ".ssh"), "known_hosts");
@@ -213,7 +213,7 @@ public abstract class SshConfigSessionFactory extends SshSessionFactory {
 	}
 
 	private static void identities(final JSch sch) {
-		final File home = FS.userHome();
+		final File home = FS.DETECTED.userHome();
 		if (home == null)
 			return;
 		final File sshdir = new File(home, ".ssh");
