@@ -82,10 +82,13 @@ public class OpenSshConfig {
 	 * requests are cached and are automatically updated if the user modifies
 	 * the configuration file since the last time it was cached.
 	 *
+	 * @param fs
+	 *            the file system abstraction which will be necessary to
+	 *            perform certain file system operations.
 	 * @return a caching reader of the user's configuration file.
 	 */
-	public static OpenSshConfig get() {
-		File home = FS.userHome();
+	public static OpenSshConfig get(FS fs) {
+		File home = fs.userHome();
 		if (home == null)
 			home = new File(".").getAbsoluteFile();
 

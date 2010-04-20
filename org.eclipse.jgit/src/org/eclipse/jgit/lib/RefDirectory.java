@@ -149,12 +149,13 @@ public class RefDirectory extends RefDatabase {
 	private final AtomicInteger lastNotifiedModCnt = new AtomicInteger();
 
 	RefDirectory(final Repository db) {
+		final FS fs = db.getFS();
 		parent = db;
 		gitDir = db.getDirectory();
-		refsDir = FS.resolve(gitDir, R_REFS);
-		logsDir = FS.resolve(gitDir, LOGS);
-		logsRefsDir = FS.resolve(gitDir, LOGS + '/' + R_REFS);
-		packedRefsFile = FS.resolve(gitDir, PACKED_REFS);
+		refsDir = fs.resolve(gitDir, R_REFS);
+		logsDir = fs.resolve(gitDir, LOGS);
+		logsRefsDir = fs.resolve(gitDir, LOGS + '/' + R_REFS);
+		packedRefsFile = fs.resolve(gitDir, PACKED_REFS);
 
 		looseRefs.set(RefList.<LooseRef> emptyList());
 		packedRefs.set(PackedRefList.NO_PACKED_REFS);
