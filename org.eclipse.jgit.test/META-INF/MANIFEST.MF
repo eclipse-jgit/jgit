@@ -26,4 +26,5 @@ Import-Package: junit.framework;version="[3.8.2,4.0.0)",
  org.eclipse.jgit.treewalk.filter;version="[0.8.0,0.9.0)",
  org.eclipse.jgit.util;version="[0.8.0,0.9.0)",
  org.eclipse.jgit.util.io;version="[0.8.0,0.9.0)"
+ org.eclipse.jgit.api;version="[0.8.0,0.9.0)"
 Require-Bundle: com.jcraft.jsch;bundle-version="[0.1.37,0.2.0)"
