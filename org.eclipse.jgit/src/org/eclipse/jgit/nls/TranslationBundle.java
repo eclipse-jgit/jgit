@@ -99,7 +99,7 @@ import org.eclipse.jgit.errors.TranslationStringMissingException;
  * {@link ResourceBundle#getBundle(String, Locale)} method to load a resource
  * bundle. See the documentation of this method for a detailed explanation of
  * resource bundle loading strategy. After a bundle is created the
- * {@link #getEffectiveLocale()} method can be used to determine whether the
+ * {@link #effectiveLocale()} method can be used to determine whether the
  * bundle really corresponds to the requested locale or is a fallback.
  *
  * <p>
@@ -122,13 +122,21 @@ import org.eclipse.jgit.errors.TranslationStringMissingException;
 public abstract class TranslationBundle {
 
 	private Locale effectiveLocale;
+	private ResourceBundle resourceBundle;
 
 	/**
 	 * @return the locale locale used for loading the resource bundle from which
 	 *         the field values were taken
 	 */
-	public Locale getEffectiveLocale() {
+	public Locale effectiveLocale() {
 		return effectiveLocale;
+	}
+
+	/**
+	 * @return the resource bundle on which this translation bundle is based
+	 */
+	public ResourceBundle resourceBundle() {
+		return resourceBundle;
 	}
 
 	/**
@@ -150,18 +158,17 @@ public abstract class TranslationBundle {
 	 */
 	void load(Locale locale) throws TranslationBundleLoadingException {
 		Class bundleClass = getClass();
-		ResourceBundle bundle;
 		try {
-			bundle = ResourceBundle.getBundle(bundleClass.getName(), locale);
+			resourceBundle = ResourceBundle.getBundle(bundleClass.getName(), locale);
 		} catch (MissingResourceException e) {
 			throw new TranslationBundleLoadingException(bundleClass, locale, e);
 		}
-		this.effectiveLocale = bundle.getLocale();
+		this.effectiveLocale = resourceBundle.getLocale();
 
 		for (Field field : bundleClass.getFields()) {
 			if (field.getType().equals(String.class)) {
 				try {
-					String translatedText = bundle.getString(field.getName());
+					String translatedText = resourceBundle.getString(field.getName());
 					field.set(this, translatedText);
 				} catch (MissingResourceException e) {
 					throw new TranslationStringMissingException(bundleClass, locale, field.getName(), e);

@@ -49,7 +49,9 @@ import static org.eclipse.jgit.util.RawParseUtils.parseBase10;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.text.MessageFormat;
 
+import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.diff.Edit;
 import org.eclipse.jgit.diff.EditList;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
@@ -278,21 +280,21 @@ public class HunkHeader {
 
 		if (nContext + old.nDeleted < old.lineCount) {
 			final int missingCount = old.lineCount - (nContext + old.nDeleted);
-			script.error(buf, startOffset, "Truncated hunk, at least "
-					+ missingCount + " old lines is missing");
+			script.error(buf, startOffset, MessageFormat.format(
+					JGitText.get().truncatedHunkOldLinesMissing, missingCount));
 
 		} else if (nContext + old.nAdded < newLineCount) {
 			final int missingCount = newLineCount - (nContext + old.nAdded);
-			script.error(buf, startOffset, "Truncated hunk, at least "
-					+ missingCount + " new lines is missing");
+			script.error(buf, startOffset, MessageFormat.format(
+					JGitText.get().truncatedHunkNewLinesMissing, missingCount));
 
 		} else if (nContext + old.nDeleted > old.lineCount
 				|| nContext + old.nAdded > newLineCount) {
 			final String oldcnt = old.lineCount + ":" + newLineCount;
 			final String newcnt = (nContext + old.nDeleted) + ":"
 					+ (nContext + old.nAdded);
-			script.warn(buf, startOffset, "Hunk header " + oldcnt
-					+ " does not match body line count of " + newcnt);
+			script.warn(buf, startOffset, MessageFormat.format(
+					JGitText.get().hunkHeader, oldcnt, newcnt));
 		}
 
 		return c;

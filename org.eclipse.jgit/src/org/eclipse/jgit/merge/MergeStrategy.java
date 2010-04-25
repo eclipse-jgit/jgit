@@ -44,8 +44,10 @@
 
 package org.eclipse.jgit.merge;
 
+import java.text.MessageFormat;
 import java.util.HashMap;
 
+import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.lib.Repository;
 
 /**
@@ -97,8 +99,7 @@ public abstract class MergeStrategy {
 	public static synchronized void register(final String name,
 			final MergeStrategy imp) {
 		if (STRATEGIES.containsKey(name))
-			throw new IllegalArgumentException("Merge strategy \"" + name
-					+ "\" already exists as a default strategy");
+			throw new IllegalArgumentException(MessageFormat.format(JGitText.get().mergeStrategyAlreadyExistsAsDefault, name));
 		STRATEGIES.put(name, imp);
 	}
 

@@ -90,6 +90,9 @@
           <include>plugin.properties</include>
         </includes>
       </resource>
+      <resource>
+        <directory>resources/</directory>
+      </resource>
     </resources>
 
     <plugins>

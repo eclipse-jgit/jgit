@@ -43,6 +43,10 @@
 
 package org.eclipse.jgit.revwalk;
 
+import java.text.MessageFormat;
+
+import org.eclipse.jgit.JGitText;
+
 /**
  * Application level mark bit for {@link RevObject}s.
  * <p>
@@ -94,8 +98,8 @@ public class RevFlag {
 
 		@Override
 		public RevWalk getRevWalk() {
-			throw new UnsupportedOperationException(toString()
-					+ " is a static flag and has no RevWalk instance");
+			throw new UnsupportedOperationException(MessageFormat.format(
+					JGitText.get().isAStaticFlagAndHasNorevWalkInstance, toString()));
 		}
 	}
 }

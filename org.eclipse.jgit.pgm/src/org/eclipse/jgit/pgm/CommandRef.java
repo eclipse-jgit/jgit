@@ -45,6 +45,7 @@ package org.eclipse.jgit.pgm;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.text.MessageFormat;
 
 /**
  * Description of a command (a {@link TextBuiltin} subclass.
@@ -140,9 +141,9 @@ public class CommandRef {
 		try {
 			c = impl.getDeclaredConstructor();
 		} catch (SecurityException e) {
-			throw new RuntimeException("Cannot create command " + getName(), e);
+			throw new RuntimeException(MessageFormat.format(CLIText.get().cannotCreateCommand, getName(), e));
 		} catch (NoSuchMethodException e) {
-			throw new RuntimeException("Cannot create command " + getName(), e);
+			throw new RuntimeException(MessageFormat.format(CLIText.get().cannotCreateCommand, getName(), e));
 		}
 		c.setAccessible(true);
 
@@ -150,13 +151,13 @@ public class CommandRef {
 		try {
 			r = c.newInstance();
 		} catch (InstantiationException e) {
-			throw new RuntimeException("Cannot create command " + getName(), e);
+			throw new RuntimeException(MessageFormat.format(CLIText.get().cannotCreateCommand, getName(), e));
 		} catch (IllegalAccessException e) {
-			throw new RuntimeException("Cannot create command " + getName(), e);
+			throw new RuntimeException(MessageFormat.format(CLIText.get().cannotCreateCommand, getName(), e));
 		} catch (IllegalArgumentException e) {
-			throw new RuntimeException("Cannot create command " + getName(), e);
+			throw new RuntimeException(MessageFormat.format(CLIText.get().cannotCreateCommand, getName(), e));
 		} catch (InvocationTargetException e) {
-			throw new RuntimeException("Cannot create command " + getName(), e);
+			throw new RuntimeException(MessageFormat.format(CLIText.get().cannotCreateCommand, getName(), e));
 		}
 		r.setCommandName(getName());
 		return r;

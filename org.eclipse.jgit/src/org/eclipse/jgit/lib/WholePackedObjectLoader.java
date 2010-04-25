@@ -46,8 +46,10 @@
 package org.eclipse.jgit.lib;
 
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.zip.DataFormatException;
 
+import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.CorruptObjectException;
 
 /** Reader for a non-delta (just deflated) object in a pack file. */
@@ -83,8 +85,8 @@ class WholePackedObjectLoader extends PackedObjectLoader {
 				pack.saveCache(dataOffset, cachedBytes, objectType);
 		} catch (DataFormatException dfe) {
 			final CorruptObjectException coe;
-			coe = new CorruptObjectException("Object at " + dataOffset + " in "
-					+ pack.getPackFile() + " has bad zlib stream");
+			coe = new CorruptObjectException(MessageFormat.format(JGitText.get().objectAtHasBadZlibStream
+					, dataOffset, pack.getPackFile()));
 			coe.initCause(dfe);
 			throw coe;
 		}

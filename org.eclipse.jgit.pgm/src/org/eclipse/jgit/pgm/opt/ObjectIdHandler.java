@@ -45,6 +45,7 @@
 package org.eclipse.jgit.pgm.opt;
 
 import java.io.IOException;
+import java.text.MessageFormat;
 
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
@@ -53,6 +54,7 @@ import org.kohsuke.args4j.spi.OptionHandler;
 import org.kohsuke.args4j.spi.Parameters;
 import org.kohsuke.args4j.spi.Setter;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.pgm.CLIText;
 
 /**
  * Custom argument handler {@link ObjectId} from string values.
@@ -91,11 +93,11 @@ public class ObjectIdHandler extends OptionHandler<ObjectId> {
 			return 1;
 		}
 
-		throw new CmdLineException(name + " is not an object");
+		throw new CmdLineException(MessageFormat.format(CLIText.get().notAnObject, name));
 	}
 
 	@Override
 	public String getDefaultMetaVariable() {
-		return "object";
+		return CLIText.get().metaVar_object;
 	}
 }

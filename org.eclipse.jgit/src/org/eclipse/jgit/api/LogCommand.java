@@ -43,7 +43,9 @@
 package org.eclipse.jgit.api;
 
 import java.io.IOException;
+import java.text.MessageFormat;
 
+import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.AnyObjectId;
@@ -97,13 +99,13 @@ public class LogCommand extends GitCommand<Iterable<RevCommit>> {
 				ObjectId headId = repo.resolve(Constants.HEAD);
 				if (headId == null)
 					throw new NoHeadException(
-							"No HEAD exists and no explicit starting revision was specified");
+							JGitText.get().noHEADExistsAndNoExplicitStartingRevisionWasSpecified);
 				add(headId);
 			} catch (IOException e) {
 				// all exceptions thrown by add() shouldn't occur and represent
 				// severe low-level exception which are therefore wrapped
 				throw new JGitInternalException(
-						"An exception occured while trying to add the Id of HEAD",
+						JGitText.get().anExceptionOccurredWhileTryingToAddTheIdOfHEAD,
 						e);
 			}
 		}
@@ -214,9 +216,9 @@ public class LogCommand extends GitCommand<Iterable<RevCommit>> {
 		} catch (IncorrectObjectTypeException e) {
 			throw e;
 		} catch (IOException e) {
-			throw new JGitInternalException(
-					"Exception occured during adding of " + start
-							+ " as option to a Log command", e);
+			throw new JGitInternalException(MessageFormat.format(
+					JGitText.get().exceptionOccuredDuringAddingOfOptionToALogCommand
+					, start), e);
 		}
 	}
 }

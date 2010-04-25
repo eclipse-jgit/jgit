@@ -47,6 +47,7 @@ package org.eclipse.jgit.lib;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.transport.PackedObjectInfo;
 import org.eclipse.jgit.util.NB;
 
@@ -73,7 +74,7 @@ class PackIndexWriterV1 extends PackIndexWriter {
 
 		for (final PackedObjectInfo oe : entries) {
 			if (!canStore(oe))
-				throw new IOException("Pack too large for index version 1");
+				throw new IOException(JGitText.get().packTooLargeForIndexVersion1);
 			NB.encodeInt32(tmp, 0, (int) oe.getOffset());
 			oe.copyRawTo(tmp, 4);
 			out.write(tmp);

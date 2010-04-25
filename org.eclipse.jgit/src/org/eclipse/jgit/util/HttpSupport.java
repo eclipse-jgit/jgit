@@ -53,6 +53,9 @@ import java.net.ProxySelector;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.text.MessageFormat;
+
+import org.eclipse.jgit.JGitText;
 
 /** Extra utilities to support usage of HTTP. */
 public class HttpSupport {
@@ -133,7 +136,7 @@ public class HttpSupport {
 		try {
 			urlstr.append(URLEncoder.encode(key, "UTF-8"));
 		} catch (UnsupportedEncodingException e) {
-			throw new RuntimeException("Could not URL encode to UTF-8", e);
+			throw new RuntimeException(JGitText.get().couldNotURLEncodeToUTF8, e);
 		}
 	}
 
@@ -158,7 +161,7 @@ public class HttpSupport {
 			// The standard J2SE error message is not very useful.
 			//
 			if ("Connection timed out: connect".equals(ce.getMessage()))
-				throw new ConnectException("Connection time out: " + host);
+				throw new ConnectException(MessageFormat.format(JGitText.get().connectionTimeOut, host));
 			throw new ConnectException(ce.getMessage() + " " + host);
 		}
 	}
@@ -181,7 +184,7 @@ public class HttpSupport {
 			return proxySelector.select(u.toURI()).get(0);
 		} catch (URISyntaxException e) {
 			final ConnectException err;
-			err = new ConnectException("Cannot determine proxy for " + u);
+			err = new ConnectException(MessageFormat.format(JGitText.get().cannotDetermineProxyFor, u));
 			err.initCause(e);
 			throw err;
 		}

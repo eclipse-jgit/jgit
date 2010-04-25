@@ -52,13 +52,13 @@ import org.kohsuke.args4j.Option;
 import org.eclipse.jgit.lib.TextProgressMonitor;
 
 class IndexPack extends TextBuiltin {
-	@Option(name = "--fix-thin", usage = "fix a thin pack to be complete")
+	@Option(name = "--fix-thin", usage = "usage_fixAThinPackToBeComplete")
 	private boolean fixThin;
 
-	@Option(name = "--index-version", usage = "index file format to create")
+	@Option(name = "--index-version", usage = "usage_indexFileFormatToCreate")
 	private int indexVersion = -1;
 
-	@Argument(index = 0, required = true, metaVar = "base")
+	@Argument(index = 0, required = true, metaVar = "metaVar_base")
 	private File base;
 
 	@Override

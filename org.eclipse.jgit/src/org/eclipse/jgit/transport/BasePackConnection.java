@@ -50,10 +50,12 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.MessageFormat;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Set;
 
+import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.NoRemoteRepositoryException;
 import org.eclipse.jgit.errors.PackProtocolException;
 import org.eclipse.jgit.errors.RemoteRepositoryException;
@@ -230,8 +232,8 @@ abstract class BasePackConnection extends BaseConnection {
 				name = name.substring(0, name.length() - 3);
 				final Ref prior = avail.get(name);
 				if (prior == null)
-					throw new PackProtocolException(uri, "advertisement of "
-							+ name + "^{} came before " + name);
+					throw new PackProtocolException(uri, MessageFormat.format(
+							JGitText.get().advertisementCameBefore, name, name));
 
 				if (prior.getPeeledObjectId() != null)
 					throw duplicateAdvertisement(name + "^{}");
@@ -258,7 +260,7 @@ abstract class BasePackConnection extends BaseConnection {
 	 *         possibly why.
 	 */
 	protected TransportException noRepository() {
-		return new NoRemoteRepositoryException(uri, "not found.");
+		return new NoRemoteRepositoryException(uri, JGitText.get().notFound);
 	}
 
 	protected boolean isCapableOf(final String option) {
@@ -274,8 +276,7 @@ abstract class BasePackConnection extends BaseConnection {
 	}
 
 	private PackProtocolException duplicateAdvertisement(final String name) {
-		return new PackProtocolException(uri, "duplicate advertisements of "
-				+ name);
+		return new PackProtocolException(uri, MessageFormat.format(JGitText.get().duplicateAdvertisementsOf, name));
 	}
 
 	@Override

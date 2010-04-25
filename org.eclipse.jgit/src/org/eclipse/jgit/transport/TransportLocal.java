@@ -56,6 +56,7 @@ import java.io.OutputStream;
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
 
+import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.NotSupportedException;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.lib.Constants;
@@ -175,7 +176,7 @@ class TransportLocal extends Transport implements PackTransport {
 			try {
 				dst = new Repository(remoteGitDir);
 			} catch (IOException err) {
-				throw new TransportException(uri, "not a git directory");
+				throw new TransportException(uri, JGitText.get().notAGitDirectory);
 			}
 
 			final PipedInputStream in_r;
@@ -199,7 +200,7 @@ class TransportLocal extends Transport implements PackTransport {
 				out_w = new PipedOutputStream(out_r);
 			} catch (IOException err) {
 				dst.close();
-				throw new TransportException(uri, "cannot connect pipes", err);
+				throw new TransportException(uri, JGitText.get().cannotConnectPipes, err);
 			}
 
 			worker = new Thread("JGit-Upload-Pack") {
@@ -315,7 +316,7 @@ class TransportLocal extends Transport implements PackTransport {
 			try {
 				dst = new Repository(remoteGitDir);
 			} catch (IOException err) {
-				throw new TransportException(uri, "not a git directory");
+				throw new TransportException(uri, JGitText.get().notAGitDirectory);
 			}
 
 			final PipedInputStream in_r;
@@ -331,7 +332,7 @@ class TransportLocal extends Transport implements PackTransport {
 				out_w = new PipedOutputStream(out_r);
 			} catch (IOException err) {
 				dst.close();
-				throw new TransportException(uri, "cannot connect pipes", err);
+				throw new TransportException(uri, JGitText.get().cannotConnectPipes, err);
 			}
 
 			worker = new Thread("JGit-Receive-Pack") {

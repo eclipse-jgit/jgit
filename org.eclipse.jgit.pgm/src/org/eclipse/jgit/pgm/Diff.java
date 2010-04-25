@@ -64,17 +64,17 @@ import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.AndTreeFilter;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
 
-@Command(common = true, usage = "Show diffs")
+@Command(common = true, usage = "usage_ShowDiffs")
 class Diff extends TextBuiltin {
-	@Argument(index = 0, metaVar = "tree-ish", required = true)
+	@Argument(index = 0, metaVar = "metaVar_treeish", required = true)
 	void tree_0(final AbstractTreeIterator c) {
 		trees.add(c);
 	}
 
-	@Argument(index = 1, metaVar = "tree-ish", required = true)
+	@Argument(index = 1, metaVar = "metaVar_treeish", required = true)
 	private final List<AbstractTreeIterator> trees = new ArrayList<AbstractTreeIterator>();
 
-	@Option(name = "--", metaVar = "path", multiValued = true, handler = PathTreeFilterHandler.class)
+	@Option(name = "--", metaVar = "metaVar_port", multiValued = true, handler = PathTreeFilterHandler.class)
 	private TreeFilter pathFilter = TreeFilter.ALL;
 
 	private DiffFormatter fmt = new DiffFormatter();

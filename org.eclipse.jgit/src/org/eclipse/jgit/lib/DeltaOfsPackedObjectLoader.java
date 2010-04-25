@@ -48,6 +48,7 @@ package org.eclipse.jgit.lib;
 
 import java.io.IOException;
 
+import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.CorruptObjectException;
 
 /** Reads a deltified object which uses an offset to find its base. */
@@ -76,7 +77,7 @@ class DeltaOfsPackedObjectLoader extends DeltaPackedObjectLoader {
 		final ObjectId id = pack.findObjectForOffset(deltaBase);
 		if (id == null)
 			throw new CorruptObjectException(
-					"Offset-written delta base for object not found in a pack");
+					JGitText.get().offsetWrittenDeltaBaseForObjectNotFoundInAPack);
 		return id;
 	}
 }

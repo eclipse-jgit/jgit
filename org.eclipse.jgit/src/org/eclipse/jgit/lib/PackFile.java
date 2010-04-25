@@ -52,6 +52,7 @@ import java.io.OutputStream;
 import java.io.RandomAccessFile;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel.MapMode;
+import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
@@ -60,6 +61,7 @@ import java.util.zip.CRC32;
 import java.util.zip.CheckedOutputStream;
 import java.util.zip.DataFormatException;
 
+import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.PackInvalidException;
 import org.eclipse.jgit.errors.PackMismatchException;
@@ -135,7 +137,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 				if (packChecksum == null)
 					packChecksum = idx.packChecksum;
 				else if (!Arrays.equals(packChecksum, idx.packChecksum))
-					throw new PackMismatchException("Pack checksum mismatch");
+					throw new PackMismatchException(JGitText.get().packChecksumMismatch);
 
 				loadedIdx = idx;
 			} catch (IOException e) {
@@ -261,7 +263,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 			final WindowCursor curs) throws DataFormatException, IOException {
 		final byte[] dstbuf = new byte[totalSize];
 		if (curs.inflate(this, position, dstbuf, 0) != totalSize)
-			throw new EOFException("Short compressed stream at " + position);
+			throw new EOFException(MessageFormat.format(JGitText.get().shortCompressedStreamAt, position));
 		return dstbuf;
 	}
 
@@ -289,15 +291,15 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 			final ObjectId id = findObjectForOffset(objectOffset);
 			final long expected = idx.findCRC32(id);
 			if (computed != expected)
-				throw new CorruptObjectException("Object at " + dataOffset
-						+ " in " + getPackFile() + " has bad zlib stream");
+				throw new CorruptObjectException(MessageFormat.format(
+						JGitText.get().objectAtHasBadZlibStream, dataOffset, getPackFile()));
 		} else {
 			try {
 				curs.inflateVerify(this, dataOffset);
 			} catch (DataFormatException dfe) {
 				final CorruptObjectException coe;
-				coe = new CorruptObjectException("Object at " + dataOffset
-						+ " in " + getPackFile() + " has bad zlib stream");
+				coe = new CorruptObjectException(MessageFormat.format(
+						JGitText.get().objectAtHasBadZlibStream, dataOffset, getPackFile()));
 				coe.initCause(dfe);
 				throw coe;
 			}
@@ -433,24 +435,23 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 
 		IO.readFully(fd.getChannel(), 0, buf, 0, 12);
 		if (RawParseUtils.match(buf, 0, Constants.PACK_SIGNATURE) != 4)
-			throw new IOException("Not a PACK file.");
+			throw new IOException(JGitText.get().notAPACKFile);
 		final long vers = NB.decodeUInt32(buf, 4);
 		final long packCnt = NB.decodeUInt32(buf, 8);
 		if (vers != 2 && vers != 3)
-			throw new IOException("Unsupported pack version " + vers + ".");
+			throw new IOException(MessageFormat.format(JGitText.get().unsupportedPackVersion, vers));
 
 		if (packCnt != idx.getObjectCount())
-			throw new PackMismatchException("Pack object count mismatch:"
-					+ " pack " + packCnt
-					+ " index " + idx.getObjectCount()
-					+ ": " + getPackFile());
+			throw new PackMismatchException(MessageFormat.format(
+					JGitText.get().packObjectCountMismatch, packCnt, idx.getObjectCount(), getPackFile()));
 
 		IO.readFully(fd.getChannel(), length - 20, buf, 0, 20);
 		if (!Arrays.equals(buf, packChecksum))
-			throw new PackMismatchException("Pack checksum mismatch:"
-					+ " pack " + ObjectId.fromRaw(buf).name()
-					+ " index " + ObjectId.fromRaw(idx.packChecksum).name()
-					+ ": " + getPackFile());
+			throw new PackMismatchException(MessageFormat.format(
+					JGitText.get().packObjectCountMismatch
+					, ObjectId.fromRaw(buf).name()
+					, ObjectId.fromRaw(idx.packChecksum).name()
+					, getPackFile()));
 	}
 
 	private PackedObjectLoader reader(final WindowCursor curs,
@@ -498,7 +499,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 					objOffset, (int) dataSize, ObjectId.fromRaw(ib));
 		}
 		default:
-			throw new IOException("Unknown object type " + typeCode + ".");
+			throw new IOException(MessageFormat.format(JGitText.get().unknownObjectType, typeCode));
 		}
 	}
 

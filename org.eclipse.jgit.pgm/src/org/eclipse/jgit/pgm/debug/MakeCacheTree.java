@@ -46,6 +46,7 @@ package org.eclipse.jgit.pgm.debug;
 
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheTree;
+import org.eclipse.jgit.pgm.CLIText;
 import org.eclipse.jgit.pgm.TextBuiltin;
 
 class MakeCacheTree extends TextBuiltin {
@@ -62,10 +63,12 @@ class MakeCacheTree extends TextBuiltin {
 		out.print("\"");
 		out.print(":  ");
 		out.print(tree.getEntrySpan());
-		out.print(" entries");
+		out.print(" ");
+		out.print(CLIText.get().entriesLabel);
 		out.print(", ");
 		out.print(tree.getChildCount());
-		out.print(" children");
+		out.print(" ");
+		out.print(CLIText.get().childrenLabel);
 		out.println();
 
 		for (int i = 0; i < tree.getChildCount(); i++)

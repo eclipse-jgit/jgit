@@ -50,6 +50,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URLConnection;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -57,6 +58,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.TreeMap;
 
+import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.NotSupportedException;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.lib.Constants;
@@ -133,7 +135,7 @@ public class TransportAmazonS3 extends HttpTransport implements WalkTransport {
 			try {
 				props = AmazonS3.properties(propsFile);
 			} catch (IOException e) {
-				throw new NotSupportedException("cannot read " + propsFile, e);
+				throw new NotSupportedException(MessageFormat.format(JGitText.get().cannotReadFile, propsFile), e);
 			}
 		} else {
 			props = new Properties();
@@ -277,7 +279,7 @@ public class TransportAmazonS3 extends HttpTransport implements WalkTransport {
 						+ "refs")))
 					readRef(avail, "refs/" + n);
 			} catch (IOException e) {
-				throw new TransportException(getURI(), "cannot list refs", e);
+				throw new TransportException(getURI(), JGitText.get().cannotListRefs, e);
 			}
 		}
 
@@ -295,11 +297,12 @@ public class TransportAmazonS3 extends HttpTransport implements WalkTransport {
 			} catch (FileNotFoundException noRef) {
 				return null;
 			} catch (IOException err) {
-				throw new TransportException(getURI(), "read " + ref, err);
+				throw new TransportException(getURI(), MessageFormat.format(
+						JGitText.get().transportExceptionReadRef, ref), err);
 			}
 
 			if (s == null)
-				throw new TransportException(getURI(), "Empty ref: " + rn);
+				throw new TransportException(getURI(), MessageFormat.format(JGitText.get().transportExceptionEmptyRef, rn));
 
 			if (s.startsWith("ref: ")) {
 				final String target = s.substring("ref: ".length());
@@ -320,7 +323,7 @@ public class TransportAmazonS3 extends HttpTransport implements WalkTransport {
 				return r;
 			}
 
-			throw new TransportException(getURI(), "Bad ref: " + rn + ": " + s);
+			throw new TransportException(getURI(), MessageFormat.format(JGitText.get().transportExceptionBadRef, rn, s));
 		}
 
 		private Storage loose(final Ref r) {

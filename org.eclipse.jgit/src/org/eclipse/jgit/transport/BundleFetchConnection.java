@@ -50,6 +50,7 @@ package org.eclipse.jgit.transport;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -59,6 +60,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.MissingBundlePrerequisiteException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.PackProtocolException;
@@ -101,7 +103,7 @@ class BundleFetchConnection extends BaseFetchConnection {
 				readBundleV2();
 				break;
 			default:
-				throw new TransportException(transport.uri, "not a bundle");
+				throw new TransportException(transport.uri, JGitText.get().notABundle);
 			}
 		} catch (TransportException err) {
 			close();
@@ -119,7 +121,7 @@ class BundleFetchConnection extends BaseFetchConnection {
 		final String rev = readLine(new byte[1024]);
 		if (TransportBundle.V2_BUNDLE_SIGNATURE.equals(rev))
 			return 2;
-		throw new TransportException(transport.uri, "not a bundle");
+		throw new TransportException(transport.uri, JGitText.get().notABundle);
 	}
 
 	private void readBundleV2() throws IOException {
@@ -151,7 +153,7 @@ class BundleFetchConnection extends BaseFetchConnection {
 
 	private PackProtocolException duplicateAdvertisement(final String name) {
 		return new PackProtocolException(transport.uri,
-				"duplicate advertisements of " + name);
+				MessageFormat.format(JGitText.get().duplicateAdvertisementsOf, name));
 	}
 
 	private String readLine(final byte[] hdrbuf) throws IOException {
@@ -227,8 +229,8 @@ class BundleFetchConnection extends BaseFetchConnection {
 			} catch (MissingObjectException notFound) {
 				missing.put(p, e.getValue());
 			} catch (IOException err) {
-				throw new TransportException(transport.uri, "Cannot read commit "
-						+ p.name(), err);
+				throw new TransportException(transport.uri
+						, MessageFormat.format(JGitText.get().cannotReadCommit, p.name()), err);
 			}
 		}
 		if (!missing.isEmpty())
@@ -253,7 +255,7 @@ class BundleFetchConnection extends BaseFetchConnection {
 				}
 			}
 		} catch (IOException err) {
-			throw new TransportException(transport.uri, "Cannot read object", err);
+			throw new TransportException(transport.uri, JGitText.get().cannotReadObject, err);
 		}
 
 		if (remaining > 0) {

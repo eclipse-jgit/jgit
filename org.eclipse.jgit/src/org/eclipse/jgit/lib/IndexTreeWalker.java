@@ -48,6 +48,7 @@ package org.eclipse.jgit.lib;
 import java.io.File;
 import java.io.IOException;
 
+import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.lib.GitIndex.Entry;
 
 /**
@@ -143,8 +144,8 @@ public class IndexTreeWalker {
 	private void visitEntry(TreeEntry t1, TreeEntry t2,
 			Entry i) throws IOException {
 
-		assert t1 != null || t2 != null || i != null : "Needs at least one entry";
-		assert root != null : "Needs workdir";
+		assert t1 != null || t2 != null || i != null : JGitText.get().needsAtLeastOneEntry;
+		assert root != null : JGitText.get().needsWorkdir;
 
 		if (t1 != null && t1.getParent() == null)
 			t1 = null;
@@ -169,8 +170,8 @@ public class IndexTreeWalker {
 	private void finishVisitTree(TreeEntry t1, TreeEntry t2, int curIndexPos)
 			throws IOException {
 
-		assert t1 != null || t2 != null : "Needs at least one entry";
-		assert root != null : "Needs workdir";
+		assert t1 != null || t2 != null : JGitText.get().needsAtLeastOneEntry;
+		assert root != null : JGitText.get().needsWorkdir;
 
 		if (t1 != null && t1.getParent() == null)
 			t1 = null;

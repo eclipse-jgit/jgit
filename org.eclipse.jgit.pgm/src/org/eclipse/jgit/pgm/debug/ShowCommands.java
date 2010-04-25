@@ -46,14 +46,15 @@ package org.eclipse.jgit.pgm.debug;
 import java.net.URL;
 
 import org.kohsuke.args4j.Option;
+import org.eclipse.jgit.pgm.CLIText;
 import org.eclipse.jgit.pgm.Command;
 import org.eclipse.jgit.pgm.CommandCatalog;
 import org.eclipse.jgit.pgm.CommandRef;
 import org.eclipse.jgit.pgm.TextBuiltin;
 
-@Command(usage = "Display a list of all registered jgit commands")
+@Command(usage = "usage_displayAListOfAllRegisteredJgitCommands")
 class ShowCommands extends TextBuiltin {
-	@Option(name = "--pretty", usage = "alter the detail shown")
+	@Option(name = "--pretty", usage = "usage_alterTheDetailShown")
 	private Format pretty = Format.USAGE;
 
 	@Override
@@ -83,7 +84,9 @@ class ShowCommands extends TextBuiltin {
 		/** */
 		USAGE {
 			void print(final CommandRef c) {
-				System.err.print(c.getUsage());
+				String usage = c.getUsage();
+				if (usage != null && usage.length() > 0)
+					System.err.print(CLIText.get().resourceBundle().getString(usage));
 			}
 		},
 
@@ -104,7 +107,7 @@ class ShowCommands extends TextBuiltin {
 
 				final URL url = ldr.getResource(cn);
 				if (url == null) {
-					System.err.print("!! NOT FOUND !!");
+					System.err.print(CLIText.get().notFound);
 					return;
 				}
 

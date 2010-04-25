@@ -45,9 +45,11 @@
 package org.eclipse.jgit.pgm;
 
 import java.io.File;
+import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -70,19 +72,19 @@ import org.kohsuke.args4j.Option;
 
 /** Command line entry point. */
 public class Main {
-	@Option(name = "--help", usage = "display this help text", aliases = { "-h" })
+	@Option(name = "--help", usage = "usage_displayThisHelpText", aliases = { "-h" })
 	private boolean help;
 
-	@Option(name = "--show-stack-trace", usage = "display the Java stack trace on exceptions")
+	@Option(name = "--show-stack-trace", usage = "usage_displayThejavaStackTraceOnExceptions")
 	private boolean showStackTrace;
 
-	@Option(name = "--git-dir", metaVar = "GIT_DIR", usage = "set the git repository to operate on")
+	@Option(name = "--git-dir", metaVar = "metaVar_gitDir", usage = "usage_setTheGitRepositoryToOperateOn")
 	private File gitdir;
 
-	@Argument(index = 0, metaVar = "command", required = true, handler = SubcommandHandler.class)
+	@Argument(index = 0, metaVar = "metaVar_command", required = true, handler = SubcommandHandler.class)
 	private TextBuiltin subcommand;
 
-	@Argument(index = 1, metaVar = "ARG")
+	@Argument(index = 1, metaVar = "metaVar_arg")
 	private List<String> arguments = new ArrayList<String>();
 
 	/**
@@ -101,17 +103,17 @@ public class Main {
 			configureHttpProxy();
 			me.execute(argv);
 		} catch (Die err) {
-			System.err.println("fatal: " + err.getMessage());
+			System.err.println(MessageFormat.format(CLIText.get().fatalError, err.getMessage()));
 			if (me.showStackTrace)
 				err.printStackTrace();
 			System.exit(128);
 		} catch (Exception err) {
 			if (!me.showStackTrace && err.getCause() != null
 					&& err instanceof TransportException)
-				System.err.println("fatal: " + err.getCause().getMessage());
+				System.err.println(MessageFormat.format(CLIText.get().fatalError, err.getCause().getMessage()));
 
 			if (err.getClass().getName().startsWith("org.eclipse.jgit.errors.")) {
-				System.err.println("fatal: " + err.getMessage());
+				System.err.println(MessageFormat.format(CLIText.get().fatalError, err.getMessage()));
 				if (me.showStackTrace)
 					err.printStackTrace();
 				System.exit(128);
@@ -123,25 +125,27 @@ public class Main {
 
 	private void execute(final String[] argv) throws Exception {
 		final CmdLineParser clp = new CmdLineParser(this);
+		PrintWriter writer = new PrintWriter(System.err);
 		try {
 			clp.parseArgument(argv);
 		} catch (CmdLineException err) {
 			if (argv.length > 0 && !help) {
-				System.err.println("fatal: " + err.getMessage());
+				writer.println(MessageFormat.format(CLIText.get().fatalError, err.getMessage()));
+				writer.flush();
 				System.exit(1);
 			}
 		}
 
 		if (argv.length == 0 || help) {
-			final String ex = clp.printExample(ExampleMode.ALL);
-			System.err.println("jgit" + ex + " command [ARG ...]");
+			final String ex = clp.printExample(ExampleMode.ALL, CLIText.get().resourceBundle());
+			writer.println("jgit" + ex + " command [ARG ...]");
 			if (help) {
-				System.err.println();
-				clp.printUsage(System.err);
-				System.err.println();
+				writer.println();
+				clp.printUsage(writer, CLIText.get().resourceBundle());
+				writer.println();
 			} else if (subcommand == null) {
-				System.err.println();
-				System.err.println("The most commonly used commands are:");
+				writer.println();
+				writer.println(CLIText.get().mostCommonlyUsedCommandsAre);
 				final CommandRef[] common = CommandCatalog.common();
 				int width = 0;
 				for (final CommandRef c : common)
@@ -149,15 +153,16 @@ public class Main {
 				width += 2;
 
 				for (final CommandRef c : common) {
-					System.err.print(' ');
-					System.err.print(c.getName());
+					writer.print(' ');
+					writer.print(c.getName());
 					for (int i = c.getName().length(); i < width; i++)
-						System.err.print(' ');
-					System.err.print(c.getUsage());
-					System.err.println();
+						writer.print(' ');
+					writer.print(CLIText.get().resourceBundle().getString(c.getUsage()));
+					writer.println();
 				}
-				System.err.println();
+				writer.println();
 			}
+			writer.flush();
 			System.exit(1);
 		}
 
@@ -203,7 +208,8 @@ public class Main {
 				altobjectdirs = null;
 
 			if (gitdir == null || !gitdir.isDirectory()) {
-				System.err.println("error: can't find git directory");
+				writer.println(CLIText.get().cantFindGitDirectory);
+				writer.flush();
 				System.exit(1);
 			}
 			cmd.init(new Repository(gitdir, gitworktree, objectdir, altobjectdirs, indexfile), gitdir);
@@ -252,15 +258,15 @@ public class Main {
 			return false;
 
 		} catch (IllegalArgumentException e) {
-			throw new RuntimeException("Cannot setup console", e);
+			throw new RuntimeException(CLIText.get().cannotSetupConsole, e);
 		} catch (SecurityException e) {
-			throw new RuntimeException("Cannot setup console", e);
+			throw new RuntimeException(CLIText.get().cannotSetupConsole, e);
 		} catch (IllegalAccessException e) {
-			throw new RuntimeException("Cannot setup console", e);
+			throw new RuntimeException(CLIText.get().cannotSetupConsole, e);
 		} catch (InvocationTargetException e) {
-			throw new RuntimeException("Cannot setup console", e);
+			throw new RuntimeException(CLIText.get().cannotSetupConsole, e);
 		} catch (NoSuchMethodException e) {
-			throw new RuntimeException("Cannot setup console", e);
+			throw new RuntimeException(CLIText.get().cannotSetupConsole, e);
 		}
 	}
 
@@ -297,8 +303,7 @@ public class Main {
 
 		final URL u = new URL((s.indexOf("://") == -1) ? "http://" + s : s);
 		if (!"http".equals(u.getProtocol()))
-			throw new MalformedURLException("Invalid http_proxy: " + s
-					+ ": Only http supported.");
+			throw new MalformedURLException(MessageFormat.format(CLIText.get().invalidHttpProxyOnlyHttpSupported, s));
 
 		final String proxyHost = u.getHost();
 		final int proxyPort = u.getPort();

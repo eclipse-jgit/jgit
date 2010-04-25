@@ -44,8 +44,11 @@
 
 package org.eclipse.jgit.lib;
 
+import java.text.MessageFormat;
+
 import junit.framework.TestCase;
 
+import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.CorruptObjectException;
 
 public class ObjectCheckerTest extends TestCase {
@@ -62,7 +65,7 @@ public class ObjectCheckerTest extends TestCase {
 			fail("Did not throw CorruptObjectException");
 		} catch (CorruptObjectException e) {
 			final String m = e.getMessage();
-			assertEquals("Invalid object type: " + Constants.OBJ_BAD, m);
+			assertEquals(MessageFormat.format(JGitText.get().corruptObjectInvalidType2, Constants.OBJ_BAD), m);
 		}
 	}
 

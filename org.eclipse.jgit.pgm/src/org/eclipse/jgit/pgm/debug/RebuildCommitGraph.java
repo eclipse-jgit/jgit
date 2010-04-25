@@ -48,6 +48,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -72,6 +73,7 @@ import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.RefWriter;
 import org.eclipse.jgit.lib.TextProgressMonitor;
 import org.eclipse.jgit.lib.Tree;
+import org.eclipse.jgit.pgm.CLIText;
 import org.eclipse.jgit.pgm.TextBuiltin;
 import org.eclipse.jgit.revwalk.RevWalk;
 
@@ -96,13 +98,13 @@ import org.eclipse.jgit.revwalk.RevWalk;
 class RebuildCommitGraph extends TextBuiltin {
 	private final String REALLY = "--destroy-this-repository";
 
-	@Option(name = REALLY, usage = "approve destruction of repository")
+	@Option(name = REALLY, usage = "usage_approveDestructionOfRepository")
 	boolean really;
 
-	@Argument(index = 0, required = true, metaVar = "REFS", usage = "for-each-ref output")
+	@Argument(index = 0, required = true, metaVar = "metaVar_refs", usage = "usage_forEachRefOutput")
 	File refList;
 
-	@Argument(index = 1, required = true, metaVar = "DAG", usage = "log --all '--pretty=format:%H %ct %P' output")
+	@Argument(index = 1, required = true, metaVar = "metaVar_refs", usage = "usage_logAllPretty")
 	File graph;
 
 	private final ProgressMonitor pm = new TextProgressMonitor();
@@ -112,28 +114,15 @@ class RebuildCommitGraph extends TextBuiltin {
 	@Override
 	protected void run() throws Exception {
 		if (!really && !db.getAllRefs().isEmpty()) {
-			final StringBuilder m = new StringBuilder();
-			m.append("fatal: ");
-			m.append("This program will destroy the repository:");
-			m.append("\n");
-			m.append("fatal:\n");
-			m.append("fatal:    ");
-			m.append(db.getDirectory().getAbsolutePath());
-			m.append("\n");
-			m.append("fatal:\n");
-			m.append("fatal: ");
-			m.append("To continue, add ");
-			m.append(REALLY);
-			m.append(" to the command line");
-			m.append("\n");
-			m.append("fatal:");
-			System.err.println(m);
-			throw die("Need approval to destroy current repository");
+			System.err.println(
+				MessageFormat.format(CLIText.get().fatalThisProgramWillDestroyTheRepository
+					, db.getDirectory().getAbsolutePath(), REALLY));
+			throw die(CLIText.get().needApprovalToDestroyCurrentRepository);
 		}
 		if (!refList.isFile())
-			throw die("no such file: " + refList.getPath());
+			throw die(MessageFormat.format(CLIText.get().noSuchFile, refList.getPath()));
 		if (!graph.isFile())
-			throw die("no such file: " + graph.getPath());
+			throw die(MessageFormat.format(CLIText.get().noSuchFile, graph.getPath()));
 
 		recreateCommitGraph();
 		detachHead();
@@ -240,10 +229,10 @@ class RebuildCommitGraph extends TextBuiltin {
 			final LockFile lf;
 			lf = new LockFile(new File(db.getDirectory(), Constants.HEAD));
 			if (!lf.lock())
-				throw new IOException("Cannot lock HEAD");
+				throw new IOException(MessageFormat.format(CLIText.get().cannotLock, Constants.HEAD));
 			lf.write(id);
 			if (!lf.commit())
-				throw new IOException("Cannot deatch HEAD");
+				throw new IOException(CLIText.get().cannotDeatchHEAD);
 		}
 	}
 
@@ -267,14 +256,14 @@ class RebuildCommitGraph extends TextBuiltin {
 				final File file = new File(db.getDirectory(), name);
 				final LockFile lck = new LockFile(file);
 				if (!lck.lock())
-					throw new ObjectWritingException("Can't write " + file);
+					throw new ObjectWritingException(MessageFormat.format(CLIText.get().cantWrite, file));
 				try {
 					lck.write(content);
 				} catch (IOException ioe) {
-					throw new ObjectWritingException("Can't write " + file);
+					throw new ObjectWritingException(MessageFormat.format(CLIText.get().cantWrite, file));
 				}
 				if (!lck.commit())
-					throw new ObjectWritingException("Can't write " + file);
+					throw new ObjectWritingException(MessageFormat.format(CLIText.get().cantWrite, file));
 			}
 		}.writePackedRefs();
 	}
@@ -299,7 +288,7 @@ class RebuildCommitGraph extends TextBuiltin {
 					rw.parseAny(id);
 				} catch (MissingObjectException mue) {
 					if (!Constants.TYPE_COMMIT.equals(type)) {
-						System.err.println("skipping " + type + " " + name);
+						System.err.println(MessageFormat.format(CLIText.get().skippingObject, type, name));
 						continue;
 					}
 					throw new MissingObjectException(id, type);

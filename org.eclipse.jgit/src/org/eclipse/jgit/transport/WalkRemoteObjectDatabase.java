@@ -50,10 +50,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 
+import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
@@ -198,7 +200,7 @@ abstract class WalkRemoteObjectDatabase {
 	 *             deletion is not supported, or deletion failed.
 	 */
 	void deleteFile(final String path) throws IOException {
-		throw new IOException("Deleting '" + path + "' not supported.");
+		throw new IOException(MessageFormat.format(JGitText.get().deletingNotSupported, path));
 	}
 
 	/**
@@ -230,7 +232,7 @@ abstract class WalkRemoteObjectDatabase {
 	 */
 	OutputStream writeFile(final String path, final ProgressMonitor monitor,
 			final String monitorTask) throws IOException {
-		throw new IOException("Writing of '" + path + "' not supported.");
+		throw new IOException(MessageFormat.format(JGitText.get().writingNotSupported, path));
 	}
 
 	/**
@@ -428,7 +430,7 @@ abstract class WalkRemoteObjectDatabase {
 		} catch (FileNotFoundException notPacked) {
 			// Perhaps it wasn't worthwhile, or is just an older repository.
 		} catch (IOException e) {
-			throw new TransportException(getURI(), "error in packed-refs", e);
+			throw new TransportException(getURI(), JGitText.get().errorInPackedRefs, e);
 		}
 	}
 
@@ -449,7 +451,7 @@ abstract class WalkRemoteObjectDatabase {
 			}
 			if (line.charAt(0) == '^') {
 				if (last == null)
-					throw new TransportException("Peeled line before ref.");
+					throw new TransportException(JGitText.get().peeledLineBeforeRef);
 				final ObjectId id = ObjectId.fromString(line.substring(1));
 				last = new ObjectIdRef.PeeledTag(Ref.Storage.PACKED, last
 						.getName(), last.getObjectId(), id);
@@ -459,7 +461,7 @@ abstract class WalkRemoteObjectDatabase {
 
 			final int sp = line.indexOf(' ');
 			if (sp < 0)
-				throw new TransportException("Unrecognized ref: " + line);
+				throw new TransportException(MessageFormat.format(JGitText.get().unrecognizedRef, line));
 			final ObjectId id = ObjectId.fromString(line.substring(0, sp));
 			final String name = line.substring(sp + 1);
 			if (peeled)

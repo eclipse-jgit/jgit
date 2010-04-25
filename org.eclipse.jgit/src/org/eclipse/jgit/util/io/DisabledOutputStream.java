@@ -46,6 +46,8 @@ package org.eclipse.jgit.util.io;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import org.eclipse.jgit.JGitText;
+
 /** An OutputStream which always throws IllegalStateExeption during write. */
 public final class DisabledOutputStream extends OutputStream {
 	/** The canonical instance which always throws IllegalStateException. */
@@ -61,6 +63,6 @@ public final class DisabledOutputStream extends OutputStream {
 		// We shouldn't be writing output at this stage, there
 		// is nobody listening to us.
 		//
-		throw new IllegalStateException("Writing not permitted");
+		throw new IllegalStateException(JGitText.get().writingNotPermitted);
 	}
 }

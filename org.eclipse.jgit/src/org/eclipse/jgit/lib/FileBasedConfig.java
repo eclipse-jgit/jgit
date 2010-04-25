@@ -52,7 +52,9 @@ package org.eclipse.jgit.lib;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.MessageFormat;
 
+import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
@@ -110,11 +112,11 @@ public class FileBasedConfig extends Config {
 		} catch (FileNotFoundException noFile) {
 			clear();
 		} catch (IOException e) {
-			final IOException e2 = new IOException("Cannot read " + getFile());
+			final IOException e2 = new IOException(MessageFormat.format(JGitText.get().cannotReadFile, getFile()));
 			e2.initCause(e);
 			throw e2;
 		} catch (ConfigInvalidException e) {
-			throw new ConfigInvalidException("Cannot read " + getFile(), e);
+			throw new ConfigInvalidException(MessageFormat.format(JGitText.get().cannotReadFile, getFile()), e);
 		}
 	}
 
@@ -134,12 +136,12 @@ public class FileBasedConfig extends Config {
 		final byte[] out = Constants.encode(toText());
 		final LockFile lf = new LockFile(getFile());
 		if (!lf.lock())
-			throw new IOException("Cannot lock " + getFile());
+			throw new IOException(MessageFormat.format(JGitText.get().cannotLockFile, getFile()));
 		try {
 			lf.setNeedStatInformation(true);
 			lf.write(out);
 			if (!lf.commit())
-				throw new IOException("Cannot commit write to " + getFile());
+				throw new IOException(MessageFormat.format(JGitText.get().cannotCommitWriteTo, getFile()));
 		} finally {
 			lf.unlock();
 		}

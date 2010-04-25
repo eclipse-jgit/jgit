@@ -47,11 +47,13 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.text.MessageFormat;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
+import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
@@ -112,9 +114,9 @@ public class BundleWriter {
 	 */
 	public void include(final String name, final AnyObjectId id) {
 		if (!Repository.isValidRefName(name))
-			throw new IllegalArgumentException("Invalid ref name: " + name);
+			throw new IllegalArgumentException(MessageFormat.format(JGitText.get().invalidRefName, name));
 		if (include.containsKey(name))
-			throw new IllegalStateException("Duplicate ref: " + name);
+			throw new IllegalStateException(JGitText.get().duplicateRef + name);
 		include.put(name, id.toObjectId());
 	}
 

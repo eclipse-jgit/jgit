@@ -46,6 +46,9 @@
 
 package org.eclipse.jgit.lib;
 
+import java.text.MessageFormat;
+
+import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.InvalidObjectIdException;
 import org.eclipse.jgit.util.NB;
 import org.eclipse.jgit.util.RawParseUtils;
@@ -162,7 +165,8 @@ public class MutableObjectId extends AnyObjectId {
 	 */
 	public void fromString(final String str) {
 		if (str.length() != Constants.OBJECT_ID_STRING_LENGTH)
-			throw new IllegalArgumentException("Invalid id: " + str);
+			throw new IllegalArgumentException(MessageFormat.format(
+					JGitText.get().invalidId, str));
 		fromHexString(Constants.encodeASCII(str), 0);
 	}
 

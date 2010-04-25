@@ -44,7 +44,9 @@
 package org.eclipse.jgit.merge;
 
 import java.io.IOException;
+import java.text.MessageFormat;
 
+import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
@@ -180,10 +182,9 @@ public abstract class Merger {
 			return new EmptyTreeIterator();
 		final RevCommit base2 = walk.next();
 		if (base2 != null) {
-			throw new IOException("Multiple merge bases for:" + "\n  "
-					+ sourceCommits[aIdx].name() + "\n  "
-					+ sourceCommits[bIdx].name() + "found:" + "\n  "
-					+ base.name() + "\n  " + base2.name());
+			throw new IOException(MessageFormat.format(JGitText.get().multipleMergeBasesFor
+					, sourceCommits[aIdx].name(), sourceCommits[bIdx].name()
+					, base.name(), base2.name()));
 		}
 		return openTree(base.getTree());
 	}

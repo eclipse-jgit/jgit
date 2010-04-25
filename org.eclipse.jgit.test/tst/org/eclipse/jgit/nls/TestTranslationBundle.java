@@ -79,15 +79,15 @@ public class TestTranslationBundle extends TestCase {
 		NonTranslatedBundle bundle = new NonTranslatedBundle();
 
 		bundle.load(NLS.ROOT_LOCALE);
-		assertEquals(NLS.ROOT_LOCALE, bundle.getEffectiveLocale());
+		assertEquals(NLS.ROOT_LOCALE, bundle.effectiveLocale());
 		assertEquals("Good morning {0}", bundle.goodMorning);
 
 		bundle.load(Locale.ENGLISH);
-		assertEquals(NLS.ROOT_LOCALE, bundle.getEffectiveLocale());
+		assertEquals(NLS.ROOT_LOCALE, bundle.effectiveLocale());
 		assertEquals("Good morning {0}", bundle.goodMorning);
 
 		bundle.load(Locale.GERMAN);
-		assertEquals(NLS.ROOT_LOCALE, bundle.getEffectiveLocale());
+		assertEquals(NLS.ROOT_LOCALE, bundle.effectiveLocale());
 		assertEquals("Good morning {0}", bundle.goodMorning);
 	}
 
@@ -95,11 +95,11 @@ public class TestTranslationBundle extends TestCase {
 		GermanTranslatedBundle bundle = new GermanTranslatedBundle();
 
 		bundle.load(NLS.ROOT_LOCALE);
-		assertEquals(NLS.ROOT_LOCALE, bundle.getEffectiveLocale());
+		assertEquals(NLS.ROOT_LOCALE, bundle.effectiveLocale());
 		assertEquals("Good morning {0}", bundle.goodMorning);
 
 		bundle.load(Locale.GERMAN);
-		assertEquals(Locale.GERMAN, bundle.getEffectiveLocale());
+		assertEquals(Locale.GERMAN, bundle.effectiveLocale());
 		assertEquals("Guten Morgen {0}", bundle.goodMorning);
 	}
 

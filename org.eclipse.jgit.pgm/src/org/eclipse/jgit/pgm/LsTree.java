@@ -53,10 +53,10 @@ import org.eclipse.jgit.treewalk.AbstractTreeIterator;
 import org.eclipse.jgit.treewalk.TreeWalk;
 
 class LsTree extends TextBuiltin {
-	@Option(name = "--recursive", usage = "recurse into subtrees", aliases = { "-r" })
+	@Option(name = "--recursive", usage = "usage_recurseIntoSubtrees", aliases = { "-r" })
 	private boolean recursive;
 
-	@Argument(index = 0, required = true, metaVar = "tree-ish")
+	@Argument(index = 0, required = true, metaVar = "metaVar_treeish")
 	private AbstractTreeIterator tree;
 
 	@Override

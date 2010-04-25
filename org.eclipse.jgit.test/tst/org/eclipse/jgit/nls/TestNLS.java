@@ -55,23 +55,23 @@ public class TestNLS extends TestCase {
 	public void testNLSLocale() {
 		NLS.setLocale(NLS.ROOT_LOCALE);
 		GermanTranslatedBundle bundle = GermanTranslatedBundle.get();
-		assertEquals(NLS.ROOT_LOCALE, bundle.getEffectiveLocale());
+		assertEquals(NLS.ROOT_LOCALE, bundle.effectiveLocale());
 
 		NLS.setLocale(Locale.GERMAN);
 		bundle = GermanTranslatedBundle.get();
-		assertEquals(Locale.GERMAN, bundle.getEffectiveLocale());
+		assertEquals(Locale.GERMAN, bundle.effectiveLocale());
 	}
 
 	public void testJVMDefaultLocale() {
 		Locale.setDefault(NLS.ROOT_LOCALE);
 		NLS.useJVMDefaultLocale();
 		GermanTranslatedBundle bundle = GermanTranslatedBundle.get();
-		assertEquals(NLS.ROOT_LOCALE, bundle.getEffectiveLocale());
+		assertEquals(NLS.ROOT_LOCALE, bundle.effectiveLocale());
 
 		Locale.setDefault(Locale.GERMAN);
 		NLS.useJVMDefaultLocale();
 		bundle = GermanTranslatedBundle.get();
-		assertEquals(Locale.GERMAN, bundle.getEffectiveLocale());
+		assertEquals(Locale.GERMAN, bundle.effectiveLocale());
 	}
 
 	public void testThreadTranslationBundleInheritance() throws InterruptedException {
@@ -135,7 +135,7 @@ public class TestNLS extends TestCase {
 
 		assertNull("t1 was interrupted or barrier was broken", t1.e);
 		assertNull("t2 was interrupted or barrier was broken", t2.e);
-		assertEquals(NLS.ROOT_LOCALE, t1.bundle.getEffectiveLocale());
-		assertEquals(Locale.GERMAN, t2.bundle.getEffectiveLocale());
+		assertEquals(NLS.ROOT_LOCALE, t1.bundle.effectiveLocale());
+		assertEquals(Locale.GERMAN, t2.bundle.effectiveLocale());
 	}
 }

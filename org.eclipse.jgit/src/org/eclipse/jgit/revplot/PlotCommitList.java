@@ -43,10 +43,12 @@
 
 package org.eclipse.jgit.revplot;
 
+import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.TreeSet;
 
+import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.revwalk.RevCommitList;
 import org.eclipse.jgit.revwalk.RevWalk;
 
@@ -83,7 +85,7 @@ public class PlotCommitList<L extends PlotLane> extends
 	@Override
 	public void source(final RevWalk w) {
 		if (!(w instanceof PlotWalk))
-			throw new ClassCastException("Not a " + PlotWalk.class.getName());
+			throw new ClassCastException(MessageFormat.format(JGitText.get().classCastNotA, PlotWalk.class.getName()));
 		super.source(w);
 	}
 
