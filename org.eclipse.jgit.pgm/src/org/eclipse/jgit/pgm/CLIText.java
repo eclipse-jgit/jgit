@@ -41,66 +41,47 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.eclipse.jgit.nls;
+package org.eclipse.jgit.pgm;
 
-import java.util.Locale;
+import org.eclipse.jgit.nls.NLS;
+import org.eclipse.jgit.nls.TranslationBundle;
 
-import org.eclipse.jgit.errors.TranslationBundleLoadingException;
-import org.eclipse.jgit.errors.TranslationStringMissingException;
+/**
+ * Translation bundle for JGit command line interface
+ */
+public class CLIText extends TranslationBundle {
 
-import junit.framework.TestCase;
-
-public class TestTranslationBundle extends TestCase {
-
-	public void testMissingPropertiesFile() {
-		try {
-			new NoPropertiesBundle().load(NLS.ROOT_LOCALE);
-			fail("Expected TranslationBundleLoadingException");
-		} catch (TranslationBundleLoadingException e) {
-			assertEquals(NoPropertiesBundle.class, e.getBundleClass());
-			assertEquals(NLS.ROOT_LOCALE, e.getLocale());
-			// pass
-		}
+	/**
+	 * @return an instance of this translation bundle
+	 */
+	public static CLIText get() {
+		return NLS.getBundleFor(CLIText.class);
 	}
 
-	public void testMissingString() {
-		try {
-			new MissingPropertyBundle().load(NLS.ROOT_LOCALE);
-			fail("Expected TranslationStringMissingException");
-		} catch (TranslationStringMissingException e) {
-			assertEquals("nonTranslatedKey", e.getKey());
-			assertEquals(MissingPropertyBundle.class, e.getBundleClass());
-			assertEquals(NLS.ROOT_LOCALE, e.getLocale());
-			// pass
-		}
-	}
+	/***/
+	public String commit;
 
-	public void testNonTranslatedBundle() {
-		NonTranslatedBundle bundle = new NonTranslatedBundle();
+	/***/
+	public String authorInfo;
 
-		bundle.load(NLS.ROOT_LOCALE);
-		assertEquals(NLS.ROOT_LOCALE, bundle.effectiveLocale());
-		assertEquals("Good morning {0}", bundle.goodMorning);
+	/***/
+	public String dateInfo;
 
-		bundle.load(Locale.ENGLISH);
-		assertEquals(NLS.ROOT_LOCALE, bundle.effectiveLocale());
-		assertEquals("Good morning {0}", bundle.goodMorning);
+	/***/
+	public String fromURI;
 
-		bundle.load(Locale.GERMAN);
-		assertEquals(NLS.ROOT_LOCALE, bundle.effectiveLocale());
-		assertEquals("Good morning {0}", bundle.goodMorning);
-	}
+	/***/
+	public String remoteMessage;
 
-	public void testGermanTranslation() {
-		GermanTranslatedBundle bundle = new GermanTranslatedBundle();
+	/***/
+	public String conflictingUsageOf_git_dir_andArguments;
 
-		bundle.load(NLS.ROOT_LOCALE);
-		assertEquals(NLS.ROOT_LOCALE, bundle.effectiveLocale());
-		assertEquals("Good morning {0}", bundle.goodMorning);
+	/***/
+	public String cannotGuessLocalNameFrom;
 
-		bundle.load(Locale.GERMAN);
-		assertEquals(Locale.GERMAN, bundle.effectiveLocale());
-		assertEquals("Guten Morgen {0}", bundle.goodMorning);
-	}
+	/***/
+	public String initializedEmptyGitRepository;
 
+	/***/
+	public String cannotChetkoutNoHeadsAdvertisedByRemote;
 }

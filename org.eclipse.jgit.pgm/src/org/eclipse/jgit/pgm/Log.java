@@ -46,6 +46,7 @@
 package org.eclipse.jgit.pgm;
 
 import java.text.DateFormat;
+import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Iterator;
@@ -61,7 +62,7 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
-@Command(common = true, usage = "View commit history")
+@Command(common = true, usage = "viewCommitHistory")
 class Log extends RevWalkTextBuiltin {
 	private final TimeZone myTZ = TimeZone.getDefault();
 
@@ -69,7 +70,7 @@ class Log extends RevWalkTextBuiltin {
 
 	private Map<AnyObjectId, Set<Ref>> allRefsByPeeledObjectId;
 
-	@Option(name="--decorate", usage="Show ref names matching commits")
+	@Option(name="--decorate", usage="showRefNamesMatchingCommits")
 	private boolean decorate;
 
 	Log() {
@@ -103,18 +104,11 @@ class Log extends RevWalkTextBuiltin {
 		out.println();
 
 		final PersonIdent author = c.getAuthorIdent();
-		out.print("Author: ");
-		out.print(author.getName());
-		out.print(" <");
-		out.print(author.getEmailAddress());
-		out.print(">");
-		out.println();
+		out.println(MessageFormat.format(CLIText.get().authorInfo, author.getName(), author.getEmailAddress()));
 
 		final TimeZone authorTZ = author.getTimeZone();
 		fmt.setTimeZone(authorTZ != null ? authorTZ : myTZ);
-		out.print("Date:   ");
-		out.print(fmt.format(author.getWhen()));
-		out.println();
+		out.println(MessageFormat.format(CLIText.get().dateInfo, fmt.format(author.getWhen())));
 
 		out.println();
 		final String[] lines = c.getFullMessage().split("\n");

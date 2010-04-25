@@ -55,12 +55,12 @@ import org.eclipse.jgit.transport.FetchResult;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.Transport;
 
-@Command(common = true, usage = "Update remote refs from another repository")
+@Command(common = true, usage = "updateRemoteRefsFromAnotherRepository")
 class Fetch extends AbstractFetchCommand {
-	@Option(name = "--timeout", metaVar = "SECONDS", usage = "abort connection if no activity")
+	@Option(name = "--timeout", metaVar = "SECONDS", usage = "abortConnectionIfNoActivity")
 	int timeout = -1;
 
-	@Option(name = "--fsck", usage = "perform fsck style checks on receive")
+	@Option(name = "--fsck", usage = "performFsckStyleChecksOnReceive")
 	private Boolean fsck;
 
 	@Option(name = "--no-fsck")
@@ -68,13 +68,13 @@ class Fetch extends AbstractFetchCommand {
 		fsck = Boolean.FALSE;
 	}
 
-	@Option(name = "--prune", usage = "prune stale tracking refs")
+	@Option(name = "--prune", usage = "pruneStaleTrackingRefs")
 	private Boolean prune;
 
 	@Option(name = "--dry-run")
 	private boolean dryRun;
 
-	@Option(name = "--thin", usage = "fetch thin pack")
+	@Option(name = "--thin", usage = "fetchThinPack")
 	private Boolean thin;
 
 	@Option(name = "--no-thin")
@@ -82,7 +82,7 @@ class Fetch extends AbstractFetchCommand {
 		thin = Boolean.FALSE;
 	}
 
-	@Argument(index = 0, metaVar = "uri-ish")
+	@Argument(index = 0, metaVar = "uriish")
 	private String remote = Constants.DEFAULT_REMOTE_NAME;
 
 	@Argument(index = 1, metaVar = "refspec")

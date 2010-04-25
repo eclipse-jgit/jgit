@@ -109,7 +109,7 @@ abstract class RevWalkTextBuiltin extends TextBuiltin {
 		enableRevSort(RevSort.BOUNDARY, on);
 	}
 
-	@Argument(index = 0, metaVar = "commit-ish")
+	@Argument(index = 0, metaVar = "commitish")
 	private final List<RevCommit> commits = new ArrayList<RevCommit>();
 
 	@Option(name = "--", metaVar = "path", multiValued = true, handler = PathTreeFilterHandler.class)
