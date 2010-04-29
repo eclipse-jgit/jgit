@@ -244,7 +244,11 @@ public class GitIndex {
 			entries.clear();
 			for (int i = 0; i < header.entries; ++i) {
 				Entry entry = new Entry(buffer);
+				final GitIndex.Entry existing = entries.get(entry.name);
 				entries.put(entry.name, entry);
+				if (existing != null) {
+					entry.stages |= existing.stages;
+				}
 			}
 			lastCacheTime = cacheFile.lastModified();
 		} finally {
@@ -374,6 +378,8 @@ public class GitIndex {
 
 		private byte[] name;
 
+		private int stages;
+
 		Entry(byte[] key, File f, int stage)
 				throws IOException {
 			ctime = f.lastModified() * 1000000L;
@@ -391,6 +397,7 @@ public class GitIndex {
 			sha1 = writer.writeBlob(f);
 			name = key;
 			flags = (short) ((stage << 12) | name.length); // TODO: fix flags
+			stages = (1 >> getStage());
 		}
 
 		Entry(byte[] key, File f, int stage, byte[] newContent)
@@ -410,6 +417,7 @@ public class GitIndex {
 			sha1 = writer.writeBlob(newContent);
 			name = key;
 			flags = (short) ((stage << 12) | name.length); // TODO: fix flags
+			stages = (1 >> getStage());
 		}
 
 		Entry(TreeEntry f, int stage) {
@@ -429,6 +437,7 @@ public class GitIndex {
 			sha1 = f.getId();
 			name = Constants.encode(f.getFullName());
 			flags = (short) ((stage << 12) | name.length); // TODO: fix flags
+			stages = (1 >> getStage());
 		}
 
 		Entry(ByteBuffer b) {
@@ -445,6 +454,7 @@ public class GitIndex {
 			b.get(sha1bytes);
 			sha1 = ObjectId.fromRaw(sha1bytes);
 			flags = b.getShort();
+			stages = (1 << getStage());
 			name = new byte[flags & 0xFFF];
 			b.get(name);
 			b
@@ -641,6 +651,19 @@ public class GitIndex {
 				}
 			}
 			return false;
+		}
+
+		/**
+		 * Returns the stages in which the entry's file is recorded in the index.
+		 * The stages are bit-encoded: bit N is set if the file is present
+		 * in stage N. In particular, the N-th bit will be set if this entry
+		 * itself is in stage N (see getStage()).
+		 *
+		 * @return flags denoting stages
+		 * @see #getStage()
+		 */
+		public int getStages() {
+			return stages;
 		}
 
 		// for testing
