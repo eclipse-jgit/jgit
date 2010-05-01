@@ -114,8 +114,13 @@ public class UnpackedObjectLoader extends ObjectLoader {
 				int avail = 0;
 				while (!inflater.finished() && avail < hdr.length)
 					try {
-						avail += inflater.inflate(hdr, avail, hdr.length
-								- avail);
+						int uncompressed = inflater.inflate(hdr, avail,
+								hdr.length - avail);
+						if (uncompressed == 0) {
+							throw new CorruptObjectException(id,
+									"bad stream, corrupt header");
+						}
+						avail += uncompressed;
 					} catch (DataFormatException dfe) {
 						final CorruptObjectException coe;
 						coe = new CorruptObjectException(id, "bad stream");
@@ -172,8 +177,14 @@ public class UnpackedObjectLoader extends ObjectLoader {
 	private void decompress(final AnyObjectId id, final Inflater inf, int p)
 			throws CorruptObjectException {
 		try {
-			while (!inf.finished())
-				p += inf.inflate(bytes, p, objectSize - p);
+			while (!inf.finished()) {
+				int uncompressed = inf.inflate(bytes, p, objectSize - p);
+				p += uncompressed;
+				if (uncompressed == 0 && !inf.finished()) {
+					throw new CorruptObjectException(id,
+							"bad stream, corrupt header");
+				}
+			}
 		} catch (DataFormatException dfe) {
 			final CorruptObjectException coe;
 			coe = new CorruptObjectException(id, "bad stream");
