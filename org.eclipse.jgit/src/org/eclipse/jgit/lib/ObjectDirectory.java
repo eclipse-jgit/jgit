@@ -416,10 +416,11 @@ public class ObjectDirectory extends ObjectDatabase {
 				// This should never occur. It should be impossible for us
 				// to have two pack files with the same name, as all of them
 				// came out of the same directory. If it does, we promised to
-				// close any PackFiles we did not reuse, so close the one we
-				// just evicted out of the reuse map.
+				// close any PackFiles we did not reuse, so close the second,
+				// readers are likely to be actively using the first.
 				//
-				prior.close();
+				forReuse.put(prior.getPackFile().getName(), prior);
+				p.close();
 			}
 		}
 		return forReuse;
