@@ -306,6 +306,26 @@ public class FooterLineTest extends RepositoryTestCase {
 		assertEquals("Main Tain Er <mte@example.com>", footers.get(1));
 	}
 
+	public void testMatchesBugId() {
+		final RevCommit commit = parse("this is a commit subject for test\n"
+				+ "\n" // paragraph break, now footers appear in final block
+				+ "Simple-Bug-Id: 42\n");
+		final List<FooterLine> footers = commit.getFooterLines();
+
+		assertNotNull(footers);
+		assertEquals(1, footers.size());
+
+		final FooterLine line = footers.get(0);
+		assertNotNull(line);
+		assertEquals("Simple-Bug-Id", line.getKey());
+		assertEquals("42", line.getValue());
+
+		final FooterKey bugid = new FooterKey("Simple-Bug-Id");
+		assertTrue("matches Simple-Bug-Id", line.matches(bugid));
+		assertFalse("not Signed-off-by", line.matches(FooterKey.SIGNED_OFF_BY));
+		assertFalse("not CC", line.matches(FooterKey.CC));
+	}
+
 	private RevCommit parse(final String msg) {
 		final StringBuilder buf = new StringBuilder();
 		buf.append("tree " + ObjectId.zeroId().name() + "\n");

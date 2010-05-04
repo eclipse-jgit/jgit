@@ -90,7 +90,7 @@ public final class FooterLine {
 		int bPtr = keyStart;
 		if (keyEnd - bPtr != len)
 			return false;
-		for (int kPtr = 0; bPtr < len;) {
+		for (int kPtr = 0; kPtr < len;) {
 			byte b = buffer[bPtr++];
 			if ('A' <= b && b <= 'Z')
 				b += 'a' - 'A';
