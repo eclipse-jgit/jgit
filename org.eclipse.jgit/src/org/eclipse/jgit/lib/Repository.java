@@ -60,6 +60,7 @@ import java.util.Set;
 import java.util.Vector;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.RevisionSyntaxException;
@@ -1117,8 +1118,21 @@ public class Repository {
 			return RepositoryState.REBASING_MERGE;
 
 		// Both versions
-		if (new File(gitDir,"MERGE_HEAD").exists())
+		if (new File(gitDir, "MERGE_HEAD").exists()) {
+			// we are merging - now check whether we have unmerged paths
+			try {
+				if (!DirCache.read(this).hasUnmergedPaths()) {
+					// no unmerged paths -> return the MERGING_RESOLVED state
+					return RepositoryState.MERGING_RESOLVED;
+				}
+			} catch (IOException e) {
+				// Can't decide whether unmerged paths exists. Return
+				// MERGING state to be on the safe side (in state MERGING
+				// you are not allow to do anything)
+			}
 			return RepositoryState.MERGING;
+		}
+
 		if (new File(gitDir,"BISECT_LOG").exists())
 			return RepositoryState.BISECTING;
 
