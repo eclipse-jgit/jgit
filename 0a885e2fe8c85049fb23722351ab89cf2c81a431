@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAALun///2w\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1131,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-05-07T16:45:44Z",
+      "side": 1,
+      "message": "a printstacktrace here would help to track down problems.\nReal logging would be better, but for lack of that just print on stdout",
+      "revId": "0a885e2fe8c85049fb23722351ab89cf2c81a431",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALun///0o\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
         "patchSetId": 1
