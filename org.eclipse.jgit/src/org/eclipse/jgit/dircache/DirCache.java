@@ -784,4 +784,20 @@ public class DirCache {
 			throws UnmergedPathException, IOException {
 		return getCacheTree(true).writeTree(sortedEntries, 0, 0, ow);
 	}
+
+	/**
+	 * Tells whether this index contains unmerged paths.
+	 *
+	 * @return {@code true} if this index contains unmerged paths. Means: at
+	 *         least one entry is of a stage different from 0. {@code false}
+	 *         will be returned if all entries are of stage 0.
+	 */
+	public boolean hasUnmergedPaths() {
+		for (int i = 0; i < entryCnt; i++) {
+			if (sortedEntries[i].getStage() > 0) {
+				return true;
+			}
+		}
+		return false;
+	}
 }

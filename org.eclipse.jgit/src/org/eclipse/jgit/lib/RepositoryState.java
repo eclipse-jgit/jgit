@@ -74,6 +74,17 @@ public enum RepositoryState {
 	},
 
 	/**
+	 * An merge where all conflicts have been resolved. The index does not
+	 * contain any unmerged paths.
+	 */
+	MERGING_RESOLVED {
+		public boolean canCheckout() { return true; }
+		public boolean canResetHead() { return true; }
+		public boolean canCommit() { return true; }
+		public String getDescription() { return "Merged"; }
+	},
+
+	/**
 	 * An unfinished rebase or am. Must resolve, skip or abort before normal work can take place
 	 */
 	REBASING {
