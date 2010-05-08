@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALuX///6c\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/GitIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 762,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-04-30T12:51:27Z",
+      "side": 1,
+      "message": "You added this method also as a separate change: http://egit.eclipse.org/r/#change,629\nIt looks like getMtime has nothing to do with stages hence it should come as separate change.",
+      "revId": "2d4ff9f6023335d9ba6ea25d8e77c8e283ae53cb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
