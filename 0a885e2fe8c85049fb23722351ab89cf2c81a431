@@ -1,0 +1,22 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALun///0o\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1131,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-05-08T20:10:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALun///2w\u003d",
+      "revId": "0a885e2fe8c85049fb23722351ab89cf2c81a431",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
