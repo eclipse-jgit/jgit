@@ -104,6 +104,23 @@
     },
     {
       "key": {
+        "uuid": "AAAAA3///VY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-26T15:15:55Z",
+      "side": 1,
+      "message": "Style-nit: I think I would prefer this to be defined as:\n\n  public CommitCommand setCommitter(String name, String email) {\n    return setCommitter(new PersonIdent(name, email));\n  }",
+      "revId": "de7705ebf54ac68cc4480eda51fd36caf80658a1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAA3///VQ\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
         "patchSetId": 3
@@ -285,6 +302,23 @@
       "writtenOn": "2010-04-26T15:15:55Z",
       "side": 1,
       "message": "Actually, any use of ObjectId as a parameter probably should be AnyObjectId instead.  This permits the mutable variant to be passed in.  Normally that might be a problem, since the caller can change its value after we return.  But it shouldn\u0027t be an issue here, because we\u0027re doing a lookup of the object in the RevWalk and holding onto the located result.  So we\u0027re copying the value we were given, which makes it OK to take the MutableObjectId variant.",
+      "revId": "de7705ebf54ac68cc4480eda51fd36caf80658a1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///U4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/LogCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-26T15:15:55Z",
+      "side": 1,
+      "message": "Should be {@code since..until}",
       "revId": "de7705ebf54ac68cc4480eda51fd36caf80658a1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
