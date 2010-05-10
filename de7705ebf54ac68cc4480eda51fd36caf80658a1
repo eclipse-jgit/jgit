@@ -1,0 +1,293 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAA3///Vk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-26T15:15:55Z",
+      "side": 1,
+      "message": "Given the work being done by Sasa Zivkov to translate messages coming out of the JGit library, we shouldn\u0027t be doing this.\n\nIf the caller needs to know this type of exception from other exceptions, this needs to be a custom exception type that they can catch with a try-catch block.  If the caller shouldn\u0027t need to handle this exception differently from other exceptions we throw, this message should simply be private to the package, with possibly a translation for presentation.",
+      "revId": "de7705ebf54ac68cc4480eda51fd36caf80658a1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///Vg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-26T15:15:55Z",
+      "side": 1,
+      "message": "s/run/call/",
+      "revId": "de7705ebf54ac68cc4480eda51fd36caf80658a1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///Vc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-26T15:15:55Z",
+      "side": 1,
+      "message": "s/run/call/",
+      "revId": "de7705ebf54ac68cc4480eda51fd36caf80658a1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///VI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-26T15:15:55Z",
+      "side": 1,
+      "message": "See my remarks below, we shouldn\u0027t reset the time.",
+      "revId": "de7705ebf54ac68cc4480eda51fd36caf80658a1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///VE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-26T15:15:55Z",
+      "side": 1,
+      "message": "See my remarks below, we shouldn\u0027t reset the time.",
+      "revId": "de7705ebf54ac68cc4480eda51fd36caf80658a1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///VA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-26T15:15:55Z",
+      "side": 1,
+      "message": "This call is pointless.  We\u0027re about to discard the Commit object, and all you really needed was that commitId anyway.",
+      "revId": "de7705ebf54ac68cc4480eda51fd36caf80658a1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///VQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-26T15:15:55Z",
+      "side": 1,
+      "message": "No.  If the caller gave us a PersonIdent, we should use that timestamp *exactly*.  The only time we should compute the timestamp on the fly is when we are creating the PersonIdent on behalf of the caller, e.g. because they used the setCommitter(name, email) overload, or because they allowed committer to be null and we\u0027re computing it during call() from the repository data.",
+      "revId": "de7705ebf54ac68cc4480eda51fd36caf80658a1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///VU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-26T15:15:55Z",
+      "side": 1,
+      "message": "Style-nit: Same as with setCommitter(name, email) overload.",
+      "revId": "de7705ebf54ac68cc4480eda51fd36caf80658a1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///VM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-26T15:15:55Z",
+      "side": 1,
+      "message": "Same issue as committer timestamp, we should be using exactly what is recorded in the PersonIdent.",
+      "revId": "de7705ebf54ac68cc4480eda51fd36caf80658a1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///Vs\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Git.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-26T15:15:55Z",
+      "side": 1,
+      "message": "s/run/call/",
+      "revId": "de7705ebf54ac68cc4480eda51fd36caf80658a1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///Vo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Git.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-26T15:15:55Z",
+      "side": 1,
+      "message": "s/run/call/",
+      "revId": "de7705ebf54ac68cc4480eda51fd36caf80658a1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///U0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/LogCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-26T15:15:55Z",
+      "side": 1,
+      "message": "Unused, since add(boolean, ObjectId) below enqueues directly into the RevWalk.",
+      "revId": "de7705ebf54ac68cc4480eda51fd36caf80658a1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///Uw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/LogCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-26T15:15:55Z",
+      "side": 1,
+      "message": "Always true since start is never assigned.",
+      "revId": "de7705ebf54ac68cc4480eda51fd36caf80658a1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///Us\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/LogCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-26T15:15:55Z",
+      "side": 1,
+      "message": "This default is a great idea.  Unfortunately it doesn\u0027t work because start is never assigned, so its always triggering.",
+      "revId": "de7705ebf54ac68cc4480eda51fd36caf80658a1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///U8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/LogCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-26T15:15:55Z",
+      "side": 1,
+      "message": "Well, its technically an iteration of RevCommits, not a list.",
+      "revId": "de7705ebf54ac68cc4480eda51fd36caf80658a1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///Uo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/LogCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-26T15:15:55Z",
+      "side": 1,
+      "message": "Should we be reusing the walk we\u0027ve already setup?  Why create a new pool of revision objects when we can just reuse the one we already have?\n\nOn the other hand, a walker could dispose of object bodies, and a reset and reuse might confuse the caller because the bodies are gone.  That\u0027s actually a bug in RevWalk that we should probably address and fix there rather than forcing an entire new pool to be created for a second invocation.\n\nLikewise, RevWalk discards the starting commits when it resets.  We probably should allow those to be retained somehow, so the same walk can be executed again without needing to maintain our own copy of the starting points (RevWalk calls them \"roots\" inside of itself.)\n\nFinally, RevWalk\u0027s implementation of Iterable is probably wrong.  It only works once.  Creating a 2nd Iterator fails.  So we probably should fix RevWalk first so its iterator() method resets the walk and starts it over again.",
+      "revId": "de7705ebf54ac68cc4480eda51fd36caf80658a1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///Uk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/LogCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-26T15:15:55Z",
+      "side": 1,
+      "message": "Actually, any use of ObjectId as a parameter probably should be AnyObjectId instead.  This permits the mutable variant to be passed in.  Normally that might be a problem, since the caller can change its value after we return.  But it shouldn\u0027t be an issue here, because we\u0027re doing a lookup of the object in the RevWalk and holding onto the located result.  So we\u0027re copying the value we were given, which makes it OK to take the MutableObjectId variant.",
+      "revId": "de7705ebf54ac68cc4480eda51fd36caf80658a1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
