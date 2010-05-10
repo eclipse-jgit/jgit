@@ -1,0 +1,58 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALuX///60\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CommitAndLogCommandTests.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-04-30T12:16:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALuX///68\u003d",
+      "revId": "df29ce1c56a1981b97cf10784aa6d962ef50667b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALuX///6w\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CommitAndLogCommandTests.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-04-30T12:16:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALuX///64\u003d",
+      "revId": "df29ce1c56a1981b97cf10784aa6d962ef50667b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALuX///6s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-04-30T12:16:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALuX///7E\u003d",
+      "revId": "df29ce1c56a1981b97cf10784aa6d962ef50667b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
