@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAALuX///9s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-04-28T20:50:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALuX///+I\u003d",
+      "revId": "b2d8802c5f619e182fa0c0bf4158152da613c829",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALuX///+E\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
         "patchSetId": 5
@@ -106,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "AAALuX///9k\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ConcurrentRefUpdateException.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-04-28T20:50:30Z",
+      "side": 1,
+      "message": "I was also not sure and thought that this exception would be used later in other situations also. But you are right: for all situations I can think of where I can throw this exception I will have the Ref and a returncode from RefUpdate.update() in hand. And this is info is usefull for the call. So I added these properties.",
+      "parentUuid": "AAALuX///+o\u003d",
+      "revId": "b2d8802c5f619e182fa0c0bf4158152da613c829",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALuX///94\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Git.java",
         "patchSetId": 5
@@ -123,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AAALuX///9g\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Git.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-04-28T20:50:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALuX///94\u003d",
+      "revId": "b2d8802c5f619e182fa0c0bf4158152da613c829",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALuX///+k\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/GitCommand.java",
         "patchSetId": 5
@@ -134,6 +188,24 @@
       "writtenOn": "2010-04-28T16:55:56Z",
       "side": 1,
       "message": "Shouldn\u0027t this be final?",
+      "revId": "b2d8802c5f619e182fa0c0bf4158152da613c829",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALuX///9c\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/GitCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-04-28T20:50:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALuX///+k\u003d",
       "revId": "b2d8802c5f619e182fa0c0bf4158152da613c829",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
