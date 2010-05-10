@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAA3///b8\u003d",
+        "filename": "org.eclipse.jgit.test/META-INF/MANIFEST.MF",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-04-27T15:09:36Z",
+      "side": 1,
+      "message": "Done ... and also added the missing \",\" in the previous line",
+      "parentUuid": "AAAAA3///cc\u003d",
+      "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAA3///fw\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CommitAndLogCommandTests.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2010-04-22T18:38:56Z",
       "side": 1,
       "message": "Missing standard license header.",
+      "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///b4\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CommitAndLogCommandTests.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-04-27T15:09:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAAA3///fw\u003d",
       "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAA3///bw\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CommitAndLogCommandTests.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-04-27T15:09:36Z",
+      "side": 1,
+      "message": "If this code would be just for us I would agree. But I wanted the section where I do the commits to be as less complicated as possible - minimize even references to local variables which a reader would have to lookup before he understands. I know that for doing the assertions I have non-optimal code with redundancies - but that was intentionally.",
+      "parentUuid": "AAAAA3///dg\u003d",
+      "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAA3///dc\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CommitAndLogCommandTests.java",
         "patchSetId": 1
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAA3///bo\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CommitAndLogCommandTests.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-04-27T15:09:36Z",
+      "side": 1,
+      "message": "changed the code so that I can use .equals()",
+      "parentUuid": "AAAAA3///dc\u003d",
+      "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAA3///dY\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CommitAndLogCommandTests.java",
         "patchSetId": 1
@@ -81,6 +153,24 @@
       "writtenOn": "2010-04-22T18:38:56Z",
       "side": 1,
       "message": "Style-nit: spaces around \u003d\u003d operator.",
+      "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///bY\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CommitAndLogCommandTests.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-04-27T15:09:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAAA3///dE\u003d",
       "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -121,6 +211,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAA3///bU\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CommitAndLogCommandTests.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-04-27T15:09:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAAA3///dk\u003d",
+      "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAA3///fs\u003d",
         "filename": "org.eclipse.jgit/META-INF/MANIFEST.MF",
         "patchSetId": 1
@@ -132,6 +240,24 @@
       "writtenOn": "2010-04-22T18:38:56Z",
       "side": 1,
       "message": "Can we sort this alphabetically with the other packages?",
+      "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///bQ\u003d",
+        "filename": "org.eclipse.jgit/META-INF/MANIFEST.MF",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-04-27T15:09:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAAA3///fs\u003d",
       "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -155,6 +281,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAA3///bM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-04-27T15:09:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAAA3///fU\u003d",
+      "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAA3///fQ\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
         "patchSetId": 1
@@ -166,6 +310,24 @@
       "writtenOn": "2010-04-22T18:38:56Z",
       "side": 1,
       "message": "Should be final.",
+      "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///bI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-04-27T15:09:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAAA3///fQ\u003d",
       "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -189,6 +351,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAA3///bE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-04-27T15:09:36Z",
+      "side": 1,
+      "message": "yes, you are right. Especially since the LogCommand also returns RevCommits we should return it here also.\nWill do it\n\nalso the Callable interface will be done. I\u0027ll introduce an abstract superclass for all Commands fullfilling the Callable interface.",
+      "parentUuid": "AAAAA3///ek\u003d",
+      "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAA3///eo\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
         "patchSetId": 1
@@ -200,6 +380,24 @@
       "writtenOn": "2010-04-22T18:38:56Z",
       "side": 1,
       "message": "Style-nit:  We use Id not ID.  Also, this appears to be scoped only to the try block below.  In general we try to declare variables with the smallest scope required for their visibility.  Since its never used outside of the try, it should be declared within the try.",
+      "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///bA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-04-27T15:09:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAAA3///eo\u003d",
       "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -223,6 +421,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAA3///a8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-04-27T15:09:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAAA3///cU\u003d",
+      "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAA3///eU\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
         "patchSetId": 1
@@ -234,6 +450,24 @@
       "writtenOn": "2010-04-22T18:38:56Z",
       "side": 1,
       "message": "Why can\u0027t we commit on a detached HEAD?  Its supposed in C Git just fine.\n\nI think you really just need to check that head !\u003d null here.  If its null, we\u0027re unable to continue and should throw.  But if its non-null we\u0027re OK and keep going.",
+      "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///a4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-04-27T15:09:36Z",
+      "side": 1,
+      "message": "ok, we should be able to commit on a detached head.\n\nBut I have to watch out that if the head is detached I should not try to to the RefUpdate stuff later, or?",
+      "parentUuid": "AAAAA3///eU\u003d",
       "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -257,6 +491,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAA3///a0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-04-27T15:09:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAAA3///eQ\u003d",
+      "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAA3///eM\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
         "patchSetId": 1
@@ -268,6 +520,24 @@
       "writtenOn": "2010-04-22T18:38:56Z",
       "side": 1,
       "message": "If we use the RevCommit like I suggested above as the return type here we can generate the subject line from the RevCommit\u0027s getShortMessage method, rather than parsing this ourselves.",
+      "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///aw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-04-27T15:09:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAAA3///eM\u003d",
       "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -291,6 +561,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAA3///as\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-04-27T15:09:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAAA3///eI\u003d",
+      "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAA3///eY\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
         "patchSetId": 1
@@ -302,6 +590,24 @@
       "writtenOn": "2010-04-22T18:38:56Z",
       "side": 1,
       "message": "Probably should just use /** style javadoc comment here instead.",
+      "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///ao\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-04-27T15:09:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAAA3///eY\u003d",
       "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -342,6 +648,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAA3///ak\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-04-27T15:09:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAAA3///eg\u003d",
+      "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAA3///ec\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
         "patchSetId": 1
@@ -353,6 +677,24 @@
       "writtenOn": "2010-04-22T18:38:56Z",
       "side": 1,
       "message": "So after the first invocation of run() we freeze the commit timestamp and never update it again?  We should document that behavior in the class docs, or at least in the run method.  Its not clear that you are doing that.",
+      "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///ag\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-04-27T15:09:36Z",
+      "side": 1,
+      "message": "No, I don\u0027t want this behavior. I\u0027ll add a patch which will use PersonIdents which have a uptodate timestamp for every call.",
+      "parentUuid": "AAAAA3///ec\u003d",
       "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -376,6 +718,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAA3///ac\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-04-27T15:09:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAAA3///cM\u003d",
+      "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAA3///fI\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
         "patchSetId": 1
@@ -387,6 +747,24 @@
       "writtenOn": "2010-04-22T18:38:56Z",
       "side": 1,
       "message": "Style-nit: We (lately) prefer {@code commit} over \u003ccode\u003ecommit\u003c/code\u003e because it is less verbose, but produces the same style of output when formatted.",
+      "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///aY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-04-27T15:09:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAAA3///fI\u003d",
       "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -427,6 +805,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAA3///aU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-04-27T15:09:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAAA3///e4\u003d",
+      "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAA3///e0\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
         "patchSetId": 1
@@ -444,6 +840,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAA3///aQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-04-27T15:09:36Z",
+      "side": 1,
+      "message": "Not anymore. I changed this javadoc so that it doesn\u0027t fit anymore.",
+      "parentUuid": "AAAAA3///e0\u003d",
+      "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAA3///fE\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
         "patchSetId": 1
@@ -455,6 +869,24 @@
       "writtenOn": "2010-04-22T18:38:56Z",
       "side": 1,
       "message": "Style-nit: Unnecessary blank line.",
+      "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///aM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-04-27T15:09:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAAA3///fE\u003d",
       "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -495,6 +927,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAA3///aE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-04-27T15:09:36Z",
+      "side": 1,
+      "message": "you mean \n\npublic CommitCommand setAuthor(String name, String email, long when, TimeZone tz)\n\ncorrect? when should be a long when you have additionally the timezone.\n\nI\u0027ll for know only add methods for author and commiter which expect name and email. The current time I\u0027ll recompute always in the call() method",
+      "parentUuid": "AAAAA3///fA\u003d",
+      "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAA3///ew\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
         "patchSetId": 1
@@ -506,6 +956,24 @@
       "writtenOn": "2010-04-22T18:38:56Z",
       "side": 1,
       "message": "Style-nit:  You can probably fit the entire /** */ on one line.",
+      "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///aI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-04-27T15:09:36Z",
+      "side": 1,
+      "message": "Not anymore. I changed this javadoc so that it doesn\u0027t fit anymore.",
+      "parentUuid": "AAAAA3///ew\u003d",
       "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -529,6 +997,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAA3///aA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Git.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-04-27T15:09:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAAA3///fk\u003d",
+      "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAA3///dU\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Git.java",
         "patchSetId": 1
@@ -540,6 +1026,24 @@
       "writtenOn": "2010-04-22T18:38:56Z",
       "side": 1,
       "message": "I think an important test of this API would be to add or port existing pgm classes over to use it.  We don\u0027t yet have a commit subcommand.  Maybe you can try adding it as part of this series to show how to use the CommitCommand, and to prove that the API can be used to simply perform the exact function its supposed to do.",
+      "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///Z8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Git.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-04-27T15:09:36Z",
+      "side": 1,
+      "message": "I agree. But I would like to do it in another Change. I\u0027ll propose a new one which offers commit() in the pgm package. (nearly 50 comments is enough for one change, :-) )",
+      "parentUuid": "AAAAA3///dU\u003d",
       "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -563,6 +1067,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAA3///Z4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Git.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-04-27T15:09:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAAA3///fc\u003d",
+      "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAA3///fg\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Git.java",
         "patchSetId": 1
@@ -574,6 +1096,24 @@
       "writtenOn": "2010-04-22T18:38:56Z",
       "side": 1,
       "message": "Should be final.",
+      "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///Z0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Git.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-04-27T15:09:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAAA3///fg\u003d",
       "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -597,6 +1137,42 @@
     },
     {
       "key": {
+        "uuid": "AAAAA3///Zw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Git.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-04-27T15:09:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAAA3///fY\u003d",
+      "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///Zs\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Git.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-04-27T15:09:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAAA3///dI\u003d",
+      "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAA3///cg\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Git.java",
         "patchSetId": 1
@@ -608,6 +1184,24 @@
       "writtenOn": "2010-04-23T08:10:44Z",
       "side": 1,
       "message": "style: extra parentheses",
+      "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///Zo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Git.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-04-27T15:09:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAAA3///cg\u003d",
       "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -631,6 +1225,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAA3///Zk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/LogCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-04-27T15:09:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAAA3///eE\u003d",
+      "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAA3///eA\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/LogCommand.java",
         "patchSetId": 1
@@ -642,6 +1254,24 @@
       "writtenOn": "2010-04-22T18:38:56Z",
       "side": 1,
       "message": "Should be final.",
+      "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///Zg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/LogCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-04-27T15:09:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAAA3///eA\u003d",
       "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -665,6 +1295,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAA3///Zc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/LogCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-04-27T15:09:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAAA3///d0\u003d",
+      "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAA3///dw\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/LogCommand.java",
         "patchSetId": 1
@@ -676,6 +1324,24 @@
       "writtenOn": "2010-04-22T18:38:56Z",
       "side": 1,
       "message": "Do we *really* want to lock ourselves into the List concept as a result type here?  I suspect most users of this really just need an Iterable\u003cRevCommit\u003e so they can easily access it from a for loop iteration.  RevWalk already implements that.\n\nIf we do implement List here... we probably should try to be smart about it and make the list lazy to construct itself.  See RevCommitList for what I mean about that.  It probably doesn\u0027t fully implement the List API, and so has corner cases we would need to finish out.  But the general idea would be, don\u0027t materialize the entire result unless the caller forces us to with size(), or a get(int) call for the last element in the List.  Otherwise, materialize out only as far as they have asked for.\n\nSure, certain sorting types require us to materialize the whole thing first anyway.  But not all do.  And not all applications need us to materialize the entire thing in order to process the results.  Its why RevWalk uses Iterable as its main public interface.",
+      "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///ZY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/LogCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-04-27T15:09:36Z",
+      "side": 1,
+      "message": "This return type has been changed back and forth when I started to write the test class. It was first an Iterable and test have been failing because I only received one single commit. Changed the code to use List. Found the bug (a missing addParent to the Commit() object .... and forgot to change the return type back to Iterable.",
+      "parentUuid": "AAAAA3///dw\u003d",
       "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -716,6 +1382,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAA3///ZM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/LogCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-04-27T15:09:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAAA3///cI\u003d",
+      "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAA3///d8\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/LogCommand.java",
         "patchSetId": 1
@@ -733,6 +1417,42 @@
     },
     {
       "key": {
+        "uuid": "AAAAA3///Yc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/LogCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-04-27T15:09:36Z",
+      "side": 1,
+      "message": "This LogCommand was not in my focus (I wanted to do the commit but found out it\u0027s hard to test without a log). Therefore I didn\u0027t inspected the APIs very well and concentrated only to support a \"Log\" without any parameters.\nBut after I looked at the RevWalk again I see that we can easily offer more of the functionality of RevWalk through this API. I\u0027ll add at least add() and not() and add(x,y) to support \"Log A..B\".\nI am wondering whether we need a seperate class for RevisionSpecifications and RangeSpecifications. Otherwise we have to add special methods for specifying ranges in a lot of commands. I\u0027ll keep this in mind and implement it when I need it.",
+      "parentUuid": "AAAAA3///d8\u003d",
+      "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///XY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/LogCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-04-27T15:09:36Z",
+      "side": 1,
+      "message": "setStart() is renamed to add(). And for now I decided not to support string based rev-specifications. This proposal get\u0027s too big otherwise.",
+      "parentUuid": "AAAAA3///dM\u003d",
+      "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAA3///d4\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/LogCommand.java",
         "patchSetId": 1
@@ -744,6 +1464,24 @@
       "writtenOn": "2010-04-22T18:38:56Z",
       "side": 1,
       "message": "This will never work, there\u0027s more going on than a single starting point.  It has to be at least a Set\u003cObjectId\u003e, if not more verbose than that.",
+      "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///XU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/LogCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-04-27T15:09:36Z",
+      "side": 1,
+      "message": "yes, I agree. I\u0027ll remove the getter(). With our addRange() and not() the return value would be too complicated.",
+      "parentUuid": "AAAAA3///d4\u003d",
       "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
