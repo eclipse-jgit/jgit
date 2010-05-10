@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAALuX///68\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CommitAndLogCommandTests.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-04-30T09:46:20Z",
+      "side": 1,
+      "message": "spelling: change caught to catch",
+      "revId": "df29ce1c56a1981b97cf10784aa6d962ef50667b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALuX///60\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CommitAndLogCommandTests.java",
         "patchSetId": 6
@@ -14,6 +31,23 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "AAALuX///68\u003d",
+      "revId": "df29ce1c56a1981b97cf10784aa6d962ef50667b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALuX///64\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CommitAndLogCommandTests.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-04-30T09:46:20Z",
+      "side": 1,
+      "message": "spelling: change caught to catch",
       "revId": "df29ce1c56a1981b97cf10784aa6d962ef50667b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -38,6 +72,23 @@
     },
     {
       "key": {
+        "uuid": "AAALuX///7E\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-04-30T06:35:58Z",
+      "side": 1,
+      "message": "Style: declare these two where they are initialized",
+      "revId": "df29ce1c56a1981b97cf10784aa6d962ef50667b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALuX///6s\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
         "patchSetId": 6
@@ -50,6 +101,23 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "AAALuX///7E\u003d",
+      "revId": "df29ce1c56a1981b97cf10784aa6d962ef50667b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALuX///7M\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/LogCommand.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-04-30T06:35:58Z",
+      "side": 1,
+      "message": "what about errors? Is it ok to retry execution of a partially failed command?",
       "revId": "df29ce1c56a1981b97cf10784aa6d962ef50667b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
