@@ -1,0 +1,141 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAA3///MI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-27T23:34:26Z",
+      "side": 1,
+      "message": "If its used for only one invocation, we should have a defined behavior when its invoked a second time on the same instance.\n\nBy defined I mean, we either:\n\n* Return the exact same RevCommit instance as we returned on the prior invocations.\n* Throw a AlreadyCalledException which extends GitAPIException, and all other commands also throw this if invoked a second time.\n\nApplications are going to try to run call() more than once.  Its a bug, but I can see applications making that mistake every once in a while.  We should help them figure out they have a problem earlier rather than later by failing-fast, or having predictable behavior (always produces the same prior result).\n\nI think we\u0027re safer throwing an exception.",
+      "revId": "ec768217fcdbddcd3703afddd919b1b7abfac2c8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALuX///+M\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-28T16:55:30Z",
+      "side": 1,
+      "message": "I disagree that we need to check the state on every setter method.\n\nIf the user modifies the command after they\u0027ve invoked call(), they get whatever they get.  In the case of CommitCommand, nothing happens.  In the case of LogCommand, their RevWalk internally might get screwed up so the active Iterator returned from their Iterable might get screwed up.  But if they\u0027ve completed the iteration, it might not be a problem.\n\nMost people won\u0027t make the mistake of using a command twice, because they will invoke the setters in a single statement followed by call() and be done.  Since call() returns a type that isn\u0027t the command, its somewhat more difficult to invoke a setter and change the command after the call() was made.\n\nBut, if you think its better to fail-fast on the setters, I can go along with that.\n\nIf we fail-fast on the setters, yes, a RuntimeException like IllegalStateException is going to be better choice than a checked exception that extends from our GitAPIException type.\n\nIf we are going to fail-fast in the setters, the easier that is to program, the better, because authors will forget to put in the checkState() invocations.  So some sort of dynamic proxy might be a good idea.  But it means we have to write a public interface for the command, and then a private implementation class that implements the interface.  And Git just acts as a factory for the dynamic proxy.  This pattern may be a bit more work for the author than always calling checkState() in each setter method, but it is easier to ensure its working correctly.\n\nUsing Java\u0027s native Proxy class is portable without adding additional dependencies.  So I would start with that.  It may not be as fast or as efficient as doing compile-type byte-code modifications via AspectJ, or runtime code generation via ObjectWeb ASM.  But the Git API stuff isn\u0027t going to be performance critical for setting up a command object, so I think we can eat the reflection overhead right now.  Besides, if we ever were to change to a different implementation method, having the interface and implementation class would probably also be required there too, so switching would be easy.",
+      "parentUuid": "AAALuX////4\u003d",
+      "revId": "ec768217fcdbddcd3703afddd919b1b7abfac2c8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///ME\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-27T23:34:26Z",
+      "side": 1,
+      "message": "\"currently\"?  We\u0027ll probably never support this.  I think it only makes sense to commit to HEAD through this API.  If you want to make a commit without touching HEAD, you probably should just use the lower-level library.",
+      "revId": "ec768217fcdbddcd3703afddd919b1b7abfac2c8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///MA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-27T23:34:26Z",
+      "side": 1,
+      "message": "Style-nit: Bad line wrapping here, can we put more words on this line beyond just \"for\" ?",
+      "revId": "ec768217fcdbddcd3703afddd919b1b7abfac2c8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///L8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-27T23:34:26Z",
+      "side": 1,
+      "message": "Hmm.  This is more like a ConcurrentModificationException than it is a state exception.  Do we want our own subclass of the GitAPIException which denotes this particular type of concurrent modification against a branch?\n\nSorry I missed this earlier.",
+      "revId": "ec768217fcdbddcd3703afddd919b1b7abfac2c8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///MQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/GitAPIException.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-27T23:34:26Z",
+      "side": 1,
+      "message": "Invented?  Or thrown?  I think thrown sounds better here.",
+      "revId": "ec768217fcdbddcd3703afddd919b1b7abfac2c8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///L4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/LogCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-27T23:34:26Z",
+      "side": 1,
+      "message": "s/Commit/Log/ ?",
+      "revId": "ec768217fcdbddcd3703afddd919b1b7abfac2c8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///L0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/LogCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-27T23:34:26Z",
+      "side": 1,
+      "message": "I still think these should use AnyObjectId as their parameter types.",
+      "revId": "ec768217fcdbddcd3703afddd919b1b7abfac2c8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
