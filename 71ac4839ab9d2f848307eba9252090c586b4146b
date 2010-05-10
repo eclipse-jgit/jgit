@@ -1,0 +1,633 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAA3///fw\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CommitAndLogCommandTests.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-22T18:38:56Z",
+      "side": 1,
+      "message": "Missing standard license header.",
+      "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///dg\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CommitAndLogCommandTests.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-22T18:38:56Z",
+      "side": 1,
+      "message": "Maybe set this up before you make the commits above, and use setMessage(expectedMessages[0]) to point to the first message?",
+      "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///dc\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CommitAndLogCommandTests.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-22T18:38:56Z",
+      "side": 1,
+      "message": "Why not .equals() here?  The message code should be fully 8-bit clean with no edits being applied along this code path, right?  So the strings should be identical.",
+      "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///dY\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CommitAndLogCommandTests.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-22T18:38:56Z",
+      "side": 1,
+      "message": "Style-nit: spaces around \u003d\u003d operator.",
+      "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///dk\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CommitAndLogCommandTests.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-22T18:38:56Z",
+      "side": 1,
+      "message": "Should we verify the message text is what we expect?",
+      "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///fs\u003d",
+        "filename": "org.eclipse.jgit/META-INF/MANIFEST.MF",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-22T18:38:56Z",
+      "side": 1,
+      "message": "Can we sort this alphabetically with the other packages?",
+      "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///fU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-22T18:38:56Z",
+      "side": 1,
+      "message": "Style-nit: Unnecessary blank line.",
+      "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///fQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-22T18:38:56Z",
+      "side": 1,
+      "message": "Should be final.",
+      "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///ek\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-22T18:38:56Z",
+      "side": 1,
+      "message": "Maybe we should always have commands implement a call() method and the java.util.concurrent.Callable interface.  It may help application developers to chain together commands with other platform APIs, especially things like a Future.\n\nAlso, do we really want to expose the Commit object to the caller?  I\u0027m trying to get rid of it.  Maybe RevCommit is better since its immutable, and offers more functionality (e.g. parsing of footer lines).",
+      "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///eo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-22T18:38:56Z",
+      "side": 1,
+      "message": "Style-nit:  We use Id not ID.  Also, this appears to be scoped only to the try block below.  In general we try to declare variables with the smallest scope required for their visibility.  Since its never used outside of the try, it should be declared within the try.",
+      "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///eU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-22T18:38:56Z",
+      "side": 1,
+      "message": "Why can\u0027t we commit on a detached HEAD?  Its supposed in C Git just fine.\n\nI think you really just need to check that head !\u003d null here.  If its null, we\u0027re unable to continue and should throw.  But if its non-null we\u0027re OK and keep going.",
+      "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///eQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-22T18:38:56Z",
+      "side": 1,
+      "message": "Style-nit: Spaces around operator !\u003d",
+      "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///eM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-22T18:38:56Z",
+      "side": 1,
+      "message": "If we use the RevCommit like I suggested above as the return type here we can generate the subject line from the RevCommit\u0027s getShortMessage method, rather than parsing this ourselves.",
+      "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///eI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-22T18:38:56Z",
+      "side": 1,
+      "message": "Do not force update.  This is almost always wrong, because it poses a race condition.\n\nThe correct code here is:\n\n  ru.setExpectedOldObjectId(parentId);\n  switch (ru.update()) {\n  case NEW:\n  case FAST_FORWARD:\n    return commit;\n\n  default:\n    throw some exception, it failed\n  }",
+      "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///eY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-22T18:38:56Z",
+      "side": 1,
+      "message": "Probably should just use /** style javadoc comment here instead.",
+      "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///eg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-22T18:38:56Z",
+      "side": 1,
+      "message": "Style-nit: We avoid curly braces on single statements.",
+      "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///ec\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-22T18:38:56Z",
+      "side": 1,
+      "message": "So after the first invocation of run() we freeze the commit timestamp and never update it again?  We should document that behavior in the class docs, or at least in the run method.  Its not clear that you are doing that.",
+      "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///fI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-22T18:38:56Z",
+      "side": 1,
+      "message": "Style-nit: We (lately) prefer {@code commit} over \u003ccode\u003ecommit\u003c/code\u003e because it is less verbose, but produces the same style of output when formatted.",
+      "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///fM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-22T18:38:56Z",
+      "side": 1,
+      "message": "Its not this class, its specifically {@code this}.  I would just say:\n\n * @return {@code this}",
+      "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///e4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-22T18:38:56Z",
+      "side": 1,
+      "message": "Please document how the committer is determined if set to null by this method.",
+      "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///e0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-22T18:38:56Z",
+      "side": 1,
+      "message": "Style-nit:  You can probably fit the entire /** */ on one line.",
+      "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///fE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-22T18:38:56Z",
+      "side": 1,
+      "message": "Style-nit: Unnecessary blank line.",
+      "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///e8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-22T18:38:56Z",
+      "side": 1,
+      "message": "Please document that author is defaulted to committer if set to null by this method.",
+      "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///fA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-22T18:38:56Z",
+      "side": 1,
+      "message": "I think we should be nice and offer a couple of overloads here:\n\n  public CommitCommand setAuthor(String name, String email)\n  public CommitCommand setAuthor(String name, String email, Date when)\n  public CommitCommand setAuthor(String name, String email, Date when, TimeZone tz)\n\nOr\n\n  public CommitCommand setAuthorName(String name)\n  public CommitCommand setAuthorEmail(String email)\n  public CommitCommand setAuthorDate(Date when)\n\nso applications can more easily just assign the author.  Having to make a PersonIdent can be sort of annoying.",
+      "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///ew\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-22T18:38:56Z",
+      "side": 1,
+      "message": "Style-nit:  You can probably fit the entire /** */ on one line.",
+      "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///fk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Git.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-22T18:38:56Z",
+      "side": 1,
+      "message": "You should insert a paragraph break at the end of the first sentence here.",
+      "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///dU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Git.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-22T18:38:56Z",
+      "side": 1,
+      "message": "I think an important test of this API would be to add or port existing pgm classes over to use it.  We don\u0027t yet have a commit subcommand.  Maybe you can try adding it as part of this series to show how to use the CommitCommand, and to prove that the API can be used to simply perform the exact function its supposed to do.",
+      "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///fc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Git.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-22T18:38:56Z",
+      "side": 1,
+      "message": "Style-nit: You can use /** */ all on one line here.",
+      "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///fg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Git.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-22T18:38:56Z",
+      "side": 1,
+      "message": "Should be final.",
+      "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///fY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Git.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-22T18:38:56Z",
+      "side": 1,
+      "message": "Style-nit: We don\u0027t put parens around return.  Thus:\n\n  return new CommitCommand(this);",
+      "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///eE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/LogCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-22T18:38:56Z",
+      "side": 1,
+      "message": "Style-nit: Unnecessary blank line.",
+      "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///eA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/LogCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-22T18:38:56Z",
+      "side": 1,
+      "message": "Should be final.",
+      "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///d0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/LogCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-22T18:38:56Z",
+      "side": 1,
+      "message": "Style-nit: Might as well just use /** */ style Javadoc comment.",
+      "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///dw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/LogCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-22T18:38:56Z",
+      "side": 1,
+      "message": "Do we *really* want to lock ourselves into the List concept as a result type here?  I suspect most users of this really just need an Iterable\u003cRevCommit\u003e so they can easily access it from a for loop iteration.  RevWalk already implements that.\n\nIf we do implement List here... we probably should try to be smart about it and make the list lazy to construct itself.  See RevCommitList for what I mean about that.  It probably doesn\u0027t fully implement the List API, and so has corner cases we would need to finish out.  But the general idea would be, don\u0027t materialize the entire result unless the caller forces us to with size(), or a get(int) call for the last element in the List.  Otherwise, materialize out only as far as they have asked for.\n\nSure, certain sorting types require us to materialize the whole thing first anyway.  But not all do.  And not all applications need us to materialize the entire thing in order to process the results.  Its why RevWalk uses Iterable as its main public interface.",
+      "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///do\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/LogCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-22T18:38:56Z",
+      "side": 1,
+      "message": "Style-nit:  We avoid double method calls like this.  Instead:\n\n  RevCommit c;\n  while ((c \u003d walk.next()) !\u003d null)\n    ret.add(c);\n\nor even:\n\n  for (;;) {\n    RevCommit c \u003d walk.next();\n    if (c !\u003d null)\n      ret.add(c);\n    else\n      break;\n  }",
+      "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///d8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/LogCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-22T18:38:56Z",
+      "side": 1,
+      "message": "Hah.  As complicated as RevWalk is... its about as simple as you can get.  You are about to reinvent its API I think.\n\nHow about:\n\n  public LogCommand add(ObjectId start) {\n    return add(true, start);\n  }\n\n  /** Same as {@code --not start}, or {@code ^start}, or {@code add(false, start)}. */\n  public LogCommand not(ObjectId start) {\n    return add(false, start);\n  }\n\n  /* Adds the range {@code p..q}. */\n  public LogCommand add(ObjectId p, ObjectId q) {\n    return not(p).add(q);\n  }\n\n  public LogCommand add(boolean include, ObjectId start);\n\nSo we can translate an expression like:\n\n  git log A ^B C\n\ninto Java as:\n\n  log().add(A).add(false, B).add(C)",
+      "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///d4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/LogCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-22T18:38:56Z",
+      "side": 1,
+      "message": "This will never work, there\u0027s more going on than a single starting point.  It has to be at least a Set\u003cObjectId\u003e, if not more verbose than that.",
+      "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
