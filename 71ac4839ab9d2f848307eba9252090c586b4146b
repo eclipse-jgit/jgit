@@ -159,6 +159,23 @@
     },
     {
       "key": {
+        "uuid": "AAAAA3///dE\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CommitAndLogCommandTests.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-04-22T19:00:18Z",
+      "side": 1,
+      "message": "What\u0027s wrong with assertEquals?",
+      "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAA3///bY\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CommitAndLogCommandTests.java",
         "patchSetId": 1
@@ -1155,6 +1172,23 @@
     },
     {
       "key": {
+        "uuid": "AAAAA3///dI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Git.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-04-22T19:00:18Z",
+      "side": 1,
+      "message": "style: extra parentheses",
+      "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAA3///Zs\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Git.java",
         "patchSetId": 1
@@ -1429,6 +1463,23 @@
       "side": 1,
       "message": "This LogCommand was not in my focus (I wanted to do the commit but found out it\u0027s hard to test without a log). Therefore I didn\u0027t inspected the APIs very well and concentrated only to support a \"Log\" without any parameters.\nBut after I looked at the RevWalk again I see that we can easily offer more of the functionality of RevWalk through this API. I\u0027ll add at least add() and not() and add(x,y) to support \"Log A..B\".\nI am wondering whether we need a seperate class for RevisionSpecifications and RangeSpecifications. Otherwise we have to add special methods for specifying ranges in a lot of commands. I\u0027ll keep this in mind and implement it when I need it.",
       "parentUuid": "AAAAA3///d8\u003d",
+      "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///dM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/LogCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-04-22T19:00:18Z",
+      "side": 1,
+      "message": "There are also some exceptions thrown. Null is returned only when\nthe syntax is valid but not object is found.",
       "revId": "71ac4839ab9d2f848307eba9252090c586b4146b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
