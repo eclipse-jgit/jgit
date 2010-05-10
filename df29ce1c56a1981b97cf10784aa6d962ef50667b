@@ -53,6 +53,24 @@
       "revId": "df29ce1c56a1981b97cf10784aa6d962ef50667b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALuX///6o\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/LogCommand.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-04-30T12:16:18Z",
+      "side": 1,
+      "message": "Not sure about that. There might be some error situations which for example represent only temporal problem and for which it would make sense to wait a second and try it again with the same set options.\n(Somebody locks currently something Log needs).\nIn other situation\u0027s you may receive and exception and based on the exception type you reset an option to a different and retry the command (e.g. setch errors \"server not available\" where you might try again with another protocol).\nSo in general I think a good contract could be: \"Only one succesful call to call() per instance. Or: only one result per instance.\n\nOr?",
+      "parentUuid": "AAALuX///7M\u003d",
+      "revId": "df29ce1c56a1981b97cf10784aa6d962ef50667b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
