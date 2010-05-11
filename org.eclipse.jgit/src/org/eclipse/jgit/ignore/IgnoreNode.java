@@ -1,5 +1,8 @@
-/*******************************************************************************
- * Copyright (c) 2010 Red Hat Inc. and others.
+/*
+ * Copyright (C) 2010, Red Hat Inc.
+ * Copyright (C) 2010, Charley Wang <charley.wang@gmail.com>
+ * and other copyright owners as documented in the project's IP log.
+ *
  * This program and the accompanying materials are made available
  * under the terms of the Eclipse Distribution License v1.0 which
  * accompanies this distribution, is reproduced below, and is
@@ -37,10 +40,7 @@
  * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
- * Contributors:
- *     Red Hat Inc. - initial API and implementation
- *******************************************************************************/
+ */
 
 package org.eclipse.jgit.ignore;
 
@@ -52,8 +52,7 @@ import java.util.ArrayList;
 
 
 /**
- * Represents a bundle of ignore nodes.
- *
+ * Represents a bundle of ignore rules inherited from a base directory.
  *
  * @author Charley Wang
  *
@@ -113,7 +112,7 @@ public class IgnoreNode {
 
 
 	/**
-	 * @return base directory for the .gitignore
+	 * @return base directory to which these rules apply
 	 */
 	public String getBaseDir() {
 		return baseDir.getAbsolutePath();
