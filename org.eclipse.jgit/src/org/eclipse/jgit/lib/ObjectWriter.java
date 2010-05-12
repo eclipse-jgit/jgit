@@ -300,6 +300,24 @@ public class ObjectWriter {
 		return writeObject(Constants.OBJ_BLOB, len, is, false);
 	}
 
+	/**
+	 * Compute the SHA-1 of an object without actually creating an object in the
+	 * database
+	 *
+	 * @param type
+	 *            kind of object
+	 * @param len
+	 *            number of bytes to consume
+	 * @param is
+	 *            stream for read data from
+	 * @return SHA-1 of data combined with type information
+	 * @throws IOException
+	 */
+	public ObjectId computeObjectSha1(final int type, final long len, final InputStream is)
+			throws IOException {
+		return writeObject(type, len, is, false);
+	}
+
 	ObjectId writeObject(final int type, long len, final InputStream is,
 			boolean store) throws IOException {
 		final File t;
