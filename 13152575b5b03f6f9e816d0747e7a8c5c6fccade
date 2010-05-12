@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAA3///Os\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Commit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-27T14:19:35Z",
+      "side": 1,
+      "message": "FYI, the native git commit command uses the environment variables GIT_COMMITTER_NAME, GIT_COMMITTER_EMAIL, and GIT_COMMITTER_DATE to set the committer name.  If these aren\u0027t set, they are inherited from the repository and/or the current system time.",
+      "revId": "13152575b5b03f6f9e816d0747e7a8c5c6fccade",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///Oo\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Commit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-27T14:19:35Z",
+      "side": 1,
+      "message": "Style-nit:  We tag the option/argument fields private.",
+      "revId": "13152575b5b03f6f9e816d0747e7a8c5c6fccade",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///Ok\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Commit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-27T14:19:35Z",
+      "side": 1,
+      "message": "Style-nit: Spaces around operators (\u003d, !\u003d, etc.)",
+      "revId": "13152575b5b03f6f9e816d0747e7a8c5c6fccade",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///Og\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Commit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-27T14:19:35Z",
+      "side": 1,
+      "message": "Should we try to print a short summary of the commit that was just created, similar to what C Git does?\n\n  $ git commit\n  [pack-bugs 374c280] Don\u0027t insert the same pack twice into a pack list\n   1 files changed, 13 insertions(+), 0 deletions(-)\n\nMaybe we skip the status line right now, but print that first line listing the branch, commit SHA-1, and subject line.",
+      "revId": "13152575b5b03f6f9e816d0747e7a8c5c6fccade",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
