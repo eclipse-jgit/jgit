@@ -147,14 +147,22 @@ public class TransportGitSsh extends SshTransport implements PackTransport {
 	ChannelExec exec(final String exe) throws TransportException {
 		initSession();
 
-		final int tms = getTimeout() > 0 ? getTimeout() * 1000 : 0;
 		try {
 			final ChannelExec channel = (ChannelExec) sock.openChannel("exec");
 			channel.setCommand(commandFor(exe));
-			channel.connect(tms);
 			return channel;
 		} catch (JSchException je) {
 			throw new TransportException(uri, je.getMessage(), je);
+		}
+	}
+
+	private void connect(ChannelExec channel) throws TransportException {
+		try {
+			channel.connect(getTimeout() > 0 ? getTimeout() * 1000 : 0);
+			if (!channel.isConnected())
+				throw new TransportException(uri, "connection failed");
+		} catch (JSchException e) {
+			throw new TransportException(uri, e.getMessage(), e);
 		}
 	}
 
@@ -235,14 +243,13 @@ public class TransportGitSsh extends SshTransport implements PackTransport {
 				setMessageWriter(msg);
 
 				channel = exec(getOptionUploadPack());
-				if (!channel.isConnected())
-					throw new TransportException(uri, "connection failed");
 
 				final InputStream upErr = channel.getErrStream();
 				errorThread = new StreamCopyThread(upErr, msg.getRawStream());
 				errorThread.start();
 
 				init(channel.getInputStream(), outputStream(channel));
+				connect(channel);
 
 			} catch (TransportException err) {
 				close();
@@ -304,14 +311,13 @@ public class TransportGitSsh extends SshTransport implements PackTransport {
 				setMessageWriter(msg);
 
 				channel = exec(getOptionReceivePack());
-				if (!channel.isConnected())
-					throw new TransportException(uri, "connection failed");
 
 				final InputStream rpErr = channel.getErrStream();
 				errorThread = new StreamCopyThread(rpErr, msg.getRawStream());
 				errorThread.start();
 
 				init(channel.getInputStream(), outputStream(channel));
+				connect(channel);
 
 			} catch (TransportException err) {
 				close();
