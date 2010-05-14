@@ -455,10 +455,9 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 
 	private PackedObjectLoader reader(final WindowCursor curs,
 			final long objOffset) throws IOException {
-		long pos = objOffset;
 		int p = 0;
 		final byte[] ib = curs.tempId;
-		readFully(pos, ib, 0, 20, curs);
+		readFully(objOffset, ib, 0, 20, curs);
 		int c = ib[p++] & 0xff;
 		final int typeCode = (c >> 4) & 7;
 		long dataSize = c & 15;
@@ -468,19 +467,16 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 			dataSize += (c & 0x7f) << shift;
 			shift += 7;
 		}
-		pos += p;
 
 		switch (typeCode) {
 		case Constants.OBJ_COMMIT:
 		case Constants.OBJ_TREE:
 		case Constants.OBJ_BLOB:
 		case Constants.OBJ_TAG:
-			return new WholePackedObjectLoader(this, pos, objOffset, typeCode,
-					(int) dataSize);
+			return new WholePackedObjectLoader(this, objOffset + p, objOffset,
+					typeCode, (int) dataSize);
 
 		case Constants.OBJ_OFS_DELTA: {
-			readFully(pos, ib, 0, 20, curs);
-			p = 0;
 			c = ib[p++] & 0xff;
 			long ofs = c & 127;
 			while ((c & 128) != 0) {
@@ -489,12 +485,12 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 				ofs <<= 7;
 				ofs += (c & 127);
 			}
-			return new DeltaOfsPackedObjectLoader(this, pos + p, objOffset,
-					(int) dataSize, objOffset - ofs);
+			return new DeltaOfsPackedObjectLoader(this, objOffset + p,
+					objOffset, (int) dataSize, objOffset - ofs);
 		}
 		case Constants.OBJ_REF_DELTA: {
-			readFully(pos, ib, 0, 20, curs);
-			return new DeltaRefPackedObjectLoader(this, pos + ib.length,
+			readFully(objOffset + p, ib, 0, 20, curs);
+			return new DeltaRefPackedObjectLoader(this, objOffset + p + 20,
 					objOffset, (int) dataSize, ObjectId.fromRaw(ib));
 		}
 		default:
