@@ -116,10 +116,7 @@ public final class WindowCursor {
 	 */
 	int inflate(final PackFile pack, long position, final byte[] dstbuf,
 			int dstoff) throws IOException, DataFormatException {
-		if (inf == null)
-			inf = InflaterCache.get();
-		else
-			inf.reset();
+		prepareInflater();
 		for (;;) {
 			pin(pack, position);
 			dstoff = window.inflate(position, dstbuf, dstoff, inf);
@@ -131,10 +128,7 @@ public final class WindowCursor {
 
 	void inflateVerify(final PackFile pack, long position)
 			throws IOException, DataFormatException {
-		if (inf == null)
-			inf = InflaterCache.get();
-		else
-			inf.reset();
+		prepareInflater();
 		for (;;) {
 			pin(pack, position);
 			window.inflateVerify(position, inf);
@@ -142,6 +136,13 @@ public final class WindowCursor {
 				return;
 			position = window.end;
 		}
+	}
+
+	private void prepareInflater() {
+		if (inf == null)
+			inf = InflaterCache.get();
+		else
+			inf.reset();
 	}
 
 	private void pin(final PackFile pack, final long position)
