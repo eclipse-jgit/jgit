@@ -155,7 +155,7 @@ public final class WindowCursor {
 			// it again.
 			//
 			window = null;
-			window = WindowCache.get(pack, position);
+			window = WindowCache.getInstance().get(pack, position);
 		}
 	}
 

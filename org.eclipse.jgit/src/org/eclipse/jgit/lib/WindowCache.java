@@ -48,7 +48,6 @@ import java.io.IOException;
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.SoftReference;
 import java.util.Random;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.concurrent.locks.ReentrantLock;
@@ -178,34 +177,12 @@ public class WindowCache {
 	 */
 	public static void reconfigure(final WindowCacheConfig cfg) {
 		final WindowCache nc = new WindowCache(cfg);
-		final WindowCache oc = cache;
-		if (oc != null)
-			oc.removeAll();
 		cache = nc;
 		UnpackedObjectCache.reconfigure(cfg);
 	}
 
 	static WindowCache getInstance() {
 		return cache;
-	}
-
-	static final ByteWindow get(final PackFile pack, final long offset)
-			throws IOException {
-		final WindowCache c = cache;
-		final ByteWindow r = c.getOrLoad(pack, c.toStart(offset));
-		if (c != cache) {
-			// The cache was reconfigured while we were using the old one
-			// to load this window. The window is still valid, but our
-			// cache may think its still live. Ensure the window is removed
-			// from the old cache so resources can be released.
-			//
-			c.removeAll();
-		}
-		return r;
-	}
-
-	static final void purge(final PackFile pack) {
-		cache.removeAll(pack);
 	}
 
 	/** ReferenceQueue to cleanup released and garbage collected windows. */
@@ -238,8 +215,6 @@ public class WindowCache {
 	private final int windowSizeShift;
 
 	private final int windowSize;
-
-	private final AtomicInteger openFiles;
 
 	private final AtomicLong openBytes;
 
@@ -274,7 +249,6 @@ public class WindowCache {
 		windowSizeShift = bits(cfg.getPackedGitWindowSize());
 		windowSize = 1 << windowSizeShift;
 
-		openFiles = new AtomicInteger();
 		openBytes = new AtomicLong();
 
 		if (maxFiles < 1)
@@ -283,12 +257,13 @@ public class WindowCache {
 			throw new IllegalArgumentException("Window size must be < limit");
 	}
 
-	int getOpenFiles() {
-		return openFiles.get();
-	}
-
 	long getOpenBytes() {
 		return openBytes.get();
+	}
+
+	final ByteWindow get(final PackFile pack, final long offset)
+			throws IOException {
+		return getOrLoad(pack, toStart(offset));
 	}
 
 	private int hash(final int packHash, final long off) {
@@ -297,22 +272,9 @@ public class WindowCache {
 
 	private ByteWindow load(final PackFile pack, final long offset)
 			throws IOException {
-		if (pack.beginWindowCache())
-			openFiles.incrementAndGet();
-		try {
-			if (mmap)
-				return pack.mmap(offset, windowSize);
-			return pack.read(offset, windowSize);
-		} catch (IOException e) {
-			close(pack);
-			throw e;
-		} catch (RuntimeException e) {
-			close(pack);
-			throw e;
-		} catch (Error e) {
-			close(pack);
-			throw e;
-		}
+		if (mmap)
+			return pack.mmap(offset, windowSize);
+		return pack.read(offset, windowSize);
 	}
 
 	private Ref createRef(final PackFile p, final long o, final ByteWindow v) {
@@ -323,16 +285,10 @@ public class WindowCache {
 
 	private void clear(final Ref ref) {
 		openBytes.addAndGet(-ref.size);
-		close(ref.pack);
-	}
-
-	private void close(final PackFile pack) {
-		if (pack.endWindowCache())
-			openFiles.decrementAndGet();
 	}
 
 	private boolean isFull() {
-		return maxFiles < openFiles.get() || maxBytes < openBytes.get();
+		return maxBytes < openBytes.get();
 	}
 
 	private long toStart(final long offset) {
@@ -457,56 +413,6 @@ public class WindowCache {
 				table.compareAndSet(slot, e1, clean(e1));
 			}
 		}
-	}
-
-	/**
-	 * Clear every entry from the cache.
-	 * <p>
-	 * This is a last-ditch effort to clear out the cache, such as before it
-	 * gets replaced by another cache that is configured differently. This
-	 * method tries to force every cached entry through {@link #clear(Ref)} to
-	 * ensure that resources are correctly accounted for and cleaned up by the
-	 * subclass. A concurrent reader loading entries while this method is
-	 * running may cause resource accounting failures.
-	 */
-	private void removeAll() {
-		for (int s = 0; s < tableSize; s++) {
-			Entry e1;
-			do {
-				e1 = table.get(s);
-				for (Entry e = e1; e != null; e = e.next)
-					e.kill();
-			} while (!table.compareAndSet(s, e1, null));
-		}
-		gc();
-	}
-
-	/**
-	 * Clear all entries related to a single file.
-	 * <p>
-	 * Typically this method is invoked during {@link PackFile#close()}, when we
-	 * know the pack is never going to be useful to us again (for example, it no
-	 * longer exists on disk). A concurrent reader loading an entry from this
-	 * same pack may cause the pack to become stuck in the cache anyway.
-	 *
-	 * @param pack
-	 *            the file to purge all entries of.
-	 */
-	private void removeAll(final PackFile pack) {
-		for (int s = 0; s < tableSize; s++) {
-			final Entry e1 = table.get(s);
-			boolean hasDead = false;
-			for (Entry e = e1; e != null; e = e.next) {
-				if (e.ref.pack == pack) {
-					e.kill();
-					hasDead = true;
-				} else if (e.dead)
-					hasDead = true;
-			}
-			if (hasDead)
-				table.compareAndSet(s, e1, clean(e1));
-		}
-		gc();
 	}
 
 	@SuppressWarnings("unchecked")
