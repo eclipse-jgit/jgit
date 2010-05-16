@@ -269,13 +269,13 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 			final OutputStream out, final byte buf[], final WindowCursor curs)
 			throws IOException {
 		final long objectOffset = loader.objectOffset;
-		final long dataOffset = loader.dataOffset;
+		final long dataOffset = objectOffset + loader.headerSize;
 		final int cnt = (int) (findEndOffset(objectOffset) - dataOffset);
 		final PackIndex idx = idx();
 
 		if (idx.hasCRC32Support()) {
 			final CRC32 crc = new CRC32();
-			int headerCnt = (int) (dataOffset - objectOffset);
+			int headerCnt = loader.headerSize;
 			while (headerCnt > 0) {
 				final int toRead = Math.min(headerCnt, buf.length);
 				readFully(objectOffset, buf, 0, toRead, curs);
@@ -289,14 +289,14 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 			final ObjectId id = findObjectForOffset(objectOffset);
 			final long expected = idx.findCRC32(id);
 			if (computed != expected)
-				throw new CorruptObjectException("Object at " + dataOffset
+				throw new CorruptObjectException("Object at " + objectOffset
 						+ " in " + getPackFile() + " has bad zlib stream");
 		} else {
 			try {
 				curs.inflateVerify(this, dataOffset);
 			} catch (DataFormatException dfe) {
 				final CorruptObjectException coe;
-				coe = new CorruptObjectException("Object at " + dataOffset
+				coe = new CorruptObjectException("Object at " + objectOffset
 						+ " in " + getPackFile() + " has bad zlib stream");
 				coe.initCause(dfe);
 				throw coe;
@@ -473,8 +473,8 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 		case Constants.OBJ_TREE:
 		case Constants.OBJ_BLOB:
 		case Constants.OBJ_TAG:
-			return new WholePackedObjectLoader(this, objOffset + p, objOffset,
-					typeCode, (int) dataSize);
+			return new WholePackedObjectLoader(this, objOffset, p, typeCode,
+					(int) dataSize);
 
 		case Constants.OBJ_OFS_DELTA: {
 			c = ib[p++] & 0xff;
@@ -485,13 +485,13 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 				ofs <<= 7;
 				ofs += (c & 127);
 			}
-			return new DeltaOfsPackedObjectLoader(this, objOffset + p,
-					objOffset, (int) dataSize, objOffset - ofs);
+			return new DeltaOfsPackedObjectLoader(this, objOffset, p,
+					(int) dataSize, objOffset - ofs);
 		}
 		case Constants.OBJ_REF_DELTA: {
 			readFully(objOffset + p, ib, 0, 20, curs);
-			return new DeltaRefPackedObjectLoader(this, objOffset + p + 20,
-					objOffset, (int) dataSize, ObjectId.fromRaw(ib));
+			return new DeltaRefPackedObjectLoader(this, objOffset, p + 20,
+					(int) dataSize, ObjectId.fromRaw(ib));
 		}
 		default:
 			throw new IOException("Unknown object type " + typeCode + ".");
