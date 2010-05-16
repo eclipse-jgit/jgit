@@ -715,16 +715,18 @@ public class PackWriter {
 		out.resetCRC32();
 		otp.setOffset(out.length());
 
-		final PackedObjectLoader reuse = open(otp);
+		final PackedObjectReuseHandle reuse = reuse(otp);
 		if (reuse != null) {
 			try {
+				final long pos = otp.getCopyOffset();
+				final long sz = reuse.getRawSize(pos, windowCursor);
 				if (otp.isDeltaRepresentation())
-					writeDeltaObjectHeader(otp, reuse);
+					writeDeltaObjectHeader(otp, sz);
 				else
-					writeObjectHeader(otp.getType(), reuse.getSize());
-				reuse.copyRawData(out, buf, windowCursor);
+					writeObjectHeader(otp.getType(), sz);
+				reuse.copy(pos, out, buf, windowCursor);
 			} finally {
-				reuse.endCopyRawData();
+				reuse.release();
 			}
 		} else if (otp.isDeltaRepresentation()) {
 			throw new IOException("creating deltas is not implemented");
@@ -736,12 +738,12 @@ public class PackWriter {
 		writeMonitor.update(1);
 	}
 
-	private PackedObjectLoader open(final ObjectToPack otp) throws IOException {
+	private PackedObjectReuseHandle reuse(final ObjectToPack otp)
+			throws IOException {
 		while (otp.isCopyable()) {
 			try {
-				PackedObjectLoader reuse = otp.getCopyLoader(windowCursor);
-				reuse.beginCopyRawData();
-				return reuse;
+				final long pos = otp.getCopyOffset();
+				return otp.getCopyFromPack().beginCopyRawData(pos);
 			} catch (IOException err) {
 				// The pack we found the object in originally is gone, or
 				// it has been overwritten with a different layout.
@@ -771,9 +773,9 @@ public class PackWriter {
 	}
 
 	private void writeDeltaObjectHeader(final ObjectToPack otp,
-			final PackedObjectLoader reuse) throws IOException {
+			final long rawSize) throws IOException {
 		if (deltaBaseAsOffset && otp.getDeltaBase() != null) {
-			writeObjectHeader(Constants.OBJ_OFS_DELTA, reuse.getRawSize());
+			writeObjectHeader(Constants.OBJ_OFS_DELTA, rawSize);
 
 			final ObjectToPack deltaBase = otp.getDeltaBase();
 			long offsetDiff = otp.getOffset() - deltaBase.getOffset();
@@ -785,7 +787,7 @@ public class PackWriter {
 
 			out.write(buf, pos, buf.length - pos);
 		} else {
-			writeObjectHeader(Constants.OBJ_REF_DELTA, reuse.getRawSize());
+			writeObjectHeader(Constants.OBJ_REF_DELTA, rawSize);
 			otp.getDeltaBaseId().copyRawTo(buf, 0);
 			out.write(buf, 0, Constants.OBJECT_ID_LENGTH);
 		}
@@ -996,8 +998,12 @@ public class PackWriter {
 			return copyFromPack != null;
 		}
 
-		PackedObjectLoader getCopyLoader(WindowCursor curs) throws IOException {
-			return copyFromPack.resolveBase(curs, copyOffset);
+		PackFile getCopyFromPack() {
+			return copyFromPack;
+		}
+
+		long getCopyOffset() {
+			return copyOffset;
 		}
 
 		void setCopyFromPack(PackedObjectLoader loader) {

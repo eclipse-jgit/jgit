@@ -265,23 +265,40 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 		return dstbuf;
 	}
 
-	final void copyRawData(final PackedObjectLoader loader,
+	final void copyRawData(final long objectOffset,
 			final OutputStream out, final byte buf[], final WindowCursor curs)
 			throws IOException {
-		final long objectOffset = loader.objectOffset;
-		final long dataOffset = objectOffset + loader.headerSize;
-		final int cnt = (int) (findEndOffset(objectOffset) - dataOffset);
 		final PackIndex idx = idx();
+
+		readFully(objectOffset, buf, 0, 20, curs);
+		int headerSize = 0;
+		while ((buf[headerSize++] & 0x80) != 0) {
+			// count continuation bytes
+		}
+
+		switch ((buf[0] >> 4) & 7) {
+		case Constants.OBJ_OFS_DELTA:
+			while ((buf[headerSize++] & 0x80) != 0) {
+				// count continuation bytes
+			}
+			break;
+		case Constants.OBJ_REF_DELTA:
+			if (idx.hasCRC32Support()) {
+				// The buffer doesn't contain the entire reference. Finish
+				// filling it so we can compute the CRC below.
+				//
+				readFully(objectOffset + 20, buf, 20, headerSize, curs);
+			}
+			headerSize += 20;
+			break;
+		}
+
+		final long dataOffset = objectOffset + headerSize;
+		final int cnt = (int) (findEndOffset(objectOffset) - dataOffset);
 
 		if (idx.hasCRC32Support()) {
 			final CRC32 crc = new CRC32();
-			int headerCnt = loader.headerSize;
-			while (headerCnt > 0) {
-				final int toRead = Math.min(headerCnt, buf.length);
-				readFully(objectOffset, buf, 0, toRead, curs);
-				crc.update(buf, 0, toRead);
-				headerCnt -= toRead;
-			}
+			crc.update(buf, 0, headerSize);
 			final CheckedOutputStream crcOut = new CheckedOutputStream(out, crc);
 			copyToStream(dataOffset, buf, cnt, crcOut, curs);
 			final long computed = crc.getValue();
@@ -332,9 +349,11 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 		}
 	}
 
-	synchronized void beginCopyRawData() throws IOException {
+	synchronized PackedObjectReuseHandle beginCopyRawData(final long offset)
+			throws IOException {
 		if (++activeCopyRawData == 1 && activeWindows == 0)
 			doOpen();
+		return new PackedObjectReuseHandle(this);
 	}
 
 	synchronized void endCopyRawData() {
@@ -451,6 +470,37 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 					+ " pack " + ObjectId.fromRaw(buf).name()
 					+ " index " + ObjectId.fromRaw(idx.packChecksum).name()
 					+ ": " + getPackFile());
+	}
+
+	/**
+	 * Get the inflated size of an object's representation in the pack.
+	 * <p>
+	 * For objects represented in the delta format, this is the inflated size of
+	 * the delta instruction stream, not the final object. For non-delta
+	 * objects, this is the same as the object size.
+	 *
+	 * @param objOffset
+	 *            offset of the object in this pack.
+	 * @param curs
+	 *            current cursor for the caller.
+	 * @return the inflated size, in bytes.
+	 * @throws IOException
+	 *             the pack cannot be accessed to get the object header.
+	 */
+	long getRawSize(final long objOffset, final WindowCursor curs)
+			throws IOException {
+		final byte[] ib = curs.tempId;
+		readFully(objOffset, ib, 0, 20, curs);
+		int p = 0;
+		int c = ib[p++] & 0xff;
+		long dataSize = c & 15;
+		int shift = 4;
+		while ((c & 0x80) != 0) {
+			c = ib[p++] & 0xff;
+			dataSize += (c & 0x7f) << shift;
+			shift += 7;
+		}
+		return dataSize;
 	}
 
 	private PackedObjectLoader reader(final WindowCursor curs,
