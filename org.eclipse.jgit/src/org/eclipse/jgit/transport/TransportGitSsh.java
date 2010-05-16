@@ -232,7 +232,7 @@ public class TransportGitSsh extends SshTransport implements PackTransport {
 	class SshFetchConnection extends BasePackFetchConnection {
 		private ChannelExec channel;
 
-		private Thread errorThread;
+		private StreamCopyThread errorThread;
 
 		private int exitStatus;
 
@@ -275,7 +275,7 @@ public class TransportGitSsh extends SshTransport implements PackTransport {
 
 			if (errorThread != null) {
 				try {
-					errorThread.join();
+					errorThread.halt();
 				} catch (InterruptedException e) {
 					// Stop waiting and return anyway.
 				} finally {
@@ -300,7 +300,7 @@ public class TransportGitSsh extends SshTransport implements PackTransport {
 	class SshPushConnection extends BasePackPushConnection {
 		private ChannelExec channel;
 
-		private Thread errorThread;
+		private StreamCopyThread errorThread;
 
 		private int exitStatus;
 
@@ -343,7 +343,7 @@ public class TransportGitSsh extends SshTransport implements PackTransport {
 
 			if (errorThread != null) {
 				try {
-					errorThread.join();
+					errorThread.halt();
 				} catch (InterruptedException e) {
 					// Stop waiting and return anyway.
 				} finally {
