@@ -270,7 +270,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 			throws IOException {
 		final long objectOffset = loader.objectOffset;
 		final long dataOffset = objectOffset + loader.headerSize;
-		final int cnt = (int) (findEndOffset(objectOffset) - dataOffset);
+		final long sz = findEndOffset(objectOffset) - dataOffset;
 		final PackIndex idx = idx();
 
 		if (idx.hasCRC32Support()) {
@@ -283,7 +283,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 				headerCnt -= toRead;
 			}
 			final CheckedOutputStream crcOut = new CheckedOutputStream(out, crc);
-			copyToStream(dataOffset, buf, cnt, crcOut, curs);
+			copyToStream(dataOffset, buf, sz, crcOut, curs);
 			final long computed = crc.getValue();
 
 			final ObjectId id = findObjectForOffset(objectOffset);
@@ -301,7 +301,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 				coe.initCause(dfe);
 				throw coe;
 			}
-			copyToStream(dataOffset, buf, cnt, out, curs);
+			copyToStream(dataOffset, buf, sz, out, curs);
 		}
 	}
 
