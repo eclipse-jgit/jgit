@@ -294,13 +294,13 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 		}
 
 		final long dataOffset = objectOffset + headerSize;
-		final int cnt = (int) (findEndOffset(objectOffset) - dataOffset);
+		final long sz = findEndOffset(objectOffset) - dataOffset;
 
 		if (idx.hasCRC32Support()) {
 			final CRC32 crc = new CRC32();
 			crc.update(buf, 0, headerSize);
 			final CheckedOutputStream crcOut = new CheckedOutputStream(out, crc);
-			copyToStream(dataOffset, buf, cnt, crcOut, curs);
+			copyToStream(dataOffset, buf, sz, crcOut, curs);
 			final long computed = crc.getValue();
 
 			final ObjectId id = findObjectForOffset(objectOffset);
@@ -318,7 +318,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 				coe.initCause(dfe);
 				throw coe;
 			}
-			copyToStream(dataOffset, buf, cnt, out, curs);
+			copyToStream(dataOffset, buf, sz, out, curs);
 		}
 	}
 
