@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAALun///U4\u003d",
+        "filename": "org.eclipse.jgit.console/resources/org/eclipse/jgit/console/ConsoleText.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2010-05-19T15:05:09Z",
+      "side": 1,
+      "message": "Yes it is intentional. The relevant piece of code before before string\nexternalization was:\nchar[] password \u003d cons.readPassword(\"Password: \");",
+      "parentUuid": "AAALun///cA\u003d",
+      "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALun///b8\u003d",
         "filename": "org.eclipse.jgit.console/resources/org/eclipse/jgit/console/ConsoleText.properties",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2010-05-18T14:04:41Z",
       "side": 1,
       "message": "again trailing whitespace",
+      "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///U0\u003d",
+        "filename": "org.eclipse.jgit.console/resources/org/eclipse/jgit/console/ConsoleText.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2010-05-19T15:05:09Z",
+      "side": 1,
+      "message": "Intentionally. See the previous answer.",
+      "parentUuid": "AAALun///b8\u003d",
       "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAALun///Us\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ServletUtils.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2010-05-19T15:05:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALun///b4\u003d",
+      "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALun///Yw\u003d",
         "filename": "org.eclipse.jgit.iplog/src/org/eclipse/jgit/iplog/IPZillaQuery.java",
         "patchSetId": 2
@@ -64,6 +118,24 @@
       "writtenOn": "2010-05-18T20:34:38Z",
       "side": 1,
       "message": "Splitting this into two translations makes little sense.",
+      "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///Uc\u003d",
+        "filename": "org.eclipse.jgit.iplog/src/org/eclipse/jgit/iplog/IPZillaQuery.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2010-05-19T15:05:09Z",
+      "side": 1,
+      "message": "The loginFailed is (re)used 3 times within this class. Check the lines 189, 197 and 203. I think it makes sense to reuse it in this case.\nOtherwise we would have 3 times the same string prefix in the resourcebundle:\nloginFailed1\u003dLogin as {0} to {1} failed: {2}: {3}\nloginFailed2\u003dLogin as {0} to {1} failed: {2}: Response not HTML as expected\nloginFailed3\u003dLogin as {0} to {1} failed: {2}: page title was \"{3}\"",
+      "parentUuid": "AAALun///Yw\u003d",
       "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AAALun///UY\u003d",
+        "filename": "org.eclipse.jgit.iplog/src/org/eclipse/jgit/iplog/IpLogGenerator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 449,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2010-05-19T15:05:09Z",
+      "side": 1,
+      "message": "Here is my question about that and the answer from Shawn Pearce:\n\u003e 1. How to decide if a text should or shouldn\u0027t be translated? Is it only error message as stated above?\n\u003e    I assume (j)git output should stay parsable and some texts mustn\u0027t be translated. Right?\n\nIMHO, if the text is an english message that isn\u0027t a string required\nfor a file name or file content or network protocol keyword, we\nshould translate it.  That\u0027s *most* of the strings in the JGit code.",
+      "parentUuid": "AAALun///Ys\u003d",
+      "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALun///bs\u003d",
         "filename": "org.eclipse.jgit.pgm/META-INF/MANIFEST.MF",
         "patchSetId": 2
@@ -98,6 +188,24 @@
       "writtenOn": "2010-05-18T14:04:41Z",
       "side": 1,
       "message": "this looks like a change not correlated to string externalization",
+      "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///UU\u003d",
+        "filename": "org.eclipse.jgit.pgm/META-INF/MANIFEST.MF",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2010-05-19T15:05:09Z",
+      "side": 1,
+      "message": "The org.eclipse.jgit.test project needs to import CLIText from this package because of the TestStringExternalization test which verifies that there are no missing translation keys in resource bundles associated to the translation bundle classes (CLIText being one of them).",
+      "parentUuid": "AAALun///bs\u003d",
       "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "AAALun///UQ\u003d",
+        "filename": "org.eclipse.jgit.pgm/resources/org/eclipse/jgit/pgm/CLIText.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2010-05-19T15:05:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALun///bo\u003d",
+      "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALun///bk\u003d",
         "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/TextBuiltin.java",
         "patchSetId": 2
@@ -132,6 +258,24 @@
       "writtenOn": "2010-05-18T14:04:41Z",
       "side": 1,
       "message": "typo: s/used/be/",
+      "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///UM\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/TextBuiltin.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2010-05-19T15:05:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALun///bk\u003d",
       "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "AAALun///UE\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/debug/ReadDirCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2010-05-19T15:05:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALun///bg\u003d",
+      "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALun///Yo\u003d",
         "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/debug/ReadDirCache.java",
         "patchSetId": 2
@@ -166,6 +328,24 @@
       "writtenOn": "2010-05-18T20:34:38Z",
       "side": 1,
       "message": "I think this is better translated using one string.\nOne thing about translations is that they sometimes change orders of things and the original author doesn\u0027t know all language conventions and styles.\n\ne.g. suppose it looks better to say (roughly) in some language\n\naverage (ms/read):  nnnn\n\nDoesn\u0027t help us if milliseconds is not a viable unit, but then we can\u0027t think of everything :)",
+      "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///UA\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/debug/ReadDirCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2010-05-19T15:05:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALun///Yo\u003d",
       "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -189,6 +369,24 @@
     },
     {
       "key": {
+        "uuid": "AAALun///T8\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/debug/ShowCacheTree.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2010-05-19T15:05:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALun///Yk\u003d",
+      "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALun///Yg\u003d",
         "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/opt/AbstractTreeIteratorHandler.java",
         "patchSetId": 2
@@ -200,6 +398,24 @@
       "writtenOn": "2010-05-18T20:34:38Z",
       "side": 1,
       "message": "move the \":\" + e.getMessage() into the translation to. (e.getMessage() as a parameter)",
+      "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///T4\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/opt/AbstractTreeIteratorHandler.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2010-05-19T15:05:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALun///Yg\u003d",
       "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -223,6 +439,24 @@
     },
     {
       "key": {
+        "uuid": "AAALun///T0\u003d",
+        "filename": "org.eclipse.jgit.ui/src/org/eclipse/jgit/awtui/AwtAuthenticator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2010-05-19T15:05:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALun///bY\u003d",
+      "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALun///bU\u003d",
         "filename": "org.eclipse.jgit/META-INF/MANIFEST.MF",
         "patchSetId": 2
@@ -234,6 +468,24 @@
       "writtenOn": "2010-05-18T14:04:41Z",
       "side": 1,
       "message": "trailing whitespace",
+      "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///Tw\u003d",
+        "filename": "org.eclipse.jgit/META-INF/MANIFEST.MF",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2010-05-19T15:05:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALun///bU\u003d",
       "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -257,6 +509,24 @@
     },
     {
       "key": {
+        "uuid": "AAALun///Ts\u003d",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/JGitText.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2010-05-19T15:05:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALun///bQ\u003d",
+      "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALun///bM\u003d",
         "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/JGitText.properties",
         "patchSetId": 2
@@ -268,6 +538,24 @@
       "writtenOn": "2010-05-18T14:04:41Z",
       "side": 1,
       "message": "property name could be more specific",
+      "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///To\u003d",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/JGitText.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2010-05-19T15:05:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALun///bM\u003d",
       "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -291,6 +579,24 @@
     },
     {
       "key": {
+        "uuid": "AAALun///Tk\u003d",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/JGitText.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2010-05-19T15:05:09Z",
+      "side": 1,
+      "message": "No.\nIt was exactly like that, for example in PackWriter.java:\n\t\tthrow new IncorrectObjectTypeException(object,\n\t\t\t\t\t\"COMMIT nor TREE nor BLOB nor TAG\");",
+      "parentUuid": "AAALun///bI\u003d",
+      "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALun///bE\u003d",
         "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/JGitText.properties",
         "patchSetId": 2
@@ -302,6 +608,24 @@
       "writtenOn": "2010-05-18T14:04:41Z",
       "side": 1,
       "message": "looks incomplete",
+      "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///Tg\u003d",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/JGitText.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2010-05-19T15:05:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALun///bE\u003d",
       "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -325,6 +649,24 @@
     },
     {
       "key": {
+        "uuid": "AAALun///Tc\u003d",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/JGitText.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2010-05-19T15:05:09Z",
+      "side": 1,
+      "message": "There was no argument, at least not directly:\n\t\t\t\tthrow new TransportException(transport.uri, \"not a bundle\");\n\nTransportException itself does some string join:\n\tpublic TransportException(final URIish uri, final String s) {\n\t\tsuper(uri.setPass(null) + \": \" + s);\n\t}\n\nBut this was too far for a \"simple\" string externalization task :-)",
+      "parentUuid": "AAALun///bA\u003d",
+      "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALun///a4\u003d",
         "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/JGitText.properties",
         "patchSetId": 2
@@ -336,6 +678,24 @@
       "writtenOn": "2010-05-18T14:04:41Z",
       "side": 1,
       "message": "no argument ?",
+      "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///TY\u003d",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/JGitText.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2010-05-19T15:05:09Z",
+      "side": 1,
+      "message": "Yes, no argument. Was like that:\n\t\tif (!is_DIRC(hdr))\n\t\t\tthrow new CorruptObjectException(\"Not a DIRC file.\");\nin DirCache.java",
+      "parentUuid": "AAALun///a4\u003d",
       "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -359,6 +719,24 @@
     },
     {
       "key": {
+        "uuid": "AAALun///TU\u003d",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/JGitText.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2010-05-19T15:05:09Z",
+      "side": 1,
+      "message": "the same reason as for the notABundle above.",
+      "parentUuid": "AAALun///a0\u003d",
+      "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALun///aw\u003d",
         "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/JGitText.properties",
         "patchSetId": 2
@@ -370,6 +748,24 @@
       "writtenOn": "2010-05-18T14:04:41Z",
       "side": 1,
       "message": "no argument ?",
+      "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///TQ\u003d",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/JGitText.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2010-05-19T15:05:09Z",
+      "side": 1,
+      "message": "No argument. Was like that:\n\t\tif (RawParseUtils.match(buf, 0, Constants.PACK_SIGNATURE) !\u003d 4)\n\t\t\tthrow new IOException(\"Not a PACK file.\");",
+      "parentUuid": "AAALun///aw\u003d",
       "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -393,6 +789,24 @@
     },
     {
       "key": {
+        "uuid": "AAALun///TM\u003d",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/JGitText.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2010-05-19T15:05:09Z",
+      "side": 1,
+      "message": "Similar case like for the TransportException above.\n\t\treturn new NoRemoteRepositoryException(uri, JGitText.get().notFound);\n\nand the NoRemoteRepositoryException looks like:\npublic class NoRemoteRepositoryException extends TransportException {\n\t...\n\tpublic NoRemoteRepositoryException(final URIish uri, final String s) {\n\t\tsuper(uri, s);\n\t}\n}",
+      "parentUuid": "AAALun///a8\u003d",
+      "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALun///as\u003d",
         "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/JGitText.properties",
         "patchSetId": 2
@@ -404,6 +818,24 @@
       "writtenOn": "2010-05-18T14:04:41Z",
       "side": 1,
       "message": "trailing whitespace ?",
+      "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///TI\u003d",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/JGitText.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2010-05-19T15:05:09Z",
+      "side": 1,
+      "message": "Intentionally. Was like:\n\tprivate static final String PFX_REMOTE \u003d \"remote: \";",
+      "parentUuid": "AAALun///as\u003d",
       "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -427,6 +859,24 @@
     },
     {
       "key": {
+        "uuid": "AAALun///TE\u003d",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/JGitText.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2010-05-19T15:05:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALun///ao\u003d",
+      "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALun///ak\u003d",
         "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/JGitText.properties",
         "patchSetId": 2
@@ -438,6 +888,24 @@
       "writtenOn": "2010-05-18T14:04:41Z",
       "side": 1,
       "message": "redundant copy of same property",
+      "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///TA\u003d",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/JGitText.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2010-05-19T15:05:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALun///ak\u003d",
       "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -461,6 +929,24 @@
     },
     {
       "key": {
+        "uuid": "AAALun///S8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ConcurrentRefUpdateException.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2010-05-19T15:05:09Z",
+      "side": 1,
+      "message": "I wasn\u0027t sure about cases like this one. \"message\" could be anything.\nWhat should be the name of the translation key if the message is included? How would this look like in the resource bundle:\n\n\trefUpdateReturnCodeWas\u003d{0}. RefUpdate return code was: {1}\n\nI also know that as it is now is not ideal but at least the entry in resource bundle looks well defined:\n\n\trefUpdateReturnCodeWas\u003dRefUpdate return code was: {0}\n\nLet me know your final opinion on that.",
+      "parentUuid": "AAALun///Yc\u003d",
+      "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALun///YY\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffFormatter.java",
         "patchSetId": 2
@@ -472,6 +958,24 @@
       "writtenOn": "2010-05-18T20:34:38Z",
       "side": 1,
       "message": "I\u0027m not convinced programmer errors should be translated",
+      "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///S4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffFormatter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2010-05-19T15:05:09Z",
+      "side": 1,
+      "message": "Again, here is the answer from Shawn on this question:\n\u003e 1. How to decide if a text should or shouldn\u0027t be translated? Is it only error message as stated above?\n\u003e    I assume (j)git output should stay parsable and some texts mustn\u0027t be translated. Right?\n\nIMHO, if the text is an english message that isn\u0027t a string required\nfor a file name or file content or network protocol keyword, we\nshould translate it.  That\u0027s *most* of the strings in the JGit code.",
+      "parentUuid": "AAALun///YY\u003d",
       "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -495,6 +999,24 @@
     },
     {
       "key": {
+        "uuid": "AAALun///S0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/MyersDiff.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2010-05-19T15:05:09Z",
+      "side": 1,
+      "message": "well, this is exception text not just System.err.print.\nWe need clear criteria what should (not) be externalized and especially\nwhat are debugging printouts and what are not.\nI would like to get another opinion on this topic.",
+      "parentUuid": "AAALun///YU\u003d",
+      "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALun///YQ\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/MyersDiff.java",
         "patchSetId": 2
@@ -506,6 +1028,24 @@
       "writtenOn": "2010-05-18T20:34:38Z",
       "side": 1,
       "message": "Debugging printouts. Don\u0027t translate",
+      "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///Sw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/MyersDiff.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2010-05-19T15:05:09Z",
+      "side": 1,
+      "message": "same like previous reply",
+      "parentUuid": "AAALun///YQ\u003d",
       "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -529,6 +1069,24 @@
     },
     {
       "key": {
+        "uuid": "AAALun///Ss\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/MyersDiff.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2010-05-19T15:05:09Z",
+      "side": 1,
+      "message": "same like previous reply",
+      "parentUuid": "AAALun///YM\u003d",
+      "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALun///YI\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/MyersDiff.java",
         "patchSetId": 2
@@ -540,6 +1098,24 @@
       "writtenOn": "2010-05-18T20:34:38Z",
       "side": 1,
       "message": "This main is a test utiliyty. Don\u0027t translate",
+      "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///So\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/MyersDiff.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 526,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2010-05-19T15:05:09Z",
+      "side": 1,
+      "message": "same like previous reply",
+      "parentUuid": "AAALun///YI\u003d",
       "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -563,6 +1139,24 @@
     },
     {
       "key": {
+        "uuid": "AAALun///Sk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Commit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2010-05-19T15:05:09Z",
+      "side": 1,
+      "message": "Well, OK, added it.\nHowever, this is definitely not the only place where Non-NLS comment would be needed.\nThis is a huge change and I would like to get it through without having to rebase several times and redo string externalization each time.\n\nCould we agree to have another follow-up change where we ensure to have NON-NLS comments for non externalized strings and ensure\nto have design/compile time checks for that?",
+      "parentUuid": "AAALun///YA\u003d",
+      "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALun///X0\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PacketLineIn.java",
         "patchSetId": 2
@@ -574,6 +1168,24 @@
       "writtenOn": "2010-05-18T20:34:38Z",
       "side": 1,
       "message": "` part of transaltion?",
+      "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///Sg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PacketLineIn.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2010-05-19T15:05:09Z",
+      "side": 1,
+      "message": "the concatenation with empty string \"\" was necessary to tell Java\nto perform character concatenation.\n\nWithout the (empty) string concatenation Java threats these (char)s\nas numbers and performs arithmetical plus operation. Thanks to\ntest failure I was able to spot that.",
+      "parentUuid": "AAALun///X0\u003d",
       "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -597,6 +1209,24 @@
     },
     {
       "key": {
+        "uuid": "AAALun///Sc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2010-05-19T15:05:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALun///ag\u003d",
+      "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALun///ac\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
         "patchSetId": 2
@@ -614,6 +1244,24 @@
     },
     {
       "key": {
+        "uuid": "AAALun///SY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2010-05-19T15:05:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALun///ac\u003d",
+      "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALun///aY\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/IO.java",
         "patchSetId": 2
@@ -625,6 +1273,24 @@
       "writtenOn": "2010-05-18T14:04:41Z",
       "side": 1,
       "message": "should be shortSkipOfBlock",
+      "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///SU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/IO.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2010-05-19T15:05:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALun///aY\u003d",
       "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
