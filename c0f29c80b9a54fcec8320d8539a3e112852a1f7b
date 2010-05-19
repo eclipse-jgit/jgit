@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAA3///WY\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/CLIText.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-26T14:39:18Z",
+      "side": 1,
+      "message": "FYI, typo here in this method name, Chetkout isn\u0027t an English word.  :-)",
+      "revId": "c0f29c80b9a54fcec8320d8539a3e112852a1f7b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///WE\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/CLIText.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-26T14:39:18Z",
+      "side": 1,
+      "message": "We probably should keep this file sorted by key.  If we\u0027re going to use the same file for all commands, and thus enable translation reuse (which makes a lot of sense), we should at least try to keep the catalog organized so its easier to locate a particular key when we need to.",
+      "revId": "c0f29c80b9a54fcec8320d8539a3e112852a1f7b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///WA\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/CLIText.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-26T14:39:18Z",
+      "side": 1,
+      "message": "These are insanely short translation texts.  I wonder if we shouldn\u0027t be using some sort of context here as part of the key.  E.g. call this remoteNameMetaVar instead of just name.  Translators might need to use a different term for a variable meant to be a remote name from some other context where a \"name\" is used.",
+      "revId": "c0f29c80b9a54fcec8320d8539a3e112852a1f7b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///WI\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Log.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-26T14:39:18Z",
+      "side": 1,
+      "message": "FYI, these strings aren\u0027t translating.  To get them to translate you need to modify Main.java\u0027s execute() method.  I take it you just haven\u0027t gotten that far yet in the change\u0027s development.",
+      "revId": "c0f29c80b9a54fcec8320d8539a3e112852a1f7b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///WU\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/TextBuiltin.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-26T14:39:18Z",
+      "side": 1,
+      "message": "If we\u0027re going to make a writer around System.err, I think I would prefer to just use that throughout this method.  So do this at the start, and replace the System.err.print* invocations with calls to your writer that you are sharing with the args4j library.",
+      "revId": "c0f29c80b9a54fcec8320d8539a3e112852a1f7b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///WQ\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/TextBuiltin.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-26T14:39:18Z",
+      "side": 1,
+      "message": "Creating the local variable is probably not necessary.  You can just call getResourceBundle() the two times its needed, and let the method return it.  The bundle is cached and fast enough to access from the error code path.",
+      "revId": "c0f29c80b9a54fcec8320d8539a3e112852a1f7b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
