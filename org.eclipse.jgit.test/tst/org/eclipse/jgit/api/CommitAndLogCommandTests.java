@@ -42,14 +42,22 @@
  */
 package org.eclipse.jgit.api;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
 import org.eclipse.jgit.errors.UnmergedPathException;
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.RepositoryTestCase;
 import org.eclipse.jgit.revwalk.RevCommit;
 
 public class CommitAndLogCommandTests extends RepositoryTestCase {
 	public void testSomeCommits() throws NoHeadException, NoMessageException,
-			UnmergedPathException, ConcurrentRefUpdateException {
+			UnmergedPathException, ConcurrentRefUpdateException,
+			JGitInternalException, WrongRepositoryStateException {
 
 		// do 4 commits
 		Git git = new Git(db);
@@ -62,8 +70,8 @@ public class CommitAndLogCommandTests extends RepositoryTestCase {
 
 		// check that all commits came in correctly
 		PersonIdent defaultCommitter = new PersonIdent(db);
-		PersonIdent expectedAuthors[] = new PersonIdent[] {
-				defaultCommitter, committer, author, author };
+		PersonIdent expectedAuthors[] = new PersonIdent[] { defaultCommitter,
+				committer, author, author };
 		PersonIdent expectedCommitters[] = new PersonIdent[] {
 				defaultCommitter, committer, defaultCommitter, committer };
 		String expectedMessages[] = new String[] { "initial commit",
@@ -82,7 +90,8 @@ public class CommitAndLogCommandTests extends RepositoryTestCase {
 
 	// try to do a commit without specifying a message. Should fail!
 	public void testWrongParams() throws UnmergedPathException,
-			NoHeadException, ConcurrentRefUpdateException {
+			NoHeadException, ConcurrentRefUpdateException,
+			JGitInternalException, WrongRepositoryStateException {
 		Git git = new Git(db);
 		try {
 			git.commit().setAuthor(author).call();
@@ -95,7 +104,8 @@ public class CommitAndLogCommandTests extends RepositoryTestCase {
 	// exceptions
 	public void testMultipleInvocations() throws NoHeadException,
 			ConcurrentRefUpdateException, NoMessageException,
-			UnmergedPathException {
+			UnmergedPathException, JGitInternalException,
+			WrongRepositoryStateException {
 		Git git = new Git(db);
 		CommitCommand commitCmd = git.commit();
 		commitCmd.setMessage("initial commit").call();
@@ -113,5 +123,32 @@ public class CommitAndLogCommandTests extends RepositoryTestCase {
 			fail("didn't catch the expected exception");
 		} catch (IllegalStateException e) {
 		}
+	}
+
+	public void testMergeEmptyBranches() throws IOException, NoHeadException,
+			NoMessageException, ConcurrentRefUpdateException,
+			JGitInternalException, WrongRepositoryStateException {
+		Git git = new Git(db);
+		git.commit().setMessage("initial commit").call();
+		RefUpdate r = db.updateRef("refs/heads/side");
+		r.setNewObjectId(db.resolve(Constants.HEAD));
+		assertEquals(r.forceUpdate(), RefUpdate.Result.NEW);
+		RevCommit second = git.commit().setMessage("second commit").setCommitter(committer).call();
+		db.updateRef(Constants.HEAD).link("refs/heads/side");
+		RevCommit firstSide = git.commit().setMessage("first side commit").setAuthor(author).call();
+
+		FileWriter wr = new FileWriter(new File(db.getDirectory(),
+				Constants.MERGE_HEAD));
+		wr.write(ObjectId.toString(db.resolve("refs/heads/master")));
+		wr.close();
+		wr = new FileWriter(new File(db.getDirectory(), Constants.MERGE_MSG));
+		wr.write("merging");
+		wr.close();
+
+		RevCommit commit = git.commit().call();
+		RevCommit[] parents = commit.getParents();
+		assertEquals(parents[0], firstSide);
+		assertEquals(parents[1], second);
+		assertTrue(parents.length==2);
 	}
 }

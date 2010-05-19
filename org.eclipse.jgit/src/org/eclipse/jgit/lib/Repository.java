@@ -47,6 +47,7 @@
 package org.eclipse.jgit.lib;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -61,12 +62,14 @@ import java.util.Set;
 import java.util.Vector;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.JGitText;
+import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.RevisionSyntaxException;
 import org.eclipse.jgit.util.FS;
+import org.eclipse.jgit.util.IO;
+import org.eclipse.jgit.util.RawParseUtils;
 import org.eclipse.jgit.util.SystemReader;
 
 /**
@@ -1337,5 +1340,56 @@ public class Repository {
 		if (ref != null)
 			return new ReflogReader(this, ref.getName());
 		return null;
+	}
+
+	/**
+	 * Return the information stored in the file $GIT_DIR/MERGE_MSG. In this
+	 * file operations triggering a merge will store a template for the commit
+	 * message of the merge commit.
+	 *
+	 * @return a String containing the content of the MERGE_MSG file or
+	 *         {@code null} if this file doesn't exist
+	 * @throws IOException
+	 */
+	public String readMergeCommitMsg() throws IOException {
+		File mergeMsgFile = new File(gitDir, Constants.MERGE_MSG);
+		try {
+			return new String(IO.readFully(mergeMsgFile));
+		} catch (FileNotFoundException e) {
+			// MERGE_MSG file has disappeared in the meantime
+			// ignore it
+			return null;
+		}
+	}
+
+	/**
+	 * Return the information stored in the file $GIT_DIR/MERGE_HEAD. In this
+	 * file operations triggering a merge will store the IDs of all heads which
+	 * should be merged together with HEAD.
+	 *
+	 * @return a list of {@link Commit}s which IDs are listed in the MERGE_HEAD
+	 *         file or {@code null} if this file doesn't exist. Also if the file
+	 *         exists but is empty {@code null} will be returned
+	 * @throws IOException
+	 */
+	public List<ObjectId> readMergeHeads() throws IOException {
+		File mergeHeadFile = new File(gitDir, Constants.MERGE_HEAD);
+		byte[] raw;
+		try {
+			raw = IO.readFully(mergeHeadFile);
+		} catch (FileNotFoundException notFound) {
+			return new LinkedList<ObjectId>();
+		}
+
+		if (raw.length == 0)
+			throw new IOException("MERGE_HEAD file empty: " + mergeHeadFile);
+
+		LinkedList<ObjectId> heads = new LinkedList<ObjectId>();
+		for (int p = 0; p < raw.length;) {
+			heads.add(ObjectId.fromString(raw, p));
+			p = RawParseUtils
+					.nextLF(raw, p + Constants.OBJECT_ID_STRING_LENGTH);
+		}
+		return heads;
 	}
 }

@@ -87,6 +87,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String blobNotFoundForPath;
 	/***/ public String cannotBeCombined;
 	/***/ public String cannotCombineTreeFilterWithRevFilter;
+	/***/ public String cannotCommitOnARepoWithState;
 	/***/ public String cannotCommitWriteTo;
 	/***/ public String cannotConnectPipes;
 	/***/ public String cannotConvertScriptToText;
@@ -197,6 +198,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String errorReadingInfoRefs;
 	/***/ public String exceptionCaughtDuringExecutionOfCommitCommand;
 	/***/ public String exceptionOccuredDuringAddingOfOptionToALogCommand;
+	/***/ public String exceptionOccuredDuringReadingOfGIT_DIR;
 	/***/ public String expectedACKNAKFoundEOF;
 	/***/ public String expectedACKNAKGot;
 	/***/ public String expectedBooleanStringValue;
