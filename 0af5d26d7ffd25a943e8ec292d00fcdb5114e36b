@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALun///RY\u003d",
+        "filename": "org.eclipse.jgit.console/resources/org/eclipse/jgit/console/ConsoleText.properties",
+        "patchSetId": 3
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-05-19T21:26:35Z",
+      "side": 1,
+      "message": "IMHO, we shouldn\u0027t have trailing spaces in translated messages.    Some editors might strip it, and Git/Gerrit show this as an \"error\".  Since this is a prompt, we probably want to offset it in the UI anyway no matter what language is involved.  So we probably should handle that in the UI *code* not the translation bundle.",
+      "revId": "0af5d26d7ffd25a943e8ec292d00fcdb5114e36b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///RU\u003d",
+        "filename": "org.eclipse.jgit.console/resources/org/eclipse/jgit/console/ConsoleText.properties",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-05-19T21:26:35Z",
+      "side": 1,
+      "message": "Ditto.",
+      "revId": "0af5d26d7ffd25a943e8ec292d00fcdb5114e36b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///RE\u003d",
+        "filename": "org.eclipse.jgit.pgm/resources/org/eclipse/jgit/pgm/CLIText.properties",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-05-19T21:26:35Z",
+      "side": 1,
+      "message": "Why a trailing space?",
+      "revId": "0af5d26d7ffd25a943e8ec292d00fcdb5114e36b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///RA\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/AbstractFetchCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-05-19T21:26:35Z",
+      "side": 1,
+      "message": "The \"\\r\" should be part of the format string, not the argument injected into it.  Otherwise we might inject it at the wrong position.",
+      "revId": "0af5d26d7ffd25a943e8ec292d00fcdb5114e36b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///Q8\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Push.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-05-19T21:26:35Z",
+      "side": 1,
+      "message": "Note, these [deleted], [new branch], [no match], [rejected] messages in this section of code probably should be translated.  They are meant for the user.",
+      "revId": "0af5d26d7ffd25a943e8ec292d00fcdb5114e36b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///Q4\u003d",
+        "filename": "org.eclipse.jgit.test/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-05-19T21:26:35Z",
+      "side": 1,
+      "message": "I don\u0027t get why the translation support change needs to add all of these dependencies to the core library test suite.",
+      "revId": "0af5d26d7ffd25a943e8ec292d00fcdb5114e36b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///Q0\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/stringext/TestStringExternalization.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-05-19T21:26:35Z",
+      "side": 1,
+      "message": "Oh.  That\u0027s why you added the dependencies.  I\u0027d rather this be in a different test package.",
+      "revId": "0af5d26d7ffd25a943e8ec292d00fcdb5114e36b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///Qw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/HttpSupport.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-05-19T21:26:35Z",
+      "side": 1,
+      "message": "IIRC on J2SE when the locale isn\u0027t en derived, this test will fail, because the exception is translated.  :-)",
+      "revId": "0af5d26d7ffd25a943e8ec292d00fcdb5114e36b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
