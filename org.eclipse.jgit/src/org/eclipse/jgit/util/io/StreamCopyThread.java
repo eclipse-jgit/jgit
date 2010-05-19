@@ -100,10 +100,7 @@ public class StreamCopyThread extends Thread {
 					try {
 						n = src.read(buf);
 					} catch (InterruptedIOException wakey) {
-						if (flushCounter.get() > 0)
-							continue;
-						else
-							throw wakey;
+						continue;
 					}
 					if (n < 0)
 						break;
@@ -112,10 +109,7 @@ public class StreamCopyThread extends Thread {
 						try {
 							dst.write(buf, 0, n);
 						} catch (InterruptedIOException wakey) {
-							if (flushCounter.get() > 0)
-								continue;
-							else
-								throw wakey;
+							continue;
 						}
 						break;
 					}
