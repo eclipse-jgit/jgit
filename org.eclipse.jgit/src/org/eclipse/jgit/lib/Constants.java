@@ -516,6 +516,12 @@ public final class Constants {
 		CHARSET = Charset.forName(CHARACTER_ENCODING);
 	}
 
+	/** name of the file containing the commit msg for a merge commit */
+	public static final String MERGE_MSG = "MERGE_MSG";
+
+	/** name of the file containing the IDs of the parents of a merge commit */
+	public static final String MERGE_HEAD = "MERGE_HEAD";
+
 	private Constants() {
 		// Hide the default constructor
 	}

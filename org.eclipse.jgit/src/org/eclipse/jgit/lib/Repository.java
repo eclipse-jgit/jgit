@@ -46,7 +46,10 @@
 
 package org.eclipse.jgit.lib;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -1337,5 +1340,67 @@ public class Repository {
 		if (ref != null)
 			return new ReflogReader(this, ref.getName());
 		return null;
+	}
+
+	/**
+	 * Return the information stored in the file $GIT_DIR/MERGE_MSG. In this
+	 * file operations triggering a merge will store a template for the commit
+	 * message of the merge commit.
+	 *
+	 * @return a String containing the content of the MERGE_MSG file or
+	 *         {@code null} if this file doesn't exist
+	 * @throws IOException
+	 */
+	public String readMergeCommitMsg() throws IOException {
+		File mergeMsgFile = new File(gitDir, Constants.MERGE_MSG);
+		if (mergeMsgFile.exists()) {
+			int length = (int) mergeMsgFile.length();
+			char[] messageBuffer = new char[length];
+			try {
+				FileReader r = new FileReader(mergeMsgFile);
+				r.read(messageBuffer, 0, length);
+				r.close();
+				return new String(messageBuffer);
+			} catch (FileNotFoundException e) {
+				// MERGE_MSG file has disappeared in the meantime
+				// ignore it
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Return the information stored in the file $GIT_DIR/MERGE_HEAD. In this
+	 * file operations triggering a merge will store the IDs of all heads which
+	 * should be merged together with HEAD.
+	 *
+	 * @return a list of {@link Commit}s which IDs are listed in the MERGE_HEAD
+	 *         file or {@code null} if this file doesn't exist
+	 * @throws IOException
+	 */
+	public List<ObjectId> readMergeHeads() throws IOException {
+		List<ObjectId> heads = null;
+		File mergeHeadFile = new File(gitDir, Constants.MERGE_HEAD);
+		if (mergeHeadFile.exists()) {
+			try {
+				FileReader r = new FileReader(mergeHeadFile);
+				BufferedReader mh = new BufferedReader(r);
+				String headStr;
+				try {
+					heads = new LinkedList<ObjectId>();
+					while ((headStr = mh.readLine()) != null) {
+						heads.add(ObjectId.fromString(headStr));
+					}
+				} finally {
+					r.close();
+				}
+
+			} catch (FileNotFoundException e) {
+				// MERGE_HEAD file has disappeared in the meantime
+				// ignore it
+				heads = null;
+			}
+		}
+		return heads;
 	}
 }
