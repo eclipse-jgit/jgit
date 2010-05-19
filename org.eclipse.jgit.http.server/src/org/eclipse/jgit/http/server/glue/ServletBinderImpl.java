@@ -50,6 +50,8 @@ import javax.servlet.Filter;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletResponse;
 
+import org.eclipse.jgit.http.server.HttpServerText;
+
 abstract class ServletBinderImpl implements ServletBinder {
 	private final List<Filter> filters;
 
@@ -61,16 +63,16 @@ abstract class ServletBinderImpl implements ServletBinder {
 
 	public ServletBinder through(Filter filter) {
 		if (filter == null)
-			throw new NullPointerException("filter must not be null");
+			throw new NullPointerException(HttpServerText.get().filterMustNotBeNull);
 		filters.add(filter);
 		return this;
 	}
 
 	public void with(HttpServlet servlet) {
 		if (servlet == null)
-			throw new NullPointerException("servlet must not be null");
+			throw new NullPointerException(HttpServerText.get().servletMustNotBeNull);
 		if (httpServlet != null)
-			throw new IllegalStateException("servlet was already bound");
+			throw new IllegalStateException(HttpServerText.get().servletWasAlreadyBound);
 		httpServlet = servlet;
 	}
 

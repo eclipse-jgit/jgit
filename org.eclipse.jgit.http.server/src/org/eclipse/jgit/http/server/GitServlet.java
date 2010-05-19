@@ -44,6 +44,7 @@
 package org.eclipse.jgit.http.server;
 
 import java.io.File;
+import java.text.MessageFormat;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -169,7 +170,7 @@ public class GitServlet extends MetaServlet {
 
 	private void assertNotInitialized() {
 		if (initialized)
-			throw new IllegalStateException("Already initialized by container");
+			throw new IllegalStateException(HttpServerText.get().alreadyInitializedByContainer);
 	}
 
 	@Override
@@ -259,11 +260,11 @@ public class GitServlet extends MetaServlet {
 	private File getFile(final String param) throws ServletException {
 		String n = getInitParameter(param);
 		if (n == null || "".equals(n))
-			throw new ServletException("Parameter " + param + " not set");
+			throw new ServletException(MessageFormat.format(HttpServerText.get().parameterNotSet, param));
 
 		File path = new File(n);
 		if (!path.exists())
-			throw new ServletException(path + " (for " + param + ") not found");
+			throw new ServletException(MessageFormat.format(HttpServerText.get().pathForParamNotFound, path, param));
 		return path;
 	}
 
@@ -274,14 +275,14 @@ public class GitServlet extends MetaServlet {
 		try {
 			return StringUtils.toBoolean(n);
 		} catch (IllegalArgumentException err) {
-			throw new ServletException("Invalid boolean " + param + " = " + n);
+			throw new ServletException(MessageFormat.format(HttpServerText.get().invalidBoolean, param, n));
 		}
 	}
 
 	@Override
 	protected ServletBinder register(ServletBinder binder) {
 		if (resolver == null)
-			throw new IllegalStateException("No resolver available");
+			throw new IllegalStateException(HttpServerText.get().noResolverAvailable);
 		binder = binder.through(new NoCacheFilter());
 		binder = binder.through(new RepositoryFilter(resolver));
 		return binder;

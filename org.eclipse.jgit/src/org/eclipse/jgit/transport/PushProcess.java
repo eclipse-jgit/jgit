@@ -44,10 +44,12 @@
 package org.eclipse.jgit.transport;
 
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.NotSupportedException;
 import org.eclipse.jgit.errors.TransportException;
@@ -66,7 +68,7 @@ import org.eclipse.jgit.transport.RemoteRefUpdate.Status;
  */
 class PushProcess {
 	/** Task name for {@link ProgressMonitor} used during opening connection. */
-	static final String PROGRESS_OPENING_CONNECTION = "Opening connection";
+	static final String PROGRESS_OPENING_CONNECTION = JGitText.get().openingConnection;
 
 	/** Transport used to perform this operation. */
 	private final Transport transport;
@@ -97,9 +99,8 @@ class PushProcess {
 		this.toPush = new HashMap<String, RemoteRefUpdate>();
 		for (final RemoteRefUpdate rru : toPush) {
 			if (this.toPush.put(rru.getRemoteName(), rru) != null)
-				throw new TransportException(
-						"Duplicate remote ref update is illegal. Affected remote name: "
-								+ rru.getRemoteName());
+				throw new TransportException(MessageFormat.format(
+						JGitText.get().duplicateRemoteRefUpdateIsIllegal, rru.getRemoteName()));
 		}
 	}
 
@@ -200,9 +201,8 @@ class PushProcess {
 			} catch (MissingObjectException x) {
 				fastForward = false;
 			} catch (Exception x) {
-				throw new TransportException(transport.getURI(),
-						"reading objects from local repository failed: "
-								+ x.getMessage(), x);
+				throw new TransportException(transport.getURI(), MessageFormat.format(
+						JGitText.get().readingObjectsFromLocalRepositoryFailed, x.getMessage()), x);
 			}
 			rru.setFastForward(fastForward);
 			if (!fastForward && !rru.isForceUpdate())

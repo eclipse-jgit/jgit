@@ -44,6 +44,7 @@
 package org.eclipse.jgit.pgm;
 
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -64,28 +65,28 @@ import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.ExampleMode;
 import org.kohsuke.args4j.Option;
 
-@Command(common = true, usage = "List, create, or delete branches")
+@Command(common = true, usage = "usage_listCreateOrDeleteBranches")
 class Branch extends TextBuiltin {
 
-	@Option(name = "--remote", aliases = { "-r" }, usage = "act on remote-tracking branches")
+	@Option(name = "--remote", aliases = { "-r" }, usage = "usage_actOnRemoteTrackingBranches")
 	private boolean remote = false;
 
-	@Option(name = "--all", aliases = { "-a" }, usage = "list both remote-tracking and local branches")
+	@Option(name = "--all", aliases = { "-a" }, usage = "usage_listBothRemoteTrackingAndLocalBranches")
 	private boolean all = false;
 
-	@Option(name = "--delete", aliases = { "-d" }, usage = "delete fully merged branch")
+	@Option(name = "--delete", aliases = { "-d" }, usage = "usage_deleteFullyMergedBranch")
 	private boolean delete = false;
 
-	@Option(name = "--delete-force", aliases = { "-D" }, usage = "delete branch (even if not merged)")
+	@Option(name = "--delete-force", aliases = { "-D" }, usage = "usage_deleteBranchEvenIfNotMerged")
 	private boolean deleteForce = false;
 
-	@Option(name = "--create-force", aliases = { "-f" }, usage = "force create branch even exists")
+	@Option(name = "--create-force", aliases = { "-f" }, usage = "usage_forceCreateBranchEvenExists")
 	private boolean createForce = false;
 
-	@Option(name = "-m", usage = "move/rename a branch")
+	@Option(name = "-m", usage = "usage_moveRenameABranch")
 	private boolean rename = false;
 
-	@Option(name = "--verbose", aliases = { "-v" }, usage = "be verbose")
+	@Option(name = "--verbose", aliases = { "-v" }, usage = "usage_beVerbose")
 	private boolean verbose = false;
 
 	@Argument
@@ -104,7 +105,7 @@ class Branch extends TextBuiltin {
 			delete(deleteForce);
 		else {
 			if (branches.size() > 2)
-				throw die("Too many refs given\n" + new CmdLineParser(this).printExample(ExampleMode.ALL));
+				throw die(CLIText.get().tooManyRefsGiven + new CmdLineParser(this).printExample(ExampleMode.ALL));
 
 			if (rename) {
 				String src, dst;
@@ -113,15 +114,15 @@ class Branch extends TextBuiltin {
 					if (head != null && head.isSymbolic())
 						src = head.getLeaf().getName();
 					else
-						throw die("Cannot rename detached HEAD");
+						throw die(CLIText.get().cannotRenameDetachedHEAD);
 					dst = branches.get(0);
 				} else {
 					src = branches.get(0);
 					final Ref old = db.getRef(src);
 					if (old == null)
-						throw die(String.format("%s does not exist", src));
+						throw die(MessageFormat.format(CLIText.get().doesNotExist, src));
 					if (!old.getName().startsWith(Constants.R_HEADS))
-						throw die(String.format("%s is not a branch", src));
+						throw die(MessageFormat.format(CLIText.get().notABranch, src));
 					src = old.getName();
 					dst = branches.get(1);
 				}
@@ -129,11 +130,11 @@ class Branch extends TextBuiltin {
 				if (!dst.startsWith(Constants.R_HEADS))
 					dst = Constants.R_HEADS + dst;
 				if (!Repository.isValidRefName(dst))
-					throw die(String.format("%s is not a valid ref name", dst));
+					throw die(MessageFormat.format(CLIText.get().notAValidRefName, dst));
 
 				RefRename r = db.renameRef(src, dst);
 				if (r.rename() != Result.RENAMED)
-					throw die(String.format("%s cannot be renamed", src));
+					throw die(MessageFormat.format(CLIText.get().cannotBeRenamed, src));
 
 			} else if (branches.size() > 0) {
 				String newHead = branches.get(0);
@@ -153,16 +154,16 @@ class Branch extends TextBuiltin {
 				if (!newRefName.startsWith(Constants.R_HEADS))
 					newRefName = Constants.R_HEADS + newRefName;
 				if (!Repository.isValidRefName(newRefName))
-					throw die(String.format("%s is not a valid ref name", newRefName));
+					throw die(MessageFormat.format(CLIText.get().notAValidRefName, newRefName));
 				if (!createForce && db.resolve(newRefName) != null)
-					throw die(String.format("branch %s already exists", newHead));
+					throw die(MessageFormat.format(CLIText.get().branchAlreadyExists, newHead));
 				RefUpdate updateRef = db.updateRef(newRefName);
 				updateRef.setNewObjectId(startAt);
 				updateRef.setForceUpdate(createForce);
-				updateRef.setRefLogMessage("branch: Created from " + startBranch, false);
+				updateRef.setRefLogMessage(MessageFormat.format(CLIText.get().branchCreatedFrom, startBranch), false);
 				Result update = updateRef.update();
 				if (update == Result.REJECTED)
-					throw die(String.format("Could not create branch %s: %s", newHead, update.toString()));
+					throw die(MessageFormat.format(CLIText.get().couldNotCreateBranch, newHead, update.toString()));
 			} else {
 				if (verbose)
 					rw = new RevWalk(db);
@@ -211,7 +212,7 @@ class Branch extends TextBuiltin {
 		out.print(ref);
 		if (verbose) {
 			final int spaces = maxNameLength - ref.length() + 1;
-			out.print(String.format("%" + spaces + "s", ""));
+			out.format("%" + spaces + "s", "");
 			final ObjectId objectId = refObj.getObjectId();
 			out.print(objectId.abbreviate(db).name());
 			out.print(' ');
@@ -225,8 +226,7 @@ class Branch extends TextBuiltin {
 		ObjectId head = db.resolve(Constants.HEAD);
 		for (String branch : branches) {
 			if (current.equals(branch)) {
-				String err = "Cannot delete the branch '%s' which you are currently on.";
-				throw die(String.format(err, branch));
+				throw die(MessageFormat.format(CLIText.get().cannotDeleteTheBranchWhichYouAreCurrentlyOn, branch));
 			}
 			RefUpdate update = db.updateRef((remote ? Constants.R_REMOTES
 					: Constants.R_HEADS)
@@ -235,15 +235,13 @@ class Branch extends TextBuiltin {
 			update.setForceUpdate(force || remote);
 			Result result = update.delete();
 			if (result == Result.REJECTED) {
-				String err = "The branch '%s' is not an ancestor of your current HEAD.\n"
-						+ "If you are sure you want to delete it, run 'jgit branch -D %1$s'.";
-				throw die(String.format(err, branch));
+				throw die(MessageFormat.format(CLIText.get().branchIsNotAnAncestorOfYourCurrentHEAD, branch));
 			} else if (result == Result.NEW)
-				throw die(String.format("branch '%s' not found.", branch));
+				throw die(MessageFormat.format(CLIText.get().branchNotFound, branch));
 			if (remote)
-				out.println(String.format("Deleted remote branch %s", branch));
+				out.println(MessageFormat.format(CLIText.get().deletedRemoteBranch, branch));
 			else if (verbose)
-				out.println(String.format("Deleted branch %s", branch));
+				out.println(MessageFormat.format(CLIText.get().deletedBranch, branch));
 		}
 	}
 }

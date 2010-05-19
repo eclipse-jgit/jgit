@@ -60,6 +60,7 @@ import java.security.InvalidKeyException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -78,6 +79,7 @@ import java.util.TreeMap;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
+import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ProgressMonitor;
@@ -158,7 +160,7 @@ public class AmazonS3 {
 		try {
 			return MessageDigest.getInstance("MD5");
 		} catch (NoSuchAlgorithmException e) {
-			throw new RuntimeException("JRE lacks MD5 implementation", e);
+			throw new RuntimeException(JGitText.get().JRELacksMD5Implementation, e);
 		}
 	}
 
@@ -211,11 +213,11 @@ public class AmazonS3 {
 	public AmazonS3(final Properties props) {
 		publicKey = props.getProperty("accesskey");
 		if (publicKey == null)
-			throw new IllegalArgumentException("Missing accesskey.");
+			throw new IllegalArgumentException(JGitText.get().missingAccesskey);
 
 		final String secret = props.getProperty("secretkey");
 		if (secret == null)
-			throw new IllegalArgumentException("Missing secretkey.");
+			throw new IllegalArgumentException(JGitText.get().missingSecretkey);
 		privateKey = new SecretKeySpec(Constants.encodeASCII(secret), HMAC);
 
 		final String pacl = props.getProperty("acl", "PRIVATE");
@@ -241,9 +243,9 @@ public class AmazonS3 {
 				encryption = WalkEncryption.NONE;
 			}
 		} catch (InvalidKeySpecException e) {
-			throw new IllegalArgumentException("Invalid encryption", e);
+			throw new IllegalArgumentException(JGitText.get().invalidEncryption, e);
 		} catch (NoSuchAlgorithmException e) {
-			throw new IllegalArgumentException("Invalid encryption", e);
+			throw new IllegalArgumentException(JGitText.get().invalidEncryption, e);
 		}
 
 		maxAttempts = Integer.parseInt(props.getProperty(
@@ -471,7 +473,7 @@ public class AmazonS3 {
 		if (monitor == null)
 			monitor = NullProgressMonitor.INSTANCE;
 		if (monitorTask == null)
-			monitorTask = "Uploading " + key;
+			monitorTask = MessageFormat.format(JGitText.get().progressMonUploading, key);
 
 		final String md5str = Base64.encodeBytes(csum);
 		final long len = buf.length();
@@ -508,9 +510,8 @@ public class AmazonS3 {
 
 	private IOException error(final String action, final String key,
 			final HttpURLConnection c) throws IOException {
-		final IOException err = new IOException(action + " of '" + key
-				+ "' failed: " + HttpSupport.response(c) + " "
-				+ c.getResponseMessage());
+		final IOException err = new IOException(MessageFormat.format(JGitText.get().amazonS3ActionFailed
+				, action, key, HttpSupport.response(c), c.getResponseMessage()));
 		final ByteArrayOutputStream b = new ByteArrayOutputStream();
 		byte[] buf = new byte[2048];
 		for (;;) {
@@ -527,8 +528,8 @@ public class AmazonS3 {
 	}
 
 	private IOException maxAttempts(final String action, final String key) {
-		return new IOException(action + " of '" + key + "' failed:"
-				+ " Giving up after " + maxAttempts + " attempts.");
+		return new IOException(MessageFormat.format(JGitText.get().amazonS3ActionFailedGivingUp
+				, action, key, maxAttempts));
 	}
 
 	private HttpURLConnection open(final String method, final String bucket,
@@ -614,9 +615,9 @@ public class AmazonS3 {
 			m.init(privateKey);
 			sec = Base64.encodeBytes(m.doFinal(s.toString().getBytes("UTF-8")));
 		} catch (NoSuchAlgorithmException e) {
-			throw new IOException("No " + HMAC + " support:" + e.getMessage());
+			throw new IOException(MessageFormat.format(JGitText.get().noHMACsupport, HMAC, e.getMessage()));
 		} catch (InvalidKeyException e) {
-			throw new IOException("Invalid key: " + e.getMessage());
+			throw new IOException(MessageFormat.format(JGitText.get().invalidKey, e.getMessage()));
 		}
 		c.setRequestProperty("Authorization", "AWS " + publicKey + ":" + sec);
 	}
@@ -668,7 +669,7 @@ public class AmazonS3 {
 					try {
 						xr = XMLReaderFactory.createXMLReader();
 					} catch (SAXException e) {
-						throw new IOException("No XML parser available.");
+						throw new IOException(JGitText.get().noXMLParserAvailable);
 					}
 					xr.setContentHandler(this);
 					final InputStream in = c.getInputStream();
@@ -676,7 +677,7 @@ public class AmazonS3 {
 						xr.parse(new InputSource(in));
 					} catch (SAXException parsingError) {
 						final IOException p;
-						p = new IOException("Error listing " + prefix);
+						p = new IOException(MessageFormat.format(JGitText.get().errorListing, prefix));
 						p.initCause(parsingError);
 						throw p;
 					} finally {

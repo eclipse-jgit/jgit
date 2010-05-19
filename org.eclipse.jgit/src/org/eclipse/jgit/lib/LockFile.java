@@ -54,6 +54,9 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.channels.FileLock;
 import java.nio.channels.OverlappingFileLockException;
+import java.text.MessageFormat;
+
+import org.eclipse.jgit.JGitText;
 
 /**
  * Git style file locking and replacement.
@@ -330,7 +333,7 @@ public class LockFile {
 	private void requireLock() {
 		if (os == null) {
 			unlock();
-			throw new IllegalStateException("Lock on " + ref + " not held.");
+			throw new IllegalStateException(MessageFormat.format(JGitText.get().lockOnNotHeld, ref));
 		}
 	}
 
@@ -382,7 +385,7 @@ public class LockFile {
 	public boolean commit() {
 		if (os != null) {
 			unlock();
-			throw new IllegalStateException("Lock on " + ref + " not closed.");
+			throw new IllegalStateException(MessageFormat.format(JGitText.get().lockOnNotClosed, ref));
 		}
 
 		saveStatInformation();

@@ -44,6 +44,10 @@
 
 package org.eclipse.jgit.transport;
 
+import java.text.MessageFormat;
+
+import org.eclipse.jgit.JGitText;
+
 /** Specification of annotated tag behavior during fetch. */
 public enum TagOpt {
 	/**
@@ -105,6 +109,6 @@ public enum TagOpt {
 			if (tagopt.option().equals(o))
 				return tagopt;
 		}
-		throw new IllegalArgumentException("Invalid tag option: " + o);
+		throw new IllegalArgumentException(MessageFormat.format(JGitText.get().invalidTagOption, o));
 	}
 }

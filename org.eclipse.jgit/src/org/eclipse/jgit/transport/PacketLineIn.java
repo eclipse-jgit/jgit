@@ -47,7 +47,9 @@ package org.eclipse.jgit.transport;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.MessageFormat;
 
+import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.PackProtocolException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.MutableObjectId;
@@ -82,7 +84,7 @@ class PacketLineIn {
 	AckNackResult readACK(final MutableObjectId returnedId) throws IOException {
 		final String line = readString();
 		if (line.length() == 0)
-			throw new PackProtocolException("Expected ACK/NAK, found EOF");
+			throw new PackProtocolException(JGitText.get().expectedACKNAKFoundEOF);
 		if ("NAK".equals(line))
 			return AckNackResult.NAK;
 		if (line.startsWith("ACK ")) {
@@ -98,7 +100,7 @@ class PacketLineIn {
 			else if (arg.equals(" ready"))
 				return AckNackResult.ACK_READY;
 		}
-		throw new PackProtocolException("Expected ACK/NAK, got: " + line);
+		throw new PackProtocolException(MessageFormat.format(JGitText.get().expectedACKNAKGot, line));
 	}
 
 	String readString() throws IOException {
@@ -142,9 +144,9 @@ class PacketLineIn {
 				throw new ArrayIndexOutOfBoundsException();
 			return len;
 		} catch (ArrayIndexOutOfBoundsException err) {
-			throw new IOException("Invalid packet line header: "
-					+ (char) lineBuffer[0] + (char) lineBuffer[1]
-					+ (char) lineBuffer[2] + (char) lineBuffer[3]);
+			throw new IOException(MessageFormat.format(JGitText.get().invalidPacketLineHeader,
+					"" + (char) lineBuffer[0] + (char) lineBuffer[1]
+					+ (char) lineBuffer[2] + (char) lineBuffer[3]));
 		}
 	}
 }

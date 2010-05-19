@@ -51,6 +51,7 @@ import org.kohsuke.args4j.OptionDef;
 import org.kohsuke.args4j.spi.OptionHandler;
 import org.kohsuke.args4j.spi.Parameters;
 import org.kohsuke.args4j.spi.Setter;
+import org.eclipse.jgit.pgm.CLIText;
 import org.eclipse.jgit.pgm.CommandCatalog;
 import org.eclipse.jgit.pgm.CommandRef;
 import org.eclipse.jgit.pgm.TextBuiltin;
@@ -82,7 +83,7 @@ public class SubcommandHandler extends OptionHandler<TextBuiltin> {
 		final CommandRef cr = CommandCatalog.get(name);
 		if (cr == null)
 			throw new CmdLineException(MessageFormat.format(
-					"{0} is not a jgit command", name));
+					CLIText.get().notAJgitCommand, name));
 
 		// Force option parsing to stop. Everything after us should
 		// be arguments known only to this command and must not be
@@ -95,6 +96,6 @@ public class SubcommandHandler extends OptionHandler<TextBuiltin> {
 
 	@Override
 	public String getDefaultMetaVariable() {
-		return "command";
+		return CLIText.get().metaVar_command;
 	}
 }

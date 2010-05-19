@@ -46,6 +46,7 @@ package org.eclipse.jgit.http.server.glue;
 import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
 
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.AbstractSet;
 import java.util.ArrayList;
 import java.util.IdentityHashMap;
@@ -58,6 +59,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.eclipse.jgit.http.server.HttpServerText;
 
 /**
  * Generic container servlet to manage routing to different pipelines.
@@ -95,7 +98,7 @@ public class MetaServlet extends HttpServlet {
 	public ServletBinder serve(String path) {
 		if (path.startsWith("*"))
 			return register(new SuffixPipeline.Binder(path.substring(1)));
-		throw new IllegalArgumentException("\"" + path + "\" not supported");
+		throw new IllegalArgumentException(MessageFormat.format(HttpServerText.get().pathNotSupported, path));
 	}
 
 	/**
@@ -164,7 +167,7 @@ public class MetaServlet extends HttpServlet {
 	private ServletBinder register(ServletBinderImpl b) {
 		synchronized (bindings) {
 			if (pipelines != null)
-				throw new IllegalStateException("Servlet already initialized");
+				throw new IllegalStateException(HttpServerText.get().servletAlreadyInitialized);
 			bindings.add(b);
 		}
 		return register((ServletBinder) b);

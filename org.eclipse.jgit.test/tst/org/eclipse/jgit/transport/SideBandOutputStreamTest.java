@@ -53,9 +53,11 @@ import static org.eclipse.jgit.transport.SideBandOutputStream.SMALL_BUF;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.text.MessageFormat;
 
 import junit.framework.TestCase;
 
+import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.lib.Constants;
 
 // Note, test vectors created with:
@@ -221,8 +223,7 @@ public class SideBandOutputStreamTest extends TestCase {
 			new SideBandOutputStream(CH_DATA, Integer.MAX_VALUE, rawOut);
 			fail("Accepted " + Integer.MAX_VALUE + " for buffer size");
 		} catch (IllegalArgumentException e) {
-			assertEquals("packet size " + Integer.MAX_VALUE
-					+ " must be <= 65520", e.getMessage());
+			assertEquals(MessageFormat.format(JGitText.get().packetSizeMustBeAtMost, Integer.MAX_VALUE, 65520), e.getMessage());
 		}
 	}
 

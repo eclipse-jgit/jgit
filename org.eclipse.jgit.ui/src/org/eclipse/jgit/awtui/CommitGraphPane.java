@@ -112,7 +112,7 @@ public class CommitGraphPane extends JTable {
 	@Override
 	public void setModel(final TableModel dataModel) {
 		if (dataModel != null && !(dataModel instanceof CommitTableModel))
-			throw new ClassCastException("Must be special table model.");
+			throw new ClassCastException(UIText.get().mustBeSpecialTableModel);
 		super.setModel(dataModel);
 	}
 
@@ -130,8 +130,8 @@ public class CommitGraphPane extends JTable {
 		final TableColumn date = cols.getColumn(2);
 
 		graph.setHeaderValue("");
-		author.setHeaderValue("Author");
-		date.setHeaderValue("Date");
+		author.setHeaderValue(UIText.get().author);
+		date.setHeaderValue(UIText.get().date);
 
 		graph.setCellRenderer(new GraphCellRender());
 		author.setCellRenderer(new NameCellRender());

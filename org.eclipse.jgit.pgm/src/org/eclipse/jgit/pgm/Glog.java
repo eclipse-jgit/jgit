@@ -84,7 +84,7 @@ class Glog extends RevWalkTextBuiltin {
 
 		final JPanel buttons = new JPanel(new FlowLayout());
 		final JButton repaint = new JButton();
-		repaint.setText("Repaint");
+		repaint.setText(CLIText.get().repaint);
 		repaint.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				graphPane.repaint();
@@ -118,7 +118,7 @@ class Glog extends RevWalkTextBuiltin {
 	@Override
 	protected RevWalk createWalk() {
 		if (objects)
-			throw die("Cannot use --objects with glog");
+			throw die(CLIText.get().cannotUseObjectsWithGlog);
 		final PlotWalk w = new PlotWalk(db);
 		w.sort(RevSort.BOUNDARY, true);
 		return w;

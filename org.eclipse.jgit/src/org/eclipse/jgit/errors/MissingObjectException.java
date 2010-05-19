@@ -47,7 +47,9 @@
 package org.eclipse.jgit.errors;
 
 import java.io.IOException;
+import java.text.MessageFormat;
 
+import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 
@@ -65,7 +67,7 @@ public class MissingObjectException extends IOException {
 	 * @param type object type
 	 */
 	public MissingObjectException(final ObjectId id, final String type) {
-		super("Missing " + type + " " + id.name());
+		super(MessageFormat.format(JGitText.get().missingObject, type, id.name()));
 	}
 
 	/**

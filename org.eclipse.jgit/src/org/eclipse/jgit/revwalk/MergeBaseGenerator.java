@@ -44,7 +44,9 @@
 package org.eclipse.jgit.revwalk;
 
 import java.io.IOException;
+import java.text.MessageFormat;
 
+import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 
@@ -118,7 +120,7 @@ class MergeBaseGenerator extends Generator {
 			// commit admitted to the initial queue only once. If
 			// we see this marks aren't correctly erased.
 			//
-			throw new IllegalStateException("Stale RevFlags on " + c.name());
+			throw new IllegalStateException(MessageFormat.format(JGitText.get().staleRevFlagsOn, c.name()));
 		}
 		c.flags |= flag;
 		pending.add(c);

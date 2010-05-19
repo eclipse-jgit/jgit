@@ -48,6 +48,7 @@ import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.Constants;
@@ -101,7 +102,7 @@ public abstract class PatternMatchRevFilter extends RevFilter {
 	protected PatternMatchRevFilter(String pattern, final boolean innerString,
 			final boolean rawEncoding, final int flags) {
 		if (pattern.length() == 0)
-			throw new IllegalArgumentException("Cannot match on empty string.");
+			throw new IllegalArgumentException(JGitText.get().cannotMatchOnEmptyString);
 		patternText = pattern;
 
 		if (innerString) {

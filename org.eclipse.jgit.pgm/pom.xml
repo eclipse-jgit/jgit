@@ -111,6 +111,9 @@
           <include>META-INF/services/org.eclipse.jgit.pgm.TextBuiltin</include>
         </includes>
       </resource>
+      <resource>
+        <directory>resources/</directory>
+      </resource>
     </resources>
 
     <plugins>

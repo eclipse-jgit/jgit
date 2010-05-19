@@ -47,6 +47,7 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -54,6 +55,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.PackProtocolException;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
@@ -371,7 +373,7 @@ public class UploadPack {
 			if (line == PacketLineIn.END)
 				break;
 			if (!line.startsWith("want ") || line.length() < 45)
-				throw new PackProtocolException("expected want; got " + line);
+				throw new PackProtocolException(MessageFormat.format(JGitText.get().expectedGot, "want", line));
 
 			if (isFirst && line.length() > 45) {
 				String opt = line.substring(45);
@@ -387,10 +389,10 @@ public class UploadPack {
 			try {
 				o = walk.parseAny(id);
 			} catch (IOException e) {
-				throw new PackProtocolException(id.name() + " not valid", e);
+				throw new PackProtocolException(MessageFormat.format(JGitText.get().notValid, id.name()), e);
 			}
 			if (!o.has(ADVERTISED))
-				throw new PackProtocolException(id.name() + " not valid");
+				throw new PackProtocolException(MessageFormat.format(JGitText.get().notValid, id.name()));
 			want(o);
 		}
 	}
@@ -473,7 +475,7 @@ public class UploadPack {
 				return true;
 
 			} else {
-				throw new PackProtocolException("expected have; got " + line);
+				throw new PackProtocolException(MessageFormat.format(JGitText.get().expectedGot, "have", line));
 			}
 		}
 	}
@@ -521,7 +523,7 @@ public class UploadPack {
 					i.remove();
 			}
 		} catch (IOException e) {
-			throw new PackProtocolException("internal revision error", e);
+			throw new PackProtocolException(JGitText.get().internalRevisionError, e);
 		}
 		return wantCommits.isEmpty();
 	}

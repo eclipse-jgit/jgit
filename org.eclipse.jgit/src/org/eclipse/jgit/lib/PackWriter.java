@@ -54,6 +54,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.zip.Deflater;
 
+import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.revwalk.ObjectWalk;
@@ -103,7 +104,7 @@ public class PackWriter {
 	 *
 	 * @see #preparePack(Collection, Collection)
 	 */
-	public static final String COUNTING_OBJECTS_PROGRESS = "Counting objects";
+	public static final String COUNTING_OBJECTS_PROGRESS = JGitText.get().countingObjects;
 
 	/**
 	 * Title of {@link ProgressMonitor} task used during searching for objects
@@ -111,7 +112,7 @@ public class PackWriter {
 	 *
 	 * @see #writePack(OutputStream)
 	 */
-	public static final String SEARCHING_REUSE_PROGRESS = "Compressing objects";
+	public static final String SEARCHING_REUSE_PROGRESS = JGitText.get().compressingObjects;
 
 	/**
 	 * Title of {@link ProgressMonitor} task used during writing out pack
@@ -119,7 +120,7 @@ public class PackWriter {
 	 *
 	 * @see #writePack(OutputStream)
 	 */
-	public static final String WRITING_OBJECTS_PROGRESS = "Writing objects";
+	public static final String WRITING_OBJECTS_PROGRESS = JGitText.get().writingObjects;
 
 	/**
 	 * Default value of deltas reuse option.
@@ -605,7 +606,7 @@ public class PackWriter {
 			for (ObjectToPack otp : list) {
 				if (initMonitor.isCancelled())
 					throw new IOException(
-							"Packing cancelled during objects writing");
+							JGitText.get().packingCancelledDuringObjectsWriting);
 				reuseLoaders.clear();
 				searchForReuse(reuseLoaders, otp);
 				initMonitor.update(1);
@@ -688,7 +689,7 @@ public class PackWriter {
 			for (ObjectToPack otp : list) {
 				if (writeMonitor.isCancelled())
 					throw new IOException(
-							"Packing cancelled during objects writing");
+							JGitText.get().packingCancelledDuringObjectsWriting);
 				if (!otp.isWritten())
 					writeObject(otp);
 			}
@@ -727,7 +728,7 @@ public class PackWriter {
 				reuse.endCopyRawData();
 			}
 		} else if (otp.isDeltaRepresentation()) {
-			throw new IOException("creating deltas is not implemented");
+			throw new IOException(JGitText.get().creatingDeltasIsNotImplemented);
 		} else {
 			writeWholeObjectDeflate(otp);
 		}
@@ -886,11 +887,11 @@ public class PackWriter {
 			objectsLists[object.getType()].add(otp);
 		} catch (ArrayIndexOutOfBoundsException x) {
 			throw new IncorrectObjectTypeException(object,
-					"COMMIT nor TREE nor BLOB nor TAG");
+					JGitText.get().incorrectObjectType_COMMITnorTREEnorBLOBnorTAG);
 		} catch (UnsupportedOperationException x) {
 			// index pointing to "dummy" empty list
 			throw new IncorrectObjectTypeException(object,
-					"COMMIT nor TREE nor BLOB nor TAG");
+					JGitText.get().incorrectObjectType_COMMITnorTREEnorBLOBnorTAG);
 		}
 		objectsMap.add(otp);
 	}

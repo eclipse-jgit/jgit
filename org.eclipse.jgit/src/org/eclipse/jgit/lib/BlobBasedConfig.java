@@ -47,7 +47,9 @@ package org.eclipse.jgit.lib;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.MessageFormat;
 
+import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.util.RawParseUtils;
@@ -91,7 +93,7 @@ public class BlobBasedConfig extends Config {
 		super(base);
 		final ObjectLoader loader = r.openBlob(objectId);
 		if (loader == null)
-			throw new IOException("Blob not found: " + objectId);
+			throw new IOException(MessageFormat.format(JGitText.get().blobNotFound, objectId));
 		fromText(RawParseUtils.decode(loader.getBytes()));
 	}
 
@@ -118,12 +120,12 @@ public class BlobBasedConfig extends Config {
 		final Repository r = commit.getRepository();
 		final TreeWalk tree = TreeWalk.forPath(r, path, treeId);
 		if (tree == null)
-			throw new FileNotFoundException("Entry not found by path: " + path);
+			throw new FileNotFoundException(MessageFormat.format(JGitText.get().entryNotFoundByPath, path));
 		final ObjectId blobId = tree.getObjectId(0);
 		final ObjectLoader loader = tree.getRepository().openBlob(blobId);
 		if (loader == null)
-			throw new IOException("Blob not found: " + blobId + " for path: "
-					+ path);
+			throw new IOException(MessageFormat.format(JGitText.get().blobNotFoundForPath
+					, blobId, path));
 		fromText(RawParseUtils.decode(loader.getBytes()));
 	}
 }

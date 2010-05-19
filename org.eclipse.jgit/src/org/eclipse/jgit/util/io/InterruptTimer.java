@@ -43,6 +43,10 @@
 
 package org.eclipse.jgit.util.io;
 
+import java.text.MessageFormat;
+
+import org.eclipse.jgit.JGitText;
+
 /**
  * Triggers an interrupt on the calling thread if it doesn't complete a block.
  * <p>
@@ -113,7 +117,7 @@ public final class InterruptTimer {
 	 */
 	public void begin(final int timeout) {
 		if (timeout <= 0)
-			throw new IllegalArgumentException("Invalid timeout: " + timeout);
+			throw new IllegalArgumentException(MessageFormat.format(JGitText.get().invalidTimeout, timeout));
 		Thread.interrupted();
 		state.begin(timeout);
 	}
@@ -193,7 +197,7 @@ public final class InterruptTimer {
 
 		synchronized void begin(final int timeout) {
 			if (terminated)
-				throw new IllegalStateException("Timer already terminated");
+				throw new IllegalStateException(JGitText.get().timerAlreadyTerminated);
 			callingThread = Thread.currentThread();
 			deadline = now() + timeout;
 			notifyAll();

@@ -43,7 +43,9 @@
 package org.eclipse.jgit.api;
 
 import java.io.IOException;
+import java.text.MessageFormat;
 
+import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.errors.UnmergedPathException;
 import org.eclipse.jgit.lib.Commit;
@@ -112,7 +114,7 @@ public class CommitCommand extends GitCommand<RevCommit> {
 			Ref head = repo.getRef(Constants.HEAD);
 			if (head == null)
 				throw new NoHeadException(
-						"Commit on repo without HEAD currently not supported");
+						JGitText.get().commitOnRepoWithoutHEADCurrentlyNotSupported);
 
 			// determine the current HEAD and the commit it is referring to
 			ObjectId parentID = repo.resolve(Constants.HEAD + "^{commit}");
@@ -153,15 +155,11 @@ public class CommitCommand extends GitCommand<RevCommit> {
 				case REJECTED:
 				case LOCK_FAILURE:
 					throw new ConcurrentRefUpdateException(
-							"Could lock HEAD during commit", ru.getRef(), rc);
+							JGitText.get().couldNotLockHEAD, ru.getRef(), rc);
 				default:
-					throw new JGitInternalException(
-							"Updating the ref "
-									+ Constants.HEAD
-									+ " to "
-									+ commitId.toString()
-									+ " failed. ReturnCode from RefUpdate.update() was "
-									+ rc);
+					throw new JGitInternalException(MessageFormat.format(
+							JGitText.get().updatingRefFailed
+							, Constants.HEAD, commitId.toString(), rc));
 				}
 			} finally {
 				index.unlock();
@@ -173,7 +171,7 @@ public class CommitCommand extends GitCommand<RevCommit> {
 			throw e;
 		} catch (IOException e) {
 			throw new JGitInternalException(
-					"Exception caught during execution of commit command", e);
+					JGitText.get().exceptionCaughtDuringExecutionOfCommitCommand, e);
 		}
 	}
 
@@ -188,7 +186,7 @@ public class CommitCommand extends GitCommand<RevCommit> {
 		if (message == null)
 			// as long as we don't suppport -C option we have to have
 			// an explicit message
-			throw new NoMessageException("commit message not specified");
+			throw new NoMessageException(JGitText.get().commitMessageNotSpecified);
 		if (committer == null)
 			committer = new PersonIdent(repo);
 		if (author == null)

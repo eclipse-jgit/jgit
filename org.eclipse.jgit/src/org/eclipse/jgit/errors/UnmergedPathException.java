@@ -44,7 +44,9 @@
 package org.eclipse.jgit.errors;
 
 import java.io.IOException;
+import java.text.MessageFormat;
 
+import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.dircache.DirCacheEntry;
 
 /**
@@ -62,7 +64,7 @@ public class UnmergedPathException extends IOException {
 	 *            the first non-zero stage of the unmerged path.
 	 */
 	public UnmergedPathException(final DirCacheEntry dce) {
-		super("Unmerged path: " + dce.getPathString());
+		super(MessageFormat.format(JGitText.get().unmergedPath, dce.getPathString()));
 		entry = dce;
 	}
 

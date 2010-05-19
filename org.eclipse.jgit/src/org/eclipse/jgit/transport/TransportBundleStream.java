@@ -49,6 +49,7 @@ package org.eclipse.jgit.transport;
 import java.io.IOException;
 import java.io.InputStream;
 
+import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.NotSupportedException;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.lib.Repository;
@@ -92,7 +93,7 @@ public class TransportBundleStream extends Transport implements TransportBundle 
 	@Override
 	public FetchConnection openFetch() throws TransportException {
 		if (src == null)
-			throw new TransportException(uri, "Only one fetch supported");
+			throw new TransportException(uri, JGitText.get().onlyOneFetchSupported);
 		try {
 			return new BundleFetchConnection(this, src);
 		} finally {
@@ -103,7 +104,7 @@ public class TransportBundleStream extends Transport implements TransportBundle 
 	@Override
 	public PushConnection openPush() throws NotSupportedException {
 		throw new NotSupportedException(
-				"Push is not supported for bundle transport");
+				JGitText.get().pushIsNotSupportedForBundleTransport);
 	}
 
 	@Override

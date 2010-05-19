@@ -48,8 +48,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.Iterator;
 
+import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.NB;
@@ -92,14 +94,14 @@ public abstract class PackIndex implements Iterable<PackIndex.MutableEntry> {
 				case 2:
 					return new PackIndexV2(fd);
 				default:
-					throw new IOException("Unsupported pack index version " + v);
+					throw new IOException(MessageFormat.format(JGitText.get().unsupportedPackIndexVersion, v));
 				}
 			}
 			return new PackIndexV1(fd, hdr);
 		} catch (IOException ioe) {
 			final String path = idxFile.getAbsolutePath();
 			final IOException err;
-			err = new IOException("Unreadable pack index: " + path);
+			err = new IOException(MessageFormat.format(JGitText.get().unreadablePackIndex, path));
 			err.initCause(ioe);
 			throw err;
 		} finally {

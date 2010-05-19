@@ -48,8 +48,10 @@ import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.security.DigestOutputStream;
+import java.text.MessageFormat;
 import java.util.List;
 
+import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.transport.PackedObjectInfo;
 import org.eclipse.jgit.util.NB;
 
@@ -131,8 +133,8 @@ public abstract class PackIndexWriter {
 		case 2:
 			return new PackIndexWriterV2(dst);
 		default:
-			throw new IllegalArgumentException(
-					"Unsupported pack index version " + version);
+			throw new IllegalArgumentException(MessageFormat.format(
+					JGitText.get().unsupportedPackIndexVersion, version));
 		}
 	}
 

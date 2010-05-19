@@ -45,6 +45,7 @@ package org.eclipse.jgit.revwalk.filter;
 
 import java.util.regex.Pattern;
 
+import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.util.RawCharSequence;
 import org.eclipse.jgit.util.RawParseUtils;
@@ -68,7 +69,7 @@ public class MessageRevFilter {
 	 */
 	public static RevFilter create(String pattern) {
 		if (pattern.length() == 0)
-			throw new IllegalArgumentException("Cannot match on empty string.");
+			throw new IllegalArgumentException(JGitText.get().cannotMatchOnEmptyString);
 		if (SubStringRevFilter.safe(pattern))
 			return new SubStringSearch(pattern);
 		return new PatternSearch(pattern);

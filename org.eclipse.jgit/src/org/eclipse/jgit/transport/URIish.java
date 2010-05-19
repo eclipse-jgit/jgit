@@ -50,6 +50,7 @@ import java.net.URL;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.lib.Constants;
 
 /**
@@ -107,7 +108,7 @@ public class URIish {
 				host = matcher.group(2);
 				path = matcher.group(3);
 			} else
-				throw new URISyntaxException(s, "Cannot parse Git URI-ish");
+				throw new URISyntaxException(s, JGitText.get().cannotParseGitURIish);
 		}
 	}
 

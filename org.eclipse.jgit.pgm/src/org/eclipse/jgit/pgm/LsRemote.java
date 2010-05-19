@@ -53,10 +53,10 @@ import org.eclipse.jgit.transport.FetchConnection;
 import org.eclipse.jgit.transport.Transport;
 
 class LsRemote extends TextBuiltin {
-	@Option(name = "--timeout", metaVar = "SECONDS", usage = "abort connection if no activity")
+	@Option(name = "--timeout", metaVar = "metaVar_service", usage = "usage_abortConnectionIfNoActivity")
 	int timeout = -1;
 
-	@Argument(index = 0, metaVar = "uri-ish", required = true)
+	@Argument(index = 0, metaVar = "metaVar_uriish", required = true)
 	private String remote;
 
 	@Override

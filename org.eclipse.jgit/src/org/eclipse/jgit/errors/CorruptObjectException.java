@@ -47,7 +47,9 @@
 package org.eclipse.jgit.errors;
 
 import java.io.IOException;
+import java.text.MessageFormat;
 
+import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 
@@ -76,7 +78,7 @@ public class CorruptObjectException extends IOException {
 	 * @param why
 	 */
 	public CorruptObjectException(final ObjectId id, final String why) {
-		super("Object " + id.name() + " is corrupt: " + why);
+		super(MessageFormat.format(JGitText.get().objectIsCorrupt, id.name(), why));
 	}
 
 	/**

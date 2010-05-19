@@ -44,6 +44,9 @@
 package org.eclipse.jgit.errors;
 
 import java.io.File;
+import java.text.MessageFormat;
+
+import org.eclipse.jgit.JGitText;
 
 /** Indicates a local repository does not exist. */
 public class RepositoryNotFoundException extends TransportException {
@@ -94,6 +97,6 @@ public class RepositoryNotFoundException extends TransportException {
 	}
 
 	private static String message(final String location) {
-		return "repository not found: " + location;
+		return MessageFormat.format(JGitText.get().repositoryNotFound, location);
 	}
 }

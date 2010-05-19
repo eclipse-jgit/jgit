@@ -57,18 +57,18 @@ import org.eclipse.jgit.treewalk.filter.AndTreeFilter;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
 
 class DiffTree extends TextBuiltin {
-	@Option(name = "--recursive", usage = "recurse into subtrees", aliases = { "-r" })
+	@Option(name = "--recursive", usage = "usage_recurseIntoSubtrees", aliases = { "-r" })
 	private boolean recursive;
 
-	@Argument(index = 0, metaVar = "tree-ish", required = true)
+	@Argument(index = 0, metaVar = "metaVar_treeish", required = true)
 	void tree_0(final AbstractTreeIterator c) {
 		trees.add(c);
 	}
 
-	@Argument(index = 1, metaVar = "tree-ish", required = true)
+	@Argument(index = 1, metaVar = "metaVar_treeish", required = true)
 	private final List<AbstractTreeIterator> trees = new ArrayList<AbstractTreeIterator>();
 
-	@Option(name = "--", metaVar = "path", multiValued = true, handler = PathTreeFilterHandler.class)
+	@Option(name = "--", metaVar = "metaVar_path", multiValued = true, handler = PathTreeFilterHandler.class)
 	private TreeFilter pathFilter = TreeFilter.ALL;
 
 	@Override

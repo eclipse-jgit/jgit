@@ -44,6 +44,7 @@
 
 package org.eclipse.jgit.errors;
 
+import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.revwalk.RevWalk;
 
 /**
@@ -65,6 +66,6 @@ public class RevWalkException extends RuntimeException {
 	 *            the checked exception that describes why the walk failed.
 	 */
 	public RevWalkException(final Throwable cause) {
-		super("Walk failure.", cause);
+		super(JGitText.get().walkFailure, cause);
 	}
 }

@@ -43,6 +43,9 @@
 
 package org.eclipse.jgit.transport;
 
+import java.text.MessageFormat;
+
+import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
 
@@ -125,7 +128,7 @@ public class RefSpec {
 		if (c == 0) {
 			s = s.substring(1);
 			if (isWildcard(s))
-				throw new IllegalArgumentException("Invalid wildcards " + spec);
+				throw new IllegalArgumentException(MessageFormat.format(JGitText.get().invalidWildcards, spec));
 			dstName = s;
 		} else if (c > 0) {
 			srcName = s.substring(0, c);
@@ -133,10 +136,10 @@ public class RefSpec {
 			if (isWildcard(srcName) && isWildcard(dstName))
 				wildcard = true;
 			else if (isWildcard(srcName) || isWildcard(dstName))
-				throw new IllegalArgumentException("Invalid wildcards " + spec);
+				throw new IllegalArgumentException(MessageFormat.format(JGitText.get().invalidWildcards, spec));
 		} else {
 			if (isWildcard(s))
-				throw new IllegalArgumentException("Invalid wildcards " + spec);
+				throw new IllegalArgumentException(MessageFormat.format(JGitText.get().invalidWildcards, spec));
 			srcName = s;
 		}
 	}
@@ -211,9 +214,9 @@ public class RefSpec {
 		final RefSpec r = new RefSpec(this);
 		r.srcName = source;
 		if (isWildcard(r.srcName) && r.dstName == null)
-			throw new IllegalStateException("Destination is not a wildcard.");
+			throw new IllegalStateException(JGitText.get().destinationIsNotAWildcard);
 		if (isWildcard(r.srcName) != isWildcard(r.dstName))
-			throw new IllegalStateException("Source/Destination must match.");
+			throw new IllegalStateException(JGitText.get().sourceDestinationMustMatch);
 		return r;
 	}
 
@@ -250,9 +253,9 @@ public class RefSpec {
 		final RefSpec r = new RefSpec(this);
 		r.dstName = destination;
 		if (isWildcard(r.dstName) && r.srcName == null)
-			throw new IllegalStateException("Source is not a wildcard.");
+			throw new IllegalStateException(JGitText.get().sourceIsNotAWildcard);
 		if (isWildcard(r.srcName) != isWildcard(r.dstName))
-			throw new IllegalStateException("Source/Destination must match.");
+			throw new IllegalStateException(JGitText.get().sourceDestinationMustMatch);
 		return r;
 	}
 
@@ -271,7 +274,7 @@ public class RefSpec {
 	public RefSpec setSourceDestination(final String source,
 			final String destination) {
 		if (isWildcard(source) != isWildcard(destination))
-			throw new IllegalArgumentException("Source/Destination must match.");
+			throw new IllegalStateException(JGitText.get().sourceDestinationMustMatch);
 		final RefSpec r = new RefSpec(this);
 		r.wildcard = isWildcard(source);
 		r.srcName = source;

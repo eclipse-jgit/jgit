@@ -47,6 +47,7 @@ package org.eclipse.jgit.console;
 import java.io.Console;
 import java.net.Authenticator;
 import java.net.PasswordAuthentication;
+import java.text.MessageFormat;
 
 import org.eclipse.jgit.util.CachedAuthenticator;
 
@@ -56,7 +57,7 @@ public class ConsoleAuthenticator extends CachedAuthenticator {
 	public static void install() {
 		final ConsoleAuthenticator c = new ConsoleAuthenticator();
 		if (c.cons == null)
-			throw new NoClassDefFoundError("No System.console available");
+			throw new NoClassDefFoundError(ConsoleText.get().noSystemConsoleAvailable);
 		Authenticator.setDefault(c);
 	}
 
@@ -65,11 +66,11 @@ public class ConsoleAuthenticator extends CachedAuthenticator {
 	@Override
 	protected PasswordAuthentication promptPasswordAuthentication() {
 		final String realm = formatRealm();
-		String username = cons.readLine("Username for %s: ", realm);
+		String username = cons.readLine(MessageFormat.format(ConsoleText.get().usernameFor + " ", realm));
 		if (username == null || username.isEmpty()) {
 			return null;
 		}
-		char[] password = cons.readPassword("Password: ");
+		char[] password = cons.readPassword(ConsoleText.get().password + " ");
 		if (password == null) {
 			password = new char[0];
 		}

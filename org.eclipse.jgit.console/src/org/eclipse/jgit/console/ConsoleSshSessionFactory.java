@@ -70,7 +70,7 @@ public class ConsoleSshSessionFactory extends SshConfigSessionFactory {
 	public static void install() {
 		final ConsoleSshSessionFactory c = new ConsoleSshSessionFactory();
 		if (c.cons == null)
-			throw new NoClassDefFoundError("No System.console available");
+			throw new NoClassDefFoundError(ConsoleText.get().noSystemConsoleAvailable);
 		SshSessionFactory.setInstance(c);
 	}
 
@@ -93,8 +93,8 @@ public class ConsoleSshSessionFactory extends SshConfigSessionFactory {
 		}
 
 		public boolean promptYesNo(final String msg) {
-			String r = cons.readLine("%s [y/n]? ", msg);
-			return "y".equalsIgnoreCase(r);
+			String r = cons.readLine("%s [%s/%s]? ", msg, ConsoleText.get().answerYes, ConsoleText.get().answerNo);
+			return ConsoleText.get().answerYes.equalsIgnoreCase(r);
 		}
 
 		public boolean promptPassword(final String msg) {
