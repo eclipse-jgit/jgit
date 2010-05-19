@@ -45,11 +45,13 @@
 package org.eclipse.jgit.revwalk;
 
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.EnumSet;
 import java.util.Iterator;
 
+import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.RevWalkException;
@@ -630,7 +632,7 @@ public class RevWalk implements Iterable<RevCommit> {
 				r = new RevTag(id);
 				break;
 			default:
-				throw new IllegalArgumentException("invalid git type: " + type);
+				throw new IllegalArgumentException(MessageFormat.format(JGitText.get().invalidGitType, type));
 			}
 			objects.add(r);
 		}
@@ -755,7 +757,7 @@ public class RevWalk implements Iterable<RevCommit> {
 				break;
 			}
 			default:
-				throw new IllegalArgumentException("Bad object type: " + type);
+				throw new IllegalArgumentException(MessageFormat.format(JGitText.get().badObjectType, type));
 			}
 			objects.add(r);
 		} else
@@ -820,8 +822,8 @@ public class RevWalk implements Iterable<RevCommit> {
 
 	int allocFlag() {
 		if (freeFlags == 0)
-			throw new IllegalArgumentException(32 - RESERVED_FLAGS
-					+ " flags already created.");
+			throw new IllegalArgumentException(MessageFormat.format(
+					JGitText.get().flagsAlreadyCreated, 32 - RESERVED_FLAGS));
 		final int m = Integer.lowestOneBit(freeFlags);
 		freeFlags &= ~m;
 		return m;
@@ -838,9 +840,9 @@ public class RevWalk implements Iterable<RevCommit> {
 	 */
 	public void carry(final RevFlag flag) {
 		if ((freeFlags & flag.mask) != 0)
-			throw new IllegalArgumentException(flag.name + " is disposed.");
+			throw new IllegalArgumentException(MessageFormat.format(JGitText.get().flagIsDisposed, flag.name));
 		if (flag.walker != this)
-			throw new IllegalArgumentException(flag.name + " not from this.");
+			throw new IllegalArgumentException(MessageFormat.format(JGitText.get().flagNotFromThis, flag.name));
 		carryFlags |= flag.mask;
 	}
 
@@ -1059,7 +1061,7 @@ public class RevWalk implements Iterable<RevCommit> {
 	protected void assertNotStarted() {
 		if (isNotStarted())
 			return;
-		throw new IllegalStateException("Output has already been started.");
+		throw new IllegalStateException(JGitText.get().outputHasAlreadyBeenStarted);
 	}
 
 	private boolean isNotStarted() {

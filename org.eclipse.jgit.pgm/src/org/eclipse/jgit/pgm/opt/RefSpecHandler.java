@@ -49,6 +49,7 @@ import org.kohsuke.args4j.OptionDef;
 import org.kohsuke.args4j.spi.OptionHandler;
 import org.kohsuke.args4j.spi.Parameters;
 import org.kohsuke.args4j.spi.Setter;
+import org.eclipse.jgit.pgm.CLIText;
 import org.eclipse.jgit.transport.RefSpec;
 
 /**
@@ -79,6 +80,6 @@ public class RefSpecHandler extends OptionHandler<RefSpec> {
 
 	@Override
 	public String getDefaultMetaVariable() {
-		return "refspec";
+		return CLIText.get().metaVar_refspec;
 	}
 }

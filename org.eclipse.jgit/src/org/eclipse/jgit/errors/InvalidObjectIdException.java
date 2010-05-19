@@ -46,6 +46,9 @@
 package org.eclipse.jgit.errors;
 
 import java.io.UnsupportedEncodingException;
+import java.text.MessageFormat;
+
+import org.eclipse.jgit.JGitText;
 
 /**
  * Thrown when an invalid object id is passed in as an argument.
@@ -61,7 +64,7 @@ public class InvalidObjectIdException extends IllegalArgumentException {
 	 * @param length of the sequence of invalid bytes.
 	 */
 	public InvalidObjectIdException(byte[] bytes, int offset, int length) {
-		super("Invalid id" + asAscii(bytes, offset, length));
+		super(MessageFormat.format(JGitText.get().invalidId, asAscii(bytes, offset, length)));
 	}
 
 	private static String asAscii(byte[] bytes, int offset, int length) {

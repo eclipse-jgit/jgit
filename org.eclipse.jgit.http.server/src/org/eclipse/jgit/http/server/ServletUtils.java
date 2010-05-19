@@ -54,6 +54,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.security.MessageDigest;
+import java.text.MessageFormat;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
@@ -85,7 +86,7 @@ public final class ServletUtils {
 	public static Repository getRepository(final ServletRequest req) {
 		Repository db = (Repository) req.getAttribute(ATTRIBUTE_REPOSITORY);
 		if (db == null)
-			throw new IllegalStateException("Expected Repository attribute");
+			throw new IllegalStateException(HttpServerText.get().expectedRepositoryAttribute);
 		return db;
 	}
 
@@ -109,8 +110,8 @@ public final class ServletUtils {
 		if (ENCODING_GZIP.equals(enc) || "x-gzip".equals(enc)) //$NON-NLS-1$
 			in = new GZIPInputStream(in);
 		else if (enc != null)
-			throw new IOException(HDR_CONTENT_ENCODING + " \"" + enc + "\""
-					+ ": not supported by this library.");
+			throw new IOException(MessageFormat.format(HttpServerText.get().encodingNotSupportedByThisLibrary
+					, HDR_CONTENT_ENCODING, enc));
 		return in;
 	}
 

@@ -43,8 +43,10 @@
 
 package org.eclipse.jgit.lib;
 
+import java.text.MessageFormat;
 import java.util.Arrays;
 
+import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.lib.PackIndex.MutableEntry;
 
@@ -94,7 +96,7 @@ class PackReverseIndex {
 		if (n32 > Integer.MAX_VALUE || n64 > Integer.MAX_VALUE
 				|| cnt > 0xffffffffL)
 			throw new IllegalArgumentException(
-					"Huge indexes are not supported by jgit, yet");
+					JGitText.get().hugeIndexesAreNotSupportedByJgitYet);
 
 		offsets32 = new int[(int) n32];
 		offsets64 = new long[(int) n64];
@@ -166,9 +168,9 @@ class PackReverseIndex {
 		if (offset <= Integer.MAX_VALUE) {
 			final int i32 = Arrays.binarySearch(offsets32, (int) offset);
 			if (i32 < 0)
-				throw new CorruptObjectException(
-						"Can't find object in (reverse) pack index for the specified offset "
-								+ offset);
+				throw new CorruptObjectException(MessageFormat.format(
+						JGitText.get().cantFindObjectInReversePackIndexForTheSpecifiedOffset
+						, offset));
 
 			if (i32 + 1 == offsets32.length) {
 				if (offsets64.length > 0)
@@ -179,9 +181,9 @@ class PackReverseIndex {
 		} else {
 			final int i64 = Arrays.binarySearch(offsets64, offset);
 			if (i64 < 0)
-				throw new CorruptObjectException(
-						"Can't find object in (reverse) pack index for the specified offset "
-								+ offset);
+				throw new CorruptObjectException(MessageFormat.format(
+						JGitText.get().cantFindObjectInReversePackIndexForTheSpecifiedOffset
+						, offset));
 
 			if (i64 + 1 == offsets64.length)
 				return maxOffset;

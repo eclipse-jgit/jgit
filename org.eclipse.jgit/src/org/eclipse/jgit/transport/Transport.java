@@ -48,6 +48,7 @@ package org.eclipse.jgit.transport;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -56,6 +57,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.NotSupportedException;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.lib.Constants;
@@ -240,9 +242,8 @@ public abstract class Transport {
 			throws NotSupportedException {
 		final List<URIish> uris = getURIs(cfg, op);
 		if (uris.isEmpty())
-			throw new IllegalArgumentException(
-					"Remote config \""
-					+ cfg.getName() + "\" has no URIs associated");
+			throw new IllegalArgumentException(MessageFormat.format(
+					JGitText.get().remoteConfigHasNoURIAssociated, cfg.getName()));
 		final Transport tn = open(local, uris.get(0));
 		tn.applyConfig(cfg);
 		return tn;
@@ -351,7 +352,7 @@ public abstract class Transport {
 		else if (TransportLocal.canHandle(remote))
 			return new TransportLocal(local, remote);
 
-		throw new NotSupportedException("URI not supported: " + remote);
+		throw new NotSupportedException(MessageFormat.format(JGitText.get().URINotSupported, remote));
 	}
 
 	/**
@@ -787,7 +788,7 @@ public abstract class Transport {
 			// If the caller did not ask for anything use the defaults.
 			//
 			if (fetch.isEmpty())
-				throw new TransportException("Nothing to fetch.");
+				throw new TransportException(JGitText.get().nothingToFetch);
 			toFetch = fetch;
 		} else if (!fetch.isEmpty()) {
 			// If the caller asked for something specific without giving
@@ -862,12 +863,11 @@ public abstract class Transport {
 			try {
 				toPush = findRemoteRefUpdatesFor(push);
 			} catch (final IOException e) {
-				throw new TransportException(
-						"Problem with resolving push ref specs locally: "
-								+ e.getMessage(), e);
+				throw new TransportException(MessageFormat.format(
+						JGitText.get().problemWithResolvingPushRefSpecsLocally, e.getMessage()), e);
 			}
 			if (toPush.isEmpty())
-				throw new TransportException("Nothing to push.");
+				throw new TransportException(JGitText.get().nothingToPush);
 		}
 		final PushProcess pushProcess = new PushProcess(this, toPush);
 		return pushProcess.execute(monitor);

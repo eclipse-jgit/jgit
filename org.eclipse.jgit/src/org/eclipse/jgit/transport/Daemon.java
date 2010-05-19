@@ -57,6 +57,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
@@ -250,7 +251,7 @@ public class Daemon {
 	 */
 	public synchronized void start() throws IOException {
 		if (acceptThread != null)
-			throw new IllegalStateException("Daemon already running");
+			throw new IllegalStateException(JGitText.get().daemonAlreadyRunning);
 
 		final ServerSocket listenSock = new ServerSocket(
 				myAddress != null ? myAddress.getPort() : 0, BACKLOG,

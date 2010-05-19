@@ -48,13 +48,15 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.jgit.JGitText;
+
 /** An exception detailing multiple reasons for failure. */
 public class CompoundException extends Exception {
 	private static final long serialVersionUID = 1L;
 
 	private static String format(final Collection<Throwable> causes) {
 		final StringBuilder msg = new StringBuilder();
-		msg.append("Failure due to one of the following:");
+		msg.append(JGitText.get().failureDueToOneOfTheFollowing);
 		for (final Throwable c : causes) {
 			msg.append("  ");
 			msg.append(c.getMessage());

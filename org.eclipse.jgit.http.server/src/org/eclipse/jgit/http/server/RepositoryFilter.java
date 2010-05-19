@@ -50,6 +50,7 @@ import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 import static org.eclipse.jgit.http.server.ServletUtils.ATTRIBUTE_REPOSITORY;
 
 import java.io.IOException;
+import java.text.MessageFormat;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -109,9 +110,9 @@ public class RepositoryFilter implements Filter {
 			final ServletResponse rsp, final FilterChain chain)
 			throws IOException, ServletException {
 		if (request.getAttribute(ATTRIBUTE_REPOSITORY) != null) {
-			context.log("Internal server error, request attribute "
-					+ ATTRIBUTE_REPOSITORY + " was already set when "
-					+ getClass().getName() + " was invoked.");
+			context.log(MessageFormat.format(HttpServerText.get().internalServerErrorRequestAttributeWasAlreadySet
+					, ATTRIBUTE_REPOSITORY
+					, getClass().getName()));
 			((HttpServletResponse) rsp).sendError(SC_INTERNAL_SERVER_ERROR);
 			return;
 		}

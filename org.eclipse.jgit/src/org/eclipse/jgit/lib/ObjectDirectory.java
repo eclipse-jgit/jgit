@@ -48,6 +48,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -59,6 +60,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.PackMismatchException;
 import org.eclipse.jgit.lib.RepositoryCache.FileKey;
 import org.eclipse.jgit.util.FS;
@@ -175,13 +177,13 @@ public class ObjectDirectory extends ObjectDatabase {
 		final String i = idx.getName();
 
 		if (p.length() != 50 || !p.startsWith("pack-") || !p.endsWith(".pack"))
-			throw new IOException("Not a valid pack " + pack);
+			throw new IOException(MessageFormat.format(JGitText.get().notAValidPack, pack));
 
 		if (i.length() != 49 || !i.startsWith("pack-") || !i.endsWith(".idx"))
-			throw new IOException("Not a valid pack " + idx);
+			throw new IOException(MessageFormat.format(JGitText.get().notAValidPack, idx));
 
 		if (!p.substring(0, 45).equals(i.substring(0, 45)))
-			throw new IOException("Pack " + pack + "does not match index");
+			throw new IOException(MessageFormat.format(JGitText.get().packDoesNotMatchIndex, pack));
 
 		insertPack(new PackFile(idx, pack));
 	}

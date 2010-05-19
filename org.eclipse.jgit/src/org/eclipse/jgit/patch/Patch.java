@@ -55,6 +55,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.util.TemporaryBuffer;
 
 /** A parsed collection of {@link FileHeader}s from a unified diff patch file */
@@ -175,7 +176,7 @@ public class Patch {
 				// have missed a file header previously. The hunk
 				// isn't valid without knowing where it comes from.
 				//
-				error(buf, c, "Hunk disconnected from file");
+				error(buf, c, JGitText.get().hunkDisconnectedFromFile);
 				c = nextLF(buf, c);
 				continue;
 			}
@@ -300,7 +301,7 @@ public class Patch {
 						break;
 					default:
 						if (match(buf, c, SIG_FOOTER) < 0)
-							warn(buf, c, "Unexpected hunk trailer");
+							warn(buf, c, JGitText.get().unexpectedHunkTrailer);
 					}
 				}
 				continue;
@@ -345,7 +346,7 @@ public class Patch {
 		if (nEnd < 0) {
 			// Not a binary hunk.
 			//
-			error(fh.buf, c, "Missing forward-image in GIT binary patch");
+			error(fh.buf, c, JGitText.get().missingForwardImageInGITBinaryPatch);
 			return c;
 		}
 		c = nEnd;

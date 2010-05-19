@@ -43,12 +43,14 @@
 
 package org.eclipse.jgit.http.server.resolver;
 
+import org.eclipse.jgit.http.server.HttpServerText;
+
 /** Indicates the request service is not authorized for current user. */
 public class ServiceNotAuthorizedException extends Exception {
 	private static final long serialVersionUID = 1L;
 
 	/** Indicates the request service is not available. */
 	public ServiceNotAuthorizedException() {
-		super("Service not permitted");
+		super(HttpServerText.get().serviceNotPermitted);
 	}
 }

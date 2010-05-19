@@ -53,15 +53,15 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.filter.RevFilter;
 
 class MergeBase extends TextBuiltin {
-	@Option(name = "--all", usage = "display all possible merge bases")
+	@Option(name = "--all", usage = "usage_displayAllPossibleMergeBases")
 	private boolean all;
 
-	@Argument(index = 0, metaVar = "commit-ish", required = true)
+	@Argument(index = 0, metaVar = "metaVar_commitish", required = true)
 	void commit_0(final RevCommit c) {
 		commits.add(c);
 	}
 
-	@Argument(index = 1, metaVar = "commit-ish", required = true)
+	@Argument(index = 1, metaVar = "metaVar_commitish", required = true)
 	private final List<RevCommit> commits = new ArrayList<RevCommit>();
 
 	@Override

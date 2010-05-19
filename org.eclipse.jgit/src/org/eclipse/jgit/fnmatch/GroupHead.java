@@ -44,11 +44,13 @@
 
 package org.eclipse.jgit.fnmatch;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.InvalidPatternException;
 
 final class GroupHead extends AbstractHead {
@@ -112,9 +114,9 @@ final class GroupHead extends AbstractHead {
 				characterClasses.add(LetterPattern.INSTANCE);
 				characterClasses.add(DigitPattern.INSTANCE);
 			} else {
-				final String message = String.format(
-						"The character class %s is not supported.",
-						characterClass);
+				final String message = String.format(MessageFormat.format(
+						JGitText.get().characterClassIsNotSupported,
+						characterClass));
 				throw new InvalidPatternException(message, wholePattern);
 			}
 

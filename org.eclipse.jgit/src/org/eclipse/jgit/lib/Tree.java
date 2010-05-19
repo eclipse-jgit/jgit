@@ -46,7 +46,9 @@
 package org.eclipse.jgit.lib;
 
 import java.io.IOException;
+import java.text.MessageFormat;
 
+import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.EntryExistsException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -245,7 +247,7 @@ public class Tree extends TreeEntry implements Treeish {
 	 */
 	public void unload() {
 		if (isModified())
-			throw new IllegalStateException("Cannot unload a modified tree.");
+			throw new IllegalStateException(JGitText.get().cannotUnloadAModifiedTree);
 		contents = null;
 	}
 
@@ -555,14 +557,14 @@ public class Tree extends TreeEntry implements Treeish {
 		while (rawPtr < rawSize) {
 			int c = raw[rawPtr++];
 			if (c < '0' || c > '7')
-				throw new CorruptObjectException(getId(), "invalid entry mode");
+				throw new CorruptObjectException(getId(), JGitText.get().corruptObjectInvalidEntryMode);
 			int mode = c - '0';
 			for (;;) {
 				c = raw[rawPtr++];
 				if (' ' == c)
 					break;
 				else if (c < '0' || c > '7')
-					throw new CorruptObjectException(getId(), "invalid mode");
+					throw new CorruptObjectException(getId(), JGitText.get().corruptObjectInvalidMode);
 				mode <<= 3;
 				mode += c - '0';
 			}
@@ -589,8 +591,8 @@ public class Tree extends TreeEntry implements Treeish {
 			else if (FileMode.GITLINK.equals(mode))
 				ent = new GitlinkTreeEntry(this, id, name);
 			else
-				throw new CorruptObjectException(getId(), "Invalid mode: "
-						+ Integer.toOctalString(mode));
+				throw new CorruptObjectException(getId(), MessageFormat.format(
+						JGitText.get().corruptObjectInvalidMode2, Integer.toOctalString(mode)));
 			temp[nextIndex++] = ent;
 		}
 

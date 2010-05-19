@@ -37,6 +37,9 @@
  */
 package org.eclipse.jgit.api;
 
+import java.text.MessageFormat;
+
+import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 
@@ -53,16 +56,16 @@ public class ConcurrentRefUpdateException extends GitAPIException {
 
 	ConcurrentRefUpdateException(String message, Ref ref,
 			RefUpdate.Result rc, Throwable cause) {
-		super((rc == null) ? message : message
-				+ ". RefUpdate return code was: " + rc, cause);
+		super((rc == null) ? message : message + ". "
+				+ MessageFormat.format(JGitText.get().refUpdateReturnCodeWas, rc), cause);
 		this.rc = rc;
 		this.ref = ref;
 	}
 
 	ConcurrentRefUpdateException(String message, Ref ref,
 			RefUpdate.Result rc) {
-		super((rc == null) ? message : message
-				+ ". RefUpdate return code was: " + rc);
+		super((rc == null) ? message : message + ". "
+				+ MessageFormat.format(JGitText.get().refUpdateReturnCodeWas, rc));
 		this.rc = rc;
 		this.ref = ref;
 	}

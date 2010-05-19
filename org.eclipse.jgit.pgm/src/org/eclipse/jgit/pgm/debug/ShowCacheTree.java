@@ -44,8 +44,11 @@
 
 package org.eclipse.jgit.pgm.debug;
 
+import java.text.MessageFormat;
+
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheTree;
+import org.eclipse.jgit.pgm.CLIText;
 import org.eclipse.jgit.pgm.TextBuiltin;
 
 class ShowCacheTree extends TextBuiltin {
@@ -54,21 +57,13 @@ class ShowCacheTree extends TextBuiltin {
 		final DirCache cache = DirCache.read(db);
 		final DirCacheTree tree = cache.getCacheTree(false);
 		if (tree == null)
-			throw die("no 'TREE' section in index");
+			throw die(CLIText.get().noTREESectionInIndex);
 		show(tree);
 	}
 
 	private void show(final DirCacheTree tree) {
-		out.print("\"");
-		out.print(tree.getPathString());
-		out.print("\"");
-		out.print(":  ");
-		out.print(tree.getEntrySpan());
-		out.print(" entries");
-		out.print(", ");
-		out.print(tree.getChildCount());
-		out.print(" children");
-		out.println();
+		out.println(MessageFormat.format(CLIText.get().cacheTreePathInfo
+				, tree.getPathString(), tree.getEntrySpan(), tree.getChildCount()));
 
 		for (int i = 0; i < tree.getChildCount(); i++)
 			show(tree.getChild(i));

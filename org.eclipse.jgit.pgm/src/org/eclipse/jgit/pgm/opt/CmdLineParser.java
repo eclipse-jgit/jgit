@@ -51,6 +51,7 @@ import org.kohsuke.args4j.IllegalAnnotationError;
 import org.kohsuke.args4j.Option;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.pgm.CLIText;
 import org.eclipse.jgit.pgm.TextBuiltin;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevTree;
@@ -149,7 +150,7 @@ public class CmdLineParser extends org.kohsuke.args4j.CmdLineParser {
 	 */
 	public Repository getRepository() {
 		if (db == null)
-			throw new IllegalStateException("No Git repository configured.");
+			throw new IllegalStateException(CLIText.get().noGitRepositoryConfigured);
 		return db;
 	}
 

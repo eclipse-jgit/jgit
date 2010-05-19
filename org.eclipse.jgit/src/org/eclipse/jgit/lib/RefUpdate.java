@@ -45,7 +45,9 @@
 package org.eclipse.jgit.lib;
 
 import java.io.IOException;
+import java.text.MessageFormat;
 
+import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
@@ -395,7 +397,7 @@ public abstract class RefUpdate {
 
 	private void requireCanDoUpdate() {
 		if (newValue == null)
-			throw new IllegalStateException("A NewObjectId is required.");
+			throw new IllegalStateException(JGitText.get().aNewObjectIdIsRequired);
 	}
 
 	/**
@@ -524,7 +526,7 @@ public abstract class RefUpdate {
 	 */
 	public Result link(String target) throws IOException {
 		if (!target.startsWith(Constants.R_REFS))
-			throw new IllegalArgumentException("Not " + Constants.R_REFS);
+			throw new IllegalArgumentException(MessageFormat.format(JGitText.get().illegalArgumentNotA, Constants.R_REFS));
 		if (getRefDatabase().isNameConflicting(getName()))
 			return Result.LOCK_FAILURE;
 		try {

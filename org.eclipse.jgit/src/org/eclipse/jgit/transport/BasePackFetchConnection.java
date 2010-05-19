@@ -47,11 +47,13 @@ package org.eclipse.jgit.transport;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Set;
 
+import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.PackProtocolException;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.lib.AnyObjectId;
@@ -391,8 +393,7 @@ abstract class BasePackFetchConnection extends BasePackConnection implements
 			// ACK status to tell us common objects for reuse in future
 			// requests.  If its not enabled, we can't talk to the peer.
 			//
-			throw new PackProtocolException(uri, "stateless RPC requires "
-					+ OPTION_MULTI_ACK_DETAILED + " to be enabled");
+			throw new PackProtocolException(uri, MessageFormat.format(JGitText.get().statelessRPCRequiresOptionToBeEnabled, OPTION_MULTI_ACK_DETAILED));
 		}
 
 		return line.toString();

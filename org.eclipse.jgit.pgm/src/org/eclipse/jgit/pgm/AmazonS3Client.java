@@ -52,23 +52,24 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URLConnection;
+import java.text.MessageFormat;
 import java.util.Properties;
 
 import org.eclipse.jgit.transport.AmazonS3;
 import org.kohsuke.args4j.Argument;
 
-@Command(name = "amazon-s3-client", common = false, usage = "Command line client for Amazon's S3 service")
+@Command(name = "amazon-s3-client", common = false, usage = "usage_CommandLineClientForamazonsS3Service")
 class AmazonS3Client extends TextBuiltin {
-	@Argument(index = 0, metaVar = "conn.prop", required = true)
+	@Argument(index = 0, metaVar = "metaVar_connProp", required = true)
 	private File propertyFile;
 
-	@Argument(index = 1, metaVar = "OP", required = true)
+	@Argument(index = 1, metaVar = "metaVar_op", required = true)
 	private String op;
 
-	@Argument(index = 2, metaVar = "BUCKET", required = true)
+	@Argument(index = 2, metaVar = "metaVar_bucket", required = true)
 	private String bucket;
 
-	@Argument(index = 3, metaVar = "KEY", required = true)
+	@Argument(index = 3, metaVar = "metaVar_KEY", required = true)
 	private String key;
 
 	@Override
@@ -89,7 +90,7 @@ class AmazonS3Client extends TextBuiltin {
 				while (len > 0) {
 					final int n = in.read(tmp);
 					if (n < 0)
-						throw new EOFException("Expected " + len + " bytes.");
+						throw new EOFException(MessageFormat.format(CLIText.get().expectedNumberOfbytes, len));
 					System.out.write(tmp, 0, n);
 					len -= n;
 				}
@@ -113,7 +114,7 @@ class AmazonS3Client extends TextBuiltin {
 			os.close();
 
 		} else {
-			throw die("Unsupported operation: " + op);
+			throw die(MessageFormat.format(CLIText.get().unsupportedOperation, op));
 		}
 	}
 
@@ -128,9 +129,9 @@ class AmazonS3Client extends TextBuiltin {
 				in.close();
 			}
 		} catch (FileNotFoundException e) {
-			throw die("no such file: " + propertyFile, e);
+			throw die(MessageFormat.format(CLIText.get().noSuchFile, propertyFile), e);
 		} catch (IOException e) {
-			throw die("cannot read " + propertyFile, e);
+			throw die(MessageFormat.format(CLIText.get().cannotReadBecause, propertyFile, e.getMessage()), e);
 		}
 	}
 }

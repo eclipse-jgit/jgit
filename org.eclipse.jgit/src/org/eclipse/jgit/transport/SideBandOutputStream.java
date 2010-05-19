@@ -45,6 +45,9 @@ package org.eclipse.jgit.transport;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.text.MessageFormat;
+
+import org.eclipse.jgit.JGitText;
 
 /**
  * Multiplexes data and progress messages.
@@ -94,14 +97,11 @@ class SideBandOutputStream extends OutputStream {
 	 */
 	SideBandOutputStream(final int chan, final int sz, final OutputStream os) {
 		if (chan <= 0 || chan > 255)
-			throw new IllegalArgumentException("channel " + chan
-					+ " must be in range [0, 255]");
+			throw new IllegalArgumentException(MessageFormat.format(JGitText.get().channelMustBeInRange0_255, chan));
 		if (sz <= HDR_SIZE)
-			throw new IllegalArgumentException("packet size " + sz
-					+ " must be >= " + HDR_SIZE);
+			throw new IllegalArgumentException(MessageFormat.format(JGitText.get().packetSizeMustBeAtLeast, sz, HDR_SIZE));
 		else if (MAX_BUF < sz)
-			throw new IllegalArgumentException("packet size " + sz
-					+ " must be <= " + MAX_BUF);
+			throw new IllegalArgumentException(MessageFormat.format(JGitText.get().packetSizeMustBeAtMost, sz, MAX_BUF));
 
 		out = os;
 		buffer = new byte[sz];

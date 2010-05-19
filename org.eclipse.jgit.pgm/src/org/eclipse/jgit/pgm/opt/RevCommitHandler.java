@@ -45,6 +45,7 @@
 package org.eclipse.jgit.pgm.opt;
 
 import java.io.IOException;
+import java.text.MessageFormat;
 
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
@@ -55,6 +56,7 @@ import org.kohsuke.args4j.spi.Setter;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.pgm.CLIText;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
 
@@ -94,8 +96,8 @@ public class RevCommitHandler extends OptionHandler<RevCommit> {
 		final int dot2 = name.indexOf("..");
 		if (dot2 != -1) {
 			if (!option.isMultiValued())
-				throw new CmdLineException("Only one " + option.metaVar()
-						+ " expected in " + name + "." + "");
+				throw new CmdLineException(MessageFormat.format(CLIText.get().onlyOneMetaVarExpectedIn
+					, option.metaVar(), name));
 
 			final String left = name.substring(0, dot2);
 			final String right = name.substring(dot2 + 2);
@@ -117,18 +119,17 @@ public class RevCommitHandler extends OptionHandler<RevCommit> {
 			throw new CmdLineException(e.getMessage());
 		}
 		if (id == null)
-			throw new CmdLineException(name + " is not a commit");
+			throw new CmdLineException(MessageFormat.format(CLIText.get().notACommit, name));
 
 		final RevCommit c;
 		try {
 			c = clp.getRevWalk().parseCommit(id);
 		} catch (MissingObjectException e) {
-			throw new CmdLineException(name + " is not a commit");
+			throw new CmdLineException(MessageFormat.format(CLIText.get().notACommit, name));
 		} catch (IncorrectObjectTypeException e) {
-			throw new CmdLineException(name + " is not a commit");
+			throw new CmdLineException(MessageFormat.format(CLIText.get().notACommit, name));
 		} catch (IOException e) {
-			throw new CmdLineException("cannot read " + name + ": "
-					+ e.getMessage());
+			throw new CmdLineException(MessageFormat.format(CLIText.get().cannotReadBecause, name, e.getMessage()));
 		}
 
 		if (interesting)
@@ -141,6 +142,6 @@ public class RevCommitHandler extends OptionHandler<RevCommit> {
 
 	@Override
 	public String getDefaultMetaVariable() {
-		return "commit-ish";
+		return CLIText.get().metaVar_commitish;
 	}
 }

@@ -53,6 +53,7 @@ import org.kohsuke.args4j.OptionDef;
 import org.kohsuke.args4j.spi.OptionHandler;
 import org.kohsuke.args4j.spi.Parameters;
 import org.kohsuke.args4j.spi.Setter;
+import org.eclipse.jgit.pgm.CLIText;
 import org.eclipse.jgit.treewalk.filter.PathFilter;
 import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
@@ -103,6 +104,6 @@ public class PathTreeFilterHandler extends OptionHandler<TreeFilter> {
 
 	@Override
 	public String getDefaultMetaVariable() {
-		return "path ...";
+		return CLIText.get().metaVar_paths;
 	}
 }

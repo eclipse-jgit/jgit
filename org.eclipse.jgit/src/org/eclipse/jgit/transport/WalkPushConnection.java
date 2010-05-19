@@ -55,6 +55,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
@@ -145,7 +146,7 @@ class WalkPushConnection extends BaseConnection implements PushConnection {
 			final String n = u.getRemoteName();
 			if (!n.startsWith("refs/") || !Repository.isValidRefName(n)) {
 				u.setStatus(Status.REJECTED_OTHER_REASON);
-				u.setMessage("funny refname");
+				u.setMessage(JGitText.get().funnyRefname);
 				continue;
 			}
 
@@ -187,14 +188,14 @@ class WalkPushConnection extends BaseConnection implements PushConnection {
 					u.setStatus(Status.REJECTED_OTHER_REASON);
 					u.setMessage(err.getMessage());
 				}
-				throw new TransportException(uri, "failed updating refs", err);
+				throw new TransportException(uri, JGitText.get().failedUpdatingRefs, err);
 			}
 		}
 
 		try {
 			refWriter.writeInfoRefs();
 		} catch (IOException err) {
-			throw new TransportException(uri, "failed updating refs", err);
+			throw new TransportException(uri, JGitText.get().failedUpdatingRefs, err);
 		}
 	}
 
@@ -279,7 +280,7 @@ class WalkPushConnection extends BaseConnection implements PushConnection {
 			safeDelete(pathIdx);
 			safeDelete(pathPack);
 
-			throw new TransportException(uri, "cannot store objects", err);
+			throw new TransportException(uri, JGitText.get().cannotStoreObjects, err);
 		}
 	}
 
@@ -349,7 +350,7 @@ class WalkPushConnection extends BaseConnection implements PushConnection {
 			final byte[] bytes = Constants.encode(ref);
 			dest.writeFile(ROOT_DIR + Constants.HEAD, bytes);
 		} catch (IOException e) {
-			throw new TransportException(uri, "cannot create HEAD", e);
+			throw new TransportException(uri, JGitText.get().cannotCreateHEAD, e);
 		}
 
 		try {
@@ -358,7 +359,7 @@ class WalkPushConnection extends BaseConnection implements PushConnection {
 			final byte[] bytes = Constants.encode(config);
 			dest.writeFile(ROOT_DIR + "config", bytes);
 		} catch (IOException e) {
-			throw new TransportException(uri, "cannot create config", e);
+			throw new TransportException(uri, JGitText.get().cannotCreateConfig, e);
 		}
 	}
 

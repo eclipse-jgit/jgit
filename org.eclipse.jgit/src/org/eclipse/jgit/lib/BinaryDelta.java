@@ -44,6 +44,8 @@
 
 package org.eclipse.jgit.lib;
 
+import org.eclipse.jgit.JGitText;
+
 /**
  * Recreate a stream from a base stream and a GIT pack delta.
  * <p>
@@ -78,7 +80,7 @@ public class BinaryDelta {
 			shift += 7;
 		} while ((c & 0x80) != 0);
 		if (base.length != baseLen)
-			throw new IllegalArgumentException("base length incorrect");
+			throw new IllegalArgumentException(JGitText.get().baseLengthIncorrect);
 
 		// Length of the resulting object (a variable length int).
 		//
@@ -132,7 +134,7 @@ public class BinaryDelta {
 				// cmd == 0 has been reserved for future encoding but
 				// for now its not acceptable.
 				//
-				throw new IllegalArgumentException("unsupported command 0");
+				throw new IllegalArgumentException(JGitText.get().unsupportedCommand0);
 			}
 		}
 

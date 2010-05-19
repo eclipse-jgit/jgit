@@ -45,6 +45,7 @@ package org.eclipse.jgit.pgm;
 
 import java.io.File;
 import java.net.InetSocketAddress;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,33 +53,33 @@ import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 import org.eclipse.jgit.transport.DaemonService;
 
-@Command(common = true, usage = "Export repositories over git://")
+@Command(common = true, usage = "usage_exportRepositoriesOverGit")
 class Daemon extends TextBuiltin {
-	@Option(name = "--port", metaVar = "PORT", usage = "port number to listen on")
+	@Option(name = "--port", metaVar = "metaVar_port", usage = "usage_portNumberToListenOn")
 	int port = org.eclipse.jgit.transport.Daemon.DEFAULT_PORT;
 
-	@Option(name = "--listen", metaVar = "HOSTNAME", usage = "hostname (or ip) to listen on")
+	@Option(name = "--listen", metaVar = "metaVar_hostName", usage = "usage_hostnameOrIpToListenOn")
 	String host;
 
-	@Option(name = "--timeout", metaVar = "SECONDS", usage = "abort connection if no activity")
+	@Option(name = "--timeout", metaVar = "metaVar_seconds", usage = "usage_abortConnectionIfNoActivity")
 	int timeout = -1;
 
-	@Option(name = "--enable", metaVar = "SERVICE", usage = "enable the service in all repositories", multiValued = true)
+	@Option(name = "--enable", metaVar = "metaVar_service", usage = "usage_enableTheServiceInAllRepositories", multiValued = true)
 	final List<String> enable = new ArrayList<String>();
 
-	@Option(name = "--disable", metaVar = "SERVICE", usage = "disable the service in all repositories", multiValued = true)
+	@Option(name = "--disable", metaVar = "metaVar_service", usage = "usage_disableTheServiceInAllRepositories", multiValued = true)
 	final List<String> disable = new ArrayList<String>();
 
-	@Option(name = "--allow-override", metaVar = "SERVICE", usage = "configure the service in daemon.servicename", multiValued = true)
+	@Option(name = "--allow-override", metaVar = "metaVar_service", usage = "usage_configureTheServiceInDaemonServicename", multiValued = true)
 	final List<String> canOverride = new ArrayList<String>();
 
-	@Option(name = "--forbid-override", metaVar = "SERVICE", usage = "configure the service in daemon.servicename", multiValued = true)
+	@Option(name = "--forbid-override", metaVar = "metaVar_service", usage = "usage_configureTheServiceInDaemonServicename", multiValued = true)
 	final List<String> forbidOverride = new ArrayList<String>();
 
-	@Option(name = "--export-all", usage = "export without git-daemon-export-ok")
+	@Option(name = "--export-all", usage = "usage_exportWithoutGitDaemonExportOk")
 	boolean exportAll;
 
-	@Argument(required = true, metaVar = "DIRECTORY", usage = "directories to export")
+	@Argument(required = true, metaVar = "metaVar_directory", usage = "usage_directoriesToExport")
 	final List<File> directory = new ArrayList<File>();
 
 	@Override
@@ -108,18 +109,18 @@ class Daemon extends TextBuiltin {
 			service(d, n).setOverridable(false);
 
 		for (final File f : directory) {
-			out.println("Exporting " + f.getAbsolutePath());
+			out.println(MessageFormat.format(CLIText.get().exporting, f.getAbsolutePath()));
 			d.exportDirectory(f);
 		}
 		d.start();
-		out.println("Listening on " + d.getAddress());
+		out.println(MessageFormat.format(CLIText.get().listeningOn, d.getAddress()));
 	}
 
 	private DaemonService service(final org.eclipse.jgit.transport.Daemon d,
 			final String n) {
 		final DaemonService svc = d.getService(n);
 		if (svc == null)
-			throw die("Service '" + n + "' not supported");
+			throw die(MessageFormat.format(CLIText.get().serviceNotSupported, n));
 		return svc;
 	}
 }
