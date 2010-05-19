@@ -53,6 +53,40 @@
     },
     {
       "key": {
+        "uuid": "AAALun///Yw\u003d",
+        "filename": "org.eclipse.jgit.iplog/src/org/eclipse/jgit/iplog/IPZillaQuery.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-05-18T20:34:38Z",
+      "side": 1,
+      "message": "Splitting this into two translations makes little sense.",
+      "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///Ys\u003d",
+        "filename": "org.eclipse.jgit.iplog/src/org/eclipse/jgit/iplog/IpLogGenerator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 449,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-05-18T20:34:38Z",
+      "side": 1,
+      "message": "Does translating internal errors like this make sense?",
+      "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALun///bs\u003d",
         "filename": "org.eclipse.jgit.pgm/META-INF/MANIFEST.MF",
         "patchSetId": 2
@@ -115,6 +149,57 @@
       "writtenOn": "2010-05-18T14:04:41Z",
       "side": 1,
       "message": "why some line breaks more than in the original println ?",
+      "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///Yo\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/debug/ReadDirCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-05-18T20:34:38Z",
+      "side": 1,
+      "message": "I think this is better translated using one string.\nOne thing about translations is that they sometimes change orders of things and the original author doesn\u0027t know all language conventions and styles.\n\ne.g. suppose it looks better to say (roughly) in some language\n\naverage (ms/read):  nnnn\n\nDoesn\u0027t help us if milliseconds is not a viable unit, but then we can\u0027t think of everything :)",
+      "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///Yk\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/debug/ShowCacheTree.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-05-18T20:34:38Z",
+      "side": 1,
+      "message": "One string only so transaltors can use their language conventions.\n\nI think „German“ and »French« people prefer a different type of quotes",
+      "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///Yg\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/opt/AbstractTreeIteratorHandler.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-05-18T20:34:38Z",
+      "side": 1,
+      "message": "move the \":\" + e.getMessage() into the translation to. (e.getMessage() as a parameter)",
       "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -353,6 +438,142 @@
       "writtenOn": "2010-05-18T14:04:41Z",
       "side": 1,
       "message": "redundant copy of same property",
+      "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///Yc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ConcurrentRefUpdateException.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-05-18T20:34:38Z",
+      "side": 1,
+      "message": "Shouldn\u0027t the position of message in the resulting string  be made by the translator?",
+      "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///YY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffFormatter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-05-18T20:34:38Z",
+      "side": 1,
+      "message": "I\u0027m not convinced programmer errors should be translated",
+      "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///YU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/MyersDiff.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-05-18T20:34:38Z",
+      "side": 1,
+      "message": "Debugging printouts. Don\u0027t translate",
+      "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///YQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/MyersDiff.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-05-18T20:34:38Z",
+      "side": 1,
+      "message": "Debugging printouts. Don\u0027t translate",
+      "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///YM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/MyersDiff.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-05-18T20:34:38Z",
+      "side": 1,
+      "message": "Debugging printouts. Don\u0027t translate",
+      "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///YI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/MyersDiff.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 526,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-05-18T20:34:38Z",
+      "side": 1,
+      "message": "This main is a test utiliyty. Don\u0027t translate",
+      "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///YA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Commit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-05-18T20:34:38Z",
+      "side": 1,
+      "message": "Add Non-NLS comment",
+      "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///X0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PacketLineIn.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-05-18T20:34:38Z",
+      "side": 1,
+      "message": "` part of transaltion?",
       "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
