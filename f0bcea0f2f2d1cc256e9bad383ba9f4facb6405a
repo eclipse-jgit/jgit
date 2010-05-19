@@ -1,0 +1,412 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALun///cA\u003d",
+        "filename": "org.eclipse.jgit.console/resources/org/eclipse/jgit/console/ConsoleText.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-05-18T14:04:41Z",
+      "side": 1,
+      "message": "is this trailing whitespace intentionally added ?",
+      "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///b8\u003d",
+        "filename": "org.eclipse.jgit.console/resources/org/eclipse/jgit/console/ConsoleText.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-05-18T14:04:41Z",
+      "side": 1,
+      "message": "again trailing whitespace",
+      "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///b4\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ServletUtils.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-05-18T14:04:41Z",
+      "side": 1,
+      "message": "should we use camel case here ?\ns/expectedrepositoryAttribute/expectedRepositoryAttribute/",
+      "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///bs\u003d",
+        "filename": "org.eclipse.jgit.pgm/META-INF/MANIFEST.MF",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-05-18T14:04:41Z",
+      "side": 1,
+      "message": "this looks like a change not correlated to string externalization",
+      "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///bo\u003d",
+        "filename": "org.eclipse.jgit.pgm/resources/org/eclipse/jgit/pgm/CLIText.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-05-18T14:04:41Z",
+      "side": 1,
+      "message": "trailing whitespace",
+      "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///bk\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/TextBuiltin.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-05-18T14:04:41Z",
+      "side": 1,
+      "message": "typo: s/used/be/",
+      "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///bg\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/debug/ReadDirCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-05-18T14:04:41Z",
+      "side": 1,
+      "message": "why some line breaks more than in the original println ?",
+      "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///bY\u003d",
+        "filename": "org.eclipse.jgit.ui/src/org/eclipse/jgit/awtui/AwtAuthenticator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-05-18T14:04:41Z",
+      "side": 1,
+      "message": "camel case ?\ns/authenticationrequired/authenticationRequired/",
+      "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///bU\u003d",
+        "filename": "org.eclipse.jgit/META-INF/MANIFEST.MF",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-05-18T14:04:41Z",
+      "side": 1,
+      "message": "trailing whitespace",
+      "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///bQ\u003d",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/JGitText.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-05-18T14:04:41Z",
+      "side": 1,
+      "message": "3 redundant copies of the same text",
+      "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///bM\u003d",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/JGitText.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-05-18T14:04:41Z",
+      "side": 1,
+      "message": "property name could be more specific",
+      "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///bI\u003d",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/JGitText.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-05-18T14:04:41Z",
+      "side": 1,
+      "message": "anything missing here ? key looks like some \"incorrect object type\" is missing",
+      "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///bE\u003d",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/JGitText.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-05-18T14:04:41Z",
+      "side": 1,
+      "message": "looks incomplete",
+      "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///bA\u003d",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/JGitText.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-05-18T14:04:41Z",
+      "side": 1,
+      "message": "no argument ?",
+      "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///a4\u003d",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/JGitText.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-05-18T14:04:41Z",
+      "side": 1,
+      "message": "no argument ?",
+      "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///a0\u003d",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/JGitText.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-05-18T14:04:41Z",
+      "side": 1,
+      "message": "no argument ?",
+      "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///aw\u003d",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/JGitText.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-05-18T14:04:41Z",
+      "side": 1,
+      "message": "no argument ?",
+      "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///a8\u003d",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/JGitText.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-05-18T14:04:41Z",
+      "side": 1,
+      "message": "no argument ?",
+      "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///as\u003d",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/JGitText.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-05-18T14:04:41Z",
+      "side": 1,
+      "message": "trailing whitespace ?",
+      "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///ao\u003d",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/JGitText.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-05-18T14:04:41Z",
+      "side": 1,
+      "message": "redundant copy of same property",
+      "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///ak\u003d",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/JGitText.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-05-18T14:04:41Z",
+      "side": 1,
+      "message": "redundant copy of same property",
+      "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///ag\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RefSpec.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-05-18T14:04:41Z",
+      "side": 1,
+      "message": "shouldn\u0027t that be sourceIsNotAWildcard ?",
+      "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///ac\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-05-18T14:04:41Z",
+      "side": 1,
+      "message": "maybe more specific: serviceCannotOpen",
+      "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///aY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/IO.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-05-18T14:04:41Z",
+      "side": 1,
+      "message": "should be shortSkipOfBlock",
+      "revId": "f0bcea0f2f2d1cc256e9bad383ba9f4facb6405a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
