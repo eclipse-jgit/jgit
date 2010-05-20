@@ -158,8 +158,8 @@ public class CommitCommand extends GitCommand<RevCommit> {
 							JGitText.get().couldNotLockHEAD, ru.getRef(), rc);
 				default:
 					throw new JGitInternalException(MessageFormat.format(
-							JGitText.get().updatingRefFailed
-							, Constants.HEAD, commitId.toString(), rc));
+							JGitText.get().updatingRefFailed, Constants.HEAD,
+							commitId.toString(), rc));
 				}
 			} finally {
 				index.unlock();
@@ -171,7 +171,8 @@ public class CommitCommand extends GitCommand<RevCommit> {
 			throw e;
 		} catch (IOException e) {
 			throw new JGitInternalException(
-					JGitText.get().exceptionCaughtDuringExecutionOfCommitCommand, e);
+					JGitText.get().exceptionCaughtDuringExecutionOfCommitCommand,
+					e);
 		}
 	}
 
@@ -186,7 +187,8 @@ public class CommitCommand extends GitCommand<RevCommit> {
 		if (message == null)
 			// as long as we don't suppport -C option we have to have
 			// an explicit message
-			throw new NoMessageException(JGitText.get().commitMessageNotSpecified);
+			throw new NoMessageException(
+					JGitText.get().commitMessageNotSpecified);
 		if (committer == null)
 			committer = new PersonIdent(repo);
 		if (author == null)
