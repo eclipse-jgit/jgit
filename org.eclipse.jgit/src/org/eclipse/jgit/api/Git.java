@@ -120,6 +120,19 @@ public class Git {
 	}
 
 	/**
+	 * Returns a command class to execute a {@code Merge} command
+	 *
+	 * @see <a
+	 *      href="http://www.kernel.org/pub/software/scm/git/docs/git-merge.html"
+	 *      >Git documentation about Merge</a>
+	 * @return a {@link MergeCommand} used to collect all optional parameters
+	 *         and to finally execute the {@code Merge} command
+	 */
+	public MergeCommand merge() {
+		return new MergeCommand(repo);
+	}
+
+	/**
 	 * @return the git repository this class is interacting with
 	 */
 	public Repository getRepository() {

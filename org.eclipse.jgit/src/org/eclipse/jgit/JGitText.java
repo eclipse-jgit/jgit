@@ -160,6 +160,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String corruptObjectNotree;
 	/***/ public String corruptObjectPackfileChecksumIncorrect;
 	/***/ public String corruptionDetectedReReadingAt;
+	/***/ public String couldNotCheckOutBecauseOfConflicts;
 	/***/ public String couldNotDeleteLockFileShouldNotHappen;
 	/***/ public String couldNotDeleteTemporaryIndexFileShouldNotHappen;
 	/***/ public String couldNotLockHEAD;
@@ -197,6 +198,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String errorOccurredDuringUnpackingOnTheRemoteEnd;
 	/***/ public String errorReadingInfoRefs;
 	/***/ public String exceptionCaughtDuringExecutionOfCommitCommand;
+	/***/ public String exceptionCaughtDuringExecutionOfMergeCommand;
 	/***/ public String exceptionOccuredDuringAddingOfOptionToALogCommand;
 	/***/ public String exceptionOccuredDuringReadingOfGIT_DIR;
 	/***/ public String expectedACKNAKFoundEOF;
@@ -275,6 +277,8 @@ public class JGitText extends TranslationBundle {
 	/***/ public String lockOnNotHeld;
 	/***/ public String malformedpersonIdentString;
 	/***/ public String mergeStrategyAlreadyExistsAsDefault;
+	/***/ public String mergeStrategyDoesNotSupportHeads;
+	/***/ public String mergeUsingStrategyResultedInDescription;
 	/***/ public String missingAccesskey;
 	/***/ public String missingForwardImageInGITBinaryPatch;
 	/***/ public String missingObject;
@@ -291,6 +295,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String noClosingBracket;
 	/***/ public String noHEADExistsAndNoExplicitStartingRevisionWasSpecified;
 	/***/ public String noHMACsupport;
+	/***/ public String noMergeHeadSpecified;
 	/***/ public String noSuchRef;
 	/***/ public String noXMLParserAvailable;
 	/***/ public String notABoolean;
@@ -311,6 +316,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String objectIsNotA;
 	/***/ public String objectNotFoundIn;
 	/***/ public String offsetWrittenDeltaBaseForObjectNotFoundInAPack;
+	/***/ public String onlyAlreadyUpToDateAndFastForwardMergesAreAvailable;
 	/***/ public String onlyOneFetchSupported;
 	/***/ public String onlyOneOperationCallPerConnectionIsSupported;
 	/***/ public String openFilesMustBeAtLeast1;
