@@ -46,10 +46,15 @@ package org.eclipse.jgit.dircache;
 
 import java.io.ByteArrayOutputStream;
 import java.io.EOFException;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
+import java.nio.channels.FileChannel;
 import java.security.MessageDigest;
 import java.text.MessageFormat;
 import java.util.Arrays;
@@ -59,6 +64,10 @@ import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectLoader;
+import org.eclipse.jgit.lib.ObjectWriter;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.NB;
 
@@ -113,6 +122,8 @@ public class DirCacheEntry {
 	static final int INFO_LEN = 62;
 
 	private static final int ASSUME_VALID = 0x80;
+
+	private static final int UPDATE_NEEDED = 0x40;
 
 	/** (Possibly shared) header information storage. */
 	private final byte[] info;
@@ -565,4 +576,157 @@ public class DirCacheEntry {
 		}
 		return componentHasChars;
 	}
+
+	/**
+	 * Check if an entry's content is different from the cache,
+	 *
+	 * File status information is used and status is same we
+	 * consider the file identical to the state in the working
+	 * directory. Native git uses more stat fields than we
+	 * have accessible in Java.
+	 *
+	 * @param forceContentCheck True if the actual file content
+	 * should be checked if modification time differs.
+	 * @param checkFilemode
+	 * @param wd
+	 *            the working directory of the git repo
+	 * @param ow
+	 *            an {@link ObjectWriter} instance to compute sha1
+	 *
+	 * @return true if content is most likely different.
+	 */
+	public boolean isModified(boolean forceContentCheck, boolean checkFilemode, File wd, ObjectWriter ow) {
+		if (isAssumeValid())
+			return false;
+
+		if (isUpdateNeeded())
+			return true;
+
+		File file = new File(wd, getPathString());
+		long length = file.length();
+		if (length == 0) {
+			if (!file.exists())
+				return true;
+		}
+		if (length != getLength())
+			return true;
+
+		// JDK1.6 has file.canExecute
+		// if (file.canExecute() != FileMode.EXECUTABLE_FILE.equals(mode))
+		// return true;
+		final int exebits = FileMode.EXECUTABLE_FILE.getBits()
+				^ FileMode.REGULAR_FILE.getBits();
+
+		int mode = getRawMode();
+		if (checkFilemode && FileMode.EXECUTABLE_FILE.equals(getFileMode())) {
+			if (!File_canExecute(file) && File_hasExecute())
+				return true;
+		} else {
+			if (FileMode.REGULAR_FILE.equals(mode & ~exebits)) {
+				if (!file.isFile())
+					return true;
+				if (checkFilemode && File_canExecute(file) && File_hasExecute())
+					return true;
+			} else {
+				if (FileMode.SYMLINK.equals(mode)) {
+					return true;
+				} else {
+					if (FileMode.TREE.equals(mode)) {
+						if (!file.isDirectory())
+							return true;
+					} else {
+						System.out.println(MessageFormat.format(
+								JGitText.get().doesNotHandleMode, mode, file));
+						return true;
+					}
+				}
+			}
+		}
+
+		// Git under windows only stores seconds so we round the timestamp
+		// Java gives us if it looks like the timestamp in index is seconds
+		// only. Otherwise we compare the timestamp at millisecond prevision.
+		long javamtime = getLastModified() / 1000000L;
+		long lastm = file.lastModified();
+		if (javamtime % 1000 == 0)
+			lastm = lastm - lastm % 1000;
+		if (lastm != javamtime) {
+			if (!forceContentCheck)
+				return true;
+
+			try {
+				InputStream is = new FileInputStream(file);
+				try {
+					ObjectId newId = ow.computeBlobSha1(file.length(), is);
+					boolean ret = !newId.equals(getObjectId());
+					return ret;
+				} catch (IOException e) {
+					e.printStackTrace();
+				} finally {
+					try {
+						is.close();
+					} catch (IOException e) {
+						// can't happen, but if it does we ignore it
+						e.printStackTrace();
+					}
+				}
+			} catch (FileNotFoundException e) {
+				// should not happen because we already checked this
+				e.printStackTrace();
+				throw new Error(e);
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * @return true if this entry should be checked for changes
+	 */
+	public boolean isUpdateNeeded() {
+		return (info[infoOffset + P_FLAGS] & UPDATE_NEEDED) != 0;
+	}
+
+	static boolean File_canExecute(File f){
+		return FS.DETECTED.canExecute(f);
+	}
+
+	static boolean File_setExecute(File f, boolean value) {
+		return FS.DETECTED.setExecute(f, value);
+	}
+
+	static boolean File_hasExecute() {
+		return FS.DETECTED.supportsExecute();
+	}
+
+	/**
+	 * @param repo
+	 * @param f
+	 * @param config_filemode
+	 * @throws IOException
+	 */
+	public void checkoutEntry(Repository repo, File f, boolean config_filemode)
+			throws IOException {
+		ObjectLoader ol = repo.openBlob(getObjectId());
+		byte[] bytes = ol.getBytes();
+		f.delete();
+		f.getParentFile().mkdirs();
+		FileChannel channel = new FileOutputStream(f).getChannel();
+		ByteBuffer buffer = ByteBuffer.wrap(bytes);
+		int j = channel.write(buffer);
+		if (j != bytes.length)
+			throw new IOException(MessageFormat.format(
+					JGitText.get().couldNotWriteFile, f));
+		channel.close();
+		if (config_filemode && File_hasExecute()) {
+			if (FileMode.EXECUTABLE_FILE.equals(getFileMode())) {
+				if (!File_canExecute(f))
+					File_setExecute(f, true);
+			} else {
+				if (File_canExecute(f))
+					File_setExecute(f, false);
+			}
+		}
+		setLastModified(f.lastModified() * 1000000L);
+	}
+
 }
