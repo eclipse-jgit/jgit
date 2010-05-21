@@ -1,0 +1,125 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALun///M8\u003d",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/JGitText.properties",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-05-20T16:50:33Z",
+      "side": 1,
+      "message": "Trailing whitespace",
+      "revId": "a110cac54c44f67b41f1391dbf9364f2e3116032",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///M4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-05-20T16:50:33Z",
+      "side": 1,
+      "message": "This test is actually unnecessary.  If parents is empty, we\u0027ll alloc an empty array, pass it down, and Commit will clone the empty array.  We can leave it in, or drop it.  I think the code reads cleaner without the test, and its really not much slower in the (really quite rare) initial commit case.",
+      "revId": "a110cac54c44f67b41f1391dbf9364f2e3116032",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///M0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-05-20T16:50:33Z",
+      "side": 1,
+      "message": "I would defer this cleanup until after the reference is updated.  If the update fails, the commit will be discarded.  Taking out the MERGE_HEAD file means we can\u0027t retry.",
+      "revId": "a110cac54c44f67b41f1391dbf9364f2e3116032",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///Mw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-05-20T16:50:33Z",
+      "side": 1,
+      "message": "I wouldn\u0027t bother with the exists test.  These files are highly likely to exist, because that\u0027s how we determined the state earlier in this method... by testing for their existence.  Just delete them.  If the delete fails because its already gone, it returns false, and is therefore harmless.",
+      "revId": "a110cac54c44f67b41f1391dbf9364f2e3116032",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///Ls\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-05-20T17:56:15Z",
+      "side": 1,
+      "message": "Robin, see my comment above on line 165.  Yes, its OK if the delete fails.  But only after the ref has been updated.",
+      "parentUuid": "AAALun///L0\u003d",
+      "revId": "a110cac54c44f67b41f1391dbf9364f2e3116032",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///Lo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1361,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-05-20T17:56:15Z",
+      "side": 1,
+      "message": "The MERGE_MSG file isn\u0027t really that important.  If MERGE_MSG wasn\u0027t written out, it just means the user needs to supply a commit message to us at commit time.  I wouldn\u0027t call that a fatal condition.  Its fine to ignore it when its not found.",
+      "parentUuid": "AAALun///MA\u003d",
+      "revId": "a110cac54c44f67b41f1391dbf9364f2e3116032",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///NA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1375,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-05-20T16:50:33Z",
+      "side": 1,
+      "message": "See my note on ps2 again about an empty MERGE_HEAD file being a form of corruption.  But you may also be able to shorten the code up a bit here:\n\n  File mergeHeadFile \u003d new File(gitDir, Constants.MERGE_HEAD);\n  byte[] raw;\n  try {\n    raw \u003d IO.readFully(mergeHeadFile);\n  } catch (FileNotFoundException notFound) {\n    return new LinkedList\u003cObjectId\u003e();\n  }\n\n  if (raw.length \u003d\u003d 0)\n    throw new IOException(\"MERGE_HEAD file empty: \" + mergeHeadFile);\n\n  LinkedList\u003cObjectId\u003e heads \u003d new LinkedList\u003cObjectId\u003e();\n  for (int p \u003d 0; p \u003c raw.length; ) {\n    heads.add(ObjectId.fromString(raw, p));\n    p \u003d RawParseUtils.nextLF(raw, p + Constants.OBJECT_ID_STRING_LENGTH);\n  }\n  return heads;\n\nHmm, its not that much shorter (~5 lines?).  But the behavior matches C git better.  IIRC C git reads the first 40 characters from the line and ignores the rest of it.  Which is exactly what are doing above by using nextLF.",
+      "revId": "a110cac54c44f67b41f1391dbf9364f2e3116032",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
