@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "AAALun///L8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-05-20T17:52:47Z",
+      "side": 1,
+      "message": "Use javadoc for commenting classes/fields/methods",
+      "revId": "a110cac54c44f67b41f1391dbf9364f2e3116032",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALun///M4\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
         "patchSetId": 3
@@ -70,6 +87,23 @@
     },
     {
       "key": {
+        "uuid": "AAALun///L0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-05-20T17:52:47Z",
+      "side": 1,
+      "message": "Is it ok if delete() fail?. delete doesn\u0027t throw exceptions",
+      "revId": "a110cac54c44f67b41f1391dbf9364f2e3116032",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALun///Ls\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
         "patchSetId": 3
@@ -82,6 +116,23 @@
       "side": 1,
       "message": "Robin, see my comment above on line 165.  Yes, its OK if the delete fails.  But only after the ref has been updated.",
       "parentUuid": "AAALun///L0\u003d",
+      "revId": "a110cac54c44f67b41f1391dbf9364f2e3116032",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///MA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1361,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-05-20T17:52:47Z",
+      "side": 1,
+      "message": "Is there a real reason for this to happen, other than someone\nperforming a merge in another process?",
       "revId": "a110cac54c44f67b41f1391dbf9364f2e3116032",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
