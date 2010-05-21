@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALun///QM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-05-20T01:26:32Z",
+      "side": 0,
+      "message": "We\u0027re losing the safety that ensured HEAD was actually a commit.  Its been seen in real-world cases that users have managed to do something stupid and set HEAD to a tag or a tree.  Blindly assuming HEAD is a commit can only lead to data corruption when things go bad.\n\nEither keep the repo.resolve call, or do some sort of object lookup on the ObjectId to verify its actually a commit.  E.g.:\n\n  if (headId !\u003d null) {\n    ObjectLoader ldr \u003d repo.openObject(headId);\n    if (ldr \u003d\u003d null)\n      throw new MissingObjectException(headId, Constants.OBJ_COMMIT);\n    if (ldr.getType() !\u003d Constants.OBJ_COMMIT)\n      throw new IncorrectObjectTypeException(headId, Constants.OBJ_COMMIT);\n    parents.add(0, headId);\n  }",
+      "revId": "3cba5377dfdad8c36d1f3b0642f56549821b8676",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}

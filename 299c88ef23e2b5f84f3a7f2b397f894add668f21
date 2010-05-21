@@ -1,0 +1,141 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALun///P0\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CommitAndLogCommandTests.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-05-20T01:26:32Z",
+      "side": 1,
+      "message": "Please add an assert to verify that the parent order is as-expected.  In this case that is side, master because you have merged the master branch into the current branch, which is side.",
+      "revId": "299c88ef23e2b5f84f3a7f2b397f894add668f21",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///QU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-05-20T01:26:32Z",
+      "side": 1,
+      "message": "Please rebase onto master and translate the new message.",
+      "revId": "299c88ef23e2b5f84f3a7f2b397f894add668f21",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///QQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-05-20T01:26:32Z",
+      "side": 1,
+      "message": "Style-nit: Spaces around operator.",
+      "revId": "299c88ef23e2b5f84f3a7f2b397f894add668f21",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///QA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-05-20T01:26:32Z",
+      "side": 1,
+      "message": "See my note above on the old version.  We need to add headId to the *front* of parents.  The current branch goes first in the parent list, then the values of MERGE_HEAD, in order.  This is necessary to preserve the behavior of --first-parent logic during revision traversal.",
+      "revId": "299c88ef23e2b5f84f3a7f2b397f894add668f21",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///QI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-05-20T01:26:32Z",
+      "side": 1,
+      "message": "parents should not be null.  So why this test?",
+      "revId": "299c88ef23e2b5f84f3a7f2b397f894add668f21",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///P8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1354,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-05-20T01:26:32Z",
+      "side": 1,
+      "message": "I would prefer instead:\n\n  File msg \u003d new File(gitDir, Constants.MERGE_MSG);\n  try {\n    return new String(IO.readFully(msg));\n  } catch (FileNotFoundException notFound) {\n    return null;\n  }\n\nIt ensures the file will fit in memory, ensures we actually read all of it and didn\u0027t abort in the middle due to a short read, and ensures the file descriptor is closed at the end.  And, like the FileReader case you used, it uses the platform default encoding.",
+      "revId": "299c88ef23e2b5f84f3a7f2b397f894add668f21",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///P4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1378,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-05-20T01:26:32Z",
+      "side": 1,
+      "message": "I think I mentioned in CommitCommand that we should make sure parents is never null.  So perhaps here we return a new empty list instead of null when the file isn\u0027t present?",
+      "revId": "299c88ef23e2b5f84f3a7f2b397f894add668f21",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///NE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1378,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-05-20T16:13:20Z",
+      "side": 1,
+      "message": "An empty MERGE_HEAD shouldn\u0027t happen.  If the file exists but has no content, its a bug in the program that produced it.  We probably want to abort under that condition and refuse to operate further, claiming a type of repository corruption.  That is better signaled by an exception than by a return code.",
+      "parentUuid": "AAALun///N4\u003d",
+      "revId": "299c88ef23e2b5f84f3a7f2b397f894add668f21",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
