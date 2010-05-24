@@ -1,0 +1,108 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALun///Po\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MergeCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-05-20T01:39:35Z",
+      "side": 1,
+      "message": "FWIW, getLeaf() isn\u0027t necessary.  getObjectId() works on symbolic references by traversing to the leaf to get the value.",
+      "revId": "0db480f061e01b343570cf7da02cac13a0cbdf8f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///Pk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MergeCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-05-20T01:39:35Z",
+      "side": 1,
+      "message": "This isn\u0027t really an internal exception.  Its easy for a user to cause, just modify (and don\u0027t commit) a file that the branch you are fast-forwarding to has also modified.  This happens so often that users want to know the complete list of offending files, so they can figure out what to do next.\n\nThis is an exception (or MergeResult?) that we need to export as part of the public API so that applications can alert the user that their working directory contains uncommitted changes which conflict with the merge they are trying to do.",
+      "revId": "0db480f061e01b343570cf7da02cac13a0cbdf8f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///Pg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MergeCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-05-20T01:39:35Z",
+      "side": 1,
+      "message": "Please also set the OldObjectId on the RefUpdate.  We read it earlier.  We shouldn\u0027t continue with the update if the branch was modified by a concurrent process.",
+      "revId": "0db480f061e01b343570cf7da02cac13a0cbdf8f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///Ps\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MergeCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-05-20T01:39:35Z",
+      "side": 1,
+      "message": "I realize this is only a basic start.  But since this is public API I\u0027d like to think about what the final API will look like a bit.\n\nMerges can accept any SHA-1.  So technically we need to take AnyObjectId here as an input.  Having a Ref can be nicer, because we might be able to format a better message.  Further, `git pull` takes advantage of the URIish to produce an even more useful message.\n\nMerges also can accept more than one SHA-1 if you consider the octopus strategy.  So maybe we want this part of the API to be:\n\n  public MergeCommand include(AnyObjectId commit) {\n    return include(commit, commit.abbrev());\n  }\n\n  public MergeCommand include(Ref ref) {\n    return include(ref.getObjectId(), ref.getName());\n  }\n\n  public MergeCommand include(AnyObjectId commit, String name) {\n    sources.add(new Source(commit, name));\n    return this;\n  }\n\n  private static class Source {\n    final ObjectId commit;\n    final String name;\n  }\n\nThen when we format the merge message we can try to take advantage of that additional name member to describe the source of the merge.  Further, callers can include more than one commit in a single merge operation.",
+      "revId": "0db480f061e01b343570cf7da02cac13a0cbdf8f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///PQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MergeCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-05-20T01:46:26Z",
+      "side": 1,
+      "message": "That\u0027s true, we can break API compatibility.  But I would prefer to have some sane notion up front.  Too much of JGit\u0027s own internal library API is just sort of slapped together, and the same goes true for a lot of the C command line switches and so forth.  Better if we spend a few minutes to try and learn from both experiences.  :-)",
+      "parentUuid": "AAALun///PY\u003d",
+      "revId": "0db480f061e01b343570cf7da02cac13a0cbdf8f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///Mo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MergeCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-05-20T16:54:41Z",
+      "side": 1,
+      "message": "Good point about the Ref class being a reusable pair of String and ObjectId.  I think you could use ObjectIdRef.Loose here rather than Source and get everything we need.  It might actually be preferred, because you\u0027ll want a short-form for branch names (\"master\" instead of \"refs/heads/master\") and we should probably teach Ref how to create those, because its a stateless function and having it on Repository is somewhat useless.\n\nI just wasn\u0027t thinking enough when I wrote my comments yesterday and slapped together that Source class.  Sorry.",
+      "parentUuid": "AAALun///PA\u003d",
+      "revId": "0db480f061e01b343570cf7da02cac13a0cbdf8f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
