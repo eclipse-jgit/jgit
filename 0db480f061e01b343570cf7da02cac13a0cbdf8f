@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAALun///PM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MergeCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-05-20T07:30:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALun///Po\u003d",
+      "revId": "0db480f061e01b343570cf7da02cac13a0cbdf8f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALun///Pk\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MergeCommand.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAALun///PE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MergeCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-05-20T07:30:38Z",
+      "side": 1,
+      "message": "added a UnresolvedConflictsException exposing also conflicting pathes",
+      "parentUuid": "AAALun///Pk\u003d",
+      "revId": "0db480f061e01b343570cf7da02cac13a0cbdf8f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALun///Pg\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MergeCommand.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2010-05-20T01:39:35Z",
       "side": 1,
       "message": "Please also set the OldObjectId on the RefUpdate.  We read it earlier.  We shouldn\u0027t continue with the update if the branch was modified by a concurrent process.",
+      "revId": "0db480f061e01b343570cf7da02cac13a0cbdf8f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///PI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MergeCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-05-20T07:30:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALun///Pg\u003d",
       "revId": "0db480f061e01b343570cf7da02cac13a0cbdf8f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -100,6 +154,24 @@
       "side": 1,
       "message": "That\u0027s true, we can break API compatibility.  But I would prefer to have some sane notion up front.  Too much of JGit\u0027s own internal library API is just sort of slapped together, and the same goes true for a lot of the C command line switches and so forth.  Better if we spend a few minutes to try and learn from both experiences.  :-)",
       "parentUuid": "AAALun///PY\u003d",
+      "revId": "0db480f061e01b343570cf7da02cac13a0cbdf8f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///PA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MergeCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-05-20T07:30:38Z",
+      "side": 1,
+      "message": "But Shawn, I always thought a Ref is a combination of name and objectID. Why should we introduce something else like the Source class?\n\nI agree of course that we need to add ways to AnyObjectID.",
+      "parentUuid": "AAALun///PQ\u003d",
       "revId": "0db480f061e01b343570cf7da02cac13a0cbdf8f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
