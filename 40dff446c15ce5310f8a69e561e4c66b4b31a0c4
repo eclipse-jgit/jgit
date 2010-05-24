@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAALun///KI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CheckoutConflictException.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-05-21T14:41:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALun///Mg\u003d",
+      "revId": "40dff446c15ce5310f8a69e561e4c66b4b31a0c4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALun///Mc\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CheckoutConflictException.java",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2010-05-20T17:37:21Z",
       "side": 1,
       "message": "Style-nit: Unnecessary parens.  If there\u0027s ever a place you don\u0027t need parens, its right here in an assignment of one variable to another.  :-)",
+      "revId": "40dff446c15ce5310f8a69e561e4c66b4b31a0c4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///J8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CheckoutConflictException.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-05-21T14:41:09Z",
+      "side": 1,
+      "message": "it\u0027s a miracle to me how this parens came in. So useless that I cannot believe I typed it ...",
+      "parentUuid": "AAALun///Mc\u003d",
       "revId": "40dff446c15ce5310f8a69e561e4c66b4b31a0c4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAALun///KA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CheckoutConflictException.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-05-21T14:41:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALun///MY\u003d",
+      "revId": "40dff446c15ce5310f8a69e561e4c66b4b31a0c4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALun///Mk\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
         "patchSetId": 4
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "AAALun///J0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-05-21T14:41:09Z",
+      "side": 1,
+      "message": "damned eclipse auto formatter. I\u0027ll revert this",
+      "parentUuid": "AAALun///Mk\u003d",
+      "revId": "40dff446c15ce5310f8a69e561e4c66b4b31a0c4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALun///MU\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MergeCommand.java",
         "patchSetId": 4
@@ -81,6 +153,24 @@
       "writtenOn": "2010-05-20T17:37:21Z",
       "side": 1,
       "message": "The problem with a HashMap is it doesn\u0027t preserve the order the caller passed the commits to us in.  We should maintain that order, because its the order we\u0027ll attempt to do the octopus merge in, and the order we write the parents out in the commit as.  If you keep using a Map\u003cString,ObjectId\u003e here you should use a LinkedHashMap to ensure the insertion order is preserved.  Or, switch to a List\u003cRef\u003e.",
+      "revId": "40dff446c15ce5310f8a69e561e4c66b4b31a0c4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///JU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MergeCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-05-21T14:41:09Z",
+      "side": 1,
+      "message": "I\u0027ll use List\u003cRef\u003e now",
+      "parentUuid": "AAALun///MU\u003d",
       "revId": "40dff446c15ce5310f8a69e561e4c66b4b31a0c4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -133,6 +223,41 @@
       "writtenOn": "2010-05-20T17:37:21Z",
       "side": 1,
       "message": "This is really undefined when there is more than one commit.\n\nInstead you should look at the strategy, and then enforce some sanity on the commits member.  E.g. add a member to MergeStrategy to help us decide if the number of commits is reasonable.  Then the already-up-to-date and fast-forward-only strategies only need to accept 1 commit, and reject functioning when more than 1 commit is given.\n\nI do see that you are trying to collapse multiple commits that are reachable all together in this loop.  But that\u0027s probably just a pre-processing step that we can do at the beginning of the function, no matter what strategy was configured.  Even in an octopus merge, it doesn\u0027t make sense to create an 8-way merge if it can really be a 2-way because the other 6 commits are already reachable.\n\nGerrit Code Review has some logic to do this in [1].  Ignore the CAN_MERGE stuff, that\u0027s there only to support the code review workflow and ensure a commit was approved.  The bulk of the sorting logic is about computing the commits that will be merged, and removing them from incoming (what the caller asked us to merge) if they are already reachable.\n\n[1] https://android.git.kernel.org/?p\u003dtools/gerrit.git;a\u003dblob;f\u003dgerrit-server/src/main/java/com/google/gerrit/server/git/MergeSorter.java;hb\u003dHEAD\n\nYou know what, maybe for right now just enforce that commits.size() \u003d\u003d 1 at the start of the method (and maybe also in include, assert that its empty), and simplify the code around that assertion.  commits.size() \u003e 1 will only be useful once we have all other aspects of the merge code working... and we can come back and revisit how to sort the heads and determine up-to-date in the octopus case.",
+      "revId": "40dff446c15ce5310f8a69e561e4c66b4b31a0c4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///JM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MergeCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-05-21T14:41:09Z",
+      "side": 1,
+      "message": "Maybe this was a misunderstanding by Stefan and me. \nWhen reading http://www.kernel.org/pub/software/scm/git/docs/git-merge.html#_pre_merge_checks we thought that FAST_FORWARD and ALREADY_UP_TO_DATE are checks which are done before we contact the merge strategy. This loop was never intended to be a \"big loop doing all the merges and maybe combining merge operations\" - we just wanted to do these two pre-merge checks. \n\nBut after reading your comment and experimenting we see that these pre-merge checks are not done before the merge strategy but every strategy triggers them explicitly, right?\n\nFor now we\u0027ll remove the loop and keep the fast-forward, already-up-to-date checks. We\u0027ll make sure that only one commit is specifiied.",
+      "parentUuid": "AAALun///MI\u003d",
+      "revId": "40dff446c15ce5310f8a69e561e4c66b4b31a0c4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///JY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MergeCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-05-21T14:41:09Z",
+      "side": 1,
+      "message": "oops, I missed to merge with Stefans fix for annotated tags (calling getPeeledObjectID()). I\u0027ll add that again.",
       "revId": "40dff446c15ce5310f8a69e561e4c66b4b31a0c4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
