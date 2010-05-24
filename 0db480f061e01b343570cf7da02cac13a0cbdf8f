@@ -70,6 +70,24 @@
     },
     {
       "key": {
+        "uuid": "AAALun///PY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MergeCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 2
+      },
+      "writtenOn": "2010-05-20T01:44:17Z",
+      "side": 1,
+      "message": "Well, this is \"API\" per se for 0.8.0 but until we release 1.0.0 we aren\u0027t giving people any guarantees for backwards compatibility imho.",
+      "parentUuid": "AAALun///Ps\u003d",
+      "revId": "0db480f061e01b343570cf7da02cac13a0cbdf8f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALun///PQ\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MergeCommand.java",
         "patchSetId": 1
