@@ -104,6 +104,24 @@
     },
     {
       "key": {
+        "uuid": "AAALun///JQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MergeCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-05-21T14:41:09Z",
+      "side": 1,
+      "message": "added a InvalidMergeHeadException",
+      "parentUuid": "AAALun///MM\u003d",
+      "revId": "40dff446c15ce5310f8a69e561e4c66b4b31a0c4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALun///MI\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MergeCommand.java",
         "patchSetId": 4
@@ -132,6 +150,24 @@
       "writtenOn": "2010-05-20T17:37:21Z",
       "side": 1,
       "message": "This needs to be commit.copy().  AnyObjectId can be a MutableObjectId, which can change after-the-fact.  copy() returns you an ObjectId which cannot be mutated.  If the input was already an immutable ObjectId, copy() just returns the same object.",
+      "revId": "40dff446c15ce5310f8a69e561e4c66b4b31a0c4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///Jw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MergeCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-05-21T14:41:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALun///MQ\u003d",
       "revId": "40dff446c15ce5310f8a69e561e4c66b4b31a0c4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
