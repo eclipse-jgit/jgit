@@ -1,4 +1,5 @@
 /*
+ * Copyright (C) 2010, Google Inc.
  * Copyright (C) 2009, Mykola Nikishov <mn@mn.com.ua>
  * Copyright (C) 2008, Robin Rosenberg <robin.rosenberg@dewire.com>
  * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org>
@@ -366,4 +367,43 @@ public class URIishTest extends TestCase {
 		assertEquals("c", humanishName);
 	}
 
+	public void testStringConstructor() throws Exception {
+		URIish uri = new URIish("http://some.hostname.com/foo/bar");
+		assertEquals("http", uri.getScheme());
+		assertEquals("some.hostname.com", uri.getHost());
+		assertEquals("/foo/bar", uri.getPath());
+
+		uri = new URIish("http://some.hostname.com:8080/foo/bar");
+		assertEquals("http", uri.getScheme());
+		assertEquals("some.hostname.com", uri.getHost());
+		assertEquals(8080, uri.getPort());
+		assertEquals("/foo/bar", uri.getPath());
+
+		uri = new URIish(
+				"http://anonymous:secret@some.hostname.com:8080/foo/bar");
+		assertEquals("http", uri.getScheme());
+		assertEquals("anonymous", uri.getUser());
+		assertEquals("secret", uri.getPass());
+		assertEquals("some.hostname.com", uri.getHost());
+		assertEquals(8080, uri.getPort());
+		assertEquals("/foo/bar", uri.getPath());
+
+		uri = new URIish("some.hostname.com:/foo/bar");
+		assertEquals("some.hostname.com", uri.getHost());
+		assertEquals("/foo/bar", uri.getPath());
+
+		uri = new URIish("http://some.hostname.com:/foo/bar");
+		assertEquals("http", uri.getScheme());
+		assertEquals("some.hostname.com", uri.getHost());
+		assertEquals("/foo/bar", uri.getPath());
+	}
+
+	public void testStringConstructorErrorCases() throws Exception {
+		try {
+			URIish uri = new URIish("some.hostname.com/foo/bar");
+			fail("Should have thrown a URISyntaxException for " + uri);
+		} catch (URISyntaxException e) {
+			// Expected
+		}
+	}
 }

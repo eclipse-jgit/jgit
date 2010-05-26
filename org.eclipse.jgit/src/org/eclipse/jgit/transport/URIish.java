@@ -61,8 +61,8 @@ import org.eclipse.jgit.lib.Constants;
  */
 public class URIish {
 	private static final Pattern FULL_URI = Pattern
-			.compile("^(?:([a-z][a-z0-9+-]+)://(?:([^/]+?)(?::([^/]+?))?@)?(?:([^/]+?))?(?::(\\d+))?)?((?:[A-Za-z]:)?/.+)$");
-
+			.compile("^(?:([a-z][a-z0-9+-]+)://(?:([^/]+?)(?::([^/]+?))?@)?(?:([^/]+?))?(?::(\\d*))?)?(/.+)$");
+    //                    ( scheme         )      (user  )    (pass  )        (host  )      (port)    (path             )
 	private static final Pattern SCP_URI = Pattern
 			.compile("^(?:([^@]+?)@)?([^:]+?):(.+)$");
 
@@ -92,9 +92,11 @@ public class URIish {
 			user = matcher.group(2);
 			pass = matcher.group(3);
 			host = matcher.group(4);
-			if (matcher.group(5) != null)
+
+			if (matcher.group(5) != null && !matcher.group(5).equals(""))
 				port = Integer.parseInt(matcher.group(5));
 			path = matcher.group(6);
+			// Dealing with Windows style path names?
 			if (path.length() >= 3
 			&& path.charAt(0) == '/'
 			&& path.charAt(2) == ':'
