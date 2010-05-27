@@ -64,7 +64,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.util.IO;
 
 /**
  * Dumps a file over HTTP GET (or its information via HEAD).
@@ -122,7 +121,8 @@ final class FileSender {
 	String getTailChecksum() throws IOException {
 		final int n = 20;
 		final byte[] buf = new byte[n];
-		IO.readFully(source.getChannel(), fileLen - n, buf, 0, n);
+		source.seek(fileLen - n);
+		source.readFully(buf, 0, n);
 		return ObjectId.fromRaw(buf).getName();
 	}
 
@@ -140,6 +140,7 @@ final class FileSender {
 			final OutputStream out = rsp.getOutputStream();
 			try {
 				final byte[] buf = new byte[4096];
+				source.seek(pos);
 				while (pos < end) {
 					final int r = (int) Math.min(buf.length, end - pos);
 					final int n = source.read(buf, 0, r);

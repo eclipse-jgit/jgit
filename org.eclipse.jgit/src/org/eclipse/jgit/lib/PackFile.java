@@ -65,7 +65,6 @@ import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.PackInvalidException;
 import org.eclipse.jgit.errors.PackMismatchException;
-import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.NB;
 import org.eclipse.jgit.util.RawParseUtils;
 
@@ -89,6 +88,9 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 	final int hash;
 
 	private RandomAccessFile fd;
+
+	/** Serializes reads performed against {@link #fd}. */
+	private final Object readLock = new Object();
 
 	long length;
 
@@ -364,9 +366,11 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 		try {
 			if (invalid)
 				throw new PackInvalidException(packFile);
-			fd = new RandomAccessFile(packFile, "r");
-			length = fd.length();
-			onOpenPack();
+			synchronized (readLock) {
+				fd = new RandomAccessFile(packFile, "r");
+				length = fd.length();
+				onOpenPack();
+			}
 		} catch (IOException ioe) {
 			openFail();
 			throw ioe;
@@ -387,53 +391,61 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 	}
 
 	private void doClose() {
-		if (fd != null) {
-			try {
-				fd.close();
-			} catch (IOException err) {
-				// Ignore a close event. We had it open only for reading.
-				// There should not be errors related to network buffers
-				// not flushed, etc.
+		synchronized (readLock) {
+			if (fd != null) {
+				try {
+					fd.close();
+				} catch (IOException err) {
+					// Ignore a close event. We had it open only for reading.
+					// There should not be errors related to network buffers
+					// not flushed, etc.
+				}
+				fd = null;
 			}
-			fd = null;
 		}
 	}
 
 	ByteArrayWindow read(final long pos, int size) throws IOException {
-		if (length < pos + size)
-			size = (int) (length - pos);
-		final byte[] buf = new byte[size];
-		IO.readFully(fd.getChannel(), pos, buf, 0, size);
-		return new ByteArrayWindow(this, pos, buf);
+		synchronized (readLock) {
+			if (length < pos + size)
+				size = (int) (length - pos);
+			final byte[] buf = new byte[size];
+			fd.seek(pos);
+			fd.readFully(buf, 0, size);
+			return new ByteArrayWindow(this, pos, buf);
+		}
 	}
 
 	ByteWindow mmap(final long pos, int size) throws IOException {
-		if (length < pos + size)
-			size = (int) (length - pos);
+		synchronized (readLock) {
+			if (length < pos + size)
+				size = (int) (length - pos);
 
-		MappedByteBuffer map;
-		try {
-			map = fd.getChannel().map(MapMode.READ_ONLY, pos, size);
-		} catch (IOException ioe1) {
-			// The most likely reason this failed is the JVM has run out
-			// of virtual memory. We need to discard quickly, and try to
-			// force the GC to finalize and release any existing mappings.
-			//
-			System.gc();
-			System.runFinalization();
-			map = fd.getChannel().map(MapMode.READ_ONLY, pos, size);
+			MappedByteBuffer map;
+			try {
+				map = fd.getChannel().map(MapMode.READ_ONLY, pos, size);
+			} catch (IOException ioe1) {
+				// The most likely reason this failed is the JVM has run out
+				// of virtual memory. We need to discard quickly, and try to
+				// force the GC to finalize and release any existing mappings.
+				//
+				System.gc();
+				System.runFinalization();
+				map = fd.getChannel().map(MapMode.READ_ONLY, pos, size);
+			}
+
+			if (map.hasArray())
+				return new ByteArrayWindow(this, pos, map.array());
+			return new ByteBufferWindow(this, pos, map);
 		}
-
-		if (map.hasArray())
-			return new ByteArrayWindow(this, pos, map.array());
-		return new ByteBufferWindow(this, pos, map);
 	}
 
 	private void onOpenPack() throws IOException {
 		final PackIndex idx = idx();
 		final byte[] buf = new byte[20];
 
-		IO.readFully(fd.getChannel(), 0, buf, 0, 12);
+		fd.seek(0);
+		fd.readFully(buf, 0, 12);
 		if (RawParseUtils.match(buf, 0, Constants.PACK_SIGNATURE) != 4)
 			throw new IOException(JGitText.get().notAPACKFile);
 		final long vers = NB.decodeUInt32(buf, 4);
@@ -445,7 +457,8 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 			throw new PackMismatchException(MessageFormat.format(
 					JGitText.get().packObjectCountMismatch, packCnt, idx.getObjectCount(), getPackFile()));
 
-		IO.readFully(fd.getChannel(), length - 20, buf, 0, 20);
+		fd.seek(length - 20);
+		fd.read(buf, 0, 20);
 		if (!Arrays.equals(buf, packChecksum))
 			throw new PackMismatchException(MessageFormat.format(
 					JGitText.get().packObjectCountMismatch
