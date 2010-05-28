@@ -75,6 +75,10 @@ public class IpLogMeta {
 
 	private static final String S_CONSUMES = "consumes";
 
+	private static final String S_REVIEW = "review";
+
+	private static final String K_URL = "url";
+
 	private static final String K_NAME = "name";
 
 	private static final String K_VERSION = "version";
@@ -97,6 +101,8 @@ public class IpLogMeta {
 
 	private Set<CQ> cqs = new HashSet<CQ>();
 
+	private String reviewUrl;
+
 	List<Project> getProjects() {
 		return projects;
 	}
@@ -107,6 +113,10 @@ public class IpLogMeta {
 
 	Set<CQ> getCQs() {
 		return cqs;
+	}
+
+	String getReviewUrl() {
+		return reviewUrl;
 	}
 
 	void loadFrom(Config cfg) {
@@ -126,6 +136,8 @@ public class IpLogMeta {
 			cq.setComments(cfg.getString(S_CQ, id, K_COMMENTS));
 			cqs.add(cq);
 		}
+
+		reviewUrl = cfg.getString(S_REVIEW, null, K_URL);
 	}
 
 	private List<Project> parseProjects(final Config cfg,
