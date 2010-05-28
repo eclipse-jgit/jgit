@@ -63,6 +63,7 @@ public class CLIText extends TranslationBundle {
 	/***/ public String averageMSPerRead;
 	/***/ public String branchAlreadyExists;
 	/***/ public String branchCreatedFrom;
+	/***/ public String branchDetachedHEAD;
 	/***/ public String branchIsNotAnAncestorOfYourCurrentHEAD;
 	/***/ public String branchNotFound;
 	/***/ public String cacheTreePathInfo;
