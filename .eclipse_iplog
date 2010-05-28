@@ -23,9 +23,9 @@
 	state = approved
 
 [CQ "3904"]
-	description = jsch Version: 0.1.37 (using Orbit CQ2014)
+	description = jsch Version: 0.1.37 (using Orbit CQ2002)
 	license = New BSD license
-	use = unmodified binary
+	use = unmodified source & binary
 	state = approved
 
 [CQ "3655"]
@@ -34,3 +34,7 @@
 	use = unmodified binary
 	state = approved
 
+[CQ "3886"]
+	description = Apache SSHD Version: 0.3.0
+	use = unmodified source & binary
+	state = under_review
