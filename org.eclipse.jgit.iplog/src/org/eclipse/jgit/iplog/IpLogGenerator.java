@@ -116,6 +116,9 @@ public class IpLogGenerator {
 	/** Projects indexed by their ID string, e.g. {@code technology.jgit}. */
 	private final Map<String, Project> projects = new TreeMap<String, Project>();
 
+	/** Projects indexed by their ID string, e.g. {@code technology.jgit}. */
+	private final Map<String, Project> consumedProjects = new TreeMap<String, Project>();
+
 	/** Known committers, indexed by their foundation ID. */
 	private final Map<String, Committer> committersById = new HashMap<String, Committer>();
 
@@ -222,6 +225,9 @@ public class IpLogGenerator {
 		for (Project p : meta.getProjects()) {
 			p.setVersion(version);
 			projects.put(p.getName(), p);
+		}
+		for (Project p : meta.getConsumedProjects()) {
+			consumedProjects.put(p.getName(), p);
 		}
 		cqs.addAll(meta.getCQs());
 	}
@@ -480,8 +486,19 @@ public class IpLogGenerator {
 			root.appendChild(createProject(project));
 			licenses.addAll(project.getLicenses());
 		}
+
+		if (!consumedProjects.isEmpty())
+			appendBlankLine(root);
+		for (Project project : sort(consumedProjects, Project.COMPARATOR)) {
+			root.appendChild(createConsumes(project));
+			licenses.addAll(project.getLicenses());
+		}
+
 		for (RevCommit c : sort(commits))
 			root.appendChild(createCommitMeta(c));
+
+		if (licenses.size() > 1)
+			appendBlankLine(root);
 		for (String name : sort(licenses))
 			root.appendChild(createLicense(name));
 
@@ -509,11 +526,21 @@ public class IpLogGenerator {
 
 	private Element createProject(Project p) {
 		Element project = createElement("project");
+		populateProjectType(p, project);
+		return project;
+	}
+
+	private Element createConsumes(Project p) {
+		Element project = createElement("consumes");
+		populateProjectType(p, project);
+		return project;
+	}
+
+	private void populateProjectType(Project p, Element project) {
 		required(project, "id", p.getID());
 		required(project, "name", p.getName());
 		optional(project, "comments", p.getComments());
 		optional(project, "version", p.getVersion());
-		return project;
 	}
 
 	private Element createCommitMeta(RevCommit c) {
