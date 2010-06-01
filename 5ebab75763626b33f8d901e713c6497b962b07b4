@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALun//+8I\u003d",
+        "filename": "org.eclipse.jgit.iplog/README",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-05-28T23:56:58Z",
+      "side": 1,
+      "message": "You have to `git commit` this first if there are any updates.  The eclipse-iplog program relies on the committed version of this file, not the version that is in your working directory.",
+      "revId": "5ebab75763626b33f8d901e713c6497b962b07b4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun//+8E\u003d",
+        "filename": "org.eclipse.jgit.iplog/README",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-05-28T23:56:58Z",
+      "side": 1,
+      "message": "I\u0027m pretty sure we now allow whitespace in front of first column.  But yea, no headers, no blank lines.",
+      "revId": "5ebab75763626b33f8d901e713c6497b962b07b4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun//+8A\u003d",
+        "filename": "org.eclipse.jgit.iplog/README",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-05-28T23:56:58Z",
+      "side": 1,
+      "message": "Don\u0027t use \u003e to redirect, use -o option to write the file.\n\nAlso, the IP team wants to see the actual project version number in the log even if its not yet tagged.  So instead we want to run:\n\n  eclipse-iplog --version\u003d0.8.0 -o jgit-0.8.0.xml HEAD",
+      "revId": "5ebab75763626b33f8d901e713c6497b962b07b4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
