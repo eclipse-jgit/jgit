@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALun//+8g\u003d",
+        "filename": ".eclipse_iplog",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-05-28T23:08:42Z",
+      "side": 1,
+      "message": "This delta was already applied by me earlier today.  Update your working copy.",
+      "revId": "42b69c43b92d8787300c8fcd5334fa4e95923f0f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun//+8c\u003d",
+        "filename": ".eclipse_iplog",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-05-28T23:08:42Z",
+      "side": 1,
+      "message": "I chose not to include this in our IP log since we aren\u0027t actually using it yet.  We\u0027re still waiting on the IP team to approve the use before we start to code against it.",
+      "revId": "42b69c43b92d8787300c8fcd5334fa4e95923f0f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
