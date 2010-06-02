@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALu3///9A\u003d",
+        "filename": "org.eclipse.jgit.packaging/org.eclipse.jgit.junit.feature/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-06-02T21:26:54Z",
+      "side": 0,
+      "message": "0.8.1-SNAPSHOT ?",
+      "revId": "d67a7206c6b288e88f1a67a81227e534949a84c5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALu3///88\u003d",
+        "filename": "org.eclipse.jgit.packaging/org.eclipse.jgit.updatesite/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-06-02T21:26:54Z",
+      "side": 0,
+      "message": "0.8.1-SNAPSHOT ?",
+      "revId": "d67a7206c6b288e88f1a67a81227e534949a84c5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
