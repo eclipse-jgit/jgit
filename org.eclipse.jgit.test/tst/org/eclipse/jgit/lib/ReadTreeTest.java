@@ -49,6 +49,7 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.eclipse.jgit.errors.CheckoutConflictException;
@@ -58,7 +59,7 @@ public class ReadTreeTest extends RepositoryTestCase {
 	private Tree theHead;
 	private Tree theMerge;
 	private GitIndex theIndex;
-	private WorkDirCheckout theReadTree;
+	private Checkout theReadTree;
 	// Each of these rules are from the read-tree manpage
 	// go there to see what they mean.
 	// Rule 0 is left out for obvious reasons :)
@@ -71,23 +72,23 @@ public class ReadTreeTest extends RepositoryTestCase {
 		headFile.setId(objectId);
 		Tree merge = new Tree(db);
 
-		WorkDirCheckout readTree = new WorkDirCheckout(db, trash, head, index, merge);
+		Checkout readTree = getCheckoutImpl(head, index, merge);
 		readTree.prescanTwoTrees();
 
-		assertTrue(readTree.removed.contains("foo"));
+		assertTrue(readTree.removed().contains("foo"));
 
-		readTree = new WorkDirCheckout(db, trash, merge, index, head);
+		readTree = getCheckoutImpl(merge, index, head);
 		readTree.prescanTwoTrees();
 
-		assertEquals(objectId, readTree.updated.get("foo"));
+		assertEquals(objectId, readTree.updated().get("foo"));
 
 		ObjectId anotherId = ObjectId.fromString("ba78e065e2c261d4f7b8f42107588051e87e18ee");
 		merge.addFile("foo").setId(anotherId);
 
-		readTree = new WorkDirCheckout(db, trash, head, index, merge);
+		readTree = getCheckoutImpl(head, index, merge);
 		readTree.prescanTwoTrees();
 
-		assertEquals(anotherId, readTree.updated.get("foo"));
+		assertEquals(anotherId, readTree.updated().get("foo"));
 	}
 
 	void setupCase(HashMap<String, String> headEntries,
@@ -134,8 +135,8 @@ public class ReadTreeTest extends RepositoryTestCase {
 		return null;
 	}
 
-	private WorkDirCheckout go() throws IOException {
-		theReadTree = new WorkDirCheckout(db, trash, theHead, theIndex, theMerge);
+	private Checkout go() throws IOException {
+		theReadTree = getCheckoutImpl(theHead, theIndex, theMerge);
 		theReadTree.prescanTwoTrees();
 		return theReadTree;
 	}
@@ -152,9 +153,9 @@ public class ReadTreeTest extends RepositoryTestCase {
 		setupCase(null, null, idxMap);
 		theReadTree = go();
 
-		assertTrue(theReadTree.updated.isEmpty());
-		assertTrue(theReadTree.removed.isEmpty());
-		assertTrue(theReadTree.conflicts.isEmpty());
+		assertTrue(theReadTree.updated().isEmpty());
+		assertTrue(theReadTree.removed().isEmpty());
+		assertTrue(theReadTree.conflicts().isEmpty());
 
 		// rules 6 and 7
 		idxMap = new HashMap<String, String>();
@@ -172,9 +173,9 @@ public class ReadTreeTest extends RepositoryTestCase {
 		setupCase(null, mergeMap, idxMap);
 		go();
 
-		assertTrue(theReadTree.updated.isEmpty());
-		assertTrue(theReadTree.removed.isEmpty());
-		assertTrue(theReadTree.conflicts.contains("foo"));
+		assertTrue(theReadTree.updated().isEmpty());
+		assertTrue(theReadTree.removed().isEmpty());
+		assertTrue(theReadTree.conflicts().contains("foo"));
 
 		// rule 10
 
@@ -183,9 +184,9 @@ public class ReadTreeTest extends RepositoryTestCase {
 		setupCase(headMap, null, idxMap);
 		go();
 
-		assertTrue(theReadTree.removed.contains("foo"));
-		assertTrue(theReadTree.updated.isEmpty());
-		assertTrue(theReadTree.conflicts.isEmpty());
+		assertTrue(theReadTree.removed().contains("foo"));
+		assertTrue(theReadTree.updated().isEmpty());
+		assertTrue(theReadTree.conflicts().isEmpty());
 
 		// rule 11
 		setupCase(headMap, null, idxMap);
@@ -194,18 +195,18 @@ public class ReadTreeTest extends RepositoryTestCase {
 		theIndex.getMembers()[0].forceRecheck();
 		go();
 
-		assertTrue(theReadTree.removed.isEmpty());
-		assertTrue(theReadTree.updated.isEmpty());
-		assertTrue(theReadTree.conflicts.contains("foo"));
+		assertTrue(theReadTree.removed().isEmpty());
+		assertTrue(theReadTree.updated().isEmpty());
+		assertTrue(theReadTree.conflicts().contains("foo"));
 
 		// rule 12 & 13
 		headMap.put("foo", "head");
 		setupCase(headMap, null, idxMap);
 		go();
 
-		assertTrue(theReadTree.removed.isEmpty());
-		assertTrue(theReadTree.updated.isEmpty());
-		assertTrue(theReadTree.conflicts.contains("foo"));
+		assertTrue(theReadTree.removed().isEmpty());
+		assertTrue(theReadTree.updated().isEmpty());
+		assertTrue(theReadTree.conflicts().contains("foo"));
 
 		// rules 14 & 15
 		setupCase(headMap, headMap, idxMap);
@@ -215,7 +216,7 @@ public class ReadTreeTest extends RepositoryTestCase {
 
 		// rules 16 & 17
 		setupCase(headMap, mergeMap, idxMap); go();
-		assertTrue(theReadTree.conflicts.contains("foo"));
+		assertTrue(theReadTree.conflicts().contains("foo"));
 
 		// rules 18 & 19
 		setupCase(headMap, idxMap, idxMap); go();
@@ -223,7 +224,7 @@ public class ReadTreeTest extends RepositoryTestCase {
 
 		// rule 20
 		setupCase(idxMap, mergeMap, idxMap); go();
-		assertTrue(theReadTree.updated.containsKey("foo"));
+		assertTrue(theReadTree.updated().containsKey("foo"));
 
 		// rules 21
 		setupCase(idxMap, mergeMap, idxMap);
@@ -231,13 +232,13 @@ public class ReadTreeTest extends RepositoryTestCase {
 		writeTrashFile("foo", "bar");
 		theIndex.getMembers()[0].forceRecheck();
 		go();
-		assertTrue(theReadTree.conflicts.contains("foo"));
+		assertTrue(theReadTree.conflicts().contains("foo"));
 	}
 
 	private void assertAllEmpty() {
-		assertTrue(theReadTree.removed.isEmpty());
-		assertTrue(theReadTree.updated.isEmpty());
-		assertTrue(theReadTree.conflicts.isEmpty());
+		assertTrue(theReadTree.removed().isEmpty());
+		assertTrue(theReadTree.updated().isEmpty());
+		assertTrue(theReadTree.conflicts().isEmpty());
 	}
 
 	public void testDirectoryFileSimple() throws IOException {
@@ -254,20 +255,20 @@ public class ReadTreeTest extends RepositoryTestCase {
 		recursiveDelete(new File(trash, "DF"));
 
 		theIndex.add(trash, writeTrashFile("DF", "DF"));
-		theReadTree = new WorkDirCheckout(db, trash, treeDF, theIndex, treeDFDF);
+		theReadTree = getCheckoutImpl(treeDF, theIndex, treeDFDF);
 		theReadTree.prescanTwoTrees();
 
-		assertTrue(theReadTree.removed.contains("DF"));
-		assertTrue(theReadTree.updated.containsKey("DF/DF"));
+		assertTrue(theReadTree.removed().contains("DF"));
+		assertTrue(theReadTree.updated().containsKey("DF/DF"));
 
 		recursiveDelete(new File(trash, "DF"));
 		theIndex = new GitIndex(db);
 		theIndex.add(trash, writeTrashFile("DF/DF", "DF/DF"));
 
-		theReadTree = new WorkDirCheckout(db, trash, treeDFDF, theIndex, treeDF);
+		theReadTree = getCheckoutImpl(treeDFDF, theIndex, treeDF);
 		theReadTree.prescanTwoTrees();
-		assertTrue(theReadTree.removed.contains("DF/DF"));
-		assertTrue(theReadTree.updated.containsKey("DF"));
+		assertTrue(theReadTree.removed().contains("DF/DF"));
+		assertTrue(theReadTree.updated().containsKey("DF"));
 	}
 
 	/*
@@ -473,19 +474,19 @@ public class ReadTreeTest extends RepositoryTestCase {
 	}
 
 	private void assertConflict(String s) {
-		assertTrue(theReadTree.conflicts.contains(s));
+		assertTrue(theReadTree.conflicts().contains(s));
 	}
 
 	private void assertUpdated(String s) {
-		assertTrue(theReadTree.updated.containsKey(s));
+		assertTrue(theReadTree.updated().containsKey(s));
 	}
 
 	private void assertRemoved(String s) {
-		assertTrue(theReadTree.removed.contains(s));
+		assertTrue(theReadTree.removed().contains(s));
 	}
 
 	private void assertNoConflicts() {
-		assertTrue(theReadTree.conflicts.isEmpty());
+		assertTrue(theReadTree.conflicts().isEmpty());
 	}
 
 	private void doit(HashMap<String, String> h, HashMap<String, String>m,
@@ -551,7 +552,7 @@ public class ReadTreeTest extends RepositoryTestCase {
 	}
 
 	private void checkout() throws IOException {
-		theReadTree = new WorkDirCheckout(db, trash, theHead, theIndex, theMerge);
+		theReadTree = getCheckoutImpl(theHead, theIndex, theMerge);
 		theReadTree.checkout();
 	}
 
@@ -576,6 +577,58 @@ public class ReadTreeTest extends RepositoryTestCase {
 			fail("did not throw exception");
 		} catch (CheckoutConflictException e) {
 			// should have thrown
+		}
+	}
+
+	/**
+	 * the interface these tests need from a class implementing a checkout
+	 */
+	interface Checkout {
+		HashMap<String, ObjectId> updated();
+		ArrayList<String> conflicts();
+		ArrayList<String> removed();
+		void prescanTwoTrees() throws IOException;
+		void checkout() throws IOException;
+	}
+
+	/**
+	 * return the current implementation of the {@link Checkout} interface. May be overridden by
+	 * subclasses which would inherit all tests but can specify their own implementation of
+	 * a Checkout
+	 *
+	 * @param head
+	 * @param index
+	 * @param merge
+	 * @return the current implementation of {@link Checkout}
+	 */
+	protected Checkout getCheckoutImpl(Tree head, GitIndex index,
+			Tree merge) {
+		return new WorkdirCheckoutImpl(head, index, merge);
+	}
+
+	/**
+	 * An implementation of the {@link Checkout} interface which uses {@link WorkDirCheckout}
+	 */
+	class WorkdirCheckoutImpl extends WorkDirCheckout implements Checkout {
+		public WorkdirCheckoutImpl(Tree head, GitIndex index,
+				Tree merge) {
+			super(db, trash, head, index, merge);
+		}
+
+		public HashMap<String, ObjectId> updated() {
+			return updated;
+		}
+
+		public ArrayList<String> conflicts() {
+			return conflicts;
+		}
+
+		public ArrayList<String> removed() {
+			return removed;
+		}
+
+		public void prescanTwoTrees() throws IOException {
+			super.prescanTwoTrees();
 		}
 	}
 }
