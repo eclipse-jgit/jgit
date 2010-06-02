@@ -124,11 +124,11 @@ perl -pi -e '
 		$seen_version = 1 if (!/<\?xml/ &&
 		s/(version=")[^"]*(")/${1}'"$OSGI_V"'${2}/);
 	}
-	' org.eclipse.jgit.packaging/org.eclipse.jgit.feature/feature.xml
+	' org.eclipse.jgit.packaging/org.*.feature/feature.xml
 
 perl -pi -e '
 	s{<(version)>.*</\1>}{<${1}>'"$POM_V"'</${1}>};
-	' org.eclipse.jgit.packaging/org.eclipse.jgit.feature/pom.xml
+	' org.eclipse.jgit.packaging/org.*.feature/pom.xml
 
 perl -pi -e '
 	if ($ARGV ne $old_argv) {
