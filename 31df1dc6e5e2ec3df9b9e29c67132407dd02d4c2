@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALu3///xs\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/ReadTreeTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 584,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-06-04T21:46:00Z",
+      "side": 1,
+      "message": "Start sentences with capital letters",
+      "revId": "31df1dc6e5e2ec3df9b9e29c67132407dd02d4c2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALu3///xo\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/ReadTreeTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 596,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-06-04T21:46:00Z",
+      "side": 1,
+      "message": "1) Start sentences with capital letters.\n2) The second sentence is easier to read if it is a new paragraph ( LF \u003cp\u003e LF )",
+      "revId": "31df1dc6e5e2ec3df9b9e29c67132407dd02d4c2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
