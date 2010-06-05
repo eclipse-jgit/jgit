@@ -1,0 +1,176 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALun///iU\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/ChangeIdUtilTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-05-14T00:40:06Z",
+      "side": 1,
+      "message": "Ugh.\n\nWe can relicense Gerrit Code Review\u0027s CommitMsgHookTest class from APLv2 to EDL.  Please see if you can reuse that test class by altering how it executes the hook logic, but otherwise retain its input-output examples and test to that.  Just tag it copyright Google 2009.\n\nhttp://android.git.kernel.org/?p\u003dtools/gerrit.git;a\u003dblob;f\u003dgerrit-server/src/test/java/com/google/gerrit/server/tools/hooks/CommitMsgHookTest.java;hb\u003dHEAD",
+      "revId": "7a280c70521e84b944e7c34ac5f1ace3acb5a4df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///ho\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/ChangeIdUtilTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-05-14T18:18:41Z",
+      "side": 1,
+      "message": "That\u0027s what I meant, we can relicense the test cases for the commit-msg hook.  Its just test vector data.  Google would prefer to have a consistent set of test data used to validate conformance than to worry about keeping APLv2 on this code.",
+      "parentUuid": "AAALun///hw\u003d",
+      "revId": "7a280c70521e84b944e7c34ac5f1ace3acb5a4df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///io\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/ChangeIdUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-05-14T00:40:06Z",
+      "side": 1,
+      "message": "If you just do \"return w.computeObjectSha1...\" you might be able to fit the entire method call on one line and won\u0027t need to wrap the \"is);\" onto the next line.  If its still too long, consider \"raw\" or \"bin\" instead of \"bytes\" for the encoded form of the commit text.",
+      "revId": "7a280c70521e84b944e7c34ac5f1ace3acb5a4df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///is\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/ChangeIdUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-05-14T00:40:06Z",
+      "side": 1,
+      "message": "The canonical hook in Gerrit Code Review does this as a case-insensitive match for Bug|Issue.",
+      "revId": "7a280c70521e84b944e7c34ac5f1ace3acb5a4df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///ik\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/ChangeIdUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-05-14T00:40:06Z",
+      "side": 1,
+      "message": "Can\u0027t you factor out the ^$ to the start and end of the pattern?\n\nThe canonical hook also considers lines starting with a space to be a footer, because these are often continuation lines of the prior line.",
+      "revId": "7a280c70521e84b944e7c34ac5f1ace3acb5a4df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///iw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/ChangeIdUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-05-14T00:40:06Z",
+      "side": 1,
+      "message": "Case insensitive form is honored by Gerrit Code Review and by the commit-msg hook it comes with.  Should we use a case insensitive match here too?",
+      "revId": "7a280c70521e84b944e7c34ac5f1ace3acb5a4df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///ic\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/ChangeIdUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-05-14T00:40:06Z",
+      "side": 1,
+      "message": "This should only match when firstPattern \u003d\u003d -1.  That is, we want to find the *last* Bug: or Issue: line and insert the Change-Id immediately after it.  Here you are going to insert it after the first.  Correct output would be:\n\n  Bug: 42\n  Bug: 53\n  Bug: 59\n  Change-Id: I....\n  Signed-off-by: Shawn ...\n\nThat\u0027s why I do this as two loops in the canonical hook.  We loop backwards to find the end of the footers, and then loop forwards to find the Change-Id insertion point.  Given that its only a couple of indexes, walking backwards then forwards in the data is very inexpensive.",
+      "revId": "7a280c70521e84b944e7c34ac5f1ace3acb5a4df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///ig\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/ChangeIdUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-05-14T00:40:06Z",
+      "side": 1,
+      "message": "This code would be a lot easier to follow if you just initialize lastPattern \u003d lines.lenght at the start, rather than -1.",
+      "revId": "7a280c70521e84b944e7c34ac5f1ace3acb5a4df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///iY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/ChangeIdUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-05-14T00:40:06Z",
+      "side": 1,
+      "message": "Why are you skipping empty lines in the user\u0027s message?\n\nAll indexes of lines up to the chosen insertion point of the Change-Id should be copied as-is.  Since split(\"\\n\") removed the \\n characters, we have to add those back in between each element.  But that\u0027s it.",
+      "revId": "7a280c70521e84b944e7c34ac5f1ace3acb5a4df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///hk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/ChangeIdUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-05-14T18:18:41Z",
+      "side": 1,
+      "message": "I\u0027m still not following you here.  The commit-msg hook in Gerrit doesn\u0027t skip blank lines when its putting the message back together.  We put blank lines in commit messages all of the time, like between paragraphs.  Like you do in this message.  Why would we skip them?",
+      "parentUuid": "AAALun///h8\u003d",
+      "revId": "7a280c70521e84b944e7c34ac5f1ace3acb5a4df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
