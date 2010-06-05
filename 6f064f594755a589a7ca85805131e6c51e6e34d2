@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALu3///ws\u003d",
+        "filename": "org.eclipse.jgit.test/.classpath",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-06-05T01:28:15Z",
+      "side": 1,
+      "message": "Why are we updating our JVM standard to 1.6 for the unit tests?",
+      "revId": "6f064f594755a589a7ca85805131e6c51e6e34d2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
