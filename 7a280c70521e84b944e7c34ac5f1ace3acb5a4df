@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "AAALun///hc\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/ChangeIdUtilTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-05-14T20:53:47Z",
+      "side": 1,
+      "message": "Ah, I was thinking about the implementation. Didn\u0027t read you message accurately.",
+      "parentUuid": "AAALun///ho\u003d",
+      "revId": "7a280c70521e84b944e7c34ac5f1ace3acb5a4df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALun///io\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/ChangeIdUtil.java",
         "patchSetId": 5
@@ -156,6 +174,24 @@
     },
     {
       "key": {
+        "uuid": "AAALun///h8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/ChangeIdUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-05-14T18:03:10Z",
+      "side": 1,
+      "message": "Do match what the commit-msg I got from Gerrit hook does. \n\nI was thinking about making this implementation diverge from the hook since it makes little sense skip the blankt lines",
+      "parentUuid": "AAALun///iY\u003d",
+      "revId": "7a280c70521e84b944e7c34ac5f1ace3acb5a4df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALun///hk\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/ChangeIdUtil.java",
         "patchSetId": 5
@@ -168,6 +204,24 @@
       "side": 1,
       "message": "I\u0027m still not following you here.  The commit-msg hook in Gerrit doesn\u0027t skip blank lines when its putting the message back together.  We put blank lines in commit messages all of the time, like between paragraphs.  Like you do in this message.  Why would we skip them?",
       "parentUuid": "AAALun///h8\u003d",
+      "revId": "7a280c70521e84b944e7c34ac5f1ace3acb5a4df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///hg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/ChangeIdUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-05-14T20:53:47Z",
+      "side": 1,
+      "message": "I generated the JUnit test by committing into a test with the (shell) commit hook installed repo and found this behavior.\n\nThis code skips multiple blank lines, not single ones.",
+      "parentUuid": "AAALun///hk\u003d",
       "revId": "7a280c70521e84b944e7c34ac5f1ace3acb5a4df",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
