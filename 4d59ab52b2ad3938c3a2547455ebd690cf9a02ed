@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAA3///4U\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectWriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-07T12:49:10Z",
+      "side": 1,
+      "message": "s/am/an/",
+      "revId": "4d59ab52b2ad3938c3a2547455ebd690cf9a02ed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///4M\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectWriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-07T12:49:10Z",
+      "side": 1,
+      "message": "Not necessarily a blob.",
+      "revId": "4d59ab52b2ad3938c3a2547455ebd690cf9a02ed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///4Q\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectWriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-07T12:49:10Z",
+      "side": 1,
+      "message": "This isn\u0027t necessarily a blob, is it?",
+      "revId": "4d59ab52b2ad3938c3a2547455ebd690cf9a02ed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///4I\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/ChangeIdUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-07T12:49:10Z",
+      "side": 1,
+      "message": "Its spelled \"Gerrit Code Review\".",
+      "revId": "4d59ab52b2ad3938c3a2547455ebd690cf9a02ed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///34\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/ChangeIdUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-07T12:49:10Z",
+      "side": 1,
+      "message": "Clean shouldn\u0027t be necessary in JGit.  Its required in the C hook script because we are presented with the *original* buffer from the user, before its been cleaned up by the commit creation routine.  So there we need to drop lines leading with #, etc.  But within JGit that should all happen in the higher level UI before that UI invokes the ChangeIdUtil class.  (Or simply not need to happen at all.)",
+      "revId": "4d59ab52b2ad3938c3a2547455ebd690cf9a02ed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///4E\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/ChangeIdUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-07T12:49:10Z",
+      "side": 1,
+      "message": "I think I would prefer the treeId to come first.  It comes first in the commit formatting, and in the change-id string computation.",
+      "revId": "4d59ab52b2ad3938c3a2547455ebd690cf9a02ed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///4A\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/ChangeIdUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-07T12:49:10Z",
+      "side": 1,
+      "message": "This temporary file is not necessary.",
+      "revId": "4d59ab52b2ad3938c3a2547455ebd690cf9a02ed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///38\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/ChangeIdUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-07T12:49:10Z",
+      "side": 1,
+      "message": "I wouldn\u0027t bother with the temporary sha1 variable here.  Also, b.length() is not the same size as the number of bytes available for hashing.  If the name contains a multi-byte character for example, with UTF-8 encoding we won\u0027t consider everything in the hash.",
+      "revId": "4d59ab52b2ad3938c3a2547455ebd690cf9a02ed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///3w\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/ChangeIdUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-07T14:35:07Z",
+      "side": 1,
+      "message": "I would prefer running this through the parser that RevCommit uses when parsing footer lines.  Unfortunately that code is part of RevCommit.  So we would need to pull it out into a utility class, or find a way to construct a RevCommit from the buffered message so we can reuse that parser.  But even if we don\u0027t do that, you can search backwards from the end of the string to find the paragraph break that denotes the \"footer\" and then insert there.  But at that point, we\u0027re mostly replicating that parsing code.\n\nIn particular one of the rules we do in the shell hook is, we try to insert the Change-Id line after the Bug line, if one is present, but before any other lines.  That\u0027s hard to do with a simple regex replaceAll like you are doing here to insert the item into the string.",
+      "revId": "4d59ab52b2ad3938c3a2547455ebd690cf9a02ed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
