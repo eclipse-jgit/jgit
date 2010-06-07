@@ -191,6 +191,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAA3///ZI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-04-24T12:16:01Z",
+      "side": 1,
+      "message": "Shawn: Isn\u0027t this safe?. What would happen, should two threads enter this method at the same time is that two File objects gets constructed, which is a performance problem, but not a safety problem. This method could construct a new File instance every time.",
+      "parentUuid": "AAAAA3///gg\u003d",
+      "revId": "fc4278078b298781d55cf5421e9647a21fa5db24",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAA3///Yw\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
         "patchSetId": 1
