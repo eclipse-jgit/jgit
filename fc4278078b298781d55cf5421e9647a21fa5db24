@@ -70,6 +70,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAA3///f4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2010-04-26T15:33:17Z",
+      "side": 1,
+      "message": "I have introduced this getter to avoid new constructors with FS parameter in GitIndex and RefDirectory. But it\u0027s a bit ugly anyway as RefDirectory member has to be created after assigning FS member. So when you agree to simply add FS parameter to existing constructor of GitIndex and RefDirectory, I\u0027ll happily remove this getter.\n\nIf an application is able to choose correct FS for Repository construction, it is probably also able to choose correct FS for FileTreeIterator. If managing the FS outside of the Repository should get really to annoying in the application, we can still discuss whether to re-introduce that getter.",
+      "parentUuid": "AAAAA3///gY\u003d",
+      "revId": "fc4278078b298781d55cf5421e9647a21fa5db24",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAA3///UI\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
         "patchSetId": 1
@@ -88,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "AAALuX///7s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2010-04-29T17:32:09Z",
+      "side": 1,
+      "message": "I\u0027ve just tried now to add FS to OpenSshConfig. But this will require FS to be passed through many other transport-related classes. Similar for GitIndex which is used in various tests, too. So I think the least intrusive solution will be to keep getFS() public :(",
+      "parentUuid": "AAAAA3///UI\u003d",
+      "revId": "fc4278078b298781d55cf5421e9647a21fa5db24",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAA3///gA\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/OpenSshConfig.java",
         "patchSetId": 1
@@ -99,6 +135,24 @@
       "writtenOn": "2010-04-22T15:16:06Z",
       "side": 1,
       "message": "Shouldn\u0027t this be using the repository\u0027s FS type?  Because the user\u0027s .ssh/config should come from the Git system they are using for this repository, not the one we auto-detected.",
+      "revId": "fc4278078b298781d55cf5421e9647a21fa5db24",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///f0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/OpenSshConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2010-04-26T15:33:17Z",
+      "side": 1,
+      "message": "I can\u0027t see a relation to a Repository here (resp. OpenSshConfig may be used for many Repository\u0027s)?\n\nIf your comment should just suggest to make FS a parameter of this method, that will be fine.",
+      "parentUuid": "AAAAA3///gA\u003d",
       "revId": "fc4278078b298781d55cf5421e9647a21fa5db24",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -239,6 +293,24 @@
       "side": 1,
       "message": "Actually, there is another option available to us here.\n\nThe default implementation of userHomeImpl() is pretty cheap.  So we can simply remove the method and inline it all into userHome(), and avoid the userHome instance member altogether.  Threading problems go away.\n\nIn FS_Win32_Cygwin, we introduce a private static inner class with a static final field containing the user home:\n\n  @Override\n  public File userHome() {\n    return UserHome.home;\n  }\n\n  private static class UserHome {\n    static final File home \u003d userHomeImpl();\n  }\n\nand let class initialization take care of the caching and memory synchronization for us.  Then we aren\u0027t paying the volatile read penalty on each access.\n\nThough, I have to point out, a volatile read is far cheaper than constructing the PrivilegedAction needed to pass through the AccessController.doPrivileged to get the user.home system property.",
       "parentUuid": "AAAAA3///Yw\u003d",
+      "revId": "fc4278078b298781d55cf5421e9647a21fa5db24",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALuX///7o\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2010-04-29T18:14:55Z",
+      "side": 1,
+      "message": "getUserHome() is accessed in SystemReader which is accessed in Repository constructor, so it has to be evaluated virtually always. Hence, I will make it final and move evaluation to the constructor.",
+      "parentUuid": "AAAAA3///Ys\u003d",
       "revId": "fc4278078b298781d55cf5421e9647a21fa5db24",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
