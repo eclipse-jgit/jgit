@@ -1,0 +1,229 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAA3///gc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-22T15:16:06Z",
+      "side": 1,
+      "message": "Style-nit: Trailing whitespace error.",
+      "revId": "fc4278078b298781d55cf5421e9647a21fa5db24",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///gU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-22T15:16:06Z",
+      "side": 1,
+      "message": "You should also pass through the fs instance to the ObjectDirectory.",
+      "revId": "fc4278078b298781d55cf5421e9647a21fa5db24",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///gQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-22T15:16:06Z",
+      "side": 1,
+      "message": "You should also pass through the fs instance to the ObjectDirectory.",
+      "revId": "fc4278078b298781d55cf5421e9647a21fa5db24",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///gY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-22T15:16:06Z",
+      "side": 1,
+      "message": "Should be getFS().\n\nBut I\u0027m also not that happy about including this in the public API of Repository.  I actually want to start removing some of the filesystem based assumptions from this class.  We probably have no choice in the matter though, I can see how an application would want this available so it can later construct a FileTreeIterator, which needs the same FS instance.",
+      "revId": "fc4278078b298781d55cf5421e9647a21fa5db24",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///UI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-26T15:46:56Z",
+      "side": 1,
+      "message": "Yea, go ahead and make FS a parameter to the constructor of GitIndex and RefDirectory.",
+      "parentUuid": "AAAAA3///f4\u003d",
+      "revId": "fc4278078b298781d55cf5421e9647a21fa5db24",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///gA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/OpenSshConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-22T15:16:06Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be using the repository\u0027s FS type?  Because the user\u0027s .ssh/config should come from the Git system they are using for this repository, not the one we auto-detected.",
+      "revId": "fc4278078b298781d55cf5421e9647a21fa5db24",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///UE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/OpenSshConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-26T15:46:56Z",
+      "side": 1,
+      "message": "Lets say we detect Cygwin as the FS type, because cygpath appeared in the user\u0027s $PATH.\n\nBut the user has configured SmartGit to *not* use Cygwin.\n\nNow when JGit tries to use an SSH connection, its going to be asking the user\u0027s *Cygwin* home directory for the .ssh/config and their SSH keys.  But that makes no sense, if SmartGit was configured to *not* use Cygwin, why is it using the Cygwin based settings?\n\nSo, this needs to be using the same FS instance that the Repository its being called by is using.",
+      "parentUuid": "AAAAA3///f0\u003d",
+      "revId": "fc4278078b298781d55cf5421e9647a21fa5db24",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///gI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SshConfigSessionFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-22T15:16:06Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be using the repository\u0027s FS type?  Because the user\u0027s .ssh/known_hosts should come from the Git system they are using for this repository, not the one we auto-detected.",
+      "revId": "fc4278078b298781d55cf5421e9647a21fa5db24",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///gE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SshConfigSessionFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-22T15:16:06Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be using the repository\u0027s FS type?  Because the user\u0027s .ssh/id_rsa should come from the Git system they are using for this repository, not the one we auto-detected.",
+      "revId": "fc4278078b298781d55cf5421e9647a21fa5db24",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///gM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportAmazonS3.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-22T15:16:06Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this use the Repository\u0027s FS instance?  Just in case we detected Cygwin, but the application wants msysgit behavior?  The user\u0027s home directory where the Amazon S3 property files are stored should match the same home directory that the SSH configuration is stored in, which is determined by the FS type.",
+      "revId": "fc4278078b298781d55cf5421e9647a21fa5db24",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///gg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-22T15:16:06Z",
+      "side": 1,
+      "message": "This should be thread-safe, and its not.  The prior implementation was relying on class initialization to ensure thread-safe initialization of the userHome property.  Since you\u0027ve moved this to be an instance member of this class, you need to modify this method to use some sort of thread-safe construct here.\n\nIt might just be sufficient to mark userHome volatile.  java.io.File is immutable, and initializing the variable is relatively inexpensive, so doing it concurrently from multiple threads in the event that more than one thread needs the value at the same time and its not yet prepared isn\u0027t an issue.",
+      "revId": "fc4278078b298781d55cf5421e9647a21fa5db24",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///Yw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-24T18:37:27Z",
+      "side": 1,
+      "message": "No, its not safe.\n\nUnder the Java memory model, a thread can read the userHome member and see the java.io.File object\u0027s reference, but be unable to see the fields assigned within the object.  It could be seeing garbage from the prior resident of that location, or it could be seeing all NULs from the allocator clearing the region before initialization.\n\nThe only way to ensure that all writes up to a particular point are visible, and thus that the object(s) in question are internally consistent from the perspective of a reader, is to travel through a synchronization barrier.  Those barriers exist at a synchronized block, or when writing/reading a volatile.\n\nThe memory model requires that all writes carried out within a thread prior to a write to a volatile must be visible to another thread that reads that volatile first.  Or, that all writes carried out before releasing a monitor on an object must be visible to another thread after it acquires that same monitor.\n\nAnything else is playing with fire.\n\nSo.  Either delete the userHome property and compute it on the fly every time its requested, or use a volatile.\n\nGiven that on Cygwin userHome is computed via a fork+exec, that\u0027s pretty expensive.  We could permit the default implementation to compute on demand every time, but we still should cache the result in the Cygwin case.  Which brings us right back to this discussion of needing to mark the field volatile.  :-)",
+      "parentUuid": "AAAAA3///ZI\u003d",
+      "revId": "fc4278078b298781d55cf5421e9647a21fa5db24",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAA3///Ys\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-04-24T19:02:37Z",
+      "side": 1,
+      "message": "Actually, there is another option available to us here.\n\nThe default implementation of userHomeImpl() is pretty cheap.  So we can simply remove the method and inline it all into userHome(), and avoid the userHome instance member altogether.  Threading problems go away.\n\nIn FS_Win32_Cygwin, we introduce a private static inner class with a static final field containing the user home:\n\n  @Override\n  public File userHome() {\n    return UserHome.home;\n  }\n\n  private static class UserHome {\n    static final File home \u003d userHomeImpl();\n  }\n\nand let class initialization take care of the caching and memory synchronization for us.  Then we aren\u0027t paying the volatile read penalty on each access.\n\nThough, I have to point out, a volatile read is far cheaper than constructing the PrivilegedAction needed to pass through the AccessController.doPrivileged to get the user.home system property.",
+      "parentUuid": "AAAAA3///Yw\u003d",
+      "revId": "fc4278078b298781d55cf5421e9647a21fa5db24",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
