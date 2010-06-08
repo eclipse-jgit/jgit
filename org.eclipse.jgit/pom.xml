@@ -82,6 +82,7 @@
         <directory>.</directory>
         <includes>
           <include>plugin.properties</include>
+          <include>about.html</include>
         </includes>
       </resource>
       <resource>
