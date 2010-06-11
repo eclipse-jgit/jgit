@@ -86,6 +86,8 @@ public class NameConflictTreeWalk extends TreeWalk {
 
 	private boolean fastMinHasMatch;
 
+	private AbstractTreeIterator dfConflict;
+
 	/**
 	 * Create a new tree walker for a given repository.
 	 *
@@ -270,6 +272,11 @@ public class NameConflictTreeWalk extends TreeWalk {
 			for (final AbstractTreeIterator t : trees)
 				if (t.matches == minRef)
 					t.matches = treeMatch;
+
+			// remember where D/F conflicts started
+			if (dfConflict == null)
+				dfConflict = treeMatch;
+
 			return treeMatch;
 		}
 
@@ -278,19 +285,26 @@ public class NameConflictTreeWalk extends TreeWalk {
 
 	@Override
 	void popEntriesEqual() throws CorruptObjectException {
+		boolean popped = false;
+		boolean foundDfConflict = false;
 		final AbstractTreeIterator ch = currentHead;
 		for (int i = 0; i < trees.length; i++) {
 			final AbstractTreeIterator t = trees[i];
+			if (dfConflict == t)
+				foundDfConflict = true;
 			if (t.matches == ch) {
 				if (t.matchShift == 0)
 					t.next(1);
 				else {
+					popped = true;
 					t.back(t.matchShift);
 					t.matchShift = 0;
 				}
 				t.matches = null;
 			}
 		}
+		if (popped && foundDfConflict)
+			dfConflict = null;
 	}
 
 	@Override
@@ -308,5 +322,22 @@ public class NameConflictTreeWalk extends TreeWalk {
 				t.matches = null;
 			}
 		}
+	}
+
+	/**
+	 * Tells whether the current entry is covered by a directory/file conflict.
+	 * This means that for some of the prefix-pathes of the current entry this
+	 * walk has detected a directory/file conflict.
+	 * <p>
+	 * Example: If this TreeWalk points to foo/bar/a.txt and this method returns
+	 * true then you know that either for path foo or for path foo/bar files AND
+	 * folders and been detected.
+	 *
+	 * @return <code>true</code> if the current entry is covered by a
+	 *         directory/file conflict, <code>false</code> otherwise
+	 *
+	 */
+	public boolean isDirectoryFileConflict() {
+		return dfConflict != null;
 	}
 }
