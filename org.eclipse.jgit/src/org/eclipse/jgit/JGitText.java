@@ -170,6 +170,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String couldNotLockHEAD;
 	/***/ public String couldNotReadIndexInOneGo;
 	/***/ public String couldNotRenameDeleteOldIndex;
+	/***/ public String couldNotRenameTemporaryFile;
 	/***/ public String couldNotRenameTemporaryIndexFileToIndex;
 	/***/ public String couldNotURLEncodeToUTF8;
 	/***/ public String couldNotWriteFile;
@@ -181,6 +182,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String dirCacheDoesNotHaveABackingFile;
 	/***/ public String dirCacheFileIsNotLocked;
 	/***/ public String dirCacheIsNotLocked;
+	/***/ public String dirtyFilesExist;
 	/***/ public String doesNotHandleMode;
 	/***/ public String downloadCancelled;
 	/***/ public String downloadCancelledDuringIndexing;
@@ -241,6 +243,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String indexFileIsInUse;
 	/***/ public String indexFileIsTooLargeForJgit;
 	/***/ public String indexSignatureIsInvalid;
+	/***/ public String indexWriteException;
 	/***/ public String integerValueOutOfRange;
 	/***/ public String internalRevisionError;
 	/***/ public String interruptedWriting;
