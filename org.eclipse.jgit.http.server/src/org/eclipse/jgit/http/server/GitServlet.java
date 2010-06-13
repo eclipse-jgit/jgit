@@ -185,7 +185,7 @@ public class GitServlet extends MetaServlet {
 
 		initialized = true;
 
-		if (uploadPackFactory != ReceivePackFactory.DISABLED) {
+		if (uploadPackFactory != UploadPackFactory.DISABLED) {
 			serve("*/git-upload-pack")//
 					.with(new UploadPackServlet(uploadPackFactory));
 		}
