@@ -136,7 +136,7 @@ public class DefaultUploadPackFactoryTest extends LocalDiskRepositoryTestCase {
 		assertSame(db, up.getRepository());
 	}
 
-	private final class R extends HttpServletRequestWrapper {
+	private static final class R extends HttpServletRequestWrapper {
 		private final String user;
 
 		private final String host;
