@@ -49,8 +49,6 @@ package org.eclipse.jgit.revplot;
  * Commits are strung onto a lane. For many UIs a lane represents a column.
  */
 public class PlotLane {
-	PlotCommit parent;
-
 	int position;
 
 	/**

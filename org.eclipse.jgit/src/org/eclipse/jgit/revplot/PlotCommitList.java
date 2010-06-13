@@ -139,7 +139,6 @@ public class PlotCommitList<L extends PlotLane> extends
 				rObj.addPassingLane(c.lane);
 			}
 			currCommit.lane = c.lane;
-			currCommit.lane.parent = currCommit;
 		} else {
 			// More than one child, or our child is a merge.
 			// Use a different lane.
@@ -154,7 +153,6 @@ public class PlotCommitList<L extends PlotLane> extends
 			}
 
 			currCommit.lane = nextFreeLane();
-			currCommit.lane.parent = currCommit;
 			activeLanes.add(currCommit.lane);
 
 			int remaining = nChildren;
