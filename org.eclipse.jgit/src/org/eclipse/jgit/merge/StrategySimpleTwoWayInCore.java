@@ -51,6 +51,7 @@ import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.errors.UnmergedPathException;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.treewalk.AbstractTreeIterator;
 import org.eclipse.jgit.treewalk.NameConflictTreeWalk;
@@ -152,7 +153,16 @@ public class StrategySimpleTwoWayInCore extends ThreeWayMergeStrategy {
 			if (hasConflict)
 				return false;
 			try {
-				resultTree = cache.writeTree(getObjectWriter());
+				ObjectInserter odi = getObjectInserter();
+				try {
+					resultTree = cache.writeTree(odi);
+					odi.flush();
+				} finally {
+					// We don't know if our caller will release the
+					// inserter, so make sure we do it ourselves.
+					//
+					odi.release();
+				}
 				return true;
 			} catch (UnmergedPathException upe) {
 				resultTree = null;
