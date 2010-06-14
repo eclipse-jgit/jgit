@@ -428,9 +428,9 @@ public class UploadPack {
 			if (line == PacketLineIn.END) {
 				if (commonBase.isEmpty() || multiAck != MultiAck.OFF)
 					pckOut.writeString("NAK\n");
-				pckOut.flush();
 				if (!biDirectionalPipe)
 					return false;
+				pckOut.flush();
 
 			} else if (line.startsWith("have ") && line.length() == 45) {
 				final ObjectId id = ObjectId.fromString(line.substring(5));
