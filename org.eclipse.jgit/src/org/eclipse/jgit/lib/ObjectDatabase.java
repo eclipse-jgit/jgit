@@ -92,6 +92,17 @@ public abstract class ObjectDatabase {
 	}
 
 	/**
+	 * Create a new {@code ObjectInserter} to insert new objects.
+	 * <p>
+	 * The returned inserter is not itself thread-safe, but multiple concurrent
+	 * inserter instances created from the same {@code ObjectDatabase} must be
+	 * thread-safe.
+	 *
+	 * @return writer the caller can use to create objects in this database.
+	 */
+	public abstract ObjectInserter newInserter();
+
+	/**
 	 * Close any resources held by this database and its active alternates.
 	 */
 	public final void close() {

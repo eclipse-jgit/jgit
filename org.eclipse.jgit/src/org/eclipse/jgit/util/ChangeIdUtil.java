@@ -42,13 +42,12 @@
  */
 package org.eclipse.jgit.util;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.regex.Pattern;
 
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.ObjectWriter;
 import org.eclipse.jgit.lib.PersonIdent;
 
 /**
@@ -113,12 +112,8 @@ public class ChangeIdUtil {
 		b.append(committer.toExternalString());
 		b.append("\n\n");
 		b.append(cleanMessage);
-		ObjectWriter w = new ObjectWriter(null);
-		byte[] bytes = b.toString().getBytes(Constants.CHARACTER_ENCODING);
-		ByteArrayInputStream is = new ByteArrayInputStream(bytes);
-		ObjectId sha1 = w.computeObjectSha1(Constants.OBJ_COMMIT, bytes.length,
-				is);
-		return sha1;
+		return new ObjectInserter.Formatter().idFor(Constants.OBJ_COMMIT, //
+				b.toString().getBytes(Constants.CHARACTER_ENCODING));
 	}
 
 	private static final Pattern issuePattern = Pattern

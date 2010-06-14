@@ -1,6 +1,7 @@
 /*
  * Copyright (C) 2007, Robin Rosenberg <robin.rosenberg@dewire.com>
  * Copyright (C) 2006-2008, Shawn O. Pearce <spearce@spearce.org>
+ * Copyright (C) 2009, Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -44,61 +45,49 @@
 
 package org.eclipse.jgit.lib;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
+import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
+import static org.eclipse.jgit.lib.Constants.OBJ_COMMIT;
+import static org.eclipse.jgit.lib.Constants.OBJ_TAG;
+import static org.eclipse.jgit.lib.Constants.OBJ_TREE;
+
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStreamWriter;
-import java.security.MessageDigest;
-import java.text.MessageFormat;
-import java.util.zip.Deflater;
-import java.util.zip.DeflaterOutputStream;
-
-import org.eclipse.jgit.JGitText;
-import org.eclipse.jgit.errors.ObjectWritingException;
 
 /**
  * A class for writing loose objects.
+ *
+ * @deprecated Use {@link Repository#newObjectInserter()}.
  */
 public class ObjectWriter {
-	private static final byte[] htree = Constants.encodeASCII("tree");
-
-	private static final byte[] hparent = Constants.encodeASCII("parent");
-
-	private static final byte[] hauthor = Constants.encodeASCII("author");
-
-	private static final byte[] hcommitter = Constants.encodeASCII("committer");
-
-	private static final byte[] hencoding = Constants.encodeASCII("encoding");
-
-	private final Repository r;
-
-	private final byte[] buf;
-
-	private final MessageDigest md;
+	private final ObjectInserter inserter;
 
 	/**
 	 * Construct an Object writer for the specified repository
+	 *
 	 * @param d
 	 */
 	public ObjectWriter(final Repository d) {
-		r = d;
-		buf = new byte[8192];
-		md = Constants.newMessageDigest();
+		inserter = d.newObjectInserter();
 	}
 
 	/**
 	 * Write a blob with the specified data
 	 *
-	 * @param b bytes of the blob
+	 * @param b
+	 *            bytes of the blob
 	 * @return SHA-1 of the blob
 	 * @throws IOException
 	 */
 	public ObjectId writeBlob(final byte[] b) throws IOException {
-		return writeBlob(b.length, new ByteArrayInputStream(b));
+		try {
+			ObjectId id = inserter.insert(OBJ_BLOB, b);
+			inserter.flush();
+			return id;
+		} finally {
+			inserter.release();
+		}
 	}
 
 	/**
@@ -130,174 +119,101 @@ public class ObjectWriter {
 	 */
 	public ObjectId writeBlob(final long len, final InputStream is)
 			throws IOException {
-		return writeObject(Constants.OBJ_BLOB, len, is, true);
+		try {
+			ObjectId id = inserter.insert(OBJ_BLOB, len, is);
+			inserter.flush();
+			return id;
+		} finally {
+			inserter.release();
+		}
 	}
 
 	/**
 	 * Write a Tree to the object database.
 	 *
-	 * @param t
+	 * @param tree
 	 *            Tree
 	 * @return SHA-1 of the tree
 	 * @throws IOException
 	 */
-	public ObjectId writeTree(final Tree t) throws IOException {
-		final ByteArrayOutputStream o = new ByteArrayOutputStream();
-		final TreeEntry[] items = t.members();
-		for (int k = 0; k < items.length; k++) {
-			final TreeEntry e = items[k];
-			final ObjectId id = e.getId();
-
-			if (id == null)
-				throw new ObjectWritingException(MessageFormat.format(
-						JGitText.get().objectAtPathDoesNotHaveId, e.getFullName()));
-
-			e.getMode().copyTo(o);
-			o.write(' ');
-			o.write(e.getNameUTF8());
-			o.write(0);
-			id.copyRawTo(o);
+	public ObjectId writeTree(Tree tree) throws IOException {
+		try {
+			ObjectId id = inserter.insert(OBJ_TREE, inserter.format(tree));
+			inserter.flush();
+			return id;
+		} finally {
+			inserter.release();
 		}
-		return writeCanonicalTree(o.toByteArray());
 	}
 
 	/**
 	 * Write a canonical tree to the object database.
 	 *
-	 * @param b
+	 * @param treeData
 	 *            the canonical encoding of the tree object.
 	 * @return SHA-1 of the tree
 	 * @throws IOException
 	 */
-	public ObjectId writeCanonicalTree(final byte[] b) throws IOException {
-		return writeTree(b.length, new ByteArrayInputStream(b));
-	}
-
-	private ObjectId writeTree(final long len, final InputStream is)
-			throws IOException {
-		return writeObject(Constants.OBJ_TREE, len, is, true);
+	public ObjectId writeCanonicalTree(byte[] treeData) throws IOException {
+		try {
+			ObjectId id = inserter.insert(OBJ_TREE, treeData);
+			inserter.flush();
+			return id;
+		} finally {
+			inserter.release();
+		}
 	}
 
 	/**
 	 * Write a Commit to the object database
 	 *
-	 * @param c
+	 * @param commit
 	 *            Commit to store
 	 * @return SHA-1 of the commit
 	 * @throws IOException
 	 */
-	public ObjectId writeCommit(final Commit c) throws IOException {
-		final ByteArrayOutputStream os = new ByteArrayOutputStream();
-		String encoding = c.getEncoding();
-		if (encoding == null)
-			encoding = Constants.CHARACTER_ENCODING;
-		final OutputStreamWriter w = new OutputStreamWriter(os, encoding);
-
-		os.write(htree);
-		os.write(' ');
-		c.getTreeId().copyTo(os);
-		os.write('\n');
-
-		ObjectId[] ps = c.getParentIds();
-		for (int i=0; i<ps.length; ++i) {
-			os.write(hparent);
-			os.write(' ');
-			ps[i].copyTo(os);
-			os.write('\n');
+	public ObjectId writeCommit(Commit commit) throws IOException {
+		try {
+			ObjectId id = inserter.insert(OBJ_COMMIT, inserter.format(commit));
+			inserter.flush();
+			return id;
+		} finally {
+			inserter.release();
 		}
-
-		os.write(hauthor);
-		os.write(' ');
-		w.write(c.getAuthor().toExternalString());
-		w.flush();
-		os.write('\n');
-
-		os.write(hcommitter);
-		os.write(' ');
-		w.write(c.getCommitter().toExternalString());
-		w.flush();
-		os.write('\n');
-
-		if (!encoding.equals(Constants.CHARACTER_ENCODING)) {
-			os.write(hencoding);
-			os.write(' ');
-			os.write(Constants.encodeASCII(encoding));
-			os.write('\n');
-		}
-
-		os.write('\n');
-		w.write(c.getMessage());
-		w.flush();
-
-		return writeCommit(os.toByteArray());
-	}
-
-	private ObjectId writeTag(final byte[] b) throws IOException {
-		return writeTag(b.length, new ByteArrayInputStream(b));
 	}
 
 	/**
 	 * Write an annotated Tag to the object database
 	 *
-	 * @param c
+	 * @param tag
 	 *            Tag
 	 * @return SHA-1 of the tag
 	 * @throws IOException
 	 */
-	public ObjectId writeTag(final Tag c) throws IOException {
-		final ByteArrayOutputStream os = new ByteArrayOutputStream();
-		final OutputStreamWriter w = new OutputStreamWriter(os,
-				Constants.CHARSET);
-
-		w.write("object ");
-		c.getObjId().copyTo(w);
-		w.write('\n');
-
-		w.write("type ");
-		w.write(c.getType());
-		w.write("\n");
-
-		w.write("tag ");
-		w.write(c.getTag());
-		w.write("\n");
-
-		w.write("tagger ");
-		w.write(c.getAuthor().toExternalString());
-		w.write('\n');
-
-		w.write('\n');
-		w.write(c.getMessage());
-		w.close();
-
-		return writeTag(os.toByteArray());
-	}
-
-	private ObjectId writeCommit(final byte[] b) throws IOException {
-		return writeCommit(b.length, new ByteArrayInputStream(b));
-	}
-
-	private ObjectId writeCommit(final long len, final InputStream is)
-			throws IOException {
-		return writeObject(Constants.OBJ_COMMIT, len, is, true);
-	}
-
-	private ObjectId writeTag(final long len, final InputStream is)
-		throws IOException {
-		return writeObject(Constants.OBJ_TAG, len, is, true);
+	public ObjectId writeTag(Tag tag) throws IOException {
+		try {
+			ObjectId id = inserter.insert(OBJ_TAG, inserter.format(tag));
+			inserter.flush();
+			return id;
+		} finally {
+			inserter.release();
+		}
 	}
 
 	/**
 	 * Compute the SHA-1 of a blob without creating an object. This is for
 	 * figuring out if we already have a blob or not.
 	 *
-	 * @param len number of bytes to consume
-	 * @param is stream for read blob data from
+	 * @param len
+	 *            number of bytes to consume
+	 * @param is
+	 *            stream for read blob data from
 	 * @return SHA-1 of a looked for blob
 	 * @throws IOException
 	 */
-	public ObjectId computeBlobSha1(final long len, final InputStream is)
+	public ObjectId computeBlobSha1(long len, InputStream is)
 			throws IOException {
-		return writeObject(Constants.OBJ_BLOB, len, is, false);
+		return computeObjectSha1(OBJ_BLOB, len, is);
 	}
 
 	/**
@@ -313,119 +229,12 @@ public class ObjectWriter {
 	 * @return SHA-1 of data combined with type information
 	 * @throws IOException
 	 */
-	public ObjectId computeObjectSha1(final int type, final long len, final InputStream is)
+	public ObjectId computeObjectSha1(int type, long len, InputStream is)
 			throws IOException {
-		return writeObject(type, len, is, false);
-	}
-
-	ObjectId writeObject(final int type, long len, final InputStream is,
-			boolean store) throws IOException {
-		final File t;
-		final DeflaterOutputStream deflateStream;
-		final FileOutputStream fileStream;
-		ObjectId id = null;
-		Deflater def = null;
-
-		if (store) {
-			t = File.createTempFile("noz", null, r.getObjectsDirectory());
-			fileStream = new FileOutputStream(t);
-		} else {
-			t = null;
-			fileStream = null;
-		}
-
-		md.reset();
-		if (store) {
-			def = new Deflater(r.getConfig().getCore().getCompression());
-			deflateStream = new DeflaterOutputStream(fileStream, def);
-		} else
-			deflateStream = null;
-
 		try {
-			byte[] header;
-			int n;
-
-			header = Constants.encodedTypeString(type);
-			md.update(header);
-			if (deflateStream != null)
-				deflateStream.write(header);
-
-			md.update((byte) ' ');
-			if (deflateStream != null)
-				deflateStream.write((byte) ' ');
-
-			header = Constants.encodeASCII(len);
-			md.update(header);
-			if (deflateStream != null)
-				deflateStream.write(header);
-
-			md.update((byte) 0);
-			if (deflateStream != null)
-				deflateStream.write((byte) 0);
-
-			while (len > 0
-					&& (n = is.read(buf, 0, (int) Math.min(len, buf.length))) > 0) {
-				md.update(buf, 0, n);
-				if (deflateStream != null)
-					deflateStream.write(buf, 0, n);
-				len -= n;
-			}
-
-			if (len != 0)
-				throw new IOException("Input did not match supplied length. "
-						+ len + " bytes are missing.");
-
-			if (deflateStream != null ) {
-				deflateStream.close();
-				if (t != null)
-					t.setReadOnly();
-			}
-
-			id = ObjectId.fromRaw(md.digest());
+			return inserter.idFor(type, len, is);
 		} finally {
-			if (id == null && deflateStream != null) {
-				try {
-					deflateStream.close();
-				} finally {
-					t.delete();
-				}
-			}
-			if (def != null) {
-				def.end();
-			}
+			inserter.release();
 		}
-
-		if (t == null)
-			return id;
-
-		if (r.hasObject(id)) {
-			// Object is already in the repository so remove
-			// the temporary file.
-			//
-			t.delete();
-		} else {
-			final File o = r.toFile(id);
-			if (!t.renameTo(o)) {
-				// Maybe the directory doesn't exist yet as the object
-				// directories are always lazily created. Note that we
-				// try the rename first as the directory likely does exist.
-				//
-				o.getParentFile().mkdir();
-				if (!t.renameTo(o)) {
-					if (!r.hasObject(id)) {
-						// The object failed to be renamed into its proper
-						// location and it doesn't exist in the repository
-						// either. We really don't know what went wrong, so
-						// fail.
-						//
-						t.delete();
-						throw new ObjectWritingException("Unable to"
-								+ " create new object: " + o);
-					}
-				}
-			}
-		}
-
-		return id;
 	}
 }
