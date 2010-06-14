@@ -66,7 +66,7 @@ import org.eclipse.jgit.errors.UnmergedPathException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.LockFile;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.ObjectWriter;
+import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.MutableInteger;
@@ -772,7 +772,9 @@ public class DirCache {
 	 * Write all index trees to the object store, returning the root tree.
 	 *
 	 * @param ow
-	 *            the writer to use when serializing to the store.
+	 *            the writer to use when serializing to the store. The caller is
+	 *            responsible for flushing the inserter before trying to use the
+	 *            returned tree identity.
 	 * @return identity for the root tree.
 	 * @throws UnmergedPathException
 	 *             one or more paths contain higher-order stages (stage > 0),
@@ -783,7 +785,7 @@ public class DirCache {
 	 * @throws IOException
 	 *             an unexpected error occurred writing to the object store.
 	 */
-	public ObjectId writeTree(final ObjectWriter ow)
+	public ObjectId writeTree(final ObjectInserter ow)
 			throws UnmergedPathException, IOException {
 		return getCacheTree(true).writeTree(sortedEntries, 0, 0, ow);
 	}

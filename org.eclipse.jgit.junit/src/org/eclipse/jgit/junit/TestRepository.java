@@ -79,7 +79,7 @@ import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectChecker;
 import org.eclipse.jgit.lib.ObjectDirectory;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.ObjectWriter;
+import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PackFile;
 import org.eclipse.jgit.lib.PackWriter;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -128,7 +128,7 @@ public class TestRepository<R extends Repository> {
 
 	private final RevWalk pool;
 
-	private final ObjectWriter writer;
+	private final ObjectInserter inserter;
 
 	private long now;
 
@@ -155,7 +155,7 @@ public class TestRepository<R extends Repository> {
 	public TestRepository(R db, RevWalk rw) throws IOException {
 		this.db = db;
 		this.pool = rw;
-		this.writer = new ObjectWriter(db);
+		this.inserter = db.newObjectInserter();
 		this.now = 1236977987000L;
 	}
 
@@ -205,7 +205,14 @@ public class TestRepository<R extends Repository> {
 	 * @throws Exception
 	 */
 	public RevBlob blob(final byte[] content) throws Exception {
-		return pool.lookupBlob(writer.writeBlob(content));
+		ObjectId id;
+		try {
+			id = inserter.insert(Constants.OBJ_BLOB, content);
+			inserter.flush();
+		} finally {
+			inserter.release();
+		}
+		return pool.lookupBlob(id);
 	}
 
 	/**
@@ -241,7 +248,14 @@ public class TestRepository<R extends Repository> {
 		for (final DirCacheEntry e : entries)
 			b.add(e);
 		b.finish();
-		return pool.lookupTree(dc.writeTree(writer));
+		ObjectId root;
+		try {
+			root = dc.writeTree(inserter);
+			inserter.flush();
+		} finally {
+			inserter.release();
+		}
+		return pool.lookupTree(root);
 	}
 
 	/**
@@ -351,7 +365,14 @@ public class TestRepository<R extends Repository> {
 		c.setAuthor(new PersonIdent(author, new Date(now)));
 		c.setCommitter(new PersonIdent(committer, new Date(now)));
 		c.setMessage("");
-		return pool.lookupCommit(writer.writeCommit(c));
+		ObjectId id;
+		try {
+			id = inserter.insert(Constants.OBJ_COMMIT, inserter.format(c));
+			inserter.flush();
+		} finally {
+			inserter.release();
+		}
+		return pool.lookupCommit(id);
 	}
 
 	/** @return a new commit builder. */
@@ -382,7 +403,14 @@ public class TestRepository<R extends Repository> {
 		t.setTag(name);
 		t.setTagger(new PersonIdent(committer, new Date(now)));
 		t.setMessage("");
-		return (RevTag) pool.lookupAny(writer.writeTag(t), Constants.OBJ_TAG);
+		ObjectId id;
+		try {
+			id = inserter.insert(Constants.OBJ_TAG, inserter.format(t));
+			inserter.flush();
+		} finally {
+			inserter.release();
+		}
+		return (RevTag) pool.lookupAny(id, Constants.OBJ_TAG);
 	}
 
 	/**
@@ -777,13 +805,21 @@ public class TestRepository<R extends Repository> {
 				TestRepository.this.tick(tick);
 
 				final Commit c = new Commit(db);
-				c.setTreeId(pool.lookupTree(tree.writeTree(writer)));
 				c.setParentIds(parents.toArray(new RevCommit[parents.size()]));
 				c.setAuthor(new PersonIdent(author, new Date(now)));
 				c.setCommitter(new PersonIdent(committer, new Date(now)));
 				c.setMessage(message);
 
-				self = pool.lookupCommit(writer.writeCommit(c));
+				ObjectId commitId;
+				try {
+					c.setTreeId(tree.writeTree(inserter));
+					commitId = inserter.insert(Constants.OBJ_COMMIT, inserter
+							.format(c));
+					inserter.flush();
+				} finally {
+					inserter.release();
+				}
+				self = pool.lookupCommit(commitId);
 
 				if (branch != null)
 					branch.update(self);
