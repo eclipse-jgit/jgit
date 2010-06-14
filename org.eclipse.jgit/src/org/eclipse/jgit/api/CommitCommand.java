@@ -54,13 +54,13 @@ import org.eclipse.jgit.errors.UnmergedPathException;
 import org.eclipse.jgit.lib.Commit;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.ObjectWriter;
+import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
-import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryState;
+import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
@@ -141,52 +141,59 @@ public class CommitCommand extends GitCommand<RevCommit> {
 			// lock the index
 			DirCache index = DirCache.lock(repo);
 			try {
-				ObjectWriter repoWriter = new ObjectWriter(repo);
+				ObjectInserter odi = repo.newObjectInserter();
+				try {
+					// Write the index as tree to the object database. This may
+					// fail for example when the index contains unmerged paths
+					// (unresolved conflicts)
+					ObjectId indexTreeId = index.writeTree(odi);
 
-				// Write the index as tree to the object database. This may fail
-				// for example when the index contains unmerged pathes
-				// (unresolved conflicts)
-				ObjectId indexTreeId = index.writeTree(repoWriter);
+					// Create a Commit object, populate it and write it
+					Commit commit = new Commit(repo);
+					commit.setCommitter(committer);
+					commit.setAuthor(author);
+					commit.setMessage(message);
 
-				// Create a Commit object, populate it and write it
-				Commit commit = new Commit(repo);
-				commit.setCommitter(committer);
-				commit.setAuthor(author);
-				commit.setMessage(message);
+					commit.setParentIds(parents.toArray(new ObjectId[] {}));
+					commit.setTreeId(indexTreeId);
+					ObjectId commitId = odi.insert(Constants.OBJ_COMMIT, odi
+							.format(commit));
+					odi.flush();
 
-				commit.setParentIds(parents.toArray(new ObjectId[]{}));
-				commit.setTreeId(indexTreeId);
-				ObjectId commitId = repoWriter.writeCommit(commit);
+					RevCommit revCommit = new RevWalk(repo)
+							.parseCommit(commitId);
+					RefUpdate ru = repo.updateRef(Constants.HEAD);
+					ru.setNewObjectId(commitId);
+					ru.setRefLogMessage("commit : "
+							+ revCommit.getShortMessage(), false);
 
-				RevCommit revCommit = new RevWalk(repo).parseCommit(commitId);
-				RefUpdate ru = repo.updateRef(Constants.HEAD);
-				ru.setNewObjectId(commitId);
-				ru.setRefLogMessage("commit : " + revCommit.getShortMessage(),
-						false);
-
-				ru.setExpectedOldObjectId(headId);
-				Result rc = ru.update();
-				switch (rc) {
-				case NEW:
-				case FAST_FORWARD:
-					setCallable(false);
-					if (state == RepositoryState.MERGING_RESOLVED) {
-						// Commit was successful. Now delete the files
-						// used for merge commits
-						new File(repo.getDirectory(), Constants.MERGE_HEAD)
-								.delete();
-						new File(repo.getDirectory(), Constants.MERGE_MSG)
-								.delete();
+					ru.setExpectedOldObjectId(headId);
+					Result rc = ru.update();
+					switch (rc) {
+					case NEW:
+					case FAST_FORWARD:
+						setCallable(false);
+						if (state == RepositoryState.MERGING_RESOLVED) {
+							// Commit was successful. Now delete the files
+							// used for merge commits
+							new File(repo.getDirectory(), Constants.MERGE_HEAD)
+									.delete();
+							new File(repo.getDirectory(), Constants.MERGE_MSG)
+									.delete();
+						}
+						return revCommit;
+					case REJECTED:
+					case LOCK_FAILURE:
+						throw new ConcurrentRefUpdateException(
+								JGitText.get().couldNotLockHEAD, ru.getRef(),
+								rc);
+					default:
+						throw new JGitInternalException(MessageFormat.format(
+								JGitText.get().updatingRefFailed,
+								Constants.HEAD, commitId.toString(), rc));
 					}
-					return revCommit;
-				case REJECTED:
-				case LOCK_FAILURE:
-					throw new ConcurrentRefUpdateException(
-							JGitText.get().couldNotLockHEAD, ru.getRef(), rc);
-				default:
-					throw new JGitInternalException(MessageFormat.format(
-							JGitText.get().updatingRefFailed
-							, Constants.HEAD, commitId.toString(), rc));
+				} finally {
+					odi.release();
 				}
 			} finally {
 				index.unlock();
