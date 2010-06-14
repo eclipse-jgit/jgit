@@ -245,7 +245,8 @@ public class Repository {
 		loadConfig();
 
 		if (workDir == null) {
-			String workTreeConfig = getConfig().getString("core", null, "worktree");
+			String workTreeConfig = getConfig().getString(
+					ConfigConstants.CONFIG_CORE_SECTION, null, "worktree");
 			if (workTreeConfig != null) {
 				workDir = fs.resolve(d, workTreeConfig);
 			} else {
@@ -268,10 +269,12 @@ public class Repository {
 
 		if (objectDatabase.exists()) {
 			final String repositoryFormatVersion = getConfig().getString(
-					"core", null, "repositoryFormatVersion");
+					ConfigConstants.CONFIG_CORE_SECTION, null,
+					"repositoryFormatVersion");
 			if (!"0".equals(repositoryFormatVersion)) {
 				throw new IOException(MessageFormat.format(
-						JGitText.get().unknownRepositoryFormat2, repositoryFormatVersion));
+						JGitText.get().unknownRepositoryFormat2,
+						repositoryFormatVersion));
 			}
 		}
 	}
@@ -280,8 +283,9 @@ public class Repository {
 		try {
 			userConfig.load();
 		} catch (ConfigInvalidException e1) {
-			IOException e2 = new IOException(MessageFormat.format(
-					JGitText.get().userConfigFileInvalid, userConfig.getFile().getAbsolutePath(), e1));
+			IOException e2 = new IOException(MessageFormat.format(JGitText
+					.get().userConfigFileInvalid, userConfig.getFile()
+					.getAbsolutePath(), e1));
 			e2.initCause(e1);
 			throw e2;
 		}
@@ -334,12 +338,17 @@ public class Repository {
 		head.disableRefLog();
 		head.link(Constants.R_HEADS + Constants.MASTER);
 
-		cfg.setInt("core", null, "repositoryformatversion", 0);
-		cfg.setBoolean("core", null, "filemode", true);
+		cfg.setInt(ConfigConstants.CONFIG_CORE_SECTION, null,
+				"repositoryformatversion", 0);
+		cfg.setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null, "filemode",
+				true);
 		if (bare)
-			cfg.setBoolean("core", null, "bare", true);
-		cfg.setBoolean("core", null, "logallrefupdates", !bare);
-		cfg.setBoolean("core", null, "autocrlf", false);
+			cfg.setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null, "bare",
+					true);
+		cfg.setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
+				"logallrefupdates", !bare);
+		cfg.setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null, "autocrlf",
+				false);
 		cfg.save();
 	}
 
@@ -1118,6 +1127,9 @@ public class Repository {
 	 * @throws IOException
 	 */
 	public GitIndex getIndex() throws IOException {
+		if (isBare())
+			throw new IllegalStateException(
+					JGitText.get().bareRepositoryNoWorkdirAndIndex);
 		if (index == null) {
 			index = new GitIndex(this);
 			index.read();
@@ -1131,6 +1143,9 @@ public class Repository {
 	 * @return the index file location
 	 */
 	public File getIndexFile() {
+		if (isBare())
+			throw new IllegalStateException(
+					JGitText.get().bareRepositoryNoWorkdirAndIndex);
 		return indexFile;
 	}
 
@@ -1270,9 +1285,38 @@ public class Repository {
 	}
 
 	/**
-	 * @return the workdir file, i.e. where the files are checked out
+	 * @return the "bare"-ness of this Repository
 	 */
-	public File getWorkDir() {
+	public boolean isBare() {
+		// first, check if the configuration was set to "bare":
+		boolean bare = getConfig().getBoolean(
+				ConfigConstants.CONFIG_CORE_SECTION,
+				ConfigConstants.CONFIG_KEY_BARE, false);
+		if (bare)
+			return true;
+		// now, let's see if a worktree was configured
+		String workTree = getConfig().getString(
+				ConfigConstants.CONFIG_CORE_SECTION, null, "worktree");
+		if (workTree != null)
+			// if the worktree was configured, we assume that we are not bare
+			return false;
+
+		// if the directory is .git, then we are probably not bare
+		if (getDirectory().getName().equals(Constants.DOT_GIT))
+			return false;
+
+		return true;
+	}
+
+	/**
+	 * @return the workdir file, i.e. where the files are checked out
+	 * @throws IllegalStateException
+	 *             if the repository is "bare"
+	 */
+	public File getWorkDir() throws IllegalStateException {
+		if (isBare())
+			throw new IllegalStateException(
+					JGitText.get().bareRepositoryNoWorkdirAndIndex);
 		return workDir;
 	}
 
