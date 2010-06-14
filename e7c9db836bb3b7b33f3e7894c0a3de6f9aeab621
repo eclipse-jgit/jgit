@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALu3///i0\u003d",
+        "filename": "org.eclipse.jgit.iplog/src/org/eclipse/jgit/iplog/IpLogGenerator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-06-14T23:58:17Z",
+      "side": 1,
+      "message": "Yikes.  Thanks for fixing this.",
+      "revId": "e7c9db836bb3b7b33f3e7894c0a3de6f9aeab621",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
