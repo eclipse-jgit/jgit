@@ -123,11 +123,15 @@ public class ReadTreeTest extends RepositoryTestCase {
 	}
 
 	ObjectId genSha1(String data) {
-		ObjectWriter objectWriter = new ObjectWriter(db);
+		ObjectInserter w = db.newObjectInserter();
 		try {
-			return objectWriter.writeBlob(data.getBytes());
+			ObjectId id = w.insert(Constants.OBJ_BLOB, data.getBytes());
+			w.flush();
+			return id;
 		} catch (IOException e) {
 			fail(e.toString());
+		} finally {
+			w.release();
 		}
 		return null;
 	}

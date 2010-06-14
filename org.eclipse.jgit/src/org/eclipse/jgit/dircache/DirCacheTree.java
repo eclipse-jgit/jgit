@@ -57,7 +57,7 @@ import org.eclipse.jgit.errors.UnmergedPathException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.ObjectWriter;
+import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.util.MutableInteger;
 import org.eclipse.jgit.util.RawParseUtils;
 
@@ -311,7 +311,7 @@ public class DirCacheTree {
 	 *             an unexpected error occurred writing to the object store.
 	 */
 	ObjectId writeTree(final DirCacheEntry[] cache, int cIdx,
-			final int pathOffset, final ObjectWriter ow)
+			final int pathOffset, final ObjectInserter ow)
 			throws UnmergedPathException, IOException {
 		if (id == null) {
 			final int endIdx = cIdx + entrySpan;
@@ -346,13 +346,13 @@ public class DirCacheTree {
 				entryIdx++;
 			}
 
-			id = ow.writeCanonicalTree(out.toByteArray());
+			id = ow.insert(Constants.OBJ_TREE, out.toByteArray());
 		}
 		return id;
 	}
 
 	private int computeSize(final DirCacheEntry[] cache, int cIdx,
-			final int pathOffset, final ObjectWriter ow)
+			final int pathOffset, final ObjectInserter ow)
 			throws UnmergedPathException, IOException {
 		final int endIdx = cIdx + entrySpan;
 		int childIdx = 0;
