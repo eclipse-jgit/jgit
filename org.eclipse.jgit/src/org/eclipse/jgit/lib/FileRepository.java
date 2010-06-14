@@ -249,12 +249,17 @@ public class FileRepository extends Repository {
 		}
 
 		refs = new RefDirectory(this);
-		if (objectDir != null)
-			objectDatabase = new ObjectDirectory(fs.resolve(objectDir, ""),
-					alternateObjectDir, fs);
-		else
-			objectDatabase = new ObjectDirectory(fs.resolve(gitDir, "objects"),
-					alternateObjectDir, fs);
+		if (objectDir != null) {
+			objectDatabase = new ObjectDirectory(repoConfig, //
+					fs.resolve(objectDir, ""), //
+					alternateObjectDir, //
+					fs);
+		} else {
+			objectDatabase = new ObjectDirectory(repoConfig, //
+					fs.resolve(gitDir, "objects"), //
+					alternateObjectDir, //
+					fs);
+		}
 
 		if (indexFile != null)
 			this.indexFile = indexFile;
