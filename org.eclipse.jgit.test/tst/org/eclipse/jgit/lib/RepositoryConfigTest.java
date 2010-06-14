@@ -49,6 +49,7 @@ package org.eclipse.jgit.lib;
 
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.Set;
 
 import junit.framework.TestCase;
 
@@ -311,6 +312,43 @@ public class RepositoryConfigTest extends TestCase {
 				+ "\n"
 				+ "[core-section-not-to-remove-in-test]\n"
 				+ "  packedGitLimit = 14\n", c.toText());
+	}
+
+	public void test008_readSectionNames() throws ConfigInvalidException {
+		final Config c = parse("[a]\n [B]\n");
+		Set<String> sections = c.getSections();
+		assertTrue("Sections should contain \"a\"", sections.contains("a"));
+		assertTrue("Sections should contain \"b\"", sections.contains("b"));
+	}
+
+	public void test009_readNamesInSection() throws ConfigInvalidException {
+		String configString = "[core]\n" + "repositoryformatversion = 0\n"
+				+ "filemode = false\n" + "logallrefupdates = true\n";
+		final Config c = parse(configString);
+		Set<String> names = c.getNames("core");
+		assertEquals("Core section size", 3, names.size());
+		assertTrue("Core section should contain \"filemode\"", names
+				.contains("filemode"));
+	}
+
+	public void test010_readNamesInSubSection() throws ConfigInvalidException {
+		String configString = "[a \"sub1\"]\n"//
+				+ "x = 0\n" //
+				+ "y = false\n"//
+				+ "z = true\n"//
+				+ "[a \"sub2\"]\n"//
+				+ "a=0\n"//
+				+ "b=1\n";
+		final Config c = parse(configString);
+		Set<String> names = c.getNames("a", "sub1");
+		assertEquals("Subsection size", 3, names.size());
+		assertTrue("Subsection should contain \"x\"", names.contains("x"));
+		assertTrue("Subsection should contain \"y\"", names.contains("y"));
+		assertTrue("Subsection should contain \"z\"", names.contains("z"));
+		names = c.getNames("a", "sub2");
+		assertEquals("Subsection size", 2, names.size());
+		assertTrue("Subsection should contain \"a\"", names.contains("a"));
+		assertTrue("Subsection should contain \"b\"", names.contains("b"));
 	}
 
 	private void assertReadLong(long exp) throws ConfigInvalidException {
