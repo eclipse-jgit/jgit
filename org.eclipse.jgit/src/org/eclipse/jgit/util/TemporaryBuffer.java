@@ -139,6 +139,19 @@ public abstract class TemporaryBuffer extends OutputStream {
 	}
 
 	/**
+	 * Dumps the entire buffer into the overflow stream, and flushes it.
+	 *
+	 * @throws IOException
+	 *             the overflow stream cannot be started, or the buffer contents
+	 *             cannot be written to it, or it failed to flush.
+	 */
+	protected void doFlush() throws IOException {
+		if (overflow == null)
+			switchToOverflow();
+		overflow.flush();
+	}
+
+	/**
 	 * Copy all bytes remaining on the input stream into this buffer.
 	 *
 	 * @param in
@@ -260,6 +273,11 @@ public abstract class TemporaryBuffer extends OutputStream {
 		if (blocks.size() * Block.SZ < inCoreLimit)
 			return false;
 
+		switchToOverflow();
+		return true;
+	}
+
+	private void switchToOverflow() throws IOException {
 		overflow = overflow();
 
 		final Block last = blocks.remove(blocks.size() - 1);
@@ -269,7 +287,6 @@ public abstract class TemporaryBuffer extends OutputStream {
 
 		overflow = new BufferedOutputStream(overflow, Block.SZ);
 		overflow.write(last.buffer, 0, last.count);
-		return true;
 	}
 
 	public void close() throws IOException {
