@@ -112,7 +112,7 @@ public class AsIsServiceTest extends LocalDiskRepositoryTestCase {
 		service.access(new R("bob", "1.2.3.4"), db);
 	}
 
-	private final class R extends HttpServletRequestWrapper {
+	private static final class R extends HttpServletRequestWrapper {
 		private final String user;
 
 		private final String host;

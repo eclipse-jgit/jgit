@@ -96,7 +96,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
  * <p>
  */
 class RebuildCommitGraph extends TextBuiltin {
-	private final String REALLY = "--destroy-this-repository";
+	private static final String REALLY = "--destroy-this-repository";
 
 	@Option(name = REALLY, usage = "usage_approveDestructionOfRepository")
 	boolean really;

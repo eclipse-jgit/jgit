@@ -236,36 +236,40 @@ public class IpLogGenerator {
 		SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		File list = new File(repo.getDirectory(), "gerrit_committers");
 		BufferedReader br = new BufferedReader(new FileReader(list));
-		String line;
+		try {
+			String line;
 
-		while ((line = br.readLine()) != null) {
-			String[] field = line.trim().split(" *\\| *");
-			String user = field[1];
-			String name = field[2];
-			String email = field[3];
-			Date begin = parseDate(dt, field[4]);
-			Date end = parseDate(dt, field[5]);
+			while ((line = br.readLine()) != null) {
+				String[] field = line.trim().split(" *\\| *");
+				String user = field[1];
+				String name = field[2];
+				String email = field[3];
+				Date begin = parseDate(dt, field[4]);
+				Date end = parseDate(dt, field[5]);
 
-			if (user.startsWith("username:"))
-				user = user.substring("username:".length());
+				if (user.startsWith("username:"))
+					user = user.substring("username:".length());
 
-			Committer who = committersById.get(user);
-			if (who == null) {
-				who = new Committer(user);
-				int sp = name.indexOf(' ');
-				if (0 < sp) {
-					who.setFirstName(name.substring(0, sp).trim());
-					who.setLastName(name.substring(sp + 1).trim());
-				} else {
-					who.setFirstName(name);
-					who.setLastName(null);
+				Committer who = committersById.get(user);
+				if (who == null) {
+					who = new Committer(user);
+					int sp = name.indexOf(' ');
+					if (0 < sp) {
+						who.setFirstName(name.substring(0, sp).trim());
+						who.setLastName(name.substring(sp + 1).trim());
+					} else {
+						who.setFirstName(name);
+						who.setLastName(null);
+					}
+					committersById.put(who.getID(), who);
 				}
-				committersById.put(who.getID(), who);
-			}
 
-			who.addEmailAddress(email);
-			who.addActiveRange(new ActiveRange(begin, end));
-			committersByEmail.put(email, who);
+				who.addEmailAddress(email);
+				who.addActiveRange(new ActiveRange(begin, end));
+				committersByEmail.put(email, who);
+			}
+		} finally {
+			br.close();
 		}
 	}
 
