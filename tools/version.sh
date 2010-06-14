@@ -109,13 +109,13 @@ API_N=$(perl -e '
 	print "$a.$b.0";
 	' "$API_V")
 
-perl -pi -e '
+perl -pi~ -e '
 	s/^(Bundle-Version:\s*).*$/${1}'"$OSGI_V"'/;
 	s/(org.eclipse.jgit.*;version=")[^"[(]*(")/${1}'"$API_V"'${2}/;
 	s/(org.eclipse.jgit.*;version="\[)[^"]*(\)")/${1}'"$API_V,$API_N"'${2}/;
 	' $(git ls-files | grep META-INF/MANIFEST.MF)
 
-perl -pi -e '
+perl -pi~ -e '
 	if ($ARGV ne $old_argv) {
 		$seen_version = 0;
 		$old_argv = $ARGV;
@@ -126,11 +126,11 @@ perl -pi -e '
 	}
 	' org.eclipse.jgit.packaging/org.*.feature/feature.xml
 
-perl -pi -e '
+perl -pi~ -e '
 	s{<(version)>.*</\1>}{<${1}>'"$POM_V"'</${1}>};
 	' org.eclipse.jgit.packaging/org.*.feature/pom.xml
 
-perl -pi -e '
+perl -pi~ -e '
 	if ($ARGV ne $old_argv) {
 		$seen_version = 0;
 		$old_argv = $ARGV;
@@ -141,7 +141,7 @@ perl -pi -e '
 	}
 	' org.eclipse.jgit.packaging/org.eclipse.jgit.updatesite/pom.xml
 
-perl -pi -e '
+perl -pi~ -e '
 	if ($ARGV ne $old_argv) {
 		$seen_version = 0;
 		$old_argv = $ARGV;
@@ -152,4 +152,5 @@ perl -pi -e '
 	}
 	' $(git ls-files | grep pom.xml)
 
+find . -name '*~' | xargs rm -f
 git diff
