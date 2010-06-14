@@ -74,7 +74,6 @@ public class CoreConfig {
 	}
 
 	/**
-	 * @see ObjectWriter
 	 * @return The compression level to use when storing loose objects
 	 */
 	public int getCompression() {

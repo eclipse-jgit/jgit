@@ -46,10 +46,8 @@
 
 package org.eclipse.jgit.lib;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -125,11 +123,9 @@ public class ReadTreeTest extends RepositoryTestCase {
 	}
 
 	ObjectId genSha1(String data) {
-		InputStream is = new ByteArrayInputStream(data.getBytes());
 		ObjectWriter objectWriter = new ObjectWriter(db);
 		try {
-			return objectWriter.writeObject(Constants.OBJ_BLOB, data
-					.getBytes().length, is, true);
+			return objectWriter.writeBlob(data.getBytes());
 		} catch (IOException e) {
 			fail(e.toString());
 		}
