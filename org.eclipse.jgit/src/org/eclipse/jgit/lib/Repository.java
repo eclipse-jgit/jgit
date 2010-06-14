@@ -277,12 +277,17 @@ public class Repository {
 		}
 
 		refs = new RefDirectory(this);
-		if (objectDir != null)
-			objectDatabase = new ObjectDirectory(fs.resolve(objectDir, ""),
-					alternateObjectDir, fs);
-		else
-			objectDatabase = new ObjectDirectory(fs.resolve(gitDir, "objects"),
-					alternateObjectDir, fs);
+		if (objectDir != null) {
+			objectDatabase = new ObjectDirectory(config, //
+					fs.resolve(objectDir, ""), //
+					alternateObjectDir, //
+					fs);
+		} else {
+			objectDatabase = new ObjectDirectory(config, //
+					fs.resolve(gitDir, "objects"), //
+					alternateObjectDir, //
+					fs);
+		}
 
 		if (indexFile != null)
 			this.indexFile = indexFile;
@@ -394,6 +399,11 @@ public class Repository {
 	 */
 	public ObjectDatabase getObjectDatabase() {
 		return objectDatabase;
+	}
+
+	/** @return a new inserter to create objects in {@link #getObjectDatabase()} */
+	public ObjectInserter newObjectInserter() {
+		return getObjectDatabase().newInserter();
 	}
 
 	/** @return the reference database which stores the reference namespace. */
