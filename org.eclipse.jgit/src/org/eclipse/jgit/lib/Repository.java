@@ -245,7 +245,7 @@ public class Repository {
 		loadConfig();
 
 		if (workDir == null) {
-			String workTreeConfig = getConfig().getString("core", null, "worktree");
+			String workTreeConfig = getConfig().getString(Constants.CONFIG_CORE_SECTION, null, "worktree");
 			if (workTreeConfig != null) {
 				workDir = fs.resolve(d, workTreeConfig);
 			} else {
@@ -268,7 +268,7 @@ public class Repository {
 
 		if (objectDatabase.exists()) {
 			final String repositoryFormatVersion = getConfig().getString(
-					"core", null, "repositoryFormatVersion");
+					Constants.CONFIG_CORE_SECTION, null, "repositoryFormatVersion");
 			if (!"0".equals(repositoryFormatVersion)) {
 				throw new IOException(MessageFormat.format(
 						JGitText.get().unknownRepositoryFormat2, repositoryFormatVersion));
@@ -334,12 +334,12 @@ public class Repository {
 		head.disableRefLog();
 		head.link(Constants.R_HEADS + Constants.MASTER);
 
-		cfg.setInt("core", null, "repositoryformatversion", 0);
-		cfg.setBoolean("core", null, "filemode", true);
+		cfg.setInt(Constants.CONFIG_CORE_SECTION, null, "repositoryformatversion", 0);
+		cfg.setBoolean(Constants.CONFIG_CORE_SECTION, null, "filemode", true);
 		if (bare)
-			cfg.setBoolean("core", null, "bare", true);
-		cfg.setBoolean("core", null, "logallrefupdates", !bare);
-		cfg.setBoolean("core", null, "autocrlf", false);
+			cfg.setBoolean(Constants.CONFIG_CORE_SECTION, null, "bare", true);
+		cfg.setBoolean(Constants.CONFIG_CORE_SECTION, null, "logallrefupdates", !bare);
+		cfg.setBoolean(Constants.CONFIG_CORE_SECTION, null, "autocrlf", false);
 		cfg.save();
 	}
 
@@ -1271,8 +1271,13 @@ public class Repository {
 
 	/**
 	 * @return the workdir file, i.e. where the files are checked out
+	 * @throws IllegalStateException
+	 *             if the repository is "bare"
 	 */
-	public File getWorkDir() {
+	public File getWorkDir() throws IllegalStateException {
+		if (getConfig().getBoolean(Constants.CONFIG_CORE_SECTION, Constants.CONFIG_KEY_BARE, false))
+			throw new IllegalStateException(
+					"Bare Repository does not have a working directory");
 		return workDir;
 	}
 

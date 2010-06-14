@@ -124,6 +124,12 @@ public final class Constants {
 	/** An unknown or invalid object type code. */
 	public static final int OBJ_BAD = -1;
 
+	/** The "core" section */
+	public static final String CONFIG_CORE_SECTION = "core";
+
+	/** The "bare" key */
+	public static final String CONFIG_KEY_BARE = "bare";
+
 	/**
 	 * In-pack object type: extended types.
 	 * <p>
