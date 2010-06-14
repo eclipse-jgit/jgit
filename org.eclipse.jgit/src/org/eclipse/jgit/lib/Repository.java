@@ -1271,8 +1271,13 @@ public class Repository {
 
 	/**
 	 * @return the workdir file, i.e. where the files are checked out
+	 * @throws IllegalStateException
+	 *             if the repository is "bare"
 	 */
-	public File getWorkDir() {
+	public File getWorkDir() throws IllegalStateException {
+		if (getConfig().getBoolean("core", "bare", false))
+			throw new IllegalStateException(
+					"Bare Repository does not have a working directory");
 		return workDir;
 	}
 
