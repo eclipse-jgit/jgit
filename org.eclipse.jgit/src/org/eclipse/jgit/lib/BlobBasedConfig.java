@@ -117,12 +117,12 @@ public class BlobBasedConfig extends Config {
 			throws FileNotFoundException, IOException, ConfigInvalidException {
 		super(base);
 		final ObjectId treeId = commit.getTreeId();
-		final Repository r = commit.getRepository();
+		final GitRepository r = commit.getRepository();
 		final TreeWalk tree = TreeWalk.forPath(r, path, treeId);
 		if (tree == null)
 			throw new FileNotFoundException(MessageFormat.format(JGitText.get().entryNotFoundByPath, path));
 		final ObjectId blobId = tree.getObjectId(0);
-		final ObjectLoader loader = tree.getRepository().openBlob(blobId);
+		final ObjectLoader loader = tree.getRepository().openObject(blobId);
 		if (loader == null)
 			throw new IOException(MessageFormat.format(JGitText.get().blobNotFoundForPath
 					, blobId, path));

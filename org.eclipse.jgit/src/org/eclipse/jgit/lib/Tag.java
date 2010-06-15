@@ -58,7 +58,7 @@ import org.eclipse.jgit.errors.ObjectWritingException;
  * Represents a named reference to another Git object of any type.
  */
 public class Tag {
-	private final Repository objdb;
+	private final GitRepository objdb;
 
 	private ObjectId tagId;
 
@@ -79,7 +79,7 @@ public class Tag {
 	 *
 	 * @param db
 	 */
-	public Tag(final Repository db) {
+	public Tag(final GitRepository db) {
 		objdb = db;
 	}
 
@@ -92,7 +92,7 @@ public class Tag {
 	 * @param refName tag name or null
 	 * @param raw data of an annotated tag.
 	 */
-	public Tag(final Repository db, final ObjectId id, String refName, final byte[] raw) {
+	public Tag(final GitRepository db, final ObjectId id, String refName, final byte[] raw) {
 		objdb = db;
 		if (raw != null) {
 			tagId = id;

@@ -53,6 +53,7 @@ import java.util.Set;
 
 import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -65,7 +66,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
 /** Specialized RevWalk for visualization of a commit graph. */
 public class PlotWalk extends RevWalk {
 
-	private Map<AnyObjectId, Set<Ref>> reverseRefMap;
+	private Map<ObjectId, Set<Ref>> reverseRefMap;
 
 	@Override
 	public void dispose() {

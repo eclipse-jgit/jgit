@@ -55,12 +55,12 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TimeZone;
 
-import org.kohsuke.args4j.Option;
-import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.kohsuke.args4j.Option;
 
 @Command(common = true, usage = "usage_viewCommitHistory")
 class Log extends RevWalkTextBuiltin {
@@ -68,7 +68,7 @@ class Log extends RevWalkTextBuiltin {
 
 	private final DateFormat fmt;
 
-	private Map<AnyObjectId, Set<Ref>> allRefsByPeeledObjectId;
+	private Map<ObjectId, Set<Ref>> allRefsByPeeledObjectId;
 
 	@Option(name="--decorate", usage="usage_showRefNamesMatchingCommits")
 	private boolean decorate;

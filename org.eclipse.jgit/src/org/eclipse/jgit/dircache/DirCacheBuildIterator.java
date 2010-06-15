@@ -50,7 +50,7 @@ import java.io.IOException;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.GitRepository;
 import org.eclipse.jgit.treewalk.AbstractTreeIterator;
 
 /**
@@ -106,7 +106,7 @@ public class DirCacheBuildIterator extends DirCacheIterator {
 	}
 
 	@Override
-	public AbstractTreeIterator createSubtreeIterator(final Repository repo)
+	public AbstractTreeIterator createSubtreeIterator(final GitRepository repo)
 			throws IncorrectObjectTypeException, IOException {
 		if (currentSubtree == null)
 			throw new IncorrectObjectTypeException(getEntryObjectId(),

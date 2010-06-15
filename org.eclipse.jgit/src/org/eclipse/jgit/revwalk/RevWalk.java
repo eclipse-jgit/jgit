@@ -57,6 +57,7 @@ import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.RevWalkException;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.GitRepository;
 import org.eclipse.jgit.lib.MutableObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdSubclassMap;
@@ -157,7 +158,7 @@ public class RevWalk implements Iterable<RevCommit> {
 
 	private static final int APP_FLAGS = -1 & ~((1 << RESERVED_FLAGS) - 1);
 
-	final Repository db;
+	final GitRepository db;
 
 	final WindowCursor curs;
 
@@ -191,7 +192,7 @@ public class RevWalk implements Iterable<RevCommit> {
 	 * @param repo
 	 *            the repository the walker will obtain data from.
 	 */
-	public RevWalk(final Repository repo) {
+	public RevWalk(final GitRepository repo) {
 		db = repo;
 		curs = new WindowCursor();
 		idBuffer = new MutableObjectId();
@@ -210,7 +211,7 @@ public class RevWalk implements Iterable<RevCommit> {
 	 *
 	 * @return the repository this walker was created to read.
 	 */
-	public Repository getRepository() {
+	public GitRepository getRepository() {
 		return db;
 	}
 

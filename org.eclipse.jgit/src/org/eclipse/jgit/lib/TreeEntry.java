@@ -117,7 +117,7 @@ public abstract class TreeEntry implements Comparable {
 	/**
 	 * @return the repository owning this entry.
 	 */
-	public Repository getRepository() {
+	public GitRepository getRepository() {
 		return getParent().getRepository();
 	}
 

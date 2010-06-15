@@ -62,7 +62,7 @@ import org.eclipse.jgit.errors.MissingObjectException;
 public class Commit implements Treeish {
 	private static final ObjectId[] EMPTY_OBJECTID_LIST = new ObjectId[0];
 
-	private final Repository objdb;
+	private final GitRepository objdb;
 
 	private ObjectId commitId;
 
@@ -89,7 +89,7 @@ public class Commit implements Treeish {
 	 * @param db
 	 *            The repository with which to associate it.
 	 */
-	public Commit(final Repository db) {
+	public Commit(final GitRepository db) {
 		objdb = db;
 		parentIds = EMPTY_OBJECTID_LIST;
 	}
@@ -103,7 +103,7 @@ public class Commit implements Treeish {
 	 * @param parentIds
 	 *            Id's of the parent(s)
 	 */
-	public Commit(final Repository db, final ObjectId[] parentIds) {
+	public Commit(final GitRepository db, final ObjectId[] parentIds) {
 		objdb = db;
 		this.parentIds = parentIds;
 	}
@@ -119,7 +119,7 @@ public class Commit implements Treeish {
 	 * @param raw
 	 *            Raw commit object data
 	 */
-	public Commit(final Repository db, final ObjectId id, final byte[] raw) {
+	public Commit(final GitRepository db, final ObjectId id, final byte[] raw) {
 		objdb = db;
 		commitId = id;
 		treeId = ObjectId.fromString(raw, 5);
@@ -159,7 +159,7 @@ public class Commit implements Treeish {
 	/**
 	 * @return get repository for the commit
 	 */
-	public Repository getRepository() {
+	public GitRepository getRepository() {
 		return objdb;
 	}
 
@@ -198,11 +198,11 @@ public class Commit implements Treeish {
 
 	public Tree getTree() throws IOException {
 		if (treeObj == null) {
-			treeObj = objdb.mapTree(getTreeId());
-			if (treeObj == null) {
+			ObjectLoader or = getRepository().openObject(getTreeId());
+			if (or == null)
 				throw new MissingObjectException(getTreeId(),
 						Constants.TYPE_TREE);
-			}
+			treeObj = new Tree(getRepository(), getTreeId(), or.getBytes());
 		}
 		return treeObj;
 	}

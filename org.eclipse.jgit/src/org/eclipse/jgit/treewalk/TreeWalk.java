@@ -54,6 +54,7 @@ import org.eclipse.jgit.errors.StopWalkException;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
+import org.eclipse.jgit.lib.GitRepository;
 import org.eclipse.jgit.lib.MutableObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
@@ -109,7 +110,7 @@ public class TreeWalk {
 	 * @throws MissingObjectException
 	 *             a tree object was not found.
 	 */
-	public static TreeWalk forPath(final Repository db, final String path,
+	public static TreeWalk forPath(final GitRepository db, final String path,
 			final AnyObjectId... trees) throws MissingObjectException,
 			IncorrectObjectTypeException, CorruptObjectException, IOException {
 		final TreeWalk r = new TreeWalk(db);
@@ -151,7 +152,7 @@ public class TreeWalk {
 		return forPath(db, path, new ObjectId[] { tree });
 	}
 
-	private final Repository db;
+	private final GitRepository db;
 
 	private final MutableObjectId idBuffer = new MutableObjectId();
 
@@ -179,7 +180,7 @@ public class TreeWalk {
 	 * @param repo
 	 *            the repository the walker will obtain data from.
 	 */
-	public TreeWalk(final Repository repo) {
+	public TreeWalk(final GitRepository repo) {
 		db = repo;
 		filter = TreeFilter.ALL;
 		trees = new AbstractTreeIterator[] { new EmptyTreeIterator() };
@@ -190,7 +191,7 @@ public class TreeWalk {
 	 *
 	 * @return the repository configured when the walker was created.
 	 */
-	public Repository getRepository() {
+	public GitRepository getRepository() {
 		return db;
 	}
 

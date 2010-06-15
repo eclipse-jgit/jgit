@@ -54,7 +54,7 @@ import java.io.InputStream;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
-import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.GitRepository;
 import org.eclipse.jgit.util.FS;
 
 /**
@@ -103,7 +103,7 @@ public class FileTreeIterator extends WorkingTreeIterator {
 	}
 
 	@Override
-	public AbstractTreeIterator createSubtreeIterator(final Repository repo)
+	public AbstractTreeIterator createSubtreeIterator(final GitRepository repo)
 			throws IncorrectObjectTypeException, IOException {
 		return new FileTreeIterator(this, ((FileEntry) current()).file, fs);
 	}

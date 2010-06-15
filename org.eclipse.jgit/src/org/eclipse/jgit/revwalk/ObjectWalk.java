@@ -53,7 +53,7 @@ import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
-import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.GitRepository;
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
 
 /**
@@ -96,7 +96,7 @@ public class ObjectWalk extends RevWalk {
 	 * @param repo
 	 *            the repository the walker will obtain data from.
 	 */
-	public ObjectWalk(final Repository repo) {
+	public ObjectWalk(final GitRepository repo) {
 		super(repo);
 		pendingObjects = new BlockObjQueue();
 		treeWalk = new CanonicalTreeParser();
