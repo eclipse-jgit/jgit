@@ -168,15 +168,15 @@ public class Repository {
 	 *            for default value in which case it depends on GIT_WORK_TREE.
 	 * @param workTree
 	 *            GIT_WORK_TREE (the root of the checkout). May be null for
-	 *            default value if GIT_DIR is
+	 *            default value if GIT_DIR is provided.
 	 * @param objectDir
 	 *            GIT_OBJECT_DIRECTORY (where objects and are stored). May be
 	 *            null for default value. Relative names ares resolved against
-	 *            GIT_WORK_TREE
+	 *            GIT_WORK_TREE.
 	 * @param alternateObjectDir
 	 *            GIT_ALTERNATE_OBJECT_DIRECTORIES (where more objects are read
 	 *            from). May be null for default value. Relative names ares
-	 *            resolved against GIT_WORK_TREE
+	 *            resolved against GIT_WORK_TREE.
 	 * @param indexFile
 	 *            GIT_INDEX_FILE (the location of the index file). May be null
 	 *            for default value. Relative names ares resolved against
@@ -199,15 +199,15 @@ public class Repository {
 	 *            for default value in which case it depends on GIT_WORK_TREE.
 	 * @param workTree
 	 *            GIT_WORK_TREE (the root of the checkout). May be null for
-	 *            default value if GIT_DIR is
+	 *            default value if GIT_DIR is provided.
 	 * @param objectDir
 	 *            GIT_OBJECT_DIRECTORY (where objects and are stored). May be
 	 *            null for default value. Relative names ares resolved against
-	 *            GIT_WORK_TREE
+	 *            GIT_WORK_TREE.
 	 * @param alternateObjectDir
 	 *            GIT_ALTERNATE_OBJECT_DIRECTORIES (where more objects are read
 	 *            from). May be null for default value. Relative names ares
-	 *            resolved against GIT_WORK_TREE
+	 *            resolved against GIT_WORK_TREE.
 	 * @param indexFile
 	 *            GIT_INDEX_FILE (the location of the index file). May be null
 	 *            for default value. Relative names ares resolved against
@@ -220,8 +220,8 @@ public class Repository {
 	 *             accessed.
 	 */
 	public Repository(final File d, final File workTree, final File objectDir,
-			final File[] alternateObjectDir, final File indexFile,
-			FS fs) throws IOException {
+			final File[] alternateObjectDir, final File indexFile, FS fs)
+			throws IOException {
 
 		if (workTree != null) {
 			workDir = workTree;
@@ -233,7 +233,8 @@ public class Repository {
 			if (d != null)
 				gitDir = d;
 			else
-				throw new IllegalArgumentException(JGitText.get().eitherGIT_DIRorGIT_WORK_TREEmustBePassed);
+				throw new IllegalArgumentException(
+						JGitText.get().eitherGIT_DIRorGIT_WORK_TREEmustBePassed);
 		}
 
 		this.fs = fs;
@@ -245,11 +246,33 @@ public class Repository {
 		loadConfig();
 
 		if (workDir == null) {
-			String workTreeConfig = getConfig().getString("core", null, "worktree");
+			// if the working directory was not provided explicitly,
+			// we need to decide if this is a "bare" repository or not
+			// first, we check the working tree configuration
+			String workTreeConfig = getConfig().getString(
+					ConfigConstants.CONFIG_CORE_SECTION, null,
+					ConfigConstants.CONFIG_KEY_WORKTREE);
 			if (workTreeConfig != null) {
+				// the working tree configuration wins
 				workDir = fs.resolve(d, workTreeConfig);
-			} else {
+			} else if (getConfig().getString(
+					ConfigConstants.CONFIG_CORE_SECTION, null,
+					ConfigConstants.CONFIG_KEY_BARE) != null) {
+				// we have asserted that a value for the "bare" flag was set
+				if (!getConfig().getBoolean(ConfigConstants.CONFIG_CORE_SECTION,
+						ConfigConstants.CONFIG_KEY_BARE, true))
+					// the "bare" flag is false -> use the parent of the
+					// meta data directory
+					workDir = gitDir.getParentFile();
+				else
+					// the "bare" flag is true
+					workDir = null;
+			} else if (Constants.DOT_GIT.equals(gitDir.getName())) {
+				// no value for the "bare" flag, but the meta data directory
+				// is named ".git" -> use the parent of the meta data directory
 				workDir = gitDir.getParentFile();
+			} else {
+				workDir = null;
 			}
 		}
 
@@ -268,10 +291,12 @@ public class Repository {
 
 		if (objectDatabase.exists()) {
 			final String repositoryFormatVersion = getConfig().getString(
-					"core", null, "repositoryFormatVersion");
+					ConfigConstants.CONFIG_CORE_SECTION, null,
+					ConfigConstants.CONFIG_KEY_REPO_FORMAT_VERSION);
 			if (!"0".equals(repositoryFormatVersion)) {
 				throw new IOException(MessageFormat.format(
-						JGitText.get().unknownRepositoryFormat2, repositoryFormatVersion));
+						JGitText.get().unknownRepositoryFormat2,
+						repositoryFormatVersion));
 			}
 		}
 	}
@@ -280,8 +305,9 @@ public class Repository {
 		try {
 			userConfig.load();
 		} catch (ConfigInvalidException e1) {
-			IOException e2 = new IOException(MessageFormat.format(
-					JGitText.get().userConfigFileInvalid, userConfig.getFile().getAbsolutePath(), e1));
+			IOException e2 = new IOException(MessageFormat.format(JGitText
+					.get().userConfigFileInvalid, userConfig.getFile()
+					.getAbsolutePath(), e1));
 			e2.initCause(e1);
 			throw e2;
 		}
@@ -322,7 +348,8 @@ public class Repository {
 	public void create(boolean bare) throws IOException {
 		final RepositoryConfig cfg = getConfig();
 		if (cfg.getFile().exists()) {
-			throw new IllegalStateException(MessageFormat.format(JGitText.get().repositoryAlreadyExists, gitDir));
+			throw new IllegalStateException(MessageFormat.format(
+					JGitText.get().repositoryAlreadyExists, gitDir));
 		}
 		gitDir.mkdirs();
 		refs.create();
@@ -334,12 +361,17 @@ public class Repository {
 		head.disableRefLog();
 		head.link(Constants.R_HEADS + Constants.MASTER);
 
-		cfg.setInt("core", null, "repositoryformatversion", 0);
-		cfg.setBoolean("core", null, "filemode", true);
+		cfg.setInt(ConfigConstants.CONFIG_CORE_SECTION, null,
+				ConfigConstants.CONFIG_KEY_REPO_FORMAT_VERSION, 0);
+		cfg.setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
+				ConfigConstants.CONFIG_KEY_FILEMODE, true);
 		if (bare)
-			cfg.setBoolean("core", null, "bare", true);
-		cfg.setBoolean("core", null, "logallrefupdates", !bare);
-		cfg.setBoolean("core", null, "autocrlf", false);
+			cfg.setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
+					ConfigConstants.CONFIG_KEY_BARE, true);
+		cfg.setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
+				ConfigConstants.CONFIG_KEY_LOGALLREFUPDATES, !bare);
+		cfg.setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
+				ConfigConstants.CONFIG_KEY_AUTOCRLF, false);
 		cfg.save();
 	}
 
@@ -1114,10 +1146,17 @@ public class Repository {
 	}
 
 	/**
-	 * @return a representation of the index associated with this repo
+	 * @return a representation of the index associated with this
+	 *         {@link Repository}
 	 * @throws IOException
+	 *             if the index can not be read
+	 * @throws IllegalStateException
+	 *             if this is bare (see {@link #isBare()})
 	 */
-	public GitIndex getIndex() throws IOException {
+	public GitIndex getIndex() throws IOException, IllegalStateException {
+		if (isBare())
+			throw new IOException(
+					JGitText.get().bareRepositoryNoWorkdirAndIndex);
 		if (index == null) {
 			index = new GitIndex(this);
 			index.read();
@@ -1129,8 +1168,13 @@ public class Repository {
 
 	/**
 	 * @return the index file location
+	 * @throws IllegalStateException
+	 *             if this is bare (see {@link #isBare()})
 	 */
-	public File getIndexFile() {
+	public File getIndexFile() throws IllegalStateException {
+		if (isBare())
+			throw new IllegalStateException(
+					JGitText.get().bareRepositoryNoWorkdirAndIndex);
 		return indexFile;
 	}
 
@@ -1270,9 +1314,21 @@ public class Repository {
 	}
 
 	/**
-	 * @return the workdir file, i.e. where the files are checked out
+	 * @return the "bare"-ness of this Repository
 	 */
-	public File getWorkDir() {
+	public boolean isBare() {
+		return workDir == null;
+	}
+
+	/**
+	 * @return the workdir file, i.e. where the files are checked out
+	 * @throws IllegalStateException
+	 *             if the repository is "bare"
+	 */
+	public File getWorkDir() throws IllegalStateException {
+		if (isBare())
+			throw new IllegalStateException(
+					JGitText.get().bareRepositoryNoWorkdirAndIndex);
 		return workDir;
 	}
 
