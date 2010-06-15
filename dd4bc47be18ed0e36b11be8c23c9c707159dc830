@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALu3///nc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Config.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1122,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-06-14T14:56:33Z",
+      "side": 1,
+      "message": "I think its OK to assume section !\u003d null here.",
+      "revId": "dd4bc47be18ed0e36b11be8c23c9c707159dc830",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALu3///nY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Config.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1137,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-06-14T14:56:33Z",
+      "side": 1,
+      "message": "Like in hashCode, I think its OK to assume section !\u003d null.",
+      "revId": "dd4bc47be18ed0e36b11be8c23c9c707159dc830",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALu3///nU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Config.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1157,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-06-14T14:56:33Z",
+      "side": 1,
+      "message": "Like below with SectionNames, I think we should export the name in lower case, so the caller sees a consistent case in the returned set.",
+      "revId": "dd4bc47be18ed0e36b11be8c23c9c707159dc830",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALu3///nk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Config.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1172,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-06-14T14:56:33Z",
+      "side": 1,
+      "message": "Style-nit:  Just use the default constructor supplied by the compiler.  It will be visible to public, but the class is private, so its effectively not visible.",
+      "revId": "dd4bc47be18ed0e36b11be8c23c9c707159dc830",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALu3///ng\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Config.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1180,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-06-14T14:56:33Z",
+      "side": 1,
+      "message": "We should export lower case section names, so the caller has a consistent case to examine against in the returned set.\n\nIIRC, e.section is null on a blank line or a comment line.  These shouldn\u0027t appear in the returned set.  So please add a if (e.section !\u003d null) guard around this addition.",
+      "revId": "dd4bc47be18ed0e36b11be8c23c9c707159dc830",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
