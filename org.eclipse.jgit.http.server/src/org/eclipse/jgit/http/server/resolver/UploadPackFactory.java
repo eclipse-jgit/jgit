@@ -45,14 +45,14 @@ package org.eclipse.jgit.http.server.resolver;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.GitRepository;
 import org.eclipse.jgit.transport.UploadPack;
 
 /** Create and configure {@link UploadPack} service instance. */
 public interface UploadPackFactory {
 	/** A factory disabling the UploadPack service for all repositories. */
 	public static final UploadPackFactory DISABLED = new UploadPackFactory() {
-		public UploadPack create(HttpServletRequest req, Repository db)
+		public UploadPack create(HttpServletRequest req, GitRepository db)
 				throws ServiceNotEnabledException {
 			throw new ServiceNotEnabledException();
 		}
@@ -74,6 +74,6 @@ public interface UploadPackFactory {
 	 *             this factory refuses to create the instance for this HTTP
 	 *             request and repository, such as due to a permission error.
 	 */
-	UploadPack create(HttpServletRequest req, Repository db)
+	UploadPack create(HttpServletRequest req, GitRepository db)
 			throws ServiceNotEnabledException, ServiceNotAuthorizedException;
 }

@@ -167,7 +167,7 @@ public class PackWriter {
 	// edge objects for thin packs
 	private final ObjectIdSubclassMap<ObjectId> edgeObjects = new ObjectIdSubclassMap<ObjectId>();
 
-	private final Repository db;
+	private final GitRepository db;
 
 	private PackOutputStream out;
 
@@ -233,13 +233,15 @@ public class PackWriter {
 	 *            operations progress monitor, used within
 	 *            {@link #writePack(OutputStream)}.
 	 */
-	public PackWriter(final Repository repo, final ProgressMonitor imonitor,
+	public PackWriter(final GitRepository repo, final ProgressMonitor imonitor,
 			final ProgressMonitor wmonitor) {
 		this.db = repo;
 		initMonitor = imonitor == null ? NullProgressMonitor.INSTANCE : imonitor;
 		writeMonitor = wmonitor == null ? NullProgressMonitor.INSTANCE : wmonitor;
-		this.deflater = new Deflater(db.getConfig().getCore().getCompression());
-		outputVersion = repo.getConfig().getCore().getPackIndexVersion();
+
+		final CoreConfig coreConfig = db.getConfig().get(CoreConfig.KEY);
+		this.deflater = new Deflater(coreConfig.getCompression());
+		this.outputVersion = coreConfig.getPackIndexVersion();
 	}
 
 	/**
@@ -619,7 +621,7 @@ public class PackWriter {
 	private void searchForReuse(
 			final Collection<PackedObjectLoader> reuseLoaders,
 			final ObjectToPack otp) throws IOException {
-		db.openObjectInAllPacks(otp, reuseLoaders, windowCursor);
+		db.getObjectDatabase().openObjectInAllPacks(reuseLoaders, windowCursor, otp);
 		if (reuseDeltas) {
 			selectDeltaReuseForObject(otp, reuseLoaders);
 		}
