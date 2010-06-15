@@ -819,8 +819,7 @@ public class PackWriter {
 			IncorrectObjectTypeException {
 		final ObjectWalk walker = new ObjectWalk(db);
 		walker.setRetainBody(false);
-		walker.sort(RevSort.TOPO);
-		walker.sort(RevSort.COMMIT_TIME_DESC, true);
+		walker.sort(RevSort.COMMIT_TIME_DESC);
 		if (thin)
 			walker.sort(RevSort.BOUNDARY, true);
 
