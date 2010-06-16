@@ -45,6 +45,7 @@
 
 package org.eclipse.jgit.transport;
 
+import java.io.Serializable;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.regex.Matcher;
@@ -59,7 +60,9 @@ import org.eclipse.jgit.lib.Constants;
  * RFC 2396 URI's is that no URI encoding/decoding ever takes place. A space or
  * any special character is written as-is.
  */
-public class URIish {
+public class URIish implements Serializable {
+	private static final long serialVersionUID = 1L;
+
 	private static final Pattern FULL_URI = Pattern
 			.compile("^(?:([a-z][a-z0-9+-]+)://(?:([^/]+?)(?::([^/]+?))?@)?(?:([^/]+?))?(?::(\\d+))?)?((?:[A-Za-z]:)?/.+)$");
 

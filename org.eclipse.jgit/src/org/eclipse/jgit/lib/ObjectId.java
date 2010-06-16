@@ -48,11 +48,17 @@ import org.eclipse.jgit.errors.InvalidObjectIdException;
 import org.eclipse.jgit.util.NB;
 import org.eclipse.jgit.util.RawParseUtils;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+
 /**
  * A SHA-1 abstraction.
  */
-public class ObjectId extends AnyObjectId {
-	private static final ObjectId ZEROID;
+public class ObjectId extends AnyObjectId implements Serializable {
+	private static final long serialVersionUID = 1L;
+        private static final ObjectId ZEROID;
 
 	private static final String ZEROID_STR;
 
@@ -270,5 +276,21 @@ public class ObjectId extends AnyObjectId {
 	@Override
 	public ObjectId toObjectId() {
 		return this;
+	}
+
+	private void writeObject(ObjectOutputStream os)  throws IOException {
+		os.writeInt(w1);
+		os.writeInt(w2);
+		os.writeInt(w3);
+		os.writeInt(w4);
+		os.writeInt(w5);
+	}
+
+        private void readObject(ObjectInputStream ois)  throws IOException {
+		w1 = ois.readInt();
+		w2 = ois.readInt();
+		w3 = ois.readInt();
+		w4 = ois.readInt();
+		w5 = ois.readInt();
 	}
 }
