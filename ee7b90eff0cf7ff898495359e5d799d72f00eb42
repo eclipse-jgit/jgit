@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALu3///g8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-06-15T14:59:36Z",
+      "side": 1,
+      "message": "Style-nit: Please don\u0027t nest a end-of-line // style comment inside of a method call in the middle of an if conditional.  It just feels so wrong...  I\u0027d prefer to have this comment in the { } block part of the conditional instead.",
+      "revId": "ee7b90eff0cf7ff898495359e5d799d72f00eb42",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALu3///g4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-06-15T14:59:36Z",
+      "side": 1,
+      "message": "I think the better approach here is:\n\n if (workTreeConfig !\u003d null) {\n    workDir \u003d fs.resolve(d, workTreeConfig);\n } else if (getConfig().getString(\"core\", null, \"bare\") !\u003d null)) {\n    if (getConfig().getBoolean(\"core\", \"bare\", true))\n      workDir \u003d gitDir.getParentFile();\n    else\n      workDir \u003d null;\n } else if (Constants.DOT_GIT.equals(gitDir.getName())) {\n    workDir \u003d gitDir.getParentFile();\n } else {\n    workDir \u003d null;\n }\n\nNo, its not pretty.  None of the \"setup\" code in git-core is sane.  Its a horrible mess that nobody likes to touch, because the algorithm is completely, utterly broken, but users just expect it to keep working like it has been.",
+      "revId": "ee7b90eff0cf7ff898495359e5d799d72f00eb42",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALu3///g0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1323,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-06-15T14:59:36Z",
+      "side": 1,
+      "message": "With all of the logic in the constructor, I wonder if we can simplify this method down to:\n\n  public boolean isBare() {\n    return workDir \u003d\u003d null;\n  }",
+      "revId": "ee7b90eff0cf7ff898495359e5d799d72f00eb42",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
