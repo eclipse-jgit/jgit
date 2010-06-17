@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALu3///oE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1278,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-06-14T14:42:00Z",
+      "side": 1,
+      "message": "Deciding \"bareness\" is more than just looking at core.bare in the configuration file.\n\nIIRC the algorithm is something like:\n\n  IF core.bare is set\n    USE core.bare\n\n  ELSE IF GIT_DIR explicitly given and no GIT_WORK_TREE\n    ASSUME bare\n\n  ELSE IF getDirectory().getName() is exactly \".git\"\n    ASSUME not bare\n\n  ELSE\n    ASSUME bare\n\nSince this is complex enough, and the code throws an exception if its bare, we probably should introduce a:\n\n  public boolean isBare()\n\nmethod to perform the decision making, and then define getWorkDir to throw when isBare() is true.\n\nAlso, bare repositories don\u0027t have index files, so getIndex() and getIndexFile() should also throw the same exception.",
+      "revId": "b54b31ddc80b9032e6e7bf013948bb83e12cfd88",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALu3///oM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1280,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-06-14T14:42:00Z",
+      "side": 1,
+      "message": "This should be a translated message.",
+      "revId": "b54b31ddc80b9032e6e7bf013948bb83e12cfd88",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
