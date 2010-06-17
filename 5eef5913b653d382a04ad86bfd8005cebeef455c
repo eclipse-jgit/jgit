@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALu3///ek\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1156,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-06-15T16:13:25Z",
+      "side": 1,
+      "message": "Why do we throw IOException here and IllegalStateException in getIndexFile()?\n\nCan we at least throw the same type consistently?",
+      "revId": "5eef5913b653d382a04ad86bfd8005cebeef455c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALu3///eg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1342,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-06-15T16:13:25Z",
+      "side": 1,
+      "message": "Nak.  I\u0027d just allow the call.  Its not reasonable for an application to setup a Repository from a bare Git, and then later point it at a working directory.",
+      "revId": "5eef5913b653d382a04ad86bfd8005cebeef455c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
