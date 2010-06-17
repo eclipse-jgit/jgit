@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALu3///l0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1131,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-06-14T15:36:59Z",
+      "side": 1,
+      "message": "Javadoc should be updated to reflect this new exception.",
+      "revId": "2e47a7b7b3cc734cb2be735a4fa0f26ae46a6297",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALu3///l4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1147,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-06-14T15:36:59Z",
+      "side": 1,
+      "message": "Javadoc should be updated to reflect this new exception.",
+      "revId": "2e47a7b7b3cc734cb2be735a4fa0f26ae46a6297",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALu3///mA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1291,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-06-14T15:36:59Z",
+      "side": 1,
+      "message": "You can see if its set by doing:\n\n  getConfig().getString(\"core\",null,\"bare\") !\u003d null\n\nand then later doing the getBoolean() if that was true.  Maybe  we should put that getString(...) !\u003d null into an isSet() method in Config to make this easier to test.",
+      "revId": "2e47a7b7b3cc734cb2be735a4fa0f26ae46a6297",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALu3///l8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1300,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-06-14T15:36:59Z",
+      "side": 1,
+      "message": "Even if core.worktree wasn\u0027t set in the configuration file, it might have been set by the caller of Repository.  We have like 8 forms of our constructor that takes various arguments... one of those is the work tree path, which could have come from an environment variable.",
+      "revId": "2e47a7b7b3cc734cb2be735a4fa0f26ae46a6297",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
