@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "AAALu3///ZI\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RepositorySetupWorkDirTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-06-16T19:06:53Z",
+      "side": 1,
+      "message": "Test is redundant with testNotBare_CreateRepositoryFromWorkDirOnly above",
+      "revId": "3c51b35e03efc268dda087d9eec1596a35faee3a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALu3///ZE\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RepositorySetupWorkDirTest.java",
         "patchSetId": 10
