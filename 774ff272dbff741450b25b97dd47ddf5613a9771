@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALu3///nw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-06-14T14:45:09Z",
+      "side": 1,
+      "message": "Bleh.  This is going to turn into one very ugly constants file if we start to put every configuration key into it.\n\nI\u0027d rather pull these into specialized config related classes than start exporting them as part of our Constants class.",
+      "revId": "774ff272dbff741450b25b97dd47ddf5613a9771",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALu3///ns\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1282,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-06-14T14:45:09Z",
+      "side": 1,
+      "message": "Please refer to my comments on patch set 1, same line, for why I don\u0027t think this is a sufficient test.",
+      "revId": "774ff272dbff741450b25b97dd47ddf5613a9771",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
