@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAALu3///mg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 46
+      },
+      "writtenOn": "2010-06-14T15:31:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALu3///nw\u003d",
+      "revId": "774ff272dbff741450b25b97dd47ddf5613a9771",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALu3///ns\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2010-06-14T14:45:09Z",
       "side": 1,
       "message": "Please refer to my comments on patch set 1, same line, for why I don\u0027t think this is a sufficient test.",
+      "revId": "774ff272dbff741450b25b97dd47ddf5613a9771",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALu3///mc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1282,
+      "author": {
+        "id": 46
+      },
+      "writtenOn": "2010-06-14T15:31:20Z",
+      "side": 1,
+      "message": "See my remakrs on patch set 4.",
+      "parentUuid": "AAALu3///ns\u003d",
       "revId": "774ff272dbff741450b25b97dd47ddf5613a9771",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
