@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALu3///dE\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RepositorySetupWorkDirTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-06-15T18:51:41Z",
+      "side": 1,
+      "message": "These should use assertEquals() rather than assertTrue, so that the JUnit report can include the expected and actual values during the test, rather than a vague message.\n\nWe probably also should test the full path, but that\u0027s liable to fail if we use a different resolve method here in the test than the repository used.  We can probably head that off by just using the canonical paths for compare.  So rewrite this method as:\n\n  File exp \u003d getFile(expected).getCanonicalFile();\n  File act \u003d repo.getDirectory().getCanonicalFile();\n  assertEquals(exp, act);",
+      "revId": "b60679c89d673779f6676446958836fb0c72d155",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALu3///c8\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RepositorySetupWorkDirTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-06-15T18:51:41Z",
+      "side": 1,
+      "message": "Don\u0027t use assertTrue(...equals()), use assertEquals instead.",
+      "revId": "b60679c89d673779f6676446958836fb0c72d155",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALu3///c4\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RepositorySetupWorkDirTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-06-15T18:51:41Z",
+      "side": 1,
+      "message": "I still think a couple of helper methods will make the tests easier to read:\n\n  private void setBare(File gitDir, boolean bare) {\n    Repository repo \u003d new Repository(gitDir, null);\n    repo.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION,\n        null, ConfigConstants.CONFIG_KEY_BARE, bare);\n    repo.getConfig().save();\n  }\n\n  private void setWorkTree(File gitDir, File workTree) {\n    Repository repo \u003d new Repository(gitDir, null);\n    repo.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION,\n        null, ConfigConstants.CONFIG_KEY_WORKTREE,\n        workTree.getAbsolutePath());\n    repo.getConfig().save();\n  }\n\nThen the tests are a bit more declarative as they setup their condition to be tested.",
+      "revId": "b60679c89d673779f6676446958836fb0c72d155",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
