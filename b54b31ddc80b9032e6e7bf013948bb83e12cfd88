@@ -36,6 +36,42 @@
     },
     {
       "key": {
+        "uuid": "AAALu3///mo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1278,
+      "author": {
+        "id": 46
+      },
+      "writtenOn": "2010-06-14T15:31:24Z",
+      "side": 1,
+      "message": "Hope patch set 4 does the right thing (see my remarks there)",
+      "parentUuid": "AAALu3///oE\u003d",
+      "revId": "b54b31ddc80b9032e6e7bf013948bb83e12cfd88",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALu3///ms\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1278,
+      "author": {
+        "id": 46
+      },
+      "writtenOn": "2010-06-14T15:31:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALu3///ok\u003d",
+      "revId": "b54b31ddc80b9032e6e7bf013948bb83e12cfd88",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALu3///oM\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2010-06-14T14:42:00Z",
       "side": 1,
       "message": "This should be a translated message.",
+      "revId": "b54b31ddc80b9032e6e7bf013948bb83e12cfd88",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALu3///mk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1280,
+      "author": {
+        "id": 46
+      },
+      "writtenOn": "2010-06-14T15:31:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALu3///oM\u003d",
       "revId": "b54b31ddc80b9032e6e7bf013948bb83e12cfd88",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
