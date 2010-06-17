@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALu3///d8\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RepositoryTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-06-15T18:07:21Z",
+      "side": 1,
+      "message": "I think a better name for this is RepositorySetupWorkDirTest.  Its a test class for the Repository class to test the setup of the work directory.",
+      "revId": "b6639ecfc37971ca327981508349f406ac3cd8d8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALu3///eM\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RepositoryTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-06-15T18:07:21Z",
+      "side": 1,
+      "message": "Don\u0027t call setUp() or tearDown() in a test case, these are automatically run for you by JUnit.",
+      "revId": "b6639ecfc37971ca327981508349f406ac3cd8d8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALu3///eI\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RepositoryTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-06-15T18:07:21Z",
+      "side": 1,
+      "message": "I think the message here on the assert is overkill.  If we have only one assert per test, and the test method name is descriptive of the condition we are looking for, and the test itself is only 2 lines (get the path, call the assert), then its enough to rely on the test name to tell us what sort of condition is failed when the test fails.\n\nIn other words, I would have called this test:\n\n  testIsBare_ArbitraryDirectoryIsBare()\n\nand the one after it:\n\n  testNotBare_HasDotGitNotBare()\n\netc.  FWIW, if you are copying style from another test that uses these test00N_ prefixes, that\u0027s an old style that was a horrible mistake on my part when I started JGit.  I was trying to mimic the style of the C Git test suite.  It was a bad idea.",
+      "revId": "b6639ecfc37971ca327981508349f406ac3cd8d8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALu3///d4\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RepositoryTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-06-15T18:07:21Z",
+      "side": 1,
+      "message": "For places where we are not bare, we should also assert (after the isBare() assert) that getDirectory() and getWorkDir() match what we expect as return values.  Especially since we are asking the Repository class to do some guessing based on what we gave it.",
+      "revId": "b6639ecfc37971ca327981508349f406ac3cd8d8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALu3///d0\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RepositoryTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-06-15T18:07:21Z",
+      "side": 1,
+      "message": "Since you set bare like 4 or 5 different times in this test suite, why not pull this into a utility method, so you can just do:\n\n  setBare(gitDir, true);\n\nand have the setBare utility method create the temporary Repository, set the flag and save the config.",
+      "revId": "b6639ecfc37971ca327981508349f406ac3cd8d8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALu3///eE\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RepositoryTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-06-15T18:07:21Z",
+      "side": 1,
+      "message": "Please only catch the IllegalStateException we are expecting.  Anything else that gets thrown is a test failure.",
+      "revId": "b6639ecfc37971ca327981508349f406ac3cd8d8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALu3///eA\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RepositoryTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-06-15T18:07:21Z",
+      "side": 1,
+      "message": "This method should be private, it exists only to support the other methods in this test class.",
+      "revId": "b6639ecfc37971ca327981508349f406ac3cd8d8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
