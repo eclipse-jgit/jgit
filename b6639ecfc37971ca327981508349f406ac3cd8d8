@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAALu3///do\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RepositoryTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 46
+      },
+      "writtenOn": "2010-06-15T18:37:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALu3///d8\u003d",
+      "revId": "b6639ecfc37971ca327981508349f406ac3cd8d8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALu3///eM\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RepositoryTest.java",
         "patchSetId": 7
@@ -30,6 +48,24 @@
       "writtenOn": "2010-06-15T18:07:21Z",
       "side": 1,
       "message": "Don\u0027t call setUp() or tearDown() in a test case, these are automatically run for you by JUnit.",
+      "revId": "b6639ecfc37971ca327981508349f406ac3cd8d8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALu3///dk\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RepositoryTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 46
+      },
+      "writtenOn": "2010-06-15T18:37:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALu3///eM\u003d",
       "revId": "b6639ecfc37971ca327981508349f406ac3cd8d8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAALu3///dg\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RepositoryTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 46
+      },
+      "writtenOn": "2010-06-15T18:37:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALu3///eI\u003d",
+      "revId": "b6639ecfc37971ca327981508349f406ac3cd8d8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALu3///d4\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RepositoryTest.java",
         "patchSetId": 7
@@ -64,6 +118,24 @@
       "writtenOn": "2010-06-15T18:07:21Z",
       "side": 1,
       "message": "For places where we are not bare, we should also assert (after the isBare() assert) that getDirectory() and getWorkDir() match what we expect as return values.  Especially since we are asking the Repository class to do some guessing based on what we gave it.",
+      "revId": "b6639ecfc37971ca327981508349f406ac3cd8d8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALu3///dc\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RepositoryTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 46
+      },
+      "writtenOn": "2010-06-15T18:37:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALu3///d4\u003d",
       "revId": "b6639ecfc37971ca327981508349f406ac3cd8d8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AAALu3///dY\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RepositoryTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 46
+      },
+      "writtenOn": "2010-06-15T18:37:35Z",
+      "side": 1,
+      "message": "Refactoring this into a method, we would also require the configuration key... Guess this isn\u0027t worth it.",
+      "parentUuid": "AAALu3///d0\u003d",
+      "revId": "b6639ecfc37971ca327981508349f406ac3cd8d8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALu3///eE\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RepositoryTest.java",
         "patchSetId": 7
@@ -104,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "AAALu3///dU\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RepositoryTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 46
+      },
+      "writtenOn": "2010-06-15T18:37:35Z",
+      "side": 1,
+      "message": "Oops. Of course. Found a bug already after fixing it...",
+      "parentUuid": "AAALu3///eE\u003d",
+      "revId": "b6639ecfc37971ca327981508349f406ac3cd8d8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALu3///eA\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RepositoryTest.java",
         "patchSetId": 7
@@ -115,6 +223,24 @@
       "writtenOn": "2010-06-15T18:07:21Z",
       "side": 1,
       "message": "This method should be private, it exists only to support the other methods in this test class.",
+      "revId": "b6639ecfc37971ca327981508349f406ac3cd8d8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALu3///dQ\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RepositoryTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 46
+      },
+      "writtenOn": "2010-06-15T18:37:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALu3///eA\u003d",
       "revId": "b6639ecfc37971ca327981508349f406ac3cd8d8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
