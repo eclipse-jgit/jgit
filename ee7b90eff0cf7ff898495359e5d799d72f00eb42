@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAALu3///gM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 46
+      },
+      "writtenOn": "2010-06-15T15:36:27Z",
+      "side": 1,
+      "message": "Absolutely.",
+      "parentUuid": "AAALu3///g8\u003d",
+      "revId": "ee7b90eff0cf7ff898495359e5d799d72f00eb42",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALu3///g4\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
         "patchSetId": 5
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAALu3///gA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 46
+      },
+      "writtenOn": "2010-06-15T15:36:27Z",
+      "side": 1,
+      "message": "Thanks a lot for the code.\nI believe it must be !getConfig().getBoolean... See next patch set.",
+      "parentUuid": "AAALu3///g4\u003d",
+      "revId": "ee7b90eff0cf7ff898495359e5d799d72f00eb42",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALu3///g0\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
         "patchSetId": 5
@@ -47,6 +83,24 @@
       "writtenOn": "2010-06-15T14:59:36Z",
       "side": 1,
       "message": "With all of the logic in the constructor, I wonder if we can simplify this method down to:\n\n  public boolean isBare() {\n    return workDir \u003d\u003d null;\n  }",
+      "revId": "ee7b90eff0cf7ff898495359e5d799d72f00eb42",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALu3///f0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1323,
+      "author": {
+        "id": 46
+      },
+      "writtenOn": "2010-06-15T15:36:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALu3///g0\u003d",
       "revId": "ee7b90eff0cf7ff898495359e5d799d72f00eb42",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
