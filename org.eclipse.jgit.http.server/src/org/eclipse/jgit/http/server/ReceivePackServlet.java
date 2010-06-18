@@ -59,7 +59,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jgit.http.server.resolver.ReceivePackFactory;
 import org.eclipse.jgit.http.server.resolver.ServiceNotAuthorizedException;
 import org.eclipse.jgit.http.server.resolver.ServiceNotEnabledException;
-import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.storage.file.FileRepository;
 import org.eclipse.jgit.transport.ReceivePack;
 import org.eclipse.jgit.transport.RefAdvertiser.PacketLineOutRefAdvertiser;
 
@@ -80,7 +80,7 @@ class ReceivePackServlet extends HttpServlet {
 		}
 
 		@Override
-		protected void advertise(HttpServletRequest req, Repository db,
+		protected void advertise(HttpServletRequest req, FileRepository db,
 				PacketLineOutRefAdvertiser pck) throws IOException,
 				ServiceNotEnabledException, ServiceNotAuthorizedException {
 			receivePackFactory.create(req, db).sendAdvertisedRefs(pck);
@@ -101,7 +101,7 @@ class ReceivePackServlet extends HttpServlet {
 			return;
 		}
 
-		final Repository db = getRepository(req);
+		final FileRepository db = getRepository(req);
 		try {
 			final ReceivePack rp = receivePackFactory.create(req, db);
 			rp.setBiDirectionalPipe(false);

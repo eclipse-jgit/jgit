@@ -46,9 +46,9 @@ package org.eclipse.jgit.patch;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.eclipse.jgit.lib.FileMode;
-
 import junit.framework.TestCase;
+
+import org.eclipse.jgit.lib.FileMode;
 
 public class PatchCcTest extends TestCase {
 	public void testParse_OneFileCc() throws IOException {

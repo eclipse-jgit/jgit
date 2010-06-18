@@ -59,10 +59,10 @@ import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.SampleDataRepositoryTestCase;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.storage.file.FileRepository;
 
 public class BundleWriterTest extends SampleDataRepositoryTestCase {
 
@@ -74,7 +74,7 @@ public class BundleWriterTest extends SampleDataRepositoryTestCase {
 		// Then we clone a new repo from that bundle and do a simple test. This
 		// makes sure
 		// we could read the bundle we created.
-		Repository newRepo = createBareRepository();
+		FileRepository newRepo = createBareRepository();
 		FetchResult fetchResult = fetchFromBundle(newRepo, bundle);
 		Ref advertisedRef = fetchResult
 				.getAdvertisedRef("refs/heads/firstcommit");
@@ -101,7 +101,7 @@ public class BundleWriterTest extends SampleDataRepositoryTestCase {
 		// Then we clone a new repo from that bundle and do a simple test. This
 		// makes sure
 		// we could read the bundle we created.
-		Repository newRepo = createBareRepository();
+		FileRepository newRepo = createBareRepository();
 		FetchResult fetchResult = fetchFromBundle(newRepo, bundle);
 		Ref advertisedRef = fetchResult.getAdvertisedRef("refs/heads/aa");
 
@@ -123,7 +123,7 @@ public class BundleWriterTest extends SampleDataRepositoryTestCase {
 
 		try {
 			// Check that we actually needed the first bundle
-			Repository newRepo2 = createBareRepository();
+			FileRepository newRepo2 = createBareRepository();
 			fetchResult = fetchFromBundle(newRepo2, bundle);
 			fail("We should not be able to fetch from bundle with prerequisites that are not fulfilled");
 		} catch (MissingBundlePrerequisiteException e) {
@@ -132,7 +132,7 @@ public class BundleWriterTest extends SampleDataRepositoryTestCase {
 		}
 	}
 
-	private FetchResult fetchFromBundle(final Repository newRepo,
+	private FetchResult fetchFromBundle(final FileRepository newRepo,
 			final byte[] bundle) throws URISyntaxException,
 			NotSupportedException, TransportException {
 		final URIish uri = new URIish("in-memory://");

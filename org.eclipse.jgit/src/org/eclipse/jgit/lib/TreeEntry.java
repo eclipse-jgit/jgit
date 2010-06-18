@@ -47,6 +47,7 @@ package org.eclipse.jgit.lib;
 import java.io.IOException;
 
 import org.eclipse.jgit.lib.GitIndex.Entry;
+import org.eclipse.jgit.storage.file.FileRepository;
 import org.eclipse.jgit.util.RawParseUtils;
 
 /**
@@ -117,7 +118,7 @@ public abstract class TreeEntry implements Comparable {
 	/**
 	 * @return the repository owning this entry.
 	 */
-	public Repository getRepository() {
+	public FileRepository getRepository() {
 		return getParent().getRepository();
 	}
 

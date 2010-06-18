@@ -49,13 +49,13 @@ package org.eclipse.jgit.pgm;
 
 import java.text.MessageFormat;
 
-import org.kohsuke.args4j.Argument;
-import org.kohsuke.args4j.Option;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.kohsuke.args4j.Argument;
+import org.kohsuke.args4j.Option;
 
 @Command(common = true, usage = "usage_CreateATag")
 class Tag extends TextBuiltin {

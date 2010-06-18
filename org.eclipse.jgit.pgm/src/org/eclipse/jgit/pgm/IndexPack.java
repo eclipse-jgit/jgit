@@ -47,9 +47,9 @@ package org.eclipse.jgit.pgm;
 import java.io.BufferedInputStream;
 import java.io.File;
 
+import org.eclipse.jgit.lib.TextProgressMonitor;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
-import org.eclipse.jgit.lib.TextProgressMonitor;
 
 class IndexPack extends TextBuiltin {
 	@Option(name = "--fix-thin", usage = "usage_fixAThinPackToBeComplete")

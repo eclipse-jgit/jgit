@@ -52,23 +52,23 @@ import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectWriter;
-import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.lib.WindowCursor;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.revwalk.filter.RevFilter;
+import org.eclipse.jgit.storage.file.FileRepository;
+import org.eclipse.jgit.storage.file.WindowCursor;
 import org.eclipse.jgit.treewalk.AbstractTreeIterator;
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
 import org.eclipse.jgit.treewalk.EmptyTreeIterator;
 
 /**
- * Instance of a specific {@link MergeStrategy} for a single {@link Repository}.
+ * Instance of a specific {@link MergeStrategy} for a single {@link FileRepository}.
  */
 public abstract class Merger {
 	/** The repository this merger operates on. */
-	protected final Repository db;
+	protected final FileRepository db;
 
 	/** A RevWalk for computing merge bases, or listing incoming commits. */
 	protected final RevWalk walk;
@@ -90,7 +90,7 @@ public abstract class Merger {
 	 * @param local
 	 *            the repository this merger will read and write data on.
 	 */
-	protected Merger(final Repository local) {
+	protected Merger(final FileRepository local) {
 		db = local;
 		walk = new RevWalk(db);
 	}
@@ -98,7 +98,7 @@ public abstract class Merger {
 	/**
 	 * @return the repository this merger operates on.
 	 */
-	public Repository getRepository() {
+	public FileRepository getRepository() {
 		return db;
 	}
 

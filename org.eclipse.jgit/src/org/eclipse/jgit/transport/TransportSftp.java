@@ -62,9 +62,9 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdRef;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.SymbolicRef;
 import org.eclipse.jgit.lib.Ref.Storage;
+import org.eclipse.jgit.storage.file.FileRepository;
 
 import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.ChannelSftp;
@@ -97,7 +97,7 @@ public class TransportSftp extends SshTransport implements WalkTransport {
 		return uri.isRemote() && "sftp".equals(uri.getScheme());
 	}
 
-	TransportSftp(final Repository local, final URIish uri) {
+	TransportSftp(final FileRepository local, final URIish uri) {
 		super(local, uri);
 	}
 

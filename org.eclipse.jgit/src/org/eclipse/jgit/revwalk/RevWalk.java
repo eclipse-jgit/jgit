@@ -61,9 +61,9 @@ import org.eclipse.jgit.lib.MutableObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdSubclassMap;
 import org.eclipse.jgit.lib.ObjectLoader;
-import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.lib.WindowCursor;
 import org.eclipse.jgit.revwalk.filter.RevFilter;
+import org.eclipse.jgit.storage.file.FileRepository;
+import org.eclipse.jgit.storage.file.WindowCursor;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
 
 /**
@@ -79,7 +79,7 @@ import org.eclipse.jgit.treewalk.filter.TreeFilter;
  * usage of a RevWalk instance to a single thread, or implement their own
  * synchronization at a higher level.
  * <p>
- * Multiple simultaneous RevWalk instances per {@link Repository} are permitted,
+ * Multiple simultaneous RevWalk instances per {@link FileRepository} are permitted,
  * even from concurrent threads. Equality of {@link RevCommit}s from two
  * different RevWalk instances is never true, even if their {@link ObjectId}s
  * are equal (and thus they describe the same commit).
@@ -157,7 +157,7 @@ public class RevWalk implements Iterable<RevCommit> {
 
 	private static final int APP_FLAGS = -1 & ~((1 << RESERVED_FLAGS) - 1);
 
-	final Repository db;
+	final FileRepository db;
 
 	final WindowCursor curs;
 
@@ -191,7 +191,7 @@ public class RevWalk implements Iterable<RevCommit> {
 	 * @param repo
 	 *            the repository the walker will obtain data from.
 	 */
-	public RevWalk(final Repository repo) {
+	public RevWalk(final FileRepository repo) {
 		db = repo;
 		curs = new WindowCursor();
 		idBuffer = new MutableObjectId();
@@ -210,7 +210,7 @@ public class RevWalk implements Iterable<RevCommit> {
 	 *
 	 * @return the repository this walker was created to read.
 	 */
-	public Repository getRepository() {
+	public FileRepository getRepository() {
 		return db;
 	}
 

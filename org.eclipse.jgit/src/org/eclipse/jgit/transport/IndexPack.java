@@ -74,11 +74,11 @@ import org.eclipse.jgit.lib.ObjectDatabase;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdSubclassMap;
 import org.eclipse.jgit.lib.ObjectLoader;
-import org.eclipse.jgit.lib.PackIndexWriter;
 import org.eclipse.jgit.lib.PackLock;
 import org.eclipse.jgit.lib.ProgressMonitor;
-import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.lib.WindowCursor;
+import org.eclipse.jgit.storage.file.PackIndexWriter;
+import org.eclipse.jgit.storage.file.FileRepository;
+import org.eclipse.jgit.storage.file.WindowCursor;
 import org.eclipse.jgit.util.NB;
 
 /** Indexes Git pack files for local use. */
@@ -117,7 +117,7 @@ public class IndexPack {
 	 * @throws IOException
 	 *             a temporary file could not be created.
 	 */
-	public static IndexPack create(final Repository db, final InputStream is)
+	public static IndexPack create(final FileRepository db, final InputStream is)
 			throws IOException {
 		final String suffix = ".pack";
 		final File objdir = db.getObjectsDirectory();
@@ -131,7 +131,7 @@ public class IndexPack {
 		return ip;
 	}
 
-	private final Repository repo;
+	private final FileRepository repo;
 
 	/**
 	 * Object database used for loading existing objects
@@ -224,7 +224,7 @@ public class IndexPack {
 	 * @throws IOException
 	 *             the output packfile could not be created.
 	 */
-	public IndexPack(final Repository db, final InputStream src,
+	public IndexPack(final FileRepository db, final InputStream src,
 			final File dstBase) throws IOException {
 		repo = db;
 		objectDatabase = db.getObjectDatabase().newCachedDatabase();

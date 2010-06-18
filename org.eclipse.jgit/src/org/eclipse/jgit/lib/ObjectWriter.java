@@ -59,6 +59,7 @@ import java.util.zip.DeflaterOutputStream;
 
 import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.ObjectWritingException;
+import org.eclipse.jgit.storage.file.FileRepository;
 
 /**
  * A class for writing loose objects.
@@ -74,7 +75,7 @@ public class ObjectWriter {
 
 	private static final byte[] hencoding = Constants.encodeASCII("encoding");
 
-	private final Repository r;
+	private final FileRepository r;
 
 	private final byte[] buf;
 
@@ -84,7 +85,7 @@ public class ObjectWriter {
 	 * Construct an Object writer for the specified repository
 	 * @param d
 	 */
-	public ObjectWriter(final Repository d) {
+	public ObjectWriter(final FileRepository d) {
 		r = d;
 		buf = new byte[8192];
 		md = Constants.newMessageDigest();

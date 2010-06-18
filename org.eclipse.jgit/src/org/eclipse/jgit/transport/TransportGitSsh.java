@@ -56,7 +56,7 @@ import java.text.MessageFormat;
 import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.NoRemoteRepositoryException;
 import org.eclipse.jgit.errors.TransportException;
-import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.storage.file.FileRepository;
 import org.eclipse.jgit.util.QuotedString;
 import org.eclipse.jgit.util.io.MessageWriter;
 import org.eclipse.jgit.util.io.StreamCopyThread;
@@ -91,7 +91,7 @@ public class TransportGitSsh extends SshTransport implements PackTransport {
 		return false;
 	}
 
-	TransportGitSsh(final Repository local, final URIish uri) {
+	TransportGitSsh(final FileRepository local, final URIish uri) {
 		super(local, uri);
 	}
 

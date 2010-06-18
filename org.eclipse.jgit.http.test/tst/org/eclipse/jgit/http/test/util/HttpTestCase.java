@@ -58,9 +58,9 @@ import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
+import org.eclipse.jgit.storage.file.FileRepository;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteRefUpdate;
 import org.eclipse.jgit.transport.URIish;
@@ -112,7 +112,7 @@ public abstract class HttpTestCase extends LocalDiskRepositoryTestCase {
 		return server.getRequests(path);
 	}
 
-	protected static void fsck(Repository db, RevObject... tips)
+	protected static void fsck(FileRepository db, RevObject... tips)
 			throws Exception {
 		new TestRepository(db).fsck(tips);
 	}
@@ -130,7 +130,7 @@ public abstract class HttpTestCase extends LocalDiskRepositoryTestCase {
 
 	protected static Collection<RemoteRefUpdate> push(TestRepository from,
 			RevCommit q) throws IOException {
-		final Repository db = from.getRepository();
+		final FileRepository db = from.getRepository();
 		final String srcExpr = q.name();
 		final String dstName = master;
 		final boolean forceUpdate = true;

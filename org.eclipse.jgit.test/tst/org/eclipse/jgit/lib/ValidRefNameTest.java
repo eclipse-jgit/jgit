@@ -45,9 +45,11 @@ package org.eclipse.jgit.lib;
 
 import junit.framework.TestCase;
 
+import org.eclipse.jgit.storage.file.FileRepository;
+
 public class ValidRefNameTest extends TestCase {
 	private static void assertValid(final boolean exp, final String name) {
-		assertEquals("\"" + name + "\"", exp, Repository.isValidRefName(name));
+		assertEquals("\"" + name + "\"", exp, FileRepository.isValidRefName(name));
 	}
 
 	public void testEmptyString() {

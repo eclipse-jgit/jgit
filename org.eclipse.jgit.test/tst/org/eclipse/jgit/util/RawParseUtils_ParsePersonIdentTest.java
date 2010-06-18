@@ -47,9 +47,9 @@ import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.TimeZone;
 
-import org.eclipse.jgit.lib.PersonIdent;
-
 import junit.framework.TestCase;
+
+import org.eclipse.jgit.lib.PersonIdent;
 
 public class RawParseUtils_ParsePersonIdentTest extends TestCase {
 

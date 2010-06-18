@@ -51,6 +51,7 @@ import java.text.MessageFormat;
 
 import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.storage.file.FileRepository;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.util.RawParseUtils;
 
@@ -88,7 +89,7 @@ public class BlobBasedConfig extends Config {
 	 * @throws ConfigInvalidException
 	 *             the blob is not a valid configuration format.
 	 */
-	public BlobBasedConfig(Config base, final Repository r,
+	public BlobBasedConfig(Config base, final FileRepository r,
 			final ObjectId objectId) throws IOException, ConfigInvalidException {
 		super(base);
 		final ObjectLoader loader = r.openBlob(objectId);
@@ -117,7 +118,7 @@ public class BlobBasedConfig extends Config {
 			throws FileNotFoundException, IOException, ConfigInvalidException {
 		super(base);
 		final ObjectId treeId = commit.getTreeId();
-		final Repository r = commit.getRepository();
+		final FileRepository r = commit.getRepository();
 		final TreeWalk tree = TreeWalk.forPath(r, path, treeId);
 		if (tree == null)
 			throw new FileNotFoundException(MessageFormat.format(JGitText.get().entryNotFoundByPath, path));

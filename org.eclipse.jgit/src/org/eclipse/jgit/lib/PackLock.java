@@ -46,6 +46,9 @@ package org.eclipse.jgit.lib;
 import java.io.File;
 import java.io.IOException;
 
+import org.eclipse.jgit.storage.file.LockFile;
+import org.eclipse.jgit.storage.file.PackFile;
+
 /** Keeps track of a {@link PackFile}'s associated <code>.keep</code> file. */
 public class PackLock {
 	private final File keepFile;

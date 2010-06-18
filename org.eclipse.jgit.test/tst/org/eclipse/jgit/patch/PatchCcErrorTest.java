@@ -47,9 +47,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.MessageFormat;
 
-import org.eclipse.jgit.JGitText;
-
 import junit.framework.TestCase;
+
+import org.eclipse.jgit.JGitText;
 
 public class PatchCcErrorTest extends TestCase {
 	public void testError_CcTruncatedOld() throws IOException {

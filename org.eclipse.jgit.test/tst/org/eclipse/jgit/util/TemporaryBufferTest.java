@@ -48,9 +48,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Arrays;
 
-import org.eclipse.jgit.junit.TestRng;
-
 import junit.framework.TestCase;
+
+import org.eclipse.jgit.junit.TestRng;
 
 public class TemporaryBufferTest extends TestCase {
 	public void testEmpty() throws IOException {

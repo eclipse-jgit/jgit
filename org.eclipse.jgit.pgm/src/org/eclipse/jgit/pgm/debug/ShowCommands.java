@@ -45,12 +45,12 @@ package org.eclipse.jgit.pgm.debug;
 
 import java.net.URL;
 
-import org.kohsuke.args4j.Option;
 import org.eclipse.jgit.pgm.CLIText;
 import org.eclipse.jgit.pgm.Command;
 import org.eclipse.jgit.pgm.CommandCatalog;
 import org.eclipse.jgit.pgm.CommandRef;
 import org.eclipse.jgit.pgm.TextBuiltin;
+import org.kohsuke.args4j.Option;
 
 @Command(usage = "usage_displayAListOfAllRegisteredJgitCommands")
 class ShowCommands extends TextBuiltin {

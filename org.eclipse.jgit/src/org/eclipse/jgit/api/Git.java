@@ -42,7 +42,8 @@
  */
 package org.eclipse.jgit.api;
 
-import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.storage.file.FileRepository;
+
 
 /**
  * Offers a "GitPorcelain"-like API to interact with a git repository.
@@ -76,7 +77,7 @@ import org.eclipse.jgit.lib.Repository;
  */
 public class Git {
 	/** The git repository this class is interacting with */
-	private final Repository repo;
+	private final FileRepository repo;
 
 	/**
 	 * Constructs a new {@link Git} class which can interact with the specified
@@ -87,7 +88,7 @@ public class Git {
 	 *            the git repository this class is interacting with.
 	 *            {@code null} is not allowed
 	 */
-	public Git(Repository repo) {
+	public Git(FileRepository repo) {
 		if (repo == null)
 			throw new NullPointerException();
 		this.repo = repo;
@@ -135,7 +136,7 @@ public class Git {
 	/**
 	 * @return the git repository this class is interacting with
 	 */
-	public Repository getRepository() {
+	public FileRepository getRepository() {
 		return repo;
 	}
 }

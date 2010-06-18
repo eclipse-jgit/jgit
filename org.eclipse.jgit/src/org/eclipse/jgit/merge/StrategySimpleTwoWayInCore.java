@@ -51,7 +51,7 @@ import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.errors.UnmergedPathException;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.storage.file.FileRepository;
 import org.eclipse.jgit.treewalk.AbstractTreeIterator;
 import org.eclipse.jgit.treewalk.NameConflictTreeWalk;
 
@@ -78,7 +78,7 @@ public class StrategySimpleTwoWayInCore extends ThreeWayMergeStrategy {
 	}
 
 	@Override
-	public ThreeWayMerger newMerger(final Repository db) {
+	public ThreeWayMerger newMerger(final FileRepository db) {
 		return new InCoreMerger(db);
 	}
 
@@ -97,7 +97,7 @@ public class StrategySimpleTwoWayInCore extends ThreeWayMergeStrategy {
 
 		private ObjectId resultTree;
 
-		InCoreMerger(final Repository local) {
+		InCoreMerger(final FileRepository local) {
 			super(local);
 			tw = new NameConflictTreeWalk(db);
 			cache = DirCache.newInCore();

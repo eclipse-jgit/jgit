@@ -66,9 +66,9 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdRef;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.SymbolicRef;
 import org.eclipse.jgit.lib.Ref.Storage;
+import org.eclipse.jgit.storage.file.FileRepository;
 
 /**
  * Transport over the non-Git aware Amazon S3 protocol.
@@ -122,7 +122,7 @@ public class TransportAmazonS3 extends HttpTransport implements WalkTransport {
 	 */
 	private final String keyPrefix;
 
-	TransportAmazonS3(final Repository local, final URIish uri)
+	TransportAmazonS3(final FileRepository local, final URIish uri)
 			throws NotSupportedException {
 		super(local, uri);
 

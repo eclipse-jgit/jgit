@@ -47,8 +47,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.Config.SectionParser;
+import org.eclipse.jgit.storage.file.FileRepository;
 import org.eclipse.jgit.transport.ReceivePack;
 
 /**
@@ -81,7 +81,7 @@ public class DefaultReceivePackFactory implements ReceivePackFactory {
 		}
 	}
 
-	public ReceivePack create(final HttpServletRequest req, final Repository db)
+	public ReceivePack create(final HttpServletRequest req, final FileRepository db)
 			throws ServiceNotEnabledException, ServiceNotAuthorizedException {
 		final ServiceConfig cfg = db.getConfig().get(CONFIG);
 		String user = req.getRemoteUser();
@@ -101,7 +101,7 @@ public class DefaultReceivePackFactory implements ReceivePackFactory {
 	}
 
 	private ReceivePack createFor(final HttpServletRequest req,
-			final Repository db, final String user) {
+			final FileRepository db, final String user) {
 		final ReceivePack rp = new ReceivePack(db);
 		rp.setRefLogIdent(toPersonIdent(req, user));
 		return rp;

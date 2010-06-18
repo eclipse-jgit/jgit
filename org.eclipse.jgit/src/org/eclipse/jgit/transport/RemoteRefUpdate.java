@@ -48,8 +48,8 @@ import java.text.MessageFormat;
 
 import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.storage.file.FileRepository;
 
 /**
  * Represent request and status of a remote ref update. Specification is
@@ -141,7 +141,7 @@ public class RemoteRefUpdate {
 
 	private String message;
 
-	private final Repository localDb;
+	private final FileRepository localDb;
 
 	/**
 	 * Construct remote ref update request by providing an update specification.
@@ -152,7 +152,7 @@ public class RemoteRefUpdate {
 	 *            local repository to push from.
 	 * @param srcRef
 	 *            source revision - any string resolvable by
-	 *            {@link Repository#resolve(String)}. This resolves to the new
+	 *            {@link FileRepository#resolve(String)}. This resolves to the new
 	 *            object that the caller want remote ref to be after update. Use
 	 *            null or {@link ObjectId#zeroId()} string for delete request.
 	 * @param remoteName
@@ -181,7 +181,7 @@ public class RemoteRefUpdate {
 	 * @throws IllegalArgumentException
 	 *             if some required parameter was null
 	 */
-	public RemoteRefUpdate(final Repository localDb, final String srcRef,
+	public RemoteRefUpdate(final FileRepository localDb, final String srcRef,
 			final String remoteName, final boolean forceUpdate,
 			final String localName, final ObjectId expectedOldObjectId)
 			throws IOException {
@@ -274,7 +274,7 @@ public class RemoteRefUpdate {
 
 	/**
 	 * @return source revision as specified by user (in constructor), could be
-	 *         any string parseable by {@link Repository#resolve(String)}; can
+	 *         any string parseable by {@link FileRepository#resolve(String)}; can
 	 *         be null if specified that way in constructor - this stands for
 	 *         delete request.
 	 */

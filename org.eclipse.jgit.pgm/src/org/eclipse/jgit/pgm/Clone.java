@@ -51,8 +51,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.kohsuke.args4j.Argument;
-import org.kohsuke.args4j.Option;
 import org.eclipse.jgit.errors.NotSupportedException;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.lib.Commit;
@@ -61,15 +59,17 @@ import org.eclipse.jgit.lib.GitIndex;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefComparator;
 import org.eclipse.jgit.lib.RefUpdate;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.TextProgressMonitor;
 import org.eclipse.jgit.lib.Tree;
 import org.eclipse.jgit.lib.WorkDirCheckout;
+import org.eclipse.jgit.storage.file.FileRepository;
 import org.eclipse.jgit.transport.FetchResult;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteConfig;
 import org.eclipse.jgit.transport.Transport;
 import org.eclipse.jgit.transport.URIish;
+import org.kohsuke.args4j.Argument;
+import org.kohsuke.args4j.Option;
 
 @Command(common = true, usage = "usage_cloneRepositoryIntoNewDir")
 class Clone extends AbstractFetchCommand {
@@ -103,7 +103,7 @@ class Clone extends AbstractFetchCommand {
 		if (gitdir == null)
 			gitdir = new File(localName, Constants.DOT_GIT);
 
-		db = new Repository(gitdir);
+		db = new FileRepository(gitdir);
 		db.create();
 		db.getConfig().setBoolean("core", null, "bare", false);
 		db.getConfig().save();

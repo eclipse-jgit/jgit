@@ -48,6 +48,7 @@ import java.io.OutputStream;
 import java.io.Writer;
 import java.nio.ByteBuffer;
 
+import org.eclipse.jgit.storage.file.FileRepository;
 import org.eclipse.jgit.util.NB;
 
 /**
@@ -142,7 +143,22 @@ public abstract class AnyObjectId implements Comparable {
 		return compareTo(((ObjectId) other));
 	}
 
-	int compareTo(final byte[] bs, final int p) {
+	/**
+	 * Compare this ObjectId to a sequence of bytes in network byte order.
+	 * <p>
+	 * This is a low-level compare function, meant for storage implementors and
+	 * not application developers.
+	 *
+	 * @param bs
+	 *            bytes to compare to, should be in network byte order.
+	 * @param p
+	 *            position to start the compares at; at least 20 bytes are
+	 *            required from this offset.
+	 * @return a negative integer, zero, or a positive integer as this object is
+	 *         less than, equal to, or greater than the specified range of
+	 *         bytes.
+	 */
+	public int compareTo(final byte[] bs, final int p) {
 		int cmp;
 
 		cmp = NB.compareUInt32(w1, NB.decodeInt32(bs, p));
@@ -164,7 +180,21 @@ public abstract class AnyObjectId implements Comparable {
 		return NB.compareUInt32(w5, NB.decodeInt32(bs, p + 16));
 	}
 
-	int compareTo(final int[] bs, final int p) {
+	/**
+	 * Compare this ObjectId to a sequence of integers.
+	 * <p>
+	 * This is a low-level compare function, meant for storage implementors and
+	 * not application developers.
+	 *
+	 * @param bs
+	 *            integers to compare to.
+	 * @param p
+	 *            position to start the compares at; at least 5 integers are
+	 *            required from this offset.
+	 * @return a negative integer, zero, or a positive integer as this object is
+	 *         less than, equal to, or greater than the specified range of ints.
+	 */
+	public int compareTo(final int[] bs, final int p) {
 		int cmp;
 
 		cmp = NB.compareUInt32(w1, bs[p]);
@@ -423,7 +453,7 @@ public abstract class AnyObjectId implements Comparable {
 	 *            repository for checking uniqueness within.
 	 * @return SHA-1 abbreviation.
 	 */
-	public AbbreviatedObjectId abbreviate(final Repository repo) {
+	public AbbreviatedObjectId abbreviate(final FileRepository repo) {
 		return abbreviate(repo, 8);
 	}
 
@@ -439,7 +469,7 @@ public abstract class AnyObjectId implements Comparable {
 	 *            minimum length of the abbreviated string.
 	 * @return SHA-1 abbreviation.
 	 */
-	public AbbreviatedObjectId abbreviate(final Repository repo, final int len) {
+	public AbbreviatedObjectId abbreviate(final FileRepository repo, final int len) {
 		// TODO implement checking for uniqueness
 		final int a = AbbreviatedObjectId.mask(len, 1, w1);
 		final int b = AbbreviatedObjectId.mask(len, 2, w2);

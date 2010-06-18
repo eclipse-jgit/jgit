@@ -44,9 +44,9 @@
 package org.eclipse.jgit.patch;
 
 import static org.eclipse.jgit.lib.Constants.encodeASCII;
-import static org.eclipse.jgit.patch.FileHeader.isHunkHdr;
 import static org.eclipse.jgit.patch.FileHeader.NEW_NAME;
 import static org.eclipse.jgit.patch.FileHeader.OLD_NAME;
+import static org.eclipse.jgit.patch.FileHeader.isHunkHdr;
 import static org.eclipse.jgit.util.RawParseUtils.match;
 import static org.eclipse.jgit.util.RawParseUtils.nextLF;
 

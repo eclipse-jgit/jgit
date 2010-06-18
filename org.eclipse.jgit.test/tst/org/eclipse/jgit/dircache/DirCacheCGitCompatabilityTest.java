@@ -56,7 +56,7 @@ import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.storage.file.FileRepository;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.util.JGitTestUtil;
 
@@ -77,7 +77,7 @@ public class DirCacheCGitCompatabilityTest extends LocalDiskRepositoryTestCase {
 	}
 
 	public void testTreeWalk_LsFiles() throws Exception {
-		final Repository db = createBareRepository();
+		final FileRepository db = createBareRepository();
 		final Map<String, CGitIndexRecord> ls = readLsFiles();
 		final DirCache dc = new DirCache(index);
 		assertEquals(0, dc.getEntryCount());

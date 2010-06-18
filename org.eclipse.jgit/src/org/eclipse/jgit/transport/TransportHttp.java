@@ -85,10 +85,10 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdRef;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.RefDirectory;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.SymbolicRef;
 import org.eclipse.jgit.lib.Config.SectionParser;
+import org.eclipse.jgit.storage.file.RefDirectory;
+import org.eclipse.jgit.storage.file.FileRepository;
 import org.eclipse.jgit.util.HttpSupport;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
@@ -162,7 +162,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 
 	private boolean useSmartHttp = true;
 
-	TransportHttp(final Repository local, final URIish uri)
+	TransportHttp(final FileRepository local, final URIish uri)
 			throws NotSupportedException {
 		super(local, uri);
 		try {

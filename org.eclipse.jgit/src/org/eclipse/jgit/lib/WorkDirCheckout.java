@@ -56,6 +56,7 @@ import java.util.HashMap;
 import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.CheckoutConflictException;
 import org.eclipse.jgit.lib.GitIndex.Entry;
+import org.eclipse.jgit.storage.file.FileRepository;
 
 /**
  * This class handles checking out one or two trees merging
@@ -83,7 +84,7 @@ public class WorkDirCheckout {
 		this.failOnConflict = failOnConflict;
 	}
 
-	WorkDirCheckout(Repository repo, File workDir,
+	WorkDirCheckout(FileRepository repo, File workDir,
 			GitIndex oldIndex, GitIndex newIndex) throws IOException {
 		this.root = workDir;
 		this.index = oldIndex;
@@ -98,7 +99,7 @@ public class WorkDirCheckout {
 	 * @param index current index
 	 * @param merge tree to check out
 	 */
-	public WorkDirCheckout(Repository repo, File root,
+	public WorkDirCheckout(FileRepository repo, File root,
 			GitIndex index, Tree merge) {
 		this.root = root;
 		this.index = index;
@@ -114,7 +115,7 @@ public class WorkDirCheckout {
 	 * @param index
 	 * @param merge
 	 */
-	public WorkDirCheckout(Repository repo, File root, Tree head, GitIndex index, Tree merge) {
+	public WorkDirCheckout(FileRepository repo, File root, Tree head, GitIndex index, Tree merge) {
 		this(repo, root, index, merge);
 		this.head = head;
 	}
@@ -237,7 +238,7 @@ public class WorkDirCheckout {
 			if (f.isDirectory())
 				listFiles(f, list);
 			else {
-				list.add(Repository.stripWorkDir(root, f));
+				list.add(FileRepository.stripWorkDir(root, f));
 			}
 		}
 	}
@@ -394,7 +395,7 @@ public class WorkDirCheckout {
 				if (parent.isDirectory())
 					break;
 				if (parent.isFile()) {
-					conflicts.add(Repository.stripWorkDir(root, parent));
+					conflicts.add(FileRepository.stripWorkDir(root, parent));
 					break;
 				}
 				parent = parent.getParentFile();

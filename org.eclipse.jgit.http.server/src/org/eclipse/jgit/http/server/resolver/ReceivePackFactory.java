@@ -45,14 +45,14 @@ package org.eclipse.jgit.http.server.resolver;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.storage.file.FileRepository;
 import org.eclipse.jgit.transport.ReceivePack;
 
 /** Create and configure {@link ReceivePack} service instance. */
 public interface ReceivePackFactory {
 	/** A factory disabling the ReceivePack service for all repositories. */
 	public static final ReceivePackFactory DISABLED = new ReceivePackFactory() {
-		public ReceivePack create(HttpServletRequest req, Repository db)
+		public ReceivePack create(HttpServletRequest req, FileRepository db)
 				throws ServiceNotEnabledException {
 			throw new ServiceNotEnabledException();
 		}
@@ -74,6 +74,6 @@ public interface ReceivePackFactory {
 	 *             this factory refuses to create the instance for this HTTP
 	 *             request and repository, such as due to a permission error.
 	 */
-	ReceivePack create(HttpServletRequest req, Repository db)
+	ReceivePack create(HttpServletRequest req, FileRepository db)
 			throws ServiceNotEnabledException, ServiceNotAuthorizedException;
 }

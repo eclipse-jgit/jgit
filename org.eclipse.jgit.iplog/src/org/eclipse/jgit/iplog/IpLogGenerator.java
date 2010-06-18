@@ -85,11 +85,11 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.MutableObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.PersonIdent;
-import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.lib.WindowCursor;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.storage.file.FileRepository;
+import org.eclipse.jgit.storage.file.WindowCursor;
 import org.eclipse.jgit.treewalk.NameConflictTreeWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
@@ -138,7 +138,7 @@ public class IpLogGenerator {
 
 	private String characterEncoding = "UTF-8";
 
-	private Repository db;
+	private FileRepository db;
 
 	private RevWalk rw;
 
@@ -180,7 +180,7 @@ public class IpLogGenerator {
 	 *             the {@code .eclipse_iplog} file present at the top level of
 	 *             {@code startId} is not a valid configuration file.
 	 */
-	public void scan(Repository repo, RevCommit startCommit, String version)
+	public void scan(FileRepository repo, RevCommit startCommit, String version)
 			throws IOException, ConfigInvalidException {
 		try {
 			db = repo;
@@ -232,7 +232,7 @@ public class IpLogGenerator {
 		reviewUrl = meta.getReviewUrl();
 	}
 
-	private void loadCommitters(Repository repo) throws IOException {
+	private void loadCommitters(FileRepository repo) throws IOException {
 		SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		File list = new File(repo.getDirectory(), "gerrit_committers");
 		BufferedReader br = new BufferedReader(new FileReader(list));

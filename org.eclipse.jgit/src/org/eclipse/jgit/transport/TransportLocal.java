@@ -60,7 +60,7 @@ import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.NotSupportedException;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.storage.file.FileRepository;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.io.MessageWriter;
 import org.eclipse.jgit.util.io.StreamCopyThread;
@@ -103,7 +103,7 @@ class TransportLocal extends Transport implements PackTransport {
 
 	private final File remoteGitDir;
 
-	TransportLocal(final Repository local, final URIish uri) {
+	TransportLocal(final FileRepository local, final URIish uri) {
 		super(local, uri);
 
 		File d = local.getFS().resolve(new File(PWD), uri.getPath()).getAbsoluteFile();
@@ -112,11 +112,11 @@ class TransportLocal extends Transport implements PackTransport {
 		remoteGitDir = d;
 	}
 
-	UploadPack createUploadPack(final Repository dst) {
+	UploadPack createUploadPack(final FileRepository dst) {
 		return new UploadPack(dst);
 	}
 
-	ReceivePack createReceivePack(final Repository dst) {
+	ReceivePack createReceivePack(final FileRepository dst) {
 		return new ReceivePack(dst);
 	}
 
@@ -172,9 +172,9 @@ class TransportLocal extends Transport implements PackTransport {
 		InternalLocalFetchConnection() throws TransportException {
 			super(TransportLocal.this);
 
-			final Repository dst;
+			final FileRepository dst;
 			try {
-				dst = new Repository(remoteGitDir);
+				dst = new FileRepository(remoteGitDir);
 			} catch (IOException err) {
 				throw new TransportException(uri, JGitText.get().notAGitDirectory);
 			}
@@ -312,9 +312,9 @@ class TransportLocal extends Transport implements PackTransport {
 		InternalLocalPushConnection() throws TransportException {
 			super(TransportLocal.this);
 
-			final Repository dst;
+			final FileRepository dst;
 			try {
-				dst = new Repository(remoteGitDir);
+				dst = new FileRepository(remoteGitDir);
 			} catch (IOException err) {
 				throw new TransportException(uri, JGitText.get().notAGitDirectory);
 			}

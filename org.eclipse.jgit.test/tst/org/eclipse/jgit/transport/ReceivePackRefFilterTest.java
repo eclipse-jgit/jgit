@@ -56,14 +56,14 @@ import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
-import org.eclipse.jgit.lib.ObjectDirectory;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevTree;
+import org.eclipse.jgit.storage.file.ObjectDirectory;
+import org.eclipse.jgit.storage.file.FileRepository;
 import org.eclipse.jgit.util.NB;
 import org.eclipse.jgit.util.TemporaryBuffer;
 
@@ -74,9 +74,9 @@ public class ReceivePackRefFilterTest extends LocalDiskRepositoryTestCase {
 
 	private static final String R_PRIVATE = Constants.R_HEADS + "private";
 
-	private Repository src;
+	private FileRepository src;
 
-	private Repository dst;
+	private FileRepository dst;
 
 	private RevCommit A, B, P;
 
@@ -127,7 +127,7 @@ public class ReceivePackRefFilterTest extends LocalDiskRepositoryTestCase {
 		Map<String, Ref> refs;
 		TransportLocal t = new TransportLocal(src, uriOf(dst)) {
 			@Override
-			ReceivePack createReceivePack(final Repository db) {
+			ReceivePack createReceivePack(final FileRepository db) {
 				db.close();
 				dst.incrementOpen();
 
@@ -189,7 +189,7 @@ public class ReceivePackRefFilterTest extends LocalDiskRepositoryTestCase {
 		//
 		TransportLocal t = new TransportLocal(src, uriOf(dst)) {
 			@Override
-			ReceivePack createReceivePack(final Repository db) {
+			ReceivePack createReceivePack(final FileRepository db) {
 				db.close();
 				dst.incrementOpen();
 
@@ -480,7 +480,7 @@ public class ReceivePackRefFilterTest extends LocalDiskRepositoryTestCase {
 		}
 	}
 
-	private static URIish uriOf(Repository r) throws URISyntaxException {
+	private static URIish uriOf(FileRepository r) throws URISyntaxException {
 		return new URIish(r.getDirectory().getAbsolutePath());
 	}
 }

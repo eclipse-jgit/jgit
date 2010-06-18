@@ -77,7 +77,6 @@ import org.eclipse.jgit.lib.PackLock;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.Config.SectionParser;
 import org.eclipse.jgit.revwalk.ObjectWalk;
 import org.eclipse.jgit.revwalk.RevBlob;
@@ -87,6 +86,7 @@ import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevTag;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.storage.file.FileRepository;
 import org.eclipse.jgit.transport.ReceiveCommand.Result;
 import org.eclipse.jgit.transport.RefAdvertiser.PacketLineOutRefAdvertiser;
 import org.eclipse.jgit.util.io.InterruptTimer;
@@ -98,7 +98,7 @@ import org.eclipse.jgit.util.io.TimeoutOutputStream;
  */
 public class ReceivePack {
 	/** Database we write the stored objects into. */
-	private final Repository db;
+	private final FileRepository db;
 
 	/** Revision traversal support over {@link #db}. */
 	private final RevWalk walk;
@@ -194,7 +194,7 @@ public class ReceivePack {
 	 * @param into
 	 *            the destination repository.
 	 */
-	public ReceivePack(final Repository into) {
+	public ReceivePack(final FileRepository into) {
 		db = into;
 		walk = new RevWalk(db);
 
@@ -239,7 +239,7 @@ public class ReceivePack {
 	}
 
 	/** @return the repository this receive completes into. */
-	public final Repository getRepository() {
+	public final FileRepository getRepository() {
 		return db;
 	}
 
@@ -959,7 +959,7 @@ public class ReceivePack {
 			}
 
 			if (!cmd.getRefName().startsWith(Constants.R_REFS)
-					|| !Repository.isValidRefName(cmd.getRefName())) {
+					|| !FileRepository.isValidRefName(cmd.getRefName())) {
 				cmd.setResult(Result.REJECTED_OTHER_REASON, JGitText.get().funnyRefname);
 			}
 		}

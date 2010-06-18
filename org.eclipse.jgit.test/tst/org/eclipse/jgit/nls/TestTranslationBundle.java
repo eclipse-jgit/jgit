@@ -45,10 +45,10 @@ package org.eclipse.jgit.nls;
 
 import java.util.Locale;
 
+import junit.framework.TestCase;
+
 import org.eclipse.jgit.errors.TranslationBundleLoadingException;
 import org.eclipse.jgit.errors.TranslationStringMissingException;
-
-import junit.framework.TestCase;
 
 public class TestTranslationBundle extends TestCase {
 

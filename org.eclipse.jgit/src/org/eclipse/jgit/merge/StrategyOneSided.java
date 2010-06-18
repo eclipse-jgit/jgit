@@ -47,7 +47,7 @@ package org.eclipse.jgit.merge;
 import java.io.IOException;
 
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.storage.file.FileRepository;
 
 /**
  * Trivial merge strategy to make the resulting tree exactly match an input.
@@ -80,14 +80,14 @@ public class StrategyOneSided extends MergeStrategy {
 	}
 
 	@Override
-	public Merger newMerger(final Repository db) {
+	public Merger newMerger(final FileRepository db) {
 		return new OneSide(db, treeIndex);
 	}
 
 	static class OneSide extends Merger {
 		private final int treeIndex;
 
-		protected OneSide(final Repository local, final int index) {
+		protected OneSide(final FileRepository local, final int index) {
 			super(local);
 			treeIndex = index;
 		}

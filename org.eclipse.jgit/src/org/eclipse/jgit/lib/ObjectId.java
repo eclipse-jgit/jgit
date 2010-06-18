@@ -44,14 +44,14 @@
 
 package org.eclipse.jgit.lib;
 
-import org.eclipse.jgit.errors.InvalidObjectIdException;
-import org.eclipse.jgit.util.NB;
-import org.eclipse.jgit.util.RawParseUtils;
-
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+
+import org.eclipse.jgit.errors.InvalidObjectIdException;
+import org.eclipse.jgit.util.NB;
+import org.eclipse.jgit.util.RawParseUtils;
 
 /**
  * A SHA-1 abstraction.

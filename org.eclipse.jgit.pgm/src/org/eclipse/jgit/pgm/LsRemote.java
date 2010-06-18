@@ -45,12 +45,12 @@
 
 package org.eclipse.jgit.pgm;
 
-import org.kohsuke.args4j.Argument;
-import org.kohsuke.args4j.Option;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.transport.FetchConnection;
 import org.eclipse.jgit.transport.Transport;
+import org.kohsuke.args4j.Argument;
+import org.kohsuke.args4j.Option;
 
 class LsRemote extends TextBuiltin {
 	@Option(name = "--timeout", metaVar = "metaVar_service", usage = "usage_abortConnectionIfNoActivity")

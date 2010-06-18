@@ -64,10 +64,10 @@ import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.UnmergedPathException;
 import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.LockFile;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectWriter;
-import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.storage.file.LockFile;
+import org.eclipse.jgit.storage.file.FileRepository;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.MutableInteger;
 import org.eclipse.jgit.util.NB;
@@ -174,7 +174,7 @@ public class DirCache {
 	 *             the index file is using a format or extension that this
 	 *             library does not support.
 	 */
-	public static DirCache read(final Repository db)
+	public static DirCache read(final FileRepository db)
 			throws CorruptObjectException, IOException {
 		return read(new File(db.getDirectory(), "index"));
 	}
@@ -238,7 +238,7 @@ public class DirCache {
 	 *             the index file is using a format or extension that this
 	 *             library does not support.
 	 */
-	public static DirCache lock(final Repository db)
+	public static DirCache lock(final FileRepository db)
 			throws CorruptObjectException, IOException {
 		return lock(new File(db.getDirectory(), "index"));
 	}

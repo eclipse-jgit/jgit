@@ -65,8 +65,8 @@ import org.eclipse.jgit.lib.PackWriter;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefWriter;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.Ref.Storage;
+import org.eclipse.jgit.storage.file.FileRepository;
 import org.eclipse.jgit.transport.RemoteRefUpdate.Status;
 
 /**
@@ -95,7 +95,7 @@ import org.eclipse.jgit.transport.RemoteRefUpdate.Status;
  */
 class WalkPushConnection extends BaseConnection implements PushConnection {
 	/** The repository this transport pushes out of. */
-	private final Repository local;
+	private final FileRepository local;
 
 	/** Location of the remote repository we are writing to. */
 	private final URIish uri;
@@ -144,7 +144,7 @@ class WalkPushConnection extends BaseConnection implements PushConnection {
 		final List<RemoteRefUpdate> updates = new ArrayList<RemoteRefUpdate>();
 		for (final RemoteRefUpdate u : refUpdates.values()) {
 			final String n = u.getRemoteName();
-			if (!n.startsWith("refs/") || !Repository.isValidRefName(n)) {
+			if (!n.startsWith("refs/") || !FileRepository.isValidRefName(n)) {
 				u.setStatus(Status.REJECTED_OTHER_REASON);
 				u.setMessage(JGitText.get().funnyRefname);
 				continue;

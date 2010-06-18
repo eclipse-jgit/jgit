@@ -52,7 +52,7 @@ import java.io.InputStream;
 import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.NotSupportedException;
 import org.eclipse.jgit.errors.TransportException;
-import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.storage.file.FileRepository;
 
 /**
  * Single shot fetch from a streamed Git bundle.
@@ -84,7 +84,7 @@ public class TransportBundleStream extends Transport implements TransportBundle 
 	 * @param in
 	 *            the stream to read the bundle from.
 	 */
-	public TransportBundleStream(final Repository db, final URIish uri,
+	public TransportBundleStream(final FileRepository db, final URIish uri,
 			final InputStream in) {
 		super(db, uri);
 		src = in;

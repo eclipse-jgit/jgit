@@ -55,11 +55,11 @@ import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Commit;
 import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.Tag;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevSort;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.storage.file.FileRepository;
 
 /** Specialized RevWalk for visualization of a commit graph. */
 public class PlotWalk extends RevWalk {
@@ -78,7 +78,7 @@ public class PlotWalk extends RevWalk {
 	 * @param repo
 	 *            the repository the walker will obtain data from.
 	 */
-	public PlotWalk(final Repository repo) {
+	public PlotWalk(final FileRepository repo) {
 		super(repo);
 		super.sort(RevSort.TOPO, true);
 		reverseRefMap = repo.getAllRefsByPeeledObjectId();

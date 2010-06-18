@@ -45,7 +45,8 @@
 
 package org.eclipse.jgit.transport;
 
-import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.storage.file.FileRepository;
+
 
 /**
  * The base class for transports based on TCP sockets. This class
@@ -58,12 +59,12 @@ public abstract class TcpTransport extends Transport {
 	 * @param local
 	 *            the repository this instance will fetch into, or push out of.
 	 *            This must be the repository passed to
-	 *            {@link #open(Repository, URIish)}.
+	 *            {@link #open(FileRepository, URIish)}.
 	 * @param uri
 	 *            the URI used to access the remote repository. This must be the
-	 *            URI passed to {@link #open(Repository, URIish)}.
+	 *            URI passed to {@link #open(FileRepository, URIish)}.
 	 */
-	protected TcpTransport(Repository local, URIish uri) {
+	protected TcpTransport(FileRepository local, URIish uri) {
 		super(local, uri);
 	}
 }

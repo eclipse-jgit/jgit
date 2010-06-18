@@ -63,10 +63,10 @@ import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryConfig;
 import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.storage.file.FileRepository;
 import org.eclipse.jgit.transport.PreReceiveHook;
 import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.ReceiveCommand;
@@ -76,7 +76,7 @@ import org.eclipse.jgit.transport.Transport;
 import org.eclipse.jgit.transport.URIish;
 
 public class HookMessageTest extends HttpTestCase {
-	private Repository remoteRepository;
+	private FileRepository remoteRepository;
 
 	private URIish remoteURI;
 
@@ -89,19 +89,19 @@ public class HookMessageTest extends HttpTestCase {
 		ServletContextHandler app = server.addContext("/git");
 		GitServlet gs = new GitServlet();
 		gs.setRepositoryResolver(new RepositoryResolver() {
-			public Repository open(HttpServletRequest req, String name)
+			public FileRepository open(HttpServletRequest req, String name)
 					throws RepositoryNotFoundException,
 					ServiceNotEnabledException {
 				if (!name.equals(srcName))
 					throw new RepositoryNotFoundException(name);
 
-				final Repository db = src.getRepository();
+				final FileRepository db = src.getRepository();
 				db.incrementOpen();
 				return db;
 			}
 		});
 		gs.setReceivePackFactory(new DefaultReceivePackFactory() {
-			public ReceivePack create(HttpServletRequest req, Repository db)
+			public ReceivePack create(HttpServletRequest req, FileRepository db)
 					throws ServiceNotEnabledException,
 					ServiceNotAuthorizedException {
 				ReceivePack recv = super.create(req, db);
@@ -133,7 +133,7 @@ public class HookMessageTest extends HttpTestCase {
 		final TestRepository src = createTestRepository();
 		final RevBlob Q_txt = src.blob("new text");
 		final RevCommit Q = src.commit().add("Q", Q_txt).create();
-		final Repository db = src.getRepository();
+		final FileRepository db = src.getRepository();
 		final String dstName = Constants.R_HEADS + "new.branch";
 		Transport t;
 		PushResult result;

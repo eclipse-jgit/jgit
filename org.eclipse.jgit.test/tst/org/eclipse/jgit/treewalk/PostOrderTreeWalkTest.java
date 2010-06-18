@@ -43,6 +43,9 @@
 
 package org.eclipse.jgit.treewalk;
 
+import static org.eclipse.jgit.lib.FileMode.REGULAR_FILE;
+import static org.eclipse.jgit.lib.FileMode.TREE;
+
 import java.io.ByteArrayInputStream;
 
 import org.eclipse.jgit.dircache.DirCache;
@@ -53,9 +56,6 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectWriter;
 import org.eclipse.jgit.lib.RepositoryTestCase;
-
-import static org.eclipse.jgit.lib.FileMode.REGULAR_FILE;
-import static org.eclipse.jgit.lib.FileMode.TREE;
 
 public class PostOrderTreeWalkTest extends RepositoryTestCase {
 	public void testInitialize_NoPostOrder() throws Exception {

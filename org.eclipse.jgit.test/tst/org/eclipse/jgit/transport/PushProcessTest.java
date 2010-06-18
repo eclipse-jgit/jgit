@@ -54,10 +54,10 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdRef;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.SampleDataRepositoryTestCase;
 import org.eclipse.jgit.lib.TextProgressMonitor;
 import org.eclipse.jgit.lib.RefUpdate.Result;
+import org.eclipse.jgit.storage.file.FileRepository;
 import org.eclipse.jgit.transport.RemoteRefUpdate.Status;
 
 public class PushProcessTest extends SampleDataRepositoryTestCase {
@@ -371,7 +371,7 @@ public class PushProcessTest extends SampleDataRepositoryTestCase {
 	}
 
 	private class MockTransport extends Transport {
-		MockTransport(Repository local, URIish uri) {
+		MockTransport(FileRepository local, URIish uri) {
 			super(local, uri);
 		}
 

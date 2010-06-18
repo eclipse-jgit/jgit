@@ -62,9 +62,9 @@ import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.storage.file.FileRepository;
 import org.eclipse.jgit.transport.FetchConnection;
 import org.eclipse.jgit.transport.HttpTransport;
 import org.eclipse.jgit.transport.Transport;
@@ -72,7 +72,7 @@ import org.eclipse.jgit.transport.TransportHttp;
 import org.eclipse.jgit.transport.URIish;
 
 public class DumbClientDumbServerTest extends HttpTestCase {
-	private Repository remoteRepository;
+	private FileRepository remoteRepository;
 
 	private URIish remoteURI;
 
@@ -103,7 +103,7 @@ public class DumbClientDumbServerTest extends HttpTestCase {
 	}
 
 	public void testListRemote() throws IOException {
-		Repository dst = createBareRepository();
+		FileRepository dst = createBareRepository();
 
 		assertEquals("http", remoteURI.getScheme());
 
@@ -165,7 +165,7 @@ public class DumbClientDumbServerTest extends HttpTestCase {
 	}
 
 	public void testInitialClone_Loose() throws Exception {
-		Repository dst = createBareRepository();
+		FileRepository dst = createBareRepository();
 		assertFalse(dst.hasObject(A_txt));
 
 		Transport t = Transport.open(dst, remoteURI);
@@ -189,7 +189,7 @@ public class DumbClientDumbServerTest extends HttpTestCase {
 	public void testInitialClone_Packed() throws Exception {
 		new TestRepository(remoteRepository).packAndPrune();
 
-		Repository dst = createBareRepository();
+		FileRepository dst = createBareRepository();
 		assertFalse(dst.hasObject(A_txt));
 
 		Transport t = Transport.open(dst, remoteURI);
@@ -228,7 +228,7 @@ public class DumbClientDumbServerTest extends HttpTestCase {
 	public void testPushNotSupported() throws Exception {
 		final TestRepository src = createTestRepository();
 		final RevCommit Q = src.commit().create();
-		final Repository db = src.getRepository();
+		final FileRepository db = src.getRepository();
 
 		Transport t = Transport.open(db, remoteURI);
 		try {

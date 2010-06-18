@@ -50,7 +50,7 @@ import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.http.server.resolver.FileResolver;
 import org.eclipse.jgit.http.server.resolver.ServiceNotEnabledException;
 import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
-import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.storage.file.FileRepository;
 
 public class FileResolverTest extends LocalDiskRepositoryTestCase {
 	public void testUnreasonableNames() throws ServiceNotEnabledException {
@@ -84,7 +84,7 @@ public class FileResolverTest extends LocalDiskRepositoryTestCase {
 	}
 
 	public void testExportOk() throws IOException {
-		final Repository a = createBareRepository();
+		final FileRepository a = createBareRepository();
 		final String name = a.getDirectory().getName();
 		final File base = a.getDirectory().getParentFile();
 		final File export = new File(a.getDirectory(), "git-daemon-export-ok");
@@ -118,7 +118,7 @@ public class FileResolverTest extends LocalDiskRepositoryTestCase {
 
 	public void testNotAGitRepository() throws IOException,
 			ServiceNotEnabledException {
-		final Repository a = createBareRepository();
+		final FileRepository a = createBareRepository();
 		final String name = a.getDirectory().getName() + "-not-a-git";
 		final File base = a.getDirectory().getParentFile();
 		FileResolver resolver = new FileResolver(base, false);

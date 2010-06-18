@@ -45,19 +45,19 @@ package org.eclipse.jgit.pgm.opt;
 
 import java.util.ArrayList;
 
-import org.kohsuke.args4j.Argument;
-import org.kohsuke.args4j.CmdLineException;
-import org.kohsuke.args4j.IllegalAnnotationError;
-import org.kohsuke.args4j.Option;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.pgm.CLIText;
 import org.eclipse.jgit.pgm.TextBuiltin;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.storage.file.FileRepository;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.treewalk.AbstractTreeIterator;
+import org.kohsuke.args4j.Argument;
+import org.kohsuke.args4j.CmdLineException;
+import org.kohsuke.args4j.IllegalAnnotationError;
+import org.kohsuke.args4j.Option;
 
 /**
  * Extended command line parser which handles --foo=value arguments.
@@ -77,7 +77,7 @@ public class CmdLineParser extends org.kohsuke.args4j.CmdLineParser {
 		registerHandler(RevTree.class, RevTreeHandler.class);
 	}
 
-	private final Repository db;
+	private final FileRepository db;
 
 	private RevWalk walk;
 
@@ -110,7 +110,7 @@ public class CmdLineParser extends org.kohsuke.args4j.CmdLineParser {
 	 *             if the option bean class is using args4j annotations
 	 *             incorrectly.
 	 */
-	public CmdLineParser(final Object bean, Repository repo) {
+	public CmdLineParser(final Object bean, FileRepository repo) {
 		super(bean);
 		if (repo == null && bean instanceof TextBuiltin)
 			repo = ((TextBuiltin) bean).getRepository();
@@ -148,7 +148,7 @@ public class CmdLineParser extends org.kohsuke.args4j.CmdLineParser {
 	 *
 	 * @return the repository, if specified during construction.
 	 */
-	public Repository getRepository() {
+	public FileRepository getRepository() {
 		if (db == null)
 			throw new IllegalStateException(CLIText.get().noGitRepositoryConfigured);
 		return db;

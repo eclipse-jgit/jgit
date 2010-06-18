@@ -55,11 +55,11 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectDatabase;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefComparator;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevFlag;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevTag;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.storage.file.FileRepository;
 import org.eclipse.jgit.util.RefMap;
 
 /** Support for the start of {@link UploadPack} and {@link ReceivePack}. */
@@ -227,7 +227,7 @@ public abstract class RefAdvertiser {
 			additionalHaves(alt);
 	}
 
-	private void additionalHaves(final Repository alt) throws IOException {
+	private void additionalHaves(final FileRepository alt) throws IOException {
 		for (final Ref r : alt.getAllRefs().values())
 			advertiseHave(r.getObjectId());
 	}

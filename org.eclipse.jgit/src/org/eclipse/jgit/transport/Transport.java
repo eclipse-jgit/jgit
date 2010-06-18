@@ -64,8 +64,8 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.TransferConfig;
+import org.eclipse.jgit.storage.file.FileRepository;
 import org.eclipse.jgit.util.FS;
 
 /**
@@ -108,7 +108,7 @@ public abstract class Transport {
 	 * @throws NotSupportedException
 	 *             the protocol specified is not supported.
 	 */
-	public static Transport open(final Repository local, final String remote)
+	public static Transport open(final FileRepository local, final String remote)
 			throws NotSupportedException, URISyntaxException {
 		return open(local, remote, Operation.FETCH);
 	}
@@ -132,7 +132,7 @@ public abstract class Transport {
 	 * @throws NotSupportedException
 	 *             the protocol specified is not supported.
 	 */
-	public static Transport open(final Repository local, final String remote,
+	public static Transport open(final FileRepository local, final String remote,
 			final Operation op) throws NotSupportedException,
 			URISyntaxException {
 		final RemoteConfig cfg = new RemoteConfig(local.getConfig(), remote);
@@ -159,7 +159,7 @@ public abstract class Transport {
 	 * @throws NotSupportedException
 	 *             the protocol specified is not supported.
 	 */
-	public static List<Transport> openAll(final Repository local,
+	public static List<Transport> openAll(final FileRepository local,
 			final String remote) throws NotSupportedException,
 			URISyntaxException {
 		return openAll(local, remote, Operation.FETCH);
@@ -184,7 +184,7 @@ public abstract class Transport {
 	 * @throws NotSupportedException
 	 *             the protocol specified is not supported.
 	 */
-	public static List<Transport> openAll(final Repository local,
+	public static List<Transport> openAll(final FileRepository local,
 			final String remote, final Operation op)
 			throws NotSupportedException, URISyntaxException {
 		final RemoteConfig cfg = new RemoteConfig(local.getConfig(), remote);
@@ -214,7 +214,7 @@ public abstract class Transport {
 	 *             if provided remote configuration doesn't have any URI
 	 *             associated.
 	 */
-	public static Transport open(final Repository local, final RemoteConfig cfg)
+	public static Transport open(final FileRepository local, final RemoteConfig cfg)
 			throws NotSupportedException {
 		return open(local, cfg, Operation.FETCH);
 	}
@@ -238,7 +238,7 @@ public abstract class Transport {
 	 *             if provided remote configuration doesn't have any URI
 	 *             associated.
 	 */
-	public static Transport open(final Repository local,
+	public static Transport open(final FileRepository local,
 			final RemoteConfig cfg, final Operation op)
 			throws NotSupportedException {
 		final List<URIish> uris = getURIs(cfg, op);
@@ -265,7 +265,7 @@ public abstract class Transport {
 	 * @throws NotSupportedException
 	 *             the protocol specified is not supported.
 	 */
-	public static List<Transport> openAll(final Repository local,
+	public static List<Transport> openAll(final FileRepository local,
 			final RemoteConfig cfg) throws NotSupportedException {
 		return openAll(local, cfg, Operation.FETCH);
 	}
@@ -286,7 +286,7 @@ public abstract class Transport {
 	 * @throws NotSupportedException
 	 *             the protocol specified is not supported.
 	 */
-	public static List<Transport> openAll(final Repository local,
+	public static List<Transport> openAll(final FileRepository local,
 			final RemoteConfig cfg, final Operation op)
 			throws NotSupportedException {
 		final List<URIish> uris = getURIs(cfg, op);
@@ -364,7 +364,7 @@ public abstract class Transport {
 	 * @throws NotSupportedException
 	 *             the protocol specified is not supported.
 	 */
-	public static Transport open(final Repository local, final URIish remote)
+	public static Transport open(final FileRepository local, final URIish remote)
 			throws NotSupportedException {
 		if (TransportGitSsh.canHandle(remote))
 			return new TransportGitSsh(local, remote);
@@ -411,7 +411,7 @@ public abstract class Transport {
 	 *             up: most probably, missing objects or refs.
 	 */
 	public static Collection<RemoteRefUpdate> findRemoteRefUpdatesFor(
-			final Repository db, final Collection<RefSpec> specs,
+			final FileRepository db, final Collection<RefSpec> specs,
 			Collection<RefSpec> fetchSpecs) throws IOException {
 		if (fetchSpecs == null)
 			fetchSpecs = Collections.emptyList();
@@ -451,7 +451,7 @@ public abstract class Transport {
 	}
 
 	private static Collection<RefSpec> expandPushWildcardsFor(
-			final Repository db, final Collection<RefSpec> specs) {
+			final FileRepository db, final Collection<RefSpec> specs) {
 		final Map<String, Ref> localRefs = db.getAllRefs();
 		final Collection<RefSpec> procRefs = new HashSet<RefSpec>();
 
@@ -508,7 +508,7 @@ public abstract class Transport {
 			"refs/heads/*:refs/heads/*");
 
 	/** The repository this transport fetches into, or pushes out of. */
-	protected final Repository local;
+	protected final FileRepository local;
 
 	/** The URI used to create this transport. */
 	protected final URIish uri;
@@ -560,12 +560,12 @@ public abstract class Transport {
 	 * @param local
 	 *            the repository this instance will fetch into, or push out of.
 	 *            This must be the repository passed to
-	 *            {@link #open(Repository, URIish)}.
+	 *            {@link #open(FileRepository, URIish)}.
 	 * @param uri
 	 *            the URI used to access the remote repository. This must be the
-	 *            URI passed to {@link #open(Repository, URIish)}.
+	 *            URI passed to {@link #open(FileRepository, URIish)}.
 	 */
-	protected Transport(final Repository local, final URIish uri) {
+	protected Transport(final FileRepository local, final URIish uri) {
 		final TransferConfig tc = local.getConfig().getTransfer();
 		this.local = local;
 		this.uri = uri;

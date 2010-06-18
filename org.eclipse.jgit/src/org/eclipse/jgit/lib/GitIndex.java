@@ -71,6 +71,7 @@ import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.NotSupportedException;
+import org.eclipse.jgit.storage.file.FileRepository;
 import org.eclipse.jgit.util.RawParseUtils;
 
 /**
@@ -115,7 +116,7 @@ public class GitIndex {
 
 	private long lastCacheTime;
 
-	private final Repository db;
+	private final FileRepository db;
 
 	private Map<byte[], Entry> entries = new TreeMap<byte[], Entry>(new Comparator<byte[]>() {
 		public int compare(byte[] o1, byte[] o2) {
@@ -136,7 +137,7 @@ public class GitIndex {
 	 * Construct a Git index representation.
 	 * @param db
 	 */
-	public GitIndex(Repository db) {
+	public GitIndex(FileRepository db) {
 		this.db = db;
 		this.cacheFile = db.getIndexFile();
 	}
@@ -342,7 +343,7 @@ public class GitIndex {
 	static byte[] makeKey(File wd, File f) {
 		if (!f.getPath().startsWith(wd.getPath()))
 			throw new Error(JGitText.get().pathIsNotInWorkingDir);
-		String relName = Repository.stripWorkDir(wd, f);
+		String relName = FileRepository.stripWorkDir(wd, f);
 		return Constants.encode(relName);
 	}
 
@@ -993,13 +994,13 @@ public class GitIndex {
 	 * @throws UnsupportedEncodingException
 	 */
 	public Entry getEntry(String path) throws UnsupportedEncodingException {
-		return entries.get(Repository.gitInternalSlash(Constants.encode(path)));
+		return entries.get(Tree.gitInternalSlash(Constants.encode(path)));
 	}
 
 	/**
 	 * @return The repository holding this index.
 	 */
-	public Repository getRepository() {
+	public FileRepository getRepository() {
 		return db;
 	}
 }

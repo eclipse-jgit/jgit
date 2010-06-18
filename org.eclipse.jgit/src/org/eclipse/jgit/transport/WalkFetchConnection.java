@@ -71,12 +71,9 @@ import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.MutableObjectId;
 import org.eclipse.jgit.lib.ObjectChecker;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.PackIndex;
 import org.eclipse.jgit.lib.PackLock;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.lib.UnpackedObjectLoader;
 import org.eclipse.jgit.revwalk.DateRevQueue;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
@@ -84,6 +81,9 @@ import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevTag;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.storage.file.PackIndex;
+import org.eclipse.jgit.storage.file.FileRepository;
+import org.eclipse.jgit.storage.file.UnpackedObjectLoader;
 import org.eclipse.jgit.treewalk.TreeWalk;
 
 /**
@@ -109,7 +109,7 @@ import org.eclipse.jgit.treewalk.TreeWalk;
  */
 class WalkFetchConnection extends BaseFetchConnection {
 	/** The repository this transport fetches into, or pushes out of. */
-	private final Repository local;
+	private final FileRepository local;
 
 	/** If not null the validator for received objects. */
 	private final ObjectChecker objCheck;

@@ -56,12 +56,12 @@ import java.io.PrintWriter;
 import java.text.MessageFormat;
 import java.util.ResourceBundle;
 
-import org.kohsuke.args4j.CmdLineException;
-import org.kohsuke.args4j.Option;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.pgm.opt.CmdLineParser;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.storage.file.FileRepository;
+import org.kohsuke.args4j.CmdLineException;
+import org.kohsuke.args4j.Option;
 
 /**
  * Abstract command which can be invoked from the command line.
@@ -84,7 +84,7 @@ public abstract class TextBuiltin {
 	protected PrintWriter out;
 
 	/** Git repository the command was invoked within. */
-	protected Repository db;
+	protected FileRepository db;
 
 	/** Directory supplied via --git-dir command line option. */
 	protected File gitdir;
@@ -101,7 +101,7 @@ public abstract class TextBuiltin {
 		return true;
 	}
 
-	void init(final Repository repo, final File gd) {
+	void init(final FileRepository repo, final File gd) {
 		try {
 			final String outputEncoding = repo != null ? repo.getConfig()
 					.getString("i18n", null, "logOutputEncoding") : null;
@@ -221,7 +221,7 @@ public abstract class TextBuiltin {
 	/**
 	 * @return the repository this command accesses.
 	 */
-	public Repository getRepository() {
+	public FileRepository getRepository() {
 		return db;
 	}
 

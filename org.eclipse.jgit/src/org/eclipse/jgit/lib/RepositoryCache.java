@@ -52,11 +52,12 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.storage.file.FileRepository;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
 
-/** Cache of active {@link Repository} instances. */
+/** Cache of active {@link FileRepository} instances. */
 public class RepositoryCache {
 	private static final RepositoryCache cache = new RepositoryCache();
 
@@ -64,7 +65,7 @@ public class RepositoryCache {
 	 * Open an existing repository, reusing a cached instance if possible.
 	 * <p>
 	 * When done with the repository, the caller must call
-	 * {@link Repository#close()} to decrement the repository's usage counter.
+	 * {@link FileRepository#close()} to decrement the repository's usage counter.
 	 *
 	 * @param location
 	 *            where the local repository is. Typically a {@link FileKey}.
@@ -75,7 +76,7 @@ public class RepositoryCache {
 	 * @throws RepositoryNotFoundException
 	 *             there is no repository at the given location.
 	 */
-	public static Repository open(final Key location) throws IOException,
+	public static FileRepository open(final Key location) throws IOException,
 			RepositoryNotFoundException {
 		return open(location, true);
 	}
@@ -84,7 +85,7 @@ public class RepositoryCache {
 	 * Open a repository, reusing a cached instance if possible.
 	 * <p>
 	 * When done with the repository, the caller must call
-	 * {@link Repository#close()} to decrement the repository's usage counter.
+	 * {@link FileRepository#close()} to decrement the repository's usage counter.
 	 *
 	 * @param location
 	 *            where the local repository is. Typically a {@link FileKey}.
@@ -100,7 +101,7 @@ public class RepositoryCache {
 	 *             There is no repository at the given location, only thrown if
 	 *             {@code mustExist} is true.
 	 */
-	public static Repository open(final Key location, final boolean mustExist)
+	public static FileRepository open(final Key location, final boolean mustExist)
 			throws IOException {
 		return cache.openRepository(location, mustExist);
 	}
@@ -110,7 +111,7 @@ public class RepositoryCache {
 	 * <p>
 	 * During registration the cache automatically increments the usage counter,
 	 * permitting it to retain the reference. A {@link FileKey} for the
-	 * repository's {@link Repository#getDirectory()} is used to index the
+	 * repository's {@link FileRepository#getDirectory()} is used to index the
 	 * repository in the cache.
 	 * <p>
 	 * If another repository already is registered in the cache at this
@@ -119,7 +120,7 @@ public class RepositoryCache {
 	 * @param db
 	 *            repository to register.
 	 */
-	public static void register(final Repository db) {
+	public static void register(final FileRepository db) {
 		cache.registerRepository(FileKey.exact(db.getDirectory(), db.getFS()), db);
 	}
 
@@ -132,7 +133,7 @@ public class RepositoryCache {
 	 * @param db
 	 *            repository to unregister.
 	 */
-	public static void close(final Repository db) {
+	public static void close(final FileRepository db) {
 		cache.unregisterRepository(FileKey.exact(db.getDirectory(), db.getFS()));
 	}
 
@@ -141,28 +142,28 @@ public class RepositoryCache {
 		cache.clearAll();
 	}
 
-	private final ConcurrentHashMap<Key, Reference<Repository>> cacheMap;
+	private final ConcurrentHashMap<Key, Reference<FileRepository>> cacheMap;
 
 	private final Lock[] openLocks;
 
 	private RepositoryCache() {
-		cacheMap = new ConcurrentHashMap<Key, Reference<Repository>>();
+		cacheMap = new ConcurrentHashMap<Key, Reference<FileRepository>>();
 		openLocks = new Lock[4];
 		for (int i = 0; i < openLocks.length; i++)
 			openLocks[i] = new Lock();
 	}
 
-	private Repository openRepository(final Key location,
+	private FileRepository openRepository(final Key location,
 			final boolean mustExist) throws IOException {
-		Reference<Repository> ref = cacheMap.get(location);
-		Repository db = ref != null ? ref.get() : null;
+		Reference<FileRepository> ref = cacheMap.get(location);
+		FileRepository db = ref != null ? ref.get() : null;
 		if (db == null) {
 			synchronized (lockFor(location)) {
 				ref = cacheMap.get(location);
 				db = ref != null ? ref.get() : null;
 				if (db == null) {
 					db = location.open(mustExist);
-					ref = new SoftReference<Repository>(db);
+					ref = new SoftReference<FileRepository>(db);
 					cacheMap.put(location, ref);
 				}
 			}
@@ -171,28 +172,28 @@ public class RepositoryCache {
 		return db;
 	}
 
-	private void registerRepository(final Key location, final Repository db) {
+	private void registerRepository(final Key location, final FileRepository db) {
 		db.incrementOpen();
-		SoftReference<Repository> newRef = new SoftReference<Repository>(db);
-		Reference<Repository> oldRef = cacheMap.put(location, newRef);
-		Repository oldDb = oldRef != null ? oldRef.get() : null;
+		SoftReference<FileRepository> newRef = new SoftReference<FileRepository>(db);
+		Reference<FileRepository> oldRef = cacheMap.put(location, newRef);
+		FileRepository oldDb = oldRef != null ? oldRef.get() : null;
 		if (oldDb != null)
 			oldDb.close();
 	}
 
 	private void unregisterRepository(final Key location) {
-		Reference<Repository> oldRef = cacheMap.remove(location);
-		Repository oldDb = oldRef != null ? oldRef.get() : null;
+		Reference<FileRepository> oldRef = cacheMap.remove(location);
+		FileRepository oldDb = oldRef != null ? oldRef.get() : null;
 		if (oldDb != null)
 			oldDb.close();
 	}
 
 	private void clearAll() {
 		for (int stage = 0; stage < 2; stage++) {
-			for (Iterator<Map.Entry<Key, Reference<Repository>>> i = cacheMap
+			for (Iterator<Map.Entry<Key, Reference<FileRepository>>> i = cacheMap
 					.entrySet().iterator(); i.hasNext();) {
-				final Map.Entry<Key, Reference<Repository>> e = i.next();
-				final Repository db = e.getValue().get();
+				final Map.Entry<Key, Reference<FileRepository>> e = i.next();
+				final FileRepository db = e.getValue().get();
 				if (db != null)
 					db.close();
 				i.remove();
@@ -234,7 +235,7 @@ public class RepositoryCache {
 		 *             There is no repository at the given location, only thrown
 		 *             if {@code mustExist} is true.
 		 */
-		Repository open(boolean mustExist) throws IOException,
+		FileRepository open(boolean mustExist) throws IOException,
 				RepositoryNotFoundException;
 	}
 
@@ -310,10 +311,10 @@ public class RepositoryCache {
 			return path;
 		}
 
-		public Repository open(final boolean mustExist) throws IOException {
+		public FileRepository open(final boolean mustExist) throws IOException {
 			if (mustExist && !isGitRepository(path, fs))
 				throw new RepositoryNotFoundException(path);
-			return new Repository(path);
+			return new FileRepository(path);
 		}
 
 		@Override

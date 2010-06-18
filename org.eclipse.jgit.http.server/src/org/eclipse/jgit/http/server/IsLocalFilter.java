@@ -56,13 +56,13 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletResponse;
 
-import org.eclipse.jgit.lib.ObjectDirectory;
-import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.storage.file.ObjectDirectory;
+import org.eclipse.jgit.storage.file.FileRepository;
 
 /**
- * Requires the target {@link Repository} to be available via local filesystem.
+ * Requires the target {@link FileRepository} to be available via local filesystem.
  * <p>
- * The target {@link Repository} must be using a {@link ObjectDirectory}, so the
+ * The target {@link FileRepository} must be using a {@link ObjectDirectory}, so the
  * downstream servlet can directly access its contents on disk.
  */
 class IsLocalFilter implements Filter {
@@ -82,7 +82,7 @@ class IsLocalFilter implements Filter {
 			((HttpServletResponse) response).sendError(SC_FORBIDDEN);
 	}
 
-	private static boolean isLocal(final Repository db) {
+	private static boolean isLocal(final FileRepository db) {
 		return db.getObjectDatabase() instanceof ObjectDirectory;
 	}
 }

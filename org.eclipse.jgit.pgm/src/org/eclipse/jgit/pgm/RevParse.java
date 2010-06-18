@@ -48,10 +48,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.kohsuke.args4j.Argument;
-import org.kohsuke.args4j.Option;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
+import org.kohsuke.args4j.Argument;
+import org.kohsuke.args4j.Option;
 
 class RevParse extends TextBuiltin {
 	@Option(name = "--all")

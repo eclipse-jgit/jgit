@@ -47,9 +47,9 @@ package org.eclipse.jgit.pgm;
 import java.io.File;
 import java.text.MessageFormat;
 
-import org.kohsuke.args4j.Argument;
 import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.storage.file.FileRepository;
+import org.kohsuke.args4j.Argument;
 
 @Command(common = false, usage = "usage_ServerSideBackendForJgitPush")
 class ReceivePack extends TextBuiltin {
@@ -67,7 +67,7 @@ class ReceivePack extends TextBuiltin {
 
 		if (new File(dstGitdir, Constants.DOT_GIT).isDirectory())
 			dstGitdir = new File(dstGitdir, Constants.DOT_GIT);
-		db = new Repository(dstGitdir);
+		db = new FileRepository(dstGitdir);
 		if (!db.getObjectsDirectory().isDirectory())
 			throw die(MessageFormat.format(CLIText.get().notAGitRepository, dstGitdir.getPath()));
 		rp = new org.eclipse.jgit.transport.ReceivePack(db);

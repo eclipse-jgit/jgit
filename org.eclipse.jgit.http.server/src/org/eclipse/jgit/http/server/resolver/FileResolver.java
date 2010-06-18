@@ -49,9 +49,9 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryCache;
 import org.eclipse.jgit.lib.RepositoryCache.FileKey;
+import org.eclipse.jgit.storage.file.FileRepository;
 import org.eclipse.jgit.util.FS;
 
 /** Default resolver serving from a single root path in local filesystem. */
@@ -74,13 +74,13 @@ public class FileResolver implements RepositoryResolver {
 		this.exportAll = exportAll;
 	}
 
-	public Repository open(final HttpServletRequest req,
+	public FileRepository open(final HttpServletRequest req,
 			final String repositoryName) throws RepositoryNotFoundException,
 			ServiceNotEnabledException {
 		if (isUnreasonableName(repositoryName))
 			throw new RepositoryNotFoundException(repositoryName);
 
-		final Repository db;
+		final FileRepository db;
 		try {
 			final File gitdir = new File(basePath, repositoryName);
 			db = RepositoryCache.open(FileKey.lenient(gitdir, FS.DETECTED), true);
@@ -135,7 +135,7 @@ public class FileResolver implements RepositoryResolver {
 	 *             the repository does not exist.
 	 */
 	protected boolean isExportOk(HttpServletRequest req, String repositoryName,
-			Repository db) throws IOException {
+			FileRepository db) throws IOException {
 		if (isExportAll())
 			return true;
 		else

@@ -47,6 +47,9 @@ package org.eclipse.jgit.lib;
 import java.io.IOException;
 import java.util.Collection;
 
+import org.eclipse.jgit.storage.file.PackedObjectLoader;
+import org.eclipse.jgit.storage.file.WindowCursor;
+
 /**
  * {@link ObjectDatabase} wrapper providing temporary lookup caching.
  * <p>
@@ -112,7 +115,7 @@ public class CachedObjectDatabase extends ObjectDatabase {
 	}
 
 	@Override
-	void openObjectInAllPacks1(Collection<PackedObjectLoader> out,
+	protected void openObjectInAllPacks1(Collection<PackedObjectLoader> out,
 			WindowCursor curs, AnyObjectId objectId) throws IOException {
 		wrapped.openObjectInAllPacks1(out, curs, objectId);
 	}

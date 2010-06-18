@@ -48,23 +48,23 @@ import java.io.File;
 import java.io.IOException;
 import java.text.MessageFormat;
 
+import org.eclipse.jgit.dircache.DirCache;
+import org.eclipse.jgit.dircache.DirCacheIterator;
+import org.eclipse.jgit.errors.IncorrectObjectTypeException;
+import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.pgm.CLIText;
+import org.eclipse.jgit.storage.file.WindowCursor;
+import org.eclipse.jgit.treewalk.AbstractTreeIterator;
+import org.eclipse.jgit.treewalk.CanonicalTreeParser;
+import org.eclipse.jgit.treewalk.FileTreeIterator;
+import org.eclipse.jgit.util.FS;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.OptionDef;
 import org.kohsuke.args4j.spi.OptionHandler;
 import org.kohsuke.args4j.spi.Parameters;
 import org.kohsuke.args4j.spi.Setter;
-import org.eclipse.jgit.dircache.DirCache;
-import org.eclipse.jgit.dircache.DirCacheIterator;
-import org.eclipse.jgit.errors.IncorrectObjectTypeException;
-import org.eclipse.jgit.errors.MissingObjectException;
-import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.WindowCursor;
-import org.eclipse.jgit.pgm.CLIText;
-import org.eclipse.jgit.treewalk.AbstractTreeIterator;
-import org.eclipse.jgit.treewalk.CanonicalTreeParser;
-import org.eclipse.jgit.treewalk.FileTreeIterator;
-import org.eclipse.jgit.util.FS;
 
 /**
  * Custom argument handler {@link AbstractTreeIterator} from string values.

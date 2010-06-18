@@ -49,6 +49,8 @@ import java.io.IOException;
 
 import junit.textui.TestRunner;
 
+import org.eclipse.jgit.storage.file.FileRepository;
+
 public class T0006_DeepSpeedTest extends SpeedTestBase {
 
 	protected void setUp() throws Exception {
@@ -57,7 +59,7 @@ public class T0006_DeepSpeedTest extends SpeedTestBase {
 
 	public void testDeepHistoryScan() throws IOException {
 		long start = System.currentTimeMillis();
-		Repository db = new Repository(new File(kernelrepo));
+		FileRepository db = new FileRepository(new File(kernelrepo));
 		Commit commit = db.mapCommit("365bbe0d0caaf2ba74d56556827babf0bc66965d");
 		int n = 1;
 		for (;;) {

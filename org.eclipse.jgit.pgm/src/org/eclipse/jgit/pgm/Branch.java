@@ -57,10 +57,10 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefComparator;
 import org.eclipse.jgit.lib.RefRename;
 import org.eclipse.jgit.lib.RefUpdate;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.pgm.opt.CmdLineParser;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.storage.file.FileRepository;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.ExampleMode;
 import org.kohsuke.args4j.Option;
@@ -129,7 +129,7 @@ class Branch extends TextBuiltin {
 
 				if (!dst.startsWith(Constants.R_HEADS))
 					dst = Constants.R_HEADS + dst;
-				if (!Repository.isValidRefName(dst))
+				if (!FileRepository.isValidRefName(dst))
 					throw die(MessageFormat.format(CLIText.get().notAValidRefName, dst));
 
 				RefRename r = db.renameRef(src, dst);
@@ -153,7 +153,7 @@ class Branch extends TextBuiltin {
 				String newRefName = newHead;
 				if (!newRefName.startsWith(Constants.R_HEADS))
 					newRefName = Constants.R_HEADS + newRefName;
-				if (!Repository.isValidRefName(newRefName))
+				if (!FileRepository.isValidRefName(newRefName))
 					throw die(MessageFormat.format(CLIText.get().notAValidRefName, newRefName));
 				if (!createForce && db.resolve(newRefName) != null)
 					throw die(MessageFormat.format(CLIText.get().branchAlreadyExists, newHead));

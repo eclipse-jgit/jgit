@@ -56,9 +56,9 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.MutableObjectId;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.lib.WindowCursor;
 import org.eclipse.jgit.revwalk.RevTree;
+import org.eclipse.jgit.storage.file.FileRepository;
+import org.eclipse.jgit.storage.file.WindowCursor;
 import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
 import org.eclipse.jgit.util.RawParseUtils;
@@ -80,7 +80,7 @@ import org.eclipse.jgit.util.RawParseUtils;
  * usage of a TreeWalk instance to a single thread, or implement their own
  * synchronization at a higher level.
  * <p>
- * Multiple simultaneous TreeWalk instances per {@link Repository} are
+ * Multiple simultaneous TreeWalk instances per {@link FileRepository} are
  * permitted, even from concurrent threads.
  */
 public class TreeWalk {
@@ -109,7 +109,7 @@ public class TreeWalk {
 	 * @throws MissingObjectException
 	 *             a tree object was not found.
 	 */
-	public static TreeWalk forPath(final Repository db, final String path,
+	public static TreeWalk forPath(final FileRepository db, final String path,
 			final AnyObjectId... trees) throws MissingObjectException,
 			IncorrectObjectTypeException, CorruptObjectException, IOException {
 		final TreeWalk r = new TreeWalk(db);
@@ -145,13 +145,13 @@ public class TreeWalk {
 	 * @throws MissingObjectException
 	 *             a tree object was not found.
 	 */
-	public static TreeWalk forPath(final Repository db, final String path,
+	public static TreeWalk forPath(final FileRepository db, final String path,
 			final RevTree tree) throws MissingObjectException,
 			IncorrectObjectTypeException, CorruptObjectException, IOException {
 		return forPath(db, path, new ObjectId[] { tree });
 	}
 
-	private final Repository db;
+	private final FileRepository db;
 
 	private final MutableObjectId idBuffer = new MutableObjectId();
 
@@ -179,7 +179,7 @@ public class TreeWalk {
 	 * @param repo
 	 *            the repository the walker will obtain data from.
 	 */
-	public TreeWalk(final Repository repo) {
+	public TreeWalk(final FileRepository repo) {
 		db = repo;
 		filter = TreeFilter.ALL;
 		trees = new AbstractTreeIterator[] { new EmptyTreeIterator() };
@@ -190,7 +190,7 @@ public class TreeWalk {
 	 *
 	 * @return the repository configured when the walker was created.
 	 */
-	public Repository getRepository() {
+	public FileRepository getRepository() {
 		return db;
 	}
 

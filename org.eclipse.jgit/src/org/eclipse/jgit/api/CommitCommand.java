@@ -58,11 +58,11 @@ import org.eclipse.jgit.lib.ObjectWriter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
-import org.eclipse.jgit.lib.RefUpdate.Result;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryState;
+import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.storage.file.FileRepository;
 
 /**
  * A class used to execute a {@code Commit} command. It has setters for all
@@ -89,7 +89,7 @@ public class CommitCommand extends GitCommand<RevCommit> {
 	/**
 	 * @param repo
 	 */
-	protected CommitCommand(Repository repo) {
+	protected CommitCommand(FileRepository repo) {
 		super(repo);
 	}
 

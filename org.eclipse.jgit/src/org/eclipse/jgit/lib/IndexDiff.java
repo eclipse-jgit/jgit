@@ -49,6 +49,7 @@ import java.io.IOException;
 import java.util.HashSet;
 
 import org.eclipse.jgit.lib.GitIndex.Entry;
+import org.eclipse.jgit.storage.file.FileRepository;
 
 /**
  * Compares the Index, a Tree, and the working directory
@@ -64,7 +65,7 @@ public class IndexDiff {
 	 * @param repository
 	 * @throws IOException
 	 */
-	public IndexDiff(Repository repository) throws IOException {
+	public IndexDiff(FileRepository repository) throws IOException {
 		this.tree = repository.mapTree(Constants.HEAD);
 		this.index = repository.getIndex();
 	}

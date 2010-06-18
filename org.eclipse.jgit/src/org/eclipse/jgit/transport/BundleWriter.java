@@ -60,8 +60,8 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PackWriter;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.storage.file.FileRepository;
 
 /**
  * Creates a Git bundle file, for sneaker-net transport to another system.
@@ -95,7 +95,7 @@ public class BundleWriter {
 	 * @param monitor
 	 *            operations progress monitor.
 	 */
-	public BundleWriter(final Repository repo, final ProgressMonitor monitor) {
+	public BundleWriter(final FileRepository repo, final ProgressMonitor monitor) {
 		packWriter = new PackWriter(repo, monitor);
 		include = new TreeMap<String, ObjectId>();
 		assume = new HashSet<RevCommit>();
@@ -113,7 +113,7 @@ public class BundleWriter {
 	 *            object to pack. Multiple refs may point to the same object.
 	 */
 	public void include(final String name, final AnyObjectId id) {
-		if (!Repository.isValidRefName(name))
+		if (!FileRepository.isValidRefName(name))
 			throw new IllegalArgumentException(MessageFormat.format(JGitText.get().invalidRefName, name));
 		if (include.containsKey(name))
 			throw new IllegalStateException(JGitText.get().duplicateRef + name);

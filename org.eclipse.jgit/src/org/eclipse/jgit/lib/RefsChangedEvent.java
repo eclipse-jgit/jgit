@@ -43,6 +43,8 @@
 
 package org.eclipse.jgit.lib;
 
+import org.eclipse.jgit.storage.file.FileRepository;
+
 /**
  * This class passes information about a changed Git index to a
  * {@link RepositoryListener}
@@ -50,7 +52,10 @@ package org.eclipse.jgit.lib;
  * Currently only a reference to the repository is passed.
  */
 public class RefsChangedEvent extends RepositoryChangedEvent {
-	RefsChangedEvent(final Repository repository) {
+	/**
+	 * @param repository the repository whose references changed.
+	 */
+	public RefsChangedEvent(final FileRepository repository) {
 		super(repository);
 	}
 

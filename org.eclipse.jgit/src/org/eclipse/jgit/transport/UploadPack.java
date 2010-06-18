@@ -62,13 +62,13 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PackWriter;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
 import org.eclipse.jgit.revwalk.RevFlagSet;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevTag;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.storage.file.FileRepository;
 import org.eclipse.jgit.transport.BasePackFetchConnection.MultiAck;
 import org.eclipse.jgit.transport.RefAdvertiser.PacketLineOutRefAdvertiser;
 import org.eclipse.jgit.util.io.InterruptTimer;
@@ -96,7 +96,7 @@ public class UploadPack {
 	static final String OPTION_NO_PROGRESS = BasePackFetchConnection.OPTION_NO_PROGRESS;
 
 	/** Database we read the objects from. */
-	private final Repository db;
+	private final FileRepository db;
 
 	/** Revision traversal support over {@link #db}. */
 	private final RevWalk walk;
@@ -171,7 +171,7 @@ public class UploadPack {
 	 * @param copyFrom
 	 *            the source repository.
 	 */
-	public UploadPack(final Repository copyFrom) {
+	public UploadPack(final FileRepository copyFrom) {
 		db = copyFrom;
 		walk = new RevWalk(db);
 		walk.setRetainBody(false);
@@ -190,7 +190,7 @@ public class UploadPack {
 	}
 
 	/** @return the repository this upload is reading from. */
-	public final Repository getRepository() {
+	public final FileRepository getRepository() {
 		return db;
 	}
 

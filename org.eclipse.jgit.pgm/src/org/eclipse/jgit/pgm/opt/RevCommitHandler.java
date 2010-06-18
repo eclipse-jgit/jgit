@@ -47,18 +47,18 @@ package org.eclipse.jgit.pgm.opt;
 import java.io.IOException;
 import java.text.MessageFormat;
 
-import org.kohsuke.args4j.CmdLineException;
-import org.kohsuke.args4j.CmdLineParser;
-import org.kohsuke.args4j.OptionDef;
-import org.kohsuke.args4j.spi.OptionHandler;
-import org.kohsuke.args4j.spi.Parameters;
-import org.kohsuke.args4j.spi.Setter;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.pgm.CLIText;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
+import org.kohsuke.args4j.CmdLineException;
+import org.kohsuke.args4j.CmdLineParser;
+import org.kohsuke.args4j.OptionDef;
+import org.kohsuke.args4j.spi.OptionHandler;
+import org.kohsuke.args4j.spi.Parameters;
+import org.kohsuke.args4j.spi.Setter;
 
 /**
  * Custom argument handler {@link RevCommit} from string values.

@@ -58,7 +58,7 @@ import java.net.UnknownHostException;
 
 import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.TransportException;
-import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.storage.file.FileRepository;
 
 /**
  * Transport through a git-daemon waiting for anonymous TCP connections.
@@ -74,7 +74,7 @@ class TransportGitAnon extends TcpTransport implements PackTransport {
 		return "git".equals(uri.getScheme());
 	}
 
-	TransportGitAnon(final Repository local, final URIish uri) {
+	TransportGitAnon(final FileRepository local, final URIish uri) {
 		super(local, uri);
 	}
 

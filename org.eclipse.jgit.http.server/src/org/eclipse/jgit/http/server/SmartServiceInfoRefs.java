@@ -60,7 +60,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.eclipse.jgit.http.server.resolver.ServiceNotAuthorizedException;
 import org.eclipse.jgit.http.server.resolver.ServiceNotEnabledException;
-import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.storage.file.FileRepository;
 import org.eclipse.jgit.transport.PacketLineOut;
 import org.eclipse.jgit.transport.RefAdvertiser.PacketLineOutRefAdvertiser;
 
@@ -87,7 +87,7 @@ abstract class SmartServiceInfoRefs implements Filter {
 		if (svc.equals(req.getParameter("service"))) {
 			final HttpServletResponse rsp = (HttpServletResponse) response;
 			try {
-				final Repository db = getRepository(req);
+				final FileRepository db = getRepository(req);
 				rsp.setContentType("application/x-" + svc + "-advertisement");
 
 				final SmartOutputStream buf = new SmartOutputStream(req, rsp);
@@ -107,7 +107,7 @@ abstract class SmartServiceInfoRefs implements Filter {
 		}
 	}
 
-	protected abstract void advertise(HttpServletRequest req, Repository db,
+	protected abstract void advertise(HttpServletRequest req, FileRepository db,
 			PacketLineOutRefAdvertiser pck) throws IOException,
 			ServiceNotEnabledException, ServiceNotAuthorizedException;
 }

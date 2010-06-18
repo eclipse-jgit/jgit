@@ -45,12 +45,12 @@
 
 package org.eclipse.jgit.pgm;
 
-import org.kohsuke.args4j.Argument;
-import org.kohsuke.args4j.Option;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.treewalk.AbstractTreeIterator;
 import org.eclipse.jgit.treewalk.TreeWalk;
+import org.kohsuke.args4j.Argument;
+import org.kohsuke.args4j.Option;
 
 class LsTree extends TextBuiltin {
 	@Option(name = "--recursive", usage = "usage_recurseIntoSubtrees", aliases = { "-r" })

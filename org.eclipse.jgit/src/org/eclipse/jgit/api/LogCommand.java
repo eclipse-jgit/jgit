@@ -51,9 +51,9 @@ import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.storage.file.FileRepository;
 
 /**
  * A class used to execute a {@code Log} command. It has setters for all
@@ -77,7 +77,7 @@ public class LogCommand extends GitCommand<Iterable<RevCommit>> {
 	/**
 	 * @param repo
 	 */
-	protected LogCommand(Repository repo) {
+	protected LogCommand(FileRepository repo) {
 		super(repo);
 		walk = new RevWalk(repo);
 	}

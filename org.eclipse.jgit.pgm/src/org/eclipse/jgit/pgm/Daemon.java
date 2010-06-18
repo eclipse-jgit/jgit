@@ -49,9 +49,9 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.jgit.transport.DaemonService;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
-import org.eclipse.jgit.transport.DaemonService;
 
 @Command(common = true, usage = "usage_exportRepositoriesOverGit")
 class Daemon extends TextBuiltin {

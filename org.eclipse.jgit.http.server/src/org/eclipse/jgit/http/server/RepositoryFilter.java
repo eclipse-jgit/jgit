@@ -66,7 +66,7 @@ import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.http.server.resolver.RepositoryResolver;
 import org.eclipse.jgit.http.server.resolver.ServiceNotAuthorizedException;
 import org.eclipse.jgit.http.server.resolver.ServiceNotEnabledException;
-import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.storage.file.FileRepository;
 
 /**
  * Opens a repository named by the path info through {@link RepositoryResolver}.
@@ -74,7 +74,7 @@ import org.eclipse.jgit.lib.Repository;
  * This filter assumes it is invoked by {@link GitServlet} and is likely to not
  * work as expected if called from any other class. This filter assumes the path
  * info of the current request is a repository name which can be used by the
- * configured {@link RepositoryResolver} to open a {@link Repository} and attach
+ * configured {@link RepositoryResolver} to open a {@link FileRepository} and attach
  * it to the current request.
  * <p>
  * This filter sets request attribute {@link ServletUtils#ATTRIBUTE_REPOSITORY}
@@ -91,7 +91,7 @@ public class RepositoryFilter implements Filter {
 	 *
 	 * @param resolver
 	 *            the resolver which will be used to translate the URL name
-	 *            component to the actual {@link Repository} instance for the
+	 *            component to the actual {@link FileRepository} instance for the
 	 *            current web request.
 	 */
 	public RepositoryFilter(final RepositoryResolver resolver) {
@@ -127,7 +127,7 @@ public class RepositoryFilter implements Filter {
 		if (name.startsWith("/"))
 			name = name.substring(1);
 
-		final Repository db;
+		final FileRepository db;
 		try {
 			db = resolver.open(req, name);
 		} catch (RepositoryNotFoundException e) {

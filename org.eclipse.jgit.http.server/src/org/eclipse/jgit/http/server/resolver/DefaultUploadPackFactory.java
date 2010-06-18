@@ -46,8 +46,8 @@ package org.eclipse.jgit.http.server.resolver;
 import javax.servlet.http.HttpServletRequest;
 
 import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.Config.SectionParser;
+import org.eclipse.jgit.storage.file.FileRepository;
 import org.eclipse.jgit.transport.UploadPack;
 
 /**
@@ -71,7 +71,7 @@ public class DefaultUploadPackFactory implements UploadPackFactory {
 		}
 	}
 
-	public UploadPack create(final HttpServletRequest req, final Repository db)
+	public UploadPack create(final HttpServletRequest req, final FileRepository db)
 			throws ServiceNotEnabledException, ServiceNotAuthorizedException {
 		if (db.getConfig().get(CONFIG).enabled)
 			return new UploadPack(db);

@@ -48,9 +48,9 @@ package org.eclipse.jgit.pgm;
 import java.io.File;
 import java.text.MessageFormat;
 
-import org.kohsuke.args4j.Option;
 import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.storage.file.FileRepository;
+import org.kohsuke.args4j.Option;
 
 @Command(common = true, usage = "usage_CreateAnEmptyGitRepository")
 class Init extends TextBuiltin {
@@ -66,7 +66,7 @@ class Init extends TextBuiltin {
 	protected void run() throws Exception {
 		if (gitdir == null)
 			gitdir = new File(bare ? "." : Constants.DOT_GIT);
-		db = new Repository(gitdir);
+		db = new FileRepository(gitdir);
 		db.create(bare);
 		out.println(MessageFormat.format(CLIText.get().initializedEmptyGitRepositoryIn, gitdir.getAbsolutePath()));
 	}

@@ -48,8 +48,8 @@ import java.io.IOException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.AnyObjectId;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevTree;
+import org.eclipse.jgit.storage.file.FileRepository;
 import org.eclipse.jgit.treewalk.AbstractTreeIterator;
 
 /** A merge of 2 trees, using a common base ancestor tree. */
@@ -62,7 +62,7 @@ public abstract class ThreeWayMerger extends Merger {
 	 * @param local
 	 *            the repository this merger will read and write data on.
 	 */
-	protected ThreeWayMerger(final Repository local) {
+	protected ThreeWayMerger(final FileRepository local) {
 		super(local);
 	}
 

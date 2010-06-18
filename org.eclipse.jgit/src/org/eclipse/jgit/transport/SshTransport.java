@@ -52,7 +52,7 @@ import java.net.UnknownHostException;
 
 import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.TransportException;
-import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.storage.file.FileRepository;
 
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
@@ -76,12 +76,12 @@ public abstract class SshTransport extends TcpTransport {
 	 * @param local
 	 *            the repository this instance will fetch into, or push out of.
 	 *            This must be the repository passed to
-	 *            {@link #open(Repository, URIish)}.
+	 *            {@link #open(FileRepository, URIish)}.
 	 * @param uri
 	 *            the URI used to access the remote repository. This must be the
-	 *            URI passed to {@link #open(Repository, URIish)}.
+	 *            URI passed to {@link #open(FileRepository, URIish)}.
 	 */
-	protected SshTransport(Repository local, URIish uri) {
+	protected SshTransport(FileRepository local, URIish uri) {
 		super(local, uri);
 		sch = SshSessionFactory.getInstance();
 	}

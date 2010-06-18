@@ -50,9 +50,9 @@ import java.io.IOException;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.RefUpdate;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.storage.file.FileRepository;
 
 /** Update of a locally stored tracking branch. */
 public class TrackingRefUpdate {
@@ -60,13 +60,13 @@ public class TrackingRefUpdate {
 
 	private final RefUpdate update;
 
-	TrackingRefUpdate(final Repository db, final RefSpec spec,
+	TrackingRefUpdate(final FileRepository db, final RefSpec spec,
 			final AnyObjectId nv, final String msg) throws IOException {
 		this(db, spec.getDestination(), spec.getSource(), spec.isForceUpdate(),
 				nv, msg);
 	}
 
-	TrackingRefUpdate(final Repository db, final String localName,
+	TrackingRefUpdate(final FileRepository db, final String localName,
 			final String remoteName, final boolean forceUpdate,
 			final AnyObjectId nv, final String msg) throws IOException {
 		this.remoteName = remoteName;

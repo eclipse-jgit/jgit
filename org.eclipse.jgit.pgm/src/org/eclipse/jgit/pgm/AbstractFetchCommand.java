@@ -49,13 +49,13 @@ package org.eclipse.jgit.pgm;
 
 import java.io.PrintWriter;
 
-import org.kohsuke.args4j.Option;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.transport.FetchResult;
 import org.eclipse.jgit.transport.TrackingRefUpdate;
 import org.eclipse.jgit.transport.Transport;
+import org.kohsuke.args4j.Option;
 
 abstract class AbstractFetchCommand extends TextBuiltin {
 	@Option(name = "--verbose", aliases = { "-v" }, usage = "usage_beMoreVerbose")

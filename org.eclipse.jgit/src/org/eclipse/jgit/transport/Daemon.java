@@ -60,9 +60,9 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.PersonIdent;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryCache;
 import org.eclipse.jgit.lib.RepositoryCache.FileKey;
+import org.eclipse.jgit.storage.file.FileRepository;
 import org.eclipse.jgit.util.FS;
 
 /** Basic daemon for the anonymous <code>git://</code> transport protocol. */
@@ -80,7 +80,7 @@ public class Daemon {
 
 	private volatile boolean exportAll;
 
-	private Map<String, Repository> exports;
+	private Map<String, FileRepository> exports;
 
 	private Collection<File> exportBase;
 
@@ -104,7 +104,7 @@ public class Daemon {
 	 */
 	public Daemon(final InetSocketAddress addr) {
 		myAddress = addr;
-		exports = new ConcurrentHashMap<String, Repository>();
+		exports = new ConcurrentHashMap<String, FileRepository>();
 		exportBase = new CopyOnWriteArrayList<File>();
 		processors = new ThreadGroup("Git-Daemon");
 
@@ -116,7 +116,7 @@ public class Daemon {
 
 					@Override
 					protected void execute(final DaemonClient dc,
-							final Repository db) throws IOException {
+							final FileRepository db) throws IOException {
 						final UploadPack rp = new UploadPack(db);
 						final InputStream in = dc.getInputStream();
 						rp.setTimeout(Daemon.this.getTimeout());
@@ -129,7 +129,7 @@ public class Daemon {
 
 					@Override
 					protected void execute(final DaemonClient dc,
-							final Repository db) throws IOException {
+							final FileRepository db) throws IOException {
 						final InetAddress peer = dc.getRemoteAddress();
 						String host = peer.getCanonicalHostName();
 						if (host == null)
@@ -206,7 +206,7 @@ public class Daemon {
 	 * @param db
 	 *            the repository instance.
 	 */
-	public void exportRepository(String name, final Repository db) {
+	public void exportRepository(String name, final FileRepository db) {
 		if (!name.endsWith(Constants.DOT_GIT_EXT))
 			name = name + Constants.DOT_GIT_EXT;
 		exports.put(name, db);
@@ -337,7 +337,7 @@ public class Daemon {
 		return null;
 	}
 
-	Repository openRepository(String name) {
+	FileRepository openRepository(String name) {
 		// Assume any attempt to use \ was by a Windows client
 		// and correct to the more typical / used in Git URIs.
 		//
@@ -360,7 +360,7 @@ public class Daemon {
 			return null;
 		name = name.substring(1);
 
-		Repository db;
+		FileRepository db;
 		db = exports.get(name.endsWith(Constants.DOT_GIT_EXT) ? name : name
 				+ Constants.DOT_GIT_EXT);
 		if (db != null) {
@@ -376,7 +376,7 @@ public class Daemon {
 		return null;
 	}
 
-	private static Repository openRepository(final File gitdir) {
+	private static FileRepository openRepository(final File gitdir) {
 		try {
 			return RepositoryCache.open(FileKey.exact(gitdir, FS.DETECTED));
 		} catch (IOException err) {

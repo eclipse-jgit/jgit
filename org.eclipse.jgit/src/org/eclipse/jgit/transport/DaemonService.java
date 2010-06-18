@@ -47,8 +47,8 @@ package org.eclipse.jgit.transport;
 import java.io.IOException;
 
 import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.Config.SectionParser;
+import org.eclipse.jgit.storage.file.FileRepository;
 
 /** A service exposed by {@link Daemon} over anonymous <code>git://</code>. */
 public abstract class DaemonService {
@@ -127,7 +127,7 @@ public abstract class DaemonService {
 	void execute(final DaemonClient client, final String commandLine)
 			throws IOException {
 		final String name = commandLine.substring(command.length() + 1);
-		final Repository db = client.getDaemon().openRepository(name);
+		final FileRepository db = client.getDaemon().openRepository(name);
 		if (db == null)
 			return;
 		try {
@@ -138,12 +138,12 @@ public abstract class DaemonService {
 		}
 	}
 
-	private boolean isEnabledFor(final Repository db) {
+	private boolean isEnabledFor(final FileRepository db) {
 		if (isOverridable())
 			return db.getConfig().get(configKey).enabled;
 		return isEnabled();
 	}
 
-	abstract void execute(DaemonClient client, Repository db)
+	abstract void execute(DaemonClient client, FileRepository db)
 			throws IOException;
 }

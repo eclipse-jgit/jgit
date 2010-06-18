@@ -47,13 +47,13 @@ package org.eclipse.jgit.pgm;
 
 import java.util.List;
 
-import org.kohsuke.args4j.Argument;
-import org.kohsuke.args4j.Option;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.TextProgressMonitor;
 import org.eclipse.jgit.transport.FetchResult;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.Transport;
+import org.kohsuke.args4j.Argument;
+import org.kohsuke.args4j.Option;
 
 @Command(common = true, usage = "usage_updateRemoteRefsFromAnotherRepository")
 class Fetch extends AbstractFetchCommand {

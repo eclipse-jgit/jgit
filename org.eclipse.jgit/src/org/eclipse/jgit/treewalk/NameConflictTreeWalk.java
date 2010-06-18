@@ -46,7 +46,7 @@ package org.eclipse.jgit.treewalk;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.lib.FileMode;
-import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.storage.file.FileRepository;
 
 /**
  * Specialized TreeWalk to detect directory-file (D/F) name conflicts.
@@ -92,7 +92,7 @@ public class NameConflictTreeWalk extends TreeWalk {
 	 * @param repo
 	 *            the repository the walker will obtain data from.
 	 */
-	public NameConflictTreeWalk(final Repository repo) {
+	public NameConflictTreeWalk(final FileRepository repo) {
 		super(repo);
 	}
 

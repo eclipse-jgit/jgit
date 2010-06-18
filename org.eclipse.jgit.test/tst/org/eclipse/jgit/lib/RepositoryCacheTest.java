@@ -48,6 +48,7 @@ import java.io.IOException;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.RepositoryCache.FileKey;
+import org.eclipse.jgit.storage.file.FileRepository;
 
 public class RepositoryCacheTest extends RepositoryTestCase {
 	public void testNonBareFileKey() {
@@ -64,7 +65,7 @@ public class RepositoryCacheTest extends RepositoryTestCase {
 	}
 
 	public void testBareFileKey() throws IOException {
-		Repository bare = createBareRepository();
+		FileRepository bare = createBareRepository();
 		File gitdir = bare.getDirectory();
 		File parent = gitdir.getParentFile();
 		String name = gitdir.getName();
@@ -78,7 +79,7 @@ public class RepositoryCacheTest extends RepositoryTestCase {
 	}
 
 	public void testFileKeyOpenExisting() throws IOException {
-		Repository r;
+		FileRepository r;
 
 		r = new FileKey(db.getDirectory(), db.getFS()).open(true);
 		assertNotNull(r);
@@ -92,7 +93,7 @@ public class RepositoryCacheTest extends RepositoryTestCase {
 	}
 
 	public void testFileKeyOpenNew() throws IOException {
-		final Repository n = createBareRepository();
+		final FileRepository n = createBareRepository();
 		final File gitdir = n.getDirectory();
 		n.close();
 		recursiveDelete(gitdir);
@@ -105,7 +106,7 @@ public class RepositoryCacheTest extends RepositoryTestCase {
 			assertEquals("repository not found: " + gitdir, e.getMessage());
 		}
 
-		final Repository o = new FileKey(gitdir, db.getFS()).open(false);
+		final FileRepository o = new FileKey(gitdir, db.getFS()).open(false);
 		assertNotNull(o);
 		assertEquals(gitdir, o.getDirectory());
 		assertFalse(gitdir.exists());
@@ -123,7 +124,7 @@ public class RepositoryCacheTest extends RepositoryTestCase {
 
 	public void testCacheOpen() throws Exception {
 		final FileKey loc = FileKey.exact(db.getDirectory(), db.getFS());
-		final Repository d2 = RepositoryCache.open(loc);
+		final FileRepository d2 = RepositoryCache.open(loc);
 		assertNotSame(db, d2);
 		assertSame(d2, RepositoryCache.open(FileKey.exact(loc.getFile(), db.getFS())));
 		d2.close();

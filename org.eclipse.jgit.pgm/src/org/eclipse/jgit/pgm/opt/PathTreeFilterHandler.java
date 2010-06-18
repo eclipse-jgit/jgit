@@ -46,6 +46,10 @@ package org.eclipse.jgit.pgm.opt;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.jgit.pgm.CLIText;
+import org.eclipse.jgit.treewalk.filter.PathFilter;
+import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
+import org.eclipse.jgit.treewalk.filter.TreeFilter;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
@@ -53,10 +57,6 @@ import org.kohsuke.args4j.OptionDef;
 import org.kohsuke.args4j.spi.OptionHandler;
 import org.kohsuke.args4j.spi.Parameters;
 import org.kohsuke.args4j.spi.Setter;
-import org.eclipse.jgit.pgm.CLIText;
-import org.eclipse.jgit.treewalk.filter.PathFilter;
-import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
-import org.eclipse.jgit.treewalk.filter.TreeFilter;
 
 /**
  * Create a {@link TreeFilter} to patch math names.

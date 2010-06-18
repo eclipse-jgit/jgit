@@ -55,8 +55,8 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.MutableObjectId;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.lib.WindowCursor;
+import org.eclipse.jgit.storage.file.FileRepository;
+import org.eclipse.jgit.storage.file.WindowCursor;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
 
 /**
@@ -441,7 +441,7 @@ public abstract class AbstractTreeIterator {
 	 * @throws IOException
 	 *             a loose object or pack file could not be read.
 	 */
-	public abstract AbstractTreeIterator createSubtreeIterator(Repository repo)
+	public abstract AbstractTreeIterator createSubtreeIterator(FileRepository repo)
 			throws IncorrectObjectTypeException, IOException;
 
 	/**
@@ -473,7 +473,7 @@ public abstract class AbstractTreeIterator {
 	 * @throws IOException
 	 *             a loose object or pack file could not be read.
 	 */
-	public AbstractTreeIterator createSubtreeIterator(final Repository repo,
+	public AbstractTreeIterator createSubtreeIterator(final FileRepository repo,
 			final MutableObjectId idBuffer, final WindowCursor curs)
 			throws IncorrectObjectTypeException, IOException {
 		return createSubtreeIterator(repo);

@@ -43,6 +43,9 @@
 
 package org.eclipse.jgit.lib;
 
+import org.eclipse.jgit.storage.file.WindowCache;
+import org.eclipse.jgit.storage.file.WindowCacheConfig;
+
 public class WindowCacheReconfigureTest extends RepositoryTestCase {
 	public void testConfigureCache_PackedGitLimit_0() {
 		try {

@@ -64,11 +64,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.storage.file.FileRepository;
 
 /** Common utility functions for servlets. */
 public final class ServletUtils {
-	/** Request attribute which stores the {@link Repository} instance. */
+	/** Request attribute which stores the {@link FileRepository} instance. */
 	public static final String ATTRIBUTE_REPOSITORY = "org.eclipse.jgit.Repository";
 
 	/**
@@ -83,8 +83,8 @@ public final class ServletUtils {
 	 *             the filter runs before the servlet.
 	 * @see #ATTRIBUTE_REPOSITORY
 	 */
-	public static Repository getRepository(final ServletRequest req) {
-		Repository db = (Repository) req.getAttribute(ATTRIBUTE_REPOSITORY);
+	public static FileRepository getRepository(final ServletRequest req) {
+		FileRepository db = (FileRepository) req.getAttribute(ATTRIBUTE_REPOSITORY);
 		if (db == null)
 			throw new IllegalStateException(HttpServerText.get().expectedRepositoryAttribute);
 		return db;

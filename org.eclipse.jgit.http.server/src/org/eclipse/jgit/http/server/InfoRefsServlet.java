@@ -55,9 +55,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevFlag;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.storage.file.FileRepository;
 import org.eclipse.jgit.transport.RefAdvertiser;
 import org.eclipse.jgit.util.HttpSupport;
 
@@ -72,7 +72,7 @@ class InfoRefsServlet extends HttpServlet {
 		rsp.setContentType(HttpSupport.TEXT_PLAIN);
 		rsp.setCharacterEncoding(Constants.CHARACTER_ENCODING);
 
-		final Repository db = getRepository(req);
+		final FileRepository db = getRepository(req);
 		final RevWalk walk = new RevWalk(db);
 		final RevFlag ADVERTISED = walk.newFlag("ADVERTISED");
 

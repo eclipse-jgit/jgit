@@ -41,14 +41,14 @@ import java.text.MessageFormat;
 import java.util.concurrent.Callable;
 
 import org.eclipse.jgit.JGitText;
-import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.storage.file.FileRepository;
 
 /**
  * Common superclass of all commands in the package {@code org.eclipse.jgit.api}
  * <p>
  * This class ensures that all commands fulfill the {@link Callable} interface.
  * It also has a property {@link #repo} holding a reference to the git
- * {@link Repository} this command should work with.
+ * {@link FileRepository} this command should work with.
  * <p>
  * Finally this class stores a state telling whether it is allowed to call
  * {@link #call()} on this instance. Instances of {@link GitCommand} can only be
@@ -64,7 +64,7 @@ import org.eclipse.jgit.lib.Repository;
  */
 public abstract class GitCommand<T> implements Callable<T> {
 	/** The repository this command is working with */
-	final protected Repository repo;
+	final protected FileRepository repo;
 
 	/**
 	 * a state which tells whether it is allowed to call {@link #call()} on this
@@ -76,16 +76,16 @@ public abstract class GitCommand<T> implements Callable<T> {
 	 * Creates a new command which interacts with a single repository
 	 *
 	 * @param repo
-	 *            the {@link Repository} this command should interact with
+	 *            the {@link FileRepository} this command should interact with
 	 */
-	protected GitCommand(Repository repo) {
+	protected GitCommand(FileRepository repo) {
 		this.repo = repo;
 	}
 
 	/**
-	 * @return the {@link Repository} this command is interacting with
+	 * @return the {@link FileRepository} this command is interacting with
 	 */
-	public Repository getRepository() {
+	public FileRepository getRepository() {
 		return repo;
 	}
 

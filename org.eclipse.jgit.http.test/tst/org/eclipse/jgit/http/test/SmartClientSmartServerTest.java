@@ -79,11 +79,11 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.ReflogReader;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryConfig;
 import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.storage.file.ReflogReader;
+import org.eclipse.jgit.storage.file.FileRepository;
 import org.eclipse.jgit.transport.FetchConnection;
 import org.eclipse.jgit.transport.HttpTransport;
 import org.eclipse.jgit.transport.RemoteRefUpdate;
@@ -94,7 +94,7 @@ import org.eclipse.jgit.transport.URIish;
 public class SmartClientSmartServerTest extends HttpTestCase {
 	private static final String HDR_TRANSFER_ENCODING = "Transfer-Encoding";
 
-	private Repository remoteRepository;
+	private FileRepository remoteRepository;
 
 	private URIish remoteURI;
 
@@ -113,13 +113,13 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 		ServletContextHandler app = server.addContext("/git");
 		GitServlet gs = new GitServlet();
 		gs.setRepositoryResolver(new RepositoryResolver() {
-			public Repository open(HttpServletRequest req, String name)
+			public FileRepository open(HttpServletRequest req, String name)
 					throws RepositoryNotFoundException,
 					ServiceNotEnabledException {
 				if (!name.equals(srcName))
 					throw new RepositoryNotFoundException(name);
 
-				final Repository db = src.getRepository();
+				final FileRepository db = src.getRepository();
 				db.incrementOpen();
 				return db;
 			}
@@ -164,7 +164,7 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 	}
 
 	public void testListRemote() throws IOException {
-		Repository dst = createBareRepository();
+		FileRepository dst = createBareRepository();
 
 		assertEquals("http", remoteURI.getScheme());
 
@@ -212,7 +212,7 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 	}
 
 	public void testInitialClone_Small() throws Exception {
-		Repository dst = createBareRepository();
+		FileRepository dst = createBareRepository();
 		assertFalse(dst.hasObject(A_txt));
 
 		Transport t = Transport.open(dst, remoteURI);
@@ -335,7 +335,7 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 	}
 
 	public void testInitialClone_BrokenServer() throws Exception {
-		Repository dst = createBareRepository();
+		FileRepository dst = createBareRepository();
 		assertFalse(dst.hasObject(A_txt));
 
 		Transport t = Transport.open(dst, brokenURI);
@@ -378,7 +378,7 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 		final TestRepository src = createTestRepository();
 		final RevBlob Q_txt = src.blob("new text");
 		final RevCommit Q = src.commit().add("Q", Q_txt).create();
-		final Repository db = src.getRepository();
+		final FileRepository db = src.getRepository();
 		final String dstName = Constants.R_HEADS + "new.branch";
 		Transport t;
 
@@ -420,7 +420,7 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 		final TestRepository src = createTestRepository();
 		final RevBlob Q_txt = src.blob("new text");
 		final RevCommit Q = src.commit().add("Q", Q_txt).create();
-		final Repository db = src.getRepository();
+		final FileRepository db = src.getRepository();
 		final String dstName = Constants.R_HEADS + "new.branch";
 		Transport t;
 
@@ -492,7 +492,7 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 		final TestRepository src = createTestRepository();
 		final RevBlob Q_bin = src.blob(new TestRng("Q").nextBytes(128 * 1024));
 		final RevCommit Q = src.commit().add("Q", Q_bin).create();
-		final Repository db = src.getRepository();
+		final FileRepository db = src.getRepository();
 		final String dstName = Constants.R_HEADS + "new.branch";
 		Transport t;
 

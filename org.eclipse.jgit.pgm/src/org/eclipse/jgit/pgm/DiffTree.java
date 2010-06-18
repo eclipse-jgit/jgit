@@ -47,14 +47,14 @@ package org.eclipse.jgit.pgm;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kohsuke.args4j.Argument;
-import org.kohsuke.args4j.Option;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.pgm.opt.PathTreeFilterHandler;
 import org.eclipse.jgit.treewalk.AbstractTreeIterator;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.AndTreeFilter;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
+import org.kohsuke.args4j.Argument;
+import org.kohsuke.args4j.Option;
 
 class DiffTree extends TextBuiltin {
 	@Option(name = "--recursive", usage = "usage_recurseIntoSubtrees", aliases = { "-r" })

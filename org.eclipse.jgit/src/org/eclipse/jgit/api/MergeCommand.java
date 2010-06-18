@@ -57,14 +57,14 @@ import org.eclipse.jgit.lib.GitIndex;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdRef;
 import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.Ref.Storage;
 import org.eclipse.jgit.lib.RefUpdate;
-import org.eclipse.jgit.lib.RefUpdate.Result;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.WorkDirCheckout;
+import org.eclipse.jgit.lib.Ref.Storage;
+import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.merge.MergeStrategy;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.storage.file.FileRepository;
 
 /**
  * A class used to execute a {@code Merge} command. It has setters for all
@@ -87,7 +87,7 @@ public class MergeCommand extends GitCommand<MergeResult> {
 	/**
 	 * @param repo
 	 */
-	protected MergeCommand(Repository repo) {
+	protected MergeCommand(FileRepository repo) {
 		super(repo);
 	}
 

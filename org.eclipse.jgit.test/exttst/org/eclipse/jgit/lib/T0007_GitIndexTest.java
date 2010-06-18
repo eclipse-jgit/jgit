@@ -52,6 +52,7 @@ import java.lang.reflect.Method;
 
 import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
 import org.eclipse.jgit.lib.GitIndex.Entry;
+import org.eclipse.jgit.storage.file.FileRepository;
 import org.eclipse.jgit.util.FS;
 
 public class T0007_GitIndexTest extends LocalDiskRepositoryTestCase {
@@ -108,7 +109,7 @@ public class T0007_GitIndexTest extends LocalDiskRepositoryTestCase {
 		}
 	}
 
-	private Repository db;
+	private FileRepository db;
 
 	private File trash;
 

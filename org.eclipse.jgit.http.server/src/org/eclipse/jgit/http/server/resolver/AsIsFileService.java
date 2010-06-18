@@ -47,8 +47,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.eclipse.jgit.http.server.GitServlet;
 import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.Config.SectionParser;
+import org.eclipse.jgit.storage.file.FileRepository;
 
 /**
  * Controls access to bare files in a repository.
@@ -63,7 +63,7 @@ public class AsIsFileService {
 	/** Always throws {@link ServiceNotEnabledException}. */
 	public static final AsIsFileService DISABLED = new AsIsFileService() {
 		@Override
-		public void access(HttpServletRequest req, Repository db)
+		public void access(HttpServletRequest req, FileRepository db)
 				throws ServiceNotEnabledException {
 			throw new ServiceNotEnabledException();
 		}
@@ -92,7 +92,7 @@ public class AsIsFileService {
 	 *         {@code false} in the repository's configuration file; otherwise
 	 *         {@code true}.
 	 */
-	protected static boolean isEnabled(Repository db) {
+	protected static boolean isEnabled(FileRepository db) {
 		return db.getConfig().get(CONFIG).enabled;
 	}
 
@@ -118,7 +118,7 @@ public class AsIsFileService {
 	 *             bare file access is not allowed for this HTTP request and
 	 *             repository, such as due to a permission error.
 	 */
-	public void access(HttpServletRequest req, Repository db)
+	public void access(HttpServletRequest req, FileRepository db)
 			throws ServiceNotEnabledException, ServiceNotAuthorizedException {
 		if (!isEnabled(db))
 			throw new ServiceNotEnabledException();

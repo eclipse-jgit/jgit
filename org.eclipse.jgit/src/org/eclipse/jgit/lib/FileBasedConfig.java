@@ -56,6 +56,7 @@ import java.text.MessageFormat;
 
 import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.storage.file.LockFile;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
 

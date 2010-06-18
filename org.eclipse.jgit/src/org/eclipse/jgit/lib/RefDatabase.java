@@ -46,11 +46,13 @@ package org.eclipse.jgit.lib;
 import java.io.IOException;
 import java.util.Map;
 
+import org.eclipse.jgit.storage.file.FileRepository;
+
 /**
  * Abstraction of name to {@link ObjectId} mapping.
  * <p>
  * A reference database stores a mapping of reference names to {@link ObjectId}.
- * Every {@link Repository} has a single reference database, mapping names to
+ * Every {@link FileRepository} has a single reference database, mapping names to
  * the tips of the object graph contained by the {@link ObjectDatabase}.
  */
 public abstract class RefDatabase {

@@ -61,7 +61,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jgit.http.server.resolver.AsIsFileService;
 import org.eclipse.jgit.http.server.resolver.ServiceNotAuthorizedException;
 import org.eclipse.jgit.http.server.resolver.ServiceNotEnabledException;
-import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.storage.file.FileRepository;
 
 class AsIsFileFilter implements Filter {
 	private final AsIsFileService asIs;
@@ -81,7 +81,7 @@ class AsIsFileFilter implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain chain) throws IOException, ServletException {
 		try {
-			final Repository db = getRepository(request);
+			final FileRepository db = getRepository(request);
 			asIs.access((HttpServletRequest) request, db);
 			chain.doFilter(request, response);
 		} catch (ServiceNotAuthorizedException e) {

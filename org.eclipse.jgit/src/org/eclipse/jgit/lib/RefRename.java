@@ -49,6 +49,7 @@ package org.eclipse.jgit.lib;
 import java.io.IOException;
 
 import org.eclipse.jgit.lib.RefUpdate.Result;
+import org.eclipse.jgit.storage.file.FileRepository;
 
 /**
  * A RefUpdate combination for renaming a reference.
@@ -77,7 +78,7 @@ public abstract class RefRename {
 		source = src;
 		destination = dst;
 
-		Repository repo = destination.getRepository();
+		FileRepository repo = destination.getRepository();
 		String cmd = "";
 		if (source.getName().startsWith(Constants.R_HEADS)
 				&& destination.getName().startsWith(Constants.R_HEADS))

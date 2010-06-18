@@ -63,14 +63,14 @@ import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.NotSupportedException;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.LockFile;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PackLock;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.ObjectWalk;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.storage.file.LockFile;
+import org.eclipse.jgit.storage.file.FileRepository;
 
 class FetchProcess {
 	/** Transport we will fetch over. */
@@ -399,7 +399,7 @@ class FetchProcess {
 
 	private void deleteStaleTrackingRefs(final FetchResult result,
 			final RevWalk walk) throws TransportException {
-		final Repository db = transport.local;
+		final FileRepository db = transport.local;
 		for (final Ref ref : db.getAllRefs().values()) {
 			final String refname = ref.getName();
 			for (final RefSpec spec : toFetch) {
@@ -414,7 +414,7 @@ class FetchProcess {
 	}
 
 	private void deleteTrackingRef(final FetchResult result,
-			final Repository db, final RevWalk walk, final RefSpec spec,
+			final FileRepository db, final RevWalk walk, final RefSpec spec,
 			final Ref localRef) throws TransportException {
 		final String name = localRef.getName();
 		try {

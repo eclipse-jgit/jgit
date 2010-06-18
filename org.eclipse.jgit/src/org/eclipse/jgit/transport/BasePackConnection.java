@@ -63,7 +63,7 @@ import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdRef;
 import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.storage.file.FileRepository;
 import org.eclipse.jgit.util.io.InterruptTimer;
 import org.eclipse.jgit.util.io.TimeoutInputStream;
 import org.eclipse.jgit.util.io.TimeoutOutputStream;
@@ -79,7 +79,7 @@ import org.eclipse.jgit.util.io.TimeoutOutputStream;
 abstract class BasePackConnection extends BaseConnection {
 
 	/** The repository this transport fetches into, or pushes out of. */
-	protected final Repository local;
+	protected final FileRepository local;
 
 	/** Remote repository location. */
 	protected final URIish uri;

@@ -73,22 +73,17 @@ import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Commit;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
-import org.eclipse.jgit.lib.LockFile;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectChecker;
 import org.eclipse.jgit.lib.ObjectDatabase;
-import org.eclipse.jgit.lib.ObjectDirectory;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectWriter;
-import org.eclipse.jgit.lib.PackFile;
 import org.eclipse.jgit.lib.PackWriter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.RefWriter;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.Tag;
-import org.eclipse.jgit.lib.PackIndex.MutableEntry;
 import org.eclipse.jgit.revwalk.ObjectWalk;
 import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -96,6 +91,11 @@ import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevTag;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.storage.file.LockFile;
+import org.eclipse.jgit.storage.file.ObjectDirectory;
+import org.eclipse.jgit.storage.file.PackFile;
+import org.eclipse.jgit.storage.file.FileRepository;
+import org.eclipse.jgit.storage.file.PackIndex.MutableEntry;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
 
@@ -119,7 +119,7 @@ public class TestRepository {
 		committer = new PersonIdent(cn, ce, now, tz);
 	}
 
-	private final Repository db;
+	private final FileRepository db;
 
 	private final RevWalk pool;
 
@@ -134,7 +134,7 @@ public class TestRepository {
 	 *            the test repository to write into.
 	 * @throws Exception
 	 */
-	public TestRepository(Repository db) throws Exception {
+	public TestRepository(FileRepository db) throws Exception {
 		this(db, new RevWalk(db));
 	}
 
@@ -147,7 +147,7 @@ public class TestRepository {
 	 *            the RevObject pool to use for object lookup.
 	 * @throws Exception
 	 */
-	public TestRepository(Repository db, RevWalk rw) throws Exception {
+	public TestRepository(FileRepository db, RevWalk rw) throws Exception {
 		this.db = db;
 		this.pool = rw;
 		this.writer = new ObjectWriter(db);
@@ -155,7 +155,7 @@ public class TestRepository {
 	}
 
 	/** @return the repository this helper class operates against. */
-	public Repository getRepository() {
+	public FileRepository getRepository() {
 		return db;
 	}
 

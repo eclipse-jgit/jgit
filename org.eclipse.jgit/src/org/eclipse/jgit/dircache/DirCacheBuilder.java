@@ -50,8 +50,8 @@ import java.util.Arrays;
 
 import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.lib.AnyObjectId;
-import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.lib.WindowCursor;
+import org.eclipse.jgit.storage.file.FileRepository;
+import org.eclipse.jgit.storage.file.WindowCursor;
 import org.eclipse.jgit.treewalk.AbstractTreeIterator;
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
 import org.eclipse.jgit.treewalk.TreeWalk;
@@ -163,7 +163,7 @@ public class DirCacheBuilder extends BaseDirCacheEditor {
 	 *             a tree cannot be read to iterate through its entries.
 	 */
 	public void addTree(final byte[] pathPrefix, final int stage,
-			final Repository db, final AnyObjectId tree) throws IOException {
+			final FileRepository db, final AnyObjectId tree) throws IOException {
 		final TreeWalk tw = new TreeWalk(db);
 		tw.reset();
 		final WindowCursor curs = new WindowCursor();

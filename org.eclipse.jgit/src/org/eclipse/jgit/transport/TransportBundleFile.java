@@ -54,7 +54,7 @@ import java.io.InputStream;
 import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.NotSupportedException;
 import org.eclipse.jgit.errors.TransportException;
-import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.storage.file.FileRepository;
 import org.eclipse.jgit.util.FS;
 
 class TransportBundleFile extends Transport implements TransportBundle {
@@ -73,7 +73,7 @@ class TransportBundleFile extends Transport implements TransportBundle {
 
 	private final File bundle;
 
-	TransportBundleFile(final Repository local, final URIish uri) {
+	TransportBundleFile(final FileRepository local, final URIish uri) {
 		super(local, uri);
 		bundle = local.getFS().resolve(new File("."), uri.getPath()).getAbsoluteFile();
 	}
