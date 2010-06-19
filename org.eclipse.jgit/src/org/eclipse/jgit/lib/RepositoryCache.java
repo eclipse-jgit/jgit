@@ -313,7 +313,7 @@ public class RepositoryCache {
 		public Repository open(final boolean mustExist) throws IOException {
 			if (mustExist && !isGitRepository(path, fs))
 				throw new RepositoryNotFoundException(path);
-			return new Repository(path);
+			return new FileRepository(path);
 		}
 
 		@Override
