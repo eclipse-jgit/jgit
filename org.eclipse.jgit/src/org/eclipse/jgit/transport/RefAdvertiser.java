@@ -49,13 +49,11 @@ import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
 
-import org.eclipse.jgit.lib.AlternateRepositoryDatabase;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.ObjectDatabase;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefComparator;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevFlag;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevTag;
@@ -217,19 +215,8 @@ public abstract class RefAdvertiser {
 	 *             advertisement record.
 	 */
 	public void includeAdditionalHaves() throws IOException {
-		additionalHaves(walk.getRepository().getObjectDatabase());
-	}
-
-	private void additionalHaves(final ObjectDatabase db) throws IOException {
-		if (db instanceof AlternateRepositoryDatabase)
-			additionalHaves(((AlternateRepositoryDatabase) db).getRepository());
-		for (ObjectDatabase alt : db.getAlternates())
-			additionalHaves(alt);
-	}
-
-	private void additionalHaves(final Repository alt) throws IOException {
-		for (final Ref r : alt.getAllRefs().values())
-			advertiseHave(r.getObjectId());
+		for (ObjectId id : walk.getRepository().getAdditionalHaves())
+			advertiseHave(id);
 	}
 
 	/** @return true if no advertisements have been sent yet. */
