@@ -56,7 +56,7 @@ import org.eclipse.jgit.lib.MutableObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.lib.WindowCursor;
+import org.eclipse.jgit.lib.ObjectReader;
 
 /** Parses raw Git trees from the canonical semi-text/semi-binary format. */
 public class CanonicalTreeParser extends AbstractTreeIterator {
@@ -102,7 +102,7 @@ public class CanonicalTreeParser extends AbstractTreeIterator {
 	 *             a loose object or pack file could not be read.
 	 */
 	public CanonicalTreeParser(final byte[] prefix, final Repository repo,
-			final AnyObjectId treeId, final WindowCursor curs)
+			final AnyObjectId treeId, final ObjectReader curs)
 			throws IncorrectObjectTypeException, IOException {
 		super(prefix);
 		reset(repo, treeId, curs);
@@ -148,7 +148,7 @@ public class CanonicalTreeParser extends AbstractTreeIterator {
 	 *             a loose object or pack file could not be read.
 	 */
 	public CanonicalTreeParser resetRoot(final Repository repo,
-			final AnyObjectId id, final WindowCursor curs)
+			final AnyObjectId id, final ObjectReader curs)
 			throws IncorrectObjectTypeException, IOException {
 		CanonicalTreeParser p = this;
 		while (p.parent != null)
@@ -197,7 +197,7 @@ public class CanonicalTreeParser extends AbstractTreeIterator {
 	 *             a loose object or pack file could not be read.
 	 */
 	public void reset(final Repository repo, final AnyObjectId id,
-			final WindowCursor curs)
+			final ObjectReader curs)
 			throws IncorrectObjectTypeException, IOException {
 		final ObjectLoader ldr = repo.openObject(curs, id);
 		if (ldr == null) {
@@ -214,7 +214,7 @@ public class CanonicalTreeParser extends AbstractTreeIterator {
 
 	@Override
 	public CanonicalTreeParser createSubtreeIterator(final Repository repo,
-			final MutableObjectId idBuffer, final WindowCursor curs)
+			final MutableObjectId idBuffer, final ObjectReader curs)
 			throws IncorrectObjectTypeException, IOException {
 		idBuffer.fromRaw(idBuffer(), idOffset());
 		if (!FileMode.TREE.equals(mode)) {
@@ -242,7 +242,7 @@ public class CanonicalTreeParser extends AbstractTreeIterator {
 	 *             a loose object or pack file could not be read.
 	 */
 	public final CanonicalTreeParser createSubtreeIterator0(
-			final Repository repo, final AnyObjectId id, final WindowCursor curs)
+			final Repository repo, final AnyObjectId id, final ObjectReader curs)
 			throws IOException {
 		final CanonicalTreeParser p = new CanonicalTreeParser(this);
 		p.reset(repo, id, curs);
@@ -251,7 +251,7 @@ public class CanonicalTreeParser extends AbstractTreeIterator {
 
 	public CanonicalTreeParser createSubtreeIterator(final Repository repo)
 			throws IncorrectObjectTypeException, IOException {
-		final WindowCursor curs = new WindowCursor();
+		final ObjectReader curs = repo.newObjectReader();
 		try {
 			return createSubtreeIterator(repo, new MutableObjectId(), curs);
 		} finally {

@@ -176,7 +176,7 @@ public class ReceivePackRefFilterTest extends LocalDiskRepositoryTestCase {
 		// Verify the only storage of b is our packed delta above.
 		//
 		ObjectDirectory od = (ObjectDirectory) src.getObjectDatabase();
-		assertTrue("has b", od.hasObject(b));
+		assertTrue("has b", src.hasObject(b));
 		assertFalse("b not loose", od.fileFor(b).exists());
 
 		// Now use b but in a different commit than what is hidden.
