@@ -51,8 +51,10 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 import java.util.Vector;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -425,6 +427,22 @@ public class FileRepository extends Repository {
 	 */
 	public File toFile(final AnyObjectId objectId) {
 		return objectDatabase.fileFor(objectId);
+	}
+
+	@Override
+	public Set<ObjectId> getAdditionalHaves() {
+		HashSet<ObjectId> r = new HashSet<ObjectId>();
+		for (ObjectDatabase d : objectDatabase.getAlternates()) {
+			if (d instanceof AlternateRepositoryDatabase) {
+				Repository repo;
+
+				repo = ((AlternateRepositoryDatabase) d).getRepository();
+				for (Ref ref : repo.getAllRefs().values())
+					r.add(ref.getObjectId());
+				r.addAll(repo.getAdditionalHaves());
+			}
+		}
+		return r;
 	}
 
 	/**
