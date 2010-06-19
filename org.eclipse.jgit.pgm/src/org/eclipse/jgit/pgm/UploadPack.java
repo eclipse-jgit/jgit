@@ -47,10 +47,10 @@ package org.eclipse.jgit.pgm;
 import java.io.File;
 import java.text.MessageFormat;
 
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.FileRepository;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
-import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.Repository;
 
 @Command(common = false, usage = "usage_ServerSideBackendForJgitFetch")
 class UploadPack extends TextBuiltin {
@@ -71,7 +71,7 @@ class UploadPack extends TextBuiltin {
 
 		if (new File(srcGitdir, Constants.DOT_GIT).isDirectory())
 			srcGitdir = new File(srcGitdir, Constants.DOT_GIT);
-		db = new Repository(srcGitdir);
+		db = new FileRepository(srcGitdir);
 		if (!db.getObjectsDirectory().isDirectory())
 			throw die(MessageFormat.format(CLIText.get().notAGitRepository, srcGitdir.getPath()));
 		rp = new org.eclipse.jgit.transport.UploadPack(db);

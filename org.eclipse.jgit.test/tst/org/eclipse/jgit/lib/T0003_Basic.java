@@ -80,7 +80,7 @@ public class T0003_Basic extends SampleDataRepositoryTestCase {
 
 	public void test000_openRepoBadArgs() throws IOException {
 		try {
-			new Repository(null, null);
+			new FileRepository(null, null);
 			fail("Must pass either GIT_DIR or GIT_WORK_TREE");
 		} catch (IllegalArgumentException e) {
 			assertEquals(
@@ -97,12 +97,12 @@ public class T0003_Basic extends SampleDataRepositoryTestCase {
 	 */
 	public void test000_openrepo_default_gitDirSet() throws IOException {
 		File repo1Parent = new File(trash.getParentFile(), "r1");
-		Repository repo1initial = new Repository(new File(repo1Parent, Constants.DOT_GIT));
+		Repository repo1initial = new FileRepository(new File(repo1Parent, Constants.DOT_GIT));
 		repo1initial.create();
 		repo1initial.close();
 
 		File theDir = new File(repo1Parent, Constants.DOT_GIT);
-		Repository r = new Repository(theDir, null);
+		Repository r = new FileRepository(theDir, null);
 		assertEqualsPath(theDir, r.getDirectory());
 		assertEqualsPath(repo1Parent, r.getWorkDir());
 		assertEqualsPath(new File(theDir, "index"), r.getIndexFile());
@@ -117,12 +117,12 @@ public class T0003_Basic extends SampleDataRepositoryTestCase {
 	 */
 	public void test000_openrepo_default_gitDirAndWorkTreeSet() throws IOException {
 		File repo1Parent = new File(trash.getParentFile(), "r1");
-		Repository repo1initial = new Repository(new File(repo1Parent, Constants.DOT_GIT));
+		Repository repo1initial = new FileRepository(new File(repo1Parent, Constants.DOT_GIT));
 		repo1initial.create();
 		repo1initial.close();
 
 		File theDir = new File(repo1Parent, Constants.DOT_GIT);
-		Repository r = new Repository(theDir, repo1Parent.getParentFile());
+		Repository r = new FileRepository(theDir, repo1Parent.getParentFile());
 		assertEqualsPath(theDir, r.getDirectory());
 		assertEqualsPath(repo1Parent.getParentFile(), r.getWorkDir());
 		assertEqualsPath(new File(theDir, "index"), r.getIndexFile());
@@ -137,12 +137,12 @@ public class T0003_Basic extends SampleDataRepositoryTestCase {
 	 */
 	public void test000_openrepo_default_workDirSet() throws IOException {
 		File repo1Parent = new File(trash.getParentFile(), "r1");
-		Repository repo1initial = new Repository(new File(repo1Parent, Constants.DOT_GIT));
+		Repository repo1initial = new FileRepository(new File(repo1Parent, Constants.DOT_GIT));
 		repo1initial.create();
 		repo1initial.close();
 
 		File theDir = new File(repo1Parent, Constants.DOT_GIT);
-		Repository r = new Repository(null, repo1Parent);
+		Repository r = new FileRepository(null, repo1Parent);
 		assertEqualsPath(theDir, r.getDirectory());
 		assertEqualsPath(repo1Parent, r.getWorkDir());
 		assertEqualsPath(new File(theDir, "index"), r.getIndexFile());
@@ -159,7 +159,7 @@ public class T0003_Basic extends SampleDataRepositoryTestCase {
 		File repo1Parent = new File(trash.getParentFile(), "r1");
 		File workdir = new File(trash.getParentFile(), "rw");
 		workdir.mkdir();
-		Repository repo1initial = new Repository(new File(repo1Parent, Constants.DOT_GIT));
+		Repository repo1initial = new FileRepository(new File(repo1Parent, Constants.DOT_GIT));
 		repo1initial.create();
 		repo1initial.getConfig().setString("core", null, "worktree",
 				workdir.getAbsolutePath());
@@ -167,7 +167,7 @@ public class T0003_Basic extends SampleDataRepositoryTestCase {
 		repo1initial.close();
 
 		File theDir = new File(repo1Parent, Constants.DOT_GIT);
-		Repository r = new Repository(theDir, null);
+		Repository r = new FileRepository(theDir, null);
 		assertEqualsPath(theDir, r.getDirectory());
 		assertEqualsPath(workdir, r.getWorkDir());
 		assertEqualsPath(new File(theDir, "index"), r.getIndexFile());
@@ -184,7 +184,7 @@ public class T0003_Basic extends SampleDataRepositoryTestCase {
 		File repo1Parent = new File(trash.getParentFile(), "r1");
 		File workdir = new File(trash.getParentFile(), "rw");
 		workdir.mkdir();
-		Repository repo1initial = new Repository(new File(repo1Parent, Constants.DOT_GIT));
+		Repository repo1initial = new FileRepository(new File(repo1Parent, Constants.DOT_GIT));
 		repo1initial.create();
 		repo1initial.getConfig()
 				.setString("core", null, "worktree", "../../rw");
@@ -192,7 +192,7 @@ public class T0003_Basic extends SampleDataRepositoryTestCase {
 		repo1initial.close();
 
 		File theDir = new File(repo1Parent, Constants.DOT_GIT);
-		Repository r = new Repository(theDir, null);
+		Repository r = new FileRepository(theDir, null);
 		assertEqualsPath(theDir, r.getDirectory());
 		assertEqualsPath(workdir, r.getWorkDir());
 		assertEqualsPath(new File(theDir, "index"), r.getIndexFile());
@@ -211,12 +211,12 @@ public class T0003_Basic extends SampleDataRepositoryTestCase {
 		File indexFile = new File(trash, "idx");
 		File objDir = new File(trash, "../obj");
 		File[] altObjDirs = new File[] { db.getObjectsDirectory() };
-		Repository repo1initial = new Repository(new File(repo1Parent, Constants.DOT_GIT));
+		Repository repo1initial = new FileRepository(new File(repo1Parent, Constants.DOT_GIT));
 		repo1initial.create();
 		repo1initial.close();
 
 		File theDir = new File(repo1Parent, Constants.DOT_GIT);
-		Repository r = new Repository(theDir, null, objDir, altObjDirs,
+		Repository r = new FileRepository(theDir, null, objDir, altObjDirs,
 				indexFile);
 		assertEqualsPath(theDir, r.getDirectory());
 		assertEqualsPath(theDir.getParentFile(), r.getWorkDir());
@@ -321,7 +321,7 @@ public class T0003_Basic extends SampleDataRepositoryTestCase {
 	}
 
 	public void test007_Open() throws IOException {
-		final Repository db2 = new Repository(db.getDirectory());
+		final Repository db2 = new FileRepository(db.getDirectory());
 		assertEquals(db.getDirectory(), db2.getDirectory());
 		assertEquals(db.getObjectsDirectory(), db2.getObjectsDirectory());
 		assertNotSame(db.getConfig(), db2.getConfig());
@@ -337,7 +337,7 @@ public class T0003_Basic extends SampleDataRepositoryTestCase {
 		pw.close();
 
 		try {
-			new Repository(db.getDirectory());
+			new FileRepository(db.getDirectory());
 			fail("incorrectly opened a bad repository");
 		} catch (IOException ioe) {
 			assertTrue(ioe.getMessage().indexOf("format") > 0);
