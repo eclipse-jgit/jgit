@@ -57,7 +57,7 @@ import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.MutableObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.lib.WindowCursor;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
@@ -155,7 +155,7 @@ public class TreeWalk {
 
 	private final MutableObjectId idBuffer = new MutableObjectId();
 
-	private final WindowCursor curs = new WindowCursor();
+	private final ObjectReader curs;
 
 	private TreeFilter filter;
 
@@ -181,6 +181,7 @@ public class TreeWalk {
 	 */
 	public TreeWalk(final Repository repo) {
 		db = repo;
+		curs = repo.newObjectReader();
 		filter = TreeFilter.ALL;
 		trees = new AbstractTreeIterator[] { new EmptyTreeIterator() };
 	}

@@ -179,7 +179,7 @@ public class PackWriter {
 
 	private final byte[] buf = new byte[16384]; // 16 KB
 
-	private final WindowCursor windowCursor = new WindowCursor();
+	private final WindowCursor windowCursor;
 
 	private List<ObjectToPack> sortedByName;
 
@@ -236,6 +236,9 @@ public class PackWriter {
 	public PackWriter(final Repository repo, final ProgressMonitor imonitor,
 			final ProgressMonitor wmonitor) {
 		this.db = repo;
+		windowCursor = new WindowCursor((ObjectDirectory) repo
+				.getObjectDatabase());
+
 		initMonitor = imonitor == null ? NullProgressMonitor.INSTANCE : imonitor;
 		writeMonitor = wmonitor == null ? NullProgressMonitor.INSTANCE : wmonitor;
 
@@ -621,7 +624,7 @@ public class PackWriter {
 	private void searchForReuse(
 			final Collection<PackedObjectLoader> reuseLoaders,
 			final ObjectToPack otp) throws IOException {
-		db.openObjectInAllPacks(otp, reuseLoaders, windowCursor);
+		windowCursor.openObjectInAllPacks(otp, reuseLoaders);
 		if (reuseDeltas) {
 			selectDeltaReuseForObject(otp, reuseLoaders);
 		}

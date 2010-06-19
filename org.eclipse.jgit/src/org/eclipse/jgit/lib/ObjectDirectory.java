@@ -283,7 +283,6 @@ public class ObjectDirectory extends FileObjectDatabase {
 		}
 	}
 
-	@Override
 	void openObjectInAllPacks(final Collection<PackedObjectLoader> out,
 			final WindowCursor curs, final AnyObjectId objectId)
 			throws IOException {
@@ -308,6 +307,9 @@ public class ObjectDirectory extends FileObjectDatabase {
 			}
 			break SEARCH;
 		}
+
+		for (AlternateHandle h : myAlternates())
+			h.db.openObjectInAllPacks(out, curs, objectId);
 	}
 
 	boolean hasObject2(final String objectName) {

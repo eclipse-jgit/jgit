@@ -46,7 +46,6 @@ package org.eclipse.jgit.lib;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Collection;
 
 /**
  * The cached instance of an {@link ObjectDirectory}.
@@ -117,12 +116,6 @@ class CachedObjectDirectory extends FileObjectDatabase {
 	}
 
 	@Override
-	void openObjectInAllPacks(Collection<PackedObjectLoader> out,
-			WindowCursor curs, AnyObjectId objectId) throws IOException {
-		wrapped.openObjectInAllPacks(out, curs, objectId);
-	}
-
-	@Override
 	File getDirectory() {
 		return wrapped.getDirectory();
 	}
@@ -157,7 +150,7 @@ class CachedObjectDirectory extends FileObjectDatabase {
 	}
 
 	@Override
-	public ObjectLoader openObject(final WindowCursor curs,
+	ObjectLoader openObject(final WindowCursor curs,
 			final AnyObjectId objectId) throws IOException {
 		return openObjectImpl1(curs, objectId);
 	}

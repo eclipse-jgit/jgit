@@ -56,7 +56,7 @@ import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.MutableObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.lib.WindowCursor;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
 
 /**
@@ -474,7 +474,7 @@ public abstract class AbstractTreeIterator {
 	 *             a loose object or pack file could not be read.
 	 */
 	public AbstractTreeIterator createSubtreeIterator(final Repository repo,
-			final MutableObjectId idBuffer, final WindowCursor curs)
+			final MutableObjectId idBuffer, final ObjectReader curs)
 			throws IncorrectObjectTypeException, IOException {
 		return createSubtreeIterator(repo);
 	}

@@ -49,9 +49,7 @@ package org.eclipse.jgit.lib;
 import java.io.File;
 import java.io.IOException;
 import java.text.MessageFormat;
-import java.util.Collection;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.Set;
 
 import org.eclipse.jgit.JGitText;
@@ -394,43 +392,6 @@ public class FileRepository extends Repository {
 	 */
 	public File toFile(final AnyObjectId objectId) {
 		return objectDatabase.fileFor(objectId);
-	}
-
-	/**
-	 * Open object in all packs containing specified object.
-	 *
-	 * @param objectId
-	 *            id of object to search for
-	 * @param curs
-	 *            temporary working space associated with the calling thread.
-	 * @return collection of loaders for this object, from all packs containing
-	 *         this object
-	 * @throws IOException
-	 */
-	public Collection<PackedObjectLoader> openObjectInAllPacks(
-			final AnyObjectId objectId, final WindowCursor curs)
-			throws IOException {
-		Collection<PackedObjectLoader> result = new LinkedList<PackedObjectLoader>();
-		openObjectInAllPacks(objectId, result, curs);
-		return result;
-	}
-
-	/**
-	 * Open object in all packs containing specified object.
-	 *
-	 * @param objectId
-	 *            id of object to search for
-	 * @param resultLoaders
-	 *            result collection of loaders for this object, filled with
-	 *            loaders from all packs containing specified object
-	 * @param curs
-	 *            temporary working space associated with the calling thread.
-	 * @throws IOException
-	 */
-	void openObjectInAllPacks(final AnyObjectId objectId,
-			final Collection<PackedObjectLoader> resultLoaders,
-			final WindowCursor curs) throws IOException {
-		objectDatabase.openObjectInAllPacks(resultLoaders, curs, objectId);
 	}
 
 	/**
