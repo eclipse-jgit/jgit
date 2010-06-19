@@ -61,6 +61,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.FileObjectDatabase.AlternateHandle;
+import org.eclipse.jgit.lib.FileObjectDatabase.AlternateRepository;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
@@ -432,11 +434,11 @@ public class FileRepository extends Repository {
 	@Override
 	public Set<ObjectId> getAdditionalHaves() {
 		HashSet<ObjectId> r = new HashSet<ObjectId>();
-		for (ObjectDatabase d : objectDatabase.getAlternates()) {
-			if (d instanceof AlternateRepositoryDatabase) {
+		for (AlternateHandle d : objectDatabase. myAlternates()) {
+			if (d instanceof AlternateRepository) {
 				Repository repo;
 
-				repo = ((AlternateRepositoryDatabase) d).getRepository();
+				repo = ((AlternateRepository) d).repository;
 				for (Ref ref : repo.getAllRefs().values())
 					r.add(ref.getObjectId());
 				r.addAll(repo.getAdditionalHaves());
