@@ -57,7 +57,7 @@ public class T0006_DeepSpeedTest extends SpeedTestBase {
 
 	public void testDeepHistoryScan() throws IOException {
 		long start = System.currentTimeMillis();
-		Repository db = new Repository(new File(kernelrepo));
+		Repository db = new FileRepository(new File(kernelrepo));
 		Commit commit = db.mapCommit("365bbe0d0caaf2ba74d56556827babf0bc66965d");
 		int n = 1;
 		for (;;) {
