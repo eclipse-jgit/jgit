@@ -46,6 +46,7 @@ package org.eclipse.jgit.lib;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Collection;
 
 /**
  * The cached instance of an {@link ObjectDirectory}.
@@ -53,12 +54,16 @@ import java.io.IOException;
  * This class caches the list of loose objects in memory, so the file system is
  * not queried with stat calls.
  */
-public class CachedObjectDirectory extends CachedObjectDatabase {
+class CachedObjectDirectory extends FileObjectDatabase {
 	/**
 	 * The set that contains unpacked objects identifiers, it is created when
 	 * the cached instance is created.
 	 */
 	private final ObjectIdSubclassMap<ObjectId> unpackedObjects = new ObjectIdSubclassMap<ObjectId>();
+
+	private final ObjectDirectory wrapped;
+
+	private AlternateHandle[] alts;
 
 	/**
 	 * The constructor
@@ -66,8 +71,9 @@ public class CachedObjectDirectory extends CachedObjectDatabase {
 	 * @param wrapped
 	 *            the wrapped database
 	 */
-	public CachedObjectDirectory(ObjectDirectory wrapped) {
-		super(wrapped);
+	CachedObjectDirectory(ObjectDirectory wrapped) {
+		this.wrapped = wrapped;
+
 		File objects = wrapped.getDirectory();
 		String[] fanout = objects.list();
 		if (fanout == null)
@@ -91,22 +97,89 @@ public class CachedObjectDirectory extends CachedObjectDatabase {
 	}
 
 	@Override
-	protected ObjectLoader openObject2(WindowCursor curs, String objectName,
+	public void close() {
+		// Don't close anything.
+	}
+
+	@Override
+	public ObjectInserter newInserter() {
+		return wrapped.newInserter();
+	}
+
+	@Override
+	public ObjectDatabase newCachedDatabase() {
+		return this;
+	}
+
+	@Override
+	FileObjectDatabase newCachedFileObjectDatabase() {
+		return this;
+	}
+
+	@Override
+	void openObjectInAllPacks(Collection<PackedObjectLoader> out,
+			WindowCursor curs, AnyObjectId objectId) throws IOException {
+		wrapped.openObjectInAllPacks(out, curs, objectId);
+	}
+
+	@Override
+	File getDirectory() {
+		return wrapped.getDirectory();
+	}
+
+	@Override
+	AlternateHandle[] myAlternates() {
+		if (alts == null) {
+			AlternateHandle[] src = wrapped.myAlternates();
+			alts = new AlternateHandle[src.length];
+			for (int i = 0; i < alts.length; i++) {
+				FileObjectDatabase s = src[i].db;
+				alts[i] = new AlternateHandle(s.newCachedFileObjectDatabase());
+			}
+		}
+		return alts;
+	}
+
+	@Override
+	boolean tryAgain1() {
+		return wrapped.tryAgain1();
+	}
+
+	@Override
+	public boolean hasObject(final AnyObjectId objectId) {
+		return hasObjectImpl1(objectId);
+	}
+
+	@Override
+	boolean hasObject1(AnyObjectId objectId) {
+		return unpackedObjects.contains(objectId)
+				|| wrapped.hasObject1(objectId);
+	}
+
+	@Override
+	public ObjectLoader openObject(final WindowCursor curs,
+			final AnyObjectId objectId) throws IOException {
+		return openObjectImpl1(curs, objectId);
+	}
+
+	@Override
+	ObjectLoader openObject1(WindowCursor curs, AnyObjectId objectId)
+			throws IOException {
+		if (unpackedObjects.contains(objectId))
+			return wrapped.openObject2(curs, objectId.name(), objectId);
+		return wrapped.openObject1(curs, objectId);
+	}
+
+	@Override
+	boolean hasObject2(String objectId) {
+		// This method should never be invoked.
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	ObjectLoader openObject2(WindowCursor curs, String objectName,
 			AnyObjectId objectId) throws IOException {
-		if (unpackedObjects.get(objectId) == null)
-			return null;
-		return super.openObject2(curs, objectName, objectId);
-	}
-
-	@Override
-	protected boolean hasObject1(AnyObjectId objectId) {
-		if (unpackedObjects.get(objectId) != null)
-			return true; // known to be loose
-		return super.hasObject1(objectId);
-	}
-
-	@Override
-	protected boolean hasObject2(String name) {
-		return false; // loose objects were tested by hasObject1
+		// This method should never be invoked.
+		throw new UnsupportedOperationException();
 	}
 }
