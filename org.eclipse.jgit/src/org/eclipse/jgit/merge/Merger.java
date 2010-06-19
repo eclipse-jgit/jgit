@@ -53,7 +53,7 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.lib.WindowCursor;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevTree;
@@ -202,7 +202,7 @@ public abstract class Merger {
 	 */
 	protected AbstractTreeIterator openTree(final AnyObjectId treeId)
 			throws IncorrectObjectTypeException, IOException {
-		final WindowCursor curs = new WindowCursor();
+		final ObjectReader curs = db.newObjectReader();
 		try {
 			return new CanonicalTreeParser(null, db, treeId, curs);
 		} finally {

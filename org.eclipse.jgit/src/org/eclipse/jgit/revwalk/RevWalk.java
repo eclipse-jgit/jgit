@@ -62,7 +62,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdSubclassMap;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.lib.WindowCursor;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.revwalk.filter.RevFilter;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
 
@@ -159,7 +159,7 @@ public class RevWalk implements Iterable<RevCommit> {
 
 	final Repository db;
 
-	final WindowCursor curs;
+	final ObjectReader curs;
 
 	final MutableObjectId idBuffer;
 
@@ -193,7 +193,7 @@ public class RevWalk implements Iterable<RevCommit> {
 	 */
 	public RevWalk(final Repository repo) {
 		db = repo;
-		curs = new WindowCursor();
+		curs = db.newObjectReader();
 		idBuffer = new MutableObjectId();
 		objects = new ObjectIdSubclassMap<RevObject>();
 		roots = new ArrayList<RevCommit>();
