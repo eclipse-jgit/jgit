@@ -1022,6 +1022,31 @@ public class Repository {
 	}
 
 	/**
+	 * Objects known to exist but not expressed by {@link #getAllRefs()}.
+	 * <p>
+	 * When a repository borrows objects from another repository, it can
+	 * advertise that it safely has that other repository's references, without
+	 * exposing any other details about the other repository.  This may help
+	 * a client trying to push changes avoid pushing more than it needs to.
+	 *
+	 * @return unmodifiable collection of other known objects.
+	 */
+	public Set<ObjectId> getAdditionalHaves() {
+		HashSet<ObjectId> r = new HashSet<ObjectId>();
+		for (ObjectDatabase d : objectDatabase.getAlternates()) {
+			if (d instanceof AlternateRepositoryDatabase) {
+				Repository repo;
+
+				repo = ((AlternateRepositoryDatabase) d).getRepository();
+				for (Ref ref : repo.getAllRefs().values())
+					r.add(ref.getObjectId());
+				r.addAll(repo.getAdditionalHaves());
+			}
+		}
+		return r;
+	}
+
+	/**
 	 * Get a ref by name.
 	 *
 	 * @param name
