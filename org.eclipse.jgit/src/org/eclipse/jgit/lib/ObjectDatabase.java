@@ -44,7 +44,8 @@
 package org.eclipse.jgit.lib;
 
 import java.io.IOException;
-import java.util.Collection;
+
+import org.eclipse.jgit.errors.MissingObjectException;
 
 /**
  * Abstraction of arbitrary object storage.
@@ -90,48 +91,65 @@ public abstract class ObjectDatabase {
 	public abstract ObjectInserter newInserter();
 
 	/**
+	 * Create a new {@code ObjectReader} to read existing objects.
+	 * <p>
+	 * The returned reader is not itself thread-safe, but multiple concurrent
+	 * reader instances created from the same {@code ObjectDatabase} must be
+	 * thread-safe.
+	 *
+	 * @return reader the caller can use to load objects from this database.
+	 */
+	public abstract ObjectReader newReader();
+
+	/**
 	 * Close any resources held by this database.
 	 */
 	public abstract void close();
 
 	/**
 	 * Does the requested object exist in this database?
+	 * <p>
+	 * This is a one-shot call interface which may be faster than allocating a
+	 * {@link #newReader()} to perform the lookup.
 	 *
 	 * @param objectId
 	 *            identity of the object to test for existence of.
 	 * @return true if the specified object is stored in this database.
+	 * @throws IOException
+	 *             the object store cannot be accessed.
 	 */
-	public abstract boolean hasObject(AnyObjectId objectId);
+	public boolean hasObject(final AnyObjectId objectId) throws IOException {
+		final ObjectReader or = newReader();
+		try {
+			return or.hasObject(objectId);
+		} finally {
+			or.release();
+		}
+	}
 
 	/**
 	 * Open an object from this database.
+	 * <p>
+	 * This is a one-shot call interface which may be faster than allocating a
+	 * {@link #newReader()} to perform the lookup.
 	 *
-	 * @param curs
-	 *            temporary working space associated with the calling thread.
 	 * @param objectId
 	 *            identity of the object to open.
-	 * @return a {@link ObjectLoader} for accessing the data of the named
-	 *         object, or null if the object does not exist.
+	 * @return a {@link ObjectLoader} for accessing the object.
+	 * @throws MissingObjectException
+	 *             the object does not exist.
 	 * @throws IOException
+	 *             the object store cannot be accessed.
 	 */
-	public abstract ObjectLoader openObject(WindowCursor curs,
-			AnyObjectId objectId) throws IOException;
-
-	/**
-	 * Open the object from all packs containing it.
-	 *
-	 * @param out
-	 *            result collection of loaders for this object, filled with
-	 *            loaders from all packs containing specified object
-	 * @param curs
-	 *            temporary working space associated with the calling thread.
-	 * @param objectId
-	 *            id of object to search for
-	 * @throws IOException
-	 */
-	abstract void openObjectInAllPacks(final Collection<PackedObjectLoader> out,
-			final WindowCursor curs, final AnyObjectId objectId)
-			throws IOException;
+	public ObjectLoader openObject(final AnyObjectId objectId)
+			throws IOException {
+		final ObjectReader or = newReader();
+		try {
+			return or.openObject(objectId);
+		} finally {
+			or.release();
+		}
+	}
 
 	/**
 	 * Create a new cached database instance over this database. This instance might

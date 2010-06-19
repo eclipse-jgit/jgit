@@ -63,7 +63,7 @@ public class T0004_PackReader extends SampleDataRepositoryTestCase {
 
 		id = ObjectId.fromString("902d5476fa249b7abc9d84c611577a81381f0327");
 		pr = new PackFile(TEST_IDX, TEST_PACK);
-		or = pr.get(new WindowCursor(), id);
+		or = pr.get(new WindowCursor(null), id);
 		assertNotNull(or);
 		assertEquals(Constants.OBJ_TREE, or.getType());
 		assertEquals(35, or.getSize());

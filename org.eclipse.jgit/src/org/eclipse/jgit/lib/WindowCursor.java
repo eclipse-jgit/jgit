@@ -45,17 +45,46 @@
 package org.eclipse.jgit.lib;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.zip.DataFormatException;
 import java.util.zip.Inflater;
 
+import org.eclipse.jgit.errors.MissingObjectException;
+
 /** Active handle to a ByteWindow. */
-public final class WindowCursor {
+final class WindowCursor extends ObjectReader {
 	/** Temporary buffer large enough for at least one raw object id. */
 	final byte[] tempId = new byte[Constants.OBJECT_ID_LENGTH];
 
 	private Inflater inf;
 
 	private ByteWindow window;
+
+	private final FileObjectDatabase db;
+
+	WindowCursor(FileObjectDatabase db) {
+		this.db = db;
+	}
+
+	public boolean hasObject(AnyObjectId objectId) throws IOException {
+		return db.hasObject(objectId);
+	}
+
+	public ObjectLoader openObject(AnyObjectId objectId, int typeHint)
+			throws MissingObjectException, IOException {
+		final ObjectLoader ldr = db.openObject(this, objectId);
+		if (ldr == null) {
+			if (typeHint == OBJ_ANY)
+				throw new MissingObjectException(objectId.copy(), "unknown");
+			throw new MissingObjectException(objectId.copy(), typeHint);
+		}
+		return ldr;
+	}
+
+	void openObjectInAllPacks(AnyObjectId otp,
+			Collection<PackedObjectLoader> reuseLoaders) throws IOException {
+		db.openObjectInAllPacks(reuseLoaders, this, otp);
+	}
 
 	/**
 	 * Copy bytes from the window to a caller supplied buffer.
@@ -167,15 +196,5 @@ public final class WindowCursor {
 		} finally {
 			inf = null;
 		}
-	}
-
-	/**
-	 * @param curs cursor to release; may be null.
-	 * @return always null.
-	 */
-	public static WindowCursor release(final WindowCursor curs) {
-		if (curs != null)
-			curs.release();
-		return null;
 	}
 }

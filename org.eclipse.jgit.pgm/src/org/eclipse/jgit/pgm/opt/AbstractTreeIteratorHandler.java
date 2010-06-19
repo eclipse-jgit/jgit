@@ -59,7 +59,7 @@ import org.eclipse.jgit.dircache.DirCacheIterator;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.WindowCursor;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.pgm.CLIText;
 import org.eclipse.jgit.treewalk.AbstractTreeIterator;
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
@@ -121,7 +121,7 @@ public class AbstractTreeIteratorHandler extends
 			throw new CmdLineException(MessageFormat.format(CLIText.get().notATree, name));
 
 		final CanonicalTreeParser p = new CanonicalTreeParser();
-		final WindowCursor curs = new WindowCursor();
+		final ObjectReader curs = clp.getRepository().newObjectReader();
 		try {
 			p.reset(clp.getRepository(), clp.getRevWalk().parseTree(id), curs);
 		} catch (MissingObjectException e) {
