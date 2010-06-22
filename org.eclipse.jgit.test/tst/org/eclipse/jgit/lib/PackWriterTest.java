@@ -77,8 +77,6 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 
 	private ByteArrayOutputStream os;
 
-	private PackOutputStream cos;
-
 	private File packBase;
 
 	private File packFile;
@@ -90,7 +88,6 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 	public void setUp() throws Exception {
 		super.setUp();
 		os = new ByteArrayOutputStream();
-		cos = new PackOutputStream(os);
 		packBase = new File(trash, "tmp_pack");
 		packFile = new File(trash, "tmp_pack.pack");
 		indexFile = new File(trash, "tmp_pack.idx");
@@ -314,11 +311,11 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 	 */
 	public void testWritePack2SizeDeltasVsNoDeltas() throws Exception {
 		testWritePack2();
-		final long sizePack2NoDeltas = cos.length();
+		final long sizePack2NoDeltas = os.size();
 		tearDown();
 		setUp();
 		testWritePack2DeltasReuseRefs();
-		final long sizePack2DeltasRefs = cos.length();
+		final long sizePack2DeltasRefs = os.size();
 
 		assertTrue(sizePack2NoDeltas > sizePack2DeltasRefs);
 	}
@@ -333,11 +330,11 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 	 */
 	public void testWritePack2SizeOffsetsVsRefs() throws Exception {
 		testWritePack2DeltasReuseRefs();
-		final long sizePack2DeltasRefs = cos.length();
+		final long sizePack2DeltasRefs = os.size();
 		tearDown();
 		setUp();
 		testWritePack2DeltasReuseOffsets();
-		final long sizePack2DeltasOffsets = cos.length();
+		final long sizePack2DeltasOffsets = os.size();
 
 		assertTrue(sizePack2DeltasRefs > sizePack2DeltasOffsets);
 	}
@@ -351,11 +348,11 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 	 */
 	public void testWritePack4SizeThinVsNoThin() throws Exception {
 		testWritePack4();
-		final long sizePack4 = cos.length();
+		final long sizePack4 = os.size();
 		tearDown();
 		setUp();
 		testWritePack4ThinPack();
-		final long sizePack4Thin = cos.length();
+		final long sizePack4Thin = os.size();
 
 		assertTrue(sizePack4 > sizePack4Thin);
 	}
@@ -482,14 +479,14 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 		writer.setThin(thin);
 		writer.setIgnoreMissingUninteresting(ignoreMissingUninteresting);
 		writer.preparePack(interestings, uninterestings);
-		writer.writePack(cos);
+		writer.writePack(os);
 		verifyOpenPack(thin);
 	}
 
 	private void createVerifyOpenPack(final Iterator<RevObject> objectSource)
 			throws MissingObjectException, IOException {
 		writer.preparePack(objectSource);
-		writer.writePack(cos);
+		writer.writePack(os);
 		verifyOpenPack(false);
 	}
 
