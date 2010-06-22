@@ -834,7 +834,6 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 			String msg, String refName) throws IOException {
 		RefDirectory refs = (RefDirectory) db.getRefDatabase();
 		RefDirectoryUpdate update = refs.newUpdate(refName, true);
-		update.setOldObjectId(oldId);
 		update.setNewObjectId(newId);
 		refs.log(update, msg, true);
 	}
