@@ -50,7 +50,13 @@ package org.eclipse.jgit.lib;
  * Currently only a reference to the repository is passed.
  */
 public class IndexChangedEvent extends RepositoryChangedEvent {
-	IndexChangedEvent(final Repository repository) {
+	/**
+	 * Create an event describing index changes in a repository.
+	 *
+	 * @param repository
+	 *            the repository whose index (DirCache) recently changed.
+	 */
+	public IndexChangedEvent(final Repository repository) {
 		super(repository);
 	}
 
