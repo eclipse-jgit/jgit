@@ -48,7 +48,7 @@ import java.io.File;
 import java.text.MessageFormat;
 
 import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.FileRepository;
+import org.eclipse.jgit.storage.file.FileRepository;
 import org.kohsuke.args4j.Argument;
 
 @Command(common = false, usage = "usage_ServerSideBackendForJgitPush")

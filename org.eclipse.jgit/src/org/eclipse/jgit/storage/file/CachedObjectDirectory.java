@@ -1,0 +1,186 @@
+/*
+ * Copyright (C) 2010, Constantine Plotnikov <constantine.plotnikov@gmail.com>
+ * Copyright (C) 2010, JetBrains s.r.o.
+ * and other copyright owners as documented in the project's IP log.
+ *
+ * This program and the accompanying materials are made available
+ * under the terms of the Eclipse Distribution License v1.0 which
+ * accompanies this distribution, is reproduced below, and is
+ * available at http://www.eclipse.org/org/documents/edl-v10.php
+ *
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or
+ * without modification, are permitted provided that the following
+ * conditions are met:
+ *
+ * - Redistributions of source code must retain the above copyright
+ *   notice, this list of conditions and the following disclaimer.
+ *
+ * - Redistributions in binary form must reproduce the above
+ *   copyright notice, this list of conditions and the following
+ *   disclaimer in the documentation and/or other materials provided
+ *   with the distribution.
+ *
+ * - Neither the name of the Eclipse Foundation, Inc. nor the
+ *   names of its contributors may be used to endorse or promote
+ *   products derived from this software without specific prior
+ *   written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND
+ * CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
+ * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+ * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package org.eclipse.jgit.storage.file;
+
+import java.io.File;
+import java.io.IOException;
+
+import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.ObjectDatabase;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectIdSubclassMap;
+import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.ObjectLoader;
+
+/**
+ * The cached instance of an {@link ObjectDirectory}.
+ * <p>
+ * This class caches the list of loose objects in memory, so the file system is
+ * not queried with stat calls.
+ */
+class CachedObjectDirectory extends FileObjectDatabase {
+	/**
+	 * The set that contains unpacked objects identifiers, it is created when
+	 * the cached instance is created.
+	 */
+	private final ObjectIdSubclassMap<ObjectId> unpackedObjects = new ObjectIdSubclassMap<ObjectId>();
+
+	private final ObjectDirectory wrapped;
+
+	private AlternateHandle[] alts;
+
+	/**
+	 * The constructor
+	 *
+	 * @param wrapped
+	 *            the wrapped database
+	 */
+	CachedObjectDirectory(ObjectDirectory wrapped) {
+		this.wrapped = wrapped;
+
+		File objects = wrapped.getDirectory();
+		String[] fanout = objects.list();
+		if (fanout == null)
+			fanout = new String[0];
+		for (String d : fanout) {
+			if (d.length() != 2)
+				continue;
+			String[] entries = new File(objects, d).list();
+			if (entries == null)
+				continue;
+			for (String e : entries) {
+				if (e.length() != Constants.OBJECT_ID_STRING_LENGTH - 2)
+					continue;
+				try {
+					unpackedObjects.add(ObjectId.fromString(d + e));
+				} catch (IllegalArgumentException notAnObject) {
+					// ignoring the file that does not represent loose object
+				}
+			}
+		}
+	}
+
+	@Override
+	public void close() {
+		// Don't close anything.
+	}
+
+	@Override
+	public ObjectInserter newInserter() {
+		return wrapped.newInserter();
+	}
+
+	@Override
+	public ObjectDatabase newCachedDatabase() {
+		return this;
+	}
+
+	@Override
+	FileObjectDatabase newCachedFileObjectDatabase() {
+		return this;
+	}
+
+	@Override
+	File getDirectory() {
+		return wrapped.getDirectory();
+	}
+
+	@Override
+	AlternateHandle[] myAlternates() {
+		if (alts == null) {
+			AlternateHandle[] src = wrapped.myAlternates();
+			alts = new AlternateHandle[src.length];
+			for (int i = 0; i < alts.length; i++) {
+				FileObjectDatabase s = src[i].db;
+				alts[i] = new AlternateHandle(s.newCachedFileObjectDatabase());
+			}
+		}
+		return alts;
+	}
+
+	@Override
+	boolean tryAgain1() {
+		return wrapped.tryAgain1();
+	}
+
+	@Override
+	public boolean hasObject(final AnyObjectId objectId) {
+		return hasObjectImpl1(objectId);
+	}
+
+	@Override
+	boolean hasObject1(AnyObjectId objectId) {
+		return unpackedObjects.contains(objectId)
+				|| wrapped.hasObject1(objectId);
+	}
+
+	@Override
+	ObjectLoader openObject(final WindowCursor curs,
+			final AnyObjectId objectId) throws IOException {
+		return openObjectImpl1(curs, objectId);
+	}
+
+	@Override
+	ObjectLoader openObject1(WindowCursor curs, AnyObjectId objectId)
+			throws IOException {
+		if (unpackedObjects.contains(objectId))
+			return wrapped.openObject2(curs, objectId.name(), objectId);
+		return wrapped.openObject1(curs, objectId);
+	}
+
+	@Override
+	boolean hasObject2(String objectId) {
+		// This method should never be invoked.
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	ObjectLoader openObject2(WindowCursor curs, String objectName,
+			AnyObjectId objectId) throws IOException {
+		// This method should never be invoked.
+		throw new UnsupportedOperationException();
+	}
+}
