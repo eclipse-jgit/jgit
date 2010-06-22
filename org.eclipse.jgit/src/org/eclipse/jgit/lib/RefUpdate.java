@@ -167,7 +167,16 @@ public abstract class RefUpdate {
 
 	private final Ref ref;
 
-	RefUpdate(final Ref ref) {
+	/**
+	 * Construct a new update operation for the reference.
+	 * <p>
+	 * {@code ref.getObjectId()} will be used to seed {@link #getOldObjectId()},
+	 * which callers can use as part of their own update logic.
+	 *
+	 * @param ref
+	 *            the reference that will be updated by this operation.
+	 */
+	protected RefUpdate(final Ref ref) {
 		this.ref = ref;
 		oldValue = ref.getObjectId();
 		refLogMessage = "";
