@@ -1248,7 +1248,7 @@ public class Repository {
 		final int len = refName.length();
 		if (len == 0)
 			return false;
-		if (refName.endsWith(LockFile.SUFFIX))
+		if (refName.endsWith(".lock"))
 			return false;
 
 		int components = 1;
