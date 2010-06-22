@@ -281,11 +281,7 @@ public abstract class PackIndex implements Iterable<PackIndex.MutableEntry> {
 		public MutableEntry cloneEntry() {
 			final MutableEntry r = new MutableEntry();
 			ensureId();
-			r.idBuffer.w1 = idBuffer.w1;
-			r.idBuffer.w2 = idBuffer.w2;
-			r.idBuffer.w3 = idBuffer.w3;
-			r.idBuffer.w4 = idBuffer.w4;
-			r.idBuffer.w5 = idBuffer.w5;
+			r.idBuffer.fromObjectId(idBuffer);
 			r.offset = offset;
 			return r;
 		}
