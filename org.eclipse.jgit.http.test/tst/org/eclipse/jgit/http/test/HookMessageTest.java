@@ -61,10 +61,10 @@ import org.eclipse.jgit.http.test.util.AccessEvent;
 import org.eclipse.jgit.http.test.util.HttpTestCase;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.FileBasedConfig;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.lib.RepositoryConfig;
 import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.PreReceiveHook;
@@ -124,7 +124,7 @@ public class HookMessageTest extends HttpTestCase {
 		remoteRepository = src.getRepository();
 		remoteURI = toURIish(app, srcName);
 
-		RepositoryConfig cfg = remoteRepository.getConfig();
+		FileBasedConfig cfg = remoteRepository.getConfig();
 		cfg.setBoolean("http", null, "receivepack", true);
 		cfg.save();
 	}

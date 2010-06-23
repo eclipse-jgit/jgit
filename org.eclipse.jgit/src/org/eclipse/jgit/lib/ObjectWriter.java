@@ -336,7 +336,7 @@ public class ObjectWriter {
 
 		md.reset();
 		if (store) {
-			def = new Deflater(r.getConfig().getCore().getCompression());
+			def = new Deflater(r.getConfig().get(CoreConfig.KEY).getCompression());
 			deflateStream = new DeflaterOutputStream(fileStream, def);
 		} else
 			deflateStream = null;

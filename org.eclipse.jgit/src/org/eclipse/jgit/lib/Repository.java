@@ -110,7 +110,7 @@ public class Repository {
 
 	private final FileBasedConfig userConfig;
 
-	private final RepositoryConfig config;
+	private final FileBasedConfig config;
 
 	private final RefDatabase refs;
 
@@ -244,7 +244,7 @@ public class Repository {
 		this.fs = fs;
 
 		userConfig = SystemReader.getInstance().openUserConfig(fs);
-		config = new RepositoryConfig(userConfig, fs.resolve(gitDir, "config"));
+		config = new FileBasedConfig(userConfig, fs.resolve(gitDir, "config"));
 
 		loadUserConfig();
 		loadConfig();
@@ -351,7 +351,7 @@ public class Repository {
 	 *             in case of IO problem
 	 */
 	public void create(boolean bare) throws IOException {
-		final RepositoryConfig cfg = getConfig();
+		final FileBasedConfig cfg = getConfig();
 		if (cfg.getFile().exists()) {
 			throw new IllegalStateException(MessageFormat.format(
 					JGitText.get().repositoryAlreadyExists, gitDir));
@@ -409,7 +409,7 @@ public class Repository {
 	/**
 	 * @return the configuration of this repository
 	 */
-	public RepositoryConfig getConfig() {
+	public FileBasedConfig getConfig() {
 		if (userConfig.isOutdated()) {
 			try {
 				loadUserConfig();
