@@ -345,11 +345,7 @@ public class T0003_Basic extends SampleDataRepositoryTestCase {
 		}
 	}
 
-	public void test009_CreateCommitOldFormat() throws IOException,
-			ConfigInvalidException {
-		writeTrashFile(".git/config", "[core]\n" + "legacyHeaders=1\n");
-		db.getConfig().load();
-
+	public void test009_CreateCommitOldFormat() throws IOException {
 		final Tree t = new Tree(db);
 		final FileTreeEntry f = t.addFile("i-am-a-file");
 		writeTrashFile(f.getName(), "and this is the data in me\n");
