@@ -238,8 +238,10 @@ public class PackWriter {
 		this.db = repo;
 		initMonitor = imonitor == null ? NullProgressMonitor.INSTANCE : imonitor;
 		writeMonitor = wmonitor == null ? NullProgressMonitor.INSTANCE : wmonitor;
-		this.deflater = new Deflater(db.getConfig().getCore().getCompression());
-		outputVersion = repo.getConfig().getCore().getPackIndexVersion();
+
+		final CoreConfig coreConfig = db.getConfig().get(CoreConfig.KEY);
+		this.deflater = new Deflater(coreConfig.getCompression());
+		outputVersion = coreConfig.getPackIndexVersion();
 	}
 
 	/**

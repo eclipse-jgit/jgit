@@ -590,7 +590,7 @@ public class RefDirectory extends RefDatabase {
 	}
 
 	private boolean isLogAllRefUpdates() {
-		return parent.getConfig().getCore().isLogAllRefUpdates();
+		return parent.getConfig().get(CoreConfig.KEY).isLogAllRefUpdates();
 	}
 
 	private boolean shouldAutoCreateLog(final String refName) {
