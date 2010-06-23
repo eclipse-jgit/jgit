@@ -998,8 +998,6 @@ public abstract class Repository {
 		}
 	}
 
-	abstract void fireRefsChanged();
-
 	abstract void fireIndexChanged();
 
 	/**
