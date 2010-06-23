@@ -55,9 +55,12 @@ import java.util.Arrays;
 import java.util.Comparator;
 
 import org.eclipse.jgit.JGitText;
+import org.eclipse.jgit.dircache.DirCache;
+import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
+import org.eclipse.jgit.util.FS;
 
 /**
  * Walks a working directory tree as part of a {@link TreeWalk}.
@@ -361,6 +364,66 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	 */
 	protected Entry current() {
 		return entries[ptr];
+	}
+
+	/**
+	 * Checks whether this entry differs from a given entry from the
+	 * {@link DirCache}.
+	 *
+	 * File status information is used and if status is same we consider the
+	 * file identical to the state in the working directory. Native git uses
+	 * more stat fields than we have accessible in Java.
+	 *
+	 * @param entry
+	 *            the entry from the dircache we to compare against
+	 * @param forceContentCheck
+	 *            True if the actual file content should be checked if
+	 *            modification time differs.
+	 * @param checkFilemode
+	 *            whether filemodes should be checked to detect modifications
+	 * @param fs
+	 *            The filesystem this repo uses. Needed to find out whether the
+	 *            executable-bits are supported
+	 *
+	 *
+	 * @return true if content is most likely different.
+	 */
+	public boolean isModified(DirCacheEntry entry, boolean forceContentCheck,
+			boolean checkFilemode, FS fs) {
+		if (entry.isAssumeValid())
+			return false;
+
+		// updateNeeded flag currently not handled
+		if (getEntryLength() != entry.getLength())
+			return true;
+
+		if (checkFilemode) {
+			// for mode comparision there is one special rule: if the current FS
+			// doesn't suppport the executable-bit then a cache entry of type
+			// EXECUTABLE_FILE has to have a corresponding file of type
+			// REGULAR_FILE - otherwise this method will report a modification
+			if (FileMode.EXECUTABLE_FILE.equals(entry.getRawMode())
+					&& !fs.supportsExecute()) {
+				if (!FileMode.REGULAR_FILE.equals(getEntryRawMode()))
+					return true;
+			} else {
+				if (entry.getRawMode() != getEntryRawMode())
+					return true;
+			}
+		}
+
+		// Git under windows only stores seconds so we round the timestamp
+		// Java gives us if it looks like the timestamp in index is seconds
+		// only. Otherwise we compare the timestamp at millisecond prevision.
+		long cacheLastModified = entry.getLastModified();
+		long fileLastModified = getEntryLastModified();
+		if (cacheLastModified % 1000 == 0)
+			fileLastModified = fileLastModified - fileLastModified % 1000;
+		if ((fileLastModified != cacheLastModified) && !forceContentCheck)
+			return true;
+
+		// everything equal up to now - now we have to do content comparison
+		return (!getEntryObjectId().equals(entry.getObjectId()));
 	}
 
 	/** A single entry within a working directory tree. */
