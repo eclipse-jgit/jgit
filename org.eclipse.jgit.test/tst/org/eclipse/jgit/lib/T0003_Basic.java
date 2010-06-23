@@ -283,7 +283,7 @@ public class T0003_Basic extends SampleDataRepositoryTestCase {
 	}
 
 	public void test005_ReadSimpleConfig() {
-		final RepositoryConfig c = db.getConfig();
+		final Config c = db.getConfig();
 		assertNotNull(c);
 		assertEquals("0", c.getString("core", null, "repositoryformatversion"));
 		assertEquals("0", c.getString("CoRe", null, "REPOSITORYFoRmAtVeRsIoN"));
@@ -294,8 +294,8 @@ public class T0003_Basic extends SampleDataRepositoryTestCase {
 
 	public void test006_ReadUglyConfig() throws IOException,
 			ConfigInvalidException {
-		final RepositoryConfig c = db.getConfig();
 		final File cfg = new File(db.getDirectory(), "config");
+		final FileBasedConfig c = new FileBasedConfig(cfg);
 		final FileWriter pw = new FileWriter(cfg);
 		final String configStr = "  [core];comment\n\tfilemode = yes\n"
 				+ "[user]\n"
