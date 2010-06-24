@@ -664,7 +664,7 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 
 		// Create new Repository instance, to reread caches and make sure our
 		// assumptions are persistent.
-		Repository ndb = new Repository(db.getDirectory());
+		Repository ndb = new FileRepository(db.getDirectory());
 		assertEquals(rb2, ndb.resolve("refs/heads/new/name"));
 		assertNull(ndb.resolve("refs/heads/b"));
 	}

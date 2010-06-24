@@ -63,6 +63,7 @@ import junit.framework.TestCase;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileBasedConfig;
+import org.eclipse.jgit.lib.FileRepository;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryCache;
@@ -288,7 +289,7 @@ public abstract class LocalDiskRepositoryTestCase extends TestCase {
 		String uniqueId = System.currentTimeMillis() + "_" + (testCount++);
 		String gitdirName = "test" + uniqueId + (bare ? "" : "/") + Constants.DOT_GIT;
 		File gitdir = new File(trash, gitdirName).getCanonicalFile();
-		Repository db = new Repository(gitdir);
+		Repository db = new FileRepository(gitdir);
 
 		assertFalse(gitdir.exists());
 		db.create();

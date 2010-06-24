@@ -60,7 +60,7 @@ import org.eclipse.jgit.awtui.AwtAuthenticator;
 import org.eclipse.jgit.awtui.AwtSshSessionFactory;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.FileRepository;
 import org.eclipse.jgit.pgm.opt.CmdLineParser;
 import org.eclipse.jgit.pgm.opt.SubcommandHandler;
 import org.eclipse.jgit.util.CachedAuthenticator;
@@ -212,7 +212,7 @@ public class Main {
 				writer.flush();
 				System.exit(1);
 			}
-			cmd.init(new Repository(gitdir, gitworktree, objectdir, altobjectdirs, indexfile), gitdir);
+			cmd.init(new FileRepository(gitdir, gitworktree, objectdir, altobjectdirs, indexfile), gitdir);
 		} else {
 			cmd.init(null, gitdir);
 		}

@@ -57,11 +57,11 @@ import org.eclipse.jgit.errors.NotSupportedException;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.lib.Commit;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.FileRepository;
 import org.eclipse.jgit.lib.GitIndex;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefComparator;
 import org.eclipse.jgit.lib.RefUpdate;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.TextProgressMonitor;
 import org.eclipse.jgit.lib.Tree;
 import org.eclipse.jgit.lib.WorkDirCheckout;
@@ -103,7 +103,7 @@ class Clone extends AbstractFetchCommand {
 		if (gitdir == null)
 			gitdir = new File(localName, Constants.DOT_GIT);
 
-		db = new Repository(gitdir);
+		db = new FileRepository(gitdir);
 		db.create();
 		db.getConfig().setBoolean("core", null, "bare", false);
 		db.getConfig().save();
