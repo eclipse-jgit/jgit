@@ -44,7 +44,7 @@
 
 package org.eclipse.jgit.diff;
 
-import org.eclipse.jgit.util.RawCharUtil;
+import static org.eclipse.jgit.util.RawCharUtil.isWhitespace;
 
 /**
  * A version of {@link RawText} that ignores all whitespace.
@@ -83,11 +83,11 @@ public class RawTextIgnoreAllWhitespace extends RawText {
 		final int be = b.lines.get(bi + 1);
 
 		while (as < ae && bs < be) {
-			while (as < ae - 1 && RawCharUtil.isWhitespace(a.content[as])) {
+			while (as < ae - 1 && isWhitespace(a.content[as])) {
 				as++;
 			}
 
-			while (bs < be - 1 && RawCharUtil.isWhitespace(b.content[bs])) {
+			while (bs < be - 1 && isWhitespace(b.content[bs])) {
 				bs++;
 			}
 
@@ -100,13 +100,13 @@ public class RawTextIgnoreAllWhitespace extends RawText {
 		}
 
 		while (as < ae) {
-			if (!RawCharUtil.isWhitespace(a.content[as++])) {
+			if (!isWhitespace(a.content[as++])) {
 				return false;
 			}
 		}
 
 		while (bs < be) {
-			if (!RawCharUtil.isWhitespace(b.content[bs++])) {
+			if (!isWhitespace(b.content[bs++])) {
 				return false;
 			}
 		}
@@ -117,7 +117,7 @@ public class RawTextIgnoreAllWhitespace extends RawText {
 	protected int hashLine(final byte[] raw, int ptr, final int end) {
 		int hash = 5381;
 		for (; ptr < end; ptr++) {
-			if (!RawCharUtil.isWhitespace(raw[ptr])) {
+			if (!isWhitespace(raw[ptr])) {
 				hash = (hash << 5) ^ (raw[ptr] & 0xff);
 			}
 		}
