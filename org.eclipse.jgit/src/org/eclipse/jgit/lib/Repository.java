@@ -453,8 +453,8 @@ public class Repository {
 	 * @return true if the specified object is stored in this repo or any of the
 	 *         known shared repositories.
 	 */
-	public boolean hasObject(final AnyObjectId objectId) {
-		return objectDatabase.hasObject(objectId);
+	public boolean hasObject(AnyObjectId objectId) {
+		return getObjectDatabase().hasObject(objectId);
 	}
 
 	/**
@@ -485,9 +485,9 @@ public class Repository {
 	 *         object, or null if the object does not exist.
 	 * @throws IOException
 	 */
-	public ObjectLoader openObject(final WindowCursor curs, final AnyObjectId id)
+	public ObjectLoader openObject(WindowCursor curs, AnyObjectId id)
 			throws IOException {
-		return objectDatabase.openObject(curs, id);
+		return getObjectDatabase().openObject(curs, id);
 	}
 
 	/**
@@ -726,7 +726,7 @@ public class Repository {
 	 *             to the base ref, as the symbolic ref could not be read.
 	 */
 	public RefUpdate updateRef(final String ref, final boolean detach) throws IOException {
-		return refs.newUpdate(ref, detach);
+		return getRefDatabase().newUpdate(ref, detach);
 	}
 
 	/**
@@ -742,7 +742,7 @@ public class Repository {
 	 *
 	 */
 	public RefRename renameRef(final String fromRef, final String toRef) throws IOException {
-		return refs.newRename(fromRef, toRef);
+		return getRefDatabase().newRename(fromRef, toRef);
 	}
 
 	/**
@@ -948,14 +948,21 @@ public class Repository {
 		useCnt.incrementAndGet();
 	}
 
-	/**
-	 * Close all resources used by this repository
-	 */
+	/** Decrement the use count, and maybe close resources. */
 	public void close() {
 		if (useCnt.decrementAndGet() == 0) {
-			objectDatabase.close();
-			refs.close();
+			doClose();
 		}
+	}
+
+	/**
+	 * Invoked when the use count drops to zero during {@link #close()}.
+	 * <p>
+	 * The default implementation closes the object and ref databases.
+	 */
+	protected void doClose() {
+		getObjectDatabase().close();
+		getRefDatabase().close();
 	}
 
 	/**
@@ -1058,7 +1065,7 @@ public class Repository {
 	 * @throws IOException
 	 */
 	public Ref getRef(final String name) throws IOException {
-		return refs.getRef(name);
+		return getRefDatabase().getRef(name);
 	}
 
 	/**
@@ -1066,7 +1073,7 @@ public class Repository {
 	 */
 	public Map<String, Ref> getAllRefs() {
 		try {
-			return refs.getRefs(RefDatabase.ALL);
+			return getRefDatabase().getRefs(RefDatabase.ALL);
 		} catch (IOException e) {
 			return new HashMap<String, Ref>();
 		}
@@ -1079,7 +1086,7 @@ public class Repository {
 	 */
 	public Map<String, Ref> getTags() {
 		try {
-			return refs.getRefs(Constants.R_TAGS);
+			return getRefDatabase().getRefs(Constants.R_TAGS);
 		} catch (IOException e) {
 			return new HashMap<String, Ref>();
 		}
@@ -1100,7 +1107,7 @@ public class Repository {
 	 */
 	public Ref peel(final Ref ref) {
 		try {
-			return refs.peel(ref);
+			return getRefDatabase().peel(ref);
 		} catch (IOException e) {
 			// Historical accident; if the reference cannot be peeled due
 			// to some sort of repository access problem we claim that the
