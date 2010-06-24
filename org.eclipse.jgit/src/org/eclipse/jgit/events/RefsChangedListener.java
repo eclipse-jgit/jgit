@@ -41,27 +41,15 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.eclipse.jgit.lib;
+package org.eclipse.jgit.events;
 
-/**
- * This class passes information about a changed Git index to a
- * {@link RepositoryListener}
- *
- * Currently only a reference to the repository is passed.
- */
-public class RefsChangedEvent extends RepositoryChangedEvent {
+/** Receives {@link RefsChangedEvent}s. */
+public interface RefsChangedListener extends RepositoryListener {
 	/**
-	 * Create an event describing reference changes in a repository.
+	 * Invoked when any reference changes.
 	 *
-	 * @param repository
-	 *            the repository whose references recently changed.
+	 * @param event
+	 *            information about the changes.
 	 */
-	public RefsChangedEvent(final Repository repository) {
-		super(repository);
-	}
-
-	@Override
-	public String toString() {
-		return "RefsChangedEvent[" + getRepository() + "]";
-	}
+	void onRefsChanged(RefsChangedEvent event);
 }

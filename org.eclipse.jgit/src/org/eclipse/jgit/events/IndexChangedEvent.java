@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008, Robin Rosenberg <robin.rosenberg@dewire.com>
+ * Copyright (C) 2010, Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -41,27 +41,17 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.eclipse.jgit.lib;
+package org.eclipse.jgit.events;
 
-/**
- * This class passes information about a changed Git index to a
- * {@link RepositoryListener}
- *
- * Currently only a reference to the repository is passed.
- */
-public class IndexChangedEvent extends RepositoryChangedEvent {
-	/**
-	 * Create an event describing index changes in a repository.
-	 *
-	 * @param repository
-	 *            the repository whose index (DirCache) recently changed.
-	 */
-	public IndexChangedEvent(final Repository repository) {
-		super(repository);
+/** Describes a change to one or more paths in the index file. */
+public class IndexChangedEvent extends RepositoryEvent<IndexChangedListener> {
+	@Override
+	public Class<IndexChangedListener> getListenerType() {
+		return IndexChangedListener.class;
 	}
 
 	@Override
-	public String toString() {
-		return "IndexChangedEvent[" + getRepository() + "]";
+	public void dispatch(IndexChangedListener listener) {
+		listener.onIndexChanged(this);
 	}
 }

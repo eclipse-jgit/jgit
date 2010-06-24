@@ -41,20 +41,15 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.eclipse.jgit.lib;
+package org.eclipse.jgit.events;
 
-/**
- * A default {@link RepositoryListener} that does nothing except invoke an
- * optional general method for any repository change.
- */
-public class RepositoryAdapter implements RepositoryListener {
-
-	public void indexChanged(final IndexChangedEvent e) {
-		// Empty
-	}
-
-	public void refsChanged(final RefsChangedEvent e) {
-		// Empty
-	}
-
+/** Receives {@link IndexChangedEvent}s. */
+public interface IndexChangedListener extends RepositoryListener {
+	/**
+	 * Invoked when any change is made to the index.
+	 *
+	 * @param event
+	 *            information about the changes.
+	 */
+	void onIndexChanged(IndexChangedEvent event);
 }

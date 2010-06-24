@@ -71,6 +71,7 @@ import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.NotSupportedException;
+import org.eclipse.jgit.events.IndexChangedEvent;
 import org.eclipse.jgit.util.RawParseUtils;
 
 /**
@@ -155,7 +156,7 @@ public class GitIndex {
 	public void rereadIfNecessary() throws IOException {
 		if (cacheFile.exists() && cacheFile.lastModified() != lastCacheTime) {
 			read();
-			db.fireIndexChanged();
+			db.fireEvent(new IndexChangedEvent());
 		}
 	}
 
@@ -307,7 +308,7 @@ public class GitIndex {
 			changed = false;
 			statDirty = false;
 			lastCacheTime = cacheFile.lastModified();
-			db.fireIndexChanged();
+			db.fireEvent(new IndexChangedEvent());
 		} finally {
 			if (!lock.delete())
 				throw new IOException(

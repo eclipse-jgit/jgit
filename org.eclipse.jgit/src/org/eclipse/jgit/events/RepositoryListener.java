@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008, Robin Rosenberg <robin.rosenberg@dewire.com>
+ * Copyright (C) 2010, Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -41,30 +41,9 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.eclipse.jgit.lib;
+package org.eclipse.jgit.events;
 
-/**
- * This class passes information about changed refs to a
- * {@link RepositoryListener}
- *
- * Currently only a reference to the repository is passed.
- */
-public class RepositoryChangedEvent {
-	private final Repository repository;
-
-	RepositoryChangedEvent(final Repository repository) {
-		this.repository = repository;
-	}
-
-	/**
-	 * @return the repository that was changed
-	 */
-	public Repository getRepository() {
-		return repository;
-	}
-
-	@Override
-	public String toString() {
-		return "RepositoryChangedEvent[" + repository + "]";
-	}
+/** A listener can register for event delivery. */
+public interface RepositoryListener {
+	// Empty marker interface; see extensions for actual methods.
 }

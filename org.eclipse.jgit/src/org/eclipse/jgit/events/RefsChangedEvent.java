@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008, Robin Rosenberg <robin.rosenberg@dewire.com>
+ * Copyright (C) 2010, Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -41,29 +41,17 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.eclipse.jgit.lib;
+package org.eclipse.jgit.events;
 
-/**
- * A RepositoryListener gets notification about changes in refs or repository.
- * <p>
- * It currently does <em>not</em> get notification about which items are
- * changed.
- */
-public interface RepositoryListener {
-	/**
-	 * Invoked when a ref changes
-	 *
-	 * @param e
-	 *            information about the changes.
-	 */
-	void refsChanged(RefsChangedEvent e);
+/** Describes a change to one or more references of a repository. */
+public class RefsChangedEvent extends RepositoryEvent<RefsChangedListener> {
+	@Override
+	public Class<RefsChangedListener> getListenerType() {
+		return RefsChangedListener.class;
+	}
 
-	/**
-	 * Invoked when the index changes
-	 *
-	 * @param e
-	 *            information about the changes.
-	 */
-	void indexChanged(IndexChangedEvent e);
-
+	@Override
+	public void dispatch(RefsChangedListener listener) {
+		listener.onRefsChanged(this);
+	}
 }

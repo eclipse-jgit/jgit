@@ -49,7 +49,6 @@ package org.eclipse.jgit.lib;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -57,7 +56,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.Vector;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.eclipse.jgit.JGitText;
@@ -65,6 +63,8 @@ import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.RevisionSyntaxException;
+import org.eclipse.jgit.events.ListenerList;
+import org.eclipse.jgit.events.RepositoryEvent;
 import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
@@ -82,6 +82,13 @@ import org.eclipse.jgit.util.RawParseUtils;
  * This class is thread-safe.
  */
 public abstract class Repository {
+	private static final ListenerList globalListeners = new ListenerList();
+
+	/** @return the global listener list observing all events in this JVM. */
+	public static ListenerList getGlobalListenerList() {
+		return globalListeners;
+	}
+
 	private final AtomicInteger useCnt = new AtomicInteger(1);
 
 	/** Metadata directory holding the repository's critical files. */
@@ -92,8 +99,7 @@ public abstract class Repository {
 
 	private GitIndex index;
 
-	private final List<RepositoryListener> listeners = new Vector<RepositoryListener>(); // thread safe
-	static private final List<RepositoryListener> allListeners = new Vector<RepositoryListener>(); // thread safe
+	private final ListenerList myListeners = new ListenerList();
 
 	/** If not bare, the top level directory of the working files. */
 	private final File workTree;
@@ -112,6 +118,26 @@ public abstract class Repository {
 		fs = options.getFS();
 		workTree = options.getWorkTree();
 		indexFile = options.getIndexFile();
+	}
+
+	/** @return listeners observing only events on this repository. */
+	public ListenerList getListenerList() {
+		return myListeners;
+	}
+
+	/**
+	 * Fire an event to all registered listeners.
+	 * <p>
+	 * The source repository of the event is automatically set to this
+	 * repository, before the event is delivered to any listeners.
+	 *
+	 * @param event
+	 *            the event to deliver.
+	 */
+	public void fireEvent(RepositoryEvent<?> event) {
+		event.setRepository(this);
+		myListeners.dispatch(event);
+		globalListeners.dispatch(event);
 	}
 
 	/**
@@ -1025,70 +1051,6 @@ public abstract class Repository {
 			throw new IllegalStateException(
 					JGitText.get().bareRepositoryNoWorkdirAndIndex);
 		return workTree;
-	}
-
-	/**
-	 * Register a {@link RepositoryListener} which will be notified
-	 * when ref changes are detected.
-	 *
-	 * @param l
-	 */
-	public void addRepositoryChangedListener(final RepositoryListener l) {
-		listeners.add(l);
-	}
-
-	/**
-	 * Remove a registered {@link RepositoryListener}
-	 * @param l
-	 */
-	public void removeRepositoryChangedListener(final RepositoryListener l) {
-		listeners.remove(l);
-	}
-
-	/**
-	 * Register a global {@link RepositoryListener} which will be notified
-	 * when a ref changes in any repository are detected.
-	 *
-	 * @param l
-	 */
-	public static void addAnyRepositoryChangedListener(final RepositoryListener l) {
-		allListeners.add(l);
-	}
-
-	/**
-	 * Remove a globally registered {@link RepositoryListener}
-	 * @param l
-	 */
-	public static void removeAnyRepositoryChangedListener(final RepositoryListener l) {
-		allListeners.remove(l);
-	}
-
-	void fireRefsChanged() {
-		final RefsChangedEvent event = new RefsChangedEvent(this);
-		List<RepositoryListener> all;
-		synchronized (listeners) {
-			all = new ArrayList<RepositoryListener>(listeners);
-		}
-		synchronized (allListeners) {
-			all.addAll(allListeners);
-		}
-		for (final RepositoryListener l : all) {
-			l.refsChanged(event);
-		}
-	}
-
-	void fireIndexChanged() {
-		final IndexChangedEvent event = new IndexChangedEvent(this);
-		List<RepositoryListener> all;
-		synchronized (listeners) {
-			all = new ArrayList<RepositoryListener>(listeners);
-		}
-		synchronized (allListeners) {
-			all.addAll(allListeners);
-		}
-		for (final RepositoryListener l : all) {
-			l.indexChanged(event);
-		}
 	}
 
 	/**

@@ -75,6 +75,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.ObjectWritingException;
+import org.eclipse.jgit.events.RefsChangedEvent;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevTag;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -829,7 +830,7 @@ public class RefDirectory extends RefDatabase {
 		final int last = lastNotifiedModCnt.get();
 		final int curr = modCnt.get();
 		if (last != curr && lastNotifiedModCnt.compareAndSet(last, curr))
-			parent.fireRefsChanged();
+			parent.fireEvent(new RefsChangedEvent());
 	}
 
 	/**
