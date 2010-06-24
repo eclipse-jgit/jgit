@@ -1188,6 +1188,9 @@ public class Repository {
 	 * @return an important state
 	 */
 	public RepositoryState getRepositoryState() {
+		if (isBare())
+			return RepositoryState.BARE;
+
 		// Pre Git-1.6 logic
 		if (new File(getWorkDir(), ".dotest").exists())
 			return RepositoryState.REBASING;

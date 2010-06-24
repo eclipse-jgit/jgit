@@ -54,6 +54,14 @@ package org.eclipse.jgit.lib;
  * on the state are the only supported means of deciding what to do.
  */
 public enum RepositoryState {
+	/** Has no work tree and cannot be used for normal editing. */
+	BARE {
+		public boolean canCheckout() { return false; }
+		public boolean canResetHead() { return false; }
+		public boolean canCommit() { return false; }
+		public String getDescription() { return "Bare"; }
+	},
+
 	/**
 	 * A safe state for working normally
 	 * */
