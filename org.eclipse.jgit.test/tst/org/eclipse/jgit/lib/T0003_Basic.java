@@ -106,7 +106,7 @@ public class T0003_Basic extends SampleDataRepositoryTestCase {
 		assertEqualsPath(theDir, r.getDirectory());
 		assertEqualsPath(repo1Parent, r.getWorkTree());
 		assertEqualsPath(new File(theDir, "index"), r.getIndexFile());
-		assertEqualsPath(new File(theDir, "objects"), r.getObjectsDirectory());
+		assertEqualsPath(new File(theDir, "objects"), r.getObjectDatabase().getDirectory());
 	}
 
 	/**
@@ -127,7 +127,7 @@ public class T0003_Basic extends SampleDataRepositoryTestCase {
 		assertEqualsPath(theDir, r.getDirectory());
 		assertEqualsPath(repo1Parent.getParentFile(), r.getWorkTree());
 		assertEqualsPath(new File(theDir, "index"), r.getIndexFile());
-		assertEqualsPath(new File(theDir, "objects"), r.getObjectsDirectory());
+		assertEqualsPath(new File(theDir, "objects"), r.getObjectDatabase().getDirectory());
 	}
 
 	/**
@@ -147,7 +147,7 @@ public class T0003_Basic extends SampleDataRepositoryTestCase {
 		assertEqualsPath(theDir, r.getDirectory());
 		assertEqualsPath(repo1Parent, r.getWorkTree());
 		assertEqualsPath(new File(theDir, "index"), r.getIndexFile());
-		assertEqualsPath(new File(theDir, "objects"), r.getObjectsDirectory());
+		assertEqualsPath(new File(theDir, "objects"), r.getObjectDatabase().getDirectory());
 	}
 
 	/**
@@ -172,7 +172,7 @@ public class T0003_Basic extends SampleDataRepositoryTestCase {
 		assertEqualsPath(theDir, r.getDirectory());
 		assertEqualsPath(workdir, r.getWorkTree());
 		assertEqualsPath(new File(theDir, "index"), r.getIndexFile());
-		assertEqualsPath(new File(theDir, "objects"), r.getObjectsDirectory());
+		assertEqualsPath(new File(theDir, "objects"), r.getObjectDatabase().getDirectory());
 	}
 
 	/**
@@ -197,7 +197,7 @@ public class T0003_Basic extends SampleDataRepositoryTestCase {
 		assertEqualsPath(theDir, r.getDirectory());
 		assertEqualsPath(workdir, r.getWorkTree());
 		assertEqualsPath(new File(theDir, "index"), r.getIndexFile());
-		assertEqualsPath(new File(theDir, "objects"), r.getObjectsDirectory());
+		assertEqualsPath(new File(theDir, "objects"), r.getObjectDatabase().getDirectory());
 	}
 
 	/**
@@ -211,7 +211,7 @@ public class T0003_Basic extends SampleDataRepositoryTestCase {
 		File repo1Parent = new File(trash.getParentFile(), "r1");
 		File indexFile = new File(trash, "idx");
 		File objDir = new File(trash, "../obj");
-		File altObjDir = db.getObjectsDirectory();
+		File altObjDir = db.getObjectDatabase().getDirectory();
 		Repository repo1initial = new FileRepository(new File(repo1Parent, Constants.DOT_GIT));
 		repo1initial.create();
 		repo1initial.close();
@@ -225,7 +225,7 @@ public class T0003_Basic extends SampleDataRepositoryTestCase {
 		assertEqualsPath(theDir, r.getDirectory());
 		assertEqualsPath(theDir.getParentFile(), r.getWorkTree());
 		assertEqualsPath(indexFile, r.getIndexFile());
-		assertEqualsPath(objDir, r.getObjectsDirectory());
+		assertEqualsPath(objDir, r.getObjectDatabase().getDirectory());
 		assertNotNull(r.mapCommit("6db9c2ebf75590eef973081736730a9ea169a0c4"));
 		// Must close or the default repo pack files created by this test gets
 		// locked via the alternate object directories on Windows.
@@ -327,7 +327,7 @@ public class T0003_Basic extends SampleDataRepositoryTestCase {
 	public void test007_Open() throws IOException {
 		final FileRepository db2 = new FileRepository(db.getDirectory());
 		assertEquals(db.getDirectory(), db2.getDirectory());
-		assertEquals(db.getObjectsDirectory(), db2.getObjectsDirectory());
+		assertEquals(db.getObjectDatabase().getDirectory(), db2.getObjectDatabase().getDirectory());
 		assertNotSame(db.getConfig(), db2.getConfig());
 	}
 

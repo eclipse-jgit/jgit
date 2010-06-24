@@ -245,7 +245,7 @@ public class ConcurrentRepackTest extends RepositoryTestCase {
 	}
 
 	private File fullPackFileName(final ObjectId name, final String suffix) {
-		final File packdir = new File(db.getObjectsDirectory(), "pack");
+		final File packdir = new File(db.getObjectDatabase().getDirectory(), "pack");
 		return new File(packdir, "pack-" + name.name() + suffix);
 	}
 
