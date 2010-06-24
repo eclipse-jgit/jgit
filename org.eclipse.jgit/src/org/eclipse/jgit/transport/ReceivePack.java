@@ -84,7 +84,6 @@ import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
 import org.eclipse.jgit.revwalk.RevObject;
-import org.eclipse.jgit.revwalk.RevTag;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand.Result;
@@ -818,8 +817,7 @@ public class ReceivePack {
 			ow.markUninteresting(o);
 
 			if (checkReferencedIsReachable && !baseObjects.isEmpty()) {
-				while (o instanceof RevTag)
-					o = ((RevTag) o).getObject();
+				o = ow.peel(o);
 				if (o instanceof RevCommit)
 					o = ((RevCommit) o).getTree();
 				if (o instanceof RevTree)
