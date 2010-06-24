@@ -85,10 +85,10 @@ public abstract class Repository {
 	private final AtomicInteger useCnt = new AtomicInteger(1);
 
 	/** Metadata directory holding the repository's critical files. */
-	protected File gitDir;
+	private final File gitDir;
 
 	/** File abstraction used to resolve paths. */
-	protected FS fs;
+	private final FS fs;
 
 	private GitIndex index;
 
@@ -96,14 +96,22 @@ public abstract class Repository {
 	static private final List<RepositoryListener> allListeners = new Vector<RepositoryListener>(); // thread safe
 
 	/** If not bare, the top level directory of the working files. */
-	protected File workDir;
+	private final File workDir;
 
 	/** If not bare, the index file caching the working file states. */
-	protected File indexFile;
+	private final File indexFile;
 
-	/** Initialize a new repository instance. */
-	protected Repository() {
-		// Empty constructor, defined protected to require subclassing.
+	/**
+	 * Initialize a new repository instance.
+	 *
+	 * @param options
+	 *            options to configure the repository.
+	 */
+	protected Repository(final BaseRepositoryBuilder options) {
+		gitDir = options.getGitDir();
+		fs = options.getFS();
+		workDir = options.getWorkTree();
+		indexFile = options.getIndexFile();
 	}
 
 	/**
@@ -1016,16 +1024,6 @@ public abstract class Repository {
 			throw new IllegalStateException(
 					JGitText.get().bareRepositoryNoWorkdirAndIndex);
 		return workDir;
-	}
-
-	/**
-	 * Override default workdir
-	 *
-	 * @param workTree
-	 *            the work tree directory
-	 */
-	public void setWorkDir(File workTree) {
-		this.workDir = workTree;
 	}
 
 	/**

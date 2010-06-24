@@ -56,7 +56,6 @@ import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.FileObjectDatabase.AlternateHandle;
 import org.eclipse.jgit.lib.FileObjectDatabase.AlternateRepository;
-import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.SystemReader;
 
 /**
@@ -95,176 +94,41 @@ public class FileRepository extends Repository {
 
 	/**
 	 * Construct a representation of a Git repository.
-	 *
+	 * <p>
 	 * The work tree, object directory, alternate object directories and index
 	 * file locations are deduced from the given git directory and the default
-	 * rules.
+	 * rules by running {@link FileRepositoryBuilder}. This constructor is the
+	 * same as saying:
 	 *
-	 * @param d
+	 * <pre>
+	 * new FileRepositoryBuilder().setGitDir(gitDir).build()
+	 * </pre>
+	 *
+	 * @param gitDir
 	 *            GIT_DIR (the location of the repository metadata).
 	 * @throws IOException
 	 *             the repository appears to already exist but cannot be
 	 *             accessed.
+	 * @see FileRepositoryBuilder
 	 */
-	public FileRepository(final File d) throws IOException {
-		this(d, null, null, null, null); // go figure it out
+	public FileRepository(final File gitDir) throws IOException {
+		this(new FileRepositoryBuilder().setGitDir(gitDir).setup());
 	}
 
-	/**
-	 * Construct a representation of a Git repository.
-	 *
-	 * The work tree, object directory, alternate object directories and index
-	 * file locations are deduced from the given git directory and the default
-	 * rules.
-	 *
-	 * @param d
-	 *            GIT_DIR (the location of the repository metadata). May be
-	 *            null work workTree is set
-	 * @param workTree
-	 *            GIT_WORK_TREE (the root of the checkout). May be null for
-	 *            default value.
-	 * @throws IOException
-	 *             the repository appears to already exist but cannot be
-	 *             accessed.
-	 */
-	public FileRepository(final File d, final File workTree) throws IOException {
-		this(d, workTree, null, null, null); // go figure it out
-	}
+	FileRepository(final BaseRepositoryBuilder options) throws IOException {
+		super(options);
 
-	/**
-	 * Construct a representation of a Git repository using the given parameters
-	 * possibly overriding default conventions.
-	 *
-	 * @param d
-	 *            GIT_DIR (the location of the repository metadata). May be null
-	 *            for default value in which case it depends on GIT_WORK_TREE.
-	 * @param workTree
-	 *            GIT_WORK_TREE (the root of the checkout). May be null for
-	 *            default value if GIT_DIR is provided.
-	 * @param objectDir
-	 *            GIT_OBJECT_DIRECTORY (where objects and are stored). May be
-	 *            null for default value. Relative names ares resolved against
-	 *            GIT_WORK_TREE.
-	 * @param alternateObjectDir
-	 *            GIT_ALTERNATE_OBJECT_DIRECTORIES (where more objects are read
-	 *            from). May be null for default value. Relative names ares
-	 *            resolved against GIT_WORK_TREE.
-	 * @param indexFile
-	 *            GIT_INDEX_FILE (the location of the index file). May be null
-	 *            for default value. Relative names ares resolved against
-	 *            GIT_WORK_TREE.
-	 * @throws IOException
-	 *             the repository appears to already exist but cannot be
-	 *             accessed.
-	 */
-	public FileRepository(final File d, final File workTree, final File objectDir,
-			final File[] alternateObjectDir, final File indexFile) throws IOException {
-		this(d, workTree, objectDir, alternateObjectDir, indexFile, FS.DETECTED);
-	}
-
-	/**
-	 * Construct a representation of a Git repository using the given parameters
-	 * possibly overriding default conventions.
-	 *
-	 * @param d
-	 *            GIT_DIR (the location of the repository metadata). May be null
-	 *            for default value in which case it depends on GIT_WORK_TREE.
-	 * @param workTree
-	 *            GIT_WORK_TREE (the root of the checkout). May be null for
-	 *            default value if GIT_DIR is provided.
-	 * @param objectDir
-	 *            GIT_OBJECT_DIRECTORY (where objects and are stored). May be
-	 *            null for default value. Relative names ares resolved against
-	 *            GIT_WORK_TREE.
-	 * @param alternateObjectDir
-	 *            GIT_ALTERNATE_OBJECT_DIRECTORIES (where more objects are read
-	 *            from). May be null for default value. Relative names ares
-	 *            resolved against GIT_WORK_TREE.
-	 * @param indexFile
-	 *            GIT_INDEX_FILE (the location of the index file). May be null
-	 *            for default value. Relative names ares resolved against
-	 *            GIT_WORK_TREE.
-	 * @param fs
-	 *            the file system abstraction which will be necessary to
-	 *            perform certain file system operations.
-	 * @throws IOException
-	 *             the repository appears to already exist but cannot be
-	 *             accessed.
-	 */
-	public FileRepository(final File d, final File workTree, final File objectDir,
-			final File[] alternateObjectDir, final File indexFile, FS fs)
-			throws IOException {
-
-		if (workTree != null) {
-			workDir = workTree;
-			if (d == null)
-				gitDir = new File(workTree, Constants.DOT_GIT);
-			else
-				gitDir = d;
-		} else {
-			if (d != null)
-				gitDir = d;
-			else
-				throw new IllegalArgumentException(
-						JGitText.get().eitherGIT_DIRorGIT_WORK_TREEmustBePassed);
-		}
-
-		this.fs = fs;
-
-		userConfig = SystemReader.getInstance().openUserConfig(fs);
-		repoConfig = new FileBasedConfig(userConfig, fs.resolve(gitDir, "config"));
+		userConfig = SystemReader.getInstance().openUserConfig(getFS());
+		repoConfig = new FileBasedConfig(userConfig, getFS().resolve(getDirectory(), "config"));
 
 		loadUserConfig();
 		loadRepoConfig();
 
-		if (workDir == null) {
-			// if the working directory was not provided explicitly,
-			// we need to decide if this is a "bare" repository or not
-			// first, we check the working tree configuration
-			String workTreeConfig = getConfig().getString(
-					ConfigConstants.CONFIG_CORE_SECTION, null,
-					ConfigConstants.CONFIG_KEY_WORKTREE);
-			if (workTreeConfig != null) {
-				// the working tree configuration wins
-				workDir = fs.resolve(d, workTreeConfig);
-			} else if (getConfig().getString(
-					ConfigConstants.CONFIG_CORE_SECTION, null,
-					ConfigConstants.CONFIG_KEY_BARE) != null) {
-				// we have asserted that a value for the "bare" flag was set
-				if (!getConfig().getBoolean(ConfigConstants.CONFIG_CORE_SECTION,
-						ConfigConstants.CONFIG_KEY_BARE, true))
-					// the "bare" flag is false -> use the parent of the
-					// meta data directory
-					workDir = gitDir.getParentFile();
-				else
-					// the "bare" flag is true
-					workDir = null;
-			} else if (Constants.DOT_GIT.equals(gitDir.getName())) {
-				// no value for the "bare" flag, but the meta data directory
-				// is named ".git" -> use the parent of the meta data directory
-				workDir = gitDir.getParentFile();
-			} else {
-				workDir = null;
-			}
-		}
-
 		refs = new RefDirectory(this);
-		if (objectDir != null) {
-			objectDatabase = new ObjectDirectory(repoConfig, //
-					fs.resolve(objectDir, ""), //
-					alternateObjectDir, //
-					fs);
-		} else {
-			objectDatabase = new ObjectDirectory(repoConfig, //
-					fs.resolve(gitDir, "objects"), //
-					alternateObjectDir, //
-					fs);
-		}
-
-		if (indexFile != null)
-			this.indexFile = indexFile;
-		else
-			this.indexFile = new File(gitDir, "index");
+		objectDatabase = new ObjectDirectory(repoConfig, //
+				options.getObjectDirectory(), //
+				options.getAlternateObjectDirectories(), //
+				getFS());
 
 		if (objectDatabase.exists()) {
 			final String repositoryFormatVersion = getConfig().getString(
@@ -314,13 +178,13 @@ public class FileRepository extends Repository {
 		final FileBasedConfig cfg = getConfig();
 		if (cfg.getFile().exists()) {
 			throw new IllegalStateException(MessageFormat.format(
-					JGitText.get().repositoryAlreadyExists, gitDir));
+					JGitText.get().repositoryAlreadyExists, getDirectory()));
 		}
-		gitDir.mkdirs();
+		getDirectory().mkdirs();
 		refs.create();
 		objectDatabase.create();
 
-		new File(gitDir, "branches").mkdir();
+		new File(getDirectory(), "branches").mkdir();
 
 		RefUpdate head = updateRef(Constants.HEAD);
 		head.disableRefLog();

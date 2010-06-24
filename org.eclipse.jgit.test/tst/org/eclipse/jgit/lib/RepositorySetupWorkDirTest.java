@@ -47,6 +47,7 @@ package org.eclipse.jgit.lib;
 import java.io.File;
 import java.io.IOException;
 
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
 
 /**
@@ -78,7 +79,7 @@ public class RepositorySetupWorkDirTest extends LocalDiskRepositoryTestCase {
 
 	public void testNotBare_CreateRepositoryFromWorkDirOnly() throws Exception {
 		File workdir = getFile("workdir", "repo");
-		Repository repo = new FileRepository(null, workdir);
+		FileRepository repo = new FileRepositoryBuilder().setWorkTree(workdir).build();
 		assertFalse(repo.isBare());
 		assertWorkdirPath(repo, "workdir", "repo");
 		assertGitdirPath(repo, "workdir", "repo", Constants.DOT_GIT);
@@ -87,7 +88,7 @@ public class RepositorySetupWorkDirTest extends LocalDiskRepositoryTestCase {
 	public void testWorkdirIsDotGit_CreateRepositoryFromWorkDirOnly()
 			throws Exception {
 		File workdir = getFile("workdir", "repo");
-		Repository repo = new FileRepository(null, workdir);
+		FileRepository repo = new FileRepositoryBuilder().setWorkTree(workdir).build();
 		assertGitdirPath(repo, "workdir", "repo", Constants.DOT_GIT);
 	}
 
@@ -96,7 +97,7 @@ public class RepositorySetupWorkDirTest extends LocalDiskRepositoryTestCase {
 		File gitDir = getFile("workdir", "repoWithConfig");
 		File workTree = getFile("workdir", "treeRoot");
 		setWorkTree(gitDir, workTree);
-		Repository repo = new FileRepository(gitDir, null);
+		FileRepository repo = new FileRepositoryBuilder().setGitDir(gitDir).build();
 		assertFalse(repo.isBare());
 		assertWorkdirPath(repo, "workdir", "treeRoot");
 		assertGitdirPath(repo, "workdir", "repoWithConfig");
@@ -106,7 +107,7 @@ public class RepositorySetupWorkDirTest extends LocalDiskRepositoryTestCase {
 			throws Exception {
 		File gitDir = getFile("workdir", "repoWithConfig");
 		setBare(gitDir, true);
-		Repository repo = new FileRepository(gitDir, null);
+		FileRepository repo = new FileRepositoryBuilder().setGitDir(gitDir).build();
 		assertTrue(repo.isBare());
 	}
 
@@ -114,7 +115,7 @@ public class RepositorySetupWorkDirTest extends LocalDiskRepositoryTestCase {
 			throws Exception {
 		File gitDir = getFile("workdir", "repoWithBareConfigTrue", "child");
 		setBare(gitDir, false);
-		Repository repo = new FileRepository(gitDir, null);
+		FileRepository repo = new FileRepositoryBuilder().setGitDir(gitDir).build();
 		assertWorkdirPath(repo, "workdir", "repoWithBareConfigTrue");
 	}
 
@@ -122,19 +123,10 @@ public class RepositorySetupWorkDirTest extends LocalDiskRepositoryTestCase {
 			throws Exception {
 		File gitDir = getFile("workdir", "repoWithBareConfigFalse", "child");
 		setBare(gitDir, false);
-		Repository repo = new FileRepository(gitDir, null);
+		FileRepository repo = new FileRepositoryBuilder().setGitDir(gitDir).build();
 		assertFalse(repo.isBare());
 		assertWorkdirPath(repo, "workdir", "repoWithBareConfigFalse");
 		assertGitdirPath(repo, "workdir", "repoWithBareConfigFalse", "child");
-	}
-
-	public void testNotBare_MakeBareUnbareBySetWorkdir() throws Exception {
-		File gitDir = getFile("gitDir");
-		Repository repo = new FileRepository(gitDir);
-		repo.setWorkDir(getFile("workingDir"));
-		assertFalse(repo.isBare());
-		assertWorkdirPath(repo, "workingDir");
-		assertGitdirPath(repo, "gitDir");
 	}
 
 	public void testExceptionThrown_BareRepoGetWorkDir() throws Exception {
@@ -176,20 +168,28 @@ public class RepositorySetupWorkDirTest extends LocalDiskRepositoryTestCase {
 		return result;
 	}
 
-	private void setBare(File gitDir, boolean bare) throws IOException {
-		FileRepository repo = new FileRepository(gitDir, null);
-		repo.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
+	private void setBare(File gitDir, boolean bare) throws IOException,
+			ConfigInvalidException {
+		FileBasedConfig cfg = configFor(gitDir);
+		cfg.setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
 				ConfigConstants.CONFIG_KEY_BARE, bare);
-		repo.getConfig().save();
+		cfg.save();
 	}
 
-	private void setWorkTree(File gitDir, File workTree) throws IOException {
-		FileRepository repo = new FileRepository(gitDir, null);
-		repo.getConfig()
-				.setString(ConfigConstants.CONFIG_CORE_SECTION, null,
-						ConfigConstants.CONFIG_KEY_WORKTREE,
-						workTree.getAbsolutePath());
-		repo.getConfig().save();
+	private void setWorkTree(File gitDir, File workTree) throws IOException,
+			ConfigInvalidException {
+		String path = workTree.getAbsolutePath();
+		FileBasedConfig cfg = configFor(gitDir);
+		cfg.setString(ConfigConstants.CONFIG_CORE_SECTION, null,
+				ConfigConstants.CONFIG_KEY_WORKTREE, path);
+		cfg.save();
+	}
+
+	private FileBasedConfig configFor(File gitDir) throws IOException,
+			ConfigInvalidException {
+		FileBasedConfig cfg = new FileBasedConfig(new File(gitDir, "config"));
+		cfg.load();
+		return cfg;
 	}
 
 	private void assertGitdirPath(Repository repo, String... expected)

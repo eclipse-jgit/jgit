@@ -357,6 +357,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String remoteHungUpUnexpectedly;
 	/***/ public String remoteNameCantBeNull;
 	/***/ public String repositoryAlreadyExists;
+	/***/ public String repositoryConfigFileInvalid;
 	/***/ public String repositoryNotFound;
 	/***/ public String requiredHashFunctionNotAvailable;
 	/***/ public String resolvingDeltas;
