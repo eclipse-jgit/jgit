@@ -47,18 +47,19 @@ import java.util.Date;
 
 import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryTestCase;
 
 /** Support for tests of the {@link RevWalk} class. */
 public abstract class RevWalkTestCase extends RepositoryTestCase {
-	private TestRepository util;
+	private TestRepository<Repository> util;
 
 	protected RevWalk rw;
 
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
-		util = new TestRepository(db, createRevWalk());
+		util = new TestRepository<Repository>(db, createRevWalk());
 		rw = util.getRevWalk();
 	}
 

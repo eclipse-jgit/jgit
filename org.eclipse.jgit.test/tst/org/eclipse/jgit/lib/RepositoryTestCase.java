@@ -102,7 +102,7 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 	}
 
 	/** Test repository, initialized for this test case. */
-	protected Repository db;
+	protected FileRepository db;
 
 	/** Working directory of {@link #db}. */
 	protected File trash;

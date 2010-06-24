@@ -57,6 +57,7 @@ import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.FileRepository;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -82,8 +83,9 @@ public abstract class HttpTestCase extends LocalDiskRepositoryTestCase {
 		super.tearDown();
 	}
 
-	protected TestRepository createTestRepository() throws Exception {
-		return new TestRepository(createBareRepository());
+	protected TestRepository<FileRepository> createTestRepository()
+			throws IOException {
+		return new TestRepository<FileRepository>(createBareRepository());
 	}
 
 	protected URIish toURIish(String path) throws URISyntaxException {

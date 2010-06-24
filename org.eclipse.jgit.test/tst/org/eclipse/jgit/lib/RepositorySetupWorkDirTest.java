@@ -177,14 +177,14 @@ public class RepositorySetupWorkDirTest extends LocalDiskRepositoryTestCase {
 	}
 
 	private void setBare(File gitDir, boolean bare) throws IOException {
-		Repository repo = new FileRepository(gitDir, null);
+		FileRepository repo = new FileRepository(gitDir, null);
 		repo.getConfig().setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
 				ConfigConstants.CONFIG_KEY_BARE, bare);
 		repo.getConfig().save();
 	}
 
 	private void setWorkTree(File gitDir, File workTree) throws IOException {
-		Repository repo = new FileRepository(gitDir, null);
+		FileRepository repo = new FileRepository(gitDir, null);
 		repo.getConfig()
 				.setString(ConfigConstants.CONFIG_CORE_SECTION, null,
 						ConfigConstants.CONFIG_KEY_WORKTREE,

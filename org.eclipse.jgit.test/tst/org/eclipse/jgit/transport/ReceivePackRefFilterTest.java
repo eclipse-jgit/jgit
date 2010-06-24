@@ -292,7 +292,7 @@ public class ReceivePackRefFilterTest extends LocalDiskRepositoryTestCase {
 	public void testUsingHiddenCommonBlobFails() throws Exception {
 		// Try to use the 'b' blob that is hidden.
 		//
-		TestRepository s = new TestRepository(src);
+		TestRepository<Repository> s = new TestRepository<Repository>(src);
 		RevCommit N = s.commit().parent(B).add("q", s.blob("b")).create();
 
 		// But don't include it in the pack.
@@ -333,7 +333,7 @@ public class ReceivePackRefFilterTest extends LocalDiskRepositoryTestCase {
 	public void testUsingUnknownBlobFails() throws Exception {
 		// Try to use the 'n' blob that is not on the server.
 		//
-		TestRepository s = new TestRepository(src);
+		TestRepository<Repository> s = new TestRepository<Repository>(src);
 		RevBlob n = s.blob("n");
 		RevCommit N = s.commit().parent(B).add("q", n).create();
 
@@ -373,7 +373,7 @@ public class ReceivePackRefFilterTest extends LocalDiskRepositoryTestCase {
 	}
 
 	public void testUsingUnknownTreeFails() throws Exception {
-		TestRepository s = new TestRepository(src);
+		TestRepository<Repository> s = new TestRepository<Repository>(src);
 		RevCommit N = s.commit().parent(B).add("q", s.blob("a")).create();
 		RevTree t = s.parseBody(N).getTree();
 

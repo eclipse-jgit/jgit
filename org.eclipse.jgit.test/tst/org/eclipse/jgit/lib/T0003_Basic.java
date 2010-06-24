@@ -159,7 +159,7 @@ public class T0003_Basic extends SampleDataRepositoryTestCase {
 		File repo1Parent = new File(trash.getParentFile(), "r1");
 		File workdir = new File(trash.getParentFile(), "rw");
 		workdir.mkdir();
-		Repository repo1initial = new FileRepository(new File(repo1Parent, Constants.DOT_GIT));
+		FileRepository repo1initial = new FileRepository(new File(repo1Parent, Constants.DOT_GIT));
 		repo1initial.create();
 		repo1initial.getConfig().setString("core", null, "worktree",
 				workdir.getAbsolutePath());
@@ -184,7 +184,7 @@ public class T0003_Basic extends SampleDataRepositoryTestCase {
 		File repo1Parent = new File(trash.getParentFile(), "r1");
 		File workdir = new File(trash.getParentFile(), "rw");
 		workdir.mkdir();
-		Repository repo1initial = new FileRepository(new File(repo1Parent, Constants.DOT_GIT));
+		FileRepository repo1initial = new FileRepository(new File(repo1Parent, Constants.DOT_GIT));
 		repo1initial.create();
 		repo1initial.getConfig()
 				.setString("core", null, "worktree", "../../rw");
@@ -321,7 +321,7 @@ public class T0003_Basic extends SampleDataRepositoryTestCase {
 	}
 
 	public void test007_Open() throws IOException {
-		final Repository db2 = new FileRepository(db.getDirectory());
+		final FileRepository db2 = new FileRepository(db.getDirectory());
 		assertEquals(db.getDirectory(), db2.getDirectory());
 		assertEquals(db.getObjectsDirectory(), db2.getObjectsDirectory());
 		assertNotSame(db.getConfig(), db2.getConfig());
