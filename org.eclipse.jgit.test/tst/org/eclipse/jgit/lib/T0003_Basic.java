@@ -365,8 +365,10 @@ public class T0003_Basic extends SampleDataRepositoryTestCase {
 		assertEquals(cmtid, c.getCommitId());
 
 		// Verify the commit we just wrote is in the correct format.
-		final XInputStream xis = new XInputStream(new FileInputStream(db
-				.toFile(cmtid)));
+		ObjectDatabase odb = db.getObjectDatabase();
+		assertTrue("is ObjectDirectory", odb instanceof ObjectDirectory);
+		final XInputStream xis = new XInputStream(new FileInputStream(
+				((ObjectDirectory) odb).fileFor(cmtid)));
 		try {
 			assertEquals(0x78, xis.readUInt8());
 			assertEquals(0x9c, xis.readUInt8());
