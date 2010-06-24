@@ -327,15 +327,16 @@ public class Repository {
 		}
 	}
 
-
 	/**
-	 * Create a new Git repository initializing the necessary files and
-	 * directories. Repository with working tree is created using this method.
+	 * Create a new Git repository.
+	 * <p>
+	 * Repository with working tree is created using this method. This method is
+	 * the same as {@code create(false)}.
 	 *
 	 * @throws IOException
 	 * @see #create(boolean)
 	 */
-	public synchronized void create() throws IOException {
+	public void create() throws IOException {
 		create(false);
 	}
 
