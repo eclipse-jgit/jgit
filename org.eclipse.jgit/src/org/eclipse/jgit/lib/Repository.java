@@ -154,7 +154,7 @@ public abstract class Repository {
 	/**
 	 * @return the configuration of this repository
 	 */
-	public abstract FileBasedConfig getConfig();
+	public abstract Config getConfig();
 
 	/**
 	 * @return the used file system abstraction
