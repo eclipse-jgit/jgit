@@ -50,12 +50,10 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kohsuke.args4j.Argument;
-import org.kohsuke.args4j.Option;
-
 import org.eclipse.jgit.diff.DiffFormatter;
 import org.eclipse.jgit.diff.MyersDiff;
 import org.eclipse.jgit.diff.RawText;
+import org.eclipse.jgit.diff.RawTextIgnoreAllWhitespace;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.pgm.opt.PathTreeFilterHandler;
@@ -63,6 +61,8 @@ import org.eclipse.jgit.treewalk.AbstractTreeIterator;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.AndTreeFilter;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
+import org.kohsuke.args4j.Argument;
+import org.kohsuke.args4j.Option;
 
 @Command(common = true, usage = "usage_ShowDiffs")
 class Diff extends TextBuiltin {
@@ -77,6 +77,9 @@ class Diff extends TextBuiltin {
 	@Option(name = "--", metaVar = "metaVar_port", multiValued = true, handler = PathTreeFilterHandler.class)
 	private TreeFilter pathFilter = TreeFilter.ALL;
 
+	@Option(name = "--ignore-all-whitespace")
+	private boolean whitespaceIgnore;
+
 	private DiffFormatter fmt = new DiffFormatter();
 
 	@Override
@@ -89,33 +92,33 @@ class Diff extends TextBuiltin {
 		walk.setFilter(AndTreeFilter.create(TreeFilter.ANY_DIFF, pathFilter));
 
 		while (walk.next())
-			outputDiff(System.out, walk.getPathString(),
-				walk.getObjectId(0), walk.getFileMode(0),
-				walk.getObjectId(1), walk.getFileMode(1));
+			outputDiff(System.out, walk.getPathString(), walk.getObjectId(0),
+					walk.getFileMode(0), walk.getObjectId(1), walk
+							.getFileMode(1));
 	}
 
-	protected void outputDiff(PrintStream out, String path,
-			ObjectId id1, FileMode mode1, ObjectId id2, FileMode mode2) throws IOException {
+	protected void outputDiff(PrintStream out, String path, ObjectId id1,
+			FileMode mode1, ObjectId id2, FileMode mode2) throws IOException {
 		String name1 = "a/" + path;
-		String name2 =  "b/" + path;
+		String name2 = "b/" + path;
 		out.println("diff --git " + name1 + " " + name2);
-		boolean isNew=false;
-		boolean isDelete=false;
+		boolean isNew = false;
+		boolean isDelete = false;
 		if (id1.equals(ObjectId.zeroId())) {
 			out.println("new file mode " + mode2);
-			isNew=true;
+			isNew = true;
 		} else if (id2.equals(ObjectId.zeroId())) {
 			out.println("deleted file mode " + mode1);
-			isDelete=true;
+			isDelete = true;
 		} else if (!mode1.equals(mode2)) {
 			out.println("old mode " + mode1);
 			out.println("new mode " + mode2);
 		}
-		out.println("index " + id1.abbreviate(db, 7).name()
-			+ ".." + id2.abbreviate(db, 7).name()
-			+ (mode1.equals(mode2) ? " " + mode1 : ""));
-		out.println("--- " + (isNew ?  "/dev/null" : name1));
-		out.println("+++ " + (isDelete ?  "/dev/null" : name2));
+		out.println("index " + id1.abbreviate(db, 7).name() + ".."
+				+ id2.abbreviate(db, 7).name()
+				+ (mode1.equals(mode2) ? " " + mode1 : ""));
+		out.println("--- " + (isNew ? "/dev/null" : name1));
+		out.println("+++ " + (isDelete ? "/dev/null" : name2));
 		RawText a = getRawText(id1);
 		RawText b = getRawText(id2);
 		MyersDiff diff = new MyersDiff(a, b);
@@ -124,8 +127,10 @@ class Diff extends TextBuiltin {
 
 	private RawText getRawText(ObjectId id) throws IOException {
 		if (id.equals(ObjectId.zeroId()))
-			return new RawText(new byte[] { });
+			return new RawText(new byte[] {});
+		if (whitespaceIgnore)
+			return new RawTextIgnoreAllWhitespace(db.openBlob(id)
+					.getCachedBytes());
 		return new RawText(db.openBlob(id).getCachedBytes());
 	}
 }
-
