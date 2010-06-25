@@ -1453,8 +1453,14 @@ public class Repository {
 	 * @return a String containing the content of the MERGE_MSG file or
 	 *         {@code null} if this file doesn't exist
 	 * @throws IOException
+	 * @throws IllegalStateException
+	 *             if the repository is "bare"
 	 */
 	public String readMergeCommitMsg() throws IOException {
+		if (isBare())
+			throw new IllegalStateException(
+					JGitText.get().bareRepositoryNoWorkdirAndIndex);
+
 		File mergeMsgFile = new File(getDirectory(), Constants.MERGE_MSG);
 		try {
 			return new String(IO.readFully(mergeMsgFile));
@@ -1474,8 +1480,14 @@ public class Repository {
 	 *         file or {@code null} if this file doesn't exist. Also if the file
 	 *         exists but is empty {@code null} will be returned
 	 * @throws IOException
+	 * @throws IllegalStateException
+	 *             if the repository is "bare"
 	 */
 	public List<ObjectId> readMergeHeads() throws IOException {
+		if (isBare())
+			throw new IllegalStateException(
+					JGitText.get().bareRepositoryNoWorkdirAndIndex);
+
 		File mergeHeadFile = new File(getDirectory(), Constants.MERGE_HEAD);
 		byte[] raw;
 		try {
