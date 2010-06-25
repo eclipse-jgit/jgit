@@ -110,7 +110,7 @@ public class Repository {
 
 	private final FileBasedConfig userConfig;
 
-	private final FileBasedConfig config;
+	private final FileBasedConfig repoConfig;
 
 	private final RefDatabase refs;
 
@@ -244,10 +244,10 @@ public class Repository {
 		this.fs = fs;
 
 		userConfig = SystemReader.getInstance().openUserConfig(fs);
-		config = new FileBasedConfig(userConfig, fs.resolve(gitDir, "config"));
+		repoConfig = new FileBasedConfig(userConfig, fs.resolve(gitDir, "config"));
 
 		loadUserConfig();
-		loadConfig();
+		loadRepoConfig();
 
 		if (workDir == null) {
 			// if the working directory was not provided explicitly,
@@ -317,9 +317,9 @@ public class Repository {
 		}
 	}
 
-	private void loadConfig() throws IOException {
+	private void loadRepoConfig() throws IOException {
 		try {
-			config.load();
+			repoConfig.load();
 		} catch (ConfigInvalidException e1) {
 			IOException e2 = new IOException(JGitText.get().unknownRepositoryFormat);
 			e2.initCause(e1);
@@ -417,14 +417,14 @@ public class Repository {
 				throw new RuntimeException(e);
 			}
 		}
-		if (config.isOutdated()) {
+		if (repoConfig.isOutdated()) {
 				try {
-					loadConfig();
+					loadRepoConfig();
 				} catch (IOException e) {
 					throw new RuntimeException(e);
 				}
 		}
-		return config;
+		return repoConfig;
 	}
 
 	/**
