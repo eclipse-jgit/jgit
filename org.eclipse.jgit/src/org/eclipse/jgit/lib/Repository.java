@@ -1194,7 +1194,7 @@ public class Repository {
 		// Pre Git-1.6 logic
 		if (new File(getWorkDir(), ".dotest").exists())
 			return RepositoryState.REBASING;
-		if (new File(gitDir,".dotest-merge").exists())
+		if (new File(getDirectory(), ".dotest-merge").exists())
 			return RepositoryState.REBASING_INTERACTIVE;
 
 		// From 1.6 onwards
@@ -1211,7 +1211,7 @@ public class Repository {
 			return RepositoryState.REBASING_MERGE;
 
 		// Both versions
-		if (new File(gitDir, "MERGE_HEAD").exists()) {
+		if (new File(getDirectory(), "MERGE_HEAD").exists()) {
 			// we are merging - now check whether we have unmerged paths
 			try {
 				if (!DirCache.read(this).hasUnmergedPaths()) {
@@ -1227,7 +1227,7 @@ public class Repository {
 			return RepositoryState.MERGING;
 		}
 
-		if (new File(gitDir,"BISECT_LOG").exists())
+		if (new File(getDirectory(), "BISECT_LOG").exists())
 			return RepositoryState.BISECTING;
 
 		return RepositoryState.SAFE;
@@ -1455,7 +1455,7 @@ public class Repository {
 	 * @throws IOException
 	 */
 	public String readMergeCommitMsg() throws IOException {
-		File mergeMsgFile = new File(gitDir, Constants.MERGE_MSG);
+		File mergeMsgFile = new File(getDirectory(), Constants.MERGE_MSG);
 		try {
 			return new String(IO.readFully(mergeMsgFile));
 		} catch (FileNotFoundException e) {
@@ -1476,7 +1476,7 @@ public class Repository {
 	 * @throws IOException
 	 */
 	public List<ObjectId> readMergeHeads() throws IOException {
-		File mergeHeadFile = new File(gitDir, Constants.MERGE_HEAD);
+		File mergeHeadFile = new File(getDirectory(), Constants.MERGE_HEAD);
 		byte[] raw;
 		try {
 			raw = IO.readFully(mergeHeadFile);
