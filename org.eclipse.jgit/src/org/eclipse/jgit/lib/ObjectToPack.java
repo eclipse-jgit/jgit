@@ -44,25 +44,19 @@
 
 package org.eclipse.jgit.lib;
 
-import java.io.IOException;
-
+import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.transport.PackedObjectInfo;
 
 /**
- * Class holding information about object that is going to be packed by
- * {@link PackWriter}. Information include object representation in a
- * pack-file and object status.
- *
+ * Per-object state used by {@link PackWriter}.
+ * <p>
+ * {@code PackWriter} uses this class to track the things it needs to include in
+ * the newly generated pack file, and how to efficiently obtain the raw data for
+ * each object as they are written to the output stream.
  */
-class ObjectToPack extends PackedObjectInfo {
+public class ObjectToPack extends PackedObjectInfo {
 	/** Other object being packed that this will delta against. */
 	private ObjectId deltaBase;
-
-	/** Pack to reuse compressed data from, otherwise null. */
-	private PackFile copyFromPack;
-
-	/** Offset of the object's header in {@link #copyFromPack}. */
-	private long copyOffset;
 
 	/**
 	 * Bit field, from bit 0 to bit 31:
@@ -75,17 +69,28 @@ class ObjectToPack extends PackedObjectInfo {
 	private int flags;
 
 	/**
-	 * Construct object for specified object id. <br/> By default object is
-	 * marked as not written and non-delta packed (as a whole object).
+	 * Construct for the specified object id.
 	 *
 	 * @param src
 	 *            object id of object for packing
 	 * @param type
 	 *            real type code of the object, not its in-pack type.
 	 */
-	ObjectToPack(AnyObjectId src, final int type) {
+	public ObjectToPack(AnyObjectId src, final int type) {
 		super(src);
 		flags |= type << 1;
+	}
+
+	/**
+	 * Construct for the specified object.
+	 *
+	 * @param obj
+	 *            identity of the object that will be packed. The object's
+	 *            parsed status is undefined here. Implementers must not rely on
+	 *            the object being parsed.
+	 */
+	public ObjectToPack(RevObject obj) {
+		this(obj, obj.getType());
 	}
 
 	/**
@@ -143,23 +148,6 @@ class ObjectToPack extends PackedObjectInfo {
 	 */
 	boolean isWritten() {
 		return getOffset() != 0;
-	}
-
-	boolean isCopyable() {
-		return copyFromPack != null;
-	}
-
-	PackedObjectLoader getCopyLoader(WindowCursor curs) throws IOException {
-		return copyFromPack.resolveBase(curs, copyOffset);
-	}
-
-	void setCopyFromPack(PackedObjectLoader loader) {
-		this.copyFromPack = loader.pack;
-		this.copyOffset = loader.objectOffset;
-	}
-
-	void clearSourcePack() {
-		copyFromPack = null;
 	}
 
 	int getType() {

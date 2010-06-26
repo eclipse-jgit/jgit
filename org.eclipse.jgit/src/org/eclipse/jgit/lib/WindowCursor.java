@@ -50,6 +50,7 @@ import java.util.zip.DataFormatException;
 import java.util.zip.Inflater;
 
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.revwalk.RevObject;
 
 /** Active handle to a ByteWindow. */
 final class WindowCursor extends ObjectReader {
@@ -79,6 +80,11 @@ final class WindowCursor extends ObjectReader {
 			throw new MissingObjectException(objectId.copy(), typeHint);
 		}
 		return ldr;
+	}
+
+	@Override
+	public LocalObjectToPack newObjectToPack(RevObject obj) {
+		return new LocalObjectToPack(obj);
 	}
 
 	void openObjectInAllPacks(AnyObjectId otp,

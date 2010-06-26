@@ -152,13 +152,13 @@ public class PackWriter {
 	private static final int PACK_VERSION_GENERATED = 2;
 
 	@SuppressWarnings("unchecked")
-	private final List<ObjectToPack> objectsLists[] = new List[Constants.OBJ_TAG + 1];
+	private final List<LocalObjectToPack> objectsLists[] = new List[Constants.OBJ_TAG + 1];
 	{
-		objectsLists[0] = Collections.<ObjectToPack> emptyList();
-		objectsLists[Constants.OBJ_COMMIT] = new ArrayList<ObjectToPack>();
-		objectsLists[Constants.OBJ_TREE] = new ArrayList<ObjectToPack>();
-		objectsLists[Constants.OBJ_BLOB] = new ArrayList<ObjectToPack>();
-		objectsLists[Constants.OBJ_TAG] = new ArrayList<ObjectToPack>();
+		objectsLists[0] = Collections.<LocalObjectToPack> emptyList();
+		objectsLists[Constants.OBJ_COMMIT] = new ArrayList<LocalObjectToPack>();
+		objectsLists[Constants.OBJ_TREE] = new ArrayList<LocalObjectToPack>();
+		objectsLists[Constants.OBJ_BLOB] = new ArrayList<LocalObjectToPack>();
+		objectsLists[Constants.OBJ_TAG] = new ArrayList<LocalObjectToPack>();
 	}
 
 	private final ObjectIdSubclassMap<ObjectToPack> objectsMap = new ObjectIdSubclassMap<ObjectToPack>();
@@ -557,8 +557,8 @@ public class PackWriter {
 	private List<ObjectToPack> sortByName() {
 		if (sortedByName == null) {
 			sortedByName = new ArrayList<ObjectToPack>(objectsMap.size());
-			for (List<ObjectToPack> list : objectsLists) {
-				for (ObjectToPack otp : list)
+			for (List<LocalObjectToPack> list : objectsLists) {
+				for (LocalObjectToPack otp : list)
 					sortedByName.add(otp);
 			}
 			Collections.sort(sortedByName);
@@ -606,8 +606,8 @@ public class PackWriter {
 	private void searchForReuse() throws IOException {
 		initMonitor.beginTask(SEARCHING_REUSE_PROGRESS, getObjectsNumber());
 		final Collection<PackedObjectLoader> reuseLoaders = new ArrayList<PackedObjectLoader>();
-		for (List<ObjectToPack> list : objectsLists) {
-			for (ObjectToPack otp : list) {
+		for (List<LocalObjectToPack> list : objectsLists) {
+			for (LocalObjectToPack otp : list) {
 				if (initMonitor.isCancelled())
 					throw new IOException(
 							JGitText.get().packingCancelledDuringObjectsWriting);
@@ -622,7 +622,7 @@ public class PackWriter {
 
 	private void searchForReuse(
 			final Collection<PackedObjectLoader> reuseLoaders,
-			final ObjectToPack otp) throws IOException {
+			final LocalObjectToPack otp) throws IOException {
 		windowCursor.openObjectInAllPacks(otp, reuseLoaders);
 		if (reuseDeltas) {
 			selectDeltaReuseForObject(otp, reuseLoaders);
@@ -633,7 +633,7 @@ public class PackWriter {
 		}
 	}
 
-	private void selectDeltaReuseForObject(final ObjectToPack otp,
+	private void selectDeltaReuseForObject(final LocalObjectToPack otp,
 			final Collection<PackedObjectLoader> loaders) throws IOException {
 		PackedObjectLoader bestLoader = null;
 		ObjectId bestBase = null;
@@ -671,7 +671,7 @@ public class PackWriter {
 				.supportsFastCopyRawData());
 	}
 
-	private void selectObjectReuseForObject(final ObjectToPack otp,
+	private void selectObjectReuseForObject(final LocalObjectToPack otp,
 			final Collection<PackedObjectLoader> loaders) {
 		for (final PackedObjectLoader loader : loaders) {
 			if (loader instanceof WholePackedObjectLoader) {
@@ -689,8 +689,8 @@ public class PackWriter {
 	}
 
 	private void writeObjects() throws IOException {
-		for (List<ObjectToPack> list : objectsLists) {
-			for (ObjectToPack otp : list) {
+		for (List<LocalObjectToPack> list : objectsLists) {
+			for (LocalObjectToPack otp : list) {
 				if (writeMonitor.isCancelled())
 					throw new IOException(
 							JGitText.get().packingCancelledDuringObjectsWriting);
@@ -700,10 +700,10 @@ public class PackWriter {
 		}
 	}
 
-	private void writeObject(final ObjectToPack otp) throws IOException {
+	private void writeObject(final LocalObjectToPack otp) throws IOException {
 		otp.markWantWrite();
 		if (otp.isDeltaRepresentation()) {
-			ObjectToPack deltaBase = otp.getDeltaBase();
+			LocalObjectToPack deltaBase = (LocalObjectToPack)otp.getDeltaBase();
 			assert deltaBase != null || thin;
 			if (deltaBase != null && !deltaBase.isWritten()) {
 				if (deltaBase.wantWrite()) {
@@ -741,7 +741,7 @@ public class PackWriter {
 		writeMonitor.update(1);
 	}
 
-	private PackedObjectLoader open(final ObjectToPack otp) throws IOException {
+	private PackedObjectLoader open(final LocalObjectToPack otp) throws IOException {
 		while (otp.isCopyable()) {
 			try {
 				PackedObjectLoader reuse = otp.getCopyLoader(windowCursor);
@@ -885,7 +885,7 @@ public class PackWriter {
 			return;
 		}
 
-		final ObjectToPack otp = new ObjectToPack(object, object.getType());
+		final LocalObjectToPack otp = windowCursor.newObjectToPack(object);
 		try {
 			objectsLists[object.getType()].add(otp);
 		} catch (ArrayIndexOutOfBoundsException x) {
