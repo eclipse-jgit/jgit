@@ -55,6 +55,14 @@ import org.eclipse.jgit.transport.PackedObjectInfo;
  * each object as they are written to the output stream.
  */
 public class ObjectToPack extends PackedObjectInfo {
+	private static final int WANT_WRITE = 1 << 0;
+
+	private static final int TYPE_SHIFT = 5;
+
+	private static final int DELTA_SHIFT = 8;
+
+	private static final int NON_DELTA_MASK = 0xff;
+
 	/** Other object being packed that this will delta against. */
 	private ObjectId deltaBase;
 
@@ -62,8 +70,10 @@ public class ObjectToPack extends PackedObjectInfo {
 	 * Bit field, from bit 0 to bit 31:
 	 * <ul>
 	 * <li>1 bit: wantWrite</li>
+	 * <li>4 bits: unused</li>
 	 * <li>3 bits: type</li>
-	 * <li>28 bits: deltaDepth</li>
+	 * <li>--</li>
+	 * <li>24 bits: deltaDepth</li>
 	 * </ul>
 	 */
 	private int flags;
@@ -78,7 +88,7 @@ public class ObjectToPack extends PackedObjectInfo {
 	 */
 	public ObjectToPack(AnyObjectId src, final int type) {
 		super(src);
-		flags |= type << 1;
+		flags = type << TYPE_SHIFT;
 	}
 
 	/**
@@ -151,11 +161,11 @@ public class ObjectToPack extends PackedObjectInfo {
 	}
 
 	int getType() {
-		return (flags>>1) & 0x7;
+		return (flags >> TYPE_SHIFT) & 0x7;
 	}
 
 	int getDeltaDepth() {
-		return flags >>> 4;
+		return flags >>> DELTA_SHIFT;
 	}
 
 	void updateDeltaDepth() {
@@ -166,14 +176,14 @@ public class ObjectToPack extends PackedObjectInfo {
 			d = 1;
 		else
 			d = 0;
-		flags = (d << 4) | flags & 0x15;
+		flags = (d << DELTA_SHIFT) | (flags & NON_DELTA_MASK);
 	}
 
 	boolean wantWrite() {
-		return (flags & 1) == 1;
+		return (flags & WANT_WRITE) != 0;
 	}
 
 	void markWantWrite() {
-		flags |= 1;
+		flags |= WANT_WRITE;
 	}
 }
