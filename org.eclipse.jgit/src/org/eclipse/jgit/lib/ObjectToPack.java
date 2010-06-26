@@ -57,6 +57,8 @@ import org.eclipse.jgit.transport.PackedObjectInfo;
 public class ObjectToPack extends PackedObjectInfo {
 	private static final int WANT_WRITE = 1 << 0;
 
+	private static final int REUSE_AS_IS = 1 << 1;
+
 	private static final int TYPE_SHIFT = 5;
 
 	private static final int DELTA_SHIFT = 8;
@@ -70,7 +72,8 @@ public class ObjectToPack extends PackedObjectInfo {
 	 * Bit field, from bit 0 to bit 31:
 	 * <ul>
 	 * <li>1 bit: wantWrite</li>
-	 * <li>4 bits: unused</li>
+	 * <li>1 bit: canReuseAsIs</li>
+	 * <li>3 bits: unused</li>
 	 * <li>3 bits: type</li>
 	 * <li>--</li>
 	 * <li>24 bits: deltaDepth</li>
@@ -185,5 +188,50 @@ public class ObjectToPack extends PackedObjectInfo {
 
 	void markWantWrite() {
 		flags |= WANT_WRITE;
+	}
+
+	boolean isReuseAsIs() {
+		return (flags & REUSE_AS_IS) != 0;
+	}
+
+	void setReuseAsIs() {
+		flags |= REUSE_AS_IS;
+	}
+
+	void clearReuseAsIs() {
+		flags &= ~REUSE_AS_IS;
+	}
+
+	int getFormat() {
+		if (isReuseAsIs()) {
+			if (isDeltaRepresentation())
+				return StoredObjectRepresentation.PACK_DELTA;
+			return StoredObjectRepresentation.PACK_WHOLE;
+		}
+		return StoredObjectRepresentation.FORMAT_OTHER;
+	}
+
+	// Overload weight into CRC since we don't need them at the same time.
+	int getWeight() {
+		return getCRC();
+	}
+
+	void setWeight(int weight) {
+		setCRC(weight);
+	}
+
+	/**
+	 * Remember a specific representation for reuse at a later time.
+	 * <p>
+	 * Implementers should remember the representation chosen, so it can be
+	 * reused at a later time. {@link PackWriter} may invoke this method
+	 * multiple times for the same object, each time saving the current best
+	 * representation found.
+	 *
+	 * @param ref
+	 *            the object representation.
+	 */
+	public void select(StoredObjectRepresentation ref) {
+		// Empty by default.
 	}
 }

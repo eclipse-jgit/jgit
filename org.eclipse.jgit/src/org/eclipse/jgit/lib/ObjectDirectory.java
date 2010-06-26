@@ -283,17 +283,16 @@ public class ObjectDirectory extends FileObjectDatabase {
 		}
 	}
 
-	void openObjectInAllPacks(final Collection<PackedObjectLoader> out,
-			final WindowCursor curs, final AnyObjectId objectId)
-			throws IOException {
+	@Override
+	void selectObjectRepresentation(PackWriter packer, ObjectToPack otp,
+			WindowCursor curs) throws IOException {
 		PackList pList = packList.get();
 		SEARCH: for (;;) {
 			for (final PackFile p : pList.packs) {
 				try {
-					final PackedObjectLoader ldr = p.get(curs, objectId);
-					if (ldr != null) {
-						out.add(ldr);
-					}
+					PackedObjectLoader ldr = p.get(curs, otp);
+					if (ldr != null)
+						packer.select(otp, new LocalObjectRepresentation(ldr));
 				} catch (PackMismatchException e) {
 					// Pack was modified; refresh the entire pack list.
 					//
@@ -309,7 +308,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 		}
 
 		for (AlternateHandle h : myAlternates())
-			h.db.openObjectInAllPacks(out, curs, objectId);
+			h.db.selectObjectRepresentation(packer, otp, curs);
 	}
 
 	boolean hasObject2(final String objectName) {

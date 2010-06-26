@@ -46,74 +46,53 @@ package org.eclipse.jgit.lib;
 import java.io.IOException;
 
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.revwalk.RevObject;
 
 /**
- * Reads an {@link ObjectDatabase} for a single thread.
+ * Extension of {@link ObjectReader} that supports reusing objects in packs.
  * <p>
- * Readers that can support efficient reuse of pack encoded objects should also
- * implement the companion interface {@link ObjectReuseAsIs}.
+ * {@code ObjectReader} implementations may also optionally implement this
+ * interface to support {@link PackWriter} with a means of copying an object
+ * that is already in pack encoding format directly into the output stream,
+ * without incurring decompression and recompression overheads.
  */
-public abstract class ObjectReader {
-	/** Type hint indicating the caller doesn't know the type. */
-	protected static final int OBJ_ANY = -1;
-
+public interface ObjectReuseAsIs {
 	/**
-	 * Does the requested object exist in this database?
-	 *
-	 * @param objectId
-	 *            identity of the object to test for existence of.
-	 * @return true if the specified object is stored in this database.
-	 * @throws IOException
-	 *             the object store cannot be accessed.
-	 */
-	public boolean hasObject(AnyObjectId objectId) throws IOException {
-		try {
-			openObject(objectId);
-			return true;
-		} catch (MissingObjectException notFound) {
-			return false;
-		}
-	}
-
-	/**
-	 * Open an object from this database.
-	 *
-	 * @param objectId
-	 *            identity of the object to open.
-	 * @return a {@link ObjectLoader} for accessing the object.
-	 * @throws MissingObjectException
-	 *             the object does not exist.
-	 * @throws IOException
-	 */
-	public ObjectLoader openObject(AnyObjectId objectId)
-			throws MissingObjectException, IOException {
-		return openObject(objectId, OBJ_ANY);
-	}
-
-	/**
-	 * Open an object from this database.
-	 *
-	 * @param objectId
-	 *            identity of the object to open.
-	 *@param typeHint
-	 *            hint about the type of object being requested;
-	 *            {@link #OBJ_ANY} if the object type is not known, or does not
-	 *            matter to the caller.
-	 * @return a {@link ObjectLoader} for accessing the object.
-	 * @throws MissingObjectException
-	 *             the object does not exist.
-	 * @throws IOException
-	 */
-	public abstract ObjectLoader openObject(AnyObjectId objectId, int typeHint)
-			throws MissingObjectException, IOException;
-
-	/**
-	 * Release any resources used by this reader.
+	 * Allocate a new {@code PackWriter} state structure for an object.
 	 * <p>
-	 * A reader that has been released can be used again, but may need to be
-	 * released after the subsequent usage.
+	 * {@link PackWriter} allocates these objects to keep track of the
+	 * per-object state, and how to load the objects efficiently into the
+	 * generated stream. Implementers may subclass this type with additional
+	 * object state, such as to remember what file and offset contains the
+	 * object's pack encoded data.
+	 *
+	 * @param obj
+	 *            identity of the object that will be packed. The object's
+	 *            parsed status is undefined here. Implementers must not rely on
+	 *            the object being parsed.
+	 * @return a new instance for this object.
 	 */
-	public void release() {
-		// Do nothing.
-	}
+	public ObjectToPack newObjectToPack(RevObject obj);
+
+	/**
+	 * Select the best object representation for a packer.
+	 * <p>
+	 * Implementations should iterate through all available representations of
+	 * an object, and pass them in turn to the PackWriter though
+	 * {@link PackWriter#select(ObjectToPack, StoredObjectRepresentation)} so
+	 * the writer can select the most suitable representation to reuse into the
+	 * output stream.
+	 *
+	 * @param packer
+	 *            the packer that will write the object in the near future.
+	 * @param otp
+	 *            the object to pack.
+	 * @throws MissingObjectException
+	 *             there is no representation available for the object, as it is
+	 *             no longer in the repository. Packing will abort.
+	 * @throws IOException
+	 *             the repository cannot be accessed. Packing will abort.
+	 */
+	public void selectObjectRepresentation(PackWriter packer, ObjectToPack otp)
+			throws IOException, MissingObjectException;
 }

@@ -44,6 +44,9 @@
 
 package org.eclipse.jgit.lib;
 
+import static org.eclipse.jgit.lib.StoredObjectRepresentation.PACK_DELTA;
+import static org.eclipse.jgit.lib.StoredObjectRepresentation.PACK_WHOLE;
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.security.MessageDigest;
@@ -605,80 +608,16 @@ public class PackWriter {
 
 	private void searchForReuse() throws IOException {
 		initMonitor.beginTask(SEARCHING_REUSE_PROGRESS, getObjectsNumber());
-		final Collection<PackedObjectLoader> reuseLoaders = new ArrayList<PackedObjectLoader>();
 		for (List<LocalObjectToPack> list : objectsLists) {
-			for (LocalObjectToPack otp : list) {
+			for (ObjectToPack otp : list) {
 				if (initMonitor.isCancelled())
 					throw new IOException(
 							JGitText.get().packingCancelledDuringObjectsWriting);
-				reuseLoaders.clear();
-				searchForReuse(reuseLoaders, otp);
+				windowCursor.selectObjectRepresentation(this, otp);
 				initMonitor.update(1);
 			}
 		}
-
 		initMonitor.endTask();
-	}
-
-	private void searchForReuse(
-			final Collection<PackedObjectLoader> reuseLoaders,
-			final LocalObjectToPack otp) throws IOException {
-		windowCursor.openObjectInAllPacks(otp, reuseLoaders);
-		if (reuseDeltas) {
-			selectDeltaReuseForObject(otp, reuseLoaders);
-		}
-		// delta reuse is preferred over object reuse
-		if (reuseObjects && !otp.isCopyable()) {
-			selectObjectReuseForObject(otp, reuseLoaders);
-		}
-	}
-
-	private void selectDeltaReuseForObject(final LocalObjectToPack otp,
-			final Collection<PackedObjectLoader> loaders) throws IOException {
-		PackedObjectLoader bestLoader = null;
-		ObjectId bestBase = null;
-
-		for (PackedObjectLoader loader : loaders) {
-			ObjectId idBase = loader.getDeltaBase();
-			if (idBase == null)
-				continue;
-			ObjectToPack otpBase = objectsMap.get(idBase);
-
-			// only if base is in set of objects to write or thin-pack's edge
-			if ((otpBase != null || (thin && edgeObjects.get(idBase) != null))
-			// select smallest possible delta if > 1 available
-					&& isBetterDeltaReuseLoader(bestLoader, loader)) {
-				bestLoader = loader;
-				bestBase = (otpBase != null ? otpBase : idBase);
-			}
-		}
-
-		if (bestLoader != null) {
-			otp.setCopyFromPack(bestLoader);
-			otp.setDeltaBase(bestBase);
-		}
-	}
-
-	private static boolean isBetterDeltaReuseLoader(
-			PackedObjectLoader currentLoader, PackedObjectLoader loader)
-			throws IOException {
-		if (currentLoader == null)
-			return true;
-		if (loader.getRawSize() < currentLoader.getRawSize())
-			return true;
-		return (loader.getRawSize() == currentLoader.getRawSize()
-				&& loader.supportsFastCopyRawData() && !currentLoader
-				.supportsFastCopyRawData());
-	}
-
-	private void selectObjectReuseForObject(final LocalObjectToPack otp,
-			final Collection<PackedObjectLoader> loaders) {
-		for (final PackedObjectLoader loader : loaders) {
-			if (loader instanceof WholePackedObjectLoader) {
-				otp.setCopyFromPack(loader);
-				return;
-			}
-		}
 	}
 
 	private void writeHeader() throws IOException {
@@ -708,7 +647,7 @@ public class PackWriter {
 			if (deltaBase != null && !deltaBase.isWritten()) {
 				if (deltaBase.wantWrite()) {
 					otp.clearDeltaBase(); // cycle detected
-					otp.clearSourcePack();
+					otp.clearReuseAsIs();
 				} else {
 					writeObject(deltaBase);
 				}
@@ -742,7 +681,7 @@ public class PackWriter {
 	}
 
 	private PackedObjectLoader open(final LocalObjectToPack otp) throws IOException {
-		while (otp.isCopyable()) {
+		while (otp.isReuseAsIs()) {
 			try {
 				PackedObjectLoader reuse = otp.getCopyLoader(windowCursor);
 				reuse.beginCopyRawData();
@@ -752,8 +691,8 @@ public class PackWriter {
 				// it has been overwritten with a different layout.
 				//
 				otp.clearDeltaBase();
-				otp.clearSourcePack();
-				searchForReuse(new ArrayList<PackedObjectLoader>(), otp);
+				otp.clearReuseAsIs();
+				windowCursor.selectObjectRepresentation(this, otp);
 				continue;
 			}
 		}
@@ -897,5 +836,62 @@ public class PackWriter {
 					JGitText.get().incorrectObjectType_COMMITnorTREEnorBLOBnorTAG);
 		}
 		objectsMap.add(otp);
+	}
+
+	/**
+	 * Select an object representation for this writer.
+	 * <p>
+	 * An {@link ObjectReader} implementation should invoke this method once for
+	 * each representation available for an object, to allow the writer to find
+	 * the most suitable one for the output.
+	 *
+	 * @param otp
+	 *            the object being packed.
+	 * @param next
+	 *            the next available representation from the repository.
+	 */
+	public void select(ObjectToPack otp, StoredObjectRepresentation next) {
+		int nFmt = next.getFormat();
+		int nWeight;
+		if (otp.isReuseAsIs()) {
+			// We've already chosen to reuse a packed form, if next
+			// cannot beat that break out early.
+			//
+			if (PACK_WHOLE < nFmt)
+				return; // next isn't packed
+			else if (PACK_DELTA < nFmt && otp.isDeltaRepresentation())
+				return; // next isn't a delta, but we are
+
+			nWeight = next.getWeight();
+			if (otp.getWeight() <= nWeight)
+				return; // next would be bigger
+		} else
+			nWeight = next.getWeight();
+
+		if (nFmt == PACK_DELTA && reuseDeltas) {
+			ObjectId baseId = next.getDeltaBase();
+			ObjectToPack ptr = objectsMap.get(baseId);
+			if (ptr != null) {
+				otp.setDeltaBase(ptr);
+				otp.setReuseAsIs();
+				otp.setWeight(nWeight);
+			} else if (thin && edgeObjects.contains(baseId)) {
+				otp.setDeltaBase(baseId);
+				otp.setReuseAsIs();
+				otp.setWeight(nWeight);
+			} else {
+				otp.clearDeltaBase();
+				otp.clearReuseAsIs();
+			}
+		} else if (nFmt == PACK_WHOLE && reuseObjects) {
+			otp.clearDeltaBase();
+			otp.setReuseAsIs();
+			otp.setWeight(nWeight);
+		} else {
+			otp.clearDeltaBase();
+			otp.clearReuseAsIs();
+		}
+
+		otp.select(next);
 	}
 }

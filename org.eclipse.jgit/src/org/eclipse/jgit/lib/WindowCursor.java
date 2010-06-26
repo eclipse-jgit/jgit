@@ -45,7 +45,6 @@
 package org.eclipse.jgit.lib;
 
 import java.io.IOException;
-import java.util.Collection;
 import java.util.zip.DataFormatException;
 import java.util.zip.Inflater;
 
@@ -53,7 +52,7 @@ import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.revwalk.RevObject;
 
 /** Active handle to a ByteWindow. */
-final class WindowCursor extends ObjectReader {
+final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 	/** Temporary buffer large enough for at least one raw object id. */
 	final byte[] tempId = new byte[Constants.OBJECT_ID_LENGTH];
 
@@ -82,14 +81,13 @@ final class WindowCursor extends ObjectReader {
 		return ldr;
 	}
 
-	@Override
 	public LocalObjectToPack newObjectToPack(RevObject obj) {
 		return new LocalObjectToPack(obj);
 	}
 
-	void openObjectInAllPacks(AnyObjectId otp,
-			Collection<PackedObjectLoader> reuseLoaders) throws IOException {
-		db.openObjectInAllPacks(reuseLoaders, this, otp);
+	public void selectObjectRepresentation(PackWriter packer, ObjectToPack otp)
+			throws IOException, MissingObjectException {
+		db.selectObjectRepresentation(packer, otp, this);
 	}
 
 	/**
@@ -108,8 +106,8 @@ final class WindowCursor extends ObjectReader {
 	 *            bytes remaining in the window starting at offset
 	 *            <code>pos</code>.
 	 * @return number of bytes actually copied; this may be less than
-	 *         <code>cnt</code> if <code>cnt</code> exceeded the number of
-	 *         bytes available.
+	 *         <code>cnt</code> if <code>cnt</code> exceeded the number of bytes
+	 *         available.
 	 * @throws IOException
 	 *             this cursor does not match the provider or id and the proper
 	 *             window could not be acquired through the provider's cache.
@@ -161,8 +159,8 @@ final class WindowCursor extends ObjectReader {
 		}
 	}
 
-	void inflateVerify(final PackFile pack, long position)
-			throws IOException, DataFormatException {
+	void inflateVerify(final PackFile pack, long position) throws IOException,
+			DataFormatException {
 		prepareInflater();
 		for (;;) {
 			pin(pack, position);

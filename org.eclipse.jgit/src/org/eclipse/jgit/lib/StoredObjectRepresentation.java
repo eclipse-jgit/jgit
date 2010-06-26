@@ -43,30 +43,46 @@
 
 package org.eclipse.jgit.lib;
 
-import java.io.IOException;
+/**
+ * An object representation {@link PackWriter} can consider for packing.
+ */
+public class StoredObjectRepresentation {
+	/** Special unknown value for {@link #getWeight()}. */
+	public static final int WEIGHT_UNKNOWN = Integer.MAX_VALUE;
 
-import org.eclipse.jgit.revwalk.RevObject;
+	/** Stored in pack format, as a delta to another object. */
+	public static final int PACK_DELTA = 0;
 
-/** {@link ObjectToPack} for {@link ObjectDirectory}. */
-class LocalObjectToPack extends ObjectToPack {
-	/** Pack to reuse compressed data from, otherwise null. */
-	private PackFile copyFromPack;
+	/** Stored in pack format, without delta. */
+	public static final int PACK_WHOLE = 1;
 
-	/** Offset of the object's header in {@link #copyFromPack}. */
-	private long copyOffset;
+	/** Only available after inflating to canonical format. */
+	public static final int FORMAT_OTHER = 2;
 
-	LocalObjectToPack(RevObject obj) {
-		super(obj);
+	/**
+	 * @return relative size of this object's packed form. The special value
+	 *         {@link #WEIGHT_UNKNOWN} can be returned to indicate the
+	 *         implementation doesn't know, or cannot supply the weight up
+	 *         front.
+	 */
+	public int getWeight() {
+		return WEIGHT_UNKNOWN;
 	}
 
-	PackedObjectLoader getCopyLoader(WindowCursor curs) throws IOException {
-		return copyFromPack.resolveBase(curs, copyOffset);
+	/**
+	 * @return true if this is a delta against another object and this is stored
+	 *         in pack delta format.
+	 */
+	public int getFormat() {
+		return FORMAT_OTHER;
 	}
 
-	@Override
-	public void select(StoredObjectRepresentation ref) {
-		LocalObjectRepresentation ptr = (LocalObjectRepresentation)ref;
-		this.copyFromPack = ptr.ldr.pack;
-		this.copyOffset = ptr.ldr.objectOffset;
+	/**
+	 * @return identity of the object this delta applies to in order to recover
+	 *         the original object content. This method should only be called if
+	 *         {@link #getFormat()} returned {@link #PACK_DELTA}.
+	 */
+	public ObjectId getDeltaBase() {
+		return null;
 	}
 }

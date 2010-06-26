@@ -45,28 +45,36 @@ package org.eclipse.jgit.lib;
 
 import java.io.IOException;
 
-import org.eclipse.jgit.revwalk.RevObject;
+class LocalObjectRepresentation extends StoredObjectRepresentation {
+	final PackedObjectLoader ldr;
 
-/** {@link ObjectToPack} for {@link ObjectDirectory}. */
-class LocalObjectToPack extends ObjectToPack {
-	/** Pack to reuse compressed data from, otherwise null. */
-	private PackFile copyFromPack;
-
-	/** Offset of the object's header in {@link #copyFromPack}. */
-	private long copyOffset;
-
-	LocalObjectToPack(RevObject obj) {
-		super(obj);
-	}
-
-	PackedObjectLoader getCopyLoader(WindowCursor curs) throws IOException {
-		return copyFromPack.resolveBase(curs, copyOffset);
+	LocalObjectRepresentation(PackedObjectLoader ldr) {
+		this.ldr = ldr;
 	}
 
 	@Override
-	public void select(StoredObjectRepresentation ref) {
-		LocalObjectRepresentation ptr = (LocalObjectRepresentation)ref;
-		this.copyFromPack = ptr.ldr.pack;
-		this.copyOffset = ptr.ldr.objectOffset;
+	public int getFormat() {
+		if (ldr instanceof DeltaPackedObjectLoader)
+			return PACK_DELTA;
+		if (ldr instanceof WholePackedObjectLoader)
+			return PACK_WHOLE;
+		return FORMAT_OTHER;
+	}
+
+	@Override
+	public int getWeight() {
+		long sz = ldr.getRawSize();
+		if (Integer.MAX_VALUE < sz)
+			return WEIGHT_UNKNOWN;
+		return (int) sz;
+	}
+
+	@Override
+	public ObjectId getDeltaBase() {
+		try {
+			return ldr.getDeltaBase();
+		} catch (IOException e) {
+			return null;
+		}
 	}
 }

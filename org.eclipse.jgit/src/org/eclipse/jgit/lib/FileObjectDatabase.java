@@ -45,7 +45,6 @@ package org.eclipse.jgit.lib;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Collection;
 
 abstract class FileObjectDatabase extends ObjectDatabase {
 	@Override
@@ -160,9 +159,8 @@ abstract class FileObjectDatabase extends ObjectDatabase {
 		return null;
 	}
 
-	void openObjectInAllPacks(Collection<PackedObjectLoader> reuseLoaders,
-			WindowCursor windowCursor, AnyObjectId otp) throws IOException {
-	}
+	abstract void selectObjectRepresentation(PackWriter packer,
+			ObjectToPack otp, WindowCursor curs) throws IOException;
 
 	abstract File getDirectory();
 

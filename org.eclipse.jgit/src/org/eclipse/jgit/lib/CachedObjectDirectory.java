@@ -175,4 +175,10 @@ class CachedObjectDirectory extends FileObjectDatabase {
 		// This method should never be invoked.
 		throw new UnsupportedOperationException();
 	}
+
+	@Override
+	void selectObjectRepresentation(PackWriter packer, ObjectToPack otp,
+			WindowCursor curs) throws IOException {
+		wrapped.selectObjectRepresentation(packer, otp, curs);
+	}
 }
