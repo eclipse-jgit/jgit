@@ -271,8 +271,10 @@ class FetchProcess {
 	}
 
 	private void updateFETCH_HEAD(final FetchResult result) throws IOException {
-		final LockFile lock = new LockFile(new File(transport.local
-				.getDirectory(), "FETCH_HEAD"));
+		File meta = transport.local.getDirectory();
+		if (meta == null)
+			return;
+		final LockFile lock = new LockFile(new File(meta, "FETCH_HEAD"));
 		try {
 			if (lock.lock()) {
 				final Writer w = new OutputStreamWriter(lock.getOutputStream());

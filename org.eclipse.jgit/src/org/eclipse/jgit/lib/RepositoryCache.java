@@ -120,7 +120,10 @@ public class RepositoryCache {
 	 *            repository to register.
 	 */
 	public static void register(final Repository db) {
-		cache.registerRepository(FileKey.exact(db.getDirectory(), db.getFS()), db);
+		if (db.getDirectory() != null) {
+			FileKey key = FileKey.exact(db.getDirectory(), db.getFS());
+			cache.registerRepository(key, db);
+		}
 	}
 
 	/**
@@ -133,7 +136,10 @@ public class RepositoryCache {
 	 *            repository to unregister.
 	 */
 	public static void close(final Repository db) {
-		cache.unregisterRepository(FileKey.exact(db.getDirectory(), db.getFS()));
+		if (db.getDirectory() != null) {
+			FileKey key = FileKey.exact(db.getDirectory(), db.getFS());
+			cache.unregisterRepository(key);
+		}
 	}
 
 	/** Unregister all repositories from the cache. */

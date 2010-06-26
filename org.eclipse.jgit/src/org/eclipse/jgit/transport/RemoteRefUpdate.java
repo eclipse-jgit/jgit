@@ -357,6 +357,6 @@ public class RemoteRefUpdate {
 				+ "..." + (newObjectId != null ? newObjectId.abbreviate(localDb).name() : "(null)")
 				+ (fastForward ? ", fastForward" : "")
 				+ ", srcRef=" + srcRef + (forceUpdate ? ", forceUpdate" : "") + ", message=" + (message != null ? "\""
-				+ message + "\"" : "null") + ", " + localDb.getDirectory() + "]";
+				+ message + "\"" : "null") + "]";
 	}
 }

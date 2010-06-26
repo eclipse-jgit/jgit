@@ -171,17 +171,18 @@ public class CommitCommand extends GitCommand<RevCommit> {
 					Result rc = ru.update();
 					switch (rc) {
 					case NEW:
-					case FAST_FORWARD:
+					case FAST_FORWARD: {
 						setCallable(false);
-						if (state == RepositoryState.MERGING_RESOLVED) {
+						File meta = repo.getDirectory();
+						if (state == RepositoryState.MERGING_RESOLVED
+								&& meta != null) {
 							// Commit was successful. Now delete the files
 							// used for merge commits
-							new File(repo.getDirectory(), Constants.MERGE_HEAD)
-									.delete();
-							new File(repo.getDirectory(), Constants.MERGE_MSG)
-									.delete();
+							new File(meta, Constants.MERGE_HEAD).delete();
+							new File(meta, Constants.MERGE_MSG).delete();
 						}
 						return revCommit;
+					}
 					case REJECTED:
 					case LOCK_FAILURE:
 						throw new ConcurrentRefUpdateException(

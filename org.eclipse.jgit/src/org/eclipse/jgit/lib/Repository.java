@@ -165,9 +165,7 @@ public abstract class Repository {
 	 */
 	public abstract void create(boolean bare) throws IOException;
 
-	/**
-	 * @return GIT_DIR
-	 */
+	/** @return local metadata directory; null if repository isn't local. */
 	public File getDirectory() {
 		return gitDir;
 	}
@@ -712,7 +710,13 @@ public abstract class Repository {
 	public abstract void openPack(File pack, File idx) throws IOException;
 
 	public String toString() {
-		return "Repository[" + getDirectory() + "]";
+		String desc;
+		if (getDirectory() != null)
+			desc = getDirectory().getPath();
+		else
+			desc = getClass().getSimpleName() + "-"
+					+ System.identityHashCode(this);
+		return "Repository[" + desc + "]";
 	}
 
 	/**
@@ -908,7 +912,7 @@ public abstract class Repository {
 	 * @return an important state
 	 */
 	public RepositoryState getRepositoryState() {
-		if (isBare())
+		if (isBare() || getDirectory() == null)
 			return RepositoryState.BARE;
 
 		// Pre Git-1.6 logic
@@ -1096,7 +1100,7 @@ public abstract class Repository {
 	 *             if the repository is "bare"
 	 */
 	public String readMergeCommitMsg() throws IOException {
-		if (isBare())
+		if (isBare() || getDirectory() == null)
 			throw new IllegalStateException(
 					JGitText.get().bareRepositoryNoWorkdirAndIndex);
 
@@ -1123,7 +1127,7 @@ public abstract class Repository {
 	 *             if the repository is "bare"
 	 */
 	public List<ObjectId> readMergeHeads() throws IOException {
-		if (isBare())
+		if (isBare() || getDirectory() == null)
 			throw new IllegalStateException(
 					JGitText.get().bareRepositoryNoWorkdirAndIndex);
 
