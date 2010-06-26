@@ -45,6 +45,9 @@
 
 package org.eclipse.jgit.lib;
 
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.zip.CRC32;
 import java.util.zip.DataFormatException;
 import java.util.zip.Inflater;
 
@@ -79,5 +82,20 @@ final class ByteArrayWindow extends ByteWindow {
 		while (!inf.finished() && !inf.needsInput())
 			o += inf.inflate(b, o, b.length - o);
 		return o;
+	}
+
+	void crc32(CRC32 out, long pos, int cnt) {
+		out.update(array, (int) (pos - start), cnt);
+	}
+
+	void write(OutputStream out, long pos, int cnt) throws IOException {
+		out.write(array, (int) (pos - start), cnt);
+	}
+
+	void check(Inflater inf, byte[] tmp, long pos, int cnt)
+			throws DataFormatException {
+		inf.setInput(array, (int) (pos - start), cnt);
+		while (inf.inflate(tmp, 0, tmp.length) > 0)
+			continue;
 	}
 }

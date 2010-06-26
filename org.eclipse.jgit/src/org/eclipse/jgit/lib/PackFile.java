@@ -338,26 +338,31 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 		final long dataOffset = src.copyOffset + headerCnt;
 		final long dataLength;
 		final long expectedCRC;
+		final ByteArrayWindow quickCopy;
 
 		// Verify the object isn't corrupt before sending. If it is,
 		// we report it missing instead.
 		//
 		try {
 			dataLength = findEndOffset(src.copyOffset) - dataOffset;
+			quickCopy = curs.quickCopy(this, dataOffset, dataLength);
 
 			if (idx().hasCRC32Support()) {
 				// Index has the CRC32 code cached, validate the object.
 				//
 				expectedCRC = idx().findCRC32(src);
-
-				long pos = dataOffset;
-				long cnt = dataLength;
-				while (cnt > 0) {
-					final int n = (int) Math.min(cnt, buf.length);
-					readFully(pos, buf, 0, n, curs);
-					crc1.update(buf, 0, n);
-					pos += n;
-					cnt -= n;
+				if (quickCopy != null) {
+					quickCopy.crc32(crc1, dataOffset, (int) dataLength);
+				} else {
+					long pos = dataOffset;
+					long cnt = dataLength;
+					while (cnt > 0) {
+						final int n = (int) Math.min(cnt, buf.length);
+						readFully(pos, buf, 0, n, curs);
+						crc1.update(buf, 0, n);
+						pos += n;
+						cnt -= n;
+					}
 				}
 				if (crc1.getValue() != expectedCRC) {
 					setCorrupt(src.copyOffset);
@@ -370,21 +375,25 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 				// now while inflating the raw data to get zlib to tell us
 				// whether or not the data is safe.
 				//
-				long pos = dataOffset;
-				long cnt = dataLength;
 				Inflater inf = curs.inflater();
 				byte[] tmp = new byte[1024];
-				while (cnt > 0) {
-					final int n = (int) Math.min(cnt, buf.length);
-					readFully(pos, buf, 0, n, curs);
-					crc1.update(buf, 0, n);
-					inf.setInput(buf, 0, n);
-					while (inf.inflate(tmp, 0, tmp.length) > 0)
-						continue;
-					pos += n;
-					cnt -= n;
+				if (quickCopy != null) {
+					quickCopy.check(inf, tmp, dataOffset, (int) dataLength);
+				} else {
+					long pos = dataOffset;
+					long cnt = dataLength;
+					while (cnt > 0) {
+						final int n = (int) Math.min(cnt, buf.length);
+						readFully(pos, buf, 0, n, curs);
+						crc1.update(buf, 0, n);
+						inf.setInput(buf, 0, n);
+						while (inf.inflate(tmp, 0, tmp.length) > 0)
+							continue;
+						pos += n;
+						cnt -= n;
+					}
 				}
-				if (!inf.finished()) {
+				if (!inf.finished() || inf.getBytesRead() != dataLength) {
 					setCorrupt(src.copyOffset);
 					throw new EOFException(MessageFormat.format(
 							JGitText.get().shortCompressedStreamAt,
@@ -413,7 +422,14 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 			throw gone;
 		}
 
-		if (dataLength <= buf.length) {
+		if (quickCopy != null) {
+			// The entire object fits into a single byte array window slice,
+			// and we have it pinned.  Write this out without copying.
+			//
+			out.writeHeader(src, inflatedLength);
+			quickCopy.write(out, dataOffset, (int) dataLength);
+
+		} else if (dataLength <= buf.length) {
 			// Tiny optimization: Lots of objects are very small deltas or
 			// deflated commits that are likely to fit in the copy buffer.
 			//

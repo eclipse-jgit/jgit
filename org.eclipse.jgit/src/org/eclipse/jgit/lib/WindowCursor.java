@@ -166,6 +166,15 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 		}
 	}
 
+	ByteArrayWindow quickCopy(PackFile p, long pos, long cnt)
+			throws IOException {
+		pin(p, pos);
+		if (window instanceof ByteArrayWindow
+				&& window.contains(p, pos + (cnt - 1)))
+			return (ByteArrayWindow) window;
+		return null;
+	}
+
 	Inflater inflater() {
 		prepareInflater();
 		return inf;
