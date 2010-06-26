@@ -168,6 +168,8 @@ public class DirCache {
 	 *            repository the caller wants to read the default index of.
 	 * @return a cache representing the contents of the specified index file (if
 	 *         it exists) or an empty cache if the file does not exist.
+	 * @throws IllegalStateException
+	 *             if the repository is bare (lacks a working directory).
 	 * @throws IOException
 	 *             the index file is present but could not be read.
 	 * @throws CorruptObjectException
@@ -176,7 +178,7 @@ public class DirCache {
 	 */
 	public static DirCache read(final Repository db)
 			throws CorruptObjectException, IOException {
-		return read(new File(db.getDirectory(), "index"));
+		return read(db.getIndexFile());
 	}
 
 	/**
@@ -231,6 +233,8 @@ public class DirCache {
 	 *            repository the caller wants to read the default index of.
 	 * @return a cache representing the contents of the specified index file (if
 	 *         it exists) or an empty cache if the file does not exist.
+	 * @throws IllegalStateException
+	 *             if the repository is bare (lacks a working directory).
 	 * @throws IOException
 	 *             the index file is present but could not be read, or the lock
 	 *             could not be obtained.
@@ -240,7 +244,7 @@ public class DirCache {
 	 */
 	public static DirCache lock(final Repository db)
 			throws CorruptObjectException, IOException {
-		return lock(new File(db.getDirectory(), "index"));
+		return lock(db.getIndexFile());
 	}
 
 	/** Location of the current version of the index file. */
