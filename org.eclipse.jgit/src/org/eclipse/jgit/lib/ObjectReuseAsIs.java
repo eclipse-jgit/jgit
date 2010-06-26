@@ -46,6 +46,7 @@ package org.eclipse.jgit.lib;
 import java.io.IOException;
 
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.errors.StoredObjectRepresentationNotAvailableException;
 import org.eclipse.jgit.revwalk.RevObject;
 
 /**
@@ -95,4 +96,40 @@ public interface ObjectReuseAsIs {
 	 */
 	public void selectObjectRepresentation(PackWriter packer, ObjectToPack otp)
 			throws IOException, MissingObjectException;
+
+	/**
+	 * Output a previously selected representation.
+	 * <p>
+	 * {@code PackWriter} invokes this method only if a representation
+	 * previously given to it by {@code selectObjectRepresentation} was chosen
+	 * for reuse into the output stream. The {@code otp} argument is an instance
+	 * created by this reader's own {@code newObjectToPack}, and the
+	 * representation data saved within it also originated from this reader.
+	 * <p>
+	 * Implementors must write the object header before copying the raw data to
+	 * the output stream. The typical implementation is like:
+	 *
+	 * <pre>
+	 * MyToPack mtp = (MyToPack) otp;
+	 * byte[] raw = validate(mtp); // throw SORNAE here, if at all
+	 * out.writeHeader(mtp, mtp.inflatedSize);
+	 * out.write(raw);
+	 * </pre>
+	 *
+	 * @param out
+	 *            stream the object should be written to.
+	 * @param otp
+	 *            the object's saved representation information.
+	 * @throws StoredObjectRepresentationNotAvailableException
+	 *             the previously selected representation is no longer
+	 *             available. If thrown before {@code out.writeHeader} the pack
+	 *             writer will try to find another representation, and write
+	 *             that one instead. If throw after {@code out.writeHeader},
+	 *             packing will abort.
+	 * @throws IOException
+	 *             the stream's write method threw an exception. Packing will
+	 *             abort.
+	 */
+	public void copyObjectAsIs(PackOutputStream out, ObjectToPack otp)
+			throws IOException, StoredObjectRepresentationNotAvailableException;
 }

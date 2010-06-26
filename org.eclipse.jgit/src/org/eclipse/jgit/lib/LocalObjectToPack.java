@@ -43,24 +43,18 @@
 
 package org.eclipse.jgit.lib;
 
-import java.io.IOException;
-
 import org.eclipse.jgit.revwalk.RevObject;
 
 /** {@link ObjectToPack} for {@link ObjectDirectory}. */
 class LocalObjectToPack extends ObjectToPack {
 	/** Pack to reuse compressed data from, otherwise null. */
-	private PackFile copyFromPack;
+	PackFile copyFromPack;
 
 	/** Offset of the object's header in {@link #copyFromPack}. */
-	private long copyOffset;
+	long copyOffset;
 
 	LocalObjectToPack(RevObject obj) {
 		super(obj);
-	}
-
-	PackedObjectLoader getCopyLoader(WindowCursor curs) throws IOException {
-		return copyFromPack.resolveBase(curs, copyOffset);
 	}
 
 	@Override

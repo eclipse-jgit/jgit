@@ -49,9 +49,13 @@ import java.io.OutputStream;
 import java.security.MessageDigest;
 import java.util.zip.CRC32;
 
+import org.eclipse.jgit.util.NB;
+
 /** Custom output stream to support {@link PackWriter}. */
-final class PackOutputStream extends OutputStream {
+public final class PackOutputStream extends OutputStream {
 	private final OutputStream out;
+
+	private final boolean ofsDelta;
 
 	private final CRC32 crc = new CRC32();
 
@@ -59,30 +63,108 @@ final class PackOutputStream extends OutputStream {
 
 	private long count;
 
-	PackOutputStream(final OutputStream out) {
+	private byte[] headerBuffer = new byte[32];
+
+	private byte[] copyBuffer;
+
+	PackOutputStream(final OutputStream out, final boolean ofsDelta) {
 		this.out = out;
+		this.ofsDelta = ofsDelta;
 	}
 
 	@Override
 	public void write(final int b) throws IOException {
+		count++;
 		out.write(b);
 		crc.update(b);
 		md.update((byte) b);
-		count++;
 	}
 
 	@Override
 	public void write(final byte[] b, final int off, final int len)
 			throws IOException {
+		count += len;
 		out.write(b, off, len);
 		crc.update(b, off, len);
 		md.update(b, off, len);
-		count += len;
 	}
 
 	@Override
 	public void flush() throws IOException {
 		out.flush();
+	}
+
+	void writeFileHeader(int version, int objectCount) throws IOException {
+		System.arraycopy(Constants.PACK_SIGNATURE, 0, headerBuffer, 0, 4);
+		NB.encodeInt32(headerBuffer, 4, version);
+		NB.encodeInt32(headerBuffer, 8, objectCount);
+		write(headerBuffer, 0, 12);
+	}
+
+	/**
+	 * Commits the object header onto the stream.
+	 * <p>
+	 * Once the header has been written, the object representation must be fully
+	 * output, or packing must abort abnormally.
+	 *
+	 * @param otp
+	 *            the object to pack. Header information is obtained.
+	 * @param rawLength
+	 *            number of bytes of the inflated content. For an object that is
+	 *            in whole object format, this is the same as the object size.
+	 *            For an object that is in a delta format, this is the size of
+	 *            the inflated delta instruction stream.
+	 * @throws IOException
+	 *             the underlying stream refused to accept the header.
+	 */
+	public void writeHeader(ObjectToPack otp, long rawLength)
+			throws IOException {
+		if (otp.isDeltaRepresentation()) {
+			if (ofsDelta) {
+				ObjectToPack baseInPack = otp.getDeltaBase();
+				if (baseInPack != null && baseInPack.isWritten()) {
+					final long start = count;
+					int n = encodeTypeSize(Constants.OBJ_OFS_DELTA, rawLength);
+					write(headerBuffer, 0, n);
+
+					long offsetDiff = start - baseInPack.getOffset();
+					n = headerBuffer.length - 1;
+					headerBuffer[n] = (byte) (offsetDiff & 0x7F);
+					while ((offsetDiff >>= 7) > 0)
+						headerBuffer[--n] = (byte) (0x80 | (--offsetDiff & 0x7F));
+					write(headerBuffer, n, headerBuffer.length - n);
+					return;
+				}
+			}
+
+			int n = encodeTypeSize(Constants.OBJ_REF_DELTA, rawLength);
+			otp.getDeltaBaseId().copyRawTo(headerBuffer, n);
+			write(headerBuffer, 0, n + Constants.OBJECT_ID_LENGTH);
+		} else {
+			int n = encodeTypeSize(otp.getType(), rawLength);
+			write(headerBuffer, 0, n);
+		}
+	}
+
+	private int encodeTypeSize(int type, long rawLength) {
+		long nextLength = rawLength >>> 4;
+		headerBuffer[0] = (byte) ((nextLength > 0 ? 0x80 : 0x00)
+				| (type << 4) | (rawLength & 0x0F));
+		rawLength = nextLength;
+		int n = 1;
+		while (rawLength > 0) {
+			nextLength >>>= 7;
+			headerBuffer[n++] = (byte) ((nextLength > 0 ? 0x80 : 0x00) | (rawLength & 0x7F));
+			rawLength = nextLength;
+		}
+		return n;
+	}
+
+	/** @return a temporary buffer writers can use to copy data with. */
+	public byte[] getCopyBuffer() {
+		if (copyBuffer == null)
+			copyBuffer = new byte[16 * 1024];
+		return copyBuffer;
 	}
 
 	/** @return total number of bytes written since stream start. */

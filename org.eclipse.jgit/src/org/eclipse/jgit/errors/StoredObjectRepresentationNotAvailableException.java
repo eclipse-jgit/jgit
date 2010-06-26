@@ -1,7 +1,5 @@
 /*
- * Copyright (C) 2008-2009, Google Inc.
- * Copyright (C) 2007, Robin Rosenberg <robin.rosenberg@dewire.com>
- * Copyright (C) 2006-2008, Shawn O. Pearce <spearce@spearce.org>
+ * Copyright (C) 2010, Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -43,41 +41,21 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.eclipse.jgit.lib;
+package org.eclipse.jgit.errors;
 
-import java.util.zip.DataFormatException;
-import java.util.zip.Inflater;
+import org.eclipse.jgit.lib.ObjectToPack;
 
-/**
- * A {@link ByteWindow} with an underlying byte array for storage.
- */
-final class ByteArrayWindow extends ByteWindow {
-	private final byte[] array;
+/** A previously selected representation is no longer available. */
+public class StoredObjectRepresentationNotAvailableException extends Exception {
+	private static final long serialVersionUID = 1L;
 
-	ByteArrayWindow(final PackFile pack, final long o, final byte[] b) {
-		super(pack, o, b.length);
-		array = b;
-	}
-
-	@Override
-	protected int copy(final int p, final byte[] b, final int o, int n) {
-		n = Math.min(array.length - p, n);
-		System.arraycopy(array, p, b, o, n);
-		return n;
-	}
-
-	@Override
-	protected int inflate(final int pos, final byte[] b, int o,
-			final Inflater inf) throws DataFormatException {
-		while (!inf.finished()) {
-			if (inf.needsInput()) {
-				inf.setInput(array, pos, array.length - pos);
-				break;
-			}
-			o += inf.inflate(b, o, b.length - o);
-		}
-		while (!inf.finished() && !inf.needsInput())
-			o += inf.inflate(b, o, b.length - o);
-		return o;
+	/**
+	 * Construct an error for an object.
+	 *
+	 * @param otp
+	 *            the object whose current representation is no longer present.
+	 */
+	public StoredObjectRepresentationNotAvailableException(ObjectToPack otp) {
+		// Do nothing.
 	}
 }

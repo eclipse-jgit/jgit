@@ -58,13 +58,14 @@ import java.util.List;
 import java.util.zip.Deflater;
 
 import org.eclipse.jgit.JGitText;
+import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.errors.StoredObjectRepresentationNotAvailableException;
 import org.eclipse.jgit.revwalk.ObjectWalk;
 import org.eclipse.jgit.revwalk.RevFlag;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevSort;
-import org.eclipse.jgit.util.NB;
 
 /**
  * <p>
@@ -155,13 +156,13 @@ public class PackWriter {
 	private static final int PACK_VERSION_GENERATED = 2;
 
 	@SuppressWarnings("unchecked")
-	private final List<LocalObjectToPack> objectsLists[] = new List[Constants.OBJ_TAG + 1];
+	private final List<ObjectToPack> objectsLists[] = new List[Constants.OBJ_TAG + 1];
 	{
-		objectsLists[0] = Collections.<LocalObjectToPack> emptyList();
-		objectsLists[Constants.OBJ_COMMIT] = new ArrayList<LocalObjectToPack>();
-		objectsLists[Constants.OBJ_TREE] = new ArrayList<LocalObjectToPack>();
-		objectsLists[Constants.OBJ_BLOB] = new ArrayList<LocalObjectToPack>();
-		objectsLists[Constants.OBJ_TAG] = new ArrayList<LocalObjectToPack>();
+		objectsLists[0] = Collections.<ObjectToPack> emptyList();
+		objectsLists[Constants.OBJ_COMMIT] = new ArrayList<ObjectToPack>();
+		objectsLists[Constants.OBJ_TREE] = new ArrayList<ObjectToPack>();
+		objectsLists[Constants.OBJ_BLOB] = new ArrayList<ObjectToPack>();
+		objectsLists[Constants.OBJ_TAG] = new ArrayList<ObjectToPack>();
 	}
 
 	private final ObjectIdSubclassMap<ObjectToPack> objectsMap = new ObjectIdSubclassMap<ObjectToPack>();
@@ -179,9 +180,10 @@ public class PackWriter {
 
 	private ProgressMonitor writeMonitor;
 
-	private final byte[] buf = new byte[16384]; // 16 KB
+	private final ObjectReader reader;
 
-	private final WindowCursor windowCursor;
+	/** {@link #reader} recast to the reuse interface, if it supports it. */
+	private final ObjectReuseAsIs reuseSupport;
 
 	private List<ObjectToPack> sortedByName;
 
@@ -238,8 +240,12 @@ public class PackWriter {
 	public PackWriter(final Repository repo, final ProgressMonitor imonitor,
 			final ProgressMonitor wmonitor) {
 		this.db = repo;
-		windowCursor = new WindowCursor((ObjectDirectory) repo
-				.getObjectDatabase());
+
+		reader = db.newObjectReader();
+		if (reader instanceof ObjectReuseAsIs)
+			reuseSupport = ((ObjectReuseAsIs) reader);
+		else
+			reuseSupport = null;
 
 		initMonitor = imonitor == null ? NullProgressMonitor.INSTANCE : imonitor;
 		writeMonitor = wmonitor == null ? NullProgressMonitor.INSTANCE : wmonitor;
@@ -525,6 +531,7 @@ public class PackWriter {
 	 * @return ObjectId representing SHA-1 name of a pack that was created.
 	 */
 	public ObjectId computeName() {
+		final byte[] buf = new byte[Constants.OBJECT_ID_LENGTH];
 		final MessageDigest md = Constants.newMessageDigest();
 		for (ObjectToPack otp : sortByName()) {
 			otp.copyRawTo(buf, 0);
@@ -560,8 +567,8 @@ public class PackWriter {
 	private List<ObjectToPack> sortByName() {
 		if (sortedByName == null) {
 			sortedByName = new ArrayList<ObjectToPack>(objectsMap.size());
-			for (List<LocalObjectToPack> list : objectsLists) {
-				for (LocalObjectToPack otp : list)
+			for (List<ObjectToPack> list : objectsLists) {
+				for (ObjectToPack otp : list)
 					sortedByName.add(otp);
 			}
 			Collections.sort(sortedByName);
@@ -592,44 +599,38 @@ public class PackWriter {
 	 *             stream.
 	 */
 	public void writePack(OutputStream packStream) throws IOException {
-		if (reuseDeltas || reuseObjects)
+		if ((reuseDeltas || reuseObjects) && reuseSupport != null)
 			searchForReuse();
 
-		out = new PackOutputStream(packStream);
+		out = new PackOutputStream(packStream, isDeltaBaseAsOffset());
 
 		writeMonitor.beginTask(WRITING_OBJECTS_PROGRESS, getObjectsNumber());
-		writeHeader();
+		out.writeFileHeader(PACK_VERSION_GENERATED, getObjectsNumber());
 		writeObjects();
 		writeChecksum();
 
-		windowCursor.release();
+		out = null;
+		reader.release();
 		writeMonitor.endTask();
 	}
 
 	private void searchForReuse() throws IOException {
 		initMonitor.beginTask(SEARCHING_REUSE_PROGRESS, getObjectsNumber());
-		for (List<LocalObjectToPack> list : objectsLists) {
+		for (List<ObjectToPack> list : objectsLists) {
 			for (ObjectToPack otp : list) {
 				if (initMonitor.isCancelled())
 					throw new IOException(
 							JGitText.get().packingCancelledDuringObjectsWriting);
-				windowCursor.selectObjectRepresentation(this, otp);
+				reuseSupport.selectObjectRepresentation(this, otp);
 				initMonitor.update(1);
 			}
 		}
 		initMonitor.endTask();
 	}
 
-	private void writeHeader() throws IOException {
-		System.arraycopy(Constants.PACK_SIGNATURE, 0, buf, 0, 4);
-		NB.encodeInt32(buf, 4, PACK_VERSION_GENERATED);
-		NB.encodeInt32(buf, 8, getObjectsNumber());
-		out.write(buf, 0, 12);
-	}
-
 	private void writeObjects() throws IOException {
-		for (List<LocalObjectToPack> list : objectsLists) {
-			for (LocalObjectToPack otp : list) {
+		for (List<ObjectToPack> list : objectsLists) {
+			for (ObjectToPack otp : list) {
 				if (writeMonitor.isCancelled())
 					throw new IOException(
 							JGitText.get().packingCancelledDuringObjectsWriting);
@@ -639,115 +640,93 @@ public class PackWriter {
 		}
 	}
 
-	private void writeObject(final LocalObjectToPack otp) throws IOException {
-		otp.markWantWrite();
-		if (otp.isDeltaRepresentation()) {
-			LocalObjectToPack deltaBase = (LocalObjectToPack)otp.getDeltaBase();
-			assert deltaBase != null || thin;
-			if (deltaBase != null && !deltaBase.isWritten()) {
-				if (deltaBase.wantWrite()) {
-					otp.clearDeltaBase(); // cycle detected
-					otp.clearReuseAsIs();
-				} else {
-					writeObject(deltaBase);
-				}
-			}
-		}
+	private void writeObject(final ObjectToPack otp) throws IOException {
+		if (otp.isWritten())
+			return; // We shouldn't be here.
 
-		assert !otp.isWritten();
+		otp.markWantWrite();
+		if (otp.isDeltaRepresentation())
+			writeBaseFirst(otp);
 
 		out.resetCRC32();
 		otp.setOffset(out.length());
 
-		final PackedObjectLoader reuse = open(otp);
-		if (reuse != null) {
+		while (otp.isReuseAsIs()) {
 			try {
-				if (otp.isDeltaRepresentation())
-					writeDeltaObjectHeader(otp, reuse);
-				else
-					writeObjectHeader(otp.getType(), reuse.getSize());
-				reuse.copyRawData(out, buf, windowCursor);
-			} finally {
-				reuse.endCopyRawData();
+				reuseSupport.copyObjectAsIs(out, otp);
+				otp.setCRC(out.getCRC32());
+				writeMonitor.update(1);
+				return;
+			} catch (StoredObjectRepresentationNotAvailableException gone) {
+				if (otp.getOffset() == out.length()) {
+					redoSearchForReuse(otp);
+					continue;
+				} else {
+					// Object writing already started, we cannot recover.
+					//
+					CorruptObjectException coe;
+					coe = new CorruptObjectException(otp, "");
+					coe.initCause(gone);
+					throw coe;
+				}
 			}
-		} else if (otp.isDeltaRepresentation()) {
-			throw new IOException(JGitText.get().creatingDeltasIsNotImplemented);
-		} else {
-			writeWholeObjectDeflate(otp);
 		}
-		otp.setCRC(out.getCRC32());
 
+		// If we reached here, reuse wasn't possible.
+		//
+		writeWholeObjectDeflate(otp);
+		otp.setCRC(out.getCRC32());
 		writeMonitor.update(1);
 	}
 
-	private PackedObjectLoader open(final LocalObjectToPack otp) throws IOException {
-		while (otp.isReuseAsIs()) {
-			try {
-				PackedObjectLoader reuse = otp.getCopyLoader(windowCursor);
-				reuse.beginCopyRawData();
-				return reuse;
-			} catch (IOException err) {
-				// The pack we found the object in originally is gone, or
-				// it has been overwritten with a different layout.
-				//
-				otp.clearDeltaBase();
-				otp.clearReuseAsIs();
-				windowCursor.selectObjectRepresentation(this, otp);
-				continue;
+	private void writeBaseFirst(final ObjectToPack otp) throws IOException {
+		ObjectToPack baseInPack = otp.getDeltaBase();
+		if (baseInPack != null) {
+			if (!baseInPack.isWritten()) {
+				if (baseInPack.wantWrite()) {
+					// There is a cycle. Our caller is trying to write the
+					// object we want as a base, and called us. Turn off
+					// delta reuse so we can find another form.
+					//
+					reuseDeltas = false;
+					redoSearchForReuse(otp);
+					reuseDeltas = true;
+				} else {
+					writeObject(baseInPack);
+				}
 			}
+		} else if (!thin) {
+			// This should never occur, the base isn't in the pack and
+			// the pack isn't allowed to reference base outside objects.
+			// Write the object as a whole form, even if that is slow.
+			//
+			otp.clearDeltaBase();
+			otp.clearReuseAsIs();
 		}
-		return null;
+	}
+
+	private void redoSearchForReuse(final ObjectToPack otp) throws IOException,
+			MissingObjectException {
+		otp.clearDeltaBase();
+		otp.clearReuseAsIs();
+		reuseSupport.selectObjectRepresentation(this, otp);
 	}
 
 	private void writeWholeObjectDeflate(final ObjectToPack otp)
 			throws IOException {
-		final ObjectLoader loader = db.openObject(windowCursor, otp);
+		final ObjectLoader loader = db.openObject(reader, otp);
 		final byte[] data = loader.getCachedBytes();
-		writeObjectHeader(otp.getType(), data.length);
+		out.writeHeader(otp, data.length);
 		deflater.reset();
 		deflater.setInput(data, 0, data.length);
 		deflater.finish();
+
+		byte[] buf = out.getCopyBuffer();
 		do {
 			final int n = deflater.deflate(buf, 0, buf.length);
 			if (n > 0)
 				out.write(buf, 0, n);
 		} while (!deflater.finished());
-	}
-
-	private void writeDeltaObjectHeader(final ObjectToPack otp,
-			final PackedObjectLoader reuse) throws IOException {
-		if (deltaBaseAsOffset && otp.getDeltaBase() != null) {
-			writeObjectHeader(Constants.OBJ_OFS_DELTA, reuse.getRawSize());
-
-			final ObjectToPack deltaBase = otp.getDeltaBase();
-			long offsetDiff = otp.getOffset() - deltaBase.getOffset();
-			int pos = buf.length - 1;
-			buf[pos] = (byte) (offsetDiff & 0x7F);
-			while ((offsetDiff >>= 7) > 0) {
-				buf[--pos] = (byte) (0x80 | (--offsetDiff & 0x7F));
-			}
-
-			out.write(buf, pos, buf.length - pos);
-		} else {
-			writeObjectHeader(Constants.OBJ_REF_DELTA, reuse.getRawSize());
-			otp.getDeltaBaseId().copyRawTo(buf, 0);
-			out.write(buf, 0, Constants.OBJECT_ID_LENGTH);
-		}
-	}
-
-	private void writeObjectHeader(final int objectType, long dataLength)
-			throws IOException {
-		long nextLength = dataLength >>> 4;
-		int size = 0;
-		buf[size++] = (byte) ((nextLength > 0 ? 0x80 : 0x00)
-				| (objectType << 4) | (dataLength & 0x0F));
-		dataLength = nextLength;
-		while (dataLength > 0) {
-			nextLength >>>= 7;
-			buf[size++] = (byte) ((nextLength > 0 ? 0x80 : 0x00) | (dataLength & 0x7F));
-			dataLength = nextLength;
-		}
-		out.write(buf, 0, size);
 	}
 
 	private void writeChecksum() throws IOException {
@@ -824,7 +803,11 @@ public class PackWriter {
 			return;
 		}
 
-		final LocalObjectToPack otp = windowCursor.newObjectToPack(object);
+		final ObjectToPack otp;
+		if (reuseSupport != null)
+			otp = reuseSupport.newObjectToPack(object);
+		else
+			otp = new ObjectToPack(object);
 		try {
 			objectsLists[object.getType()].add(otp);
 		} catch (ArrayIndexOutOfBoundsException x) {

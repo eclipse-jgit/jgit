@@ -49,6 +49,7 @@ import java.util.zip.DataFormatException;
 import java.util.zip.Inflater;
 
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.errors.StoredObjectRepresentationNotAvailableException;
 import org.eclipse.jgit.revwalk.RevObject;
 
 /** Active handle to a ByteWindow. */
@@ -88,6 +89,12 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 	public void selectObjectRepresentation(PackWriter packer, ObjectToPack otp)
 			throws IOException, MissingObjectException {
 		db.selectObjectRepresentation(packer, otp, this);
+	}
+
+	public void copyObjectAsIs(PackOutputStream out, ObjectToPack otp)
+			throws IOException, StoredObjectRepresentationNotAvailableException {
+		LocalObjectToPack src = (LocalObjectToPack) otp;
+		src.copyFromPack.copyAsIs(out, src, this);
 	}
 
 	/**
@@ -159,16 +166,9 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 		}
 	}
 
-	void inflateVerify(final PackFile pack, long position) throws IOException,
-			DataFormatException {
+	Inflater inflater() {
 		prepareInflater();
-		for (;;) {
-			pin(pack, position);
-			window.inflateVerify(position, inf);
-			if (inf.finished())
-				return;
-			position = window.end;
-		}
+		return inf;
 	}
 
 	private void prepareInflater() {

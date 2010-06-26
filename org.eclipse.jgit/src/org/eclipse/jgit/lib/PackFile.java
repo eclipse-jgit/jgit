@@ -48,7 +48,6 @@ package org.eclipse.jgit.lib;
 import java.io.EOFException;
 import java.io.File;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.io.RandomAccessFile;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel.MapMode;
@@ -58,13 +57,15 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.zip.CRC32;
-import java.util.zip.CheckedOutputStream;
 import java.util.zip.DataFormatException;
+import java.util.zip.Inflater;
 
 import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.PackInvalidException;
 import org.eclipse.jgit.errors.PackMismatchException;
+import org.eclipse.jgit.errors.StoredObjectRepresentationNotAvailableException;
+import org.eclipse.jgit.util.LongList;
 import org.eclipse.jgit.util.NB;
 import org.eclipse.jgit.util.RawParseUtils;
 
@@ -107,6 +108,15 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 	private PackIndex loadedIdx;
 
 	private PackReverseIndex reverseIdx;
+
+	/**
+	 * Objects we have tried to read, and discovered to be corrupt.
+	 * <p>
+	 * The list is allocated after the first corruption is found, and filled in
+	 * as more entries are discovered. Typically this list is never used, as
+	 * pack files do not usually contain corrupt objects.
+	 */
+	private volatile LongList corruptObjects;
 
 	/**
 	 * Construct a reader for an existing, pre-indexed packfile.
@@ -152,6 +162,10 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 
 	final PackedObjectLoader resolveBase(final WindowCursor curs, final long ofs)
 			throws IOException {
+		if (isCorrupt(ofs)) {
+			throw new CorruptObjectException(MessageFormat.format(JGitText
+					.get().objectAtHasBadZlibStream, ofs, getPackFile()));
+		}
 		return reader(curs, ofs);
 	}
 
@@ -174,7 +188,8 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 	 *             the index file cannot be loaded into memory.
 	 */
 	public boolean hasObject(final AnyObjectId id) throws IOException {
-		return idx().hasObject(id);
+		final long offset = idx().findOffset(id);
+		return 0 < offset && !isCorrupt(offset);
 	}
 
 	/**
@@ -192,7 +207,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 	public PackedObjectLoader get(final WindowCursor curs, final AnyObjectId id)
 			throws IOException {
 		final long offset = idx().findOffset(id);
-		return 0 < offset ? reader(curs, offset) : null;
+		return 0 < offset && !isCorrupt(offset) ? reader(curs, offset) : null;
 	}
 
 	/**
@@ -269,48 +284,163 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 		return dstbuf;
 	}
 
-	final void copyRawData(final PackedObjectLoader loader,
-			final OutputStream out, final byte buf[], final WindowCursor curs)
-			throws IOException {
-		final long objectOffset = loader.objectOffset;
-		final long dataOffset = objectOffset + loader.headerSize;
-		final long sz = findEndOffset(objectOffset) - dataOffset;
-		final PackIndex idx = idx();
-
-		if (idx.hasCRC32Support()) {
-			final CRC32 crc = new CRC32();
-			int headerCnt = loader.headerSize;
-			while (headerCnt > 0) {
-				final int toRead = Math.min(headerCnt, buf.length);
-				readFully(objectOffset, buf, 0, toRead, curs);
-				crc.update(buf, 0, toRead);
-				headerCnt -= toRead;
-			}
-			final CheckedOutputStream crcOut = new CheckedOutputStream(out, crc);
-			copyToStream(dataOffset, buf, sz, crcOut, curs);
-			final long computed = crc.getValue();
-
-			final ObjectId id = findObjectForOffset(objectOffset);
-			final long expected = idx.findCRC32(id);
-			if (computed != expected)
-				throw new CorruptObjectException(MessageFormat.format(
-						JGitText.get().objectAtHasBadZlibStream, objectOffset, getPackFile()));
-		} else {
-			try {
-				curs.inflateVerify(this, dataOffset);
-			} catch (DataFormatException dfe) {
-				final CorruptObjectException coe;
-				coe = new CorruptObjectException(MessageFormat.format(
-						JGitText.get().objectAtHasBadZlibStream, objectOffset, getPackFile()));
-				coe.initCause(dfe);
-				throw coe;
-			}
-			copyToStream(dataOffset, buf, sz, out, curs);
+	final void copyAsIs(PackOutputStream out, LocalObjectToPack src,
+			WindowCursor curs) throws IOException,
+			StoredObjectRepresentationNotAvailableException {
+		beginCopyAsIs(src);
+		try {
+			copyAsIs2(out, src, curs);
+		} finally {
+			endCopyAsIs();
 		}
 	}
 
-	boolean supportsFastCopyRawData() throws IOException {
-		return idx().hasCRC32Support();
+	private void copyAsIs2(PackOutputStream out, LocalObjectToPack src,
+			WindowCursor curs) throws IOException,
+			StoredObjectRepresentationNotAvailableException {
+		final CRC32 crc1 = new CRC32();
+		final CRC32 crc2 = new CRC32();
+		final byte[] buf = out.getCopyBuffer();
+
+		// Rip apart the header so we can discover the size.
+		//
+		readFully(src.copyOffset, buf, 0, 20, curs);
+		int c = buf[0] & 0xff;
+		final int typeCode = (c >> 4) & 7;
+		long inflatedLength = c & 15;
+		int shift = 4;
+		int headerCnt = 1;
+		while ((c & 0x80) != 0) {
+			c = buf[headerCnt++] & 0xff;
+			inflatedLength += (c & 0x7f) << shift;
+			shift += 7;
+		}
+
+		if (typeCode == Constants.OBJ_OFS_DELTA) {
+			do {
+				c = buf[headerCnt++] & 0xff;
+			} while ((c & 128) != 0);
+			crc1.update(buf, 0, headerCnt);
+			crc2.update(buf, 0, headerCnt);
+		} else if (typeCode == Constants.OBJ_REF_DELTA) {
+			crc1.update(buf, 0, headerCnt);
+			crc2.update(buf, 0, headerCnt);
+
+			readFully(src.copyOffset + headerCnt, buf, 0, 20, curs);
+			crc1.update(buf, 0, 20);
+			crc2.update(buf, 0, headerCnt);
+			headerCnt += 20;
+		} else {
+			crc1.update(buf, 0, headerCnt);
+			crc2.update(buf, 0, headerCnt);
+		}
+
+		final long dataOffset = src.copyOffset + headerCnt;
+		final long dataLength;
+		final long expectedCRC;
+
+		// Verify the object isn't corrupt before sending. If it is,
+		// we report it missing instead.
+		//
+		try {
+			dataLength = findEndOffset(src.copyOffset) - dataOffset;
+
+			if (idx().hasCRC32Support()) {
+				// Index has the CRC32 code cached, validate the object.
+				//
+				expectedCRC = idx().findCRC32(src);
+
+				long pos = dataOffset;
+				long cnt = dataLength;
+				while (cnt > 0) {
+					final int n = (int) Math.min(cnt, buf.length);
+					readFully(pos, buf, 0, n, curs);
+					crc1.update(buf, 0, n);
+					pos += n;
+					cnt -= n;
+				}
+				if (crc1.getValue() != expectedCRC) {
+					setCorrupt(src.copyOffset);
+					throw new CorruptObjectException(MessageFormat.format(
+							JGitText.get().objectAtHasBadZlibStream,
+							src.copyOffset, getPackFile()));
+				}
+			} else {
+				// We don't have a CRC32 code in the index, so compute it
+				// now while inflating the raw data to get zlib to tell us
+				// whether or not the data is safe.
+				//
+				long pos = dataOffset;
+				long cnt = dataLength;
+				Inflater inf = curs.inflater();
+				byte[] tmp = new byte[1024];
+				while (cnt > 0) {
+					final int n = (int) Math.min(cnt, buf.length);
+					readFully(pos, buf, 0, n, curs);
+					crc1.update(buf, 0, n);
+					inf.setInput(buf, 0, n);
+					while (inf.inflate(tmp, 0, tmp.length) > 0)
+						continue;
+					pos += n;
+					cnt -= n;
+				}
+				if (!inf.finished()) {
+					setCorrupt(src.copyOffset);
+					throw new EOFException(MessageFormat.format(
+							JGitText.get().shortCompressedStreamAt,
+							src.copyOffset));
+				}
+				expectedCRC = crc1.getValue();
+			}
+		} catch (DataFormatException dataFormat) {
+			setCorrupt(src.copyOffset);
+
+			CorruptObjectException corruptObject = new CorruptObjectException(
+					MessageFormat.format(
+							JGitText.get().objectAtHasBadZlibStream,
+							src.copyOffset, getPackFile()));
+			corruptObject.initCause(dataFormat);
+
+			StoredObjectRepresentationNotAvailableException gone;
+			gone = new StoredObjectRepresentationNotAvailableException(src);
+			gone.initCause(corruptObject);
+			throw gone;
+
+		} catch (IOException ioError) {
+			StoredObjectRepresentationNotAvailableException gone;
+			gone = new StoredObjectRepresentationNotAvailableException(src);
+			gone.initCause(ioError);
+			throw gone;
+		}
+
+		if (dataLength <= buf.length) {
+			// Tiny optimization: Lots of objects are very small deltas or
+			// deflated commits that are likely to fit in the copy buffer.
+			//
+			out.writeHeader(src, inflatedLength);
+			out.write(buf, 0, (int) dataLength);
+		} else {
+			// Now we are committed to sending the object. As we spool it out,
+			// check its CRC32 code to make sure there wasn't corruption between
+			// the verification we did above, and us actually outputting it.
+			//
+			out.writeHeader(src, inflatedLength);
+			long pos = dataOffset;
+			long cnt = dataLength;
+			while (cnt > 0) {
+				final int n = (int) Math.min(cnt, buf.length);
+				readFully(pos, buf, 0, n, curs);
+				crc2.update(buf, 0, n);
+				out.write(buf, 0, n);
+				pos += n;
+				cnt -= n;
+			}
+			if (crc2.getValue() != expectedCRC) {
+				throw new CorruptObjectException(MessageFormat.format(JGitText
+						.get().objectAtHasBadZlibStream, src.copyOffset,
+						getPackFile()));
+			}
+		}
 	}
 
 	boolean invalid() {
@@ -324,24 +454,22 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 			throw new EOFException();
 	}
 
-	private void copyToStream(long position, final byte[] buf, long cnt,
-			final OutputStream out, final WindowCursor curs)
-			throws IOException, EOFException {
-		while (cnt > 0) {
-			final int toRead = (int) Math.min(cnt, buf.length);
-			readFully(position, buf, 0, toRead, curs);
-			position += toRead;
-			cnt -= toRead;
-			out.write(buf, 0, toRead);
+	private synchronized void beginCopyAsIs(ObjectToPack otp)
+			throws StoredObjectRepresentationNotAvailableException {
+		if (++activeCopyRawData == 1 && activeWindows == 0) {
+			try {
+				doOpen();
+			} catch (IOException thisPackNotValid) {
+				StoredObjectRepresentationNotAvailableException gone;
+
+				gone = new StoredObjectRepresentationNotAvailableException(otp);
+				gone.initCause(thisPackNotValid);
+				throw gone;
+			}
 		}
 	}
 
-	synchronized void beginCopyRawData() throws IOException {
-		if (++activeCopyRawData == 1 && activeWindows == 0)
-			doOpen();
-	}
-
-	synchronized void endCopyRawData() {
+	private synchronized void endCopyAsIs() {
 		if (--activeCopyRawData == 0 && activeWindows == 0)
 			doClose();
 	}
@@ -522,5 +650,30 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 		if (reverseIdx == null)
 			reverseIdx = new PackReverseIndex(idx());
 		return reverseIdx;
+	}
+
+	private boolean isCorrupt(long offset) {
+		LongList list = corruptObjects;
+		if (list == null)
+			return false;
+		synchronized (list) {
+			return list.contains(offset);
+		}
+	}
+
+	private void setCorrupt(long offset) {
+		LongList list = corruptObjects;
+		if (list == null) {
+			synchronized (readLock) {
+				list = corruptObjects;
+				if (list == null) {
+					list = new LongList();
+					corruptObjects = list;
+				}
+			}
+		}
+		synchronized (list) {
+			list.add(offset);
+		}
 	}
 }
