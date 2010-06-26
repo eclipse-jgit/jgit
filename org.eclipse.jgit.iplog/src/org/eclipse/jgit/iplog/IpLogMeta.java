@@ -58,9 +58,9 @@ import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.FileBasedConfig;
-import org.eclipse.jgit.lib.LockFile;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.eclipse.jgit.storage.file.LockFile;
 
 /**
  * Manages the {@code .eclipse_iplog} file in a project.

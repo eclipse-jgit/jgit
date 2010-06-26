@@ -50,7 +50,7 @@ import java.text.MessageFormat;
 
 import org.kohsuke.args4j.Option;
 import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.FileRepository;
+import org.eclipse.jgit.storage.file.FileRepository;
 
 @Command(common = true, usage = "usage_CreateAnEmptyGitRepository")
 class Init extends TextBuiltin {

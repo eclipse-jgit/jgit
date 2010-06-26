@@ -75,11 +75,11 @@ import org.eclipse.jgit.lib.ObjectDatabase;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdSubclassMap;
 import org.eclipse.jgit.lib.ObjectLoader;
-import org.eclipse.jgit.lib.PackIndexWriter;
-import org.eclipse.jgit.lib.PackLock;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.storage.file.PackIndexWriter;
+import org.eclipse.jgit.storage.file.PackLock;
 import org.eclipse.jgit.util.NB;
 
 /** Indexes Git pack files for local use. */

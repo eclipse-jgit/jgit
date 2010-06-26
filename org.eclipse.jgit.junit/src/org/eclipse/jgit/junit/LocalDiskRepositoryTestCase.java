@@ -62,13 +62,13 @@ import junit.framework.TestCase;
 
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.FileBasedConfig;
-import org.eclipse.jgit.lib.FileRepository;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryCache;
-import org.eclipse.jgit.lib.WindowCache;
-import org.eclipse.jgit.lib.WindowCacheConfig;
+import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.eclipse.jgit.storage.file.FileRepository;
+import org.eclipse.jgit.storage.file.WindowCache;
+import org.eclipse.jgit.storage.file.WindowCacheConfig;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.SystemReader;
 

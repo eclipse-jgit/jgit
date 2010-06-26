@@ -51,7 +51,6 @@ import java.text.MessageFormat;
 import org.eclipse.jgit.iplog.IpLogGenerator;
 import org.eclipse.jgit.iplog.SimpleCookieManager;
 import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.LockFile;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.pgm.CLIText;
 import org.eclipse.jgit.pgm.Command;
@@ -59,6 +58,7 @@ import org.eclipse.jgit.pgm.TextBuiltin;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevTag;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.storage.file.LockFile;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 

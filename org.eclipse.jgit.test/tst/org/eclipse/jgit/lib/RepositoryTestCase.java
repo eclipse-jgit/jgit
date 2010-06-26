@@ -54,6 +54,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 
 import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
+import org.eclipse.jgit.storage.file.FileRepository;
 
 /**
  * Base class for most JGit unit tests.
