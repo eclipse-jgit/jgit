@@ -83,7 +83,7 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 
 	protected File writeTrashFile(final String name, final String data)
 			throws IOException {
-		File path = new File(db.getWorkDir(), name);
+		File path = new File(db.getWorkTree(), name);
 		write(path, data);
 		return path;
 	}
@@ -111,6 +111,6 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
 		db = createWorkRepository();
-		trash = db.getWorkDir();
+		trash = db.getWorkTree();
 	}
 }

@@ -324,7 +324,7 @@ public abstract class LocalDiskRepositoryTestCase extends TestCase {
 		putPersonIdent(env, "AUTHOR", author);
 		putPersonIdent(env, "COMMITTER", committer);
 
-		final File cwd = db.getWorkDir();
+		final File cwd = db.getWorkTree();
 		final Process p = Runtime.getRuntime().exec(argv, toEnvArray(env), cwd);
 		p.getOutputStream().close();
 		p.getErrorStream().close();

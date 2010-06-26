@@ -73,7 +73,7 @@ public class RepositorySetupWorkDirTest extends LocalDiskRepositoryTestCase {
 			throws Exception {
 		File gitDir = getFile("workdir", Constants.DOT_GIT);
 		Repository repo = new FileRepository(gitDir);
-		String workdir = repo.getWorkDir().getName();
+		String workdir = repo.getWorkTree().getName();
 		assertEquals(workdir, "workdir");
 	}
 
@@ -132,7 +132,7 @@ public class RepositorySetupWorkDirTest extends LocalDiskRepositoryTestCase {
 	public void testExceptionThrown_BareRepoGetWorkDir() throws Exception {
 		File gitDir = getFile("workdir");
 		try {
-			new FileRepository(gitDir).getWorkDir();
+			new FileRepository(gitDir).getWorkTree();
 			fail("Expected IllegalStateException missing");
 		} catch (IllegalStateException e) {
 			// expected
@@ -202,7 +202,7 @@ public class RepositorySetupWorkDirTest extends LocalDiskRepositoryTestCase {
 	private void assertWorkdirPath(Repository repo, String... expected)
 			throws IOException {
 		File exp = getFile(expected).getCanonicalFile();
-		File act = repo.getWorkDir().getCanonicalFile();
+		File act = repo.getWorkTree().getCanonicalFile();
 		assertEquals("Wrong working Directory", exp, act);
 	}
 }

@@ -100,20 +100,20 @@ public class MergeCommandTest extends RepositoryTestCase {
 		addNewFileToIndex("file1");
 		RevCommit first = git.commit().setMessage("initial commit").call();
 
-		assertTrue(new File(db.getWorkDir(), "file1").exists());
+		assertTrue(new File(db.getWorkTree(), "file1").exists());
 		createBranch(first, "refs/heads/branch1");
 
 		addNewFileToIndex("file2");
 		RevCommit second = git.commit().setMessage("second commit").call();
-		assertTrue(new File(db.getWorkDir(), "file2").exists());
+		assertTrue(new File(db.getWorkTree(), "file2").exists());
 
 		checkoutBranch("refs/heads/branch1");
-		assertFalse(new File(db.getWorkDir(), "file2").exists());
+		assertFalse(new File(db.getWorkTree(), "file2").exists());
 
 		MergeResult result = git.merge().include(db.getRef(Constants.MASTER)).call();
 
-		assertTrue(new File(db.getWorkDir(), "file1").exists());
-		assertTrue(new File(db.getWorkDir(), "file2").exists());
+		assertTrue(new File(db.getWorkTree(), "file1").exists());
+		assertTrue(new File(db.getWorkTree(), "file2").exists());
 		assertEquals(MergeResult.MergeStatus.FAST_FORWARD, result.getMergeStatus());
 		assertEquals(second, result.getNewHead());
 	}
@@ -132,8 +132,8 @@ public class MergeCommandTest extends RepositoryTestCase {
 		git.commit().setMessage("third commit").call();
 
 		checkoutBranch("refs/heads/branch1");
-		assertFalse(new File(db.getWorkDir(), "file2").exists());
-		assertFalse(new File(db.getWorkDir(), "file3").exists());
+		assertFalse(new File(db.getWorkTree(), "file2").exists());
+		assertFalse(new File(db.getWorkTree(), "file3").exists());
 
 		MergeCommand merge = git.merge();
 		merge.include(second.getId());
@@ -152,7 +152,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 	}
 
 	private void checkoutBranch(String branchName) throws Exception  {
-		File workDir = db.getWorkDir();
+		File workDir = db.getWorkTree();
 		if (workDir != null) {
 			WorkDirCheckout workDirCheckout = new WorkDirCheckout(db,
 					workDir, db.mapCommit(Constants.HEAD).getTree(),
@@ -176,7 +176,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 		File writeTrashFile = writeTrashFile(filename, filename);
 
 		GitIndex index = db.getIndex();
-		Entry entry = index.add(db.getWorkDir(), writeTrashFile);
+		Entry entry = index.add(db.getWorkTree(), writeTrashFile);
 		entry.update(writeTrashFile);
 		index.write();
 	}

@@ -96,7 +96,7 @@ public abstract class Repository {
 	static private final List<RepositoryListener> allListeners = new Vector<RepositoryListener>(); // thread safe
 
 	/** If not bare, the top level directory of the working files. */
-	private final File workDir;
+	private final File workTree;
 
 	/** If not bare, the index file caching the working file states. */
 	private final File indexFile;
@@ -110,7 +110,7 @@ public abstract class Repository {
 	protected Repository(final BaseRepositoryBuilder options) {
 		gitDir = options.getGitDir();
 		fs = options.getFS();
-		workDir = options.getWorkTree();
+		workTree = options.getWorkTree();
 		indexFile = options.getIndexFile();
 	}
 
@@ -886,7 +886,7 @@ public abstract class Repository {
 			return RepositoryState.BARE;
 
 		// Pre Git-1.6 logic
-		if (new File(getWorkDir(), ".dotest").exists())
+		if (new File(getWorkTree(), ".dotest").exists())
 			return RepositoryState.REBASING;
 		if (new File(getDirectory(), ".dotest-merge").exists())
 			return RepositoryState.REBASING_INTERACTIVE;
@@ -1011,19 +1011,20 @@ public abstract class Repository {
 	 * @return the "bare"-ness of this Repository
 	 */
 	public boolean isBare() {
-		return workDir == null;
+		return workTree == null;
 	}
 
 	/**
-	 * @return the workdir file, i.e. where the files are checked out
+	 * @return the root directory of the working tree, where files are checked
+	 *         out for viewing and editing.
 	 * @throws IllegalStateException
-	 *             if the repository is "bare"
+	 *             if the repository is bare and has no working directory.
 	 */
-	public File getWorkDir() throws IllegalStateException {
+	public File getWorkTree() throws IllegalStateException {
 		if (isBare())
 			throw new IllegalStateException(
 					JGitText.get().bareRepositoryNoWorkdirAndIndex);
-		return workDir;
+		return workTree;
 	}
 
 	/**

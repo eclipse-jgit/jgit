@@ -116,7 +116,7 @@ public class T0007_GitIndexTest extends LocalDiskRepositoryTestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
 		db = createWorkRepository();
-		trash = db.getWorkDir();
+		trash = db.getWorkTree();
 	}
 
 	public void testCreateEmptyIndex() throws Exception {

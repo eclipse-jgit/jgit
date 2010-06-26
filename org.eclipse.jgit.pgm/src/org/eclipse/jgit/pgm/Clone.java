@@ -183,7 +183,7 @@ class Clone extends AbstractFetchCommand {
 		final Tree tree = commit.getTree();
 		final WorkDirCheckout co;
 
-		co = new WorkDirCheckout(db, db.getWorkDir(), index, tree);
+		co = new WorkDirCheckout(db, db.getWorkTree(), index, tree);
 		co.checkout();
 		index.write();
 	}
