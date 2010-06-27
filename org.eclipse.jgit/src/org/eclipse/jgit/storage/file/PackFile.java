@@ -62,10 +62,12 @@ import java.util.zip.Inflater;
 
 import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.CorruptObjectException;
+import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.PackInvalidException;
 import org.eclipse.jgit.errors.PackMismatchException;
 import org.eclipse.jgit.errors.StoredObjectRepresentationNotAvailableException;
 import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.BinaryDelta;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectToPack;
@@ -171,7 +173,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 			throw new CorruptObjectException(MessageFormat.format(JGitText
 					.get().objectAtHasBadZlibStream, ofs, getPackFile()));
 		}
-		return reader(curs, ofs);
+		return load(curs, ofs);
 	}
 
 	/** @return the File object which locates this pack on disk. */
@@ -212,7 +214,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 	PackedObjectLoader get(final WindowCursor curs, final AnyObjectId id)
 			throws IOException {
 		final long offset = idx().findOffset(id);
-		return 0 < offset && !isCorrupt(offset) ? reader(curs, offset) : null;
+		return 0 < offset && !isCorrupt(offset) ? load(curs, offset) : null;
 	}
 
 	/**
@@ -273,17 +275,19 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 		return getReverseIdx().findObject(offset);
 	}
 
-	final UnpackedObjectCache.Entry readCache(final long position) {
+	private final UnpackedObjectCache.Entry readCache(final long position) {
 		return UnpackedObjectCache.get(this, position);
 	}
 
-	final void saveCache(final long position, final byte[] data, final int type) {
+	private final void saveCache(final long position, final byte[] data, final int type) {
 		UnpackedObjectCache.store(this, position, data, type);
 	}
 
-	final byte[] decompress(final long position, final int totalSize,
-			final WindowCursor curs) throws DataFormatException, IOException {
-		final byte[] dstbuf = new byte[totalSize];
+	private final byte[] decompress(final long position, final long totalSize,
+			final WindowCursor curs) throws IOException, DataFormatException {
+		if (totalSize > Integer.MAX_VALUE)
+			throw new OutOfMemoryError();
+		final byte[] dstbuf = new byte[(int) totalSize];
 		if (curs.inflate(this, position, dstbuf, 0) != totalSize)
 			throw new EOFException(MessageFormat.format(JGitText.get().shortCompressedStreamAt, position));
 		return dstbuf;
@@ -615,49 +619,91 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 					, getPackFile()));
 	}
 
-	private PackedObjectLoader reader(final WindowCursor curs,
-			final long objOffset) throws IOException {
-		int p = 0;
+	private PackedObjectLoader load(final WindowCursor curs, final long pos)
+			throws IOException {
 		final byte[] ib = curs.tempId;
-		readFully(objOffset, ib, 0, 20, curs);
-		int c = ib[p++] & 0xff;
-		final int typeCode = (c >> 4) & 7;
-		long dataSize = c & 15;
+		readFully(pos, ib, 0, 20, curs);
+		int c = ib[0] & 0xff;
+		final int type = (c >> 4) & 7;
+		long sz = c & 15;
 		int shift = 4;
+		int p = 1;
 		while ((c & 0x80) != 0) {
 			c = ib[p++] & 0xff;
-			dataSize += (c & 0x7f) << shift;
+			sz += (c & 0x7f) << shift;
 			shift += 7;
 		}
 
-		switch (typeCode) {
-		case Constants.OBJ_COMMIT:
-		case Constants.OBJ_TREE:
-		case Constants.OBJ_BLOB:
-		case Constants.OBJ_TAG:
-			return new WholePackedObjectLoader(this, objOffset, p, typeCode,
-					(int) dataSize);
-
-		case Constants.OBJ_OFS_DELTA: {
-			c = ib[p++] & 0xff;
-			long ofs = c & 127;
-			while ((c & 128) != 0) {
-				ofs += 1;
-				c = ib[p++] & 0xff;
-				ofs <<= 7;
-				ofs += (c & 127);
+		try {
+			switch (type) {
+			case Constants.OBJ_COMMIT:
+			case Constants.OBJ_TREE:
+			case Constants.OBJ_BLOB:
+			case Constants.OBJ_TAG: {
+				byte[] data = decompress(pos + p, sz, curs);
+				return new PackedObjectLoader(type, data);
 			}
-			return new DeltaOfsPackedObjectLoader(this, objOffset, p,
-					(int) dataSize, objOffset - ofs);
+
+			case Constants.OBJ_OFS_DELTA: {
+				c = ib[p++] & 0xff;
+				long ofs = c & 127;
+				while ((c & 128) != 0) {
+					ofs += 1;
+					c = ib[p++] & 0xff;
+					ofs <<= 7;
+					ofs += (c & 127);
+				}
+				return loadDelta(pos + p, sz, pos - ofs, curs);
+			}
+
+			case Constants.OBJ_REF_DELTA: {
+				readFully(pos + p, ib, 0, 20, curs);
+				long ofs = findDeltaBase(ObjectId.fromRaw(ib));
+				return loadDelta(pos + p + 20, sz, ofs, curs);
+			}
+
+			default:
+				throw new IOException(MessageFormat.format(
+						JGitText.get().unknownObjectType, type));
+			}
+		} catch (DataFormatException dfe) {
+			CorruptObjectException coe = new CorruptObjectException(
+					MessageFormat.format(
+							JGitText.get().objectAtHasBadZlibStream, pos,
+							getPackFile()));
+			coe.initCause(dfe);
+			throw coe;
 		}
-		case Constants.OBJ_REF_DELTA: {
-			readFully(objOffset + p, ib, 0, 20, curs);
-			return new DeltaRefPackedObjectLoader(this, objOffset, p + 20,
-					(int) dataSize, ObjectId.fromRaw(ib));
+	}
+
+	private long findDeltaBase(ObjectId baseId) throws IOException,
+			MissingObjectException {
+		long ofs = idx().findOffset(baseId);
+		if (ofs < 0)
+			throw new MissingObjectException(baseId,
+					JGitText.get().missingDeltaBase);
+		return ofs;
+	}
+
+	private PackedObjectLoader loadDelta(final long posData, long sz,
+			final long posBase, final WindowCursor curs) throws IOException,
+			DataFormatException {
+		byte[] data;
+		int type;
+
+		UnpackedObjectCache.Entry e = readCache(posBase);
+		if (e != null) {
+			data = e.data;
+			type = e.type;
+		} else {
+			PackedObjectLoader p = load(curs, posBase);
+			data = p.getCachedBytes();
+			type = p.getType();
+			saveCache(posBase, data, type);
 		}
-		default:
-			throw new IOException(MessageFormat.format(JGitText.get().unknownObjectType, typeCode));
-		}
+
+		data = BinaryDelta.apply(data, decompress(posData, sz, curs));
+		return new PackedObjectLoader(type, data);
 	}
 
 	LocalObjectRepresentation representation(final WindowCursor curs,

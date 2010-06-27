@@ -79,7 +79,7 @@ public class WindowCacheGetTest extends SampleDataRepositoryTestCase {
 				o.setType(parts[1]);
 				// parts[2] is the inflate size
 				// parts[3] is the size-in-pack
-				o.offset = Long.parseLong(parts[4]);
+				// parts[4] is the offset in the pack
 				toLoad.add(o);
 			}
 		} finally {
@@ -130,7 +130,6 @@ public class WindowCacheGetTest extends SampleDataRepositoryTestCase {
 			assertNotNull(or);
 			assertTrue(or instanceof PackedObjectLoader);
 			assertEquals(o.type, or.getType());
-			assertEquals(o.offset, ((PackedObjectLoader) or).objectOffset);
 		}
 	}
 
@@ -138,8 +137,6 @@ public class WindowCacheGetTest extends SampleDataRepositoryTestCase {
 		ObjectId id;
 
 		int type;
-
-		long offset;
 
 		void setType(final String typeStr) throws CorruptObjectException {
 			final byte[] typeRaw = Constants.encode(typeStr + " ");

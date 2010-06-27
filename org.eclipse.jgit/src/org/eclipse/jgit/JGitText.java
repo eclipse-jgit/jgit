@@ -281,6 +281,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String mergeStrategyDoesNotSupportHeads;
 	/***/ public String mergeUsingStrategyResultedInDescription;
 	/***/ public String missingAccesskey;
+	/***/ public String missingDeltaBase;
 	/***/ public String missingForwardImageInGITBinaryPatch;
 	/***/ public String missingObject;
 	/***/ public String missingPrerequisiteCommits;

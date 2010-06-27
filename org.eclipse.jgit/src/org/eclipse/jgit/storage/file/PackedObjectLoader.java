@@ -46,64 +46,29 @@
 
 package org.eclipse.jgit.storage.file;
 
-import java.io.IOException;
-
 import org.eclipse.jgit.lib.ObjectLoader;
 
-/**
- * Base class for a set of object loader classes for packed objects.
- */
-abstract class PackedObjectLoader extends ObjectLoader {
-	protected final PackFile pack;
+/** Object loaded in from a {@link PackFile}. */
+final class PackedObjectLoader extends ObjectLoader {
+	private final int type;
 
-	/** Position of the first byte of the object's header. */
-	protected final long objectOffset;
+	private final byte[] data;
 
-	/** Bytes used to express the object header, including delta reference. */
-	protected final int headerSize;
-
-	protected int objectType;
-
-	protected int objectSize;
-
-	protected byte[] cachedBytes;
-
-	PackedObjectLoader(final PackFile pr, final long objectOffset,
-			final int headerSize) {
-		pack = pr;
-		this.objectOffset = objectOffset;
-		this.headerSize = headerSize;
+	PackedObjectLoader(int type, byte[] data) {
+		this.type = type;
+		this.data = data;
 	}
 
-	/**
-	 * Force this object to be loaded into memory and pinned in this loader.
-	 * <p>
-	 * Once materialized, subsequent get operations for the following methods
-	 * will always succeed without raising an exception, as all information is
-	 * pinned in memory by this loader instance.
-	 * <ul>
-	 * <li>{@link #getType()}</li>
-	 * <li>{@link #getSize()}</li>
-	 * <li>{@link #getBytes()}, {@link #getCachedBytes}</li>
-	 * </ul>
-	 *
-	 * @param curs
-	 *            temporary thread storage during data access.
-	 * @throws IOException
-	 *             the object cannot be read.
-	 */
-	abstract void materialize(WindowCursor curs) throws IOException;
-
 	public final int getType() {
-		return objectType;
+		return type;
 	}
 
 	public final long getSize() {
-		return objectSize;
+		return getCachedBytes().length;
 	}
 
 	@Override
 	public final byte[] getCachedBytes() {
-		return cachedBytes;
+		return data;
 	}
 }

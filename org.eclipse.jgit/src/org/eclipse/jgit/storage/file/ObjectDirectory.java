@@ -273,10 +273,8 @@ public class ObjectDirectory extends FileObjectDatabase {
 			for (final PackFile p : pList.packs) {
 				try {
 					final PackedObjectLoader ldr = p.get(curs, objectId);
-					if (ldr != null) {
-						ldr.materialize(curs);
+					if (ldr != null)
 						return ldr;
-					}
 				} catch (PackMismatchException e) {
 					// Pack was modified; refresh the entire pack list.
 					//
