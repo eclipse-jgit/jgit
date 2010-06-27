@@ -49,7 +49,6 @@ package org.eclipse.jgit.storage.file;
 import java.io.IOException;
 
 import org.eclipse.jgit.errors.MissingObjectException;
-import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 
 /** Reads a deltified object which uses an {@link ObjectId} to find its base. */
@@ -68,15 +67,5 @@ class DeltaRefPackedObjectLoader extends DeltaPackedObjectLoader {
 		if (or == null)
 			throw new MissingObjectException(deltaBase, "delta base");
 		return or;
-	}
-
-	@Override
-	public int getRawType() {
-		return Constants.OBJ_REF_DELTA;
-	}
-
-	@Override
-	ObjectId getDeltaBase() throws IOException {
-		return deltaBase;
 	}
 }

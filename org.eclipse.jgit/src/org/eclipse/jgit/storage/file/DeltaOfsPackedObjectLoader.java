@@ -48,11 +48,6 @@ package org.eclipse.jgit.storage.file;
 
 import java.io.IOException;
 
-import org.eclipse.jgit.JGitText;
-import org.eclipse.jgit.errors.CorruptObjectException;
-import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.ObjectId;
-
 /** Reads a deltified object which uses an offset to find its base. */
 class DeltaOfsPackedObjectLoader extends DeltaPackedObjectLoader {
 	private final long deltaBase;
@@ -66,19 +61,5 @@ class DeltaOfsPackedObjectLoader extends DeltaPackedObjectLoader {
 	protected PackedObjectLoader getBaseLoader(final WindowCursor curs)
 			throws IOException {
 		return pack.resolveBase(curs, deltaBase);
-	}
-
-	@Override
-	public int getRawType() {
-		return Constants.OBJ_OFS_DELTA;
-	}
-
-	@Override
-	ObjectId getDeltaBase() throws IOException {
-		final ObjectId id = pack.findObjectForOffset(deltaBase);
-		if (id == null)
-			throw new CorruptObjectException(
-					JGitText.get().offsetWrittenDeltaBaseForObjectNotFoundInAPack);
-		return id;
 	}
 }

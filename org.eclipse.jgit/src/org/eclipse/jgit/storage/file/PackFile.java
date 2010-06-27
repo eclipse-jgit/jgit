@@ -209,7 +209,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 	 * @throws IOException
 	 *             the pack file or the index could not be read.
 	 */
-	public PackedObjectLoader get(final WindowCursor curs, final AnyObjectId id)
+	PackedObjectLoader get(final WindowCursor curs, final AnyObjectId id)
 			throws IOException {
 		final long offset = idx().findOffset(id);
 		return 0 < offset && !isCorrupt(offset) ? reader(curs, offset) : null;

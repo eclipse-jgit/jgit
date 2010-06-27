@@ -48,7 +48,6 @@ package org.eclipse.jgit.storage.file;
 
 import java.io.IOException;
 
-import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 
 /**
@@ -86,8 +85,6 @@ abstract class PackedObjectLoader extends ObjectLoader {
 	 * <li>{@link #getType()}</li>
 	 * <li>{@link #getSize()}</li>
 	 * <li>{@link #getBytes()}, {@link #getCachedBytes}</li>
-	 * <li>{@link #getRawSize()}</li>
-	 * <li>{@link #getRawType()}</li>
 	 * </ul>
 	 *
 	 * @param curs
@@ -109,19 +106,4 @@ abstract class PackedObjectLoader extends ObjectLoader {
 	public final byte[] getCachedBytes() {
 		return cachedBytes;
 	}
-
-	/**
-	 * @return offset of object header within pack file
-	 */
-	final long getObjectOffset() {
-		return objectOffset;
-	}
-
-	/**
-	 * @return id of delta base object for this object representation. null if
-	 *         object is not stored as delta.
-	 * @throws IOException
-	 *             when delta base cannot read.
-	 */
-	abstract ObjectId getDeltaBase() throws IOException;
 }

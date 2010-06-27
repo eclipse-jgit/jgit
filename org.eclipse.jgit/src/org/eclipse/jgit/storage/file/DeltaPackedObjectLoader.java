@@ -104,11 +104,6 @@ abstract class DeltaPackedObjectLoader extends PackedObjectLoader {
 		}
 	}
 
-	@Override
-	public long getRawSize() {
-		return deltaSize;
-	}
-
 	/**
 	 * @param curs
 	 *            temporary thread storage during data access.

@@ -52,7 +52,6 @@ import java.util.zip.DataFormatException;
 import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.ObjectId;
 
 /** Reader for a non-delta (just deflated) object in a pack file. */
 class WholePackedObjectLoader extends PackedObjectLoader {
@@ -93,20 +92,5 @@ class WholePackedObjectLoader extends PackedObjectLoader {
 			coe.initCause(dfe);
 			throw coe;
 		}
-	}
-
-	@Override
-	public int getRawType() {
-		return objectType;
-	}
-
-	@Override
-	public long getRawSize() {
-		return objectSize;
-	}
-
-	@Override
-	ObjectId getDeltaBase() {
-		return null;
 	}
 }

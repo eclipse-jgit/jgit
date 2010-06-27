@@ -77,7 +77,7 @@ public class WindowCacheGetTest extends SampleDataRepositoryTestCase {
 				final TestObject o = new TestObject();
 				o.id = ObjectId.fromString(parts[0]);
 				o.setType(parts[1]);
-				o.rawSize = Integer.parseInt(parts[2]);
+				// parts[2] is the inflate size
 				// parts[3] is the size-in-pack
 				o.offset = Long.parseLong(parts[4]);
 				toLoad.add(o);
@@ -130,8 +130,7 @@ public class WindowCacheGetTest extends SampleDataRepositoryTestCase {
 			assertNotNull(or);
 			assertTrue(or instanceof PackedObjectLoader);
 			assertEquals(o.type, or.getType());
-			assertEquals(o.rawSize, or.getRawSize());
-			assertEquals(o.offset, ((PackedObjectLoader) or).getObjectOffset());
+			assertEquals(o.offset, ((PackedObjectLoader) or).objectOffset);
 		}
 	}
 
@@ -139,8 +138,6 @@ public class WindowCacheGetTest extends SampleDataRepositoryTestCase {
 		ObjectId id;
 
 		int type;
-
-		int rawSize;
 
 		long offset;
 

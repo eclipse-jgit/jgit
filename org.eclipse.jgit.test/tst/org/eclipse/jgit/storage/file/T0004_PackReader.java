@@ -71,7 +71,7 @@ public class T0004_PackReader extends SampleDataRepositoryTestCase {
 		assertNotNull(or);
 		assertEquals(Constants.OBJ_TREE, or.getType());
 		assertEquals(35, or.getSize());
-		assertEquals(7736, or.getObjectOffset());
+		assertEquals(7736, or.objectOffset);
 		pr.close();
 	}
 
@@ -85,6 +85,6 @@ public class T0004_PackReader extends SampleDataRepositoryTestCase {
 		assertTrue(or instanceof PackedObjectLoader);
 		assertEquals(Constants.OBJ_BLOB, or.getType());
 		assertEquals(18009, or.getSize());
-		assertEquals(516, ((PackedObjectLoader) or).getObjectOffset());
+		assertEquals(516, ((PackedObjectLoader) or).objectOffset);
 	}
 }
