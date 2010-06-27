@@ -43,7 +43,7 @@
 
 package org.eclipse.jgit.errors;
 
-import org.eclipse.jgit.lib.ObjectToPack;
+import org.eclipse.jgit.storage.pack.ObjectToPack;
 
 /** A previously selected representation is no longer available. */
 public class StoredObjectRepresentationNotAvailableException extends Exception {

@@ -65,7 +65,6 @@ import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.AnyObjectId;
-import org.eclipse.jgit.lib.BinaryDelta;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.CoreConfig;
 import org.eclipse.jgit.lib.InflaterCache;
@@ -80,6 +79,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.storage.file.PackIndexWriter;
 import org.eclipse.jgit.storage.file.PackLock;
+import org.eclipse.jgit.storage.pack.BinaryDelta;
 import org.eclipse.jgit.util.NB;
 
 /** Indexes Git pack files for local use. */

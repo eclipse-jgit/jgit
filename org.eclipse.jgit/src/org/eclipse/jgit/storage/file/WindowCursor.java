@@ -55,11 +55,11 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.InflaterCache;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectReader;
-import org.eclipse.jgit.lib.ObjectReuseAsIs;
-import org.eclipse.jgit.lib.ObjectToPack;
-import org.eclipse.jgit.lib.PackOutputStream;
-import org.eclipse.jgit.lib.PackWriter;
 import org.eclipse.jgit.revwalk.RevObject;
+import org.eclipse.jgit.storage.pack.ObjectReuseAsIs;
+import org.eclipse.jgit.storage.pack.ObjectToPack;
+import org.eclipse.jgit.storage.pack.PackOutputStream;
+import org.eclipse.jgit.storage.pack.PackWriter;
 
 /** Active handle to a ByteWindow. */
 final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {

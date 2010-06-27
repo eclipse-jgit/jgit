@@ -59,11 +59,11 @@ import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectWriter;
-import org.eclipse.jgit.lib.PackWriter;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryTestCase;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.storage.pack.PackWriter;
 
 public class ConcurrentRepackTest extends RepositoryTestCase {
 	public void setUp() throws Exception {

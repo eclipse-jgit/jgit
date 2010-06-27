@@ -77,7 +77,6 @@ import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectChecker;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
-import org.eclipse.jgit.lib.PackWriter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
@@ -96,6 +95,7 @@ import org.eclipse.jgit.storage.file.LockFile;
 import org.eclipse.jgit.storage.file.ObjectDirectory;
 import org.eclipse.jgit.storage.file.PackFile;
 import org.eclipse.jgit.storage.file.PackIndex.MutableEntry;
+import org.eclipse.jgit.storage.pack.PackWriter;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
 

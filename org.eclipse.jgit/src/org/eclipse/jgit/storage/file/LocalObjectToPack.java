@@ -43,9 +43,9 @@
 
 package org.eclipse.jgit.storage.file;
 
-import org.eclipse.jgit.lib.ObjectToPack;
-import org.eclipse.jgit.lib.StoredObjectRepresentation;
 import org.eclipse.jgit.revwalk.RevObject;
+import org.eclipse.jgit.storage.pack.ObjectToPack;
+import org.eclipse.jgit.storage.pack.StoredObjectRepresentation;
 
 /** {@link ObjectToPack} for {@link ObjectDirectory}. */
 class LocalObjectToPack extends ObjectToPack {

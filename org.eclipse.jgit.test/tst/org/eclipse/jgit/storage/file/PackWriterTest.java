@@ -60,12 +60,12 @@ import java.util.List;
 
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.PackWriter;
 import org.eclipse.jgit.lib.SampleDataRepositoryTestCase;
 import org.eclipse.jgit.lib.TextProgressMonitor;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.storage.file.PackIndex.MutableEntry;
+import org.eclipse.jgit.storage.pack.PackWriter;
 import org.eclipse.jgit.transport.IndexPack;
 import org.eclipse.jgit.util.JGitTestUtil;
 

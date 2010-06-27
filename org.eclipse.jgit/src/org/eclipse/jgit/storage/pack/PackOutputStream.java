@@ -42,13 +42,14 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.eclipse.jgit.lib;
+package org.eclipse.jgit.storage.pack;
 
 import java.io.IOException;
 import java.io.OutputStream;
 import java.security.MessageDigest;
 import java.util.zip.CRC32;
 
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.util.NB;
 
 /** Custom output stream to support {@link PackWriter}. */
