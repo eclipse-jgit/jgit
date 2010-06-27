@@ -50,10 +50,13 @@ import org.eclipse.jgit.revwalk.RevObject;
 /** {@link ObjectToPack} for {@link ObjectDirectory}. */
 class LocalObjectToPack extends ObjectToPack {
 	/** Pack to reuse compressed data from, otherwise null. */
-	PackFile copyFromPack;
+	PackFile pack;
 
-	/** Offset of the object's header in {@link #copyFromPack}. */
-	long copyOffset;
+	/** Offset of the object's header in {@link #pack}. */
+	long offset;
+
+	/** Length of the data section of the object. */
+	long length;
 
 	LocalObjectToPack(RevObject obj) {
 		super(obj);
@@ -61,8 +64,9 @@ class LocalObjectToPack extends ObjectToPack {
 
 	@Override
 	public void select(StoredObjectRepresentation ref) {
-		LocalObjectRepresentation ptr = (LocalObjectRepresentation)ref;
-		this.copyFromPack = ptr.ldr.pack;
-		this.copyOffset = ptr.ldr.objectOffset;
+		LocalObjectRepresentation ptr = (LocalObjectRepresentation) ref;
+		this.pack = ptr.pack;
+		this.offset = ptr.offset;
+		this.length = ptr.length;
 	}
 }

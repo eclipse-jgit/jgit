@@ -299,9 +299,9 @@ public class ObjectDirectory extends FileObjectDatabase {
 		SEARCH: for (;;) {
 			for (final PackFile p : pList.packs) {
 				try {
-					PackedObjectLoader ldr = p.get(curs, otp);
-					if (ldr != null)
-						packer.select(otp, new LocalObjectRepresentation(ldr));
+					LocalObjectRepresentation rep = p.representation(curs, otp);
+					if (rep != null)
+						packer.select(otp, rep);
 				} catch (PackMismatchException e) {
 					// Pack was modified; refresh the entire pack list.
 					//

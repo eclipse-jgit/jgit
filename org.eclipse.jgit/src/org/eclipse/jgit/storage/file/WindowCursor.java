@@ -103,7 +103,7 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 	public void copyObjectAsIs(PackOutputStream out, ObjectToPack otp)
 			throws IOException, StoredObjectRepresentationNotAvailableException {
 		LocalObjectToPack src = (LocalObjectToPack) otp;
-		src.copyFromPack.copyAsIs(out, src, this);
+		src.pack.copyAsIs(out, src, this);
 	}
 
 	/**

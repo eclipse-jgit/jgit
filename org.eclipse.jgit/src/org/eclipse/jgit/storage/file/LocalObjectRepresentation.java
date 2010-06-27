@@ -49,35 +49,70 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.StoredObjectRepresentation;
 
 class LocalObjectRepresentation extends StoredObjectRepresentation {
-	final PackedObjectLoader ldr;
-
-	LocalObjectRepresentation(PackedObjectLoader ldr) {
-		this.ldr = ldr;
+	static LocalObjectRepresentation newWhole(PackFile f, long p, long length) {
+		LocalObjectRepresentation r = new LocalObjectRepresentation() {
+			@Override
+			public int getFormat() {
+				return PACK_WHOLE;
+			}
+		};
+		r.pack = f;
+		r.offset = p;
+		r.length = length;
+		return r;
 	}
 
-	@Override
-	public int getFormat() {
-		if (ldr instanceof DeltaPackedObjectLoader)
-			return PACK_DELTA;
-		if (ldr instanceof WholePackedObjectLoader)
-			return PACK_WHOLE;
-		return FORMAT_OTHER;
+	static LocalObjectRepresentation newDelta(PackFile f, long p, long n,
+			ObjectId base) {
+		LocalObjectRepresentation r = new Delta();
+		r.pack = f;
+		r.offset = p;
+		r.length = n;
+		r.baseId = base;
+		return r;
 	}
+
+	static LocalObjectRepresentation newDelta(PackFile f, long p, long n,
+			long base) {
+		LocalObjectRepresentation r = new Delta();
+		r.pack = f;
+		r.offset = p;
+		r.length = n;
+		r.baseOffset = base;
+		return r;
+	}
+
+	PackFile pack;
+
+	long offset;
+
+	long length;
+
+	private long baseOffset;
+
+	private ObjectId baseId;
 
 	@Override
 	public int getWeight() {
-		long sz = ldr.getRawSize();
-		if (Integer.MAX_VALUE < sz)
-			return WEIGHT_UNKNOWN;
-		return (int) sz;
+		return (int) Math.min(length, Integer.MAX_VALUE);
 	}
 
 	@Override
 	public ObjectId getDeltaBase() {
-		try {
-			return ldr.getDeltaBase();
-		} catch (IOException e) {
-			return null;
+		if (baseId == null && getFormat() == PACK_DELTA) {
+			try {
+				baseId = pack.findObjectForOffset(baseOffset);
+			} catch (IOException error) {
+				return null;
+			}
+		}
+		return baseId;
+	}
+
+	private static final class Delta extends LocalObjectRepresentation {
+		@Override
+		public int getFormat() {
+			return PACK_DELTA;
 		}
 	}
 }

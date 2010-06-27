@@ -309,7 +309,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 
 		// Rip apart the header so we can discover the size.
 		//
-		readFully(src.copyOffset, buf, 0, 20, curs);
+		readFully(src.offset, buf, 0, 20, curs);
 		int c = buf[0] & 0xff;
 		final int typeCode = (c >> 4) & 7;
 		long inflatedLength = c & 15;
@@ -331,7 +331,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 			crc1.update(buf, 0, headerCnt);
 			crc2.update(buf, 0, headerCnt);
 
-			readFully(src.copyOffset + headerCnt, buf, 0, 20, curs);
+			readFully(src.offset + headerCnt, buf, 0, 20, curs);
 			crc1.update(buf, 0, 20);
 			crc2.update(buf, 0, headerCnt);
 			headerCnt += 20;
@@ -340,8 +340,8 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 			crc2.update(buf, 0, headerCnt);
 		}
 
-		final long dataOffset = src.copyOffset + headerCnt;
-		final long dataLength;
+		final long dataOffset = src.offset + headerCnt;
+		final long dataLength = src.length;
 		final long expectedCRC;
 		final ByteArrayWindow quickCopy;
 
@@ -349,7 +349,6 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 		// we report it missing instead.
 		//
 		try {
-			dataLength = findEndOffset(src.copyOffset) - dataOffset;
 			quickCopy = curs.quickCopy(this, dataOffset, dataLength);
 
 			if (idx().hasCRC32Support()) {
@@ -370,10 +369,10 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 					}
 				}
 				if (crc1.getValue() != expectedCRC) {
-					setCorrupt(src.copyOffset);
+					setCorrupt(src.offset);
 					throw new CorruptObjectException(MessageFormat.format(
 							JGitText.get().objectAtHasBadZlibStream,
-							src.copyOffset, getPackFile()));
+							src.offset, getPackFile()));
 				}
 			} else {
 				// We don't have a CRC32 code in the index, so compute it
@@ -399,20 +398,20 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 					}
 				}
 				if (!inf.finished() || inf.getBytesRead() != dataLength) {
-					setCorrupt(src.copyOffset);
+					setCorrupt(src.offset);
 					throw new EOFException(MessageFormat.format(
 							JGitText.get().shortCompressedStreamAt,
-							src.copyOffset));
+							src.offset));
 				}
 				expectedCRC = crc1.getValue();
 			}
 		} catch (DataFormatException dataFormat) {
-			setCorrupt(src.copyOffset);
+			setCorrupt(src.offset);
 
 			CorruptObjectException corruptObject = new CorruptObjectException(
 					MessageFormat.format(
 							JGitText.get().objectAtHasBadZlibStream,
-							src.copyOffset, getPackFile()));
+							src.offset, getPackFile()));
 			corruptObject.initCause(dataFormat);
 
 			StoredObjectRepresentationNotAvailableException gone;
@@ -458,7 +457,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 			}
 			if (crc2.getValue() != expectedCRC) {
 				throw new CorruptObjectException(MessageFormat.format(JGitText
-						.get().objectAtHasBadZlibStream, src.copyOffset,
+						.get().objectAtHasBadZlibStream, src.offset,
 						getPackFile()));
 			}
 		}
@@ -658,6 +657,55 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 		}
 		default:
 			throw new IOException(MessageFormat.format(JGitText.get().unknownObjectType, typeCode));
+		}
+	}
+
+	LocalObjectRepresentation representation(final WindowCursor curs,
+			final AnyObjectId objectId) throws IOException {
+		final long pos = idx().findOffset(objectId);
+		if (pos < 0)
+			return null;
+
+		final byte[] ib = curs.tempId;
+		readFully(pos, ib, 0, 20, curs);
+		int c = ib[0] & 0xff;
+		int p = 1;
+		final int typeCode = (c >> 4) & 7;
+		while ((c & 0x80) != 0)
+			c = ib[p++] & 0xff;
+
+		long len = (findEndOffset(pos) - pos);
+		switch (typeCode) {
+		case Constants.OBJ_COMMIT:
+		case Constants.OBJ_TREE:
+		case Constants.OBJ_BLOB:
+		case Constants.OBJ_TAG:
+			return LocalObjectRepresentation.newWhole(this, pos, len - p);
+
+		case Constants.OBJ_OFS_DELTA: {
+			c = ib[p++] & 0xff;
+			long ofs = c & 127;
+			while ((c & 128) != 0) {
+				ofs += 1;
+				c = ib[p++] & 0xff;
+				ofs <<= 7;
+				ofs += (c & 127);
+			}
+			ofs = pos - ofs;
+			return LocalObjectRepresentation.newDelta(this, pos, len - p, ofs);
+		}
+
+		case Constants.OBJ_REF_DELTA: {
+			len -= p;
+			len -= Constants.OBJECT_ID_LENGTH;
+			readFully(pos + p, ib, 0, 20, curs);
+			ObjectId id = ObjectId.fromRaw(ib);
+			return LocalObjectRepresentation.newDelta(this, pos, len, id);
+		}
+
+		default:
+			throw new IOException(MessageFormat.format(
+					JGitText.get().unknownObjectType, typeCode));
 		}
 	}
 
