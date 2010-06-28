@@ -425,17 +425,17 @@ public class IndexPack {
 
 			} finally {
 				try {
-					InflaterCache.release(inflater);
-				} finally {
-					inflater = null;
-					objectDatabase.close();
-				}
-
-				try {
 					if (readCurs != null)
 						readCurs.release();
 				} finally {
 					readCurs = null;
+				}
+
+				try {
+					InflaterCache.release(inflater);
+				} finally {
+					inflater = null;
+					objectDatabase.close();
 				}
 
 				progress.endTask();
