@@ -316,6 +316,9 @@ public final class Constants {
 	/** A bare repository typically ends with this string */
 	public static final String DOT_GIT_EXT = ".git";
 
+	/** Name of the ignore file */
+	public static final String DOT_GIT_IGNORE = ".gitignore";
+
 	/**
 	 * Create a new digest function for objects.
 	 *
