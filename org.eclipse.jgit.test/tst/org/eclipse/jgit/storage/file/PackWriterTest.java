@@ -484,6 +484,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 		writer.setIgnoreMissingUninteresting(ignoreMissingUninteresting);
 		writer.preparePack(interestings, uninterestings);
 		writer.writePack(os);
+		writer.release();
 		verifyOpenPack(thin);
 	}
 
@@ -491,6 +492,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 			throws MissingObjectException, IOException {
 		writer.preparePack(objectSource);
 		writer.writePack(os);
+		writer.release();
 		verifyOpenPack(false);
 	}
 

@@ -209,8 +209,8 @@ class WalkPushConnection extends BaseConnection implements PushConnection {
 		String pathPack = null;
 		String pathIdx = null;
 
+		final PackWriter pw = new PackWriter(local, monitor);
 		try {
-			final PackWriter pw = new PackWriter(local, monitor);
 			final List<ObjectId> need = new ArrayList<ObjectId>();
 			final List<ObjectId> have = new ArrayList<ObjectId>();
 			for (final RemoteRefUpdate r : updates)
@@ -281,6 +281,8 @@ class WalkPushConnection extends BaseConnection implements PushConnection {
 			safeDelete(pathPack);
 
 			throw new TransportException(uri, JGitText.get().cannotStoreObjects, err);
+		} finally {
+			pw.release();
 		}
 	}
 

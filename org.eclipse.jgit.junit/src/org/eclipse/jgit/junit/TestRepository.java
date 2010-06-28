@@ -600,33 +600,38 @@ public class TestRepository<R extends Repository> {
 	public void packAndPrune() throws Exception {
 		if (db.getObjectDatabase() instanceof ObjectDirectory) {
 			ObjectDirectory odb = (ObjectDirectory) db.getObjectDatabase();
+
+			final File pack, idx;
 			PackWriter pw = new PackWriter(db, NullProgressMonitor.INSTANCE);
-
-			Set<ObjectId> all = new HashSet<ObjectId>();
-			for (Ref r : db.getAllRefs().values())
-				all.add(r.getObjectId());
-			pw.preparePack(all, Collections.<ObjectId> emptySet());
-
-			final ObjectId name = pw.computeName();
-			OutputStream out;
-
-			final File pack = nameFor(odb, name, ".pack");
-			out = new BufferedOutputStream(new FileOutputStream(pack));
 			try {
-				pw.writePack(out);
-			} finally {
-				out.close();
-			}
-			pack.setReadOnly();
+				Set<ObjectId> all = new HashSet<ObjectId>();
+				for (Ref r : db.getAllRefs().values())
+					all.add(r.getObjectId());
+				pw.preparePack(all, Collections.<ObjectId> emptySet());
 
-			final File idx = nameFor(odb, name, ".idx");
-			out = new BufferedOutputStream(new FileOutputStream(idx));
-			try {
-				pw.writeIndex(out);
+				final ObjectId name = pw.computeName();
+				OutputStream out;
+
+				pack = nameFor(odb, name, ".pack");
+				out = new BufferedOutputStream(new FileOutputStream(pack));
+				try {
+					pw.writePack(out);
+				} finally {
+					out.close();
+				}
+				pack.setReadOnly();
+
+				idx = nameFor(odb, name, ".idx");
+				out = new BufferedOutputStream(new FileOutputStream(idx));
+				try {
+					pw.writeIndex(out);
+				} finally {
+					out.close();
+				}
+				idx.setReadOnly();
 			} finally {
-				out.close();
+				pw.release();
 			}
-			idx.setReadOnly();
 
 			odb.openPack(pack, idx);
 			updateServerInfo();

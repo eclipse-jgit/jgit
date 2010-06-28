@@ -569,25 +569,29 @@ public class UploadPack {
 
 		final PackWriter pw;
 		pw = new PackWriter(db, pm, NullProgressMonitor.INSTANCE);
-		pw.setDeltaBaseAsOffset(options.contains(OPTION_OFS_DELTA));
-		pw.setThin(thin);
-		pw.preparePack(wantAll, commonBase);
-		if (options.contains(OPTION_INCLUDE_TAG)) {
-			for (final Ref r : refs.values()) {
-				final RevObject o;
-				try {
-					o = walk.parseAny(r.getObjectId());
-				} catch (IOException e) {
-					continue;
+		try {
+			pw.setDeltaBaseAsOffset(options.contains(OPTION_OFS_DELTA));
+			pw.setThin(thin);
+			pw.preparePack(wantAll, commonBase);
+			if (options.contains(OPTION_INCLUDE_TAG)) {
+				for (final Ref r : refs.values()) {
+					final RevObject o;
+					try {
+						o = walk.parseAny(r.getObjectId());
+					} catch (IOException e) {
+						continue;
+					}
+					if (o.has(WANT) || !(o instanceof RevTag))
+						continue;
+					final RevTag t = (RevTag) o;
+					if (!pw.willInclude(t) && pw.willInclude(t.getObject()))
+						pw.addObject(t);
 				}
-				if (o.has(WANT) || !(o instanceof RevTag))
-					continue;
-				final RevTag t = (RevTag) o;
-				if (!pw.willInclude(t) && pw.willInclude(t.getObject()))
-					pw.addObject(t);
 			}
+			pw.writePack(packOut);
+		} finally {
+			pw.release();
 		}
-		pw.writePack(packOut);
 		packOut.flush();
 
 		if (sideband)

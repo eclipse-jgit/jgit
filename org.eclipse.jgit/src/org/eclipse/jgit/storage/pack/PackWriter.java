@@ -610,22 +610,24 @@ public class PackWriter {
 	 *             stream.
 	 */
 	public void writePack(OutputStream packStream) throws IOException {
-		try {
-			if ((reuseDeltas || reuseObjects) && reuseSupport != null)
-				searchForReuse();
+		if ((reuseDeltas || reuseObjects) && reuseSupport != null)
+			searchForReuse();
 
-			out = new PackOutputStream(packStream, isDeltaBaseAsOffset());
+		out = new PackOutputStream(packStream, isDeltaBaseAsOffset());
 
-			int cnt = getObjectsNumber();
-			writeMonitor.beginTask(WRITING_OBJECTS_PROGRESS, cnt);
-			out.writeFileHeader(PACK_VERSION_GENERATED, cnt);
-			writeObjects();
-			writeChecksum();
-			writeMonitor.endTask();
-		} finally {
-			out = null;
-			reader.release();
-		}
+		writeMonitor.beginTask(WRITING_OBJECTS_PROGRESS, getObjectsNumber());
+		out.writeFileHeader(PACK_VERSION_GENERATED, getObjectsNumber());
+		writeObjects();
+		writeChecksum();
+
+		out = null;
+		reader.release();
+		writeMonitor.endTask();
+	}
+
+	/** Release all resources used by this writer. */
+	public void release() {
+		reader.release();
 	}
 
 	private void searchForReuse() throws IOException {

@@ -165,37 +165,41 @@ public class BundleWriter {
 	 *             stream.
 	 */
 	public void writeBundle(OutputStream os) throws IOException {
-		final HashSet<ObjectId> inc = new HashSet<ObjectId>();
-		final HashSet<ObjectId> exc = new HashSet<ObjectId>();
-		inc.addAll(include.values());
-		for (final RevCommit r : assume)
-			exc.add(r.getId());
-		packWriter.setThin(exc.size() > 0);
-		packWriter.preparePack(inc, exc);
+		try {
+			final HashSet<ObjectId> inc = new HashSet<ObjectId>();
+			final HashSet<ObjectId> exc = new HashSet<ObjectId>();
+			inc.addAll(include.values());
+			for (final RevCommit r : assume)
+				exc.add(r.getId());
+			packWriter.setThin(exc.size() > 0);
+			packWriter.preparePack(inc, exc);
 
-		final Writer w = new OutputStreamWriter(os, Constants.CHARSET);
-		w.write(TransportBundle.V2_BUNDLE_SIGNATURE);
-		w.write('\n');
+			final Writer w = new OutputStreamWriter(os, Constants.CHARSET);
+			w.write(TransportBundle.V2_BUNDLE_SIGNATURE);
+			w.write('\n');
 
-		final char[] tmp = new char[Constants.OBJECT_ID_STRING_LENGTH];
-		for (final RevCommit a : assume) {
-			w.write('-');
-			a.copyTo(tmp, w);
-			if (a.getRawBuffer() != null) {
-				w.write(' ');
-				w.write(a.getShortMessage());
+			final char[] tmp = new char[Constants.OBJECT_ID_STRING_LENGTH];
+			for (final RevCommit a : assume) {
+				w.write('-');
+				a.copyTo(tmp, w);
+				if (a.getRawBuffer() != null) {
+					w.write(' ');
+					w.write(a.getShortMessage());
+				}
+				w.write('\n');
 			}
-			w.write('\n');
-		}
-		for (final Map.Entry<String, ObjectId> e : include.entrySet()) {
-			e.getValue().copyTo(tmp, w);
-			w.write(' ');
-			w.write(e.getKey());
-			w.write('\n');
-		}
+			for (final Map.Entry<String, ObjectId> e : include.entrySet()) {
+				e.getValue().copyTo(tmp, w);
+				w.write(' ');
+				w.write(e.getKey());
+				w.write('\n');
+			}
 
-		w.write('\n');
-		w.flush();
-		packWriter.writePack(os);
+			w.write('\n');
+			w.flush();
+			packWriter.writePack(os);
+		} finally {
+			packWriter.release();
+		}
 	}
 }
