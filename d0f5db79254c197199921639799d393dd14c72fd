@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALwX///48\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Diff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-06-25T00:24:28Z",
+      "side": 1,
+      "message": "Please be very careful to not reformat existing code that isn\u0027t otherwise changing.  Especially for smaller changes like this.",
+      "revId": "d0f5db79254c197199921639799d393dd14c72fd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///44\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Diff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-06-25T00:24:28Z",
+      "side": 1,
+      "message": "Can you somehow refactor this code so that the db.openBlob(id).getCachedBytes() part isn\u0027t copy-and-pasted identically between two lines?",
+      "revId": "d0f5db79254c197199921639799d393dd14c72fd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///40\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawTextIgnoreAllWhitespace.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-06-25T00:24:28Z",
+      "side": 1,
+      "message": "This should be squashed into your prior commit.",
+      "revId": "d0f5db79254c197199921639799d393dd14c72fd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
