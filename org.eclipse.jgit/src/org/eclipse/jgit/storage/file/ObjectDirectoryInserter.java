@@ -83,7 +83,7 @@ class ObjectDirectoryInserter extends ObjectInserter {
 		final MessageDigest md = digest();
 		final File tmp = toTemp(md, type, len, is);
 		final ObjectId id = ObjectId.fromRaw(md.digest());
-		if (db.hasObject(id)) {
+		if (db.has(id)) {
 			// Object is already in the repository, remove temporary file.
 			//
 			tmp.delete();
@@ -102,7 +102,7 @@ class ObjectDirectoryInserter extends ObjectInserter {
 		if (tmp.renameTo(dst))
 			return id;
 
-		if (db.hasObject(id)) {
+		if (db.has(id)) {
 			tmp.delete();
 			return id;
 		}

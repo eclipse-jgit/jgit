@@ -720,7 +720,7 @@ public class RevWalk implements Iterable<RevCommit> {
 			throws MissingObjectException, IOException {
 		RevObject r = objects.get(id);
 		if (r == null) {
-			final ObjectLoader ldr = curs.openObject(id);
+			final ObjectLoader ldr = curs.open(id);
 			final byte[] data = ldr.getCachedBytes();
 			final int type = ldr.getType();
 			switch (type) {

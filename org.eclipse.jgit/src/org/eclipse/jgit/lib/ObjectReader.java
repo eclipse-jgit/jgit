@@ -68,9 +68,9 @@ public abstract class ObjectReader {
 	 * @throws IOException
 	 *             the object store cannot be accessed.
 	 */
-	public boolean hasObject(AnyObjectId objectId) throws IOException {
+	public boolean has(AnyObjectId objectId) throws IOException {
 		try {
-			openObject(objectId);
+			open(objectId);
 			return true;
 		} catch (MissingObjectException notFound) {
 			return false;
@@ -88,9 +88,9 @@ public abstract class ObjectReader {
 	 * @throws IOException
 	 *             the object store cannot be accessed.
 	 */
-	public ObjectLoader openObject(AnyObjectId objectId)
+	public ObjectLoader open(AnyObjectId objectId)
 			throws MissingObjectException, IOException {
-		return openObject(objectId, OBJ_ANY);
+		return open(objectId, OBJ_ANY);
 	}
 
 	/**
@@ -111,7 +111,7 @@ public abstract class ObjectReader {
 	 * @throws IOException
 	 *             the object store cannot be accessed.
 	 */
-	public abstract ObjectLoader openObject(AnyObjectId objectId, int typeHint)
+	public abstract ObjectLoader open(AnyObjectId objectId, int typeHint)
 			throws MissingObjectException, IncorrectObjectTypeException,
 			IOException;
 

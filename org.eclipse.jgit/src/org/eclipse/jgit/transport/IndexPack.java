@@ -595,7 +595,7 @@ public class IndexPack {
 				baseObjectIds.add(baseId);
 			final ObjectLoader ldr;
 			try {
-				ldr = readCurs.openObject(baseId);
+				ldr = readCurs.open(baseId);
 			} catch (MissingObjectException notFound) {
 				missing.add(baseId);
 				continue;
@@ -856,7 +856,7 @@ public class IndexPack {
 		}
 
 		try {
-			final ObjectLoader ldr = readCurs.openObject(id, type);
+			final ObjectLoader ldr = readCurs.open(id, type);
 			final byte[] existingData = ldr.getCachedBytes();
 			if (!Arrays.equals(data, existingData)) {
 				throw new IOException(MessageFormat.format(JGitText.get().collisionOn, id.name()));

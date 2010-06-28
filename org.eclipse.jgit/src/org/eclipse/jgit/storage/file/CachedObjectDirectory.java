@@ -149,7 +149,7 @@ class CachedObjectDirectory extends FileObjectDatabase {
 	}
 
 	@Override
-	public boolean hasObject(final AnyObjectId objectId) {
+	public boolean has(final AnyObjectId objectId) {
 		return hasObjectImpl1(objectId);
 	}
 

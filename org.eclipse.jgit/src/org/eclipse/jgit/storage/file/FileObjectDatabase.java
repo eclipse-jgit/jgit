@@ -69,7 +69,7 @@ abstract class FileObjectDatabase extends ObjectDatabase {
 	 * @return true if the specified object is stored in this database, or any
 	 *         of the alternate databases.
 	 */
-	public boolean hasObject(final AnyObjectId objectId) {
+	public boolean has(final AnyObjectId objectId) {
 		return hasObjectImpl1(objectId) || hasObjectImpl2(objectId.name());
 	}
 

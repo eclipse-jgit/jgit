@@ -198,7 +198,7 @@ public class CanonicalTreeParser extends AbstractTreeIterator {
 	public void reset(final Repository repo, final AnyObjectId id,
 			final ObjectReader curs)
 			throws IncorrectObjectTypeException, IOException {
-		reset(curs.openObject(id, Constants.OBJ_TREE).getCachedBytes());
+		reset(curs.open(id, Constants.OBJ_TREE).getCachedBytes());
 	}
 
 	@Override

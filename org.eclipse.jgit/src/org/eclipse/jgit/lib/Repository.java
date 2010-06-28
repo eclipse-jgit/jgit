@@ -213,7 +213,7 @@ public abstract class Repository {
 	 */
 	public boolean hasObject(AnyObjectId objectId) {
 		try {
-			return getObjectDatabase().hasObject(objectId);
+			return getObjectDatabase().has(objectId);
 		} catch (IOException e) {
 			// Legacy API, assume error means "no"
 			return false;
@@ -236,7 +236,7 @@ public abstract class Repository {
 	 */
 	public ObjectLoader open(final AnyObjectId objectId)
 			throws MissingObjectException, IOException {
-		return getObjectDatabase().openObject(objectId);
+		return getObjectDatabase().open(objectId);
 	}
 
 	/**
@@ -263,7 +263,7 @@ public abstract class Repository {
 	public ObjectLoader open(AnyObjectId objectId, int typeHint)
 			throws MissingObjectException, IncorrectObjectTypeException,
 			IOException {
-		return getObjectDatabase().openObject(objectId, typeHint);
+		return getObjectDatabase().open(objectId, typeHint);
 	}
 
 	/**

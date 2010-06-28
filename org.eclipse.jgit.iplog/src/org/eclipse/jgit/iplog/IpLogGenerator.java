@@ -416,7 +416,7 @@ public class IpLogGenerator {
 
 	private byte[] openBlob(int side) throws IOException {
 		tw.getObjectId(idbuf, side);
-		return curs.openObject(idbuf, Constants.OBJ_BLOB).getCachedBytes();
+		return curs.open(idbuf, Constants.OBJ_BLOB).getCachedBytes();
 	}
 
 	/**

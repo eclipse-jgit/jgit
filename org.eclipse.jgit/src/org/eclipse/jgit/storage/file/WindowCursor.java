@@ -77,11 +77,11 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 		this.db = db;
 	}
 
-	public boolean hasObject(AnyObjectId objectId) throws IOException {
-		return db.hasObject(objectId);
+	public boolean has(AnyObjectId objectId) throws IOException {
+		return db.has(objectId);
 	}
 
-	public ObjectLoader openObject(AnyObjectId objectId, int typeHint)
+	public ObjectLoader open(AnyObjectId objectId, int typeHint)
 			throws MissingObjectException, IncorrectObjectTypeException,
 			IOException {
 		final ObjectLoader ldr = db.openObject(this, objectId);

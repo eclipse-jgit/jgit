@@ -119,10 +119,10 @@ public abstract class ObjectDatabase {
 	 * @throws IOException
 	 *             the object store cannot be accessed.
 	 */
-	public boolean hasObject(final AnyObjectId objectId) throws IOException {
+	public boolean has(final AnyObjectId objectId) throws IOException {
 		final ObjectReader or = newReader();
 		try {
-			return or.hasObject(objectId);
+			return or.has(objectId);
 		} finally {
 			or.release();
 		}
@@ -142,9 +142,9 @@ public abstract class ObjectDatabase {
 	 * @throws IOException
 	 *             the object store cannot be accessed.
 	 */
-	public ObjectLoader openObject(final AnyObjectId objectId)
+	public ObjectLoader open(final AnyObjectId objectId)
 			throws IOException {
-		return openObject(objectId, ObjectReader.OBJ_ANY);
+		return open(objectId, ObjectReader.OBJ_ANY);
 	}
 
 	/**
@@ -168,12 +168,12 @@ public abstract class ObjectDatabase {
 	 * @throws IOException
 	 *             the object store cannot be accessed.
 	 */
-	public ObjectLoader openObject(AnyObjectId objectId, int typeHint)
+	public ObjectLoader open(AnyObjectId objectId, int typeHint)
 			throws MissingObjectException, IncorrectObjectTypeException,
 			IOException {
 		final ObjectReader or = newReader();
 		try {
-			return or.openObject(objectId, typeHint);
+			return or.open(objectId, typeHint);
 		} finally {
 			or.release();
 		}
