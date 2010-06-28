@@ -53,7 +53,7 @@ import org.eclipse.jgit.lib.Repository;
  *            type of listener this event dispatches to.
  */
 public abstract class RepositoryEvent<T extends RepositoryListener> {
-	private volatile Repository repository;
+	private Repository repository;
 
 	/**
 	 * Set the repository this event occurred on.
