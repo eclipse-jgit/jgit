@@ -183,8 +183,6 @@ public class PackWriter {
 
 	private final Repository db;
 
-	private PackOutputStream out;
-
 	private final Deflater deflater;
 
 	private ProgressMonitor initMonitor;
@@ -613,14 +611,14 @@ public class PackWriter {
 		if ((reuseDeltas || reuseObjects) && reuseSupport != null)
 			searchForReuse();
 
-		out = new PackOutputStream(packStream, isDeltaBaseAsOffset());
+		final PackOutputStream out = new PackOutputStream(packStream,
+				isDeltaBaseAsOffset());
 
 		writeMonitor.beginTask(WRITING_OBJECTS_PROGRESS, getObjectsNumber());
 		out.writeFileHeader(PACK_VERSION_GENERATED, getObjectsNumber());
-		writeObjects();
-		writeChecksum();
+		writeObjects(out);
+		writeChecksum(out);
 
-		out = null;
 		reader.release();
 		writeMonitor.endTask();
 	}
@@ -644,25 +642,26 @@ public class PackWriter {
 		initMonitor.endTask();
 	}
 
-	private void writeObjects() throws IOException {
+	private void writeObjects(PackOutputStream out) throws IOException {
 		for (List<ObjectToPack> list : objectsLists) {
 			for (ObjectToPack otp : list) {
 				if (writeMonitor.isCancelled())
 					throw new IOException(
 							JGitText.get().packingCancelledDuringObjectsWriting);
 				if (!otp.isWritten())
-					writeObject(otp);
+					writeObject(out, otp);
 			}
 		}
 	}
 
-	private void writeObject(final ObjectToPack otp) throws IOException {
+	private void writeObject(PackOutputStream out, final ObjectToPack otp)
+			throws IOException {
 		if (otp.isWritten())
 			return; // We shouldn't be here.
 
 		otp.markWantWrite();
 		if (otp.isDeltaRepresentation())
-			writeBaseFirst(otp);
+			writeBaseFirst(out, otp);
 
 		out.resetCRC32();
 		otp.setOffset(out.length());
@@ -690,12 +689,13 @@ public class PackWriter {
 
 		// If we reached here, reuse wasn't possible.
 		//
-		writeWholeObjectDeflate(otp);
+		writeWholeObjectDeflate(out, otp);
 		otp.setCRC(out.getCRC32());
 		writeMonitor.update(1);
 	}
 
-	private void writeBaseFirst(final ObjectToPack otp) throws IOException {
+	private void writeBaseFirst(PackOutputStream out, final ObjectToPack otp)
+			throws IOException {
 		ObjectToPack baseInPack = otp.getDeltaBase();
 		if (baseInPack != null) {
 			if (!baseInPack.isWritten()) {
@@ -708,7 +708,7 @@ public class PackWriter {
 					redoSearchForReuse(otp);
 					reuseDeltas = true;
 				} else {
-					writeObject(baseInPack);
+					writeObject(out, baseInPack);
 				}
 			}
 		} else if (!thin) {
@@ -728,8 +728,8 @@ public class PackWriter {
 		reuseSupport.selectObjectRepresentation(this, otp);
 	}
 
-	private void writeWholeObjectDeflate(final ObjectToPack otp)
-			throws IOException {
+	private void writeWholeObjectDeflate(PackOutputStream out,
+			final ObjectToPack otp) throws IOException {
 		final ObjectLoader loader = reader.openObject(otp, otp.getType());
 		final byte[] data = loader.getCachedBytes();
 		out.writeHeader(otp, data.length);
@@ -745,7 +745,7 @@ public class PackWriter {
 		} while (!deflater.finished());
 	}
 
-	private void writeChecksum() throws IOException {
+	private void writeChecksum(PackOutputStream out) throws IOException {
 		packcsum = out.getDigest();
 		out.write(packcsum);
 	}
