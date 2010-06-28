@@ -433,7 +433,7 @@ public class GitIndex {
 			uid = -1;
 			gid = -1;
 			try {
-				size = (int) db.openBlob(f.getId()).getSize();
+				size = (int) db.open(f.getId(), Constants.OBJ_BLOB).getSize();
 			} catch (IOException e) {
 				e.printStackTrace();
 				size = -1;
@@ -873,7 +873,7 @@ public class GitIndex {
 	 * @throws IOException
 	 */
 	public void checkoutEntry(File wd, Entry e) throws IOException {
-		ObjectLoader ol = db.openBlob(e.sha1);
+		ObjectLoader ol = db.open(e.sha1, Constants.OBJ_BLOB);
 		byte[] bytes = ol.getBytes();
 		File file = new File(wd, e.getName());
 		file.delete();

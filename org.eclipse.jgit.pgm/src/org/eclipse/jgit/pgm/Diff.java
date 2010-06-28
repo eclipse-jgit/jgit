@@ -50,12 +50,10 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kohsuke.args4j.Argument;
-import org.kohsuke.args4j.Option;
-
 import org.eclipse.jgit.diff.DiffFormatter;
 import org.eclipse.jgit.diff.MyersDiff;
 import org.eclipse.jgit.diff.RawText;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.pgm.opt.PathTreeFilterHandler;
@@ -63,6 +61,8 @@ import org.eclipse.jgit.treewalk.AbstractTreeIterator;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.AndTreeFilter;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
+import org.kohsuke.args4j.Argument;
+import org.kohsuke.args4j.Option;
 
 @Command(common = true, usage = "usage_ShowDiffs")
 class Diff extends TextBuiltin {
@@ -125,7 +125,7 @@ class Diff extends TextBuiltin {
 	private RawText getRawText(ObjectId id) throws IOException {
 		if (id.equals(ObjectId.zeroId()))
 			return new RawText(new byte[] { });
-		return new RawText(db.openBlob(id).getCachedBytes());
+		return new RawText(db.open(id, Constants.OBJ_BLOB).getCachedBytes());
 	}
 }
 

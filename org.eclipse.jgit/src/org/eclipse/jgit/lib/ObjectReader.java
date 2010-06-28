@@ -86,6 +86,7 @@ public abstract class ObjectReader {
 	 * @throws MissingObjectException
 	 *             the object does not exist.
 	 * @throws IOException
+	 *             the object store cannot be accessed.
 	 */
 	public ObjectLoader openObject(AnyObjectId objectId)
 			throws MissingObjectException, IOException {
@@ -97,7 +98,7 @@ public abstract class ObjectReader {
 	 *
 	 * @param objectId
 	 *            identity of the object to open.
-	 *@param typeHint
+	 * @param typeHint
 	 *            hint about the type of object being requested;
 	 *            {@link #OBJ_ANY} if the object type is not known, or does not
 	 *            matter to the caller.
@@ -108,9 +109,11 @@ public abstract class ObjectReader {
 	 *             typeHint was not OBJ_ANY, and the object's actual type does
 	 *             not match typeHint.
 	 * @throws IOException
+	 *             the object store cannot be accessed.
 	 */
 	public abstract ObjectLoader openObject(AnyObjectId objectId, int typeHint)
-			throws MissingObjectException, IncorrectObjectTypeException, IOException;
+			throws MissingObjectException, IncorrectObjectTypeException,
+			IOException;
 
 	/**
 	 * Release any resources used by this reader.

@@ -79,7 +79,7 @@ public class T0004_PackReader extends SampleDataRepositoryTestCase {
 		final ObjectLoader or;
 
 		id = ObjectId.fromString("5b6e7c66c276e7610d4a73c70ec1a1f7c1003259");
-		or = db.openObject(id);
+		or = db.open(id);
 		assertNotNull(or);
 		assertTrue(or instanceof PackedObjectLoader);
 		assertEquals(Constants.OBJ_BLOB, or.getType());

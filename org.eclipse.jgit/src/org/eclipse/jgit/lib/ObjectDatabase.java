@@ -45,6 +45,7 @@ package org.eclipse.jgit.lib;
 
 import java.io.IOException;
 
+import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 
 /**
@@ -143,9 +144,36 @@ public abstract class ObjectDatabase {
 	 */
 	public ObjectLoader openObject(final AnyObjectId objectId)
 			throws IOException {
+		return openObject(objectId, ObjectReader.OBJ_ANY);
+	}
+
+	/**
+	 * Open an object from this database.
+	 * <p>
+	 * This is a one-shot call interface which may be faster than allocating a
+	 * {@link #newReader()} to perform the lookup.
+	 *
+	 * @param objectId
+	 *            identity of the object to open.
+	 * @param typeHint
+	 *            hint about the type of object being requested;
+	 *            {@link ObjectReader#OBJ_ANY} if the object type is not known,
+	 *            or does not matter to the caller.
+	 * @return a {@link ObjectLoader} for accessing the object.
+	 * @throws MissingObjectException
+	 *             the object does not exist.
+	 * @throws IncorrectObjectTypeException
+	 *             typeHint was not OBJ_ANY, and the object's actual type does
+	 *             not match typeHint.
+	 * @throws IOException
+	 *             the object store cannot be accessed.
+	 */
+	public ObjectLoader openObject(AnyObjectId objectId, int typeHint)
+			throws MissingObjectException, IncorrectObjectTypeException,
+			IOException {
 		final ObjectReader or = newReader();
 		try {
-			return or.openObject(objectId);
+			return or.openObject(objectId, typeHint);
 		} finally {
 			or.release();
 		}

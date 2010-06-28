@@ -299,8 +299,8 @@ public class ReceivePackRefFilterTest extends LocalDiskRepositoryTestCase {
 		//
 		final TemporaryBuffer.Heap pack = new TemporaryBuffer.Heap(64);
 		packHeader(pack, 2);
-		copy(pack, src.openObject(N));
-		copy(pack,src.openObject(s.parseBody(N).getTree()));
+		copy(pack, src.open(N));
+		copy(pack,src.open(s.parseBody(N).getTree()));
 		digest(pack);
 
 		final TemporaryBuffer.Heap inBuf = new TemporaryBuffer.Heap(256);
@@ -341,8 +341,8 @@ public class ReceivePackRefFilterTest extends LocalDiskRepositoryTestCase {
 		//
 		final TemporaryBuffer.Heap pack = new TemporaryBuffer.Heap(64);
 		packHeader(pack, 2);
-		copy(pack, src.openObject(N));
-		copy(pack,src.openObject(s.parseBody(N).getTree()));
+		copy(pack, src.open(N));
+		copy(pack,src.open(s.parseBody(N).getTree()));
 		digest(pack);
 
 		final TemporaryBuffer.Heap inBuf = new TemporaryBuffer.Heap(256);
@@ -381,7 +381,7 @@ public class ReceivePackRefFilterTest extends LocalDiskRepositoryTestCase {
 		//
 		final TemporaryBuffer.Heap pack = new TemporaryBuffer.Heap(64);
 		packHeader(pack, 1);
-		copy(pack, src.openObject(N));
+		copy(pack, src.open(N));
 		digest(pack);
 
 		final TemporaryBuffer.Heap inBuf = new TemporaryBuffer.Heap(256);

@@ -221,41 +221,49 @@ public abstract class Repository {
 	}
 
 	/**
-	 * @param id
-	 *            SHA-1 of an object.
+	 * Open an object from this repository.
+	 * <p>
+	 * This is a one-shot call interface which may be faster than allocating a
+	 * {@link #newObjectReader()} to perform the lookup.
 	 *
-	 * @return a {@link ObjectLoader} for accessing the data of the named
-	 *         object, or null if the object does not exist.
+	 * @param objectId
+	 *            identity of the object to open.
+	 * @return a {@link ObjectLoader} for accessing the object.
+	 * @throws MissingObjectException
+	 *             the object does not exist.
 	 * @throws IOException
+	 *             the object store cannot be accessed.
 	 */
-	public ObjectLoader openObject(final AnyObjectId id)
-			throws IOException {
-		try {
-			return getObjectDatabase().openObject(id);
-		} catch (MissingObjectException notFound) {
-			// Legacy API, return null
-			return null;
-		}
+	public ObjectLoader open(final AnyObjectId objectId)
+			throws MissingObjectException, IOException {
+		return getObjectDatabase().openObject(objectId);
 	}
 
 	/**
-	 * @param id
-	 *            SHA'1 of a blob
-	 * @return an {@link ObjectLoader} for accessing the data of a named blob
+	 * Open an object from this repository.
+	 * <p>
+	 * This is a one-shot call interface which may be faster than allocating a
+	 * {@link #newObjectReader()} to perform the lookup.
+	 *
+	 * @param objectId
+	 *            identity of the object to open.
+	 * @param typeHint
+	 *            hint about the type of object being requested;
+	 *            {@link ObjectReader#OBJ_ANY} if the object type is not known,
+	 *            or does not matter to the caller.
+	 * @return a {@link ObjectLoader} for accessing the object.
+	 * @throws MissingObjectException
+	 *             the object does not exist.
+	 * @throws IncorrectObjectTypeException
+	 *             typeHint was not OBJ_ANY, and the object's actual type does
+	 *             not match typeHint.
 	 * @throws IOException
+	 *             the object store cannot be accessed.
 	 */
-	public ObjectLoader openBlob(final ObjectId id) throws IOException {
-		return openObject(id);
-	}
-
-	/**
-	 * @param id
-	 *            SHA'1 of a tree
-	 * @return an {@link ObjectLoader} for accessing the data of a named tree
-	 * @throws IOException
-	 */
-	public ObjectLoader openTree(final ObjectId id) throws IOException {
-		return openObject(id);
+	public ObjectLoader open(AnyObjectId objectId, int typeHint)
+			throws MissingObjectException, IncorrectObjectTypeException,
+			IOException {
+		return getObjectDatabase().openObject(objectId, typeHint);
 	}
 
 	/**
@@ -284,19 +292,22 @@ public abstract class Repository {
 	 * @throws IOException
 	 */
 	public Object mapObject(final ObjectId id, final String refName) throws IOException {
-		final ObjectLoader or = openObject(id);
-		if (or == null)
+		final ObjectLoader or;
+		try {
+			or = open(id);
+		} catch (MissingObjectException notFound) {
 			return null;
-		final byte[] raw = or.getBytes();
+		}
+		final byte[] raw = or.getCachedBytes();
 		switch (or.getType()) {
 		case Constants.OBJ_TREE:
-			return makeTree(id, raw);
+			return new Tree(this, id, raw);
 
 		case Constants.OBJ_COMMIT:
-			return makeCommit(id, raw);
+			return new Commit(this, id, raw);
 
 		case Constants.OBJ_TAG:
-			return makeTag(id, refName, raw);
+			return new Tag(this, id, refName, raw);
 
 		case Constants.OBJ_BLOB:
 			return raw;
@@ -314,18 +325,13 @@ public abstract class Repository {
 	 * @throws IOException for I/O error or unexpected object type.
 	 */
 	public Commit mapCommit(final ObjectId id) throws IOException {
-		final ObjectLoader or = openObject(id);
-		if (or == null)
+		final ObjectLoader or;
+		try {
+			or = open(id, Constants.OBJ_COMMIT);
+		} catch (MissingObjectException notFound) {
 			return null;
-		final byte[] raw = or.getBytes();
-		if (Constants.OBJ_COMMIT == or.getType())
-			return new Commit(this, id, raw);
-		throw new IncorrectObjectTypeException(id, Constants.TYPE_COMMIT);
-	}
-
-	private Commit makeCommit(final ObjectId id, final byte[] raw) {
-		Commit ret = new Commit(this, id, raw);
-		return ret;
+		}
+		return new Commit(this, id, or.getCachedBytes());
 	}
 
 	/**
@@ -351,10 +357,13 @@ public abstract class Repository {
 	 * @throws IOException for I/O error or unexpected object type.
 	 */
 	public Tree mapTree(final ObjectId id) throws IOException {
-		final ObjectLoader or = openObject(id);
-		if (or == null)
+		final ObjectLoader or;
+		try {
+			or = open(id);
+		} catch (MissingObjectException notFound) {
 			return null;
-		final byte[] raw = or.getBytes();
+		}
+		final byte[] raw = or.getCachedBytes();
 		switch (or.getType()) {
 		case Constants.OBJ_TREE:
 			return new Tree(this, id, raw);
@@ -365,16 +374,6 @@ public abstract class Repository {
 		default:
 			throw new IncorrectObjectTypeException(id, Constants.TYPE_TREE);
 		}
-	}
-
-	private Tree makeTree(final ObjectId id, final byte[] raw) throws IOException {
-		Tree ret = new Tree(this, id, raw);
-		return ret;
-	}
-
-	private Tag makeTag(final ObjectId id, final String refName, final byte[] raw) {
-		Tag ret = new Tag(this, id, refName, raw);
-		return ret;
 	}
 
 	/**
@@ -397,12 +396,14 @@ public abstract class Repository {
 	 * @throws IOException for I/O error or unexpected object type.
 	 */
 	public Tag mapTag(final String refName, final ObjectId id) throws IOException {
-		final ObjectLoader or = openObject(id);
-		if (or == null)
+		final ObjectLoader or;
+		try {
+			or = open(id);
+		} catch (MissingObjectException notFound) {
 			return null;
-		final byte[] raw = or.getBytes();
-		if (Constants.OBJ_TAG == or.getType())
-			return new Tag(this, id, refName, raw);
+		}
+		if (or.getType() == Constants.OBJ_TAG)
+			return new Tag(this, id, refName, or.getCachedBytes());
 		return new Tag(this, id, refName, null);
 	}
 
