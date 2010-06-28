@@ -148,7 +148,12 @@ public abstract class Merger {
 		for (int i = 0; i < sourceObjects.length; i++)
 			sourceTrees[i] = walk.parseTree(sourceObjects[i]);
 
-		return mergeImpl();
+		try {
+			return mergeImpl();
+		} finally {
+			if (inserter != null)
+				inserter.release();
+		}
 	}
 
 	/**

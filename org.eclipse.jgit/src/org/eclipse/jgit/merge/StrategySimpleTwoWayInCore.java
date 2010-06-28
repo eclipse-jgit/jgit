@@ -154,15 +154,8 @@ public class StrategySimpleTwoWayInCore extends ThreeWayMergeStrategy {
 				return false;
 			try {
 				ObjectInserter odi = getObjectInserter();
-				try {
-					resultTree = cache.writeTree(odi);
-					odi.flush();
-				} finally {
-					// We don't know if our caller will release the
-					// inserter, so make sure we do it ourselves.
-					//
-					odi.release();
-				}
+				resultTree = cache.writeTree(odi);
+				odi.flush();
 				return true;
 			} catch (UnmergedPathException upe) {
 				resultTree = null;
