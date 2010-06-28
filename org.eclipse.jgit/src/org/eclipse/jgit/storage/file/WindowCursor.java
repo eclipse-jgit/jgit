@@ -48,6 +48,7 @@ import java.io.IOException;
 import java.util.zip.DataFormatException;
 import java.util.zip.Inflater;
 
+import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.StoredObjectRepresentationNotAvailableException;
 import org.eclipse.jgit.lib.AnyObjectId;
@@ -81,13 +82,16 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 	}
 
 	public ObjectLoader openObject(AnyObjectId objectId, int typeHint)
-			throws MissingObjectException, IOException {
+			throws MissingObjectException, IncorrectObjectTypeException,
+			IOException {
 		final ObjectLoader ldr = db.openObject(this, objectId);
 		if (ldr == null) {
 			if (typeHint == OBJ_ANY)
 				throw new MissingObjectException(objectId.copy(), "unknown");
 			throw new MissingObjectException(objectId.copy(), typeHint);
 		}
+		if (typeHint != OBJ_ANY && ldr.getType() != typeHint)
+			throw new IncorrectObjectTypeException(objectId.copy(), typeHint);
 		return ldr;
 	}
 

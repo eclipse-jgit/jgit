@@ -45,6 +45,7 @@ package org.eclipse.jgit.lib;
 
 import java.io.IOException;
 
+import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.storage.pack.ObjectReuseAsIs;
 
@@ -103,10 +104,13 @@ public abstract class ObjectReader {
 	 * @return a {@link ObjectLoader} for accessing the object.
 	 * @throws MissingObjectException
 	 *             the object does not exist.
+	 * @throws IncorrectObjectTypeException
+	 *             typeHint was not OBJ_ANY, and the object's actual type does
+	 *             not match typeHint.
 	 * @throws IOException
 	 */
 	public abstract ObjectLoader openObject(AnyObjectId objectId, int typeHint)
-			throws MissingObjectException, IOException;
+			throws MissingObjectException, IncorrectObjectTypeException, IOException;
 
 	/**
 	 * Release any resources used by this reader.
