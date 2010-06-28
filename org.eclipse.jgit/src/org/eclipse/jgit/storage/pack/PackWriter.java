@@ -96,8 +96,8 @@ import org.eclipse.jgit.storage.file.PackIndexWriter;
  * Typical usage consists of creating instance intended for some pack,
  * configuring options, preparing the list of objects by calling
  * {@link #preparePack(Iterator)} or
- * {@link #preparePack(Collection, Collection)}, and finally
- * producing the stream with {@link #writePack(OutputStream)}.
+ * {@link #preparePack(ProgressMonitor, Collection, Collection)}, and finally
+ * producing the stream with {@link #writePack(ProgressMonitor, ProgressMonitor, OutputStream)}.
  * </p>
  * <p>
  * Class provide set of configurable options and {@link ProgressMonitor}
@@ -116,7 +116,7 @@ public class PackWriter {
 	 * Title of {@link ProgressMonitor} task used during counting objects to
 	 * pack.
 	 *
-	 * @see #preparePack(Collection, Collection)
+	 * @see #preparePack(ProgressMonitor, Collection, Collection)
 	 */
 	public static final String COUNTING_OBJECTS_PROGRESS = JGitText.get().countingObjects;
 
@@ -124,7 +124,7 @@ public class PackWriter {
 	 * Title of {@link ProgressMonitor} task used during searching for objects
 	 * reuse or delta reuse.
 	 *
-	 * @see #writePack(OutputStream)
+	 * @see #writePack(ProgressMonitor, ProgressMonitor, OutputStream)
 	 */
 	public static final String SEARCHING_REUSE_PROGRESS = JGitText.get().compressingObjects;
 
@@ -132,7 +132,7 @@ public class PackWriter {
 	 * Title of {@link ProgressMonitor} task used during writing out pack
 	 * (objects)
 	 *
-	 * @see #writePack(OutputStream)
+	 * @see #writePack(ProgressMonitor, ProgressMonitor, OutputStream)
 	 */
 	public static final String WRITING_OBJECTS_PROGRESS = JGitText.get().writingObjects;
 
@@ -185,10 +185,6 @@ public class PackWriter {
 
 	private final Deflater deflater;
 
-	private ProgressMonitor initMonitor;
-
-	private ProgressMonitor writeMonitor;
-
 	private final ObjectReader reader;
 
 	/** {@link #reader} recast to the reuse interface, if it supports it. */
@@ -216,38 +212,12 @@ public class PackWriter {
 	 * Create writer for specified repository.
 	 * <p>
 	 * Objects for packing are specified in {@link #preparePack(Iterator)} or
-	 * {@link #preparePack(Collection, Collection)}.
+	 * {@link #preparePack(ProgressMonitor, Collection, Collection)}.
 	 *
 	 * @param repo
 	 *            repository where objects are stored.
-	 * @param monitor
-	 *            operations progress monitor, used within
-	 *            {@link #preparePack(Iterator)},
-	 *            {@link #preparePack(Collection, Collection)}
-	 *            , or {@link #writePack(OutputStream)}.
 	 */
-	public PackWriter(final Repository repo, final ProgressMonitor monitor) {
-		this(repo, monitor, monitor);
-	}
-
-	/**
-	 * Create writer for specified repository.
-	 * <p>
-	 * Objects for packing are specified in {@link #preparePack(Iterator)} or
-	 * {@link #preparePack(Collection, Collection)}.
-	 *
-	 * @param repo
-	 *            repository where objects are stored.
-	 * @param imonitor
-	 *            operations progress monitor, used within
-	 *            {@link #preparePack(Iterator)},
-	 *            {@link #preparePack(Collection, Collection)}
-	 * @param wmonitor
-	 *            operations progress monitor, used within
-	 *            {@link #writePack(OutputStream)}.
-	 */
-	public PackWriter(final Repository repo, final ProgressMonitor imonitor,
-			final ProgressMonitor wmonitor) {
+	public PackWriter(final Repository repo) {
 		this.db = repo;
 
 		reader = db.newObjectReader();
@@ -255,9 +225,6 @@ public class PackWriter {
 			reuseSupport = ((ObjectReuseAsIs) reader);
 		else
 			reuseSupport = null;
-
-		initMonitor = imonitor == null ? NullProgressMonitor.INSTANCE : imonitor;
-		writeMonitor = wmonitor == null ? NullProgressMonitor.INSTANCE : wmonitor;
 
 		final CoreConfig coreConfig = db.getConfig().get(CoreConfig.KEY);
 		this.deflater = new Deflater(coreConfig.getCompression());
@@ -283,7 +250,7 @@ public class PackWriter {
 	 * use it if possible. Normally, only deltas with base to another object
 	 * existing in set of objects to pack will be used. Exception is however
 	 * thin-pack (see
-	 * {@link #preparePack(Collection, Collection)} and
+	 * {@link #preparePack(ProgressMonitor, Collection, Collection)} and
 	 * {@link #preparePack(Iterator)}) where base object must exist on other
 	 * side machine.
 	 * <p>
@@ -411,7 +378,7 @@ public class PackWriter {
 	/**
 	 * @return true to ignore objects that are uninteresting and also not found
 	 *         on local disk; false to throw a {@link MissingObjectException}
-	 *         out of {@link #preparePack(Collection, Collection)} if an
+	 *         out of {@link #preparePack(ProgressMonitor, Collection, Collection)} if an
 	 *         uninteresting object is not in the source repository. By default,
 	 *         true, permitting gracefully ignoring of uninteresting objects.
 	 */
@@ -504,6 +471,8 @@ public class PackWriter {
 	 * recency, path and delta-base first.
 	 * </p>
 	 *
+	 * @param countingMonitor
+	 *            progress during object enumeration.
 	 * @param interestingObjects
 	 *            collection of objects to be marked as interesting (start
 	 *            points of graph traversal).
@@ -513,13 +482,15 @@ public class PackWriter {
 	 * @throws IOException
 	 *             when some I/O problem occur during reading objects.
 	 */
-	public void preparePack(
+	public void preparePack(ProgressMonitor countingMonitor,
 			final Collection<? extends ObjectId> interestingObjects,
 			final Collection<? extends ObjectId> uninterestingObjects)
 			throws IOException {
+		if (countingMonitor == null)
+			countingMonitor = NullProgressMonitor.INSTANCE;
 		ObjectWalk walker = setUpWalker(interestingObjects,
 				uninterestingObjects);
-		findObjectsToPack(walker);
+		findObjectsToPack(countingMonitor, walker);
 	}
 
 	/**
@@ -553,7 +524,7 @@ public class PackWriter {
 	 * Create an index file to match the pack file just written.
 	 * <p>
 	 * This method can only be invoked after {@link #preparePack(Iterator)} or
-	 * {@link #preparePack(Collection, Collection)} has been
+	 * {@link #preparePack(ProgressMonitor, Collection, Collection)} has been
 	 * invoked and completed successfully. Writing a corresponding index is an
 	 * optional feature that not all pack users may require.
 	 *
@@ -599,6 +570,10 @@ public class PackWriter {
 	 * validated against existing checksum.
 	 * </p>
 	 *
+	 * @param compressMonitor
+	 *            progress monitor to report object compression work.
+	 * @param writeMonitor
+	 *            progress monitor to report the number of objects written.
 	 * @param packStream
 	 *            output stream of pack data. The stream should be buffered by
 	 *            the caller. The caller is responsible for closing the stream.
@@ -607,16 +582,23 @@ public class PackWriter {
 	 *             the pack, or writing compressed object data to the output
 	 *             stream.
 	 */
-	public void writePack(OutputStream packStream) throws IOException {
-		if ((reuseDeltas || reuseObjects) && reuseSupport != null)
-			searchForReuse();
+	public void writePack(ProgressMonitor compressMonitor,
+			ProgressMonitor writeMonitor, OutputStream packStream)
+			throws IOException {
+		if (compressMonitor == null)
+			compressMonitor = NullProgressMonitor.INSTANCE;
+		if (writeMonitor == null)
+			writeMonitor = NullProgressMonitor.INSTANCE;
 
-		final PackOutputStream out = new PackOutputStream(packStream,
-				isDeltaBaseAsOffset());
+		if ((reuseDeltas || reuseObjects) && reuseSupport != null)
+			searchForReuse(compressMonitor);
+
+		final PackOutputStream out = new PackOutputStream(writeMonitor,
+				packStream, isDeltaBaseAsOffset());
 
 		writeMonitor.beginTask(WRITING_OBJECTS_PROGRESS, getObjectsNumber());
 		out.writeFileHeader(PACK_VERSION_GENERATED, getObjectsNumber());
-		writeObjects(out);
+		writeObjects(writeMonitor, out);
 		writeChecksum(out);
 
 		reader.release();
@@ -628,21 +610,23 @@ public class PackWriter {
 		reader.release();
 	}
 
-	private void searchForReuse() throws IOException {
-		initMonitor.beginTask(SEARCHING_REUSE_PROGRESS, getObjectsNumber());
+	private void searchForReuse(ProgressMonitor compressMonitor)
+			throws IOException {
+		compressMonitor.beginTask(SEARCHING_REUSE_PROGRESS, getObjectsNumber());
 		for (List<ObjectToPack> list : objectsLists) {
 			for (ObjectToPack otp : list) {
-				if (initMonitor.isCancelled())
+				if (compressMonitor.isCancelled())
 					throw new IOException(
 							JGitText.get().packingCancelledDuringObjectsWriting);
 				reuseSupport.selectObjectRepresentation(this, otp);
-				initMonitor.update(1);
+				compressMonitor.update(1);
 			}
 		}
-		initMonitor.endTask();
+		compressMonitor.endTask();
 	}
 
-	private void writeObjects(PackOutputStream out) throws IOException {
+	private void writeObjects(ProgressMonitor writeMonitor, PackOutputStream out)
+			throws IOException {
 		for (List<ObjectToPack> list : objectsLists) {
 			for (ObjectToPack otp : list) {
 				if (writeMonitor.isCancelled())
@@ -669,8 +653,8 @@ public class PackWriter {
 		while (otp.isReuseAsIs()) {
 			try {
 				reuseSupport.copyObjectAsIs(out, otp);
+				out.endObject();
 				otp.setCRC(out.getCRC32());
-				writeMonitor.update(1);
 				return;
 			} catch (StoredObjectRepresentationNotAvailableException gone) {
 				if (otp.getOffset() == out.length()) {
@@ -690,8 +674,8 @@ public class PackWriter {
 		// If we reached here, reuse wasn't possible.
 		//
 		writeWholeObjectDeflate(out, otp);
+		out.endObject();
 		otp.setCRC(out.getCRC32());
-		writeMonitor.update(1);
 	}
 
 	private void writeBaseFirst(PackOutputStream out, final ObjectToPack otp)
@@ -781,22 +765,22 @@ public class PackWriter {
 		return walker;
 	}
 
-	private void findObjectsToPack(final ObjectWalk walker)
-			throws MissingObjectException, IncorrectObjectTypeException,
-			IOException {
-		initMonitor.beginTask(COUNTING_OBJECTS_PROGRESS,
+	private void findObjectsToPack(final ProgressMonitor countingMonitor,
+			final ObjectWalk walker) throws MissingObjectException,
+			IncorrectObjectTypeException,			IOException {
+		countingMonitor.beginTask(COUNTING_OBJECTS_PROGRESS,
 				ProgressMonitor.UNKNOWN);
 		RevObject o;
 
 		while ((o = walker.next()) != null) {
 			addObject(o);
-			initMonitor.update(1);
+			countingMonitor.update(1);
 		}
 		while ((o = walker.nextObject()) != null) {
 			addObject(o);
-			initMonitor.update(1);
+			countingMonitor.update(1);
 		}
-		initMonitor.endTask();
+		countingMonitor.endTask();
 	}
 
 	/**

@@ -600,14 +600,15 @@ public class TestRepository<R extends Repository> {
 	public void packAndPrune() throws Exception {
 		if (db.getObjectDatabase() instanceof ObjectDirectory) {
 			ObjectDirectory odb = (ObjectDirectory) db.getObjectDatabase();
+			NullProgressMonitor m = NullProgressMonitor.INSTANCE;
 
 			final File pack, idx;
-			PackWriter pw = new PackWriter(db, NullProgressMonitor.INSTANCE);
+			PackWriter pw = new PackWriter(db);
 			try {
 				Set<ObjectId> all = new HashSet<ObjectId>();
 				for (Ref r : db.getAllRefs().values())
 					all.add(r.getObjectId());
-				pw.preparePack(all, Collections.<ObjectId> emptySet());
+				pw.preparePack(m, all, Collections.<ObjectId> emptySet());
 
 				final ObjectId name = pw.computeName();
 				OutputStream out;
@@ -615,7 +616,7 @@ public class TestRepository<R extends Repository> {
 				pack = nameFor(odb, name, ".pack");
 				out = new BufferedOutputStream(new FileOutputStream(pack));
 				try {
-					pw.writePack(out);
+					pw.writePack(m, m, out);
 				} finally {
 					out.close();
 				}

@@ -92,11 +92,9 @@ public class BundleWriter {
 	 *
 	 * @param repo
 	 *            repository where objects are stored.
-	 * @param monitor
-	 *            operations progress monitor.
 	 */
-	public BundleWriter(final Repository repo, final ProgressMonitor monitor) {
-		packWriter = new PackWriter(repo, monitor);
+	public BundleWriter(final Repository repo) {
+		packWriter = new PackWriter(repo);
 		include = new TreeMap<String, ObjectId>();
 		assume = new HashSet<RevCommit>();
 	}
@@ -155,6 +153,8 @@ public class BundleWriter {
 	 * <p>
 	 * This method can only be called once per BundleWriter instance.
 	 *
+	 * @param monitor
+	 *            progress monitor to report bundle writing status to.
 	 * @param os
 	 *            the stream the bundle is written to. The stream should be
 	 *            buffered by the caller. The caller is responsible for closing
@@ -164,7 +164,8 @@ public class BundleWriter {
 	 *             the bundle, or writing compressed object data to the output
 	 *             stream.
 	 */
-	public void writeBundle(OutputStream os) throws IOException {
+	public void writeBundle(ProgressMonitor monitor, OutputStream os)
+			throws IOException {
 		try {
 			final HashSet<ObjectId> inc = new HashSet<ObjectId>();
 			final HashSet<ObjectId> exc = new HashSet<ObjectId>();
@@ -172,7 +173,7 @@ public class BundleWriter {
 			for (final RevCommit r : assume)
 				exc.add(r.getId());
 			packWriter.setThin(exc.size() > 0);
-			packWriter.preparePack(inc, exc);
+			packWriter.preparePack(monitor, inc, exc);
 
 			final Writer w = new OutputStreamWriter(os, Constants.CHARSET);
 			w.write(TransportBundle.V2_BUNDLE_SIGNATURE);
@@ -197,7 +198,7 @@ public class BundleWriter {
 
 			w.write('\n');
 			w.flush();
-			packWriter.writePack(os);
+			packWriter.writePack(monitor, monitor, os);
 		} finally {
 			packWriter.release();
 		}

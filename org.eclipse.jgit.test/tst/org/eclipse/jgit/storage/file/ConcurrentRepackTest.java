@@ -134,7 +134,7 @@ public class ConcurrentRepackTest extends RepositoryTestCase {
 		// within the pack has been modified.
 		//
 		final RevObject o2 = writeBlob(eden, "o2");
-		final PackWriter pw = new PackWriter(eden, NullProgressMonitor.INSTANCE);
+		final PackWriter pw = new PackWriter(eden);
 		pw.addObject(o2);
 		pw.addObject(o1);
 		write(out1, pw);
@@ -199,7 +199,7 @@ public class ConcurrentRepackTest extends RepositoryTestCase {
 
 	private File[] pack(final Repository src, final RevObject... list)
 			throws IOException {
-		final PackWriter pw = new PackWriter(src, NullProgressMonitor.INSTANCE);
+		final PackWriter pw = new PackWriter(src);
 		for (final RevObject o : list) {
 			pw.addObject(o);
 		}
@@ -216,11 +216,12 @@ public class ConcurrentRepackTest extends RepositoryTestCase {
 	private static void write(final File[] files, final PackWriter pw)
 			throws IOException {
 		final long begin = files[0].getParentFile().lastModified();
+		NullProgressMonitor m = NullProgressMonitor.INSTANCE;
 		OutputStream out;
 
 		out = new BufferedOutputStream(new FileOutputStream(files[0]));
 		try {
-			pw.writePack(out);
+			pw.writePack(m, m, out);
 		} finally {
 			out.close();
 		}

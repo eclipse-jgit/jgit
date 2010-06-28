@@ -231,7 +231,7 @@ class BasePackPushConnection extends BasePackConnection implements
 		List<ObjectId> newObjects = new ArrayList<ObjectId>(refUpdates.size());
 
 		final long start;
-		final PackWriter writer = new PackWriter(local, monitor);
+		final PackWriter writer = new PackWriter(local);
 		try {
 
 			for (final Ref r : getRefs())
@@ -244,9 +244,9 @@ class BasePackPushConnection extends BasePackConnection implements
 
 			writer.setThin(thinPack);
 			writer.setDeltaBaseAsOffset(capableOfsDelta);
-			writer.preparePack(newObjects, remoteObjects);
+			writer.preparePack(monitor, newObjects, remoteObjects);
 			start = System.currentTimeMillis();
-			writer.writePack(out);
+			writer.writePack(monitor, monitor, out);
 		} finally {
 			writer.release();
 		}

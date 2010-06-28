@@ -568,11 +568,11 @@ public class UploadPack {
 		}
 
 		final PackWriter pw;
-		pw = new PackWriter(db, pm, NullProgressMonitor.INSTANCE);
+		pw = new PackWriter(db);
 		try {
 			pw.setDeltaBaseAsOffset(options.contains(OPTION_OFS_DELTA));
 			pw.setThin(thin);
-			pw.preparePack(wantAll, commonBase);
+			pw.preparePack(pm, wantAll, commonBase);
 			if (options.contains(OPTION_INCLUDE_TAG)) {
 				for (final Ref r : refs.values()) {
 					final RevObject o;
@@ -588,7 +588,7 @@ public class UploadPack {
 						pw.addObject(t);
 				}
 			}
-			pw.writePack(packOut);
+			pw.writePack(pm, NullProgressMonitor.INSTANCE, packOut);
 		} finally {
 			pw.release();
 		}

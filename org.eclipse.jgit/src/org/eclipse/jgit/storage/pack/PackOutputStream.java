@@ -50,10 +50,13 @@ import java.security.MessageDigest;
 import java.util.zip.CRC32;
 
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.util.NB;
 
 /** Custom output stream to support {@link PackWriter}. */
 public final class PackOutputStream extends OutputStream {
+	private final ProgressMonitor writeMonitor;
+
 	private final OutputStream out;
 
 	private final boolean ofsDelta;
@@ -68,7 +71,9 @@ public final class PackOutputStream extends OutputStream {
 
 	private byte[] copyBuffer;
 
-	PackOutputStream(final OutputStream out, final boolean ofsDelta) {
+	PackOutputStream(final ProgressMonitor writeMonitor,
+			final OutputStream out, final boolean ofsDelta) {
+		this.writeMonitor = writeMonitor;
 		this.out = out;
 		this.ofsDelta = ofsDelta;
 	}
@@ -166,6 +171,10 @@ public final class PackOutputStream extends OutputStream {
 		if (copyBuffer == null)
 			copyBuffer = new byte[16 * 1024];
 		return copyBuffer;
+	}
+
+	void endObject() {
+		writeMonitor.update(1);
 	}
 
 	/** @return total number of bytes written since stream start. */

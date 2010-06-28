@@ -59,6 +59,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.SampleDataRepositoryTestCase;
 import org.eclipse.jgit.lib.TextProgressMonitor;
@@ -95,7 +96,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 		packBase = new File(trash, "tmp_pack");
 		packFile = new File(trash, "tmp_pack.pack");
 		indexFile = new File(trash, "tmp_pack.idx");
-		writer = new PackWriter(db, new TextProgressMonitor());
+		writer = new PackWriter(db);
 	}
 
 	/**
@@ -480,18 +481,20 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 			final Collection<ObjectId> uninterestings, final boolean thin,
 			final boolean ignoreMissingUninteresting)
 			throws MissingObjectException, IOException {
+		NullProgressMonitor m = NullProgressMonitor.INSTANCE;
 		writer.setThin(thin);
 		writer.setIgnoreMissingUninteresting(ignoreMissingUninteresting);
-		writer.preparePack(interestings, uninterestings);
-		writer.writePack(os);
+		writer.preparePack(m, interestings, uninterestings);
+		writer.writePack(m, m, os);
 		writer.release();
 		verifyOpenPack(thin);
 	}
 
 	private void createVerifyOpenPack(final Iterator<RevObject> objectSource)
 			throws MissingObjectException, IOException {
+		NullProgressMonitor m = NullProgressMonitor.INSTANCE;
 		writer.preparePack(objectSource);
-		writer.writePack(os);
+		writer.writePack(m, m, os);
 		writer.release();
 		verifyOpenPack(false);
 	}
