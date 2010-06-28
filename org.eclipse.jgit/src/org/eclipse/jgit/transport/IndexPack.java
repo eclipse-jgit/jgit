@@ -593,8 +593,10 @@ public class IndexPack {
 				continue;
 			if (needBaseObjectIds)
 				baseObjectIds.add(baseId);
-			final ObjectLoader ldr = repo.openObject(readCurs, baseId);
-			if (ldr == null) {
+			final ObjectLoader ldr;
+			try {
+				ldr = readCurs.openObject(baseId);
+			} catch (MissingObjectException notFound) {
 				missing.add(baseId);
 				continue;
 			}
@@ -856,7 +858,7 @@ public class IndexPack {
 		try {
 			final ObjectLoader ldr = readCurs.openObject(id, type);
 			final byte[] existingData = ldr.getCachedBytes();
-			if (ldr.getType() != type || !Arrays.equals(data, existingData)) {
+			if (!Arrays.equals(data, existingData)) {
 				throw new IOException(MessageFormat.format(JGitText.get().collisionOn, id.name()));
 			}
 		} catch (MissingObjectException notLocal) {

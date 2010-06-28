@@ -51,7 +51,6 @@ import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.ObjectLoader;
 
 /** Base object type accessed during revision walking. */
 public abstract class RevObject extends ObjectId {
@@ -78,13 +77,7 @@ public abstract class RevObject extends ObjectId {
 	final byte[] loadCanonical(final RevWalk walk) throws IOException,
 			MissingObjectException, IncorrectObjectTypeException,
 			CorruptObjectException {
-		final ObjectLoader ldr = walk.db.openObject(walk.curs, this);
-		if (ldr == null)
-			throw new MissingObjectException(this, getType());
-		final byte[] data = ldr.getCachedBytes();
-		if (getType() != ldr.getType())
-			throw new IncorrectObjectTypeException(this, getType());
-		return data;
+		return walk.curs.openObject(this, getType()).getCachedBytes();
 	}
 
 	/**

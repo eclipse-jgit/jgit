@@ -54,9 +54,8 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.MutableObjectId;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.ObjectLoader;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.lib.Repository;
 
 /** Parses raw Git trees from the canonical semi-text/semi-binary format. */
 public class CanonicalTreeParser extends AbstractTreeIterator {
@@ -199,17 +198,7 @@ public class CanonicalTreeParser extends AbstractTreeIterator {
 	public void reset(final Repository repo, final AnyObjectId id,
 			final ObjectReader curs)
 			throws IncorrectObjectTypeException, IOException {
-		final ObjectLoader ldr = repo.openObject(curs, id);
-		if (ldr == null) {
-			final ObjectId me = id.toObjectId();
-			throw new MissingObjectException(me, Constants.TYPE_TREE);
-		}
-		final byte[] subtreeData = ldr.getCachedBytes();
-		if (ldr.getType() != Constants.OBJ_TREE) {
-			final ObjectId me = id.toObjectId();
-			throw new IncorrectObjectTypeException(me, Constants.TYPE_TREE);
-		}
-		reset(subtreeData);
+		reset(curs.openObject(id, Constants.OBJ_TREE).getCachedBytes());
 	}
 
 	@Override

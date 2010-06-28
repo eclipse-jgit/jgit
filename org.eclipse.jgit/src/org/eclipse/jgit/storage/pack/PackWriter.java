@@ -730,7 +730,7 @@ public class PackWriter {
 
 	private void writeWholeObjectDeflate(final ObjectToPack otp)
 			throws IOException {
-		final ObjectLoader loader = db.openObject(reader, otp);
+		final ObjectLoader loader = reader.openObject(otp, otp.getType());
 		final byte[] data = loader.getCachedBytes();
 		out.writeHeader(otp, data.length);
 		deflater.reset();
