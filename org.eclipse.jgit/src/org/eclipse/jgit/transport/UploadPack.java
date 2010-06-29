@@ -567,8 +567,7 @@ public class UploadPack {
 						SideBandOutputStream.CH_PROGRESS, bufsz, rawOut));
 		}
 
-		final PackWriter pw;
-		pw = new PackWriter(db);
+		final PackWriter pw = new PackWriter(db);
 		try {
 			pw.setDeltaBaseAsOffset(options.contains(OPTION_OFS_DELTA));
 			pw.setThin(thin);
