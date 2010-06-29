@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALwX///5U\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawTextIgnoreAllWhitespace.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-06-25T00:22:52Z",
+      "side": 1,
+      "message": "Style-nit: No @author tags.",
+      "revId": "c2f79e85215e48d3fd53ec1b4ad13373dd183a4a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///5Q\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawTextIgnoreAllWhitespace.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-06-25T00:22:52Z",
+      "side": 1,
+      "message": "Style-nit:  In JGit we don\u0027t put curly braces around single line statements.",
+      "revId": "c2f79e85215e48d3fd53ec1b4ad13373dd183a4a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///5M\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawTextIgnoreAllWhitespace.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-06-25T00:22:52Z",
+      "side": 1,
+      "message": "Performance-nit:  Pull a.content[as] and b.content[bs] into local variables within the body of the while loop so we only evaluate the array index once per position.\n\nBasically, the compiler can\u0027t prove that a.content[as] wasn\u0027t modified between the two reads of it, so it\u0027ll have to read it again.  Since array bounds have to be checked at runtime, we have to recheck as against the array length.  The JIT _might_ be able to avoid the array bound check   Pulling into a local proves to the compiler it can cache the value safely.",
+      "revId": "c2f79e85215e48d3fd53ec1b4ad13373dd183a4a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///5E\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawTextIgnoreAllWhitespace.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-06-25T00:22:52Z",
+      "side": 1,
+      "message": "I think your entire logic would be simplified if you could write a method such as:\n\n  static int trimTrailingWhitespace(int ptr, byte[] raw)\n\nand use that to correct ae and be above before you even start the main compare while loop.  Then when the compare is done, you don\u0027t need to worry about checking for tailing space on the end.\n\nIts not very common to have trailing spaces on the end of lines.  Prefiltering the line to trim it off will be mostly a no-op, or at most, one CR in a CRLF file, so very trivial.  Even if we break out on the first non-space character compare, its probably not a huge hit that we prefiltered ae,be at the start.\n\nLikewise, you can simplify the code with a trimLeadingWhitespace method that prefilters as,bs before the main while loop starts.  Then you know you are looking at a non-whitespace character at the start of the while loop, and only need to skip over whitespace characters after the first non-whitespace.  Which, that code should share a lot of similarity with trimLeadingWhitespace.  Possibly making my performance-nit above not very desirable to implement.",
+      "revId": "c2f79e85215e48d3fd53ec1b4ad13373dd183a4a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///5I\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawTextIgnoreAllWhitespace.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-06-25T00:22:52Z",
+      "side": 1,
+      "message": "Performance-nit: Same nit as above, pull raw[ptr] into a local variable so its not evaluated twice.",
+      "revId": "c2f79e85215e48d3fd53ec1b4ad13373dd183a4a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///5c\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RawCharUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-06-25T00:22:52Z",
+      "side": 1,
+      "message": "Please include the standard JGit copyright header on all new files.",
+      "revId": "c2f79e85215e48d3fd53ec1b4ad13373dd183a4a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///5Y\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RawCharUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-06-25T00:22:52Z",
+      "side": 1,
+      "message": "Style-nit:  We don\u0027t include @author tags in JGit.",
+      "revId": "c2f79e85215e48d3fd53ec1b4ad13373dd183a4a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
