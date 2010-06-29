@@ -70,6 +70,7 @@ import org.eclipse.jgit.lib.MutableObjectId;
 import org.eclipse.jgit.lib.ObjectChecker;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -181,11 +182,15 @@ class WalkFetchConnection extends BaseFetchConnection {
 	/** Inserter to write objects onto {@link #local}. */
 	private final ObjectInserter inserter;
 
+	/** Inserter to read objects from {@link #local}. */
+	private final ObjectReader reader;
+
 	WalkFetchConnection(final WalkTransport t, final WalkRemoteObjectDatabase w) {
 		Transport wt = (Transport)t;
 		local = wt.local;
 		objCheck = wt.isCheckFetchedObjects() ? new ObjectChecker() : null;
 		inserter = local.newObjectInserter();
+		reader = local.newObjectReader();
 
 		remotes = new ArrayList<WalkRemoteObjectDatabase>();
 		remotes.add(w);
@@ -202,9 +207,9 @@ class WalkFetchConnection extends BaseFetchConnection {
 		fetchErrors = new HashMap<ObjectId, List<Throwable>>();
 		packLocks = new ArrayList<PackLock>(4);
 
-		revWalk = new RevWalk(local);
+		revWalk = new RevWalk(reader);
 		revWalk.setRetainBody(false);
-		treeWalk = new TreeWalk(local);
+		treeWalk = new TreeWalk(reader);
 		COMPLETE = revWalk.newFlag("COMPLETE");
 		IN_WORK_QUEUE = revWalk.newFlag("IN_WORK_QUEUE");
 		LOCALLY_SEEN = revWalk.newFlag("LOCALLY_SEEN");
@@ -243,6 +248,7 @@ class WalkFetchConnection extends BaseFetchConnection {
 	@Override
 	public void close() {
 		inserter.release();
+		reader.release();
 		for (final RemotePack p : unfetchedPacks) {
 			if (p.tmpIdx != null)
 				p.tmpIdx.delete();
@@ -314,10 +320,17 @@ class WalkFetchConnection extends BaseFetchConnection {
 	}
 
 	private void processBlob(final RevObject obj) throws TransportException {
-		if (!local.hasObject(obj))
-			throw new TransportException(MessageFormat.format(JGitText.get().cannotReadBlob, obj.name()),
-					new MissingObjectException(obj, Constants.TYPE_BLOB));
-		obj.add(COMPLETE);
+		try {
+			if (reader.has(obj, Constants.OBJ_BLOB))
+				obj.add(COMPLETE);
+			else
+				throw new TransportException(MessageFormat.format(JGitText
+						.get().cannotReadBlob, obj.name()),
+						new MissingObjectException(obj, Constants.TYPE_BLOB));
+		} catch (IOException error) {
+			throw new TransportException(MessageFormat.format(
+					JGitText.get().cannotReadBlob, obj.name()), error);
+		}
 	}
 
 	private void processTree(final RevObject obj) throws TransportException {
@@ -374,7 +387,7 @@ class WalkFetchConnection extends BaseFetchConnection {
 
 	private void downloadObject(final ProgressMonitor pm, final AnyObjectId id)
 			throws TransportException {
-		if (local.hasObject(id))
+		if (alreadyHave(id))
 			return;
 
 		for (;;) {
@@ -461,6 +474,15 @@ class WalkFetchConnection extends BaseFetchConnection {
 		}
 	}
 
+	private boolean alreadyHave(final AnyObjectId id) throws TransportException {
+		try {
+			return reader.has(id);
+		} catch (IOException error) {
+			throw new TransportException(MessageFormat.format(
+					JGitText.get().cannotReadObject, id.name()), error);
+		}
+	}
+
 	private boolean downloadPackedObject(final ProgressMonitor monitor,
 			final AnyObjectId id) throws TransportException {
 		// Search for the object in a remote pack whose index we have,
@@ -522,7 +544,7 @@ class WalkFetchConnection extends BaseFetchConnection {
 				packItr.remove();
 			}
 
-			if (!local.hasObject(id)) {
+			if (!alreadyHave(id)) {
 				// What the hell? This pack claimed to have
 				// the object, but after indexing we didn't
 				// actually find it in the pack.
