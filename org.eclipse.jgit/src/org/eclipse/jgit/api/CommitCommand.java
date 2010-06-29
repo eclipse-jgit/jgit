@@ -160,38 +160,42 @@ public class CommitCommand extends GitCommand<RevCommit> {
 							.format(commit));
 					odi.flush();
 
-					RevCommit revCommit = new RevWalk(repo)
-							.parseCommit(commitId);
-					RefUpdate ru = repo.updateRef(Constants.HEAD);
-					ru.setNewObjectId(commitId);
-					ru.setRefLogMessage("commit : "
-							+ revCommit.getShortMessage(), false);
+					RevWalk revWalk = new RevWalk(repo);
+					try {
+						RevCommit revCommit = revWalk.parseCommit(commitId);
+						RefUpdate ru = repo.updateRef(Constants.HEAD);
+						ru.setNewObjectId(commitId);
+						ru.setRefLogMessage("commit : "
+								+ revCommit.getShortMessage(), false);
 
-					ru.setExpectedOldObjectId(headId);
-					Result rc = ru.update();
-					switch (rc) {
-					case NEW:
-					case FAST_FORWARD: {
-						setCallable(false);
-						File meta = repo.getDirectory();
-						if (state == RepositoryState.MERGING_RESOLVED
-								&& meta != null) {
-							// Commit was successful. Now delete the files
-							// used for merge commits
-							new File(meta, Constants.MERGE_HEAD).delete();
-							new File(meta, Constants.MERGE_MSG).delete();
+						ru.setExpectedOldObjectId(headId);
+						Result rc = ru.update();
+						switch (rc) {
+						case NEW:
+						case FAST_FORWARD: {
+							setCallable(false);
+							File meta = repo.getDirectory();
+							if (state == RepositoryState.MERGING_RESOLVED
+									&& meta != null) {
+								// Commit was successful. Now delete the files
+								// used for merge commits
+								new File(meta, Constants.MERGE_HEAD).delete();
+								new File(meta, Constants.MERGE_MSG).delete();
+							}
+							return revCommit;
 						}
-						return revCommit;
-					}
-					case REJECTED:
-					case LOCK_FAILURE:
-						throw new ConcurrentRefUpdateException(
-								JGitText.get().couldNotLockHEAD, ru.getRef(),
-								rc);
-					default:
-						throw new JGitInternalException(MessageFormat.format(
-								JGitText.get().updatingRefFailed,
-								Constants.HEAD, commitId.toString(), rc));
+						case REJECTED:
+						case LOCK_FAILURE:
+							throw new ConcurrentRefUpdateException(JGitText
+									.get().couldNotLockHEAD, ru.getRef(), rc);
+						default:
+							throw new JGitInternalException(MessageFormat
+									.format(JGitText.get().updatingRefFailed,
+											Constants.HEAD,
+											commitId.toString(), rc));
+						}
+					} finally {
+						revWalk.release();
 					}
 				} finally {
 					odi.release();

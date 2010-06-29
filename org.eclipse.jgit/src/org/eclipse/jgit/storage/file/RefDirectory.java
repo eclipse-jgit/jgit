@@ -74,6 +74,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.eclipse.jgit.JGitText;
+import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.ObjectWritingException;
 import org.eclipse.jgit.events.RefsChangedEvent;
 import org.eclipse.jgit.lib.Constants;
@@ -418,16 +419,7 @@ public class RefDirectory extends RefDatabase {
 		if (leaf.isPeeled() || leaf.getObjectId() == null)
 			return ref;
 
-		RevWalk rw = new RevWalk(getRepository());
-		RevObject obj = rw.parseAny(leaf.getObjectId());
-		ObjectIdRef newLeaf;
-		if (obj instanceof RevTag) {
-			newLeaf = new ObjectIdRef.PeeledTag(leaf.getStorage(), leaf
-					.getName(), leaf.getObjectId(), rw.peel(obj).copy());
-		} else {
-			newLeaf = new ObjectIdRef.PeeledNonTag(leaf.getStorage(), leaf
-					.getName(), leaf.getObjectId());
-		}
+		ObjectIdRef newLeaf = doPeel(leaf);
 
 		// Try to remember this peeling in the cache, so we don't have to do
 		// it again in the future, but only if the reference is unchanged.
@@ -442,6 +434,23 @@ public class RefDirectory extends RefDatabase {
 		}
 
 		return recreate(ref, newLeaf);
+	}
+
+	private ObjectIdRef doPeel(final Ref leaf) throws MissingObjectException,
+			IOException {
+		RevWalk rw = new RevWalk(getRepository());
+		try {
+			RevObject obj = rw.parseAny(leaf.getObjectId());
+			if (obj instanceof RevTag) {
+				return new ObjectIdRef.PeeledTag(leaf.getStorage(), leaf
+						.getName(), leaf.getObjectId(), rw.peel(obj).copy());
+			} else {
+				return new ObjectIdRef.PeeledNonTag(leaf.getStorage(), leaf
+						.getName(), leaf.getObjectId());
+			}
+		} finally {
+			rw.release();
+		}
 	}
 
 	private static Ref recreate(final Ref old, final ObjectIdRef leaf) {

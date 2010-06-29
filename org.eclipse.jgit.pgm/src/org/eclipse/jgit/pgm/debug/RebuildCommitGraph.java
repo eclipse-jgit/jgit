@@ -297,6 +297,7 @@ class RebuildCommitGraph extends TextBuiltin {
 						name, id));
 			}
 		} finally {
+			rw.release();
 			br.close();
 		}
 		return refs;

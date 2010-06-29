@@ -63,6 +63,7 @@ import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.StoredObjectRepresentationNotAvailableException;
 import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.CoreConfig;
 import org.eclipse.jgit.lib.NullProgressMonitor;
@@ -181,8 +182,6 @@ public class PackWriter {
 	// edge objects for thin packs
 	private final ObjectIdSubclassMap<ObjectId> edgeObjects = new ObjectIdSubclassMap<ObjectId>();
 
-	private final Repository db;
-
 	private final Deflater deflater;
 
 	private final ObjectReader reader;
@@ -218,17 +217,49 @@ public class PackWriter {
 	 *            repository where objects are stored.
 	 */
 	public PackWriter(final Repository repo) {
-		this.db = repo;
+		this(repo, repo.newObjectReader());
+	}
 
-		reader = db.newObjectReader();
+	/**
+	 * Create a writer to load objects from the specified reader.
+	 * <p>
+	 * Objects for packing are specified in {@link #preparePack(Iterator)} or
+	 * {@link #preparePack(ProgressMonitor, Collection, Collection)}.
+	 *
+	 * @param reader
+	 *            reader to read from the repository with.
+	 */
+	public PackWriter(final ObjectReader reader) {
+		this(null, reader);
+	}
+
+	/**
+	 * Create writer for specified repository.
+	 * <p>
+	 * Objects for packing are specified in {@link #preparePack(Iterator)} or
+	 * {@link #preparePack(ProgressMonitor, Collection, Collection)}.
+	 *
+	 * @param repo
+	 *            repository where objects are stored.
+	 * @param reader
+	 *            reader to read from the repository with.
+	 */
+	public PackWriter(final Repository repo, final ObjectReader reader) {
+		this.reader = reader;
 		if (reader instanceof ObjectReuseAsIs)
 			reuseSupport = ((ObjectReuseAsIs) reader);
 		else
 			reuseSupport = null;
 
-		final CoreConfig coreConfig = db.getConfig().get(CoreConfig.KEY);
-		this.deflater = new Deflater(coreConfig.getCompression());
+		final CoreConfig coreConfig = configOf(repo).get(CoreConfig.KEY);
+		deflater = new Deflater(coreConfig.getCompression());
 		outputVersion = coreConfig.getPackIndexVersion();
+	}
+
+	private static Config configOf(final Repository repo) {
+		if (repo == null)
+			return new Config();
+		return repo.getConfig();
 	}
 
 	/**

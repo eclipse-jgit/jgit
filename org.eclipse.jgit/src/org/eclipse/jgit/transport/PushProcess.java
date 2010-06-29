@@ -122,32 +122,38 @@ class PushProcess {
 	 */
 	PushResult execute(final ProgressMonitor monitor)
 			throws NotSupportedException, TransportException {
-		monitor.beginTask(PROGRESS_OPENING_CONNECTION, ProgressMonitor.UNKNOWN);
-
-		final PushResult res = new PushResult();
-		connection = transport.openPush();
 		try {
-			res.setAdvertisedRefs(transport.getURI(), connection.getRefsMap());
-			res.setRemoteUpdates(toPush);
-			monitor.endTask();
+			monitor.beginTask(PROGRESS_OPENING_CONNECTION,
+					ProgressMonitor.UNKNOWN);
 
-			final Map<String, RemoteRefUpdate> preprocessed = prepareRemoteUpdates();
-			if (transport.isDryRun())
-				modifyUpdatesForDryRun();
-			else if (!preprocessed.isEmpty())
-				connection.push(monitor, preprocessed);
+			final PushResult res = new PushResult();
+			connection = transport.openPush();
+			try {
+				res.setAdvertisedRefs(transport.getURI(), connection
+						.getRefsMap());
+				res.setRemoteUpdates(toPush);
+				monitor.endTask();
+
+				final Map<String, RemoteRefUpdate> preprocessed = prepareRemoteUpdates();
+				if (transport.isDryRun())
+					modifyUpdatesForDryRun();
+				else if (!preprocessed.isEmpty())
+					connection.push(monitor, preprocessed);
+			} finally {
+				connection.close();
+				res.addMessages(connection.getMessages());
+			}
+			if (!transport.isDryRun())
+				updateTrackingRefs();
+			for (final RemoteRefUpdate rru : toPush.values()) {
+				final TrackingRefUpdate tru = rru.getTrackingRefUpdate();
+				if (tru != null)
+					res.add(tru);
+			}
+			return res;
 		} finally {
-			connection.close();
-			res.addMessages(connection.getMessages());
+			walker.release();
 		}
-		if (!transport.isDryRun())
-			updateTrackingRefs();
-		for (final RemoteRefUpdate rru : toPush.values()) {
-			final TrackingRefUpdate tru = rru.getTrackingRefUpdate();
-			if (tru != null)
-				res.add(tru);
-		}
-		return res;
 	}
 
 	private Map<String, RemoteRefUpdate> prepareRemoteUpdates()

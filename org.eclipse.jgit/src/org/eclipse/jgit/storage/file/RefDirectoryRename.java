@@ -92,10 +92,10 @@ class RefDirectoryRename extends RefRename {
 		if (source.getRef().isSymbolic())
 			return Result.IO_FAILURE; // not supported
 
-		final RevWalk rw = new RevWalk(refdb.getRepository());
 		objId = source.getOldObjectId();
 		updateHEAD = needToUpdateHEAD();
 		tmp = refdb.newTemporaryUpdate();
+		final RevWalk rw = new RevWalk(refdb.getRepository());
 		try {
 			// First backup the source so its never unreachable.
 			tmp.setNewObjectId(objId);
@@ -177,6 +177,7 @@ class RefDirectoryRename extends RefRename {
 			} catch (IOException err) {
 				refdb.fileFor(tmp.getName()).delete();
 			}
+			rw.release();
 		}
 	}
 

@@ -296,6 +296,7 @@ public class UploadPack {
 			pckOut = new PacketLineOut(rawOut);
 			service();
 		} finally {
+			walk.release();
 			if (timer != null) {
 				try {
 					timer.terminate();
@@ -567,7 +568,7 @@ public class UploadPack {
 						SideBandOutputStream.CH_PROGRESS, bufsz, rawOut));
 		}
 
-		final PackWriter pw = new PackWriter(db);
+		final PackWriter pw = new PackWriter(db, walk.getObjectReader());
 		try {
 			pw.setDeltaBaseAsOffset(options.contains(OPTION_OFS_DELTA));
 			pw.setThin(thin);

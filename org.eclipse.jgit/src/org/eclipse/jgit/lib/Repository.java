@@ -484,9 +484,17 @@ public abstract class Repository {
 	 *             on serious errors
 	 */
 	public ObjectId resolve(final String revstr) throws IOException {
+		RevWalk rw = new RevWalk(this);
+		try {
+			return resolve(rw, revstr);
+		} finally {
+			rw.release();
+		}
+	}
+
+	private ObjectId resolve(final RevWalk rw, final String revstr) throws IOException {
 		char[] rev = revstr.toCharArray();
 		RevObject ref = null;
-		RevWalk rw = new RevWalk(this);
 		for (int i = 0; i < rev.length; ++i) {
 			switch (rev[i]) {
 			case '^':

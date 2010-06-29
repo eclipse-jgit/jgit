@@ -83,7 +83,12 @@ class UploadPackServlet extends HttpServlet {
 		protected void advertise(HttpServletRequest req, Repository db,
 				PacketLineOutRefAdvertiser pck) throws IOException,
 				ServiceNotEnabledException, ServiceNotAuthorizedException {
-			uploadPackFactory.create(req, db).sendAdvertisedRefs(pck);
+			UploadPack up = uploadPackFactory.create(req, db);
+			try {
+				up.sendAdvertisedRefs(pck);
+			} finally {
+				up.getRevWalk().release();
+			}
 		}
 	}
 

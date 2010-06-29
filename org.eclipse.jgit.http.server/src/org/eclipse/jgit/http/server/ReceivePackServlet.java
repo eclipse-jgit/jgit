@@ -83,7 +83,12 @@ class ReceivePackServlet extends HttpServlet {
 		protected void advertise(HttpServletRequest req, Repository db,
 				PacketLineOutRefAdvertiser pck) throws IOException,
 				ServiceNotEnabledException, ServiceNotAuthorizedException {
-			receivePackFactory.create(req, db).sendAdvertisedRefs(pck);
+			ReceivePack rp = receivePackFactory.create(req, db);
+			try {
+				rp.sendAdvertisedRefs(pck);
+			} finally {
+				rp.getRevWalk().release();
+			}
 		}
 	}
 

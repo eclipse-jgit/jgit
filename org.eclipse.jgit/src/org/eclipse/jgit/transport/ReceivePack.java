@@ -574,6 +574,7 @@ public class ReceivePack {
 
 			service();
 		} finally {
+			walk.release();
 			try {
 				if (pckOut != null)
 					pckOut.flush();

@@ -270,6 +270,12 @@ abstract class BasePackFetchConnection extends BasePackConnection implements
 		}
 	}
 
+	@Override
+	public void close() {
+		walk.release();
+		super.close();
+	}
+
 	private int maxTimeWanted(final Collection<Ref> wants) {
 		int maxTime = 0;
 		for (final Ref r : wants) {
