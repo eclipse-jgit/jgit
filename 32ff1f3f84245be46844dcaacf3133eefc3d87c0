@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALwX///1k\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RawCharUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-06-28T17:52:21Z",
+      "side": 1,
+      "message": "I\u0027m still having a hard time groking end \u003e start.  The typical pattern is to say start \u003c end, its easier to visualize.\n\nI think we can also drop out a subtraction instruction from the inner loop here if we are a bit smarter about how we handle the bounds:\n\n  int ptr \u003d end - 1;\n  while (start \u003c\u003d ptr \u0026\u0026 isWhitespace(raw[ptr]))\n    ptr--;\n  return ptr + 1;",
+      "revId": "32ff1f3f84245be46844dcaacf3133eefc3d87c0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
