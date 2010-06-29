@@ -753,7 +753,8 @@ public class TestRepository<R extends Repository> {
 			if (parents.isEmpty()) {
 				DirCacheBuilder b = tree.builder();
 				parseBody(p);
-				b.addTree(new byte[0], DirCacheEntry.STAGE_0, db, p.getTree());
+				b.addTree(new byte[0], DirCacheEntry.STAGE_0, pool
+						.getObjectReader(), p.getTree());
 				b.finish();
 			}
 			parents.add(p);

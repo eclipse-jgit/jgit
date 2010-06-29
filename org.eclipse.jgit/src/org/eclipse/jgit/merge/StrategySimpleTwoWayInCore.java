@@ -171,7 +171,7 @@ public class StrategySimpleTwoWayInCore extends ThreeWayMergeStrategy {
 			final AbstractTreeIterator i = getTree(tree);
 			if (i != null) {
 				if (FileMode.TREE.equals(tw.getRawMode(tree))) {
-					builder.addTree(tw.getRawPath(), stage, db, tw
+					builder.addTree(tw.getRawPath(), stage, reader, tw
 							.getObjectId(tree));
 				} else {
 					final DirCacheEntry e;
