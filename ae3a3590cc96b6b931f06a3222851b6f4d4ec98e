@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALwX///2c\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawTextIgnoreAllWhitespace.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-06-25T17:04:34Z",
+      "side": 1,
+      "message": "What about when a is \"foo\" and b is \"f\"?  Wouldn\u0027t you be breaking out early when bs \u003d\u003d be after the first iteration and return true, even though the strings aren\u0027t actually equal?",
+      "revId": "ae3a3590cc96b6b931f06a3222851b6f4d4ec98e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///2g\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawTextIgnoreAllWhitespace.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-06-25T17:04:34Z",
+      "side": 1,
+      "message": "Move these over to your RawCharUtil class, so we can use them in other subclasses of RawText.",
+      "revId": "ae3a3590cc96b6b931f06a3222851b6f4d4ec98e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
