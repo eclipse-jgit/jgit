@@ -53,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "AAALwX///zU\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/diff/RawTextIgnoreWhitespaceChangeTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 73
+      },
+      "writtenOn": "2010-06-29T00:20:51Z",
+      "side": 1,
+      "message": "That\u0027s being done by \"     foo\" !\u003d \"foo\"",
+      "parentUuid": "AAALwX///zk\u003d",
+      "revId": "e56301aafad59ee3f0fe5de62719f5023cd702c8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALwX///zw\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawTextIgnoreWhitespaceChange.java",
         "patchSetId": 1
@@ -64,6 +82,24 @@
       "writtenOn": "2010-06-28T23:59:56Z",
       "side": 1,
       "message": "Why are we bypassing hashing here?  If we can\u0027t hash, can we avoid the cost of the hashes object altogether and simply not create it?  That may mean you need to *not* extend from RawText here, or you need to expose a method that lets you override the construction of the hashes table and instead returns null.\n\nFWIW, you can probably still hash here.  You just have to collapse multiple spaces into a single one when you compute the hash value.",
+      "revId": "e56301aafad59ee3f0fe5de62719f5023cd702c8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///zc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawTextIgnoreWhitespaceChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 73
+      },
+      "writtenOn": "2010-06-29T00:11:12Z",
+      "side": 1,
+      "message": "Whoops, that was something I left over from testing, and forgot to fix. It also means I forgot to do the hash function correctly...",
+      "parentUuid": "AAALwX///zw\u003d",
       "revId": "e56301aafad59ee3f0fe5de62719f5023cd702c8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
