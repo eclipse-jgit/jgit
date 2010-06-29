@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALwX///14\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/diff/RawTextIgnoreAllWhitespaceTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-06-25T18:46:34Z",
+      "side": 1,
+      "message": "We should also test that foo !\u003d f, and f !\u003d foo, to make sure we test the end condition when we fall out of the main loop because one of the strings is shorter than the other.",
+      "revId": "ed3d87373a4c434d8971927e97a0872bcacf0ba2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///10\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/diff/RawTextIgnoreAllWhitespaceTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-06-25T18:46:34Z",
+      "side": 1,
+      "message": "I wouldn\u0027t include this case in testEqualsWithWhitespace.  Do it in the test above, as these two compares don\u0027t have any whitespace on their lines.",
+      "revId": "ed3d87373a4c434d8971927e97a0872bcacf0ba2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///18\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawTextIgnoreAllWhitespace.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-06-25T18:46:34Z",
+      "side": 1,
+      "message": "Given that you just trimmed whitespace before the loop, this is going to be redundant.  I think you can remove the trimLeadingWhitespace of as on 84/85 and just let these loops inside the main loop handle that.",
+      "revId": "ed3d87373a4c434d8971927e97a0872bcacf0ba2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///2A\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawTextIgnoreAllWhitespace.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-06-25T18:46:34Z",
+      "side": 1,
+      "message": "Well, ideally ae - as \u003d 0 and be - bs \u003d 0 here.  That\u0027s the only way that we know we checked every character.  Thing is, this expression is an odd way to say it.\n\nWouldn\u0027t\n\n  return as \u003d\u003d ae \u0026\u0026 bs \u003d\u003d be;\n\nBe a more direct way  to say that we must have evaluated every character in both ranges?",
+      "revId": "ed3d87373a4c434d8971927e97a0872bcacf0ba2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
