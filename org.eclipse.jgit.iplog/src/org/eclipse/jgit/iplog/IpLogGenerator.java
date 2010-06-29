@@ -183,8 +183,8 @@ public class IpLogGenerator {
 		try {
 			db = repo;
 			curs = db.newObjectReader();
-			rw = new RevWalk(db);
-			tw = new NameConflictTreeWalk(db);
+			rw = new RevWalk(curs);
+			tw = new NameConflictTreeWalk(curs);
 
 			RevCommit c = rw.parseCommit(startCommit);
 
