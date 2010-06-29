@@ -272,7 +272,7 @@ public class TestRepository<R extends Repository> {
 	 */
 	public RevObject get(final RevTree tree, final String path)
 			throws AssertionFailedError, Exception {
-		final TreeWalk tw = new TreeWalk(db);
+		final TreeWalk tw = new TreeWalk(pool.getObjectReader());
 		tw.setFilter(PathFilterGroup.createFromStrings(Collections
 				.singleton(path)));
 		tw.reset(tree);

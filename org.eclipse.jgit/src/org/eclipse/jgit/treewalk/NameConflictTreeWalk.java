@@ -46,6 +46,7 @@ package org.eclipse.jgit.treewalk;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.lib.FileMode;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
 
 /**
@@ -93,7 +94,17 @@ public class NameConflictTreeWalk extends TreeWalk {
 	 *            the repository the walker will obtain data from.
 	 */
 	public NameConflictTreeWalk(final Repository repo) {
-		super(repo);
+		this(repo.newObjectReader());
+	}
+
+	/**
+	 * Create a new tree walker for a given repository.
+	 *
+	 * @param or
+	 *            the reader the walker will obtain tree data from.
+	 */
+	public NameConflictTreeWalk(final ObjectReader or) {
+		super(or);
 	}
 
 	@Override

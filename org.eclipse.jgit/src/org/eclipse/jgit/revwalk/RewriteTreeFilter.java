@@ -77,7 +77,7 @@ class RewriteTreeFilter extends RevFilter {
 	private final TreeWalk pathFilter;
 
 	RewriteTreeFilter(final RevWalk walker, final TreeFilter t) {
-		pathFilter = new TreeWalk(walker.db);
+		pathFilter = new TreeWalk(walker.reader);
 		pathFilter.setFilter(t);
 		pathFilter.setRecursive(t.shouldBeRecursive());
 	}

@@ -157,9 +157,10 @@ public class RevWalk implements Iterable<RevCommit> {
 
 	private static final int APP_FLAGS = -1 & ~((1 << RESERVED_FLAGS) - 1);
 
-	final Repository db;
+	/** Exists <b>ONLY</b> to support legacy Tag and Commit objects. */
+	final Repository repository;
 
-	final ObjectReader curs;
+	final ObjectReader reader;
 
 	final MutableObjectId idBuffer;
 
@@ -189,11 +190,29 @@ public class RevWalk implements Iterable<RevCommit> {
 	 * Create a new revision walker for a given repository.
 	 *
 	 * @param repo
-	 *            the repository the walker will obtain data from.
+	 *            the repository the walker will obtain data from. An
+	 *            ObjectReader will be created by the walker, and must be
+	 *            released by the caller.
 	 */
 	public RevWalk(final Repository repo) {
-		db = repo;
-		curs = db.newObjectReader();
+		this(repo, repo.newObjectReader());
+	}
+
+	/**
+	 * Create a new revision walker for a given repository.
+	 *
+	 * @param or
+	 *            the reader the walker will obtain data from. The reader should
+	 *            be released by the caller when the walker is no longer
+	 *            required.
+	 */
+	public RevWalk(ObjectReader or) {
+		this(null, or);
+	}
+
+	private RevWalk(final Repository repo, final ObjectReader or) {
+		repository = repo;
+		reader = or;
 		idBuffer = new MutableObjectId();
 		objects = new ObjectIdSubclassMap<RevObject>();
 		roots = new ArrayList<RevCommit>();
@@ -205,13 +224,19 @@ public class RevWalk implements Iterable<RevCommit> {
 		retainBody = true;
 	}
 
+	/** @return the reader this walker is using to load objects. */
+	public ObjectReader getObjectReader() {
+		return reader;
+	}
+
 	/**
-	 * Get the repository this walker loads objects from.
-	 *
-	 * @return the repository this walker was created to read.
+	 * Release any resources used by this walker's reader.
+	 * <p>
+	 * A walker that has been released can be used again, but may need to be
+	 * released after the subsequent usage.
 	 */
-	public Repository getRepository() {
-		return db;
+	public void release() {
+		reader.release();
 	}
 
 	/**
@@ -720,7 +745,7 @@ public class RevWalk implements Iterable<RevCommit> {
 			throws MissingObjectException, IOException {
 		RevObject r = objects.get(id);
 		if (r == null) {
-			final ObjectLoader ldr = curs.open(id);
+			final ObjectLoader ldr = reader.open(id);
 			final byte[] data = ldr.getCachedBytes();
 			final int type = ldr.getType();
 			switch (type) {
@@ -991,7 +1016,7 @@ public class RevWalk implements Iterable<RevCommit> {
 			}
 		}
 
-		curs.release();
+		reader.release();
 		roots.clear();
 		queue = new DateRevQueue();
 		pending = new StartGenerator(this);
@@ -1006,11 +1031,12 @@ public class RevWalk implements Iterable<RevCommit> {
 	 * All RevFlag instances are also invalidated, and must not be reused.
 	 */
 	public void dispose() {
+		reader.release();
 		freeFlags = APP_FLAGS;
 		delayFreeFlags = 0;
 		carryFlags = UNINTERESTING;
 		objects.clear();
-		curs.release();
+		reader.release();
 		roots.clear();
 		queue = new DateRevQueue();
 		pending = new StartGenerator(this);

@@ -113,11 +113,15 @@ public class TreeWalk {
 			final AnyObjectId... trees) throws MissingObjectException,
 			IncorrectObjectTypeException, CorruptObjectException, IOException {
 		final TreeWalk r = new TreeWalk(db);
-		r.setFilter(PathFilterGroup.createFromStrings(Collections
-				.singleton(path)));
-		r.setRecursive(r.getFilter().shouldBeRecursive());
-		r.reset(trees);
-		return r.next() ? r : null;
+		try {
+			r.setFilter(PathFilterGroup.createFromStrings(Collections
+					.singleton(path)));
+			r.setRecursive(r.getFilter().shouldBeRecursive());
+			r.reset(trees);
+			return r.next() ? r : null;
+		} finally {
+			r.release();
+		}
 	}
 
 	/**
@@ -151,11 +155,9 @@ public class TreeWalk {
 		return forPath(db, path, new ObjectId[] { tree });
 	}
 
-	private final Repository db;
+	private final ObjectReader reader;
 
 	private final MutableObjectId idBuffer = new MutableObjectId();
-
-	private final ObjectReader curs;
 
 	private TreeFilter filter;
 
@@ -180,19 +182,34 @@ public class TreeWalk {
 	 *            the repository the walker will obtain data from.
 	 */
 	public TreeWalk(final Repository repo) {
-		db = repo;
-		curs = repo.newObjectReader();
+		this(repo.newObjectReader());
+	}
+
+	/**
+	 * Create a new tree walker for a given repository.
+	 *
+	 * @param or
+	 *            the reader the walker will obtain tree data from.
+	 */
+	public TreeWalk(final ObjectReader or) {
+		reader = or;
 		filter = TreeFilter.ALL;
 		trees = new AbstractTreeIterator[] { new EmptyTreeIterator() };
 	}
 
+	/** @return the reader this walker is using to load objects. */
+	public ObjectReader getObjectReader() {
+		return reader;
+	}
+
 	/**
-	 * Get the repository this tree walker is reading from.
-	 *
-	 * @return the repository configured when the walker was created.
+	 * Release any resources used by this walker's reader.
+	 * <p>
+	 * A walker that has been released can be used again, but may need to be
+	 * released after the subsequent usage.
 	 */
-	public Repository getRepository() {
-		return db;
+	public void release() {
+		reader.release();
 	}
 
 	/**
@@ -320,7 +337,7 @@ public class TreeWalk {
 			if (o instanceof CanonicalTreeParser) {
 				o.matches = null;
 				o.matchShift = 0;
-				((CanonicalTreeParser) o).reset(db, id, curs);
+				((CanonicalTreeParser) o).reset(reader, id);
 				trees[0] = o;
 			} else {
 				trees[0] = parserFor(id);
@@ -367,7 +384,7 @@ public class TreeWalk {
 				if (o instanceof CanonicalTreeParser && o.pathOffset == 0) {
 					o.matches = null;
 					o.matchShift = 0;
-					((CanonicalTreeParser) o).reset(db, ids[i], curs);
+					((CanonicalTreeParser) o).reset(reader, ids[i]);
 					r[i] = o;
 					continue;
 				}
@@ -837,7 +854,7 @@ public class TreeWalk {
 			final AbstractTreeIterator t = trees[i];
 			final AbstractTreeIterator n;
 			if (t.matches == ch && !t.eof() && FileMode.TREE.equals(t.mode))
-				n = t.createSubtreeIterator(db, idBuffer, curs);
+				n = t.createSubtreeIterator(reader, idBuffer);
 			else
 				n = t.createEmptyTreeIterator();
 			tmp[i] = n;
@@ -912,7 +929,7 @@ public class TreeWalk {
 	private CanonicalTreeParser parserFor(final AnyObjectId id)
 			throws IncorrectObjectTypeException, IOException {
 		final CanonicalTreeParser p = new CanonicalTreeParser();
-		p.reset(db, id, curs);
+		p.reset(reader, id);
 		return p;
 	}
 

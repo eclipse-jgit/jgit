@@ -55,7 +55,6 @@ import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.MutableObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
-import org.eclipse.jgit.lib.Repository;
 
 /** Parses raw Git trees from the canonical semi-text/semi-binary format. */
 public class CanonicalTreeParser extends AbstractTreeIterator {
@@ -85,13 +84,11 @@ public class CanonicalTreeParser extends AbstractTreeIterator {
 	 *            may be null or the empty array to indicate the prefix is the
 	 *            root of the repository. A trailing slash ('/') is
 	 *            automatically appended if the prefix does not end in '/'.
-	 * @param repo
-	 *            repository to load the tree data from.
+	 * @param reader
+	 *            reader to load the tree data from.
 	 * @param treeId
 	 *            identity of the tree being parsed; used only in exception
 	 *            messages if data corruption is found.
-	 * @param curs
-	 *            a window cursor to use during data access from the repository.
 	 * @throws MissingObjectException
 	 *             the object supplied is not available from the repository.
 	 * @throws IncorrectObjectTypeException
@@ -100,11 +97,11 @@ public class CanonicalTreeParser extends AbstractTreeIterator {
 	 * @throws IOException
 	 *             a loose object or pack file could not be read.
 	 */
-	public CanonicalTreeParser(final byte[] prefix, final Repository repo,
-			final AnyObjectId treeId, final ObjectReader curs)
-			throws IncorrectObjectTypeException, IOException {
+	public CanonicalTreeParser(final byte[] prefix, final ObjectReader reader,
+			final AnyObjectId treeId) throws IncorrectObjectTypeException,
+			IOException {
 		super(prefix);
-		reset(repo, treeId, curs);
+		reset(reader, treeId);
 	}
 
 	private CanonicalTreeParser(final CanonicalTreeParser p) {
@@ -130,13 +127,11 @@ public class CanonicalTreeParser extends AbstractTreeIterator {
 	/**
 	 * Reset this parser to walk through the given tree.
 	 *
-	 * @param repo
-	 *            repository to load the tree data from.
+	 * @param reader
+	 *            reader to use during repository access.
 	 * @param id
 	 *            identity of the tree being parsed; used only in exception
 	 *            messages if data corruption is found.
-	 * @param curs
-	 *            window cursor to use during repository access.
 	 * @return the root level parser.
 	 * @throws MissingObjectException
 	 *             the object supplied is not available from the repository.
@@ -146,13 +141,13 @@ public class CanonicalTreeParser extends AbstractTreeIterator {
 	 * @throws IOException
 	 *             a loose object or pack file could not be read.
 	 */
-	public CanonicalTreeParser resetRoot(final Repository repo,
-			final AnyObjectId id, final ObjectReader curs)
-			throws IncorrectObjectTypeException, IOException {
+	public CanonicalTreeParser resetRoot(final ObjectReader reader,
+			final AnyObjectId id) throws IncorrectObjectTypeException,
+			IOException {
 		CanonicalTreeParser p = this;
 		while (p.parent != null)
 			p = (CanonicalTreeParser) p.parent;
-		p.reset(repo, id, curs);
+		p.reset(reader, id);
 		return p;
 	}
 
@@ -180,13 +175,11 @@ public class CanonicalTreeParser extends AbstractTreeIterator {
 	/**
 	 * Reset this parser to walk through the given tree.
 	 *
-	 * @param repo
-	 *            repository to load the tree data from.
+	 * @param reader
+	 *            reader to use during repository access.
 	 * @param id
 	 *            identity of the tree being parsed; used only in exception
 	 *            messages if data corruption is found.
-	 * @param curs
-	 *            window cursor to use during repository access.
 	 * @throws MissingObjectException
 	 *             the object supplied is not available from the repository.
 	 * @throws IncorrectObjectTypeException
@@ -195,22 +188,21 @@ public class CanonicalTreeParser extends AbstractTreeIterator {
 	 * @throws IOException
 	 *             a loose object or pack file could not be read.
 	 */
-	public void reset(final Repository repo, final AnyObjectId id,
-			final ObjectReader curs)
+	public void reset(final ObjectReader reader, final AnyObjectId id)
 			throws IncorrectObjectTypeException, IOException {
-		reset(curs.open(id, Constants.OBJ_TREE).getCachedBytes());
+		reset(reader.open(id, Constants.OBJ_TREE).getCachedBytes());
 	}
 
 	@Override
-	public CanonicalTreeParser createSubtreeIterator(final Repository repo,
-			final MutableObjectId idBuffer, final ObjectReader curs)
+	public CanonicalTreeParser createSubtreeIterator(final ObjectReader reader,
+			final MutableObjectId idBuffer)
 			throws IncorrectObjectTypeException, IOException {
 		idBuffer.fromRaw(idBuffer(), idOffset());
 		if (!FileMode.TREE.equals(mode)) {
 			final ObjectId me = idBuffer.toObjectId();
 			throw new IncorrectObjectTypeException(me, Constants.TYPE_TREE);
 		}
-		return createSubtreeIterator0(repo, idBuffer, curs);
+		return createSubtreeIterator0(reader, idBuffer);
 	}
 
 	/**
@@ -220,32 +212,25 @@ public class CanonicalTreeParser extends AbstractTreeIterator {
 	 * called only once the current entry has been identified as a tree and its
 	 * identity has been converted into an ObjectId.
 	 *
-	 * @param repo
-	 *            repository to load the tree data from.
+	 * @param reader
+	 *            reader to load the tree data from.
 	 * @param id
 	 *            ObjectId of the tree to open.
-	 * @param curs
-	 *            window cursor to use during repository access.
 	 * @return a new parser that walks over the current subtree.
 	 * @throws IOException
 	 *             a loose object or pack file could not be read.
 	 */
 	public final CanonicalTreeParser createSubtreeIterator0(
-			final Repository repo, final AnyObjectId id, final ObjectReader curs)
+			final ObjectReader reader, final AnyObjectId id)
 			throws IOException {
 		final CanonicalTreeParser p = new CanonicalTreeParser(this);
-		p.reset(repo, id, curs);
+		p.reset(reader, id);
 		return p;
 	}
 
-	public CanonicalTreeParser createSubtreeIterator(final Repository repo)
+	public CanonicalTreeParser createSubtreeIterator(final ObjectReader reader)
 			throws IncorrectObjectTypeException, IOException {
-		final ObjectReader curs = repo.newObjectReader();
-		try {
-			return createSubtreeIterator(repo, new MutableObjectId(), curs);
-		} finally {
-			curs.release();
-		}
+		return createSubtreeIterator(reader, new MutableObjectId());
 	}
 
 	@Override

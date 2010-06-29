@@ -69,8 +69,28 @@ public abstract class ObjectReader {
 	 *             the object store cannot be accessed.
 	 */
 	public boolean has(AnyObjectId objectId) throws IOException {
+		return has(objectId, OBJ_ANY);
+	}
+
+	/**
+	 * Does the requested object exist in this database?
+	 *
+	 * @param objectId
+	 *            identity of the object to test for existence of.
+	 * @param typeHint
+	 *            hint about the type of object being requested;
+	 *            {@link #OBJ_ANY} if the object type is not known, or does not
+	 *            matter to the caller.
+	 * @return true if the specified object is stored in this database.
+	 * @throws IncorrectObjectTypeException
+	 *             typeHint was not OBJ_ANY, and the object's actual type does
+	 *             not match typeHint.
+	 * @throws IOException
+	 *             the object store cannot be accessed.
+	 */
+	public boolean has(AnyObjectId objectId, int typeHint) throws IOException {
 		try {
-			open(objectId);
+			open(objectId, typeHint);
 			return true;
 		} catch (MissingObjectException notFound) {
 			return false;

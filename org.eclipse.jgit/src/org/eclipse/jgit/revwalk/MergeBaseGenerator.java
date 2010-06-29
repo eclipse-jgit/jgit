@@ -137,7 +137,7 @@ class MergeBaseGenerator extends Generator {
 		for (;;) {
 			final RevCommit c = pending.next();
 			if (c == null) {
-				walker.curs.release();
+				walker.reader.release();
 				return null;
 			}
 

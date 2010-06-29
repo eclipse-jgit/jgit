@@ -164,22 +164,22 @@ public class DirCacheBuilder extends BaseDirCacheEditor {
 	 */
 	public void addTree(final byte[] pathPrefix, final int stage,
 			final Repository db, final AnyObjectId tree) throws IOException {
-		final TreeWalk tw = new TreeWalk(db);
-		tw.reset();
-		final ObjectReader curs = db.newObjectReader();
+		final ObjectReader reader = db.newObjectReader();
 		try {
-			tw.addTree(new CanonicalTreeParser(pathPrefix, db, tree
-					.toObjectId(), curs));
+			final TreeWalk tw = new TreeWalk(reader);
+			tw.reset();
+			tw.addTree(new CanonicalTreeParser(pathPrefix, reader, tree
+					.toObjectId()));
+			tw.setRecursive(true);
+			if (tw.next()) {
+				final DirCacheEntry newEntry = toEntry(stage, tw);
+				beforeAdd(newEntry);
+				fastAdd(newEntry);
+				while (tw.next())
+					fastAdd(toEntry(stage, tw));
+			}
 		} finally {
-			curs.release();
-		}
-		tw.setRecursive(true);
-		if (tw.next()) {
-			final DirCacheEntry newEntry = toEntry(stage, tw);
-			beforeAdd(newEntry);
-			fastAdd(newEntry);
-			while (tw.next())
-				fastAdd(toEntry(stage, tw));
+			reader.release();
 		}
 	}
 

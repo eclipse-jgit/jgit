@@ -70,6 +70,9 @@ public abstract class Merger {
 	/** The repository this merger operates on. */
 	protected final Repository db;
 
+	/** Reader to support {@link #walk} and other object loading. */
+	protected final ObjectReader reader;
+
 	/** A RevWalk for computing merge bases, or listing incoming commits. */
 	protected final RevWalk walk;
 
@@ -92,7 +95,8 @@ public abstract class Merger {
 	 */
 	protected Merger(final Repository local) {
 		db = local;
-		walk = new RevWalk(db);
+		reader = db.newObjectReader();
+		walk = new RevWalk(reader);
 	}
 
 	/**
@@ -153,6 +157,7 @@ public abstract class Merger {
 		} finally {
 			if (inserter != null)
 				inserter.release();
+			reader.release();
 		}
 	}
 
@@ -207,12 +212,7 @@ public abstract class Merger {
 	 */
 	protected AbstractTreeIterator openTree(final AnyObjectId treeId)
 			throws IncorrectObjectTypeException, IOException {
-		final ObjectReader curs = db.newObjectReader();
-		try {
-			return new CanonicalTreeParser(null, db, treeId, curs);
-		} finally {
-			curs.release();
-		}
+		return new CanonicalTreeParser(null, reader, treeId);
 	}
 
 	/**

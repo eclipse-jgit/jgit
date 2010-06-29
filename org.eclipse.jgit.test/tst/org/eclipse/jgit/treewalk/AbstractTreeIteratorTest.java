@@ -51,7 +51,7 @@ import junit.framework.TestCase;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
-import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.ObjectReader;
 
 
 public class AbstractTreeIteratorTest extends TestCase {
@@ -73,7 +73,7 @@ public class AbstractTreeIteratorTest extends TestCase {
 		}
 
 		@Override
-		public AbstractTreeIterator createSubtreeIterator(Repository repo)
+		public AbstractTreeIterator createSubtreeIterator(ObjectReader reader)
 				throws IncorrectObjectTypeException, IOException {
 			return null;
 		}

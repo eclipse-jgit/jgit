@@ -739,7 +739,7 @@ public class PackWriter {
 			final Collection<? extends ObjectId> uninterestingObjects)
 			throws MissingObjectException, IOException,
 			IncorrectObjectTypeException {
-		final ObjectWalk walker = new ObjectWalk(db);
+		final ObjectWalk walker = new ObjectWalk(reader);
 		walker.setRetainBody(false);
 		walker.sort(RevSort.COMMIT_TIME_DESC);
 		if (thin)

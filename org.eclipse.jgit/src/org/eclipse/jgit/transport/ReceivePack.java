@@ -696,7 +696,7 @@ public class ReceivePack {
 		adv.send(refs);
 		if (head != null && !head.isSymbolic())
 			adv.advertiseHave(head.getObjectId());
-		adv.includeAdditionalHaves();
+		adv.includeAdditionalHaves(db);
 		if (adv.isEmpty())
 			adv.advertiseId(ObjectId.zeroId(), "capabilities^{}");
 		adv.end();

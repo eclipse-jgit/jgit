@@ -214,7 +214,8 @@ public class RevCommit extends RevObject {
 	 * @return parsed commit.
 	 */
 	public final Commit asCommit(final RevWalk walk) {
-		return new Commit(walk.db, this, buffer);
+		// TODO(spearce) Remove repository when this method dies.
+		return new Commit(walk.repository, this, buffer);
 	}
 
 	/**

@@ -77,7 +77,7 @@ public abstract class RevObject extends ObjectId {
 	final byte[] loadCanonical(final RevWalk walk) throws IOException,
 			MissingObjectException, IncorrectObjectTypeException,
 			CorruptObjectException {
-		return walk.curs.open(this, getType()).getCachedBytes();
+		return walk.reader.open(this, getType()).getCachedBytes();
 	}
 
 	/**

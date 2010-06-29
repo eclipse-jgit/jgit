@@ -49,6 +49,7 @@ import java.security.MessageDigest;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.RepositoryTestCase;
 import org.eclipse.jgit.util.RawParseUtils;
 
@@ -124,7 +125,8 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 		assertFalse(top.eof());
 		assertEquals(FileMode.TREE.getBits(), top.mode);
 
-		final AbstractTreeIterator sub = top.createSubtreeIterator(db);
+		final ObjectReader reader = db.newObjectReader();
+		final AbstractTreeIterator sub = top.createSubtreeIterator(reader);
 		assertTrue(sub instanceof FileTreeIterator);
 		final FileTreeIterator subfti = (FileTreeIterator) sub;
 		assertTrue(sub.first());

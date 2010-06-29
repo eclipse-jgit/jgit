@@ -54,6 +54,7 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefComparator;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevFlag;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevTag;
@@ -124,7 +125,7 @@ public abstract class RefAdvertiser {
 	 * <ul>
 	 * <li>{@link #send(Map)}
 	 * <li>{@link #advertiseHave(AnyObjectId)}
-	 * <li>{@link #includeAdditionalHaves()}
+	 * <li>{@link #includeAdditionalHaves(Repository)}
 	 * </ul>
 	 *
 	 * @param deref
@@ -142,7 +143,7 @@ public abstract class RefAdvertiser {
 	 * <ul>
 	 * <li>{@link #send(Map)}
 	 * <li>{@link #advertiseHave(AnyObjectId)}
-	 * <li>{@link #includeAdditionalHaves()}
+	 * <li>{@link #includeAdditionalHaves(Repository)}
 	 * </ul>
 	 *
 	 * @param name
@@ -210,12 +211,14 @@ public abstract class RefAdvertiser {
 	/**
 	 * Include references of alternate repositories as {@code .have} lines.
 	 *
+	 * @param src
+	 *            repository to get the additional reachable objects from.
 	 * @throws IOException
 	 *             the underlying output stream failed to write out an
 	 *             advertisement record.
 	 */
-	public void includeAdditionalHaves() throws IOException {
-		for (ObjectId id : walk.getRepository().getAdditionalHaves())
+	public void includeAdditionalHaves(Repository src) throws IOException {
+		for (ObjectId id : src.getAdditionalHaves())
 			advertiseHave(id);
 	}
 

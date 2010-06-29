@@ -53,6 +53,7 @@ import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
 
@@ -97,7 +98,19 @@ public class ObjectWalk extends RevWalk {
 	 *            the repository the walker will obtain data from.
 	 */
 	public ObjectWalk(final Repository repo) {
-		super(repo);
+		this(repo.newObjectReader());
+	}
+
+	/**
+	 * Create a new revision and object walker for a given repository.
+	 *
+	 * @param or
+	 *            the reader the walker will obtain data from. The reader should
+	 *            be released by the caller when the walker is no longer
+	 *            required.
+	 */
+	public ObjectWalk(ObjectReader or) {
+		super(or);
 		pendingObjects = new BlockObjQueue();
 		treeWalk = new CanonicalTreeParser();
 	}
@@ -294,14 +307,14 @@ public class ObjectWalk extends RevWalk {
 				continue;
 			if (o instanceof RevTree) {
 				currentTree = (RevTree) o;
-				treeWalk = treeWalk.resetRoot(db, currentTree, curs);
+				treeWalk = treeWalk.resetRoot(reader, currentTree);
 			}
 			return o;
 		}
 	}
 
 	private CanonicalTreeParser enter(RevObject tree) throws IOException {
-		CanonicalTreeParser p = treeWalk.createSubtreeIterator0(db, tree, curs);
+		CanonicalTreeParser p = treeWalk.createSubtreeIterator0(reader, tree);
 		if (p.eof()) {
 			// We can't tolerate the subtree being an empty tree, as
 			// that will break us out early before we visit all names.
@@ -349,7 +362,7 @@ public class ObjectWalk extends RevWalk {
 			final RevObject o = nextObject();
 			if (o == null)
 				break;
-			if (o instanceof RevBlob && !db.hasObject(o))
+			if (o instanceof RevBlob && !reader.has(o))
 				throw new MissingObjectException(o, Constants.TYPE_BLOB);
 		}
 	}
@@ -403,7 +416,7 @@ public class ObjectWalk extends RevWalk {
 			return;
 		tree.flags |= UNINTERESTING;
 
-		treeWalk = treeWalk.resetRoot(db, tree, curs);
+		treeWalk = treeWalk.resetRoot(reader, tree);
 		while (!treeWalk.eof()) {
 			final FileMode mode = treeWalk.getEntryFileMode();
 			final int sType = mode.getObjectType();
@@ -419,7 +432,7 @@ public class ObjectWalk extends RevWalk {
 				final RevTree t = lookupTree(idBuffer);
 				if ((t.flags & UNINTERESTING) == 0) {
 					t.flags |= UNINTERESTING;
-					treeWalk = treeWalk.createSubtreeIterator0(db, t, curs);
+					treeWalk = treeWalk.createSubtreeIterator0(reader, t);
 					continue;
 				}
 				break;
