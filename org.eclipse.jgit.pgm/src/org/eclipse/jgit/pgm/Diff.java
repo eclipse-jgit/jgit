@@ -132,16 +132,28 @@ class Diff extends TextBuiltin {
 			+ (mode1.equals(mode2) ? " " + mode1 : ""));
 		out.println("--- " + (isNew ?  "/dev/null" : name1));
 		out.println("+++ " + (isDelete ?  "/dev/null" : name2));
-		RawText a = getRawText(id1);
-		RawText b = getRawText(id2);
+
+		byte[] aRaw = getRawBytes(id1);
+		byte[] bRaw = getRawBytes(id2);
+
+		if (RawText.isBinary(aRaw) || RawText.isBinary(bRaw)) {
+			out.println("Binary files differ");
+			return;
+		}
+
+		RawText a = getRawText(aRaw);
+		RawText b = getRawText(bRaw);
 		MyersDiff diff = new MyersDiff(a, b);
 		fmt.formatEdits(out, a, b, diff.getEdits());
 	}
 
-	private RawText getRawText(ObjectId id) throws IOException {
+	private byte[] getRawBytes(ObjectId id) throws IOException {
 		if (id.equals(ObjectId.zeroId()))
-			return new RawText(new byte[] {});
-		byte[] raw = db.openBlob(id).getCachedBytes();
+			return new byte[] {};
+		return db.openBlob(id).getCachedBytes();
+	}
+
+	private RawText getRawText(byte[] raw) {
 		if (ignoreWsAll)
 			return new RawTextIgnoreAllWhitespace(raw);
 		else if (ignoreWsTrailing)
@@ -154,4 +166,3 @@ class Diff extends TextBuiltin {
 			return new RawText(raw);
 	}
 }
-

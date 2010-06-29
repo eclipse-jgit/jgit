@@ -65,6 +65,9 @@ import org.eclipse.jgit.util.RawParseUtils;
  * they are converting from "line number" to "element index".
  */
 public class RawText implements Sequence {
+	/** Number of bytes to check for heuristics in {@link #isBinary(byte[])} */
+	private static final int FIRST_FEW_BYTES = 8000;
+
 	/** The file content for this sequence. */
 	protected final byte[] content;
 
@@ -201,5 +204,23 @@ public class RawText implements Sequence {
 		for (; ptr < end; ptr++)
 			hash = (hash << 5) ^ (raw[ptr] & 0xff);
 		return hash;
+	}
+
+	/**
+	 * Determine heuristically whether a byte array represents binary (as
+	 * opposed to text) content.
+	 *
+	 * @param raw
+	 *            the raw file content.
+	 * @return true if raw is likely to be a binary file, false otherwise
+	 */
+	public static boolean isBinary(byte[] raw) {
+		// Same heuristic as C Git
+		int size = raw.length > FIRST_FEW_BYTES ? FIRST_FEW_BYTES : raw.length;
+		for (int ptr = 0; ptr < size; ptr++)
+			if (raw[ptr] == '\0')
+				return true;
+
+		return false;
 	}
 }
