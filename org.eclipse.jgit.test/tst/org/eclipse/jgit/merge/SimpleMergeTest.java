@@ -105,9 +105,9 @@ public class SimpleMergeTest extends SampleDataRepositoryTestCase {
 	}
 
 	public void testTrivialTwoWay_validSubtreeSort() throws Exception {
-		final DirCache treeB = DirCache.read(db);
-		final DirCache treeO = DirCache.read(db);
-		final DirCache treeT = DirCache.read(db);
+		final DirCache treeB = db.readDirCache();
+		final DirCache treeO = db.readDirCache();
+		final DirCache treeT = db.readDirCache();
 		{
 			final DirCacheBuilder b = treeB.builder();
 			final DirCacheBuilder o = treeO.builder();
@@ -157,9 +157,9 @@ public class SimpleMergeTest extends SampleDataRepositoryTestCase {
 	}
 
 	public void testTrivialTwoWay_concurrentSubtreeChange() throws Exception {
-		final DirCache treeB = DirCache.read(db);
-		final DirCache treeO = DirCache.read(db);
-		final DirCache treeT = DirCache.read(db);
+		final DirCache treeB = db.readDirCache();
+		final DirCache treeO = db.readDirCache();
+		final DirCache treeT = db.readDirCache();
 		{
 			final DirCacheBuilder b = treeB.builder();
 			final DirCacheBuilder o = treeO.builder();
@@ -204,9 +204,9 @@ public class SimpleMergeTest extends SampleDataRepositoryTestCase {
 	}
 
 	public void testTrivialTwoWay_conflictSubtreeChange() throws Exception {
-		final DirCache treeB = DirCache.read(db);
-		final DirCache treeO = DirCache.read(db);
-		final DirCache treeT = DirCache.read(db);
+		final DirCache treeB = db.readDirCache();
+		final DirCache treeO = db.readDirCache();
+		final DirCache treeT = db.readDirCache();
 		{
 			final DirCacheBuilder b = treeB.builder();
 			final DirCacheBuilder o = treeO.builder();
@@ -237,9 +237,9 @@ public class SimpleMergeTest extends SampleDataRepositoryTestCase {
 	}
 
 	public void testTrivialTwoWay_leftDFconflict1() throws Exception {
-		final DirCache treeB = DirCache.read(db);
-		final DirCache treeO = DirCache.read(db);
-		final DirCache treeT = DirCache.read(db);
+		final DirCache treeB = db.readDirCache();
+		final DirCache treeO = db.readDirCache();
+		final DirCache treeT = db.readDirCache();
 		{
 			final DirCacheBuilder b = treeB.builder();
 			final DirCacheBuilder o = treeO.builder();
@@ -269,9 +269,9 @@ public class SimpleMergeTest extends SampleDataRepositoryTestCase {
 	}
 
 	public void testTrivialTwoWay_rightDFconflict1() throws Exception {
-		final DirCache treeB = DirCache.read(db);
-		final DirCache treeO = DirCache.read(db);
-		final DirCache treeT = DirCache.read(db);
+		final DirCache treeB = db.readDirCache();
+		final DirCache treeO = db.readDirCache();
+		final DirCache treeT = db.readDirCache();
 		{
 			final DirCacheBuilder b = treeB.builder();
 			final DirCacheBuilder o = treeO.builder();
@@ -301,9 +301,9 @@ public class SimpleMergeTest extends SampleDataRepositoryTestCase {
 	}
 
 	public void testTrivialTwoWay_leftDFconflict2() throws Exception {
-		final DirCache treeB = DirCache.read(db);
-		final DirCache treeO = DirCache.read(db);
-		final DirCache treeT = DirCache.read(db);
+		final DirCache treeB = db.readDirCache();
+		final DirCache treeO = db.readDirCache();
+		final DirCache treeT = db.readDirCache();
 		{
 			final DirCacheBuilder b = treeB.builder();
 			final DirCacheBuilder o = treeO.builder();
@@ -331,9 +331,9 @@ public class SimpleMergeTest extends SampleDataRepositoryTestCase {
 	}
 
 	public void testTrivialTwoWay_rightDFconflict2() throws Exception {
-		final DirCache treeB = DirCache.read(db);
-		final DirCache treeO = DirCache.read(db);
-		final DirCache treeT = DirCache.read(db);
+		final DirCache treeB = db.readDirCache();
+		final DirCache treeO = db.readDirCache();
+		final DirCache treeT = db.readDirCache();
 		{
 			final DirCacheBuilder b = treeB.builder();
 			final DirCacheBuilder o = treeO.builder();

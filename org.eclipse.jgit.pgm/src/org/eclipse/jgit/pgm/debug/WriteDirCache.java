@@ -51,7 +51,7 @@ import org.eclipse.jgit.pgm.TextBuiltin;
 class WriteDirCache extends TextBuiltin {
 	@Override
 	protected void run() throws Exception {
-		final DirCache cache = DirCache.read(db);
+		final DirCache cache = db.readDirCache();
 		if (!cache.lock())
 			throw die(CLIText.get().failedToLockIndex);
 		cache.read();

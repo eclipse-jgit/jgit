@@ -60,6 +60,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.dircache.DirCache;
+import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.NoWorkTreeException;
@@ -887,6 +888,51 @@ public abstract class Repository {
 		return indexFile;
 	}
 
+	/**
+	 * Create a new in-core index representation and read an index from disk.
+	 * <p>
+	 * The new index will be read before it is returned to the caller. Read
+	 * failures are reported as exceptions and therefore prevent the method from
+	 * returning a partially populated index.
+	 *
+	 * @return a cache representing the contents of the specified index file (if
+	 *         it exists) or an empty cache if the file does not exist.
+	 * @throws NoWorkTreeException
+	 *             if the repository is bare (lacks a working directory).
+	 * @throws IOException
+	 *             the index file is present but could not be read.
+	 * @throws CorruptObjectException
+	 *             the index file is using a format or extension that this
+	 *             library does not support.
+	 */
+	public DirCache readDirCache() throws NoWorkTreeException,
+			CorruptObjectException, IOException {
+		return DirCache.read(getIndexFile());
+	}
+
+	/**
+	 * Create a new in-core index representation, lock it, and read from disk.
+	 * <p>
+	 * The new index will be locked and then read before it is returned to the
+	 * caller. Read failures are reported as exceptions and therefore prevent
+	 * the method from returning a partially populated index.
+	 *
+	 * @return a cache representing the contents of the specified index file (if
+	 *         it exists) or an empty cache if the file does not exist.
+	 * @throws NoWorkTreeException
+	 *             if the repository is bare (lacks a working directory).
+	 * @throws IOException
+	 *             the index file is present but could not be read, or the lock
+	 *             could not be obtained.
+	 * @throws CorruptObjectException
+	 *             the index file is using a format or extension that this
+	 *             library does not support.
+	 */
+	public DirCache lockDirCache() throws NoWorkTreeException,
+			CorruptObjectException, IOException {
+		return DirCache.lock(getIndexFile());
+	}
+
 	static byte[] gitInternalSlash(byte[] bytes) {
 		if (File.separatorChar == '/')
 			return bytes;
@@ -926,7 +972,7 @@ public abstract class Repository {
 		if (new File(getDirectory(), "MERGE_HEAD").exists()) {
 			// we are merging - now check whether we have unmerged paths
 			try {
-				if (!DirCache.read(this).hasUnmergedPaths()) {
+				if (!readDirCache().hasUnmergedPaths()) {
 					// no unmerged paths -> return the MERGING_RESOLVED state
 					return RepositoryState.MERGING_RESOLVED;
 				}
