@@ -62,6 +62,7 @@ import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.errors.NoWorkTreeException;
 import org.eclipse.jgit.errors.RevisionSyntaxException;
 import org.eclipse.jgit.events.ListenerList;
 import org.eclipse.jgit.events.RepositoryEvent;
@@ -860,13 +861,12 @@ public abstract class Repository {
 	 *         {@link Repository}
 	 * @throws IOException
 	 *             if the index can not be read
-	 * @throws IllegalStateException
+	 * @throws NoWorkTreeException
 	 *             if this is bare (see {@link #isBare()})
 	 */
-	public GitIndex getIndex() throws IOException, IllegalStateException {
+	public GitIndex getIndex() throws IOException, NoWorkTreeException {
 		if (isBare())
-			throw new IllegalStateException(
-					JGitText.get().bareRepositoryNoWorkdirAndIndex);
+			throw new NoWorkTreeException();
 		if (index == null) {
 			index = new GitIndex(this);
 			index.read();
@@ -878,13 +878,12 @@ public abstract class Repository {
 
 	/**
 	 * @return the index file location
-	 * @throws IllegalStateException
+	 * @throws NoWorkTreeException
 	 *             if this is bare (see {@link #isBare()})
 	 */
-	public File getIndexFile() throws IllegalStateException {
+	public File getIndexFile() throws NoWorkTreeException {
 		if (isBare())
-			throw new IllegalStateException(
-					JGitText.get().bareRepositoryNoWorkdirAndIndex);
+			throw new NoWorkTreeException();
 		return indexFile;
 	}
 
@@ -1036,13 +1035,12 @@ public abstract class Repository {
 	/**
 	 * @return the root directory of the working tree, where files are checked
 	 *         out for viewing and editing.
-	 * @throws IllegalStateException
+	 * @throws NoWorkTreeException
 	 *             if the repository is bare and has no working directory.
 	 */
-	public File getWorkTree() throws IllegalStateException {
+	public File getWorkTree() throws NoWorkTreeException {
 		if (isBare())
-			throw new IllegalStateException(
-					JGitText.get().bareRepositoryNoWorkdirAndIndex);
+			throw new NoWorkTreeException();
 		return workTree;
 	}
 
@@ -1085,13 +1083,12 @@ public abstract class Repository {
 	 * @return a String containing the content of the MERGE_MSG file or
 	 *         {@code null} if this file doesn't exist
 	 * @throws IOException
-	 * @throws IllegalStateException
+	 * @throws NoWorkTreeException
 	 *             if the repository is "bare"
 	 */
-	public String readMergeCommitMsg() throws IOException {
+	public String readMergeCommitMsg() throws IOException, NoWorkTreeException {
 		if (isBare() || getDirectory() == null)
-			throw new IllegalStateException(
-					JGitText.get().bareRepositoryNoWorkdirAndIndex);
+			throw new NoWorkTreeException();
 
 		File mergeMsgFile = new File(getDirectory(), Constants.MERGE_MSG);
 		try {
@@ -1112,13 +1109,12 @@ public abstract class Repository {
 	 *         file or {@code null} if this file doesn't exist. Also if the file
 	 *         exists but is empty {@code null} will be returned
 	 * @throws IOException
-	 * @throws IllegalStateException
+	 * @throws NoWorkTreeException
 	 *             if the repository is "bare"
 	 */
-	public List<ObjectId> readMergeHeads() throws IOException {
+	public List<ObjectId> readMergeHeads() throws IOException, NoWorkTreeException {
 		if (isBare() || getDirectory() == null)
-			throw new IllegalStateException(
-					JGitText.get().bareRepositoryNoWorkdirAndIndex);
+			throw new NoWorkTreeException();
 
 		File mergeHeadFile = new File(getDirectory(), Constants.MERGE_HEAD);
 		byte[] raw;

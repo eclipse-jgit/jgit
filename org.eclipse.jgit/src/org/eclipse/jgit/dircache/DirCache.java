@@ -62,6 +62,7 @@ import java.util.Comparator;
 
 import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.CorruptObjectException;
+import org.eclipse.jgit.errors.NoWorkTreeException;
 import org.eclipse.jgit.errors.UnmergedPathException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
@@ -168,7 +169,7 @@ public class DirCache {
 	 *            repository the caller wants to read the default index of.
 	 * @return a cache representing the contents of the specified index file (if
 	 *         it exists) or an empty cache if the file does not exist.
-	 * @throws IllegalStateException
+	 * @throws NoWorkTreeException
 	 *             if the repository is bare (lacks a working directory).
 	 * @throws IOException
 	 *             the index file is present but could not be read.
@@ -177,7 +178,7 @@ public class DirCache {
 	 *             library does not support.
 	 */
 	public static DirCache read(final Repository db)
-			throws CorruptObjectException, IOException {
+			throws NoWorkTreeException, CorruptObjectException, IOException {
 		return read(db.getIndexFile());
 	}
 
@@ -233,7 +234,7 @@ public class DirCache {
 	 *            repository the caller wants to read the default index of.
 	 * @return a cache representing the contents of the specified index file (if
 	 *         it exists) or an empty cache if the file does not exist.
-	 * @throws IllegalStateException
+	 * @throws NoWorkTreeException
 	 *             if the repository is bare (lacks a working directory).
 	 * @throws IOException
 	 *             the index file is present but could not be read, or the lock
@@ -243,7 +244,7 @@ public class DirCache {
 	 *             library does not support.
 	 */
 	public static DirCache lock(final Repository db)
-			throws CorruptObjectException, IOException {
+			throws NoWorkTreeException, CorruptObjectException, IOException {
 		return lock(db.getIndexFile());
 	}
 

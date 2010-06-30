@@ -48,6 +48,7 @@ import java.io.File;
 import java.io.IOException;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.errors.NoWorkTreeException;
 import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
@@ -136,8 +137,8 @@ public class RepositorySetupWorkDirTest extends LocalDiskRepositoryTestCase {
 		File gitDir = getFile("workdir");
 		try {
 			new FileRepository(gitDir).getWorkTree();
-			fail("Expected IllegalStateException missing");
-		} catch (IllegalStateException e) {
+			fail("Expected NoWorkTreeException missing");
+		} catch (NoWorkTreeException e) {
 			// expected
 		}
 	}
@@ -146,8 +147,8 @@ public class RepositorySetupWorkDirTest extends LocalDiskRepositoryTestCase {
 		File gitDir = getFile("workdir");
 		try {
 			new FileRepository(gitDir).getIndex();
-			fail("Expected IllegalStateException missing");
-		} catch (IllegalStateException e) {
+			fail("Expected NoWorkTreeException missing");
+		} catch (NoWorkTreeException e) {
 			// expected
 		}
 	}
@@ -156,8 +157,8 @@ public class RepositorySetupWorkDirTest extends LocalDiskRepositoryTestCase {
 		File gitDir = getFile("workdir");
 		try {
 			new FileRepository(gitDir).getIndexFile();
-			fail("Expected Exception missing");
-		} catch (IllegalStateException e) {
+			fail("Expected NoWorkTreeException missing");
+		} catch (NoWorkTreeException e) {
 			// expected
 		}
 	}
