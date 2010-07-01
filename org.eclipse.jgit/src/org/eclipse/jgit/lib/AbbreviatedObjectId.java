@@ -83,6 +83,21 @@ public final class AbbreviatedObjectId {
 	}
 
 	/**
+	 * Convert an AbbreviatedObjectId from an {@link AnyObjectId}.
+	 * <p>
+	 * This method copies over all bits of the Id, and is therefore complete
+	 * (see {@link #isComplete()}).
+	 *
+	 * @param id
+	 *            the {@link ObjectId} to convert from.
+	 * @return the converted object id.
+	 */
+	public static final AbbreviatedObjectId fromObjectId(AnyObjectId id) {
+		return new AbbreviatedObjectId(Constants.OBJECT_ID_STRING_LENGTH,
+				id.w1, id.w2, id.w3, id.w4, id.w5);
+	}
+
+	/**
 	 * Convert an AbbreviatedObjectId from hex characters.
 	 *
 	 * @param str
