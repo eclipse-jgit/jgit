@@ -113,7 +113,7 @@ public abstract class AnyObjectId implements Comparable {
 	 * @return < 0 if this id comes before other; 0 if this id is equal to
 	 *         other; > 0 if this id comes after other.
 	 */
-	public int compareTo(final ObjectId other) {
+	public int compareTo(final AnyObjectId other) {
 		if (this == other)
 			return 0;
 
@@ -139,7 +139,7 @@ public abstract class AnyObjectId implements Comparable {
 	}
 
 	public int compareTo(final Object other) {
-		return compareTo(((ObjectId) other));
+		return compareTo(((AnyObjectId) other));
 	}
 
 	/**
