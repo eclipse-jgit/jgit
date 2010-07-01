@@ -182,7 +182,9 @@ public class PackWriter {
 	// edge objects for thin packs
 	private final ObjectIdSubclassMap<ObjectId> edgeObjects = new ObjectIdSubclassMap<ObjectId>();
 
-	private final Deflater deflater;
+	private int compressionLevel;
+
+	private Deflater myDeflater;
 
 	private final ObjectReader reader;
 
@@ -252,7 +254,7 @@ public class PackWriter {
 			reuseSupport = null;
 
 		final CoreConfig coreConfig = configOf(repo).get(CoreConfig.KEY);
-		deflater = new Deflater(coreConfig.getCompression());
+		compressionLevel = coreConfig.getCompression();
 		outputVersion = coreConfig.getPackIndexVersion();
 	}
 
@@ -639,6 +641,10 @@ public class PackWriter {
 	/** Release all resources used by this writer. */
 	public void release() {
 		reader.release();
+		if (myDeflater != null) {
+			myDeflater.end();
+			myDeflater = null;
+		}
 	}
 
 	private void searchForReuse(ProgressMonitor compressMonitor)
@@ -745,6 +751,7 @@ public class PackWriter {
 
 	private void writeWholeObjectDeflate(PackOutputStream out,
 			final ObjectToPack otp) throws IOException {
+		final Deflater deflater = deflater();
 		final ObjectLoader loader = reader.open(otp, otp.getType());
 		final byte[] data = loader.getCachedBytes();
 		out.writeHeader(otp, data.length);
@@ -758,6 +765,12 @@ public class PackWriter {
 			if (n > 0)
 				out.write(buf, 0, n);
 		} while (!deflater.finished());
+	}
+
+	private Deflater deflater() {
+		if (myDeflater == null)
+			myDeflater = new Deflater(compressionLevel);
+		return myDeflater;
 	}
 
 	private void writeChecksum(PackOutputStream out) throws IOException {
