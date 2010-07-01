@@ -52,10 +52,12 @@ import java.util.zip.Inflater;
 
 import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.CorruptObjectException;
+import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.InflaterCache;
 import org.eclipse.jgit.lib.ObjectLoader;
+import org.eclipse.jgit.lib.ObjectStream;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.MutableInteger;
 import org.eclipse.jgit.util.RawParseUtils;
@@ -213,5 +215,16 @@ public class UnpackedObjectLoader extends ObjectLoader {
 	@Override
 	public byte[] getCachedBytes() {
 		return bytes;
+	}
+
+	@Override
+	public final boolean isLarge() {
+		return false;
+	}
+
+	@Override
+	public final ObjectStream openStream() throws MissingObjectException,
+			IOException {
+		return new ObjectStream.SmallStream(this);
 	}
 }

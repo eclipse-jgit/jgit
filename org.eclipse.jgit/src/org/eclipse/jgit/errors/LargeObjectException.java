@@ -1,8 +1,5 @@
 /*
- * Copyright (C) 2009, Google Inc.
- * Copyright (C) 2008, Marek Zawirski <marek.zawirski@gmail.com>
- * Copyright (C) 2007, Robin Rosenberg <robin.rosenberg@dewire.com>
- * Copyright (C) 2006-2008, Shawn O. Pearce <spearce@spearce.org>
+ * Copyright (C) 2010, Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -44,46 +41,27 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.eclipse.jgit.storage.file;
+package org.eclipse.jgit.errors;
 
-import java.io.IOException;
+import org.eclipse.jgit.lib.ObjectId;
 
-import org.eclipse.jgit.errors.MissingObjectException;
-import org.eclipse.jgit.lib.ObjectLoader;
-import org.eclipse.jgit.lib.ObjectStream;
+/** An object is too big to load into memory as a single byte array. */
+public class LargeObjectException extends RuntimeException {
+	private static final long serialVersionUID = 1L;
 
-/** Object loaded in from a {@link PackFile}. */
-final class PackedObjectLoader extends ObjectLoader {
-	private final int type;
-
-	private final byte[] data;
-
-	PackedObjectLoader(int type, byte[] data) {
-		this.type = type;
-		this.data = data;
+	/** Create a large object exception, where the object isn't known. */
+	public LargeObjectException() {
+		// Do nothing.
 	}
 
-	public final int getType() {
-		return type;
-	}
-
-	public final long getSize() {
-		return getCachedBytes().length;
-	}
-
-	@Override
-	public final byte[] getCachedBytes() {
-		return data;
-	}
-
-	@Override
-	public final boolean isLarge() {
-		return false;
-	}
-
-	@Override
-	public final ObjectStream openStream() throws MissingObjectException,
-			IOException {
-		return new ObjectStream.SmallStream(this);
+	/**
+	 * Create a large object exception, naming the object that is too big.
+	 *
+	 * @param id
+	 *            identity of the object that is too big to be loaded as a byte
+	 *            array in this JVM.
+	 */
+	public LargeObjectException(ObjectId id) {
+		super(id.name());
 	}
 }
