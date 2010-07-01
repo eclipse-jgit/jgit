@@ -56,6 +56,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.zip.Deflater;
+import java.util.zip.DeflaterOutputStream;
 
 import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.CorruptObjectException;
@@ -752,19 +753,14 @@ public class PackWriter {
 	private void writeWholeObjectDeflate(PackOutputStream out,
 			final ObjectToPack otp) throws IOException {
 		final Deflater deflater = deflater();
-		final ObjectLoader loader = reader.open(otp, otp.getType());
-		final byte[] data = loader.getCachedBytes();
-		out.writeHeader(otp, data.length);
-		deflater.reset();
-		deflater.setInput(data, 0, data.length);
-		deflater.finish();
+		final ObjectLoader ldr = reader.open(otp, otp.getType());
 
-		byte[] buf = out.getCopyBuffer();
-		do {
-			final int n = deflater.deflate(buf, 0, buf.length);
-			if (n > 0)
-				out.write(buf, 0, n);
-		} while (!deflater.finished());
+		out.writeHeader(otp, ldr.getSize());
+
+		deflater.reset();
+		DeflaterOutputStream dst = new DeflaterOutputStream(out, deflater);
+		ldr.copyTo(dst);
+		dst.finish();
 	}
 
 	private Deflater deflater() {
