@@ -77,9 +77,22 @@ public final class AbbreviatedObjectId {
 	public static final AbbreviatedObjectId fromString(final byte[] buf,
 			final int offset, final int end) {
 		if (end - offset > Constants.OBJECT_ID_STRING_LENGTH)
-			throw new IllegalArgumentException(MessageFormat.format(JGitText.get().invalidIdLength
-					, end - offset, Constants.OBJECT_ID_STRING_LENGTH));
+			throw new IllegalArgumentException(MessageFormat.format(JGitText
+					.get().invalidIdLength, end - offset,
+					Constants.OBJECT_ID_STRING_LENGTH));
 		return fromHexString(buf, offset, end);
+	}
+
+	/**
+	 * Convert an AbbreviatedObjectId from an {@link ObjectId}.
+	 *
+	 * @param id
+	 *            the {@link ObjectId} to convert from.
+	 * @return the converted object id.
+	 */
+	public static final AbbreviatedObjectId fromObjectId(ObjectId id) {
+		return new AbbreviatedObjectId(Constants.OBJECT_ID_STRING_LENGTH,
+				id.w1, id.w2, id.w3, id.w4, id.w5);
 	}
 
 	/**
@@ -91,7 +104,8 @@ public final class AbbreviatedObjectId {
 	 */
 	public static final AbbreviatedObjectId fromString(final String str) {
 		if (str.length() > Constants.OBJECT_ID_STRING_LENGTH)
-			throw new IllegalArgumentException(MessageFormat.format(JGitText.get().invalidId, str));
+			throw new IllegalArgumentException(MessageFormat.format(JGitText
+					.get().invalidId, str));
 		final byte[] b = Constants.encodeASCII(str);
 		return fromHexString(b, 0, b.length);
 	}
