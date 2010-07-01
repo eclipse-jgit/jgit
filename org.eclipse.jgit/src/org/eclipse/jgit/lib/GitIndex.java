@@ -874,16 +874,15 @@ public class GitIndex {
 	 */
 	public void checkoutEntry(File wd, Entry e) throws IOException {
 		ObjectLoader ol = db.open(e.sha1, Constants.OBJ_BLOB);
-		byte[] bytes = ol.getBytes();
 		File file = new File(wd, e.getName());
 		file.delete();
 		file.getParentFile().mkdirs();
-		FileChannel channel = new FileOutputStream(file).getChannel();
-		ByteBuffer buffer = ByteBuffer.wrap(bytes);
-		int j = channel.write(buffer);
-		if (j != bytes.length)
-			throw new IOException(MessageFormat.format(JGitText.get().couldNotWriteFile, file));
-		channel.close();
+		FileOutputStream dst = new FileOutputStream(file);
+		try {
+			ol.copyTo(dst);
+		} finally {
+			dst.close();
+		}
 		if (config_filemode() && File_hasExecute()) {
 			if (FileMode.EXECUTABLE_FILE.equals(e.mode)) {
 				if (!File_canExecute(file))
