@@ -113,7 +113,7 @@ public class UnpackedObjectTest extends LocalDiskRepositoryTestCase {
 
 	public void testStandardFormat_LargeObject() throws Exception {
 		final int type = Constants.OBJ_BLOB;
-		byte[] data = rng.nextBytes(UnpackedObject.LARGE_OBJECT + 5);
+		byte[] data = rng.nextBytes(ObjectLoader.STREAM_THRESHOLD + 5);
 		ObjectId id = new ObjectInserter.Formatter().idFor(type, data);
 		write(id, compressStandardFormat(type, data));
 
@@ -230,7 +230,7 @@ public class UnpackedObjectTest extends LocalDiskRepositoryTestCase {
 	public void testStandardFormat_LargeObject_CorruptZLibStream()
 			throws Exception {
 		final int type = Constants.OBJ_BLOB;
-		byte[] data = rng.nextBytes(UnpackedObject.LARGE_OBJECT + 5);
+		byte[] data = rng.nextBytes(ObjectLoader.STREAM_THRESHOLD + 5);
 		ObjectId id = new ObjectInserter.Formatter().idFor(type, data);
 		byte[] gz = compressStandardFormat(type, data);
 		gz[gz.length - 1] = 0;
@@ -290,7 +290,7 @@ public class UnpackedObjectTest extends LocalDiskRepositoryTestCase {
 
 	public void testPackFormat_LargeObject() throws Exception {
 		final int type = Constants.OBJ_BLOB;
-		byte[] data = rng.nextBytes(UnpackedObject.LARGE_OBJECT + 5);
+		byte[] data = rng.nextBytes(ObjectLoader.STREAM_THRESHOLD + 5);
 		ObjectId id = new ObjectInserter.Formatter().idFor(type, data);
 		write(id, compressPackFormat(type, data));
 

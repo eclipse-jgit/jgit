@@ -94,6 +94,11 @@ class LargePackedDeltaObject extends ObjectLoader {
 	}
 
 	@Override
+	public boolean isLarge() {
+		return true;
+	}
+
+	@Override
 	public byte[] getCachedBytes() throws LargeObjectException {
 		try {
 			throw new LargeObjectException(getObjectId());

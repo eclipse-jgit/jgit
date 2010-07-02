@@ -118,7 +118,7 @@ public class PackFileTest extends LocalDiskRepositoryTestCase {
 
 	public void testWhole_LargeObject() throws Exception {
 		final int type = Constants.OBJ_BLOB;
-		byte[] data = rng.nextBytes(UnpackedObject.LARGE_OBJECT + 5);
+		byte[] data = rng.nextBytes(ObjectLoader.STREAM_THRESHOLD + 5);
 		RevBlob id = tr.blob(data);
 		tr.branch("master").commit().add("A", id).create();
 		tr.packAndPrune();
@@ -209,7 +209,7 @@ public class PackFileTest extends LocalDiskRepositoryTestCase {
 
 	public void testDelta_LargeObjectChain() throws Exception {
 		ObjectInserter.Formatter fmt = new ObjectInserter.Formatter();
-		byte[] data0 = new byte[UnpackedObject.LARGE_OBJECT + 5];
+		byte[] data0 = new byte[ObjectLoader.STREAM_THRESHOLD + 5];
 		Arrays.fill(data0, (byte) 0xf3);
 		ObjectId id0 = fmt.idFor(Constants.OBJ_BLOB, data0);
 
@@ -277,12 +277,12 @@ public class PackFileTest extends LocalDiskRepositoryTestCase {
 		Arrays.fill(data0, (byte) 0xf3);
 		ObjectId id0 = fmt.idFor(Constants.OBJ_BLOB, data0);
 
-		byte[] data3 = rng.nextBytes(UnpackedObject.LARGE_OBJECT + 5);
+		byte[] data3 = rng.nextBytes(ObjectLoader.STREAM_THRESHOLD + 5);
 		ByteArrayOutputStream tmp = new ByteArrayOutputStream();
 		DeltaEncoder de = new DeltaEncoder(tmp, data0.length, data3.length);
 		de.insert(data3, 0, data3.length);
 		byte[] delta3 = tmp.toByteArray();
-		assertTrue(delta3.length > UnpackedObject.LARGE_OBJECT);
+		assertTrue(delta3.length > ObjectLoader.STREAM_THRESHOLD);
 
 		TemporaryBuffer.Heap pack = new TemporaryBuffer.Heap(64 * 1024);
 		packHeader(pack, 2);

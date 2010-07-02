@@ -146,6 +146,7 @@ public class FileRepository extends Repository {
 				options.getObjectDirectory(), //
 				options.getAlternateObjectDirectories(), //
 				getFS());
+		getListenerList().addConfigChangedListener(objectDatabase);
 
 		if (objectDatabase.exists()) {
 			final String repositoryFormatVersion = getConfig().getString(

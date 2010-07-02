@@ -75,6 +75,18 @@ public class ListenerList {
 	}
 
 	/**
+	 * Register a ConfigChangedListener.
+	 *
+	 * @param listener
+	 *            the listener implementation.
+	 * @return handle to later remove the listener.
+	 */
+	public ListenerHandle addConfigChangedListener(
+			ConfigChangedListener listener) {
+		return addListener(ConfigChangedListener.class, listener);
+	}
+
+	/**
 	 * Add a listener to the list.
 	 *
 	 * @param <T>

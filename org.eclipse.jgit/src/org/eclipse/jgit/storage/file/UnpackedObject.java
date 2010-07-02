@@ -76,8 +76,6 @@ import org.eclipse.jgit.util.RawParseUtils;
 public class UnpackedObject {
 	private static final int BUFFER_SIZE = 8192;
 
-	static final int LARGE_OBJECT = 1024 * 1024;
-
 	/**
 	 * Parse an object from the unpacked object format.
 	 *
@@ -127,7 +125,7 @@ public class UnpackedObject {
 							JGitText.get().corruptObjectGarbageAfterSize);
 				if (path == null && Integer.MAX_VALUE < size)
 					throw new LargeObjectException(id.copy());
-				if (size < LARGE_OBJECT || path == null) {
+				if (size < wc.getStreamFileThreshold() || path == null) {
 					byte[] data = new byte[(int) size];
 					int n = avail - p.value;
 					if (n > 0)
@@ -164,7 +162,7 @@ public class UnpackedObject {
 
 				if (path == null && Integer.MAX_VALUE < size)
 					throw new LargeObjectException(id.copy());
-				if (size < LARGE_OBJECT || path == null) {
+				if (size < wc.getStreamFileThreshold() || path == null) {
 					in.reset();
 					IO.skipFully(in, p);
 					in = inflate(in, wc);

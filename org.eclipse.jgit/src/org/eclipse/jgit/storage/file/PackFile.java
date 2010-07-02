@@ -632,7 +632,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 			case Constants.OBJ_TREE:
 			case Constants.OBJ_BLOB:
 			case Constants.OBJ_TAG: {
-				if (sz < UnpackedObject.LARGE_OBJECT) {
+				if (sz < curs.getStreamFileThreshold()) {
 					byte[] data = decompress(pos + p, sz, curs);
 					return new ObjectLoader.SmallObject(type, data);
 				}
@@ -683,7 +683,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 	private ObjectLoader loadDelta(long posSelf, int hdrLen, long sz,
 			long posBase, WindowCursor curs) throws IOException,
 			DataFormatException {
-		if (UnpackedObject.LARGE_OBJECT <= sz) {
+		if (curs.getStreamFileThreshold() <= sz) {
 			// The delta instruction stream itself is pretty big, and
 			// that implies the resulting object is going to be massive.
 			// Use only the large delta format here.
