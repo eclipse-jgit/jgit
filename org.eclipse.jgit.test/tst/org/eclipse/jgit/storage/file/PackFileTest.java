@@ -43,17 +43,29 @@
 
 package org.eclipse.jgit.storage.file;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.security.MessageDigest;
 import java.util.Arrays;
+import java.util.zip.Deflater;
 
 import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.junit.TestRng;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.NullProgressMonitor;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectStream;
 import org.eclipse.jgit.revwalk.RevBlob;
+import org.eclipse.jgit.storage.pack.DeltaEncoder;
+import org.eclipse.jgit.transport.IndexPack;
 import org.eclipse.jgit.util.IO;
+import org.eclipse.jgit.util.NB;
+import org.eclipse.jgit.util.TemporaryBuffer;
 
 public class PackFileTest extends LocalDiskRepositoryTestCase {
 	private TestRng rng;
@@ -133,5 +145,243 @@ public class PackFileTest extends LocalDiskRepositoryTestCase {
 		assertTrue("same content", Arrays.equals(data2, data));
 		assertEquals("stream at EOF", -1, in.read());
 		in.close();
+	}
+
+	public void testDelta_SmallObjectChain() throws Exception {
+		ObjectInserter.Formatter fmt = new ObjectInserter.Formatter();
+		byte[] data0 = new byte[512];
+		Arrays.fill(data0, (byte) 0xf3);
+		ObjectId id0 = fmt.idFor(Constants.OBJ_BLOB, data0);
+
+		TemporaryBuffer.Heap pack = new TemporaryBuffer.Heap(64 * 1024);
+		packHeader(pack, 4);
+		objectHeader(pack, Constants.OBJ_BLOB, data0.length);
+		deflate(pack, data0);
+
+		byte[] data1 = clone(0x01, data0);
+		byte[] delta1 = delta(data0, data1);
+		ObjectId id1 = fmt.idFor(Constants.OBJ_BLOB, data1);
+		objectHeader(pack, Constants.OBJ_REF_DELTA, delta1.length);
+		id0.copyRawTo(pack);
+		deflate(pack, delta1);
+
+		byte[] data2 = clone(0x02, data1);
+		byte[] delta2 = delta(data1, data2);
+		ObjectId id2 = fmt.idFor(Constants.OBJ_BLOB, data2);
+		objectHeader(pack, Constants.OBJ_REF_DELTA, delta2.length);
+		id1.copyRawTo(pack);
+		deflate(pack, delta2);
+
+		byte[] data3 = clone(0x03, data2);
+		byte[] delta3 = delta(data2, data3);
+		ObjectId id3 = fmt.idFor(Constants.OBJ_BLOB, data3);
+		objectHeader(pack, Constants.OBJ_REF_DELTA, delta3.length);
+		id2.copyRawTo(pack);
+		deflate(pack, delta3);
+
+		digest(pack);
+		final byte[] raw = pack.toByteArray();
+		IndexPack ip = IndexPack.create(repo, new ByteArrayInputStream(raw));
+		ip.setFixThin(true);
+		ip.index(NullProgressMonitor.INSTANCE);
+		ip.renameAndOpenPack();
+
+		assertTrue("has blob", wc.has(id3));
+
+		ObjectLoader ol = wc.open(id3);
+		assertNotNull("created loader", ol);
+		assertEquals(Constants.OBJ_BLOB, ol.getType());
+		assertEquals(data3.length, ol.getSize());
+		assertFalse("is large", ol.isLarge());
+		assertNotNull(ol.getCachedBytes());
+		assertTrue(Arrays.equals(data3, ol.getCachedBytes()));
+
+		ObjectStream in = ol.openStream();
+		assertNotNull("have stream", in);
+		assertEquals(Constants.OBJ_BLOB, in.getType());
+		assertEquals(data3.length, in.getSize());
+		byte[] act = new byte[data3.length];
+		IO.readFully(in, act, 0, data3.length);
+		assertTrue("same content", Arrays.equals(act, data3));
+		assertEquals("stream at EOF", -1, in.read());
+		in.close();
+	}
+
+	public void testDelta_LargeObjectChain() throws Exception {
+		ObjectInserter.Formatter fmt = new ObjectInserter.Formatter();
+		byte[] data0 = new byte[UnpackedObject.LARGE_OBJECT + 5];
+		Arrays.fill(data0, (byte) 0xf3);
+		ObjectId id0 = fmt.idFor(Constants.OBJ_BLOB, data0);
+
+		TemporaryBuffer.Heap pack = new TemporaryBuffer.Heap(64 * 1024);
+		packHeader(pack, 4);
+		objectHeader(pack, Constants.OBJ_BLOB, data0.length);
+		deflate(pack, data0);
+
+		byte[] data1 = clone(0x01, data0);
+		byte[] delta1 = delta(data0, data1);
+		ObjectId id1 = fmt.idFor(Constants.OBJ_BLOB, data1);
+		objectHeader(pack, Constants.OBJ_REF_DELTA, delta1.length);
+		id0.copyRawTo(pack);
+		deflate(pack, delta1);
+
+		byte[] data2 = clone(0x02, data1);
+		byte[] delta2 = delta(data1, data2);
+		ObjectId id2 = fmt.idFor(Constants.OBJ_BLOB, data2);
+		objectHeader(pack, Constants.OBJ_REF_DELTA, delta2.length);
+		id1.copyRawTo(pack);
+		deflate(pack, delta2);
+
+		byte[] data3 = clone(0x03, data2);
+		byte[] delta3 = delta(data2, data3);
+		ObjectId id3 = fmt.idFor(Constants.OBJ_BLOB, data3);
+		objectHeader(pack, Constants.OBJ_REF_DELTA, delta3.length);
+		id2.copyRawTo(pack);
+		deflate(pack, delta3);
+
+		digest(pack);
+		final byte[] raw = pack.toByteArray();
+		IndexPack ip = IndexPack.create(repo, new ByteArrayInputStream(raw));
+		ip.setFixThin(true);
+		ip.index(NullProgressMonitor.INSTANCE);
+		ip.renameAndOpenPack();
+
+		assertTrue("has blob", wc.has(id3));
+
+		ObjectLoader ol = wc.open(id3);
+		assertNotNull("created loader", ol);
+		assertEquals(Constants.OBJ_BLOB, ol.getType());
+		assertEquals(data3.length, ol.getSize());
+		assertTrue("is large", ol.isLarge());
+		try {
+			ol.getCachedBytes();
+			fail("Should have thrown LargeObjectException");
+		} catch (LargeObjectException tooBig) {
+			assertEquals(id3.name(), tooBig.getMessage());
+		}
+
+		ObjectStream in = ol.openStream();
+		assertNotNull("have stream", in);
+		assertEquals(Constants.OBJ_BLOB, in.getType());
+		assertEquals(data3.length, in.getSize());
+		byte[] act = new byte[data3.length];
+		IO.readFully(in, act, 0, data3.length);
+		assertTrue("same content", Arrays.equals(act, data3));
+		assertEquals("stream at EOF", -1, in.read());
+		in.close();
+	}
+
+	public void testDelta_LargeInstructionStream() throws Exception {
+		ObjectInserter.Formatter fmt = new ObjectInserter.Formatter();
+		byte[] data0 = new byte[32];
+		Arrays.fill(data0, (byte) 0xf3);
+		ObjectId id0 = fmt.idFor(Constants.OBJ_BLOB, data0);
+
+		byte[] data3 = rng.nextBytes(UnpackedObject.LARGE_OBJECT + 5);
+		ByteArrayOutputStream tmp = new ByteArrayOutputStream();
+		DeltaEncoder de = new DeltaEncoder(tmp, data0.length, data3.length);
+		de.insert(data3, 0, data3.length);
+		byte[] delta3 = tmp.toByteArray();
+		assertTrue(delta3.length > UnpackedObject.LARGE_OBJECT);
+
+		TemporaryBuffer.Heap pack = new TemporaryBuffer.Heap(64 * 1024);
+		packHeader(pack, 2);
+		objectHeader(pack, Constants.OBJ_BLOB, data0.length);
+		deflate(pack, data0);
+
+		ObjectId id3 = fmt.idFor(Constants.OBJ_BLOB, data3);
+		objectHeader(pack, Constants.OBJ_REF_DELTA, delta3.length);
+		id0.copyRawTo(pack);
+		deflate(pack, delta3);
+
+		digest(pack);
+		final byte[] raw = pack.toByteArray();
+		IndexPack ip = IndexPack.create(repo, new ByteArrayInputStream(raw));
+		ip.setFixThin(true);
+		ip.index(NullProgressMonitor.INSTANCE);
+		ip.renameAndOpenPack();
+
+		assertTrue("has blob", wc.has(id3));
+
+		ObjectLoader ol = wc.open(id3);
+		assertNotNull("created loader", ol);
+		assertEquals(Constants.OBJ_BLOB, ol.getType());
+		assertEquals(data3.length, ol.getSize());
+		assertTrue("is large", ol.isLarge());
+		try {
+			ol.getCachedBytes();
+			fail("Should have thrown LargeObjectException");
+		} catch (LargeObjectException tooBig) {
+			assertEquals(id3.name(), tooBig.getMessage());
+		}
+
+		ObjectStream in = ol.openStream();
+		assertNotNull("have stream", in);
+		assertEquals(Constants.OBJ_BLOB, in.getType());
+		assertEquals(data3.length, in.getSize());
+		byte[] act = new byte[data3.length];
+		IO.readFully(in, act, 0, data3.length);
+		assertTrue("same content", Arrays.equals(act, data3));
+		assertEquals("stream at EOF", -1, in.read());
+		in.close();
+	}
+
+	private byte[] clone(int first, byte[] base) {
+		byte[] r = new byte[base.length];
+		System.arraycopy(base, 1, r, 1, r.length - 1);
+		r[0] = (byte) first;
+		return r;
+	}
+
+	private byte[] delta(byte[] base, byte[] dest) throws IOException {
+		ByteArrayOutputStream tmp = new ByteArrayOutputStream();
+		DeltaEncoder de = new DeltaEncoder(tmp, base.length, dest.length);
+		de.insert(dest, 0, 1);
+		de.copy(1, base.length - 1);
+		return tmp.toByteArray();
+	}
+
+	private void packHeader(TemporaryBuffer.Heap pack, int cnt)
+			throws IOException {
+		final byte[] hdr = new byte[8];
+		NB.encodeInt32(hdr, 0, 2);
+		NB.encodeInt32(hdr, 4, cnt);
+		pack.write(Constants.PACK_SIGNATURE);
+		pack.write(hdr, 0, 8);
+	}
+
+	private void objectHeader(TemporaryBuffer.Heap pack, int type, int sz)
+			throws IOException {
+		byte[] buf = new byte[8];
+		int nextLength = sz >>> 4;
+		buf[0] = (byte) ((nextLength > 0 ? 0x80 : 0x00) | (type << 4) | (sz & 0x0F));
+		sz = nextLength;
+		int n = 1;
+		while (sz > 0) {
+			nextLength >>>= 7;
+			buf[n++] = (byte) ((nextLength > 0 ? 0x80 : 0x00) | (sz & 0x7F));
+			sz = nextLength;
+		}
+		pack.write(buf, 0, n);
+	}
+
+	private void deflate(TemporaryBuffer.Heap pack, final byte[] content)
+			throws IOException {
+		final Deflater deflater = new Deflater();
+		final byte[] buf = new byte[128];
+		deflater.setInput(content, 0, content.length);
+		deflater.finish();
+		do {
+			final int n = deflater.deflate(buf, 0, buf.length);
+			if (n > 0)
+				pack.write(buf, 0, n);
+		} while (!deflater.finished());
+		deflater.end();
+	}
+
+	private void digest(TemporaryBuffer.Heap buf) throws IOException {
+		MessageDigest md = Constants.newMessageDigest();
+		md.update(buf.toByteArray());
+		buf.write(md.digest());
 	}
 }

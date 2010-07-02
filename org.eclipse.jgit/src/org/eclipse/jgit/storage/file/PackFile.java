@@ -611,7 +611,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 					, getPackFile()));
 	}
 
-	private ObjectLoader load(final WindowCursor curs, final long pos)
+	ObjectLoader load(final WindowCursor curs, final long pos)
 			throws IOException {
 		final byte[] ib = curs.tempId;
 		readFully(pos, ib, 0, 20, curs);
@@ -648,13 +648,13 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 					ofs <<= 7;
 					ofs += (c & 127);
 				}
-				return loadDelta(pos + p, sz, pos - ofs, curs);
+				return loadDelta(pos, p, sz, pos - ofs, curs);
 			}
 
 			case Constants.OBJ_REF_DELTA: {
 				readFully(pos + p, ib, 0, 20, curs);
 				long ofs = findDeltaBase(ObjectId.fromRaw(ib));
-				return loadDelta(pos + p + 20, sz, ofs, curs);
+				return loadDelta(pos, p + 20, sz, ofs, curs);
 			}
 
 			default:
@@ -680,9 +680,20 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 		return ofs;
 	}
 
-	private ObjectLoader loadDelta(final long posData, long sz,
-			final long posBase, final WindowCursor curs) throws IOException,
+	private ObjectLoader loadDelta(long posSelf, int hdrLen, long sz,
+			long posBase, WindowCursor curs) throws IOException,
 			DataFormatException {
+		if (UnpackedObject.LARGE_OBJECT <= sz) {
+			// The delta instruction stream itself is pretty big, and
+			// that implies the resulting object is going to be massive.
+			// Use only the large delta format here.
+			//
+			byte[] hdr = getDeltaHeader(posSelf + hdrLen, curs);
+			return new LargePackedDeltaObject(getObjectType(curs, posBase), //
+					BinaryDelta.getResultSize(hdr), //
+					posSelf, posBase, hdrLen, this, curs.db);
+		}
+
 		byte[] data;
 		int type;
 
@@ -692,13 +703,87 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 			type = e.type;
 		} else {
 			ObjectLoader p = load(curs, posBase);
+			if (p.isLarge()) {
+				// The base itself is large. We have to produce a large
+				// delta stream as we don't want to build the whole base.
+				//
+				byte[] hdr = getDeltaHeader(posSelf + hdrLen, curs);
+				return new LargePackedDeltaObject(getObjectType(curs, posBase),
+						BinaryDelta.getResultSize(hdr), //
+						posSelf, posBase, hdrLen, this, curs.db);
+			}
 			data = p.getCachedBytes();
 			type = p.getType();
 			saveCache(posBase, data, type);
 		}
 
-		data = BinaryDelta.apply(data, decompress(posData, sz, curs));
+		// At this point we have the base, and its small, and the delta
+		// stream also is small, so the result object cannot be more than
+		// 2x our small size. This occurs if the delta instructions were
+		// "copy entire base, literal insert entire delta". Go with the
+		// faster small object style at this point.
+		//
+		data = BinaryDelta.apply(data, decompress(posSelf + hdrLen, sz, curs));
 		return new ObjectLoader.SmallObject(type, data);
+	}
+
+	private byte[] getDeltaHeader(long pos, WindowCursor wc)
+			throws IOException, DataFormatException {
+		// The delta stream starts as two variable length integers. If we
+		// assume they are 64 bits each, we need 16 bytes to encode them,
+		// plus 2 extra bytes for the variable length overhead. So 18 is
+		// the longest delta instruction header.
+		//
+		final byte[] hdr = new byte[18];
+		wc.inflate(this, pos, hdr, 0);
+		return hdr;
+	}
+
+	private int getObjectType(final WindowCursor curs, long pos)
+			throws IOException {
+		final byte[] ib = curs.tempId;
+		for (;;) {
+			readFully(pos, ib, 0, 20, curs);
+			int c = ib[0] & 0xff;
+			final int type = (c >> 4) & 7;
+			int shift = 4;
+			int p = 1;
+			while ((c & 0x80) != 0) {
+				c = ib[p++] & 0xff;
+				shift += 7;
+			}
+
+			switch (type) {
+			case Constants.OBJ_COMMIT:
+			case Constants.OBJ_TREE:
+			case Constants.OBJ_BLOB:
+			case Constants.OBJ_TAG:
+				return type;
+
+			case Constants.OBJ_OFS_DELTA: {
+				c = ib[p++] & 0xff;
+				long ofs = c & 127;
+				while ((c & 128) != 0) {
+					ofs += 1;
+					c = ib[p++] & 0xff;
+					ofs <<= 7;
+					ofs += (c & 127);
+				}
+				pos = pos - ofs;
+				continue;
+			}
+
+			case Constants.OBJ_REF_DELTA: {
+				readFully(pos + p, ib, 0, 20, curs);
+				pos = findDeltaBase(ObjectId.fromRaw(ib));
+				continue;
+			}
+
+			default:
+				throw new IOException(MessageFormat.format(
+						JGitText.get().unknownObjectType, type));
+			}
+		}
 	}
 
 	LocalObjectRepresentation representation(final WindowCursor curs,

@@ -55,6 +55,51 @@ import org.eclipse.jgit.JGitText;
  * </p>
  */
 public class BinaryDelta {
+	/**
+	 * Length of the base object in the delta stream.
+	 *
+	 * @param delta
+	 *            the delta stream, or at least the header of it.
+	 * @return the base object's size.
+	 */
+	public static long getBaseSize(final byte[] delta) {
+		int p = 0;
+		long baseLen = 0;
+		int c, shift = 0;
+		do {
+			c = delta[p++] & 0xff;
+			baseLen |= (c & 0x7f) << shift;
+			shift += 7;
+		} while ((c & 0x80) != 0);
+		return baseLen;
+	}
+
+	/**
+	 * Length of the resulting object in the delta stream.
+	 *
+	 * @param delta
+	 *            the delta stream, or at least the header of it.
+	 * @return the resulting object's size.
+	 */
+	public static long getResultSize(final byte[] delta) {
+		int p = 0;
+
+		// Skip length of the base object.
+		//
+		int c;
+		do {
+			c = delta[p++] & 0xff;
+		} while ((c & 0x80) != 0);
+
+		long resLen = 0;
+		int shift = 0;
+		do {
+			c = delta[p++] & 0xff;
+			resLen |= (c & 0x7f) << shift;
+			shift += 7;
+		} while ((c & 0x80) != 0);
+		return resLen;
+	}
 
 	/**
 	 * Apply the changes defined by delta to the data in base, yielding a new

@@ -147,7 +147,7 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 	}
 
 	/**
-	 * Pump bytes into the supplied inflater as input.
+	 * Inflate a region of the pack starting at {@code position}.
 	 *
 	 * @param pack
 	 *            the file the desired window is stored within.
@@ -170,13 +170,22 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 	int inflate(final PackFile pack, long position, final byte[] dstbuf,
 			int dstoff) throws IOException, DataFormatException {
 		prepareInflater();
-		for (;;) {
-			pin(pack, position);
-			dstoff = window.inflate(position, dstbuf, dstoff, inf);
-			if (inf.finished())
-				return dstoff;
-			position = window.end;
-		}
+		pin(pack, position);
+		position += window.inflate(position, inf);
+		do {
+			int n = inf.inflate(dstbuf, dstoff, dstbuf.length - dstoff);
+			if (n == 0) {
+				if (inf.needsInput()) {
+					pin(pack, position);
+					position += window.inflate(position, inf);
+				} else if (inf.finished())
+					return dstoff;
+				else
+					throw new DataFormatException();
+			}
+			dstoff += n;
+		} while (dstoff < dstbuf.length);
+		return dstoff;
 	}
 
 	ByteArrayWindow quickCopy(PackFile p, long pos, long cnt)

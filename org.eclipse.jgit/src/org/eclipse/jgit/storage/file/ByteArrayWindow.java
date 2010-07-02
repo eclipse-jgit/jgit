@@ -70,18 +70,11 @@ final class ByteArrayWindow extends ByteWindow {
 	}
 
 	@Override
-	protected int inflate(final int pos, final byte[] b, int o,
-			final Inflater inf) throws DataFormatException {
-		while (!inf.finished()) {
-			if (inf.needsInput()) {
-				inf.setInput(array, pos, array.length - pos);
-				break;
-			}
-			o += inf.inflate(b, o, b.length - o);
-		}
-		while (!inf.finished() && !inf.needsInput())
-			o += inf.inflate(b, o, b.length - o);
-		return o;
+	protected int inflate(final int pos, final Inflater inf)
+			throws DataFormatException {
+		int n = array.length - pos;
+		inf.setInput(array, pos, n);
+		return n;
 	}
 
 	void crc32(CRC32 out, long pos, int cnt) {
