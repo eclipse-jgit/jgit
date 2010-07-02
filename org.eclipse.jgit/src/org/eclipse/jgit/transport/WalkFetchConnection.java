@@ -70,6 +70,7 @@ import org.eclipse.jgit.lib.MutableObjectId;
 import org.eclipse.jgit.lib.ObjectChecker;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
@@ -84,7 +85,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.storage.file.ObjectDirectory;
 import org.eclipse.jgit.storage.file.PackIndex;
 import org.eclipse.jgit.storage.file.PackLock;
-import org.eclipse.jgit.storage.file.UnpackedObjectLoader;
+import org.eclipse.jgit.storage.file.UnpackedObject;
 import org.eclipse.jgit.treewalk.TreeWalk;
 
 /**
@@ -598,9 +599,9 @@ class WalkFetchConnection extends BaseFetchConnection {
 
 	private void verifyAndInsertLooseObject(final AnyObjectId id,
 			final byte[] compressed) throws IOException {
-		final UnpackedObjectLoader uol;
+		final ObjectLoader uol;
 		try {
-			uol = new UnpackedObjectLoader(compressed);
+			uol = UnpackedObject.parse(compressed, id);
 		} catch (CorruptObjectException parsingError) {
 			// Some HTTP servers send back a "200 OK" status with an HTML
 			// page that explains the requested file could not be found.

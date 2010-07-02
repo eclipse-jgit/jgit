@@ -173,4 +173,55 @@ public abstract class ObjectLoader {
 			out.write(getCachedBytes());
 		}
 	}
+
+	/**
+	 * Simple loader around the cached byte array.
+	 * <p>
+	 * ObjectReader implementations can use this stream type when the object's
+	 * content is small enough to be accessed as a single byte array.
+	 */
+	public static class SmallObject extends ObjectLoader {
+		private final int type;
+
+		private final byte[] data;
+
+		/**
+		 * Construct a small object loader.
+		 *
+		 * @param type
+		 *            type of the object.
+		 * @param data
+		 *            the object's data array. This array will be returned as-is
+		 *            for the {@link #getCachedBytes()} method.
+		 */
+		public SmallObject(int type, byte[] data) {
+			this.type = type;
+			this.data = data;
+		}
+
+		@Override
+		public int getType() {
+			return type;
+		}
+
+		@Override
+		public long getSize() {
+			return getCachedBytes().length;
+		}
+
+		@Override
+		public boolean isLarge() {
+			return false;
+		}
+
+		@Override
+		public byte[] getCachedBytes() {
+			return data;
+		}
+
+		@Override
+		public ObjectStream openStream() {
+			return new ObjectStream.SmallStream(this);
+		}
+	}
 }

@@ -71,7 +71,7 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 
 	private ByteWindow window;
 
-	private final FileObjectDatabase db;
+	final FileObjectDatabase db;
 
 	WindowCursor(FileObjectDatabase db) {
 		this.db = db;

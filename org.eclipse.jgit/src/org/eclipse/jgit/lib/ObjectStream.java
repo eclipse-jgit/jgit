@@ -43,6 +43,7 @@
 
 package org.eclipse.jgit.lib;
 
+import java.io.IOException;
 import java.io.InputStream;
 
 /** Stream of data coming from an object loaded by {@link ObjectLoader}. */
@@ -132,6 +133,88 @@ public abstract class ObjectStream extends InputStream {
 		@Override
 		public void reset() {
 			ptr = mark;
+		}
+	}
+
+	/**
+	 * Simple filter stream around another stream.
+	 * <p>
+	 * ObjectLoader implementations can use this stream type when the object's
+	 * content is available from a standard InputStream.
+	 */
+	public static class Filter extends ObjectStream {
+		private final int type;
+
+		private final long size;
+
+		private final InputStream in;
+
+		/**
+		 * Create a filter stream for an object.
+		 *
+		 * @param type
+		 *            the type of the object.
+		 * @param size
+		 *            total size of the object, in bytes.
+		 * @param in
+		 *            stream the object's raw data is available from. This
+		 *            stream should be buffered with some reasonable amount of
+		 *            buffering.
+		 */
+		public Filter(int type, long size, InputStream in) {
+			this.type = type;
+			this.size = size;
+			this.in = in;
+		}
+
+		@Override
+		public int getType() {
+			return type;
+		}
+
+		@Override
+		public long getSize() {
+			return size;
+		}
+
+		@Override
+		public int available() throws IOException {
+			return in.available();
+		}
+
+		@Override
+		public long skip(long n) throws IOException {
+			return in.skip(n);
+		}
+
+		@Override
+		public int read() throws IOException {
+			return in.read();
+		}
+
+		@Override
+		public int read(byte[] b, int off, int len) throws IOException {
+			return in.read(b, off, len);
+		}
+
+		@Override
+		public boolean markSupported() {
+			return in.markSupported();
+		}
+
+		@Override
+		public void mark(int readlimit) {
+			in.mark(readlimit);
+		}
+
+		@Override
+		public void reset() throws IOException {
+			in.reset();
+		}
+
+		@Override
+		public void close() throws IOException {
+			in.close();
 		}
 	}
 }

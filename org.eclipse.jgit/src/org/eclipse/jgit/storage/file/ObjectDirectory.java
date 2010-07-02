@@ -45,6 +45,7 @@ package org.eclipse.jgit.storage.file;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -326,7 +327,13 @@ public class ObjectDirectory extends FileObjectDatabase {
 			final String objectName, final AnyObjectId objectId)
 			throws IOException {
 		try {
-			return new UnpackedObjectLoader(fileFor(objectName), objectId);
+			File path = fileFor(objectName);
+			FileInputStream in = new FileInputStream(path);
+			try {
+				return UnpackedObject.open(in, path, objectId, curs);
+			} finally {
+				in.close();
+			}
 		} catch (FileNotFoundException noFile) {
 			return null;
 		}
