@@ -200,7 +200,7 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 			inf.reset();
 	}
 
-	private void pin(final PackFile pack, final long position)
+	void pin(final PackFile pack, final long position)
 			throws IOException {
 		final ByteWindow w = window;
 		if (w == null || !w.contains(pack, position)) {

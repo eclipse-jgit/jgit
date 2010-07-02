@@ -632,8 +632,11 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 			case Constants.OBJ_TREE:
 			case Constants.OBJ_BLOB:
 			case Constants.OBJ_TAG: {
-				byte[] data = decompress(pos + p, sz, curs);
-				return new ObjectLoader.SmallObject(type, data);
+				if (sz < UnpackedObject.LARGE_OBJECT) {
+					byte[] data = decompress(pos + p, sz, curs);
+					return new ObjectLoader.SmallObject(type, data);
+				}
+				return new LargePackedWholeObject(type, sz, pos, p, this, curs.db);
 			}
 
 			case Constants.OBJ_OFS_DELTA: {
