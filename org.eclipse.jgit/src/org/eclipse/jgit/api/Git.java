@@ -133,9 +133,24 @@ public class Git {
 	}
 
 	/**
+	 * Returns a command class to execute a {@code Add} command
+	 * @param filepattern
+	 *
+	 * @see <a
+	 *      href="http://www.kernel.org/pub/software/scm/git/docs/git-add.html"
+	 *      >Git documentation about Add</a>
+	 * @return a {@link AddCommand} used to collect all optional parameters
+	 *         and to finally execute the {@code Add} command
+	 */
+	public AddCommand add(String filepattern) {
+		return new AddCommand(repo, filepattern);
+	}
+
+	/**
 	 * @return the git repository this class is interacting with
 	 */
 	public Repository getRepository() {
 		return repo;
 	}
+
 }
