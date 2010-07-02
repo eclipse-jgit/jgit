@@ -69,6 +69,7 @@ import org.eclipse.jgit.errors.StoredObjectRepresentationNotAvailableException;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.storage.pack.BinaryDelta;
 import org.eclipse.jgit.storage.pack.ObjectToPack;
 import org.eclipse.jgit.storage.pack.PackOutputStream;
@@ -167,15 +168,6 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 		return loadedIdx;
 	}
 
-	final PackedObjectLoader resolveBase(final WindowCursor curs, final long ofs)
-			throws IOException {
-		if (isCorrupt(ofs)) {
-			throw new CorruptObjectException(MessageFormat.format(JGitText
-					.get().objectAtHasBadZlibStream, ofs, getPackFile()));
-		}
-		return load(curs, ofs);
-	}
-
 	/** @return the File object which locates this pack on disk. */
 	public File getPackFile() {
 		return packFile;
@@ -211,7 +203,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 	 * @throws IOException
 	 *             the pack file or the index could not be read.
 	 */
-	PackedObjectLoader get(final WindowCursor curs, final AnyObjectId id)
+	ObjectLoader get(final WindowCursor curs, final AnyObjectId id)
 			throws IOException {
 		final long offset = idx().findOffset(id);
 		return 0 < offset && !isCorrupt(offset) ? load(curs, offset) : null;
@@ -619,7 +611,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 					, getPackFile()));
 	}
 
-	private PackedObjectLoader load(final WindowCursor curs, final long pos)
+	private ObjectLoader load(final WindowCursor curs, final long pos)
 			throws IOException {
 		final byte[] ib = curs.tempId;
 		readFully(pos, ib, 0, 20, curs);
@@ -641,7 +633,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 			case Constants.OBJ_BLOB:
 			case Constants.OBJ_TAG: {
 				byte[] data = decompress(pos + p, sz, curs);
-				return new PackedObjectLoader(type, data);
+				return new ObjectLoader.SmallObject(type, data);
 			}
 
 			case Constants.OBJ_OFS_DELTA: {
@@ -685,7 +677,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 		return ofs;
 	}
 
-	private PackedObjectLoader loadDelta(final long posData, long sz,
+	private ObjectLoader loadDelta(final long posData, long sz,
 			final long posBase, final WindowCursor curs) throws IOException,
 			DataFormatException {
 		byte[] data;
@@ -696,14 +688,14 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 			data = e.data;
 			type = e.type;
 		} else {
-			PackedObjectLoader p = load(curs, posBase);
+			ObjectLoader p = load(curs, posBase);
 			data = p.getCachedBytes();
 			type = p.getType();
 			saveCache(posBase, data, type);
 		}
 
 		data = BinaryDelta.apply(data, decompress(posData, sz, curs));
-		return new PackedObjectLoader(type, data);
+		return new ObjectLoader.SmallObject(type, data);
 	}
 
 	LocalObjectRepresentation representation(final WindowCursor curs,

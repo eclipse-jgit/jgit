@@ -63,7 +63,7 @@ public class T0004_PackReader extends SampleDataRepositoryTestCase {
 	public void test003_lookupCompressedObject() throws IOException {
 		final PackFile pr;
 		final ObjectId id;
-		final PackedObjectLoader or;
+		final ObjectLoader or;
 
 		id = ObjectId.fromString("902d5476fa249b7abc9d84c611577a81381f0327");
 		pr = new PackFile(TEST_IDX, TEST_PACK);
@@ -81,7 +81,6 @@ public class T0004_PackReader extends SampleDataRepositoryTestCase {
 		id = ObjectId.fromString("5b6e7c66c276e7610d4a73c70ec1a1f7c1003259");
 		or = db.open(id);
 		assertNotNull(or);
-		assertTrue(or instanceof PackedObjectLoader);
 		assertEquals(Constants.OBJ_BLOB, or.getType());
 		assertEquals(18009, or.getSize());
 	}

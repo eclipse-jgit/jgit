@@ -273,7 +273,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 		SEARCH: for (;;) {
 			for (final PackFile p : pList.packs) {
 				try {
-					final PackedObjectLoader ldr = p.get(curs, objectId);
+					final ObjectLoader ldr = p.get(curs, objectId);
 					if (ldr != null)
 						return ldr;
 				} catch (PackMismatchException e) {
