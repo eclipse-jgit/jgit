@@ -277,8 +277,6 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 
 	private final byte[] decompress(final long position, final long totalSize,
 			final WindowCursor curs) throws IOException, DataFormatException {
-		if (totalSize > Integer.MAX_VALUE)
-			throw new OutOfMemoryError();
 		final byte[] dstbuf = new byte[(int) totalSize];
 		if (curs.inflate(this, position, dstbuf, 0) != totalSize)
 			throw new EOFException(MessageFormat.format(JGitText.get().shortCompressedStreamAt, position));
