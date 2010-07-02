@@ -46,20 +46,25 @@ package org.eclipse.jgit.storage.file;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.zip.DataFormatException;
 import java.util.zip.InflaterInputStream;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectStream;
+import org.eclipse.jgit.storage.pack.BinaryDelta;
 import org.eclipse.jgit.storage.pack.DeltaStream;
 
 class LargePackedDeltaObject extends ObjectLoader {
-	private final int type;
+	private static final long SIZE_UNKNOWN = -1;
 
-	private final long size;
+	private int type;
+
+	private long size;
 
 	private final long objectOffset;
 
@@ -71,11 +76,11 @@ class LargePackedDeltaObject extends ObjectLoader {
 
 	private final FileObjectDatabase db;
 
-	LargePackedDeltaObject(int type, long size, long objectOffset,
+	LargePackedDeltaObject(long objectOffset,
 			long baseOffset, int headerLength, PackFile pack,
 			FileObjectDatabase db) {
-		this.type = type;
-		this.size = size;
+		this.type = Constants.OBJ_BAD;
+		this.size = SIZE_UNKNOWN;
 		this.objectOffset = objectOffset;
 		this.baseOffset = baseOffset;
 		this.headerLength = headerLength;
@@ -85,11 +90,58 @@ class LargePackedDeltaObject extends ObjectLoader {
 
 	@Override
 	public int getType() {
+		if (type == Constants.OBJ_BAD) {
+			WindowCursor wc = new WindowCursor(db);
+			try {
+				type = pack.getObjectType(wc, objectOffset);
+			} catch (IOException packGone) {
+				// If the pack file cannot be pinned into the cursor, it
+				// probably was repacked recently. Go find the object
+				// again and get the type from that location instead.
+				//
+				try {
+					type = wc.open(getObjectId()).getType();
+				} catch (IOException packGone2) {
+					// "He's dead, Jim." We just can't discover the type
+					// and the interface isn't supposed to be lazy here.
+					// Report an invalid type code instead, callers will
+					// wind up bailing out with an error at some point.
+				}
+			} finally {
+				wc.release();
+			}
+		}
 		return type;
 	}
 
 	@Override
 	public long getSize() {
+		if (size == SIZE_UNKNOWN) {
+			WindowCursor wc = new WindowCursor(db);
+			try {
+				byte[] b = pack.getDeltaHeader(wc, objectOffset + headerLength);
+				size = BinaryDelta.getResultSize(b);
+			} catch (DataFormatException objectCorrupt) {
+				// The zlib stream for the delta is corrupt. We probably
+				// cannot access the object. Keep the size negative and
+				// report that bogus result to the caller.
+			} catch (IOException packGone) {
+				// If the pack file cannot be pinned into the cursor, it
+				// probably was repacked recently. Go find the object
+				// again and get the size from that location instead.
+				//
+				try {
+					size = wc.open(getObjectId()).getSize();
+				} catch (IOException packGone2) {
+					// "He's dead, Jim." We just can't discover the size
+					// and the interface isn't supposed to be lazy here.
+					// Report an invalid type code instead, callers will
+					// wind up bailing out with an error at some point.
+				}
+			} finally {
+				wc.release();
+			}
+		}
 		return size;
 	}
 
@@ -112,7 +164,7 @@ class LargePackedDeltaObject extends ObjectLoader {
 		final WindowCursor wc = new WindowCursor(db);
 		InputStream in = open(wc);
 		in = new BufferedInputStream(in, 8192);
-		return new ObjectStream.Filter(type, size, in) {
+		return new ObjectStream.Filter(getType(), size, in) {
 			@Override
 			public void close() throws IOException {
 				wc.release();
@@ -132,24 +184,44 @@ class LargePackedDeltaObject extends ObjectLoader {
 			// probably was repacked recently. Go find the object
 			// again and open the stream from that location instead.
 			//
-			return wc.open(getObjectId(), type).openStream();
+			return wc.open(getObjectId()).openStream();
 		}
 		delta = new InflaterInputStream(delta);
 
 		final ObjectLoader base = pack.load(wc, baseOffset);
-		return new DeltaStream(delta) {
+		DeltaStream ds = new DeltaStream(delta) {
+			private long baseSize = SIZE_UNKNOWN;
+
 			@Override
 			protected InputStream openBase() throws IOException {
+				InputStream in;
 				if (base instanceof LargePackedDeltaObject)
-					return ((LargePackedDeltaObject) base).open(wc);
-				return base.openStream();
+					in = ((LargePackedDeltaObject) base).open(wc);
+				else
+					in = base.openStream();
+				if (baseSize == SIZE_UNKNOWN) {
+					if (in instanceof DeltaStream)
+						baseSize = ((DeltaStream) in).getSize();
+					else if (in instanceof ObjectStream)
+						baseSize = ((ObjectStream) in).getSize();
+				}
+				return in;
 			}
 
 			@Override
 			protected long getBaseSize() throws IOException {
-				return base.getSize();
+				if (baseSize == SIZE_UNKNOWN) {
+					// This code path should never be used as DeltaStream
+					// is supposed to open the stream first, which would
+					// initialize the size for us directly from the stream.
+					baseSize = base.getSize();
+				}
+				return baseSize;
 			}
 		};
+		if (size == SIZE_UNKNOWN)
+			size = ds.getSize();
+		return ds;
 	}
 
 	private ObjectId getObjectId() throws IOException {
