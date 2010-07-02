@@ -146,7 +146,7 @@ public class DirCacheEditor extends BaseDirCacheEditor {
 				continue;
 			}
 
-			final DirCacheEntry ent;
+			DirCacheEntry ent;
 			if (missing) {
 				ent = new DirCacheEntry(e.path);
 				e.apply(ent);
@@ -155,7 +155,17 @@ public class DirCacheEditor extends BaseDirCacheEditor {
 							, ent.getPathString()));
 			} else {
 				ent = cache.getEntry(eIdx);
-				e.apply(ent);
+				if (ent.getStage() != DirCacheEntry.STAGE_0) {
+					ent = new DirCacheEntry(e.path);
+					e.apply(ent);
+					if (ent.getRawMode() == 0)
+						throw new IllegalArgumentException(MessageFormat
+								.format(JGitText.get().fileModeNotSetForPath,
+										ent.getPathString()));
+					lastIdx = cache.nextEntry(eIdx);
+				} else {
+					e.apply(ent);
+				}
 			}
 			fastAdd(ent);
 		}
@@ -170,9 +180,9 @@ public class DirCacheEditor extends BaseDirCacheEditor {
 	 * <p>
 	 * Applications should subclass and provide their own implementation for the
 	 * {@link #apply(DirCacheEntry)} method. The editor will invoke apply once
-	 * for each record in the index which matches the path name. If there are
-	 * multiple records (for example in stages 1, 2 and 3), the edit instance
-	 * will be called multiple times, once for each stage.
+	 * for the path name. If there are multiple records (for example in stages
+	 * 1, 2 and 3), the non-zero stages will be removed and a new stage 0 record
+	 * will be given to the edit.
 	 */
 	public abstract static class PathEdit {
 		final byte[] path;
