@@ -746,12 +746,11 @@ public class RevWalk implements Iterable<RevCommit> {
 		RevObject r = objects.get(id);
 		if (r == null) {
 			final ObjectLoader ldr = reader.open(id);
-			final byte[] data = ldr.getCachedBytes();
 			final int type = ldr.getType();
 			switch (type) {
 			case Constants.OBJ_COMMIT: {
 				final RevCommit c = createCommit(id);
-				c.parseCanonical(this, data);
+				c.parseCanonical(this, ldr.getCachedBytes());
 				r = c;
 				break;
 			}
@@ -767,7 +766,7 @@ public class RevWalk implements Iterable<RevCommit> {
 			}
 			case Constants.OBJ_TAG: {
 				final RevTag t = new RevTag(id);
-				t.parseCanonical(this, data);
+				t.parseCanonical(this, ldr.getCachedBytes());
 				r = t;
 				break;
 			}
