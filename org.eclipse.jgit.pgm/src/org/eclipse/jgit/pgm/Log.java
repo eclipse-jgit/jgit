@@ -97,7 +97,8 @@ class Log extends RevWalkTextBuiltin {
 		diffFmt.setContext(lines);
 	}
 
-	private DiffFormatter diffFmt = new DiffFormatter();
+	private DiffFormatter diffFmt = new DiffFormatter( //
+			new BufferedOutputStream(System.out));
 
 	Log() {
 		fmt = new SimpleDateFormat("EEE MMM dd HH:mm:ss yyyy ZZZZZ", Locale.US);
@@ -170,10 +171,9 @@ class Log extends RevWalkTextBuiltin {
 			Diff.nameStatus(out, files);
 
 		} else {
-			out.flush();
-			BufferedOutputStream o = new BufferedOutputStream(System.out);
-			diffFmt.format(o, db, files);
-			o.flush();
+			diffFmt.setRepository(db);
+			diffFmt.format(files);
+			diffFmt.flush();
 		}
 	}
 }

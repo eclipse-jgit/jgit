@@ -104,7 +104,8 @@ class Diff extends TextBuiltin {
 		fmt.setContext(lines);
 	}
 
-	private DiffFormatter fmt = new DiffFormatter() {
+	private DiffFormatter fmt = new DiffFormatter( //
+			new BufferedOutputStream(System.out)) {
 		@Override
 		protected RawText newRawText(byte[] raw) {
 			if (ignoreWsAll)
@@ -129,9 +130,9 @@ class Diff extends TextBuiltin {
 			out.flush();
 
 		} else {
-			BufferedOutputStream o = new BufferedOutputStream(System.out);
-			fmt.format(o, db, files);
-			o.flush();
+			fmt.setRepository(db);
+			fmt.format(files);
+			fmt.flush();
 		}
 	}
 
