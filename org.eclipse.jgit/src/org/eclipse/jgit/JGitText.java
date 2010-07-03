@@ -185,7 +185,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String duplicateRef;
 	/***/ public String duplicateRemoteRefUpdateIsIllegal;
 	/***/ public String duplicateStagesNotAllowed;
-	/***/ public String eitherGIT_DIRorGIT_WORK_TREEmustBePassed;
+	/***/ public String eitherGitDirOrWorkTreeRequired;
 	/***/ public String emptyPathNotPermitted;
 	/***/ public String encryptionError;
 	/***/ public String endOfFileInEscape;
