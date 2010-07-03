@@ -467,7 +467,7 @@ public class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R extends Re
 	protected void requireGitDirOrWorkTree() {
 		if (getGitDir() == null && getWorkTree() == null)
 			throw new IllegalArgumentException(
-					JGitText.get().eitherGIT_DIRorGIT_WORK_TREEmustBePassed);
+					JGitText.get().eitherGitDirOrWorkTreeRequired);
 	}
 
 	/**
