@@ -45,22 +45,32 @@
 
 package org.eclipse.jgit.pgm;
 
+import java.io.BufferedOutputStream;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.TimeZone;
 
-import org.kohsuke.args4j.Option;
+import org.eclipse.jgit.diff.DiffEntry;
+import org.eclipse.jgit.diff.DiffFormatter;
+import org.eclipse.jgit.diff.RenameDetector;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.TextProgressMonitor;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.treewalk.TreeWalk;
+import org.eclipse.jgit.treewalk.filter.AndTreeFilter;
+import org.eclipse.jgit.treewalk.filter.TreeFilter;
+import org.kohsuke.args4j.Option;
 
 @Command(common = true, usage = "usage_viewCommitHistory")
 class Log extends RevWalkTextBuiltin {
@@ -72,6 +82,22 @@ class Log extends RevWalkTextBuiltin {
 
 	@Option(name="--decorate", usage="usage_showRefNamesMatchingCommits")
 	private boolean decorate;
+
+	@Option(name = "-M", usage = "usage_detectRenames")
+	private boolean detectRenames;
+
+	@Option(name = "--name-status", usage = "usage_nameStatus")
+	private boolean showNameAndStatusOnly;
+
+	@Option(name = "-p", usage = "usage_showPatch")
+	private boolean showPatch;
+
+	@Option(name = "-U", aliases = { "--unified" }, metaVar = "metaVar_linesOfContext")
+	void unified(int lines) {
+		diffFmt.setContext(lines);
+	}
+
+	private DiffFormatter diffFmt = new DiffFormatter();
 
 	Log() {
 		fmt = new SimpleDateFormat("EEE MMM dd HH:mm:ss yyyy ZZZZZ", Locale.US);
@@ -120,6 +146,34 @@ class Log extends RevWalkTextBuiltin {
 		}
 
 		out.println();
+		if (c.getParentCount() > 0 && (showNameAndStatusOnly || showPatch))
+			showDiff(c);
 		out.flush();
+	}
+
+	private void showDiff(RevCommit c) throws IOException {
+		final TreeWalk tw = new TreeWalk(db);
+		tw.reset();
+		tw.setRecursive(true);
+		tw.addTree(c.getParent(0).getTree());
+		tw.addTree(c.getTree());
+		tw.setFilter(AndTreeFilter.create(TreeFilter.ANY_DIFF, pathFilter));
+
+		List<DiffEntry> files = DiffEntry.scan(tw);
+		if (detectRenames) {
+			RenameDetector rd = new RenameDetector(db);
+			rd.addAll(files);
+			files = rd.compute(new TextProgressMonitor());
+		}
+
+		if (showNameAndStatusOnly) {
+			Diff.nameStatus(out, files);
+
+		} else {
+			out.flush();
+			BufferedOutputStream o = new BufferedOutputStream(System.out);
+			diffFmt.format(o, db, files);
+			o.flush();
+		}
 	}
 }

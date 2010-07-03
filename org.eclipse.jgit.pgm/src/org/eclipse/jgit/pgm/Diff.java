@@ -45,28 +45,28 @@
 
 package org.eclipse.jgit.pgm;
 
+import java.io.BufferedOutputStream;
 import java.io.IOException;
-import java.io.PrintStream;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kohsuke.args4j.Argument;
-import org.kohsuke.args4j.Option;
-
+import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.diff.DiffFormatter;
-import org.eclipse.jgit.diff.MyersDiff;
 import org.eclipse.jgit.diff.RawText;
 import org.eclipse.jgit.diff.RawTextIgnoreAllWhitespace;
 import org.eclipse.jgit.diff.RawTextIgnoreLeadingWhitespace;
 import org.eclipse.jgit.diff.RawTextIgnoreTrailingWhitespace;
 import org.eclipse.jgit.diff.RawTextIgnoreWhitespaceChange;
-import org.eclipse.jgit.lib.FileMode;
-import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.diff.RenameDetector;
+import org.eclipse.jgit.lib.TextProgressMonitor;
 import org.eclipse.jgit.pgm.opt.PathTreeFilterHandler;
 import org.eclipse.jgit.treewalk.AbstractTreeIterator;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.AndTreeFilter;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
+import org.kohsuke.args4j.Argument;
+import org.kohsuke.args4j.Option;
 
 @Command(common = true, usage = "usage_ShowDiffs")
 class Diff extends TextBuiltin {
@@ -78,8 +78,14 @@ class Diff extends TextBuiltin {
 	@Argument(index = 1, metaVar = "metaVar_treeish", required = true)
 	private final List<AbstractTreeIterator> trees = new ArrayList<AbstractTreeIterator>();
 
-	@Option(name = "--", metaVar = "metaVar_port", multiValued = true, handler = PathTreeFilterHandler.class)
+	@Option(name = "--", metaVar = "metaVar_paths", multiValued = true, handler = PathTreeFilterHandler.class)
 	private TreeFilter pathFilter = TreeFilter.ALL;
+
+	@Option(name = "-M", usage = "usage_detectRenames")
+	private boolean detectRenames;
+
+	@Option(name = "--name-status", usage = "usage_nameStatus")
+	private boolean showNameAndStatusOnly;
 
 	@Option(name = "--ignore-space-at-eol")
 	private boolean ignoreWsTrailing;
@@ -93,10 +99,69 @@ class Diff extends TextBuiltin {
 	@Option(name = "-w", aliases = { "--ignore-all-space" })
 	private boolean ignoreWsAll;
 
-	private DiffFormatter fmt = new DiffFormatter();
+	@Option(name = "-U", aliases = { "--unified" }, metaVar = "metaVar_linesOfContext")
+	void unified(int lines) {
+		fmt.setContext(lines);
+	}
+
+	private DiffFormatter fmt = new DiffFormatter() {
+		@Override
+		protected RawText newRawText(byte[] raw) {
+			if (ignoreWsAll)
+				return new RawTextIgnoreAllWhitespace(raw);
+			else if (ignoreWsTrailing)
+				return new RawTextIgnoreTrailingWhitespace(raw);
+			else if (ignoreWsChange)
+				return new RawTextIgnoreWhitespaceChange(raw);
+			else if (ignoreWsLeading)
+				return new RawTextIgnoreLeadingWhitespace(raw);
+			else
+				return new RawText(raw);
+		}
+	};
 
 	@Override
 	protected void run() throws Exception {
+		List<DiffEntry> files = scan();
+
+		if (showNameAndStatusOnly) {
+			nameStatus(out, files);
+			out.flush();
+
+		} else {
+			BufferedOutputStream o = new BufferedOutputStream(System.out);
+			fmt.format(o, db, files);
+			o.flush();
+		}
+	}
+
+	static void nameStatus(PrintWriter out, List<DiffEntry> files) {
+		for (DiffEntry ent : files) {
+			switch (ent.getChangeType()) {
+			case ADD:
+				out.println("A\t" + ent.getNewName());
+				break;
+			case DELETE:
+				out.println("D\t" + ent.getOldName());
+				break;
+			case MODIFY:
+				out.println("M\t" + ent.getNewName());
+				break;
+			case COPY:
+				out.format("C%1$03d\t%2$s\t%3$s", ent.getScore(), //
+						ent.getOldName(), ent.getNewName());
+				out.println();
+				break;
+			case RENAME:
+				out.format("R%1$03d\t%2$s\t%3$s", ent.getScore(), //
+						ent.getOldName(), ent.getNewName());
+				out.println();
+				break;
+			}
+		}
+	}
+
+	private List<DiffEntry> scan() throws IOException {
 		final TreeWalk walk = new TreeWalk(db);
 		walk.reset();
 		walk.setRecursive(true);
@@ -104,65 +169,12 @@ class Diff extends TextBuiltin {
 			walk.addTree(i);
 		walk.setFilter(AndTreeFilter.create(TreeFilter.ANY_DIFF, pathFilter));
 
-		while (walk.next())
-			outputDiff(System.out, walk.getPathString(),
-				walk.getObjectId(0), walk.getFileMode(0),
-				walk.getObjectId(1), walk.getFileMode(1));
-	}
-
-	protected void outputDiff(PrintStream out, String path,
-			ObjectId id1, FileMode mode1, ObjectId id2, FileMode mode2) throws IOException {
-		String name1 = "a/" + path;
-		String name2 =  "b/" + path;
-		out.println("diff --git " + name1 + " " + name2);
-		boolean isNew=false;
-		boolean isDelete=false;
-		if (id1.equals(ObjectId.zeroId())) {
-			out.println("new file mode " + mode2);
-			isNew=true;
-		} else if (id2.equals(ObjectId.zeroId())) {
-			out.println("deleted file mode " + mode1);
-			isDelete=true;
-		} else if (!mode1.equals(mode2)) {
-			out.println("old mode " + mode1);
-			out.println("new mode " + mode2);
+		List<DiffEntry> files = DiffEntry.scan(walk);
+		if (detectRenames) {
+			RenameDetector rd = new RenameDetector(db);
+			rd.addAll(files);
+			files = rd.compute(new TextProgressMonitor());
 		}
-		out.println("index " + id1.abbreviate(db, 7).name()
-			+ ".." + id2.abbreviate(db, 7).name()
-			+ (mode1.equals(mode2) ? " " + mode1 : ""));
-		out.println("--- " + (isNew ?  "/dev/null" : name1));
-		out.println("+++ " + (isDelete ?  "/dev/null" : name2));
-
-		byte[] aRaw = getRawBytes(id1);
-		byte[] bRaw = getRawBytes(id2);
-
-		if (RawText.isBinary(aRaw) || RawText.isBinary(bRaw)) {
-			out.println("Binary files differ");
-			return;
-		}
-
-		RawText a = getRawText(aRaw);
-		RawText b = getRawText(bRaw);
-		MyersDiff diff = new MyersDiff(a, b);
-		fmt.formatEdits(out, a, b, diff.getEdits());
-	}
-
-	private byte[] getRawBytes(ObjectId id) throws IOException {
-		if (id.equals(ObjectId.zeroId()))
-			return new byte[] {};
-		return db.openBlob(id).getCachedBytes();
-	}
-
-	private RawText getRawText(byte[] raw) {
-		if (ignoreWsAll)
-			return new RawTextIgnoreAllWhitespace(raw);
-		else if (ignoreWsTrailing)
-			return new RawTextIgnoreTrailingWhitespace(raw);
-		else if (ignoreWsChange)
-			return new RawTextIgnoreWhitespaceChange(raw);
-		else if (ignoreWsLeading)
-			return new RawTextIgnoreLeadingWhitespace(raw);
-		else
-			return new RawText(raw);
+		return files;
 	}
 }
