@@ -161,8 +161,8 @@ public abstract class Repository {
 	 * directories.
 	 *
 	 * @param bare
-	 *            if true, a bare repository is created.
-	 *
+	 *            if true, a bare repository (a repository without a working
+	 *            directory) is created.
 	 * @throws IOException
 	 *             in case of IO problem
 	 */
@@ -863,7 +863,8 @@ public abstract class Repository {
 	 * @throws IOException
 	 *             if the index can not be read
 	 * @throws NoWorkTreeException
-	 *             if this is bare (see {@link #isBare()})
+	 *             if this is bare, which implies it has no working directory.
+	 *             See {@link #isBare()}.
 	 */
 	public GitIndex getIndex() throws IOException, NoWorkTreeException {
 		if (isBare())
@@ -880,7 +881,8 @@ public abstract class Repository {
 	/**
 	 * @return the index file location
 	 * @throws NoWorkTreeException
-	 *             if this is bare (see {@link #isBare()})
+	 *             if this is bare, which implies it has no working directory.
+	 *             See {@link #isBare()}.
 	 */
 	public File getIndexFile() throws NoWorkTreeException {
 		if (isBare())
@@ -898,7 +900,8 @@ public abstract class Repository {
 	 * @return a cache representing the contents of the specified index file (if
 	 *         it exists) or an empty cache if the file does not exist.
 	 * @throws NoWorkTreeException
-	 *             if the repository is bare (lacks a working directory).
+	 *             if this is bare, which implies it has no working directory.
+	 *             See {@link #isBare()}.
 	 * @throws IOException
 	 *             the index file is present but could not be read.
 	 * @throws CorruptObjectException
@@ -920,7 +923,8 @@ public abstract class Repository {
 	 * @return a cache representing the contents of the specified index file (if
 	 *         it exists) or an empty cache if the file does not exist.
 	 * @throws NoWorkTreeException
-	 *             if the repository is bare (lacks a working directory).
+	 *             if this is bare, which implies it has no working directory.
+	 *             See {@link #isBare()}.
 	 * @throws IOException
 	 *             the index file is present but could not be read, or the lock
 	 *             could not be obtained.
@@ -1072,7 +1076,7 @@ public abstract class Repository {
 	}
 
 	/**
-	 * @return the "bare"-ness of this Repository
+	 * @return true if this is bare, which implies it has no working directory.
 	 */
 	public boolean isBare() {
 		return workTree == null;
@@ -1082,7 +1086,8 @@ public abstract class Repository {
 	 * @return the root directory of the working tree, where files are checked
 	 *         out for viewing and editing.
 	 * @throws NoWorkTreeException
-	 *             if the repository is bare and has no working directory.
+	 *             if this is bare, which implies it has no working directory.
+	 *             See {@link #isBare()}.
 	 */
 	public File getWorkTree() throws NoWorkTreeException {
 		if (isBare())
@@ -1130,7 +1135,8 @@ public abstract class Repository {
 	 *         {@code null} if this file doesn't exist
 	 * @throws IOException
 	 * @throws NoWorkTreeException
-	 *             if the repository is "bare"
+	 *             if this is bare, which implies it has no working directory.
+	 *             See {@link #isBare()}.
 	 */
 	public String readMergeCommitMsg() throws IOException, NoWorkTreeException {
 		if (isBare() || getDirectory() == null)
@@ -1156,7 +1162,8 @@ public abstract class Repository {
 	 *         exists but is empty {@code null} will be returned
 	 * @throws IOException
 	 * @throws NoWorkTreeException
-	 *             if the repository is "bare"
+	 *             if this is bare, which implies it has no working directory.
+	 *             See {@link #isBare()}.
 	 */
 	public List<ObjectId> readMergeHeads() throws IOException, NoWorkTreeException {
 		if (isBare() || getDirectory() == null)
