@@ -46,6 +46,7 @@ package org.eclipse.jgit.diff;
 
 import static org.eclipse.jgit.lib.Constants.encode;
 import static org.eclipse.jgit.lib.Constants.encodeASCII;
+import static org.eclipse.jgit.lib.FileMode.GITLINK;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -232,16 +233,27 @@ public class DiffFormatter {
 		out.write(encode("--- " + oldName + '\n'));
 		out.write(encode("+++ " + newName + '\n'));
 
-		byte[] aRaw = open(ent.getOldMode(), ent.getOldId());
-		byte[] bRaw = open(ent.getNewMode(), ent.getNewId());
-
-		if (RawText.isBinary(aRaw) || RawText.isBinary(bRaw)) {
-			out.write(encodeASCII("Binary files differ\n"));
-
+		if (ent.getOldMode() == GITLINK || ent.getNewMode() == GITLINK) {
+			if (ent.getOldMode() == GITLINK) {
+				out.write(encodeASCII("-Subproject commit "
+						+ ent.getOldId().name() + "\n"));
+			}
+			if (ent.getNewMode() == GITLINK) {
+				out.write(encodeASCII("+Subproject commit "
+						+ ent.getNewId().name() + "\n"));
+			}
 		} else {
-			RawText a = newRawText(aRaw);
-			RawText b = newRawText(bRaw);
-			formatEdits(a, b, new MyersDiff(a, b).getEdits());
+			byte[] aRaw = open(ent.getOldMode(), ent.getOldId());
+			byte[] bRaw = open(ent.getNewMode(), ent.getNewId());
+
+			if (RawText.isBinary(aRaw) || RawText.isBinary(bRaw)) {
+				out.write(encodeASCII("Binary files differ\n"));
+
+			} else {
+				RawText a = newRawText(aRaw);
+				RawText b = newRawText(bRaw);
+				formatEdits(a, b, new MyersDiff(a, b).getEdits());
+			}
 		}
 	}
 
