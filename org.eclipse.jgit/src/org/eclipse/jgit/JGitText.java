@@ -416,6 +416,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String unknownObjectType;
 	/***/ public String unknownRepositoryFormat2;
 	/***/ public String unknownRepositoryFormat;
+	/***/ public String unknownZlibError;
 	/***/ public String unmergedPath;
 	/***/ public String unpackError;
 	/***/ public String unreadablePackIndex;
