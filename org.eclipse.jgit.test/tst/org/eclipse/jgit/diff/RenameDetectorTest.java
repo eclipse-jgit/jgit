@@ -53,152 +53,237 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.RepositoryTestCase;
 
 public class RenameDetectorTest extends RepositoryTestCase {
+	private static final String PATH_A = "src/A";
+	private static final String PATH_H = "src/H";
+	private static final String PATH_Q = "src/Q";
 
-	RenameDetector rd;
+	private RenameDetector rd;
 
-	TestRepository testDb;
+	private TestRepository testDb;
 
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
 		testDb = new TestRepository(db);
-		rd = new RenameDetector();
+		rd = new RenameDetector(db);
 	}
 
-	public void testGetEntriesAddDelete() throws Exception {
-		ObjectId foo = testDb.blob("foo").copy();
+	public void testExactRename_OneRename() throws Exception {
+		ObjectId foo = blob("foo");
 
-		DiffEntry a = new DiffEntry();
-		a.newId = AbbreviatedObjectId.fromObjectId(foo);
-		a.newMode = FileMode.REGULAR_FILE;
-		a.newName = "some/file.c";
-		a.changeType = ChangeType.ADD;
+		DiffEntry a = DiffEntry.add(PATH_A, foo);
+		DiffEntry b = DiffEntry.delete(PATH_Q, foo);
 
-		DiffEntry b = new DiffEntry();
-		b.oldId = AbbreviatedObjectId.fromObjectId(foo);
-		b.oldMode = FileMode.REGULAR_FILE;
-		b.oldName = "some/other_file.c";
-		b.changeType = ChangeType.DELETE;
+		rd.add(a);
+		rd.add(b);
 
-		rd.addDiffEntry(a);
-		rd.addDiffEntry(b);
-
-		List<DiffEntry> entries = rd.getEntries();
+		List<DiffEntry> entries = rd.compute();
 		assertEquals(1, entries.size());
-
-		DiffEntry rename = entries.get(0);
-		assertNotNull(rename);
-		assertTrue(foo.equals(rename.newId.toObjectId()));
-		assertTrue(foo.equals(rename.oldId.toObjectId()));
-		assertEquals(FileMode.REGULAR_FILE, rename.newMode);
-		assertEquals(FileMode.REGULAR_FILE, rename.oldMode);
-		assertEquals(ChangeType.RENAME, rename.changeType);
-		assertEquals("some/file.c", rename.newName);
-		assertEquals("some/other_file.c", rename.oldName);
+		assertRename(b, a, 100, entries.get(0));
 	}
 
-	public void testGetEntriesAddDeleteModify() throws Exception {
-		ObjectId foo = testDb.blob("foo").copy();
-		ObjectId bar = testDb.blob("bar").copy();
+	public void testExactRename_OneRenameOneModify() throws Exception {
+		ObjectId foo = blob("foo");
+		ObjectId bar = blob("bar");
 
-		DiffEntry a = new DiffEntry();
-		a.newId = AbbreviatedObjectId.fromObjectId(foo);
-		a.newMode = FileMode.REGULAR_FILE;
-		a.newName = "some/file.c";
-		a.changeType = ChangeType.ADD;
+		DiffEntry a = DiffEntry.add(PATH_A, foo);
+		DiffEntry b = DiffEntry.delete(PATH_Q, foo);
 
-		DiffEntry b = new DiffEntry();
-		b.oldId = AbbreviatedObjectId.fromObjectId(foo);
-		b.oldMode = FileMode.REGULAR_FILE;
-		b.oldName = "some/other_file.c";
-		b.changeType = ChangeType.DELETE;
-
-		DiffEntry c = new DiffEntry();
+		DiffEntry c = DiffEntry.modify(PATH_H);
 		c.newId = c.oldId = AbbreviatedObjectId.fromObjectId(bar);
-		c.newMode = c.oldMode = FileMode.REGULAR_FILE;
-		c.newName = c.oldName = "some/header.h";
-		c.changeType = ChangeType.MODIFY;
 
-		rd.addDiffEntry(a);
-		rd.addDiffEntry(b);
-		rd.addDiffEntry(c);
+		rd.add(a);
+		rd.add(b);
+		rd.add(c);
 
-		List<DiffEntry> entries = rd.getEntries();
+		List<DiffEntry> entries = rd.compute();
 		assertEquals(2, entries.size());
-
-		// The renamed change should be first because the output should be
-		// sorted by newName
-		DiffEntry rename = entries.get(0);
-		assertNotNull(rename);
-		assertTrue(foo.equals(rename.newId.toObjectId()));
-		assertTrue(foo.equals(rename.oldId.toObjectId()));
-		assertEquals(FileMode.REGULAR_FILE, rename.newMode);
-		assertEquals(FileMode.REGULAR_FILE, rename.oldMode);
-		assertEquals(ChangeType.RENAME, rename.changeType);
-		assertEquals("some/file.c", rename.newName);
-		assertEquals("some/other_file.c", rename.oldName);
-
-		DiffEntry modify = entries.get(1);
-		assertEquals(c, modify);
+		assertRename(b, a, 100, entries.get(0));
+		assertSame(c, entries.get(1));
 	}
 
-	public void testGetEntriesMultipleRenames() throws Exception {
-		ObjectId foo = testDb.blob("foo").copy();
-		ObjectId bar = testDb.blob("bar").copy();
+	public void testExactRename_ManyRenames() throws Exception {
+		ObjectId foo = blob("foo");
+		ObjectId bar = blob("bar");
 
-		DiffEntry a = new DiffEntry();
-		a.newId = AbbreviatedObjectId.fromObjectId(foo);
-		a.newMode = FileMode.REGULAR_FILE;
-		a.newName = "some/file.c";
-		a.changeType = ChangeType.ADD;
+		DiffEntry a = DiffEntry.add(PATH_A, foo);
+		DiffEntry b = DiffEntry.delete(PATH_Q, foo);
 
-		DiffEntry b = new DiffEntry();
-		b.oldId = AbbreviatedObjectId.fromObjectId(foo);
-		b.oldMode = FileMode.REGULAR_FILE;
-		b.oldName = "some/other_file.c";
-		b.changeType = ChangeType.DELETE;
+		DiffEntry c = DiffEntry.add("README", bar);
+		DiffEntry d = DiffEntry.delete("REEDME", bar);
 
-		DiffEntry c = new DiffEntry();
-		c.newId = AbbreviatedObjectId.fromObjectId(bar);
-		c.newMode = FileMode.REGULAR_FILE;
-		c.newName = "README";
-		c.changeType = ChangeType.ADD;
+		rd.add(a);
+		rd.add(b);
+		rd.add(c);
+		rd.add(d);
 
-		DiffEntry d = new DiffEntry();
-		d.oldId = AbbreviatedObjectId.fromObjectId(bar);
-		d.oldMode = FileMode.REGULAR_FILE;
-		d.oldName = "REEDME";
-		d.changeType = ChangeType.DELETE;
-
-		rd.addDiffEntry(a);
-		rd.addDiffEntry(b);
-		rd.addDiffEntry(c);
-		rd.addDiffEntry(d);
-
-		List<DiffEntry> entries = rd.getEntries();
+		List<DiffEntry> entries = rd.compute();
 		assertEquals(2, entries.size());
-
-		// The REEDME -> README renamed change should be first because the
-		// output should be sorted by newName
-		DiffEntry readme = entries.get(0);
-		assertNotNull(readme);
-		assertTrue(bar.equals(readme.newId.toObjectId()));
-		assertTrue(bar.equals(readme.oldId.toObjectId()));
-		assertEquals(FileMode.REGULAR_FILE, readme.newMode);
-		assertEquals(FileMode.REGULAR_FILE, readme.oldMode);
-		assertEquals(ChangeType.RENAME, readme.changeType);
-		assertEquals("README", readme.newName);
-		assertEquals("REEDME", readme.oldName);
-
-		DiffEntry somefile = entries.get(1);
-		assertNotNull(somefile);
-		assertTrue(foo.equals(somefile.newId.toObjectId()));
-		assertTrue(foo.equals(somefile.oldId.toObjectId()));
-		assertEquals(FileMode.REGULAR_FILE, somefile.newMode);
-		assertEquals(FileMode.REGULAR_FILE, somefile.oldMode);
-		assertEquals(ChangeType.RENAME, somefile.changeType);
-		assertEquals("some/file.c", somefile.newName);
-		assertEquals("some/other_file.c", somefile.oldName);
+		assertRename(d, c, 100, entries.get(0));
+		assertRename(b, a, 100, entries.get(1));
 	}
 
+	public void testInexactRename_OnePair() throws Exception {
+		ObjectId aId = blob("foo\nbar\nbaz\n");
+		ObjectId bId = blob("foo\nbar\nblah\n");
+
+		DiffEntry a = DiffEntry.add(PATH_A, aId);
+		DiffEntry b = DiffEntry.delete(PATH_Q, bId);
+
+		rd.add(a);
+		rd.add(b);
+
+		List<DiffEntry> entries = rd.compute();
+		assertEquals(1, entries.size());
+		assertRename(b, a, 61, entries.get(0));
+	}
+
+	public void testInexactRename_OneRenameTwoUnrelatedFiles() throws Exception {
+		ObjectId aId = blob("foo\nbar\nbaz\n");
+		ObjectId bId = blob("foo\nbar\nblah\n");
+		DiffEntry a = DiffEntry.add(PATH_A, aId);
+		DiffEntry b = DiffEntry.delete(PATH_Q, bId);
+
+		ObjectId cId = blob("some\nsort\nof\ntext\n");
+		ObjectId dId = blob("completely\nunrelated\ntext\n");
+		DiffEntry c = DiffEntry.add("c", cId);
+		DiffEntry d = DiffEntry.delete("d", dId);
+
+		rd.add(a);
+		rd.add(b);
+		rd.add(c);
+		rd.add(d);
+
+		List<DiffEntry> entries = rd.compute();
+		assertEquals(3, entries.size());
+		assertSame(c, entries.get(0));
+		assertSame(d, entries.get(1));
+		assertRename(b, a, 61, entries.get(2));
+	}
+
+	public void testInexactRename_LastByteDifferent() throws Exception {
+		ObjectId aId = blob("foo\nbar\na");
+		ObjectId bId = blob("foo\nbar\nb");
+
+		DiffEntry a = DiffEntry.add(PATH_A, aId);
+		DiffEntry b = DiffEntry.delete(PATH_Q, bId);
+
+		rd.add(a);
+		rd.add(b);
+
+		List<DiffEntry> entries = rd.compute();
+		assertEquals(1, entries.size());
+		assertRename(b, a, 88, entries.get(0));
+	}
+
+	public void testInexactRenames_OnePair2() throws Exception {
+		ObjectId aId = blob("ab\nab\nab\nac\nad\nae\n");
+		ObjectId bId = blob("ac\nab\nab\nab\naa\na0\na1\n");
+
+		DiffEntry a = DiffEntry.add(PATH_A, aId);
+		DiffEntry b = DiffEntry.delete(PATH_Q, bId);
+
+		rd.add(a);
+		rd.add(b);
+		rd.setRenameScore(50);
+
+		List<DiffEntry> entries = rd.compute();
+		assertEquals(1, entries.size());
+		assertRename(b, a, 57, entries.get(0));
+	}
+
+	public void testNoRenames_SingleByteFiles() throws Exception {
+		ObjectId aId = blob("a");
+		ObjectId bId = blob("b");
+
+		DiffEntry a = DiffEntry.add(PATH_A, aId);
+		DiffEntry b = DiffEntry.delete(PATH_Q, bId);
+
+		rd.add(a);
+		rd.add(b);
+
+		List<DiffEntry> entries = rd.compute();
+		assertEquals(2, entries.size());
+		assertSame(a, entries.get(0));
+		assertSame(b, entries.get(1));
+	}
+
+	public void testNoRenames_EmptyFile1() throws Exception {
+		ObjectId aId = blob("");
+		DiffEntry a = DiffEntry.add(PATH_A, aId);
+
+		rd.add(a);
+
+		List<DiffEntry> entries = rd.compute();
+		assertEquals(1, entries.size());
+		assertSame(a, entries.get(0));
+	}
+
+	public void testNoRenames_EmptyFile2() throws Exception {
+		ObjectId aId = blob("");
+		ObjectId bId = blob("blah");
+
+		DiffEntry a = DiffEntry.add(PATH_A, aId);
+		DiffEntry b = DiffEntry.delete(PATH_Q, bId);
+
+		rd.add(a);
+		rd.add(b);
+
+		List<DiffEntry> entries = rd.compute();
+		assertEquals(2, entries.size());
+		assertSame(a, entries.get(0));
+		assertSame(b, entries.get(1));
+	}
+
+	public void testNoRenames_SymlinkAndFile() throws Exception {
+		ObjectId aId = blob("src/dest");
+
+		DiffEntry a = DiffEntry.add(PATH_A, aId);
+		DiffEntry b = DiffEntry.delete(PATH_Q, aId);
+		b.oldMode = FileMode.SYMLINK;
+
+		rd.add(a);
+		rd.add(b);
+
+		List<DiffEntry> entries = rd.compute();
+		assertEquals(2, entries.size());
+		assertSame(a, entries.get(0));
+		assertSame(b, entries.get(1));
+	}
+
+	public void testNoRenames_GitlinkAndFile() throws Exception {
+		ObjectId aId = blob("src/dest");
+
+		DiffEntry a = DiffEntry.add(PATH_A, aId);
+		DiffEntry b = DiffEntry.delete(PATH_Q, aId);
+		b.oldMode = FileMode.GITLINK;
+
+		rd.add(a);
+		rd.add(b);
+
+		List<DiffEntry> entries = rd.compute();
+		assertEquals(2, entries.size());
+		assertSame(a, entries.get(0));
+		assertSame(b, entries.get(1));
+	}
+
+	private ObjectId blob(String content) throws Exception {
+		return testDb.blob(content).copy();
+	}
+
+	private static void assertRename(DiffEntry o, DiffEntry n, int score,
+			DiffEntry rename) {
+		assertEquals(ChangeType.RENAME, rename.getChangeType());
+
+		assertEquals(o.getOldName(), rename.getOldName());
+		assertEquals(n.getNewName(), rename.getNewName());
+
+		assertEquals(o.getOldMode(), rename.getOldMode());
+		assertEquals(n.getNewMode(), rename.getNewMode());
+
+		assertEquals(o.getOldId(), rename.getOldId());
+		assertEquals(n.getNewId(), rename.getNewId());
+
+		assertEquals(score, rename.getScore());
+	}
 }

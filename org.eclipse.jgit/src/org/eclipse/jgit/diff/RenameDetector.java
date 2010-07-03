@@ -53,22 +53,48 @@ import java.util.List;
 
 import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.diff.DiffEntry.ChangeType;
-import org.eclipse.jgit.errors.CorruptObjectException;
-import org.eclipse.jgit.errors.IncorrectObjectTypeException;
-import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.FileMode;
-import org.eclipse.jgit.lib.MutableObjectId;
-import org.eclipse.jgit.treewalk.TreeWalk;
+import org.eclipse.jgit.lib.NullProgressMonitor;
+import org.eclipse.jgit.lib.ProgressMonitor;
+import org.eclipse.jgit.lib.Repository;
 
 /** Detect and resolve object renames. */
 public class RenameDetector {
-
 	private static final int EXACT_RENAME_SCORE = 100;
 
 	private static final Comparator<DiffEntry> DIFF_COMPARATOR = new Comparator<DiffEntry>() {
-		public int compare(DiffEntry o1, DiffEntry o2) {
-			return o1.newName.compareTo(o2.newName);
+		public int compare(DiffEntry a, DiffEntry b) {
+			int cmp = nameOf(a).compareTo(nameOf(b));
+			if (cmp == 0)
+				cmp = sortOf(a.getChangeType()) - sortOf(b.getChangeType());
+			return cmp;
+		}
+
+		private String nameOf(DiffEntry ent) {
+			// Sort by the new name, unless the change is a delete. On
+			// deletes the new name is /dev/null, so we sort instead by
+			// the old name.
+			//
+			if (ent.changeType == ChangeType.DELETE)
+				return ent.oldName;
+			return ent.newName;
+		}
+
+		private int sortOf(ChangeType changeType) {
+			// Sort deletes before adds so that a major type change for
+			// a file path (such as symlink to regular file) will first
+			// remove the path, then add it back with the new type.
+			//
+			switch (changeType) {
+			case DELETE:
+				return 1;
+			case ADD:
+				return 2;
+			default:
+				return 10;
+			}
 		}
 	};
 
@@ -78,181 +104,305 @@ public class RenameDetector {
 
 	private List<DiffEntry> added = new ArrayList<DiffEntry>();
 
-	private boolean done = false;
+	private boolean done;
+
+	private final Repository repo;
+
+	/** Similarity score required to pair an add/delete as a rename. */
+	private int renameScore = 60;
+
+	/** Limit in the number of files to consider for renames. */
+	private int renameLimit;
+
+	/** Set if the number of adds or deletes was over the limit. */
+	private boolean overRenameLimit;
 
 	/**
-	 * Walk through a given tree walk with exactly two trees and add all
-	 * differing files to the list of object to run rename detection on.
-	 * <p>
-	 * The tree walk must have two trees attached to it, as well as a filter.
-	 * Calling this method after calling {@link #getEntries()} will result in an
-	 * {@link IllegalStateException}.
+	 * Create a new rename detector for the given repository
 	 *
-	 * @param walk
-	 *            the TreeWalk to walk through. Must have exactly two trees.
-	 * @throws IllegalStateException
-	 *             the {@link #getEntries()} method has already been called for
-	 *             this instance.
-	 * @throws MissingObjectException
-	 *             {@link TreeWalk#isRecursive()} was enabled on the tree, a
-	 *             subtree was found, but the subtree object does not exist in
-	 *             this repository. The repository may be missing objects.
-	 * @throws IncorrectObjectTypeException
-	 *             {@link TreeWalk#isRecursive()} was enabled on the tree, a
-	 *             subtree was found, and the subtree id does not denote a tree,
-	 *             but instead names some other non-tree type of object. The
-	 *             repository may have data corruption.
-	 * @throws CorruptObjectException
-	 *             the contents of a tree did not appear to be a tree. The
-	 *             repository may have data corruption.
-	 * @throws IOException
-	 *             a loose object or pack file could not be read.
+	 * @param repo
+	 *            the repository to use for rename detection
 	 */
-	public void addTreeWalk(TreeWalk walk) throws MissingObjectException,
-			IncorrectObjectTypeException, CorruptObjectException, IOException {
+	public RenameDetector(Repository repo) {
+		this.repo = repo;
+
+		Config cfg = repo.getConfig();
+		renameLimit = cfg.getInt("diff", "renamelimit", 200);
+	}
+
+	/**
+	 * @return minimum score required to pair an add/delete as a rename. The
+	 *         score ranges are within the bounds of (0, 100).
+	 */
+	public int getRenameScore() {
+		return renameScore;
+	}
+
+	/**
+	 * Set the minimum score required to pair an add/delete as a rename.
+	 * <p>
+	 * When comparing two files together their score must be greater than or
+	 * equal to the rename score for them to be considered a rename match. The
+	 * score is computed based on content similarity, so a score of 60 implies
+	 * that approximately 60% of the bytes in the files are identical.
+	 *
+	 * @param score
+	 *            new rename score, must be within (0, 100).
+	 */
+	public void setRenameScore(int score) {
+		if (score < 0 || score > 100)
+			throw new IllegalArgumentException(
+					JGitText.get().similarityScoreMustBeWithinBounds);
+		renameScore = score;
+	}
+
+	/** @return limit on number of paths to perform inexact rename detection. */
+	public int getRenameLimit() {
+		return renameLimit;
+	}
+
+	/**
+	 * Set the limit on the number of files to perform inexact rename detection.
+	 * <p>
+	 * The rename detector has to build a square matrix of the rename limit on
+	 * each side, then perform that many file compares to determine similarity.
+	 * If 1000 files are added, and 1000 files are deleted, a 1000*1000 matrix
+	 * must be allocated, and 1,000,000 file compares may need to be performed.
+	 *
+	 * @param limit
+	 *            new file limit.
+	 */
+	public void setRenameLimit(int limit) {
+		renameLimit = limit;
+	}
+
+	/**
+	 * Check if the detector is over the rename limit.
+	 * <p>
+	 * This method can be invoked either before or after {@code getEntries} has
+	 * been used to perform rename detection.
+	 *
+	 * @return true if the detector has more file additions or removals than the
+	 *         rename limit is currently set to. In such configurations the
+	 *         detector will skip expensive computation.
+	 */
+	public boolean isOverRenameLimit() {
+		if (done)
+			return overRenameLimit;
+		int cnt = Math.max(added.size(), deleted.size());
+		return getRenameLimit() != 0 && getRenameLimit() < cnt;
+	}
+
+	/**
+	 * Add entries to be considered for rename detection.
+	 *
+	 * @param entriesToAdd
+	 *            one or more entries to add.
+	 * @throws IllegalStateException
+	 *             if {@code getEntries} was already invoked.
+	 */
+	public void addAll(Collection<DiffEntry> entriesToAdd) {
 		if (done)
 			throw new IllegalStateException(JGitText.get().renamesAlreadyFound);
-		MutableObjectId idBuf = new MutableObjectId();
-		while (walk.next()) {
-			DiffEntry entry = new DiffEntry();
-			walk.getObjectId(idBuf, 0);
-			entry.oldId = AbbreviatedObjectId.fromObjectId(idBuf);
-			walk.getObjectId(idBuf, 1);
-			entry.newId = AbbreviatedObjectId.fromObjectId(idBuf);
-			entry.oldMode = walk.getFileMode(0);
-			entry.newMode = walk.getFileMode(1);
-			entry.newName = entry.oldName = walk.getPathString();
-			if (entry.oldMode == FileMode.MISSING) {
-				entry.changeType = ChangeType.ADD;
+
+		for (DiffEntry entry : entriesToAdd) {
+			switch (entry.getChangeType()) {
+			case ADD:
 				added.add(entry);
-			} else if (entry.newMode == FileMode.MISSING) {
-				entry.changeType = ChangeType.DELETE;
+				break;
+
+			case DELETE:
 				deleted.add(entry);
-			} else {
-				entry.changeType = ChangeType.MODIFY;
-				entries.add(entry);
+				break;
+
+			case MODIFY:
+				if (sameType(entry.getOldMode(), entry.getNewMode()))
+					entries.add(entry);
+				else
+					entries.addAll(DiffEntry.breakModify(entry));
+				break;
+
+			case COPY:
+			case RENAME:
+			default:
+				entriesToAdd.add(entry);
 			}
 		}
 	}
 
 	/**
-	 * Add a DiffEntry to the list of items to run rename detection on. Calling
-	 * this method after calling {@link #getEntries()} will result in an
-	 * {@link IllegalStateException}.
+	 * Add an entry to be considered for rename detection.
 	 *
 	 * @param entry
-	 *            the {@link DiffEntry} to add
-	 *
+	 *            to add.
 	 * @throws IllegalStateException
-	 *             the {@link #getEntries()} method has already been called for
-	 *             this instance
+	 *             if {@code getEntries} was already invoked.
 	 */
-	public void addDiffEntry(DiffEntry entry) {
-		if (done)
-			throw new IllegalStateException(JGitText.get().renamesAlreadyFound);
-		switch (entry.changeType) {
-		case ADD:
-			added.add(entry);
-			break;
-		case DELETE:
-			deleted.add(entry);
-			break;
-		case COPY:
-		case MODIFY:
-		case RENAME:
-		default:
-			entries.add(entry);
-		}
+	public void add(DiffEntry entry) {
+		addAll(Collections.singletonList(entry));
 	}
 
 	/**
-	 * Determines which files, if any, are renames, and returns an unmodifiable
-	 * list of {@link DiffEntry}s representing all files that have been changed
-	 * in some way. The list will contain all modified files first
+	 * Detect renames in the current file set.
+	 * <p>
+	 * This convenience function runs without a progress monitor.
 	 *
 	 * @return an unmodifiable list of {@link DiffEntry}s representing all files
-	 *         that have been changed
+	 *         that have been changed.
 	 * @throws IOException
+	 *             file contents cannot be read from the repository.
 	 */
-	public List<DiffEntry> getEntries() throws IOException {
+	public List<DiffEntry> compute() throws IOException {
+		return compute(NullProgressMonitor.INSTANCE);
+	}
+
+	/**
+	 * Detect renames in the current file set.
+	 *
+	 * @param pm
+	 *            report progress during the detection phases.
+	 * @return an unmodifiable list of {@link DiffEntry}s representing all files
+	 *         that have been changed.
+	 * @throws IOException
+	 *             file contents cannot be read from the repository.
+	 */
+	public List<DiffEntry> compute(ProgressMonitor pm) throws IOException {
 		if (!done) {
 			done = true;
-			findExactRenames();
+
+			if (pm == null)
+				pm = NullProgressMonitor.INSTANCE;
+			findExactRenames(pm);
+			findContentRenames(pm);
+
 			entries.addAll(added);
-			entries.addAll(deleted);
 			added = null;
+
+			entries.addAll(deleted);
 			deleted = null;
+
 			Collections.sort(entries, DIFF_COMPARATOR);
 		}
 		return Collections.unmodifiableList(entries);
 	}
 
-	@SuppressWarnings("unchecked")
-	private void findExactRenames() {
-		HashMap<AbbreviatedObjectId, Object> map = new HashMap<AbbreviatedObjectId, Object>();
+	private void findContentRenames(ProgressMonitor pm) throws IOException {
+		int cnt = Math.max(added.size(), deleted.size());
+		if (cnt == 0)
+			return;
 
-		for (DiffEntry del : deleted) {
-			Object old = map.put(del.oldId, del);
-			if (old != null) {
-				if (old instanceof DiffEntry) {
-					ArrayList<DiffEntry> tmp = new ArrayList<DiffEntry>(2);
-					tmp.add((DiffEntry) old);
-					tmp.add(del);
-					map.put(del.oldId, tmp);
-				} else {
-					// Must be a list of DiffEntrys
-					((List) old).add(del);
-					map.put(del.oldId, old);
-				}
-			}
+		if (getRenameLimit() == 0 || cnt <= getRenameLimit()) {
+			SimilarityRenameDetector d;
+
+			d = new SimilarityRenameDetector(repo, deleted, added);
+			d.setRenameScore(getRenameScore());
+			d.compute(pm);
+			deleted = d.getLeftOverSources();
+			added = d.getLeftOverDestinations();
+			entries.addAll(d.getMatches());
+		} else {
+			overRenameLimit = true;
 		}
-
-		ArrayList<DiffEntry> tempAdded = new ArrayList<DiffEntry>(added.size());
-
-		for (DiffEntry add : added) {
-			Object del = map.remove(add.newId);
-			if (del != null) {
-				if (del instanceof DiffEntry) {
-					entries.add(resolveRename(add, (DiffEntry) del,
-							EXACT_RENAME_SCORE));
-				} else {
-					// Must be a list of DiffEntrys
-					List<DiffEntry> tmp = (List<DiffEntry>) del;
-					entries.add(resolveRename(add, tmp.remove(0),
-							EXACT_RENAME_SCORE));
-					if (!tmp.isEmpty())
-						map.put(add.newId, del);
-				}
-			} else {
-				tempAdded.add(add);
-			}
-		}
-		added = tempAdded;
-
-		Collection<Object> values = map.values();
-		ArrayList<DiffEntry> tempDeleted = new ArrayList<DiffEntry>(values
-				.size());
-		for (Object o : values) {
-			if (o instanceof DiffEntry)
-				tempDeleted.add((DiffEntry) o);
-			else
-				tempDeleted.addAll((List<DiffEntry>) o);
-		}
-		deleted = tempDeleted;
 	}
 
-	private DiffEntry resolveRename(DiffEntry add, DiffEntry del, int score) {
-		DiffEntry renamed = new DiffEntry();
+	@SuppressWarnings("unchecked")
+	private void findExactRenames(ProgressMonitor pm) {
+		if (added.isEmpty() || deleted.isEmpty())
+			return;
 
-		renamed.oldId = del.oldId;
-		renamed.oldMode = del.oldMode;
-		renamed.oldName = del.oldName;
-		renamed.newId = add.newId;
-		renamed.newMode = add.newMode;
-		renamed.newName = add.newName;
-		renamed.changeType = ChangeType.RENAME;
-		renamed.score = score;
+		pm.beginTask(JGitText.get().renamesFindingExact, //
+				added.size() + deleted.size());
 
-		return renamed;
+		HashMap<AbbreviatedObjectId, Object> map = new HashMap<AbbreviatedObjectId, Object>();
+		for (DiffEntry del : deleted) {
+			Object old = map.put(del.oldId, del);
+			if (old instanceof DiffEntry) {
+				ArrayList<DiffEntry> list = new ArrayList<DiffEntry>(2);
+				list.add((DiffEntry) old);
+				list.add(del);
+				map.put(del.oldId, list);
+
+			} else if (old != null) {
+				// Must be a list of DiffEntries
+				((List) old).add(del);
+				map.put(del.oldId, old);
+			}
+			pm.update(1);
+		}
+
+		ArrayList<DiffEntry> left = new ArrayList<DiffEntry>(added.size());
+		for (DiffEntry dst : added) {
+			Object del = map.get(dst.newId);
+			if (del instanceof DiffEntry) {
+				DiffEntry e = (DiffEntry) del;
+				if (sameType(e.oldMode, dst.newMode)) {
+					if (e.changeType == ChangeType.DELETE) {
+						e.changeType = ChangeType.RENAME;
+						entries.add(exactRename(e, dst));
+					} else {
+						entries.add(exactCopy(e, dst));
+					}
+				} else {
+					left.add(dst);
+				}
+
+			} else if (del != null) {
+				List<DiffEntry> list = (List<DiffEntry>) del;
+				DiffEntry best = null;
+				for (DiffEntry e : list) {
+					if (best == null && sameType(e.oldMode, dst.newMode))
+						best = e;
+				}
+				if (best != null) {
+					if (best.changeType == ChangeType.DELETE) {
+						best.changeType = ChangeType.RENAME;
+						entries.add(exactRename(best, dst));
+					} else {
+						entries.add(exactCopy(best, dst));
+					}
+				} else {
+					left.add(dst);
+				}
+
+			} else {
+				left.add(dst);
+			}
+			pm.update(1);
+		}
+		added = left;
+
+		deleted = new ArrayList<DiffEntry>(map.size());
+		for (Object o : map.values()) {
+			if (o instanceof DiffEntry) {
+				DiffEntry e = (DiffEntry) o;
+				if (e.changeType == ChangeType.DELETE)
+					deleted.add(e);
+			} else {
+				List<DiffEntry> list = (List<DiffEntry>) o;
+				for (DiffEntry e : list) {
+					if (e.changeType == ChangeType.DELETE)
+						deleted.add(e);
+				}
+			}
+		}
+		pm.endTask();
+	}
+
+	static boolean sameType(FileMode a, FileMode b) {
+		// Files have to be of the same type in order to rename them.
+		// We would never want to rename a file to a gitlink, or a
+		// symlink to a file.
+		//
+		int aType = a.getBits() & FileMode.TYPE_MASK;
+		int bType = b.getBits() & FileMode.TYPE_MASK;
+		return aType == bType;
+	}
+
+	private static DiffEntry exactRename(DiffEntry src, DiffEntry dst) {
+		return DiffEntry.pair(ChangeType.RENAME, src, dst, EXACT_RENAME_SCORE);
+	}
+
+	private static DiffEntry exactCopy(DiffEntry src, DiffEntry dst) {
+		return DiffEntry.pair(ChangeType.COPY, src, dst, EXACT_RENAME_SCORE);
 	}
 }

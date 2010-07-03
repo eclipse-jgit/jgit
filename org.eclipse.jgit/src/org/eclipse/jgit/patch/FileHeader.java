@@ -71,9 +71,6 @@ import org.eclipse.jgit.util.TemporaryBuffer;
 
 /** Patch header describing an action for a single file path. */
 public class FileHeader extends DiffEntry {
-	/** Magical file name used for file adds or deletes. */
-	public static final String DEV_NULL = "/dev/null";
-
 	private static final byte[] OLD_MODE = encodeASCII("old mode ");
 
 	private static final byte[] NEW_MODE = encodeASCII("new mode ");
