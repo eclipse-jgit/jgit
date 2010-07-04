@@ -54,7 +54,6 @@ import java.util.List;
 import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.diff.DiffEntry.ChangeType;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
-import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ProgressMonitor;
@@ -126,8 +125,8 @@ public class RenameDetector {
 	public RenameDetector(Repository repo) {
 		this.repo = repo;
 
-		Config cfg = repo.getConfig();
-		renameLimit = cfg.getInt("diff", "renamelimit", 200);
+		DiffConfig cfg = repo.getConfig().get(DiffConfig.KEY);
+		renameLimit = cfg.getRenameLimit();
 	}
 
 	/**
