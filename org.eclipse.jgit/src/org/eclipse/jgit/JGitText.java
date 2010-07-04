@@ -66,6 +66,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String URINotSupported;
 	/***/ public String URLNotFound;
 	/***/ public String aNewObjectIdIsRequired;
+	/***/ public String abbreviationLengthMustBeNonNegative;
 	/***/ public String advertisementCameBefore;
 	/***/ public String advertisementOfCameBefore;
 	/***/ public String amazonS3ActionFailed;

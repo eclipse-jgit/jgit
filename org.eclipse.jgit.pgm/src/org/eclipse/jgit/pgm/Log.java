@@ -60,8 +60,13 @@ import java.util.TimeZone;
 
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.diff.DiffFormatter;
+import org.eclipse.jgit.diff.RawTextIgnoreAllWhitespace;
+import org.eclipse.jgit.diff.RawTextIgnoreLeadingWhitespace;
+import org.eclipse.jgit.diff.RawTextIgnoreTrailingWhitespace;
+import org.eclipse.jgit.diff.RawTextIgnoreWhitespaceChange;
 import org.eclipse.jgit.diff.RenameDetector;
 import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.TextProgressMonitor;
@@ -78,27 +83,63 @@ class Log extends RevWalkTextBuiltin {
 
 	private final DateFormat fmt;
 
+	private final DiffFormatter diffFmt = new DiffFormatter( //
+			new BufferedOutputStream(System.out));
+
 	private Map<AnyObjectId, Set<Ref>> allRefsByPeeledObjectId;
 
 	@Option(name="--decorate", usage="usage_showRefNamesMatchingCommits")
 	private boolean decorate;
 
+	// BEGIN -- Options shared with Diff
+	@Option(name = "-p", usage = "usage_showPatch")
+	boolean showPatch;
+
 	@Option(name = "-M", usage = "usage_detectRenames")
 	private boolean detectRenames;
+
+	@Option(name = "-l", usage = "usage_renameLimit")
+	private Integer renameLimit;
 
 	@Option(name = "--name-status", usage = "usage_nameStatus")
 	private boolean showNameAndStatusOnly;
 
-	@Option(name = "-p", usage = "usage_showPatch")
-	private boolean showPatch;
+	@Option(name = "--ignore-space-at-eol")
+	void ignoreSpaceAtEol(@SuppressWarnings("unused") boolean on) {
+		diffFmt.setRawTextFactory(RawTextIgnoreTrailingWhitespace.FACTORY);
+	}
+
+	@Option(name = "--ignore-leading-space")
+	void ignoreLeadingSpace(@SuppressWarnings("unused") boolean on) {
+		diffFmt.setRawTextFactory(RawTextIgnoreLeadingWhitespace.FACTORY);
+	}
+
+	@Option(name = "-b", aliases = { "--ignore-space-change" })
+	void ignoreSpaceChange(@SuppressWarnings("unused") boolean on) {
+		diffFmt.setRawTextFactory(RawTextIgnoreWhitespaceChange.FACTORY);
+	}
+
+	@Option(name = "-w", aliases = { "--ignore-all-space" })
+	void ignoreAllSpace(@SuppressWarnings("unused") boolean on) {
+		diffFmt.setRawTextFactory(RawTextIgnoreAllWhitespace.FACTORY);
+	}
 
 	@Option(name = "-U", aliases = { "--unified" }, metaVar = "metaVar_linesOfContext")
 	void unified(int lines) {
 		diffFmt.setContext(lines);
 	}
 
-	private DiffFormatter diffFmt = new DiffFormatter( //
-			new BufferedOutputStream(System.out));
+	@Option(name = "--abbrev", metaVar = "metaVar_n")
+	void abbrev(int lines) {
+		diffFmt.setAbbreviationLength(lines);
+	}
+
+	@Option(name = "--full-index")
+	void abbrev(@SuppressWarnings("unused") boolean on) {
+		diffFmt.setAbbreviationLength(Constants.OBJECT_ID_STRING_LENGTH);
+	}
+
+	// END -- Options shared with Diff
 
 	Log() {
 		fmt = new SimpleDateFormat("EEE MMM dd HH:mm:ss yyyy ZZZZZ", Locale.US);
@@ -147,7 +188,7 @@ class Log extends RevWalkTextBuiltin {
 		}
 
 		out.println();
-		if (c.getParentCount() > 0 && (showNameAndStatusOnly || showPatch))
+		if (c.getParentCount() == 1 && (showNameAndStatusOnly || showPatch))
 			showDiff(c);
 		out.flush();
 	}
@@ -163,6 +204,8 @@ class Log extends RevWalkTextBuiltin {
 		List<DiffEntry> files = DiffEntry.scan(tw);
 		if (detectRenames) {
 			RenameDetector rd = new RenameDetector(db);
+			if (renameLimit != null)
+				rd.setRenameLimit(renameLimit.intValue());
 			rd.addAll(files);
 			files = rd.compute(new TextProgressMonitor());
 		}
@@ -175,5 +218,6 @@ class Log extends RevWalkTextBuiltin {
 			diffFmt.format(files);
 			diffFmt.flush();
 		}
+		out.println();
 	}
 }

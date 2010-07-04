@@ -53,12 +53,12 @@ import java.util.List;
 
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.diff.DiffFormatter;
-import org.eclipse.jgit.diff.RawText;
 import org.eclipse.jgit.diff.RawTextIgnoreAllWhitespace;
 import org.eclipse.jgit.diff.RawTextIgnoreLeadingWhitespace;
 import org.eclipse.jgit.diff.RawTextIgnoreTrailingWhitespace;
 import org.eclipse.jgit.diff.RawTextIgnoreWhitespaceChange;
 import org.eclipse.jgit.diff.RenameDetector;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.TextProgressMonitor;
 import org.eclipse.jgit.pgm.opt.PathTreeFilterHandler;
 import org.eclipse.jgit.treewalk.AbstractTreeIterator;
@@ -70,6 +70,9 @@ import org.kohsuke.args4j.Option;
 
 @Command(common = true, usage = "usage_ShowDiffs")
 class Diff extends TextBuiltin {
+	private final DiffFormatter diffFmt = new DiffFormatter( //
+			new BufferedOutputStream(System.out));
+
 	@Argument(index = 0, metaVar = "metaVar_treeish", required = true)
 	void tree_0(final AbstractTreeIterator c) {
 		trees.add(c);
@@ -81,45 +84,55 @@ class Diff extends TextBuiltin {
 	@Option(name = "--", metaVar = "metaVar_paths", multiValued = true, handler = PathTreeFilterHandler.class)
 	private TreeFilter pathFilter = TreeFilter.ALL;
 
+	// BEGIN -- Options shared with Log
+	@Option(name = "-p", usage = "usage_showPatch")
+	boolean showPatch;
+
 	@Option(name = "-M", usage = "usage_detectRenames")
 	private boolean detectRenames;
+
+	@Option(name = "-l", usage = "usage_renameLimit")
+	private Integer renameLimit;
 
 	@Option(name = "--name-status", usage = "usage_nameStatus")
 	private boolean showNameAndStatusOnly;
 
 	@Option(name = "--ignore-space-at-eol")
-	private boolean ignoreWsTrailing;
+	void ignoreSpaceAtEol(@SuppressWarnings("unused") boolean on) {
+		diffFmt.setRawTextFactory(RawTextIgnoreTrailingWhitespace.FACTORY);
+	}
 
 	@Option(name = "--ignore-leading-space")
-	private boolean ignoreWsLeading;
+	void ignoreLeadingSpace(@SuppressWarnings("unused") boolean on) {
+		diffFmt.setRawTextFactory(RawTextIgnoreLeadingWhitespace.FACTORY);
+	}
 
 	@Option(name = "-b", aliases = { "--ignore-space-change" })
-	private boolean ignoreWsChange;
+	void ignoreSpaceChange(@SuppressWarnings("unused") boolean on) {
+		diffFmt.setRawTextFactory(RawTextIgnoreWhitespaceChange.FACTORY);
+	}
 
 	@Option(name = "-w", aliases = { "--ignore-all-space" })
-	private boolean ignoreWsAll;
+	void ignoreAllSpace(@SuppressWarnings("unused") boolean on) {
+		diffFmt.setRawTextFactory(RawTextIgnoreAllWhitespace.FACTORY);
+	}
 
 	@Option(name = "-U", aliases = { "--unified" }, metaVar = "metaVar_linesOfContext")
 	void unified(int lines) {
-		fmt.setContext(lines);
+		diffFmt.setContext(lines);
 	}
 
-	private DiffFormatter fmt = new DiffFormatter( //
-			new BufferedOutputStream(System.out)) {
-		@Override
-		protected RawText newRawText(byte[] raw) {
-			if (ignoreWsAll)
-				return new RawTextIgnoreAllWhitespace(raw);
-			else if (ignoreWsTrailing)
-				return new RawTextIgnoreTrailingWhitespace(raw);
-			else if (ignoreWsChange)
-				return new RawTextIgnoreWhitespaceChange(raw);
-			else if (ignoreWsLeading)
-				return new RawTextIgnoreLeadingWhitespace(raw);
-			else
-				return new RawText(raw);
-		}
-	};
+	@Option(name = "--abbrev", metaVar = "n")
+	void abbrev(int lines) {
+		diffFmt.setAbbreviationLength(lines);
+	}
+
+	@Option(name = "--full-index")
+	void abbrev(@SuppressWarnings("unused") boolean on) {
+		diffFmt.setAbbreviationLength(Constants.OBJECT_ID_STRING_LENGTH);
+	}
+
+	// END -- Options shared with Log
 
 	@Override
 	protected void run() throws Exception {
@@ -130,9 +143,9 @@ class Diff extends TextBuiltin {
 			out.flush();
 
 		} else {
-			fmt.setRepository(db);
-			fmt.format(files);
-			fmt.flush();
+			diffFmt.setRepository(db);
+			diffFmt.format(files);
+			diffFmt.flush();
 		}
 	}
 
@@ -173,6 +186,8 @@ class Diff extends TextBuiltin {
 		List<DiffEntry> files = DiffEntry.scan(walk);
 		if (detectRenames) {
 			RenameDetector rd = new RenameDetector(db);
+			if (renameLimit != null)
+				rd.setRenameLimit(renameLimit.intValue());
 			rd.addAll(files);
 			files = rd.compute(new TextProgressMonitor());
 		}

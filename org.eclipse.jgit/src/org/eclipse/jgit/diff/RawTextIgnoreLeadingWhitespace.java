@@ -50,6 +50,13 @@ import static org.eclipse.jgit.util.RawCharUtil.trimLeadingWhitespace;
  * A version of {@link RawText} that ignores leading whitespace.
  */
 public class RawTextIgnoreLeadingWhitespace extends RawText {
+	/** Creates RawText that ignores only leading whitespace. */
+	@SuppressWarnings("hiding")
+	public static final Factory FACTORY = new Factory() {
+		public RawText create(byte[] input) {
+			return new RawTextIgnoreLeadingWhitespace(input);
+		}
+	};
 
 	/**
 	 * Create a new sequence from an existing content byte array.

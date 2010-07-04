@@ -45,14 +45,21 @@
 package org.eclipse.jgit.diff;
 
 import static org.eclipse.jgit.util.RawCharUtil.isWhitespace;
-import static org.eclipse.jgit.util.RawCharUtil.trimTrailingWhitespace;
 import static org.eclipse.jgit.util.RawCharUtil.trimLeadingWhitespace;
+import static org.eclipse.jgit.util.RawCharUtil.trimTrailingWhitespace;
 
 /**
  * A version of {@link RawText} that ignores changes in the amount of
  * whitespace, as well as trailing whitespace.
  */
 public class RawTextIgnoreWhitespaceChange extends RawText {
+	/** Creates RawText that ignores only whitespace changes. */
+	@SuppressWarnings("hiding")
+	public static final Factory FACTORY = new Factory() {
+		public RawText create(byte[] input) {
+			return new RawTextIgnoreWhitespaceChange(input);
+		}
+	};
 
 	/**
 	 * Create a new sequence from an existing content byte array.

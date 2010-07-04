@@ -73,6 +73,10 @@ public class DiffFormatter {
 
 	private int context;
 
+	private int abbreviationLength;
+
+	private RawText.Factory rawTextFactory = RawText.FACTORY;
+
 	/**
 	 * Create a new formatter with a default level of context.
 	 *
@@ -84,6 +88,7 @@ public class DiffFormatter {
 	public DiffFormatter(OutputStream out) {
 		this.out = out;
 		setContext(3);
+		setAbbreviationLength(8);
 	}
 
 	/** @return the stream we are outputting data to. */
@@ -117,6 +122,36 @@ public class DiffFormatter {
 	}
 
 	/**
+	 * Change the number of digits to show in an ObjectId.
+	 *
+	 * @param count
+	 *            number of digits to show in an ObjectId.
+	 */
+	public void setAbbreviationLength(final int count) {
+		if (count < 0)
+			throw new IllegalArgumentException(
+					JGitText.get().abbreviationLengthMustBeNonNegative);
+		abbreviationLength = count;
+	}
+
+	/**
+	 * Set the helper that constructs difference output.
+	 *
+	 * @param type
+	 *            the factory to create different output. Different types of
+	 *            factories can produce different whitespace behavior, for
+	 *            example.
+	 * @see RawText#FACTORY
+	 * @see RawTextIgnoreAllWhitespace#FACTORY
+	 * @see RawTextIgnoreLeadingWhitespace#FACTORY
+	 * @see RawTextIgnoreTrailingWhitespace#FACTORY
+	 * @see RawTextIgnoreWhitespaceChange#FACTORY
+	 */
+	public void setRawTextFactory(RawText.Factory type) {
+		rawTextFactory = type;
+	}
+
+	/**
 	 * Flush the underlying output stream of this formatter.
 	 *
 	 * @throws IOException
@@ -143,24 +178,13 @@ public class DiffFormatter {
 	/**
 	 * Format a patch script for one file entry.
 	 *
-	 * @param entry
+	 * @param ent
 	 *            the entry to be formatted.
 	 * @throws IOException
 	 *             a file's content cannot be read, or the output stream cannot
 	 *             be written to.
 	 */
-	public void format(DiffEntry entry) throws IOException {
-		if (entry instanceof FileHeader) {
-			format(
-					(FileHeader) entry, //
-					newRawText(open(entry.getOldMode(), entry.getOldId())),
-					newRawText(open(entry.getNewMode(), entry.getNewId())));
-		} else {
-			formatAndDiff(entry);
-		}
-	}
-
-	private void formatAndDiff(DiffEntry ent) throws IOException {
+	public void format(DiffEntry ent) throws IOException {
 		String oldName = quotePath("a/" + ent.getOldName());
 		String newName = quotePath("b/" + ent.getNewName());
 		out.write(encode("diff --git " + oldName + " " + newName + "\n"));
@@ -250,27 +274,16 @@ public class DiffFormatter {
 				out.write(encodeASCII("Binary files differ\n"));
 
 			} else {
-				RawText a = newRawText(aRaw);
-				RawText b = newRawText(bRaw);
+				RawText a = rawTextFactory.create(aRaw);
+				RawText b = rawTextFactory.create(bRaw);
 				formatEdits(a, b, new MyersDiff(a, b).getEdits());
 			}
 		}
 	}
 
-	/**
-	 * Construct a RawText sequence for use with {@link MyersDiff}.
-	 *
-	 * @param content
-	 *            text to be compared.
-	 * @return the raw text instance to handle the content.
-	 */
-	protected RawText newRawText(byte[] content) {
-		return new RawText(content);
-	}
-
 	private String format(AbbreviatedObjectId oldId) {
 		if (oldId.isComplete() && db != null)
-			oldId = oldId.toObjectId().abbreviate(db, 8);
+			oldId = oldId.toObjectId().abbreviate(db, abbreviationLength);
 		return oldId.name();
 	}
 

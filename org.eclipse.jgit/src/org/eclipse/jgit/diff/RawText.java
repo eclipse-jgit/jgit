@@ -65,6 +65,25 @@ import org.eclipse.jgit.util.RawParseUtils;
  * they are converting from "line number" to "element index".
  */
 public class RawText implements Sequence {
+	/** Creates a RawText instance. */
+	public static interface Factory {
+		/**
+		 * Construct a RawText instance for the content.
+		 *
+		 * @param input
+		 *            the content array.
+		 * @return a RawText instance wrapping this content.
+		 */
+		RawText create(byte[] input);
+	}
+
+	/** Creates RawText that does not treat whitespace specially. */
+	public static final Factory FACTORY = new Factory() {
+		public RawText create(byte[] input) {
+			return new RawText(input);
+		}
+	};
+
 	/** Number of bytes to check for heuristics in {@link #isBinary(byte[])} */
 	private static final int FIRST_FEW_BYTES = 8000;
 
