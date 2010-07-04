@@ -53,6 +53,7 @@ import org.kohsuke.args4j.Option;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.pgm.opt.PathTreeFilterHandler;
+import org.eclipse.jgit.revwalk.FollowFilter;
 import org.eclipse.jgit.revwalk.ObjectWalk;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
@@ -110,6 +111,11 @@ abstract class RevWalkTextBuiltin extends TextBuiltin {
 		enableRevSort(RevSort.BOUNDARY, on);
 	}
 
+	@Option(name = "--follow", metaVar = "metaVar_path")
+	void follow(final String path) {
+		pathFilter = FollowFilter.create(path);
+	}
+
 	@Argument(index = 0, metaVar = "metaVar_commitish")
 	private final List<RevCommit> commits = new ArrayList<RevCommit>();
 
@@ -139,7 +145,9 @@ abstract class RevWalkTextBuiltin extends TextBuiltin {
 		for (final RevSort s : sorting)
 			walk.sort(s, true);
 
-		if (pathFilter != TreeFilter.ALL)
+		if (pathFilter instanceof FollowFilter)
+			walk.setTreeFilter(pathFilter);
+		else if (pathFilter != TreeFilter.ALL)
 			walk.setTreeFilter(AndTreeFilter.create(pathFilter,
 					TreeFilter.ANY_DIFF));
 

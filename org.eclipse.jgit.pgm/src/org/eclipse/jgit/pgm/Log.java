@@ -51,6 +51,7 @@ import java.text.DateFormat;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -65,11 +66,12 @@ import org.eclipse.jgit.diff.RawTextIgnoreLeadingWhitespace;
 import org.eclipse.jgit.diff.RawTextIgnoreTrailingWhitespace;
 import org.eclipse.jgit.diff.RawTextIgnoreWhitespaceChange;
 import org.eclipse.jgit.diff.RenameDetector;
+import org.eclipse.jgit.diff.DiffEntry.ChangeType;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.TextProgressMonitor;
+import org.eclipse.jgit.revwalk.FollowFilter;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
@@ -195,20 +197,26 @@ class Log extends RevWalkTextBuiltin {
 
 	private void showDiff(RevCommit c) throws IOException {
 		final TreeWalk tw = new TreeWalk(db);
-		tw.reset();
 		tw.setRecursive(true);
+		tw.reset();
 		tw.addTree(c.getParent(0).getTree());
 		tw.addTree(c.getTree());
-		tw.setFilter(AndTreeFilter.create(TreeFilter.ANY_DIFF, pathFilter));
+		tw.setFilter(AndTreeFilter.create(pathFilter, TreeFilter.ANY_DIFF));
 
 		List<DiffEntry> files = DiffEntry.scan(tw);
-		if (detectRenames) {
-			RenameDetector rd = new RenameDetector(db);
-			if (renameLimit != null)
-				rd.setRenameLimit(renameLimit.intValue());
-			rd.addAll(files);
-			files = rd.compute(new TextProgressMonitor());
-		}
+		if (pathFilter instanceof FollowFilter && isAdd(files)) {
+			// The file we are following was added here, find where it
+			// came from so we can properly show the rename or copy,
+			// then continue digging backwards.
+			//
+			tw.reset();
+			tw.addTree(c.getParent(0).getTree());
+			tw.addTree(c.getTree());
+			tw.setFilter(TreeFilter.ANY_DIFF);
+			files = updateFollowFilter(detectRenames(DiffEntry.scan(tw)));
+
+		} else if (detectRenames)
+			files = detectRenames(files);
 
 		if (showNameAndStatusOnly) {
 			Diff.nameStatus(out, files);
@@ -219,5 +227,40 @@ class Log extends RevWalkTextBuiltin {
 			diffFmt.flush();
 		}
 		out.println();
+	}
+
+	private List<DiffEntry> detectRenames(List<DiffEntry> files)
+			throws IOException {
+		RenameDetector rd = new RenameDetector(db);
+		if (renameLimit != null)
+			rd.setRenameLimit(renameLimit.intValue());
+		rd.addAll(files);
+		return rd.compute();
+	}
+
+	private boolean isAdd(List<DiffEntry> files) {
+		String oldPath = ((FollowFilter) pathFilter).getPath();
+		for (DiffEntry ent : files) {
+			if (ent.getChangeType() == ChangeType.ADD
+					&& ent.getNewName().equals(oldPath))
+				return true;
+		}
+		return false;
+	}
+
+	private List<DiffEntry> updateFollowFilter(List<DiffEntry> files) {
+		String oldPath = ((FollowFilter) pathFilter).getPath();
+		for (DiffEntry ent : files) {
+			if (isRename(ent) && ent.getNewName().equals(oldPath)) {
+				pathFilter = FollowFilter.create(ent.getOldName());
+				return Collections.singletonList(ent);
+			}
+		}
+		return Collections.emptyList();
+	}
+
+	private static boolean isRename(DiffEntry ent) {
+		return ent.getChangeType() == ChangeType.RENAME
+				|| ent.getChangeType() == ChangeType.COPY;
 	}
 }
