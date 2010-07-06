@@ -292,7 +292,7 @@ public class DirCacheEntry {
 		if (smudge_s < mtime)
 			return true;
 		if (smudge_s == mtime)
-			return smudge_ns <= NB.decodeInt32(info, base + 4) / 1000000;
+			return smudge_ns <= NB.decodeInt32(info, base + 4);
 		return false;
 	}
 
