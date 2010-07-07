@@ -48,7 +48,12 @@ import java.io.IOException;
 
 /**
  * Tree-ish is an interface for tree-like Git objects.
+ *
+ * @deprecated Use {@link org.eclipse.jgit.revwalk.RevWalk} to parse objects
+ * and resolve to a {@link org.eclipse.jgit.revwalk.RevTree}.  See the method
+ * {@link org.eclipse.jgit.revwalk.RevWalk#parseTree(AnyObjectId)}.
  */
+@Deprecated
 public interface Treeish {
 	/**
 	 * @return the id of this tree

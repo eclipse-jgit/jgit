@@ -357,7 +357,12 @@ public class GitIndex {
 		return filemode.booleanValue();
 	}
 
-	/** An index entry */
+	/**
+	 * An index entry
+	 *
+	 * @deprecated Use {@link org.eclipse.jgit.dircache.DirCacheEntry}.
+	 */
+	@Deprecated
 	public class Entry {
 		private long ctime;
 

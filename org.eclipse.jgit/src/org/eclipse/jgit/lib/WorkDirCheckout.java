@@ -62,7 +62,10 @@ import org.eclipse.jgit.lib.GitIndex.Entry;
  * with the index (actually a tree too).
  *
  * Three-way merges are no performed. See {@link #setFailOnConflict(boolean)}.
+ *
+ * @deprecated Use org.eclipse.jgit.dircache.DirCacheCheckout.
  */
+@Deprecated
 public class WorkDirCheckout {
 	File root;
 

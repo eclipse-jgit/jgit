@@ -604,6 +604,25 @@ public class RevWalk implements Iterable<RevCommit> {
 	}
 
 	/**
+	 * Locate a reference to a tag without loading it.
+	 * <p>
+	 * The tag may or may not exist in the repository. It is impossible to tell
+	 * from this method's return value.
+	 *
+	 * @param id
+	 *            name of the tag object.
+	 * @return reference to the tag object. Never null.
+	 */
+	public RevTag lookupTag(final AnyObjectId id) {
+		RevTag c = (RevTag) objects.get(id);
+		if (c == null) {
+			c = new RevTag(id);
+			objects.add(c);
+		}
+		return c;
+	}
+
+	/**
 	 * Locate a reference to any object without loading it.
 	 * <p>
 	 * The object may or may not exist in the repository. It is impossible to
@@ -706,6 +725,32 @@ public class RevWalk implements Iterable<RevCommit> {
 			t = (RevTree) c;
 		parseHeaders(t);
 		return t;
+	}
+
+	/**
+	 * Locate a reference to an annotated tag and immediately parse its content.
+	 * <p>
+	 * Unlike {@link #lookupTag(AnyObjectId)} this method only returns
+	 * successfully if the tag object exists, is verified to be a tag, and was
+	 * parsed without error.
+	 *
+	 * @param id
+	 *            name of the tag object.
+	 * @return reference to the tag object. Never null.
+	 * @throws MissingObjectException
+	 *             the supplied tag does not exist.
+	 * @throws IncorrectObjectTypeException
+	 *             the supplied id is not a tag or an annotated tag.
+	 * @throws IOException
+	 *             a pack file or loose object could not be read.
+	 */
+	public RevTag parseTag(final AnyObjectId id) throws MissingObjectException,
+			IncorrectObjectTypeException, IOException {
+		RevObject c = parseAny(id);
+		if (!(c instanceof RevTag))
+			throw new IncorrectObjectTypeException(id.toObjectId(),
+					Constants.TYPE_TAG);
+		return (RevTag) c;
 	}
 
 	/**

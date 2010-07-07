@@ -55,7 +55,10 @@ import org.eclipse.jgit.lib.GitIndex.Entry;
  * case about certain events
  * @author dwatson
  *
+ * @deprecated Use {@link org.eclipse.jgit.treewalk.TreeWalk} instead, with a
+ * {@link org.eclipse.jgit.dircache.DirCacheIterator} as one of the members.
  */
+@Deprecated
 public class AbstractIndexTreeVisitor implements IndexTreeVisitor {
 	public void finishVisitTree(Tree tree, Tree auxTree, String curDir)
 			throws IOException {

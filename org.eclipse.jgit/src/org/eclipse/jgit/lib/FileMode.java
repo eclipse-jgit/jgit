@@ -82,7 +82,7 @@ public abstract class FileMode {
 	/** Bit pattern for {@link #TYPE_MASK} matching {@link #MISSING}. */
 	public static final int TYPE_MISSING = 0000000;
 
-	/** Mode indicating an entry is a {@link Tree}. */
+	/** Mode indicating an entry is a tree (aka directory). */
 	@SuppressWarnings("synthetic-access")
 	public static final FileMode TREE = new FileMode(TYPE_TREE,
 			Constants.OBJ_TREE) {
@@ -91,7 +91,7 @@ public abstract class FileMode {
 		}
 	};
 
-	/** Mode indicating an entry is a {@link SymlinkTreeEntry}. */
+	/** Mode indicating an entry is a symbolic link. */
 	@SuppressWarnings("synthetic-access")
 	public static final FileMode SYMLINK = new FileMode(TYPE_SYMLINK,
 			Constants.OBJ_BLOB) {
@@ -100,7 +100,7 @@ public abstract class FileMode {
 		}
 	};
 
-	/** Mode indicating an entry is a non-executable {@link FileTreeEntry}. */
+	/** Mode indicating an entry is a non-executable file. */
 	@SuppressWarnings("synthetic-access")
 	public static final FileMode REGULAR_FILE = new FileMode(0100644,
 			Constants.OBJ_BLOB) {
@@ -109,7 +109,7 @@ public abstract class FileMode {
 		}
 	};
 
-	/** Mode indicating an entry is an executable {@link FileTreeEntry}. */
+	/** Mode indicating an entry is an executable file. */
 	@SuppressWarnings("synthetic-access")
 	public static final FileMode EXECUTABLE_FILE = new FileMode(0100755,
 			Constants.OBJ_BLOB) {

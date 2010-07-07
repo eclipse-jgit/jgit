@@ -50,7 +50,10 @@ import java.io.IOException;
 /**
  * A TreeVisitor is invoked depth first for every node in a tree and is expected
  * to perform different actions.
+ *
+ * @deprecated Use {@link org.eclipse.jgit.treewalk.TreeWalk} instead.
  */
+@Deprecated
 public interface TreeVisitor {
 	/**
 	 * Visit to a tree node before child nodes are visited.

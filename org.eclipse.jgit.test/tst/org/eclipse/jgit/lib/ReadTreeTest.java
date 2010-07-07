@@ -609,7 +609,7 @@ public class ReadTreeTest extends RepositoryTestCase {
 	}
 
 	/**
-	 * An implementation of the {@link Checkout} interface which uses {@link WorkDirCheckout}
+	 * An implementation of the {@link Checkout} interface which uses WorkDirCheckout
 	 */
 	class WorkdirCheckoutImpl extends WorkDirCheckout implements Checkout {
 		public WorkdirCheckoutImpl(Tree head, GitIndex index,

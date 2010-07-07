@@ -404,7 +404,7 @@ public class TreeWalk {
 	 * @throws IOException
 	 *             a loose object or pack file could not be read.
 	 */
-	public int addTree(final ObjectId id) throws MissingObjectException,
+	public int addTree(final AnyObjectId id) throws MissingObjectException,
 			IncorrectObjectTypeException, CorruptObjectException, IOException {
 		return addTree(parserFor(id));
 	}

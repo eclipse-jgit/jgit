@@ -55,7 +55,13 @@ import org.eclipse.jgit.lib.GitIndex.Entry;
  * A class for traversing the index and one or two trees.
  *
  * A visitor is invoked for executing actions, like figuring out how to merge.
+ *
+ * @deprecated Use {@link org.eclipse.jgit.treewalk.TreeWalk} with multiple
+ * iterators, such as {@link org.eclipse.jgit.dircache.DirCacheIterator},
+ * {@link org.eclipse.jgit.treewalk.FileTreeIterator}, and a native tree
+ * {@link org.eclipse.jgit.treewalk.TreeWalk#addTree(AnyObjectId)}.
  */
+@Deprecated
 public class IndexTreeWalker {
 	private final Tree mainTree;
 	private final Tree newTree;

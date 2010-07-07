@@ -552,7 +552,10 @@ public class Repository {
 	 * @throws IOException for I/O error or unexpected object type.
 	 *
 	 * @see #resolve(String)
+	 * @deprecated Use {@link #resolve(String)} and pass its return value to
+	 * {@link org.eclipse.jgit.revwalk.RevWalk#parseCommit(AnyObjectId)}.
 	 */
+	@Deprecated
 	public Commit mapCommit(final String revstr) throws IOException {
 		final ObjectId id = resolve(revstr);
 		return id != null ? mapCommit(id) : null;
@@ -566,7 +569,12 @@ public class Repository {
 	 * @param refName optional, only relevant for simple tags
 	 * @return The Git object if found or null
 	 * @throws IOException
+	 * @deprecated Use {@link org.eclipse.jgit.revwalk.RevWalk#parseCommit(AnyObjectId)},
+	 *  or {@link org.eclipse.jgit.revwalk.RevWalk#parseTag(AnyObjectId)}.
+	 *  To read a tree, use {@link org.eclipse.jgit.treewalk.TreeWalk#addTree(AnyObjectId)}.
+	 *  To read a blob, open it with {@link #openObject(AnyObjectId)}.
 	 */
+	@Deprecated
 	public Object mapObject(final ObjectId id, final String refName) throws IOException {
 		final ObjectLoader or = openObject(id);
 		if (or == null)
@@ -596,7 +604,9 @@ public class Repository {
 	 * @param id
 	 * @return Commit or null
 	 * @throws IOException for I/O error or unexpected object type.
+	 * @deprecated Use {@link org.eclipse.jgit.revwalk.RevWalk#parseCommit(AnyObjectId)}.
 	 */
+	@Deprecated
 	public Commit mapCommit(final ObjectId id) throws IOException {
 		final ObjectLoader or = openObject(id);
 		if (or == null)
@@ -622,7 +632,10 @@ public class Repository {
 	 * @throws IOException
 	 *
 	 * @see #resolve(String)
+	 * @deprecated Use {@link #resolve(String)} and pass its return value to
+	 * {@link org.eclipse.jgit.treewalk.TreeWalk#addTree(AnyObjectId)}.
 	 */
+	@Deprecated
 	public Tree mapTree(final String revstr) throws IOException {
 		final ObjectId id = resolve(revstr);
 		return id != null ? mapTree(id) : null;
@@ -633,7 +646,9 @@ public class Repository {
 	 * @param id
 	 * @return Tree or null
 	 * @throws IOException for I/O error or unexpected object type.
+	 * @deprecated Use {@link org.eclipse.jgit.treewalk.TreeWalk#addTree(AnyObjectId)}.
 	 */
+	@Deprecated
 	public Tree mapTree(final ObjectId id) throws IOException {
 		final ObjectLoader or = openObject(id);
 		if (or == null)
@@ -667,7 +682,10 @@ public class Repository {
 	 * @param revstr
 	 * @return a Tag or null
 	 * @throws IOException on I/O error or unexpected type
+	 * @deprecated Use {@link #resolve(String)} and feed its return value to
+	 * {@link org.eclipse.jgit.revwalk.RevWalk#parseTag(AnyObjectId)}.
 	 */
+	@Deprecated
 	public Tag mapTag(String revstr) throws IOException {
 		final ObjectId id = resolve(revstr);
 		return id != null ? mapTag(revstr, id) : null;
@@ -679,7 +697,9 @@ public class Repository {
 	 * @param id
 	 * @return Commit or null
 	 * @throws IOException for I/O error or unexpected object type.
+	 * @deprecated Use {@link org.eclipse.jgit.revwalk.RevWalk#parseTag(AnyObjectId)}.
 	 */
+	@Deprecated
 	public Tag mapTag(final String refName, final ObjectId id) throws IOException {
 		final ObjectLoader or = openObject(id);
 		if (or == null)
