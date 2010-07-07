@@ -81,7 +81,7 @@ public class DeltaEncoder {
 
 	private void writeVarint(long sz) throws IOException {
 		int p = 0;
-		while (sz > 0x80) {
+		while (sz >= 0x80) {
 			buf[p++] = (byte) (0x80 | (((int) sz) & 0x7f));
 			sz >>>= 7;
 		}
