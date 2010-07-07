@@ -72,7 +72,7 @@ final class ByteBufferWindow extends ByteWindow {
 	}
 
 	@Override
-	protected int inflate(final int pos, final Inflater inf)
+	protected int setInput(final int pos, final Inflater inf)
 			throws DataFormatException {
 		final ByteBuffer s = buffer.slice();
 		s.position(pos);

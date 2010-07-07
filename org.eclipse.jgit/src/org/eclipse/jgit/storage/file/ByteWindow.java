@@ -117,10 +117,10 @@ abstract class ByteWindow {
 	 */
 	protected abstract int copy(int pos, byte[] dstbuf, int dstoff, int cnt);
 
-	final int inflate(long pos, Inflater inf) throws DataFormatException {
-		return inflate((int) (pos - start), inf);
+	final int setInput(long pos, Inflater inf) throws DataFormatException {
+		return setInput((int) (pos - start), inf);
 	}
 
-	protected abstract int inflate(int pos, Inflater inf)
+	protected abstract int setInput(int pos, Inflater inf)
 			throws DataFormatException;
 }
