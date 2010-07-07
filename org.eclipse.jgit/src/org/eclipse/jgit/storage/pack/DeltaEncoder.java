@@ -50,11 +50,29 @@ import org.eclipse.jgit.lib.Constants;
 
 /** Encodes an instruction stream for {@link BinaryDelta}. */
 public class DeltaEncoder {
-	private static final int MAX_COPY = (0xff << 16) + (0xff << 8) + 0xff;
+	/**
+	 * Maximum number of bytes to be copied in pack v2 format.
+	 * <p>
+	 * Historical limitations have this at 64k, even though current delta
+	 * decoders recognize larger copy instructions.
+	 */
+	private static final int MAX_V2_COPY = 0x10000;
+
+	/*
+	 * Maximum number of bytes to be copied in pack v3 format.
+	 *
+	 * Current delta decoders can recognize a copy instruction with a count that
+	 * is this large, but the historical limitation of {@link MAX_V2_COPY} is
+	 * still used.
+	 */
+	// private static final int MAX_V3_COPY = (0xff << 16) | (0xff << 8) | 0xff;
+
+	/** Maximum number of bytes used by a copy instruction. */
+	private static final int MAX_COPY_CMD_SIZE = 8;
 
 	private final OutputStream out;
 
-	private final byte[] buf = new byte[16];
+	private final byte[] buf = new byte[MAX_COPY_CMD_SIZE * 4];
 
 	private int size;
 
@@ -154,14 +172,35 @@ public class DeltaEncoder {
 	 *             the instruction buffer cannot store the instructions.
 	 */
 	public void copy(long offset, int cnt) throws IOException {
-		if (cnt > MAX_COPY) {
-			copy(offset, MAX_COPY);
-			offset += MAX_COPY;
-			cnt -= MAX_COPY;
+		if (cnt == 0)
+			return;
+
+		int p = 0;
+
+		// We cannot encode more than MAX_V2_COPY bytes in a single
+		// command, so encode that much and start a new command.
+		// This limit is imposed by the pack file format rules.
+		//
+		while (MAX_V2_COPY < cnt) {
+			p = encodeCopy(p, offset, MAX_V2_COPY);
+			offset += MAX_V2_COPY;
+			cnt -= MAX_V2_COPY;
+
+			if (buf.length < p + MAX_COPY_CMD_SIZE) {
+				out.write(buf, 0, p);
+				size += p;
+				p = 0;
+			}
 		}
 
+		p = encodeCopy(p, offset, cnt);
+		out.write(buf, 0, p);
+		size += p;
+	}
+
+	private int encodeCopy(int p, long offset, int cnt) {
 		int cmd = 0x80;
-		int p = 1;
+		final int cmdPtr = p++; // save room for the command
 
 		if ((offset & 0xff) != 0) {
 			cmd |= 0x01;
@@ -180,7 +219,7 @@ public class DeltaEncoder {
 			buf[p++] = (byte) ((offset >>> 24) & 0xff);
 		}
 
-		if (cnt != 0x10000) {
+		if (cnt != MAX_V2_COPY) {
 			if ((cnt & 0xff) != 0) {
 				cmd |= 0x10;
 				buf[p++] = (byte) (cnt & 0xff);
@@ -195,8 +234,7 @@ public class DeltaEncoder {
 			}
 		}
 
-		buf[0] = (byte) cmd;
-		out.write(buf, 0, p);
-		size += p;
+		buf[cmdPtr] = (byte) cmd;
+		return p;
 	}
 }
