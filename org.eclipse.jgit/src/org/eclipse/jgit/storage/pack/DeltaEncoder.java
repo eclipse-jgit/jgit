@@ -70,6 +70,9 @@ public class DeltaEncoder {
 	/** Maximum number of bytes used by a copy instruction. */
 	private static final int MAX_COPY_CMD_SIZE = 8;
 
+	/** Maximum length that an an insert command can encode at once. */
+	private static final int MAX_INSERT_DATA_SIZE = 127;
+
 	private final OutputStream out;
 
 	private final byte[] buf = new byte[MAX_COPY_CMD_SIZE * 4];
@@ -151,7 +154,7 @@ public class DeltaEncoder {
 	 */
 	public void insert(byte[] text, int off, int cnt) throws IOException {
 		while (0 < cnt) {
-			int n = Math.min(127, cnt);
+			int n = Math.min(MAX_INSERT_DATA_SIZE, cnt);
 			out.write((byte) n);
 			out.write(text, off, n);
 			off += n;
