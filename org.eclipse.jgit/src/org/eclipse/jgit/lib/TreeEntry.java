@@ -52,6 +52,7 @@ import org.eclipse.jgit.util.RawParseUtils;
 /**
  * This class represents an entry in a tree, like a blob or another tree.
  */
+@Deprecated
 public abstract class TreeEntry implements Comparable {
 	/**
 	 * a flag for {@link TreeEntry#accept(TreeVisitor, int)} to visit only modified entries

@@ -51,7 +51,10 @@ import java.util.ArrayList;
 
 /**
  * Abstract TreeVisitor for visiting all files known by a Tree.
+ *
+ * @deprecated Use {@link org.eclipse.jgit.treewalk.TreeWalk} instead.
  */
+@Deprecated
 public abstract class TreeVisitorWithCurrentDirectory implements TreeVisitor {
 	private final ArrayList<File> stack = new ArrayList<File>(16);
 

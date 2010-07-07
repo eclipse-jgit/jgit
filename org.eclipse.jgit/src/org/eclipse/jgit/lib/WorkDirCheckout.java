@@ -63,6 +63,7 @@ import org.eclipse.jgit.lib.GitIndex.Entry;
  *
  * Three-way merges are no performed. See {@link #setFailOnConflict(boolean)}.
  */
+@Deprecated
 public class WorkDirCheckout {
 	File root;
 

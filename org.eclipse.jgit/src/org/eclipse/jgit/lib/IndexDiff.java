@@ -52,7 +52,10 @@ import org.eclipse.jgit.lib.GitIndex.Entry;
 
 /**
  * Compares the Index, a Tree, and the working directory
+ *
+ * @deprecated Use {@link org.eclipse.jgit.treewalk.TreeWalk} instead.
  */
+@Deprecated
 public class IndexDiff {
 	private GitIndex index;
 	private Tree tree;
