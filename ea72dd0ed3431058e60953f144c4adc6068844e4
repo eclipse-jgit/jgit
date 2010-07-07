@@ -1,0 +1,259 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALwX///EM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/FileTreeEntry.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 2
+      },
+      "writtenOn": "2010-07-07T15:41:24Z",
+      "side": 1,
+      "message": "Should we point them somewhere else? Our policy at Eclipse is that if you deprecate something, you generally want to point them to use another class...",
+      "revId": "ea72dd0ed3431058e60953f144c4adc6068844e4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///EI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/GitlinkTreeEntry.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 2
+      },
+      "writtenOn": "2010-07-07T15:41:24Z",
+      "side": 1,
+      "message": "Should we point them somewhere else? Our policy at Eclipse is that if you deprecate something, you generally want to point them to use another class...",
+      "revId": "ea72dd0ed3431058e60953f144c4adc6068844e4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///EE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/IndexTreeWalker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 2
+      },
+      "writtenOn": "2010-07-07T15:41:24Z",
+      "side": 1,
+      "message": "Should we point them somewhere else? Our policy at Eclipse is that if you deprecate something, you generally want to point them to use another class...",
+      "revId": "ea72dd0ed3431058e60953f144c4adc6068844e4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///EA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 556,
+      "author": {
+        "id": 2
+      },
+      "writtenOn": "2010-07-07T15:41:24Z",
+      "side": 1,
+      "message": "Should we point them somewhere else? Our policy at Eclipse is that if you deprecate something, you generally want to point them to use another class...",
+      "revId": "ea72dd0ed3431058e60953f144c4adc6068844e4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///D8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 571,
+      "author": {
+        "id": 2
+      },
+      "writtenOn": "2010-07-07T15:41:24Z",
+      "side": 1,
+      "message": "Should we point them somewhere else? Our policy at Eclipse is that if you deprecate something, you generally want to point them to use another class...",
+      "revId": "ea72dd0ed3431058e60953f144c4adc6068844e4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///D4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 602,
+      "author": {
+        "id": 2
+      },
+      "writtenOn": "2010-07-07T15:41:24Z",
+      "side": 1,
+      "message": "Should we point them somewhere else? Our policy at Eclipse is that if you deprecate something, you generally want to point them to use another class...",
+      "revId": "ea72dd0ed3431058e60953f144c4adc6068844e4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///D0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 629,
+      "author": {
+        "id": 2
+      },
+      "writtenOn": "2010-07-07T15:41:24Z",
+      "side": 1,
+      "message": "Should we point them somewhere else? Our policy at Eclipse is that if you deprecate something, you generally want to point them to use another class...",
+      "revId": "ea72dd0ed3431058e60953f144c4adc6068844e4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///Dw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 641,
+      "author": {
+        "id": 2
+      },
+      "writtenOn": "2010-07-07T15:41:24Z",
+      "side": 1,
+      "message": "Should we point them somewhere else? Our policy at Eclipse is that if you deprecate something, you generally want to point them to use another class...",
+      "revId": "ea72dd0ed3431058e60953f144c4adc6068844e4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///Ds\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 676,
+      "author": {
+        "id": 2
+      },
+      "writtenOn": "2010-07-07T15:41:24Z",
+      "side": 1,
+      "message": "Should we point them somewhere else? Our policy at Eclipse is that if you deprecate something, you generally want to point them to use another class...",
+      "revId": "ea72dd0ed3431058e60953f144c4adc6068844e4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///Do\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 689,
+      "author": {
+        "id": 2
+      },
+      "writtenOn": "2010-07-07T15:41:24Z",
+      "side": 1,
+      "message": "Should we point them somewhere else? Our policy at Eclipse is that if you deprecate something, you generally want to point them to use another class...",
+      "revId": "ea72dd0ed3431058e60953f144c4adc6068844e4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///Dk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/SymlinkTreeEntry.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 2
+      },
+      "writtenOn": "2010-07-07T15:41:24Z",
+      "side": 1,
+      "message": "Should we point them somewhere else? Our policy at Eclipse is that if you deprecate something, you generally want to point them to use another class...",
+      "revId": "ea72dd0ed3431058e60953f144c4adc6068844e4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///Dg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/TreeEntry.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 2
+      },
+      "writtenOn": "2010-07-07T15:41:24Z",
+      "side": 1,
+      "message": "Should we point them somewhere else? Our policy at Eclipse is that if you deprecate something, you generally want to point them to use another class...",
+      "revId": "ea72dd0ed3431058e60953f144c4adc6068844e4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///Dc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Treeish.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 2
+      },
+      "writtenOn": "2010-07-07T15:41:24Z",
+      "side": 1,
+      "message": "Should we point them somewhere else? Our policy at Eclipse is that if you deprecate something, you generally want to point them to use another class...",
+      "revId": "ea72dd0ed3431058e60953f144c4adc6068844e4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///DU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/WorkDirCheckout.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 2
+      },
+      "writtenOn": "2010-07-07T15:41:24Z",
+      "side": 1,
+      "message": "Should be \"not performed\" but doesn\u0027t matter anymore..",
+      "revId": "ea72dd0ed3431058e60953f144c4adc6068844e4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///DY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/WorkDirCheckout.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 2
+      },
+      "writtenOn": "2010-07-07T15:41:24Z",
+      "side": 1,
+      "message": "Should we point them somewhere else? Our policy at Eclipse is that if you deprecate something, you generally want to point them to use another class...",
+      "revId": "ea72dd0ed3431058e60953f144c4adc6068844e4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
