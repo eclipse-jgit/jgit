@@ -227,6 +227,42 @@ public class UnpackedObjectTest extends LocalDiskRepositoryTestCase {
 		}
 	}
 
+	public void testStandardFormat_SmallObject_TruncatedZLibStream()
+			throws Exception {
+		ObjectId id = ObjectId.zeroId();
+		byte[] data = rng.nextBytes(300);
+
+		try {
+			byte[] gz = compressStandardFormat(Constants.OBJ_BLOB, data);
+			byte[] tr = new byte[gz.length - 1];
+			System.arraycopy(gz, 0, tr, 0, tr.length);
+			UnpackedObject.open(new ByteArrayInputStream(tr), path(id), id, wc);
+			fail("Did not throw CorruptObjectException");
+		} catch (CorruptObjectException coe) {
+			assertEquals(MessageFormat.format(JGitText.get().objectIsCorrupt,
+					id.name(), JGitText.get().corruptObjectBadStream), coe
+					.getMessage());
+		}
+	}
+
+	public void testStandardFormat_SmallObject_TrailingGarbage()
+			throws Exception {
+		ObjectId id = ObjectId.zeroId();
+		byte[] data = rng.nextBytes(300);
+
+		try {
+			byte[] gz = compressStandardFormat(Constants.OBJ_BLOB, data);
+			byte[] tr = new byte[gz.length + 1];
+			System.arraycopy(gz, 0, tr, 0, gz.length);
+			UnpackedObject.open(new ByteArrayInputStream(tr), path(id), id, wc);
+			fail("Did not throw CorruptObjectException");
+		} catch (CorruptObjectException coe) {
+			assertEquals(MessageFormat.format(JGitText.get().objectIsCorrupt,
+					id.name(), JGitText.get().corruptObjectBadStream), coe
+					.getMessage());
+		}
+	}
+
 	public void testStandardFormat_LargeObject_CorruptZLibStream()
 			throws Exception {
 		final int type = Constants.OBJ_BLOB;
@@ -257,6 +293,74 @@ public class UnpackedObjectTest extends LocalDiskRepositoryTestCase {
 				in.close();
 			}
 			fail("Did not throw CorruptObjectException");
+		} catch (CorruptObjectException coe) {
+			assertEquals(MessageFormat.format(JGitText.get().objectIsCorrupt,
+					id.name(), JGitText.get().corruptObjectBadStream), coe
+					.getMessage());
+		}
+	}
+
+	public void testStandardFormat_LargeObject_TruncatedZLibStream()
+			throws Exception {
+		final int type = Constants.OBJ_BLOB;
+		byte[] data = rng.nextBytes(ObjectLoader.STREAM_THRESHOLD + 5);
+		ObjectId id = new ObjectInserter.Formatter().idFor(type, data);
+		byte[] gz = compressStandardFormat(type, data);
+		byte[] tr = new byte[gz.length - 1];
+		System.arraycopy(gz, 0, tr, 0, tr.length);
+
+		write(id, tr);
+
+		ObjectLoader ol;
+		{
+			FileInputStream fs = new FileInputStream(path(id));
+			try {
+				ol = UnpackedObject.open(fs, path(id), id, wc);
+			} finally {
+				fs.close();
+			}
+		}
+
+		byte[] tmp = new byte[data.length];
+		InputStream in = ol.openStream();
+		IO.readFully(in, tmp, 0, tmp.length);
+		try {
+			in.close();
+			fail("close did not throw CorruptObjectException");
+		} catch (CorruptObjectException coe) {
+			assertEquals(MessageFormat.format(JGitText.get().objectIsCorrupt,
+					id.name(), JGitText.get().corruptObjectBadStream), coe
+					.getMessage());
+		}
+	}
+
+	public void testStandardFormat_LargeObject_TrailingGarbage()
+			throws Exception {
+		final int type = Constants.OBJ_BLOB;
+		byte[] data = rng.nextBytes(ObjectLoader.STREAM_THRESHOLD + 5);
+		ObjectId id = new ObjectInserter.Formatter().idFor(type, data);
+		byte[] gz = compressStandardFormat(type, data);
+		byte[] tr = new byte[gz.length + 1];
+		System.arraycopy(gz, 0, tr, 0, gz.length);
+
+		write(id, tr);
+
+		ObjectLoader ol;
+		{
+			FileInputStream fs = new FileInputStream(path(id));
+			try {
+				ol = UnpackedObject.open(fs, path(id), id, wc);
+			} finally {
+				fs.close();
+			}
+		}
+
+		byte[] tmp = new byte[data.length];
+		InputStream in = ol.openStream();
+		IO.readFully(in, tmp, 0, tmp.length);
+		try {
+			in.close();
+			fail("close did not throw CorruptObjectException");
 		} catch (CorruptObjectException coe) {
 			assertEquals(MessageFormat.format(JGitText.get().objectIsCorrupt,
 					id.name(), JGitText.get().corruptObjectBadStream), coe

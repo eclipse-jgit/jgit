@@ -52,6 +52,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.zip.DataFormatException;
 import java.util.zip.Inflater;
 import java.util.zip.InflaterInputStream;
 import java.util.zip.ZipException;
@@ -108,8 +109,9 @@ public class UnpackedObject {
 
 			if (isStandardFormat(hdr)) {
 				in.reset();
-				in = inflate(in, wc);
-				int avail = readSome(in, hdr, 0, 64);
+				Inflater inf =  wc.inflater();
+				InputStream zIn = inflate(in, inf);
+				int avail = readSome(zIn, hdr, 0, 64);
 				if (avail < 5)
 					throw new CorruptObjectException(id,
 							JGitText.get().corruptObjectNoHeader);
@@ -130,7 +132,8 @@ public class UnpackedObject {
 					int n = avail - p.value;
 					if (n > 0)
 						System.arraycopy(hdr, p.value, data, 0, n);
-					IO.readFully(in, data, n, data.length - n);
+					IO.readFully(zIn, data, n, data.length - n);
+					checkValidEndOfStream(in, inf, id, hdr);
 					return new ObjectLoader.SmallObject(type, data);
 				}
 				return new LargeObject(type, size, path, id, wc.db);
@@ -165,9 +168,11 @@ public class UnpackedObject {
 				if (size < wc.getStreamFileThreshold() || path == null) {
 					in.reset();
 					IO.skipFully(in, p);
-					in = inflate(in, wc);
+					Inflater inf = wc.inflater();
+					InputStream zIn = inflate(in, inf);
 					byte[] data = new byte[(int) size];
-					IO.readFully(in, data, 0, data.length);
+					IO.readFully(zIn, data, 0, data.length);
+					checkValidEndOfStream(in, inf, id, hdr);
 					return new ObjectLoader.SmallObject(type, data);
 				}
 				return new LargeObject(type, size, path, id, wc.db);
@@ -175,6 +180,40 @@ public class UnpackedObject {
 		} catch (ZipException badStream) {
 			throw new CorruptObjectException(id,
 					JGitText.get().corruptObjectBadStream);
+		}
+	}
+
+	private static void checkValidEndOfStream(InputStream in, Inflater inf,
+			AnyObjectId id, final byte[] buf) throws IOException,
+			CorruptObjectException {
+		for (;;) {
+			int r;
+			try {
+				r = inf.inflate(buf);
+			} catch (DataFormatException e) {
+				throw new CorruptObjectException(id,
+						JGitText.get().corruptObjectBadStream);
+			}
+			if (r != 0)
+				throw new CorruptObjectException(id,
+						JGitText.get().corruptObjectIncorrectLength);
+
+			if (inf.finished()) {
+				if (inf.getRemaining() != 0 || in.read() != -1)
+					throw new CorruptObjectException(id,
+							JGitText.get().corruptObjectBadStream);
+				break;
+			}
+
+			if (!inf.needsInput())
+				throw new CorruptObjectException(id,
+						JGitText.get().corruptObjectBadStream);
+
+			r = in.read(buf);
+			if (r <= 0)
+				throw new CorruptObjectException(id,
+						JGitText.get().corruptObjectBadStream);
+			inf.setInput(buf, 0, r);
 		}
 	}
 
@@ -189,13 +228,19 @@ public class UnpackedObject {
 		return fb == 0x78 && (((fb << 8) | hdr[1] & 0xff) % 31) == 0;
 	}
 
-	private static InputStream inflate(InputStream in, final ObjectId id) {
+	private static InputStream inflate(final InputStream in, final long size,
+			final ObjectId id) {
 		final Inflater inf = InflaterCache.get();
 		return new InflaterInputStream(in, inf) {
+			private long remaining = size;
+
 			@Override
 			public int read(byte[] b, int off, int cnt) throws IOException {
 				try {
-					return super.read(b, off, cnt);
+					int r = super.read(b, off, cnt);
+					if (r > 0)
+						remaining -= r;
+					return r;
 				} catch (ZipException badStream) {
 					throw new CorruptObjectException(id,
 							JGitText.get().corruptObjectBadStream);
@@ -204,14 +249,19 @@ public class UnpackedObject {
 
 			@Override
 			public void close() throws IOException {
-				super.close();
-				InflaterCache.release(inf);
+				try {
+					if (remaining <= 0)
+						checkValidEndOfStream(in, inf, id, new byte[64]);
+					super.close();
+				} finally {
+					InflaterCache.release(inf);
+				}
 			}
 		};
 	}
 
-	private static InputStream inflate(InputStream in, WindowCursor wc) {
-		return new InflaterInputStream(in, wc.inflater(), BUFFER_SIZE);
+	private static InflaterInputStream inflate(InputStream in, Inflater inf) {
+		return new InflaterInputStream(in, inf, BUFFER_SIZE);
 	}
 
 	private static BufferedInputStream buffer(InputStream in) {
@@ -293,7 +343,7 @@ public class UnpackedObject {
 
 				if (isStandardFormat(hdr)) {
 					in.reset();
-					in = buffer(inflate(in, id));
+					in = buffer(inflate(in, size, id));
 					while (0 < in.read())
 						continue;
 				} else {
@@ -305,7 +355,7 @@ public class UnpackedObject {
 
 					in.reset();
 					IO.skipFully(in, p);
-					in = buffer(inflate(in, id));
+					in = buffer(inflate(in, size, id));
 				}
 
 				ok = true;
