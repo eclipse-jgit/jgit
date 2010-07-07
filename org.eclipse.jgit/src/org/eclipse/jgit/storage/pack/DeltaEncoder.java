@@ -77,10 +77,12 @@ public class DeltaEncoder {
 
 	private final byte[] buf = new byte[MAX_COPY_CMD_SIZE * 4];
 
+	private final int limit;
+
 	private int size;
 
 	/**
-	 * Create an encoder.
+	 * Create an encoder with no upper bound on the instruction stream size.
 	 *
 	 * @param out
 	 *            buffer to store the instructions written.
@@ -95,7 +97,31 @@ public class DeltaEncoder {
 	 */
 	public DeltaEncoder(OutputStream out, long baseSize, long resultSize)
 			throws IOException {
+		this(out, baseSize, resultSize, 0);
+	}
+
+	/**
+	 * Create an encoder with an upper limit on the instruction size.
+	 *
+	 * @param out
+	 *            buffer to store the instructions written.
+	 * @param baseSize
+	 *            size of the base object, in bytes.
+	 * @param resultSize
+	 *            size of the resulting object, after applying this instruction
+	 *            stream to the base object, in bytes.
+	 * @param limit
+	 *            maximum number of bytes to write to the out buffer declaring
+	 *            the stream is over limit and should be discarded. May be 0 to
+	 *            specify an infinite limit.
+	 * @throws IOException
+	 *             the output buffer cannot store the instruction stream's
+	 *             header with the size fields.
+	 */
+	public DeltaEncoder(OutputStream out, long baseSize, long resultSize,
+			int limit) throws IOException {
 		this.out = out;
+		this.limit = limit;
 		writeVarint(baseSize);
 		writeVarint(resultSize);
 	}
@@ -107,8 +133,9 @@ public class DeltaEncoder {
 			sz >>>= 7;
 		}
 		buf[p++] = (byte) (((int) sz) & 0x7f);
-		out.write(buf, 0, p);
 		size += p;
+		if (limit <= 0 || size < limit)
+			out.write(buf, 0, p);
 	}
 
 	/** @return current size of the delta stream, in bytes. */
@@ -121,11 +148,13 @@ public class DeltaEncoder {
 	 *
 	 * @param text
 	 *            the string to insert.
+	 * @return true if the insert fits within the limit; false if the insert
+	 *         would cause the instruction stream to exceed the limit.
 	 * @throws IOException
 	 *             the instruction buffer can't store the instructions.
 	 */
-	public void insert(String text) throws IOException {
-		insert(Constants.encode(text));
+	public boolean insert(String text) throws IOException {
+		return insert(Constants.encode(text));
 	}
 
 	/**
@@ -133,11 +162,13 @@ public class DeltaEncoder {
 	 *
 	 * @param text
 	 *            the binary to insert.
+	 * @return true if the insert fits within the limit; false if the insert
+	 *         would cause the instruction stream to exceed the limit.
 	 * @throws IOException
 	 *             the instruction buffer can't store the instructions.
 	 */
-	public void insert(byte[] text) throws IOException {
-		insert(text, 0, text.length);
+	public boolean insert(byte[] text) throws IOException {
+		return insert(text, 0, text.length);
 	}
 
 	/**
@@ -149,18 +180,31 @@ public class DeltaEncoder {
 	 *            offset within {@code text} to start copying from.
 	 * @param cnt
 	 *            number of bytes to insert.
+	 * @return true if the insert fits within the limit; false if the insert
+	 *         would cause the instruction stream to exceed the limit.
 	 * @throws IOException
 	 *             the instruction buffer can't store the instructions.
 	 */
-	public void insert(byte[] text, int off, int cnt) throws IOException {
-		while (0 < cnt) {
+	public boolean insert(byte[] text, int off, int cnt)
+			throws IOException {
+		if (cnt <= 0)
+			return true;
+		if (0 < limit) {
+			int hdrs = cnt / MAX_INSERT_DATA_SIZE;
+			if (cnt % MAX_INSERT_DATA_SIZE != 0)
+				hdrs++;
+			if (limit < size + hdrs + cnt)
+				return false;
+		}
+		do {
 			int n = Math.min(MAX_INSERT_DATA_SIZE, cnt);
 			out.write((byte) n);
 			out.write(text, off, n);
 			off += n;
 			cnt -= n;
 			size += 1 + n;
-		}
+		} while (0 < cnt);
+		return true;
 	}
 
 	/**
@@ -171,12 +215,14 @@ public class DeltaEncoder {
 	 *            from the beginning of the base.
 	 * @param cnt
 	 *            number of bytes to copy.
+	 * @return true if the copy fits within the limit; false if the copy
+	 *         would cause the instruction stream to exceed the limit.
 	 * @throws IOException
 	 *             the instruction buffer cannot store the instructions.
 	 */
-	public void copy(long offset, int cnt) throws IOException {
+	public boolean copy(long offset, int cnt) throws IOException {
 		if (cnt == 0)
-			return;
+			return true;
 
 		int p = 0;
 
@@ -190,6 +236,8 @@ public class DeltaEncoder {
 			cnt -= MAX_V2_COPY;
 
 			if (buf.length < p + MAX_COPY_CMD_SIZE) {
+				if (0 < limit && limit < size + p)
+					return false;
 				out.write(buf, 0, p);
 				size += p;
 				p = 0;
@@ -197,8 +245,11 @@ public class DeltaEncoder {
 		}
 
 		p = encodeCopy(p, offset, cnt);
+		if (0 < limit && limit < size + p)
+			return false;
 		out.write(buf, 0, p);
 		size += p;
+		return true;
 	}
 
 	private int encodeCopy(int p, long offset, int cnt) {

@@ -45,6 +45,8 @@
 package org.eclipse.jgit.storage.pack;
 
 import org.eclipse.jgit.JGitText;
+import org.eclipse.jgit.util.QuotedString;
+import org.eclipse.jgit.util.RawParseUtils;
 
 /**
  * Recreate a stream from a base stream and a GIT pack delta.
@@ -125,7 +127,8 @@ public class BinaryDelta {
 			shift += 7;
 		} while ((c & 0x80) != 0);
 		if (base.length != baseLen)
-			throw new IllegalArgumentException(JGitText.get().baseLengthIncorrect);
+			throw new IllegalArgumentException(
+					JGitText.get().baseLengthIncorrect);
 
 		// Length of the resulting object (a variable length int).
 		//
@@ -179,10 +182,105 @@ public class BinaryDelta {
 				// cmd == 0 has been reserved for future encoding but
 				// for now its not acceptable.
 				//
-				throw new IllegalArgumentException(JGitText.get().unsupportedCommand0);
+				throw new IllegalArgumentException(
+						JGitText.get().unsupportedCommand0);
 			}
 		}
 
 		return result;
+	}
+
+	/**
+	 * Format this delta as a human readable string.
+	 *
+	 * @param delta
+	 *            the delta instruction sequence to format.
+	 * @return the formatted delta.
+	 */
+	public static String format(byte[] delta) {
+		return format(delta, true);
+	}
+
+	/**
+	 * Format this delta as a human readable string.
+	 *
+	 * @param delta
+	 *            the delta instruction sequence to format.
+	 * @param includeHeader
+	 *            true if the header (base size and result size) should be
+	 *            included in the formatting.
+	 * @return the formatted delta.
+	 */
+	public static String format(byte[] delta, boolean includeHeader) {
+		StringBuilder r = new StringBuilder();
+		int deltaPtr = 0;
+
+		long baseLen = 0;
+		int c, shift = 0;
+		do {
+			c = delta[deltaPtr++] & 0xff;
+			baseLen |= (c & 0x7f) << shift;
+			shift += 7;
+		} while ((c & 0x80) != 0);
+
+		long resLen = 0;
+		shift = 0;
+		do {
+			c = delta[deltaPtr++] & 0xff;
+			resLen |= (c & 0x7f) << shift;
+			shift += 7;
+		} while ((c & 0x80) != 0);
+
+		if (includeHeader)
+			r.append("DELTA( BASE=" + baseLen + " RESULT=" + resLen + " )\n");
+
+		while (deltaPtr < delta.length) {
+			final int cmd = delta[deltaPtr++] & 0xff;
+			if ((cmd & 0x80) != 0) {
+				// Determine the segment of the base which should
+				// be copied into the output. The segment is given
+				// as an offset and a length.
+				//
+				int copyOffset = 0;
+				if ((cmd & 0x01) != 0)
+					copyOffset = delta[deltaPtr++] & 0xff;
+				if ((cmd & 0x02) != 0)
+					copyOffset |= (delta[deltaPtr++] & 0xff) << 8;
+				if ((cmd & 0x04) != 0)
+					copyOffset |= (delta[deltaPtr++] & 0xff) << 16;
+				if ((cmd & 0x08) != 0)
+					copyOffset |= (delta[deltaPtr++] & 0xff) << 24;
+
+				int copySize = 0;
+				if ((cmd & 0x10) != 0)
+					copySize = delta[deltaPtr++] & 0xff;
+				if ((cmd & 0x20) != 0)
+					copySize |= (delta[deltaPtr++] & 0xff) << 8;
+				if ((cmd & 0x40) != 0)
+					copySize |= (delta[deltaPtr++] & 0xff) << 16;
+				if (copySize == 0)
+					copySize = 0x10000;
+
+				r.append("  COPY  (" + copyOffset + ", " + copySize + ")\n");
+
+			} else if (cmd != 0) {
+				// Anything else the data is literal within the delta
+				// itself.
+				//
+				r.append("  INSERT(");
+				r.append(QuotedString.GIT_PATH.quote(RawParseUtils.decode(
+						delta, deltaPtr, deltaPtr + cmd)));
+				r.append(")\n");
+				deltaPtr += cmd;
+			} else {
+				// cmd == 0 has been reserved for future encoding but
+				// for now its not acceptable.
+				//
+				throw new IllegalArgumentException(
+						JGitText.get().unsupportedCommand0);
+			}
+		}
+
+		return r.toString();
 	}
 }
