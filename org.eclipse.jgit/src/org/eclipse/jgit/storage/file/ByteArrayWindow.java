@@ -70,7 +70,7 @@ final class ByteArrayWindow extends ByteWindow {
 	}
 
 	@Override
-	protected int inflate(final int pos, final Inflater inf)
+	protected int setInput(final int pos, final Inflater inf)
 			throws DataFormatException {
 		int n = array.length - pos;
 		inf.setInput(array, pos, n);
