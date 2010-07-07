@@ -49,6 +49,7 @@ import java.io.IOException;
 /**
  * A representation of a file (blob) object in a {@link Tree}.
  */
+@Deprecated
 public class FileTreeEntry extends TreeEntry {
 	private FileMode mode;
 

@@ -52,6 +52,7 @@ import java.io.IOException;
  *
  * Note. Java cannot really handle these as file system objects.
  */
+@Deprecated
 public class GitlinkTreeEntry extends TreeEntry {
 	private static final long serialVersionUID = 1L;
 

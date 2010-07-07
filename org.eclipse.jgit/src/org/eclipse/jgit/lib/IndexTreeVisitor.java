@@ -58,7 +58,10 @@ import org.eclipse.jgit.lib.GitIndex.Entry;
  *
  * A File argument is supplied to allow us to check for modifications in
  * a work tree or update the file.
+ *
+ * @deprecated Use {@link org.eclipse.jgit.treewalk.TreeWalk} instead.
  */
+@Deprecated
 public interface IndexTreeVisitor {
 	/**
 	 * Visit a blob, and corresponding tree and index entries.

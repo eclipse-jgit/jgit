@@ -49,6 +49,7 @@ import java.io.IOException;
 /**
  * Tree-ish is an interface for tree-like Git objects.
  */
+@Deprecated
 public interface Treeish {
 	/**
 	 * @return the id of this tree

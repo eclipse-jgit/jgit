@@ -56,7 +56,10 @@ import org.eclipse.jgit.util.RawParseUtils;
 
 /**
  * A representation of a Git tree entry. A Tree is a directory in Git.
+ *
+ * @deprecated Use {@link org.eclipse.jgit.treewalk.TreeWalk} instead.
  */
+@Deprecated
 public class Tree extends TreeEntry implements Treeish {
 	private static final TreeEntry[] EMPTY_TREE = {};
 
