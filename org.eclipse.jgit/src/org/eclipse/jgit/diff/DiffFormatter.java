@@ -48,18 +48,23 @@ import static org.eclipse.jgit.lib.Constants.encode;
 import static org.eclipse.jgit.lib.Constants.encodeASCII;
 import static org.eclipse.jgit.lib.FileMode.GITLINK;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
 
 import org.eclipse.jgit.JGitText;
+import org.eclipse.jgit.errors.CorruptObjectException;
+import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.patch.FileHeader;
+import org.eclipse.jgit.patch.HunkHeader;
 import org.eclipse.jgit.util.QuotedString;
+import org.eclipse.jgit.util.io.DisabledOutputStream;
 
 /**
  * Format an {@link EditList} as a Git style unified patch script.
@@ -185,87 +190,10 @@ public class DiffFormatter {
 	 *             be written to.
 	 */
 	public void format(DiffEntry ent) throws IOException {
-		String oldName = quotePath("a/" + ent.getOldName());
-		String newName = quotePath("b/" + ent.getNewName());
-		out.write(encode("diff --git " + oldName + " " + newName + "\n"));
-
-		switch (ent.getChangeType()) {
-		case ADD:
-			out.write(encodeASCII("new file mode "));
-			ent.getNewMode().copyTo(out);
-			out.write('\n');
-			break;
-
-		case DELETE:
-			out.write(encodeASCII("deleted file mode "));
-			ent.getOldMode().copyTo(out);
-			out.write('\n');
-			break;
-
-		case RENAME:
-			out.write(encodeASCII("similarity index " + ent.getScore() + "%"));
-			out.write('\n');
-
-			out.write(encode("rename from " + quotePath(ent.getOldName())));
-			out.write('\n');
-
-			out.write(encode("rename to " + quotePath(ent.getNewName())));
-			out.write('\n');
-			break;
-
-		case COPY:
-			out.write(encodeASCII("similarity index " + ent.getScore() + "%"));
-			out.write('\n');
-
-			out.write(encode("copy from " + quotePath(ent.getOldName())));
-			out.write('\n');
-
-			out.write(encode("copy to " + quotePath(ent.getNewName())));
-			out.write('\n');
-
-			if (!ent.getOldMode().equals(ent.getNewMode())) {
-				out.write(encodeASCII("new file mode "));
-				ent.getNewMode().copyTo(out);
-				out.write('\n');
-			}
-			break;
-		}
-
-		switch (ent.getChangeType()) {
-		case RENAME:
-		case MODIFY:
-			if (!ent.getOldMode().equals(ent.getNewMode())) {
-				out.write(encodeASCII("old mode "));
-				ent.getOldMode().copyTo(out);
-				out.write('\n');
-
-				out.write(encodeASCII("new mode "));
-				ent.getNewMode().copyTo(out);
-				out.write('\n');
-			}
-		}
-
-		out.write(encodeASCII("index " //
-				+ format(ent.getOldId()) //
-				+ ".." //
-				+ format(ent.getNewId())));
-		if (ent.getOldMode().equals(ent.getNewMode())) {
-			out.write(' ');
-			ent.getNewMode().copyTo(out);
-		}
-		out.write('\n');
-		out.write(encode("--- " + oldName + '\n'));
-		out.write(encode("+++ " + newName + '\n'));
+		writeDiffHeader(out, ent);
 
 		if (ent.getOldMode() == GITLINK || ent.getNewMode() == GITLINK) {
-			if (ent.getOldMode() == GITLINK) {
-				out.write(encodeASCII("-Subproject commit "
-						+ ent.getOldId().name() + "\n"));
-			}
-			if (ent.getNewMode() == GITLINK) {
-				out.write(encodeASCII("+Subproject commit "
-						+ ent.getNewId().name() + "\n"));
-			}
+			writeGitLinkDiffText(out, ent);
 		} else {
 			byte[] aRaw = open(ent.getOldMode(), ent.getOldId());
 			byte[] bRaw = open(ent.getNewMode(), ent.getNewId());
@@ -279,6 +207,93 @@ public class DiffFormatter {
 				formatEdits(a, b, new MyersDiff(a, b).getEdits());
 			}
 		}
+	}
+
+	private void writeGitLinkDiffText(OutputStream o, DiffEntry ent)
+			throws IOException {
+		if (ent.getOldMode() == GITLINK) {
+			o.write(encodeASCII("-Subproject commit " + ent.getOldId().name()
+					+ "\n"));
+		}
+		if (ent.getNewMode() == GITLINK) {
+			o.write(encodeASCII("+Subproject commit " + ent.getNewId().name()
+					+ "\n"));
+		}
+	}
+
+	private void writeDiffHeader(OutputStream o, DiffEntry ent)
+			throws IOException {
+		String oldName = quotePath("a/" + ent.getOldName());
+		String newName = quotePath("b/" + ent.getNewName());
+		o.write(encode("diff --git " + oldName + " " + newName + "\n"));
+
+		switch (ent.getChangeType()) {
+		case ADD:
+			o.write(encodeASCII("new file mode "));
+			ent.getNewMode().copyTo(o);
+			o.write('\n');
+			break;
+
+		case DELETE:
+			o.write(encodeASCII("deleted file mode "));
+			ent.getOldMode().copyTo(o);
+			o.write('\n');
+			break;
+
+		case RENAME:
+			o.write(encodeASCII("similarity index " + ent.getScore() + "%"));
+			o.write('\n');
+
+			o.write(encode("rename from " + quotePath(ent.getOldName())));
+			o.write('\n');
+
+			o.write(encode("rename to " + quotePath(ent.getNewName())));
+			o.write('\n');
+			break;
+
+		case COPY:
+			o.write(encodeASCII("similarity index " + ent.getScore() + "%"));
+			o.write('\n');
+
+			o.write(encode("copy from " + quotePath(ent.getOldName())));
+			o.write('\n');
+
+			o.write(encode("copy to " + quotePath(ent.getNewName())));
+			o.write('\n');
+
+			if (!ent.getOldMode().equals(ent.getNewMode())) {
+				o.write(encodeASCII("new file mode "));
+				ent.getNewMode().copyTo(o);
+				o.write('\n');
+			}
+			break;
+		}
+
+		switch (ent.getChangeType()) {
+		case RENAME:
+		case MODIFY:
+			if (!ent.getOldMode().equals(ent.getNewMode())) {
+				o.write(encodeASCII("old mode "));
+				ent.getOldMode().copyTo(o);
+				o.write('\n');
+
+				o.write(encodeASCII("new mode "));
+				ent.getNewMode().copyTo(o);
+				o.write('\n');
+			}
+		}
+
+		o.write(encodeASCII("index " //
+				+ format(ent.getOldId()) //
+				+ ".." //
+				+ format(ent.getNewId())));
+		if (ent.getOldMode().equals(ent.getNewMode())) {
+			o.write(' ');
+			ent.getNewMode().copyTo(o);
+		}
+		o.write('\n');
+		o.write(encode("--- " + oldName + '\n'));
+		o.write(encode("+++ " + newName + '\n'));
 	}
 
 	private String format(AbbreviatedObjectId oldId) {
@@ -511,6 +526,55 @@ public class DiffFormatter {
 		out.write(prefix);
 		text.writeLine(out, cur);
 		out.write('\n');
+	}
+
+	/**
+	 * Creates a {@link FileHeader} representing the given {@link DiffEntry}
+	 * <p>
+	 * This method does not use the OutputStream associated with this
+	 * DiffFormatter instance. It is therefore safe to instantiate this
+	 * DiffFormatter instance with a {@link DisabledOutputStream} if this method
+	 * is the only one that will be used.
+	 *
+	 * @param ent
+	 *            the DiffEntry to create the FileHeader for
+	 * @return a FileHeader representing the DiffEntry. The FileHeader's buffer
+	 *         will contain only the header of the diff output. It will also
+	 *         contain one {@link HunkHeader}.
+	 * @throws IOException
+	 *             the stream threw an exception while writing to it, or one of
+	 *             the blobs referenced by the DiffEntry could not be read.
+	 * @throws CorruptObjectException
+	 *             one of the blobs referenced by the DiffEntry is corrupt.
+	 * @throws MissingObjectException
+	 *             one of the blobs referenced by the DiffEntry is missing.
+	 */
+	public FileHeader createFileHeader(DiffEntry ent) throws IOException,
+			CorruptObjectException, MissingObjectException {
+		ByteArrayOutputStream buf = new ByteArrayOutputStream();
+		final EditList editList;
+
+		writeDiffHeader(buf, ent);
+
+		if (ent.getOldMode() == GITLINK || ent.getNewMode() == GITLINK) {
+			writeGitLinkDiffText(buf, ent);
+			editList = new EditList();
+		} else {
+			byte[] aRaw = open(ent.getOldMode(), ent.getOldId());
+			byte[] bRaw = open(ent.getNewMode(), ent.getNewId());
+
+			if (RawText.isBinary(aRaw) || RawText.isBinary(bRaw)) {
+				buf.write(encodeASCII("Binary files differ\n"));
+				editList = new EditList();
+			} else {
+				RawText a = rawTextFactory.create(aRaw);
+				RawText b = rawTextFactory.create(bRaw);
+				editList = new MyersDiff(a, b).getEdits();
+			}
+		}
+
+		buf.flush();
+		return new FileHeader(buf.toByteArray(), editList);
 	}
 
 	private int findCombinedEnd(final List<Edit> edits, final int i) {
