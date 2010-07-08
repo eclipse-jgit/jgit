@@ -60,7 +60,7 @@ import org.eclipse.jgit.util.TemporaryBuffer;
 
 /** A parsed collection of {@link FileHeader}s from a unified diff patch file */
 public class Patch {
-	private static final byte[] DIFF_GIT = encodeASCII("diff --git ");
+	static final byte[] DIFF_GIT = encodeASCII("diff --git ");
 
 	private static final byte[] DIFF_CC = encodeASCII("diff --cc ");
 

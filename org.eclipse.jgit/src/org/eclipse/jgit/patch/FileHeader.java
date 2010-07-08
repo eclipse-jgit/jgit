@@ -134,6 +134,21 @@ public class FileHeader extends DiffEntry {
 	/** If {@link #patchType} is {@link PatchType#GIT_BINARY}, the old image */
 	BinaryHunk reverseBinaryHunk;
 
+	/**
+	 * Constructs a new FileHeader
+	 *
+	 * @param headerLines
+	 *            buffer holding the diff header for this file
+	 * @param edits
+	 *            the edits for this file
+	 */
+	public FileHeader(final byte[] headerLines, EditList edits) {
+		this(headerLines, 0);
+		int ptr = parseGitFileName(Patch.DIFF_GIT.length, headerLines.length);
+		ptr = parseGitHeaders(ptr, headerLines.length);
+		addHunk(new HunkHeader(this, edits));
+	}
+
 	FileHeader(final byte[] b, final int offset) {
 		buf = b;
 		startOffset = offset;
