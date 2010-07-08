@@ -165,6 +165,10 @@ public class WorkDirCheckout {
 	private void checkoutOutIndexNoHead() throws IOException {
 		new IndexTreeWalker(index, merge, root, new AbstractIndexTreeVisitor() {
 			public void visitEntry(TreeEntry m, Entry i, File f) throws IOException {
+				// TODO remove this once we support submodules
+				if (f.getName().equals(".gitmodules"))
+					throw new UnsupportedOperationException(
+							JGitText.get().submodulesNotSupported);
 				if (m == null) {
 					index.remove(root, f);
 					return;
