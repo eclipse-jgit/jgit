@@ -38,7 +38,7 @@
 package org.eclipse.jgit.api;
 
 /**
- * Exception thrown when the options given to a command doesn't include a
+ * Exception thrown when the options given to a command don't include a
  * specification of a message text (e.g. a commit was called without explicitly
  * specifying a commit message (or other options telling where to take the
  * message from.
