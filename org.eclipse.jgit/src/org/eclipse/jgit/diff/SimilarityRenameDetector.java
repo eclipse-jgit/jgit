@@ -260,7 +260,10 @@ class SimilarityRenameDetector {
 				}
 
 				SimilarityIndex d = hash(dstEnt.newId.toObjectId());
-				int score = s.score(d);
+				int contentScore = s.score(d);
+				int nameScore = nameScore(srcEnt.oldName, dstEnt.newName);
+
+				int score = (contentScore * 90 + nameScore * 10) / 100;
 
 				if (score < renameScore) {
 					pm.update(1);
@@ -278,6 +281,46 @@ class SimilarityRenameDetector {
 		//
 		Arrays.sort(matrix, 0, mNext);
 		return mNext;
+	}
+
+	private int nameScore(String a, String b) {
+	    int aDirLen = a.lastIndexOf("/") + 1;
+	    int bDirLen = b.lastIndexOf("/") + 1;
+
+	    int dirMin = Math.min(aDirLen, bDirLen);
+	    int dirMax = Math.max(aDirLen, bDirLen);
+
+	    final int dirScoreLtr;
+	    final int dirScoreRtl;
+
+	    if (dirMax == 0) {
+	      dirScoreLtr = 100;
+	      dirScoreRtl = 100;
+	    } else {
+	      int dirSim = 0;
+	      for (; dirSim < dirMin; dirSim++) {
+	        if (a.charAt(dirSim) != b.charAt(dirSim)) break;
+	      }
+	      dirScoreLtr = (dirSim * 100) / dirMax;
+
+	      for (dirSim = 0; dirSim < dirMin; dirSim++) {
+	        if (a.charAt(aDirLen - 1 - dirSim) != b.charAt(bDirLen - 1 - dirSim)) break;
+	      }
+	      dirScoreRtl = (dirSim * 100) / dirMax;
+	    }
+
+	    int fileMin = Math.min(a.length() - aDirLen, b.length() - bDirLen);
+	    int fileMax = Math.max(a.length() - aDirLen, b.length() - bDirLen);
+
+	    int fileSim = 0;
+	    for (; fileSim < fileMin; fileSim++) {
+	      if (a.charAt(a.length() - 1 - fileSim) != b.charAt(b.length() - 1 - fileSim)) break;
+	    }
+	    int fileScore = (fileSim * 100) / fileMax;
+
+	    int nameScore = (((dirScoreLtr + dirScoreRtl) * 25) + (fileScore * 50)) / 100;
+
+	    return nameScore;
 	}
 
 	private SimilarityIndex hash(ObjectId objectId) throws IOException {
