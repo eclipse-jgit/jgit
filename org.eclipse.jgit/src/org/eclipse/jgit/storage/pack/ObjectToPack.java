@@ -199,7 +199,14 @@ public class ObjectToPack extends PackedObjectInfo {
 		flags |= REUSE_AS_IS;
 	}
 
-	void clearReuseAsIs() {
+	/**
+	 * Forget the reuse information previously stored.
+	 * <p>
+	 * Implementations may subclass this method, but they must also invoke the
+	 * super version with {@code super.clearReuseAsIs()} to ensure the flag is
+	 * properly cleared for the writer.
+	 */
+	protected void clearReuseAsIs() {
 		flags &= ~REUSE_AS_IS;
 	}
 
