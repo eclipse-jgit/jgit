@@ -48,11 +48,14 @@ import static org.eclipse.jgit.storage.pack.StoredObjectRepresentation.PACK_DELT
 import static org.eclipse.jgit.storage.pack.StoredObjectRepresentation.PACK_WHOLE;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.security.MessageDigest;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.zip.Deflater;
@@ -61,6 +64,7 @@ import java.util.zip.DeflaterOutputStream;
 import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
+import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.StoredObjectRepresentationNotAvailableException;
 import org.eclipse.jgit.lib.AnyObjectId;
@@ -78,6 +82,8 @@ import org.eclipse.jgit.revwalk.RevFlag;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevSort;
 import org.eclipse.jgit.storage.file.PackIndexWriter;
+import org.eclipse.jgit.util.IO;
+import org.eclipse.jgit.util.TemporaryBuffer;
 
 /**
  * <p>
@@ -716,6 +722,8 @@ public class PackWriter {
 
 		if ((reuseDeltas || reuseObjects) && reuseSupport != null)
 			searchForReuse();
+		if (deltaCompress)
+			searchForDeltas(compressMonitor);
 
 		final PackOutputStream out = new PackOutputStream(writeMonitor,
 				packStream, this);
@@ -743,6 +751,103 @@ public class PackWriter {
 			for (ObjectToPack otp : list)
 				reuseSupport.selectObjectRepresentation(this, otp);
 		}
+	}
+
+	private void searchForDeltas(ProgressMonitor monitor)
+			throws MissingObjectException, IncorrectObjectTypeException,
+			IOException {
+		// Commits and annotated tags tend to have too many differences to
+		// really benefit from delta compression. Consequently just don't
+		// bother examining those types here.
+		//
+		ObjectToPack[] list = new ObjectToPack[
+				  objectsLists[Constants.OBJ_TREE].size()
+				+ objectsLists[Constants.OBJ_BLOB].size()
+				+ edgeObjects.size()];
+		int cnt = 0;
+		cnt = findObjectsNeedingDelta(list, cnt, Constants.OBJ_TREE);
+		cnt = findObjectsNeedingDelta(list, cnt, Constants.OBJ_BLOB);
+		if (cnt == 0)
+			return;
+
+		// Queue up any edge objects that we might delta against.  We won't
+		// be sending these as we assume the other side has them, but we need
+		// them in the search phase below.
+		//
+		for (ObjectToPack eo : edgeObjects) {
+			try {
+				if (loadSize(eo))
+					list[cnt++] = eo;
+			} catch (IOException notAvailable) {
+				// Skip this object. Since we aren't going to write it out
+				// the only consequence of it being unavailable to us is we
+				// may produce a larger data stream than we could have.
+				//
+				if (!ignoreMissingUninteresting)
+					throw notAvailable;
+			}
+		}
+
+		monitor.beginTask(COMPRESSING_OBJECTS_PROGRESS, cnt);
+
+		// Sort the objects by path hash so like files are near each other,
+		// and then by size descending so that bigger files are first. This
+		// applies "Linus' Law" which states that newer files tend to be the
+		// bigger ones, because source files grow and hardly ever shrink.
+		//
+		Arrays.sort(list, 0, cnt, new Comparator<ObjectToPack>() {
+			public int compare(ObjectToPack a, ObjectToPack b) {
+				int cmp = a.getType() - b.getType();
+				if (cmp == 0)
+					cmp = (a.getPathHash() >>> 1) - (b.getPathHash() >>> 1);
+				if (cmp == 0)
+					cmp = (a.getPathHash() & 1) - (b.getPathHash() & 1);
+				if (cmp == 0)
+					cmp = b.getWeight() - a.getWeight();
+				return cmp;
+			}
+		});
+		searchForDeltas(monitor, list, cnt);
+		monitor.endTask();
+	}
+
+	private int findObjectsNeedingDelta(ObjectToPack[] list, int cnt, int type)
+			throws MissingObjectException, IncorrectObjectTypeException,
+			IOException {
+		for (ObjectToPack otp : objectsLists[type]) {
+			if (otp.isDoNotDelta()) // delta is disabled for this path
+				continue;
+			if (otp.isDeltaRepresentation()) // already reusing a delta
+				continue;
+			if (loadSize(otp))
+				list[cnt++] = otp;
+		}
+		return cnt;
+	}
+
+	private boolean loadSize(ObjectToPack e) throws MissingObjectException,
+			IncorrectObjectTypeException, IOException {
+		long sz = reader.getObjectSize(e, e.getType());
+
+		// If its too big for us to handle, skip over it.
+		//
+		if (bigFileThreshold <= sz || Integer.MAX_VALUE <= sz)
+			return false;
+
+		// If its too tiny for the delta compression to work, skip it.
+		//
+		if (sz <= DeltaIndex.BLKSZ)
+			return false;
+
+		e.setWeight((int) sz);
+		return true;
+	}
+
+	private void searchForDeltas(ProgressMonitor monitor,
+			ObjectToPack[] list, int cnt) throws MissingObjectException,
+			IncorrectObjectTypeException, LargeObjectException, IOException {
+		DeltaWindow dw = new DeltaWindow(this, reader);
+		dw.search(monitor, list, 0, cnt);
 	}
 
 	private void writeObjects(ProgressMonitor writeMonitor, PackOutputStream out)
@@ -793,7 +898,10 @@ public class PackWriter {
 
 		// If we reached here, reuse wasn't possible.
 		//
-		writeWholeObjectDeflate(out, otp);
+		if (otp.isDeltaRepresentation())
+			writeDeltaObjectDeflate(out, otp);
+		else
+			writeWholeObjectDeflate(out, otp);
 		out.endObject();
 		otp.setCRC(out.getCRC32());
 	}
@@ -843,6 +951,70 @@ public class PackWriter {
 		DeflaterOutputStream dst = new DeflaterOutputStream(out, deflater);
 		ldr.copyTo(dst);
 		dst.finish();
+	}
+
+	private void writeDeltaObjectDeflate(PackOutputStream out,
+			final ObjectToPack otp) throws IOException {
+		TemporaryBuffer.Heap delta = delta(otp);
+		out.writeHeader(otp, delta.length());
+
+		Deflater deflater = deflater();
+		deflater.reset();
+		DeflaterOutputStream dst = new DeflaterOutputStream(out, deflater);
+		delta.writeTo(dst, null);
+		dst.finish();
+	}
+
+	private TemporaryBuffer.Heap delta(final ObjectToPack otp)
+			throws IOException {
+		DeltaIndex index = new DeltaIndex(buffer(reader, otp.getDeltaBaseId()));
+		byte[] res = buffer(reader, otp);
+
+		// We never would have proposed this pair if the delta would be
+		// larger than the unpacked version of the object. So using it
+		// as our buffer limit is valid: we will never reach it.
+		//
+		TemporaryBuffer.Heap delta = new TemporaryBuffer.Heap(res.length);
+		index.encode(delta, res);
+		return delta;
+	}
+
+	byte[] buffer(ObjectReader or, AnyObjectId objId) throws IOException {
+		ObjectLoader ldr = or.open(objId);
+		if (!ldr.isLarge())
+			return ldr.getCachedBytes();
+
+		// PackWriter should have already pruned objects that
+		// are above the big file threshold, so our chances of
+		// the object being below it are very good. We really
+		// shouldn't be here, unless the implementation is odd.
+
+		// If it really is too big to work with, abort out now.
+		//
+		long sz = ldr.getSize();
+		if (getBigFileThreshold() <= sz || Integer.MAX_VALUE < sz)
+			throw new LargeObjectException(objId.copy());
+
+		// Its considered to be large by the loader, but we really
+		// want it in byte array format. Try to make it happen.
+		//
+		byte[] buf;
+		try {
+			buf = new byte[(int) sz];
+		} catch (OutOfMemoryError noMemory) {
+			LargeObjectException e;
+
+			e = new LargeObjectException(objId.copy());
+			e.initCause(noMemory);
+			throw e;
+		}
+		InputStream in = ldr.openStream();
+		try {
+			IO.readFully(in, buf, 0, buf.length);
+		} finally {
+			in.close();
+		}
+		return buf;
 	}
 
 	private Deflater deflater() {
