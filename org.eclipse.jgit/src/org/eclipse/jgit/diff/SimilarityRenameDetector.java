@@ -205,6 +205,14 @@ class SimilarityRenameDetector {
 		//
 		matrix = new long[srcs.size() * dsts.size()];
 
+		long[] srcSizes = new long[srcs.size()];
+		long[] dstSizes = new long[dsts.size()];
+
+		// Init the size arrays to some value that indicates that we haven't
+		// calculated the size yet. Since sizes cannot be negative, -1 will work
+		Arrays.fill(srcSizes, -1);
+		Arrays.fill(dstSizes, -1);
+
 		// Consider each pair of files, if the score is above the minimum
 		// threshold we need record that scoring in the matrix so we can
 		// later find the best matches.
@@ -227,6 +235,26 @@ class SimilarityRenameDetector {
 				}
 
 				if (!RenameDetector.sameType(srcEnt.oldMode, dstEnt.newMode)) {
+					pm.update(1);
+					continue;
+				}
+
+				long srcSize = srcSizes[srcIdx];
+				if (srcSize < 0) {
+					srcSize = size(srcEnt.oldId.toObjectId());
+					srcSizes[srcIdx] = srcSize;
+				}
+
+				long dstSize = dstSizes[dstIdx];
+				if (dstSize < 0) {
+					dstSize = size(dstEnt.newId.toObjectId());
+					dstSizes[dstIdx] = dstSize;
+				}
+
+				long max = Math.max(srcSize, dstSize);
+				long min = Math.min(srcSize, dstSize);
+				if ((max * renameScore) / 100 > min) {
+					// Cannot possibly match, as the file sizes are so different
 					pm.update(1);
 					continue;
 				}
@@ -257,6 +285,10 @@ class SimilarityRenameDetector {
 		r.hash(repo.openObject(objectId));
 		r.sort();
 		return r;
+	}
+
+	private long size(ObjectId objectId) throws IOException {
+		return repo.openObject(objectId).getSize();
 	}
 
 	private static int score(long value) {
