@@ -179,14 +179,7 @@ public class ObjectToPack extends PackedObjectInfo {
 		return flags >>> DELTA_SHIFT;
 	}
 
-	void updateDeltaDepth() {
-		final int d;
-		if (deltaBase instanceof ObjectToPack)
-			d = ((ObjectToPack) deltaBase).getDeltaDepth() + 1;
-		else if (deltaBase != null)
-			d = 1;
-		else
-			d = 0;
+	void setDeltaDepth(int d) {
 		flags = (d << DELTA_SHIFT) | (flags & NON_DELTA_MASK);
 	}
 
