@@ -65,12 +65,15 @@ class PackConfig {
 
 	final int indexVersion;
 
+	final long bigFileThreshold;
+
 	private PackConfig(Config rc) {
 		deltaWindow = rc.getInt("pack", "window", PackWriter.DEFAULT_DELTA_SEARCH_WINDOW_SIZE);
 		deltaWindowMemory = rc.getLong("pack", null, "windowmemory", 0);
 		deltaDepth = rc.getInt("pack", "depth", PackWriter.DEFAULT_MAX_DELTA_DEPTH);
 		compression = compression(rc);
 		indexVersion = rc.getInt("pack", "indexversion", 2);
+		bigFileThreshold = rc.getLong("core", null, "bigfilethreshold", PackWriter.DEFAULT_BIG_FILE_THRESHOLD);
 	}
 
 	private static int compression(Config rc) {

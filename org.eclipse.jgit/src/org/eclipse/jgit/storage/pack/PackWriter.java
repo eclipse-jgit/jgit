@@ -172,6 +172,8 @@ public class PackWriter {
 	 */
 	public static final int DEFAULT_DELTA_SEARCH_WINDOW_SIZE = 10;
 
+	static final long DEFAULT_BIG_FILE_THRESHOLD = 50 * 1024 * 1024;
+
 	private static final int PACK_VERSION_GENERATED = 2;
 
 	@SuppressWarnings("unchecked")
@@ -215,6 +217,8 @@ public class PackWriter {
 	private int deltaSearchWindowSize = DEFAULT_DELTA_SEARCH_WINDOW_SIZE;
 
 	private int indexVersion;
+
+	private long bigFileThreshold = DEFAULT_BIG_FILE_THRESHOLD;
 
 	private boolean thin;
 
@@ -269,6 +273,7 @@ public class PackWriter {
 		maxDeltaDepth = pc.deltaDepth;
 		compressionLevel = pc.compression;
 		indexVersion = pc.indexVersion;
+		bigFileThreshold = pc.bigFileThreshold;
 	}
 
 	private static Config configOf(final Repository repo) {
@@ -453,6 +458,29 @@ public class PackWriter {
 			setDeltaCompress(false);
 		else
 			deltaSearchWindowSize = objectCount;
+	}
+
+	/**
+	 * Get the maximum file size that will be delta compressed.
+	 * <p>
+	 * Files bigger than this setting will not be delta compressed, as they are
+	 * more than likely already highly compressed binary data files that do not
+	 * delta compress well, such as MPEG videos.
+	 *
+	 * @return the configured big file threshold.
+	 */
+	public long getBigFileThreshold() {
+		return bigFileThreshold;
+	}
+
+	/**
+	 * Set the maximum file size that should be considered for deltas.
+	 *
+	 * @param bigFileThreshold
+	 *            the limit, in bytes.
+	 */
+	public void setBigFileThreshold(long bigFileThreshold) {
+		this.bigFileThreshold = bigFileThreshold;
 	}
 
 	/** @return true if this writer is producing a thin pack. */
