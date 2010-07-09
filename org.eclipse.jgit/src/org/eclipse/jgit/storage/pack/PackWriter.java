@@ -718,7 +718,7 @@ public class PackWriter {
 			searchForReuse();
 
 		final PackOutputStream out = new PackOutputStream(writeMonitor,
-				packStream, isDeltaBaseAsOffset());
+				packStream, this);
 
 		writeMonitor.beginTask(WRITING_OBJECTS_PROGRESS, getObjectsNumber());
 		out.writeFileHeader(PACK_VERSION_GENERATED, getObjectsNumber());

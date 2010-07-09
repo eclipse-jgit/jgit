@@ -71,11 +71,25 @@ public final class PackOutputStream extends OutputStream {
 
 	private byte[] copyBuffer;
 
-	PackOutputStream(final ProgressMonitor writeMonitor,
-			final OutputStream out, final boolean ofsDelta) {
+	/**
+	 * Initialize a pack output stream.
+	 * <p>
+	 * This constructor is exposed to support debugging the JGit library only.
+	 * Application or storage level code should not create a PackOutputStream,
+	 * instead use {@link PackWriter}, and let the writer create the stream.
+	 *
+	 * @param writeMonitor
+	 *            monitor to update on object output progress.
+	 * @param out
+	 *            target stream to receive all object contents.
+	 * @param pw
+	 *            packer that is going to perform the output.
+	 */
+	public PackOutputStream(final ProgressMonitor writeMonitor,
+			final OutputStream out, final PackWriter pw) {
 		this.writeMonitor = writeMonitor;
 		this.out = out;
-		this.ofsDelta = ofsDelta;
+		this.ofsDelta = pw.isDeltaBaseAsOffset();
 	}
 
 	@Override
