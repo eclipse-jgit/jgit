@@ -911,6 +911,7 @@ public class PackWriter {
 			case Constants.OBJ_BLOB:
 				ObjectToPack otp = new ObjectToPack(object);
 				otp.setPathHash(pathHashCode);
+				otp.setDoNotDelta(true);
 				edgeObjects.add(otp);
 				thin = true;
 				break;

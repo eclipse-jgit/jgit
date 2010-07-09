@@ -61,6 +61,8 @@ public class ObjectToPack extends PackedObjectInfo {
 
 	private static final int REUSE_AS_IS = 1 << 1;
 
+	private static final int DO_NOT_DELTA = 1 << 2;
+
 	private static final int TYPE_SHIFT = 5;
 
 	private static final int DELTA_SHIFT = 8;
@@ -75,7 +77,8 @@ public class ObjectToPack extends PackedObjectInfo {
 	 * <ul>
 	 * <li>1 bit: wantWrite</li>
 	 * <li>1 bit: canReuseAsIs</li>
-	 * <li>3 bits: unused</li>
+	 * <li>1 bit: doNotDelta</li>
+	 * <li>2 bits: unused</li>
 	 * <li>3 bits: type</li>
 	 * <li>--</li>
 	 * <li>24 bits: deltaDepth</li>
@@ -205,6 +208,17 @@ public class ObjectToPack extends PackedObjectInfo {
 
 	void clearReuseAsIs() {
 		flags &= ~REUSE_AS_IS;
+	}
+
+	boolean isDoNotDelta() {
+		return (flags & DO_NOT_DELTA) != 0;
+	}
+
+	void setDoNotDelta(boolean noDelta) {
+		if (noDelta)
+			flags |= DO_NOT_DELTA;
+		else
+			flags &= ~DO_NOT_DELTA;
 	}
 
 	int getFormat() {
