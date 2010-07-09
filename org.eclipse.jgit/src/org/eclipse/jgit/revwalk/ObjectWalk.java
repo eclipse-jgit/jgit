@@ -384,6 +384,18 @@ public class ObjectWalk extends RevWalk {
 		return last != null ? treeWalk.getEntryPathString() : null;
 	}
 
+	/**
+	 * Get the current object's path hash code.
+	 * <p>
+	 * This method computes a hash code on the fly for this path, the hash is
+	 * suitable to cluster objects that may have similar paths together.
+	 *
+	 * @return path hash code; any integer may be returned.
+	 */
+	public int getPathHashCode() {
+		return last != null ? treeWalk.getEntryPathHashCode() : 0;
+	}
+
 	@Override
 	public void dispose() {
 		super.dispose();

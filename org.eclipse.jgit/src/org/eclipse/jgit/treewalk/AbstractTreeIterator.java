@@ -403,6 +403,24 @@ public abstract class AbstractTreeIterator {
 	}
 
 	/**
+	 * Get the current entry's path hash code.
+	 * <p>
+	 * This method computes a hash code on the fly for this path, the hash is
+	 * suitable to cluster objects that may have similar paths together.
+	 *
+	 * @return path hash code; any integer may be returned.
+	 */
+	public int getEntryPathHashCode() {
+		int hash = 0;
+		for (int i = Math.max(0, pathLen - 16); i < pathLen; i++) {
+			byte c = path[i];
+			if (c != ' ')
+				hash = (hash >>> 2) + (c << 24);
+		}
+		return hash;
+	}
+
+	/**
 	 * Get the byte array buffer object IDs must be copied out of.
 	 * <p>
 	 * The id buffer contains the bytes necessary to construct an ObjectId for
