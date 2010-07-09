@@ -109,7 +109,7 @@ public class UnpackedObject {
 
 			if (isStandardFormat(hdr)) {
 				in.reset();
-				Inflater inf =  wc.inflater();
+				Inflater inf = wc.inflater();
 				InputStream zIn = inflate(in, inf);
 				int avail = readSome(zIn, hdr, 0, 64);
 				if (avail < 5)
@@ -176,6 +176,50 @@ public class UnpackedObject {
 					return new ObjectLoader.SmallObject(type, data);
 				}
 				return new LargeObject(type, size, path, id, wc.db);
+			}
+		} catch (ZipException badStream) {
+			throw new CorruptObjectException(id,
+					JGitText.get().corruptObjectBadStream);
+		}
+	}
+
+	static long getSize(InputStream in, AnyObjectId id, WindowCursor wc)
+			throws IOException {
+		try {
+			in = buffer(in);
+			in.mark(20);
+			final byte[] hdr = new byte[64];
+			IO.readFully(in, hdr, 0, 2);
+
+			if (isStandardFormat(hdr)) {
+				in.reset();
+				Inflater inf = wc.inflater();
+				InputStream zIn = inflate(in, inf);
+				int avail = readSome(zIn, hdr, 0, 64);
+				if (avail < 5)
+					throw new CorruptObjectException(id,
+							JGitText.get().corruptObjectNoHeader);
+
+				final MutableInteger p = new MutableInteger();
+				Constants.decodeTypeString(id, hdr, (byte) ' ', p);
+				long size = RawParseUtils.parseLongBase10(hdr, p.value, p);
+				if (size < 0)
+					throw new CorruptObjectException(id,
+							JGitText.get().corruptObjectNegativeSize);
+				return size;
+
+			} else {
+				readSome(in, hdr, 2, 18);
+				int c = hdr[0] & 0xff;
+				long size = c & 15;
+				int shift = 4;
+				int p = 1;
+				while ((c & 0x80) != 0) {
+					c = hdr[p++] & 0xff;
+					size += (c & 0x7f) << shift;
+					shift += 7;
+				}
+				return size;
 			}
 		} catch (ZipException badStream) {
 			throw new CorruptObjectException(id,

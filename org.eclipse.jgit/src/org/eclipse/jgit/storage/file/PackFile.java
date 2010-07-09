@@ -779,6 +779,59 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 		}
 	}
 
+	long getObjectSize(final WindowCursor curs, final AnyObjectId id)
+			throws IOException {
+		final long offset = idx().findOffset(id);
+		return 0 < offset ? getObjectSize(curs, offset) : -1;
+	}
+
+	long getObjectSize(final WindowCursor curs, final long pos)
+			throws IOException {
+		final byte[] ib = curs.tempId;
+		readFully(pos, ib, 0, 20, curs);
+		int c = ib[0] & 0xff;
+		final int type = (c >> 4) & 7;
+		long sz = c & 15;
+		int shift = 4;
+		int p = 1;
+		while ((c & 0x80) != 0) {
+			c = ib[p++] & 0xff;
+			sz += (c & 0x7f) << shift;
+			shift += 7;
+		}
+
+		long deltaAt;
+		switch (type) {
+		case Constants.OBJ_COMMIT:
+		case Constants.OBJ_TREE:
+		case Constants.OBJ_BLOB:
+		case Constants.OBJ_TAG:
+			return sz;
+
+		case Constants.OBJ_OFS_DELTA:
+			c = ib[p++] & 0xff;
+			while ((c & 128) != 0)
+				c = ib[p++] & 0xff;
+			deltaAt = pos + p;
+			break;
+
+		case Constants.OBJ_REF_DELTA:
+			deltaAt = pos + p + 20;
+			break;
+
+		default:
+			throw new IOException(MessageFormat.format(
+					JGitText.get().unknownObjectType, type));
+		}
+
+		try {
+			return BinaryDelta.getResultSize(getDeltaHeader(curs, deltaAt));
+		} catch (DataFormatException e) {
+			throw new CorruptObjectException(MessageFormat.format(JGitText
+					.get().objectAtHasBadZlibStream, pos, getPackFile()));
+		}
+	}
+
 	LocalObjectRepresentation representation(final WindowCursor curs,
 			final AnyObjectId objectId) throws IOException {
 		final long pos = idx().findOffset(objectId);

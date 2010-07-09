@@ -95,6 +95,18 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 		return ldr;
 	}
 
+	public long getObjectSize(AnyObjectId objectId, int typeHint)
+			throws MissingObjectException, IncorrectObjectTypeException,
+			IOException {
+		long sz = db.getObjectSize(this, objectId);
+		if (sz < 0) {
+			if (typeHint == OBJ_ANY)
+				throw new MissingObjectException(objectId.copy(), "unknown");
+			throw new MissingObjectException(objectId.copy(), typeHint);
+		}
+		return sz;
+	}
+
 	public LocalObjectToPack newObjectToPack(RevObject obj) {
 		return new LocalObjectToPack(obj);
 	}

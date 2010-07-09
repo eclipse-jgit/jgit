@@ -136,6 +136,34 @@ public abstract class ObjectReader {
 			IOException;
 
 	/**
+	 * Get only the size of an object.
+	 * <p>
+	 * The default implementation of this method opens an ObjectLoader.
+	 * Databases are encouraged to override this if a faster access method is
+	 * available to them.
+	 *
+	 * @param objectId
+	 *            identity of the object to open.
+	 * @param typeHint
+	 *            hint about the type of object being requested;
+	 *            {@link #OBJ_ANY} if the object type is not known, or does not
+	 *            matter to the caller.
+	 * @return size of object in bytes.
+	 * @throws MissingObjectException
+	 *             the object does not exist.
+	 * @throws IncorrectObjectTypeException
+	 *             typeHint was not OBJ_ANY, and the object's actual type does
+	 *             not match typeHint.
+	 * @throws IOException
+	 *             the object store cannot be accessed.
+	 */
+	public long getObjectSize(AnyObjectId objectId, int typeHint)
+			throws MissingObjectException, IncorrectObjectTypeException,
+			IOException {
+		return open(objectId, typeHint).getSize();
+	}
+
+	/**
 	 * Release any resources used by this reader.
 	 * <p>
 	 * A reader that has been released can be used again, but may need to be

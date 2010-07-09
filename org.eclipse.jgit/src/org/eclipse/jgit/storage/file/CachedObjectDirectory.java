@@ -187,6 +187,20 @@ class CachedObjectDirectory extends FileObjectDatabase {
 	}
 
 	@Override
+	long getObjectSize1(WindowCursor curs, AnyObjectId objectId) throws IOException {
+		if (unpackedObjects.contains(objectId))
+			return wrapped.getObjectSize2(curs, objectId.name(), objectId);
+		return wrapped.getObjectSize1(curs, objectId);
+	}
+
+	@Override
+	long getObjectSize2(WindowCursor curs, String objectName, AnyObjectId objectId)
+			throws IOException {
+		// This method should never be invoked.
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
 	void selectObjectRepresentation(PackWriter packer, ObjectToPack otp,
 			WindowCursor curs) throws IOException {
 		wrapped.selectObjectRepresentation(packer, otp, curs);

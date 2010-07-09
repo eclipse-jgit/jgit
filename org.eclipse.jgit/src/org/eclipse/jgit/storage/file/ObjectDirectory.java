@@ -304,6 +304,46 @@ public class ObjectDirectory extends FileObjectDatabase implements
 		}
 	}
 
+	long getObjectSize1(final WindowCursor curs, final AnyObjectId objectId)
+			throws IOException {
+		PackList pList = packList.get();
+		SEARCH: for (;;) {
+			for (final PackFile p : pList.packs) {
+				try {
+					long sz = p.getObjectSize(curs, objectId);
+					if (0 <= sz)
+						return sz;
+				} catch (PackMismatchException e) {
+					// Pack was modified; refresh the entire pack list.
+					//
+					pList = scanPacks(pList);
+					continue SEARCH;
+				} catch (IOException e) {
+					// Assume the pack is corrupted.
+					//
+					removePack(p);
+				}
+			}
+			return -1;
+		}
+	}
+
+	@Override
+	long getObjectSize2(WindowCursor curs, String objectName,
+			AnyObjectId objectId) throws IOException {
+		try {
+			File path = fileFor(objectName);
+			FileInputStream in = new FileInputStream(path);
+			try {
+				return UnpackedObject.getSize(in, objectId, curs);
+			} finally {
+				in.close();
+			}
+		} catch (FileNotFoundException noFile) {
+			return -1;
+		}
+	}
+
 	@Override
 	void selectObjectRepresentation(PackWriter packer, ObjectToPack otp,
 			WindowCursor curs) throws IOException {

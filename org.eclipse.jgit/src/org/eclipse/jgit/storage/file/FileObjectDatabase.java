@@ -166,6 +166,55 @@ abstract class FileObjectDatabase extends ObjectDatabase {
 		return null;
 	}
 
+	long getObjectSize(WindowCursor curs, AnyObjectId objectId)
+			throws IOException {
+		long sz = getObjectSizeImpl1(curs, objectId);
+		if (0 <= sz)
+			return sz;
+		return getObjectSizeImpl2(curs, objectId.name(), objectId);
+	}
+
+	final long getObjectSizeImpl1(final WindowCursor curs,
+			final AnyObjectId objectId) throws IOException {
+		long sz;
+
+		sz = getObjectSize1(curs, objectId);
+		if (0 <= sz)
+			return sz;
+
+		for (final AlternateHandle alt : myAlternates()) {
+			sz = alt.db.getObjectSizeImpl1(curs, objectId);
+			if (0 <= sz)
+				return sz;
+		}
+
+		if (tryAgain1()) {
+			sz = getObjectSize1(curs, objectId);
+			if (0 <= sz)
+				return sz;
+		}
+
+		return -1;
+	}
+
+	final long getObjectSizeImpl2(final WindowCursor curs,
+			final String objectName, final AnyObjectId objectId)
+			throws IOException {
+		long sz;
+
+		sz = getObjectSize2(curs, objectName, objectId);
+		if (0 <= sz)
+			return sz;
+
+		for (final AlternateHandle alt : myAlternates()) {
+			sz = alt.db.getObjectSizeImpl2(curs, objectName, objectId);
+			if (0 <= sz)
+				return sz;
+		}
+
+		return -1;
+	}
+
 	abstract void selectObjectRepresentation(PackWriter packer,
 			ObjectToPack otp, WindowCursor curs) throws IOException;
 
@@ -183,6 +232,12 @@ abstract class FileObjectDatabase extends ObjectDatabase {
 			throws IOException;
 
 	abstract ObjectLoader openObject2(WindowCursor curs, String objectName,
+			AnyObjectId objectId) throws IOException;
+
+	abstract long getObjectSize1(WindowCursor curs, AnyObjectId objectId)
+			throws IOException;
+
+	abstract long getObjectSize2(WindowCursor curs, String objectName,
 			AnyObjectId objectId) throws IOException;
 
 	abstract FileObjectDatabase newCachedFileObjectDatabase();
