@@ -122,12 +122,11 @@ public class PackWriter {
 	public static final String COUNTING_OBJECTS_PROGRESS = JGitText.get().countingObjects;
 
 	/**
-	 * Title of {@link ProgressMonitor} task used during searching for objects
-	 * reuse or delta reuse.
+	 * Title of {@link ProgressMonitor} task used during compression.
 	 *
 	 * @see #writePack(ProgressMonitor, ProgressMonitor, OutputStream)
 	 */
-	public static final String SEARCHING_REUSE_PROGRESS = JGitText.get().compressingObjects;
+	public static final String COMPRESSING_OBJECTS_PROGRESS = JGitText.get().compressingObjects;
 
 	/**
 	 * Title of {@link ProgressMonitor} task used during writing out pack
@@ -686,7 +685,7 @@ public class PackWriter {
 	 * <p>
 	 * At first, this method collects and sorts objects to pack, then deltas
 	 * search is performed if set up accordingly, finally pack stream is
-	 * written. {@link ProgressMonitor} tasks {@value #SEARCHING_REUSE_PROGRESS}
+	 * written. {@link ProgressMonitor} tasks {@value #COMPRESSING_OBJECTS_PROGRESS}
 	 * (only if reuseDeltas or reuseObjects is enabled) and
 	 * {@value #WRITING_OBJECTS_PROGRESS} are updated during packing.
 	 * </p>
@@ -716,7 +715,7 @@ public class PackWriter {
 			writeMonitor = NullProgressMonitor.INSTANCE;
 
 		if ((reuseDeltas || reuseObjects) && reuseSupport != null)
-			searchForReuse(compressMonitor);
+			searchForReuse();
 
 		final PackOutputStream out = new PackOutputStream(writeMonitor,
 				packStream, isDeltaBaseAsOffset());
@@ -739,19 +738,11 @@ public class PackWriter {
 		}
 	}
 
-	private void searchForReuse(ProgressMonitor compressMonitor)
-			throws IOException {
-		compressMonitor.beginTask(SEARCHING_REUSE_PROGRESS, getObjectsNumber());
+	private void searchForReuse() throws IOException {
 		for (List<ObjectToPack> list : objectsLists) {
-			for (ObjectToPack otp : list) {
-				if (compressMonitor.isCancelled())
-					throw new IOException(
-							JGitText.get().packingCancelledDuringObjectsWriting);
+			for (ObjectToPack otp : list)
 				reuseSupport.selectObjectRepresentation(this, otp);
-				compressMonitor.update(1);
-			}
 		}
-		compressMonitor.endTask();
 	}
 
 	private void writeObjects(ProgressMonitor writeMonitor, PackOutputStream out)
