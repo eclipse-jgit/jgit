@@ -181,7 +181,7 @@ public class PackWriter {
 	private final ObjectIdSubclassMap<ObjectToPack> objectsMap = new ObjectIdSubclassMap<ObjectToPack>();
 
 	// edge objects for thin packs
-	private final ObjectIdSubclassMap<ObjectId> edgeObjects = new ObjectIdSubclassMap<ObjectId>();
+	private final ObjectIdSubclassMap<ObjectToPack> edgeObjects = new ObjectIdSubclassMap<ObjectToPack>();
 
 	private int compressionLevel;
 
@@ -813,11 +813,11 @@ public class PackWriter {
 		RevObject o;
 
 		while ((o = walker.next()) != null) {
-			addObject(o);
+			addObject(o, 0);
 			countingMonitor.update(1);
 		}
 		while ((o = walker.nextObject()) != null) {
-			addObject(o);
+			addObject(o, walker.getPathHashCode());
 			countingMonitor.update(1);
 		}
 		countingMonitor.endTask();
@@ -837,9 +837,21 @@ public class PackWriter {
 	 */
 	public void addObject(final RevObject object)
 			throws IncorrectObjectTypeException {
+		addObject(object, 0);
+	}
+
+	private void addObject(final RevObject object, final int pathHashCode)
+			throws IncorrectObjectTypeException {
 		if (object.has(RevFlag.UNINTERESTING)) {
-			edgeObjects.add(object);
-			thin = true;
+			switch (object.getType()) {
+			case Constants.OBJ_TREE:
+			case Constants.OBJ_BLOB:
+				ObjectToPack otp = new ObjectToPack(object);
+				otp.setPathHash(pathHashCode);
+				edgeObjects.add(otp);
+				thin = true;
+				break;
+			}
 			return;
 		}
 
@@ -848,6 +860,8 @@ public class PackWriter {
 			otp = reuseSupport.newObjectToPack(object);
 		else
 			otp = new ObjectToPack(object);
+		otp.setPathHash(pathHashCode);
+
 		try {
 			objectsLists[object.getType()].add(otp);
 		} catch (ArrayIndexOutOfBoundsException x) {

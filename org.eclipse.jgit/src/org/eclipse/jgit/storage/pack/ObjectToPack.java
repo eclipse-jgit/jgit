@@ -83,6 +83,9 @@ public class ObjectToPack extends PackedObjectInfo {
 	 */
 	private int flags;
 
+	/** Hash of the object's tree path. */
+	private int pathHash;
+
 	/**
 	 * Construct for the specified object id.
 	 *
@@ -220,6 +223,14 @@ public class ObjectToPack extends PackedObjectInfo {
 
 	void setWeight(int weight) {
 		setCRC(weight);
+	}
+
+	int getPathHash() {
+		return pathHash;
+	}
+
+	void setPathHash(int hc) {
+		pathHash = hc;
 	}
 
 	/**
