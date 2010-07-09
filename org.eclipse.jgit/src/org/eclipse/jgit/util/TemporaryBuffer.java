@@ -126,7 +126,7 @@ public abstract class TemporaryBuffer extends OutputStream {
 					blocks.add(s);
 				}
 
-				final int n = Math.min(Block.SZ - s.count, len);
+				final int n = Math.min(s.buffer.length - s.count, len);
 				System.arraycopy(b, off, s.buffer, s.count, n);
 				s.count += n;
 				len -= n;
@@ -171,7 +171,7 @@ public abstract class TemporaryBuffer extends OutputStream {
 					blocks.add(s);
 				}
 
-				final int n = in.read(s.buffer, s.count, Block.SZ - s.count);
+				int n = in.read(s.buffer, s.count, s.buffer.length - s.count);
 				if (n < 1)
 					return;
 				s.count += n;
@@ -192,8 +192,12 @@ public abstract class TemporaryBuffer extends OutputStream {
 	 * @return total length of the buffer, in bytes.
 	 */
 	public long length() {
+		return inCoreLength();
+	}
+
+	private long inCoreLength() {
 		final Block last = last();
-		return ((long) blocks.size()) * Block.SZ - (Block.SZ - last.count);
+		return ((long) blocks.size() - 1) * Block.SZ + last.count;
 	}
 
 	/**
@@ -251,8 +255,13 @@ public abstract class TemporaryBuffer extends OutputStream {
 		if (overflow != null) {
 			destroy();
 		}
-		blocks = new ArrayList<Block>(inCoreLimit / Block.SZ);
-		blocks.add(new Block());
+		if (inCoreLimit < Block.SZ) {
+			blocks = new ArrayList<Block>(1);
+			blocks.add(new Block(inCoreLimit));
+		} else {
+			blocks = new ArrayList<Block>(inCoreLimit / Block.SZ);
+			blocks.add(new Block());
+		}
 	}
 
 	/**
@@ -270,7 +279,7 @@ public abstract class TemporaryBuffer extends OutputStream {
 	}
 
 	private boolean reachedInCoreLimit() throws IOException {
-		if (blocks.size() * Block.SZ < inCoreLimit)
+		if (inCoreLength() < inCoreLimit)
 			return false;
 
 		switchToOverflow();
@@ -444,12 +453,20 @@ public abstract class TemporaryBuffer extends OutputStream {
 	static class Block {
 		static final int SZ = 8 * 1024;
 
-		final byte[] buffer = new byte[SZ];
+		final byte[] buffer;
 
 		int count;
 
+		Block() {
+			buffer = new byte[SZ];
+		}
+
+		Block(int sz) {
+			buffer = new byte[sz];
+		}
+
 		boolean isFull() {
-			return count == SZ;
+			return count == buffer.length;
 		}
 	}
 }

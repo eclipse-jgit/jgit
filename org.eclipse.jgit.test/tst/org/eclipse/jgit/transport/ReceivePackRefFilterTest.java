@@ -255,7 +255,7 @@ public class ReceivePackRefFilterTest extends LocalDiskRepositoryTestCase {
 	}
 
 	public void testUsingHiddenDeltaBaseFails() throws Exception {
-		final TemporaryBuffer.Heap pack = new TemporaryBuffer.Heap(64);
+		final TemporaryBuffer.Heap pack = new TemporaryBuffer.Heap(1024);
 		packHeader(pack, 1);
 		pack.write((Constants.OBJ_REF_DELTA) << 4 | 4);
 		b.copyRawTo(pack);
@@ -297,13 +297,13 @@ public class ReceivePackRefFilterTest extends LocalDiskRepositoryTestCase {
 
 		// But don't include it in the pack.
 		//
-		final TemporaryBuffer.Heap pack = new TemporaryBuffer.Heap(64);
+		final TemporaryBuffer.Heap pack = new TemporaryBuffer.Heap(1024);
 		packHeader(pack, 2);
 		copy(pack, src.open(N));
 		copy(pack,src.open(s.parseBody(N).getTree()));
 		digest(pack);
 
-		final TemporaryBuffer.Heap inBuf = new TemporaryBuffer.Heap(256);
+		final TemporaryBuffer.Heap inBuf = new TemporaryBuffer.Heap(1024);
 		final PacketLineOut inPckLine = new PacketLineOut(inBuf);
 		inPckLine.writeString(ObjectId.zeroId().name() + ' ' + N.name() + ' '
 				+ "refs/heads/s" + '\0'
@@ -339,13 +339,13 @@ public class ReceivePackRefFilterTest extends LocalDiskRepositoryTestCase {
 
 		// But don't include it in the pack.
 		//
-		final TemporaryBuffer.Heap pack = new TemporaryBuffer.Heap(64);
+		final TemporaryBuffer.Heap pack = new TemporaryBuffer.Heap(1024);
 		packHeader(pack, 2);
 		copy(pack, src.open(N));
 		copy(pack,src.open(s.parseBody(N).getTree()));
 		digest(pack);
 
-		final TemporaryBuffer.Heap inBuf = new TemporaryBuffer.Heap(256);
+		final TemporaryBuffer.Heap inBuf = new TemporaryBuffer.Heap(1024);
 		final PacketLineOut inPckLine = new PacketLineOut(inBuf);
 		inPckLine.writeString(ObjectId.zeroId().name() + ' ' + N.name() + ' '
 				+ "refs/heads/s" + '\0'
@@ -379,12 +379,12 @@ public class ReceivePackRefFilterTest extends LocalDiskRepositoryTestCase {
 
 		// Don't include the tree in the pack.
 		//
-		final TemporaryBuffer.Heap pack = new TemporaryBuffer.Heap(64);
+		final TemporaryBuffer.Heap pack = new TemporaryBuffer.Heap(1024);
 		packHeader(pack, 1);
 		copy(pack, src.open(N));
 		digest(pack);
 
-		final TemporaryBuffer.Heap inBuf = new TemporaryBuffer.Heap(256);
+		final TemporaryBuffer.Heap inBuf = new TemporaryBuffer.Heap(1024);
 		final PacketLineOut inPckLine = new PacketLineOut(inBuf);
 		inPckLine.writeString(ObjectId.zeroId().name() + ' ' + N.name() + ' '
 				+ "refs/heads/s" + '\0'
