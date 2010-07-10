@@ -43,51 +43,44 @@
 
 package org.eclipse.jgit.storage.pack;
 
-import static java.util.zip.Deflater.DEFAULT_COMPRESSION;
-import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.Config.SectionParser;
+import java.util.concurrent.locks.ReentrantLock;
 
-class PackConfig {
-	/** Key for {@link Config#get(SectionParser)}. */
-	static final Config.SectionParser<PackConfig> KEY = new SectionParser<PackConfig>() {
-		public PackConfig parse(final Config cfg) {
-			return new PackConfig(cfg);
-		}
-	};
+class ThreadSafeDeltaCache extends DeltaCache {
+	private final ReentrantLock lock;
 
-	final int deltaWindow;
-
-	final long deltaWindowMemory;
-
-	final int deltaDepth;
-
-	final long deltaCacheSize;
-
-	final int deltaCacheLimit;
-
-	final int compression;
-
-	final int indexVersion;
-
-	final long bigFileThreshold;
-
-	final int threads;
-
-	private PackConfig(Config rc) {
-		deltaWindow = rc.getInt("pack", "window", PackWriter.DEFAULT_DELTA_SEARCH_WINDOW_SIZE);
-		deltaWindowMemory = rc.getLong("pack", null, "windowmemory", 0);
-		deltaCacheSize = rc.getLong("pack", null, "deltacachesize", PackWriter.DEFAULT_DELTA_CACHE_SIZE);
-		deltaCacheLimit = rc.getInt("pack", "deltacachelimit", PackWriter.DEFAULT_DELTA_CACHE_LIMIT);
-		deltaDepth = rc.getInt("pack", "depth", PackWriter.DEFAULT_MAX_DELTA_DEPTH);
-		compression = compression(rc);
-		indexVersion = rc.getInt("pack", "indexversion", 2);
-		bigFileThreshold = rc.getLong("core", null, "bigfilethreshold", PackWriter.DEFAULT_BIG_FILE_THRESHOLD);
-		threads = rc.getInt("pack", "threads", 0);
+	ThreadSafeDeltaCache(PackWriter pw) {
+		super(pw);
+		lock = new ReentrantLock();
 	}
 
-	private static int compression(Config rc) {
-		if (rc.getString("pack", null, "compression") != null)
-			return rc.getInt("pack", "compression", DEFAULT_COMPRESSION);
-		return rc.getInt("core", "compression", DEFAULT_COMPRESSION);
+	@Override
+	boolean canCache(int length, ObjectToPack src, ObjectToPack res) {
+		lock.lock();
+		try {
+			return super.canCache(length, src, res);
+		} finally {
+			lock.unlock();
+		}
+	}
+
+	@Override
+	void credit(int reservedSize) {
+		lock.lock();
+		try {
+			super.credit(reservedSize);
+		} finally {
+			lock.unlock();
+		}
+	}
+
+	@Override
+	Ref cache(byte[] data, int actLen, int reservedSize) {
+		data = resize(data, actLen);
+		lock.lock();
+		try {
+			return super.cache(data, actLen, reservedSize);
+		} finally {
+			lock.unlock();
+		}
 	}
 }

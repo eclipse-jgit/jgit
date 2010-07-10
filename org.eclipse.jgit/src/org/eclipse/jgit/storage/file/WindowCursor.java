@@ -77,6 +77,11 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 		this.db = db;
 	}
 
+	@Override
+	public ObjectReader newReader() {
+		return new WindowCursor(db);
+	}
+
 	public boolean has(AnyObjectId objectId) throws IOException {
 		return db.has(objectId);
 	}

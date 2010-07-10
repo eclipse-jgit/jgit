@@ -41,53 +41,71 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.eclipse.jgit.storage.pack;
+package org.eclipse.jgit.lib;
 
-import static java.util.zip.Deflater.DEFAULT_COMPRESSION;
-import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.Config.SectionParser;
+import java.util.concurrent.locks.ReentrantLock;
 
-class PackConfig {
-	/** Key for {@link Config#get(SectionParser)}. */
-	static final Config.SectionParser<PackConfig> KEY = new SectionParser<PackConfig>() {
-		public PackConfig parse(final Config cfg) {
-			return new PackConfig(cfg);
-		}
-	};
+/**
+ * Wrapper around the general {@link ProgressMonitor} to make it thread safe.
+ */
+public class ThreadSafeProgressMonitor implements ProgressMonitor {
+	private final ProgressMonitor pm;
 
-	final int deltaWindow;
+	private final ReentrantLock lock;
 
-	final long deltaWindowMemory;
-
-	final int deltaDepth;
-
-	final long deltaCacheSize;
-
-	final int deltaCacheLimit;
-
-	final int compression;
-
-	final int indexVersion;
-
-	final long bigFileThreshold;
-
-	final int threads;
-
-	private PackConfig(Config rc) {
-		deltaWindow = rc.getInt("pack", "window", PackWriter.DEFAULT_DELTA_SEARCH_WINDOW_SIZE);
-		deltaWindowMemory = rc.getLong("pack", null, "windowmemory", 0);
-		deltaCacheSize = rc.getLong("pack", null, "deltacachesize", PackWriter.DEFAULT_DELTA_CACHE_SIZE);
-		deltaCacheLimit = rc.getInt("pack", "deltacachelimit", PackWriter.DEFAULT_DELTA_CACHE_LIMIT);
-		deltaDepth = rc.getInt("pack", "depth", PackWriter.DEFAULT_MAX_DELTA_DEPTH);
-		compression = compression(rc);
-		indexVersion = rc.getInt("pack", "indexversion", 2);
-		bigFileThreshold = rc.getLong("core", null, "bigfilethreshold", PackWriter.DEFAULT_BIG_FILE_THRESHOLD);
-		threads = rc.getInt("pack", "threads", 0);
+	/**
+	 * Wrap a ProgressMonitor to be thread safe.
+	 *
+	 * @param pm
+	 *            the underlying monitor to receive events.
+	 */
+	public ThreadSafeProgressMonitor(ProgressMonitor pm) {
+		this.pm = pm;
+		this.lock = new ReentrantLock();
 	}
 
-	private static int compression(Config rc) {
-		if (rc.getString("pack", null, "compression") != null)
-			return rc.getInt("pack", "compression", DEFAULT_COMPRESSION);
-		return rc.getInt("core", "compression", DEFAULT_COMPRESSION);
+	public void start(int totalTasks) {
+		lock.lock();
+		try {
+			pm.start(totalTasks);
+		} finally {
+			lock.unlock();
+		}
+	}
+
+	public void beginTask(String title, int totalWork) {
+		lock.lock();
+		try {
+			pm.beginTask(title, totalWork);
+		} finally {
+			lock.unlock();
+		}
+	}
+
+	public void update(int completed) {
+		lock.lock();
+		try {
+			pm.update(completed);
+		} finally {
+			lock.unlock();
+		}
+	}
+
+	public boolean isCancelled() {
+		lock.lock();
+		try {
+			return pm.isCancelled();
+		} finally {
+			lock.unlock();
+		}
+	}
+
+	public void endTask() {
+		lock.lock();
+		try {
+			pm.endTask();
+		} finally {
+			lock.unlock();
+		}
 	}
 }

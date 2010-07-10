@@ -60,6 +60,16 @@ public abstract class ObjectReader {
 	protected static final int OBJ_ANY = -1;
 
 	/**
+	 * Construct a new reader from the same data.
+	 * <p>
+	 * Applications can use this method to build a new reader from the same data
+	 * source, but for an different thread.
+	 *
+	 * @return a brand new reader, using the same data source.
+	 */
+	public abstract ObjectReader newReader();
+
+	/**
 	 * Does the requested object exist in this database?
 	 *
 	 * @param objectId

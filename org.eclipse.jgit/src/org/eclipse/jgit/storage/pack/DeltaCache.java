@@ -95,11 +95,7 @@ class DeltaCache {
 		// The caller may have had to allocate more space than is
 		// required. If we are about to waste anything, shrink it.
 		//
-		if (data.length != actLen) {
-			byte[] nbuf = new byte[actLen];
-			System.arraycopy(data, 0, nbuf, 0, actLen);
-			data = nbuf;
-		}
+		data = resize(data, actLen);
 
 		// When we reserved space for this item we did it for the
 		// inflated size of the delta, but we were just given the
@@ -110,6 +106,15 @@ class DeltaCache {
 			used += data.length;
 		}
 		return new Ref(data, queue);
+	}
+
+	byte[] resize(byte[] data, int actLen) {
+		if (data.length != actLen) {
+			byte[] nbuf = new byte[actLen];
+			System.arraycopy(data, 0, nbuf, 0, actLen);
+			data = nbuf;
+		}
+		return data;
 	}
 
 	private void checkForGarbageCollectedObjects() {

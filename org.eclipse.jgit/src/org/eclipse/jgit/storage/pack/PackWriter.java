@@ -58,6 +58,9 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.zip.Deflater;
 import java.util.zip.DeflaterOutputStream;
 
@@ -77,6 +80,7 @@ import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.ThreadSafeProgressMonitor;
 import org.eclipse.jgit.revwalk.ObjectWalk;
 import org.eclipse.jgit.revwalk.RevFlag;
 import org.eclipse.jgit.revwalk.RevObject;
@@ -233,6 +237,8 @@ public class PackWriter {
 
 	private long bigFileThreshold = DEFAULT_BIG_FILE_THRESHOLD;
 
+	private int threads = 1;
+
 	private boolean thin;
 
 	private boolean ignoreMissingUninteresting = true;
@@ -289,6 +295,7 @@ public class PackWriter {
 		compressionLevel = pc.compression;
 		indexVersion = pc.indexVersion;
 		bigFileThreshold = pc.bigFileThreshold;
+		threads = pc.threads;
 	}
 
 	private static Config configOf(final Repository repo) {
@@ -452,6 +459,9 @@ public class PackWriter {
 
 	/**
 	 * Get the number of objects to try when looking for a delta base.
+	 * <p>
+	 * This limit is per thread, if 4 threads are used the actual memory
+	 * used will be 4 times this value.
 	 *
 	 * @return the object count to be searched.
 	 */
@@ -477,6 +487,8 @@ public class PackWriter {
 
 	/**
 	 * Get the size of the in-memory delta cache.
+	 * <p>
+	 * This limit is for the entire writer, even if multiple threads are used.
 	 *
 	 * @return maximum number of bytes worth of delta data to cache in memory.
 	 *         If 0 the cache is infinite in size (up to the JVM heap limit
@@ -568,6 +580,26 @@ public class PackWriter {
 	 */
 	public void setCompressionLevel(int level) {
 		compressionLevel = level;
+	}
+
+	/** @return number of threads used for delta compression. */
+	public int getThreads() {
+		return threads;
+	}
+
+	/**
+	 * Set the number of threads to use for delta compression.
+	 * <p>
+	 * During delta compression, if there are enough objects to be considered
+	 * the writer will start up concurrent threads and allow them to compress
+	 * different sections of the repository concurrently.
+	 *
+	 * @param threads
+	 *            number of threads to use. If <= 0 the number of available
+	 *            processors for this JVM is used.
+	 */
+	public void setThread(int threads) {
+		this.threads = threads;
 	}
 
 	/** @return true if this writer is producing a thin pack. */
@@ -925,12 +957,107 @@ public class PackWriter {
 		return true;
 	}
 
-	private void searchForDeltas(ProgressMonitor monitor,
-			ObjectToPack[] list, int cnt) throws MissingObjectException,
-			IncorrectObjectTypeException, LargeObjectException, IOException {
-		DeltaCache dc = new DeltaCache(this);
-		DeltaWindow dw = new DeltaWindow(this, dc, reader);
-		dw.search(monitor, list, 0, cnt);
+	private void searchForDeltas(final ProgressMonitor monitor,
+			final ObjectToPack[] list, final int cnt)
+			throws MissingObjectException, IncorrectObjectTypeException,
+			LargeObjectException, IOException {
+		if (threads == 0)
+			threads = Runtime.getRuntime().availableProcessors();
+
+		if (threads <= 1 || cnt <= 2 * getDeltaSearchWindowSize()) {
+			DeltaCache dc = new DeltaCache(this);
+			DeltaWindow dw = new DeltaWindow(this, dc, reader);
+			dw.search(monitor, list, 0, cnt);
+			return;
+		}
+
+		final List<Throwable> errors = Collections
+				.synchronizedList(new ArrayList<Throwable>());
+		final DeltaCache dc = new ThreadSafeDeltaCache(this);
+		final ProgressMonitor pm = new ThreadSafeProgressMonitor(monitor);
+		final ExecutorService pool = Executors.newFixedThreadPool(threads);
+
+		// Guess at the size of batch we want. Because we don't really
+		// have a way for a thread to steal work from another thread if
+		// it ends early, we over partition slightly so the work units
+		// are a bit smaller.
+		//
+		int estSize = cnt / (threads * 2);
+		if (estSize < 2 * getDeltaSearchWindowSize())
+			estSize = 2 * getDeltaSearchWindowSize();
+
+		for (int i = 0; i < cnt;) {
+			final int start = i;
+			final int batchSize;
+
+			if (cnt - i < estSize) {
+				// If we don't have enough to fill the remaining block,
+				// schedule what is left over as a single block.
+				//
+				batchSize = cnt - i;
+			} else {
+				// Try to split the block at the end of a path.
+				//
+				int end = start + estSize;
+				while (end < cnt) {
+					ObjectToPack a = list[end - 1];
+					ObjectToPack b = list[end];
+					if (a.getPathHash() == b.getPathHash())
+						end++;
+					else
+						break;
+				}
+				batchSize = end - start;
+			}
+			i += batchSize;
+
+			pool.submit(new Runnable() {
+				public void run() {
+					try {
+						final ObjectReader or = reader.newReader();
+						try {
+							DeltaWindow dw;
+							dw = new DeltaWindow(PackWriter.this, dc, or);
+							dw.search(pm, list, start, batchSize);
+						} finally {
+							or.release();
+						}
+					} catch (Throwable err) {
+						errors.add(err);
+					}
+				}
+			});
+		}
+
+		// Tell the pool to stop.
+		//
+		pool.shutdown();
+		for (;;) {
+			try {
+				if (pool.awaitTermination(60, TimeUnit.SECONDS))
+					break;
+			} catch (InterruptedException e) {
+				throw new IOException(
+						JGitText.get().packingCancelledDuringObjectsWriting);
+			}
+		}
+
+		// If any thread threw an error, try to report it back as
+		// though we weren't using a threaded search algorithm.
+		//
+		if (!errors.isEmpty()) {
+			Throwable err = errors.get(0);
+			if (err instanceof Error)
+				throw (Error) err;
+			if (err instanceof RuntimeException)
+				throw (RuntimeException) err;
+			if (err instanceof IOException)
+				throw (IOException) err;
+
+			IOException fail = new IOException(err.getMessage());
+			fail.initCause(err);
+			throw fail;
+		}
 	}
 
 	private void writeObjects(ProgressMonitor writeMonitor, PackOutputStream out)
