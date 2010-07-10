@@ -144,8 +144,8 @@ public enum RepositoryState {
 		/* Do not reset, checkout instead */
 		public boolean canResetHead() { return false; }
 
-		/* Actually it may make sense, but for now we err on the side of caution */
-		public boolean canCommit() { return false; }
+		/* Commit during bisect is useful */
+		public boolean canCommit() { return true; }
 
 		public String getDescription() { return "Bisecting"; }
 	};
