@@ -90,6 +90,9 @@ public class ObjectToPack extends PackedObjectInfo {
 	/** Hash of the object's tree path. */
 	private int pathHash;
 
+	/** If present, deflated delta instruction stream for this object. */
+	private DeltaCache.Ref cachedDelta;
+
 	/**
 	 * Construct for the specified object id.
 	 *
@@ -150,8 +153,25 @@ public class ObjectToPack extends PackedObjectInfo {
 		this.deltaBase = deltaBase;
 	}
 
+	void setCachedDelta(DeltaCache.Ref data){
+		cachedDelta = data;
+	}
+
+	DeltaCache.Ref popCachedDelta() {
+		DeltaCache.Ref r = cachedDelta;
+		if (r != null)
+			cachedDelta = null;
+		return r;
+	}
+
 	void clearDeltaBase() {
 		this.deltaBase = null;
+
+		if (cachedDelta != null) {
+			cachedDelta.clear();
+			cachedDelta.enqueue();
+			cachedDelta = null;
+		}
 	}
 
 	/**
@@ -246,6 +266,14 @@ public class ObjectToPack extends PackedObjectInfo {
 
 	void setPathHash(int hc) {
 		pathHash = hc;
+	}
+
+	int getCachedSize() {
+		return pathHash;
+	}
+
+	void setCachedSize(int sz) {
+		pathHash = sz;
 	}
 
 	/**

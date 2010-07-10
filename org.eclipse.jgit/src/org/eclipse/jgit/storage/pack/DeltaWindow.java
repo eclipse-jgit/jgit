@@ -43,7 +43,10 @@
 
 package org.eclipse.jgit.storage.pack;
 
+import java.io.EOFException;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.util.zip.Deflater;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.LargeObjectException;
@@ -58,6 +61,8 @@ class DeltaWindow {
 	private static final int NEXT_SRC = 1;
 
 	private final PackWriter writer;
+
+	private final DeltaCache deltaCache;
 
 	private final ObjectReader reader;
 
@@ -87,8 +92,12 @@ class DeltaWindow {
 	/** If we have {@link #bestDelta}, the window position it was created by. */
 	private int bestSlot;
 
-	DeltaWindow(PackWriter pw, ObjectReader or) {
+	/** Used to compress cached deltas. */
+	private Deflater deflater;
+
+	DeltaWindow(PackWriter pw, DeltaCache dc, ObjectReader or) {
 		writer = pw;
+		deltaCache = dc;
 		reader = or;
 
 		// C Git increases the window size supplied by the user by 1.
@@ -111,25 +120,31 @@ class DeltaWindow {
 
 	void search(ProgressMonitor monitor, ObjectToPack[] toSearch, int off,
 			int cnt) throws IOException {
-		for (int end = off + cnt; off < end; off++) {
-			monitor.update(1);
+		try {
+			for (int end = off + cnt; off < end; off++) {
+				monitor.update(1);
 
-			res = window[resSlot];
-			res.set(toSearch[off]);
+				res = window[resSlot];
+				res.set(toSearch[off]);
 
-			if (res.object.isDoNotDelta()) {
-				// PackWriter marked edge objects with the do-not-delta flag.
-				// They are the only ones that appear in toSearch with it set,
-				// but we don't actually want to make a delta for them, just
-				// need to push them into the window so they can be read by
-				// other objects coming through.
-				//
-				keepInWindow();
-			} else {
-				// Search for a delta for the current window slot.
-				//
-				search();
+				if (res.object.isDoNotDelta()) {
+					// PackWriter marked edge objects with the
+					// do-not-delta flag. They are the only ones
+					// that appear in toSearch with it set, but
+					// we don't actually want to make a delta for
+					// them, just need to push them into the window
+					// so they can be read by other objects.
+					//
+					keepInWindow();
+				} else {
+					// Search for a delta for the current window slot.
+					//
+					search();
+				}
 			}
+		} finally {
+			if (deflater != null)
+				deflater.end();
 		}
 	}
 
@@ -184,6 +199,7 @@ class DeltaWindow {
 		}
 		resObj.setDeltaDepth(srcObj.getDeltaDepth() + 1);
 		resObj.clearReuseAsIs();
+		cacheDelta(srcObj, resObj);
 
 		// Discard the cached best result, otherwise it leaks.
 		//
@@ -273,6 +289,33 @@ class DeltaWindow {
 		}
 
 		return NEXT_SRC;
+	}
+
+	private void cacheDelta(ObjectToPack srcObj, ObjectToPack resObj) {
+		if (Integer.MAX_VALUE < bestDelta.length())
+			return;
+
+		int rawsz = (int) bestDelta.length();
+		if (deltaCache.canCache(rawsz, srcObj, resObj)) {
+			try {
+				byte[] zbuf = new byte[deflateBound(rawsz)];
+
+				ZipStream zs = new ZipStream(deflater(), zbuf);
+				bestDelta.writeTo(zs, null);
+				int len = zs.finish();
+
+				resObj.setCachedDelta(deltaCache.cache(zbuf, len, rawsz));
+				resObj.setCachedSize(rawsz);
+			} catch (IOException err) {
+				deltaCache.credit(rawsz);
+			} catch (OutOfMemoryError err) {
+				deltaCache.credit(rawsz);
+			}
+		}
+	}
+
+	private static int deflateBound(int insz) {
+		return insz + ((insz + 7) >> 3) + ((insz + 63) >> 6) + 11;
 	}
 
 	private void shuffleBaseUpInPriority() {
@@ -365,5 +408,64 @@ class DeltaWindow {
 		if (buf == null)
 			ent.buffer = buf = writer.buffer(reader, ent.object);
 		return buf;
+	}
+
+	private Deflater deflater() {
+		if (deflater == null)
+			deflater = new Deflater(writer.getCompressionLevel());
+		else
+			deflater.reset();
+		return deflater;
+	}
+
+	static final class ZipStream extends OutputStream {
+		private final Deflater deflater;
+
+		private final byte[] zbuf;
+
+		private int outPtr;
+
+		ZipStream(Deflater deflater, byte[] zbuf) {
+			this.deflater = deflater;
+			this.zbuf = zbuf;
+		}
+
+		int finish() throws IOException {
+			deflater.finish();
+			for (;;) {
+				if (outPtr == zbuf.length)
+					throw new EOFException();
+
+				int n = deflater.deflate(zbuf, outPtr, zbuf.length - outPtr);
+				if (n == 0) {
+					if (deflater.finished())
+						return outPtr;
+					throw new IOException();
+				}
+				outPtr += n;
+			}
+		}
+
+		@Override
+		public void write(byte[] b, int off, int len) throws IOException {
+			deflater.setInput(b, off, len);
+			for (;;) {
+				if (outPtr == zbuf.length)
+					throw new EOFException();
+
+				int n = deflater.deflate(zbuf, outPtr, zbuf.length - outPtr);
+				if (n == 0) {
+					if (deflater.needsInput())
+						break;
+					throw new IOException();
+				}
+				outPtr += n;
+			}
+		}
+
+		@Override
+		public void write(int b) throws IOException {
+			throw new UnsupportedOperationException();
+		}
 	}
 }

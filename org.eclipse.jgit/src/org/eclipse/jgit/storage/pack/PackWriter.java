@@ -179,6 +179,10 @@ public class PackWriter {
 
 	static final long DEFAULT_BIG_FILE_THRESHOLD = 50 * 1024 * 1024;
 
+	static final long DEFAULT_DELTA_CACHE_SIZE = 50 * 1024 * 1024;
+
+	static final int DEFAULT_DELTA_CACHE_LIMIT = 100;
+
 	private static final int PACK_VERSION_GENERATED = 2;
 
 	@SuppressWarnings("unchecked")
@@ -220,6 +224,10 @@ public class PackWriter {
 	private int maxDeltaDepth = DEFAULT_MAX_DELTA_DEPTH;
 
 	private int deltaSearchWindowSize = DEFAULT_DELTA_SEARCH_WINDOW_SIZE;
+
+	private long deltaCacheSize = DEFAULT_DELTA_CACHE_SIZE;
+
+	private int deltaCacheLimit = DEFAULT_DELTA_CACHE_LIMIT;
 
 	private int indexVersion;
 
@@ -275,6 +283,8 @@ public class PackWriter {
 
 		final PackConfig pc = configOf(repo).get(PackConfig.KEY);
 		deltaSearchWindowSize = pc.deltaWindow;
+		deltaCacheSize = pc.deltaCacheSize;
+		deltaCacheLimit = pc.deltaCacheLimit;
 		maxDeltaDepth = pc.deltaDepth;
 		compressionLevel = pc.compression;
 		indexVersion = pc.indexVersion;
@@ -466,6 +476,57 @@ public class PackWriter {
 	}
 
 	/**
+	 * Get the size of the in-memory delta cache.
+	 *
+	 * @return maximum number of bytes worth of delta data to cache in memory.
+	 *         If 0 the cache is infinite in size (up to the JVM heap limit
+	 *         anyway). A very tiny size such as 1 indicates the cache is
+	 *         effectively disabled.
+	 */
+	public long getDeltaCacheSize() {
+		return deltaCacheSize;
+	}
+
+	/**
+	 * Set the maximum number of bytes of delta data to cache.
+	 * <p>
+	 * During delta search, up to this many bytes worth of small or hard to
+	 * compute deltas will be stored in memory. This cache speeds up writing by
+	 * allowing the cached entry to simply be dumped to the output stream.
+	 *
+	 * @param size
+	 *            number of bytes to cache. Set to 0 to enable an infinite
+	 *            cache, set to 1 (an impossible size for any delta) to disable
+	 *            the cache.
+	 */
+	public void setDeltaCacheSize(long size) {
+		deltaCacheSize = size;
+	}
+
+	/**
+	 * Maximum size in bytes of a delta to cache.
+	 *
+	 * @return maximum size (in bytes) of a delta that should be cached.
+	 */
+	public int getDeltaCacheLimit() {
+		return deltaCacheLimit;
+	}
+
+	/**
+	 * Set the maximum size of a delta that should be cached.
+	 * <p>
+	 * During delta search, any delta smaller than this size will be cached, up
+	 * to the {@link #getDeltaCacheSize()} maximum limit. This speeds up writing
+	 * by allowing these cached deltas to be output as-is.
+	 *
+	 * @param size
+	 *            maximum size (in bytes) of a delta to be cached.
+	 */
+	public void setDeltaCacheLimit(int size) {
+		deltaCacheLimit = size;
+	}
+
+	/**
 	 * Get the maximum file size that will be delta compressed.
 	 * <p>
 	 * Files bigger than this setting will not be delta compressed, as they are
@@ -486,6 +547,27 @@ public class PackWriter {
 	 */
 	public void setBigFileThreshold(long bigFileThreshold) {
 		this.bigFileThreshold = bigFileThreshold;
+	}
+
+	/**
+	 * Get the compression level applied to objects in the pack.
+	 *
+	 * @return current compression level, see {@link java.util.zip.Deflater}.
+	 */
+	public int getCompressionLevel() {
+		return compressionLevel;
+	}
+
+	/**
+	 * Set the compression level applied to objects in the pack.
+	 *
+	 * @param level
+	 *            compression level, must be a valid level recognized by the
+	 *            {@link java.util.zip.Deflater} class. Typically this setting
+	 *            is {@link java.util.zip.Deflater#BEST_SPEED}.
+	 */
+	public void setCompressionLevel(int level) {
+		compressionLevel = level;
 	}
 
 	/** @return true if this writer is producing a thin pack. */
@@ -846,7 +928,8 @@ public class PackWriter {
 	private void searchForDeltas(ProgressMonitor monitor,
 			ObjectToPack[] list, int cnt) throws MissingObjectException,
 			IncorrectObjectTypeException, LargeObjectException, IOException {
-		DeltaWindow dw = new DeltaWindow(this, reader);
+		DeltaCache dc = new DeltaCache(this);
+		DeltaWindow dw = new DeltaWindow(this, dc, reader);
 		dw.search(monitor, list, 0, cnt);
 	}
 
@@ -955,6 +1038,16 @@ public class PackWriter {
 
 	private void writeDeltaObjectDeflate(PackOutputStream out,
 			final ObjectToPack otp) throws IOException {
+		DeltaCache.Ref ref = otp.popCachedDelta();
+		if (ref != null) {
+			byte[] zbuf = ref.get();
+			if (zbuf != null) {
+				out.writeHeader(otp, otp.getCachedSize());
+				out.write(zbuf);
+				return;
+			}
+		}
+
 		TemporaryBuffer.Heap delta = delta(otp);
 		out.writeHeader(otp, delta.length());
 
