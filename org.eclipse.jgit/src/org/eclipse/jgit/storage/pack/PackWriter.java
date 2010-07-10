@@ -66,7 +66,6 @@ import org.eclipse.jgit.errors.StoredObjectRepresentationNotAvailableException;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.CoreConfig;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdSubclassMap;
@@ -166,6 +165,13 @@ public class PackWriter {
 	 */
 	public static final int DEFAULT_MAX_DELTA_DEPTH = 50;
 
+	/**
+	 * Default window size during packing.
+	 *
+	 * @see #setDeltaSearchWindowSize(int)
+	 */
+	public static final int DEFAULT_DELTA_SEARCH_WINDOW_SIZE = 10;
+
 	private static final int PACK_VERSION_GENERATED = 2;
 
 	@SuppressWarnings("unchecked")
@@ -202,9 +208,13 @@ public class PackWriter {
 
 	private boolean deltaBaseAsOffset = DEFAULT_DELTA_BASE_AS_OFFSET;
 
+	private boolean deltaCompress = true;
+
 	private int maxDeltaDepth = DEFAULT_MAX_DELTA_DEPTH;
 
-	private int outputVersion;
+	private int deltaSearchWindowSize = DEFAULT_DELTA_SEARCH_WINDOW_SIZE;
+
+	private int indexVersion;
 
 	private boolean thin;
 
@@ -254,9 +264,11 @@ public class PackWriter {
 		else
 			reuseSupport = null;
 
-		final CoreConfig coreConfig = configOf(repo).get(CoreConfig.KEY);
-		compressionLevel = coreConfig.getCompression();
-		outputVersion = coreConfig.getPackIndexVersion();
+		final PackConfig pc = configOf(repo).get(PackConfig.KEY);
+		deltaSearchWindowSize = pc.deltaWindow;
+		maxDeltaDepth = pc.deltaDepth;
+		compressionLevel = pc.compression;
+		indexVersion = pc.indexVersion;
 	}
 
 	private static Config configOf(final Repository repo) {
@@ -365,6 +377,32 @@ public class PackWriter {
 	}
 
 	/**
+	 * Check whether the writer will create new deltas on the fly.
+	 * <p>
+	 * Default setting: true
+	 * </p>
+	 *
+	 * @return true if the writer will create a new delta when either
+	 *         {@link #isReuseDeltas()} is false, or no suitable delta is
+	 *         available for reuse.
+	 */
+	public boolean isDeltaCompress() {
+		return deltaCompress;
+	}
+
+	/**
+	 * Set whether or not the writer will create new deltas on the fly.
+	 *
+	 * @param deltaCompress
+	 *            true to create deltas when {@link #isReuseDeltas()} is false,
+	 *            or when a suitable delta isn't available for reuse. Set to
+	 *            false to write whole objects instead.
+	 */
+	public void setDeltaCompress(boolean deltaCompress) {
+		this.deltaCompress = deltaCompress;
+	}
+
+	/**
 	 * Get maximum depth of delta chain set up for this writer. Generated chains
 	 * are not longer than this value.
 	 * <p>
@@ -390,6 +428,31 @@ public class PackWriter {
 	 */
 	public void setMaxDeltaDepth(int maxDeltaDepth) {
 		this.maxDeltaDepth = maxDeltaDepth;
+	}
+
+	/**
+	 * Get the number of objects to try when looking for a delta base.
+	 *
+	 * @return the object count to be searched.
+	 */
+	public int getDeltaSearchWindowSize() {
+		return deltaSearchWindowSize;
+	}
+
+	/**
+	 * Set the number of objects considered when searching for a delta base.
+	 * <p>
+	 * Default setting: {@value #DEFAULT_DELTA_SEARCH_WINDOW_SIZE}
+	 * </p>
+	 *
+	 * @param objectCount
+	 *            number of objects to search at once.  Must be at least 2.
+	 */
+	public void setDeltaSearchWindowSize(int objectCount) {
+		if (objectCount <= 2)
+			setDeltaCompress(false);
+		else
+			deltaSearchWindowSize = objectCount;
 	}
 
 	/** @return true if this writer is producing a thin pack. */
@@ -440,7 +503,7 @@ public class PackWriter {
 	 * @see PackIndexWriter
 	 */
 	public void setIndexVersion(final int version) {
-		outputVersion = version;
+		indexVersion = version;
 	}
 
 	/**
@@ -571,10 +634,10 @@ public class PackWriter {
 	public void writeIndex(final OutputStream indexStream) throws IOException {
 		final List<ObjectToPack> list = sortByName();
 		final PackIndexWriter iw;
-		if (outputVersion <= 0)
+		if (indexVersion <= 0)
 			iw = PackIndexWriter.createOldestPossible(indexStream, list);
 		else
-			iw = PackIndexWriter.createVersion(indexStream, outputVersion);
+			iw = PackIndexWriter.createVersion(indexStream, indexVersion);
 		iw.write(list, packcsum);
 	}
 
