@@ -358,6 +358,15 @@ public class JGitText extends TranslationBundle {
 	/***/ public String remoteNameCantBeNull;
 	/***/ public String repositoryAlreadyExists;
 	/***/ public String repositoryNotFound;
+	/***/ public String repositoryState_applyMailbox;
+	/***/ public String repositoryState_bisecting;
+	/***/ public String repositoryState_conflicts;
+	/***/ public String repositoryState_merged;
+	/***/ public String repositoryState_normal;
+	/***/ public String repositoryState_rebase;
+	/***/ public String repositoryState_rebaseInteractive;
+	/***/ public String repositoryState_rebaseOrApplyMailbox;
+	/***/ public String repositoryState_rebaseWithMerge;
 	/***/ public String requiredHashFunctionNotAvailable;
 	/***/ public String resolvingDeltas;
 	/***/ public String serviceNotPermitted;
