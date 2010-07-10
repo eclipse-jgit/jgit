@@ -68,8 +68,14 @@ class DeltaWindow {
 
 	private final DeltaWindowEntry[] window;
 
+	/** Maximum number of bytes to admit to the window at once. */
+	private final long maxMemory;
+
 	/** Maximum depth we should create for any delta chain. */
 	private final int maxDepth;
+
+	/** Amount of memory we have loaded right now. */
+	private long loaded;
 
 	// The object we are currently considering needs a lot of state:
 
@@ -115,6 +121,7 @@ class DeltaWindow {
 		for (int i = 0; i < window.length; i++)
 			window[i] = new DeltaWindowEntry();
 
+		maxMemory = pw.getDeltaSearchMemoryLimit();
 		maxDepth = pw.getMaxDeltaDepth();
 	}
 
@@ -125,6 +132,15 @@ class DeltaWindow {
 				monitor.update(1);
 
 				res = window[resSlot];
+				if (0 < maxMemory) {
+					clear(res);
+					int tail = next(resSlot);
+					final long need = estimateSize(toSearch[off]);
+					while (maxMemory < loaded + need && tail != resSlot) {
+						clear(window[tail]);
+						tail = next(tail);
+					}
+				}
 				res.set(toSearch[off]);
 
 				if (res.object.isDoNotDelta()) {
@@ -146,6 +162,18 @@ class DeltaWindow {
 			if (deflater != null)
 				deflater.end();
 		}
+	}
+
+	private static long estimateSize(ObjectToPack ent) {
+		return DeltaIndex.estimateIndexSize(ent.getWeight());
+	}
+
+	private void clear(DeltaWindowEntry ent) {
+		if (ent.index != null)
+			loaded -= ent.index.getIndexSize();
+		else if (res.buffer != null)
+			loaded -= ent.buffer.length;
+		ent.set(null);
 	}
 
 	private void search() throws IOException {
@@ -336,8 +364,13 @@ class DeltaWindow {
 	}
 
 	private void keepInWindow() {
-		if (++resSlot == window.length)
-			resSlot = 0;
+		resSlot = next(resSlot);
+	}
+
+	private int next(int slot) {
+		if (++slot == window.length)
+			return 0;
+		return slot;
 	}
 
 	private int prior(int slot) {
@@ -397,6 +430,8 @@ class DeltaWindow {
 				e.initCause(noMemory);
 				throw e;
 			}
+			if (0 < maxMemory)
+				loaded += idx.getIndexSize() - idx.getSourceSize();
 			ent.index = idx;
 		}
 		return idx;
@@ -405,8 +440,12 @@ class DeltaWindow {
 	private byte[] buffer(DeltaWindowEntry ent) throws MissingObjectException,
 			IncorrectObjectTypeException, IOException, LargeObjectException {
 		byte[] buf = ent.buffer;
-		if (buf == null)
-			ent.buffer = buf = writer.buffer(reader, ent.object);
+		if (buf == null) {
+			buf = writer.buffer(reader, ent.object);
+			if (0 < maxMemory)
+				loaded += buf.length;
+			ent.buffer = buf;
+		}
 		return buf;
 	}
 

@@ -71,6 +71,19 @@ public class DeltaIndex {
 	static final int BLKSZ = 16; // must be 16, see unrolled loop in hashBlock
 
 	/**
+	 * Estimate the size of an index for a given source.
+	 * <p>
+	 * This is roughly a worst-case estimate. The actual index may be smaller.
+	 *
+	 * @param sourceLength
+	 *            length of the source, in bytes.
+	 * @return estimated size. Approximately {@code 1.75 * sourceLength}.
+	 */
+	public static long estimateIndexSize(int sourceLength) {
+		return sourceLength + (sourceLength * 3 / 4);
+	}
+
+	/**
 	 * Maximum number of positions to consider for a given content hash.
 	 * <p>
 	 * All positions with the same content hash are stored into a single chain.

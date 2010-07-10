@@ -229,6 +229,8 @@ public class PackWriter {
 
 	private int deltaSearchWindowSize = DEFAULT_DELTA_SEARCH_WINDOW_SIZE;
 
+	private long deltaSearchMemoryLimit;
+
 	private long deltaCacheSize = DEFAULT_DELTA_CACHE_SIZE;
 
 	private int deltaCacheLimit = DEFAULT_DELTA_CACHE_LIMIT;
@@ -289,6 +291,7 @@ public class PackWriter {
 
 		final PackConfig pc = configOf(repo).get(PackConfig.KEY);
 		deltaSearchWindowSize = pc.deltaWindow;
+		deltaSearchMemoryLimit = pc.deltaWindowMemory;
 		deltaCacheSize = pc.deltaCacheSize;
 		deltaCacheLimit = pc.deltaCacheLimit;
 		maxDeltaDepth = pc.deltaDepth;
@@ -483,6 +486,36 @@ public class PackWriter {
 			setDeltaCompress(false);
 		else
 			deltaSearchWindowSize = objectCount;
+	}
+
+	/**
+	 * Get maximum number of bytes to put into the delta search window.
+	 * <p>
+	 * Default setting is 0, for an unlimited amount of memory usage. Actual
+	 * memory used is the lower limit of either this setting, or the sum of
+	 * space used by at most {@link #getDeltaSearchWindowSize()} objects.
+	 * <p>
+	 * This limit is per thread, if 4 threads are used the actual memory
+	 * limit will be 4 times this value.
+	 *
+	 * @return the memory limit.
+	 */
+	public long getDeltaSearchMemoryLimit() {
+		return deltaSearchMemoryLimit;
+	}
+
+	/**
+	 * Set the maximum number of bytes to put into the delta search window.
+	 * <p>
+	 * Default setting is 0, for an unlimited amount of memory usage. If the
+	 * memory limit is reached before {@link #getDeltaSearchWindowSize()} the
+	 * window size is temporarily lowered.
+	 *
+	 * @param memoryLimit
+	 *            Maximum number of bytes to load at once, 0 for unlimited.
+	 */
+	public void setDeltaSearchMemoryLimit(long memoryLimit) {
+		deltaSearchMemoryLimit = memoryLimit;
 	}
 
 	/**
