@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALvn////Y\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/IgnoreNode.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-06-16T22:56:36Z",
+      "side": 1,
+      "message": "Style-nit: Useless catch/throw.  Just don\u0027t declare the catch, and it\u0027ll throw on its own to the caller.",
+      "revId": "d9cb532cf6b1f682759f908ad38274608a90b203",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALvn////g\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/IgnoreRule.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-06-16T22:56:36Z",
+      "side": 1,
+      "message": "Please don\u0027t print stack traces to system.err, they are hard to discover within Eclipse.",
+      "revId": "d9cb532cf6b1f682759f908ad38274608a90b203",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALvn////c\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/IgnoreRule.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-06-16T22:56:36Z",
+      "side": 1,
+      "message": "Style-nit: Unnecessary parents around target.",
+      "revId": "d9cb532cf6b1f682759f908ad38274608a90b203",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALvn////k\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/IgnoreRule.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-06-16T22:56:36Z",
+      "side": 1,
+      "message": "What is apply?",
+      "revId": "d9cb532cf6b1f682759f908ad38274608a90b203",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALvX///+I\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/SimpleIgnoreCache.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-06-16T22:56:36Z",
+      "side": 1,
+      "message": "We tend not to include @author tags in the project.",
+      "revId": "d9cb532cf6b1f682759f908ad38274608a90b203",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALvX///+E\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/SimpleIgnoreCache.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-06-16T22:56:36Z",
+      "side": 1,
+      "message": "Style-nit:  Only one blank line between methods.",
+      "revId": "d9cb532cf6b1f682759f908ad38274608a90b203",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALvX///+A\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/SimpleIgnoreCache.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-06-16T22:56:36Z",
+      "side": 1,
+      "message": "Please use\n\n  new File(basePath, \".gitignore\")\n\nInstead of string concat with the platform specific \"/\" character.",
+      "revId": "d9cb532cf6b1f682759f908ad38274608a90b203",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALvX///98\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/SimpleIgnoreCache.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-06-16T22:56:36Z",
+      "side": 1,
+      "message": "Please use the Repository\u0027s getDirectory() to determine .git.  Assuming the git directory is at the root under .git doesn\u0027t work when the repository has a core.worktree configuration setting.",
+      "revId": "d9cb532cf6b1f682759f908ad38274608a90b203",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALvX///90\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/SimpleIgnoreCache.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-06-16T22:56:36Z",
+      "side": 1,
+      "message": "Instead of taking the java.io.File, I\u0027d prefer to take a String that is the path from the root of the repository.\n\nThe reason is, we should be processing ignore information at the same time that we are walking through trees with a TreeWalk.  That does this parallel walk thing, and we should be able to have the ignore rules run as part of it and tell us if the current path is considered to be ignored, or not.\n\nBecause TreeWalk does this sorted-name, depth-first traversal of the repository structure, you can have the cache keep track of where you are as you enter/exit directories and apply only the correct set of .gitignore as you go.\n\nFurther, if the ignore code can be given a WorkingTreeIterator, it can ask that iterator at each level whether or not a .gitignore name even exists.  That avoids a stat hit at each level to see if the file even exists (and it usually doesn\u0027t).  Where it does exist, you can also use the WorkingTreeIterator to tell you the last modified time and length of the file, so you can decide if its worth reading the file again, or keeping the cached copy you might have in memory.\n\nSo, this is a nice start, but its not quite the way I had hoped we could build the ignore support.",
+      "revId": "d9cb532cf6b1f682759f908ad38274608a90b203",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
