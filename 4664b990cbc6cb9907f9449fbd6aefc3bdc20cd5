@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALun///jY\u003d",
+        "filename": "org.eclipse.jgit.test/META-INF/MANIFEST.MF",
+        "patchSetId": 5
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 63
+      },
+      "writtenOn": "2010-05-13T21:05:44Z",
+      "side": 1,
+      "message": "Probably should use the same version numbers as the other packages.",
+      "revId": "4664b990cbc6cb9907f9449fbd6aefc3bdc20cd5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///jg\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/ignore/IgnoreCacheTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 63
+      },
+      "writtenOn": "2010-05-13T21:05:44Z",
+      "side": 1,
+      "message": "This stack trace, and all the other ones like it in this file, will never get printed because the fail(String) method itself will cause an exception to be thrown.\n\nPersonally, I tend to just declare exceptions in the test method though I don\u0027t know what\u0027s the JGit convention here.",
+      "revId": "4664b990cbc6cb9907f9449fbd6aefc3bdc20cd5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///jc\u003d",
+        "filename": "org.eclipse.jgit/META-INF/MANIFEST.MF",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 63
+      },
+      "writtenOn": "2010-05-13T21:05:44Z",
+      "side": 1,
+      "message": "Should add a version identifier.",
+      "revId": "4664b990cbc6cb9907f9449fbd6aefc3bdc20cd5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///jk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/IgnoreNode.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 63
+      },
+      "writtenOn": "2010-05-13T21:05:44Z",
+      "side": 1,
+      "message": "Close the reader when you\u0027re done with it.",
+      "revId": "4664b990cbc6cb9907f9449fbd6aefc3bdc20cd5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
