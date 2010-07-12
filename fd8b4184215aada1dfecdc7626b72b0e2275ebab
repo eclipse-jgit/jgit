@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALwX///uI\u003d",
+        "filename": "org.eclipse.jgit.test/META-INF/MANIFEST.MF",
+        "patchSetId": 14
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2010-06-30T13:56:04Z",
+      "side": 1,
+      "message": "We should stick to the pattern to use Import-Package here:\norg.eclipse.jgit.ignore;version\u003d\"[0.9.0,0.10.0)\",",
+      "revId": "fd8b4184215aada1dfecdc7626b72b0e2275ebab",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///t0\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/ignore/IgnoreCacheTest.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2010-06-30T13:56:04Z",
+      "side": 1,
+      "message": "To really create a Repo you should call repo.create(). Otherwise the repository does not really exist and I assume that this will sooner or later lead to problems.\n\nI would to use LocalDiskRepositoryTestCase as a base class and then copy the test files to this new location. This ensures that each tearDown method does remove the repository.",
+      "revId": "fd8b4184215aada1dfecdc7626b72b0e2275ebab",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///uE\u003d",
+        "filename": "org.eclipse.jgit/META-INF/MANIFEST.MF",
+        "patchSetId": 14
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2010-06-30T13:56:04Z",
+      "side": 1,
+      "message": "The version umber should be added.",
+      "revId": "fd8b4184215aada1dfecdc7626b72b0e2275ebab",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
