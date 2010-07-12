@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALvX///9k\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/ignore/IgnoreCacheTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-06-16T23:01:32Z",
+      "side": 1,
+      "message": "you document some of the methods others are not documented",
+      "revId": "adde765e79aa11d3bc954f6f6400a3c3f7ab5d69",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALvn////8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/IgnoreRule.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-06-16T23:01:32Z",
+      "side": 1,
+      "message": "javadoc missing here",
+      "revId": "adde765e79aa11d3bc954f6f6400a3c3f7ab5d69",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALvn////4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/IgnoreRule.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-06-16T23:01:32Z",
+      "side": 1,
+      "message": "parameter is not documented",
+      "revId": "adde765e79aa11d3bc954f6f6400a3c3f7ab5d69",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALvn////0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/SimpleIgnoreCache.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-06-16T23:01:32Z",
+      "side": 1,
+      "message": "parameter not documented",
+      "revId": "adde765e79aa11d3bc954f6f6400a3c3f7ab5d69",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALvn////w\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/SimpleIgnoreCache.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-06-16T23:01:32Z",
+      "side": 1,
+      "message": "parameter and exception not documented",
+      "revId": "adde765e79aa11d3bc954f6f6400a3c3f7ab5d69",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALvn////s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/SimpleIgnoreCache.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-06-16T23:01:32Z",
+      "side": 1,
+      "message": "parameter not documented",
+      "revId": "adde765e79aa11d3bc954f6f6400a3c3f7ab5d69",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALvn////o\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/SimpleIgnoreCache.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-06-16T23:01:32Z",
+      "side": 1,
+      "message": "parameter not documented",
+      "revId": "adde765e79aa11d3bc954f6f6400a3c3f7ab5d69",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
