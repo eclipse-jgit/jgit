@@ -1,0 +1,667 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALun///n0\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/ignore/IgnoreCacheTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-05-12T23:16:00Z",
+      "side": 1,
+      "message": "style nit: we don\u0027t use @author tags",
+      "revId": "a0cbde48a7471cdf6eff17b8e6c69a69f4259cdb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///ns\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/ignore/IgnoreCacheTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-05-12T23:16:00Z",
+      "side": 1,
+      "message": "style nit: one blank line is enough here",
+      "revId": "a0cbde48a7471cdf6eff17b8e6c69a69f4259cdb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///nk\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/ignore/IgnoreCacheTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-05-12T23:16:00Z",
+      "side": 1,
+      "message": "I think that\u0027s no TODO, for a test case this is ok",
+      "revId": "a0cbde48a7471cdf6eff17b8e6c69a69f4259cdb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///no\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/ignore/IgnoreCacheTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-05-12T23:16:00Z",
+      "side": 1,
+      "message": "style nit: unnecessary blank line",
+      "revId": "a0cbde48a7471cdf6eff17b8e6c69a69f4259cdb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///ng\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/ignore/IgnoreCacheTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-05-12T23:16:00Z",
+      "side": 1,
+      "message": "not a TODO",
+      "revId": "a0cbde48a7471cdf6eff17b8e6c69a69f4259cdb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///nc\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/ignore/IgnoreCacheTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-05-12T23:16:00Z",
+      "side": 1,
+      "message": "not a TODO",
+      "revId": "a0cbde48a7471cdf6eff17b8e6c69a69f4259cdb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///nY\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/ignore/IgnoreMatcherTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-05-12T23:16:00Z",
+      "side": 1,
+      "message": "style nit: one blank line is sufficient",
+      "revId": "a0cbde48a7471cdf6eff17b8e6c69a69f4259cdb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///nU\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/ignore/IgnoreMatcherTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-05-12T23:16:00Z",
+      "side": 1,
+      "message": "style: one blank line only",
+      "revId": "a0cbde48a7471cdf6eff17b8e6c69a69f4259cdb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///nQ\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/ignore/IgnoreMatcherTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-05-12T23:16:00Z",
+      "side": 1,
+      "message": "style: unnecessary blank line",
+      "revId": "a0cbde48a7471cdf6eff17b8e6c69a69f4259cdb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///nM\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/ignore/IgnoreMatcherTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-05-12T23:16:00Z",
+      "side": 1,
+      "message": "style: unnecessary blank line",
+      "revId": "a0cbde48a7471cdf6eff17b8e6c69a69f4259cdb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///nI\u003d",
+        "filename": "org.eclipse.jgit/META-INF/MANIFEST.MF",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-05-12T23:16:00Z",
+      "side": 1,
+      "message": "package version is missing, add \";version\u003d0.8.0\"",
+      "revId": "a0cbde48a7471cdf6eff17b8e6c69a69f4259cdb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///nE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/IgnoreNode.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-05-12T23:16:00Z",
+      "side": 1,
+      "message": "style: extra blank line, you have a lot of extra blank lines in this class",
+      "revId": "a0cbde48a7471cdf6eff17b8e6c69a69f4259cdb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///nA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/IgnoreNode.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-05-12T23:16:00Z",
+      "side": 1,
+      "message": "style: we don\u0027t use @author tags",
+      "revId": "a0cbde48a7471cdf6eff17b8e6c69a69f4259cdb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///m4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/IgnoreNode.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-05-12T23:16:00Z",
+      "side": 1,
+      "message": "typo: \".\" missing at the end of this sentence",
+      "revId": "a0cbde48a7471cdf6eff17b8e6c69a69f4259cdb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///m0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/IgnoreNode.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-05-12T23:16:00Z",
+      "side": 1,
+      "message": "style: no curly braces for single line statement",
+      "revId": "a0cbde48a7471cdf6eff17b8e6c69a69f4259cdb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///lM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/IgnoreNode.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-05-12T23:16:00Z",
+      "side": 1,
+      "message": "findbugs: reader should be closed in a finally block to prevent file descriptor leaks",
+      "revId": "a0cbde48a7471cdf6eff17b8e6c69a69f4259cdb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///mw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/IgnoreNode.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-05-12T23:16:00Z",
+      "side": 1,
+      "message": "style: no braces around single line block",
+      "revId": "a0cbde48a7471cdf6eff17b8e6c69a69f4259cdb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///mo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/IgnoreNode.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-05-12T23:16:00Z",
+      "side": 1,
+      "message": "missing description",
+      "revId": "a0cbde48a7471cdf6eff17b8e6c69a69f4259cdb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///mk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/IgnoreNode.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-05-12T23:16:00Z",
+      "side": 1,
+      "message": "here you throw IOException, some lines below you catch it, this looks inconsistent ?",
+      "revId": "a0cbde48a7471cdf6eff17b8e6c69a69f4259cdb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///lQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/IgnoreNode.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-05-12T23:16:00Z",
+      "side": 1,
+      "message": "findbugs: this may throw NPE if rules \u003d\u003d null",
+      "revId": "a0cbde48a7471cdf6eff17b8e6c69a69f4259cdb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///mg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/IgnoreNode.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-05-12T23:16:00Z",
+      "side": 1,
+      "message": "missing description",
+      "revId": "a0cbde48a7471cdf6eff17b8e6c69a69f4259cdb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///mc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/IgnoreNode.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-05-12T23:16:00Z",
+      "side": 1,
+      "message": "how can this throw IOException ?",
+      "revId": "a0cbde48a7471cdf6eff17b8e6c69a69f4259cdb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///mY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/IgnoreRule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-05-12T23:16:00Z",
+      "side": 1,
+      "message": "style: we don\u0027t use @author tags\n\nJavaDoc missing for public class",
+      "revId": "a0cbde48a7471cdf6eff17b8e6c69a69f4259cdb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///lU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/IgnoreRule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-05-12T23:16:00Z",
+      "side": 1,
+      "message": "FindBugs says for better performance you should better use Character.valueOf(char) instead of new Character(char).\n\nsee pattern DM_NUMBER_CTOR in\nhttp://findbugs.sourceforge.net/bugDescriptions.html",
+      "revId": "a0cbde48a7471cdf6eff17b8e6c69a69f4259cdb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///mU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/IgnoreRule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-05-12T23:16:00Z",
+      "side": 1,
+      "message": "you should also explain the meaning of \"!\"",
+      "revId": "a0cbde48a7471cdf6eff17b8e6c69a69f4259cdb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///mM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/IgnoreRule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-05-12T23:16:00Z",
+      "side": 1,
+      "message": "can we enforce that apply has been called before and throw an exception if this wasn\u0027t done ?",
+      "revId": "a0cbde48a7471cdf6eff17b8e6c69a69f4259cdb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///mI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/IgnoreRule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-05-12T23:16:00Z",
+      "side": 1,
+      "message": "Better name for this method ? getResult sounds quite generic.",
+      "revId": "a0cbde48a7471cdf6eff17b8e6c69a69f4259cdb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///mQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/IgnoreRule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-05-12T23:16:00Z",
+      "side": 1,
+      "message": "this looks funny, maybe a better name than \"negation\" would help readability",
+      "revId": "a0cbde48a7471cdf6eff17b8e6c69a69f4259cdb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///mE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/SimpleIgnoreCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-05-12T23:16:00Z",
+      "side": 1,
+      "message": "description missing",
+      "revId": "a0cbde48a7471cdf6eff17b8e6c69a69f4259cdb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///mA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/SimpleIgnoreCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-05-12T23:16:00Z",
+      "side": 1,
+      "message": "style: no braces for single line",
+      "revId": "a0cbde48a7471cdf6eff17b8e6c69a69f4259cdb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///l8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/SimpleIgnoreCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-05-12T23:16:00Z",
+      "side": 1,
+      "message": "missing description",
+      "revId": "a0cbde48a7471cdf6eff17b8e6c69a69f4259cdb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///l4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/SimpleIgnoreCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-05-12T23:16:00Z",
+      "side": 1,
+      "message": "style: no braces for single line",
+      "revId": "a0cbde48a7471cdf6eff17b8e6c69a69f4259cdb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///l0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/SimpleIgnoreCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-05-12T23:16:00Z",
+      "side": 1,
+      "message": "style: no braces for single line",
+      "revId": "a0cbde48a7471cdf6eff17b8e6c69a69f4259cdb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///lw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/SimpleIgnoreCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-05-12T23:16:00Z",
+      "side": 1,
+      "message": "style: no braces for single line",
+      "revId": "a0cbde48a7471cdf6eff17b8e6c69a69f4259cdb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///ls\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/SimpleIgnoreCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-05-12T23:16:00Z",
+      "side": 1,
+      "message": "style: extra blank in front of first tab\n\ncan we raise an exception if used on base directory ?",
+      "revId": "a0cbde48a7471cdf6eff17b8e6c69a69f4259cdb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///lo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/SimpleIgnoreCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-05-12T23:16:00Z",
+      "side": 1,
+      "message": "style: no braces for single line",
+      "revId": "a0cbde48a7471cdf6eff17b8e6c69a69f4259cdb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///lk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/SimpleIgnoreCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-05-12T23:16:00Z",
+      "side": 1,
+      "message": "style: extra blank line",
+      "revId": "a0cbde48a7471cdf6eff17b8e6c69a69f4259cdb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///lg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/SimpleIgnoreCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-05-12T23:16:00Z",
+      "side": 1,
+      "message": "style: no braces for single line",
+      "revId": "a0cbde48a7471cdf6eff17b8e6c69a69f4259cdb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun///lc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/ignore/SimpleIgnoreCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-05-12T23:16:00Z",
+      "side": 1,
+      "message": "style: no braces for single line",
+      "revId": "a0cbde48a7471cdf6eff17b8e6c69a69f4259cdb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
