@@ -146,7 +146,9 @@ public class RenameDetector {
 	 * that approximately 60% of the bytes in the files are identical.
 	 *
 	 * @param score
-	 *            new rename score, must be within (0, 100).
+	 *            new rename score, must be within [0, 100].
+	 * @throws IllegalArgumentException
+	 *             the score was not within [0, 100].
 	 */
 	public void setRenameScore(int score) {
 		if (score < 0 || score > 100)
