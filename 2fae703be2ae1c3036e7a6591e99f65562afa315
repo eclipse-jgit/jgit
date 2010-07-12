@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALwX//+0w\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-07-12T21:19:28Z",
+      "side": 1,
+      "message": "why all these whitespace differences ?",
+      "revId": "2fae703be2ae1c3036e7a6591e99f65562afa315",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX//+00\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/AbstractTreeIterator.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-07-12T21:19:28Z",
+      "side": 1,
+      "message": "why all these whitespace differences ?",
+      "revId": "2fae703be2ae1c3036e7a6591e99f65562afa315",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX//+0s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/FileTreeIterator.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-07-12T21:19:28Z",
+      "side": 1,
+      "message": "why all these whitespace differences ?",
+      "revId": "2fae703be2ae1c3036e7a6591e99f65562afa315",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
