@@ -108,6 +108,7 @@ public abstract class ReadTreeTest extends RepositoryTestCase {
 		}
 
 		index.write();
+		db.getIndex().read();
 	}
 
 	private Tree buildTree(HashMap<String, String> headEntries) throws IOException {
@@ -247,20 +248,9 @@ public abstract class ReadTreeTest extends RepositoryTestCase {
 	}
 
 	public void testDirectoryFileSimple() throws IOException {
-		GitIndex theIndex = new GitIndex(db);
-		theIndex.add(trash, writeTrashFile("DF", "DF"));
-		Tree treeDF = db.mapTree(theIndex.writeTree());
-
-		recursiveDelete(new File(trash, "DF"));
-		theIndex = new GitIndex(db);
-		theIndex.add(trash, writeTrashFile("DF/DF", "DF/DF"));
-		Tree treeDFDF = db.mapTree(theIndex.writeTree());
-
-		theIndex = new GitIndex(db);
-		recursiveDelete(new File(trash, "DF"));
-
-		theIndex.add(trash, writeTrashFile("DF", "DF"));
-		theIndex.write();
+		Tree treeDF = buildTree(mkmap("DF", "DF"));
+		Tree treeDFDF = buildTree(mkmap("DF/DF", "DF/DF"));
+		buildIndex(mkmap("DF", "DF"));
 
 		prescanTwoTrees(treeDF, treeDFDF);
 
@@ -268,9 +258,7 @@ public abstract class ReadTreeTest extends RepositoryTestCase {
 		assertTrue(getUpdated().containsKey("DF/DF"));
 
 		recursiveDelete(new File(trash, "DF"));
-		theIndex = new GitIndex(db);
-		theIndex.add(trash, writeTrashFile("DF/DF", "DF/DF"));
-		theIndex.write();
+		buildIndex(mkmap("DF/DF", "DF/DF"));
 
 		prescanTwoTrees(treeDFDF, treeDF);
 		assertTrue(getRemoved().contains("DF/DF"));
