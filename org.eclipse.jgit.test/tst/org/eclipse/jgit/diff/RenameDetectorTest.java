@@ -146,6 +146,48 @@ public class RenameDetectorTest extends RepositoryTestCase {
 		assertRename(a, d, 100, entries.get(2));
 	}
 
+	public void testExactRename_PathBreaksTie() throws Exception {
+		ObjectId foo = blob("foo");
+
+		DiffEntry a = DiffEntry.add("src/com/foo/a.java", foo);
+		DiffEntry b = DiffEntry.delete("src/com/foo/b.java", foo);
+
+		DiffEntry c = DiffEntry.add("c.txt", foo);
+		DiffEntry d = DiffEntry.delete("d.txt", foo);
+
+		// Add out of order to avoid first-match succeeding
+		rd.add(a);
+		rd.add(d);
+		rd.add(b);
+		rd.add(c);
+
+		List<DiffEntry> entries = rd.compute();
+		assertEquals(2, entries.size());
+		assertRename(d, c, 100, entries.get(0));
+		assertRename(b, a, 100, entries.get(1));
+	}
+
+	public void testExactRename_OneDeleteManyAdds() throws Exception {
+		ObjectId foo = blob("foo");
+
+		DiffEntry a = DiffEntry.add("src/com/foo/a.java", foo);
+		DiffEntry b = DiffEntry.add("src/com/foo/b.java", foo);
+		DiffEntry c = DiffEntry.add("c.txt", foo);
+
+		DiffEntry d = DiffEntry.delete("d.txt", foo);
+
+		rd.add(a);
+		rd.add(b);
+		rd.add(c);
+		rd.add(d);
+
+		List<DiffEntry> entries = rd.compute();
+		assertEquals(3, entries.size());
+		assertRename(d, c, 100, entries.get(0));
+		assertCopy(d, a, 100, entries.get(1));
+		assertCopy(d, b, 100, entries.get(2));
+	}
+
 	public void testInexactRename_OnePair() throws Exception {
 		ObjectId aId = blob("foo\nbar\nbaz\nblarg\n");
 		ObjectId bId = blob("foo\nbar\nbaz\nblah\n");
@@ -384,5 +426,21 @@ public class RenameDetectorTest extends RepositoryTestCase {
 		assertEquals(n.getNewId(), rename.getNewId());
 
 		assertEquals(score, rename.getScore());
+	}
+
+	private static void assertCopy(DiffEntry o, DiffEntry n, int score,
+			DiffEntry copy) {
+		assertEquals(ChangeType.COPY, copy.getChangeType());
+
+		assertEquals(o.getOldName(), copy.getOldName());
+		assertEquals(n.getNewName(), copy.getNewName());
+
+		assertEquals(o.getOldMode(), copy.getOldMode());
+		assertEquals(n.getNewMode(), copy.getNewMode());
+
+		assertEquals(o.getOldId(), copy.getOldId());
+		assertEquals(n.getNewId(), copy.getNewId());
+
+		assertEquals(score, copy.getScore());
 	}
 }

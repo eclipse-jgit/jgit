@@ -45,6 +45,7 @@ package org.eclipse.jgit.diff;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -312,70 +313,131 @@ public class RenameDetector {
 			return;
 
 		pm.beginTask(JGitText.get().renamesFindingExact, //
-				added.size() + deleted.size());
+				added.size() + added.size() + deleted.size()
+						+ added.size() * deleted.size());
 
-		HashMap<AbbreviatedObjectId, Object> map = new HashMap<AbbreviatedObjectId, Object>();
-		for (DiffEntry del : deleted) {
-			Object old = map.put(del.oldId, del);
-			if (old instanceof DiffEntry) {
-				ArrayList<DiffEntry> list = new ArrayList<DiffEntry>(2);
-				list.add((DiffEntry) old);
-				list.add(del);
-				map.put(del.oldId, list);
+		HashMap<AbbreviatedObjectId, Object> deletedMap = populateMap(deleted, pm);
+		HashMap<AbbreviatedObjectId, Object> addedMap = populateMap(added, pm);
 
-			} else if (old != null) {
-				// Must be a list of DiffEntries
-				((List) old).add(del);
-				map.put(del.oldId, old);
-			}
-			pm.update(1);
+		ArrayList<DiffEntry> uniqueAdds = new ArrayList<DiffEntry>(added.size());
+		ArrayList<List<DiffEntry>> nonUniqueAdds = new ArrayList<List<DiffEntry>>();
+
+		for (Object o : addedMap.values()) {
+			if (o instanceof DiffEntry)
+				uniqueAdds.add((DiffEntry) o);
+			else
+				nonUniqueAdds.add((List<DiffEntry>) o);
 		}
 
 		ArrayList<DiffEntry> left = new ArrayList<DiffEntry>(added.size());
-		for (DiffEntry dst : added) {
-			Object del = map.get(dst.newId);
+
+		for (DiffEntry a : uniqueAdds) {
+			Object del = deletedMap.get(a.newId);
 			if (del instanceof DiffEntry) {
+				// We have one add to one delete: pair them if they are the same
+				// type
 				DiffEntry e = (DiffEntry) del;
-				if (sameType(e.oldMode, dst.newMode)) {
-					if (e.changeType == ChangeType.DELETE) {
-						e.changeType = ChangeType.RENAME;
-						entries.add(exactRename(e, dst));
-					} else {
-						entries.add(exactCopy(e, dst));
-					}
+				if (sameType(e.oldMode, a.newMode)) {
+					e.changeType = ChangeType.RENAME;
+					entries.add(exactRename(e, a));
 				} else {
-					left.add(dst);
+					left.add(a);
 				}
-
 			} else if (del != null) {
+				// We have one add to many deletes: find the delete with the
+				// same type and closest name to the add, then pair them
 				List<DiffEntry> list = (List<DiffEntry>) del;
-				DiffEntry best = null;
-				for (DiffEntry e : list) {
-					if (sameType(e.oldMode, dst.newMode)) {
-						best = e;
-						break;
-					}
-				}
+				DiffEntry best = bestPathMatch(a, list);
 				if (best != null) {
-					if (best.changeType == ChangeType.DELETE) {
-						best.changeType = ChangeType.RENAME;
-						entries.add(exactRename(best, dst));
-					} else {
-						entries.add(exactCopy(best, dst));
-					}
+					best.changeType = ChangeType.RENAME;
+					entries.add(exactRename(best, a));
 				} else {
-					left.add(dst);
+					left.add(a);
 				}
-
 			} else {
-				left.add(dst);
+				left.add(a);
 			}
 			pm.update(1);
 		}
+
+		for (List<DiffEntry> adds : nonUniqueAdds) {
+			Object o = deletedMap.get(adds.get(0).newId);
+			if (o instanceof DiffEntry) {
+				// We have many adds to one delete: find the add with the same
+				// type and closest name to the delete, then pair them. Mark the
+				// rest as copies of the delete.
+				DiffEntry d = (DiffEntry) o;
+				DiffEntry best = bestPathMatch(d, adds);
+				if (best != null) {
+					d.changeType = ChangeType.RENAME;
+					entries.add(exactRename(d, best));
+					for (DiffEntry a : adds) {
+						if (a != best) {
+							if (sameType(d.oldMode, a.newMode)) {
+								entries.add(exactCopy(d, a));
+							} else {
+								left.add(a);
+							}
+						}
+					}
+				} else {
+					left.addAll(adds);
+				}
+			} else {
+				// We have many adds to many deletes: score all the adds against
+				// all the deletes by path name, take the best matches, pair
+				// them as renames, then call the rest copies
+				List<DiffEntry> dels = (List<DiffEntry>) o;
+				long[] matrix = new long[dels.size() * adds.size()];
+				int mNext = 0;
+				for (int addIdx = 0; addIdx < adds.size(); addIdx++) {
+					String addedName = adds.get(addIdx).newName;
+
+					for (int delIdx = 0; delIdx < dels.size(); delIdx++) {
+						String deletedName = dels.get(delIdx).oldName;
+
+						int score = SimilarityRenameDetector.nameScore(addedName, deletedName);
+						matrix[mNext] = SimilarityRenameDetector.encode(score, addIdx, delIdx);
+						mNext++;
+					}
+				}
+
+				Arrays.sort(matrix);
+
+				for (--mNext; mNext >= 0; mNext--) {
+					long ent = matrix[mNext];
+					int delIdx = SimilarityRenameDetector.srcFile(ent);
+					int addIdx = SimilarityRenameDetector.dstFile(ent);
+					DiffEntry d = dels.get(delIdx);
+					DiffEntry a = adds.get(addIdx);
+
+					if (a == null) {
+						pm.update(1);
+						continue; // was already matched earlier
+					}
+
+					ChangeType type;
+					if (d.changeType == ChangeType.DELETE) {
+						// First use of this source file. Tag it as a rename so we
+						// later know it is already been used as a rename, other
+						// matches (if any) will claim themselves as copies instead.
+						//
+						d.changeType = ChangeType.RENAME;
+						type = ChangeType.RENAME;
+					} else {
+						type = ChangeType.COPY;
+					}
+
+					entries.add(DiffEntry.pair(type, d, a, 100));
+					adds.set(addIdx, null); // Claim the destination was matched.
+					pm.update(1);
+				}
+			}
+		}
 		added = left;
 
-		deleted = new ArrayList<DiffEntry>(map.size());
-		for (Object o : map.values()) {
+		deleted = new ArrayList<DiffEntry>(deletedMap.size());
+		for (Object o : deletedMap.values()) {
 			if (o instanceof DiffEntry) {
 				DiffEntry e = (DiffEntry) o;
 				if (e.changeType == ChangeType.DELETE)
@@ -389,6 +451,69 @@ public class RenameDetector {
 			}
 		}
 		pm.endTask();
+	}
+
+	/**
+	 * Find the best match by file path for a given DiffEntry from a list of
+	 * DiffEntrys. The returned DiffEntry will be of the same type as <src>. If
+	 * no DiffEntry can be found that has the same type, this method will return
+	 * null.
+	 *
+	 * @param src
+	 *            the DiffEntry to try to find a match for
+	 * @param list
+	 *            a list of DiffEntrys to search through
+	 * @return the DiffEntry from <list> who's file path best matches <src>
+	 */
+	private DiffEntry bestPathMatch(DiffEntry src, List<DiffEntry> list) {
+		DiffEntry best = null;
+		int score = -1;
+
+		for (DiffEntry d : list) {
+			if (sameType(mode(d), mode(src))) {
+				int tmp = SimilarityRenameDetector
+						.nameScore(path(d), path(src));
+				if (tmp > score) {
+					best = d;
+					score = tmp;
+				}
+			}
+		}
+
+		return best;
+	}
+
+	@SuppressWarnings("unchecked")
+	private HashMap<AbbreviatedObjectId, Object> populateMap(
+			List<DiffEntry> diffEntries, ProgressMonitor pm) {
+		HashMap<AbbreviatedObjectId, Object> map = new HashMap<AbbreviatedObjectId, Object>();
+		for (DiffEntry de : diffEntries) {
+			Object old = map.put(id(de), de);
+			if (old instanceof DiffEntry) {
+				ArrayList<DiffEntry> list = new ArrayList<DiffEntry>(2);
+				list.add((DiffEntry) old);
+				list.add(de);
+				map.put(id(de), list);
+			} else if (old != null) {
+				// Must be a list of DiffEntries
+				((List<DiffEntry>) old).add(de);
+				map.put(id(de), old);
+			}
+			pm.update(1);
+		}
+		return map;
+	}
+
+	private static String path(DiffEntry de) {
+		return (de.changeType == ChangeType.DELETE ? de.oldName : de.newName);
+	}
+
+	private static FileMode mode(DiffEntry de) {
+		return (de.changeType == ChangeType.DELETE ? de.oldMode : de.newMode);
+	}
+
+	private static AbbreviatedObjectId id(DiffEntry de) {
+		return (de.changeType == ChangeType.DELETE ? de.oldId : de.newId);
 	}
 
 	static boolean sameType(FileMode a, FileMode b) {
