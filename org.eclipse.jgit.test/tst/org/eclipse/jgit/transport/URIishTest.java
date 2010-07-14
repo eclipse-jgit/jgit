@@ -250,6 +250,53 @@ public class URIishTest extends TestCase {
 		assertEquals(u, new URIish(str));
 	}
 
+	public void testGitWithUserHome() throws Exception {
+		final String str = "git://example.com/~some/p ath";
+		URIish u = new URIish(str);
+		assertEquals("git", u.getScheme());
+		assertTrue(u.isRemote());
+		assertEquals("~some/p ath", u.getPath());
+		assertEquals("example.com", u.getHost());
+		assertNull(u.getUser());
+		assertNull(u.getPass());
+		assertEquals(-1, u.getPort());
+		assertEquals(str, u.toPrivateString());
+		assertEquals(u.setPass(null).toPrivateString(), u.toString());
+		assertEquals(u, new URIish(str));
+	}
+
+	/* Resolving ~user is beyond standard Java API and need more support
+	public void testFileWithUserHome() throws Exception {
+		final String str = "~some/p ath";
+		URIish u = new URIish(str);
+		assertEquals("git", u.getScheme());
+		assertTrue(u.isRemote());
+		assertEquals("~some/p ath", u.getPath());
+		assertEquals("example.com", u.getHost());
+		assertNull(u.getUser());
+		assertNull(u.getPass());
+		assertEquals(-1, u.getPort());
+		assertEquals(str, u.toPrivateString());
+		assertEquals(u.setPass(null).toPrivateString(), u.toString());
+		assertEquals(u, new URIish(str));
+	}
+	*/
+
+	public void testFileWithNoneUserHomeWithTilde() throws Exception {
+		final String str = "/~some/p ath";
+		URIish u = new URIish(str);
+		assertNull(u.getScheme());
+		assertFalse(u.isRemote());
+		assertEquals("/~some/p ath", u.getPath());
+		assertNull(u.getHost());
+		assertNull(u.getUser());
+		assertNull(u.getPass());
+		assertEquals(-1, u.getPort());
+		assertEquals(str, u.toPrivateString());
+		assertEquals(u.setPass(null).toPrivateString(), u.toString());
+		assertEquals(u, new URIish(str));
+	}
+
 	public void testGetNullHumanishName() {
 		try {
 			new URIish().getHumanishName();
