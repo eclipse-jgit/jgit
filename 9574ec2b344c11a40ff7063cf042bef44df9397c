@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALwX//+4I\u003d",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/JGitText.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-10T01:57:18Z",
+      "side": 1,
+      "message": "Can we please keep this file sorted by key name?",
+      "revId": "9574ec2b344c11a40ff7063cf042bef44df9397c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX//+4E\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/JGitText.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-10T01:57:18Z",
+      "side": 1,
+      "message": "Please keep the class sorted by key name.",
+      "revId": "9574ec2b344c11a40ff7063cf042bef44df9397c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
