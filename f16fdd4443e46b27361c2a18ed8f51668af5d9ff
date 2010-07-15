@@ -2,6 +2,91 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAALwX///bg\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/AddCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-07-02T22:55:48Z",
+      "side": 1,
+      "message": "typo in method name",
+      "revId": "f16fdd4443e46b27361c2a18ed8f51668af5d9ff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///bc\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/AddCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-07-02T22:55:48Z",
+      "side": 1,
+      "message": "typo in method name",
+      "revId": "f16fdd4443e46b27361c2a18ed8f51668af5d9ff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///bY\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/AddCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-07-02T22:55:48Z",
+      "side": 1,
+      "message": "typo in method name",
+      "revId": "f16fdd4443e46b27361c2a18ed8f51668af5d9ff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///bQ\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/AddCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-07-02T22:55:48Z",
+      "side": 1,
+      "message": "typo in method name",
+      "revId": "f16fdd4443e46b27361c2a18ed8f51668af5d9ff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///bM\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/AddCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-07-02T22:55:48Z",
+      "side": 1,
+      "message": "typo in method name",
+      "revId": "f16fdd4443e46b27361c2a18ed8f51668af5d9ff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALwX///eg\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/AddCommand.java",
         "patchSetId": 1
@@ -19,6 +104,40 @@
     },
     {
       "key": {
+        "uuid": "AAALwX///bA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/AddCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-07-02T22:55:48Z",
+      "side": 1,
+      "message": "exception message should be externalized",
+      "revId": "f16fdd4443e46b27361c2a18ed8f51668af5d9ff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///a8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/AddCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-07-02T22:55:48Z",
+      "side": 1,
+      "message": "message should be externalized",
+      "revId": "f16fdd4443e46b27361c2a18ed8f51668af5d9ff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALwX///ec\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/AddCommand.java",
         "patchSetId": 1
@@ -30,6 +149,23 @@
       "writtenOn": "2010-07-02T21:33:33Z",
       "side": 1,
       "message": "If you also do\n\n  tw.setFilter(PathFilter.create(filepath))\n\nYou don\u0027t need to do anything in the while loop.  Just execute:\n\n  while (tw.next()) {\n    // Already positioned to the file we want to touch.\n    ....\n  }\n\nThe DirCacheBuilderIterator knows how to manage the rest of the entries outside of the space that the PathFilter matches against and ensure they stay unaffected in the resulting DirCache.",
+      "revId": "f16fdd4443e46b27361c2a18ed8f51668af5d9ff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///a0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Git.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-07-02T22:55:48Z",
+      "side": 1,
+      "message": "Returns a command object not a command class",
       "revId": "f16fdd4443e46b27361c2a18ed8f51668af5d9ff",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
