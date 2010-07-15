@@ -131,7 +131,6 @@ public class IgnoreCacheTest extends RepositoryTestCase {
 		else
 			fail("Base directory not initialized");
 
-		test = new File("/tmp/not/part/of/repo/path");
 	}
 
 	public void testRules() {
