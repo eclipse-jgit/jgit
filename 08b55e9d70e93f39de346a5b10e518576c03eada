@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALwX///K0\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/AddCommandTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-06T19:56:05Z",
+      "side": 1,
+      "message": "This was probably a mistake in the DirCacheEntry API.  We should overload setLength() to accept a long so application level code doesn\u0027t have to do this type cast.  Its likely that some day the Git index file format will support files \u003e4 GiB and applications shouldn\u0027t have to go change their code when that occurs.",
+      "revId": "08b55e9d70e93f39de346a5b10e518576c03eada",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///K4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/AddCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-06T19:56:05Z",
+      "side": 1,
+      "message": "I don\u0027t think this will work well if filepatterns is empty.  Should we throw an IllegalStateException during call() if filepatterns.isEmpty() is true?",
+      "revId": "08b55e9d70e93f39de346a5b10e518576c03eada",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///LI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/AddCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-06T19:56:05Z",
+      "side": 1,
+      "message": "I don\u0027t understand why this test is necessary.  Is it because the DirCacheBuilder is giving you 3 records for a file with a merge conflict?  Or is something else going on?  If its necessary, I would appreciate some comment to help explain this condition, because it just doesn\u0027t make sense to me.",
+      "revId": "08b55e9d70e93f39de346a5b10e518576c03eada",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///LE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/AddCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-06T19:56:05Z",
+      "side": 1,
+      "message": "The faster way to implement this is to ask the TreeWalk if the entry exists in tree #1.  We already know in memory whether or not the file exists, we don\u0027t need to stat it again:\n\n  if (tw.getRawMode(1) !\u003d 0) {",
+      "revId": "08b55e9d70e93f39de346a5b10e518576c03eada",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///LA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/AddCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-06T19:56:05Z",
+      "side": 1,
+      "message": "I think it was always returning true due to the nanosecond bug you found and fixed?",
+      "parentUuid": "AAALwX///NI\u003d",
+      "revId": "08b55e9d70e93f39de346a5b10e518576c03eada",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///K8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/AddCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-06T19:56:05Z",
+      "side": 1,
+      "message": "IMHO, the length and lastModified should be captured *before* you write the object out to the object database.  That way if a change occurs to the file while we are saving it to the database, the index entry will appear dirty again, which it should be.\n\nAlso, the length, lastModified and FileMode should be available off the FileTreeIterator if the file exists.  Which means you can actually kill that getRawMode(1) test I suggested above, and rely on the cached stat information that was pulled up during the TreeWalk\u0027s traversal:\n\n  FileTreeIterator f \u003d tw.getTree(1, FileTreeIterator.class);\n  if (f !\u003d null) { // the file exists\n    entry.setLength(f.getEntryLength());\n    entry.setLastModified(f.getEntryLastModified());\n    entry.setFileMode(f.getEntryFileMode());\n    entry.setObjectId(ow.writeBlob(file));",
+      "revId": "08b55e9d70e93f39de346a5b10e518576c03eada",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
