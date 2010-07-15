@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALwX///BQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Git.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-07-07T22:05:15Z",
+      "side": 1,
+      "message": "this returns an object not a class:\ns/Returns a command class/Returns a command object/",
+      "revId": "5cfdba8f5b61c1ad38a22e66e4260db41beef06d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///BU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/NoFilepatternException.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-07-07T22:05:15Z",
+      "side": 1,
+      "message": "typo:\ns/doesn\u0027t/don\u0027t/",
+      "revId": "5cfdba8f5b61c1ad38a22e66e4260db41beef06d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
