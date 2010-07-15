@@ -2,6 +2,7 @@
  * Copyright (C) 2008-2009, Google Inc.
  * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org>
  * Copyright (C) 2010, Matthias Sohn <matthias.sohn@sap.com>
+ * Copyright (C) 2010, Christian Halstrick <christian.halstrick@sap.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -282,7 +283,7 @@ public class DirCacheEntry {
 	 *            nanoseconds component of the index's last modified time.
 	 * @return true if extra careful checks should be used.
 	 */
-	final boolean mightBeRacilyClean(final int smudge_s, final int smudge_ns) {
+	public final boolean mightBeRacilyClean(final int smudge_s, final int smudge_ns) {
 		// If the index has a modification time then it came from disk
 		// and was not generated from scratch in memory. In such cases
 		// the entry is 'racily clean' if the entry's cached modification
@@ -306,21 +307,30 @@ public class DirCacheEntry {
 	 * match the file in the working directory. Later git will be forced to
 	 * compare the file content to ensure the file matches the working tree.
 	 */
-	final void smudgeRacilyClean() {
-		// We don't use the same approach as C Git to smudge the entry,
-		// as we cannot compare the working tree file to our SHA-1 and
-		// thus cannot use the "size to 0" trick without accidentally
-		// thinking a zero length file is clean.
-		//
-		// Instead we force the mtime to the largest possible value, so
-		// it is certainly after the index's own modification time and
-		// on a future read will cause mightBeRacilyClean to say "yes!".
-		// It is also unlikely to match with the working tree file.
-		//
-		// I'll see you again before Jan 19, 2038, 03:14:07 AM GMT.
-		//
-		final int base = infoOffset + P_MTIME;
-		Arrays.fill(info, base, base + 8, (byte) 127);
+	public final void smudgeRacilyClean() {
+		// To mark an entry racily clean we set its length to 0 (like native git
+		// does). Entries which are not racily clean and have zero length can be
+		// distinguished from racily clean entries by checking P_OBJECTID
+		// against the SHA1 of empty content. When length is 0 and P_OBJECTID is
+		// different from SHA1 of empty content we know the entry is marked
+		// racily clean
+		final int base = infoOffset + P_SIZE;
+		Arrays.fill(info, base, base + 4, (byte) 0);
+	}
+
+	/**
+	 * Check whether this entry has been smudged or not
+	 * <p>
+	 * If a blob has length 0 we know his id see {@link Constants#EMPTY_BLOB_ID}. If an entry
+	 * has length 0 and an ID different from the one for empty blob we know this
+	 * entry was smudged.
+	 *
+	 * @return <code>true</code> if the entry is smudged, <code>false</code>
+	 *         otherwise
+	 */
+	public final boolean isSmudged() {
+		final int base = infoOffset + P_OBJECTID;
+		return (getLength() == 0) && (Constants.EMPTY_BLOB_ID.compareTo(info, base) != 0);
 	}
 
 	final byte[] idBuffer() {
