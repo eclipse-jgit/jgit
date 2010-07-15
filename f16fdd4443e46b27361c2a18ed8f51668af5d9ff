@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALwX///eg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/AddCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-02T21:33:33Z",
+      "side": 1,
+      "message": "Don\u0027t lock the DirCache if you are simply reading and unlocking, its sort of a waste of time.  Use read() if all you need is to look at it.\n\nBut, I have to question, why is this block here?  If the file doesn\u0027t exist in the working tree, and yet we were told to add it, we have nothing to do, don\u0027t we?  That is `rm foo; git add foo` doesn\u0027t stage the deletion.  We probably don\u0027t want to do that here either.",
+      "revId": "f16fdd4443e46b27361c2a18ed8f51668af5d9ff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///ec\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/AddCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-02T21:33:33Z",
+      "side": 1,
+      "message": "If you also do\n\n  tw.setFilter(PathFilter.create(filepath))\n\nYou don\u0027t need to do anything in the while loop.  Just execute:\n\n  while (tw.next()) {\n    // Already positioned to the file we want to touch.\n    ....\n  }\n\nThe DirCacheBuilderIterator knows how to manage the rest of the entries outside of the space that the PathFilter matches against and ensure they stay unaffected in the resulting DirCache.",
+      "revId": "f16fdd4443e46b27361c2a18ed8f51668af5d9ff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///ek\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Git.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-02T21:33:33Z",
+      "side": 1,
+      "message": "Here you call this filepattern, but in AddCommand you call it filepath, and actually treat it as relative to the root of the working directory.\n\nSimilar to merge() I think add() should be just a factory which provides the command, and arguments should be set on the command.  Then we can have addFile(), and addPattern(), which have different behaviors as to how they setup the add request.  Further, we can add multiple things in one call, so that the DirCache only needs to be locked and written once, rather than per file specified in the user interface.",
+      "revId": "f16fdd4443e46b27361c2a18ed8f51668af5d9ff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
