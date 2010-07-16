@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALwX//+8c\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffFormatter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 525,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-08T18:25:54Z",
+      "side": 1,
+      "message": "This new method should have a unit test.",
+      "revId": "40d0a53c915213deb5bdf2bf5efcf2a76ab6d28b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX//+8s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffFormatter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 528,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-08T18:25:54Z",
+      "side": 1,
+      "message": "s/It it/It is/",
+      "revId": "40d0a53c915213deb5bdf2bf5efcf2a76ab6d28b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX//+8o\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffFormatter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 537,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-08T18:25:54Z",
+      "side": 1,
+      "message": "When can this be thrown?",
+      "revId": "40d0a53c915213deb5bdf2bf5efcf2a76ab6d28b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX//+8k\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffFormatter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 541,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-08T18:25:54Z",
+      "side": 1,
+      "message": "Instead of \"UTF-8\" use Constants.CHARSET.",
+      "revId": "40d0a53c915213deb5bdf2bf5efcf2a76ab6d28b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX//+8g\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffFormatter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 542,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-08T18:25:54Z",
+      "side": 1,
+      "message": "Don\u0027t initialize this here, it increases the chances that we would forget to set the return value from MyersDiff.\n\nInstead just declare the variable as final, and initialize it in each of the arms below of the conditional statements.  Its only 2 locations, and the compiler can prove that we have set it for each of the different conditions.",
+      "revId": "40d0a53c915213deb5bdf2bf5efcf2a76ab6d28b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
