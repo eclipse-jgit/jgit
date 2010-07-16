@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAALwX//+2M\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/SimilarityRenameDetector.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 73
+      },
+      "writtenOn": "2010-07-12T18:15:51Z",
+      "side": 1,
+      "message": "Would the final score be out of 10000, or just the content score? Since we\u0027re using 7 bits to hold the score in the matrix, we would have to change the encoding scheme to have the final score be up to 10000. If we leave the final score to be [0,100] I don\u0027t see how we would be getting any more precision for tie breaking.",
+      "parentUuid": "AAALwX//+2U\u003d",
+      "revId": "3945d56570c139a3b06f3fa75337038e978ee013",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALwX//+2o\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/SimilarityRenameDetector.java",
         "patchSetId": 1
