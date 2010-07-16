@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAALwX///L8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-07-06T15:58:57Z",
+      "side": 1,
+      "message": "typo: s/we to/we want to/",
+      "revId": "1af76de472d9a90f308c86c3f6ad17e140d91bc9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALwX///Is\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
         "patchSetId": 2
@@ -19,6 +36,23 @@
     },
     {
       "key": {
+        "uuid": "AAALwX///L0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 396,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-07-06T15:58:57Z",
+      "side": 1,
+      "message": "is this a TODO ?",
+      "revId": "1af76de472d9a90f308c86c3f6ad17e140d91bc9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALwX///I4\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
         "patchSetId": 2
@@ -30,6 +64,23 @@
       "writtenOn": "2010-07-06T23:10:32Z",
       "side": 1,
       "message": "We shouldn\u0027t ever fully skip the file mode check.  Long story short, we don\u0027t want to confuse a symlink with a file if the WorkingTreeIterator subclass can actually detect symlinks (and I hope to have that in the future).\n\nThe basis of the checkFilemode flag is only to ignore a difference in the executable bit of the file.  Any other type of difference must be honored as different, even if checkFilemode was false.",
+      "revId": "1af76de472d9a90f308c86c3f6ad17e140d91bc9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///Lo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 417,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-07-06T15:58:57Z",
+      "side": 1,
+      "message": "typo: s/prevision/precision/\n\nWhy does git under windows only store seconds ? In this afternoons debugging session with Stefan I saw ms coming from NTFS.",
       "revId": "1af76de472d9a90f308c86c3f6ad17e140d91bc9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
