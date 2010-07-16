@@ -1,6 +1,5 @@
 /*
- * Copyright (C) 2008, Google Inc.
- * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org>
+ * Copyright (C) 2010, Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -42,20 +41,27 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.eclipse.jgit.treewalk.filter;
+package org.eclipse.jgit.revwalk;
 
-import org.eclipse.jgit.JGitText;
-import org.eclipse.jgit.lib.Constants;
+import java.io.IOException;
+
+import org.eclipse.jgit.errors.IncorrectObjectTypeException;
+import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.treewalk.TreeWalk;
+import org.eclipse.jgit.treewalk.filter.PathFilter;
+import org.eclipse.jgit.treewalk.filter.TreeFilter;
 
 /**
- * Includes tree entries only if they match the configured path.
+ * Updates the internal path filter to follow copy/renames.
  * <p>
- * Applications should use {@link PathFilterGroup} to connect these into a tree
- * filter graph, as the group supports breaking out of traversal once it is
- * known the path can never match.
+ * This is a special filter that performs {@code AND(path, ANY_DIFF)}, but also
+ * triggers rename detection so that the path node is updated to include a prior
+ * file name as the RevWalk traverses history.
+ * <p>
+ * Results with this filter are unpredictable if the path being followed is a
+ * subdirectory.
  */
-public class PathFilter extends TreeFilter {
+public class FollowFilter extends TreeFilter {
 	/**
 	 * Create a new tree filter for a user supplied path.
 	 * <p>
@@ -73,47 +79,42 @@ public class PathFilter extends TreeFilter {
 	 * @throws IllegalArgumentException
 	 *             the path supplied was the empty string.
 	 */
-	public static PathFilter create(String path) {
-		while (path.endsWith("/"))
-			path = path.substring(0, path.length() - 1);
-		if (path.length() == 0)
-			throw new IllegalArgumentException(JGitText.get().emptyPathNotPermitted);
-		return new PathFilter(path);
+	public static FollowFilter create(String path) {
+		return new FollowFilter(PathFilter.create(path));
 	}
 
-	final String pathStr;
+	private final PathFilter path;
 
-	final byte[] pathRaw;
-
-	private PathFilter(final String s) {
-		pathStr = s;
-		pathRaw = Constants.encode(pathStr);
+	FollowFilter(final PathFilter path) {
+		this.path = path;
 	}
 
 	/** @return the path this filter matches. */
 	public String getPath() {
-		return pathStr;
+		return path.getPath();
 	}
 
 	@Override
-	public boolean include(final TreeWalk walker) {
-		return walker.isPathPrefix(pathRaw, pathRaw.length) == 0;
+	public boolean include(final TreeWalk walker)
+			throws MissingObjectException, IncorrectObjectTypeException,
+			IOException {
+		return path.include(walker) && ANY_DIFF.include(walker);
 	}
 
 	@Override
 	public boolean shouldBeRecursive() {
-		for (final byte b : pathRaw)
-			if (b == '/')
-				return true;
-		return false;
+		return path.shouldBeRecursive() || ANY_DIFF.shouldBeRecursive();
 	}
 
 	@Override
-	public PathFilter clone() {
-		return this;
+	public TreeFilter clone() {
+		return new FollowFilter(path.clone());
 	}
 
+	@Override
 	public String toString() {
-		return "PATH(\"" + pathStr + "\")";
+		return "(FOLLOW(" + path.toString() + ")" //
+				+ " AND " //
+				+ ANY_DIFF.toString() + ")";
 	}
 }

@@ -46,9 +46,10 @@ package org.eclipse.jgit.patch;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.eclipse.jgit.lib.FileMode;
-
 import junit.framework.TestCase;
+
+import org.eclipse.jgit.diff.DiffEntry;
+import org.eclipse.jgit.lib.FileMode;
 
 public class PatchCcTest extends TestCase {
 	public void testParse_OneFileCc() throws IOException {
@@ -113,7 +114,7 @@ public class PatchCcTest extends TestCase {
 
 		final CombinedFileHeader cfh = (CombinedFileHeader) p.getFiles().get(0);
 
-		assertSame(FileHeader.DEV_NULL, cfh.getOldName());
+		assertSame(DiffEntry.DEV_NULL, cfh.getOldName());
 		assertEquals("d", cfh.getNewName());
 
 		assertEquals(187, cfh.startOffset);
@@ -168,7 +169,7 @@ public class PatchCcTest extends TestCase {
 		final CombinedFileHeader cfh = (CombinedFileHeader) p.getFiles().get(0);
 
 		assertEquals("a", cfh.getOldName());
-		assertSame(FileHeader.DEV_NULL, cfh.getNewName());
+		assertSame(DiffEntry.DEV_NULL, cfh.getNewName());
 
 		assertEquals(187, cfh.startOffset);
 

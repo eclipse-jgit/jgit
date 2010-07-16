@@ -68,7 +68,7 @@ public class DiffFormatterReflowTest extends TestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
 		out = new ByteArrayOutputStream();
-		fmt = new DiffFormatter();
+		fmt = new DiffFormatter(out);
 	}
 
 	public void testNegativeContextFails() throws IOException {
@@ -143,7 +143,7 @@ public class DiffFormatterReflowTest extends TestCase {
 	}
 
 	private void assertFormatted(final String name) throws IOException {
-		fmt.format(out, file, a, b);
+		fmt.format(file, a, b);
 		final String exp = RawParseUtils.decode(readFile(name));
 		assertEquals(exp, RawParseUtils.decode(out.toByteArray()));
 	}

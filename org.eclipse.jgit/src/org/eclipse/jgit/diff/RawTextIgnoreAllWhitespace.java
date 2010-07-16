@@ -51,6 +51,13 @@ import static org.eclipse.jgit.util.RawCharUtil.trimTrailingWhitespace;
  * A version of {@link RawText} that ignores all whitespace.
  */
 public class RawTextIgnoreAllWhitespace extends RawText {
+	/** Creates RawText that ignores all whitespace. */
+	@SuppressWarnings("hiding")
+	public static final Factory FACTORY = new Factory() {
+		public RawText create(byte[] input) {
+			return new RawTextIgnoreAllWhitespace(input);
+		}
+	};
 
 	/**
 	 * Create a new sequence from an existing content byte array.
