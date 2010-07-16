@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALwn////c\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-16T01:55:08Z",
+      "side": 1,
+      "message": "Isn\u0027t this expression entirely redundant?\n\nIf we remove it we still get the same behavior.  When forceContentCheck is false we fall through to the else below, which compares the values and if !\u003d returns true.",
+      "revId": "d0e55cee0c24a0d3f79529e9598dd35a1ec43def",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
