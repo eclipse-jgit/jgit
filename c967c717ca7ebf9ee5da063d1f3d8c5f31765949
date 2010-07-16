@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALwX//+20\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/SimilarityRenameDetector.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-12T17:21:48Z",
+      "side": 1,
+      "message": "I find this awkward way to phrase the condition.  Elsewhere we talk about the common * 100 / max, so why not do the same here?\n\n  min * 100 / max \u003c renameScore",
+      "revId": "c967c717ca7ebf9ee5da063d1f3d8c5f31765949",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
