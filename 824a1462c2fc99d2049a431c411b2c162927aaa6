@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALwX///Xw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/IndexPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 963,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-07-03T09:16:11Z",
+      "side": 1,
+      "message": "-I\u0027m sliightly allergic to exceptions without some information.\n-Throw the corrupt stream exception right \n\n(same thing in the \"copies\" of this code",
+      "revId": "824a1462c2fc99d2049a431c411b2c162927aaa6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///Xs\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/IndexPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 975,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-07-03T09:16:11Z",
+      "side": 1,
+      "message": "This leads to the wrong stack trace",
+      "revId": "824a1462c2fc99d2049a431c411b2c162927aaa6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
