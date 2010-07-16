@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALwn////k\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffEntry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-16T01:28:27Z",
+      "side": 1,
+      "message": "Style-nit:  Our toString style looks more like\n\n  DiffEntry[ADD newName]\n  DiffEntry[COPY oldName -\u003e newName score]\n  DiffEntry[DELETE oldName]\n\netc...  Please match it here.  Of course this is a bit easier, you can do buf.append(type) to get the type part and not have to duplicate the name in both the case label and the string text.",
+      "revId": "64033764094bbfe0ead3bf2a0ff7fcfb790191a7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwn////o\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RenameDetector.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-16T01:28:27Z",
+      "side": 1,
+      "message": "Style-nit: This can be a static method.",
+      "revId": "64033764094bbfe0ead3bf2a0ff7fcfb790191a7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwn////s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RenameDetector.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 516,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-16T01:28:27Z",
+      "side": 1,
+      "message": "Style-nit: We don\u0027t put () around ?: in a return.",
+      "revId": "64033764094bbfe0ead3bf2a0ff7fcfb790191a7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
