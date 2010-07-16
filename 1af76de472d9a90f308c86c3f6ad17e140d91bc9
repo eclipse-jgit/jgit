@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALwX///Is\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-06T23:10:32Z",
+      "side": 1,
+      "message": "Style-nit: Unnecessary blank lines here.",
+      "revId": "1af76de472d9a90f308c86c3f6ad17e140d91bc9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///I4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-06T23:10:32Z",
+      "side": 1,
+      "message": "We shouldn\u0027t ever fully skip the file mode check.  Long story short, we don\u0027t want to confuse a symlink with a file if the WorkingTreeIterator subclass can actually detect symlinks (and I hope to have that in the future).\n\nThe basis of the checkFilemode flag is only to ignore a difference in the executable bit of the file.  Any other type of difference must be honored as different, even if checkFilemode was false.",
+      "revId": "1af76de472d9a90f308c86c3f6ad17e140d91bc9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///Iw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-06T23:10:32Z",
+      "side": 1,
+      "message": "I think this logic is wrong.  Shouldn\u0027t it be:\n\n  if (forceContentCheck) {\n    if (fileLastModified \u003d\u003d cacheLastModified)\n      return false; // Same time, don\u0027t check content.\n    else\n      return !getEntryObjectId().equals(entry.getObjectId());\n  } else {\n    // No content check forced, assume dirty if stat differs.\n    return fileLastModified !\u003d cacheLastModified;\n  }\n\nBasically, isn\u0027t the meaning of forceContentCheck that you want to \"refresh the index\", aka update the stat information for a path to match what is in the working directory if the file contents are the same?  Its not to fix the racily clean problem, its to fix paths where the user has touched the file but not actually made changes to its contents.\n\nRacily clean should be handled differently, but also should force a content check.  To handle racily clean, you would check for racily clean condition side of the forceContentCheck block above before testing the file modification times, and do the content check there.\n\nRight now your code is doing content checks on files that are unchanged, and are proven to be unchanged by stat information.  That hurts on a big repository.",
+      "revId": "1af76de472d9a90f308c86c3f6ad17e140d91bc9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
