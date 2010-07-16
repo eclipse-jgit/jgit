@@ -398,20 +398,20 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		if (entry.isUpdateNeeded())
 			return true;
 
-		if (getEntryLength() != entry.getLength())
+		if (!entry.isSmudged() && (getEntryLength() != entry.getLength()))
 			return true;
 
-		// determine difference in mode-bits of file and index-entry. In the
+		// Determine difference in mode-bits of file and index-entry. In the
 		// bitwise presentation of modeDiff we'll have a '1' when the two modes
 		// differ at this position.
 		int modeDiff = getEntryRawMode() ^ entry.getRawMode();
-		// ignore the executable file bits if checkFilemode tells me to do so.
+		// Ignore the executable file bits if checkFilemode tells me to do so.
 		// Ignoring is done by setting the bits representing a EXECUTABLE_FILE
 		// to '0' in modeDiff
 		if (!checkFilemode)
 			modeDiff &= ~FileMode.EXECUTABLE_FILE.getBits();
 		if (modeDiff != 0)
-			// report a modification if the modes still (after potentially
+			// Report a modification if the modes still (after potentially
 			// ignoring EXECUTABLE_FILE bits) differ
 			return true;
 
@@ -422,14 +422,58 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		long fileLastModified = getEntryLastModified();
 		if (cacheLastModified % 1000 == 0)
 			fileLastModified = fileLastModified - fileLastModified % 1000;
-		if (forceContentCheck) {
-			if (fileLastModified == cacheLastModified)
-				return false; // Same time, don't check content.
-			else
-				return !getEntryObjectId().equals(entry.getObjectId());
+
+		if (fileLastModified != cacheLastModified) {
+			// The file is dirty by timestamps
+			if (forceContentCheck) {
+				// But we are told to look at content even though timestamps
+				// tell us about modification
+				return contentCheck(entry);
+			} else {
+				// We are told to assume a modification if timestamps differs
+				return true;
+			}
 		} else {
-			// No content check forced, assume dirty if stat differs.
-			return fileLastModified != cacheLastModified;
+			// The file is clean when you look at timestamps.
+			if (entry.isSmudged()) {
+				// The file is clean by timestamps but the entry was smudged.
+				// Lets do a content check
+				return contentCheck(entry);
+			} else {
+				// The file is clean by timestamps and the entry is not
+				// smudged: Can't get any cleaner!
+				return false;
+			}
+		}
+	}
+
+	/**
+	 * Compares the entries content with the content in the filesystem.
+	 * Unsmudges the entry when it is detected that it is clean.
+	 *
+	 * @param entry
+	 *            the entry to be checked
+	 * @return <code>true</code> if the content matches, <code>false</code>
+	 *         otherwise
+	 */
+	private boolean contentCheck(DirCacheEntry entry) {
+		if (getEntryObjectId().equals(entry.getObjectId())) {
+			// Content has not changed
+
+			// We know the entry can't be racily clean because it's still clean.
+			// Therefore we unsmudge the entry!
+			// If by any chance we now unsmudge although we are still in the
+			// same time-slot as the last modification to the index file the
+			// next index write operation will smudge again.
+			// Caution: we are unsmudging just by setting the length of the
+			// in-memory entry object. It's the callers task to detect that we
+			// have modified the entry and to persist the modified index.
+			entry.setLength((int) getEntryLength());
+
+			return false;
+		} else {
+			// Content differs: that's a real change!
+			return true;
 		}
 	}
 
