@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALwX///hs\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RenameDetector.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-02T00:17:36Z",
+      "side": 1,
+      "message": "Style-nit: Pointless javadoc blocks should be removed, or made non-pointless.  :-)",
+      "revId": "447ae1af252e18f82e61b4ed89feb04de1de2fc1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///ho\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RenameDetector.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-02T00:17:36Z",
+      "side": 1,
+      "message": "Use entry.oldMode and entry.newMode.  They are cheaper to access than calling walk.getFileMode(), which has to do quite a bit of work actually.",
+      "revId": "447ae1af252e18f82e61b4ed89feb04de1de2fc1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
