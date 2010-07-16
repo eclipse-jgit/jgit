@@ -78,6 +78,10 @@ public class RecordingLogger implements Logger {
 		public Warning(String msg, Throwable cause) {
 			super(msg, cause);
 		}
+
+		public Warning(Throwable thrown) {
+			super(thrown);
+		}
 	}
 
 	private final String name;
@@ -116,7 +120,9 @@ public class RecordingLogger implements Logger {
 		}
 	}
 
-	public void debug(String msg, Object arg0, Object arg1) {
+	public void debug(@SuppressWarnings("unused") String msg,
+			          @SuppressWarnings("unused") Object arg0,
+			          @SuppressWarnings("unused") Object arg1) {
 		// Ignore (not relevant to test failures)
 	}
 
@@ -124,15 +130,17 @@ public class RecordingLogger implements Logger {
 		// Ignore (not relevant to test failures)
 	}
 
-	public void debug(String msg) {
+	public void debug(@SuppressWarnings("unused") String msg) {
 		// Ignore (not relevant to test failures)
 	}
 
-	public void info(String msg, Object arg0, Object arg1) {
+	public void info(@SuppressWarnings("unused") String msg,
+			         @SuppressWarnings("unused") Object arg0,
+			         @SuppressWarnings("unused") Object arg1) {
 		// Ignore (not relevant to test failures)
 	}
 
-	public void info(String msg) {
+	public void info(@SuppressWarnings("unused") String msg) {
 		// Ignore (not relevant to test failures)
 	}
 
@@ -141,6 +149,38 @@ public class RecordingLogger implements Logger {
 	}
 
 	public void setDebugEnabled(boolean enabled) {
+		// Ignore (not relevant to test failures)
+	}
+
+	public void warn(String msg, Object... args) {
+		synchronized (warnings) {
+			warnings.add(new Warning(MessageFormat.format(msg, args)));
+		}
+	}
+
+	public void warn(Throwable thrown) {
+		synchronized (warnings) {
+			warnings.add(new Warning(thrown));
+		}
+	}
+
+	public void info(String msg, Object... args) {
+		// Ignore (not relevant to test failures)
+	}
+
+	public void info(Throwable thrown) {
+		// Ignore (not relevant to test failures)
+	}
+
+	public void info(String msg, Throwable thrown) {
+		// Ignore (not relevant to test failures)
+	}
+
+	public void debug(String msg, Object... args) {
+		// Ignore (not relevant to test failures)
+	}
+
+	public void debug(Throwable thrown) {
 		// Ignore (not relevant to test failures)
 	}
 }
