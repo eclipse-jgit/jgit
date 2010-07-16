@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALwX///WY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/IndexPack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 951,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2010-07-03T20:19:22Z",
+      "side": 1,
+      "message": "The argument is called \u0027keep\u0027 but this is phrased as \u0027do not discard\u0027 - similarly, there\u0027s a \u0027discard\u0027 synonym for \u0027do not keep\u0027. Either we should change the var (keep -\u003e discard) or we should change the comment to be \u0027keep\u0027 and \u0027do not keep\u0027",
+      "revId": "733768d7e30f988d2fef3d7e1e1bcac7a4731102",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
