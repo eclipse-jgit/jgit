@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALwX///q0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/FileHeader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-06-30T23:29:51Z",
+      "side": 1,
+      "message": "Please don\u0027t move this line around in the constructor, its not essential to the patch.",
+      "revId": "8398728cd218f8c6e98f7a4a7f2f342391d865e4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
