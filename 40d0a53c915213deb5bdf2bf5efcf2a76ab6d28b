@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "AAALwX//+8U\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffFormatter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 528,
+      "author": {
+        "id": 73
+      },
+      "writtenOn": "2010-07-08T18:47:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALwX//+8s\u003d",
+      "revId": "40d0a53c915213deb5bdf2bf5efcf2a76ab6d28b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALwX//+8o\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffFormatter.java",
         "patchSetId": 2
@@ -53,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "AAALwX//+8M\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffFormatter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 537,
+      "author": {
+        "id": 73
+      },
+      "writtenOn": "2010-07-08T18:47:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALwX//+8o\u003d",
+      "revId": "40d0a53c915213deb5bdf2bf5efcf2a76ab6d28b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALwX//+8k\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffFormatter.java",
         "patchSetId": 2
@@ -64,6 +100,24 @@
       "writtenOn": "2010-07-08T18:25:54Z",
       "side": 1,
       "message": "Instead of \"UTF-8\" use Constants.CHARSET.",
+      "revId": "40d0a53c915213deb5bdf2bf5efcf2a76ab6d28b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX//+8Q\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffFormatter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 541,
+      "author": {
+        "id": 73
+      },
+      "writtenOn": "2010-07-08T18:47:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALwX//+8k\u003d",
       "revId": "40d0a53c915213deb5bdf2bf5efcf2a76ab6d28b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
