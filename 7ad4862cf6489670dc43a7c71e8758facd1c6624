@@ -1,0 +1,276 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALwX///kc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RenameDetector.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-01T22:57:21Z",
+      "side": 1,
+      "message": "Style-nit:  Javadoc should be like a git commit message, a short single line sentence on the first line, paragraph break (usually with \u003cp\u003e HTML element) and then the rest of the method description.",
+      "revId": "7ad4862cf6489670dc43a7c71e8758facd1c6624",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///kI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RenameDetector.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-01T22:57:21Z",
+      "side": 1,
+      "message": "You should document that this needs to have exactly two tree iterators involved, since 0 and 1 are accessed in the loop.",
+      "revId": "7ad4862cf6489670dc43a7c71e8758facd1c6624",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///kY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RenameDetector.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-01T22:57:21Z",
+      "side": 1,
+      "message": "Error messages need to be externalized strings in JGitText class and the JGitText properties file.",
+      "revId": "7ad4862cf6489670dc43a7c71e8758facd1c6624",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///kU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RenameDetector.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-01T22:57:21Z",
+      "side": 1,
+      "message": "Don\u0027t abbreviate here.  Create the full ObjectId.\n\nReally what you should do is:\n\n  MutableObjectId idBuf \u003d new MutableObjectId();\n  while (walk.next()) {\n    DiffEntry entry \u003d new DiffEntry();\n\n    tw.getObjectId(idBuf, 0);\n    entry.oldId \u003d AbbreviatedObjectId.fromObjectId(idBuf);\n\n    tw.getObjectId(idBuf, 1);\n    entry.newId \u003d AbbreviatedObjectId.fromObjectId(idBuf);\n  }\n\nThat keeps object allocation down to a minimum by using a locally allocated, but mutable, object id buffer.",
+      "revId": "7ad4862cf6489670dc43a7c71e8758facd1c6624",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///kM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RenameDetector.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-01T22:57:21Z",
+      "side": 1,
+      "message": "Don\u0027t test on the ObjectId, use the FileMode.  If its FileMode.MISSING then that side doesn\u0027t exist.",
+      "revId": "7ad4862cf6489670dc43a7c71e8758facd1c6624",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///kE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RenameDetector.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-01T22:57:21Z",
+      "side": 1,
+      "message": "I think findExactRenames() is a more descriptive name for this method since its only doing the exact case.",
+      "revId": "7ad4862cf6489670dc43a7c71e8758facd1c6624",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///kA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RenameDetector.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-01T22:57:21Z",
+      "side": 1,
+      "message": "Hmm.  AbbreviatedObjectId is immutable, and hashable.  Instead of copying to an ObjectId, lets just hash the AbbreviatedObjectId as the key.",
+      "revId": "7ad4862cf6489670dc43a7c71e8758facd1c6624",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///j8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RenameDetector.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-01T22:57:21Z",
+      "side": 1,
+      "message": "You can\u0027t do that.  The Arrays.asList result has a constant length.  Which means on the 3rd item for the same key, you\u0027ll throw an exception during add().\n\nThis has to be an ArrayList, but you can set its size as 2:\n\n  ArrayList\u003cDiffEntry\u003e tmp \u003d new ArrayList\u003cDiffEntry\u003e(2);\n  tmp.add(old);\n  tmp.add(del);\n  map.put(id, tmp);\n\nOn the next addition when have a 3rd item, the array list will double in capacity to 4 elements, then 8, 16, etc.",
+      "revId": "7ad4862cf6489670dc43a7c71e8758facd1c6624",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///jk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RenameDetector.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-01T22:57:21Z",
+      "side": 1,
+      "message": "Make the 100 a constant, but lets call it something specific like EXACT_RENAME.  For various reasons I think we might want the exact rename score to be bigger than any possible similarity score.  It will be easier to tweak that if it has a special constant assigned to it.",
+      "revId": "7ad4862cf6489670dc43a7c71e8758facd1c6624",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///j4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RenameDetector.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-01T22:57:21Z",
+      "side": 1,
+      "message": "remove returns the DiffEntry.  Which eliminates the need for the get on the line above.",
+      "revId": "7ad4862cf6489670dc43a7c71e8758facd1c6624",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///j0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RenameDetector.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-01T22:57:21Z",
+      "side": 1,
+      "message": "Only put the list back if its not empty?",
+      "revId": "7ad4862cf6489670dc43a7c71e8758facd1c6624",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///js\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RenameDetector.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-01T22:57:21Z",
+      "side": 1,
+      "message": "To make this easier to extend with similarity based matching code, I would just do:\n\n  added \u003d tempAdded\n\nHere, and then above in getEntries() just before you set done, I would do something like:\n\n  entries.addAll(added);\n  entries.addAll(deleted);\n  added \u003d null;\n  deleted \u003d null;\n  done \u003d true;\n  Collections.sort(entries, ...);\n\nThen we can just plug in the similarity pass by invoking a new similarity pass method after the findExactRenames() method is run.",
+      "revId": "7ad4862cf6489670dc43a7c71e8758facd1c6624",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///kw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/AbbreviatedObjectId.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-01T22:57:21Z",
+      "side": 1,
+      "message": "Please avoid reformatting code you aren\u0027t changing.",
+      "revId": "7ad4862cf6489670dc43a7c71e8758facd1c6624",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///ko\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/AbbreviatedObjectId.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-01T22:57:21Z",
+      "side": 1,
+      "message": "Please also document that the converted id is complete, and thus can be recast back to an ObjectId with no loss.",
+      "revId": "7ad4862cf6489670dc43a7c71e8758facd1c6624",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///kQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/AbbreviatedObjectId.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-01T22:57:21Z",
+      "side": 1,
+      "message": "Accept AnyObjectId since you are copying the field values.",
+      "revId": "7ad4862cf6489670dc43a7c71e8758facd1c6624",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///kk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/AbbreviatedObjectId.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-01T22:57:21Z",
+      "side": 1,
+      "message": "Again, reformatting.",
+      "revId": "7ad4862cf6489670dc43a7c71e8758facd1c6624",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
