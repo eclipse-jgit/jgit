@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALwX//+0I\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/diff/RenameDetectorTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-12T21:37:33Z",
+      "side": 1,
+      "message": "We should also test what happens when you ask for it to compute here.  It should return a,b,c,d unmodified since these aren\u0027t exact renames.",
+      "revId": "2c9b73a5780609a7ebd541648ddc874a1c2e7690",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
