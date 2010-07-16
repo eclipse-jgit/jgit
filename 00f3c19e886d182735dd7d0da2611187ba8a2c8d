@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALwX//+6g\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/diff/DiffFormatterTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-08T23:33:49Z",
+      "side": 1,
+      "message": "Our resulting FileHeader should have PatchType.BINARY.  It doesn\u0027t because you aren\u0027t setting it in this case.",
+      "revId": "00f3c19e886d182735dd7d0da2611187ba8a2c8d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX//+6o\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffFormatter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 576,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-08T23:33:49Z",
+      "side": 1,
+      "message": "Flush isn\u0027t necessary, its a no-op on a ByteArrayOutputStream.",
+      "revId": "00f3c19e886d182735dd7d0da2611187ba8a2c8d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX//+6k\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/FileHeader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-08T23:33:49Z",
+      "side": 1,
+      "message": "Good catch, thanks for fixing that.",
+      "revId": "00f3c19e886d182735dd7d0da2611187ba8a2c8d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
