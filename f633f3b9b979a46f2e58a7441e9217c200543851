@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALwX//+7A\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/diff/DiffFormatterTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-08T23:16:13Z",
+      "side": 1,
+      "message": "A modify should have a score of 0.",
+      "revId": "f633f3b9b979a46f2e58a7441e9217c200543851",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX//+68\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/diff/DiffFormatterTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-08T23:16:13Z",
+      "side": 1,
+      "message": "You should also do something like:\n\n  assertEquals(0, fh.getStartOffset());\n  assertEquals(fh.getBuffer().length, fh.getEndOffset());",
+      "revId": "f633f3b9b979a46f2e58a7441e9217c200543851",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX//+64\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/diff/DiffFormatterTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-08T23:16:13Z",
+      "side": 1,
+      "message": "Again, score of 0 for a modify.",
+      "revId": "f633f3b9b979a46f2e58a7441e9217c200543851",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX//+60\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/diff/DiffFormatterTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-08T23:16:13Z",
+      "side": 1,
+      "message": "Again, score",
+      "revId": "f633f3b9b979a46f2e58a7441e9217c200543851",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX//+7M\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffFormatter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 544,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-08T23:16:13Z",
+      "side": 1,
+      "message": "I think the comment is incomplete for IOException.  Other reasons are we cannot read one of the blobs in order to generate the edit list.  Typically we document those by adding CorruptObjectException and MissingObjectException to the throws clauses, and to the javadoc.  I missed that on the original formatting code when I moved it here.  *sigh*",
+      "revId": "f633f3b9b979a46f2e58a7441e9217c200543851",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX//+7Q\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffFormatter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 548,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-08T23:16:13Z",
+      "side": 1,
+      "message": "Oooh.  Its a PrintStream.  Yuck.  Actually, we don\u0027t need this to be a PrintStream, everyone is handling their own encoding.  You can write to buf directly.",
+      "revId": "f633f3b9b979a46f2e58a7441e9217c200543851",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
