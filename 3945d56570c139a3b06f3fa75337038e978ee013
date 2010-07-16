@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALwX//+2U\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/SimilarityRenameDetector.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-12T17:46:13Z",
+      "side": 1,
+      "message": "I know we talked about this being 90/10, but I wonder if that\u0027s still a good decision.  Most of the test scores dropped by a good amount.  In git content is (mostly) king.  I wonder if we weakened the content signal too much by making it only 90%.\n\nI just checked the C Git source code, I think they are using under 1% for the name similarity score.\n\nMaybe we compute this as 99%/1%:\n\n  (contentScore * 99 + nameScore * 1) / 100\n\nWhich means we actually have a lot of rounding error.  Since both scores are currently in the [0,100] range maybe we boost them to be in the [0,10000] range.  Combined they still won\u0027t overflow an int but we can carry some more precision into the final score computation so that a near tie at the content level can be broken by a strong name similarity.\n\nI would modify the SimilarityIndex.score() method to take a base parameter, that is, how many steps the score range should occupy between [0, base].  Then you can pass in 10000 here and make it clear the score is out of 10000 rather than 100 for the content.",
+      "revId": "3945d56570c139a3b06f3fa75337038e978ee013",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX//+2o\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/SimilarityRenameDetector.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-12T17:46:13Z",
+      "side": 1,
+      "message": "Style-nit: Break should be on next line.",
+      "revId": "3945d56570c139a3b06f3fa75337038e978ee013",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX//+2g\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/SimilarityRenameDetector.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-12T17:46:13Z",
+      "side": 1,
+      "message": "You can short-circuit this loop entirely if dirSim \u003d\u003d dirMax after the above loop.  This happens when the rename is just a file rename within the same directory, in which case you can just set dirScoreLtr and dirScoreRtl to 100.",
+      "revId": "3945d56570c139a3b06f3fa75337038e978ee013",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX//+2k\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/SimilarityRenameDetector.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-12T17:46:13Z",
+      "side": 1,
+      "message": "Style-nit: Break should be on next line.",
+      "revId": "3945d56570c139a3b06f3fa75337038e978ee013",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX//+2c\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/SimilarityRenameDetector.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-12T17:46:13Z",
+      "side": 1,
+      "message": "Style-nit: Break should be on next line.",
+      "revId": "3945d56570c139a3b06f3fa75337038e978ee013",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX//+2Y\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/SimilarityRenameDetector.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-12T17:46:13Z",
+      "side": 1,
+      "message": "Style-nit: Don\u0027t create a local variable just to return an expression.  Just return it.",
+      "revId": "3945d56570c139a3b06f3fa75337038e978ee013",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
