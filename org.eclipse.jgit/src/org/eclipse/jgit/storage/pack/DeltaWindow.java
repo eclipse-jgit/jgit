@@ -330,6 +330,7 @@ class DeltaWindow {
 
 				ZipStream zs = new ZipStream(deflater(), zbuf);
 				bestDelta.writeTo(zs, null);
+				bestDelta = null;
 				int len = zs.finish();
 
 				resObj.setCachedDelta(deltaCache.cache(zbuf, len, rawsz));
