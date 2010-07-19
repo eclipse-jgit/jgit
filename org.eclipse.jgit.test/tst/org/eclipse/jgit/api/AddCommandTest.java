@@ -263,7 +263,7 @@ public class AddCommandTest extends RepositoryTestCase {
 		assertEquals(0, dc.getEntry("b.txt").getStage());
 	}
 
-	public void testAddTwoFiles() throws Exception  {
+	public void testAddTwoFiles() throws Exception {
 		File file = new File(db.getWorkDir(), "a.txt");
 		file.createNewFile();
 		PrintWriter writer = new PrintWriter(file);
@@ -286,7 +286,7 @@ public class AddCommandTest extends RepositoryTestCase {
 		assertEquals(0, dc.getEntry("b.txt").getStage());
 	}
 
-	public void testAddFolder() throws Exception  {
+	public void testAddFolder() throws Exception {
 		new File(db.getWorkDir(), "sub").mkdir();
 		File file = new File(db.getWorkDir(), "sub/a.txt");
 		file.createNewFile();
@@ -308,6 +308,55 @@ public class AddCommandTest extends RepositoryTestCase {
 		assertNotNull(dc.getEntry("sub/b.txt").getObjectId());
 		assertEquals(0, dc.getEntry("sub/a.txt").getStage());
 		assertEquals(0, dc.getEntry("sub/b.txt").getStage());
+	}
+
+	public void testAddWithParameterUpdate() throws Exception {
+		new File(db.getWorkDir(), "sub").mkdir();
+		File file = new File(db.getWorkDir(), "sub/a.txt");
+		file.createNewFile();
+		PrintWriter writer = new PrintWriter(file);
+		writer.print("content");
+		writer.close();
+
+		File file2 = new File(db.getWorkDir(), "sub/b.txt");
+		file2.createNewFile();
+		writer = new PrintWriter(file2);
+		writer.print("content b");
+		writer.close();
+
+		Git git = new Git(db);
+		DirCache dc = git.add().addFilepattern("sub").call();
+
+		assertTrue(dc.getEntry("sub/a.txt").getLength() == 7);
+		// sub/c.txt is not staged
+		assertNull(dc.getEntry("sub/c.txt"));
+		// deletion of sub/b.txt is staged
+		assertNotNull(dc.getEntry("sub/b.txt"));
+
+		git.commit().setMessage("commit").call();
+
+		// new unstaged file sub/c.txt
+		File file3 = new File(db.getWorkDir(), "sub/c.txt");
+		file3.createNewFile();
+		writer = new PrintWriter(file3);
+		writer.print("content c");
+		writer.close();
+
+		// file sub/a.txt is modified
+		writer = new PrintWriter(file);
+		writer.print("modified content");
+		writer.close();
+
+		// file sub/b.txt is deleted
+		file2.delete();
+
+		dc = git.add().addFilepattern("sub").setUpdate(true).call();
+		// change in sub/a.txt is staged
+		assertTrue(dc.getEntry("sub/a.txt").getLength() == 16);
+		// sub/c.txt is not staged
+		assertNull(dc.getEntry("sub/c.txt"));
+		// deletion of sub/b.txt is staged
+		assertNull(dc.getEntry("sub/b.txt"));
 	}
 
 	private DirCacheEntry addEntryToBuilder(String path, File file,
