@@ -77,6 +77,17 @@ public class FileTreeIterator extends WorkingTreeIterator {
 	protected final FS fs;
 
 	/**
+	 * Create a new iterator to traverse the work tree and its children.
+	 *
+	 * @param repo
+	 *            the repository whose working tree will be scanned.
+	 */
+	public FileTreeIterator(Repository repo) {
+		this(repo.getWorkDir(), repo.getFS());
+		initRootIterator(repo);
+	}
+
+	/**
 	 * Create a new iterator to traverse the given directory and its children.
 	 *
 	 * @param root

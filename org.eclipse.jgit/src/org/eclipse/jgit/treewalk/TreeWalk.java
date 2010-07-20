@@ -918,4 +918,8 @@ public class TreeWalk {
 	static String pathOf(final AbstractTreeIterator t) {
 		return RawParseUtils.decode(Constants.CHARSET, t.path, 0, t.pathLen);
 	}
+
+	static String pathOf(final byte[] buf, int pos, int end) {
+		return RawParseUtils.decode(Constants.CHARSET, buf, pos, end);
+	}
 }
