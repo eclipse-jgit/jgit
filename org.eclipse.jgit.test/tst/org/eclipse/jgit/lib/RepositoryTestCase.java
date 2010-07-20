@@ -52,8 +52,19 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeSet;
 
+import org.eclipse.jgit.dircache.DirCache;
+import org.eclipse.jgit.dircache.DirCacheIterator;
+import org.eclipse.jgit.errors.IncorrectObjectTypeException;
+import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
+import org.eclipse.jgit.treewalk.FileTreeIteratorWithTimeControl;
+import org.eclipse.jgit.treewalk.NameConflictTreeWalk;
 
 /**
  * Base class for most JGit unit tests.
@@ -112,5 +123,74 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 		super.setUp();
 		db = createWorkRepository();
 		trash = db.getWorkDir();
+	}
+
+	public String indexState(TreeSet<Long> modTimes)
+			throws IllegalStateException, MissingObjectException,
+			IncorrectObjectTypeException, IOException {
+		DirCache dc = DirCache.read(db);
+		Map lookup = new HashMap();
+		List ret = new ArrayList(dc.getEntryCount());
+		NameConflictTreeWalk tw = new NameConflictTreeWalk(db);
+		tw.reset();
+		tw.addTree(new FileTreeIteratorWithTimeControl(db, modTimes));
+		tw.addTree(new DirCacheIterator(dc));
+		FileTreeIteratorWithTimeControl fIt;
+		DirCacheIterator dcIt;
+		List entry;
+		boolean smudgedBefore;
+		while (tw.next()) {
+			entry = new ArrayList(4);
+			fIt = tw.getTree(0, FileTreeIteratorWithTimeControl.class);
+			dcIt = tw.getTree(1, DirCacheIterator.class);
+			entry.add(tw.getPathString());
+			entry.add("modTime(index/file): "
+					+ lookup(Long.valueOf(fIt.getEntryLastModified()), "t%n",
+							lookup)
+					+ "/"
+					+ lookup(Long.valueOf(dcIt.getDirCacheEntry()
+							.getLastModified()), "t%n", lookup));
+			smudgedBefore = dcIt.getDirCacheEntry().isSmudged();
+			if (fIt.isModified(dcIt.getDirCacheEntry(), true, true, db.getFS()))
+				entry.add("dirty");
+			if (dcIt.getDirCacheEntry().isSmudged())
+				entry.add("smudged");
+			else if (smudgedBefore)
+				entry.add("unsmudged");
+			ret.add(entry);
+		}
+		return ret.toString();
+	}
+
+	/**
+	 * Helper method to map arbitrary objects to user-defined names. This can be
+	 * used create short names for objects to produce small and stable debug
+	 * output. It is guaranteed that when you lookup the same object multiple
+	 * times even with different nameTemplates this method will always return
+	 * the same name which was derived from the first nameTemplate.
+	 * nameTemplates can contain "%n" which will be replaced by a running number
+	 * before used as a name.
+	 *
+	 * @param l
+	 *            the object to lookup
+	 * @param nameTemplate
+	 *            the name for that object. Can contain "%n" which will be
+	 *            replaced by a running number before used as a name. If the
+	 *            lookup table already contains the object this parameter will
+	 *            be ignored
+	 * @param lookupTable
+	 *            a table storing object-name mappings.
+	 * @return a name of that object. Is not guaranteed to be unique. Use
+	 *         nameTemplates containing "%n" to always have uniqe names
+	 */
+	public static String lookup(Object l, String nameTemplate,
+			Map<Object, String> lookupTable) {
+		String name = lookupTable.get(l);
+		if (name == null) {
+			name = nameTemplate.replaceAll("%n",
+					Integer.toString(lookupTable.size()));
+			lookupTable.put(l, name);
+		}
+		return name;
 	}
 }
