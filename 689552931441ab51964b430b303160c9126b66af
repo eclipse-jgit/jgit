@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALw3///9g\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheEntry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-20T03:07:16Z",
+      "side": 1,
+      "message": "Should we also delete this rule?  IIRC the only reason we had it was to ensure already smudged entries stayed smudged.  If we change our smudge logic to be length based this no longer makes any sense, and is actually a source of bugs by always selecting modified files as potentially racily clean.",
+      "revId": "689552931441ab51964b430b303160c9126b66af",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
