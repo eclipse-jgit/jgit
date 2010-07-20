@@ -961,7 +961,7 @@ public class IndexPack {
 			int p = fill(src, 24);
 			inf.setInput(buf, p, bAvail);
 
-			do {
+			for (;;) {
 				int r = inf.inflate(dst, off, dst.length - off);
 				if (r == 0) {
 					if (inf.finished())
@@ -982,9 +982,9 @@ public class IndexPack {
 				cnt += r;
 				if (keep)
 					off += r;
-			} while (cnt < inflatedSize);
+			}
 
-			if (!inf.finished() || cnt != inflatedSize) {
+			if (cnt != inflatedSize) {
 				throw new CorruptObjectException(MessageFormat.format(JGitText
 						.get().packfileCorruptionDetected,
 						JGitText.get().wrongDecompressedLength));
