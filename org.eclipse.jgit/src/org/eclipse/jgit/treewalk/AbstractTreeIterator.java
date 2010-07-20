@@ -138,19 +138,11 @@ public abstract class AbstractTreeIterator {
 	 */
 	protected int pathLen;
 
-	/**
-	 * Last modified time of the .gitignore file. Greater than 0 if a .gitignore
-	 * file exists.
-	 *
-	 */
-	protected long gitIgnoreTimeStamp;
-
 	/** Create a new iterator with no parent. */
 	protected AbstractTreeIterator() {
 		parent = null;
 		path = new byte[DEFAULT_PATH_SIZE];
 		pathOffset = 0;
-		gitIgnoreTimeStamp = 0l;
 	}
 
 	/**
@@ -170,7 +162,6 @@ public abstract class AbstractTreeIterator {
 	 */
 	protected AbstractTreeIterator(final String prefix) {
 		parent = null;
-		gitIgnoreTimeStamp = 0l;
 
 		if (prefix != null && prefix.length() > 0) {
 			final ByteBuffer b;
@@ -205,7 +196,6 @@ public abstract class AbstractTreeIterator {
 	 */
 	protected AbstractTreeIterator(final byte[] prefix) {
 		parent = null;
-		gitIgnoreTimeStamp = 0l;
 
 		if (prefix != null && prefix.length > 0) {
 			pathLen = prefix.length;
@@ -230,7 +220,6 @@ public abstract class AbstractTreeIterator {
 		parent = p;
 		path = p.path;
 		pathOffset = p.pathLen + 1;
-		gitIgnoreTimeStamp = 0l;
 
 		try {
 			path[pathOffset - 1] = '/';
@@ -261,7 +250,6 @@ public abstract class AbstractTreeIterator {
 		parent = p;
 		path = childPath;
 		pathOffset = childPathOffset;
-		gitIgnoreTimeStamp = 0l;
 	}
 
 	/**
@@ -604,23 +592,5 @@ public abstract class AbstractTreeIterator {
 	 */
 	public void getName(byte[] buffer, int offset) {
 		System.arraycopy(path, pathOffset, buffer, offset, pathLen - pathOffset);
-	}
-
-	/**
-	 * @return
-	 * 			  True if this iterator encountered a .gitignore file when initializing entries.
-	 * 			  Checks if the gitIgnoreTimeStamp > 0.
-	 */
-	public boolean hasGitIgnore() {
-		return gitIgnoreTimeStamp > 0;
-	}
-
-	/**
-	 * @return
-	 * 			  Last modified time of the .gitignore file, if any. Will be > 0 if a .gitignore
-	 * 			  exists.
-	 */
-	public long getGitIgnoreLastModified() {
-		return gitIgnoreTimeStamp;
 	}
 }

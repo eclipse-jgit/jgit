@@ -46,11 +46,12 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.util.HashMap;
-import java.util.HashSet;
 
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.treewalk.TreeWalk;
+import org.eclipse.jgit.treewalk.filter.PathSuffixFilter;
 import org.eclipse.jgit.util.FS;
 
 /**
@@ -112,19 +113,10 @@ public class SimpleIgnoreCache {
 		TreeWalk tw = new TreeWalk(repository);
 		tw.reset();
 		tw.addTree(new FileTreeIterator(repository.getWorkDir(), FS.DETECTED));
+		tw.setFilter(PathSuffixFilter.create("/" + Constants.DOT_GIT_IGNORE));
 		tw.setRecursive(true);
-
-		//Don't waste time trying to add iterators that already exist
-		HashSet<FileTreeIterator> toAdd = new HashSet<FileTreeIterator>();
-		while (tw.next()) {
-			FileTreeIterator t = tw.getTree(0, FileTreeIterator.class);
-			if (t.hasGitIgnore()) {
-				toAdd.add(t);
-				//TODO: Account for and test the removal of .gitignore files
-			}
-		}
-		for (FileTreeIterator t : toAdd)
-			addNodeFromTree(t);
+		while (tw.next())
+			addNodeFromTree(tw.getTree(0, FileTreeIterator.class));
 
 		//The base is special
 		//TODO: Test alternate locations for GIT_DIR
@@ -153,24 +145,15 @@ public class SimpleIgnoreCache {
 	}
 
 	/**
-	 *	Adds a node located at the FileTreeIterator's root directory.
-	 *	<br>
-	 *	Will check for the presence of a .gitignore using {@link FileTreeIterator#hasGitIgnore()}.
-	 *	If no .gitignore file exists, nothing will be done.
-	 *  <br>
-	 *  Will check the last time of modification using {@link FileTreeIterator#hasGitIgnore()}.
-	 *  If a node already exists and the time stamp has not changed, do nothing.
-	 *	<br>
-	 *  Note: This can be extended later if necessary to AbstractTreeIterator by using
-	 *  byte[] path instead of File directory.
+	 * Adds a node located at the FileTreeIterator's current position.
 	 *
 	 * @param t
-	 * 			  AbstractTreeIterator to check for ignore info. The name of the node
-	 * 			  should be .gitignore
+	 *            FileTreeIterator to check for ignore info. The name of the
+	 *            entry should be ".gitignore".
 	 */
 	protected void addNodeFromTree(FileTreeIterator t) {
 		IgnoreNode n = ignoreMap.get(relativize(t.getDirectory()));
-		long time = t.getGitIgnoreLastModified();
+		long time = t.getEntryLastModified();
 		if (n != null) {
 			if (n.getLastModified() == time)
 				//TODO: Test and optimize
