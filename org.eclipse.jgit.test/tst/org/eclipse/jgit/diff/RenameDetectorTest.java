@@ -83,6 +83,25 @@ public class RenameDetectorTest extends RepositoryTestCase {
 		assertRename(b, a, 100, entries.get(0));
 	}
 
+	public void testExactRename_DifferentObjects() throws Exception {
+		ObjectId foo = blob("foo");
+		ObjectId bar = blob("bar");
+
+		DiffEntry a = DiffEntry.add(PATH_A, foo);
+		DiffEntry h = DiffEntry.add(PATH_H, foo);
+		DiffEntry q = DiffEntry.delete(PATH_Q, bar);
+
+		rd.add(a);
+		rd.add(h);
+		rd.add(q);
+
+		List<DiffEntry> entries = rd.compute();
+		assertEquals(3, entries.size());
+		assertSame(a, entries.get(0));
+		assertSame(h, entries.get(1));
+		assertSame(q, entries.get(2));
+	}
+
 	public void testExactRename_OneRenameOneModify() throws Exception {
 		ObjectId foo = blob("foo");
 		ObjectId bar = blob("bar");
