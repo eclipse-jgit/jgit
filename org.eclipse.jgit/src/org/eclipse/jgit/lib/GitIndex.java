@@ -58,7 +58,9 @@ import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.channels.FileChannel;
+import java.security.AccessController;
 import java.security.MessageDigest;
+import java.security.PrivilegedAction;
 import java.text.MessageFormat;
 import java.util.Comparator;
 import java.util.Date;
@@ -72,6 +74,7 @@ import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.NotSupportedException;
 import org.eclipse.jgit.util.RawParseUtils;
+import org.eclipse.jgit.util.StringUtils;
 
 /**
  * A representation of the Git index.
@@ -116,6 +119,20 @@ public class GitIndex {
 	private long lastCacheTime;
 
 	private final Repository db;
+
+	private static final boolean runsOnWindows;
+
+	static {
+		// calculate runsOnWindows
+		final String osDotName = AccessController
+				.doPrivileged(new PrivilegedAction<String>() {
+					public String run() {
+						return System.getProperty("os.name");
+					}
+				});
+		runsOnWindows = osDotName != null
+				&& StringUtils.toLowerCase(osDotName).indexOf("windows") != -1;
+	}
 
 	private Map<byte[], Entry> entries = new TreeMap<byte[], Entry>(new Comparator<byte[]>() {
 		public int compare(byte[] o1, byte[] o2) {
@@ -297,10 +314,32 @@ public class GitIndex {
 			fc.write(buf);
 			fc.close();
 			fileOutputStream.close();
-			if (cacheFile.exists())
-				if (!cacheFile.delete())
-					throw new IOException(
-						JGitText.get().couldNotRenameDeleteOldIndex);
+			if (cacheFile.exists()) {
+				if (runsOnWindows) {
+					// file deletion fails on windows if another
+					// thread is reading the file concurrently
+					// So let's try 10 times...
+					boolean deleted = false;
+					for (int i = 0; i < 10; i++) {
+						if (cacheFile.delete()) {
+							deleted = true;
+							break;
+						}
+						try {
+							Thread.sleep(100);
+						} catch (InterruptedException e) {
+							// ignore
+						}
+					}
+					if (!deleted)
+						throw new IOException(
+								JGitText.get().couldNotRenameDeleteOldIndex);
+				} else {
+					if (!cacheFile.delete())
+						throw new IOException(
+								JGitText.get().couldNotRenameDeleteOldIndex);
+				}
+			}
 			if (!tmpIndex.renameTo(cacheFile))
 				throw new IOException(
 						JGitText.get().couldNotRenameTemporaryIndexFileToIndex);
