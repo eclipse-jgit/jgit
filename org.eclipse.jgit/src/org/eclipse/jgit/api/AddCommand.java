@@ -54,6 +54,7 @@ import org.eclipse.jgit.dircache.DirCacheBuildIterator;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
 import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.dircache.DirCacheIterator;
+import org.eclipse.jgit.ignore.SimpleIgnoreCache;
 import org.eclipse.jgit.lib.ObjectWriter;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
@@ -127,6 +128,9 @@ public class AddCommand extends GitCommand<DirCache> {
 
 			String lastAddedFile = null;
 
+			SimpleIgnoreCache ignoreCache = new SimpleIgnoreCache(repo);
+			ignoreCache.initialize();
+
 			while (tw.next()) {
 				String path = tw.getPathString();
 
@@ -135,7 +139,9 @@ public class AddCommand extends GitCommand<DirCache> {
 				// DirCacheBuildIterator iterates over all stages of
 				// this path, we however want to add only one
 				// new DirCacheEntry per path.
-				if (!(path.equals(lastAddedFile))) {
+				if (!(path.equals(lastAddedFile)) &&
+						!(tw.getTree(0, DirCacheIterator.class) == null &&
+								ignoreCache.isIgnored(path))) {
 					 FileTreeIterator f = tw.getTree(1, FileTreeIterator.class);
 					 if (f != null) { // the file exists
 						DirCacheEntry entry = new DirCacheEntry(path);
