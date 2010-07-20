@@ -130,13 +130,13 @@ public class SimpleIgnoreCache {
 	 */
 	private void readRulesAtBase() {
 		//Add .gitignore rules
-		String path =  new File(repository.getWorkDir(), ".gitignore").getAbsolutePath();
-		File f = new File(path);
+		File f = new File(repository.getWorkDir(), Constants.DOT_GIT_IGNORE);
+		String path = f.getAbsolutePath();
 		IgnoreNode n = new IgnoreNode(f.getParentFile());
 
 		//Add exclude rules
 		//TODO: Get /info directory without string concat
-		path = new File(repository.getWorkDir(), ".git/info/exclude").getAbsolutePath();
+		path = new File(repository.getDirectory(), "info/exclude").getAbsolutePath();
 		f = new File(path);
 		if (f.canRead())
 			n.addSecondarySource(f);
