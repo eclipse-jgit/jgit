@@ -111,6 +111,9 @@ public class AddCommand extends GitCommand<DirCache> {
 			throw new NoFilepatternException(JGitText.get().atLeastOnePatternIsRequired);
 		checkCallable();
 		DirCache dc = null;
+		boolean addAll = false;
+		if (filepatterns.contains("."))
+			addAll = true;
 
 		try {
 			dc = DirCache.lock(repo);
@@ -124,7 +127,8 @@ public class AddCommand extends GitCommand<DirCache> {
 			FileTreeIterator fileTreeIterator = new FileTreeIterator(repo);
 			tw.addTree(fileTreeIterator);
 			tw.setRecursive(true);
-			tw.setFilter(PathFilterGroup.createFromStrings(filepatterns));
+			if (!addAll)
+				tw.setFilter(PathFilterGroup.createFromStrings(filepatterns));
 
 			String lastAddedFile = null;
 
