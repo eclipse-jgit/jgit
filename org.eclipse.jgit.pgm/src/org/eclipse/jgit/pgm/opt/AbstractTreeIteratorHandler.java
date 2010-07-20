@@ -96,7 +96,12 @@ public class AbstractTreeIteratorHandler extends
 		final String name = params.getParameter(0);
 
 		if (new File(name).isDirectory()) {
-			setter.addValue(new FileTreeIterator(new File(name), FS.DETECTED));
+			try {
+				setter.addValue(new FileTreeIterator(new File(name),
+						FS.DETECTED));
+			} catch (IOException e) {
+				throw new CmdLineException(e.getMessage());
+			}
 			return 1;
 		}
 

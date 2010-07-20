@@ -45,6 +45,8 @@
 
 package org.eclipse.jgit.treewalk;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
@@ -60,8 +62,10 @@ import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.errors.CorruptObjectException;
+import org.eclipse.jgit.ignore.IgnoreNode;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.util.FS;
 
 /**
@@ -106,6 +110,9 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	/** Current position within {@link #entries}. */
 	private int ptr;
 
+	/** If there is a .gitignore file present, the parsed rules from it. */
+	protected IgnoreNode ignoreNode;
+
 	/** Create a new iterator with no parent. */
 	protected WorkingTreeIterator() {
 		super();
@@ -141,6 +148,28 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	protected WorkingTreeIterator(final WorkingTreeIterator p) {
 		super(p);
 		nameEncoder = p.nameEncoder;
+	}
+
+	/**
+	 * Initialize this iterator for the root level of a repository.
+	 *
+	 * @param repo
+	 *            the repository.
+	 * @throws IOException
+	 *             there exists a GIT_DIR/info/exclude but it cannot be read.
+	 */
+	protected void initRootIterator(Repository repo) throws IOException {
+		File exclude = new File(repo.getDirectory(), "info/exclude");
+		if (exclude.isFile() && exclude.canRead()) {
+			if (ignoreNode == null)
+				ignoreNode = new IgnoreNode();
+			FileInputStream in = new FileInputStream(exclude);
+			try {
+				ignoreNode.parse(in);
+			} finally {
+				in.close();
+			}
+		}
 	}
 
 	@Override
@@ -295,6 +324,42 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		return current().getLastModified();
 	}
 
+	/**
+	 * Determine if the current entry path is ignored by an ignore rule.
+	 *
+	 * @return true if the entry was ignored by an ignore rule file.
+	 */
+	public boolean isEntryIgnored() {
+		return isEntryIgnored(path, pathLen);
+	}
+
+	/**
+	 * Determine if the entry path is ignored by an ignore rule.
+	 *
+	 * @param buf
+	 *            the path buffer.
+	 * @param cnt
+	 *            the length of the path in the path buffer.
+	 * @return true if the entry is ignored by an ignore rule.
+	 */
+	protected boolean isEntryIgnored(byte[] buf, int cnt) {
+		if (ignoreNode != null) {
+			String relpath = TreeWalk.pathOf(buf, pathOffset, cnt - pathOffset);
+			boolean isDirectory = FileMode.TREE.equals(mode);
+			switch (ignoreNode.isIgnored(relpath, isDirectory)) {
+			case IGNORED:
+				return true;
+			case NOT_IGNORED:
+				return false;
+			case CHECK_PARENT:
+				break;
+			}
+		}
+		if (parent instanceof WorkingTreeIterator)
+			return ((WorkingTreeIterator) parent).isEntryIgnored(buf, cnt);
+		return false;
+	}
+
 	private static final Comparator<Entry> ENTRY_CMP = new Comparator<Entry>() {
 		public int compare(final Entry o1, final Entry o2) {
 			final byte[] a = o1.encodedName;
@@ -327,8 +392,10 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	 * @param list
 	 *            files in the subtree of the work tree this iterator operates
 	 *            on
+	 * @throws IOException
+	 *             an ignore rule list was found but could not be read.
 	 */
-	protected void init(final Entry[] list) {
+	protected void init(final Entry[] list) throws IOException {
 		// Filter out nulls, . and .. as these are not valid tree entries,
 		// also cache the encoded forms of the path names for efficient use
 		// later on during sorting and iteration.
@@ -345,6 +412,15 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 				continue;
 			if (Constants.DOT_GIT.equals(name))
 				continue;
+			if (Constants.DOT_GIT_IGNORE.equals(name)) {
+				InputStream in = e.openInputStream();
+				try {
+					ignoreNode = new IgnoreNode();
+					ignoreNode.parse(in);
+				} finally {
+					in.close();
+				}
+			}
 			if (i != o)
 				entries[o] = e;
 			e.encodeName(nameEncoder);

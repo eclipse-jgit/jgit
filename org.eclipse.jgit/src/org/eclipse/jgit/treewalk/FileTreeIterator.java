@@ -79,14 +79,29 @@ public class FileTreeIterator extends WorkingTreeIterator {
 	/**
 	 * Create a new iterator to traverse the given directory and its children.
 	 *
+	 * @param repo
+	 *            the repository whose working tree will be scanned.
+	 * @throws IOException
+	 *             the ignore rule file cannot be accessed.
+	 */
+	public FileTreeIterator(Repository repo) throws IOException {
+		this(repo.getWorkDir(), repo.getFS());
+		initRootIterator(repo);
+	}
+
+	/**
+	 * Create a new iterator to traverse the given directory and its children.
+	 *
 	 * @param root
 	 *            the starting directory. This directory should correspond to
 	 *            the root of the repository.
 	 * @param fs
-	 *            the file system abstraction which will be necessary to
-	 *            perform certain file system operations.
+	 *            the file system abstraction which will be necessary to perform
+	 *            certain file system operations.
+	 * @throws IOException
+	 *             the ignore rule file cannot be accessed.
 	 */
-	public FileTreeIterator(final File root, FS fs) {
+	public FileTreeIterator(File root, FS fs) throws IOException {
 		directory = root;
 		this.fs = fs;
 		init(entries());
@@ -103,8 +118,11 @@ public class FileTreeIterator extends WorkingTreeIterator {
 	 * @param root
 	 *            the subdirectory. This should be a directory contained within
 	 *            the parent directory.
+	 * @throws IOException
+	 *             the ignore rule file cannot be accessed.
 	 */
-	protected FileTreeIterator(final FileTreeIterator p, final File root, FS fs) {
+	protected FileTreeIterator(final FileTreeIterator p, final File root, FS fs)
+			throws IOException {
 		super(p);
 		directory = root;
 		this.fs = fs;
