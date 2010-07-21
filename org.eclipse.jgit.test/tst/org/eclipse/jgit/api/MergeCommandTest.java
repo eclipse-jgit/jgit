@@ -46,6 +46,7 @@ package org.eclipse.jgit.api;
 import java.io.File;
 import java.io.IOException;
 
+import org.eclipse.jgit.api.MergeResult.MergeStatus;
 import org.eclipse.jgit.errors.CheckoutConflictException;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.lib.Constants;
@@ -55,6 +56,7 @@ import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.RepositoryTestCase;
 import org.eclipse.jgit.lib.WorkDirCheckout;
 import org.eclipse.jgit.lib.GitIndex.Entry;
+import org.eclipse.jgit.merge.MergeStrategy;
 import org.eclipse.jgit.revwalk.RevCommit;
 
 public class MergeCommandTest extends RepositoryTestCase {
@@ -145,21 +147,60 @@ public class MergeCommandTest extends RepositoryTestCase {
 		}
 	}
 
+	public void testContentMerge() throws Exception {
+		Git git = new Git(db);
+
+		writeTrashFile("a", "1\na\n3\n");
+		writeTrashFile("b", "1\nb\n3\n");
+		writeTrashFile("c\\c\\c", "1\nc\n3\n");
+		git.add().addFilepattern("a").addFilepattern("b").addFilepattern("c\\c\\c").call();
+		RevCommit initialCommit = git.commit().setMessage("initial").call();
+
+		createBranch(initialCommit, "refs/heads/side");
+		checkoutBranch("refs/heads/side");
+
+		writeTrashFile("a", "1\na(side)\n3\n");
+		writeTrashFile("b", "1\nb(side)\n3\n");
+		git.add().addFilepattern("a").addFilepattern("b").call();
+		RevCommit secondCommit = git.commit().setMessage("side").call();
+
+		assertEquals("1\nb(side)\n3\n", read(new File(db.getWorkTree(), "b")));
+		checkoutBranch("refs/heads/master");
+		assertEquals("1\nb\n3\n", read(new File(db.getWorkTree(), "b")));
+
+		writeTrashFile("a", "1\na(main)\n3\n");
+		writeTrashFile("c\\c\\c", "1\nc(main)\n3\n");
+		git.add().addFilepattern("a").addFilepattern("c\\c\\c").call();
+		git.commit().setMessage("main").call();
+
+		MergeResult result = git.merge().include(secondCommit.getId()).setStrategy(MergeStrategy.RESOLVE).call();
+		assertEquals(MergeStatus.CONFLICTING, result.getMergeStatus());
+
+		assertEquals("1\n<<<<<<< HEAD\na(main)\n=======\na(side)\n>>>>>>> c8c7f2b03d7edc0ad019f9223c63f29a933a8c6d\n3\n", read(new File(db.getWorkTree(), "a")));
+		assertEquals("1\nb(side)\n3\n", read(new File(db.getWorkTree(), "b")));
+		assertEquals("1\nc(main)\n3\n", read(new File(db.getWorkTree(), "c\\c\\c")));
+
+		assertEquals(1, result.getConflicts().size());
+		assertEquals(3, result.getConflicts().get("a")[0].length);
+	}
+
 	private void createBranch(ObjectId objectId, String branchName) throws IOException {
 		RefUpdate updateRef = db.updateRef(branchName);
 		updateRef.setNewObjectId(objectId);
 		updateRef.update();
 	}
 
-	private void checkoutBranch(String branchName) throws Exception  {
+	private void checkoutBranch(String branchName) throws IllegalStateException, IOException {
 		File workDir = db.getWorkTree();
 		if (workDir != null) {
+			GitIndex index = db.getIndex();
 			WorkDirCheckout workDirCheckout = new WorkDirCheckout(db,
-					workDir, db.mapCommit(Constants.HEAD).getTree(),
-					db.getIndex(), db.mapCommit(branchName).getTree());
+					workDir,
+					index, db.mapCommit(branchName).getTree());
 			workDirCheckout.setFailOnConflict(true);
 			try {
 				workDirCheckout.checkout();
+				index.write();
 			} catch (CheckoutConflictException e) {
 				throw new JGitInternalException(
 						"Couldn't check out because of conflicts", e);
