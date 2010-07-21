@@ -149,6 +149,13 @@ public abstract class FS {
 	}
 
 	/**
+	 * Does this file system have problems with atomic renames?
+	 *
+	 * @return true if the caller should retry a failed rename of a lock file.
+	 */
+	public abstract boolean retryFailedLockFileCommit();
+
+	/**
 	 * Determine the user's home directory (location where preferences are).
 	 *
 	 * @return the user's home directory; null if the user does not have one.
