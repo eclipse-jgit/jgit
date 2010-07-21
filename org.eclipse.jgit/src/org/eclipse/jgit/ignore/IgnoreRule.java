@@ -91,10 +91,11 @@ public class IgnoreRule {
 			endIndex --;
 			dirOnly = true;
 		}
+		boolean hasSlash = pattern.contains("/");
 
 		pattern = pattern.substring(startIndex, endIndex);
 
-		if (!pattern.contains("/"))
+		if (!hasSlash)
 			nameOnly = true;
 		else if (!pattern.startsWith("/")) {
 			//Contains "/" but does not start with one
