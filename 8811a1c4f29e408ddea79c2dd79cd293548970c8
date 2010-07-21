@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALw3///7I\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/GitIndex.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-20T15:53:00Z",
+      "side": 1,
+      "message": "This stuff should be part of the FS class.  Maybe declare:\n\n  /**\n   * Does this file system have problems with atomic renames?\n   *\n   * @return true if the caller should retry a failed rename of a lock file.\n   */\n  public abstract boolean retryFailedLockFileCommit();",
+      "revId": "8811a1c4f29e408ddea79c2dd79cd293548970c8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALw3///7E\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/GitIndex.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-20T15:53:00Z",
+      "side": 1,
+      "message": "We should put this retry logic into LockFile too, because DirCache uses that.\n\nWe could either keep this code here, or better, convert the class to use LockFile rather than its own custom logic.  The LockFile stuff is more robust anyway.",
+      "revId": "8811a1c4f29e408ddea79c2dd79cd293548970c8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
