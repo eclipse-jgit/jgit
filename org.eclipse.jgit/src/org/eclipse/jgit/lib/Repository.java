@@ -46,8 +46,10 @@
 
 package org.eclipse.jgit.lib;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -1477,11 +1479,37 @@ public class Repository {
 	public String readMergeCommitMsg() throws IOException {
 		File mergeMsgFile = new File(gitDir, Constants.MERGE_MSG);
 		try {
-			return new String(IO.readFully(mergeMsgFile));
+			return new String(IO.readFully(mergeMsgFile), Constants.CHARACTER_ENCODING);
 		} catch (FileNotFoundException e) {
 			// MERGE_MSG file has disappeared in the meantime
 			// ignore it
 			return null;
+		}
+	}
+
+	/**
+	 * Write new content to the file $GIT_DIR/MERGE_MSG. In this file operations
+	 * triggering a merge will store a template for the commit message of the
+	 * merge commit. If <code>null</code> is specified as message the file will
+	 * be deleted
+	 *
+	 * @param msg
+	 *            the message which should be written or <code>null</code> to
+	 *            delete the file
+	 *
+	 * @throws IOException
+	 */
+	public void writeMergeCommitMsg(String msg) throws IOException {
+		File mergeMsgFile = new File(gitDir, Constants.MERGE_MSG);
+		if (msg != null) {
+			FileOutputStream fos = new FileOutputStream(mergeMsgFile);
+			try {
+				fos.write(msg.getBytes(Constants.CHARACTER_ENCODING));
+			} finally {
+				fos.close();
+			}
+		} else {
+			mergeMsgFile.delete();
 		}
 	}
 
@@ -1501,11 +1529,11 @@ public class Repository {
 		try {
 			raw = IO.readFully(mergeHeadFile);
 		} catch (FileNotFoundException notFound) {
-			return new LinkedList<ObjectId>();
+			return null;
 		}
 
 		if (raw.length == 0)
-			throw new IOException("MERGE_HEAD file empty: " + mergeHeadFile);
+			return null;
 
 		LinkedList<ObjectId> heads = new LinkedList<ObjectId>();
 		for (int p = 0; p < raw.length;) {
@@ -1514,5 +1542,34 @@ public class Repository {
 					.nextLF(raw, p + Constants.OBJECT_ID_STRING_LENGTH);
 		}
 		return heads;
+	}
+
+	/**
+	 * Write new merge-heads into $GIT_DIR/MERGE_HEAD. In this file operations
+	 * triggering a merge will store the IDs of all heads which should be merged
+	 * together with HEAD. If <code>null</code> is specified as list of commits
+	 * the file will be deleted
+	 *
+	 * @param heads
+	 *            a list of {@link Commit}s which IDs should be written to
+	 *            $GIT_DIR/MERGE_HEAD or <code>null</code> to delete the file
+	 * @throws IOException
+	 */
+	public void writeMergeHeads(List<ObjectId> heads) throws IOException {
+		File mergeHeadFile = new File(gitDir, Constants.MERGE_HEAD);
+		if (heads != null) {
+			BufferedOutputStream bos = new BufferedOutputStream(
+					new FileOutputStream(mergeHeadFile));
+			try {
+				for (ObjectId id : heads) {
+					id.copyTo(bos);
+					bos.write('\n');
+				}
+			} finally {
+				bos.close();
+			}
+		} else {
+			mergeHeadFile.delete();
+		}
 	}
 }
