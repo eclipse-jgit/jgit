@@ -297,10 +297,32 @@ public class GitIndex {
 			fc.write(buf);
 			fc.close();
 			fileOutputStream.close();
-			if (cacheFile.exists())
-				if (!cacheFile.delete())
-					throw new IOException(
-						JGitText.get().couldNotRenameDeleteOldIndex);
+			if (cacheFile.exists()) {
+				if (db.getFS().retryFailedLockFileCommit()) {
+					// file deletion fails on windows if another
+					// thread is reading the file concurrently
+					// So let's try 10 times...
+					boolean deleted = false;
+					for (int i = 0; i < 10; i++) {
+						if (cacheFile.delete()) {
+							deleted = true;
+							break;
+						}
+						try {
+							Thread.sleep(100);
+						} catch (InterruptedException e) {
+							// ignore
+						}
+					}
+					if (!deleted)
+						throw new IOException(
+								JGitText.get().couldNotRenameDeleteOldIndex);
+				} else {
+					if (!cacheFile.delete())
+						throw new IOException(
+								JGitText.get().couldNotRenameDeleteOldIndex);
+				}
+			}
 			if (!tmpIndex.renameTo(cacheFile))
 				throw new IOException(
 						JGitText.get().couldNotRenameTemporaryIndexFileToIndex);
