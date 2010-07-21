@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAALw3///4w\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/GitIndex.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 44
+      },
+      "writtenOn": "2010-07-21T07:45:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALw3///7I\u003d",
+      "revId": "8811a1c4f29e408ddea79c2dd79cd293548970c8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALw3///7E\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/GitIndex.java",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2010-07-20T15:53:00Z",
       "side": 1,
       "message": "We should put this retry logic into LockFile too, because DirCache uses that.\n\nWe could either keep this code here, or better, convert the class to use LockFile rather than its own custom logic.  The LockFile stuff is more robust anyway.",
+      "revId": "8811a1c4f29e408ddea79c2dd79cd293548970c8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALw3///4s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/GitIndex.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 44
+      },
+      "writtenOn": "2010-07-21T07:45:47Z",
+      "side": 1,
+      "message": "I\u0027ll do a separate change for DirCache.\nI\u0027ll leave the stuff here as is because GitIndex is deprecated.",
+      "parentUuid": "AAALw3///7E\u003d",
       "revId": "8811a1c4f29e408ddea79c2dd79cd293548970c8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
