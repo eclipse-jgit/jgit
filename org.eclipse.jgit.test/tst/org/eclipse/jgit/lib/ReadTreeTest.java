@@ -58,7 +58,6 @@ import org.eclipse.jgit.errors.CheckoutConflictException;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.treewalk.TreeWalk;
-import org.eclipse.jgit.util.FS;
 
 public abstract class ReadTreeTest extends RepositoryTestCase {
 	protected Tree theHead;
@@ -613,7 +612,7 @@ public abstract class ReadTreeTest extends RepositoryTestCase {
 		TreeWalk walk = new TreeWalk(db);
 		walk.reset();
 		walk.setRecursive(true);
-		walk.addTree(new FileTreeIterator(db.getWorkDir(), FS.DETECTED));
+		walk.addTree(new FileTreeIterator(db));
 		String expectedValue;
 		String path;
 		int nrFiles = 0;

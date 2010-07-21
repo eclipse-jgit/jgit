@@ -45,6 +45,8 @@
 
 package org.eclipse.jgit.treewalk;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
@@ -54,14 +56,18 @@ import java.nio.charset.CharsetEncoder;
 import java.security.MessageDigest;
 import java.text.MessageFormat;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 
 import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.errors.CorruptObjectException;
+import org.eclipse.jgit.ignore.IgnoreNode;
+import org.eclipse.jgit.ignore.IgnoreRule;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.util.FS;
 
 /**
@@ -106,6 +112,9 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	/** Current position within {@link #entries}. */
 	private int ptr;
 
+	/** If there is a .gitignore file present, the parsed rules from it. */
+	private IgnoreNode ignoreNode;
+
 	/** Create a new iterator with no parent. */
 	protected WorkingTreeIterator() {
 		super();
@@ -141,6 +150,24 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	protected WorkingTreeIterator(final WorkingTreeIterator p) {
 		super(p);
 		nameEncoder = p.nameEncoder;
+	}
+
+	/**
+	 * Initialize this iterator for the root level of a repository.
+	 * <p>
+	 * This method should only be invoked after calling {@link #init(Entry[])},
+	 * and only for the root iterator.
+	 *
+	 * @param repo
+	 *            the repository.
+	 */
+	protected void initRootIterator(Repository repo) {
+		Entry entry;
+		if (ignoreNode instanceof PerDirectoryIgnoreNode)
+			entry = ((PerDirectoryIgnoreNode) ignoreNode).entry;
+		else
+			entry = null;
+		ignoreNode = new RootIgnoreNode(entry, repo);
 	}
 
 	@Override
@@ -295,6 +322,57 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		return current().getLastModified();
 	}
 
+	/**
+	 * Determine if the current entry path is ignored by an ignore rule.
+	 *
+	 * @return true if the entry was ignored by an ignore rule file.
+	 * @throws IOException
+	 *             a relevant ignore rule file exists but cannot be read.
+	 */
+	public boolean isEntryIgnored() throws IOException {
+		return isEntryIgnored(pathLen);
+	}
+
+	/**
+	 * Determine if the entry path is ignored by an ignore rule.
+	 *
+	 * @param pLen
+	 *            the length of the path in the path buffer.
+	 * @return true if the entry is ignored by an ignore rule.
+	 * @throws IOException
+	 *             a relevant ignore rule file exists but cannot be read.
+	 */
+	protected boolean isEntryIgnored(final int pLen) throws IOException {
+		IgnoreNode rules = getIgnoreNode();
+		if (rules != null) {
+			// The ignore code wants path to start with a '/' if possible.
+			// If we have the '/' in our path buffer because we are inside
+			// a subdirectory include it in the range we convert to string.
+			//
+			int pOff = pathOffset;
+			if (0 < pOff)
+				pOff--;
+			String p = TreeWalk.pathOf(path, pOff, pLen);
+			switch (rules.isIgnored(p, FileMode.TREE.equals(mode))) {
+			case IGNORED:
+				return true;
+			case NOT_IGNORED:
+				return false;
+			case CHECK_PARENT:
+				break;
+			}
+		}
+		if (parent instanceof WorkingTreeIterator)
+			return ((WorkingTreeIterator) parent).isEntryIgnored(pLen);
+		return false;
+	}
+
+	private IgnoreNode getIgnoreNode() throws IOException {
+		if (ignoreNode instanceof PerDirectoryIgnoreNode)
+			ignoreNode = ((PerDirectoryIgnoreNode) ignoreNode).load();
+		return ignoreNode;
+	}
+
 	private static final Comparator<Entry> ENTRY_CMP = new Comparator<Entry>() {
 		public int compare(final Entry o1, final Entry o2) {
 			final byte[] a = o1.encodedName;
@@ -345,6 +423,8 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 				continue;
 			if (Constants.DOT_GIT.equals(name))
 				continue;
+			if (Constants.DOT_GIT_IGNORE.equals(name))
+				ignoreNode = new PerDirectoryIgnoreNode(e);
 			if (i != o)
 				entries[o] = e;
 			e.encodeName(nameEncoder);
@@ -569,5 +649,60 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		 *             the file could not be opened for reading.
 		 */
 		public abstract InputStream openInputStream() throws IOException;
+	}
+
+	/** Magic type indicating we know rules exist, but they aren't loaded. */
+	private static class PerDirectoryIgnoreNode extends IgnoreNode {
+		final Entry entry;
+
+		PerDirectoryIgnoreNode(Entry entry) {
+			super(Collections.<IgnoreRule> emptyList());
+			this.entry = entry;
+		}
+
+		IgnoreNode load() throws IOException {
+			IgnoreNode r = new IgnoreNode();
+			InputStream in = entry.openInputStream();
+			try {
+				r.parse(in);
+			} finally {
+				in.close();
+			}
+			return r.getRules().isEmpty() ? null : r;
+		}
+	}
+
+	/** Magic type indicating there may be rules for the top level. */
+	private static class RootIgnoreNode extends PerDirectoryIgnoreNode {
+		final Repository repository;
+
+		RootIgnoreNode(Entry entry, Repository repository) {
+			super(entry);
+			this.repository = repository;
+		}
+
+		@Override
+		IgnoreNode load() throws IOException {
+			IgnoreNode r;
+			if (entry != null) {
+				r = super.load();
+				if (r == null)
+					r = new IgnoreNode();
+			} else {
+				r = new IgnoreNode();
+			}
+
+			File exclude = new File(repository.getDirectory(), "info/exclude");
+			if (exclude.exists()) {
+				FileInputStream in = new FileInputStream(exclude);
+				try {
+					r.parse(in);
+				} finally {
+					in.close();
+				}
+			}
+
+			return r.getRules().isEmpty() ? null : r;
+		}
 	}
 }
