@@ -57,7 +57,8 @@ import org.eclipse.jgit.treewalk.TreeWalk;
 
 /** A value class representing a change to a file */
 public class DiffEntry {
-	private static final AbbreviatedObjectId A_ZERO = AbbreviatedObjectId
+	/**	Magical SHA1 used for file adds or deletes */
+	public static final AbbreviatedObjectId A_ZERO = AbbreviatedObjectId
 			.fromObjectId(ObjectId.zeroId());
 
 	/** Magical file name used for file adds or deletes. */
@@ -171,6 +172,16 @@ public class DiffEntry {
 		return e;
 	}
 
+	/**
+	 * Breaks apart a DiffEntry two DiffEntrys, one ADD and one DELETE.
+	 *
+	 * @param entry
+	 *            the DiffEntry to break apart.
+	 * @return a list containing two DiffEntrys. Calling
+	 *         {@link #getChangeType()} on the first entry will return
+	 *         ChangeType.DELETE. Calling it on the second entry will return
+	 *         ChangeType.ADD.
+	 */
 	static List<DiffEntry> breakModify(DiffEntry entry) {
 		DiffEntry del = new DiffEntry();
 		del.oldId = entry.getOldId();
@@ -341,5 +352,22 @@ public class DiffEntry {
 		}
 		buf.append("]");
 		return buf.toString();
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (o == this)
+			return true;
+		if (!(o instanceof DiffEntry))
+			return false;
+		DiffEntry other = (DiffEntry) o;
+		return oldName.equals(other.oldName) //
+				&& oldId.equals(other.oldId) //
+				&& oldMode == other.oldMode //
+				&& newName.equals(other.newName) //
+				&& newId.equals(other.newId) //
+				&& newMode == other.newMode //
+				&& changeType == other.changeType //
+				&& score == other.score;
 	}
 }
