@@ -16,6 +16,24 @@
       "revId": "a3b72781127f2a60fae5db900967c93b70233a3a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALw3///5E\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/AddCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-20T20:37:29Z",
+      "side": 1,
+      "message": "Please see the work I\u0027m doing in http://egit.eclipse.org/r/1156.  It implements isEntryIgnored() on the FileTreeIterator.",
+      "parentUuid": "AAALw3///68\u003d",
+      "revId": "a3b72781127f2a60fae5db900967c93b70233a3a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
