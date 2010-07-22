@@ -57,7 +57,8 @@ import org.eclipse.jgit.treewalk.TreeWalk;
 
 /** A value class representing a change to a file */
 public class DiffEntry {
-	private static final AbbreviatedObjectId A_ZERO = AbbreviatedObjectId
+	/** Magical SHA1 used for file adds or deletes */
+	static final AbbreviatedObjectId A_ZERO = AbbreviatedObjectId
 			.fromObjectId(ObjectId.zeroId());
 
 	/** Magical file name used for file adds or deletes. */
@@ -171,6 +172,15 @@ public class DiffEntry {
 		return e;
 	}
 
+	/**
+	 * Breaks apart a DiffEntry two DiffEntrys, one DELETE and one ADD.
+	 *
+	 * @param entry
+	 *            the DiffEntry to break apart.
+	 * @return a list containing two entries. Calling {@link #getChangeType()}
+	 *         on the first entry will return ChangeType.DELETE. Calling it on
+	 *         the second entry will return ChangeType.ADD.
+	 */
 	static List<DiffEntry> breakModify(DiffEntry entry) {
 		DiffEntry del = new DiffEntry();
 		del.oldId = entry.getOldId();
