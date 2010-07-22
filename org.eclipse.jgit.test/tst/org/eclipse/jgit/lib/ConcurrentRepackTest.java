@@ -129,6 +129,7 @@ public class ConcurrentRepackTest extends RepositoryTestCase {
 		pw.addObject(o2);
 		pw.addObject(o1);
 		write(out1, pw);
+		pw.close();
 
 		// Try the old name, then the new name. The old name should cause the
 		// pack to reload when it opens and the index and pack mismatch.
@@ -199,6 +200,7 @@ public class ConcurrentRepackTest extends RepositoryTestCase {
 		final File idxFile = fullPackFileName(name, ".idx");
 		final File[] files = new File[] { packFile, idxFile };
 		write(files, pw);
+		pw.close();
 		return files;
 	}
 

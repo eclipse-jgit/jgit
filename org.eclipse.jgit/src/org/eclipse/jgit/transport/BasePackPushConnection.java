@@ -246,6 +246,7 @@ class BasePackPushConnection extends BasePackConnection implements
 		final long start = System.currentTimeMillis();
 		writer.writePack(out);
 		out.flush();
+		writer.close();
 		packTransferTime = System.currentTimeMillis() - start;
 	}
 

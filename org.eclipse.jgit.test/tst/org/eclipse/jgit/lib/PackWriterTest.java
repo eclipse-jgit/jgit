@@ -94,6 +94,11 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 		writer = new PackWriter(db, new TextProgressMonitor());
 	}
 
+	public void tearDown() throws Exception {
+		super.tearDown();
+		writer.close();
+	}
+
 	/**
 	 * Test constructor for exceptions, default settings, initialization.
 	 */

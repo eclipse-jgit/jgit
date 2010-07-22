@@ -172,6 +172,7 @@ public class IndexPackTest extends RepositoryTestCase {
 			if (n > 0)
 				tinyPack.write(buf, 0, n);
 		} while (!deflater.finished());
+		deflater.end();
 	}
 
 	private void digest(TemporaryBuffer.Heap buf) throws IOException {

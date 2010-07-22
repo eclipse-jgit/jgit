@@ -79,6 +79,9 @@ import org.eclipse.jgit.revwalk.RevCommit;
  * recipient must have in order to fetch from the bundle file. Objects reachable
  * from these assumed commits can be used as delta bases in order to reduce the
  * overall bundle size.
+ * <p>
+ * In order to release system resources held by this, the {@link #close()} method
+ * should be called if this is no longer needed.
  */
 public class BundleWriter {
 	private final PackWriter packWriter;
@@ -197,5 +200,12 @@ public class BundleWriter {
 		w.write('\n');
 		w.flush();
 		packWriter.writePack(os);
+	}
+
+	/**
+	 * Releases the system resources held by this instance
+	 */
+	public void close() {
+		packWriter.close();
 	}
 }

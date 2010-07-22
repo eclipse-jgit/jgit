@@ -589,5 +589,6 @@ public class UploadPack {
 
 		if (sideband)
 			pckOut.end();
+		pw.close();
 	}
 }
