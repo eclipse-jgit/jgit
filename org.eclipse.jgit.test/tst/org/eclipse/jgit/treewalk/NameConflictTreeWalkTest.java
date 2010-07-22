@@ -120,11 +120,15 @@ public class NameConflictTreeWalkTest extends RepositoryTestCase {
 		tw.addTree(new DirCacheIterator(tree1));
 
 		assertModes("a", REGULAR_FILE, TREE, tw);
+		assertTrue(tw.isDirectoryFileConflict());
 		assertTrue(tw.isSubtree());
 		tw.enterSubtree();
 		assertModes("a/b", MISSING, REGULAR_FILE, tw);
+		assertTrue(tw.isDirectoryFileConflict());
 		assertModes("a.b", EXECUTABLE_FILE, MISSING, tw);
+		assertFalse(tw.isDirectoryFileConflict());
 		assertModes("a0b", SYMLINK, MISSING, tw);
+		assertFalse(tw.isDirectoryFileConflict());
 	}
 
 	public void testDF_GapByOne() throws Exception {
@@ -153,10 +157,14 @@ public class NameConflictTreeWalkTest extends RepositoryTestCase {
 
 		assertModes("a", REGULAR_FILE, TREE, tw);
 		assertTrue(tw.isSubtree());
+		assertTrue(tw.isDirectoryFileConflict());
 		tw.enterSubtree();
 		assertModes("a/b", MISSING, REGULAR_FILE, tw);
+		assertTrue(tw.isDirectoryFileConflict());
 		assertModes("a.b", EXECUTABLE_FILE, EXECUTABLE_FILE, tw);
+		assertFalse(tw.isDirectoryFileConflict());
 		assertModes("a0b", SYMLINK, MISSING, tw);
+		assertFalse(tw.isDirectoryFileConflict());
 	}
 
 	public void testDF_SkipsSeenSubtree() throws Exception {
@@ -185,10 +193,57 @@ public class NameConflictTreeWalkTest extends RepositoryTestCase {
 
 		assertModes("a", REGULAR_FILE, TREE, tw);
 		assertTrue(tw.isSubtree());
+		assertTrue(tw.isDirectoryFileConflict());
 		tw.enterSubtree();
 		assertModes("a/b", MISSING, REGULAR_FILE, tw);
+		assertTrue(tw.isDirectoryFileConflict());
 		assertModes("a.b", MISSING, EXECUTABLE_FILE, tw);
+		assertFalse(tw.isDirectoryFileConflict());
 		assertModes("a0b", SYMLINK, SYMLINK, tw);
+		assertFalse(tw.isDirectoryFileConflict());
+	}
+
+	public void testDF_DetectConflict() throws Exception {
+		final DirCache tree0 = db.readDirCache();
+		final DirCache tree1 = db.readDirCache();
+		{
+			final DirCacheBuilder b0 = tree0.builder();
+			final DirCacheBuilder b1 = tree1.builder();
+
+			b0.add(makeEntry("0", REGULAR_FILE));
+			b0.add(makeEntry("a", REGULAR_FILE));
+			b1.add(makeEntry("0", REGULAR_FILE));
+			b1.add(makeEntry("a.b", REGULAR_FILE));
+			b1.add(makeEntry("a/b", REGULAR_FILE));
+			b1.add(makeEntry("a/c/e", REGULAR_FILE));
+
+			b0.finish();
+			b1.finish();
+			assertEquals(2, tree0.getEntryCount());
+			assertEquals(4, tree1.getEntryCount());
+		}
+
+		final NameConflictTreeWalk tw = new NameConflictTreeWalk(db);
+		tw.reset();
+		tw.addTree(new DirCacheIterator(tree0));
+		tw.addTree(new DirCacheIterator(tree1));
+
+		assertModes("0", REGULAR_FILE, REGULAR_FILE, tw);
+		assertFalse(tw.isDirectoryFileConflict());
+		assertModes("a", REGULAR_FILE, TREE, tw);
+		assertTrue(tw.isSubtree());
+		assertTrue(tw.isDirectoryFileConflict());
+		tw.enterSubtree();
+		assertModes("a/b", MISSING, REGULAR_FILE, tw);
+		assertTrue(tw.isDirectoryFileConflict());
+		assertModes("a/c", MISSING, TREE, tw);
+		assertTrue(tw.isDirectoryFileConflict());
+		tw.enterSubtree();
+		assertModes("a/c/e", MISSING, REGULAR_FILE, tw);
+		assertTrue(tw.isDirectoryFileConflict());
+
+		assertModes("a.b", MISSING, REGULAR_FILE, tw);
+		assertFalse(tw.isDirectoryFileConflict());
 	}
 
 	private DirCacheEntry makeEntry(final String path, final FileMode mode)
