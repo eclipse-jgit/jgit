@@ -98,7 +98,7 @@ public class RenameDetector {
 		}
 	};
 
-	private final List<DiffEntry> entries = new ArrayList<DiffEntry>();
+	private List<DiffEntry> entries = new ArrayList<DiffEntry>();
 
 	private List<DiffEntry> deleted = new ArrayList<DiffEntry>();
 
@@ -110,6 +110,13 @@ public class RenameDetector {
 
 	/** Similarity score required to pair an add/delete as a rename. */
 	private int renameScore = 60;
+
+	/**
+	 * Similarity score required to keep modified file pairs together. Any
+	 * modified file pairs with a similarity score below this will be broken
+	 * apart.
+	 */
+	private int breakScore = -1;
 
 	/** Limit in the number of files to consider for renames. */
 	private int renameLimit;
@@ -156,6 +163,29 @@ public class RenameDetector {
 			throw new IllegalArgumentException(
 					JGitText.get().similarityScoreMustBeWithinBounds);
 		renameScore = score;
+	}
+
+	/**
+	 * @return the similarity score required to keep modified file pairs
+	 *         together. Any modify pairs that score below this will be broken
+	 *         apart into separate add/deletes. Values less than or equal to
+	 *         zero indicate that no modifies will be broken apart. Values over
+	 *         100 cause all modify pairs to be broken.
+	 */
+	public int getBreakScore() {
+		return breakScore;
+	}
+
+	/**
+	 * @param breakScore
+	 *            the similarity score required to keep modified file pairs
+	 *            together. Any modify pairs that score below this will be
+	 *            broken apart into separate add/deletes. Values less than or
+	 *            equal to zero indicate that no modifies will be broken apart.
+	 *            Values over 100 cause all modify pairs to be broken.
+	 */
+	public void setBreakScore(int breakScore) {
+		this.breakScore = breakScore;
 	}
 
 	/** @return limit on number of paths to perform inexact rename detection. */
@@ -218,10 +248,13 @@ public class RenameDetector {
 				break;
 
 			case MODIFY:
-				if (sameType(entry.getOldMode(), entry.getNewMode()))
+				if (sameType(entry.getOldMode(), entry.getNewMode())) {
 					entries.add(entry);
-				else
-					entries.addAll(DiffEntry.breakModify(entry));
+				} else {
+					List<DiffEntry> tmp = DiffEntry.breakModify(entry);
+					deleted.add(tmp.get(0));
+					added.add(tmp.get(1));
+				}
 				break;
 
 			case COPY:
@@ -274,8 +307,10 @@ public class RenameDetector {
 
 			if (pm == null)
 				pm = NullProgressMonitor.INSTANCE;
+			breakModifies(pm);
 			findExactRenames(pm);
 			findContentRenames(pm);
+			rejoinModifies(pm);
 
 			entries.addAll(added);
 			added = null;
@@ -286,6 +321,73 @@ public class RenameDetector {
 			Collections.sort(entries, DIFF_COMPARATOR);
 		}
 		return Collections.unmodifiableList(entries);
+	}
+
+	private void breakModifies(ProgressMonitor pm) throws IOException {
+		if (breakScore <= 0)
+			return;
+
+		ArrayList<DiffEntry> newEntries = new ArrayList<DiffEntry>(entries.size());
+
+		pm.beginTask(JGitText.get().renamesBreakingModifies, entries.size());
+
+		for (int i = 0; i < entries.size(); i++) {
+			DiffEntry e = entries.get(i);
+			if (e.getChangeType() == ChangeType.MODIFY) {
+				final int score = calculateModifyScore(e);
+				if (score < breakScore) {
+					List<DiffEntry> tmp = DiffEntry.breakModify(e);
+					DiffEntry del = tmp.get(0);
+					del.score = score;
+					deleted.add(del);
+					added.add(tmp.get(1));
+					i--;
+				} else {
+					newEntries.add(e);
+				}
+			}
+			pm.update(1);
+		}
+
+		entries = newEntries;
+	}
+
+	private void rejoinModifies(ProgressMonitor pm) {
+		HashMap<String, DiffEntry> nameMap = new HashMap<String, DiffEntry>();
+		ArrayList<DiffEntry> newAdded = new ArrayList<DiffEntry>(added.size());
+
+		pm.beginTask(JGitText.get().renamesRejoiningModifies, added.size()
+				+ deleted.size());
+
+		for (DiffEntry src : deleted) {
+			nameMap.put(src.oldName, src);
+			pm.update(1);
+		}
+
+		for (DiffEntry dst : added) {
+			DiffEntry src = nameMap.get(dst.newName);
+			if (src != null && sameType(src.oldMode, dst.newMode)) {
+				entries.add(DiffEntry.pair(ChangeType.MODIFY, src, dst,
+						src.score));
+				nameMap.remove(src);
+			} else {
+				newAdded.add(dst);
+			}
+			pm.update(1);
+		}
+
+		added = newAdded;
+		deleted = new ArrayList<DiffEntry>(nameMap.values());
+	}
+
+	private int calculateModifyScore(DiffEntry d) throws IOException {
+		SimilarityIndex src = new SimilarityIndex();
+		src.hash(repo.openObject(d.oldId.toObjectId()));
+		src.sort();
+		SimilarityIndex dst = new SimilarityIndex();
+		dst.hash(repo.openObject(d.newId.toObjectId()));
+		dst.sort();
+		return src.score(dst, 100);
 	}
 
 	private void findContentRenames(ProgressMonitor pm) throws IOException {
@@ -313,10 +415,11 @@ public class RenameDetector {
 			return;
 
 		pm.beginTask(JGitText.get().renamesFindingExact, //
-				added.size() + added.size() + deleted.size()
-						+ added.size() * deleted.size());
+				added.size() + added.size() + deleted.size() + added.size()
+						* deleted.size());
 
-		HashMap<AbbreviatedObjectId, Object> deletedMap = populateMap(deleted, pm);
+		HashMap<AbbreviatedObjectId, Object> deletedMap = populateMap(deleted,
+				pm);
 		HashMap<AbbreviatedObjectId, Object> addedMap = populateMap(added, pm);
 
 		ArrayList<DiffEntry> uniqueAdds = new ArrayList<DiffEntry>(added.size());
@@ -396,8 +499,10 @@ public class RenameDetector {
 					for (int delIdx = 0; delIdx < dels.size(); delIdx++) {
 						String deletedName = dels.get(delIdx).oldName;
 
-						int score = SimilarityRenameDetector.nameScore(addedName, deletedName);
-						matrix[mNext] = SimilarityRenameDetector.encode(score, addIdx, delIdx);
+						int score = SimilarityRenameDetector.nameScore(
+								addedName, deletedName);
+						matrix[mNext] = SimilarityRenameDetector.encode(score,
+								addIdx, delIdx);
 						mNext++;
 					}
 				}
@@ -418,9 +523,11 @@ public class RenameDetector {
 
 					ChangeType type;
 					if (d.changeType == ChangeType.DELETE) {
-						// First use of this source file. Tag it as a rename so we
+						// First use of this source file. Tag it as a rename so
+						// we
 						// later know it is already been used as a rename, other
-						// matches (if any) will claim themselves as copies instead.
+						// matches (if any) will claim themselves as copies
+						// instead.
 						//
 						d.changeType = ChangeType.RENAME;
 						type = ChangeType.RENAME;
@@ -429,7 +536,8 @@ public class RenameDetector {
 					}
 
 					entries.add(DiffEntry.pair(type, d, a, 100));
-					adds.set(addIdx, null); // Claim the destination was matched.
+					adds.set(addIdx, null); // Claim the destination was
+											// matched.
 					pm.update(1);
 				}
 			} else {
