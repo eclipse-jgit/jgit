@@ -130,12 +130,16 @@ public class AddCommand extends GitCommand<DirCache> {
 				String path = tw.getPathString();
 
 				final File file = new File(repo.getWorkDir(), path);
+				FileTreeIterator f = tw.getTree(1, FileTreeIterator.class);
+				if (tw.getTree(0, DirCacheIterator.class) == null &&
+						f != null && f.isEntryIgnored()) {
+					// file is not in index but is ignored, do nothing
+				}
 				// In case of an existing merge conflict the
 				// DirCacheBuildIterator iterates over all stages of
 				// this path, we however want to add only one
 				// new DirCacheEntry per path.
-				if (!(path.equals(lastAddedFile))) {
-					 FileTreeIterator f = tw.getTree(1, FileTreeIterator.class);
+				else if (!(path.equals(lastAddedFile))) {
 					 if (f != null) { // the file exists
 						DirCacheEntry entry = new DirCacheEntry(path);
 						entry.setLength((int)f.getEntryLength());
