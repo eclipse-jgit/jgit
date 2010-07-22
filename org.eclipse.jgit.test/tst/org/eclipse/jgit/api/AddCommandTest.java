@@ -358,6 +358,108 @@ public class AddCommandTest extends RepositoryTestCase {
 		assertEquals("sub/b.txt", dc.getEntry("sub/b.txt").getPathString());
 	}
 
+	// the same three cases as in testAddWithParameterUpdate
+	// file a exists in workdir and in index -> added
+	// file b exists not in workdir but in index -> unchanged
+	// file c exists in workdir but not in index -> added
+	public void testAddWithoutParameterUpdate() throws Exception {
+		new File(db.getWorkTree(), "sub").mkdir();
+		File file = new File(db.getWorkTree(), "sub/a.txt");
+		file.createNewFile();
+		PrintWriter writer = new PrintWriter(file);
+		writer.print("content");
+		writer.close();
+
+		File file2 = new File(db.getWorkTree(), "sub/b.txt");
+		file2.createNewFile();
+		writer = new PrintWriter(file2);
+		writer.print("content b");
+		writer.close();
+
+		Git git = new Git(db);
+		DirCache dc = git.add().addFilepattern("sub").call();
+
+		assertTrue(dc.getEntry("sub/a.txt").getLength() == 7);
+		// deletion of sub/b.txt is staged
+		assertNotNull(dc.getEntry("sub/b.txt"));
+
+		git.commit().setMessage("commit").call();
+
+		// new unstaged file sub/c.txt
+		File file3 = new File(db.getWorkTree(), "sub/c.txt");
+		file3.createNewFile();
+		writer = new PrintWriter(file3);
+		writer.print("content c");
+		writer.close();
+
+		// file sub/a.txt is modified
+		writer = new PrintWriter(file);
+		writer.print("modified content");
+		writer.close();
+
+		// file sub/b.txt is deleted
+		file2.delete();
+
+		dc = git.add().addFilepattern("sub").call();
+		// change in sub/a.txt is staged
+		assertTrue(dc.getEntry("sub/a.txt").getLastModified() ==
+			file.lastModified());
+		// sub/c.txt is staged
+		assertNotNull(dc.getEntry("sub/c.txt"));
+		// deletion of sub/b.txt is not staged
+		assertNotNull(dc.getEntry("sub/b.txt"));
+	}
+
+	// file a exists in workdir and in index -> added
+	// file b exists not in workdir but in index -> deleted
+	// file c exists in workdir but not in index -> unchanged
+	public void testAddWithParameterUpdate() throws Exception {
+		new File(db.getWorkTree(), "sub").mkdir();
+		File file = new File(db.getWorkTree(), "sub/a.txt");
+		file.createNewFile();
+		PrintWriter writer = new PrintWriter(file);
+		writer.print("content");
+		writer.close();
+
+		File file2 = new File(db.getWorkTree(), "sub/b.txt");
+		file2.createNewFile();
+		writer = new PrintWriter(file2);
+		writer.print("content b");
+		writer.close();
+
+		Git git = new Git(db);
+		DirCache dc = git.add().addFilepattern("sub").call();
+
+		assertTrue(dc.getEntry("sub/a.txt").getLength() == 7);
+		// deletion of sub/b.txt is staged
+		assertNotNull(dc.getEntry("sub/b.txt"));
+
+		git.commit().setMessage("commit").call();
+
+		// new unstaged file sub/c.txt
+		File file3 = new File(db.getWorkTree(), "sub/c.txt");
+		file3.createNewFile();
+		writer = new PrintWriter(file3);
+		writer.print("content c");
+		writer.close();
+
+		// file sub/a.txt is modified
+		writer = new PrintWriter(file);
+		writer.print("modified content");
+		writer.close();
+
+		// file sub/b.txt is deleted
+		file2.delete();
+
+		dc = git.add().addFilepattern("sub").setUpdate(true).call();
+		// change in sub/a.txt is staged
+		assertTrue(dc.getEntry("sub/a.txt").getLastModified() ==
+			file.lastModified());
+		assertNull(dc.getEntry("sub/c.txt"));
+		// deletion of sub/b.txt is staged
+		assertNull(dc.getEntry("sub/b.txt"));
+	}
+
 	private DirCacheEntry addEntryToBuilder(String path, File file,
 			ObjectWriter ow, DirCacheBuilder builder, int stage)
 			throws IOException {
