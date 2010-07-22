@@ -44,6 +44,7 @@
 package org.eclipse.jgit.treewalk;
 
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.RepositoryTestCase;
 
 public class EmptyTreeIteratorTest extends RepositoryTestCase {
@@ -55,7 +56,8 @@ public class EmptyTreeIteratorTest extends RepositoryTestCase {
 
 	public void testCreateSubtreeIterator() throws Exception {
 		final EmptyTreeIterator etp = new EmptyTreeIterator();
-		final AbstractTreeIterator sub = etp.createSubtreeIterator(db);
+		final ObjectReader reader = db.newObjectReader();
+		final AbstractTreeIterator sub = etp.createSubtreeIterator(reader);
 		assertNotNull(sub);
 		assertTrue(sub.first());
 		assertTrue(sub.eof());
@@ -106,7 +108,8 @@ public class EmptyTreeIteratorTest extends RepositoryTestCase {
 				called[0] = true;
 			}
 		};
-		parent.createSubtreeIterator(db).stopWalk();
+		final ObjectReader reader = db.newObjectReader();
+		parent.createSubtreeIterator(reader).stopWalk();
 		assertTrue(called[0]);
 	}
 }

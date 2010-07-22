@@ -49,9 +49,6 @@ package org.eclipse.jgit.lib;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -59,279 +56,103 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.Vector;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.dircache.DirCache;
-import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
+import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.errors.NoWorkTreeException;
 import org.eclipse.jgit.errors.RevisionSyntaxException;
+import org.eclipse.jgit.events.ListenerList;
+import org.eclipse.jgit.events.RepositoryEvent;
+import org.eclipse.jgit.revwalk.RevBlob;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevObject;
+import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.storage.file.ReflogReader;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
-import org.eclipse.jgit.util.SystemReader;
 
 /**
- * Represents a Git repository. A repository holds all objects and refs used for
- * managing source code (could by any type of file, but source code is what
- * SCM's are typically used for).
- *
- * In Git terms all data is stored in GIT_DIR, typically a directory called
- * .git. A work tree is maintained unless the repository is a bare repository.
- * Typically the .git directory is located at the root of the work dir.
- *
- * <ul>
- * <li>GIT_DIR
- * 	<ul>
- * 		<li>objects/ - objects</li>
- * 		<li>refs/ - tags and heads</li>
- * 		<li>config - configuration</li>
- * 		<li>info/ - more configurations</li>
- * 	</ul>
- * </li>
- * </ul>
+ * Represents a Git repository.
+ * <p>
+ * A repository holds all objects and refs used for managing source code (could
+ * be any type of file, but source code is what SCM's are typically used for).
  * <p>
  * This class is thread-safe.
- * <p>
- * This implementation only handles a subtly undocumented subset of git features.
- *
  */
-public class Repository {
+public abstract class Repository {
+	private static final ListenerList globalListeners = new ListenerList();
+
+	/** @return the global listener list observing all events in this JVM. */
+	public static ListenerList getGlobalListenerList() {
+		return globalListeners;
+	}
+
 	private final AtomicInteger useCnt = new AtomicInteger(1);
 
+	/** Metadata directory holding the repository's critical files. */
 	private final File gitDir;
 
+	/** File abstraction used to resolve paths. */
 	private final FS fs;
-
-	private final FileBasedConfig userConfig;
-
-	private final RepositoryConfig config;
-
-	private final RefDatabase refs;
-
-	private final ObjectDirectory objectDatabase;
 
 	private GitIndex index;
 
-	private final List<RepositoryListener> listeners = new Vector<RepositoryListener>(); // thread safe
-	static private final List<RepositoryListener> allListeners = new Vector<RepositoryListener>(); // thread safe
+	private final ListenerList myListeners = new ListenerList();
 
-	private File workDir;
+	/** If not bare, the top level directory of the working files. */
+	private final File workTree;
 
-	private File indexFile;
+	/** If not bare, the index file caching the working file states. */
+	private final File indexFile;
 
 	/**
-	 * Construct a representation of a Git repository.
+	 * Initialize a new repository instance.
 	 *
-	 * The work tree, object directory, alternate object directories and index
-	 * file locations are deduced from the given git directory and the default
-	 * rules.
-	 *
-	 * @param d
-	 *            GIT_DIR (the location of the repository metadata).
-	 * @throws IOException
-	 *             the repository appears to already exist but cannot be
-	 *             accessed.
+	 * @param options
+	 *            options to configure the repository.
 	 */
-	public Repository(final File d) throws IOException {
-		this(d, null, null, null, null); // go figure it out
+	protected Repository(final BaseRepositoryBuilder options) {
+		gitDir = options.getGitDir();
+		fs = options.getFS();
+		workTree = options.getWorkTree();
+		indexFile = options.getIndexFile();
+	}
+
+	/** @return listeners observing only events on this repository. */
+	public ListenerList getListenerList() {
+		return myListeners;
 	}
 
 	/**
-	 * Construct a representation of a Git repository.
+	 * Fire an event to all registered listeners.
+	 * <p>
+	 * The source repository of the event is automatically set to this
+	 * repository, before the event is delivered to any listeners.
 	 *
-	 * The work tree, object directory, alternate object directories and index
-	 * file locations are deduced from the given git directory and the default
-	 * rules.
-	 *
-	 * @param d
-	 *            GIT_DIR (the location of the repository metadata). May be
-	 *            null work workTree is set
-	 * @param workTree
-	 *            GIT_WORK_TREE (the root of the checkout). May be null for
-	 *            default value.
-	 * @throws IOException
-	 *             the repository appears to already exist but cannot be
-	 *             accessed.
+	 * @param event
+	 *            the event to deliver.
 	 */
-	public Repository(final File d, final File workTree) throws IOException {
-		this(d, workTree, null, null, null); // go figure it out
+	public void fireEvent(RepositoryEvent<?> event) {
+		event.setRepository(this);
+		myListeners.dispatch(event);
+		globalListeners.dispatch(event);
 	}
 
 	/**
-	 * Construct a representation of a Git repository using the given parameters
-	 * possibly overriding default conventions.
-	 *
-	 * @param d
-	 *            GIT_DIR (the location of the repository metadata). May be null
-	 *            for default value in which case it depends on GIT_WORK_TREE.
-	 * @param workTree
-	 *            GIT_WORK_TREE (the root of the checkout). May be null for
-	 *            default value if GIT_DIR is provided.
-	 * @param objectDir
-	 *            GIT_OBJECT_DIRECTORY (where objects and are stored). May be
-	 *            null for default value. Relative names ares resolved against
-	 *            GIT_WORK_TREE.
-	 * @param alternateObjectDir
-	 *            GIT_ALTERNATE_OBJECT_DIRECTORIES (where more objects are read
-	 *            from). May be null for default value. Relative names ares
-	 *            resolved against GIT_WORK_TREE.
-	 * @param indexFile
-	 *            GIT_INDEX_FILE (the location of the index file). May be null
-	 *            for default value. Relative names ares resolved against
-	 *            GIT_WORK_TREE.
-	 * @throws IOException
-	 *             the repository appears to already exist but cannot be
-	 *             accessed.
-	 */
-	public Repository(final File d, final File workTree, final File objectDir,
-			final File[] alternateObjectDir, final File indexFile) throws IOException {
-		this(d, workTree, objectDir, alternateObjectDir, indexFile, FS.DETECTED);
-	}
-
-	/**
-	 * Construct a representation of a Git repository using the given parameters
-	 * possibly overriding default conventions.
-	 *
-	 * @param d
-	 *            GIT_DIR (the location of the repository metadata). May be null
-	 *            for default value in which case it depends on GIT_WORK_TREE.
-	 * @param workTree
-	 *            GIT_WORK_TREE (the root of the checkout). May be null for
-	 *            default value if GIT_DIR is provided.
-	 * @param objectDir
-	 *            GIT_OBJECT_DIRECTORY (where objects and are stored). May be
-	 *            null for default value. Relative names ares resolved against
-	 *            GIT_WORK_TREE.
-	 * @param alternateObjectDir
-	 *            GIT_ALTERNATE_OBJECT_DIRECTORIES (where more objects are read
-	 *            from). May be null for default value. Relative names ares
-	 *            resolved against GIT_WORK_TREE.
-	 * @param indexFile
-	 *            GIT_INDEX_FILE (the location of the index file). May be null
-	 *            for default value. Relative names ares resolved against
-	 *            GIT_WORK_TREE.
-	 * @param fs
-	 *            the file system abstraction which will be necessary to
-	 *            perform certain file system operations.
-	 * @throws IOException
-	 *             the repository appears to already exist but cannot be
-	 *             accessed.
-	 */
-	public Repository(final File d, final File workTree, final File objectDir,
-			final File[] alternateObjectDir, final File indexFile, FS fs)
-			throws IOException {
-
-		if (workTree != null) {
-			workDir = workTree;
-			if (d == null)
-				gitDir = new File(workTree, Constants.DOT_GIT);
-			else
-				gitDir = d;
-		} else {
-			if (d != null)
-				gitDir = d;
-			else
-				throw new IllegalArgumentException(
-						JGitText.get().eitherGIT_DIRorGIT_WORK_TREEmustBePassed);
-		}
-
-		this.fs = fs;
-
-		userConfig = SystemReader.getInstance().openUserConfig(fs);
-		config = new RepositoryConfig(userConfig, fs.resolve(gitDir, "config"));
-
-		loadUserConfig();
-		loadConfig();
-
-		if (workDir == null) {
-			// if the working directory was not provided explicitly,
-			// we need to decide if this is a "bare" repository or not
-			// first, we check the working tree configuration
-			String workTreeConfig = getConfig().getString(
-					ConfigConstants.CONFIG_CORE_SECTION, null,
-					ConfigConstants.CONFIG_KEY_WORKTREE);
-			if (workTreeConfig != null) {
-				// the working tree configuration wins
-				workDir = fs.resolve(d, workTreeConfig);
-			} else if (getConfig().getString(
-					ConfigConstants.CONFIG_CORE_SECTION, null,
-					ConfigConstants.CONFIG_KEY_BARE) != null) {
-				// we have asserted that a value for the "bare" flag was set
-				if (!getConfig().getBoolean(ConfigConstants.CONFIG_CORE_SECTION,
-						ConfigConstants.CONFIG_KEY_BARE, true))
-					// the "bare" flag is false -> use the parent of the
-					// meta data directory
-					workDir = gitDir.getParentFile();
-				else
-					// the "bare" flag is true
-					workDir = null;
-			} else if (Constants.DOT_GIT.equals(gitDir.getName())) {
-				// no value for the "bare" flag, but the meta data directory
-				// is named ".git" -> use the parent of the meta data directory
-				workDir = gitDir.getParentFile();
-			} else {
-				workDir = null;
-			}
-		}
-
-		refs = new RefDirectory(this);
-		if (objectDir != null)
-			objectDatabase = new ObjectDirectory(fs.resolve(objectDir, ""),
-					alternateObjectDir, fs);
-		else
-			objectDatabase = new ObjectDirectory(fs.resolve(gitDir, "objects"),
-					alternateObjectDir, fs);
-
-		if (indexFile != null)
-			this.indexFile = indexFile;
-		else
-			this.indexFile = new File(gitDir, "index");
-
-		if (objectDatabase.exists()) {
-			final String repositoryFormatVersion = getConfig().getString(
-					ConfigConstants.CONFIG_CORE_SECTION, null,
-					ConfigConstants.CONFIG_KEY_REPO_FORMAT_VERSION);
-			if (!"0".equals(repositoryFormatVersion)) {
-				throw new IOException(MessageFormat.format(
-						JGitText.get().unknownRepositoryFormat2,
-						repositoryFormatVersion));
-			}
-		}
-	}
-
-	private void loadUserConfig() throws IOException {
-		try {
-			userConfig.load();
-		} catch (ConfigInvalidException e1) {
-			IOException e2 = new IOException(MessageFormat.format(JGitText
-					.get().userConfigFileInvalid, userConfig.getFile()
-					.getAbsolutePath(), e1));
-			e2.initCause(e1);
-			throw e2;
-		}
-	}
-
-	private void loadConfig() throws IOException {
-		try {
-			config.load();
-		} catch (ConfigInvalidException e1) {
-			IOException e2 = new IOException(JGitText.get().unknownRepositoryFormat);
-			e2.initCause(e1);
-			throw e2;
-		}
-	}
-
-
-	/**
-	 * Create a new Git repository initializing the necessary files and
-	 * directories. Repository with working tree is created using this method.
+	 * Create a new Git repository.
+	 * <p>
+	 * Repository with working tree is created using this method. This method is
+	 * the same as {@code create(false)}.
 	 *
 	 * @throws IOException
 	 * @see #create(boolean)
 	 */
-	public synchronized void create() throws IOException {
+	public void create() throws IOException {
 		create(false);
 	}
 
@@ -340,44 +161,14 @@ public class Repository {
 	 * directories.
 	 *
 	 * @param bare
-	 *            if true, a bare repository is created.
-	 *
+	 *            if true, a bare repository (a repository without a working
+	 *            directory) is created.
 	 * @throws IOException
 	 *             in case of IO problem
 	 */
-	public void create(boolean bare) throws IOException {
-		final RepositoryConfig cfg = getConfig();
-		if (cfg.getFile().exists()) {
-			throw new IllegalStateException(MessageFormat.format(
-					JGitText.get().repositoryAlreadyExists, gitDir));
-		}
-		gitDir.mkdirs();
-		refs.create();
-		objectDatabase.create();
+	public abstract void create(boolean bare) throws IOException;
 
-		new File(gitDir, "branches").mkdir();
-
-		RefUpdate head = updateRef(Constants.HEAD);
-		head.disableRefLog();
-		head.link(Constants.R_HEADS + Constants.MASTER);
-
-		cfg.setInt(ConfigConstants.CONFIG_CORE_SECTION, null,
-				ConfigConstants.CONFIG_KEY_REPO_FORMAT_VERSION, 0);
-		cfg.setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
-				ConfigConstants.CONFIG_KEY_FILEMODE, true);
-		if (bare)
-			cfg.setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
-					ConfigConstants.CONFIG_KEY_BARE, true);
-		cfg.setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
-				ConfigConstants.CONFIG_KEY_LOGALLREFUPDATES, !bare);
-		cfg.setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
-				ConfigConstants.CONFIG_KEY_AUTOCRLF, false);
-		cfg.save();
-	}
-
-	/**
-	 * @return GIT_DIR
-	 */
+	/** @return local metadata directory; null if repository isn't local. */
 	public File getDirectory() {
 		return gitDir;
 	}
@@ -385,42 +176,30 @@ public class Repository {
 	/**
 	 * @return the directory containing the objects owned by this repository.
 	 */
-	public File getObjectsDirectory() {
-		return objectDatabase.getDirectory();
-	}
+	public abstract File getObjectsDirectory();
 
 	/**
 	 * @return the object database which stores this repository's data.
 	 */
-	public ObjectDatabase getObjectDatabase() {
-		return objectDatabase;
+	public abstract ObjectDatabase getObjectDatabase();
+
+	/** @return a new inserter to create objects in {@link #getObjectDatabase()} */
+	public ObjectInserter newObjectInserter() {
+		return getObjectDatabase().newInserter();
+	}
+
+	/** @return a new inserter to create objects in {@link #getObjectDatabase()} */
+	public ObjectReader newObjectReader() {
+		return getObjectDatabase().newReader();
 	}
 
 	/** @return the reference database which stores the reference namespace. */
-	public RefDatabase getRefDatabase() {
-		return refs;
-	}
+	public abstract RefDatabase getRefDatabase();
 
 	/**
 	 * @return the configuration of this repository
 	 */
-	public RepositoryConfig getConfig() {
-		if (userConfig.isOutdated()) {
-			try {
-				loadUserConfig();
-			} catch (IOException e) {
-				throw new RuntimeException(e);
-			}
-		}
-		if (config.isOutdated()) {
-				try {
-					loadConfig();
-				} catch (IOException e) {
-					throw new RuntimeException(e);
-				}
-		}
-		return config;
-	}
+	public abstract Config getConfig();
 
 	/**
 	 * @return the used file system abstraction
@@ -430,116 +209,63 @@ public class Repository {
 	}
 
 	/**
-	 * Construct a filename where the loose object having a specified SHA-1
-	 * should be stored. If the object is stored in a shared repository the path
-	 * to the alternative repo will be returned. If the object is not yet store
-	 * a usable path in this repo will be returned. It is assumed that callers
-	 * will look for objects in a pack first.
-	 *
-	 * @param objectId
-	 * @return suggested file name
-	 */
-	public File toFile(final AnyObjectId objectId) {
-		return objectDatabase.fileFor(objectId);
-	}
-
-	/**
 	 * @param objectId
 	 * @return true if the specified object is stored in this repo or any of the
 	 *         known shared repositories.
 	 */
-	public boolean hasObject(final AnyObjectId objectId) {
-		return objectDatabase.hasObject(objectId);
-	}
-
-	/**
-	 * @param id
-	 *            SHA-1 of an object.
-	 *
-	 * @return a {@link ObjectLoader} for accessing the data of the named
-	 *         object, or null if the object does not exist.
-	 * @throws IOException
-	 */
-	public ObjectLoader openObject(final AnyObjectId id)
-			throws IOException {
-		final WindowCursor wc = new WindowCursor();
+	public boolean hasObject(AnyObjectId objectId) {
 		try {
-			return openObject(wc, id);
-		} finally {
-			wc.release();
+			return getObjectDatabase().has(objectId);
+		} catch (IOException e) {
+			// Legacy API, assume error means "no"
+			return false;
 		}
 	}
 
 	/**
-	 * @param curs
-	 *            temporary working space associated with the calling thread.
-	 * @param id
-	 *            SHA-1 of an object.
-	 *
-	 * @return a {@link ObjectLoader} for accessing the data of the named
-	 *         object, or null if the object does not exist.
-	 * @throws IOException
-	 */
-	public ObjectLoader openObject(final WindowCursor curs, final AnyObjectId id)
-			throws IOException {
-		return objectDatabase.openObject(curs, id);
-	}
-
-	/**
-	 * Open object in all packs containing specified object.
+	 * Open an object from this repository.
+	 * <p>
+	 * This is a one-shot call interface which may be faster than allocating a
+	 * {@link #newObjectReader()} to perform the lookup.
 	 *
 	 * @param objectId
-	 *            id of object to search for
-	 * @param curs
-	 *            temporary working space associated with the calling thread.
-	 * @return collection of loaders for this object, from all packs containing
-	 *         this object
+	 *            identity of the object to open.
+	 * @return a {@link ObjectLoader} for accessing the object.
+	 * @throws MissingObjectException
+	 *             the object does not exist.
 	 * @throws IOException
+	 *             the object store cannot be accessed.
 	 */
-	public Collection<PackedObjectLoader> openObjectInAllPacks(
-			final AnyObjectId objectId, final WindowCursor curs)
-			throws IOException {
-		Collection<PackedObjectLoader> result = new LinkedList<PackedObjectLoader>();
-		openObjectInAllPacks(objectId, result, curs);
-		return result;
+	public ObjectLoader open(final AnyObjectId objectId)
+			throws MissingObjectException, IOException {
+		return getObjectDatabase().open(objectId);
 	}
 
 	/**
-	 * Open object in all packs containing specified object.
+	 * Open an object from this repository.
+	 * <p>
+	 * This is a one-shot call interface which may be faster than allocating a
+	 * {@link #newObjectReader()} to perform the lookup.
 	 *
 	 * @param objectId
-	 *            id of object to search for
-	 * @param resultLoaders
-	 *            result collection of loaders for this object, filled with
-	 *            loaders from all packs containing specified object
-	 * @param curs
-	 *            temporary working space associated with the calling thread.
+	 *            identity of the object to open.
+	 * @param typeHint
+	 *            hint about the type of object being requested;
+	 *            {@link ObjectReader#OBJ_ANY} if the object type is not known,
+	 *            or does not matter to the caller.
+	 * @return a {@link ObjectLoader} for accessing the object.
+	 * @throws MissingObjectException
+	 *             the object does not exist.
+	 * @throws IncorrectObjectTypeException
+	 *             typeHint was not OBJ_ANY, and the object's actual type does
+	 *             not match typeHint.
 	 * @throws IOException
+	 *             the object store cannot be accessed.
 	 */
-	void openObjectInAllPacks(final AnyObjectId objectId,
-			final Collection<PackedObjectLoader> resultLoaders,
-			final WindowCursor curs) throws IOException {
-		objectDatabase.openObjectInAllPacks(resultLoaders, curs, objectId);
-	}
-
-	/**
-	 * @param id
-	 *            SHA'1 of a blob
-	 * @return an {@link ObjectLoader} for accessing the data of a named blob
-	 * @throws IOException
-	 */
-	public ObjectLoader openBlob(final ObjectId id) throws IOException {
-		return openObject(id);
-	}
-
-	/**
-	 * @param id
-	 *            SHA'1 of a tree
-	 * @return an {@link ObjectLoader} for accessing the data of a named tree
-	 * @throws IOException
-	 */
-	public ObjectLoader openTree(final ObjectId id) throws IOException {
-		return openObject(id);
+	public ObjectLoader open(AnyObjectId objectId, int typeHint)
+			throws MissingObjectException, IncorrectObjectTypeException,
+			IOException {
+		return getObjectDatabase().open(objectId, typeHint);
 	}
 
 	/**
@@ -572,23 +298,26 @@ public class Repository {
 	 * @deprecated Use {@link org.eclipse.jgit.revwalk.RevWalk#parseCommit(AnyObjectId)},
 	 *  or {@link org.eclipse.jgit.revwalk.RevWalk#parseTag(AnyObjectId)}.
 	 *  To read a tree, use {@link org.eclipse.jgit.treewalk.TreeWalk#addTree(AnyObjectId)}.
-	 *  To read a blob, open it with {@link #openObject(AnyObjectId)}.
+	 *  To read a blob, open it with {@link #open(AnyObjectId)}.
 	 */
 	@Deprecated
 	public Object mapObject(final ObjectId id, final String refName) throws IOException {
-		final ObjectLoader or = openObject(id);
-		if (or == null)
+		final ObjectLoader or;
+		try {
+			or = open(id);
+		} catch (MissingObjectException notFound) {
 			return null;
-		final byte[] raw = or.getBytes();
+		}
+		final byte[] raw = or.getCachedBytes();
 		switch (or.getType()) {
 		case Constants.OBJ_TREE:
-			return makeTree(id, raw);
+			return new Tree(this, id, raw);
 
 		case Constants.OBJ_COMMIT:
-			return makeCommit(id, raw);
+			return new Commit(this, id, raw);
 
 		case Constants.OBJ_TAG:
-			return makeTag(id, refName, raw);
+			return new Tag(this, id, refName, raw);
 
 		case Constants.OBJ_BLOB:
 			return raw;
@@ -608,18 +337,13 @@ public class Repository {
 	 */
 	@Deprecated
 	public Commit mapCommit(final ObjectId id) throws IOException {
-		final ObjectLoader or = openObject(id);
-		if (or == null)
+		final ObjectLoader or;
+		try {
+			or = open(id, Constants.OBJ_COMMIT);
+		} catch (MissingObjectException notFound) {
 			return null;
-		final byte[] raw = or.getBytes();
-		if (Constants.OBJ_COMMIT == or.getType())
-			return new Commit(this, id, raw);
-		throw new IncorrectObjectTypeException(id, Constants.TYPE_COMMIT);
-	}
-
-	private Commit makeCommit(final ObjectId id, final byte[] raw) {
-		Commit ret = new Commit(this, id, raw);
-		return ret;
+		}
+		return new Commit(this, id, or.getCachedBytes());
 	}
 
 	/**
@@ -650,10 +374,13 @@ public class Repository {
 	 */
 	@Deprecated
 	public Tree mapTree(final ObjectId id) throws IOException {
-		final ObjectLoader or = openObject(id);
-		if (or == null)
+		final ObjectLoader or;
+		try {
+			or = open(id);
+		} catch (MissingObjectException notFound) {
 			return null;
-		final byte[] raw = or.getBytes();
+		}
+		final byte[] raw = or.getCachedBytes();
 		switch (or.getType()) {
 		case Constants.OBJ_TREE:
 			return new Tree(this, id, raw);
@@ -664,16 +391,6 @@ public class Repository {
 		default:
 			throw new IncorrectObjectTypeException(id, Constants.TYPE_TREE);
 		}
-	}
-
-	private Tree makeTree(final ObjectId id, final byte[] raw) throws IOException {
-		Tree ret = new Tree(this, id, raw);
-		return ret;
-	}
-
-	private Tag makeTag(final ObjectId id, final String refName, final byte[] raw) {
-		Tag ret = new Tag(this, id, refName, raw);
-		return ret;
 	}
 
 	/**
@@ -701,12 +418,14 @@ public class Repository {
 	 */
 	@Deprecated
 	public Tag mapTag(final String refName, final ObjectId id) throws IOException {
-		final ObjectLoader or = openObject(id);
-		if (or == null)
+		final ObjectLoader or;
+		try {
+			or = open(id);
+		} catch (MissingObjectException notFound) {
 			return null;
-		final byte[] raw = or.getBytes();
-		if (Constants.OBJ_TAG == or.getType())
-			return new Tag(this, id, refName, raw);
+		}
+		if (or.getType() == Constants.OBJ_TAG)
+			return new Tag(this, id, refName, or.getCachedBytes());
 		return new Tag(this, id, refName, null);
 	}
 
@@ -741,7 +460,7 @@ public class Repository {
 	 *             to the base ref, as the symbolic ref could not be read.
 	 */
 	public RefUpdate updateRef(final String ref, final boolean detach) throws IOException {
-		return refs.newUpdate(ref, detach);
+		return getRefDatabase().newUpdate(ref, detach);
 	}
 
 	/**
@@ -757,7 +476,7 @@ public class Repository {
 	 *
 	 */
 	public RefRename renameRef(final String fromRef, final String toRef) throws IOException {
-		return refs.newRename(fromRef, toRef);
+		return getRefDatabase().newRename(fromRef, toRef);
 	}
 
 	/**
@@ -765,36 +484,45 @@ public class Repository {
 	 *
 	 * Currently supported is combinations of these.
 	 * <ul>
-	 *  <li>SHA-1 - a SHA-1</li>
-	 *  <li>refs/... - a ref name</li>
-	 *  <li>ref^n - nth parent reference</li>
-	 *  <li>ref~n - distance via parent reference</li>
-	 *  <li>ref@{n} - nth version of ref</li>
-	 *  <li>ref^{tree} - tree references by ref</li>
-	 *  <li>ref^{commit} - commit references by ref</li>
+	 * <li>SHA-1 - a SHA-1</li>
+	 * <li>refs/... - a ref name</li>
+	 * <li>ref^n - nth parent reference</li>
+	 * <li>ref~n - distance via parent reference</li>
+	 * <li>ref@{n} - nth version of ref</li>
+	 * <li>ref^{tree} - tree references by ref</li>
+	 * <li>ref^{commit} - commit references by ref</li>
 	 * </ul>
 	 *
-	 * Not supported is
+	 * Not supported is:
 	 * <ul>
 	 * <li>timestamps in reflogs, ref@{full or relative timestamp}</li>
 	 * <li>abbreviated SHA-1's</li>
 	 * </ul>
 	 *
-	 * @param revstr A git object references expression
+	 * @param revstr
+	 *            A git object references expression
 	 * @return an ObjectId or null if revstr can't be resolved to any ObjectId
-	 * @throws IOException on serious errors
+	 * @throws IOException
+	 *             on serious errors
 	 */
 	public ObjectId resolve(final String revstr) throws IOException {
+		RevWalk rw = new RevWalk(this);
+		try {
+			return resolve(rw, revstr);
+		} finally {
+			rw.release();
+		}
+	}
+
+	private ObjectId resolve(final RevWalk rw, final String revstr) throws IOException {
 		char[] rev = revstr.toCharArray();
-		Object ref = null;
-		ObjectId refId = null;
+		RevObject ref = null;
 		for (int i = 0; i < rev.length; ++i) {
 			switch (rev[i]) {
 			case '^':
-				if (refId == null) {
-					String refstr = new String(rev,0,i);
-					refId = resolveSimple(refstr);
-					if (refId == null)
+				if (ref == null) {
+					ref = parseSimple(rw, new String(rev, 0, i));
+					if (ref == null)
 						return null;
 				}
 				if (i + 1 < rev.length) {
@@ -810,19 +538,12 @@ public class Repository {
 					case '8':
 					case '9':
 						int j;
-						ref = mapObject(refId, null);
-						while (ref instanceof Tag) {
-							Tag tag = (Tag)ref;
-							refId = tag.getObjId();
-							ref = mapObject(refId, null);
-						}
-						if (!(ref instanceof Commit))
-							throw new IncorrectObjectTypeException(refId, Constants.TYPE_COMMIT);
-						for (j=i+1; j<rev.length; ++j) {
+						ref = rw.parseCommit(ref);
+						for (j = i + 1; j < rev.length; ++j) {
 							if (!Character.isDigit(rev[j]))
 								break;
 						}
-						String parentnum = new String(rev, i+1, j-i-1);
+						String parentnum = new String(rev, i + 1, j - i - 1);
 						int pnum;
 						try {
 							pnum = Integer.parseInt(parentnum);
@@ -832,123 +553,83 @@ public class Repository {
 									revstr);
 						}
 						if (pnum != 0) {
-							final ObjectId parents[] = ((Commit) ref)
-									.getParentIds();
-							if (pnum > parents.length)
-								refId = null;
+							RevCommit commit = (RevCommit) ref;
+							if (pnum > commit.getParentCount())
+								ref = null;
 							else
-								refId = parents[pnum - 1];
+								ref = commit.getParent(pnum - 1);
 						}
 						i = j - 1;
 						break;
 					case '{':
 						int k;
 						String item = null;
-						for (k=i+2; k<rev.length; ++k) {
+						for (k = i + 2; k < rev.length; ++k) {
 							if (rev[k] == '}') {
-								item = new String(rev, i+2, k-i-2);
+								item = new String(rev, i + 2, k - i - 2);
 								break;
 							}
 						}
 						i = k;
 						if (item != null)
 							if (item.equals("tree")) {
-								ref = mapObject(refId, null);
-								while (ref instanceof Tag) {
-									Tag t = (Tag)ref;
-									refId = t.getObjId();
-									ref = mapObject(refId, null);
-								}
-								if (ref instanceof Treeish)
-									refId = ((Treeish)ref).getTreeId();
-								else
-									throw new IncorrectObjectTypeException(refId,  Constants.TYPE_TREE);
-							}
-							else if (item.equals("commit")) {
-								ref = mapObject(refId, null);
-								while (ref instanceof Tag) {
-									Tag t = (Tag)ref;
-									refId = t.getObjId();
-									ref = mapObject(refId, null);
-								}
-								if (!(ref instanceof Commit))
-									throw new IncorrectObjectTypeException(refId,  Constants.TYPE_COMMIT);
-							}
-							else if (item.equals("blob")) {
-								ref = mapObject(refId, null);
-								while (ref instanceof Tag) {
-									Tag t = (Tag)ref;
-									refId = t.getObjId();
-									ref = mapObject(refId, null);
-								}
-								if (!(ref instanceof byte[]))
-									throw new IncorrectObjectTypeException(refId,  Constants.TYPE_BLOB);
-							}
-							else if (item.equals("")) {
-								ref = mapObject(refId, null);
-								while (ref instanceof Tag) {
-									Tag t = (Tag)ref;
-									refId = t.getObjId();
-									ref = mapObject(refId, null);
-								}
-							}
-							else
+								ref = rw.parseTree(ref);
+							} else if (item.equals("commit")) {
+								ref = rw.parseCommit(ref);
+							} else if (item.equals("blob")) {
+								ref = rw.peel(ref);
+								if (!(ref instanceof RevBlob))
+									throw new IncorrectObjectTypeException(ref,
+											Constants.TYPE_BLOB);
+							} else if (item.equals("")) {
+								ref = rw.peel(ref);
+							} else
 								throw new RevisionSyntaxException(revstr);
 						else
 							throw new RevisionSyntaxException(revstr);
 						break;
 					default:
-						ref = mapObject(refId, null);
-						if (ref instanceof Commit) {
-							final ObjectId parents[] = ((Commit) ref)
-									.getParentIds();
-							if (parents.length == 0)
-								refId = null;
+						ref = rw.parseAny(ref);
+						if (ref instanceof RevCommit) {
+							RevCommit commit = ((RevCommit) ref);
+							if (commit.getParentCount() == 0)
+								ref = null;
 							else
-								refId = parents[0];
+								ref = commit.getParent(0);
 						} else
-							throw new IncorrectObjectTypeException(refId,  Constants.TYPE_COMMIT);
+							throw new IncorrectObjectTypeException(ref,
+									Constants.TYPE_COMMIT);
 
 					}
 				} else {
-					ref = mapObject(refId, null);
-					while (ref instanceof Tag) {
-						Tag tag = (Tag)ref;
-						refId = tag.getObjId();
-						ref = mapObject(refId, null);
-					}
-					if (ref instanceof Commit) {
-						final ObjectId parents[] = ((Commit) ref)
-								.getParentIds();
-						if (parents.length == 0)
-							refId = null;
+					ref = rw.peel(ref);
+					if (ref instanceof RevCommit) {
+						RevCommit commit = ((RevCommit) ref);
+						if (commit.getParentCount() == 0)
+							ref = null;
 						else
-							refId = parents[0];
+							ref = commit.getParent(0);
 					} else
-						throw new IncorrectObjectTypeException(refId,  Constants.TYPE_COMMIT);
+						throw new IncorrectObjectTypeException(ref,
+								Constants.TYPE_COMMIT);
 				}
 				break;
 			case '~':
 				if (ref == null) {
-					String refstr = new String(rev,0,i);
-					refId = resolveSimple(refstr);
-					if (refId == null)
+					ref = parseSimple(rw, new String(rev, 0, i));
+					if (ref == null)
 						return null;
-					ref = mapObject(refId, null);
 				}
-				while (ref instanceof Tag) {
-					Tag tag = (Tag)ref;
-					refId = tag.getObjId();
-					ref = mapObject(refId, null);
-				}
-				if (!(ref instanceof Commit))
-					throw new IncorrectObjectTypeException(refId, Constants.TYPE_COMMIT);
+				ref = rw.peel(ref);
+				if (!(ref instanceof RevCommit))
+					throw new IncorrectObjectTypeException(ref,
+							Constants.TYPE_COMMIT);
 				int l;
 				for (l = i + 1; l < rev.length; ++l) {
 					if (!Character.isDigit(rev[l]))
 						break;
 				}
-				String distnum = new String(rev, i+1, l-i-1);
+				String distnum = new String(rev, i + 1, l - i - 1);
 				int dist;
 				try {
 					dist = Integer.parseInt(distnum);
@@ -957,13 +638,14 @@ public class Repository {
 							JGitText.get().invalidAncestryLength, revstr);
 				}
 				while (dist > 0) {
-					final ObjectId[] parents = ((Commit) ref).getParentIds();
-					if (parents.length == 0) {
-						refId = null;
+					RevCommit commit = (RevCommit) ref;
+					if (commit.getParentCount() == 0) {
+						ref = null;
 						break;
 					}
-					refId = parents[0];
-					ref = mapCommit(refId);
+					commit = commit.getParent(0);
+					rw.parseHeaders(commit);
+					ref = commit;
 					--dist;
 				}
 				i = l - 1;
@@ -971,30 +653,35 @@ public class Repository {
 			case '@':
 				int m;
 				String time = null;
-				for (m=i+2; m<rev.length; ++m) {
+				for (m = i + 2; m < rev.length; ++m) {
 					if (rev[m] == '}') {
-						time = new String(rev, i+2, m-i-2);
+						time = new String(rev, i + 2, m - i - 2);
 						break;
 					}
 				}
 				if (time != null)
-					throw new RevisionSyntaxException(JGitText.get().reflogsNotYetSupportedByRevisionParser, revstr);
+					throw new RevisionSyntaxException(
+							JGitText.get().reflogsNotYetSupportedByRevisionParser,
+							revstr);
 				i = m - 1;
 				break;
 			default:
-				if (refId != null)
+				if (ref != null)
 					throw new RevisionSyntaxException(revstr);
 			}
 		}
-		if (refId == null)
-			refId = resolveSimple(revstr);
-		return refId;
+		return ref != null ? ref.copy() : resolveSimple(revstr);
+	}
+
+	private RevObject parseSimple(RevWalk rw, String revstr) throws IOException {
+		ObjectId id = resolveSimple(revstr);
+		return id != null ? rw.parseAny(id) : null;
 	}
 
 	private ObjectId resolveSimple(final String revstr) throws IOException {
 		if (ObjectId.isId(revstr))
 			return ObjectId.fromString(revstr);
-		final Ref r = refs.getRef(revstr);
+		final Ref r = getRefDatabase().getRef(revstr);
 		return r != null ? r.getObjectId() : null;
 	}
 
@@ -1003,14 +690,21 @@ public class Repository {
 		useCnt.incrementAndGet();
 	}
 
-	/**
-	 * Close all resources used by this repository
-	 */
+	/** Decrement the use count, and maybe close resources. */
 	public void close() {
 		if (useCnt.decrementAndGet() == 0) {
-			objectDatabase.close();
-			refs.close();
+			doClose();
 		}
+	}
+
+	/**
+	 * Invoked when the use count drops to zero during {@link #close()}.
+	 * <p>
+	 * The default implementation closes the object and ref databases.
+	 */
+	protected void doClose() {
+		getObjectDatabase().close();
+		getRefDatabase().close();
 	}
 
 	/**
@@ -1024,12 +718,16 @@ public class Repository {
 	 *             index file could not be opened, read, or is not recognized as
 	 *             a Git pack file index.
 	 */
-	public void openPack(final File pack, final File idx) throws IOException {
-		objectDatabase.openPack(pack, idx);
-	}
+	public abstract void openPack(File pack, File idx) throws IOException;
 
 	public String toString() {
-		return "Repository[" + getDirectory() + "]";
+		String desc;
+		if (getDirectory() != null)
+			desc = getDirectory().getPath();
+		else
+			desc = getClass().getSimpleName() + "-"
+					+ System.identityHashCode(this);
+		return "Repository[" + desc + "]";
 	}
 
 	/**
@@ -1078,6 +776,20 @@ public class Repository {
 	}
 
 	/**
+	 * Objects known to exist but not expressed by {@link #getAllRefs()}.
+	 * <p>
+	 * When a repository borrows objects from another repository, it can
+	 * advertise that it safely has that other repository's references, without
+	 * exposing any other details about the other repository.  This may help
+	 * a client trying to push changes avoid pushing more than it needs to.
+	 *
+	 * @return unmodifiable collection of other known objects.
+	 */
+	public Set<ObjectId> getAdditionalHaves() {
+		return Collections.emptySet();
+	}
+
+	/**
 	 * Get a ref by name.
 	 *
 	 * @param name
@@ -1088,7 +800,7 @@ public class Repository {
 	 * @throws IOException
 	 */
 	public Ref getRef(final String name) throws IOException {
-		return refs.getRef(name);
+		return getRefDatabase().getRef(name);
 	}
 
 	/**
@@ -1096,7 +808,7 @@ public class Repository {
 	 */
 	public Map<String, Ref> getAllRefs() {
 		try {
-			return refs.getRefs(RefDatabase.ALL);
+			return getRefDatabase().getRefs(RefDatabase.ALL);
 		} catch (IOException e) {
 			return new HashMap<String, Ref>();
 		}
@@ -1109,7 +821,7 @@ public class Repository {
 	 */
 	public Map<String, Ref> getTags() {
 		try {
-			return refs.getRefs(Constants.R_TAGS);
+			return getRefDatabase().getRefs(Constants.R_TAGS);
 		} catch (IOException e) {
 			return new HashMap<String, Ref>();
 		}
@@ -1130,7 +842,7 @@ public class Repository {
 	 */
 	public Ref peel(final Ref ref) {
 		try {
-			return refs.peel(ref);
+			return getRefDatabase().peel(ref);
 		} catch (IOException e) {
 			// Historical accident; if the reference cannot be peeled due
 			// to some sort of repository access problem we claim that the
@@ -1170,13 +882,13 @@ public class Repository {
 	 *         {@link Repository}
 	 * @throws IOException
 	 *             if the index can not be read
-	 * @throws IllegalStateException
-	 *             if this is bare (see {@link #isBare()})
+	 * @throws NoWorkTreeException
+	 *             if this is bare, which implies it has no working directory.
+	 *             See {@link #isBare()}.
 	 */
-	public GitIndex getIndex() throws IOException, IllegalStateException {
+	public GitIndex getIndex() throws IOException, NoWorkTreeException {
 		if (isBare())
-			throw new IllegalStateException(
-					JGitText.get().bareRepositoryNoWorkdirAndIndex);
+			throw new NoWorkTreeException();
 		if (index == null) {
 			index = new GitIndex(this);
 			index.read();
@@ -1188,14 +900,61 @@ public class Repository {
 
 	/**
 	 * @return the index file location
-	 * @throws IllegalStateException
-	 *             if this is bare (see {@link #isBare()})
+	 * @throws NoWorkTreeException
+	 *             if this is bare, which implies it has no working directory.
+	 *             See {@link #isBare()}.
 	 */
-	public File getIndexFile() throws IllegalStateException {
+	public File getIndexFile() throws NoWorkTreeException {
 		if (isBare())
-			throw new IllegalStateException(
-					JGitText.get().bareRepositoryNoWorkdirAndIndex);
+			throw new NoWorkTreeException();
 		return indexFile;
+	}
+
+	/**
+	 * Create a new in-core index representation and read an index from disk.
+	 * <p>
+	 * The new index will be read before it is returned to the caller. Read
+	 * failures are reported as exceptions and therefore prevent the method from
+	 * returning a partially populated index.
+	 *
+	 * @return a cache representing the contents of the specified index file (if
+	 *         it exists) or an empty cache if the file does not exist.
+	 * @throws NoWorkTreeException
+	 *             if this is bare, which implies it has no working directory.
+	 *             See {@link #isBare()}.
+	 * @throws IOException
+	 *             the index file is present but could not be read.
+	 * @throws CorruptObjectException
+	 *             the index file is using a format or extension that this
+	 *             library does not support.
+	 */
+	public DirCache readDirCache() throws NoWorkTreeException,
+			CorruptObjectException, IOException {
+		return DirCache.read(getIndexFile());
+	}
+
+	/**
+	 * Create a new in-core index representation, lock it, and read from disk.
+	 * <p>
+	 * The new index will be locked and then read before it is returned to the
+	 * caller. Read failures are reported as exceptions and therefore prevent
+	 * the method from returning a partially populated index.
+	 *
+	 * @return a cache representing the contents of the specified index file (if
+	 *         it exists) or an empty cache if the file does not exist.
+	 * @throws NoWorkTreeException
+	 *             if this is bare, which implies it has no working directory.
+	 *             See {@link #isBare()}.
+	 * @throws IOException
+	 *             the index file is present but could not be read, or the lock
+	 *             could not be obtained.
+	 * @throws CorruptObjectException
+	 *             the index file is using a format or extension that this
+	 *             library does not support.
+	 */
+	public DirCache lockDirCache() throws NoWorkTreeException,
+			CorruptObjectException, IOException {
+		return DirCache.lock(getIndexFile());
 	}
 
 	static byte[] gitInternalSlash(byte[] bytes) {
@@ -1211,10 +970,13 @@ public class Repository {
 	 * @return an important state
 	 */
 	public RepositoryState getRepositoryState() {
+		if (isBare() || getDirectory() == null)
+			return RepositoryState.BARE;
+
 		// Pre Git-1.6 logic
-		if (new File(getWorkDir(), ".dotest").exists())
+		if (new File(getWorkTree(), ".dotest").exists())
 			return RepositoryState.REBASING;
-		if (new File(gitDir,".dotest-merge").exists())
+		if (new File(getDirectory(), ".dotest-merge").exists())
 			return RepositoryState.REBASING_INTERACTIVE;
 
 		// From 1.6 onwards
@@ -1231,10 +993,10 @@ public class Repository {
 			return RepositoryState.REBASING_MERGE;
 
 		// Both versions
-		if (new File(gitDir, "MERGE_HEAD").exists()) {
+		if (new File(getDirectory(), "MERGE_HEAD").exists()) {
 			// we are merging - now check whether we have unmerged paths
 			try {
-				if (!DirCache.read(this).hasUnmergedPaths()) {
+				if (!readDirCache().hasUnmergedPaths()) {
 					// no unmerged paths -> return the MERGING_RESOLVED state
 					return RepositoryState.MERGING_RESOLVED;
 				}
@@ -1247,7 +1009,7 @@ public class Repository {
 			return RepositoryState.MERGING;
 		}
 
-		if (new File(gitDir,"BISECT_LOG").exists())
+		if (new File(getDirectory(), "BISECT_LOG").exists())
 			return RepositoryState.BISECTING;
 
 		return RepositoryState.SAFE;
@@ -1334,96 +1096,23 @@ public class Repository {
 	}
 
 	/**
-	 * @return the "bare"-ness of this Repository
+	 * @return true if this is bare, which implies it has no working directory.
 	 */
 	public boolean isBare() {
-		return workDir == null;
+		return workTree == null;
 	}
 
 	/**
-	 * @return the workdir file, i.e. where the files are checked out
-	 * @throws IllegalStateException
-	 *             if the repository is "bare"
+	 * @return the root directory of the working tree, where files are checked
+	 *         out for viewing and editing.
+	 * @throws NoWorkTreeException
+	 *             if this is bare, which implies it has no working directory.
+	 *             See {@link #isBare()}.
 	 */
-	public File getWorkDir() throws IllegalStateException {
+	public File getWorkTree() throws NoWorkTreeException {
 		if (isBare())
-			throw new IllegalStateException(
-					JGitText.get().bareRepositoryNoWorkdirAndIndex);
-		return workDir;
-	}
-
-	/**
-	 * Override default workdir
-	 *
-	 * @param workTree
-	 *            the work tree directory
-	 */
-	public void setWorkDir(File workTree) {
-		this.workDir = workTree;
-	}
-
-	/**
-	 * Register a {@link RepositoryListener} which will be notified
-	 * when ref changes are detected.
-	 *
-	 * @param l
-	 */
-	public void addRepositoryChangedListener(final RepositoryListener l) {
-		listeners.add(l);
-	}
-
-	/**
-	 * Remove a registered {@link RepositoryListener}
-	 * @param l
-	 */
-	public void removeRepositoryChangedListener(final RepositoryListener l) {
-		listeners.remove(l);
-	}
-
-	/**
-	 * Register a global {@link RepositoryListener} which will be notified
-	 * when a ref changes in any repository are detected.
-	 *
-	 * @param l
-	 */
-	public static void addAnyRepositoryChangedListener(final RepositoryListener l) {
-		allListeners.add(l);
-	}
-
-	/**
-	 * Remove a globally registered {@link RepositoryListener}
-	 * @param l
-	 */
-	public static void removeAnyRepositoryChangedListener(final RepositoryListener l) {
-		allListeners.remove(l);
-	}
-
-	void fireRefsChanged() {
-		final RefsChangedEvent event = new RefsChangedEvent(this);
-		List<RepositoryListener> all;
-		synchronized (listeners) {
-			all = new ArrayList<RepositoryListener>(listeners);
-		}
-		synchronized (allListeners) {
-			all.addAll(allListeners);
-		}
-		for (final RepositoryListener l : all) {
-			l.refsChanged(event);
-		}
-	}
-
-	void fireIndexChanged() {
-		final IndexChangedEvent event = new IndexChangedEvent(this);
-		List<RepositoryListener> all;
-		synchronized (listeners) {
-			all = new ArrayList<RepositoryListener>(listeners);
-		}
-		synchronized (allListeners) {
-			all.addAll(allListeners);
-		}
-		for (final RepositoryListener l : all) {
-			l.indexChanged(event);
-		}
+			throw new NoWorkTreeException();
+		return workTree;
 	}
 
 	/**
@@ -1431,11 +1120,7 @@ public class Repository {
 	 *
 	 * @throws IOException
 	 */
-	public void scanForRepoChanges() throws IOException {
-		getAllRefs(); // This will look for changes to refs
-		if (!isBare())
-			getIndex(); // This will detect changes in the index
-	}
+	public abstract void scanForRepoChanges() throws IOException;
 
 	/**
 	 * @param refName
@@ -1458,12 +1143,8 @@ public class Repository {
 	 *         named ref does not exist.
 	 * @throws IOException the ref could not be accessed.
 	 */
-	public ReflogReader getReflogReader(String refName) throws IOException {
-		Ref ref = getRef(refName);
-		if (ref != null)
-			return new ReflogReader(this, ref.getName());
-		return null;
-	}
+	public abstract ReflogReader getReflogReader(String refName)
+			throws IOException;
 
 	/**
 	 * Return the information stored in the file $GIT_DIR/MERGE_MSG. In this
@@ -1473,9 +1154,15 @@ public class Repository {
 	 * @return a String containing the content of the MERGE_MSG file or
 	 *         {@code null} if this file doesn't exist
 	 * @throws IOException
+	 * @throws NoWorkTreeException
+	 *             if this is bare, which implies it has no working directory.
+	 *             See {@link #isBare()}.
 	 */
-	public String readMergeCommitMsg() throws IOException {
-		File mergeMsgFile = new File(gitDir, Constants.MERGE_MSG);
+	public String readMergeCommitMsg() throws IOException, NoWorkTreeException {
+		if (isBare() || getDirectory() == null)
+			throw new NoWorkTreeException();
+
+		File mergeMsgFile = new File(getDirectory(), Constants.MERGE_MSG);
 		try {
 			return new String(IO.readFully(mergeMsgFile));
 		} catch (FileNotFoundException e) {
@@ -1494,9 +1181,15 @@ public class Repository {
 	 *         file or {@code null} if this file doesn't exist. Also if the file
 	 *         exists but is empty {@code null} will be returned
 	 * @throws IOException
+	 * @throws NoWorkTreeException
+	 *             if this is bare, which implies it has no working directory.
+	 *             See {@link #isBare()}.
 	 */
-	public List<ObjectId> readMergeHeads() throws IOException {
-		File mergeHeadFile = new File(gitDir, Constants.MERGE_HEAD);
+	public List<ObjectId> readMergeHeads() throws IOException, NoWorkTreeException {
+		if (isBare() || getDirectory() == null)
+			throw new NoWorkTreeException();
+
+		File mergeHeadFile = new File(getDirectory(), Constants.MERGE_HEAD);
 		byte[] raw;
 		try {
 			raw = IO.readFully(mergeHeadFile);

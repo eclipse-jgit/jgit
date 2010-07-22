@@ -52,12 +52,12 @@ import java.util.HashMap;
 public class WorkDirCheckout_ReadTreeTest extends ReadTreeTest {
 	private WorkDirCheckout wdc;
 	public void prescanTwoTrees(Tree head, Tree merge) throws IllegalStateException, IOException {
-		wdc = new WorkDirCheckout(db, db.getWorkDir(), head, db.getIndex(), merge);
+		wdc = new WorkDirCheckout(db, db.getWorkTree(), head, db.getIndex(), merge);
 		wdc.prescanTwoTrees();
 	}
 
 	public void checkout() throws IOException {
-		wdc = new WorkDirCheckout(db, db.getWorkDir(), theHead, db.getIndex(), theMerge);
+		wdc = new WorkDirCheckout(db, db.getWorkTree(), theHead, db.getIndex(), theMerge);
 		wdc.checkout();
 	}
 

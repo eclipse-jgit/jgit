@@ -85,7 +85,7 @@ public class DirCacheLargePathTest extends RepositoryTestCase {
 		assertEquals(shortPath, shortEnt.getPathString());
 
 		{
-			final DirCache dc1 = DirCache.lock(db);
+			final DirCache dc1 = db.lockDirCache();
 			{
 				final DirCacheBuilder b = dc1.builder();
 				b.add(longEnt);
@@ -97,7 +97,7 @@ public class DirCacheLargePathTest extends RepositoryTestCase {
 			assertSame(shortEnt, dc1.getEntry(1));
 		}
 		{
-			final DirCache dc2 = DirCache.read(db);
+			final DirCache dc2 = db.readDirCache();
 			assertEquals(2, dc2.getEntryCount());
 
 			assertNotSame(longEnt, dc2.getEntry(0));

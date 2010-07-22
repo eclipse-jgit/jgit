@@ -194,7 +194,7 @@ public class RevTag extends RevObject {
 	 * @return parsed tag.
 	 */
 	public Tag asTag(final RevWalk walk) {
-		return new Tag(walk.db, this, tagName, buffer);
+		return new Tag(walk.repository, this, tagName, buffer);
 	}
 
 	/**

@@ -86,7 +86,7 @@ public class PostOrderTreeWalkTest extends RepositoryTestCase {
 	}
 
 	public void testNoPostOrder() throws Exception {
-		final DirCache tree = DirCache.read(db);
+		final DirCache tree = db.readDirCache();
 		{
 			final DirCacheBuilder b = tree.builder();
 
@@ -115,7 +115,7 @@ public class PostOrderTreeWalkTest extends RepositoryTestCase {
 	}
 
 	public void testWithPostOrder_EnterSubtree() throws Exception {
-		final DirCache tree = DirCache.read(db);
+		final DirCache tree = db.readDirCache();
 		{
 			final DirCacheBuilder b = tree.builder();
 
@@ -150,7 +150,7 @@ public class PostOrderTreeWalkTest extends RepositoryTestCase {
 	}
 
 	public void testWithPostOrder_NoEnterSubtree() throws Exception {
-		final DirCache tree = DirCache.read(db);
+		final DirCache tree = db.readDirCache();
 		{
 			final DirCacheBuilder b = tree.builder();
 

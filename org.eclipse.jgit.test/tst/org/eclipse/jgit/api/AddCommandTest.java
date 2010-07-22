@@ -78,7 +78,7 @@ public class AddCommandTest extends RepositoryTestCase {
 	}
 
 	public void testAddExistingSingleFile() throws IOException, NoFilepatternException {
-		File file = new File(db.getWorkDir(), "a.txt");
+		File file = new File(db.getWorkTree(), "a.txt");
 		file.createNewFile();
 		PrintWriter writer = new PrintWriter(file);
 		writer.print("content");
@@ -98,8 +98,8 @@ public class AddCommandTest extends RepositoryTestCase {
 	}
 
 	public void testAddExistingSingleFileInSubDir() throws IOException, NoFilepatternException {
-		new File(db.getWorkDir(), "sub").mkdir();
-		File file = new File(db.getWorkDir(), "sub/a.txt");
+		new File(db.getWorkTree(), "sub").mkdir();
+		File file = new File(db.getWorkTree(), "sub/a.txt");
 		file.createNewFile();
 		PrintWriter writer = new PrintWriter(file);
 		writer.print("content");
@@ -119,7 +119,7 @@ public class AddCommandTest extends RepositoryTestCase {
 	}
 
 	public void testAddExistingSingleFileTwice() throws IOException, NoFilepatternException {
-		File file = new File(db.getWorkDir(), "a.txt");
+		File file = new File(db.getWorkTree(), "a.txt");
 		file.createNewFile();
 		PrintWriter writer = new PrintWriter(file);
 		writer.print("content");
@@ -143,7 +143,7 @@ public class AddCommandTest extends RepositoryTestCase {
 	}
 
 	public void testAddExistingSingleFileTwiceWithCommit() throws Exception {
-		File file = new File(db.getWorkDir(), "a.txt");
+		File file = new File(db.getWorkTree(), "a.txt");
 		file.createNewFile();
 		PrintWriter writer = new PrintWriter(file);
 		writer.print("content");
@@ -169,7 +169,7 @@ public class AddCommandTest extends RepositoryTestCase {
 	}
 
 	public void testAddRemovedFile() throws Exception {
-		File file = new File(db.getWorkDir(), "a.txt");
+		File file = new File(db.getWorkTree(), "a.txt");
 		file.createNewFile();
 		PrintWriter writer = new PrintWriter(file);
 		writer.print("content");
@@ -191,7 +191,7 @@ public class AddCommandTest extends RepositoryTestCase {
 	}
 
 	public void testAddRemovedCommittedFile() throws Exception {
-		File file = new File(db.getWorkDir(), "a.txt");
+		File file = new File(db.getWorkTree(), "a.txt");
 		file.createNewFile();
 		PrintWriter writer = new PrintWriter(file);
 		writer.print("content");
@@ -217,20 +217,20 @@ public class AddCommandTest extends RepositoryTestCase {
 	public void testAddWithConflicts() throws Exception {
 		// prepare conflict
 
-		File file = new File(db.getWorkDir(), "a.txt");
+		File file = new File(db.getWorkTree(), "a.txt");
 		file.createNewFile();
 		PrintWriter writer = new PrintWriter(file);
 		writer.print("content");
 		writer.close();
 
-		File file2 = new File(db.getWorkDir(), "b.txt");
+		File file2 = new File(db.getWorkTree(), "b.txt");
 		file2.createNewFile();
 		writer = new PrintWriter(file2);
 		writer.print("content b");
 		writer.close();
 
 		ObjectWriter ow = new ObjectWriter(db);
-		DirCache dc = DirCache.lock(db);
+		DirCache dc = db.lockDirCache();
 		DirCacheBuilder builder = dc.builder();
 
 		addEntryToBuilder("b.txt", file2, ow, builder, 0);
@@ -264,13 +264,13 @@ public class AddCommandTest extends RepositoryTestCase {
 	}
 
 	public void testAddTwoFiles() throws Exception  {
-		File file = new File(db.getWorkDir(), "a.txt");
+		File file = new File(db.getWorkTree(), "a.txt");
 		file.createNewFile();
 		PrintWriter writer = new PrintWriter(file);
 		writer.print("content");
 		writer.close();
 
-		File file2 = new File(db.getWorkDir(), "b.txt");
+		File file2 = new File(db.getWorkTree(), "b.txt");
 		file2.createNewFile();
 		writer = new PrintWriter(file2);
 		writer.print("content b");
@@ -287,14 +287,14 @@ public class AddCommandTest extends RepositoryTestCase {
 	}
 
 	public void testAddFolder() throws Exception  {
-		new File(db.getWorkDir(), "sub").mkdir();
-		File file = new File(db.getWorkDir(), "sub/a.txt");
+		new File(db.getWorkTree(), "sub").mkdir();
+		File file = new File(db.getWorkTree(), "sub/a.txt");
 		file.createNewFile();
 		PrintWriter writer = new PrintWriter(file);
 		writer.print("content");
 		writer.close();
 
-		File file2 = new File(db.getWorkDir(), "sub/b.txt");
+		File file2 = new File(db.getWorkTree(), "sub/b.txt");
 		file2.createNewFile();
 		writer = new PrintWriter(file2);
 		writer.print("content b");
@@ -311,20 +311,20 @@ public class AddCommandTest extends RepositoryTestCase {
 	}
 
 	public void testAddIgnoredFile() throws Exception  {
-		new File(db.getWorkDir(), "sub").mkdir();
-		File file = new File(db.getWorkDir(), "sub/a.txt");
+		new File(db.getWorkTree(), "sub").mkdir();
+		File file = new File(db.getWorkTree(), "sub/a.txt");
 		file.createNewFile();
 		PrintWriter writer = new PrintWriter(file);
 		writer.print("content");
 		writer.close();
 
-		File ignoreFile = new File(db.getWorkDir(), ".gitignore");
+		File ignoreFile = new File(db.getWorkTree(), ".gitignore");
 		ignoreFile.createNewFile();
 		writer = new PrintWriter(ignoreFile);
 		writer.print("sub/b.txt");
 		writer.close();
 
-		File file2 = new File(db.getWorkDir(), "sub/b.txt");
+		File file2 = new File(db.getWorkTree(), "sub/b.txt");
 		file2.createNewFile();
 		writer = new PrintWriter(file2);
 		writer.print("content b");
@@ -339,14 +339,14 @@ public class AddCommandTest extends RepositoryTestCase {
 	}
 
 	public void testAddWholeRepo() throws Exception  {
-		new File(db.getWorkDir(), "sub").mkdir();
-		File file = new File(db.getWorkDir(), "sub/a.txt");
+		new File(db.getWorkTree(), "sub").mkdir();
+		File file = new File(db.getWorkTree(), "sub/a.txt");
 		file.createNewFile();
 		PrintWriter writer = new PrintWriter(file);
 		writer.print("content");
 		writer.close();
 
-		File file2 = new File(db.getWorkDir(), "sub/b.txt");
+		File file2 = new File(db.getWorkTree(), "sub/b.txt");
 		file2.createNewFile();
 		writer = new PrintWriter(file2);
 		writer.print("content b");

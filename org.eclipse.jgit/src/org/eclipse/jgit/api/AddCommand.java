@@ -127,7 +127,7 @@ public class AddCommand extends GitCommand<DirCache> {
 			addAll = true;
 
 		try {
-			dc = DirCache.lock(repo);
+			dc = repo.lockDirCache();
 			ObjectWriter ow = new ObjectWriter(repo);
 			DirCacheIterator c;
 
@@ -147,7 +147,7 @@ public class AddCommand extends GitCommand<DirCache> {
 			while (tw.next()) {
 				String path = tw.getPathString();
 
-				final File file = new File(repo.getWorkDir(), path);
+				final File file = new File(repo.getWorkTree(), path);
 				WorkingTreeIterator f = tw.getTree(1, WorkingTreeIterator.class);
 				if (tw.getTree(0, DirCacheIterator.class) == null &&
 						f != null && f.isEntryIgnored()) {

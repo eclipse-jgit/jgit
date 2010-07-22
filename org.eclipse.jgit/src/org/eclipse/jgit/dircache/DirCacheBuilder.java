@@ -50,8 +50,7 @@ import java.util.Arrays;
 
 import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.lib.AnyObjectId;
-import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.lib.WindowCursor;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.treewalk.AbstractTreeIterator;
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
 import org.eclipse.jgit.treewalk.TreeWalk;
@@ -149,11 +148,12 @@ public class DirCacheBuilder extends BaseDirCacheEditor {
 	 *            as necessary.
 	 * @param stage
 	 *            stage of the entries when adding them.
-	 * @param db
-	 *            repository the tree(s) will be read from during recursive
+	 * @param reader
+	 *            reader the tree(s) will be read from during recursive
 	 *            traversal. This must be the same repository that the resulting
 	 *            DirCache would be written out to (or used in) otherwise the
 	 *            caller is simply asking for deferred MissingObjectExceptions.
+	 *            Caller is responsible for releasing this reader when done.
 	 * @param tree
 	 *            the tree to recursively add. This tree's contents will appear
 	 *            under <code>pathPrefix</code>. The ObjectId must be that of a
@@ -163,16 +163,11 @@ public class DirCacheBuilder extends BaseDirCacheEditor {
 	 *             a tree cannot be read to iterate through its entries.
 	 */
 	public void addTree(final byte[] pathPrefix, final int stage,
-			final Repository db, final AnyObjectId tree) throws IOException {
-		final TreeWalk tw = new TreeWalk(db);
+			final ObjectReader reader, final AnyObjectId tree) throws IOException {
+		final TreeWalk tw = new TreeWalk(reader);
 		tw.reset();
-		final WindowCursor curs = new WindowCursor();
-		try {
-			tw.addTree(new CanonicalTreeParser(pathPrefix, db, tree
-					.toObjectId(), curs));
-		} finally {
-			curs.release();
-		}
+		tw.addTree(new CanonicalTreeParser(pathPrefix, reader, tree
+				.toObjectId()));
 		tw.setRecursive(true);
 		if (tw.next()) {
 			final DirCacheEntry newEntry = toEntry(stage, tw);

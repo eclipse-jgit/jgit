@@ -79,11 +79,12 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.ReflogReader;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.lib.RepositoryConfig;
 import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.eclipse.jgit.storage.file.FileRepository;
+import org.eclipse.jgit.storage.file.ReflogReader;
 import org.eclipse.jgit.transport.FetchConnection;
 import org.eclipse.jgit.transport.HttpTransport;
 import org.eclipse.jgit.transport.RemoteRefUpdate;
@@ -94,7 +95,7 @@ import org.eclipse.jgit.transport.URIish;
 public class SmartClientSmartServerTest extends HttpTestCase {
 	private static final String HDR_TRANSFER_ENCODING = "Transfer-Encoding";
 
-	private Repository remoteRepository;
+	private FileRepository remoteRepository;
 
 	private URIish remoteURI;
 
@@ -107,7 +108,7 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
 
-		final TestRepository src = createTestRepository();
+		final TestRepository<FileRepository> src = createTestRepository();
 		final String srcName = src.getRepository().getDirectory().getName();
 
 		ServletContextHandler app = server.addContext("/git");
@@ -489,10 +490,10 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 	}
 
 	public void testPush_ChunkedEncoding() throws Exception {
-		final TestRepository src = createTestRepository();
+		final TestRepository<FileRepository> src = createTestRepository();
 		final RevBlob Q_bin = src.blob(new TestRng("Q").nextBytes(128 * 1024));
 		final RevCommit Q = src.commit().add("Q", Q_bin).create();
-		final Repository db = src.getRepository();
+		final FileRepository db = src.getRepository();
 		final String dstName = Constants.R_HEADS + "new.branch";
 		Transport t;
 
@@ -547,7 +548,7 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 	}
 
 	private void enableReceivePack() throws IOException {
-		final RepositoryConfig cfg = remoteRepository.getConfig();
+		final FileBasedConfig cfg = remoteRepository.getConfig();
 		cfg.setBoolean("http", null, "receivepack", true);
 		cfg.save();
 	}

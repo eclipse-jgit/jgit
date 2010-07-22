@@ -48,7 +48,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 
-import org.eclipse.jgit.lib.RepositoryConfig;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.SampleDataRepositoryTestCase;
 
 public class TransportTest extends SampleDataRepositoryTestCase {
@@ -59,7 +59,7 @@ public class TransportTest extends SampleDataRepositoryTestCase {
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
-		final RepositoryConfig config = db.getConfig();
+		final Config config = db.getConfig();
 		remoteConfig = new RemoteConfig(config, "test");
 		remoteConfig.addURI(new URIish("http://everyones.loves.git/u/2"));
 		transport = null;

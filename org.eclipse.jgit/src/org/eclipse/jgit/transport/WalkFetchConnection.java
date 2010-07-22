@@ -48,7 +48,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.security.MessageDigest;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -63,7 +62,6 @@ import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.CompoundException;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.MissingObjectException;
-import org.eclipse.jgit.errors.ObjectWritingException;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
@@ -71,12 +69,12 @@ import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.MutableObjectId;
 import org.eclipse.jgit.lib.ObjectChecker;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.PackIndex;
-import org.eclipse.jgit.lib.PackLock;
+import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.ObjectLoader;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.lib.UnpackedObjectLoader;
 import org.eclipse.jgit.revwalk.DateRevQueue;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
@@ -84,6 +82,10 @@ import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevTag;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.storage.file.ObjectDirectory;
+import org.eclipse.jgit.storage.file.PackIndex;
+import org.eclipse.jgit.storage.file.PackLock;
+import org.eclipse.jgit.storage.file.UnpackedObject;
 import org.eclipse.jgit.treewalk.TreeWalk;
 
 /**
@@ -165,8 +167,6 @@ class WalkFetchConnection extends BaseFetchConnection {
 
 	private final MutableObjectId idBuffer = new MutableObjectId();
 
-	private final MessageDigest objectDigest = Constants.newMessageDigest();
-
 	/**
 	 * Errors received while trying to obtain an object.
 	 * <p>
@@ -180,10 +180,18 @@ class WalkFetchConnection extends BaseFetchConnection {
 
 	private final List<PackLock> packLocks;
 
+	/** Inserter to write objects onto {@link #local}. */
+	private final ObjectInserter inserter;
+
+	/** Inserter to read objects from {@link #local}. */
+	private final ObjectReader reader;
+
 	WalkFetchConnection(final WalkTransport t, final WalkRemoteObjectDatabase w) {
 		Transport wt = (Transport)t;
 		local = wt.local;
 		objCheck = wt.isCheckFetchedObjects() ? new ObjectChecker() : null;
+		inserter = local.newObjectInserter();
+		reader = local.newObjectReader();
 
 		remotes = new ArrayList<WalkRemoteObjectDatabase>();
 		remotes.add(w);
@@ -200,9 +208,9 @@ class WalkFetchConnection extends BaseFetchConnection {
 		fetchErrors = new HashMap<ObjectId, List<Throwable>>();
 		packLocks = new ArrayList<PackLock>(4);
 
-		revWalk = new RevWalk(local);
+		revWalk = new RevWalk(reader);
 		revWalk.setRetainBody(false);
-		treeWalk = new TreeWalk(local);
+		treeWalk = new TreeWalk(reader);
 		COMPLETE = revWalk.newFlag("COMPLETE");
 		IN_WORK_QUEUE = revWalk.newFlag("IN_WORK_QUEUE");
 		LOCALLY_SEEN = revWalk.newFlag("LOCALLY_SEEN");
@@ -240,8 +248,12 @@ class WalkFetchConnection extends BaseFetchConnection {
 
 	@Override
 	public void close() {
-		for (final RemotePack p : unfetchedPacks)
-			p.tmpIdx.delete();
+		inserter.release();
+		reader.release();
+		for (final RemotePack p : unfetchedPacks) {
+			if (p.tmpIdx != null)
+				p.tmpIdx.delete();
+		}
 		for (final WalkRemoteObjectDatabase r : remotes)
 			r.close();
 	}
@@ -309,10 +321,17 @@ class WalkFetchConnection extends BaseFetchConnection {
 	}
 
 	private void processBlob(final RevObject obj) throws TransportException {
-		if (!local.hasObject(obj))
-			throw new TransportException(MessageFormat.format(JGitText.get().cannotReadBlob, obj.name()),
-					new MissingObjectException(obj, Constants.TYPE_BLOB));
-		obj.add(COMPLETE);
+		try {
+			if (reader.has(obj, Constants.OBJ_BLOB))
+				obj.add(COMPLETE);
+			else
+				throw new TransportException(MessageFormat.format(JGitText
+						.get().cannotReadBlob, obj.name()),
+						new MissingObjectException(obj, Constants.TYPE_BLOB));
+		} catch (IOException error) {
+			throw new TransportException(MessageFormat.format(
+					JGitText.get().cannotReadBlob, obj.name()), error);
+		}
 	}
 
 	private void processTree(final RevObject obj) throws TransportException {
@@ -369,7 +388,7 @@ class WalkFetchConnection extends BaseFetchConnection {
 
 	private void downloadObject(final ProgressMonitor pm, final AnyObjectId id)
 			throws TransportException {
-		if (local.hasObject(id))
+		if (alreadyHave(id))
 			return;
 
 		for (;;) {
@@ -456,6 +475,15 @@ class WalkFetchConnection extends BaseFetchConnection {
 		}
 	}
 
+	private boolean alreadyHave(final AnyObjectId id) throws TransportException {
+		try {
+			return reader.has(id);
+		} catch (IOException error) {
+			throw new TransportException(MessageFormat.format(
+					JGitText.get().cannotReadObject, id.name()), error);
+		}
+	}
+
 	private boolean downloadPackedObject(final ProgressMonitor monitor,
 			final AnyObjectId id) throws TransportException {
 		// Search for the object in a remote pack whose index we have,
@@ -512,11 +540,12 @@ class WalkFetchConnection extends BaseFetchConnection {
 				// it failed the index and pack are unusable and we
 				// shouldn't consult them again.
 				//
-				pack.tmpIdx.delete();
+				if (pack.tmpIdx != null)
+					pack.tmpIdx.delete();
 				packItr.remove();
 			}
 
-			if (!local.hasObject(id)) {
+			if (!alreadyHave(id)) {
 				// What the hell? This pack claimed to have
 				// the object, but after indexing we didn't
 				// actually find it in the pack.
@@ -555,8 +584,7 @@ class WalkFetchConnection extends BaseFetchConnection {
 			throws TransportException {
 		try {
 			final byte[] compressed = remote.open(looseName).toArray();
-			verifyLooseObject(id, compressed);
-			saveLooseObject(id, compressed);
+			verifyAndInsertLooseObject(id, compressed);
 			return true;
 		} catch (FileNotFoundException e) {
 			// Not available in a loose format from this alternate?
@@ -569,11 +597,11 @@ class WalkFetchConnection extends BaseFetchConnection {
 		}
 	}
 
-	private void verifyLooseObject(final AnyObjectId id, final byte[] compressed)
-			throws IOException {
-		final UnpackedObjectLoader uol;
+	private void verifyAndInsertLooseObject(final AnyObjectId id,
+			final byte[] compressed) throws IOException {
+		final ObjectLoader uol;
 		try {
-			uol = new UnpackedObjectLoader(compressed);
+			uol = UnpackedObject.parse(compressed, id);
 		} catch (CorruptObjectException parsingError) {
 			// Some HTTP servers send back a "200 OK" status with an HTML
 			// page that explains the requested file could not be found.
@@ -592,62 +620,23 @@ class WalkFetchConnection extends BaseFetchConnection {
 			throw e;
 		}
 
-		objectDigest.reset();
-		objectDigest.update(Constants.encodedTypeString(uol.getType()));
-		objectDigest.update((byte) ' ');
-		objectDigest.update(Constants.encodeASCII(uol.getSize()));
-		objectDigest.update((byte) 0);
-		objectDigest.update(uol.getCachedBytes());
-		idBuffer.fromRaw(objectDigest.digest(), 0);
-
-		if (!AnyObjectId.equals(id, idBuffer)) {
-			throw new TransportException(MessageFormat.format(JGitText.get().incorrectHashFor
-					, id.name(), idBuffer.name(), Constants.typeString(uol.getType()), compressed.length));
-		}
+		final int type = uol.getType();
+		final byte[] raw = uol.getCachedBytes();
 		if (objCheck != null) {
 			try {
-				objCheck.check(uol.getType(), uol.getCachedBytes());
+				objCheck.check(type, raw);
 			} catch (CorruptObjectException e) {
 				throw new TransportException(MessageFormat.format(JGitText.get().transportExceptionInvalid
-						, Constants.typeString(uol.getType()), id.name(), e.getMessage()));
+						, Constants.typeString(type), id.name(), e.getMessage()));
 			}
 		}
-	}
 
-	private void saveLooseObject(final AnyObjectId id, final byte[] compressed)
-			throws IOException, ObjectWritingException {
-		final File tmp;
-
-		tmp = File.createTempFile("noz", null, local.getObjectsDirectory());
-		try {
-			final FileOutputStream out = new FileOutputStream(tmp);
-			try {
-				out.write(compressed);
-			} finally {
-				out.close();
-			}
-			tmp.setReadOnly();
-		} catch (IOException e) {
-			tmp.delete();
-			throw e;
+		ObjectId act = inserter.insert(type, raw);
+		if (!AnyObjectId.equals(id, act)) {
+			throw new TransportException(MessageFormat.format(JGitText.get().incorrectHashFor
+					, id.name(), act.name(), Constants.typeString(type), compressed.length));
 		}
-
-		final File o = local.toFile(id);
-		if (tmp.renameTo(o))
-			return;
-
-		// Maybe the directory doesn't exist yet as the object
-		// directories are always lazily created. Note that we
-		// try the rename first as the directory likely does exist.
-		//
-		o.getParentFile().mkdir();
-		if (tmp.renameTo(o))
-			return;
-
-		tmp.delete();
-		if (local.hasObject(id))
-			return;
-		throw new ObjectWritingException(MessageFormat.format(JGitText.get().unableToStore, id.name()));
+		inserter.flush();
 	}
 
 	private Collection<WalkRemoteObjectDatabase> expandOneAlternate(
@@ -788,12 +777,11 @@ class WalkFetchConnection extends BaseFetchConnection {
 
 		final String idxName;
 
-		final File tmpIdx;
+		File tmpIdx;
 
 		PackIndex index;
 
 		RemotePack(final WalkRemoteObjectDatabase c, final String pn) {
-			final File objdir = local.getObjectsDirectory();
 			connection = c;
 			packName = pn;
 			idxName = packName.substring(0, packName.length() - 5) + ".idx";
@@ -803,13 +791,19 @@ class WalkFetchConnection extends BaseFetchConnection {
 				tn = tn.substring(5);
 			if (tn.endsWith(".idx"))
 				tn = tn.substring(0, tn.length() - 4);
-			tmpIdx = new File(objdir, "walk-" + tn + ".walkidx");
+
+			if (local.getObjectDatabase() instanceof ObjectDirectory) {
+				tmpIdx = new File(((ObjectDirectory) local.getObjectDatabase())
+						.getDirectory(), "walk-" + tn + ".walkidx");
+			}
 		}
 
 		void openIndex(final ProgressMonitor pm) throws IOException {
 			if (index != null)
 				return;
-			if (tmpIdx.isFile()) {
+			if (tmpIdx == null)
+				tmpIdx = File.createTempFile("jgit-walk-", ".idx");
+			else if (tmpIdx.isFile()) {
 				try {
 					index = PackIndex.open(tmpIdx);
 					return;

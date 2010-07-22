@@ -73,7 +73,6 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdSubclassMap;
-import org.eclipse.jgit.lib.PackLock;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
@@ -84,9 +83,9 @@ import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
 import org.eclipse.jgit.revwalk.RevObject;
-import org.eclipse.jgit.revwalk.RevTag;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.storage.file.PackLock;
 import org.eclipse.jgit.transport.ReceiveCommand.Result;
 import org.eclipse.jgit.transport.RefAdvertiser.PacketLineOutRefAdvertiser;
 import org.eclipse.jgit.util.io.InterruptTimer;
@@ -575,6 +574,7 @@ public class ReceivePack {
 
 			service();
 		} finally {
+			walk.release();
 			try {
 				if (pckOut != null)
 					pckOut.flush();
@@ -697,7 +697,7 @@ public class ReceivePack {
 		adv.send(refs);
 		if (head != null && !head.isSymbolic())
 			adv.advertiseHave(head.getObjectId());
-		adv.includeAdditionalHaves();
+		adv.includeAdditionalHaves(db);
 		if (adv.isEmpty())
 			adv.advertiseId(ObjectId.zeroId(), "capabilities^{}");
 		adv.end();
@@ -818,8 +818,7 @@ public class ReceivePack {
 			ow.markUninteresting(o);
 
 			if (checkReferencedIsReachable && !baseObjects.isEmpty()) {
-				while (o instanceof RevTag)
-					o = ((RevTag) o).getObject();
+				o = ow.peel(o);
 				if (o instanceof RevCommit)
 					o = ((RevCommit) o).getTree();
 				if (o instanceof RevTree)

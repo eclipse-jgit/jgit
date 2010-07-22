@@ -62,12 +62,13 @@ import junit.framework.TestCase;
 
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.FileBasedConfig;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryCache;
-import org.eclipse.jgit.lib.WindowCache;
-import org.eclipse.jgit.lib.WindowCacheConfig;
+import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.eclipse.jgit.storage.file.FileRepository;
+import org.eclipse.jgit.storage.file.WindowCache;
+import org.eclipse.jgit.storage.file.WindowCacheConfig;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.SystemReader;
 
@@ -259,7 +260,7 @@ public abstract class LocalDiskRepositoryTestCase extends TestCase {
 	 * @throws IOException
 	 *             the repository could not be created in the temporary area
 	 */
-	protected Repository createBareRepository() throws IOException {
+	protected FileRepository createBareRepository() throws IOException {
 		return createRepository(true /* bare */);
 	}
 
@@ -270,7 +271,7 @@ public abstract class LocalDiskRepositoryTestCase extends TestCase {
 	 * @throws IOException
 	 *             the repository could not be created in the temporary area
 	 */
-	protected Repository createWorkRepository() throws IOException {
+	protected FileRepository createWorkRepository() throws IOException {
 		return createRepository(false /* not bare */);
 	}
 
@@ -284,11 +285,11 @@ public abstract class LocalDiskRepositoryTestCase extends TestCase {
 	 * @throws IOException
 	 *             the repository could not be created in the temporary area
 	 */
-	private Repository createRepository(boolean bare) throws IOException {
+	private FileRepository createRepository(boolean bare) throws IOException {
 		String uniqueId = System.currentTimeMillis() + "_" + (testCount++);
 		String gitdirName = "test" + uniqueId + (bare ? "" : "/") + Constants.DOT_GIT;
 		File gitdir = new File(trash, gitdirName).getCanonicalFile();
-		Repository db = new Repository(gitdir);
+		FileRepository db = new FileRepository(gitdir);
 
 		assertFalse(gitdir.exists());
 		db.create();
@@ -323,7 +324,7 @@ public abstract class LocalDiskRepositoryTestCase extends TestCase {
 		putPersonIdent(env, "AUTHOR", author);
 		putPersonIdent(env, "COMMITTER", committer);
 
-		final File cwd = db.getWorkDir();
+		final File cwd = db.getWorkTree();
 		final Process p = Runtime.getRuntime().exec(argv, toEnvArray(env), cwd);
 		p.getOutputStream().close();
 		p.getErrorStream().close();

@@ -66,8 +66,8 @@ public class NameConflictTreeWalkTest extends RepositoryTestCase {
 	private static final FileMode EXECUTABLE_FILE = FileMode.EXECUTABLE_FILE;
 
 	public void testNoDF_NoGap() throws Exception {
-		final DirCache tree0 = DirCache.read(db);
-		final DirCache tree1 = DirCache.read(db);
+		final DirCache tree0 = db.readDirCache();
+		final DirCache tree1 = db.readDirCache();
 		{
 			final DirCacheBuilder b0 = tree0.builder();
 			final DirCacheBuilder b1 = tree1.builder();
@@ -97,8 +97,8 @@ public class NameConflictTreeWalkTest extends RepositoryTestCase {
 	}
 
 	public void testDF_NoGap() throws Exception {
-		final DirCache tree0 = DirCache.read(db);
-		final DirCache tree1 = DirCache.read(db);
+		final DirCache tree0 = db.readDirCache();
+		final DirCache tree1 = db.readDirCache();
 		{
 			final DirCacheBuilder b0 = tree0.builder();
 			final DirCacheBuilder b1 = tree1.builder();
@@ -128,8 +128,8 @@ public class NameConflictTreeWalkTest extends RepositoryTestCase {
 	}
 
 	public void testDF_GapByOne() throws Exception {
-		final DirCache tree0 = DirCache.read(db);
-		final DirCache tree1 = DirCache.read(db);
+		final DirCache tree0 = db.readDirCache();
+		final DirCache tree1 = db.readDirCache();
 		{
 			final DirCacheBuilder b0 = tree0.builder();
 			final DirCacheBuilder b1 = tree1.builder();
@@ -160,8 +160,8 @@ public class NameConflictTreeWalkTest extends RepositoryTestCase {
 	}
 
 	public void testDF_SkipsSeenSubtree() throws Exception {
-		final DirCache tree0 = DirCache.read(db);
-		final DirCache tree1 = DirCache.read(db);
+		final DirCache tree0 = db.readDirCache();
+		final DirCache tree1 = db.readDirCache();
 		{
 			final DirCacheBuilder b0 = tree0.builder();
 			final DirCacheBuilder b1 = tree1.builder();

@@ -63,14 +63,14 @@ import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.NotSupportedException;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.LockFile;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.PackLock;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.ObjectWalk;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.storage.file.LockFile;
+import org.eclipse.jgit.storage.file.PackLock;
 
 class FetchProcess {
 	/** Transport we will fetch over. */
@@ -176,16 +176,21 @@ class FetchProcess {
 		}
 
 		final RevWalk walk = new RevWalk(transport.local);
-		if (transport.isRemoveDeletedRefs())
-			deleteStaleTrackingRefs(result, walk);
-		for (TrackingRefUpdate u : localUpdates) {
-			try {
-				u.update(walk);
-				result.add(u);
-			} catch (IOException err) {
-				throw new TransportException(MessageFormat.format(
-						JGitText.get().failureUpdatingTrackingRef, u.getLocalName(), err.getMessage()), err);
+		try {
+			if (transport.isRemoveDeletedRefs())
+				deleteStaleTrackingRefs(result, walk);
+			for (TrackingRefUpdate u : localUpdates) {
+				try {
+					u.update(walk);
+					result.add(u);
+				} catch (IOException err) {
+					throw new TransportException(MessageFormat.format(JGitText
+							.get().failureUpdatingTrackingRef,
+							u.getLocalName(), err.getMessage()), err);
+				}
 			}
+		} finally {
+			walk.release();
 		}
 
 		if (!fetchHeadUpdates.isEmpty()) {
@@ -271,8 +276,10 @@ class FetchProcess {
 	}
 
 	private void updateFETCH_HEAD(final FetchResult result) throws IOException {
-		final LockFile lock = new LockFile(new File(transport.local
-				.getDirectory(), "FETCH_HEAD"));
+		File meta = transport.local.getDirectory();
+		if (meta == null)
+			return;
+		final LockFile lock = new LockFile(new File(meta, "FETCH_HEAD"));
 		try {
 			if (lock.lock()) {
 				final Writer w = new OutputStreamWriter(lock.getOutputStream());
@@ -294,11 +301,15 @@ class FetchProcess {
 	private boolean askForIsComplete() throws TransportException {
 		try {
 			final ObjectWalk ow = new ObjectWalk(transport.local);
-			for (final ObjectId want : askFor.keySet())
-				ow.markStart(ow.parseAny(want));
-			for (final Ref ref : transport.local.getAllRefs().values())
-				ow.markUninteresting(ow.parseAny(ref.getObjectId()));
-			ow.checkConnectivity();
+			try {
+				for (final ObjectId want : askFor.keySet())
+					ow.markStart(ow.parseAny(want));
+				for (final Ref ref : transport.local.getAllRefs().values())
+					ow.markUninteresting(ow.parseAny(ref.getObjectId()));
+				ow.checkConnectivity();
+			} finally {
+				ow.release();
+			}
 			return true;
 		} catch (MissingObjectException e) {
 			return false;

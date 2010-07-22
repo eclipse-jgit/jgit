@@ -62,7 +62,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdSubclassMap;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.lib.WindowCursor;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.revwalk.filter.RevFilter;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
 
@@ -157,9 +157,10 @@ public class RevWalk implements Iterable<RevCommit> {
 
 	private static final int APP_FLAGS = -1 & ~((1 << RESERVED_FLAGS) - 1);
 
-	final Repository db;
+	/** Exists <b>ONLY</b> to support legacy Tag and Commit objects. */
+	final Repository repository;
 
-	final WindowCursor curs;
+	final ObjectReader reader;
 
 	final MutableObjectId idBuffer;
 
@@ -189,11 +190,29 @@ public class RevWalk implements Iterable<RevCommit> {
 	 * Create a new revision walker for a given repository.
 	 *
 	 * @param repo
-	 *            the repository the walker will obtain data from.
+	 *            the repository the walker will obtain data from. An
+	 *            ObjectReader will be created by the walker, and must be
+	 *            released by the caller.
 	 */
 	public RevWalk(final Repository repo) {
-		db = repo;
-		curs = new WindowCursor();
+		this(repo, repo.newObjectReader());
+	}
+
+	/**
+	 * Create a new revision walker for a given repository.
+	 *
+	 * @param or
+	 *            the reader the walker will obtain data from. The reader should
+	 *            be released by the caller when the walker is no longer
+	 *            required.
+	 */
+	public RevWalk(ObjectReader or) {
+		this(null, or);
+	}
+
+	private RevWalk(final Repository repo, final ObjectReader or) {
+		repository = repo;
+		reader = or;
 		idBuffer = new MutableObjectId();
 		objects = new ObjectIdSubclassMap<RevObject>();
 		roots = new ArrayList<RevCommit>();
@@ -205,13 +224,19 @@ public class RevWalk implements Iterable<RevCommit> {
 		retainBody = true;
 	}
 
+	/** @return the reader this walker is using to load objects. */
+	public ObjectReader getObjectReader() {
+		return reader;
+	}
+
 	/**
-	 * Get the repository this walker loads objects from.
-	 *
-	 * @return the repository this walker was created to read.
+	 * Release any resources used by this walker's reader.
+	 * <p>
+	 * A walker that has been released can be used again, but may need to be
+	 * released after the subsequent usage.
 	 */
-	public Repository getRepository() {
-		return db;
+	public void release() {
+		reader.release();
 	}
 
 	/**
@@ -678,11 +703,7 @@ public class RevWalk implements Iterable<RevCommit> {
 	public RevCommit parseCommit(final AnyObjectId id)
 			throws MissingObjectException, IncorrectObjectTypeException,
 			IOException {
-		RevObject c = parseAny(id);
-		while (c instanceof RevTag) {
-			c = ((RevTag) c).getObject();
-			parseHeaders(c);
-		}
+		RevObject c = peel(parseAny(id));
 		if (!(c instanceof RevCommit))
 			throw new IncorrectObjectTypeException(id.toObjectId(),
 					Constants.TYPE_COMMIT);
@@ -709,11 +730,7 @@ public class RevWalk implements Iterable<RevCommit> {
 	public RevTree parseTree(final AnyObjectId id)
 			throws MissingObjectException, IncorrectObjectTypeException,
 			IOException {
-		RevObject c = parseAny(id);
-		while (c instanceof RevTag) {
-			c = ((RevTag) c).getObject();
-			parseHeaders(c);
-		}
+		RevObject c = peel(parseAny(id));
 
 		final RevTree t;
 		if (c instanceof RevCommit)
@@ -773,15 +790,12 @@ public class RevWalk implements Iterable<RevCommit> {
 			throws MissingObjectException, IOException {
 		RevObject r = objects.get(id);
 		if (r == null) {
-			final ObjectLoader ldr = db.openObject(curs, id);
-			if (ldr == null)
-				throw new MissingObjectException(id.toObjectId(), "unknown");
-			final byte[] data = ldr.getCachedBytes();
+			final ObjectLoader ldr = reader.open(id);
 			final int type = ldr.getType();
 			switch (type) {
 			case Constants.OBJ_COMMIT: {
 				final RevCommit c = createCommit(id);
-				c.parseCanonical(this, data);
+				c.parseCanonical(this, ldr.getCachedBytes());
 				r = c;
 				break;
 			}
@@ -797,7 +811,7 @@ public class RevWalk implements Iterable<RevCommit> {
 			}
 			case Constants.OBJ_TAG: {
 				final RevTag t = new RevTag(id);
-				t.parseCanonical(this, data);
+				t.parseCanonical(this, ldr.getCachedBytes());
 				r = t;
 				break;
 			}
@@ -845,6 +859,29 @@ public class RevWalk implements Iterable<RevCommit> {
 	public void parseBody(final RevObject obj)
 			throws MissingObjectException, IOException {
 		obj.parseBody(this);
+	}
+
+	/**
+	 * Peel back annotated tags until a non-tag object is found.
+	 *
+	 * @param obj
+	 *            the starting object.
+	 * @return If {@code obj} is not an annotated tag, {@code obj}. Otherwise
+	 *         the first non-tag object that {@code obj} references. The
+	 *         returned object's headers have been parsed.
+	 * @throws MissingObjectException
+	 *             a referenced object cannot be found.
+	 * @throws IOException
+	 *             a pack file or loose object could not be read.
+	 */
+	public RevObject peel(RevObject obj) throws MissingObjectException,
+			IOException {
+		while (obj instanceof RevTag) {
+			parseHeaders(obj);
+			obj = ((RevTag) obj).getObject();
+		}
+		parseHeaders(obj);
+		return obj;
 	}
 
 	/**
@@ -1023,7 +1060,7 @@ public class RevWalk implements Iterable<RevCommit> {
 			}
 		}
 
-		curs.release();
+		reader.release();
 		roots.clear();
 		queue = new DateRevQueue();
 		pending = new StartGenerator(this);
@@ -1038,11 +1075,12 @@ public class RevWalk implements Iterable<RevCommit> {
 	 * All RevFlag instances are also invalidated, and must not be reused.
 	 */
 	public void dispose() {
+		reader.release();
 		freeFlags = APP_FLAGS;
 		delayFreeFlags = 0;
 		carryFlags = UNINTERESTING;
 		objects.clear();
-		curs.release();
+		reader.release();
 		roots.clear();
 		queue = new DateRevQueue();
 		pending = new StartGenerator(this);

@@ -49,10 +49,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
 
-import org.eclipse.jgit.lib.AlternateRepositoryDatabase;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.ObjectDatabase;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefComparator;
 import org.eclipse.jgit.lib.Repository;
@@ -126,7 +125,7 @@ public abstract class RefAdvertiser {
 	 * <ul>
 	 * <li>{@link #send(Map)}
 	 * <li>{@link #advertiseHave(AnyObjectId)}
-	 * <li>{@link #includeAdditionalHaves()}
+	 * <li>{@link #includeAdditionalHaves(Repository)}
 	 * </ul>
 	 *
 	 * @param deref
@@ -144,7 +143,7 @@ public abstract class RefAdvertiser {
 	 * <ul>
 	 * <li>{@link #send(Map)}
 	 * <li>{@link #advertiseHave(AnyObjectId)}
-	 * <li>{@link #includeAdditionalHaves()}
+	 * <li>{@link #includeAdditionalHaves(Repository)}
 	 * </ul>
 	 *
 	 * @param name
@@ -212,24 +211,15 @@ public abstract class RefAdvertiser {
 	/**
 	 * Include references of alternate repositories as {@code .have} lines.
 	 *
+	 * @param src
+	 *            repository to get the additional reachable objects from.
 	 * @throws IOException
 	 *             the underlying output stream failed to write out an
 	 *             advertisement record.
 	 */
-	public void includeAdditionalHaves() throws IOException {
-		additionalHaves(walk.getRepository().getObjectDatabase());
-	}
-
-	private void additionalHaves(final ObjectDatabase db) throws IOException {
-		if (db instanceof AlternateRepositoryDatabase)
-			additionalHaves(((AlternateRepositoryDatabase) db).getRepository());
-		for (ObjectDatabase alt : db.getAlternates())
-			additionalHaves(alt);
-	}
-
-	private void additionalHaves(final Repository alt) throws IOException {
-		for (final Ref r : alt.getAllRefs().values())
-			advertiseHave(r.getObjectId());
+	public void includeAdditionalHaves(Repository src) throws IOException {
+		for (ObjectId id : src.getAdditionalHaves())
+			advertiseHave(id);
 	}
 
 	/** @return true if no advertisements have been sent yet. */

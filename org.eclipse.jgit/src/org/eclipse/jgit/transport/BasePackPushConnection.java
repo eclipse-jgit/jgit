@@ -48,6 +48,7 @@ import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.jgit.JGitText;
@@ -56,9 +57,9 @@ import org.eclipse.jgit.errors.NotSupportedException;
 import org.eclipse.jgit.errors.PackProtocolException;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.PackWriter;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.storage.pack.PackWriter;
 import org.eclipse.jgit.transport.RemoteRefUpdate.Status;
 
 /**
@@ -226,25 +227,29 @@ class BasePackPushConnection extends BasePackConnection implements
 
 	private void writePack(final Map<String, RemoteRefUpdate> refUpdates,
 			final ProgressMonitor monitor) throws IOException {
-		final PackWriter writer = new PackWriter(local, monitor);
-		final ArrayList<ObjectId> remoteObjects = new ArrayList<ObjectId>(
-				getRefs().size());
-		final ArrayList<ObjectId> newObjects = new ArrayList<ObjectId>(
-				refUpdates.size());
+		List<ObjectId> remoteObjects = new ArrayList<ObjectId>(getRefs().size());
+		List<ObjectId> newObjects = new ArrayList<ObjectId>(refUpdates.size());
 
-		for (final Ref r : getRefs())
-			remoteObjects.add(r.getObjectId());
-		remoteObjects.addAll(additionalHaves);
-		for (final RemoteRefUpdate r : refUpdates.values()) {
-			if (!ObjectId.zeroId().equals(r.getNewObjectId()))
-				newObjects.add(r.getNewObjectId());
+		final long start;
+		final PackWriter writer = new PackWriter(local);
+		try {
+
+			for (final Ref r : getRefs())
+				remoteObjects.add(r.getObjectId());
+			remoteObjects.addAll(additionalHaves);
+			for (final RemoteRefUpdate r : refUpdates.values()) {
+				if (!ObjectId.zeroId().equals(r.getNewObjectId()))
+					newObjects.add(r.getNewObjectId());
+			}
+
+			writer.setThin(thinPack);
+			writer.setDeltaBaseAsOffset(capableOfsDelta);
+			writer.preparePack(monitor, newObjects, remoteObjects);
+			start = System.currentTimeMillis();
+			writer.writePack(monitor, monitor, out);
+		} finally {
+			writer.release();
 		}
-
-		writer.setThin(thinPack);
-		writer.setDeltaBaseAsOffset(capableOfsDelta);
-		writer.preparePack(newObjects, remoteObjects);
-		final long start = System.currentTimeMillis();
-		writer.writePack(out);
 		out.flush();
 		packTransferTime = System.currentTimeMillis() - start;
 	}

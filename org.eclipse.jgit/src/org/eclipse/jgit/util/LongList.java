@@ -83,6 +83,20 @@ public class LongList {
 		return entries[i];
 	}
 
+	/**
+	 * Determine if an entry appears in this collection.
+	 *
+	 * @param value
+	 *            the value to search for.
+	 * @return true of {@code value} appears in this list.
+	 */
+	public boolean contains(final long value) {
+		for (int i = 0; i < count; i++)
+			if (entries[i] == value)
+				return true;
+		return false;
+	}
+
 	/** Empty this list */
 	public void clear() {
 		count = 0;

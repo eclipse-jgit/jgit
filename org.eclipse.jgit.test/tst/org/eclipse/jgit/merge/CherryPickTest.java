@@ -44,7 +44,8 @@
 
 package org.eclipse.jgit.merge;
 
-import java.io.ByteArrayInputStream;
+import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
+import static org.eclipse.jgit.lib.Constants.OBJ_COMMIT;
 
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
@@ -53,7 +54,7 @@ import org.eclipse.jgit.lib.Commit;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.ObjectWriter;
+import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RepositoryTestCase;
 import org.eclipse.jgit.treewalk.TreeWalk;
@@ -66,10 +67,10 @@ public class CherryPickTest extends RepositoryTestCase {
 		// Cherry-pick "T" onto "O". This shouldn't introduce "p-fail", which
 		// was created by "P", nor should it modify "a", which was done by "P".
 		//
-		final DirCache treeB = DirCache.read(db);
-		final DirCache treeO = DirCache.read(db);
-		final DirCache treeP = DirCache.read(db);
-		final DirCache treeT = DirCache.read(db);
+		final DirCache treeB = db.readDirCache();
+		final DirCache treeO = db.readDirCache();
+		final DirCache treeP = db.readDirCache();
+		final DirCache treeT = db.readDirCache();
 		{
 			final DirCacheBuilder b = treeB.builder();
 			final DirCacheBuilder o = treeO.builder();
@@ -93,7 +94,7 @@ public class CherryPickTest extends RepositoryTestCase {
 			t.finish();
 		}
 
-		final ObjectWriter ow = new ObjectWriter(db);
+		final ObjectInserter ow = db.newObjectInserter();
 		final ObjectId B = commit(ow, treeB, new ObjectId[] {});
 		final ObjectId O = commit(ow, treeO, new ObjectId[] { B });
 		final ObjectId P = commit(ow, treeP, new ObjectId[] { B });
@@ -128,15 +129,17 @@ public class CherryPickTest extends RepositoryTestCase {
 				.getObjectId(0));
 	}
 
-	private ObjectId commit(final ObjectWriter ow, final DirCache treeB,
+	private ObjectId commit(final ObjectInserter odi, final DirCache treeB,
 			final ObjectId[] parentIds) throws Exception {
 		final Commit c = new Commit(db);
-		c.setTreeId(treeB.writeTree(ow));
+		c.setTreeId(treeB.writeTree(odi));
 		c.setAuthor(new PersonIdent("A U Thor", "a.u.thor", 1L, 0));
 		c.setCommitter(c.getAuthor());
 		c.setParentIds(parentIds);
 		c.setMessage("Tree " + c.getTreeId().name());
-		return ow.writeCommit(c);
+		ObjectId id = odi.insert(OBJ_COMMIT, odi.format(c));
+		odi.flush();
+		return id;
 	}
 
 	private DirCacheEntry makeEntry(final String path, final FileMode mode)
@@ -148,9 +151,8 @@ public class CherryPickTest extends RepositoryTestCase {
 			final String content) throws Exception {
 		final DirCacheEntry ent = new DirCacheEntry(path);
 		ent.setFileMode(mode);
-		final byte[] contentBytes = Constants.encode(content);
-		ent.setObjectId(new ObjectWriter(db).computeBlobSha1(
-				contentBytes.length, new ByteArrayInputStream(contentBytes)));
+		ent.setObjectId(new ObjectInserter.Formatter().idFor(OBJ_BLOB,
+				Constants.encode(content)));
 		return ent;
 	}
 }

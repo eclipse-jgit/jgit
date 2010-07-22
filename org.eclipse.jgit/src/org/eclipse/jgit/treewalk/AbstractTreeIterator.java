@@ -55,8 +55,7 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.MutableObjectId;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.lib.WindowCursor;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
 
 /**
@@ -405,6 +404,24 @@ public abstract class AbstractTreeIterator {
 	}
 
 	/**
+	 * Get the current entry's path hash code.
+	 * <p>
+	 * This method computes a hash code on the fly for this path, the hash is
+	 * suitable to cluster objects that may have similar paths together.
+	 *
+	 * @return path hash code; any integer may be returned.
+	 */
+	public int getEntryPathHashCode() {
+		int hash = 0;
+		for (int i = Math.max(0, pathLen - 16); i < pathLen; i++) {
+			byte c = path[i];
+			if (c != ' ')
+				hash = (hash >>> 2) + (c << 24);
+		}
+		return hash;
+	}
+
+	/**
 	 * Get the byte array buffer object IDs must be copied out of.
 	 * <p>
 	 * The id buffer contains the bytes necessary to construct an ObjectId for
@@ -433,8 +450,8 @@ public abstract class AbstractTreeIterator {
 	 * otherwise the caller would not be able to exit out of the subtree
 	 * iterator correctly and return to continue walking <code>this</code>.
 	 *
-	 * @param repo
-	 *            repository to load the tree data from.
+	 * @param reader
+	 *            reader to load the tree data from.
 	 * @return a new parser that walks over the current subtree.
 	 * @throws IncorrectObjectTypeException
 	 *             the current entry is not actually a tree and cannot be parsed
@@ -442,8 +459,9 @@ public abstract class AbstractTreeIterator {
 	 * @throws IOException
 	 *             a loose object or pack file could not be read.
 	 */
-	public abstract AbstractTreeIterator createSubtreeIterator(Repository repo)
-			throws IncorrectObjectTypeException, IOException;
+	public abstract AbstractTreeIterator createSubtreeIterator(
+			ObjectReader reader) throws IncorrectObjectTypeException,
+			IOException;
 
 	/**
 	 * Create a new iterator as though the current entry were a subtree.
@@ -461,12 +479,10 @@ public abstract class AbstractTreeIterator {
 	 * the caller would not be able to exit out of the subtree iterator
 	 * correctly and return to continue walking <code>this</code>.
 	 *
-	 * @param repo
-	 *            repository to load the tree data from.
+	 * @param reader
+	 *            reader to load the tree data from.
 	 * @param idBuffer
 	 *            temporary ObjectId buffer for use by this method.
-	 * @param curs
-	 *            window cursor to use during repository access.
 	 * @return a new parser that walks over the current subtree.
 	 * @throws IncorrectObjectTypeException
 	 *             the current entry is not actually a tree and cannot be parsed
@@ -474,10 +490,10 @@ public abstract class AbstractTreeIterator {
 	 * @throws IOException
 	 *             a loose object or pack file could not be read.
 	 */
-	public AbstractTreeIterator createSubtreeIterator(final Repository repo,
-			final MutableObjectId idBuffer, final WindowCursor curs)
+	public AbstractTreeIterator createSubtreeIterator(
+			final ObjectReader reader, final MutableObjectId idBuffer)
 			throws IncorrectObjectTypeException, IOException {
-		return createSubtreeIterator(repo);
+		return createSubtreeIterator(reader);
 	}
 
 	/**

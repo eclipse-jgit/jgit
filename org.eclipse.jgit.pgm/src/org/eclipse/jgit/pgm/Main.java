@@ -51,20 +51,15 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.eclipse.jgit.awtui.AwtAuthenticator;
 import org.eclipse.jgit.awtui.AwtSshSessionFactory;
 import org.eclipse.jgit.errors.TransportException;
-import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.RepositoryBuilder;
 import org.eclipse.jgit.pgm.opt.CmdLineParser;
 import org.eclipse.jgit.pgm.opt.SubcommandHandler;
 import org.eclipse.jgit.util.CachedAuthenticator;
-import org.eclipse.jgit.util.SystemReader;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.ExampleMode;
@@ -168,51 +163,17 @@ public class Main {
 
 		final TextBuiltin cmd = subcommand;
 		if (cmd.requiresRepository()) {
-			if (gitdir == null) {
-				String gitDirEnv = SystemReader.getInstance().getenv(Constants.GIT_DIR_KEY);
-				if (gitDirEnv != null)
-					gitdir = new File(gitDirEnv);
-			}
-			if (gitdir == null)
-				gitdir = findGitDir();
-
-			File gitworktree;
-			String gitWorkTreeEnv = SystemReader.getInstance().getenv(Constants.GIT_WORK_TREE_KEY);
-			if (gitWorkTreeEnv != null)
-				gitworktree = new File(gitWorkTreeEnv);
-			else
-				gitworktree = null;
-
-			File indexfile;
-			String indexFileEnv = SystemReader.getInstance().getenv(Constants.GIT_INDEX_KEY);
-			if (indexFileEnv != null)
-				indexfile = new File(indexFileEnv);
-			else
-				indexfile = null;
-
-			File objectdir;
-			String objectDirEnv = SystemReader.getInstance().getenv(Constants.GIT_OBJECT_DIRECTORY_KEY);
-			if (objectDirEnv != null)
-				objectdir = new File(objectDirEnv);
-			else
-				objectdir = null;
-
-			File[] altobjectdirs;
-			String altObjectDirEnv = SystemReader.getInstance().getenv(Constants.GIT_ALTERNATE_OBJECT_DIRECTORIES_KEY);
-			if (altObjectDirEnv != null) {
-				String[] parserdAltObjectDirEnv = altObjectDirEnv.split(File.pathSeparator);
-				altobjectdirs = new File[parserdAltObjectDirEnv.length];
-				for (int i = 0; i < parserdAltObjectDirEnv.length; i++)
-					altobjectdirs[i] = new File(parserdAltObjectDirEnv[i]);
-			} else
-				altobjectdirs = null;
-
-			if (gitdir == null || !gitdir.isDirectory()) {
+			RepositoryBuilder rb = new RepositoryBuilder() //
+					.setGitDir(gitdir) //
+					.readEnvironment() //
+					.findGitDir();
+			if (rb.getGitDir() == null) {
 				writer.println(CLIText.get().cantFindGitDirectory);
 				writer.flush();
 				System.exit(1);
 			}
-			cmd.init(new Repository(gitdir, gitworktree, objectdir, altobjectdirs, indexfile), gitdir);
+
+			cmd.init(rb.build(), null);
 		} else {
 			cmd.init(null, gitdir);
 		}
@@ -222,27 +183,6 @@ public class Main {
 			if (cmd.out != null)
 				cmd.out.flush();
 		}
-	}
-
-	private static File findGitDir() {
-		Set<String> ceilingDirectories = new HashSet<String>();
-		String ceilingDirectoriesVar = SystemReader.getInstance().getenv(
-				Constants.GIT_CEILING_DIRECTORIES_KEY);
-		if (ceilingDirectoriesVar != null) {
-			ceilingDirectories.addAll(Arrays.asList(ceilingDirectoriesVar
-					.split(File.pathSeparator)));
-		}
-		File current = new File("").getAbsoluteFile();
-		while (current != null) {
-			final File gitDir = new File(current, Constants.DOT_GIT);
-			if (gitDir.isDirectory())
-				return gitDir;
-			current = current.getParentFile();
-			if (current != null
-					&& ceilingDirectories.contains(current.getPath()))
-				break;
-		}
-		return null;
 	}
 
 	private static boolean installConsole() {

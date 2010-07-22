@@ -91,10 +91,8 @@ public class BlobBasedConfig extends Config {
 	public BlobBasedConfig(Config base, final Repository r,
 			final ObjectId objectId) throws IOException, ConfigInvalidException {
 		super(base);
-		final ObjectLoader loader = r.openBlob(objectId);
-		if (loader == null)
-			throw new IOException(MessageFormat.format(JGitText.get().blobNotFound, objectId));
-		fromText(RawParseUtils.decode(loader.getBytes()));
+		ObjectLoader loader = r.open(objectId, Constants.OBJ_BLOB);
+		fromText(RawParseUtils.decode(loader.getCachedBytes()));
 	}
 
 	/**
@@ -122,10 +120,7 @@ public class BlobBasedConfig extends Config {
 		if (tree == null)
 			throw new FileNotFoundException(MessageFormat.format(JGitText.get().entryNotFoundByPath, path));
 		final ObjectId blobId = tree.getObjectId(0);
-		final ObjectLoader loader = tree.getRepository().openBlob(blobId);
-		if (loader == null)
-			throw new IOException(MessageFormat.format(JGitText.get().blobNotFoundForPath
-					, blobId, path));
-		fromText(RawParseUtils.decode(loader.getBytes()));
+		ObjectLoader loader = r.open(blobId,Constants.OBJ_BLOB);
+		fromText(RawParseUtils.decode(loader.getCachedBytes()));
 	}
 }

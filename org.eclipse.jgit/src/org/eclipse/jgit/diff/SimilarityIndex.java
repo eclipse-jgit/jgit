@@ -43,9 +43,14 @@
 
 package org.eclipse.jgit.diff;
 
+import java.io.EOFException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Arrays;
 
+import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.ObjectLoader;
+import org.eclipse.jgit.lib.ObjectStream;
 
 /**
  * Index structure of lines/blocks in one file.
@@ -107,10 +112,20 @@ class SimilarityIndex {
 		fileSize = size;
 	}
 
-	void hash(ObjectLoader obj) {
-		byte[] raw = obj.getCachedBytes();
-		setFileSize(raw.length);
-		hash(raw, 0, raw.length);
+	void hash(ObjectLoader obj) throws MissingObjectException, IOException {
+		if (obj.isLarge()) {
+			ObjectStream in = obj.openStream();
+			try {
+				setFileSize(in.getSize());
+				hash(in, fileSize);
+			} finally {
+				in.close();
+			}
+		} else {
+			byte[] raw = obj.getCachedBytes();
+			setFileSize(raw.length);
+			hash(raw, 0, raw.length);
+		}
 	}
 
 	void hash(byte[] raw, int ptr, final int end) {
@@ -126,6 +141,35 @@ class SimilarityIndex {
 				hash = (hash << 5) ^ c;
 			} while (ptr < end && ptr - start < 64);
 			add(hash, ptr - start);
+		}
+	}
+
+	void hash(InputStream in, long remaining) throws IOException {
+		byte[] buf = new byte[4096];
+		int ptr = 0;
+		int cnt = 0;
+
+		while (0 < remaining) {
+			int hash = 5381;
+
+			// Hash one line, or one block, whichever occurs first.
+			int n = 0;
+			do {
+				if (ptr == cnt) {
+					ptr = 0;
+					cnt = in.read(buf, 0, buf.length);
+					if (cnt <= 0)
+						throw new EOFException();
+				}
+
+				n++;
+				int c = buf[ptr++] & 0xff;
+				if (c == '\n')
+					break;
+				hash = (hash << 5) ^ c;
+			} while (n < 64 && n < remaining);
+			add(hash, n);
+			remaining -= n;
 		}
 	}
 

@@ -339,7 +339,14 @@ public class Commit implements Treeish {
 	public void commit() throws IOException {
 		if (getCommitId() != null)
 			throw new IllegalStateException(MessageFormat.format(JGitText.get().commitAlreadyExists, getCommitId()));
-		setCommitId(new ObjectWriter(objdb).writeCommit(this));
+		ObjectInserter odi = objdb.newObjectInserter();
+		try {
+			ObjectId id = odi.insert(Constants.OBJ_COMMIT, odi.format(this));
+			odi.flush();
+			setCommitId(id);
+		} finally {
+			odi.release();
+		}
 	}
 
 	public String toString() {

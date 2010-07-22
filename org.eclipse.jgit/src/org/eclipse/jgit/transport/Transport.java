@@ -566,7 +566,7 @@ public abstract class Transport {
 	 *            URI passed to {@link #open(Repository, URIish)}.
 	 */
 	protected Transport(final Repository local, final URIish uri) {
-		final TransferConfig tc = local.getConfig().getTransfer();
+		final TransferConfig tc = local.getConfig().get(TransferConfig.KEY);
 		this.local = local;
 		this.uri = uri;
 		this.checkFetchedObjects = tc.isFsckObjects();

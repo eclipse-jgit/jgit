@@ -77,7 +77,7 @@ public class PersonIdent {
 	 * @param repo
 	 */
 	public PersonIdent(final Repository repo) {
-		final RepositoryConfig config = repo.getConfig();
+		final UserConfig config = repo.getConfig().get(UserConfig.KEY);
 		name = config.getCommitterName();
 		emailAddress = config.getCommitterEmail();
 		when = SystemReader.getInstance().getCurrentTime();
