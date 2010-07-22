@@ -383,6 +383,116 @@ public class RenameDetectorTest extends RepositoryTestCase {
 		assertSame(b, entries.get(1));
 	}
 
+	public void testBreakModify_BreakAll() throws Exception {
+		ObjectId aId = blob("foo");
+		ObjectId bId = blob("bar");
+
+		DiffEntry m = DiffEntry.modify(PATH_A);
+		m.oldId = AbbreviatedObjectId.fromObjectId(aId);
+		m.newId = AbbreviatedObjectId.fromObjectId(bId);
+
+		DiffEntry a = DiffEntry.add(PATH_B, aId);
+
+		rd.add(a);
+		rd.add(m);
+
+		rd.setBreakScore(101);
+
+		List<DiffEntry> entries = rd.compute();
+		assertEquals(2, entries.size());
+		assertAdd(PATH_A, bId, FileMode.REGULAR_FILE, entries.get(0));
+		assertRename(DiffEntry.breakModify(m).get(0), a, 100, entries.get(1));
+	}
+
+	public void testBreakModify_BreakNone() throws Exception {
+		ObjectId aId = blob("foo");
+		ObjectId bId = blob("bar");
+
+		DiffEntry m = DiffEntry.modify(PATH_A);
+		m.oldId = AbbreviatedObjectId.fromObjectId(aId);
+		m.newId = AbbreviatedObjectId.fromObjectId(bId);
+
+		DiffEntry a = DiffEntry.add(PATH_B, aId);
+
+		rd.add(a);
+		rd.add(m);
+
+		rd.setBreakScore(-1);
+
+		List<DiffEntry> entries = rd.compute();
+		assertEquals(2, entries.size());
+		assertSame(m, entries.get(0));
+		assertSame(a, entries.get(1));
+	}
+
+	public void testBreakModify_BreakBelowScore() throws Exception {
+		ObjectId aId = blob("foo");
+		ObjectId bId = blob("bar");
+
+		DiffEntry m = DiffEntry.modify(PATH_A);
+		m.oldId = AbbreviatedObjectId.fromObjectId(aId);
+		m.newId = AbbreviatedObjectId.fromObjectId(bId);
+
+		DiffEntry a = DiffEntry.add(PATH_B, aId);
+
+		rd.add(a);
+		rd.add(m);
+
+		rd.setBreakScore(20); // Should break the modify
+
+		List<DiffEntry> entries = rd.compute();
+		assertEquals(2, entries.size());
+		assertAdd(PATH_A, bId, FileMode.REGULAR_FILE, entries.get(0));
+		assertRename(DiffEntry.breakModify(m).get(0), a, 100, entries.get(1));
+	}
+
+	public void testBreakModify_DontBreakAboveScore() throws Exception {
+		ObjectId aId = blob("blah\nblah\nfoo");
+		ObjectId bId = blob("blah\nblah\nbar");
+
+		DiffEntry m = DiffEntry.modify(PATH_A);
+		m.oldId = AbbreviatedObjectId.fromObjectId(aId);
+		m.newId = AbbreviatedObjectId.fromObjectId(bId);
+
+		DiffEntry a = DiffEntry.add(PATH_B, aId);
+
+		rd.add(a);
+		rd.add(m);
+
+		rd.setBreakScore(20); // Should not break the modify
+
+		List<DiffEntry> entries = rd.compute();
+		assertEquals(2, entries.size());
+		assertSame(m, entries.get(0));
+		assertSame(a, entries.get(1));
+	}
+
+	public void testBreakModify_RejoinIfUnpaired() throws Exception {
+		ObjectId aId = blob("foo");
+		ObjectId bId = blob("bar");
+
+		DiffEntry m = DiffEntry.modify(PATH_A);
+		m.oldId = AbbreviatedObjectId.fromObjectId(aId);
+		m.newId = AbbreviatedObjectId.fromObjectId(bId);
+
+		rd.add(m);
+
+		rd.setBreakScore(101); // Ensure m is broken apart
+
+		List<DiffEntry> entries = rd.compute();
+		assertEquals(1, entries.size());
+
+		DiffEntry modify = entries.get(0);
+		assertEquals(m.oldName, modify.oldName);
+		assertEquals(m.oldId, modify.oldId);
+		assertEquals(m.oldMode, modify.oldMode);
+		assertEquals(m.newName, modify.newName);
+		assertEquals(m.newId, modify.newId);
+		assertEquals(m.newMode, modify.newMode);
+		assertEquals(m.changeType, modify.changeType);
+		assertEquals(0, modify.score);
+	}
+
 	public void testSetRenameScore_IllegalArgs() throws Exception {
 		try {
 			rd.setRenameScore(-1);
@@ -461,5 +571,16 @@ public class RenameDetectorTest extends RepositoryTestCase {
 		assertEquals(n.getNewId(), copy.getNewId());
 
 		assertEquals(score, copy.getScore());
+	}
+
+	private static void assertAdd(String newName, ObjectId newId,
+			FileMode newMode, DiffEntry add) {
+		assertEquals(DiffEntry.DEV_NULL, add.oldName);
+		assertEquals(DiffEntry.A_ZERO, add.oldId);
+		assertEquals(FileMode.MISSING, add.oldMode);
+		assertEquals(ChangeType.ADD, add.changeType);
+		assertEquals(newName, add.newName);
+		assertEquals(AbbreviatedObjectId.fromObjectId(newId), add.newId);
+		assertEquals(newMode, add.newMode);
 	}
 }

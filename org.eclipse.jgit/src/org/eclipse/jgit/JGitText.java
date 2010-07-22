@@ -360,8 +360,10 @@ public class JGitText extends TranslationBundle {
 	/***/ public String remoteHungUpUnexpectedly;
 	/***/ public String remoteNameCantBeNull;
 	/***/ public String renamesAlreadyFound;
+	/***/ public String renamesBreakingModifies;
 	/***/ public String renamesFindingByContent;
 	/***/ public String renamesFindingExact;
+	/***/ public String renamesRejoiningModifies;
 	/***/ public String repositoryAlreadyExists;
 	/***/ public String repositoryIsRequired;
 	/***/ public String repositoryNotFound;
