@@ -86,6 +86,8 @@ public class NameConflictTreeWalk extends TreeWalk {
 
 	private boolean fastMinHasMatch;
 
+	private String dfConflictPath;
+
 	/**
 	 * Create a new tree walker for a given repository.
 	 *
@@ -171,6 +173,10 @@ public class NameConflictTreeWalk extends TreeWalk {
 				}
 				t.matches = t;
 				minRef = t;
+				// remember where D/F conflicts started
+				if (dfConflictPath == null)
+					dfConflictPath = t.getEntryPathString()+"/";
+
 			} else
 				fastMinHasMatch = false;
 		}
@@ -270,6 +276,11 @@ public class NameConflictTreeWalk extends TreeWalk {
 			for (final AbstractTreeIterator t : trees)
 				if (t.matches == minRef)
 					t.matches = treeMatch;
+
+			// remember where D/F conflicts started
+			if (dfConflictPath == null)
+				dfConflictPath = treeMatch.getEntryPathString()+"/";
+
 			return treeMatch;
 		}
 
@@ -308,5 +319,27 @@ public class NameConflictTreeWalk extends TreeWalk {
 				t.matches = null;
 			}
 		}
+	}
+
+	/**
+	 * Tells whether the current entry is covered by a directory/file conflict.
+	 * This means that for some of the prefix-pathes of the current entry this
+	 * walk has detected a directory/file conflict.
+	 * <p>
+	 * Example: If this TreeWalk points to foo/bar/a.txt and this method returns
+	 * true then you know that either for path foo or for path foo/bar files AND
+	 * folders and been detected.
+	 *
+	 * @return <code>true</code> if the current entry is covered by a
+	 *         directory/file conflict, <code>false</code> otherwise
+	 *
+	 */
+	public boolean isDirectoryFileConflict() {
+		if (dfConflictPath != null) {
+			if ((currentHead.getEntryPathString()+"/").startsWith(dfConflictPath))
+				return true;
+			dfConflictPath = null;
+		}
+		return false;
 	}
 }
