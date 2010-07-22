@@ -58,6 +58,7 @@ import org.eclipse.jgit.lib.ObjectWriter;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.treewalk.TreeWalk;
+import org.eclipse.jgit.treewalk.WorkingTreeIterator;
 import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
 
 /**
@@ -72,6 +73,8 @@ import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
 public class AddCommand extends GitCommand<DirCache> {
 
 	private Collection<String> filepatterns;
+
+	private WorkingTreeIterator workingTreeIterator;
 
 	/**
 	 *
@@ -93,6 +96,16 @@ public class AddCommand extends GitCommand<DirCache> {
 	public AddCommand addFilepattern(String filepattern) {
 		checkCallable();
 		filepatterns.add(filepattern);
+		return this;
+	}
+
+	/**
+	 * Allow clients to provide their own implementation of a FileTreeIterator
+	 * @param f
+	 * @return {@code this}
+	 */
+	public AddCommand setWorkingTreeIterator(WorkingTreeIterator f) {
+		workingTreeIterator = f;
 		return this;
 	}
 
@@ -122,8 +135,9 @@ public class AddCommand extends GitCommand<DirCache> {
 			final TreeWalk tw = new TreeWalk(repo);
 			tw.reset();
 			tw.addTree(new DirCacheBuildIterator(builder));
-			FileTreeIterator fileTreeIterator = new FileTreeIterator(repo);
-			tw.addTree(fileTreeIterator);
+			if (workingTreeIterator == null)
+				workingTreeIterator = new FileTreeIterator(repo);
+			tw.addTree(workingTreeIterator);
 			tw.setRecursive(true);
 			if (!addAll)
 				tw.setFilter(PathFilterGroup.createFromStrings(filepatterns));
@@ -134,7 +148,7 @@ public class AddCommand extends GitCommand<DirCache> {
 				String path = tw.getPathString();
 
 				final File file = new File(repo.getWorkDir(), path);
-				FileTreeIterator f = tw.getTree(1, FileTreeIterator.class);
+				WorkingTreeIterator f = tw.getTree(1, WorkingTreeIterator.class);
 				if (tw.getTree(0, DirCacheIterator.class) == null &&
 						f != null && f.isEntryIgnored()) {
 					// file is not in index but is ignored, do nothing
