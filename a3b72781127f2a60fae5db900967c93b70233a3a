@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALw3///68\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/AddCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-20T16:16:58Z",
+      "side": 1,
+      "message": "Sadly this wasn\u0027t quite what I had in mind with the ignore stuff.  But I was too distracted by my other refactoring work to review it in time and it got submitted anyway.\n\nWe\u0027re ripping through the checkout directory now *twice*.  Once to find .gitignore files and build a table of what needs to be ignored, and again as you traverse it.\n\nWhat I wanted to do was to have the WorkingTreeIterator keep the IgnoreNode for that level within itself.  Then you can just ask:\n\n  tw.getTree(1, WorkingTreeIterator.class).isIgnored())\n\nto determine if the current item is ignored, or not.  By keeping the IgnoreNode inside of the WorkingTreeIterator we already have the full path up to the root through the parent pointers.  And we have fast efficient knowledge of whether or not there is even a .gitignore in this directory.",
+      "revId": "a3b72781127f2a60fae5db900967c93b70233a3a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
