@@ -52,6 +52,8 @@ package org.eclipse.jgit.lib;
 
 import java.io.File;
 
+import org.eclipse.jgit.util.FS;
+
 /**
  * An object representing the Git config file.
  *
@@ -71,9 +73,12 @@ public class RepositoryConfig extends FileBasedConfig {
 	 *            global configuration file, or the system level configuration.
 	 * @param cfgLocation
 	 *            path of the file to load (or save).
+	 * @param fs
+	 * 	          the file system abstraction which will be necessary to
+	 *            perform certain file system operations.            
 	 */
-	public RepositoryConfig(final Config base, final File cfgLocation) {
-		super(base, cfgLocation);
+	public RepositoryConfig(final Config base, final File cfgLocation, FS fs) {
+		super(base, cfgLocation, fs);
 	}
 
 	/**
