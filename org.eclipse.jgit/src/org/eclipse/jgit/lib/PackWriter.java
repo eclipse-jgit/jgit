@@ -567,9 +567,9 @@ public class PackWriter {
 	 * <p>
 	 * At first, this method collects and sorts objects to pack, then deltas
 	 * search is performed if set up accordingly, finally pack stream is
-	 * written. {@link ProgressMonitor} tasks {@value #SEARCHING_REUSE_PROGRESS}
+	 * written. {@link ProgressMonitor} tasks {@link #SEARCHING_REUSE_PROGRESS}
 	 * (only if reuseDeltas or reuseObjects is enabled) and
-	 * {@value #WRITING_OBJECTS_PROGRESS} are updated during packing.
+	 * {@link #WRITING_OBJECTS_PROGRESS} are updated during packing.
 	 * </p>
 	 * <p>
 	 * All reused objects data checksum (Adler32/CRC32) is computed and

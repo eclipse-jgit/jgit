@@ -64,7 +64,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
  * This is currently a very basic implementation which takes only one starting
  * revision as option.
  *
- * @TODO add more options (revision ranges, sorting, ...)
+ * TODO: add more options (revision ranges, sorting, ...)
  *
  * @see <a href="http://www.kernel.org/pub/software/scm/git/docs/git-log.html"
  *      >Git documentation about Log</a>

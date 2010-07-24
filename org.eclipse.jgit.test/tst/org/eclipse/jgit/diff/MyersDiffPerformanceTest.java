@@ -60,7 +60,7 @@ import org.eclipse.jgit.util.CPUTimeStopWatch;
  * time for computing the diff between a and b should depend on the product of
  * a.length+b.length and the number of found differences. The tests compute
  * diffs between chunks of different length, measure the needed time and check
- * that time/(N*D) does not differ more than a certain factor (currently 10)
+ * that time/(N*D) does not differ more than a certain factor.
  */
 public class MyersDiffPerformanceTest extends TestCase {
 	private static final long longTaskBoundary = 5000000000L;
