@@ -311,7 +311,7 @@ public class PackWriter {
 	 * Check whether object is configured to reuse deltas existing in
 	 * repository.
 	 * <p>
-	 * Default setting: {@value #DEFAULT_REUSE_DELTAS}
+	 * Default setting: {@link #DEFAULT_REUSE_DELTAS}
 	 * </p>
 	 *
 	 * @return true if object is configured to reuse deltas; false otherwise.
@@ -334,7 +334,7 @@ public class PackWriter {
 	 * computed to verify data.
 	 * </p>
 	 * <p>
-	 * Default setting: {@value #DEFAULT_REUSE_DELTAS}
+	 * Default setting: {@link #DEFAULT_REUSE_DELTAS}
 	 * </p>
 	 *
 	 * @param reuseDeltas
@@ -348,7 +348,7 @@ public class PackWriter {
 	 * Checks whether object is configured to reuse existing objects
 	 * representation in repository.
 	 * <p>
-	 * Default setting: {@value #DEFAULT_REUSE_OBJECTS}
+	 * Default setting: {@link #DEFAULT_REUSE_OBJECTS}
 	 * </p>
 	 *
 	 * @return true if writer is configured to reuse objects representation from
@@ -364,7 +364,7 @@ public class PackWriter {
 	 * compressed data is directly copied from such a pack file. Data checksum
 	 * is verified.
 	 * <p>
-	 * Default setting: {@value #DEFAULT_REUSE_OBJECTS}
+	 * Default setting: {@link #DEFAULT_REUSE_OBJECTS}
 	 * </p>
 	 *
 	 * @param reuseObjects
@@ -380,7 +380,7 @@ public class PackWriter {
 	 * reducing pack size) or should store it as an object id (legacy style,
 	 * compatible with old readers).
 	 * <p>
-	 * Default setting: {@value #DEFAULT_DELTA_BASE_AS_OFFSET}
+	 * Default setting: {@link #DEFAULT_DELTA_BASE_AS_OFFSET}
 	 * </p>
 	 *
 	 * @return true if delta base is stored as an offset; false if it is stored
@@ -395,7 +395,7 @@ public class PackWriter {
 	 * pack file (new approach reducing file size) or as an object id (legacy
 	 * approach, compatible with old readers).
 	 * <p>
-	 * Default setting: {@value #DEFAULT_DELTA_BASE_AS_OFFSET}
+	 * Default setting: {@link #DEFAULT_DELTA_BASE_AS_OFFSET}
 	 * </p>
 	 *
 	 * @param deltaBaseAsOffset
@@ -436,7 +436,7 @@ public class PackWriter {
 	 * Get maximum depth of delta chain set up for this writer. Generated chains
 	 * are not longer than this value.
 	 * <p>
-	 * Default setting: {@value #DEFAULT_MAX_DELTA_DEPTH}
+	 * Default setting: {@link #DEFAULT_MAX_DELTA_DEPTH}
 	 * </p>
 	 *
 	 * @return maximum delta chain depth.
@@ -450,7 +450,7 @@ public class PackWriter {
 	 * not longer than this value. Too low value causes low compression level,
 	 * while too big makes unpacking (reading) longer.
 	 * <p>
-	 * Default setting: {@value #DEFAULT_MAX_DELTA_DEPTH}
+	 * Default setting: {@link #DEFAULT_MAX_DELTA_DEPTH}
 	 * </p>
 	 *
 	 * @param maxDeltaDepth
@@ -475,7 +475,7 @@ public class PackWriter {
 	/**
 	 * Set the number of objects considered when searching for a delta base.
 	 * <p>
-	 * Default setting: {@value #DEFAULT_DELTA_SEARCH_WINDOW_SIZE}
+	 * Default setting: {@link #DEFAULT_DELTA_SEARCH_WINDOW_SIZE}
 	 * </p>
 	 *
 	 * @param objectCount
@@ -838,9 +838,9 @@ public class PackWriter {
 	 * <p>
 	 * At first, this method collects and sorts objects to pack, then deltas
 	 * search is performed if set up accordingly, finally pack stream is
-	 * written. {@link ProgressMonitor} tasks {@value #COMPRESSING_OBJECTS_PROGRESS}
+	 * written. {@link ProgressMonitor} tasks {@link #COMPRESSING_OBJECTS_PROGRESS}
 	 * (only if reuseDeltas or reuseObjects is enabled) and
-	 * {@value #WRITING_OBJECTS_PROGRESS} are updated during packing.
+	 * {@link #WRITING_OBJECTS_PROGRESS} are updated during packing.
 	 * </p>
 	 * <p>
 	 * All reused objects data checksum (Adler32/CRC32) is computed and
