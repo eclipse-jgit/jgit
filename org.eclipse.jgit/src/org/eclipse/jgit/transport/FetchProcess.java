@@ -279,7 +279,8 @@ class FetchProcess {
 		File meta = transport.local.getDirectory();
 		if (meta == null)
 			return;
-		final LockFile lock = new LockFile(new File(meta, "FETCH_HEAD"));
+		final LockFile lock = new LockFile(new File(meta, "FETCH_HEAD"),
+				transport.local.getFS());
 		try {
 			if (lock.lock()) {
 				final Writer w = new OutputStreamWriter(lock.getOutputStream());

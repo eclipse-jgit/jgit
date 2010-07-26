@@ -98,7 +98,7 @@ class Iplog extends TextBuiltin {
 		if (output != null) {
 			if (!output.getParentFile().exists())
 				output.getParentFile().mkdirs();
-			LockFile lf = new LockFile(output);
+			LockFile lf = new LockFile(output, db.getFS());
 			if (!lf.lock())
 				throw die(MessageFormat.format(CLIText.get().cannotLock, output));
 			try {
