@@ -315,7 +315,7 @@ public class T0003_Basic extends SampleDataRepositoryTestCase {
 	public void test006_ReadUglyConfig() throws IOException,
 			ConfigInvalidException {
 		final File cfg = new File(db.getDirectory(), "config");
-		final FileBasedConfig c = new FileBasedConfig(cfg);
+		final FileBasedConfig c = new FileBasedConfig(cfg, db.getFS());
 		final FileWriter pw = new FileWriter(cfg);
 		final String configStr = "  [core];comment\n\tfilemode = yes\n"
 				+ "[user]\n"

@@ -61,6 +61,7 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.storage.file.LockFile;
+import org.eclipse.jgit.util.FS;
 
 /**
  * Manages the {@code .eclipse_iplog} file in a project.
@@ -167,6 +168,9 @@ public class IpLogMeta {
 	 *
 	 * @param file
 	 *            local file to update with current CQ records.
+	 * @param fs
+	 *            the file system abstraction which will be necessary to perform
+	 *            certain file system operations.
 	 * @param base
 	 *            base https:// URL of the IPzilla server.
 	 * @param username
@@ -181,16 +185,16 @@ public class IpLogMeta {
 	 *             the local file cannot be read, as it is not a valid
 	 *             configuration file format.
 	 */
-	public void syncCQs(File file, URL base, String username, String password)
-			throws IOException, ConfigInvalidException {
+	public void syncCQs(File file, FS fs, URL base, String username,
+			String password) throws IOException, ConfigInvalidException {
 		if (!file.getParentFile().exists())
 			file.getParentFile().mkdirs();
 
-		LockFile lf = new LockFile(file);
+		LockFile lf = new LockFile(file, fs);
 		if (!lf.lock())
 			throw new IOException(MessageFormat.format(IpLogText.get().cannotLock, file));
 		try {
-			FileBasedConfig cfg = new FileBasedConfig(file);
+			FileBasedConfig cfg = new FileBasedConfig(file, fs);
 			cfg.load();
 			loadFrom(cfg);
 

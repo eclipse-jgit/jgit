@@ -94,6 +94,6 @@ class Ipzilla extends TextBuiltin {
 			output = new File(db.getWorkTree(), IpLogMeta.IPLOG_CONFIG_FILE);
 
 		IpLogMeta meta = new IpLogMeta();
-		meta.syncCQs(output, ipzilla, username, password);
+		meta.syncCQs(output, db.getFS(), ipzilla, username, password);
 	}
 }

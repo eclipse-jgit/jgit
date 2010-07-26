@@ -53,6 +53,7 @@ import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.util.FS;
 
 /**
  * Tests for setting up the working directory when creating a Repository
@@ -191,7 +192,8 @@ public class RepositorySetupWorkDirTest extends LocalDiskRepositoryTestCase {
 
 	private FileBasedConfig configFor(File gitDir) throws IOException,
 			ConfigInvalidException {
-		FileBasedConfig cfg = new FileBasedConfig(new File(gitDir, "config"));
+		File configPath = new File(gitDir, "config");
+		FileBasedConfig cfg = new FileBasedConfig(configPath, FS.DETECTED);
 		cfg.load();
 		return cfg;
 	}

@@ -74,7 +74,7 @@ public abstract class SystemReader {
 
 		public FileBasedConfig openUserConfig(FS fs) {
 			final File home = fs.userHome();
-			return new FileBasedConfig(new File(home, ".gitconfig"));
+			return new FileBasedConfig(new File(home, ".gitconfig"), fs);
 		}
 
 		public String getHostname() {
