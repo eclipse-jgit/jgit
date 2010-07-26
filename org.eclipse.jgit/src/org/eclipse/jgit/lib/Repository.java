@@ -199,7 +199,7 @@ public abstract class Repository {
 	/**
 	 * @return the configuration of this repository
 	 */
-	public abstract Config getConfig();
+	public abstract StoredConfig getConfig();
 
 	/**
 	 * @return the used file system abstraction
