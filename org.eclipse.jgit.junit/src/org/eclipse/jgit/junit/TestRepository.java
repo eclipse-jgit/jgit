@@ -612,7 +612,7 @@ public class TestRepository {
 	private void writeFile(final String name, final byte[] bin)
 			throws IOException, ObjectWritingException {
 		final File p = new File(db.getDirectory(), name);
-		final LockFile lck = new LockFile(p);
+		final LockFile lck = new LockFile(p, db.getFS());
 		if (!lck.lock())
 			throw new ObjectWritingException("Can't write " + p);
 		try {

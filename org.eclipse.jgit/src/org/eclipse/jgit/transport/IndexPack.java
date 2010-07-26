@@ -1087,7 +1087,7 @@ public class IndexPack {
 		final File packDir = new File(repo.getObjectsDirectory(), "pack");
 		final File finalPack = new File(packDir, "pack-" + name + ".pack");
 		final File finalIdx = new File(packDir, "pack-" + name + ".idx");
-		final PackLock keep = new PackLock(finalPack);
+		final PackLock keep = new PackLock(finalPack, repo.getFS());
 
 		if (!packDir.exists() && !packDir.mkdir() && !packDir.exists()) {
 			// The objects/pack directory isn't present, and we are unable
