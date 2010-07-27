@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAALwX///hI\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Main.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2010-07-02T08:33:03Z",
+      "side": 1,
+      "message": "You\u0027ve called it \u0027frb\u0027 but this is an instance of \u0027RepositoryBuilder\u0027. Shouldn\u0027t this be a FileRepositoryBuilder instead?",
+      "revId": "532421d98925f23ddaa63c8d5f22be24879a6385",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALwX///Zs\u003d",
         "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Main.java",
         "patchSetId": 1
@@ -14,6 +31,23 @@
       "side": 1,
       "message": "Thanks, fixed in http://egit.eclipse.org/r/1046",
       "parentUuid": "AAALwX///hI\u003d",
+      "revId": "532421d98925f23ddaa63c8d5f22be24879a6385",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///hE\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/T0003_Basic.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2010-07-02T08:33:03Z",
+      "side": 1,
+      "message": "The constructor isn\u0027t used here - passed to builder, perhaps?",
       "revId": "532421d98925f23ddaa63c8d5f22be24879a6385",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -38,6 +72,23 @@
     },
     {
       "key": {
+        "uuid": "AAALwX///hA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/FileRepository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2010-07-02T08:33:03Z",
+      "side": 1,
+      "message": "I thought blank lines introduced a paragraph anyway?",
+      "revId": "532421d98925f23ddaa63c8d5f22be24879a6385",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALwX///Zg\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/FileRepository.java",
         "patchSetId": 1
@@ -50,6 +101,23 @@
       "side": 1,
       "message": "Eh.  Our style seems to be to include \u003cp\u003e anyway.  Might just be my habit from the dark days of Javadoc where \\n just meant space and \u003cp\u003e was required to get a proper paragraph break.",
       "parentUuid": "AAALwX///hA\u003d",
+      "revId": "532421d98925f23ddaa63c8d5f22be24879a6385",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///g8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2010-07-02T08:33:03Z",
+      "side": 1,
+      "message": "I don\u0027t see the difference between this and the BaseRepositoryBuilder at this stage. Should this be abstract? If so, what is the difference? If not, then what\u0027s the distinction between this and a FileRepositoryBuilder?",
       "revId": "532421d98925f23ddaa63c8d5f22be24879a6385",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
