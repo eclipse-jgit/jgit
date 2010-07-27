@@ -1,0 +1,40 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALwX///lg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/FileRepository.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 448,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-01T21:58:36Z",
+      "side": 1,
+      "message": "Crap.  Typo here that I introduced the whitespace.  Arrrrgh.  Thanks for catching it, that\u0027s just really sloppy of me.",
+      "parentUuid": "AAALwX///mk\u003d",
+      "revId": "133c987f4db0788043b79e33582d0c0d4d6ce09a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///lc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectDatabase.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-01T21:58:36Z",
+      "side": 1,
+      "message": "Good point about the constructor being pointless.  Its a bad habit I developed some years ago.  I should stop doing this.",
+      "parentUuid": "AAALwX///mg\u003d",
+      "revId": "133c987f4db0788043b79e33582d0c0d4d6ce09a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
