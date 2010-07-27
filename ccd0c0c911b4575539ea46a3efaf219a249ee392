@@ -1,0 +1,22 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALwX///tc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/TemporaryBuffer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-06-30T16:06:06Z",
+      "side": 1,
+      "message": "Alex, I\u0027m not sure what you are talking about with a BufferedReader filling up.  It doesn\u0027t make sense in context, this class is about an output stream.\n\nAssuming you meant the BufferedOutputStream we are working with here, its not important that the stream is flushed when this method is run.  During reachedInCoreLimit(), we don\u0027t care that the underlying stream gets a flush, we just need to start spooling this stuff out of memory before we explode the heap.  So when that method calls switchToOverflow() invoking flush isn\u0027t worth it, it could cause a partial block (what is left in the last buffer) to be written to the underlying stream, which may be a wasted system call that could have easily been aggregated with subsequent writes to this stream.\n\nDuring doFlush() above, we switch to the overflow stream, then flush it.  So the BufferedOutputStream gets flushed, and the underlying OutputStream that is created by our subclass is also flushed.\n\nYes, the subclass can implement overflow() to return a BufferedOutputStream.  That means we might double-buffer here.  However, its not worth checking to see if the stream is a BufferedOutputStream and special case around it.  BufferedOutputStream stacks well, so long as the wrapping BOS uses a buffer size that is \u003e\u003d the buffer size of the inner BOS, the inner BOS will become a no-op and simply pass through the wrapper\u0027s byte array to the underlying stream.  The default buffer size in the Sun JDK is 8192 bytes, which is the same size as our block size here.\n\nHowever, the intent is that the subclass\u0027 overflow() method is a raw stream, without buffering, and that we supply buffering since our class is called TemporaryBuffer.  For example our File subclass directly returns the FileOutputStream.  Where it gets more complex is in UploadPackServlet, where the overflow stream is the ServletOutputStream.  Buffering on that is undefined, and it most certainly does not extend BufferedOutputStream.  Some servlet containers buffer that in 1 MiB chunks.  Some don\u0027t buffer it at all.  Its hard to say what will happen.",
+      "parentUuid": "AAALwX///vc\u003d",
+      "revId": "ccd0c0c911b4575539ea46a3efaf219a249ee392",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
