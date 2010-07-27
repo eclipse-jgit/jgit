@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAALwX///m4\u003d",
+        "filename": "org.eclipse.jgit.junit/src/org/eclipse/jgit/junit/TestRepository.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 822,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2010-07-01T19:01:08Z",
+      "side": 1,
+      "message": "Why not pull this up inside the try{} block? Then you can push down the declaration of commitId inside the try block as well.",
+      "revId": "88530a179e2ddfa81de5cc441a27d66521334608",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALwX///mA\u003d",
         "filename": "org.eclipse.jgit.junit/src/org/eclipse/jgit/junit/TestRepository.java",
         "patchSetId": 7
@@ -20,6 +37,23 @@
     },
     {
       "key": {
+        "uuid": "AAALwX///m0\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/SimpleMergeTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2010-07-01T19:01:08Z",
+      "side": 1,
+      "message": "Generally speaking, don\u0027t we want to put on the \u0027release\u0027 in the test as well?",
+      "revId": "88530a179e2ddfa81de5cc441a27d66521334608",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALwX///l8\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/SimpleMergeTest.java",
         "patchSetId": 7
@@ -32,6 +66,23 @@
       "side": 1,
       "message": "Yes, we should release this ObjectInserter.  But that\u0027s a lot of code to change, and I plan to move most tests to an in-memory repository which won\u0027t do compression/decompression of data.  Thus we wouldn\u0027t need to worry about leaking the Inflater handle during the test.\n\nAlso, the tests run in their own JVM, and do so pretty quickly right now.  Leaking Inflaters and waiting for the GC to fix things up with a finalizer isn\u0027t a big deal.  In fact, the GC might not even bother to run the finalizers, there isn\u0027t all that much garbage created during the tests that needs finalization, and the JVM might just terminate before its cleaned up.\n\nLong story short, its just not worth it given what we leak, and the amount of code that needs to change in current tests.\n\nNewer tests should however release stuff, yes, just to keep the programming style consistent.",
       "parentUuid": "AAALwX///m0\u003d",
+      "revId": "88530a179e2ddfa81de5cc441a27d66521334608",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///mw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/StrategySimpleTwoWayInCore.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2010-07-01T19:01:08Z",
+      "side": 1,
+      "message": "What happens if this path is called multiple times, and we keep releasing() the inserter? Won\u0027t that lead to multiple releases being called?",
       "revId": "88530a179e2ddfa81de5cc441a27d66521334608",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
