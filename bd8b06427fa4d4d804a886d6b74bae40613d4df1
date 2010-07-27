@@ -1,0 +1,22 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALwX///q8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 448,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-06-30T23:01:43Z",
+      "side": 1,
+      "message": "Because later in the series I remove toFile.  I didn\u0027t want to bother dealing with editing this here, to only remove it later.\n\nI\u0027m pretty sure that the way I did this series was non-optimal, and that yea, there\u0027s a case like this where something that should be changed in this commit, wasn\u0027t, because its gone 3 commits down or whatever.  *sigh*  That\u0027s what I get for doing some experimental refactoring hacking, and winding up with a 65 commit series.",
+      "parentUuid": "AAALwX///s0\u003d",
+      "revId": "bd8b06427fa4d4d804a886d6b74bae40613d4df1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
