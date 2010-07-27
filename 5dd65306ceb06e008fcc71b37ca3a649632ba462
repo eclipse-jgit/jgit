@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAALw3///zg\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/MergeHeadMsgTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-07-22T22:38:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALw3///0o\u003d",
+      "revId": "5dd65306ceb06e008fcc71b37ca3a649632ba462",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALw3///0w\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAALw3///zc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1567,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-07-22T22:38:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALw3///0w\u003d",
+      "revId": "5dd65306ceb06e008fcc71b37ca3a649632ba462",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALw3///0s\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2010-07-22T17:53:15Z",
       "side": 1,
       "message": "We always should be writing an LF after each ID.  Also, the IDs know how to copy themselves out better:\n\n  id.copyTo(fos);\n  id.write(\u0027\\n\u0027);\n\nBecause of these tiny writes, the FileOutputStream should be a BufferedOutputStream so we can write everything in a single system call, rather than two syscalls per object being merged.",
+      "revId": "5dd65306ceb06e008fcc71b37ca3a649632ba462",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALw3///zY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1568,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-07-22T22:38:54Z",
+      "side": 1,
+      "message": "great, since also the last Id gets a \\n I can get rid of some code and one variable here.",
+      "parentUuid": "AAALw3///0s\u003d",
       "revId": "5dd65306ceb06e008fcc71b37ca3a649632ba462",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
