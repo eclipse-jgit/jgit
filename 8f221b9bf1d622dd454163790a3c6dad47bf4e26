@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALxH///2I\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1482,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-27T18:47:41Z",
+      "side": 1,
+      "message": "Hmm.  We must have missed this earlier.  We probably should be a bit more forgiving and use RawParseUtils.decode().  Its possible the commit message is already in UTF-8.  Or that its a local encoding.  RawParseUtils will fall back to the local decoding if its not UTF-8.",
+      "revId": "8f221b9bf1d622dd454163790a3c6dad47bf4e26",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
