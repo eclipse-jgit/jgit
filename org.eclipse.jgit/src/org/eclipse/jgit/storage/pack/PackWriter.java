@@ -84,6 +84,7 @@ import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.ThreadSafeProgressMonitor;
+import org.eclipse.jgit.revwalk.DepthWalk;
 import org.eclipse.jgit.revwalk.ObjectWalk;
 import org.eclipse.jgit.revwalk.RevFlag;
 import org.eclipse.jgit.revwalk.RevObject;
@@ -376,7 +377,24 @@ public class PackWriter {
 		if (countingMonitor == null)
 			countingMonitor = NullProgressMonitor.INSTANCE;
 		ObjectWalk walker = setUpWalker(interestingObjects,
-				uninterestingObjects);
+				uninterestingObjects, 0);
+		findObjectsToPack(countingMonitor, walker);
+	}
+
+	/**
+	 * @param countingMonitor
+	 * @param interestingObjects
+	 * @param depth
+	 * @throws IOException
+	 */
+	public void preparePack(ProgressMonitor countingMonitor,
+			final Collection<? extends ObjectId> interestingObjects,
+			int depth)
+			throws IOException {
+		if (countingMonitor == null)
+			countingMonitor = NullProgressMonitor.INSTANCE;
+		ObjectWalk walker = setUpWalker(interestingObjects,
+				null, depth);
 		findObjectsToPack(countingMonitor, walker);
 	}
 
@@ -947,10 +965,15 @@ public class PackWriter {
 
 	private ObjectWalk setUpWalker(
 			final Collection<? extends ObjectId> interestingObjects,
-			final Collection<? extends ObjectId> uninterestingObjects)
+			final Collection<? extends ObjectId> uninterestingObjects,
+			int depth)
 			throws MissingObjectException, IOException,
 			IncorrectObjectTypeException {
-		final ObjectWalk walker = new ObjectWalk(reader);
+		final ObjectWalk walker;
+		if (depth > 0)
+			walker = new DepthWalk.ObjectWalk(reader, depth - 1, DepthWalk.CompareMode.LESS_THAN_EQUAL);
+		else
+			walker = new ObjectWalk(reader);
 		walker.setRetainBody(false);
 		walker.sort(RevSort.COMMIT_TIME_DESC);
 		if (thin)

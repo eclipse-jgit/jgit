@@ -63,6 +63,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.DepthWalk;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
 import org.eclipse.jgit.revwalk.RevFlagSet;
@@ -96,6 +97,8 @@ public class UploadPack {
 	static final String OPTION_OFS_DELTA = BasePackFetchConnection.OPTION_OFS_DELTA;
 
 	static final String OPTION_NO_PROGRESS = BasePackFetchConnection.OPTION_NO_PROGRESS;
+
+	static final String OPTION_SHALLOW = BasePackFetchConnection.OPTION_SHALLOW;
 
 	/** Database we read the objects from. */
 	private final Repository db;
@@ -151,6 +154,12 @@ public class UploadPack {
 	/** Objects on both sides, these don't have to be sent. */
 	private final List<RevObject> commonBase = new ArrayList<RevObject>();
 
+	/** Shallow commits that we will be sending. */
+	private final List<RevCommit> localShallowCommits = new ArrayList<RevCommit>();
+
+	/** Shallow commits the remote already has. */
+	private final List<RevCommit> remoteShallowCommits = new ArrayList<RevCommit>();
+
 	/** null if {@link #commonBase} should be examined again. */
 	private Boolean okToGiveUp;
 
@@ -169,6 +178,8 @@ public class UploadPack {
 	private final RevFlagSet SAVE;
 
 	private MultiAck multiAck = MultiAck.OFF;
+
+	private int depth = 0;
 
 	/**
 	 * Create a new pack upload for an open repository.
@@ -347,8 +358,59 @@ public class UploadPack {
 		else
 			multiAck = MultiAck.OFF;
 
-		if (negotiate())
+		if (depth != 0) {
+			processShallow();
+		}
+
+		if (negotiate()) {
 			sendPack();
+		}
+	}
+
+	private void processShallow() throws IOException {
+		DepthWalk.RevWalk depthWalk = new DepthWalk.RevWalk(db, depth - 1, DepthWalk.CompareMode.EQUAL);
+
+		// Find all the commits which will be shallow
+		for (RevCommit c : wantCommits) {
+			RevCommit commit = depthWalk.parseCommit(c);
+			depthWalk.markStart(commit);
+		}
+
+		RevObject o;
+
+		// Find all commits at the boundary, and mark them as shallow
+		while ((o = depthWalk.next()) != null) {
+			localShallowCommits.add((RevCommit)o);
+
+			boolean found = false;
+			for (RevCommit c : remoteShallowCommits) {
+				if (c.name() == o.name()) {
+					found = true;
+					break;
+				}
+			}
+
+			if (!found) {
+				pckOut.writeString("shallow " + o.name());
+			}
+		}
+
+		// Unshallow any commits which we're expanding on
+		for (RevCommit remote : remoteShallowCommits) {
+			boolean found = false;
+			for(RevCommit local : localShallowCommits) {
+				if(remote.name() == local.name()) {
+					found = true;
+					break;
+				}
+			}
+
+			if (!found) {
+				pckOut.writeString("unshallow " + remote.name());
+			}
+		}
+
+		pckOut.end();
 	}
 
 	/**
@@ -369,8 +431,10 @@ public class UploadPack {
 		adv.advertiseCapability(OPTION_SIDE_BAND_64K);
 		adv.advertiseCapability(OPTION_THIN_PACK);
 		adv.advertiseCapability(OPTION_NO_PROGRESS);
+		adv.advertiseCapability(OPTION_SHALLOW);
 		adv.setDerefTags(true);
 		refs = refFilter.filter(db.getAllRefs());
+
 		adv.send(refs);
 		adv.end();
 	}
@@ -389,6 +453,16 @@ public class UploadPack {
 
 			if (line == PacketLineIn.END)
 				break;
+
+			if (line.startsWith("deepen ")) {
+				depth = Integer.parseInt(line.substring(7));
+				continue;
+			}
+			if (line.startsWith("shallow ")) {
+				final ObjectId id = ObjectId.fromString(line.substring(8));
+				remoteShallowCommits.add(walk.parseCommit(id));
+				continue;
+			}
 			if (!line.startsWith("want ") || line.length() < 45)
 				throw new PackProtocolException(MessageFormat.format(JGitText.get().expectedGot, "want", line));
 
@@ -588,7 +662,11 @@ public class UploadPack {
 		try {
 			pw.setDeltaBaseAsOffset(options.contains(OPTION_OFS_DELTA));
 			pw.setThin(options.contains(OPTION_THIN_PACK));
-			pw.preparePack(pm, wantAll, commonBase);
+			if(depth > 0) {
+				pw.preparePack(pm, wantAll, depth);
+			} else {
+				pw.preparePack(pm, wantAll, commonBase);
+			}
 			if (options.contains(OPTION_INCLUDE_TAG)) {
 				for (final Ref r : refs.values()) {
 					final RevObject o;
