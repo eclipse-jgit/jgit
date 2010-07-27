@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAALwX///oQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2010-07-01T11:21:04Z",
+      "side": 1,
+      "message": "Does this get refactored out at a later stage? Seems odd that an abstract repository would have a file system",
+      "revId": "4c14b7623dd2ff943350eb0f80d899b00450794f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALwX///nA\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
         "patchSetId": 6
