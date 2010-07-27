@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAALwX///mo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/FileObjectDatabase.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2010-07-01T19:09:45Z",
+      "side": 1,
+      "message": "Just as an observation, this will do a full descent of all the alternate handles before checking impl2. Is that desirable? Wouldn\u0027t it be better to do HasObject1(objectId) || hasObject2(objectId.name() || for(myalternates) hasObject1 || for( myalternates) hasObject2 ?",
+      "revId": "133c987f4db0788043b79e33582d0c0d4d6ce09a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALwX///lo\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/FileObjectDatabase.java",
         "patchSetId": 4
@@ -20,6 +37,23 @@
     },
     {
       "key": {
+        "uuid": "AAALwX///mk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/FileRepository.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 448,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2010-07-01T19:09:45Z",
+      "side": 1,
+      "message": "Why the whitepsace between \u0027objectDatabase\u0027 and \u0027myAlternates\u0027 ?",
+      "revId": "133c987f4db0788043b79e33582d0c0d4d6ce09a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALwX///lg\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/FileRepository.java",
         "patchSetId": 4
@@ -32,6 +66,23 @@
       "side": 1,
       "message": "Crap.  Typo here that I introduced the whitespace.  Arrrrgh.  Thanks for catching it, that\u0027s just really sloppy of me.",
       "parentUuid": "AAALwX///mk\u003d",
+      "revId": "133c987f4db0788043b79e33582d0c0d4d6ce09a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///mg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectDatabase.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2010-07-01T19:09:45Z",
+      "side": 1,
+      "message": "This is unnecessary - the class is abstract, so has to be extended for initialisation purposes. And every object gets a default no-arg constructor anyway.",
       "revId": "133c987f4db0788043b79e33582d0c0d4d6ce09a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
