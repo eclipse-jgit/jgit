@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALwX///cY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/events/IndexChangedListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-07-02T22:35:28Z",
+      "side": 0,
+      "message": "I think the copyright should change here as in the previous class since your replace the complete class by an interface",
+      "revId": "203bd6626767015dfb04d421c572b26a34e9cecf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///cQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/events/RefsChangedListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-07-02T22:35:28Z",
+      "side": 0,
+      "message": "again this should be your copyright, nothing seems to be left from the original code",
+      "revId": "203bd6626767015dfb04d421c572b26a34e9cecf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
