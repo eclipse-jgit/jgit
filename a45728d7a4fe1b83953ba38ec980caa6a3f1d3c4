@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAALwX///SU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackWriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 624,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-07-05T21:43:31Z",
+      "side": 1,
+      "message": "Why no try/finally here?",
+      "revId": "a45728d7a4fe1b83953ba38ec980caa6a3f1d3c4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALwX///IQ\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackWriter.java",
         "patchSetId": 1
@@ -14,6 +31,24 @@
       "side": 1,
       "message": "Our caller is supposed to try/finally the PackWriter, calling PackWriter release() which will call reader.release().\n\nDoing a release here early as soon as writing is done is just to try and kick out memory that we don\u0027t need to create an index file.  Tossing it into a try/finally here in writePack is probably pointless, if we fail here, we\u0027re heading for our caller\u0027s finally block anyway.",
       "parentUuid": "AAALwX///SU\u003d",
+      "revId": "a45728d7a4fe1b83953ba38ec980caa6a3f1d3c4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///CI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackWriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 624,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-07-07T21:27:16Z",
+      "side": 1,
+      "message": "ok",
+      "parentUuid": "AAALwX///IQ\u003d",
       "revId": "a45728d7a4fe1b83953ba38ec980caa6a3f1d3c4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
