@@ -1,0 +1,22 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALwX///b0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/PackFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-02T22:43:37Z",
+      "side": 1,
+      "message": "Experience is this will be a short list.  Single bit errors in the middle of a pack stream for one object.  Not the whole file being damaged, or truncated.  Of course a single bit error in the wrong object can ruin an entire tree of things that depend on it as a delta base.  :-(",
+      "parentUuid": "AAALwX///cI\u003d",
+      "revId": "ece88b99eb2ea6541b667aa066573184c25b6a8b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
