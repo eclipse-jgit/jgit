@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "AAALwX///jU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-07-01T23:17:49Z",
+      "side": 1,
+      "message": "The general form ought to be a string whose content interpreted by the implementation. Not sure that helps though.",
+      "parentUuid": "AAALwX///nA\u003d",
+      "revId": "4c14b7623dd2ff943350eb0f80d899b00450794f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALwX///h4\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
         "patchSetId": 6
