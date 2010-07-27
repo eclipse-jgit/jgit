@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALw3///yg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-23T16:25:29Z",
+      "side": 1,
+      "message": "Should be final.",
+      "revId": "09c090192c25bec4569c0c5b612a3c36e63238b4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALw3///yo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/LockFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 415,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-23T16:25:29Z",
+      "side": 1,
+      "message": "Style-nit: Braces aren\u0027t necessary here.",
+      "revId": "09c090192c25bec4569c0c5b612a3c36e63238b4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALw3///yk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/LockFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-23T16:25:29Z",
+      "side": 1,
+      "message": "I would rather have the InterruptedException abort the loop entirely and return false.  So instead organize it as:\n\n  try {\n    for (int i \u003d 0; i \u003c 10; i++)\n  } catch (InterruptedException e) {\n    return false;\n  }\n\nThis way if a worker thread is stuck waiting for a second for a lock file to release and the user hits cancel in the UI, the thread can be interrupted and abort right away rather than keep busy-waiting through the entire period.",
+      "revId": "09c090192c25bec4569c0c5b612a3c36e63238b4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
