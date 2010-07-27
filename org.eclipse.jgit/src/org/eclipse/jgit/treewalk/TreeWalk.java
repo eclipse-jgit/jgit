@@ -56,8 +56,8 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.MutableObjectId;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
@@ -91,6 +91,42 @@ public class TreeWalk {
 	 * the caller should not need to invoke {@link #next()} unless they are
 	 * looking for a possible directory/file name conflict.
 	 *
+	 * @param reader
+	 *            the reader the walker will obtain tree data from.
+	 * @param path
+	 *            single path to advance the tree walk instance into.
+	 * @param trees
+	 *            one or more trees to walk through, all with the same root.
+	 * @return a new tree walk configured for exactly this one path; null if no
+	 *         path was found in any of the trees.
+	 * @throws IOException
+	 *             reading a pack file or loose object failed.
+	 * @throws CorruptObjectException
+	 *             an tree object could not be read as its data stream did not
+	 *             appear to be a tree, or could not be inflated.
+	 * @throws IncorrectObjectTypeException
+	 *             an object we expected to be a tree was not a tree.
+	 * @throws MissingObjectException
+	 *             a tree object was not found.
+	 */
+	public static TreeWalk forPath(final ObjectReader reader, final String path,
+			final AnyObjectId... trees) throws MissingObjectException,
+			IncorrectObjectTypeException, CorruptObjectException, IOException {
+		final TreeWalk r = new TreeWalk(reader);
+		r.setFilter(PathFilterGroup.createFromStrings(Collections
+				.singleton(path)));
+		r.setRecursive(r.getFilter().shouldBeRecursive());
+		r.reset(trees);
+		return r.next() ? r : null;
+	}
+
+	/**
+	 * Open a tree walk and filter to exactly one path.
+	 * <p>
+	 * The returned tree walk is already positioned on the requested path, so
+	 * the caller should not need to invoke {@link #next()} unless they are
+	 * looking for a possible directory/file name conflict.
+	 *
 	 * @param db
 	 *            repository to read tree object data from.
 	 * @param path
@@ -112,15 +148,11 @@ public class TreeWalk {
 	public static TreeWalk forPath(final Repository db, final String path,
 			final AnyObjectId... trees) throws MissingObjectException,
 			IncorrectObjectTypeException, CorruptObjectException, IOException {
-		final TreeWalk r = new TreeWalk(db);
+		ObjectReader reader = db.newObjectReader();
 		try {
-			r.setFilter(PathFilterGroup.createFromStrings(Collections
-					.singleton(path)));
-			r.setRecursive(r.getFilter().shouldBeRecursive());
-			r.reset(trees);
-			return r.next() ? r : null;
+			return forPath(reader, path, trees);
 		} finally {
-			r.release();
+			reader.release();
 		}
 	}
 
