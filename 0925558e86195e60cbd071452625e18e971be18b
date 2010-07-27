@@ -1,0 +1,22 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALwX///W8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/LargePackedDeltaObject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-03T17:56:48Z",
+      "side": 1,
+      "message": "They aren\u0027t final, they do change during the object\u0027s life.  And our style tends to be to initialize in the constructor, not inline in the declaration for non-final fields.\n\nAnyway, I pulled the -1 into a constant to better declare the intent of the value.",
+      "parentUuid": "AAALwX///Xc\u003d",
+      "revId": "0925558e86195e60cbd071452625e18e971be18b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
