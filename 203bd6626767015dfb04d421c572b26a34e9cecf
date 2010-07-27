@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAALwX///gw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1022,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2010-07-02T08:44:00Z",
+      "side": 1,
+      "message": "You added \u0027and has no working directory\u0027 here but the test is still the same. If the \u0027has no working directory\u0027 is just a clarification on what it means to be bare, then it would be better to change this to \u0027if the repository is bare (i.e. it has no working directory)\u0027 so that people don\u0027t think it\u0027s a separate condition.",
+      "revId": "203bd6626767015dfb04d421c572b26a34e9cecf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALwX///ZQ\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
         "patchSetId": 1
@@ -14,6 +31,24 @@
       "side": 1,
       "message": "See my attempt to clean this up in http://egit.eclipse.org/r/1047",
       "parentUuid": "AAALwX///gw\u003d",
+      "revId": "203bd6626767015dfb04d421c572b26a34e9cecf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///X8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1022,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2010-07-03T07:23:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALwX///ZQ\u003d",
       "revId": "203bd6626767015dfb04d421c572b26a34e9cecf",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
