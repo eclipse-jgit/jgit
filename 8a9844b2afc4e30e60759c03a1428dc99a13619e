@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALwX///go\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/events/ListenerList.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2010-07-02T08:52:12Z",
+      "side": 1,
+      "message": "This seems to be a utility method which doesn\u0027t otherwise belong in this class. Is the plan to evolve methods to add new ones here? Is there anywhere else we could put it (e.g. a static method on the event class?)",
+      "revId": "8a9844b2afc4e30e60759c03a1428dc99a13619e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
