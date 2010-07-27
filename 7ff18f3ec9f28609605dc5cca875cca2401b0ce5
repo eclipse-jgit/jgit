@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAALxH///2A\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/StoredConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-27T18:49:57Z",
+      "side": 1,
+      "message": "Not really, no, we shouldn\u0027t use IOException.  But that is the current root of our Exception type hierarchy elsewhere in JGit.  So its what we export here.  :-(",
+      "parentUuid": "AAALxH////o\u003d",
+      "revId": "7ff18f3ec9f28609605dc5cca875cca2401b0ce5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALxH////k\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/StoredConfig.java",
         "patchSetId": 1
