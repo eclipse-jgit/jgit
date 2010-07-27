@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALwX///XU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/events/ListenerList.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2010-07-03T20:38:58Z",
+      "side": 1,
+      "message": "I still think this is the wrong class to be adding the \u0027addListener\u0027 to, since it will always keep growing. Can we not have a ConfigChangeEvent.addListener(listenerList) instead? That way, to add a new one, you just need to add a new class and not modify this one every time.",
+      "revId": "113577617bc4b2b31f2a44290cc607431c8357a7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
