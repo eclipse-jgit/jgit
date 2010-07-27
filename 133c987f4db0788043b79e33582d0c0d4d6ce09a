@@ -2,6 +2,24 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAALwX///lo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/FileObjectDatabase.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-01T21:58:36Z",
+      "side": 1,
+      "message": "No.  We want to check the alternates packs first before the local filesystem.\n\nBasically, looking at pack files is faster (no filesystem system calls) and more likely to hit (packs have the bulk of the objects).  So we intentionally examine pack files before we examine the loose objects.\n\nThat\u0027s why this code is so nasty.  We have to examine all pack files, recursively through alternates, *then* examine the loose objects directory, and recursively go through alternates.\n\nThis particular rule was hard-won on the C git side, and is based on experiences across lots of platforms, including Windows and Mac OS X where filesystem system calls are horribly slow compared to doing two or three binary search steps against an in-memory table held inside of the JVM heap.  :-)",
+      "parentUuid": "AAALwX///mo\u003d",
+      "revId": "133c987f4db0788043b79e33582d0c0d4d6ce09a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALwX///lg\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/FileRepository.java",
         "patchSetId": 4
