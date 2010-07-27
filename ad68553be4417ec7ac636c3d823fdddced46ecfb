@@ -1,0 +1,22 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALwX///II\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/ByteWindow.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-07T02:40:14Z",
+      "side": 1,
+      "message": "Renamed inflate to setInput in Ie93a5bae0e9e637b5e822d56993ce6b562c6ad15",
+      "parentUuid": "AAALwX///Vc\u003d",
+      "revId": "ad68553be4417ec7ac636c3d823fdddced46ecfb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
