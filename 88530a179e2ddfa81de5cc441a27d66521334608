@@ -1,0 +1,40 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALwX///mA\u003d",
+        "filename": "org.eclipse.jgit.junit/src/org/eclipse/jgit/junit/TestRepository.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 822,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-01T21:54:04Z",
+      "side": 1,
+      "message": "Good point, I could have moved the lookup inside the try and the variable too.  Just failed to notice it here.  I\u0027m not going to rewrite the series to fix this minor issue, and I don\u0027t think its worth the time of writing a new commit to fix it either.  Maybe next time someone is here they\u0027ll realize this stupid mistake and correct it.",
+      "parentUuid": "AAALwX///m4\u003d",
+      "revId": "88530a179e2ddfa81de5cc441a27d66521334608",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///l0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/StrategySimpleTwoWayInCore.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-01T21:54:04Z",
+      "side": 1,
+      "message": "Yes, if this path runs multiple times, we release multiple times.  But an ObjectInserter (and an ObjectReader) are required to support using the object again after a release.  That is, the following is completely legal:\n\n  ObjectInserter oi \u003d ....;\n  oi.insert(...);\n  oi.release();\n\n  oi.insert(...);\n  oi.release();\n\n  oi.release();\n  oi.insert(...);\n  oi.release();\n\nSo even a back-to-back release without any use between them is valid.  Its just a minor CPU time waste.",
+      "parentUuid": "AAALwX///mw\u003d",
+      "revId": "88530a179e2ddfa81de5cc441a27d66521334608",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
