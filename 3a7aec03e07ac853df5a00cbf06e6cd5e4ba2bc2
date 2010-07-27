@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAALwX///bU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ByteArrayWindow.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-07-02T22:51:49Z",
+      "side": 1,
+      "message": "Add a check for corrupt data. If the compressed data is truncated inflate will return 0 and this loops forever.",
+      "revId": "3a7aec03e07ac853df5a00cbf06e6cd5e4ba2bc2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALwX///a4\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ByteArrayWindow.java",
         "patchSetId": 1
@@ -14,6 +31,23 @@
       "side": 1,
       "message": "Please see the rewrite of this code in http://egit.eclipse.org/r/1035.  I think I already have your concern fixed.",
       "parentUuid": "AAALwX///bU\u003d",
+      "revId": "3a7aec03e07ac853df5a00cbf06e6cd5e4ba2bc2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///bs\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ByteArrayWindow.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-07-02T22:51:49Z",
+      "side": 1,
+      "message": "This will hang if the checked data is truncated. See c10e13415705d63e4d5d2487ca6fff1fe1ff10bb for a patc",
       "revId": "3a7aec03e07ac853df5a00cbf06e6cd5e4ba2bc2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
