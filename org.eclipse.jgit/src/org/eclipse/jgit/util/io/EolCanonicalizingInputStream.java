@@ -1,8 +1,5 @@
 /*
- * Copyright (C) 2009, Christian Halstrick <christian.halstrick@sap.com>
  * Copyright (C) 2009, Google Inc.
- * Copyright (C) 2007, Robin Rosenberg <robin.rosenberg@dewire.com>
- * Copyright (C) 2006-2008, Shawn O. Pearce <spearce@spearce.org>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -44,65 +41,96 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.eclipse.jgit.lib;
+package org.eclipse.jgit.util.io;
 
-import static java.util.zip.Deflater.DEFAULT_COMPRESSION;
-
-import org.eclipse.jgit.lib.Config.SectionParser;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PushbackInputStream;
 
 /**
- * This class keeps git repository core parameters.
+ * An input stream which canonicalizes EOLs bytes on the fly
+ * to '\n'.
+ *
+ * Note: Make sure to apply this InputStream only to text files!
  */
-public class CoreConfig {
-	/** Key for {@link Config#get(SectionParser)}. */
-	public static final Config.SectionParser<CoreConfig> KEY = new SectionParser<CoreConfig>() {
-		public CoreConfig parse(final Config cfg) {
-			return new CoreConfig(cfg);
+public class EolCanonicalizingInputStream extends InputStream {
+
+	private final byte[] BUFFER = new byte[8092];
+	private final PushbackInputStream is;
+
+	/**
+	 * Creates a new InputStream, wrapping the specified stream
+	 *
+	 * @param in raw input stream
+	 */
+	public EolCanonicalizingInputStream(InputStream in) {
+		this.is = new PushbackInputStream(in);
+	}
+
+	@Override
+	public int read() throws IOException {
+		final int b = is.read();
+		if (b != '\r') {
+			return b;
 		}
-	};
 
-	private final int compression;
+		final int future = is.read();
+		if (future == '\n') {
+			return '\n';
+		}
 
-	private final int packIndexVersion;
-
-	private final boolean logAllRefUpdates;
-
-	private final boolean autocrlf;
-
-	private CoreConfig(final Config rc) {
-		compression = rc.getInt("core", "compression", DEFAULT_COMPRESSION);
-		packIndexVersion = rc.getInt("pack", "indexversion", 2);
-		logAllRefUpdates = rc.getBoolean("core", "logallrefupdates", true);
-		autocrlf = rc.getBoolean("core", "autocrlf", false);
+		is.unread(future);
+		return b;
 	}
 
-	/**
-	 * @see ObjectWriter
-	 * @return The compression level to use when storing loose objects
-	 */
-	public int getCompression() {
-		return compression;
+	@Override
+	public int read(byte[] bs, int off, int len) throws IOException {
+		// Having this method implemented compared to having only read() implemented, gives
+		// a speed-up of about factor 30 for my local jgit repository (files are most likely
+		// all in disk cache).
+
+		if (len == 0) {
+			return 0;
+		}
+
+		int bsIndex = 0;
+		for (; bsIndex < len;) {
+			final int readNow = is.read(BUFFER, 0, Math.min(len - bsIndex, BUFFER.length));
+			if (readNow == -1) {
+				break;
+			}
+
+			for (int bufIndex = 0; bufIndex < readNow; bufIndex++) {
+				byte b = BUFFER[bufIndex];
+				if (b == '\r') {
+					if (bufIndex < readNow - 1) {
+						final byte future = BUFFER[bufIndex + 1];
+						if (future == '\n') {
+							continue;
+						}
+					}
+					else {
+						final int future = is.read();
+						is.unread(future);
+						if (future == '\n') {
+							continue;
+						}
+					}
+				}
+
+				bs[off + bsIndex++] = b;
+			}
+		}
+
+		return bsIndex == 0 ? -1 : bsIndex;
 	}
 
-	/**
-	 * @return the preferred pack index file format; 0 for oldest possible.
-	 * @see org.eclipse.jgit.transport.IndexPack
-	 */
-	public int getPackIndexVersion() {
-		return packIndexVersion;
-	}
-
-	/**
-	 * @return whether to log all refUpdates
-	 */
-	public boolean isLogAllRefUpdates() {
-		return logAllRefUpdates;
-	}
-
-	/**
-	 * @return whether automatic CRLF conversion has been configured
-	 */
-	public boolean isAutocrlf() {
-		return autocrlf;
+	@Override
+	public void close() throws IOException {
+		try {
+			super.close();
+		} finally {
+			is.close();
+		}
 	}
 }
