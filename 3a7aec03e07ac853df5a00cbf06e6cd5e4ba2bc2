@@ -1,0 +1,40 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALwX///a4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ByteArrayWindow.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-02T22:57:23Z",
+      "side": 1,
+      "message": "Please see the rewrite of this code in http://egit.eclipse.org/r/1035.  I think I already have your concern fixed.",
+      "parentUuid": "AAALwX///bU\u003d",
+      "revId": "3a7aec03e07ac853df5a00cbf06e6cd5e4ba2bc2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///as\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ByteArrayWindow.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-02T22:57:23Z",
+      "side": 1,
+      "message": "I don\u0027t think I see the problem.  If the data is truncated, inf.inflate() will return 0.  0 is not \u003e 0, so the loop will break, and the method will return to the caller in PackFile.  The caller checks for inf.finished(), and marks the object corrupt if it returned false.",
+      "parentUuid": "AAALwX///bs\u003d",
+      "revId": "3a7aec03e07ac853df5a00cbf06e6cd5e4ba2bc2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
