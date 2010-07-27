@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAALwX///Xc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/LargePackedDeltaObject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2010-07-03T09:28:38Z",
+      "side": 1,
+      "message": "If these are two constant values, why not put them into the variable declaration? e.g. private int type \u003d Constants.OBJ_BAD.",
+      "revId": "0925558e86195e60cbd071452625e18e971be18b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALwX///W8\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/LargePackedDeltaObject.java",
         "patchSetId": 1
