@@ -63,6 +63,7 @@ import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.AsyncRevObjectQueue;
+import org.eclipse.jgit.revwalk.DepthWalk;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
 import org.eclipse.jgit.revwalk.RevFlagSet;
@@ -96,6 +97,8 @@ public class UploadPack {
 	static final String OPTION_OFS_DELTA = BasePackFetchConnection.OPTION_OFS_DELTA;
 
 	static final String OPTION_NO_PROGRESS = BasePackFetchConnection.OPTION_NO_PROGRESS;
+
+	static final String OPTION_SHALLOW = BasePackFetchConnection.OPTION_SHALLOW;
 
 	/** Database we read the objects from. */
 	private final Repository db;
@@ -148,6 +151,12 @@ public class UploadPack {
 	/** Objects on both sides, these don't have to be sent. */
 	private final List<RevObject> commonBase = new ArrayList<RevObject>();
 
+	/** Shallow commits the client already has. */
+	private final List<RevCommit> clientShallowCommits = new ArrayList<RevCommit>();
+
+	/** Shallow commits on the client which are now becoming unshallow */
+	private final List<RevCommit> unshallowCommits = new ArrayList<RevCommit>();
+
 	/** null if {@link #commonBase} should be examined again. */
 	private Boolean okToGiveUp;
 
@@ -169,6 +178,8 @@ public class UploadPack {
 	private final RevFlagSet SAVE;
 
 	private MultiAck multiAck = MultiAck.OFF;
+
+	private int depth;
 
 	/**
 	 * Create a new pack upload for an open repository.
@@ -348,8 +359,42 @@ public class UploadPack {
 		else
 			multiAck = MultiAck.OFF;
 
+		if (depth != 0)
+			processShallow();
+
 		if (negotiate())
 			sendPack();
+	}
+
+	private void processShallow() throws IOException {
+		DepthWalk.RevWalk depthWalk =
+			new DepthWalk.RevWalk(walk.getObjectReader(), depth);
+
+		// Find all the commits which will be shallow
+		for (RevObject o : wantAll) {
+			if (o instanceof RevCommit)
+				depthWalk.markStart(depthWalk.parseCommit(o));
+		}
+
+		RevObject o;
+		while ((o = depthWalk.next()) != null) {
+			DepthWalk.Commit c = (DepthWalk.Commit)o;
+
+			// Commits at the boundary which aren't already shallow in
+			// the client need to be marked as such
+			if (c.depth == depth && !clientShallowCommits.contains(c)) {
+				pckOut.writeString("shallow " + o.name());
+			}
+
+			// Commits not on the boundary which are shallow in the client
+			// need to become unshallowed
+			if (c.depth < depth && clientShallowCommits.contains(c)) {
+				unshallowCommits.add(c);
+				pckOut.writeString("unshallow " + c.name());
+			}
+		}
+
+		pckOut.end();
 	}
 
 	/**
@@ -370,6 +415,7 @@ public class UploadPack {
 		adv.advertiseCapability(OPTION_SIDE_BAND_64K);
 		adv.advertiseCapability(OPTION_THIN_PACK);
 		adv.advertiseCapability(OPTION_NO_PROGRESS);
+		adv.advertiseCapability(OPTION_SHALLOW);
 		adv.setDerefTags(true);
 		refs = refFilter.filter(db.getAllRefs());
 		adv.send(refs);
@@ -391,6 +437,16 @@ public class UploadPack {
 
 			if (line == PacketLineIn.END)
 				break;
+
+			if (line.startsWith("deepen ")) {
+				depth = Integer.parseInt(line.substring(7));
+				continue;
+			}
+			if (line.startsWith("shallow ")) {
+				final ObjectId id = ObjectId.fromString(line.substring(8));
+				clientShallowCommits.add(walk.parseCommit(id));
+				continue;
+			}
 			if (!line.startsWith("want ") || line.length() < 45)
 				throw new PackProtocolException(MessageFormat.format(JGitText.get().expectedGot, "want", line));
 
@@ -638,7 +694,11 @@ public class UploadPack {
 		try {
 			pw.setDeltaBaseAsOffset(options.contains(OPTION_OFS_DELTA));
 			pw.setThin(options.contains(OPTION_THIN_PACK));
-			pw.preparePack(pm, wantAll, commonBase);
+			if(depth > 0) {
+				pw.preparePack(pm, wantAll, commonBase, unshallowCommits, depth);
+			} else {
+				pw.preparePack(pm, wantAll, commonBase);
+			}
 			if (options.contains(OPTION_INCLUDE_TAG)) {
 				for (final Ref r : refs.values()) {
 					final RevObject o;
