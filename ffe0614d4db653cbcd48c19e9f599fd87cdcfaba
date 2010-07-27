@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAALwX///dQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-07-02T22:15:08Z",
+      "side": 1,
+      "message": "Why should not non-file repositories be cached?",
+      "revId": "ffe0614d4db653cbcd48c19e9f599fd87cdcfaba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALwX///c8\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryCache.java",
         "patchSetId": 1
@@ -14,6 +31,23 @@
       "side": 1,
       "message": "Because we don\u0027t know how to produce their cache key?  What should be the cache key for a repository stored in memory?  Or \"in the cloud\"?  We don\u0027t know, and we don\u0027t have a factory method on the Repository class to give us one.\n\nI guess the change here would be to instead add a getRepositoryCacheKey() method to Repository and allow the implementation to override it with the key for this repository, then we can register and close through that key object.",
       "parentUuid": "AAALwX///dQ\u003d",
+      "revId": "ffe0614d4db653cbcd48c19e9f599fd87cdcfaba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///dY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchProcess.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-07-02T22:15:08Z",
+      "side": 1,
+      "message": "I guess there is some thought to following up here. Even if\nthe repo is not file based, shouldn\u0027t we store FETCH_HEAD\nsome other way?",
       "revId": "ffe0614d4db653cbcd48c19e9f599fd87cdcfaba",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
