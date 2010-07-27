@@ -1,0 +1,40 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALwX///rI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1032,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-06-30T23:00:03Z",
+      "side": 1,
+      "message": "We could wrap it in an unmodifiableSet, but I don\u0027t care enough to bother.\n\nIf a caller finds out they can change this set, and does, and we later start caching it, you can bet that then we\u0027ll use an unmodifiableSet... and they will crash, and it wasn\u0027t an API breakage, because we told you its not modifiable.",
+      "parentUuid": "AAALwX///tE\u003d",
+      "revId": "530924471320f5e2a53e90c48821d9f09e91e071",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///rE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1040,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-06-30T23:00:03Z",
+      "side": 1,
+      "message": "The variable declaration and assignment don\u0027t all fit on one line.  And when you do put them as one expression, eclipse was line wrapping the getRepository() part to the next line, which I found harder to read.  So, this is what you get.",
+      "parentUuid": "AAALwX///tA\u003d",
+      "revId": "530924471320f5e2a53e90c48821d9f09e91e071",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
