@@ -1,0 +1,22 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALwX///ZQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1022,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-03T00:13:53Z",
+      "side": 1,
+      "message": "See my attempt to clean this up in http://egit.eclipse.org/r/1047",
+      "parentUuid": "AAALwX///gw\u003d",
+      "revId": "203bd6626767015dfb04d421c572b26a34e9cecf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
