@@ -16,6 +16,24 @@
       "revId": "113577617bc4b2b31f2a44290cc607431c8357a7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///Vk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/events/ListenerList.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-07-03T23:21:19Z",
+      "side": 1,
+      "message": "I think Shawn wanted to have fewer event listener collection and we don\u0027t want globals for this.",
+      "parentUuid": "AAALwX///XU\u003d",
+      "revId": "113577617bc4b2b31f2a44290cc607431c8357a7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
