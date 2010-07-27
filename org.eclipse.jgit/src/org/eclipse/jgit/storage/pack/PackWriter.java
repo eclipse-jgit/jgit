@@ -88,6 +88,7 @@ import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.ThreadSafeProgressMonitor;
 import org.eclipse.jgit.revwalk.AsyncRevObjectQueue;
+import org.eclipse.jgit.revwalk.DepthWalk;
 import org.eclipse.jgit.revwalk.ObjectWalk;
 import org.eclipse.jgit.revwalk.RevFlag;
 import org.eclipse.jgit.revwalk.RevObject;
@@ -381,6 +382,40 @@ public class PackWriter {
 			countingMonitor = NullProgressMonitor.INSTANCE;
 		ObjectWalk walker = setUpWalker(interestingObjects,
 				uninterestingObjects);
+		findObjectsToPack(countingMonitor, walker);
+	}
+
+	/**
+	 * Prepare the list of objects to be written to the pack stream.
+	 * <p>
+	 * Acts the same as the previous version of this function, but also
+	 * takes in the information necessary to perform a shallow clone.
+	 * @param countingMonitor
+	 *            progress during object enumeration.
+	 * @param interestingObjects
+	 *            collection of objects to be marked as interesting (start
+	 *            points of graph traversal).
+	 * @param uninterestingObjects
+	 *            collection of objects to be marked as uninteresting (end
+	 *            points of graph traversal).
+	 * @param unshallowObjects
+	 * 			  objects which used to be shallow on the client, but
+	 * 			  are being extended as part of this fetch
+	 * @param depth
+	 * 			  maximum depth to traverse the commit graph
+	 * @throws IOException
+	 *             when some I/O problem occur during reading objects.
+	 */
+	public void preparePack(ProgressMonitor countingMonitor,
+			final Collection<? extends ObjectId> interestingObjects,
+			final Collection<? extends ObjectId> uninterestingObjects,
+			final Collection<? extends ObjectId> unshallowObjects,
+			int depth)
+			throws IOException {
+		if (countingMonitor == null)
+			countingMonitor = NullProgressMonitor.INSTANCE;
+		ObjectWalk walker = setUpWalker(interestingObjects,
+				uninterestingObjects, unshallowObjects, depth);
 		findObjectsToPack(countingMonitor, walker);
 	}
 
@@ -1003,6 +1038,53 @@ public class PackWriter {
 	private void writeChecksum(PackOutputStream out) throws IOException {
 		packcsum = out.getDigest();
 		out.write(packcsum);
+	}
+
+	private ObjectWalk setUpWalker(
+			final Collection<? extends ObjectId> interestingObjects,
+			final Collection<? extends ObjectId> uninterestingObjects,
+			final Collection<? extends ObjectId> unshallowObjects,
+			int depth)
+			throws MissingObjectException, IOException,
+			IncorrectObjectTypeException {
+		final ObjectWalk walker;
+		walker = new DepthWalk.ObjectWalk(reader, depth);
+		walker.setRetainBody(false);
+		walker.sort(RevSort.COMMIT_TIME_DESC);
+		if (thin)
+			walker.sort(RevSort.BOUNDARY, true);
+
+		for (ObjectId id : interestingObjects) {
+			RevObject o = walker.parseAny(id);
+			walker.markStart(o);
+		}
+		if (uninterestingObjects != null) {
+			for (ObjectId id : uninterestingObjects) {
+				final RevObject o;
+				try {
+					o = walker.parseAny(id);
+				} catch (MissingObjectException x) {
+					if (ignoreMissingUninteresting)
+						continue;
+					throw x;
+				}
+				walker.markUninteresting(o);
+			}
+		}
+		if (unshallowObjects != null) {
+			for (ObjectId id : unshallowObjects) {
+				final RevObject o;
+				try {
+					o = walker.parseAny(id);
+				} catch (MissingObjectException x) {
+					if (ignoreMissingUninteresting)
+						continue;
+					throw x;
+				}
+				((DepthWalk.ObjectWalk)walker).markUnshallow(o);
+			}
+		}
+		return walker;
 	}
 
 	private ObjectWalk setUpWalker(
