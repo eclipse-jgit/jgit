@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "AAALwX///l8\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/SimpleMergeTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-01T21:54:04Z",
+      "side": 1,
+      "message": "Yes, we should release this ObjectInserter.  But that\u0027s a lot of code to change, and I plan to move most tests to an in-memory repository which won\u0027t do compression/decompression of data.  Thus we wouldn\u0027t need to worry about leaking the Inflater handle during the test.\n\nAlso, the tests run in their own JVM, and do so pretty quickly right now.  Leaking Inflaters and waiting for the GC to fix things up with a finalizer isn\u0027t a big deal.  In fact, the GC might not even bother to run the finalizers, there isn\u0027t all that much garbage created during the tests that needs finalization, and the JVM might just terminate before its cleaned up.\n\nLong story short, its just not worth it given what we leak, and the amount of code that needs to change in current tests.\n\nNewer tests should however release stuff, yes, just to keep the programming style consistent.",
+      "parentUuid": "AAALwX///m0\u003d",
+      "revId": "88530a179e2ddfa81de5cc441a27d66521334608",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALwX///l0\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/StrategySimpleTwoWayInCore.java",
         "patchSetId": 7
