@@ -1,0 +1,22 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALwX///cg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/FetchProcess.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-02T22:21:02Z",
+      "side": 1,
+      "message": "The only reason we produce FETCH_HEAD is to be compatible with C Git.  The only reason C Git produces FETCH_HEAD is to carry data from `git fetch` into `git merge` during a `git pull`, but it does also act as a handy reference for \"the last thing I got\".  Really the only value for JGit to be writing that file is for the last part, \"the last thing I got\".  We\u0027ll never need to carry data from our fetch to our merge code through a local file, that\u0027s nuts.\n\nI think its perfectly OK if we stop writing this file on less-conventional repositories.  If \"the last thing I got\" proves to be really useful there, we could try to update a standard ref called FETCH_HEAD via updateRef().  But again, a lot of this all predates the idea of remote tracking branches being updated during fetch.",
+      "parentUuid": "AAALwX///dY\u003d",
+      "revId": "ffe0614d4db653cbcd48c19e9f599fd87cdcfaba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
