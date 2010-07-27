@@ -1,0 +1,22 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALwX///Z8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/PackFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-02T23:58:40Z",
+      "side": 1,
+      "message": "Fixed by killing it in http://egit.eclipse.org/r/1045.  With the streaming stuff fully implemented, the code is unreachable.",
+      "parentUuid": "AAALwX///aQ\u003d",
+      "revId": "71aace52f7bfc36c65c92ab54c6f020dffc873ab",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
