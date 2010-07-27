@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAALwX///tE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1032,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2010-06-30T19:54:11Z",
+      "side": 1,
+      "message": "The doc suggests that it returns an unmodifiable collection; but as it is a HashSet, it can be mutated. If we want to enforce this, should we wrap in a Collections.unmodifiableSet?",
+      "revId": "530924471320f5e2a53e90c48821d9f09e91e071",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALwX///rI\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
         "patchSetId": 4
@@ -14,6 +31,23 @@
       "side": 1,
       "message": "We could wrap it in an unmodifiableSet, but I don\u0027t care enough to bother.\n\nIf a caller finds out they can change this set, and does, and we later start caching it, you can bet that then we\u0027ll use an unmodifiableSet... and they will crash, and it wasn\u0027t an API breakage, because we told you its not modifiable.",
       "parentUuid": "AAALwX///tE\u003d",
+      "revId": "530924471320f5e2a53e90c48821d9f09e91e071",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///tA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1040,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2010-06-30T19:54:11Z",
+      "side": 1,
+      "message": "Why not in-line the repo declaration, like String name \u003d getFullBranch() above?",
       "revId": "530924471320f5e2a53e90c48821d9f09e91e071",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
