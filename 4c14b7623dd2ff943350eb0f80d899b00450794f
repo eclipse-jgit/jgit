@@ -1,0 +1,40 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALwX///nA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-01T18:35:32Z",
+      "side": 1,
+      "message": "No.  I tried to get rid of the concept of a directory on a repository, and it proved nearly impossible to do.\n\nInstead I had to define getDirectory() as being able to return null.",
+      "parentUuid": "AAALwX///oQ\u003d",
+      "revId": "4c14b7623dd2ff943350eb0f80d899b00450794f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///h4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-02T00:04:53Z",
+      "side": 1,
+      "message": "We can try to remove getDirectory() again, but basically the working tree related code explodes.\n\nWhat matters is, getDirectory() is used to tell you where the meta stuff is, like \"index\", \"config\", \"MERGE_HEAD\", \"MERGE_MSG\", \"FETCH_HEAD\".  For most repositories with a working tree, I think you would expect these files to be in .git/, and thus you expect there to be a meta directory to hold them.\n\nRight now I only care about getting a bare repository to run without a local filesystem.  Which means that meta directory being null is OK, we would never check the meta directory.\n\nBut to really do a workspace-in-the-cloud idea, you need to also split all of the meta stuff away from local file IO.  That\u0027s going to be a bigger task than just splitting the object/ref storage, based on what I was looking at as I did this series.\n\nI\u0027m open to pushing the refactoring further, but I would prefer to get the basic storage stuff done first.  We still need to get IndexPack done for example, it still requires local filesystem storage.  And the dumb transport fetch client also still mostly assumes local filesystem for the destination.\n\nIf we at least get the basic storage stuff done, we can start to do something slick like a bound-thin-client in EGit.  The working directory is the local filesystem, but the repository branches and objects are remote on a smart, git-aware object server, with recently accessed objects being local.  Then you can do some really slick thin-checkouts from eclipse.org for example, without needing to suck down everything, but still behave like you have it all.  (I\u0027m envisioning something a bit smarter than just shallow clone.)",
+      "parentUuid": "AAALwX///jU\u003d",
+      "revId": "4c14b7623dd2ff943350eb0f80d899b00450794f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
