@@ -1,0 +1,76 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALwX///Zs\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Main.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-03T00:06:01Z",
+      "side": 1,
+      "message": "Thanks, fixed in http://egit.eclipse.org/r/1046",
+      "parentUuid": "AAALwX///hI\u003d",
+      "revId": "532421d98925f23ddaa63c8d5f22be24879a6385",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///Zk\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/T0003_Basic.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-03T00:06:01Z",
+      "side": 1,
+      "message": "Thanks, also fixed in 1046.",
+      "parentUuid": "AAALwX///hE\u003d",
+      "revId": "532421d98925f23ddaa63c8d5f22be24879a6385",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///Zg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/FileRepository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-03T00:06:01Z",
+      "side": 1,
+      "message": "Eh.  Our style seems to be to include \u003cp\u003e anyway.  Might just be my habit from the dark days of Javadoc where \\n just meant space and \u003cp\u003e was required to get a proper paragraph break.",
+      "parentUuid": "AAALwX///hA\u003d",
+      "revId": "532421d98925f23ddaa63c8d5f22be24879a6385",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///Zc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-03T00:06:01Z",
+      "side": 1,
+      "message": "BaseRepositoryBuilder is type parameterized by the the type of repository it creates, and the type of the builder itself, to implement all of the chaining methods.  Because of these two type parameters its a horrible thing to use in application level code.\n\nThis class exists to define those type parameters with sane defaults, and prevent application code from needing to care.  But FileRepositoryBuilder wants different values for the same type parameters, but still wants roughly the same logic.  So we throw all of that up in BaseRepositoryBuilder.",
+      "parentUuid": "AAALwX///g8\u003d",
+      "revId": "532421d98925f23ddaa63c8d5f22be24879a6385",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
