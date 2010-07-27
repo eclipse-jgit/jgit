@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALxH////o\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/StoredConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 44
+      },
+      "writtenOn": "2010-07-27T09:40:54Z",
+      "side": 1,
+      "message": "Is IOExecption the right one here? E.g. in case of DB storage.\nA storage exception containing the failure cause could be introduced.",
+      "revId": "7ff18f3ec9f28609605dc5cca875cca2401b0ce5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALxH////k\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/StoredConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 44
+      },
+      "writtenOn": "2010-07-27T09:40:54Z",
+      "side": 1,
+      "message": "Is IOExecption the right one here?",
+      "revId": "7ff18f3ec9f28609605dc5cca875cca2401b0ce5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
