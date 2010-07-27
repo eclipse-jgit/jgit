@@ -86,6 +86,7 @@ import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.ThreadSafeProgressMonitor;
 import org.eclipse.jgit.revwalk.AsyncRevObjectQueue;
+import org.eclipse.jgit.revwalk.DepthWalk;
 import org.eclipse.jgit.revwalk.ObjectWalk;
 import org.eclipse.jgit.revwalk.RevFlag;
 import org.eclipse.jgit.revwalk.RevObject;
@@ -164,6 +165,12 @@ public class PackWriter {
 	private boolean thin;
 
 	private boolean ignoreMissingUninteresting = true;
+
+	private boolean shallowPack = false;
+
+	private int depth = 0;
+
+	private Collection<? extends ObjectId> unshallowObjects;
 
 	/**
 	 * Create writer for specified repository.
@@ -376,9 +383,30 @@ public class PackWriter {
 			throws IOException {
 		if (countingMonitor == null)
 			countingMonitor = NullProgressMonitor.INSTANCE;
-		ObjectWalk walker = setUpWalker(interestingObjects,
-				uninterestingObjects);
+		ObjectWalk walker;
+		if (shallowPack) {
+			walker = setUpWalker(interestingObjects, uninterestingObjects,
+					unshallowObjects, depth);
+		} else {
+			walker = setUpWalker(interestingObjects, uninterestingObjects);
+		}
 		findObjectsToPack(countingMonitor, walker);
+	}
+
+	/**
+	 * Configure this pack for a shallow clone.
+	 *
+	 * @param depth
+	 *            maximum depth to traverse the commit graph
+	 * @param unshallowObjects
+	 *            objects which used to be shallow on the client, but are being
+	 *            extended as part of this fetch
+	 */
+	public void setShallowPack(int depth,
+			final Collection<? extends ObjectId> unshallowObjects) {
+		this.shallowPack = true;
+		this.depth = depth;
+		this.unshallowObjects = unshallowObjects;
 	}
 
 	/**
@@ -970,6 +998,45 @@ public class PackWriter {
 	private void writeChecksum(PackOutputStream out) throws IOException {
 		packcsum = out.getDigest();
 		out.write(packcsum);
+	}
+
+	private ObjectWalk setUpWalker(
+			final Collection<? extends ObjectId> interestingObjects,
+			final Collection<? extends ObjectId> uninterestingObjects,
+			final Collection<? extends ObjectId> unshallowObjects,
+			int depth)
+			throws MissingObjectException, IOException,
+			IncorrectObjectTypeException {
+		final DepthWalk.ObjectWalk walker = new DepthWalk.ObjectWalk(reader,
+				depth);
+		walker.setRetainBody(false);
+
+		for (ObjectId id : interestingObjects) {
+			RevObject o = walker.parseAny(id);
+			walker.markStart(o);
+		}
+
+		if (uninterestingObjects != null) {
+			for (ObjectId id : uninterestingObjects) {
+				final RevObject o;
+				try {
+					o = walker.parseAny(id);
+				} catch (MissingObjectException x) {
+					if (ignoreMissingUninteresting)
+						continue;
+					throw x;
+				}
+				walker.markUninteresting(o);
+			}
+		}
+
+		if (unshallowObjects != null) {
+			for (ObjectId id : unshallowObjects) {
+				final RevObject o = walker.parseAny(id);
+				walker.markUnshallow(o);
+			}
+		}
+		return walker;
 	}
 
 	private ObjectWalk setUpWalker(
