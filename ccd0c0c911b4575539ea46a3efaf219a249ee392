@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAALwX///vc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/TemporaryBuffer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2010-06-30T08:46:39Z",
+      "side": 1,
+      "message": "When you do the switch here, the overflow won\u0027t be flushed until the BufferedReader fills up. Does it make sense to do a flush() at his point, prior to returning the BufferedReader, to ensure that this part is done before wrapping the stream?\n\nSecondly, can the result of overflow() ever be a buffered writer (e.g. if we call this twice)? Should we code for that possibility and not wrap a wrapped bufferedoutputstream if that\u0027s the case? e.g. have something like if (!overflow instanceof BufferedOutputStream) overflow \u003d new BufferedOutputStream(overflow,..)",
+      "revId": "ccd0c0c911b4575539ea46a3efaf219a249ee392",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALwX///tc\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/TemporaryBuffer.java",
         "patchSetId": 4
