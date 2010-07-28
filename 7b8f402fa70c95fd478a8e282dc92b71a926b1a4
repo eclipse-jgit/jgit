@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALw3///yE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffEntry.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-23T16:56:52Z",
+      "side": 1,
+      "message": "Why is this now public?  I see nobody needs it as part of this change.",
+      "revId": "7b8f402fa70c95fd478a8e282dc92b71a926b1a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALw3///x4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffEntry.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-23T16:56:52Z",
+      "side": 1,
+      "message": "Why do we need to introduce equals as part of this change?  And anytime you introduce equals you should also implement hashCode so the object can be used in a HashMap or HashSet.",
+      "revId": "7b8f402fa70c95fd478a8e282dc92b71a926b1a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALw3///yA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffEntry.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-23T16:56:52Z",
+      "side": 1,
+      "message": "Use .equals here.",
+      "revId": "7b8f402fa70c95fd478a8e282dc92b71a926b1a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALw3///x8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffEntry.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-23T16:56:52Z",
+      "side": 1,
+      "message": "Use .equals here.",
+      "revId": "7b8f402fa70c95fd478a8e282dc92b71a926b1a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALw3///yY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RenameDetector.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-23T16:56:52Z",
+      "side": 1,
+      "message": "I would call this a breakScore.",
+      "revId": "7b8f402fa70c95fd478a8e282dc92b71a926b1a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALw3///yU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RenameDetector.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-23T16:56:52Z",
+      "side": 1,
+      "message": "This is horribly slow when entries is an ArrayList, because you have to shift every later cell down on each split.  Worse you are splitting everything in this particular case.\n\nMake a newEntries that you add items you aren\u0027t going to break into, and that way you don\u0027t have to modify and shift down the existing entries array.",
+      "revId": "7b8f402fa70c95fd478a8e282dc92b71a926b1a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALw3///yQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RenameDetector.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-23T16:56:52Z",
+      "side": 1,
+      "message": "Same comment as above with entries.  Shifting the arrays down is slow.",
+      "revId": "7b8f402fa70c95fd478a8e282dc92b71a926b1a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALw3///yM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RenameDetector.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 637,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-23T16:56:52Z",
+      "side": 1,
+      "message": "This isn\u0027t really worth a new method.  Its used exactly once.  We might as well just inline it in the call site.",
+      "revId": "7b8f402fa70c95fd478a8e282dc92b71a926b1a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALw3///yI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RenameDetector.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 638,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-23T16:56:52Z",
+      "side": 1,
+      "message": "Yes.  Save the similarity score in the deleted node when you broke the pair.  When you recombine them as a modify, set the score to the score from the deleted side.\n\nDiffFormatter should be updated to add a dissimilarity line to the header which shows the inverse of the score when the modify score is non-zero.  So a score of 15 is displayed as 85%.",
+      "revId": "7b8f402fa70c95fd478a8e282dc92b71a926b1a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
