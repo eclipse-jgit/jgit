@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAALw3///xU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffEntry.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 73
+      },
+      "writtenOn": "2010-07-26T18:52:59Z",
+      "side": 1,
+      "message": "It was used in RenameDetectorTest line 570 in the assertAdd method. I needed it to check that the oldId on an ADD is zeroed.",
+      "parentUuid": "AAALw3///yE\u003d",
+      "revId": "7b8f402fa70c95fd478a8e282dc92b71a926b1a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALw3///x4\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffEntry.java",
         "patchSetId": 2
