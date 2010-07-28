@@ -124,29 +124,6 @@ import org.eclipse.jgit.util.TemporaryBuffer;
  */
 public class PackWriter {
 	/**
-	 * Title of {@link ProgressMonitor} task used during counting objects to
-	 * pack.
-	 *
-	 * @see #preparePack(ProgressMonitor, Collection, Collection)
-	 */
-	public static final String COUNTING_OBJECTS_PROGRESS = JGitText.get().countingObjects;
-
-	/**
-	 * Title of {@link ProgressMonitor} task used during compression.
-	 *
-	 * @see #writePack(ProgressMonitor, ProgressMonitor, OutputStream)
-	 */
-	public static final String COMPRESSING_OBJECTS_PROGRESS = JGitText.get().compressingObjects;
-
-	/**
-	 * Title of {@link ProgressMonitor} task used during writing out pack
-	 * (objects)
-	 *
-	 * @see #writePack(ProgressMonitor, ProgressMonitor, OutputStream)
-	 */
-	public static final String WRITING_OBJECTS_PROGRESS = JGitText.get().writingObjects;
-
-	/**
 	 * Default value of deltas reuse option.
 	 *
 	 * @see #setReuseDeltas(boolean)
@@ -838,9 +815,7 @@ public class PackWriter {
 	 * <p>
 	 * At first, this method collects and sorts objects to pack, then deltas
 	 * search is performed if set up accordingly, finally pack stream is
-	 * written. {@link ProgressMonitor} tasks {@link #COMPRESSING_OBJECTS_PROGRESS}
-	 * (only if reuseDeltas or reuseObjects is enabled) and
-	 * {@link #WRITING_OBJECTS_PROGRESS} are updated during packing.
+	 * written.
 	 * </p>
 	 * <p>
 	 * All reused objects data checksum (Adler32/CRC32) is computed and
@@ -875,8 +850,9 @@ public class PackWriter {
 		final PackOutputStream out = new PackOutputStream(writeMonitor,
 				packStream, this);
 
-		writeMonitor.beginTask(WRITING_OBJECTS_PROGRESS, getObjectsNumber());
-		out.writeFileHeader(PACK_VERSION_GENERATED, getObjectsNumber());
+		int objCnt = getObjectsNumber();
+		writeMonitor.beginTask(JGitText.get().writingObjects, objCnt);
+		out.writeFileHeader(PACK_VERSION_GENERATED, objCnt);
 		writeObjects(writeMonitor, out);
 		writeChecksum(out);
 
@@ -935,7 +911,7 @@ public class PackWriter {
 			}
 		}
 
-		monitor.beginTask(COMPRESSING_OBJECTS_PROGRESS, cnt);
+		monitor.beginTask(JGitText.get().compressingObjects, cnt);
 
 		// Sort the objects by path hash so like files are near each other,
 		// and then by size descending so that bigger files are first. This
@@ -1315,7 +1291,7 @@ public class PackWriter {
 	private void findObjectsToPack(final ProgressMonitor countingMonitor,
 			final ObjectWalk walker) throws MissingObjectException,
 			IncorrectObjectTypeException,			IOException {
-		countingMonitor.beginTask(COUNTING_OBJECTS_PROGRESS,
+		countingMonitor.beginTask(JGitText.get().countingObjects,
 				ProgressMonitor.UNKNOWN);
 		RevObject o;
 
