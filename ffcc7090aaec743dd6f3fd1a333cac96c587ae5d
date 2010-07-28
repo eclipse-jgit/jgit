@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALw3///1U\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/NameConflictTreeWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-22T17:37:18Z",
+      "side": 1,
+      "message": "We shouldn\u0027t need to do this by a path string.  A D/F conflict is true for the entire time we are recursed below that path, and the walker knows when we pop out of each level.  Can\u0027t we do this faster with a boolean variable or a !\u003d null test?  I thought the prior iteration of this feature used an AbstractTreeIterator in a field to tell if we were inside of a D/F conflict.",
+      "revId": "ffcc7090aaec743dd6f3fd1a333cac96c587ae5d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
