@@ -80,6 +80,8 @@ public class CommitCommand extends GitCommand<RevCommit> {
 
 	private String message;
 
+	private boolean all;
+
 	/**
 	 * parents this commit should have. The current HEAD will be in this list
 	 * and also all commits mentioned in .git/MERGE_HEAD
@@ -128,6 +130,18 @@ public class CommitCommand extends GitCommand<RevCommit> {
 		processOptions(state);
 
 		try {
+			if (all && !repo.isBare() && repo.getWorkTree() != null) {
+				Git git = new Git(repo);
+				try {
+					git.add()
+							.addFilepattern(".")
+							.setUpdate(true).call();
+				} catch (NoFilepatternException e) {
+					// should really not happen
+					throw new JGitInternalException(e.getMessage(), e);
+				}
+			}
+
 			Ref head = repo.getRef(Constants.HEAD);
 			if (head == null)
 				throw new NoHeadException(
@@ -356,4 +370,19 @@ public class CommitCommand extends GitCommand<RevCommit> {
 	public PersonIdent getAuthor() {
 		return author;
 	}
+
+	/**
+	 * If set to true the Commit command automatically stages files that have
+	 * been modified and deleted, but new files you not known by the repository
+	 * are not affected. This corresponds to the parameter -a on the command
+	 * line.
+	 *
+	 * @param all
+	 * @return {@code this}
+	 */
+	public CommitCommand setAll(boolean all) {
+		this.all = all;
+		return this;
+	}
+
 }
