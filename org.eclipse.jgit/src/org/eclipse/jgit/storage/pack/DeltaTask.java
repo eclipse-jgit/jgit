@@ -49,7 +49,7 @@ import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.ProgressMonitor;
 
 final class DeltaTask implements Callable<Object> {
-	private final PackWriter writer;
+	private final PackConfig config;
 
 	private final ObjectReader templateReader;
 
@@ -63,9 +63,9 @@ final class DeltaTask implements Callable<Object> {
 
 	private final ObjectToPack[] list;
 
-	DeltaTask(PackWriter writer, ObjectReader reader, DeltaCache dc,
+	DeltaTask(PackConfig config, ObjectReader reader, DeltaCache dc,
 			ProgressMonitor pm, int batchSize, int start, ObjectToPack[] list) {
-		this.writer = writer;
+		this.config = config;
 		this.templateReader = reader;
 		this.dc = dc;
 		this.pm = pm;
@@ -78,7 +78,7 @@ final class DeltaTask implements Callable<Object> {
 		final ObjectReader or = templateReader.newReader();
 		try {
 			DeltaWindow dw;
-			dw = new DeltaWindow(writer, dc, or);
+			dw = new DeltaWindow(config, dc, or);
 			dw.search(pm, list, start, batchSize);
 		} finally {
 			or.release();

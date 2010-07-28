@@ -75,7 +75,6 @@ import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.StoredObjectRepresentationNotAvailableException;
 import org.eclipse.jgit.lib.AnyObjectId;
-import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
@@ -127,47 +126,6 @@ import org.eclipse.jgit.util.TemporaryBuffer;
  * </p>
  */
 public class PackWriter {
-	/**
-	 * Default value of deltas reuse option.
-	 *
-	 * @see #setReuseDeltas(boolean)
-	 */
-	public static final boolean DEFAULT_REUSE_DELTAS = true;
-
-	/**
-	 * Default value of objects reuse option.
-	 *
-	 * @see #setReuseObjects(boolean)
-	 */
-	public static final boolean DEFAULT_REUSE_OBJECTS = true;
-
-	/**
-	 * Default value of delta base as offset option.
-	 *
-	 * @see #setDeltaBaseAsOffset(boolean)
-	 */
-	public static final boolean DEFAULT_DELTA_BASE_AS_OFFSET = false;
-
-	/**
-	 * Default value of maximum delta chain depth.
-	 *
-	 * @see #setMaxDeltaDepth(int)
-	 */
-	public static final int DEFAULT_MAX_DELTA_DEPTH = 50;
-
-	/**
-	 * Default window size during packing.
-	 *
-	 * @see #setDeltaSearchWindowSize(int)
-	 */
-	public static final int DEFAULT_DELTA_SEARCH_WINDOW_SIZE = 10;
-
-	static final long DEFAULT_BIG_FILE_THRESHOLD = 50 * 1024 * 1024;
-
-	static final long DEFAULT_DELTA_CACHE_SIZE = 50 * 1024 * 1024;
-
-	static final int DEFAULT_DELTA_CACHE_LIMIT = 100;
-
 	private static final int PACK_VERSION_GENERATED = 2;
 
 	@SuppressWarnings("unchecked")
@@ -185,8 +143,6 @@ public class PackWriter {
 	// edge objects for thin packs
 	private final ObjectIdSubclassMap<ObjectToPack> edgeObjects = new ObjectIdSubclassMap<ObjectToPack>();
 
-	private int compressionLevel;
-
 	private Deflater myDeflater;
 
 	private final ObjectReader reader;
@@ -194,35 +150,15 @@ public class PackWriter {
 	/** {@link #reader} recast to the reuse interface, if it supports it. */
 	private final ObjectReuseAsIs reuseSupport;
 
+	private final PackConfig config;
+
 	private List<ObjectToPack> sortedByName;
 
 	private byte packcsum[];
 
-	private boolean reuseDeltas = DEFAULT_REUSE_DELTAS;
+	private boolean deltaBaseAsOffset;
 
-	private boolean reuseObjects = DEFAULT_REUSE_OBJECTS;
-
-	private boolean deltaBaseAsOffset = DEFAULT_DELTA_BASE_AS_OFFSET;
-
-	private boolean deltaCompress = true;
-
-	private int maxDeltaDepth = DEFAULT_MAX_DELTA_DEPTH;
-
-	private int deltaSearchWindowSize = DEFAULT_DELTA_SEARCH_WINDOW_SIZE;
-
-	private long deltaSearchMemoryLimit;
-
-	private long deltaCacheSize = DEFAULT_DELTA_CACHE_SIZE;
-
-	private int deltaCacheLimit = DEFAULT_DELTA_CACHE_LIMIT;
-
-	private int indexVersion;
-
-	private long bigFileThreshold = DEFAULT_BIG_FILE_THRESHOLD;
-
-	private int threads = 1;
-
-	private Executor executor;
+	private boolean reuseDeltas;
 
 	private boolean thin;
 
@@ -251,7 +187,7 @@ public class PackWriter {
 	 *            reader to read from the repository with.
 	 */
 	public PackWriter(final ObjectReader reader) {
-		this(null, reader);
+		this(new PackConfig(), reader);
 	}
 
 	/**
@@ -266,105 +202,38 @@ public class PackWriter {
 	 *            reader to read from the repository with.
 	 */
 	public PackWriter(final Repository repo, final ObjectReader reader) {
+		this(new PackConfig(repo), reader);
+	}
+
+	/**
+	 * Create writer with a specified configuration.
+	 * <p>
+	 * Objects for packing are specified in {@link #preparePack(Iterator)} or
+	 * {@link #preparePack(ProgressMonitor, Collection, Collection)}.
+	 *
+	 * @param config
+	 *            configuration for the pack writer.
+	 * @param reader
+	 *            reader to read from the repository with.
+	 */
+	public PackWriter(final PackConfig config, final ObjectReader reader) {
+		this.config = config;
 		this.reader = reader;
 		if (reader instanceof ObjectReuseAsIs)
 			reuseSupport = ((ObjectReuseAsIs) reader);
 		else
 			reuseSupport = null;
 
-		final PackConfig pc = configOf(repo).get(PackConfig.KEY);
-		deltaSearchWindowSize = pc.deltaWindow;
-		deltaSearchMemoryLimit = pc.deltaWindowMemory;
-		deltaCacheSize = pc.deltaCacheSize;
-		deltaCacheLimit = pc.deltaCacheLimit;
-		maxDeltaDepth = pc.deltaDepth;
-		compressionLevel = pc.compression;
-		indexVersion = pc.indexVersion;
-		bigFileThreshold = pc.bigFileThreshold;
-		threads = pc.threads;
-	}
-
-	private static Config configOf(final Repository repo) {
-		if (repo == null)
-			return new Config();
-		return repo.getConfig();
-	}
-
-	/**
-	 * Check whether object is configured to reuse deltas existing in
-	 * repository.
-	 * <p>
-	 * Default setting: {@link #DEFAULT_REUSE_DELTAS}
-	 * </p>
-	 *
-	 * @return true if object is configured to reuse deltas; false otherwise.
-	 */
-	public boolean isReuseDeltas() {
-		return reuseDeltas;
-	}
-
-	/**
-	 * Set reuse deltas configuration option for this writer. When enabled,
-	 * writer will search for delta representation of object in repository and
-	 * use it if possible. Normally, only deltas with base to another object
-	 * existing in set of objects to pack will be used. Exception is however
-	 * thin-pack (see
-	 * {@link #preparePack(ProgressMonitor, Collection, Collection)} and
-	 * {@link #preparePack(Iterator)}) where base object must exist on other
-	 * side machine.
-	 * <p>
-	 * When raw delta data is directly copied from a pack file, checksum is
-	 * computed to verify data.
-	 * </p>
-	 * <p>
-	 * Default setting: {@link #DEFAULT_REUSE_DELTAS}
-	 * </p>
-	 *
-	 * @param reuseDeltas
-	 *            boolean indicating whether or not try to reuse deltas.
-	 */
-	public void setReuseDeltas(boolean reuseDeltas) {
-		this.reuseDeltas = reuseDeltas;
-	}
-
-	/**
-	 * Checks whether object is configured to reuse existing objects
-	 * representation in repository.
-	 * <p>
-	 * Default setting: {@link #DEFAULT_REUSE_OBJECTS}
-	 * </p>
-	 *
-	 * @return true if writer is configured to reuse objects representation from
-	 *         pack; false otherwise.
-	 */
-	public boolean isReuseObjects() {
-		return reuseObjects;
-	}
-
-	/**
-	 * Set reuse objects configuration option for this writer. If enabled,
-	 * writer searches for representation in a pack file. If possible,
-	 * compressed data is directly copied from such a pack file. Data checksum
-	 * is verified.
-	 * <p>
-	 * Default setting: {@link #DEFAULT_REUSE_OBJECTS}
-	 * </p>
-	 *
-	 * @param reuseObjects
-	 *            boolean indicating whether or not writer should reuse existing
-	 *            objects representation.
-	 */
-	public void setReuseObjects(boolean reuseObjects) {
-		this.reuseObjects = reuseObjects;
+		deltaBaseAsOffset = config.isDeltaBaseAsOffset();
+		reuseDeltas = config.isReuseDeltas();
 	}
 
 	/**
 	 * Check whether writer can store delta base as an offset (new style
 	 * reducing pack size) or should store it as an object id (legacy style,
 	 * compatible with old readers).
-	 * <p>
-	 * Default setting: {@link #DEFAULT_DELTA_BASE_AS_OFFSET}
-	 * </p>
+	 *
+	 * Default setting: {@value PackConfig#DEFAULT_DELTA_BASE_AS_OFFSET}
 	 *
 	 * @return true if delta base is stored as an offset; false if it is stored
 	 *         as an object id.
@@ -377,9 +246,8 @@ public class PackWriter {
 	 * Set writer delta base format. Delta base can be written as an offset in a
 	 * pack file (new approach reducing file size) or as an object id (legacy
 	 * approach, compatible with old readers).
-	 * <p>
-	 * Default setting: {@link #DEFAULT_DELTA_BASE_AS_OFFSET}
-	 * </p>
+	 *
+	 * Default setting: {@value PackConfig#DEFAULT_DELTA_BASE_AS_OFFSET}
 	 *
 	 * @param deltaBaseAsOffset
 	 *            boolean indicating whether delta base can be stored as an
@@ -387,255 +255,6 @@ public class PackWriter {
 	 */
 	public void setDeltaBaseAsOffset(boolean deltaBaseAsOffset) {
 		this.deltaBaseAsOffset = deltaBaseAsOffset;
-	}
-
-	/**
-	 * Check whether the writer will create new deltas on the fly.
-	 * <p>
-	 * Default setting: true
-	 * </p>
-	 *
-	 * @return true if the writer will create a new delta when either
-	 *         {@link #isReuseDeltas()} is false, or no suitable delta is
-	 *         available for reuse.
-	 */
-	public boolean isDeltaCompress() {
-		return deltaCompress;
-	}
-
-	/**
-	 * Set whether or not the writer will create new deltas on the fly.
-	 *
-	 * @param deltaCompress
-	 *            true to create deltas when {@link #isReuseDeltas()} is false,
-	 *            or when a suitable delta isn't available for reuse. Set to
-	 *            false to write whole objects instead.
-	 */
-	public void setDeltaCompress(boolean deltaCompress) {
-		this.deltaCompress = deltaCompress;
-	}
-
-	/**
-	 * Get maximum depth of delta chain set up for this writer. Generated chains
-	 * are not longer than this value.
-	 * <p>
-	 * Default setting: {@link #DEFAULT_MAX_DELTA_DEPTH}
-	 * </p>
-	 *
-	 * @return maximum delta chain depth.
-	 */
-	public int getMaxDeltaDepth() {
-		return maxDeltaDepth;
-	}
-
-	/**
-	 * Set up maximum depth of delta chain for this writer. Generated chains are
-	 * not longer than this value. Too low value causes low compression level,
-	 * while too big makes unpacking (reading) longer.
-	 * <p>
-	 * Default setting: {@link #DEFAULT_MAX_DELTA_DEPTH}
-	 * </p>
-	 *
-	 * @param maxDeltaDepth
-	 *            maximum delta chain depth.
-	 */
-	public void setMaxDeltaDepth(int maxDeltaDepth) {
-		this.maxDeltaDepth = maxDeltaDepth;
-	}
-
-	/**
-	 * Get the number of objects to try when looking for a delta base.
-	 * <p>
-	 * This limit is per thread, if 4 threads are used the actual memory
-	 * used will be 4 times this value.
-	 *
-	 * @return the object count to be searched.
-	 */
-	public int getDeltaSearchWindowSize() {
-		return deltaSearchWindowSize;
-	}
-
-	/**
-	 * Set the number of objects considered when searching for a delta base.
-	 * <p>
-	 * Default setting: {@link #DEFAULT_DELTA_SEARCH_WINDOW_SIZE}
-	 * </p>
-	 *
-	 * @param objectCount
-	 *            number of objects to search at once.  Must be at least 2.
-	 */
-	public void setDeltaSearchWindowSize(int objectCount) {
-		if (objectCount <= 2)
-			setDeltaCompress(false);
-		else
-			deltaSearchWindowSize = objectCount;
-	}
-
-	/**
-	 * Get maximum number of bytes to put into the delta search window.
-	 * <p>
-	 * Default setting is 0, for an unlimited amount of memory usage. Actual
-	 * memory used is the lower limit of either this setting, or the sum of
-	 * space used by at most {@link #getDeltaSearchWindowSize()} objects.
-	 * <p>
-	 * This limit is per thread, if 4 threads are used the actual memory
-	 * limit will be 4 times this value.
-	 *
-	 * @return the memory limit.
-	 */
-	public long getDeltaSearchMemoryLimit() {
-		return deltaSearchMemoryLimit;
-	}
-
-	/**
-	 * Set the maximum number of bytes to put into the delta search window.
-	 * <p>
-	 * Default setting is 0, for an unlimited amount of memory usage. If the
-	 * memory limit is reached before {@link #getDeltaSearchWindowSize()} the
-	 * window size is temporarily lowered.
-	 *
-	 * @param memoryLimit
-	 *            Maximum number of bytes to load at once, 0 for unlimited.
-	 */
-	public void setDeltaSearchMemoryLimit(long memoryLimit) {
-		deltaSearchMemoryLimit = memoryLimit;
-	}
-
-	/**
-	 * Get the size of the in-memory delta cache.
-	 * <p>
-	 * This limit is for the entire writer, even if multiple threads are used.
-	 *
-	 * @return maximum number of bytes worth of delta data to cache in memory.
-	 *         If 0 the cache is infinite in size (up to the JVM heap limit
-	 *         anyway). A very tiny size such as 1 indicates the cache is
-	 *         effectively disabled.
-	 */
-	public long getDeltaCacheSize() {
-		return deltaCacheSize;
-	}
-
-	/**
-	 * Set the maximum number of bytes of delta data to cache.
-	 * <p>
-	 * During delta search, up to this many bytes worth of small or hard to
-	 * compute deltas will be stored in memory. This cache speeds up writing by
-	 * allowing the cached entry to simply be dumped to the output stream.
-	 *
-	 * @param size
-	 *            number of bytes to cache. Set to 0 to enable an infinite
-	 *            cache, set to 1 (an impossible size for any delta) to disable
-	 *            the cache.
-	 */
-	public void setDeltaCacheSize(long size) {
-		deltaCacheSize = size;
-	}
-
-	/**
-	 * Maximum size in bytes of a delta to cache.
-	 *
-	 * @return maximum size (in bytes) of a delta that should be cached.
-	 */
-	public int getDeltaCacheLimit() {
-		return deltaCacheLimit;
-	}
-
-	/**
-	 * Set the maximum size of a delta that should be cached.
-	 * <p>
-	 * During delta search, any delta smaller than this size will be cached, up
-	 * to the {@link #getDeltaCacheSize()} maximum limit. This speeds up writing
-	 * by allowing these cached deltas to be output as-is.
-	 *
-	 * @param size
-	 *            maximum size (in bytes) of a delta to be cached.
-	 */
-	public void setDeltaCacheLimit(int size) {
-		deltaCacheLimit = size;
-	}
-
-	/**
-	 * Get the maximum file size that will be delta compressed.
-	 * <p>
-	 * Files bigger than this setting will not be delta compressed, as they are
-	 * more than likely already highly compressed binary data files that do not
-	 * delta compress well, such as MPEG videos.
-	 *
-	 * @return the configured big file threshold.
-	 */
-	public long getBigFileThreshold() {
-		return bigFileThreshold;
-	}
-
-	/**
-	 * Set the maximum file size that should be considered for deltas.
-	 *
-	 * @param bigFileThreshold
-	 *            the limit, in bytes.
-	 */
-	public void setBigFileThreshold(long bigFileThreshold) {
-		this.bigFileThreshold = bigFileThreshold;
-	}
-
-	/**
-	 * Get the compression level applied to objects in the pack.
-	 *
-	 * @return current compression level, see {@link java.util.zip.Deflater}.
-	 */
-	public int getCompressionLevel() {
-		return compressionLevel;
-	}
-
-	/**
-	 * Set the compression level applied to objects in the pack.
-	 *
-	 * @param level
-	 *            compression level, must be a valid level recognized by the
-	 *            {@link java.util.zip.Deflater} class. Typically this setting
-	 *            is {@link java.util.zip.Deflater#BEST_SPEED}.
-	 */
-	public void setCompressionLevel(int level) {
-		compressionLevel = level;
-	}
-
-	/** @return number of threads used for delta compression. */
-	public int getThreads() {
-		return threads;
-	}
-
-	/**
-	 * Set the number of threads to use for delta compression.
-	 * <p>
-	 * During delta compression, if there are enough objects to be considered
-	 * the writer will start up concurrent threads and allow them to compress
-	 * different sections of the repository concurrently.
-	 * <p>
-	 * An application thread pool can be set by {@link #setExecutor(Executor)}.
-	 * If not set a temporary pool will be created by the writer, and torn down
-	 * automatically when compression is over.
-	 *
-	 * @param threads
-	 *            number of threads to use. If <= 0 the number of available
-	 *            processors for this JVM is used.
-	 */
-	public void setThread(int threads) {
-		this.threads = threads;
-	}
-
-	/**
-	 * Set the executor to use when using threads.
-	 * <p>
-	 * During delta compression if the executor is non-null jobs will be queued
-	 * up on it to perform delta compression in parallel. Aside from setting the
-	 * executor, the caller must set {@link #setThread(int)} to enable threaded
-	 * delta search.
-	 *
-	 * @param executor
-	 *            executor to use for threads. Set to null to create a temporary
-	 *            executor just for this writer.
-	 */
-	public void setExecutor(Executor executor) {
-		this.executor = executor;
 	}
 
 	/** @return true if this writer is producing a thin pack. */
@@ -675,18 +294,6 @@ public class PackWriter {
 	 */
 	public void setIgnoreMissingUninteresting(final boolean ignore) {
 		ignoreMissingUninteresting = ignore;
-	}
-
-	/**
-	 * Set the pack index file format version this instance will create.
-	 *
-	 * @param version
-	 *            the version to write. The special version 0 designates the
-	 *            oldest (most compatible) format available for the objects.
-	 * @see PackIndexWriter
-	 */
-	public void setIndexVersion(final int version) {
-		indexVersion = version;
 	}
 
 	/**
@@ -817,6 +424,7 @@ public class PackWriter {
 	public void writeIndex(final OutputStream indexStream) throws IOException {
 		final List<ObjectToPack> list = sortByName();
 		final PackIndexWriter iw;
+		int indexVersion = config.getIndexVersion();
 		if (indexVersion <= 0)
 			iw = PackIndexWriter.createOldestPossible(indexStream, list);
 		else
@@ -868,9 +476,9 @@ public class PackWriter {
 		if (writeMonitor == null)
 			writeMonitor = NullProgressMonitor.INSTANCE;
 
-		if ((reuseDeltas || reuseObjects) && reuseSupport != null)
+		if ((reuseDeltas || config.isReuseObjects()) && reuseSupport != null)
 			searchForReuse();
-		if (deltaCompress)
+		if (config.isDeltaCompress())
 			searchForDeltas(compressMonitor);
 
 		final PackOutputStream out = new PackOutputStream(writeMonitor,
@@ -980,7 +588,7 @@ public class PackWriter {
 
 		// If its too big for us to handle, skip over it.
 		//
-		if (bigFileThreshold <= sz || Integer.MAX_VALUE <= sz)
+		if (config.getBigFileThreshold() <= sz || Integer.MAX_VALUE <= sz)
 			return false;
 
 		// If its too tiny for the delta compression to work, skip it.
@@ -996,17 +604,18 @@ public class PackWriter {
 			final ObjectToPack[] list, final int cnt)
 			throws MissingObjectException, IncorrectObjectTypeException,
 			LargeObjectException, IOException {
+		int threads = config.getThreads();
 		if (threads == 0)
 			threads = Runtime.getRuntime().availableProcessors();
 
-		if (threads <= 1 || cnt <= 2 * getDeltaSearchWindowSize()) {
-			DeltaCache dc = new DeltaCache(this);
-			DeltaWindow dw = new DeltaWindow(this, dc, reader);
+		if (threads <= 1 || cnt <= 2 * config.getDeltaSearchWindowSize()) {
+			DeltaCache dc = new DeltaCache(config);
+			DeltaWindow dw = new DeltaWindow(config, dc, reader);
 			dw.search(monitor, list, 0, cnt);
 			return;
 		}
 
-		final DeltaCache dc = new ThreadSafeDeltaCache(this);
+		final DeltaCache dc = new ThreadSafeDeltaCache(config);
 		final ProgressMonitor pm = new ThreadSafeProgressMonitor(monitor);
 
 		// Guess at the size of batch we want. Because we don't really
@@ -1015,8 +624,8 @@ public class PackWriter {
 		// are a bit smaller.
 		//
 		int estSize = cnt / (threads * 2);
-		if (estSize < 2 * getDeltaSearchWindowSize())
-			estSize = 2 * getDeltaSearchWindowSize();
+		if (estSize < 2 * config.getDeltaSearchWindowSize())
+			estSize = 2 * config.getDeltaSearchWindowSize();
 
 		final List<DeltaTask> myTasks = new ArrayList<DeltaTask>(threads * 2);
 		for (int i = 0; i < cnt;) {
@@ -1043,9 +652,10 @@ public class PackWriter {
 				batchSize = end - start;
 			}
 			i += batchSize;
-			myTasks.add(new DeltaTask(this, reader, dc, pm, batchSize, start, list));
+			myTasks.add(new DeltaTask(config, reader, dc, pm, batchSize, start, list));
 		}
 
+		final Executor executor = config.getExecutor();
 		final List<Throwable> errors = Collections
 				.synchronizedList(new ArrayList<Throwable>());
 		if (executor instanceof ExecutorService) {
@@ -1269,8 +879,8 @@ public class PackWriter {
 
 	private TemporaryBuffer.Heap delta(final ObjectToPack otp)
 			throws IOException {
-		DeltaIndex index = new DeltaIndex(buffer(reader, otp.getDeltaBaseId()));
-		byte[] res = buffer(reader, otp);
+		DeltaIndex index = new DeltaIndex(buffer(otp.getDeltaBaseId()));
+		byte[] res = buffer(otp);
 
 		// We never would have proposed this pair if the delta would be
 		// larger than the unpacked version of the object. So using it
@@ -1281,7 +891,12 @@ public class PackWriter {
 		return delta;
 	}
 
-	byte[] buffer(ObjectReader or, AnyObjectId objId) throws IOException {
+	private byte[] buffer(AnyObjectId objId) throws IOException {
+		return buffer(config, reader, objId);
+	}
+
+	static byte[] buffer(PackConfig config, ObjectReader or, AnyObjectId objId)
+			throws IOException {
 		ObjectLoader ldr = or.open(objId);
 		if (!ldr.isLarge())
 			return ldr.getCachedBytes();
@@ -1294,7 +909,7 @@ public class PackWriter {
 		// If it really is too big to work with, abort out now.
 		//
 		long sz = ldr.getSize();
-		if (getBigFileThreshold() <= sz || Integer.MAX_VALUE < sz)
+		if (config.getBigFileThreshold() <= sz || Integer.MAX_VALUE < sz)
 			throw new LargeObjectException(objId.copy());
 
 		// Its considered to be large by the loader, but we really
@@ -1321,7 +936,7 @@ public class PackWriter {
 
 	private Deflater deflater() {
 		if (myDeflater == null)
-			myDeflater = new Deflater(compressionLevel);
+			myDeflater = new Deflater(config.getCompressionLevel());
 		return myDeflater;
 	}
 
@@ -1477,7 +1092,7 @@ public class PackWriter {
 				otp.clearDeltaBase();
 				otp.clearReuseAsIs();
 			}
-		} else if (nFmt == PACK_WHOLE && reuseObjects) {
+		} else if (nFmt == PACK_WHOLE && config.isReuseObjects()) {
 			otp.clearDeltaBase();
 			otp.setReuseAsIs();
 			otp.setWeight(nWeight);
