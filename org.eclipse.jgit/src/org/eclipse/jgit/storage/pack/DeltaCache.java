@@ -55,9 +55,9 @@ class DeltaCache {
 
 	private long used;
 
-	DeltaCache(PackWriter pw) {
-		size = pw.getDeltaCacheSize();
-		entryLimit = pw.getDeltaCacheLimit();
+	DeltaCache(PackConfig pc) {
+		size = pc.getDeltaCacheSize();
+		entryLimit = pc.getDeltaCacheLimit();
 		queue = new ReferenceQueue<byte[]>();
 	}
 

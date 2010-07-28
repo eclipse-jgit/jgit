@@ -221,6 +221,21 @@ public class Config {
 	 *
 	 * @param section
 	 *            section the key is grouped within.
+	 * @param name
+	 *            name of the key to get.
+	 * @param defaultValue
+	 *            default value to return if no value was present.
+	 * @return an integer value from the configuration, or defaultValue.
+	 */
+	public long getLong(String section, String name, long defaultValue) {
+		return getLong(section, null, name, defaultValue);
+	}
+
+	/**
+	 * Obtain an integer value from the configuration.
+	 *
+	 * @param section
+	 *            section the key is grouped within.
 	 * @param subsection
 	 *            subsection name, such a remote or branch name.
 	 * @param name
