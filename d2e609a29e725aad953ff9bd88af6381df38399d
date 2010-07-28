@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALxH///yY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/UnpackedObject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-28T18:56:12Z",
+      "side": 1,
+      "message": "I would flip the order and release the Inflater first.  That basically cannot fail, while super.close() could still throw some other sort of exception.  I\u0027ll cherry-pick and make the change.",
+      "revId": "d2e609a29e725aad953ff9bd88af6381df38399d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
