@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALxH///28\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffEntry.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-27T18:13:43Z",
+      "side": 1,
+      "message": "Style-nit: We don\u0027t use tab in Javadoc",
+      "revId": "a3b921766784aa345009d69f76c7037a056b9683",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALxH///24\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffEntry.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-27T18:13:43Z",
+      "side": 1,
+      "message": "\"Breaks apart a DiffEntry into two entries, one DELETE and one ADD.\"",
+      "revId": "a3b921766784aa345009d69f76c7037a056b9683",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALxH///20\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffEntry.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-27T18:13:43Z",
+      "side": 1,
+      "message": "s/DiffEntrys/entries/",
+      "revId": "a3b921766784aa345009d69f76c7037a056b9683",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALxH///2w\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffFormatter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-27T18:13:43Z",
+      "side": 1,
+      "message": "This should only appear if the score isn\u0027t 0 and isn\u0027t 100.",
+      "revId": "a3b921766784aa345009d69f76c7037a056b9683",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALxH///2s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RenameDetector.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-27T18:13:43Z",
+      "side": 1,
+      "message": "Non-modify entries should be added back onto newEntries.",
+      "revId": "a3b921766784aa345009d69f76c7037a056b9683",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALxH///2o\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RenameDetector.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-27T18:13:43Z",
+      "side": 1,
+      "message": "Just use remove here.  Its faster to remove-and-get in one step than it is to get and later do a remove of the same key.",
+      "revId": "a3b921766784aa345009d69f76c7037a056b9683",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALxH///2g\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RenameDetector.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-27T18:13:43Z",
+      "side": 1,
+      "message": "Please drop this reformatting hunk.",
+      "revId": "a3b921766784aa345009d69f76c7037a056b9683",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALxH///2k\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RenameDetector.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 502,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-27T18:13:43Z",
+      "side": 1,
+      "message": "Please drop this reformatting hunk.",
+      "revId": "a3b921766784aa345009d69f76c7037a056b9683",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
