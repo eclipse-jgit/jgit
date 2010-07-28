@@ -108,9 +108,9 @@ public class EGitPatchHistoryTest extends TestCase {
 			for (final FileHeader fh : p.getFiles()) {
 				final String fileName;
 				if (fh.getChangeType() != FileHeader.ChangeType.DELETE)
-					fileName = fh.getNewName();
+					fileName = fh.getNewPath();
 				else
-					fileName = fh.getOldName();
+					fileName = fh.getOldPath();
 				final StatInfo s = files.remove(fileName);
 				final String nid = fileName + " in " + cid;
 				assertNotNull("No " + nid, s);

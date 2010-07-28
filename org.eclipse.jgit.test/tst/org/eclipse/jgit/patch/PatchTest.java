@@ -68,11 +68,11 @@ public class PatchTest extends TestCase {
 
 		assertEquals(
 				"org.eclipse.jgit.test/tst/org/spearce/jgit/lib/RepositoryConfigTest.java",
-				fRepositoryConfigTest.getNewName());
+				fRepositoryConfigTest.getNewPath());
 
 		assertEquals(
 				"org.eclipse.jgit/src/org/spearce/jgit/lib/RepositoryConfig.java",
-				fRepositoryConfig.getNewName());
+				fRepositoryConfig.getNewPath());
 
 		assertEquals(572, fRepositoryConfigTest.startOffset);
 		assertEquals(1490, fRepositoryConfig.startOffset);
@@ -168,7 +168,7 @@ public class PatchTest extends TestCase {
 			assertEquals("0000000", fh.getOldId().name());
 			assertSame(FileMode.MISSING, fh.getOldMode());
 			assertSame(FileMode.REGULAR_FILE, fh.getNewMode());
-			assertTrue(fh.getNewName().startsWith(
+			assertTrue(fh.getNewPath().startsWith(
 					"org.spearce.egit.ui/icons/toolbar/"));
 			assertSame(FileHeader.PatchType.BINARY, fh.getPatchType());
 			assertTrue(fh.getHunks().isEmpty());
@@ -179,7 +179,7 @@ public class PatchTest extends TestCase {
 		}
 
 		final FileHeader fh = p.getFiles().get(4);
-		assertEquals("org.spearce.egit.ui/plugin.xml", fh.getNewName());
+		assertEquals("org.spearce.egit.ui/plugin.xml", fh.getNewPath());
 		assertSame(FileHeader.ChangeType.MODIFY, fh.getChangeType());
 		assertSame(FileHeader.PatchType.UNIFIED, fh.getPatchType());
 		assertFalse(fh.hasMetaDataChanges());
@@ -203,7 +203,7 @@ public class PatchTest extends TestCase {
 			assertNotNull(fh.getNewId());
 			assertEquals(ObjectId.zeroId().name(), fh.getOldId().name());
 			assertSame(FileMode.REGULAR_FILE, fh.getNewMode());
-			assertTrue(fh.getNewName().startsWith(
+			assertTrue(fh.getNewPath().startsWith(
 					"org.spearce.egit.ui/icons/toolbar/"));
 			assertSame(FileHeader.PatchType.GIT_BINARY, fh.getPatchType());
 			assertTrue(fh.getHunks().isEmpty());
@@ -224,7 +224,7 @@ public class PatchTest extends TestCase {
 		}
 
 		final FileHeader fh = p.getFiles().get(4);
-		assertEquals("org.spearce.egit.ui/plugin.xml", fh.getNewName());
+		assertEquals("org.spearce.egit.ui/plugin.xml", fh.getNewPath());
 		assertSame(FileHeader.ChangeType.MODIFY, fh.getChangeType());
 		assertSame(FileHeader.PatchType.UNIFIED, fh.getPatchType());
 		assertFalse(fh.hasMetaDataChanges());
@@ -241,7 +241,7 @@ public class PatchTest extends TestCase {
 		assertTrue(p.getErrors().isEmpty());
 
 		final FileHeader fh = p.getFiles().get(0);
-		assertTrue(fh.getNewName().startsWith("zero.bin"));
+		assertTrue(fh.getNewPath().startsWith("zero.bin"));
 		assertSame(FileHeader.ChangeType.MODIFY, fh.getChangeType());
 		assertSame(FileHeader.PatchType.GIT_BINARY, fh.getPatchType());
 		assertSame(FileMode.REGULAR_FILE, fh.getNewMode());
@@ -279,7 +279,7 @@ public class PatchTest extends TestCase {
 
 		final FileHeader f = p.getFiles().get(0);
 
-		assertEquals("a", f.getNewName());
+		assertEquals("a", f.getNewPath());
 		assertEquals(252, f.startOffset);
 
 		assertEquals("2e65efe", f.getOldId().name());
@@ -313,7 +313,7 @@ public class PatchTest extends TestCase {
 
 		final FileHeader f = p.getFiles().get(0);
 
-		assertEquals("a", f.getNewName());
+		assertEquals("a", f.getNewPath());
 		assertEquals(256, f.startOffset);
 
 		assertEquals("f2ad6c7", f.getOldId().name());

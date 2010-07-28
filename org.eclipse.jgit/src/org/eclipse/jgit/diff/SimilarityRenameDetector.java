@@ -266,7 +266,7 @@ class SimilarityRenameDetector {
 				// nameScore returns a value between 0 and 100, but we want it
 				// to be in the same range as the content score. This allows it
 				// to be dropped into the pretty formula for the final score.
-				int nameScore = nameScore(srcEnt.oldName, dstEnt.newName) * 100;
+				int nameScore = nameScore(srcEnt.oldPath, dstEnt.newPath) * 100;
 
 				int score = (contentScore * 99 + nameScore * 1) / 10000;
 

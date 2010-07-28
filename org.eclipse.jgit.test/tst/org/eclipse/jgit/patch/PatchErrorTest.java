@@ -56,7 +56,7 @@ public class PatchErrorTest extends TestCase {
 			final FileHeader fh = p.getFiles().get(0);
 			assertEquals(
 					"org.eclipse.jgit/src/org/spearce/jgit/lib/RepositoryConfig.java",
-					fh.getNewName());
+					fh.getNewPath());
 			assertEquals(1, fh.getHunks().size());
 		}
 
@@ -114,14 +114,14 @@ public class PatchErrorTest extends TestCase {
 			final FileHeader fh = p.getFiles().get(0);
 			assertEquals(
 					"org.eclipse.jgit.test/tst/org/spearce/jgit/lib/RepositoryConfigTest.java",
-					fh.getNewName());
+					fh.getNewPath());
 			assertEquals(1, fh.getHunks().size());
 		}
 		{
 			final FileHeader fh = p.getFiles().get(1);
 			assertEquals(
 					"org.eclipse.jgit/src/org/spearce/jgit/lib/RepositoryConfig.java",
-					fh.getNewName());
+					fh.getNewPath());
 			assertEquals(1, fh.getHunks().size());
 		}
 
@@ -139,7 +139,7 @@ public class PatchErrorTest extends TestCase {
 		{
 			final FileHeader fh = p.getFiles().get(0);
 			assertEquals("org.spearce.egit.ui/icons/toolbar/fetchd.png", fh
-					.getNewName());
+					.getNewPath());
 			assertSame(FileHeader.PatchType.GIT_BINARY, fh.getPatchType());
 			assertTrue(fh.getHunks().isEmpty());
 			assertNull(fh.getForwardBinaryHunk());
@@ -147,7 +147,7 @@ public class PatchErrorTest extends TestCase {
 		{
 			final FileHeader fh = p.getFiles().get(1);
 			assertEquals("org.spearce.egit.ui/icons/toolbar/fetche.png", fh
-					.getNewName());
+					.getNewPath());
 			assertSame(FileHeader.PatchType.UNIFIED, fh.getPatchType());
 			assertTrue(fh.getHunks().isEmpty());
 			assertNull(fh.getForwardBinaryHunk());

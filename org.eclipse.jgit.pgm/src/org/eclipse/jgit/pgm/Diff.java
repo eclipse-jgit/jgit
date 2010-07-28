@@ -153,22 +153,22 @@ class Diff extends TextBuiltin {
 		for (DiffEntry ent : files) {
 			switch (ent.getChangeType()) {
 			case ADD:
-				out.println("A\t" + ent.getNewName());
+				out.println("A\t" + ent.getNewPath());
 				break;
 			case DELETE:
-				out.println("D\t" + ent.getOldName());
+				out.println("D\t" + ent.getOldPath());
 				break;
 			case MODIFY:
-				out.println("M\t" + ent.getNewName());
+				out.println("M\t" + ent.getNewPath());
 				break;
 			case COPY:
 				out.format("C%1$03d\t%2$s\t%3$s", ent.getScore(), //
-						ent.getOldName(), ent.getNewName());
+						ent.getOldPath(), ent.getNewPath());
 				out.println();
 				break;
 			case RENAME:
 				out.format("R%1$03d\t%2$s\t%3$s", ent.getScore(), //
-						ent.getOldName(), ent.getNewName());
+						ent.getOldPath(), ent.getNewPath());
 				out.println();
 				break;
 			}

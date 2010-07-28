@@ -242,7 +242,7 @@ class Log extends RevWalkTextBuiltin {
 		String oldPath = ((FollowFilter) pathFilter).getPath();
 		for (DiffEntry ent : files) {
 			if (ent.getChangeType() == ChangeType.ADD
-					&& ent.getNewName().equals(oldPath))
+					&& ent.getNewPath().equals(oldPath))
 				return true;
 		}
 		return false;
@@ -251,8 +251,8 @@ class Log extends RevWalkTextBuiltin {
 	private List<DiffEntry> updateFollowFilter(List<DiffEntry> files) {
 		String oldPath = ((FollowFilter) pathFilter).getPath();
 		for (DiffEntry ent : files) {
-			if (isRename(ent) && ent.getNewName().equals(oldPath)) {
-				pathFilter = FollowFilter.create(ent.getOldName());
+			if (isRename(ent) && ent.getNewPath().equals(oldPath)) {
+				pathFilter = FollowFilter.create(ent.getOldPath());
 				return Collections.singletonList(ent);
 			}
 		}

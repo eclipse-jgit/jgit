@@ -246,8 +246,8 @@ public class DiffFormatter {
 
 	private void writeDiffHeader(OutputStream o, DiffEntry ent)
 			throws IOException {
-		String oldName = quotePath("a/" + ent.getOldName());
-		String newName = quotePath("b/" + ent.getNewName());
+		String oldName = quotePath("a/" + ent.getOldPath());
+		String newName = quotePath("b/" + ent.getNewPath());
 		o.write(encode("diff --git " + oldName + " " + newName + "\n"));
 
 		switch (ent.getChangeType()) {
@@ -267,10 +267,10 @@ public class DiffFormatter {
 			o.write(encodeASCII("similarity index " + ent.getScore() + "%"));
 			o.write('\n');
 
-			o.write(encode("rename from " + quotePath(ent.getOldName())));
+			o.write(encode("rename from " + quotePath(ent.getOldPath())));
 			o.write('\n');
 
-			o.write(encode("rename to " + quotePath(ent.getNewName())));
+			o.write(encode("rename to " + quotePath(ent.getNewPath())));
 			o.write('\n');
 			break;
 
@@ -278,10 +278,10 @@ public class DiffFormatter {
 			o.write(encodeASCII("similarity index " + ent.getScore() + "%"));
 			o.write('\n');
 
-			o.write(encode("copy from " + quotePath(ent.getOldName())));
+			o.write(encode("copy from " + quotePath(ent.getOldPath())));
 			o.write('\n');
 
-			o.write(encode("copy to " + quotePath(ent.getNewName())));
+			o.write(encode("copy to " + quotePath(ent.getNewPath())));
 			o.write('\n');
 
 			if (!ent.getOldMode().equals(ent.getNewMode())) {
