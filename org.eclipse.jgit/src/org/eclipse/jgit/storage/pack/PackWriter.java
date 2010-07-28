@@ -58,8 +58,12 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.zip.Deflater;
 import java.util.zip.DeflaterOutputStream;
@@ -217,6 +221,8 @@ public class PackWriter {
 	private long bigFileThreshold = DEFAULT_BIG_FILE_THRESHOLD;
 
 	private int threads = 1;
+
+	private Executor executor;
 
 	private boolean thin;
 
@@ -603,6 +609,10 @@ public class PackWriter {
 	 * During delta compression, if there are enough objects to be considered
 	 * the writer will start up concurrent threads and allow them to compress
 	 * different sections of the repository concurrently.
+	 * <p>
+	 * An application thread pool can be set by {@link #setExecutor(Executor)}.
+	 * If not set a temporary pool will be created by the writer, and torn down
+	 * automatically when compression is over.
 	 *
 	 * @param threads
 	 *            number of threads to use. If <= 0 the number of available
@@ -610,6 +620,22 @@ public class PackWriter {
 	 */
 	public void setThread(int threads) {
 		this.threads = threads;
+	}
+
+	/**
+	 * Set the executor to use when using threads.
+	 * <p>
+	 * During delta compression if the executor is non-null jobs will be queued
+	 * up on it to perform delta compression in parallel. Aside from setting the
+	 * executor, the caller must set {@link #setThread(int)} to enable threaded
+	 * delta search.
+	 *
+	 * @param executor
+	 *            executor to use for threads. Set to null to create a temporary
+	 *            executor just for this writer.
+	 */
+	public void setExecutor(Executor executor) {
+		this.executor = executor;
 	}
 
 	/** @return true if this writer is producing a thin pack. */
@@ -980,11 +1006,8 @@ public class PackWriter {
 			return;
 		}
 
-		final List<Throwable> errors = Collections
-				.synchronizedList(new ArrayList<Throwable>());
 		final DeltaCache dc = new ThreadSafeDeltaCache(this);
 		final ProgressMonitor pm = new ThreadSafeProgressMonitor(monitor);
-		final ExecutorService pool = Executors.newFixedThreadPool(threads);
 
 		// Guess at the size of batch we want. Because we don't really
 		// have a way for a thread to steal work from another thread if
@@ -995,6 +1018,7 @@ public class PackWriter {
 		if (estSize < 2 * getDeltaSearchWindowSize())
 			estSize = 2 * getDeltaSearchWindowSize();
 
+		final List<DeltaTask> myTasks = new ArrayList<DeltaTask>(threads * 2);
 		for (int i = 0; i < cnt;) {
 			final int start = i;
 			final int batchSize;
@@ -1019,39 +1043,66 @@ public class PackWriter {
 				batchSize = end - start;
 			}
 			i += batchSize;
-
-			pool.submit(new Runnable() {
-				public void run() {
-					try {
-						final ObjectReader or = reader.newReader();
-						try {
-							DeltaWindow dw;
-							dw = new DeltaWindow(PackWriter.this, dc, or);
-							dw.search(pm, list, start, batchSize);
-						} finally {
-							or.release();
-						}
-					} catch (Throwable err) {
-						errors.add(err);
-					}
-				}
-			});
+			myTasks.add(new DeltaTask(this, reader, dc, pm, batchSize, start, list));
 		}
 
-		// Tell the pool to stop.
-		//
-		pool.shutdown();
-		for (;;) {
+		final List<Throwable> errors = Collections
+				.synchronizedList(new ArrayList<Throwable>());
+		if (executor instanceof ExecutorService) {
+			// Caller supplied us a service, use it directly.
+			//
+			runTasks((ExecutorService) executor, myTasks, errors);
+
+		} else if (executor == null) {
+			// Caller didn't give us a way to run the tasks, spawn up a
+			// temporary thread pool and make sure it tears down cleanly.
+			//
+			ExecutorService pool = Executors.newFixedThreadPool(threads);
 			try {
-				if (pool.awaitTermination(60, TimeUnit.SECONDS))
-					break;
-			} catch (InterruptedException e) {
+				runTasks(pool, myTasks, errors);
+			} finally {
+				pool.shutdown();
+				for (;;) {
+					try {
+						if (pool.awaitTermination(60, TimeUnit.SECONDS))
+							break;
+					} catch (InterruptedException e) {
+						throw new IOException(
+								JGitText.get().packingCancelledDuringObjectsWriting);
+					}
+				}
+			}
+		} else {
+			// The caller gave us an executor, but it might not do
+			// asynchronous execution.  Wrap everything and hope it
+			// can schedule these for us.
+			//
+			final CountDownLatch done = new CountDownLatch(myTasks.size());
+			for (final DeltaTask task : myTasks) {
+				executor.execute(new Runnable() {
+					public void run() {
+						try {
+							task.call();
+						} catch (Throwable failure) {
+							errors.add(failure);
+						} finally {
+							done.countDown();
+						}
+					}
+				});
+			}
+			try {
+				done.await();
+			} catch (InterruptedException ie) {
+				// We can't abort the other tasks as we have no handle.
+				// Cross our fingers and just break out anyway.
+				//
 				throw new IOException(
 						JGitText.get().packingCancelledDuringObjectsWriting);
 			}
 		}
 
-		// If any thread threw an error, try to report it back as
+		// If any task threw an error, try to report it back as
 		// though we weren't using a threaded search algorithm.
 		//
 		if (!errors.isEmpty()) {
@@ -1066,6 +1117,28 @@ public class PackWriter {
 			IOException fail = new IOException(err.getMessage());
 			fail.initCause(err);
 			throw fail;
+		}
+	}
+
+	private void runTasks(ExecutorService pool, List<DeltaTask> tasks,
+			List<Throwable> errors) throws IOException {
+		List<Future<?>> futures = new ArrayList<Future<?>>(tasks.size());
+		for (DeltaTask task : tasks)
+			futures.add(pool.submit(task));
+
+		try {
+			for (Future<?> f : futures) {
+				try {
+					f.get();
+				} catch (ExecutionException failed) {
+					errors.add(failed.getCause());
+				}
+			}
+		} catch (InterruptedException ie) {
+			for (Future<?> f : futures)
+				f.cancel(true);
+			throw new IOException(
+					JGitText.get().packingCancelledDuringObjectsWriting);
 		}
 	}
 
