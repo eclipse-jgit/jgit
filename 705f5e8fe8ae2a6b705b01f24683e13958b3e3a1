@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALxH///1o\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffEntry.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-28T00:43:15Z",
+      "side": 1,
+      "message": "I still hate \"DiffEntrys\".  Its bad english.  But DiffEntries is strange because the class isn\u0027t called DiffEntrie.  Hence the generic term \"entries\" in the proposed text.  Also you are missing some sort of word like \"into\" here.  \"a thing two things\" makes no sense.  \"a thing into two things\" does.",
+      "revId": "705f5e8fe8ae2a6b705b01f24683e13958b3e3a1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALxH///1k\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffFormatter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-28T00:43:15Z",
+      "side": 1,
+      "message": "Style-nit:  I prefer:\n\n  if (0 \u003c score \u0026\u0026 score \u003c\u003d 100)\n\nBecause its easier to see that score is between these bounds.",
+      "revId": "705f5e8fe8ae2a6b705b01f24683e13958b3e3a1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
