@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALw3///0Q\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RacyGitTests.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-22T18:10:19Z",
+      "side": 1,
+      "message": "Style-nit:  Remove commented out code.",
+      "revId": "115c3f2f20fca9b481830bdc6b9d1ade2c3abdcf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALw3///0Y\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RacyGitTests.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-22T18:10:19Z",
+      "side": 1,
+      "message": "Why deleteOnExit?  If you create this file in the trash directory for this test, it will be cleaned up automatically when the test ends.  We also can delete it when the function returns.",
+      "revId": "115c3f2f20fca9b481830bdc6b9d1ade2c3abdcf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALw3///0U\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RacyGitTests.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-22T18:10:19Z",
+      "side": 1,
+      "message": "Please don\u0027t use platform encoding in tests.",
+      "revId": "115c3f2f20fca9b481830bdc6b9d1ade2c3abdcf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALw3///0c\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RepositoryTestCase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-22T18:10:19Z",
+      "side": 1,
+      "message": "Please only declare variables within the scope they are needed, like inside of the while loop.",
+      "revId": "115c3f2f20fca9b481830bdc6b9d1ade2c3abdcf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALw3///0g\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RepositoryTestCase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-22T18:10:19Z",
+      "side": 1,
+      "message": "This message index/file is the opposite of what the string actually is.",
+      "revId": "115c3f2f20fca9b481830bdc6b9d1ade2c3abdcf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
