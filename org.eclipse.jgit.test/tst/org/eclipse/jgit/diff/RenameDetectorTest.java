@@ -498,10 +498,10 @@ public class RenameDetectorTest extends RepositoryTestCase {
 		assertEquals(1, entries.size());
 
 		DiffEntry modify = entries.get(0);
-		assertEquals(m.oldName, modify.oldName);
+		assertEquals(m.oldPath, modify.oldPath);
 		assertEquals(m.oldId, modify.oldId);
 		assertEquals(m.oldMode, modify.oldMode);
-		assertEquals(m.newName, modify.newName);
+		assertEquals(m.newPath, modify.newPath);
 		assertEquals(m.newId, modify.newId);
 		assertEquals(m.newMode, modify.newMode);
 		assertEquals(m.changeType, modify.changeType);
@@ -560,8 +560,8 @@ public class RenameDetectorTest extends RepositoryTestCase {
 			DiffEntry rename) {
 		assertEquals(ChangeType.RENAME, rename.getChangeType());
 
-		assertEquals(o.getOldName(), rename.getOldName());
-		assertEquals(n.getNewName(), rename.getNewName());
+		assertEquals(o.getOldPath(), rename.getOldPath());
+		assertEquals(n.getNewPath(), rename.getNewPath());
 
 		assertEquals(o.getOldMode(), rename.getOldMode());
 		assertEquals(n.getNewMode(), rename.getNewMode());
@@ -576,8 +576,8 @@ public class RenameDetectorTest extends RepositoryTestCase {
 			DiffEntry copy) {
 		assertEquals(ChangeType.COPY, copy.getChangeType());
 
-		assertEquals(o.getOldName(), copy.getOldName());
-		assertEquals(n.getNewName(), copy.getNewName());
+		assertEquals(o.getOldPath(), copy.getOldPath());
+		assertEquals(n.getNewPath(), copy.getNewPath());
 
 		assertEquals(o.getOldMode(), copy.getOldMode());
 		assertEquals(n.getNewMode(), copy.getNewMode());
@@ -590,11 +590,11 @@ public class RenameDetectorTest extends RepositoryTestCase {
 
 	private static void assertAdd(String newName, ObjectId newId,
 			FileMode newMode, DiffEntry add) {
-		assertEquals(DiffEntry.DEV_NULL, add.oldName);
+		assertEquals(DiffEntry.DEV_NULL, add.oldPath);
 		assertEquals(DiffEntry.A_ZERO, add.oldId);
 		assertEquals(FileMode.MISSING, add.oldMode);
 		assertEquals(ChangeType.ADD, add.changeType);
-		assertEquals(newName, add.newName);
+		assertEquals(newName, add.newPath);
 		assertEquals(AbbreviatedObjectId.fromObjectId(newId), add.newId);
 		assertEquals(newMode, add.newMode);
 	}

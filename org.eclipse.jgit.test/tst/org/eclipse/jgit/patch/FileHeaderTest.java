@@ -79,16 +79,16 @@ public class FileHeaderTest extends TestCase {
 		final FileHeader fh = header(name);
 		assertEquals(gitLine(name).length(), fh.parseGitFileName(0,
 				fh.buf.length));
-		assertEquals(name, fh.getOldName());
-		assertSame(fh.getOldName(), fh.getNewName());
+		assertEquals(name, fh.getOldPath());
+		assertSame(fh.getOldPath(), fh.getNewPath());
 		assertFalse(fh.hasMetaDataChanges());
 	}
 
 	public void testParseGitFileName_FailFooBar() {
 		final FileHeader fh = data("a/foo b/bar\n-");
 		assertTrue(fh.parseGitFileName(0, fh.buf.length) > 0);
-		assertNull(fh.getOldName());
-		assertNull(fh.getNewName());
+		assertNull(fh.getOldPath());
+		assertNull(fh.getNewPath());
 		assertFalse(fh.hasMetaDataChanges());
 	}
 
@@ -97,8 +97,8 @@ public class FileHeaderTest extends TestCase {
 		final FileHeader fh = header(name);
 		assertEquals(gitLine(name).length(), fh.parseGitFileName(0,
 				fh.buf.length));
-		assertEquals(name, fh.getOldName());
-		assertSame(fh.getOldName(), fh.getNewName());
+		assertEquals(name, fh.getOldPath());
+		assertSame(fh.getOldPath(), fh.getNewPath());
 		assertFalse(fh.hasMetaDataChanges());
 	}
 
@@ -108,8 +108,8 @@ public class FileHeaderTest extends TestCase {
 		final FileHeader fh = dqHeader(dqName);
 		assertEquals(dqGitLine(dqName).length(), fh.parseGitFileName(0,
 				fh.buf.length));
-		assertEquals(name, fh.getOldName());
-		assertSame(fh.getOldName(), fh.getNewName());
+		assertEquals(name, fh.getOldPath());
+		assertSame(fh.getOldPath(), fh.getNewPath());
 		assertFalse(fh.hasMetaDataChanges());
 	}
 
@@ -119,8 +119,8 @@ public class FileHeaderTest extends TestCase {
 		final FileHeader fh = dqHeader(dqName);
 		assertEquals(dqGitLine(dqName).length(), fh.parseGitFileName(0,
 				fh.buf.length));
-		assertEquals(name, fh.getOldName());
-		assertSame(fh.getOldName(), fh.getNewName());
+		assertEquals(name, fh.getOldPath());
+		assertSame(fh.getOldPath(), fh.getNewPath());
 		assertFalse(fh.hasMetaDataChanges());
 	}
 
@@ -129,8 +129,8 @@ public class FileHeaderTest extends TestCase {
 		final FileHeader fh = header(name);
 		assertEquals(gitLine(name).length(), fh.parseGitFileName(0,
 				fh.buf.length));
-		assertEquals(name, fh.getOldName());
-		assertSame(fh.getOldName(), fh.getNewName());
+		assertEquals(name, fh.getOldPath());
+		assertSame(fh.getOldPath(), fh.getNewPath());
 		assertFalse(fh.hasMetaDataChanges());
 	}
 
@@ -139,8 +139,8 @@ public class FileHeaderTest extends TestCase {
 		final String header = "project-v-1.0/" + name + " mydev/" + name + "\n";
 		final FileHeader fh = data(header + "-");
 		assertEquals(header.length(), fh.parseGitFileName(0, fh.buf.length));
-		assertEquals(name, fh.getOldName());
-		assertSame(fh.getOldName(), fh.getNewName());
+		assertEquals(name, fh.getOldPath());
+		assertSame(fh.getOldPath(), fh.getNewPath());
 		assertFalse(fh.hasMetaDataChanges());
 	}
 
@@ -153,9 +153,9 @@ public class FileHeaderTest extends TestCase {
 				+ "@@ -0,0 +1 @@\n" + "+a\n");
 		assertParse(fh);
 
-		assertEquals("/dev/null", fh.getOldName());
-		assertSame(DiffEntry.DEV_NULL, fh.getOldName());
-		assertEquals("\u00c5ngstr\u00f6m", fh.getNewName());
+		assertEquals("/dev/null", fh.getOldPath());
+		assertSame(DiffEntry.DEV_NULL, fh.getOldPath());
+		assertEquals("\u00c5ngstr\u00f6m", fh.getNewPath());
 
 		assertSame(FileHeader.ChangeType.ADD, fh.getChangeType());
 		assertSame(FileHeader.PatchType.UNIFIED, fh.getPatchType());
@@ -178,9 +178,9 @@ public class FileHeaderTest extends TestCase {
 				+ "@@ -1 +0,0 @@\n" + "-a\n");
 		assertParse(fh);
 
-		assertEquals("\u00c5ngstr\u00f6m", fh.getOldName());
-		assertEquals("/dev/null", fh.getNewName());
-		assertSame(DiffEntry.DEV_NULL, fh.getNewName());
+		assertEquals("\u00c5ngstr\u00f6m", fh.getOldPath());
+		assertEquals("/dev/null", fh.getNewPath());
+		assertSame(DiffEntry.DEV_NULL, fh.getNewPath());
 
 		assertSame(FileHeader.ChangeType.DELETE, fh.getChangeType());
 		assertSame(FileHeader.PatchType.UNIFIED, fh.getPatchType());
@@ -198,8 +198,8 @@ public class FileHeaderTest extends TestCase {
 		final FileHeader fh = data("diff --git a/a b b/a b\n"
 				+ "old mode 100644\n" + "new mode 100755\n");
 		assertParse(fh);
-		assertEquals("a b", fh.getOldName());
-		assertEquals("a b", fh.getNewName());
+		assertEquals("a b", fh.getOldPath());
+		assertEquals("a b", fh.getNewPath());
 
 		assertSame(FileHeader.ChangeType.MODIFY, fh.getChangeType());
 		assertSame(FileHeader.PatchType.UNIFIED, fh.getPatchType());
@@ -220,14 +220,14 @@ public class FileHeaderTest extends TestCase {
 				+ "rename to \" c/\\303\\205ngstr\\303\\266m\"\n");
 		int ptr = fh.parseGitFileName(0, fh.buf.length);
 		assertTrue(ptr > 0);
-		assertNull(fh.getOldName()); // can't parse names on a rename
-		assertNull(fh.getNewName());
+		assertNull(fh.getOldPath()); // can't parse names on a rename
+		assertNull(fh.getNewPath());
 
 		ptr = fh.parseGitHeaders(ptr, fh.buf.length);
 		assertTrue(ptr > 0);
 
-		assertEquals("a", fh.getOldName());
-		assertEquals(" c/\u00c5ngstr\u00f6m", fh.getNewName());
+		assertEquals("a", fh.getOldPath());
+		assertEquals(" c/\u00c5ngstr\u00f6m", fh.getNewPath());
 
 		assertSame(FileHeader.ChangeType.RENAME, fh.getChangeType());
 		assertSame(FileHeader.PatchType.UNIFIED, fh.getPatchType());
@@ -249,14 +249,14 @@ public class FileHeaderTest extends TestCase {
 				+ "rename new \" c/\\303\\205ngstr\\303\\266m\"\n");
 		int ptr = fh.parseGitFileName(0, fh.buf.length);
 		assertTrue(ptr > 0);
-		assertNull(fh.getOldName()); // can't parse names on a rename
-		assertNull(fh.getNewName());
+		assertNull(fh.getOldPath()); // can't parse names on a rename
+		assertNull(fh.getNewPath());
 
 		ptr = fh.parseGitHeaders(ptr, fh.buf.length);
 		assertTrue(ptr > 0);
 
-		assertEquals("a", fh.getOldName());
-		assertEquals(" c/\u00c5ngstr\u00f6m", fh.getNewName());
+		assertEquals("a", fh.getOldPath());
+		assertEquals(" c/\u00c5ngstr\u00f6m", fh.getNewPath());
 
 		assertSame(FileHeader.ChangeType.RENAME, fh.getChangeType());
 		assertSame(FileHeader.PatchType.UNIFIED, fh.getPatchType());
@@ -278,14 +278,14 @@ public class FileHeaderTest extends TestCase {
 				+ "copy to \" c/\\303\\205ngstr\\303\\266m\"\n");
 		int ptr = fh.parseGitFileName(0, fh.buf.length);
 		assertTrue(ptr > 0);
-		assertNull(fh.getOldName()); // can't parse names on a copy
-		assertNull(fh.getNewName());
+		assertNull(fh.getOldPath()); // can't parse names on a copy
+		assertNull(fh.getNewPath());
 
 		ptr = fh.parseGitHeaders(ptr, fh.buf.length);
 		assertTrue(ptr > 0);
 
-		assertEquals("a", fh.getOldName());
-		assertEquals(" c/\u00c5ngstr\u00f6m", fh.getNewName());
+		assertEquals("a", fh.getOldPath());
+		assertEquals(" c/\u00c5ngstr\u00f6m", fh.getNewPath());
 
 		assertSame(FileHeader.ChangeType.COPY, fh.getChangeType());
 		assertSame(FileHeader.PatchType.UNIFIED, fh.getPatchType());
@@ -307,8 +307,8 @@ public class FileHeaderTest extends TestCase {
 				+ ".." + nid + " 100644\n" + "--- a/a\n" + "+++ b/a\n");
 		assertParse(fh);
 
-		assertEquals("a", fh.getOldName());
-		assertEquals("a", fh.getNewName());
+		assertEquals("a", fh.getOldPath());
+		assertEquals("a", fh.getNewPath());
 
 		assertSame(FileMode.REGULAR_FILE, fh.getOldMode());
 		assertSame(FileMode.REGULAR_FILE, fh.getNewMode());
@@ -331,8 +331,8 @@ public class FileHeaderTest extends TestCase {
 				+ ".." + nid + "\n" + "--- a/a\n" + "+++ b/a\n");
 		assertParse(fh);
 
-		assertEquals("a", fh.getOldName());
-		assertEquals("a", fh.getNewName());
+		assertEquals("a", fh.getOldPath());
+		assertEquals("a", fh.getNewPath());
 		assertFalse(fh.hasMetaDataChanges());
 
 		assertNull(fh.getOldMode());
@@ -357,8 +357,8 @@ public class FileHeaderTest extends TestCase {
 				+ " 100644\n" + "--- a/a\n" + "+++ b/a\n");
 		assertParse(fh);
 
-		assertEquals("a", fh.getOldName());
-		assertEquals("a", fh.getNewName());
+		assertEquals("a", fh.getOldPath());
+		assertEquals("a", fh.getNewPath());
 
 		assertSame(FileMode.REGULAR_FILE, fh.getOldMode());
 		assertSame(FileMode.REGULAR_FILE, fh.getNewMode());
@@ -386,8 +386,8 @@ public class FileHeaderTest extends TestCase {
 				+ "\n" + "--- a/a\n" + "+++ b/a\n");
 		assertParse(fh);
 
-		assertEquals("a", fh.getOldName());
-		assertEquals("a", fh.getNewName());
+		assertEquals("a", fh.getOldPath());
+		assertEquals("a", fh.getNewPath());
 
 		assertNull(fh.getOldMode());
 		assertNull(fh.getNewMode());
