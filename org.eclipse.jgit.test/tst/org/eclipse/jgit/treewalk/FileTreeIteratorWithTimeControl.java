@@ -43,6 +43,7 @@
 package org.eclipse.jgit.treewalk;
 
 import java.io.File;
+import java.util.SortedSet;
 import java.util.TreeSet;
 
 import org.eclipse.jgit.lib.ObjectReader;
@@ -98,8 +99,8 @@ public class FileTreeIteratorWithTimeControl extends FileTreeIterator {
 
 	@Override
 	public long getEntryLastModified() {
-		Long cutOff = modTimes
-				.floor(Long.valueOf(super.getEntryLastModified()));
-		return (cutOff == null) ? 0 : cutOff;
+		Long cutOff = Long.valueOf(super.getEntryLastModified());
+		SortedSet<Long> head = modTimes.headSet(cutOff);
+		return head.isEmpty() ? 0 : head.last().longValue();
 	}
 }
