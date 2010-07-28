@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAALw3///z8\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RacyGitTests.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-07-22T22:03:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALw3///0Q\u003d",
+      "revId": "115c3f2f20fca9b481830bdc6b9d1ade2c3abdcf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALw3///0Y\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RacyGitTests.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2010-07-22T18:10:19Z",
       "side": 1,
       "message": "Why deleteOnExit?  If you create this file in the trash directory for this test, it will be cleaned up automatically when the test ends.  We also can delete it when the function returns.",
+      "revId": "115c3f2f20fca9b481830bdc6b9d1ade2c3abdcf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALw3///z4\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RacyGitTests.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-07-22T22:03:46Z",
+      "side": 1,
+      "message": "I don\u0027t wanted the file to be in the working-dir (where trash files go) because I inspect the work-dir in my tests. But I choose your other proposal to delete it directly in this method.",
+      "parentUuid": "AAALw3///0Y\u003d",
       "revId": "115c3f2f20fca9b481830bdc6b9d1ade2c3abdcf",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAALw3///z0\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RacyGitTests.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-07-22T22:03:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALw3///0U\u003d",
+      "revId": "115c3f2f20fca9b481830bdc6b9d1ade2c3abdcf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALw3///0c\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RepositoryTestCase.java",
         "patchSetId": 1
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "AAALw3///zw\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RepositoryTestCase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-07-22T22:03:46Z",
+      "side": 1,
+      "message": "really, that\u0027s new to me. I have no problems doing so. But I personally never liked used declarations inside loops. No long discussion about style: if it\u0027s the style we use in jgit - so be it.",
+      "parentUuid": "AAALw3///0c\u003d",
+      "revId": "115c3f2f20fca9b481830bdc6b9d1ade2c3abdcf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALw3///0g\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RepositoryTestCase.java",
         "patchSetId": 1
@@ -81,6 +153,24 @@
       "writtenOn": "2010-07-22T18:10:19Z",
       "side": 1,
       "message": "This message index/file is the opposite of what the string actually is.",
+      "revId": "115c3f2f20fca9b481830bdc6b9d1ade2c3abdcf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALw3///zs\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RepositoryTestCase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-07-22T22:03:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALw3///0g\u003d",
       "revId": "115c3f2f20fca9b481830bdc6b9d1ade2c3abdcf",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
