@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAALxH///1c\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffEntry.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 73
+      },
+      "writtenOn": "2010-07-28T01:06:36Z",
+      "side": 1,
+      "message": "I never quite know what to do in situations like that, where programmatic and grammatic correctness are at odds. The missing \u0027into\u0027, however, was a simple oversight.",
+      "parentUuid": "AAALxH///1o\u003d",
+      "revId": "705f5e8fe8ae2a6b705b01f24683e13958b3e3a1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALxH///1k\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffFormatter.java",
         "patchSetId": 5
