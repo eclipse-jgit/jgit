@@ -45,7 +45,6 @@
 package org.eclipse.jgit.revplot;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Map;
@@ -108,7 +107,9 @@ public class PlotWalk extends RevWalk {
 			tags = null;
 		else {
 			tags = list.toArray(new Ref[list.size()]);
-			Arrays.sort(tags, new PlotRefComparator());
+			// TODO hotfix, this results in a loop and consequently stack overflow
+			// when opening the history view in EGit
+			// Arrays.sort(tags, new PlotRefComparator());
 		}
 		return tags;
 	}
