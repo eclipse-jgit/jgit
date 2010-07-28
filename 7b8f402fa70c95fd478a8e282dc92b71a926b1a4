@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "AAALw3///xw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffEntry.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 73
+      },
+      "writtenOn": "2010-07-23T18:03:13Z",
+      "side": 1,
+      "message": "It\u0027s being used in RenameDetectorTest on line 484. Basically, I needed a way to assert that the modify I started with was the same as the modify I ended up with, even though the modify was split apart and recombined. AssertSame couldn\u0027t do that, so I added a .equals and used assertEquals. That being said, since recombined modifys will now have a score associated with them, calling .equals will no longer work. I can remove the method if you wish, or I could keep it an implement hashCode.",
+      "parentUuid": "AAALw3///x4\u003d",
+      "revId": "7b8f402fa70c95fd478a8e282dc92b71a926b1a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALw3///yA\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffEntry.java",
         "patchSetId": 2
