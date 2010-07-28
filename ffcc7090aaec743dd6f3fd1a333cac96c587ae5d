@@ -16,6 +16,24 @@
       "revId": "ffcc7090aaec743dd6f3fd1a333cac96c587ae5d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALw3///zE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/NameConflictTreeWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-07-22T22:53:28Z",
+      "side": 1,
+      "message": "I knew I would get into trouble here. This string handling is sub-optimal. To fix it I need your help.\nWe had a nice implementation which you suggested in http://egit.eclipse.org/r/#patch,sidebyside,825,4,org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java\nSee my latest comment here.\nBasically I couldn\u0027t find out ALL places where we detect a D/F conflict and all places where we leave a conflicting path. combineDF() is not called for all D/F conflicts (sometimes fastMin() finds something and we don\u0027t enter combineDF(). When  I added marking a D/F conflict in two more places in fastMin() I saw that we got too many conflicts. I can only guess that popEntriesEqual() is not the only place where we have to clean the state.",
+      "parentUuid": "AAALw3///1U\u003d",
+      "revId": "ffcc7090aaec743dd6f3fd1a333cac96c587ae5d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
