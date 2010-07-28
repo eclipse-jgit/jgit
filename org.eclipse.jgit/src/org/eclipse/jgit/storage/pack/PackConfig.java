@@ -611,5 +611,11 @@ public class PackConfig {
 		setIndexVersion(rc.getInt("pack", "indexversion", getIndexVersion()));
 		setBigFileThreshold(rc.getLong("core", "bigfilethreshold", getBigFileThreshold()));
 		setThreads(rc.getInt("pack", "threads", getThreads()));
+
+		// These variables aren't standardized
+		//
+		setReuseDeltas(rc.getBoolean("pack", "reusedeltas", isReuseDeltas()));
+		setReuseObjects(rc.getBoolean("pack", "reuseobjects", isReuseObjects()));
+		setDeltaCompress(rc.getBoolean("pack", "deltacompression", isDeltaCompress()));
 	}
 }
