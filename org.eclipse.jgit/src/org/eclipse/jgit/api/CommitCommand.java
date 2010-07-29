@@ -42,7 +42,6 @@
  */
 package org.eclipse.jgit.api;
 
-import java.io.File;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.LinkedList;
@@ -174,13 +173,11 @@ public class CommitCommand extends GitCommand<RevCommit> {
 						case NEW:
 						case FAST_FORWARD: {
 							setCallable(false);
-							File meta = repo.getDirectory();
-							if (state == RepositoryState.MERGING_RESOLVED
-									&& meta != null) {
+							if (state == RepositoryState.MERGING_RESOLVED) {
 								// Commit was successful. Now delete the files
 								// used for merge commits
-								new File(meta, Constants.MERGE_HEAD).delete();
-								new File(meta, Constants.MERGE_MSG).delete();
+								repo.writeMergeCommitMsg(null);
+								repo.writeMergeHeads(null);
 							}
 							return revCommit;
 						}
