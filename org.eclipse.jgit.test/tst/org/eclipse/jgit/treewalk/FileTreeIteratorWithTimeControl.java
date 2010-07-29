@@ -87,7 +87,7 @@ public class FileTreeIteratorWithTimeControl extends FileTreeIterator {
 
 	public FileTreeIteratorWithTimeControl(File f, FS fs,
 			TreeSet<Long> modTimes) {
-		super(f, fs);
+		super(f, fs, new WorkingTreeOptions(false));
 		this.modTimes = modTimes;
 	}
 

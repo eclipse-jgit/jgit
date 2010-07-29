@@ -46,6 +46,7 @@ package org.eclipse.jgit.diff;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 
 import org.eclipse.jgit.util.IO;
@@ -118,7 +119,8 @@ public class RawText implements Sequence {
 	 *
 	 * @param file
 	 *            the text file.
-	 * @throws IOException if Exceptions occur while reading the file
+	 * @throws IOException
+	 *             if Exceptions occur while reading the file
 	 */
 	public RawText(File file) throws IOException {
 		this(IO.readFully(file));
@@ -235,8 +237,43 @@ public class RawText implements Sequence {
 	 */
 	public static boolean isBinary(byte[] raw) {
 		// Same heuristic as C Git
-		int size = raw.length > FIRST_FEW_BYTES ? FIRST_FEW_BYTES : raw.length;
-		for (int ptr = 0; ptr < size; ptr++)
+		final int size = raw.length > FIRST_FEW_BYTES ? FIRST_FEW_BYTES
+				: raw.length;
+		return isBinary(raw, size);
+	}
+
+	/**
+	 * Determine heuristically whether the bytes contained in a stream
+	 * represents binary (as opposed to text) content.
+	 *
+	 * Note: Do not further use this stream after having called this method! The
+	 * stream may not be fully read and will be left at an unknown position
+	 * after consuming an unknown number of bytes. The caller is responsible for
+	 * closing the stream.
+	 *
+	 * @param raw
+	 *            input stream containing the raw file content.
+	 * @return true if raw is likely to be a binary file, false otherwise
+	 * @throws IOException
+	 *             if input stream could not be read
+	 */
+	public static boolean isBinary(InputStream raw) throws IOException {
+		final byte[] buffer = new byte[FIRST_FEW_BYTES];
+		int cnt = 0;
+		while (cnt < buffer.length) {
+			final int read = raw.read(buffer, cnt, buffer.length - cnt);
+			if (read == -1)
+				break;
+
+			cnt += read;
+		}
+
+		return isBinary(buffer, cnt);
+	}
+
+	private static boolean isBinary(byte[] raw, int length) {
+		// Same heuristic as C Git
+		for (int ptr = 0; ptr < length; ptr++)
 			if (raw[ptr] == '\0')
 				return true;
 
