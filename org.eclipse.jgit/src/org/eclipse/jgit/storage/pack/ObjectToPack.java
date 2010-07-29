@@ -192,7 +192,8 @@ public class ObjectToPack extends PackedObjectInfo {
 		return getOffset() != 0;
 	}
 
-	int getType() {
+	/** @return the type of this object. */
+	public int getType() {
 		return (flags >> TYPE_SHIFT) & 0x7;
 	}
 
