@@ -1,8 +1,5 @@
 /*
- * Copyright (C) 2009, Christian Halstrick <christian.halstrick@sap.com>
- * Copyright (C) 2009, Google Inc.
- * Copyright (C) 2007, Robin Rosenberg <robin.rosenberg@dewire.com>
- * Copyright (C) 2006-2008, Shawn O. Pearce <spearce@spearce.org>
+ * Copyright (C) 2010, Marc Strapetz <marc.strapetz@syntevo.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -44,65 +41,92 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.eclipse.jgit.lib;
+package org.eclipse.jgit.util.io;
 
-import static java.util.zip.Deflater.DEFAULT_COMPRESSION;
-
-import org.eclipse.jgit.lib.Config.SectionParser;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PushbackInputStream;
 
 /**
- * This class keeps git repository core parameters.
+ * An input stream which canonicalizes EOLs bytes on the fly to '\n'.
+ *
+ * Note: Make sure to apply this InputStream only to text files!
  */
-public class CoreConfig {
-	/** Key for {@link Config#get(SectionParser)}. */
-	public static final Config.SectionParser<CoreConfig> KEY = new SectionParser<CoreConfig>() {
-		public CoreConfig parse(final Config cfg) {
-			return new CoreConfig(cfg);
+public class EolCanonicalizingInputStream extends InputStream {
+
+	private final byte[] single = new byte[1];
+
+	private final byte[] buf = new byte[8096];
+
+	private final InputStream is;
+
+	private int cnt;
+
+	private int ptr;
+
+	/**
+	 * Creates a new InputStream, wrapping the specified stream
+	 *
+	 * @param in
+	 *            raw input stream
+	 */
+	public EolCanonicalizingInputStream(InputStream in) {
+		this.is = new PushbackInputStream(in);
+	}
+
+	@Override
+	public int read() throws IOException {
+		final int read = read(single, 0, 1);
+		return read == 1 ? single[0] : -1;
+	}
+
+	@Override
+	public int read(byte[] bs, int off, int len) throws IOException {
+		if (len == 0)
+			return 0;
+
+		if (cnt == -1)
+			return -1;
+
+		final int startOff = off;
+		final int end = off + len;
+
+		while (off < end) {
+			if (ptr == cnt && !fillBuffer()) {
+				break;
+			}
+
+			byte b = buf[ptr++];
+			if (b != '\r') {
+				bs[off++] = b;
+				continue;
+			}
+
+			if (ptr == cnt && !fillBuffer()) {
+				bs[off++] = '\r';
+				break;
+			}
+
+			if (buf[ptr] == '\n') {
+				bs[off++] = '\n';
+				ptr++;
+			} else
+				bs[off++] = '\r';
 		}
-	};
 
-	private final int compression;
-
-	private final int packIndexVersion;
-
-	private final boolean logAllRefUpdates;
-
-	private final boolean autocrlf;
-
-	private CoreConfig(final Config rc) {
-		compression = rc.getInt("core", "compression", DEFAULT_COMPRESSION);
-		packIndexVersion = rc.getInt("pack", "indexversion", 2);
-		logAllRefUpdates = rc.getBoolean("core", "logallrefupdates", true);
-		autocrlf = rc.getBoolean("core", "autocrlf", false);
+		return startOff == off ? -1 : off - startOff;
 	}
 
-	/**
-	 * @see ObjectWriter
-	 * @return The compression level to use when storing loose objects
-	 */
-	public int getCompression() {
-		return compression;
+	@Override
+	public void close() throws IOException {
+		is.close();
 	}
 
-	/**
-	 * @return the preferred pack index file format; 0 for oldest possible.
-	 * @see org.eclipse.jgit.transport.IndexPack
-	 */
-	public int getPackIndexVersion() {
-		return packIndexVersion;
-	}
-
-	/**
-	 * @return whether to log all refUpdates
-	 */
-	public boolean isLogAllRefUpdates() {
-		return logAllRefUpdates;
-	}
-
-	/**
-	 * @return whether automatic CRLF conversion has been configured
-	 */
-	public boolean isAutocrlf() {
-		return autocrlf;
+	private boolean fillBuffer() throws IOException {
+		cnt = is.read(buf, 0, buf.length);
+		if (cnt < 1)
+			return false;
+		ptr = 0;
+		return true;
 	}
 }

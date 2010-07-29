@@ -1,8 +1,5 @@
 /*
- * Copyright (C) 2009, Christian Halstrick <christian.halstrick@sap.com>
- * Copyright (C) 2009, Google Inc.
- * Copyright (C) 2007, Robin Rosenberg <robin.rosenberg@dewire.com>
- * Copyright (C) 2006-2008, Shawn O. Pearce <spearce@spearce.org>
+ * Copyright (C) 2010, Marc Strapetz <marc.strapetz@syntevo.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -43,64 +40,60 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+package org.eclipse.jgit.treewalk;
 
-package org.eclipse.jgit.lib;
-
-import static java.util.zip.Deflater.DEFAULT_COMPRESSION;
-
-import org.eclipse.jgit.lib.Config.SectionParser;
+import org.eclipse.jgit.lib.RepositoryConfig;
 
 /**
- * This class keeps git repository core parameters.
+ * Contains options used by the WorkingTreeIterator.
  */
-public class CoreConfig {
-	/** Key for {@link Config#get(SectionParser)}. */
-	public static final Config.SectionParser<CoreConfig> KEY = new SectionParser<CoreConfig>() {
-		public CoreConfig parse(final Config cfg) {
-			return new CoreConfig(cfg);
-		}
-	};
+public class WorkingTreeOptions {
 
-	private final int compression;
+	/**
+	 * Creates default options which reflect the original configuration of Git
+	 * on Unix systems.
+	 *
+	 * @return created working tree options
+	 */
+	public static WorkingTreeOptions createDefaultInstance() {
+		return new WorkingTreeOptions(false);
+	}
 
-	private final int packIndexVersion;
+	/**
+	 * Creates options based on the specified repository configuration.
+	 *
+	 * @param config
+	 *            repository configuration to create options for
+	 *
+	 * @return created working tree options
+	 */
+	public static WorkingTreeOptions createConfigurationInstance(
+			RepositoryConfig config) {
+		return new WorkingTreeOptions(config.getCore().isAutocrlf());
+	}
 
-	private final boolean logAllRefUpdates;
-
+	/**
+	 * Indicates whether EOLs of text files should be converted to '\n' before
+	 * calculating the blob ID.
+	 **/
 	private final boolean autocrlf;
 
-	private CoreConfig(final Config rc) {
-		compression = rc.getInt("core", "compression", DEFAULT_COMPRESSION);
-		packIndexVersion = rc.getInt("pack", "indexversion", 2);
-		logAllRefUpdates = rc.getBoolean("core", "logallrefupdates", true);
-		autocrlf = rc.getBoolean("core", "autocrlf", false);
-	}
-
 	/**
-	 * @see ObjectWriter
-	 * @return The compression level to use when storing loose objects
+	 * Creates new options.
+	 *
+	 * @param autocrlf
+	 *            indicates whether EOLs of text files should be converted to
+	 *            '\n' before calculating the blob ID.
 	 */
-	public int getCompression() {
-		return compression;
+	public WorkingTreeOptions(boolean autocrlf) {
+		this.autocrlf = autocrlf;
 	}
 
 	/**
-	 * @return the preferred pack index file format; 0 for oldest possible.
-	 * @see org.eclipse.jgit.transport.IndexPack
-	 */
-	public int getPackIndexVersion() {
-		return packIndexVersion;
-	}
-
-	/**
-	 * @return whether to log all refUpdates
-	 */
-	public boolean isLogAllRefUpdates() {
-		return logAllRefUpdates;
-	}
-
-	/**
-	 * @return whether automatic CRLF conversion has been configured
+	 * Indicates whether EOLs of text files should be converted to '\n' before
+	 * calculating the blob ID.
+	 *
+	 * @return true if EOLs should be canonicalized.
 	 */
 	public boolean isAutocrlf() {
 		return autocrlf;
