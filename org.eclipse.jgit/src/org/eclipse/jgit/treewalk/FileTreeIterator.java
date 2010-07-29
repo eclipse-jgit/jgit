@@ -66,14 +66,14 @@ import org.eclipse.jgit.util.FS;
  */
 public class FileTreeIterator extends WorkingTreeIterator {
 	/**
-	 * the starting directory. This directory should correspond to
-	 *            the root of the repository.
+	 * the starting directory. This directory should correspond to the root of
+	 * the repository.
 	 */
 	protected final File directory;
 
 	/**
-	 *  the file system abstraction which will be necessary to
-	 *            perform certain file system operations.
+	 * the file system abstraction which will be necessary to perform certain
+	 * file system operations.
 	 */
 	protected final FS fs;
 
@@ -84,7 +84,8 @@ public class FileTreeIterator extends WorkingTreeIterator {
 	 *            the repository whose working tree will be scanned.
 	 */
 	public FileTreeIterator(Repository repo) {
-		this(repo.getWorkTree(), repo.getFS());
+		this(repo.getWorkTree(), repo.getFS(), WorkingTreeOptions
+				.createConfigurationInstance(repo.getConfig()));
 		initRootIterator(repo);
 	}
 
@@ -95,10 +96,13 @@ public class FileTreeIterator extends WorkingTreeIterator {
 	 *            the starting directory. This directory should correspond to
 	 *            the root of the repository.
 	 * @param fs
-	 *            the file system abstraction which will be necessary to
-	 *            perform certain file system operations.
+	 *            the file system abstraction which will be necessary to perform
+	 *            certain file system operations.
+	 * @param options
+	 *            working tree options to be used
 	 */
-	public FileTreeIterator(final File root, FS fs) {
+	public FileTreeIterator(final File root, FS fs, WorkingTreeOptions options) {
+		super(options);
 		directory = root;
 		this.fs = fs;
 		init(entries());
@@ -110,8 +114,8 @@ public class FileTreeIterator extends WorkingTreeIterator {
 	 * @param p
 	 *            the parent iterator we were created from.
 	 * @param fs
-	 *            the file system abstraction which will be necessary to
-	 *            perform certain file system operations.
+	 *            the file system abstraction which will be necessary to perform
+	 *            certain file system operations.
 	 * @param root
 	 *            the subdirectory. This should be a directory contained within
 	 *            the parent directory.
@@ -205,8 +209,7 @@ public class FileTreeIterator extends WorkingTreeIterator {
 	}
 
 	/**
-	 * @return
-	 * 			  The root directory of this iterator
+	 * @return The root directory of this iterator
 	 */
 	public File getDirectory() {
 		return directory;
