@@ -44,9 +44,13 @@
 package org.eclipse.jgit.lib;
 
 import java.io.IOException;
+import java.util.Collection;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.revwalk.ObjectWalk;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.storage.pack.ObjectReuseAsIs;
 
 /**
@@ -171,6 +175,44 @@ public abstract class ObjectReader {
 			throws MissingObjectException, IncorrectObjectTypeException,
 			IOException {
 		return open(objectId, typeHint).getSize();
+	}
+
+	/**
+	 * Advice from a {@link RevWalk} that a walk is starting from these roots.
+	 *
+	 * @param walk
+	 *            the revision pool that is using this reader.
+	 * @param roots
+	 *            starting points of the revision walk. The starting points have
+	 *            their headers parsed, but might be missing bodies.
+	 * @throws IOException
+	 *             the reader cannot initialize itself to support the walk.
+	 */
+	public void walkAdviceBeginCommits(RevWalk walk, Collection<RevCommit> roots)
+			throws IOException {
+		// Do nothing by default, most readers don't want or need advice.
+	}
+
+	/**
+	 * Advice from an {@link ObjectWalk} that trees will be traversed.
+	 *
+	 * @param ow
+	 *            the object pool that is using this reader.
+	 * @param min
+	 *            the first commit whose root tree will be read.
+	 * @param max
+	 *            the last commit whose root tree will be read.
+	 * @throws IOException
+	 *             the reader cannot initialize itself to support the walk.
+	 */
+	public void walkAdviceBeginTrees(ObjectWalk ow, RevCommit min, RevCommit max)
+			throws IOException {
+		// Do nothing by default, most readers don't want or need advice.
+	}
+
+	/** Advice from that a walk is over. */
+	public void walkAdviceEnd() {
+		// Do nothing by default, most readers don't want or need advice.
 	}
 
 	/**

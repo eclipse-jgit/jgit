@@ -91,6 +91,10 @@ public class ObjectWalk extends RevWalk {
 
 	private RevObject last;
 
+	private RevCommit firstCommit;
+
+	private RevCommit lastCommit;
+
 	/**
 	 * Create a new revision and object walker for a given repository.
 	 *
@@ -235,6 +239,9 @@ public class ObjectWalk extends RevWalk {
 				}
 				continue;
 			}
+			if (firstCommit == null)
+				firstCommit = r;
+			lastCommit = r;
 			pendingObjects.add(r.getTree());
 			return r;
 		}
@@ -295,11 +302,19 @@ public class ObjectWalk extends RevWalk {
 			treeWalk = treeWalk.next();
 		}
 
+		if (firstCommit != null) {
+			reader.walkAdviceBeginTrees(this, firstCommit, lastCommit);
+			firstCommit = null;
+			lastCommit = null;
+		}
+
 		last = null;
 		for (;;) {
 			final RevObject o = pendingObjects.next();
-			if (o == null)
+			if (o == null) {
+				reader.walkAdviceEnd();
 				return null;
+			}
 			if ((o.flags & SEEN) != 0)
 				continue;
 			o.flags |= SEEN;
@@ -403,6 +418,8 @@ public class ObjectWalk extends RevWalk {
 		treeWalk = new CanonicalTreeParser();
 		currentTree = null;
 		last = null;
+		firstCommit = null;
+		lastCommit = null;
 	}
 
 	@Override
@@ -412,6 +429,8 @@ public class ObjectWalk extends RevWalk {
 		treeWalk = new CanonicalTreeParser();
 		currentTree = null;
 		last = null;
+		firstCommit = null;
+		lastCommit = null;
 	}
 
 	private void addObject(final RevObject o) {
