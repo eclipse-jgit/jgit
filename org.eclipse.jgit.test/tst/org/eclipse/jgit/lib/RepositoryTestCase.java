@@ -138,7 +138,7 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 		tw.addTree(new DirCacheIterator(dc));
 		boolean smudgedBefore;
 		while (tw.next()) {
-			List entry = new ArrayList(4);
+			List entry = new ArrayList(5);
 			FileTreeIteratorWithTimeControl fIt = tw.getTree(0,
 					FileTreeIteratorWithTimeControl.class);
 			DirCacheIterator dcIt = tw.getTree(1, DirCacheIterator.class);
@@ -162,6 +162,17 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 				entry.add("smudged");
 			else if (smudgedBefore)
 				entry.add("unsmudged");
+			entry.add("length(index/file): "
+				+ ((dcIt == null) ? "null" : dcIt.getDirCacheEntry().getLength()
+					+ "/"
+				+ ((fIt == null) ? "null" : fIt.getEntryLength())));
+			entry.add("mode(index/file): "
+					+ ((dcIt == null) ? "null" : dcIt.getEntryFileMode()
+						+ "/"
+					+ ((fIt == null) ? "null" : fIt.getEntryFileMode())));
+			if (dcIt != null)
+				entry.add("stage: "
+					+ dcIt.getDirCacheEntry().getStage());
 			ret.add(entry);
 		}
 		return ret.toString();
