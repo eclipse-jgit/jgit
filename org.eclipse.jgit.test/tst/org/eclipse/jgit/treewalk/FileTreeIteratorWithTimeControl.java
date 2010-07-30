@@ -65,7 +65,7 @@ import org.eclipse.jgit.util.FS;
  * This class was written especially to test racy-git problems
  */
 public class FileTreeIteratorWithTimeControl extends FileTreeIterator {
-	private TreeSet<Long> modTimes = new TreeSet<Long>();
+	private TreeSet<Long> modTimes;
 
 	public FileTreeIteratorWithTimeControl(FileTreeIterator p, Repository repo,
 			TreeSet<Long> modTimes) {
@@ -99,8 +99,10 @@ public class FileTreeIteratorWithTimeControl extends FileTreeIterator {
 
 	@Override
 	public long getEntryLastModified() {
+		if (modTimes == null)
+			return 0;
 		Long cutOff = Long.valueOf(super.getEntryLastModified());
-		SortedSet<Long> head = modTimes.headSet(cutOff);
+		SortedSet<Long> head = modTimes.headSet(cutOff, true);
 		return head.isEmpty() ? 0 : head.last().longValue();
 	}
 }
