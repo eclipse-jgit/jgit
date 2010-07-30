@@ -323,6 +323,22 @@ public abstract class AnyObjectId implements Comparable {
 		w.write(toHexByteArray());
 	}
 
+	/**
+	 * Copy this ObjectId to a byte array in hex format.
+	 *
+	 * @param b
+	 *            the buffer to copy to.
+	 * @param o
+	 *            the offset within b to write at.
+	 */
+	public void copyTo(byte[] b, int o) {
+		formatHexByte(b, o + 0, w1);
+		formatHexByte(b, o + 8, w2);
+		formatHexByte(b, o + 16, w3);
+		formatHexByte(b, o + 24, w4);
+		formatHexByte(b, o + 32, w5);
+	}
+
 	private byte[] toHexByteArray() {
 		final byte[] dst = new byte[Constants.OBJECT_ID_STRING_LENGTH];
 		formatHexByte(dst, 0, w1);
