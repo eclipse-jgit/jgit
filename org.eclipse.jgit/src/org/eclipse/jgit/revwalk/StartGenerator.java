@@ -85,6 +85,8 @@ class StartGenerator extends Generator {
 		final TreeFilter tf = w.getTreeFilter();
 		AbstractRevQueue q = walker.queue;
 
+		w.reader.walkAdviceBeginCommits(w, w.roots);
+
 		if (rf == RevFilter.MERGE_BASE) {
 			// Computing for merge bases is a special case and does not
 			// use the bulk of the generator pipeline.
