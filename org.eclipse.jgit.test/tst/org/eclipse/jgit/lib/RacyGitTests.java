@@ -137,7 +137,8 @@ public class RacyGitTests extends RepositoryTestCase {
 		// now add both files to the index. No racy git expected
 		addToIndex(modTimes);
 
-		assertEquals("[[a, modTime(index/file): t0/t0], [b, modTime(index/file): t0/t0]]", indexState(modTimes));
+		assertEquals(
+				"[[a, modTime(index/file): t0/t0], [b, modTime(index/file): t0/t0]]", indexState(modTimes));
 
 		// Remember the last modTime of index file. All modifications times of
 		// further modification are translated to this value so it looks that
@@ -157,8 +158,12 @@ public class RacyGitTests extends RepositoryTestCase {
 		assertFalse(dc.getEntry("b").isSmudged());
 
 		// although racily clean a should not be reported as beeing dirty
-		assertEquals("[[a, modTime(index/file): t0/t0, unsmudged], [b, modTime(index/file): t1/t1]]", indexState(modTimes));
-		assertEquals("[[a, modTime(index/file): t0/t0, unsmudged], [b, modTime(index/file): t1/t1]]", indexState(modTimes));
+		assertEquals(
+				"[[a, modTime(index/file): t0/t0, unsmudged], [b, modTime(index/file): t1/t1]]",
+				indexState(modTimes));
+		assertEquals(
+				"[[a, modTime(index/file): t0/t0, unsmudged], [b, modTime(index/file): t1/t1]]",
+				indexState(modTimes));
 
 	}
 
