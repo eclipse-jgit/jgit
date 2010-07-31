@@ -59,6 +59,8 @@ import org.eclipse.jgit.lib.ObjectId;
 public class MissingObjectException extends IOException {
 	private static final long serialVersionUID = 1L;
 
+	private final ObjectId missing;
+
 	/**
 	 * Construct a MissingObjectException for the specified object id.
 	 * Expected type is reported to simplify tracking down the problem.
@@ -68,6 +70,7 @@ public class MissingObjectException extends IOException {
 	 */
 	public MissingObjectException(final ObjectId id, final String type) {
 		super(MessageFormat.format(JGitText.get().missingObject, type, id.name()));
+		missing = id.copy();
 	}
 
 	/**
@@ -79,5 +82,10 @@ public class MissingObjectException extends IOException {
 	 */
 	public MissingObjectException(final ObjectId id, final int type) {
 		this(id, Constants.typeString(type));
+	}
+
+	/** @return the ObjectId that was not found. */
+	public ObjectId getObjectId() {
+		return missing;
 	}
 }
