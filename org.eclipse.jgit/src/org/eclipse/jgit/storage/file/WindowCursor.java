@@ -56,6 +56,7 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.InflaterCache;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.storage.pack.ObjectReuseAsIs;
 import org.eclipse.jgit.storage.pack.ObjectToPack;
@@ -116,9 +117,13 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 		return new LocalObjectToPack(obj);
 	}
 
-	public void selectObjectRepresentation(PackWriter packer, ObjectToPack otp)
+	public void selectObjectRepresentation(PackWriter packer,
+			ProgressMonitor monitor, Iterable<ObjectToPack> objects)
 			throws IOException, MissingObjectException {
-		db.selectObjectRepresentation(packer, otp, this);
+		for (ObjectToPack otp : objects) {
+			db.selectObjectRepresentation(packer, otp, this);
+			monitor.update(1);
+		}
 	}
 
 	public void copyObjectAsIs(PackOutputStream out, ObjectToPack otp)
