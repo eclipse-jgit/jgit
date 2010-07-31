@@ -388,7 +388,18 @@ public class PackWriter {
 	 * @return true if the object will appear in the output pack file.
 	 */
 	public boolean willInclude(final AnyObjectId id) {
-		return objectsMap.get(id) != null;
+		return get(id) != null;
+	}
+
+	/**
+	 * Lookup the ObjectToPack object for a given ObjectId.
+	 *
+	 * @param id
+	 *            the object to find in the pack.
+	 * @return the object we are packing, or null.
+	 */
+	public ObjectToPack get(AnyObjectId id) {
+		return objectsMap.get(id);
 	}
 
 	/**
@@ -477,7 +488,7 @@ public class PackWriter {
 			writeMonitor = NullProgressMonitor.INSTANCE;
 
 		if ((reuseDeltas || config.isReuseObjects()) && reuseSupport != null)
-			searchForReuse();
+			searchForReuse(compressMonitor);
 		if (config.isDeltaCompress())
 			searchForDeltas(compressMonitor);
 
@@ -504,11 +515,11 @@ public class PackWriter {
 		}
 	}
 
-	private void searchForReuse() throws IOException {
-		for (List<ObjectToPack> list : objectsLists) {
-			for (ObjectToPack otp : list)
-				reuseSupport.selectObjectRepresentation(this, otp);
-		}
+	private void searchForReuse(ProgressMonitor monitor) throws IOException {
+		monitor.beginTask(JGitText.get().searchForReuse, getObjectsNumber());
+		for (List<ObjectToPack> list : objectsLists)
+			reuseSupport.selectObjectRepresentation(this, monitor, list);
+		monitor.endTask();
 	}
 
 	private void searchForDeltas(ProgressMonitor monitor)
@@ -840,7 +851,8 @@ public class PackWriter {
 			MissingObjectException {
 		otp.clearDeltaBase();
 		otp.clearReuseAsIs();
-		reuseSupport.selectObjectRepresentation(this, otp);
+		reuseSupport.selectObjectRepresentation(this,
+				NullProgressMonitor.INSTANCE, Collections.singleton(otp));
 	}
 
 	private void writeWholeObjectDeflate(PackOutputStream out,
