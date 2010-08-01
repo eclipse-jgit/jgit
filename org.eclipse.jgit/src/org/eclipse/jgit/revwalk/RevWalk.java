@@ -50,19 +50,23 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.EnumSet;
 import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.jgit.JGitText;
+import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
+import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.RevWalkException;
 import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.AsyncObjectLoaderQueue;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.MutableObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdSubclassMap;
 import org.eclipse.jgit.lib.ObjectLoader;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.filter.RevFilter;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
 
@@ -684,6 +688,18 @@ public class RevWalk implements Iterable<RevCommit> {
 	}
 
 	/**
+	 * Locate an object that was previously allocated in this walk.
+	 *
+	 * @param id
+	 *            name of the object.
+	 * @return reference to the object if it has been previously located;
+	 *         otherwise null.
+	 */
+	public RevObject lookupOrNull(AnyObjectId id) {
+		return objects.get(id);
+	}
+
+	/**
 	 * Locate a reference to a commit and immediately parse its content.
 	 * <p>
 	 * Unlike {@link #lookupCommit(AnyObjectId)} this method only returns
@@ -789,39 +805,126 @@ public class RevWalk implements Iterable<RevCommit> {
 	public RevObject parseAny(final AnyObjectId id)
 			throws MissingObjectException, IOException {
 		RevObject r = objects.get(id);
-		if (r == null) {
-			final ObjectLoader ldr = reader.open(id);
-			final int type = ldr.getType();
-			switch (type) {
-			case Constants.OBJ_COMMIT: {
-				final RevCommit c = createCommit(id);
-				c.parseCanonical(this, ldr.getCachedBytes());
-				r = c;
-				break;
-			}
-			case Constants.OBJ_TREE: {
-				r = new RevTree(id);
-				r.flags |= PARSED;
-				break;
-			}
-			case Constants.OBJ_BLOB: {
-				r = new RevBlob(id);
-				r.flags |= PARSED;
-				break;
-			}
-			case Constants.OBJ_TAG: {
-				final RevTag t = new RevTag(id);
-				t.parseCanonical(this, ldr.getCachedBytes());
-				r = t;
-				break;
-			}
-			default:
-				throw new IllegalArgumentException(MessageFormat.format(JGitText.get().badObjectType, type));
-			}
-			objects.add(r);
-		} else
+		if (r == null)
+			r = parseNew(id, reader.open(id));
+		else
 			parseHeaders(r);
 		return r;
+	}
+
+	private RevObject parseNew(AnyObjectId id, ObjectLoader ldr)
+			throws CorruptObjectException, LargeObjectException {
+		RevObject r;
+		int type = ldr.getType();
+		switch (type) {
+		case Constants.OBJ_COMMIT: {
+			final RevCommit c = createCommit(id);
+			c.parseCanonical(this, ldr.getCachedBytes());
+			r = c;
+			break;
+		}
+		case Constants.OBJ_TREE: {
+			r = new RevTree(id);
+			r.flags |= PARSED;
+			break;
+		}
+		case Constants.OBJ_BLOB: {
+			r = new RevBlob(id);
+			r.flags |= PARSED;
+			break;
+		}
+		case Constants.OBJ_TAG: {
+			final RevTag t = new RevTag(id);
+			t.parseCanonical(this, ldr.getCachedBytes());
+			r = t;
+			break;
+		}
+		default:
+			throw new IllegalArgumentException(MessageFormat.format(JGitText
+					.get().badObjectType, type));
+		}
+		objects.add(r);
+		return r;
+	}
+
+	/**
+	 * Asynchronous object parsing.
+	 *
+	 * @param <T>
+	 *            any ObjectId type.
+	 * @param objectIds
+	 *            objects to open from the object store. The supplied collection
+	 *            must not be modified until the queue has finished.
+	 * @param reportMissing
+	 *            if true missing objects are reported by calling failure with a
+	 *            MissingObjectException. This may be more expensive for the
+	 *            implementation to guarantee. If false the implementation may
+	 *            choose to report MissingObjectException, or silently skip over
+	 *            the object with no warning.
+	 * @return queue to read the objects from.
+	 */
+	public <T extends ObjectId> AsyncRevObjectQueue parseAny(
+			Iterable<T> objectIds, boolean reportMissing) {
+		List<T> need = new ArrayList<T>();
+		List<RevObject> have = new ArrayList<RevObject>();
+		for (T id : objectIds) {
+			RevObject r = objects.get(id);
+			if (r != null && (r.flags & PARSED) != 0)
+				have.add(r);
+			else
+				need.add(id);
+		}
+
+		final Iterator<RevObject> objItr = have.iterator();
+		if (need.isEmpty()) {
+			return new AsyncRevObjectQueue() {
+				public RevObject next() {
+					return objItr.hasNext() ? objItr.next() : null;
+				}
+
+				public boolean cancel(boolean mayInterruptIfRunning) {
+					return true;
+				}
+
+				public void release() {
+					// In-memory only, no action required.
+				}
+			};
+		}
+
+		final AsyncObjectLoaderQueue<T> lItr = reader.open(need, reportMissing);
+		return new AsyncRevObjectQueue() {
+			public RevObject next() throws MissingObjectException,
+					IncorrectObjectTypeException, IOException {
+				if (objItr.hasNext())
+					return objItr.next();
+				if (!lItr.next())
+					return null;
+
+				ObjectId id = lItr.getObjectId();
+				ObjectLoader ldr = lItr.open();
+				RevObject r = objects.get(id);
+				if (r == null)
+					r = parseNew(id, ldr);
+				else if (r instanceof RevCommit) {
+					byte[] raw = ldr.getCachedBytes();
+					((RevCommit) r).parseCanonical(RevWalk.this, raw);
+				} else if (r instanceof RevTag) {
+					byte[] raw = ldr.getCachedBytes();
+					((RevTag) r).parseCanonical(RevWalk.this, raw);
+				} else
+					r.flags |= PARSED;
+				return r;
+			}
+
+			public boolean cancel(boolean mayInterruptIfRunning) {
+				return lItr.cancel(mayInterruptIfRunning);
+			}
+
+			public void release() {
+				lItr.release();
+			}
+		};
 	}
 
 	/**
