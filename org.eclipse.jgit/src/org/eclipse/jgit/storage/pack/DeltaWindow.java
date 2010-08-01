@@ -143,11 +143,8 @@ class DeltaWindow {
 				}
 				res.set(toSearch[off]);
 
-				if (res.object.isDoNotDelta()) {
-					// PackWriter marked edge objects with the
-					// do-not-delta flag. They are the only ones
-					// that appear in toSearch with it set, but
-					// we don't actually want to make a delta for
+				if (res.object.isEdge()) {
+					// We don't actually want to make a delta for
 					// them, just need to push them into the window
 					// so they can be read by other objects.
 					//
@@ -211,7 +208,7 @@ class DeltaWindow {
 		//
 		ObjectToPack srcObj = window[bestSlot].object;
 		ObjectToPack resObj = res.object;
-		if (srcObj.isDoNotDelta()) {
+		if (srcObj.isEdge()) {
 			// The source (the delta base) is an edge object outside of the
 			// pack. Its part of the common base set that the peer already
 			// has on hand, so we don't want to send it. We have to store
@@ -280,7 +277,7 @@ class DeltaWindow {
 			dropFromWindow(srcSlot);
 			return NEXT_SRC;
 		} catch (IOException notAvailable) {
-			if (src.object.isDoNotDelta()) {
+			if (src.object.isEdge()) {
 				// This is an edge that is suddenly not available.
 				dropFromWindow(srcSlot);
 				return NEXT_SRC;
