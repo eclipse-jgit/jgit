@@ -64,6 +64,8 @@ public class ObjectToPack extends PackedObjectInfo {
 
 	private static final int DO_NOT_DELTA = 1 << 2;
 
+	private static final int EDGE = 1 << 3;
+
 	private static final int TYPE_SHIFT = 5;
 
 	private static final int DELTA_SHIFT = 8;
@@ -79,7 +81,8 @@ public class ObjectToPack extends PackedObjectInfo {
 	 * <li>1 bit: wantWrite</li>
 	 * <li>1 bit: canReuseAsIs</li>
 	 * <li>1 bit: doNotDelta</li>
-	 * <li>2 bits: unused</li>
+	 * <li>1 bit: edgeObject</li>
+	 * <li>1 bit: unused</li>
 	 * <li>3 bits: type</li>
 	 * <li>--</li>
 	 * <li>24 bits: deltaDepth</li>
@@ -243,6 +246,14 @@ public class ObjectToPack extends PackedObjectInfo {
 			flags &= ~DO_NOT_DELTA;
 	}
 
+	boolean isEdge() {
+		return (flags & EDGE) != 0;
+	}
+
+	void setEdge() {
+		flags |= EDGE;
+	}
+
 	int getFormat() {
 		if (isReuseAsIs()) {
 			if (isDeltaRepresentation())
@@ -305,6 +316,8 @@ public class ObjectToPack extends PackedObjectInfo {
 			buf.append(" reuseAsIs");
 		if (isDoNotDelta())
 			buf.append(" doNotDelta");
+		if (isEdge())
+			buf.append(" edge");
 		if (getDeltaDepth() > 0)
 			buf.append(" depth=" + getDeltaDepth());
 		if (isDeltaRepresentation()) {
