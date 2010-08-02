@@ -487,6 +487,7 @@ public class PackWriter {
 		int objCnt = getObjectsNumber();
 		writeMonitor.beginTask(JGitText.get().writingObjects, objCnt);
 		out.writeFileHeader(PACK_VERSION_GENERATED, objCnt);
+		out.flush();
 		writeObjects(writeMonitor, out);
 		writeChecksum(out);
 
