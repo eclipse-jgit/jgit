@@ -55,4 +55,9 @@ class Version extends TextBuiltin {
 
 		out.println(MessageFormat.format(CLIText.get().jgitVersion, pkg.getImplementationVersion()));
 	}
+
+	@Override
+	protected final boolean requiresRepository() {
+		return false;
+	}
 }
