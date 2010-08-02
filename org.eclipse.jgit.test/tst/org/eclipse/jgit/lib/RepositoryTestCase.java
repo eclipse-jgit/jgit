@@ -133,6 +133,7 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 		Map lookup = new HashMap();
 		List ret = new ArrayList(dc.getEntryCount());
 		NameConflictTreeWalk tw = new NameConflictTreeWalk(db);
+		tw.setRecursive(true);
 		tw.reset();
 		tw.addTree(new FileTreeIteratorWithTimeControl(db, modTimes));
 		tw.addTree(new DirCacheIterator(dc));
@@ -145,7 +146,8 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 			entry.add(tw.getPathString());
 			entry.add("modTime(index/file): "
 					+ ((dcIt == null) ? "null" : lookup(Long.valueOf(dcIt
-							.getDirCacheEntry().getLastModified()), "t%n",
+							.getDirCacheEntry()
+							.getLastModified()), "t%n",
 							lookup))
 					+ "/"
 					+ ((fIt == null) ? "null" : lookup(
