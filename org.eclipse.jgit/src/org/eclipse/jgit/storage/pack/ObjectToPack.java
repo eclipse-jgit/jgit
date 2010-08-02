@@ -68,9 +68,15 @@ public class ObjectToPack extends PackedObjectInfo {
 
 	private static final int TYPE_SHIFT = 5;
 
-	private static final int DELTA_SHIFT = 8;
+	private static final int EXT_SHIFT = 8;
 
-	private static final int NON_DELTA_MASK = 0xff;
+	private static final int EXT_MASK = 0xf;
+
+	private static final int DELTA_SHIFT = 12;
+
+	private static final int NON_EXT_MASK = ~(EXT_MASK << EXT_SHIFT);
+
+	private static final int NON_DELTA_MASK = 0xfff;
 
 	/** Other object being packed that this will delta against. */
 	private ObjectId deltaBase;
@@ -84,8 +90,9 @@ public class ObjectToPack extends PackedObjectInfo {
 	 * <li>1 bit: edgeObject</li>
 	 * <li>1 bit: unused</li>
 	 * <li>3 bits: type</li>
+	 * <li>4 bits: subclass flags (if any)</li>
 	 * <li>--</li>
-	 * <li>24 bits: deltaDepth</li>
+	 * <li>20 bits: deltaDepth</li>
 	 * </ul>
 	 */
 	private int flags;
@@ -252,6 +259,65 @@ public class ObjectToPack extends PackedObjectInfo {
 
 	void setEdge() {
 		flags |= EDGE;
+	}
+
+	/** @return the extended flags on this object, in the range [0x0, 0xf]. */
+	protected int getExtendedFlags() {
+		return (flags >>> EXT_SHIFT) & EXT_MASK;
+	}
+
+	/**
+	 * Determine if a particular extended flag bit has been set.
+	 *
+	 * This implementation may be faster than calling
+	 * {@link #getExtendedFlags()} and testing the result.
+	 *
+	 * @param flag
+	 *            the flag mask to test, must be between 0x0 and 0xf.
+	 * @return true if any of the bits matching the mask are non-zero.
+	 */
+	protected boolean isExtendedFlag(int flag) {
+		return (flags & (flag << EXT_SHIFT)) != 0;
+	}
+
+	/**
+	 * Set an extended flag bit.
+	 *
+	 * This implementation is more efficient than getting the extended flags,
+	 * adding the bit, and setting them all back.
+	 *
+	 * @param flag
+	 *            the bits to set, must be between 0x0 and 0xf.
+	 */
+	protected void setExtendedFlag(int flag) {
+		flags |= (flag & EXT_MASK) << EXT_SHIFT;
+	}
+
+	/**
+	 * Clear an extended flag bit.
+	 *
+	 * This implementation is more efficient than getting the extended flags,
+	 * removing the bit, and setting them all back.
+	 *
+	 * @param flag
+	 *            the bits to clear, must be between 0x0 and 0xf.
+	 */
+	protected void clearExtendedFlag(int flag) {
+		flags &= ~((flag & EXT_MASK) << EXT_SHIFT);
+	}
+
+	/**
+	 * Set the extended flags used by the subclass.
+	 *
+	 * Subclass implementations may store up to 4 bits of information inside of
+	 * the internal flags field already used by the base ObjectToPack instance.
+	 *
+	 * @param extFlags
+	 *            additional flag bits to store in the flags field. Due to space
+	 *            constraints only values [0x0, 0xf] are permitted.
+	 */
+	protected void setExtendedFlags(int extFlags) {
+		flags = ((extFlags & EXT_MASK) << EXT_SHIFT) | (flags & NON_EXT_MASK);
 	}
 
 	int getFormat() {
