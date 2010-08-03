@@ -16,6 +16,24 @@
       "revId": "ac5b2fec1e28f0cdab26a5939808696d567ac2bb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALxn///+0\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/FileTreeIteratorWithTimeControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2010-07-30T15:56:36Z",
+      "side": 1,
+      "message": "Shouldn\u0027t it be super.getEntryLastModified() + 1 ?\nThen headSet will include the enry with timestamp super.getEntryLastModified()",
+      "parentUuid": "AAALxn////E\u003d",
+      "revId": "ac5b2fec1e28f0cdab26a5939808696d567ac2bb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
