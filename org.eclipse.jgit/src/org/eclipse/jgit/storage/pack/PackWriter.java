@@ -503,7 +503,7 @@ public class PackWriter {
 		writeMonitor.beginTask(JGitText.get().writingObjects, objCnt);
 		out.writeFileHeader(PACK_VERSION_GENERATED, objCnt);
 		out.flush();
-		writeObjects(writeMonitor, out);
+		writeObjects(out);
 		writeChecksum(out);
 
 		reader.release();
@@ -813,21 +813,19 @@ public class PackWriter {
 		}
 	}
 
-	private void writeObjects(ProgressMonitor writeMonitor, PackOutputStream out)
-			throws IOException {
-		for (List<ObjectToPack> list : objectsLists) {
-			for (ObjectToPack otp : list) {
-				if (writeMonitor.isCancelled())
-					throw new IOException(
-							JGitText.get().packingCancelledDuringObjectsWriting);
-				if (!otp.isWritten())
-					writeObject(out, otp);
+	private void writeObjects(PackOutputStream out) throws IOException {
+		if (reuseSupport != null) {
+			for (List<ObjectToPack> list : objectsLists)
+				reuseSupport.writeObjects(out, list);
+		} else {
+			for (List<ObjectToPack> list : objectsLists) {
+				for (ObjectToPack otp : list)
+					out.writeObject(otp);
 			}
 		}
 	}
 
-	private void writeObject(PackOutputStream out, final ObjectToPack otp)
-			throws IOException {
+	void writeObject(PackOutputStream out, ObjectToPack otp) throws IOException {
 		if (otp.isWritten())
 			return; // We shouldn't be here.
 

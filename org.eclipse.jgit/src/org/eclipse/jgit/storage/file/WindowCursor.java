@@ -132,6 +132,12 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 		src.pack.copyAsIs(out, src, this);
 	}
 
+	public void writeObjects(PackOutputStream out, Iterable<ObjectToPack> list)
+			throws IOException {
+		for (ObjectToPack otp : list)
+			out.writeObject(otp);
+	}
+
 	/**
 	 * Copy bytes from the window to a caller supplied buffer.
 	 *

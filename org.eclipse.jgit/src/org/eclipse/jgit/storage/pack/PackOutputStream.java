@@ -49,17 +49,20 @@ import java.io.OutputStream;
 import java.security.MessageDigest;
 import java.util.zip.CRC32;
 
+import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.util.NB;
 
 /** Custom output stream to support {@link PackWriter}. */
 public final class PackOutputStream extends OutputStream {
+	private final int BYTES_TO_WRITE_BEFORE_CANCEL_CHECK = 128 * 1024;
+
 	private final ProgressMonitor writeMonitor;
 
 	private final OutputStream out;
 
-	private final boolean ofsDelta;
+	private final PackWriter packWriter;
 
 	private final CRC32 crc = new CRC32();
 
@@ -70,6 +73,8 @@ public final class PackOutputStream extends OutputStream {
 	private byte[] headerBuffer = new byte[32];
 
 	private byte[] copyBuffer;
+
+	private long checkCancelAt;
 
 	/**
 	 * Initialize a pack output stream.
@@ -89,7 +94,8 @@ public final class PackOutputStream extends OutputStream {
 			final OutputStream out, final PackWriter pw) {
 		this.writeMonitor = writeMonitor;
 		this.out = out;
-		this.ofsDelta = pw.isDeltaBaseAsOffset();
+		this.packWriter = pw;
+		this.checkCancelAt = BYTES_TO_WRITE_BEFORE_CANCEL_CHECK;
 	}
 
 	@Override
@@ -101,12 +107,27 @@ public final class PackOutputStream extends OutputStream {
 	}
 
 	@Override
-	public void write(final byte[] b, final int off, final int len)
+	public void write(final byte[] b, int off, int len)
 			throws IOException {
-		count += len;
-		out.write(b, off, len);
-		crc.update(b, off, len);
-		md.update(b, off, len);
+		while (0 < len) {
+			final int n = Math.min(len, BYTES_TO_WRITE_BEFORE_CANCEL_CHECK);
+			count += n;
+
+			if (checkCancelAt <= count) {
+				if (writeMonitor.isCancelled()) {
+					throw new IOException(
+							JGitText.get().packingCancelledDuringObjectsWriting);
+				}
+				checkCancelAt = count + BYTES_TO_WRITE_BEFORE_CANCEL_CHECK;
+			}
+
+			out.write(b, off, n);
+			crc.update(b, off, n);
+			md.update(b, off, n);
+
+			off += n;
+			len -= n;
+		}
 	}
 
 	@Override
@@ -119,6 +140,25 @@ public final class PackOutputStream extends OutputStream {
 		NB.encodeInt32(headerBuffer, 4, version);
 		NB.encodeInt32(headerBuffer, 8, objectCount);
 		write(headerBuffer, 0, 12);
+	}
+
+	/**
+	 * Write one object.
+	 *
+	 * If the object was already written, this method does nothing and returns
+	 * quickly. This case occurs whenever an object was written out of order in
+	 * order to ensure the delta base occurred before the object that needs it.
+	 *
+	 * @param otp
+	 *            the object to write.
+	 * @throws IOException
+	 *             the object cannot be read from the object reader, or the
+	 *             output stream is no longer accepting output. Caller must
+	 *             examine the type of exception and possibly its message to
+	 *             distinguish between these cases.
+	 */
+	public void writeObject(ObjectToPack otp) throws IOException {
+		packWriter.writeObject(this, otp);
 	}
 
 	/**
@@ -140,7 +180,7 @@ public final class PackOutputStream extends OutputStream {
 	public void writeHeader(ObjectToPack otp, long rawLength)
 			throws IOException {
 		if (otp.isDeltaRepresentation()) {
-			if (ofsDelta) {
+			if (packWriter.isDeltaBaseAsOffset()) {
 				ObjectToPack baseInPack = otp.getDeltaBase();
 				if (baseInPack != null && baseInPack.isWritten()) {
 					final long start = count;
@@ -168,8 +208,7 @@ public final class PackOutputStream extends OutputStream {
 
 	private int encodeTypeSize(int type, long rawLength) {
 		long nextLength = rawLength >>> 4;
-		headerBuffer[0] = (byte) ((nextLength > 0 ? 0x80 : 0x00)
-				| (type << 4) | (rawLength & 0x0F));
+		headerBuffer[0] = (byte) ((nextLength > 0 ? 0x80 : 0x00) | (type << 4) | (rawLength & 0x0F));
 		rawLength = nextLength;
 		int n = 1;
 		while (rawLength > 0) {
