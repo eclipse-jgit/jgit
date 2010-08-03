@@ -108,6 +108,42 @@ public interface ObjectReuseAsIs {
 			throws IOException, MissingObjectException;
 
 	/**
+	 * Write objects to the pack stream in roughly the order given.
+	 *
+	 * {@code PackWriter} invokes this method to write out one or more objects,
+	 * in approximately the order specified by the iteration over the list. A
+	 * simple implementation of this method would just iterate the list and
+	 * output each object:
+	 *
+	 * <pre>
+	 * for (ObjectToPack obj : list)
+	 *   out.writeObject(obj)
+	 * </pre>
+	 *
+	 * However more sophisticated implementors may try to perform some (small)
+	 * reordering to access objects that are stored close to each other at
+	 * roughly the same time. Implementations may choose to write objects out of
+	 * order, but this may increase pack file size due to using a larger header
+	 * format to reach a delta base that is later in the stream. It may also
+	 * reduce data locality for the reader, slowing down data access.
+	 *
+	 * Invoking {@link PackOutputStream#writeObject(ObjectToPack)} will cause
+	 * {@link #copyObjectAsIs(PackOutputStream, ObjectToPack)} to be invoked
+	 * recursively on {@code this} if the current object is scheduled for reuse.
+	 *
+	 * @param out
+	 *            the stream to write each object to.
+	 * @param list
+	 *            the list of objects to write. Objects should be written in
+	 *            approximately this order.
+	 * @throws IOException
+	 *             the stream cannot be written to, or one or more required
+	 *             objects cannot be accessed from the object database.
+	 */
+	public void writeObjects(PackOutputStream out, Iterable<ObjectToPack> list)
+			throws IOException;
+
+	/**
 	 * Output a previously selected representation.
 	 * <p>
 	 * {@code PackWriter} invokes this method only if a representation

@@ -59,7 +59,7 @@ public final class PackOutputStream extends OutputStream {
 
 	private final OutputStream out;
 
-	private final boolean ofsDelta;
+	private final PackWriter packWriter;
 
 	private final CRC32 crc = new CRC32();
 
@@ -89,7 +89,7 @@ public final class PackOutputStream extends OutputStream {
 			final OutputStream out, final PackWriter pw) {
 		this.writeMonitor = writeMonitor;
 		this.out = out;
-		this.ofsDelta = pw.isDeltaBaseAsOffset();
+		this.packWriter = pw;
 	}
 
 	@Override
@@ -122,6 +122,25 @@ public final class PackOutputStream extends OutputStream {
 	}
 
 	/**
+	 * Write one object.
+	 *
+	 * If the object was already written, this method does nothing and returns
+	 * quickly. This case occurs whenever an object was written out of order in
+	 * order to ensure the delta base occurred before the object that needs it.
+	 *
+	 * @param otp
+	 *            the object to write.
+	 * @throws IOException
+	 *             the object cannot be read from the object reader, or the
+	 *             output stream is no longer accepting output. Caller must
+	 *             examine the type of exception and possibly its message to
+	 *             distinguish between these cases.
+	 */
+	public void writeObject(ObjectToPack otp) throws IOException {
+		packWriter.writeObject(this, otp);
+	}
+
+	/**
 	 * Commits the object header onto the stream.
 	 * <p>
 	 * Once the header has been written, the object representation must be fully
@@ -140,7 +159,7 @@ public final class PackOutputStream extends OutputStream {
 	public void writeHeader(ObjectToPack otp, long rawLength)
 			throws IOException {
 		if (otp.isDeltaRepresentation()) {
-			if (ofsDelta) {
+			if (packWriter.isDeltaBaseAsOffset()) {
 				ObjectToPack baseInPack = otp.getDeltaBase();
 				if (baseInPack != null && baseInPack.isWritten()) {
 					final long start = count;
