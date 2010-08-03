@@ -216,7 +216,8 @@ class SimilarityIndex {
 
 		for (;;) {
 			if (srcKey == dstKey) {
-				common += countOf(dstHash[dstIdx]);
+				common += Math.min(countOf(srcHash[srcIdx]),
+						countOf(dstHash[dstIdx]));
 
 				if (++srcIdx == srcHash.length)
 					break;
