@@ -275,6 +275,21 @@ public class RenameDetectorTest extends RepositoryTestCase {
 		assertRename(b, a, 74, entries.get(0));
 	}
 
+	public void testInexactRename_SameContentMultipleTimes() throws Exception {
+		ObjectId aId = blob("a\na\na\na\n");
+		ObjectId bId = blob("a\na\na\n");
+
+		DiffEntry a = DiffEntry.add(PATH_A, aId);
+		DiffEntry b = DiffEntry.delete(PATH_Q, bId);
+
+		rd.add(a);
+		rd.add(b);
+
+		List<DiffEntry> entries = rd.compute();
+		assertEquals(1, entries.size());
+		assertRename(b, a, 74, entries.get(0));
+	}
+
 	public void testInexactRenames_OnePair2() throws Exception {
 		ObjectId aId = blob("ab\nab\nab\nac\nad\nae\n");
 		ObjectId bId = blob("ac\nab\nab\nab\naa\na0\na1\n");
