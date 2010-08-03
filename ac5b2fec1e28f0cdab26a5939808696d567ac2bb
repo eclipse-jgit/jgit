@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALxn////E\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/FileTreeIteratorWithTimeControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-30T14:34:34Z",
+      "side": 1,
+      "message": "headSet(Object,boolean) is a Java 6 API.  We need to define cutOff as super.getEntryLastModified() - 1 instead.",
+      "revId": "ac5b2fec1e28f0cdab26a5939808696d567ac2bb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
