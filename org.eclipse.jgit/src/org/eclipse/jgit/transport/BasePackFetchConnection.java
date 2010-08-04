@@ -98,8 +98,8 @@ import org.eclipse.jgit.util.TemporaryBuffer;
  * {@link #readAdvertisedRefs()} methods in constructor or before any use. They
  * should also handle resources releasing in {@link #close()} method if needed.
  */
-abstract class BasePackFetchConnection extends BasePackConnection implements
-		FetchConnection {
+public abstract class BasePackFetchConnection extends BasePackConnection
+		implements FetchConnection {
 	/**
 	 * Maximum number of 'have' lines to send before giving up.
 	 * <p>
@@ -177,7 +177,13 @@ abstract class BasePackFetchConnection extends BasePackConnection implements
 
 	private PacketLineOut pckState;
 
-	BasePackFetchConnection(final PackTransport packTransport) {
+	/**
+	 * Create a new connection to fetch using the native git transport.
+	 *
+	 * @param packTransport
+	 *            the transport.
+	 */
+	public BasePackFetchConnection(final PackTransport packTransport) {
 		super(packTransport);
 
 		final FetchConfig cfg = local.getConfig().get(FetchConfig.KEY);
@@ -236,6 +242,20 @@ abstract class BasePackFetchConnection extends BasePackConnection implements
 		return Collections.<PackLock> emptyList();
 	}
 
+	/**
+	 * Execute common ancestor negotiation and fetch the objects.
+	 *
+	 * @param monitor
+	 *            progress monitor to receive status updates.
+	 * @param want
+	 *            the advertised remote references the caller wants to fetch.
+	 * @param have
+	 *            additional objects to assume that already exist locally. This
+	 *            will be added to the set of objects reachable from the
+	 *            destination repository's references.
+	 * @throws TransportException
+	 *             if any exception occurs.
+	 */
 	protected void doFetch(final ProgressMonitor monitor,
 			final Collection<Ref> want, final Set<ObjectId> have)
 			throws TransportException {

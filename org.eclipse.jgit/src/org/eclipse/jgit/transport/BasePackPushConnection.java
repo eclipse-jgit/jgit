@@ -81,7 +81,7 @@ import org.eclipse.jgit.transport.RemoteRefUpdate.Status;
  * {@link #readAdvertisedRefs()} methods in constructor or before any use. They
  * should also handle resources releasing in {@link #close()} method if needed.
  */
-class BasePackPushConnection extends BasePackConnection implements
+public abstract class BasePackPushConnection extends BasePackConnection implements
 		PushConnection {
 	static final String CAPABILITY_REPORT_STATUS = "report-status";
 
@@ -108,7 +108,13 @@ class BasePackPushConnection extends BasePackConnection implements
 	/** Time in milliseconds spent transferring the pack data. */
 	private long packTransferTime;
 
-	BasePackPushConnection(final PackTransport packTransport) {
+	/**
+	 * Create a new connection to push using the native git transport.
+	 *
+	 * @param packTransport
+	 *            the transport.
+	 */
+	public BasePackPushConnection(final PackTransport packTransport) {
 		super(packTransport);
 		thinPack = transport.isPushThin();
 	}
@@ -143,6 +149,16 @@ class BasePackPushConnection extends BasePackConnection implements
 		return new TransportException(uri, JGitText.get().pushNotPermitted);
 	}
 
+	/**
+	 * Push one or more objects and update the remote repository.
+	 *
+	 * @param monitor
+	 *            progress monitor to receive status updates.
+	 * @param refUpdates
+	 *            update commands to be applied to the remote repository.
+	 * @throws TransportException
+	 *             if any exception occurs.
+	 */
 	protected void doPush(final ProgressMonitor monitor,
 			final Map<String, RemoteRefUpdate> refUpdates)
 			throws TransportException {
