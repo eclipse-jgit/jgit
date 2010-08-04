@@ -48,16 +48,21 @@ package org.eclipse.jgit.lib;
 import java.io.File;
 import java.io.IOException;
 
+import org.eclipse.jgit.treewalk.FileTreeIterator;
+
 public class IndexDiffTest extends RepositoryTestCase {
 	public void testAdded() throws IOException {
 		GitIndex index = new GitIndex(db);
 		writeTrashFile("file1", "file1");
 		writeTrashFile("dir/subfile", "dir/subfile");
 		Tree tree = new Tree(db);
+		tree.setId(new ObjectWriter(db).writeTree(tree));
 
 		index.add(trash, new File(trash, "file1"));
 		index.add(trash, new File(trash, "dir/subfile"));
-		IndexDiff diff = new IndexDiff(tree, index);
+		index.write();
+		FileTreeIterator iterator = new FileTreeIterator(db);
+		IndexDiff diff = new IndexDiff(db, tree.getId(), iterator);
 		diff.diff();
 		assertEquals(2, diff.getAdded().size());
 		assertTrue(diff.getAdded().contains("file1"));
@@ -68,7 +73,6 @@ public class IndexDiffTest extends RepositoryTestCase {
 	}
 
 	public void testRemoved() throws IOException {
-		GitIndex index = new GitIndex(db);
 		writeTrashFile("file2", "file2");
 		writeTrashFile("dir/file3", "dir/file3");
 
@@ -82,7 +86,8 @@ public class IndexDiffTest extends RepositoryTestCase {
 		tree2.setId(new ObjectWriter(db).writeTree(tree2));
 		tree.setId(new ObjectWriter(db).writeTree(tree));
 
-		IndexDiff diff = new IndexDiff(tree, index);
+		FileTreeIterator iterator = new FileTreeIterator(db);
+		IndexDiff diff = new IndexDiff(db, tree.getId(), iterator);
 		diff.diff();
 		assertEquals(2, diff.getRemoved().size());
 		assertTrue(diff.getRemoved().contains("file2"));
@@ -98,6 +103,7 @@ public class IndexDiffTest extends RepositoryTestCase {
 
 		index.add(trash, writeTrashFile("file2", "file2"));
 		index.add(trash, writeTrashFile("dir/file3", "dir/file3"));
+		index.write();
 
 		writeTrashFile("dir/file3", "changed");
 
@@ -109,7 +115,8 @@ public class IndexDiffTest extends RepositoryTestCase {
 		Tree tree2 = (Tree) tree.findTreeMember("dir");
 		tree2.setId(new ObjectWriter(db).writeTree(tree2));
 		tree.setId(new ObjectWriter(db).writeTree(tree));
-		IndexDiff diff = new IndexDiff(tree, index);
+		FileTreeIterator iterator = new FileTreeIterator(db);
+		IndexDiff diff = new IndexDiff(db, tree.getId(), iterator);
 		diff.diff();
 		assertEquals(2, diff.getChanged().size());
 		assertTrue(diff.getChanged().contains("file2"));
@@ -128,6 +135,7 @@ public class IndexDiffTest extends RepositoryTestCase {
 		index.add(trash, writeTrashFile("a.c", "a.c"));
 		index.add(trash, writeTrashFile("a=c", "a=c"));
 		index.add(trash, writeTrashFile("a=d", "a=d"));
+		index.write();
 
 		Tree tree = new Tree(db);
 		// got the hash id'd from the data using echo -n a.b|git hash-object -t blob --stdin
@@ -138,7 +146,8 @@ public class IndexDiffTest extends RepositoryTestCase {
 
 		tree.setId(new ObjectWriter(db).writeTree(tree));
 
-		IndexDiff diff = new IndexDiff(tree, index);
+		FileTreeIterator iterator = new FileTreeIterator(db);
+		IndexDiff diff = new IndexDiff(db, tree.getId(), iterator);
 		diff.diff();
 		assertEquals(0, diff.getChanged().size());
 		assertEquals(0, diff.getAdded().size());
@@ -163,6 +172,7 @@ public class IndexDiffTest extends RepositoryTestCase {
 		index.add(trash, writeTrashFile("a/c", "a/c"));
 		index.add(trash, writeTrashFile("a=c", "a=c"));
 		index.add(trash, writeTrashFile("a=d", "a=d"));
+		index.write();
 
 		Tree tree = new Tree(db);
 		// got the hash id'd from the data using echo -n a.b|git hash-object -t blob --stdin
@@ -180,7 +190,8 @@ public class IndexDiffTest extends RepositoryTestCase {
 		tree2.setId(new ObjectWriter(db).writeTree(tree2));
 		tree.setId(new ObjectWriter(db).writeTree(tree));
 
-		IndexDiff diff = new IndexDiff(tree, index);
+		FileTreeIterator iterator = new FileTreeIterator(db);
+		IndexDiff diff = new IndexDiff(db, tree.getId(), iterator);
 		diff.diff();
 		assertEquals(0, diff.getChanged().size());
 		assertEquals(0, diff.getAdded().size());
