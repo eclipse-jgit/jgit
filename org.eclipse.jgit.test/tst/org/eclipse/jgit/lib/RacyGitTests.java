@@ -48,7 +48,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.TreeSet;
 
-import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
 import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
@@ -118,7 +117,6 @@ public class RacyGitTests extends RepositoryTestCase {
 
 	public void testRacyGitDetection() throws IOException,
 			IllegalStateException, InterruptedException {
-		DirCache dc;
 		TreeSet<Long> modTimes = new TreeSet<Long>();
 		File lastFile;
 
@@ -137,7 +135,10 @@ public class RacyGitTests extends RepositoryTestCase {
 		// now add both files to the index. No racy git expected
 		addToIndex(modTimes);
 
-		assertEquals("[[a, modTime(index/file): t0/t0], [b, modTime(index/file): t0/t0]]", indexState(modTimes));
+		assertEquals(
+				"[a, mode:100644, time:t0, length:1, sha1:2e65efe2a145dda7ee51d1741299f848e5bf752e]" +
+				"[b, mode:100644, time:t0, length:1, sha1:63d8dbd40c23542e740659a7168a0ce3138ea748]",
+				indexState(SMUDGE | MOD_TIME | LENGTH | CONTENT_ID));
 
 		// Remember the last modTime of index file. All modifications times of
 		// further modification are translated to this value so it looks that
@@ -151,15 +152,12 @@ public class RacyGitTests extends RepositoryTestCase {
 		// mod time.
 		addToIndex(modTimes);
 
-		dc = db.readDirCache();
-		assertTrue(dc.getEntryCount() == 2);
-		assertTrue(dc.getEntry("a").isSmudged());
-		assertFalse(dc.getEntry("b").isSmudged());
-
-		// although racily clean a should not be reported as beeing dirty
-		assertEquals("[[a, modTime(index/file): t0/t0, unsmudged], [b, modTime(index/file): t1/t1]]", indexState(modTimes));
-		assertEquals("[[a, modTime(index/file): t0/t0, unsmudged], [b, modTime(index/file): t1/t1]]", indexState(modTimes));
-
+		db.readDirCache();
+		// although racily clean a should not be reported as being dirty
+		assertEquals(
+				"[a, mode:100644, time:t1, smudged, length:0]" +
+				"[b, mode:100644, time:t0, length:1]",
+				indexState(SMUDGE|MOD_TIME|LENGTH));
 	}
 
 	/**
