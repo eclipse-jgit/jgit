@@ -175,6 +175,7 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 
 		// iterate again, now produce the result string
 		NameConflictTreeWalk tw = new NameConflictTreeWalk(db);
+		tw.setRecursive(true);
 		tw.reset();
 		tw.addTree(new DirCacheIterator(dc));
 		while (tw.next()) {
