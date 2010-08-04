@@ -1,6 +1,7 @@
 /*
  * Copyright (C) 2007, Dave Watson <dwatson@mimvista.com>
  * Copyright (C) 2007-2008, Robin Rosenberg <robin.rosenberg@dewire.com>
+ * Copyright (C) 2010, Jens Baumgart <jens.baumgart@sap.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -44,96 +45,162 @@
 
 package org.eclipse.jgit.lib;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
 
-import org.eclipse.jgit.lib.GitIndex.Entry;
+import org.eclipse.jgit.dircache.DirCache;
+import org.eclipse.jgit.dircache.DirCacheIterator;
+import org.eclipse.jgit.revwalk.RevTree;
+import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.treewalk.AbstractTreeIterator;
+import org.eclipse.jgit.treewalk.TreeWalk;
+import org.eclipse.jgit.treewalk.WorkingTreeIterator;
+import org.eclipse.jgit.treewalk.filter.TreeFilter;
 
 /**
- * Compares the Index, a Tree, and the working directory
- *
- * @deprecated Use {@link org.eclipse.jgit.treewalk.TreeWalk} instead, with at
- * least the {@link org.eclipse.jgit.dircache.DirCacheIterator} and
- * {@link org.eclipse.jgit.treewalk.FileTreeIterator} iterators, and setting
- * the filter {@link org.eclipse.jgit.treewalk.filter.TreeFilter#ANY_DIFF}.
+ * Compares the index, a tree, and the working directory
+ * Ignored files are not taken into account.
+ * The following information is retrieved:
+ * <li> added files
+ * <li> changed files
+ * <li> removed files
+ * <li> missing files
+ * <li> modified files
+ * <li> untracked files
  */
-@Deprecated
 public class IndexDiff {
-	private GitIndex index;
-	private Tree tree;
+
+	private final static int TREE = 0;
+
+	private final static int INDEX = 1;
+
+	private final static int WORKDIR = 2;
+
+	private final Repository repository;
+
+	private final RevTree tree;
+
+	private final WorkingTreeIterator initialWorkingTreeIterator;
+
+	private HashSet<String> added = new HashSet<String>();
+
+	private HashSet<String> changed = new HashSet<String>();
+
+	private HashSet<String> removed = new HashSet<String>();
+
+	private HashSet<String> missing = new HashSet<String>();
+
+	private HashSet<String> modified = new HashSet<String>();
+
+	private HashSet<String> untracked = new HashSet<String>();
 
 	/**
-	 * Construct an indexdiff for diffing the workdir against
-	 * the index.
+	 * Construct an IndexDiff
 	 *
 	 * @param repository
+	 * @param revstr
+	 *            symbolic name e.g. HEAD
+	 * @param workingTreeIterator
+	 *            iterator for working directory
 	 * @throws IOException
 	 */
-	public IndexDiff(Repository repository) throws IOException {
-		this.tree = repository.mapTree(Constants.HEAD);
-		this.index = repository.getIndex();
+	public IndexDiff(Repository repository, String revstr,
+			WorkingTreeIterator workingTreeIterator) throws IOException {
+		this.repository = repository;
+		ObjectId objectId = repository.resolve(revstr);
+		tree = new RevWalk(repository).parseTree(objectId);
+		this.initialWorkingTreeIterator = workingTreeIterator;
 	}
 
 	/**
-	 * Construct an indexdiff for diffing the workdir against both
-	 * the index and a tree.
+	 * Construct an Indexdiff
 	 *
-	 * @param tree
-	 * @param index
+	 * @param repository
+	 * @param objectId
+	 *            tree id
+	 * @param workingTreeIterator
+	 *            iterator for working directory
+	 * @throws IOException
 	 */
-	public IndexDiff(Tree tree, GitIndex index) {
-		this.tree = tree;
-		this.index = index;
+	public IndexDiff(Repository repository, ObjectId objectId,
+			WorkingTreeIterator workingTreeIterator) throws IOException {
+		this.repository = repository;
+		tree = new RevWalk(repository).parseTree(objectId);
+		this.initialWorkingTreeIterator = workingTreeIterator;
 	}
-
-	boolean anyChanges = false;
 
 	/**
 	 * Run the diff operation. Until this is called, all lists will be empty
+	 *
 	 * @return if anything is different between index, tree, and workdir
 	 * @throws IOException
 	 */
 	public boolean diff() throws IOException {
-		final File root = index.getRepository().getWorkTree();
-		new IndexTreeWalker(index, tree, root, new AbstractIndexTreeVisitor() {
-			public void visitEntry(TreeEntry treeEntry, Entry indexEntry, File file) {
-				if (treeEntry == null) {
-					added.add(indexEntry.getName());
-					anyChanges = true;
-				} else if (indexEntry == null) {
-					if (!(treeEntry instanceof Tree))
-						removed.add(treeEntry.getFullName());
-					anyChanges = true;
+		boolean changesExist = false;
+		DirCache dirCache = repository.readDirCache();
+		TreeWalk treeWalk = new TreeWalk(repository);
+		treeWalk.reset();
+		treeWalk.setRecursive(true);
+		// add the trees (tree, dirchache, workdir)
+		treeWalk.addTree(tree);
+		treeWalk.addTree(new DirCacheIterator(dirCache));
+		treeWalk.addTree(initialWorkingTreeIterator);
+		treeWalk.setFilter(TreeFilter.ANY_DIFF);
+		while (treeWalk.next()) {
+			AbstractTreeIterator treeIterator = treeWalk.getTree(TREE,
+					AbstractTreeIterator.class);
+			DirCacheIterator dirCacheIterator = treeWalk.getTree(INDEX,
+					DirCacheIterator.class);
+			WorkingTreeIterator workingTreeIterator = treeWalk.getTree(WORKDIR,
+					WorkingTreeIterator.class);
+			FileMode fileModeTree = treeWalk.getFileMode(TREE);
+
+			if (treeIterator != null) {
+				if (dirCacheIterator != null) {
+					if (!treeIterator.getEntryObjectId().equals(
+							dirCacheIterator.getEntryObjectId())) {
+						// in repo, in index, content diff => changed
+						changed.add(dirCacheIterator.getEntryPathString());
+						changesExist = true;
+					}
 				} else {
-					if (!treeEntry.getId().equals(indexEntry.getObjectId())) {
-						changed.add(indexEntry.getName());
-						anyChanges = true;
+					// in repo, not in index => removed
+					if (!fileModeTree.equals(FileMode.TYPE_TREE)) {
+						removed.add(treeIterator.getEntryPathString());
+						changesExist = true;
 					}
 				}
-
-				if (indexEntry != null) {
-					if (!file.exists()) {
-						missing.add(indexEntry.getName());
-						anyChanges = true;
-					} else {
-						if (indexEntry.isModified(root, true)) {
-							modified.add(indexEntry.getName());
-							anyChanges = true;
-						}
+			} else {
+				if (dirCacheIterator != null) {
+					// not in repo, in index => added
+					added.add(dirCacheIterator.getEntryPathString());
+					changesExist = true;
+				} else {
+					// not in repo, not in index => untracked
+					if (workingTreeIterator != null
+							&& !workingTreeIterator.isEntryIgnored()) {
+						untracked.add(workingTreeIterator.getEntryPathString());
+						changesExist = true;
 					}
 				}
 			}
-		}).walk();
 
-		return anyChanges;
+			if (dirCacheIterator != null) {
+				if (workingTreeIterator == null) {
+					// in index, not in workdir => missing
+					missing.add(dirCacheIterator.getEntryPathString());
+					changesExist = true;
+				} else {
+					if (!dirCacheIterator.idEqual(workingTreeIterator)) {
+						// in index, in workdir, content differs => modified
+						modified.add(dirCacheIterator.getEntryPathString());
+						changesExist = true;
+					}
+				}
+			}
+		}
+		return changesExist;
 	}
-
-	HashSet<String> added = new HashSet<String>();
-	HashSet<String> changed = new HashSet<String>();
-	HashSet<String> removed = new HashSet<String>();
-	HashSet<String> missing = new HashSet<String>();
-	HashSet<String> modified = new HashSet<String>();
 
 	/**
 	 * @return list of files added to the index, not in the tree
@@ -168,5 +235,12 @@ public class IndexDiff {
 	 */
 	public HashSet<String> getModified() {
 		return modified;
+	}
+
+	/**
+	 * @return list of files on modified on disk relative to the index
+	 */
+	public HashSet<String> getUntracked() {
+		return untracked;
 	}
 }
