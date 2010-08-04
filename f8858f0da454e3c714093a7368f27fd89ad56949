@@ -16,6 +16,24 @@
       "revId": "f8858f0da454e3c714093a7368f27fd89ad56949",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALxn///+s\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RacyGitTests.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2010-07-30T15:57:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALxn////M\u003d",
+      "revId": "f8858f0da454e3c714093a7368f27fd89ad56949",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
