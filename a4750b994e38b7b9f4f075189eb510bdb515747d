@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALxn///+I\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/AddCommandTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2010-08-02T09:26:28Z",
+      "side": 1,
+      "message": "I still do not understand the logic behind these t0 etc. Why is the timestamp here t0? The value of dcIt.getDirCacheEntry().getLastModified() here is the third in the TreeSet\u003cLong\u003e modTimes, but why do I get t0 here?\n\nShouldn\u0027t the Map lookup in RepositoryTestCase be prefilled with the modTimes?",
+      "revId": "a4750b994e38b7b9f4f075189eb510bdb515747d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
