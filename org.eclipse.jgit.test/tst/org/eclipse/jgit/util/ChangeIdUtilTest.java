@@ -123,6 +123,13 @@ public class ChangeIdUtilTest extends TestCase {
 				call("has changeid\n\nBug: 33\nmore text\nSigned-off-by: me@you.too\nChange-Id: I0123456789012345678901234567890123456789\nAnd then some\n"));
 	}
 
+	public void testHasChangeidWithReplacement() throws Exception {
+		assertEquals(
+				"has changeid\n\nBug: 33\nmore text\nSigned-off-by: me@you.too\nChange-Id: I988d2d7a6f2c0578fccabd4ebd3cec0768bc7f9f\nAnd then some\n",
+				call("has changeid\n\nBug: 33\nmore text\nSigned-off-by: me@you.too\nChange-Id: I0123456789012345678901234567890123456789\nAnd then some\n",
+						true));
+	}
+
 	public void testOneliner() throws Exception {
 		assertEquals(
 				"oneliner\n\nChange-Id: I3a98091ce4470de88d52ae317fcd297e2339f063\n",
@@ -234,6 +241,47 @@ public class ChangeIdUtilTest extends TestCase {
 		hookDoesNotModify("Fix-A-Widget: this thing\n" + //
 				"\n" + //
 				"Change-Id: I4f4e2e1e8568ddc1509baecb8c1270a1fb4b6da7\n");
+	}
+
+	public void testChangeIdAlreadySetWithReplacement() throws Exception {
+		// If a Change-Id is already present in the footer, the hook
+		// replaces the Change-Id with the new value..
+		//
+		assertEquals("a\n" + //
+				"\n" + //
+				"Change-Id: Ifa324efa85bfb3c8696a46a0f67fa70c35be5f5f\n",
+				call("a\n" + //
+						"\n" + //
+						"Change-Id: Iaeac9b4149291060228ef0154db2985a31111335\n",
+						true));
+		assertEquals("fix: this thing\n" + //
+				"\n" + //
+				"Change-Id: Ib63e4990a06412a3f24bd93bb160e98ac1bd412b\n",
+				call("fix: this thing\n" + //
+						"\n" + //
+						"Change-Id: I388bdaf52ed05b55e62a22d0a20d2c1ae0d33e7e\n",
+						true));
+		assertEquals("fix-a-widget: this thing\n" + //
+				"\n" + //
+				"Change-Id: If0444e4d0cabcf41b3d3b46b7e9a7a64a82117af\n",
+				call("fix-a-widget: this thing\n" + //
+						"\n" + //
+						"Change-Id: Id3bc5359d768a6400450283e12bdfb6cd135ea4b\n",
+						true));
+		assertEquals("FIX: this thing\n" + //
+				"\n" + //
+				"Change-Id: Iba5a3b2d5e5df46448f6daf362b6bfa775c6491d\n",
+				call("FIX: this thing\n" + //
+						"\n" + //
+						"Change-Id: I1b55098b5a2cce0b3f3da783dda50d5f79f873fa\n",
+						true));
+		assertEquals("Fix-A-Widget: this thing\n" + //
+				"\n" + //
+				"Change-Id: I2573d47c62c42429fbe424d70cfba931f8f87848\n",
+				call("Fix-A-Widget: this thing\n" + //
+				"\n" + //
+				"Change-Id: I4f4e2e1e8568ddc1509baecb8c1270a1fb4b6da7\n",
+				true));
 	}
 
 	public void testTimeAltersId() throws Exception {
@@ -513,11 +561,15 @@ public class ChangeIdUtilTest extends TestCase {
 	}
 
 	private String call(final String body) throws Exception {
+		return call(body, false);
+	}
+
+	private String call(final String body, boolean replaceExisting) throws Exception {
 		ObjectId computeChangeId = ChangeIdUtil.computeChangeId(treeId1,
 				parentId1, author, committer, body);
 		if (computeChangeId == null)
 			return body;
-		return ChangeIdUtil.insertId(body, computeChangeId);
+		return ChangeIdUtil.insertId(body, computeChangeId, replaceExisting);
 	}
 
 }

@@ -136,8 +136,32 @@ public class ChangeIdUtil {
 	 * @return a commit message with an inserted Change-Id line
 	 */
 	public static String insertId(String message, ObjectId changeId) {
-		if (message.indexOf("\nChange-Id:") > 0)
+		return insertId(message, changeId, false);
+	}
+
+	/**
+	 * Find the right place to insert a Change-Id and return it.
+	 * <p>
+	 * The Change-Id is inserted before the first footer line but after a Bug
+	 * line.
+	 *
+	 * @param message
+	 * @param changeId
+	 * @param replaceExisting
+	 * @return a commit message with an inserted Change-Id line
+	 */
+	public static String insertId(String message, ObjectId changeId, boolean replaceExisting) {
+		if (message.indexOf("Change-Id:") > 0) {
+			if (replaceExisting) {
+				int i = message.indexOf("Change-Id:") + 10;
+				while (message.charAt(i) == ' ')
+					i++;
+				String oldId = message.length() == (i + 40) ?
+						message.substring(i) : message.substring(i, i + 41);
+				message = message.replace(oldId, "I" + changeId.getName());
+			}
 			return message;
+		}
 
 		String[] lines = message.split("\n");
 		int footerFirstLine = lines.length;
