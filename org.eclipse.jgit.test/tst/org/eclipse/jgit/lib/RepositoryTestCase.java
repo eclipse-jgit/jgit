@@ -232,4 +232,40 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 		}
 		return name;
 	}
+
+	/**
+	 * Waits until it is guaranteed that a subsequent file modification has a
+	 * younger modification timestamp than the modification timestamp of the
+	 * given file. This is done by touching a temporary file, reading the
+	 * lastmodified attribute and, if needed, sleeping. After sleeping this loop
+	 * starts again until the filesystem timer has advanced enough.
+	 *
+	 * @param lastFile
+	 *            the file on which we want to wait until the filesystem timer
+	 *            has advanced more than the lastmodification timestamp of this
+	 *            file
+	 * @return return the last measured value of the filesystem timer which is
+	 *         greater than then the lastmodification time of lastfile.
+	 * @throws InterruptedException
+	 * @throws IOException
+	 */
+	public static long fsTick(File lastFile) throws InterruptedException,
+			IOException {
+		long sleepTime = 1;
+		File tmp = File.createTempFile("FileTreeIteratorWithTimeControl", null);
+		try {
+			long startTime = (lastFile == null) ? tmp.lastModified() : lastFile
+					.lastModified();
+			long actTime = tmp.lastModified();
+			while (actTime <= startTime) {
+				Thread.sleep(sleepTime);
+				sleepTime *= 5;
+				tmp.setLastModified(System.currentTimeMillis());
+				actTime = tmp.lastModified();
+			}
+			return actTime;
+		} finally {
+			tmp.delete();
+		}
+	}
 }
