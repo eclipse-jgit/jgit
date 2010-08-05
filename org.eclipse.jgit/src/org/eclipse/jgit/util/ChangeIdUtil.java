@@ -61,6 +61,8 @@ import org.eclipse.jgit.lib.PersonIdent;
  */
 public class ChangeIdUtil {
 
+	static final String CHANGE_ID = "Change-Id:";
+
 	// package-private so the unit test can test this part only
 	static String clean(String msg) {
 		return msg.//
@@ -136,8 +138,39 @@ public class ChangeIdUtil {
 	 * @return a commit message with an inserted Change-Id line
 	 */
 	public static String insertId(String message, ObjectId changeId) {
-		if (message.indexOf("\nChange-Id:") > 0)
+		return insertId(message, changeId, false);
+	}
+
+	/**
+	 * Find the right place to insert a Change-Id and return it.
+	 * <p>
+	 * If no Change-Id is found the Change-Id is inserted before
+	 * the first footer line but after a Bug line.
+	 *
+	 * If Change-Id is found and replaceExisting is set to false,
+	 * the message is unchanged.
+	 *
+	 * If Change-Id is found and replaceExisting is set to true,
+	 * the Change-Id is replaced with {@code changeId}.
+	 *
+	 * @param message
+	 * @param changeId
+	 * @param replaceExisting
+	 * @return a commit message with an inserted Change-Id line
+	 */
+	public static String insertId(String message, ObjectId changeId,
+			boolean replaceExisting) {
+		if (message.indexOf(CHANGE_ID) > 0) {
+			if (replaceExisting) {
+				int i = message.indexOf(CHANGE_ID) + 10;
+				while (message.charAt(i) == ' ')
+					i++;
+				String oldId = message.length() == (i + 40) ?
+						message.substring(i) : message.substring(i, i + 41);
+				message = message.replace(oldId, "I" + changeId.getName());
+			}
 			return message;
+		}
 
 		String[] lines = message.split("\n");
 		int footerFirstLine = lines.length;
@@ -173,7 +206,8 @@ public class ChangeIdUtil {
 		}
 		if (insertAfter == lines.length && insertAfter == footerFirstLine)
 			ret.append("\n");
-		ret.append("Change-Id: I");
+		ret.append(CHANGE_ID);
+		ret.append(" I");
 		ret.append(ObjectId.toString(changeId));
 		ret.append("\n");
 		for (; i < lines.length; ++i) {
