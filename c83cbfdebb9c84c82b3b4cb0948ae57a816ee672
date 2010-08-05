@@ -1,0 +1,22 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALx3////M\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/ChangeIdUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2010-08-05T12:14:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALx3////U\u003d",
+      "revId": "c83cbfdebb9c84c82b3b4cb0948ae57a816ee672",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
