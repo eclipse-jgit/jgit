@@ -61,6 +61,7 @@ import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.storage.pack.PackConfig;
 import org.eclipse.jgit.storage.pack.PackWriter;
 
 /**
@@ -81,11 +82,13 @@ import org.eclipse.jgit.storage.pack.PackWriter;
  * overall bundle size.
  */
 public class BundleWriter {
-	private final PackWriter packWriter;
+	private final Repository db;
 
 	private final Map<String, ObjectId> include;
 
 	private final Set<RevCommit> assume;
+
+	private PackConfig packConfig;
 
 	/**
 	 * Create a writer for a bundle.
@@ -94,9 +97,20 @@ public class BundleWriter {
 	 *            repository where objects are stored.
 	 */
 	public BundleWriter(final Repository repo) {
-		packWriter = new PackWriter(repo);
+		db = repo;
 		include = new TreeMap<String, ObjectId>();
 		assume = new HashSet<RevCommit>();
+	}
+
+	/**
+	 * Set the configuration used by the pack generator.
+	 *
+	 * @param pc
+	 *            configuration controlling packing parameters. If null the
+	 *            source repository's settings will be used.
+	 */
+	public void setPackConfig(PackConfig pc) {
+		this.packConfig = pc;
 	}
 
 	/**
@@ -166,6 +180,10 @@ public class BundleWriter {
 	 */
 	public void writeBundle(ProgressMonitor monitor, OutputStream os)
 			throws IOException {
+		PackConfig pc = packConfig;
+		if (pc == null)
+			pc = new PackConfig(db);
+		PackWriter packWriter = new PackWriter(pc, db.newObjectReader());
 		try {
 			final HashSet<ObjectId> inc = new HashSet<ObjectId>();
 			final HashSet<ObjectId> exc = new HashSet<ObjectId>();

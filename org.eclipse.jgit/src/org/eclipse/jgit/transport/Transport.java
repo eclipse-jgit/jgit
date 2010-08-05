@@ -66,6 +66,7 @@ import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.TransferConfig;
+import org.eclipse.jgit.storage.pack.PackConfig;
 import org.eclipse.jgit.util.FS;
 
 /**
@@ -554,6 +555,9 @@ public abstract class Transport {
 	/** Timeout in seconds to wait before aborting an IO read or write. */
 	private int timeout;
 
+	/** Pack configuration used by this transport to make pack file. */
+	private PackConfig packConfig;
+
 	/**
 	 * Create a new transport instance.
 	 *
@@ -789,6 +793,32 @@ public abstract class Transport {
 	 */
 	public void setTimeout(final int seconds) {
 		timeout = seconds;
+	}
+
+	/**
+	 * Get the configuration used by the pack generator to make packs.
+	 *
+	 * If {@link #setPackConfig(PackConfig)} was previously given null a new
+	 * PackConfig is created on demand by this method using the source
+	 * repository's settings.
+	 *
+	 * @return the pack configuration. Never null.
+	 */
+	public PackConfig getPackConfig() {
+		if (packConfig == null)
+			packConfig = new PackConfig(local);
+		return packConfig;
+	}
+
+	/**
+	 * Set the configuration used by the pack generator.
+	 *
+	 * @param pc
+	 *            configuration controlling packing parameters. If null the
+	 *            source repository's settings will be used.
+	 */
+	public void setPackConfig(PackConfig pc) {
+		packConfig = pc;
 	}
 
 	/**
