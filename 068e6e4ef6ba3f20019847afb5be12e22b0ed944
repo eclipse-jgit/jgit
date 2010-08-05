@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALw3///9E\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/AddCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-07-20T08:51:00Z",
+      "side": 1,
+      "message": "Why do we add another iterator over the Dircache? We already have one in the Walk and we can reuse him.",
+      "revId": "068e6e4ef6ba3f20019847afb5be12e22b0ed944",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALw3///8w\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/AddCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-07-20T08:51:00Z",
+      "side": 1,
+      "message": "I think this block here is not covering all cases. E.g. if the file doesn\u0027t exist, the update flag is set and the file is in the index: that\u0027s happening when you just delete a tracked file in the work-dir and call \"add -u\". \nYou expect the file to be deleted. But we just add it again.\n\nCheck your if\u0027s against all possible combinations of \"update flag set\", \"file exists in workdir\", \"file exists in index\" -- these are just 8 cases.",
+      "revId": "068e6e4ef6ba3f20019847afb5be12e22b0ed944",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
