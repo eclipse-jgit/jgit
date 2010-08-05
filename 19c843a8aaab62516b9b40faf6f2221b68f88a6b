@@ -1,0 +1,56 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALxn///5c\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RepositoryTestCase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2010-08-04T08:56:11Z",
+      "side": 1,
+      "message": "typo: constants",
+      "revId": "19c843a8aaab62516b9b40faf6f2221b68f88a6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALxn///5Y\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RepositoryTestCase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2010-08-04T08:56:11Z",
+      "side": 1,
+      "message": "iterate once over ...",
+      "revId": "19c843a8aaab62516b9b40faf6f2221b68f88a6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALxn///4w\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RepositoryTestCase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2010-08-04T11:41:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALxn///5Y\u003d",
+      "revId": "19c843a8aaab62516b9b40faf6f2221b68f88a6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
