@@ -63,6 +63,7 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryCache;
 import org.eclipse.jgit.lib.RepositoryCache.FileKey;
+import org.eclipse.jgit.storage.pack.PackConfig;
 import org.eclipse.jgit.util.FS;
 
 /** Basic daemon for the anonymous <code>git://</code> transport protocol. */
@@ -89,6 +90,8 @@ public class Daemon {
 	private Thread acceptThread;
 
 	private int timeout;
+
+	private PackConfig packConfig;
 
 	/** Configure a daemon to listen on any available network port. */
 	public Daemon() {
@@ -120,6 +123,7 @@ public class Daemon {
 						final UploadPack rp = new UploadPack(db);
 						final InputStream in = dc.getInputStream();
 						rp.setTimeout(Daemon.this.getTimeout());
+						rp.setPackConfig(Daemon.this.packConfig);
 						rp.upload(in, dc.getOutputStream(), null);
 					}
 				}, new DaemonService("receive-pack", "receivepack") {
@@ -240,6 +244,17 @@ public class Daemon {
 	 */
 	public void setTimeout(final int seconds) {
 		timeout = seconds;
+	}
+
+	/**
+	 * Set the configuration used by the pack generator.
+	 *
+	 * @param pc
+	 *            configuration controlling packing parameters. If null the
+	 *            source repository's settings will be used.
+	 */
+	public void setPackConfig(PackConfig pc) {
+		this.packConfig = pc;
 	}
 
 	/**

@@ -69,6 +69,7 @@ import org.eclipse.jgit.revwalk.RevFlagSet;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevTag;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.storage.pack.PackConfig;
 import org.eclipse.jgit.storage.pack.PackWriter;
 import org.eclipse.jgit.transport.BasePackFetchConnection.MultiAck;
 import org.eclipse.jgit.transport.RefAdvertiser.PacketLineOutRefAdvertiser;
@@ -101,6 +102,9 @@ public class UploadPack {
 
 	/** Revision traversal support over {@link #db}. */
 	private final RevWalk walk;
+
+	/** Configuration to pass into the PackWriter. */
+	private PackConfig packConfig;
 
 	/** Timeout in seconds to wait for client interaction. */
 	private int timeout;
@@ -256,6 +260,17 @@ public class UploadPack {
 	 */
 	public void setRefFilter(final RefFilter refFilter) {
 		this.refFilter = refFilter != null ? refFilter : RefFilter.DEFAULT;
+	}
+
+	/**
+	 * Set the configuration used by the pack generator.
+	 *
+	 * @param pc
+	 *            configuration controlling packing parameters. If null the
+	 *            source repository's settings will be used.
+	 */
+	public void setPackConfig(PackConfig pc) {
+		this.packConfig = pc;
 	}
 
 	/**
@@ -548,8 +563,6 @@ public class UploadPack {
 	}
 
 	private void sendPack() throws IOException {
-		final boolean thin = options.contains(OPTION_THIN_PACK);
-		final boolean progress = !options.contains(OPTION_NO_PROGRESS);
 		final boolean sideband = options.contains(OPTION_SIDE_BAND)
 				|| options.contains(OPTION_SIDE_BAND_64K);
 
@@ -563,15 +576,18 @@ public class UploadPack {
 
 			packOut = new SideBandOutputStream(SideBandOutputStream.CH_DATA,
 					bufsz, rawOut);
-			if (progress)
+			if (!options.contains(OPTION_NO_PROGRESS))
 				pm = new SideBandProgressMonitor(new SideBandOutputStream(
 						SideBandOutputStream.CH_PROGRESS, bufsz, rawOut));
 		}
 
-		final PackWriter pw = new PackWriter(db, walk.getObjectReader());
+		PackConfig cfg = packConfig;
+		if (cfg == null)
+			cfg = new PackConfig(db);
+		final PackWriter pw = new PackWriter(cfg, walk.getObjectReader());
 		try {
 			pw.setDeltaBaseAsOffset(options.contains(OPTION_OFS_DELTA));
-			pw.setThin(thin);
+			pw.setThin(options.contains(OPTION_THIN_PACK));
 			pw.preparePack(pm, wantAll, commonBase);
 			if (options.contains(OPTION_INCLUDE_TAG)) {
 				for (final Ref r : refs.values()) {

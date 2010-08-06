@@ -43,44 +43,46 @@
 
 package org.eclipse.jgit.storage.pack;
 
-import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.Callable;
 
-class ThreadSafeDeltaCache extends DeltaCache {
-	private final ReentrantLock lock;
+import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.lib.ProgressMonitor;
 
-	ThreadSafeDeltaCache(PackConfig pc) {
-		super(pc);
-		lock = new ReentrantLock();
+final class DeltaTask implements Callable<Object> {
+	private final PackConfig config;
+
+	private final ObjectReader templateReader;
+
+	private final DeltaCache dc;
+
+	private final ProgressMonitor pm;
+
+	private final int batchSize;
+
+	private final int start;
+
+	private final ObjectToPack[] list;
+
+	DeltaTask(PackConfig config, ObjectReader reader, DeltaCache dc,
+			ProgressMonitor pm, int batchSize, int start, ObjectToPack[] list) {
+		this.config = config;
+		this.templateReader = reader;
+		this.dc = dc;
+		this.pm = pm;
+		this.batchSize = batchSize;
+		this.start = start;
+		this.list = list;
 	}
 
-	@Override
-	boolean canCache(int length, ObjectToPack src, ObjectToPack res) {
-		lock.lock();
+	public Object call() throws Exception {
+		final ObjectReader or = templateReader.newReader();
 		try {
-			return super.canCache(length, src, res);
+			DeltaWindow dw;
+			dw = new DeltaWindow(config, dc, or);
+			dw.search(pm, list, start, batchSize);
 		} finally {
-			lock.unlock();
+			or.release();
 		}
-	}
-
-	@Override
-	void credit(int reservedSize) {
-		lock.lock();
-		try {
-			super.credit(reservedSize);
-		} finally {
-			lock.unlock();
-		}
-	}
-
-	@Override
-	Ref cache(byte[] data, int actLen, int reservedSize) {
-		data = resize(data, actLen);
-		lock.lock();
-		try {
-			return super.cache(data, actLen, reservedSize);
-		} finally {
-			lock.unlock();
-		}
+		return null;
 	}
 }

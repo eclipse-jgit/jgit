@@ -48,13 +48,22 @@ import java.net.InetSocketAddress;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executors;
 
+import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.eclipse.jgit.storage.file.WindowCache;
+import org.eclipse.jgit.storage.file.WindowCacheConfig;
+import org.eclipse.jgit.storage.pack.PackConfig;
+import org.eclipse.jgit.transport.DaemonService;
+import org.eclipse.jgit.util.FS;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
-import org.eclipse.jgit.transport.DaemonService;
 
 @Command(common = true, usage = "usage_exportRepositoriesOverGit")
 class Daemon extends TextBuiltin {
+	@Option(name = "--config-file", metaVar = "metaVar_configFile", usage = "usage_configFile")
+	File configFile;
+
 	@Option(name = "--port", metaVar = "metaVar_port", usage = "usage_portNumberToListenOn")
 	int port = org.eclipse.jgit.transport.Daemon.DEFAULT_PORT;
 
@@ -89,12 +98,38 @@ class Daemon extends TextBuiltin {
 
 	@Override
 	protected void run() throws Exception {
+		PackConfig packConfig = new PackConfig();
+
+		if (configFile != null) {
+			if (!configFile.exists()) {
+				throw die(MessageFormat.format(
+						CLIText.get().configFileNotFound, //
+						configFile.getAbsolutePath()));
+			}
+
+			FileBasedConfig cfg = new FileBasedConfig(configFile, FS.DETECTED);
+			cfg.load();
+
+			WindowCacheConfig wcc = new WindowCacheConfig();
+			wcc.fromConfig(cfg);
+			WindowCache.reconfigure(wcc);
+
+			packConfig.fromConfig(cfg);
+		}
+
+		int threads = packConfig.getThreads();
+		if (threads <= 0)
+			threads = Runtime.getRuntime().availableProcessors();
+		if (1 < threads)
+			packConfig.setExecutor(Executors.newFixedThreadPool(threads));
+
 		final org.eclipse.jgit.transport.Daemon d;
 
 		d = new org.eclipse.jgit.transport.Daemon(
 				host != null ? new InetSocketAddress(host, port)
 						: new InetSocketAddress(port));
 		d.setExportAll(exportAll);
+		d.setPackConfig(packConfig);
 		if (0 <= timeout)
 			d.setTimeout(timeout);
 
