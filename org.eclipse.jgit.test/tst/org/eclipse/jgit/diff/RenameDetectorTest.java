@@ -173,17 +173,20 @@ public class RenameDetectorTest extends RepositoryTestCase {
 
 		DiffEntry c = DiffEntry.add("c.txt", foo);
 		DiffEntry d = DiffEntry.delete("d.txt", foo);
+		DiffEntry e = DiffEntry.add("the_e_file.txt", foo);
 
 		// Add out of order to avoid first-match succeeding
 		rd.add(a);
 		rd.add(d);
+		rd.add(e);
 		rd.add(b);
 		rd.add(c);
 
 		List<DiffEntry> entries = rd.compute();
-		assertEquals(2, entries.size());
+		assertEquals(3, entries.size());
 		assertRename(d, c, 100, entries.get(0));
 		assertRename(b, a, 100, entries.get(1));
+		assertCopy(d, e, 100, entries.get(2));
 	}
 
 	public void testExactRename_OneDeleteManyAdds() throws Exception {
