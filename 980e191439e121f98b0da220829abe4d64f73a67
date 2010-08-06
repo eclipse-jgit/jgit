@@ -1,0 +1,58 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALxH///xo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-28T19:13:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALxH///yU\u003d",
+      "revId": "980e191439e121f98b0da220829abe4d64f73a67",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALxH///xk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 610,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-28T19:13:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALxH///yA\u003d",
+      "revId": "980e191439e121f98b0da220829abe4d64f73a67",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALxH///xg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackWriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-28T19:13:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALxH///xw\u003d",
+      "revId": "980e191439e121f98b0da220829abe4d64f73a67",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
