@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAALxH///yU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2010-07-28T19:03:19Z",
+      "side": 1,
+      "message": "We could change these to the following so that one can also see the value here:\n\nDefault value of deltas reuse option: {@value}",
+      "revId": "980e191439e121f98b0da220829abe4d64f73a67",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALxH///xo\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackConfig.java",
         "patchSetId": 1
@@ -20,6 +37,23 @@
     },
     {
       "key": {
+        "uuid": "AAALxH///yA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 610,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2010-07-28T19:03:19Z",
+      "side": 1,
+      "message": "What\u0027s with the // at the end?",
+      "revId": "980e191439e121f98b0da220829abe4d64f73a67",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALxH///xk\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackConfig.java",
         "patchSetId": 1
@@ -32,6 +66,23 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "AAALxH///yA\u003d",
+      "revId": "980e191439e121f98b0da220829abe4d64f73a67",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALxH///xw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackWriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2010-07-28T19:03:19Z",
+      "side": 1,
+      "message": "@value should work here.",
       "revId": "980e191439e121f98b0da220829abe4d64f73a67",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
