@@ -53,6 +53,7 @@ import org.eclipse.jgit.dircache.DirCacheIterator;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.AbstractTreeIterator;
+import org.eclipse.jgit.treewalk.EmptyTreeIterator;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.WorkingTreeIterator;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
@@ -100,6 +101,7 @@ public class IndexDiff {
 	 * @param repository
 	 * @param revstr
 	 *            symbolic name e.g. HEAD
+	 *            An EmptyTreeIterator is used if <code>revstr</code> cannot be resolved.
 	 * @param workingTreeIterator
 	 *            iterator for working directory
 	 * @throws IOException
@@ -108,7 +110,10 @@ public class IndexDiff {
 			WorkingTreeIterator workingTreeIterator) throws IOException {
 		this.repository = repository;
 		ObjectId objectId = repository.resolve(revstr);
-		tree = new RevWalk(repository).parseTree(objectId);
+		if (objectId != null)
+			tree = new RevWalk(repository).parseTree(objectId);
+		else
+			tree = null;
 		this.initialWorkingTreeIterator = workingTreeIterator;
 	}
 
@@ -117,7 +122,7 @@ public class IndexDiff {
 	 *
 	 * @param repository
 	 * @param objectId
-	 *            tree id
+	 *            tree id. If null, an EmptyTreeIterator is used.
 	 * @param workingTreeIterator
 	 *            iterator for working directory
 	 * @throws IOException
@@ -125,9 +130,13 @@ public class IndexDiff {
 	public IndexDiff(Repository repository, ObjectId objectId,
 			WorkingTreeIterator workingTreeIterator) throws IOException {
 		this.repository = repository;
-		tree = new RevWalk(repository).parseTree(objectId);
+		if (objectId != null)
+			tree = new RevWalk(repository).parseTree(objectId);
+		else
+			tree = null;
 		this.initialWorkingTreeIterator = workingTreeIterator;
 	}
+
 
 	/**
 	 * Run the diff operation. Until this is called, all lists will be empty
@@ -142,7 +151,10 @@ public class IndexDiff {
 		treeWalk.reset();
 		treeWalk.setRecursive(true);
 		// add the trees (tree, dirchache, workdir)
-		treeWalk.addTree(tree);
+		if (tree != null)
+			treeWalk.addTree(tree);
+		else
+			treeWalk.addTree(new EmptyTreeIterator());
 		treeWalk.addTree(new DirCacheIterator(dirCache));
 		treeWalk.addTree(initialWorkingTreeIterator);
 		treeWalk.setFilter(TreeFilter.ANY_DIFF);
