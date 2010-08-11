@@ -1,4 +1,5 @@
 /*
+ * Copyright (C) 2010, Mathias Kinzler <mathias.kinzler@sap.com>
  * Copyright (C) 2009, Constantine Plotnikov <constantine.plotnikov@gmail.com>
  * Copyright (C) 2007, Dave Watson <dwatson@mimvista.com>
  * Copyright (C) 2008-2010, Google Inc.
@@ -53,10 +54,12 @@ package org.eclipse.jgit.lib;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.EventObject;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.WeakHashMap;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -73,6 +76,17 @@ public class Config {
 	private static final long KiB = 1024;
 	private static final long MiB = 1024 * KiB;
 	private static final long GiB = 1024 * MiB;
+
+	/** the change listeners; kept in a weak map */
+	private final WeakHashMap<ChangeListener, Object> listeners = new WeakHashMap<ChangeListener, Object>(
+			1);
+
+	/**
+	 * If <code>true</code>, {@link #changed()} will be called upon each change.
+	 * Subclasses that set this to <code>false</code> are responsible for
+	 * issuing {@link #changed()} calls themselves.
+	 */
+	protected boolean notifyUponTransientChanges = true;
 
 	/**
 	 * Immutable current state of the configuration data.
@@ -450,6 +464,37 @@ public class Config {
 		state.get().cache.remove(parser);
 	}
 
+	/**
+	 * Adds a listener to be notified about changes.
+	 * <p>
+	 * Clients are encouraged to use
+	 * {@link #removeChangeListener(ChangeListener)} when they are done with
+	 * listening
+	 * @param listener
+	 *            the listener
+	 */
+	public void addChangeListener(ChangeListener listener) {
+		listeners.put(listener, null);
+	}
+
+	/**
+	 * Removes a change listener.
+	 * <p>
+	 * @param listener the listener
+	 */
+	public void removeChangeListener(ChangeListener listener) {
+		listeners.remove(listener);
+	}
+
+	/**
+	 * Notifies the listeners
+	 */
+	protected void changed() {
+		EventObject changeEvent = new EventObject(this);
+		for (ChangeListener listener : listeners.keySet())
+			listener.onChange(changeEvent);
+	}
+
 	private String getRawString(final String section, final String subsection,
 			final String name) {
 		final List<String> lst = getRawStringList(section, subsection, name);
@@ -681,6 +726,8 @@ public class Config {
 			src = state.get();
 			res = replaceStringList(src, section, subsection, name, values);
 		} while (!state.compareAndSet(src, res));
+		if (notifyUponTransientChanges)
+			changed();
 	}
 
 	private State replaceStringList(final State srcState,
@@ -1302,5 +1349,15 @@ public class Config {
 		void reset() {
 			pos--;
 		}
+	}
+
+	/**
+	 * Listens to changes of this Configuration
+	 */
+	public static interface ChangeListener {
+		/**
+		 * @param event
+		 */
+		void onChange(EventObject event);
 	}
 }
