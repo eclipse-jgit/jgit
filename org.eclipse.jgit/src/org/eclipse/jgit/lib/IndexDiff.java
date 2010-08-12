@@ -50,12 +50,15 @@ import java.util.HashSet;
 
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheIterator;
+import org.eclipse.jgit.errors.IncorrectObjectTypeException;
+import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.AbstractTreeIterator;
 import org.eclipse.jgit.treewalk.EmptyTreeIterator;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.WorkingTreeIterator;
+import org.eclipse.jgit.treewalk.filter.AndTreeFilter;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
 
 /**
@@ -158,6 +161,8 @@ public class IndexDiff {
 		treeWalk.addTree(new DirCacheIterator(dirCache));
 		treeWalk.addTree(initialWorkingTreeIterator);
 		treeWalk.setFilter(TreeFilter.ANY_DIFF);
+		treeWalk.setFilter(AndTreeFilter.create(TreeFilter.ANY_DIFF,
+				new IgnoreFilter()));
 		while (treeWalk.next()) {
 			AbstractTreeIterator treeIterator = treeWalk.getTree(TREE,
 					AbstractTreeIterator.class);
@@ -254,5 +259,32 @@ public class IndexDiff {
 	 */
 	public HashSet<String> getUntracked() {
 		return untracked;
+	}
+
+	private static class IgnoreFilter extends TreeFilter {
+
+		@Override
+		public boolean include(TreeWalk walker) throws MissingObjectException,
+				IncorrectObjectTypeException, IOException {
+			WorkingTreeIterator workingTreeIterator = walker.getTree(WORKDIR,
+					WorkingTreeIterator.class);
+			if (workingTreeIterator != null) {
+				// cut if working tree entry is ignored
+				boolean ignored = workingTreeIterator.isEntryIgnored();
+				return !ignored;
+			}
+			else
+				return true;
+		}
+
+		@Override
+		public boolean shouldBeRecursive() {
+			return true;
+		}
+
+		@Override
+		public TreeFilter clone() {
+			return new IgnoreFilter();
+		}
 	}
 }
