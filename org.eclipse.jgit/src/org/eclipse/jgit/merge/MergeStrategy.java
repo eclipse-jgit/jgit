@@ -66,12 +66,16 @@ public abstract class MergeStrategy {
 	/** Simple strategy to merge paths, without simultaneous edits. */
 	public static final ThreeWayMergeStrategy SIMPLE_TWO_WAY_IN_CORE = new StrategySimpleTwoWayInCore();
 
+	/** Simple strategy to merge paths. It tries to merge also contents. Multiple merge bases are not supported */
+	public static final ThreeWayMergeStrategy RESOLVE = new StrategyResolve();
+
 	private static final HashMap<String, MergeStrategy> STRATEGIES = new HashMap<String, MergeStrategy>();
 
 	static {
 		register(OURS);
 		register(THEIRS);
 		register(SIMPLE_TWO_WAY_IN_CORE);
+		register(RESOLVE);
 	}
 
 	/**

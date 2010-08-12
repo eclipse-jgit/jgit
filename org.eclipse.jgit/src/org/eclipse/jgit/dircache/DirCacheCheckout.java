@@ -340,7 +340,7 @@ public class DirCacheCheckout {
 			file.getParentFile().mkdirs();
 			file.createNewFile();
 			DirCacheEntry entry = dc.getEntry(path);
-			checkoutEntry(file, entry, config_filemode());
+			checkoutEntry(repo, file, entry, config_filemode());
 		}
 
 
@@ -753,7 +753,7 @@ public class DirCacheCheckout {
 	 * TODO: this method works directly on File IO, we may need another
 	 * abstraction (like WorkingTreeIterator). This way we could tell e.g.
 	 * Eclipse that Files in the workspace got changed
-	 *
+	 * @param repo
 	 * @param f
 	 *            the file to be modified. The parent directory for this file
 	 *            has to exist already
@@ -763,7 +763,7 @@ public class DirCacheCheckout {
 	 *            whether the mode bits should be handled at all.
 	 * @throws IOException
 	 */
-	public void checkoutEntry(File f, DirCacheEntry entry,
+	public static void checkoutEntry(final Repository repo, File f, DirCacheEntry entry,
 			boolean config_filemode) throws IOException {
 		ObjectLoader ol = repo.open(entry.getObjectId());
 		if (ol == null)
