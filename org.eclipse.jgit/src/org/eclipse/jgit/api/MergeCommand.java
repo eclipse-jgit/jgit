@@ -46,11 +46,14 @@ package org.eclipse.jgit.api;
 import java.io.File;
 import java.io.IOException;
 import java.text.MessageFormat;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.api.MergeResult.MergeStatus;
+import org.eclipse.jgit.dircache.DirCacheCheckout;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.GitIndex;
@@ -63,6 +66,8 @@ import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.WorkDirCheckout;
 import org.eclipse.jgit.merge.MergeStrategy;
+import org.eclipse.jgit.merge.ResolveMerger;
+import org.eclipse.jgit.merge.ThreeWayMerger;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
@@ -101,7 +106,7 @@ public class MergeCommand extends GitCommand<MergeResult> {
 	 */
 	public MergeResult call() throws NoHeadException,
 			ConcurrentRefUpdateException, CheckoutConflictException,
-			InvalidMergeHeadsException {
+			InvalidMergeHeadsException, WrongRepositoryStateException, NoMessageException {
 		checkCallable();
 
 		if (commits.size() != 1)
@@ -111,6 +116,7 @@ public class MergeCommand extends GitCommand<MergeResult> {
 									JGitText.get().mergeStrategyDoesNotSupportHeads,
 									mergeStrategy.getName(), commits.size()));
 
+		RevWalk revWalk = null;
 		try {
 			Ref head = repo.getRef(Constants.HEAD);
 			if (head == null)
@@ -119,53 +125,83 @@ public class MergeCommand extends GitCommand<MergeResult> {
 			StringBuilder refLogMessage = new StringBuilder("merge ");
 
 			// Check for FAST_FORWARD, ALREADY_UP_TO_DATE
-			RevWalk revWalk = new RevWalk(repo);
-			try {
-				RevCommit headCommit = revWalk.lookupCommit(head.getObjectId());
+			revWalk = new RevWalk(repo);
+			RevCommit headCommit = revWalk.lookupCommit(head.getObjectId());
 
-				Ref ref = commits.get(0);
+			// we know for know there is only one commit
+			Ref ref = commits.get(0);
 
-				refLogMessage.append(ref.getName());
+			refLogMessage.append(ref.getName());
 
-				// handle annotated tags
-				ObjectId objectId = ref.getPeeledObjectId();
-				if (objectId == null)
-					objectId = ref.getObjectId();
+			// handle annotated tags
+			ObjectId objectId = ref.getPeeledObjectId();
+			if (objectId == null)
+				objectId = ref.getObjectId();
 
-				RevCommit srcCommit = revWalk.lookupCommit(objectId);
-				if (revWalk.isMergedInto(srcCommit, headCommit)) {
-					setCallable(false);
-					return new MergeResult(headCommit, srcCommit,
-							new ObjectId[] { srcCommit, headCommit },
-							MergeStatus.ALREADY_UP_TO_DATE, mergeStrategy);
-				} else if (revWalk.isMergedInto(headCommit, srcCommit)) {
-					// FAST_FORWARD detected: skip doing a real merge but only
-					// update HEAD
-					refLogMessage.append(": " + MergeStatus.FAST_FORWARD);
-					checkoutNewHead(revWalk, headCommit, srcCommit);
-					updateHead(refLogMessage, srcCommit, head.getObjectId());
-					setCallable(false);
-					return new MergeResult(srcCommit, headCommit,
-							new ObjectId[] { srcCommit, headCommit },
-							MergeStatus.FAST_FORWARD, mergeStrategy);
+			RevCommit srcCommit = revWalk.lookupCommit(objectId);
+			if (revWalk.isMergedInto(srcCommit, headCommit)) {
+				setCallable(false);
+				return new MergeResult(headCommit, srcCommit, new ObjectId[] {
+						headCommit, srcCommit },
+						MergeStatus.ALREADY_UP_TO_DATE, mergeStrategy, null, null);
+			} else if (revWalk.isMergedInto(headCommit, srcCommit)) {
+				// FAST_FORWARD detected: skip doing a real merge but only
+				// update HEAD
+				refLogMessage.append(": " + MergeStatus.FAST_FORWARD);
+				checkoutNewHead(revWalk, headCommit, srcCommit);
+				updateHead(refLogMessage, srcCommit, head.getObjectId());
+				setCallable(false);
+				return new MergeResult(srcCommit, srcCommit, new ObjectId[] {
+						headCommit, srcCommit }, MergeStatus.FAST_FORWARD,
+						mergeStrategy, null, null);
+			} else {
+				repo.writeMergeCommitMsg("merging " + ref.getName() + " into "
+						+ head.getName());
+				repo.writeMergeHeads(Arrays.asList(ref.getObjectId()));
+				ThreeWayMerger merger = (ThreeWayMerger) mergeStrategy
+						.newMerger(repo);
+				boolean noConflicts;
+				Map<String, org.eclipse.jgit.merge.MergeResult> lowLevelResults = null;
+				if (merger instanceof ResolveMerger) {
+					((ResolveMerger) merger).setCommitNames(new String[] {
+							"BASE", "HEAD", ref.getName() });
+					noConflicts = merger.merge(headCommit, srcCommit);
+					lowLevelResults = ((ResolveMerger) merger)
+							.getMergeResults();
+				} else
+					noConflicts = merger.merge(headCommit, srcCommit);
+//				if (merger instanceof ResolveMerger)
+//					((ResolveMerger) merger).getMergeResults();
+
+				if (noConflicts) {
+					DirCacheCheckout dco = new DirCacheCheckout(repo,
+							headCommit.getTree(), repo.lockDirCache(),
+							merger.getResultTreeId());
+					dco.setFailOnConflict(true);
+					dco.checkout();
+					RevCommit newHead = new Git(getRepository()).commit().call();
+					return new MergeResult(newHead.getId(),
+							null, new ObjectId[] {
+									headCommit.getId(), srcCommit.getId() },
+							MergeStatus.MERGED, mergeStrategy, null, null);
 				} else {
-					return new MergeResult(
-							headCommit,
-							null,
-							new ObjectId[] { srcCommit, headCommit },
-							MergeResult.MergeStatus.NOT_SUPPORTED,
-							mergeStrategy,
-							JGitText.get().onlyAlreadyUpToDateAndFastForwardMergesAreAvailable);
+					return new MergeResult(null,
+							headCommit.getId(), new ObjectId[] {
+									headCommit.getId(), srcCommit.getId() },
+							MergeStatus.CONFLICTING, mergeStrategy,
+							lowLevelResults, null);
 				}
-			} finally {
-				revWalk.release();
 			}
 		} catch (IOException e) {
 			throw new JGitInternalException(
 					MessageFormat.format(
 							JGitText.get().exceptionCaughtDuringExecutionOfMergeCommand,
 							e));
+		} finally {
+			if (revWalk != null)
+				revWalk.release();
 		}
+
 	}
 
 	private void checkoutNewHead(RevWalk revWalk, RevCommit headCommit,
