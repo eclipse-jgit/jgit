@@ -56,6 +56,8 @@ import org.eclipse.jgit.treewalk.AbstractTreeIterator;
 import org.eclipse.jgit.treewalk.EmptyTreeIterator;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.WorkingTreeIterator;
+import org.eclipse.jgit.treewalk.filter.AndTreeFilter;
+import org.eclipse.jgit.treewalk.filter.NotIgnoredFilter;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
 
 /**
@@ -158,6 +160,8 @@ public class IndexDiff {
 		treeWalk.addTree(new DirCacheIterator(dirCache));
 		treeWalk.addTree(initialWorkingTreeIterator);
 		treeWalk.setFilter(TreeFilter.ANY_DIFF);
+		treeWalk.setFilter(AndTreeFilter.create(TreeFilter.ANY_DIFF,
+				new NotIgnoredFilter(WORKDIR)));
 		while (treeWalk.next()) {
 			AbstractTreeIterator treeIterator = treeWalk.getTree(TREE,
 					AbstractTreeIterator.class);
@@ -255,4 +259,5 @@ public class IndexDiff {
 	public HashSet<String> getUntracked() {
 		return untracked;
 	}
+
 }
