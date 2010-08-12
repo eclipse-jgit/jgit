@@ -45,20 +45,20 @@ package org.eclipse.jgit.api;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Iterator;
 
-import org.eclipse.jgit.errors.CheckoutConflictException;
-import org.eclipse.jgit.errors.CorruptObjectException;
+import org.eclipse.jgit.api.MergeResult.MergeStatus;
+import org.eclipse.jgit.dircache.DirCacheCheckout;
 import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.GitIndex;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.RefUpdate;
+import org.eclipse.jgit.lib.RepositoryState;
 import org.eclipse.jgit.lib.RepositoryTestCase;
-import org.eclipse.jgit.lib.WorkDirCheckout;
-import org.eclipse.jgit.lib.GitIndex.Entry;
+import org.eclipse.jgit.merge.MergeStrategy;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 
 public class MergeCommandTest extends RepositoryTestCase {
-
 	public void testMergeInItself() throws Exception {
 		Git git = new Git(db);
 		git.commit().setMessage("initial commit").call();
@@ -97,13 +97,15 @@ public class MergeCommandTest extends RepositoryTestCase {
 	public void testFastForwardWithFiles() throws Exception {
 		Git git = new Git(db);
 
-		addNewFileToIndex("file1");
+		writeTrashFile("file1", "file1");
+		git.add().addFilepattern("file1").call();
 		RevCommit first = git.commit().setMessage("initial commit").call();
 
 		assertTrue(new File(db.getWorkTree(), "file1").exists());
 		createBranch(first, "refs/heads/branch1");
 
-		addNewFileToIndex("file2");
+		writeTrashFile("file2", "file2");
+		git.add().addFilepattern("file2").call();
 		RevCommit second = git.commit().setMessage("second commit").call();
 		assertTrue(new File(db.getWorkTree(), "file2").exists());
 
@@ -121,14 +123,17 @@ public class MergeCommandTest extends RepositoryTestCase {
 	public void testMultipleHeads() throws Exception {
 		Git git = new Git(db);
 
-		addNewFileToIndex("file1");
+		writeTrashFile("file1", "file1");
+		git.add().addFilepattern("file1").call();
 		RevCommit first = git.commit().setMessage("initial commit").call();
 		createBranch(first, "refs/heads/branch1");
 
-		addNewFileToIndex("file2");
+		writeTrashFile("file2", "file2");
+		git.add().addFilepattern("file2").call();
 		RevCommit second = git.commit().setMessage("second commit").call();
 
-		addNewFileToIndex("file3");
+		writeTrashFile("file3", "file3");
+		git.add().addFilepattern("file3").call();
 		git.commit().setMessage("third commit").call();
 
 		checkoutBranch("refs/heads/branch1");
@@ -142,7 +147,245 @@ public class MergeCommandTest extends RepositoryTestCase {
 			merge.call();
 			fail("Expected exception not thrown when merging multiple heads");
 		} catch (InvalidMergeHeadsException e) {
+			// expected this exception
 		}
+	}
+
+
+	public void testContentMerge() throws Exception {
+		Git git = new Git(db);
+
+		writeTrashFile("a", "1\na\n3\n");
+		writeTrashFile("b", "1\nb\n3\n");
+		writeTrashFile("c/c/c", "1\nc\n3\n");
+		git.add().addFilepattern("a").addFilepattern("b")
+				.addFilepattern("c/c/c").call();
+		RevCommit initialCommit = git.commit().setMessage("initial").call();
+
+		createBranch(initialCommit, "refs/heads/side");
+		checkoutBranch("refs/heads/side");
+
+		writeTrashFile("a", "1\na(side)\n3\n");
+		writeTrashFile("b", "1\nb(side)\n3\n");
+		git.add().addFilepattern("a").addFilepattern("b").call();
+		RevCommit secondCommit = git.commit().setMessage("side").call();
+
+		assertEquals("1\nb(side)\n3\n", read(new File(db.getWorkTree(), "b")));
+		checkoutBranch("refs/heads/master");
+		assertEquals("1\nb\n3\n", read(new File(db.getWorkTree(), "b")));
+
+		writeTrashFile("a", "1\na(main)\n3\n");
+		writeTrashFile("c/c/c", "1\nc(main)\n3\n");
+		git.add().addFilepattern("a").addFilepattern("c/c/c").call();
+		git.commit().setMessage("main").call();
+
+		MergeResult result = git.merge().include(secondCommit.getId())
+				.setStrategy(MergeStrategy.RESOLVE).call();
+		assertEquals(MergeStatus.CONFLICTING, result.getMergeStatus());
+
+		assertEquals(
+				"1\n<<<<<<< HEAD\na(main)\n=======\na(side)\n>>>>>>> 86503e7e397465588cc267b65d778538bffccb83\n3\n",
+				read(new File(db.getWorkTree(), "a")));
+		assertEquals("1\nb(side)\n3\n", read(new File(db.getWorkTree(), "b")));
+		assertEquals("1\nc(main)\n3\n",
+				read(new File(db.getWorkTree(), "c/c/c")));
+
+		assertEquals(1, result.getConflicts().size());
+		assertEquals(3, result.getConflicts().get("a")[0].length);
+
+		assertEquals(RepositoryState.MERGING, db.getRepositoryState());
+	}
+
+	public void testSuccessfulContentMerge() throws Exception {
+		Git git = new Git(db);
+
+		writeTrashFile("a", "1\na\n3\n");
+		writeTrashFile("b", "1\nb\n3\n");
+		writeTrashFile("c/c/c", "1\nc\n3\n");
+		git.add().addFilepattern("a").addFilepattern("b")
+				.addFilepattern("c/c/c").call();
+		RevCommit initialCommit = git.commit().setMessage("initial").call();
+
+		createBranch(initialCommit, "refs/heads/side");
+		checkoutBranch("refs/heads/side");
+
+		writeTrashFile("a", "1(side)\na\n3\n");
+		writeTrashFile("b", "1\nb(side)\n3\n");
+		git.add().addFilepattern("a").addFilepattern("b").call();
+		RevCommit secondCommit = git.commit().setMessage("side").call();
+
+		assertEquals("1\nb(side)\n3\n", read(new File(db.getWorkTree(), "b")));
+		checkoutBranch("refs/heads/master");
+		assertEquals("1\nb\n3\n", read(new File(db.getWorkTree(), "b")));
+
+		writeTrashFile("a", "1\na\n3(main)\n");
+		writeTrashFile("c/c/c", "1\nc(main)\n3\n");
+		git.add().addFilepattern("a").addFilepattern("c/c/c").call();
+		RevCommit thirdCommit = git.commit().setMessage("main").call();
+
+		MergeResult result = git.merge().include(secondCommit.getId())
+				.setStrategy(MergeStrategy.RESOLVE).call();
+		assertEquals(MergeStatus.MERGED, result.getMergeStatus());
+
+		assertEquals("1(side)\na\n3(main)\n", read(new File(db.getWorkTree(),
+				"a")));
+		assertEquals("1\nb(side)\n3\n", read(new File(db.getWorkTree(), "b")));
+		assertEquals("1\nc(main)\n3\n", read(new File(db.getWorkTree(),
+				"c/c/c")));
+
+		assertEquals(null, result.getConflicts());
+
+		assertTrue(2 == result.getMergedCommits().length);
+		assertEquals(thirdCommit, result.getMergedCommits()[0]);
+		assertEquals(secondCommit, result.getMergedCommits()[1]);
+
+		Iterator<RevCommit> it = git.log().call().iterator();
+		RevCommit newHead = it.next();
+		assertEquals(newHead, result.getNewHead());
+		assertEquals(2, newHead.getParentCount());
+		assertEquals(thirdCommit, newHead.getParent(0));
+		assertEquals(secondCommit, newHead.getParent(1));
+		assertEquals(
+				"merging 3fa334456d236a92db020289fe0bf481d91777b4 into HEAD",
+				newHead.getFullMessage());
+		// @TODO fix me
+		assertEquals(RepositoryState.SAFE, db.getRepositoryState());
+		// test index state
+	}
+
+	public void testSuccessfulContentMergeAndDirtyworkingTree()
+			throws Exception {
+		Git git = new Git(db);
+
+		writeTrashFile("a", "1\na\n3\n");
+		writeTrashFile("b", "1\nb\n3\n");
+		writeTrashFile("d", "1\nd\n3\n");
+		writeTrashFile("c/c/c", "1\nc\n3\n");
+		git.add().addFilepattern("a").addFilepattern("b")
+				.addFilepattern("c/c/c").addFilepattern("d").call();
+		RevCommit initialCommit = git.commit().setMessage("initial").call();
+
+		createBranch(initialCommit, "refs/heads/side");
+		checkoutBranch("refs/heads/side");
+
+		writeTrashFile("a", "1(side)\na\n3\n");
+		writeTrashFile("b", "1\nb(side)\n3\n");
+		git.add().addFilepattern("a").addFilepattern("b").call();
+		RevCommit secondCommit = git.commit().setMessage("side").call();
+
+		assertEquals("1\nb(side)\n3\n", read(new File(db.getWorkTree(), "b")));
+		checkoutBranch("refs/heads/master");
+		assertEquals("1\nb\n3\n", read(new File(db.getWorkTree(), "b")));
+
+		writeTrashFile("a", "1\na\n3(main)\n");
+		writeTrashFile("c/c/c", "1\nc(main)\n3\n");
+		git.add().addFilepattern("a").addFilepattern("c/c/c").call();
+		RevCommit thirdCommit = git.commit().setMessage("main").call();
+
+		writeTrashFile("d", "--- dirty ---");
+		MergeResult result = git.merge().include(secondCommit.getId())
+				.setStrategy(MergeStrategy.RESOLVE).call();
+		assertEquals(MergeStatus.MERGED, result.getMergeStatus());
+
+		assertEquals("1(side)\na\n3(main)\n", read(new File(db.getWorkTree(),
+				"a")));
+		assertEquals("1\nb(side)\n3\n", read(new File(db.getWorkTree(), "b")));
+		assertEquals("1\nc(main)\n3\n", read(new File(db.getWorkTree(),
+				"c/c/c")));
+
+		assertEquals(null, result.getConflicts());
+
+		assertTrue(2 == result.getMergedCommits().length);
+		assertEquals(thirdCommit, result.getMergedCommits()[0]);
+		assertEquals(secondCommit, result.getMergedCommits()[1]);
+
+		Iterator<RevCommit> it = git.log().call().iterator();
+		RevCommit newHead = it.next();
+		assertEquals(newHead, result.getNewHead());
+		assertEquals(2, newHead.getParentCount());
+		assertEquals(thirdCommit, newHead.getParent(0));
+		assertEquals(secondCommit, newHead.getParent(1));
+		assertEquals(
+				"merging 064d54d98a4cdb0fed1802a21c656bfda67fe879 into HEAD",
+				newHead.getFullMessage());
+
+		assertEquals(RepositoryState.SAFE, db.getRepositoryState());
+	}
+
+	public void testMergeFailingWithDirtyWorkingTree() throws Exception {
+		Git git = new Git(db);
+
+		writeTrashFile("a", "1\na\n3\n");
+		writeTrashFile("b", "1\nb\n3\n");
+		git.add().addFilepattern("a").addFilepattern("b").call();
+		RevCommit initialCommit = git.commit().setMessage("initial").call();
+
+		createBranch(initialCommit, "refs/heads/side");
+		checkoutBranch("refs/heads/side");
+
+		writeTrashFile("a", "1(side)\na\n3\n");
+		writeTrashFile("b", "1\nb(side)\n3\n");
+		git.add().addFilepattern("a").addFilepattern("b").call();
+		RevCommit secondCommit = git.commit().setMessage("side").call();
+
+		assertEquals("1\nb(side)\n3\n", read(new File(db.getWorkTree(), "b")));
+		checkoutBranch("refs/heads/master");
+		assertEquals("1\nb\n3\n", read(new File(db.getWorkTree(), "b")));
+
+		writeTrashFile("a", "1\na\n3(main)\n");
+		git.add().addFilepattern("a").call();
+		git.commit().setMessage("main").call();
+
+		writeTrashFile("a", "--- dirty ---");
+		MergeResult result = git.merge().include(secondCommit.getId())
+				.setStrategy(MergeStrategy.RESOLVE).call();
+
+		assertEquals(MergeStatus.FAILED, result.getMergeStatus());
+
+		assertEquals("--- dirty ---", read(new File(db.getWorkTree(), "a")));
+		assertEquals("1\nb\n3\n", read(new File(db.getWorkTree(), "b")));
+
+		assertEquals(null, result.getConflicts());
+
+		assertEquals(RepositoryState.SAFE, db.getRepositoryState());
+	}
+
+	public void testMergeConflictFileFolder() throws Exception {
+		Git git = new Git(db);
+
+		writeTrashFile("a", "1\na\n3\n");
+		writeTrashFile("b", "1\nb\n3\n");
+		git.add().addFilepattern("a").addFilepattern("b").call();
+		RevCommit initialCommit = git.commit().setMessage("initial").call();
+
+		createBranch(initialCommit, "refs/heads/side");
+		checkoutBranch("refs/heads/side");
+
+		writeTrashFile("c/c/c", "1\nc(side)\n3\n");
+		writeTrashFile("d", "1\nd(side)\n3\n");
+		git.add().addFilepattern("c/c/c").addFilepattern("d").call();
+		RevCommit secondCommit = git.commit().setMessage("side").call();
+
+		checkoutBranch("refs/heads/master");
+
+		writeTrashFile("c", "1\nc(main)\n3\n");
+		writeTrashFile("d/d/d", "1\nd(main)\n3\n");
+		git.add().addFilepattern("c").addFilepattern("d/d/d").call();
+		git.commit().setMessage("main").call();
+
+		MergeResult result = git.merge().include(secondCommit.getId())
+				.setStrategy(MergeStrategy.RESOLVE).call();
+
+		assertEquals(MergeStatus.CONFLICTING, result.getMergeStatus());
+
+		assertEquals("1\na\n3\n", read(new File(db.getWorkTree(), "a")));
+		assertEquals("1\nb\n3\n", read(new File(db.getWorkTree(), "b")));
+		assertEquals("1\nc(main)\n3\n", read(new File(db.getWorkTree(), "c")));
+		assertEquals("1\nd(main)\n3\n", read(new File(db.getWorkTree(), "d/d/d")));
+
+		assertEquals(null, result.getConflicts());
+
+		assertEquals(RepositoryState.MERGING, db.getRepositoryState());
 	}
 
 	private void createBranch(ObjectId objectId, String branchName) throws IOException {
@@ -151,33 +394,18 @@ public class MergeCommandTest extends RepositoryTestCase {
 		updateRef.update();
 	}
 
-	private void checkoutBranch(String branchName) throws Exception  {
-		File workDir = db.getWorkTree();
-		if (workDir != null) {
-			WorkDirCheckout workDirCheckout = new WorkDirCheckout(db,
-					workDir, db.mapTree(Constants.HEAD),
-					db.getIndex(), db.mapTree(branchName));
-			workDirCheckout.setFailOnConflict(true);
-			try {
-				workDirCheckout.checkout();
-			} catch (CheckoutConflictException e) {
-				throw new JGitInternalException(
-						"Couldn't check out because of conflicts", e);
-			}
-		}
-
+	private void checkoutBranch(String branchName) throws IllegalStateException, IOException {
+		RevWalk walk = new RevWalk(db);
+		RevCommit head = walk.parseCommit(db.resolve(Constants.HEAD));
+		RevCommit branch = walk.parseCommit(db.resolve(branchName));
+		DirCacheCheckout dco = new DirCacheCheckout(db,
+				head.getTree().getId(), db.lockDirCache(),
+				branch.getTree().getId());
+		dco.setFailOnConflict(true);
+		dco.checkout();
+		walk.release();
 		// update the HEAD
 		RefUpdate refUpdate = db.updateRef(Constants.HEAD);
 		refUpdate.link(branchName);
-	}
-
-	private void addNewFileToIndex(String filename) throws IOException,
-			CorruptObjectException {
-		File writeTrashFile = writeTrashFile(filename, filename);
-
-		GitIndex index = db.getIndex();
-		Entry entry = index.add(db.getWorkTree(), writeTrashFile);
-		entry.update(writeTrashFile);
-		index.write();
 	}
 }
