@@ -54,6 +54,7 @@ import org.eclipse.jgit.lib.Repository;
  */
 public abstract class RepositoryEvent<T extends RepositoryListener> {
 	private Repository repository;
+	private boolean externalChange;
 
 	/**
 	 * Set the repository this event occurred on.
@@ -85,11 +86,28 @@ public abstract class RepositoryEvent<T extends RepositoryListener> {
 	 */
 	public abstract void dispatch(T listener);
 
+	/**
+	 * Flag this event as triggered by a change outside of this application
+	 *
+	 * @param b
+	 *            true for external changes
+	 */
+	public void setExternalChange(boolean b) {
+		externalChange = b;
+	}
+
+	/**
+	 * @return true if another application did the change and we just saw it
+	 */
+	public boolean isExternalChange() {
+		return externalChange;
+	}
+
 	@Override
 	public String toString() {
 		String type = getClass().getSimpleName();
 		if (repository == null)
-			return type;
-		return type + "[" + repository + "]";
+			return type + "[" + "external=" + isExternalChange() + "]";
+		return type + "[" + repository + ", external=" + isExternalChange() + "]";
 	}
 }

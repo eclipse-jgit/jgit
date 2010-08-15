@@ -257,7 +257,7 @@ public class RefDirectory extends RefDatabase {
 				break;
 			}
 		}
-		fireRefsChanged();
+		fireRefsChanged(true);
 		return ref;
 	}
 
@@ -276,7 +276,7 @@ public class RefDirectory extends RefDatabase {
 				modCnt.incrementAndGet();
 		} else
 			loose = oldLoose;
-		fireRefsChanged();
+		fireRefsChanged(true);
 
 		RefList.Builder<Ref> symbolic = scan.symbolic;
 		for (int idx = 0; idx < symbolic.size();) {
@@ -463,7 +463,7 @@ public class RefDirectory extends RefDatabase {
 
 	void storedSymbolicRef(RefDirectoryUpdate u, long modified, String target) {
 		putLooseRef(newSymbolicRef(modified, u.getRef().getName(), target));
-		fireRefsChanged();
+		fireRefsChanged(false);
 	}
 
 	public RefDirectoryUpdate newUpdate(String name, boolean detach)
@@ -500,7 +500,7 @@ public class RefDirectory extends RefDatabase {
 			nList = cList.put(ref);
 		} while (!looseRefs.compareAndSet(cList, nList));
 		modCnt.incrementAndGet();
-		fireRefsChanged();
+		fireRefsChanged(false);
 	}
 
 	void delete(RefDirectoryUpdate update) throws IOException {
@@ -544,7 +544,7 @@ public class RefDirectory extends RefDatabase {
 		}
 
 		modCnt.incrementAndGet();
-		fireRefsChanged();
+		fireRefsChanged(false);
 	}
 
 	void log(final RefUpdate update, final String msg, final boolean deref)
@@ -847,12 +847,16 @@ public class RefDirectory extends RefDatabase {
 				&& buf[4] == ' ';
 	}
 
-	/** If the parent should fire listeners, fires them. */
-	private void fireRefsChanged() {
+	/** If the parent should fire listeners, fires them.
+	 * @param externalChange TODO*/
+	private void fireRefsChanged(boolean externalChange) {
 		final int last = lastNotifiedModCnt.get();
 		final int curr = modCnt.get();
-		if (last != curr && lastNotifiedModCnt.compareAndSet(last, curr))
-			parent.fireEvent(new RefsChangedEvent());
+		if (last != curr && lastNotifiedModCnt.compareAndSet(last, curr)) {
+			RefsChangedEvent event = new RefsChangedEvent();
+			event.setExternalChange(externalChange);
+			parent.fireEvent(event);
+		}
 	}
 
 	/**

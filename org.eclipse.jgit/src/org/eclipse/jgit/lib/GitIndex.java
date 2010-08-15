@@ -156,7 +156,9 @@ public class GitIndex {
 	public void rereadIfNecessary() throws IOException {
 		if (cacheFile.exists() && cacheFile.lastModified() != lastCacheTime) {
 			read();
-			db.fireEvent(new IndexChangedEvent());
+			IndexChangedEvent indexChangedEvent = new IndexChangedEvent();
+			indexChangedEvent.setExternalChange(true);
+			db.fireEvent(indexChangedEvent);
 		}
 	}
 
