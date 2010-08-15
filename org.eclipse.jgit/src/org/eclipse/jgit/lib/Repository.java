@@ -901,6 +901,26 @@ public abstract class Repository {
 	}
 
 	/**
+	 * @param newTree the returned index
+	 * @return a representation of the index associated with this
+	 *         {@link Repository} with the content of newTree.
+	 * @throws IOException
+	 *             if the index can not be read
+	 * @throws NoWorkTreeException
+	 *             if this is bare, which implies it has no working directory.
+	 *             See {@link #isBare()}.
+	 */
+	public GitIndex getIndex(Tree newTree) throws IOException {
+		if (isBare())
+			throw new NoWorkTreeException();
+		if (index == null) {
+			index = new GitIndex(this);
+		}
+		index.readTree(newTree);
+		return index;
+	}
+
+	/**
 	 * @return the index file location
 	 * @throws NoWorkTreeException
 	 *             if this is bare, which implies it has no working directory.
