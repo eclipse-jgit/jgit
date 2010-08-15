@@ -852,7 +852,7 @@ public class RefDirectory extends RefDatabase {
 	private void fireRefsChanged(boolean externalChange) {
 		final int last = lastNotifiedModCnt.get();
 		final int curr = modCnt.get();
-		if (last != curr && lastNotifiedModCnt.compareAndSet(last, curr)) {
+		if (last != curr && lastNotifiedModCnt.compareAndSet(last, curr) && last != 0) {
 			RefsChangedEvent event = new RefsChangedEvent();
 			event.setExternalChange(externalChange);
 			parent.fireEvent(event);
