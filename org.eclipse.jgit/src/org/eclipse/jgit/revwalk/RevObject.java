@@ -96,16 +96,6 @@ public abstract class RevObject extends ObjectId {
 		return this;
 	}
 
-	@Override
-	public final boolean equals(final AnyObjectId o) {
-		return this == o;
-	}
-
-	@Override
-	public final boolean equals(final Object o) {
-		return this == o;
-	}
-
 	/**
 	 * Test to see if the flag has been set on this object.
 	 *

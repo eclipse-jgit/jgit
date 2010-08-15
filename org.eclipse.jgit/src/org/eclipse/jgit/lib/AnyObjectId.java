@@ -230,11 +230,11 @@ public abstract class AnyObjectId implements Comparable {
 	 *            the other id to compare to. May be null.
 	 * @return true only if both ObjectIds have identical bits.
 	 */
-	public boolean equals(final AnyObjectId other) {
+	public final boolean equals(final AnyObjectId other) {
 		return other != null ? equals(this, other) : false;
 	}
 
-	public boolean equals(final Object o) {
+	public final boolean equals(final Object o) {
 		if (o instanceof AnyObjectId)
 			return equals((AnyObjectId) o);
 		else

@@ -52,7 +52,7 @@ public class RevObjectTest extends RevWalkTestCase {
 		assertSame(a, a.getId());
 	}
 
-	public void testEqualsIsIdentity() throws Exception {
+	public void testEquals() throws Exception {
 		final RevCommit a1 = commit();
 		final RevCommit b1 = commit();
 
@@ -60,8 +60,8 @@ public class RevObjectTest extends RevWalkTestCase {
 		assertTrue(a1.equals((Object) a1));
 		assertFalse(a1.equals(b1));
 
-		assertFalse(a1.equals(a1.copy()));
-		assertFalse(a1.equals((Object) a1.copy()));
+		assertTrue(a1.equals(a1.copy()));
+		assertTrue(a1.equals((Object) a1.copy()));
 		assertFalse(a1.equals(""));
 
 		final RevWalk rw2 = new RevWalk(db);
@@ -70,8 +70,8 @@ public class RevObjectTest extends RevWalkTestCase {
 		assertNotSame(a1, a2);
 		assertNotSame(b1, b2);
 
-		assertFalse(a1.equals(a2));
-		assertFalse(b1.equals(b2));
+		assertTrue(a1.equals(a2));
+		assertTrue(b1.equals(b2));
 
 		assertEquals(a1.hashCode(), a2.hashCode());
 		assertEquals(b1.hashCode(), b2.hashCode());
