@@ -43,13 +43,10 @@
 package org.eclipse.jgit.lib;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.TreeSet;
 
-import org.eclipse.jgit.dircache.DirCacheBuilder;
-import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.treewalk.FileTreeIteratorWithTimeControl;
 import org.eclipse.jgit.treewalk.NameConflictTreeWalk;
@@ -133,7 +130,7 @@ public class RacyGitTests extends RepositoryTestCase {
 		modTimes.add(fsTick(lastFile));
 
 		// now add both files to the index. No racy git expected
-		addToIndex(modTimes);
+		resetIndex(new FileTreeIteratorWithTimeControl(db, modTimes));
 
 		assertEquals(
 				"[a, mode:100644, time:t0, length:1, sha1:2e65efe2a145dda7ee51d1741299f848e5bf752e]" +
@@ -150,7 +147,7 @@ public class RacyGitTests extends RepositoryTestCase {
 		// now update the index the index. 'a' has to be racily clean -- because
 		// it's modification time is exactly the same as the previous index file
 		// mod time.
-		addToIndex(modTimes);
+		resetIndex(new FileTreeIteratorWithTimeControl(db, modTimes));
 
 		db.readDirCache();
 		// although racily clean a should not be reported as being dirty
@@ -158,24 +155,6 @@ public class RacyGitTests extends RepositoryTestCase {
 				"[a, mode:100644, time:t1, smudged, length:0]" +
 				"[b, mode:100644, time:t0, length:1]",
 				indexState(SMUDGE|MOD_TIME|LENGTH));
-	}
-
-	private void addToIndex(TreeSet<Long> modTimes)
-			throws FileNotFoundException, IOException {
-		DirCacheBuilder builder = db.lockDirCache().builder();
-		FileTreeIterator fIt = new FileTreeIteratorWithTimeControl(
-				db, modTimes);
-		DirCacheEntry dce;
-		while (!fIt.eof()) {
-			dce = new DirCacheEntry(fIt.getEntryPathString());
-			dce.setFileMode(fIt.getEntryFileMode());
-			dce.setLastModified(fIt.getEntryLastModified());
-			dce.setLength((int) fIt.getEntryLength());
-			dce.setObjectId(fIt.getEntryObjectId());
-			builder.add(dce);
-			fIt.next(1);
-		}
-		builder.commit();
 	}
 
 	private File addToWorkDir(String path, String content) throws IOException {

@@ -211,4 +211,13 @@ public class FileTreeIterator extends WorkingTreeIterator {
 	public File getDirectory() {
 		return directory;
 	}
+
+	/**
+	 * @return The location of the working file. This is the same as {@code new
+	 *         File(getDirectory(), getEntryPath())} but may be faster by
+	 *         reusing an internal File instance.
+	 */
+	public File getEntryFile() {
+		return ((FileEntry) current()).getFile();
+	}
 }

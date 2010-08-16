@@ -48,6 +48,7 @@ package org.eclipse.jgit.lib;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -56,9 +57,12 @@ import java.util.Map;
 import java.util.TreeSet;
 
 import org.eclipse.jgit.dircache.DirCache;
+import org.eclipse.jgit.dircache.DirCacheBuilder;
+import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.dircache.DirCacheIterator;
 import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
 import org.eclipse.jgit.storage.file.FileRepository;
+import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.treewalk.NameConflictTreeWalk;
 
 /**
@@ -200,6 +204,46 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 			sb.append("]");
 		}
 		return sb.toString();
+	}
+
+	/**
+	 * Resets the index to represent exactly some filesystem content. E.g. the
+	 * following call will replace the index with the working tree content:
+	 * <p>
+	 * <code>resetIndex(new FileSystemIterator(db))</code>
+	 * <p>
+	 * This method can be used by testcases which first prepare a new commit
+	 * somewhere in the filesystem (e.g. in the working-tree) and then want to
+	 * have an index which matches their prepared content.
+	 *
+	 * @param treeItr
+	 *            a {@link FileTreeIterator} which determines which files should
+	 *            go into the new index
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 */
+	protected void resetIndex(FileTreeIterator treeItr)
+			throws FileNotFoundException, IOException {
+		ObjectInserter inserter = db.newObjectInserter();
+		DirCacheBuilder builder = db.lockDirCache().builder();
+		DirCacheEntry dce;
+
+		while (!treeItr.eof()) {
+			long len = treeItr.getEntryLength();
+
+			dce = new DirCacheEntry(treeItr.getEntryPathString());
+			dce.setFileMode(treeItr.getEntryFileMode());
+			dce.setLastModified(treeItr.getEntryLastModified());
+			dce.setLength((int) len);
+			FileInputStream in = new FileInputStream(treeItr.getEntryFile());
+			dce.setObjectId(inserter.insert(Constants.OBJ_BLOB, len, in));
+			in.close();
+			builder.add(dce);
+			treeItr.next(1);
+		}
+		builder.commit();
+		inserter.flush();
+		inserter.release();
 	}
 
 	/**
