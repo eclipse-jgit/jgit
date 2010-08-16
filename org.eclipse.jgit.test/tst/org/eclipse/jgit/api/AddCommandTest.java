@@ -91,8 +91,8 @@ public class AddCommandTest extends RepositoryTestCase {
 		git.add().addFilepattern("a.txt").call();
 
 		assertEquals(
-				"[a.txt, mode:100644, sha1:6b584e8ece562ebffc15d38808cd6b98fc3d97ea]",
-				indexState(CONTENT_ID));
+				"[a.txt, mode:100644, content:content]",
+				indexState(CONTENT));
 	}
 
 	public void testAddExistingSingleFileInSubDir() throws IOException, NoFilepatternException {
@@ -108,8 +108,8 @@ public class AddCommandTest extends RepositoryTestCase {
 		git.add().addFilepattern("sub/a.txt").call();
 
 		assertEquals(
-				"[sub/a.txt, mode:100644, sha1:6b584e8ece562ebffc15d38808cd6b98fc3d97ea]",
-				indexState(CONTENT_ID));
+				"[sub/a.txt, mode:100644, content:content]",
+				indexState(CONTENT));
 	}
 
 	public void testAddExistingSingleFileTwice() throws IOException, NoFilepatternException {
@@ -131,8 +131,8 @@ public class AddCommandTest extends RepositoryTestCase {
 		dc = git.add().addFilepattern("a.txt").call();
 
 		assertEquals(
-				"[a.txt, mode:100644, sha1:4f41554f6e0045ef53848fc0c3f33b6a9abc24a9]",
-				indexState(CONTENT_ID));
+				"[a.txt, mode:100644, content:other content]",
+				indexState(CONTENT));
 	}
 
 	public void testAddExistingSingleFileTwiceWithCommit() throws Exception {
@@ -156,8 +156,8 @@ public class AddCommandTest extends RepositoryTestCase {
 		dc = git.add().addFilepattern("a.txt").call();
 
 		assertEquals(
-				"[a.txt, mode:100644, sha1:4f41554f6e0045ef53848fc0c3f33b6a9abc24a9]",
-				indexState(CONTENT_ID));
+				"[a.txt, mode:100644, content:other content]",
+				indexState(CONTENT));
 	}
 
 	public void testAddRemovedFile() throws Exception {
@@ -177,8 +177,8 @@ public class AddCommandTest extends RepositoryTestCase {
 		dc = git.add().addFilepattern("a.txt").call();
 
 		assertEquals(
-				"[a.txt, mode:100644, sha1:6b584e8ece562ebffc15d38808cd6b98fc3d97ea]",
-				indexState(CONTENT_ID));
+				"[a.txt, mode:100644, content:content]",
+				indexState(CONTENT));
 	}
 
 	public void testAddRemovedCommittedFile() throws Exception {
@@ -200,8 +200,8 @@ public class AddCommandTest extends RepositoryTestCase {
 		dc = git.add().addFilepattern("a.txt").call();
 
 		assertEquals(
-				"[a.txt, mode:100644, sha1:6b584e8ece562ebffc15d38808cd6b98fc3d97ea]",
-				indexState(CONTENT_ID));
+				"[a.txt, mode:100644, content:content]",
+				indexState(CONTENT));
 	}
 
 	public void testAddWithConflicts() throws Exception {
@@ -240,11 +240,11 @@ public class AddCommandTest extends RepositoryTestCase {
 		builder.commit();
 
 		assertEquals(
-				"[a.txt, mode:100644, stage:1, sha1:6b584e8ece562ebffc15d38808cd6b98fc3d97ea]" +
-				"[a.txt, mode:100644, stage:2, sha1:b9f89ff733bdaf49e02711535867bb821f9db55e]" +
-				"[a.txt, mode:100644, stage:3, sha1:4f41554f6e0045ef53848fc0c3f33b6a9abc24a9]" +
-				"[b.txt, mode:100644, sha1:50e9cdb03f9719261dd39d7f2920b906db3711a3]",
-				indexState(CONTENT_ID));
+				"[a.txt, mode:100644, stage:1, content:content]" +
+				"[a.txt, mode:100644, stage:2, content:our content]" +
+				"[a.txt, mode:100644, stage:3, content:other content]" +
+				"[b.txt, mode:100644, content:content b]",
+				indexState(CONTENT));
 
 		// now the test begins
 
@@ -252,9 +252,9 @@ public class AddCommandTest extends RepositoryTestCase {
 		dc = git.add().addFilepattern("a.txt").call();
 
 		assertEquals(
-				"[a.txt, mode:100644, sha1:b9f89ff733bdaf49e02711535867bb821f9db55e]" +
-				"[b.txt, mode:100644, sha1:50e9cdb03f9719261dd39d7f2920b906db3711a3]",
-				indexState(CONTENT_ID));
+				"[a.txt, mode:100644, content:our content]" +
+				"[b.txt, mode:100644, content:content b]",
+				indexState(CONTENT));
 	}
 
 	public void testAddTwoFiles() throws Exception  {
@@ -273,9 +273,9 @@ public class AddCommandTest extends RepositoryTestCase {
 		Git git = new Git(db);
 		git.add().addFilepattern("a.txt").addFilepattern("b.txt").call();
 		assertEquals(
-				"[a.txt, mode:100644, sha1:6b584e8ece562ebffc15d38808cd6b98fc3d97ea]" +
-				"[b.txt, mode:100644, sha1:50e9cdb03f9719261dd39d7f2920b906db3711a3]",
-				indexState(CONTENT_ID));
+				"[a.txt, mode:100644, content:content]" +
+				"[b.txt, mode:100644, content:content b]",
+				indexState(CONTENT));
 	}
 
 	public void testAddFolder() throws Exception  {
@@ -295,9 +295,9 @@ public class AddCommandTest extends RepositoryTestCase {
 		Git git = new Git(db);
 		git.add().addFilepattern("sub").call();
 		assertEquals(
-				"[sub/a.txt, mode:100644, sha1:6b584e8ece562ebffc15d38808cd6b98fc3d97ea]" +
-				"[sub/b.txt, mode:100644, sha1:50e9cdb03f9719261dd39d7f2920b906db3711a3]",
-				indexState(CONTENT_ID));
+				"[sub/a.txt, mode:100644, content:content]" +
+				"[sub/b.txt, mode:100644, content:content b]",
+				indexState(CONTENT));
 	}
 
 	public void testAddIgnoredFile() throws Exception  {
@@ -324,8 +324,8 @@ public class AddCommandTest extends RepositoryTestCase {
 		git.add().addFilepattern("sub").call();
 
 		assertEquals(
-				"[sub/a.txt, mode:100644, sha1:6b584e8ece562ebffc15d38808cd6b98fc3d97ea]",
-				indexState(CONTENT_ID));
+				"[sub/a.txt, mode:100644, content:content]",
+				indexState(CONTENT));
 	}
 
 	public void testAddWholeRepo() throws Exception  {
@@ -345,9 +345,9 @@ public class AddCommandTest extends RepositoryTestCase {
 		Git git = new Git(db);
 		git.add().addFilepattern(".").call();
 		assertEquals(
-				"[sub/a.txt, mode:100644, sha1:6b584e8ece562ebffc15d38808cd6b98fc3d97ea]" +
-				"[sub/b.txt, mode:100644, sha1:50e9cdb03f9719261dd39d7f2920b906db3711a3]",
-				indexState(CONTENT_ID));
+				"[sub/a.txt, mode:100644, content:content]" +
+				"[sub/b.txt, mode:100644, content:content b]",
+				indexState(CONTENT));
 	}
 
 	// the same three cases as in testAddWithParameterUpdate
@@ -372,9 +372,9 @@ public class AddCommandTest extends RepositoryTestCase {
 		git.add().addFilepattern("sub").call();
 
 		assertEquals(
-				"[sub/a.txt, mode:100644, sha1:6b584e8ece562ebffc15d38808cd6b98fc3d97ea]" +
-				"[sub/b.txt, mode:100644, sha1:50e9cdb03f9719261dd39d7f2920b906db3711a3]",
-				indexState(CONTENT_ID));
+				"[sub/a.txt, mode:100644, content:content]" +
+				"[sub/b.txt, mode:100644, content:content b]",
+				indexState(CONTENT));
 
 		git.commit().setMessage("commit").call();
 
@@ -398,10 +398,10 @@ public class AddCommandTest extends RepositoryTestCase {
 		// deletion of sub/b.txt is not staged
 		// sub/c.txt is staged
 		assertEquals(
-				"[sub/a.txt, mode:100644, sha1:268af4e306cfcf6e79edd50fed9c553d211f68e3]" +
-				"[sub/b.txt, mode:100644, sha1:50e9cdb03f9719261dd39d7f2920b906db3711a3]" +
-				"[sub/c.txt, mode:100644, sha1:fa08654474ae2ddc4f61ee3a43d017ba65a439c3]",
-				indexState(CONTENT_ID));
+				"[sub/a.txt, mode:100644, content:modified content]" +
+				"[sub/b.txt, mode:100644, content:content b]" +
+				"[sub/c.txt, mode:100644, content:content c]",
+				indexState(CONTENT));
 	}
 
 	// file a exists in workdir and in index -> added
@@ -425,9 +425,9 @@ public class AddCommandTest extends RepositoryTestCase {
 		git.add().addFilepattern("sub").call();
 
 		assertEquals(
-				"[sub/a.txt, mode:100644, sha1:6b584e8ece562ebffc15d38808cd6b98fc3d97ea]" +
-				"[sub/b.txt, mode:100644, sha1:50e9cdb03f9719261dd39d7f2920b906db3711a3]",
-				indexState(CONTENT_ID));
+				"[sub/a.txt, mode:100644, content:content]" +
+				"[sub/b.txt, mode:100644, content:content b]",
+				indexState(CONTENT));
 
 		git.commit().setMessage("commit").call();
 
@@ -451,8 +451,8 @@ public class AddCommandTest extends RepositoryTestCase {
 		git.add().addFilepattern("sub").setUpdate(true).call();
 		// change in sub/a.txt is staged
 		assertEquals(
-				"[sub/a.txt, mode:100644, sha1:268af4e306cfcf6e79edd50fed9c553d211f68e3]",
-				indexState(CONTENT_ID));
+				"[sub/a.txt, mode:100644, content:modified content]",
+				indexState(CONTENT));
 	}
 
 	private DirCacheEntry addEntryToBuilder(String path, File file,
