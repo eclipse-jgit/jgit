@@ -133,9 +133,9 @@ public class RacyGitTests extends RepositoryTestCase {
 		resetIndex(new FileTreeIteratorWithTimeControl(db, modTimes));
 
 		assertEquals(
-				"[a, mode:100644, time:t0, length:1, sha1:2e65efe2a145dda7ee51d1741299f848e5bf752e]" +
-				"[b, mode:100644, time:t0, length:1, sha1:63d8dbd40c23542e740659a7168a0ce3138ea748]",
-				indexState(SMUDGE | MOD_TIME | LENGTH | CONTENT_ID));
+				"[a, mode:100644, time:t0, length:1, content:a]" +
+				"[b, mode:100644, time:t0, length:1, content:b]",
+				indexState(SMUDGE | MOD_TIME | LENGTH | CONTENT));
 
 		// Remember the last modTime of index file. All modifications times of
 		// further modification are translated to this value so it looks that
@@ -152,9 +152,9 @@ public class RacyGitTests extends RepositoryTestCase {
 		db.readDirCache();
 		// although racily clean a should not be reported as being dirty
 		assertEquals(
-				"[a, mode:100644, time:t1, smudged, length:0]" +
-				"[b, mode:100644, time:t0, length:1]",
-				indexState(SMUDGE|MOD_TIME|LENGTH));
+				"[a, mode:100644, time:t1, smudged, length:0, content:a2]" +
+				"[b, mode:100644, time:t0, length:1, content:b]",
+				indexState(SMUDGE|MOD_TIME|LENGTH|CONTENT));
 	}
 
 	private File addToWorkDir(String path, String content) throws IOException {
