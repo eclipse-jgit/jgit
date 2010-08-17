@@ -124,6 +124,20 @@ public class FileRepository extends Repository {
 	}
 
 	/**
+	 * A convenience API for {@link #FileRepository(File)}.
+	 *
+	 * @param gitDir
+	 *            GIT_DIR (the location of the repository metadata).
+	 * @throws IOException
+	 *             the repository appears to already exist but cannot be
+	 *             accessed.
+	 * @see FileRepositoryBuilder
+	 */
+	public FileRepository(final String gitDir) throws IOException {
+		this(new File(gitDir));
+	}
+
+	/**
 	 * Create a repository using the local file system.
 	 *
 	 * @param options
