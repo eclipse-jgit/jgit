@@ -198,35 +198,43 @@ public class PersonIdent {
 	 */
 	public PersonIdent(final String in) {
 		final int lt = in.indexOf('<');
-		if (lt == -1) {
+		if (lt == -1)
 			throw new IllegalArgumentException(MessageFormat.format(
 					JGitText.get().malformedpersonIdentString, in));
-		}
 		final int gt = in.indexOf('>', lt);
-		if (gt == -1) {
+		if (gt == -1)
 			throw new IllegalArgumentException(MessageFormat.format(
 					JGitText.get().malformedpersonIdentString, in));
-		}
-		final int sp = in.indexOf(' ', gt + 2);
-		if (sp == -1) {
-			when = 0;
-			tzOffset = -1;
-		} else {
-			final String tzHoursStr = in.substring(sp + 1, sp + 4).trim();
-			final int tzHours;
-			if (tzHoursStr.charAt(0) == '+') {
-				tzHours = Integer.parseInt(tzHoursStr.substring(1));
-			} else {
-				tzHours = Integer.parseInt(tzHoursStr);
-			}
-			final int tzMins = Integer.parseInt(in.substring(sp + 4).trim());
-			when = Long.parseLong(in.substring(gt + 1, sp).trim()) * 1000;
-			tzOffset = tzHours * 60 + tzMins;
-		}
 
 		name = in.substring(0, lt).trim();
 		emailAddress = in.substring(lt + 1, gt).trim();
+
+		final int tzSeparator = lastIndexOfTrim(in, ' ', in.length() - 1);
+		if (tzSeparator < gt) {
+			when = 0;
+			tzOffset = -1;
+			return;
+		}
+
+		final int whenSeparator = Math.max(gt, lastIndexOfTrim(in, ' ', tzSeparator - 1));
+		if (whenSeparator >= tzSeparator - 1) {
+			when = 0;
+			tzOffset = -1;
+			return;
+		}
+
+		final String tzHoursStr = in.substring(tzSeparator + 1, tzSeparator + 4).trim();
+		final int tzHours;
+		if (tzHoursStr.charAt(0) == '+')
+			tzHours = Integer.parseInt(tzHoursStr.substring(1));
+		else
+			tzHours = Integer.parseInt(tzHoursStr);
+
+		final int tzMins = Integer.parseInt(in.substring(tzSeparator + 4).trim());
+		when = Long.parseLong(in.substring(whenSeparator + 1, tzSeparator).trim()) * 1000;
+		tzOffset = tzHours * 60 + tzMins;
 	}
+
 
 	/**
 	 * @return Name of person
@@ -340,5 +348,13 @@ public class PersonIdent {
 		r.append("]");
 
 		return r.toString();
+	}
+
+	private static int lastIndexOfTrim(String str, char ch, int pos) {
+		while (pos >= 0 && str.charAt(pos) == ' ') {
+			pos--;
+		}
+
+		return str.lastIndexOf(ch, pos);
 	}
 }

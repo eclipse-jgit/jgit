@@ -55,8 +55,8 @@ public class T0001_PersonIdent extends TestCase {
 		assertEquals("A U Thor", p.getName());
 		assertEquals("author@example.com", p.getEmailAddress());
 		assertEquals(1142878501000L, p.getWhen().getTime());
-		assertEquals("A U Thor <author@example.com> 1142878501 -0500", p
-				.toExternalString());
+		assertEquals("A U Thor <author@example.com> 1142878501 -0500",
+				p.toExternalString());
 	}
 
 	public void test002_ParseIdent() {
@@ -107,5 +107,30 @@ public class T0001_PersonIdent extends TestCase {
 		assertEquals("A U Thor", p.getName());
 		assertEquals("author@example.com", p.getEmailAddress());
 		assertEquals(1142878501000L, p.getWhen().getTime());
+	}
+
+	public void test008_ParseIdent() {
+		final String i = "A U Thor <author@example.com>," +
+				" R O Htua<rohtua@example.com> 1142878501 +0230";
+		final PersonIdent p = new PersonIdent(i);
+		assertEquals("A U Thor", p.getName());
+		assertEquals("author@example.com", p.getEmailAddress());
+		assertEquals(1142878501000L, p.getWhen().getTime());
+	}
+
+	public void test009_ParseIdent() {
+		final String i = "A U Thor<author@example.com>";
+		final PersonIdent p = new PersonIdent(i);
+		assertEquals("A U Thor", p.getName());
+		assertEquals("author@example.com", p.getEmailAddress());
+		assertEquals(0L, p.getWhen().getTime());
+	}
+
+	public void test010_ParseIdent() {
+		final String i = "A U Thor<author@example.com> 1142878501 ";
+		final PersonIdent p = new PersonIdent(i);
+		assertEquals("A U Thor", p.getName());
+		assertEquals("author@example.com", p.getEmailAddress());
+		assertEquals(0L, p.getWhen().getTime());
 	}
 }
