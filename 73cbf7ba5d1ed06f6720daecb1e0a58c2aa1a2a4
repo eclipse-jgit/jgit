@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAALyH///eg\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/events/ConfigChangeEventTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 46
+      },
+      "writtenOn": "2010-08-19T07:13:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALyH///jw\u003d",
+      "revId": "73cbf7ba5d1ed06f6720daecb1e0a58c2aa1a2a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALyH///jk\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/events/ConfigChangeEventTest.java",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2010-08-18T23:15:05Z",
       "side": 1,
       "message": "s/testChangeEventsOnlyOnSave/testFileRepository_ChangeEventsOnlyOnSave/",
+      "revId": "73cbf7ba5d1ed06f6720daecb1e0a58c2aa1a2a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyH///ec\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/events/ConfigChangeEventTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 46
+      },
+      "writtenOn": "2010-08-19T07:13:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALyH///jk\u003d",
       "revId": "73cbf7ba5d1ed06f6720daecb1e0a58c2aa1a2a4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAALyH///eY\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/events/ConfigChangeEventTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 46
+      },
+      "writtenOn": "2010-08-19T07:13:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALyH///jg\u003d",
+      "revId": "73cbf7ba5d1ed06f6720daecb1e0a58c2aa1a2a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALyH///js\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/FileRepository.java",
         "patchSetId": 4
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "AAALyH///eU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/FileRepository.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 46
+      },
+      "writtenOn": "2010-08-19T07:13:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALyH///js\u003d",
+      "revId": "73cbf7ba5d1ed06f6720daecb1e0a58c2aa1a2a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALyH///jo\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/FileRepository.java",
         "patchSetId": 4
@@ -81,6 +153,24 @@
       "writtenOn": "2010-08-18T23:15:05Z",
       "side": 1,
       "message": "IMHO this is pointless to remove.  There\u0027s no resource leakage resulting from not removing the forwarding handle from the config listener list.  Just drop the field and don\u0027t worry about deregistering.",
+      "revId": "73cbf7ba5d1ed06f6720daecb1e0a58c2aa1a2a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyH///eQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/FileRepository.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 46
+      },
+      "writtenOn": "2010-08-19T07:13:44Z",
+      "side": 1,
+      "message": "Well, if I do configChangeListenerHandle \u003d null, I\u0027ll have to remove the final from the field, and then I get a compiler error saying that the field is never read. If I do nothing here, I still get the compiler warning (even if the final is there)... But I will have to keep a reference of the handle, right?",
+      "parentUuid": "AAALyH///jo\u003d",
       "revId": "73cbf7ba5d1ed06f6720daecb1e0a58c2aa1a2a4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
