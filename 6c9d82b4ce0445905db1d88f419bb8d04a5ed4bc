@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALyH///fU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Tag.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-19T02:19:59Z",
+      "side": 1,
+      "message": "FWIW I don\u0027t see a reason to add a copyright header for a negative delta.  But whatever.  This sort of tiny (or negative!) change is why we have that trailing line \"and other copyright owners\".  Trivial edits with new copyright lines will eventually result in 100 lines worth of copyright headers with no surviving code due to small bug fixes, etc. over the years.  Yuck.",
+      "revId": "6c9d82b4ce0445905db1d88f419bb8d04a5ed4bc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
