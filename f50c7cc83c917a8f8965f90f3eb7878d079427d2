@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALyH///fA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectInserter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-19T02:21:34Z",
+      "side": 1,
+      "message": "Nak.  Needs to be:\n\n  if (tag.getTagger() !\u003d null) {\n    w.write(\"tagger \");\n    w.write(tag.getTagger().toExternalString());\n    w.write(\u0027\\n\u0027);\n  }\n\nThat is we only produce the \"tagger\" header line if there is an identity that will appear on it.  We never should create an empty header line.\n\nI\u0027ll fix it during cherry-pick.",
+      "revId": "f50c7cc83c917a8f8965f90f3eb7878d079427d2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
