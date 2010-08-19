@@ -54,6 +54,7 @@ import java.text.MessageFormat;
 import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.ObjectWritingException;
+import org.eclipse.jgit.util.RawParseUtils;
 
 /**
  * Represents a named reference to another Git object of any type.
@@ -144,8 +145,11 @@ public class Tag {
 					throw new CorruptObjectException(tagId, JGitText.get().corruptObjectNoTaggerHeader);
 
 				if (n.length()>0)
-					if (n.startsWith("tagger "))
-						tagger = new PersonIdent(n.substring("tagger ".length()));
+					if (n.startsWith("tagger ")) {
+						tagger = RawParseUtils.parsePersonIdent(n.substring("tagger ".length()));
+						if (tagger == null)
+							throw new CorruptObjectException(tagId, JGitText.get().corruptObjectNoTaggerBadHeader);
+					}
 					else
 						throw new CorruptObjectException(tagId, JGitText.get().corruptObjectNoTaggerBadHeader);
 

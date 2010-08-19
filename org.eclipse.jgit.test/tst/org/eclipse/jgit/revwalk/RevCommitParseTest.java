@@ -44,6 +44,7 @@
 package org.eclipse.jgit.revwalk;
 
 import java.io.ByteArrayOutputStream;
+import java.util.TimeZone;
 
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
@@ -56,10 +57,12 @@ public class RevCommitParseTest extends RepositoryTestCase {
 		final String authorName = "A U. Thor";
 		final String authorEmail = "a_u_thor@example.com";
 		final int authorTime = 1218123387;
+		final String authorTimeZone = "+0700";
 
 		final String committerName = "C O. Miter";
 		final String committerEmail = "comiter@example.com";
 		final int committerTime = 1218123390;
+		final String committerTimeZone = "-0500";
 		final StringBuilder body = new StringBuilder();
 
 		body.append("tree ");
@@ -72,7 +75,9 @@ public class RevCommitParseTest extends RepositoryTestCase {
 		body.append(authorEmail);
 		body.append("> ");
 		body.append(authorTime);
-		body.append(" +0700\n");
+		body.append(" ");
+		body.append(authorTimeZone);
+		body.append("\n");
 
 		body.append("committer ");
 		body.append(committerName);
@@ -80,7 +85,9 @@ public class RevCommitParseTest extends RepositoryTestCase {
 		body.append(committerEmail);
 		body.append("> ");
 		body.append(committerTime);
-		body.append(" -0500\n");
+		body.append(" ");
+		body.append(committerTimeZone);
+		body.append("\n");
 
 		body.append("\n");
 
@@ -104,11 +111,15 @@ public class RevCommitParseTest extends RepositoryTestCase {
 		assertNotNull(cAuthor);
 		assertEquals(authorName, cAuthor.getName());
 		assertEquals(authorEmail, cAuthor.getEmailAddress());
+		assertEquals((long)authorTime * 1000, cAuthor.getWhen().getTime());
+		assertEquals(TimeZone.getTimeZone("GMT" + authorTimeZone), cAuthor.getTimeZone());
 
 		final PersonIdent cCommitter = c.getCommitterIdent();
 		assertNotNull(cCommitter);
 		assertEquals(committerName, cCommitter.getName());
 		assertEquals(committerEmail, cCommitter.getEmailAddress());
+		assertEquals((long)committerTime * 1000, cCommitter.getWhen().getTime());
+		assertEquals(TimeZone.getTimeZone("GMT" + committerTimeZone), cCommitter.getTimeZone());
 	}
 
 	private RevCommit create(final String msg) throws Exception {
