@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALuX///yo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/GitIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 748,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-05-04T18:35:17Z",
+      "side": 1,
+      "message": "1) Bad name. Suggestion: getLastModified, i.e. same as in DirCacheEntry\n\n3) Consider extending the DirCache API with the functions needed to perform whatever you need. This API is deprecated.",
+      "revId": "62aac949e2ba87ad3ad68b22d7b1564b5045dea2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
