@@ -113,7 +113,7 @@ public abstract class AnyObjectId implements Comparable {
 	 * @return < 0 if this id comes before other; 0 if this id is equal to
 	 *         other; > 0 if this id comes after other.
 	 */
-	public int compareTo(final AnyObjectId other) {
+	public final int compareTo(final AnyObjectId other) {
 		if (this == other)
 			return 0;
 
@@ -138,7 +138,7 @@ public abstract class AnyObjectId implements Comparable {
 		return NB.compareUInt32(w5, other.w5);
 	}
 
-	public int compareTo(final Object other) {
+	public final int compareTo(final Object other) {
 		return compareTo(((AnyObjectId) other));
 	}
 
@@ -153,7 +153,7 @@ public abstract class AnyObjectId implements Comparable {
 	 * @return a negative integer, zero, or a positive integer as this object is
 	 *         less than, equal to, or greater than the specified object.
 	 */
-	public int compareTo(final byte[] bs, final int p) {
+	public final int compareTo(final byte[] bs, final int p) {
 		int cmp;
 
 		cmp = NB.compareUInt32(w1, NB.decodeInt32(bs, p));
@@ -186,7 +186,7 @@ public abstract class AnyObjectId implements Comparable {
 	 * @return a negative integer, zero, or a positive integer as this object is
 	 *         less than, equal to, or greater than the specified object.
 	 */
-	public int compareTo(final int[] bs, final int p) {
+	public final int compareTo(final int[] bs, final int p) {
 		int cmp;
 
 		cmp = NB.compareUInt32(w1, bs[p]);
