@@ -54,6 +54,7 @@ import java.text.MessageFormat;
 import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.util.RawParseUtils;
 
 /**
  * Instances of this class represent a Commit object. It represents a snapshot
@@ -311,8 +312,14 @@ public class Commit implements Treeish {
 				if (encoding == null) encoding = Constants.CHARSET;
 
 				// TODO: this isn't reliable so we need to guess the encoding from the actual content
-				author = new PersonIdent(new String(rawAuthor.getBytes(),encoding.name()));
-				committer = new PersonIdent(new String(rawCommitter.getBytes(),encoding.name()));
+				author = RawParseUtils.parsePersonIdent(new String(rawAuthor.getBytes(),encoding.name()));
+				if (author == null) {
+					throw new CorruptObjectException(commitId, JGitText.get().corruptObjectNoAuthor);
+				}
+				committer = RawParseUtils.parsePersonIdent(new String(rawCommitter.getBytes(),encoding.name()));
+				if (committer == null) {
+					throw new CorruptObjectException(commitId, JGitText.get().corruptObjectNoCommitter);
+				}
 				message = new String(readBuf,msgstart, readBuf.length-msgstart, encoding.name());
 			} catch (IOException e) {
 				e.printStackTrace();

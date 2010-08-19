@@ -43,26 +43,48 @@
 
 package org.eclipse.jgit.util;
 
-import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.TimeZone;
 
-import org.eclipse.jgit.lib.PersonIdent;
-
 import junit.framework.TestCase;
+
+import org.eclipse.jgit.lib.PersonIdent;
 
 public class RawParseUtils_ParsePersonIdentTest extends TestCase {
 
-	public void testParsePersonIdent_legalCases()
-			throws UnsupportedEncodingException {
+	public void testParsePersonIdent_legalCases() {
 		final Date when = new Date(1234567890000l);
 		final TimeZone tz = TimeZone.getTimeZone("GMT-7");
 
 		assertPersonIdent("Me <me@example.com> 1234567890 -0700", 0,
 				new PersonIdent("Me", "me@example.com", when, tz));
 
-		assertPersonIdent(" Me <me@example.com> 1234567890 -0700", 1,
-				new PersonIdent("Me", "me@example.com", when, tz));
+		assertPersonIdent(" Me <me@example.com> 1234567890 -0700", 0,
+				new PersonIdent(" Me", "me@example.com", when, tz));
+
+		assertPersonIdent("A U Thor <author@example.com> 1234567890 -0700", 0,
+				new PersonIdent("A U Thor", "author@example.com", when, tz));
+
+		assertPersonIdent("A U Thor<author@example.com> 1234567890 -0700", 0,
+				new PersonIdent("A U Thor", "author@example.com", when, tz));
+
+		assertPersonIdent("A U Thor<author@example.com>1234567890 -0700", 0,
+				new PersonIdent("A U Thor", "author@example.com", when, tz));
+
+		assertPersonIdent("A U Thor   <author@example.com>1234567890 -0700", 0,
+				new PersonIdent("A U Thor", "author@example.com", when, tz));
+
+		assertPersonIdent("A U Thor<author@example.com>1234567890 -0700", 0,
+				new PersonIdent("A U Thor", "author@example.com", when, tz));
+
+		assertPersonIdent(
+				"A U Thor <author@example.com>,  R O Htua<rohtua@example.com> 1234567890 -0700",
+				0, new PersonIdent("A U Thor", "author@example.com", when, tz));
+	}
+
+	public void testParsePersonIdent_incompleteCases() {
+		final Date when = new Date(1234567890000l);
+		final TimeZone tz = TimeZone.getTimeZone("GMT-7");
 
 		assertPersonIdent("Me <> 1234567890 -0700", 0, new PersonIdent("Me",
 				"", when, tz));
@@ -72,29 +94,36 @@ public class RawParseUtils_ParsePersonIdentTest extends TestCase {
 
 		assertPersonIdent(" <> 1234567890 -0700", 0, new PersonIdent("", "",
 				when, tz));
+
+		assertPersonIdent("<>", 0, new PersonIdent("", "", 0, 0));
+
+		assertPersonIdent(" <>", 0, new PersonIdent("", "", 0, 0));
+
+		assertPersonIdent("<me@example.com>", 0, new PersonIdent("",
+				"me@example.com", 0, 0));
+
+		assertPersonIdent(" <me@example.com>", 0, new PersonIdent("",
+				"me@example.com", 0, 0));
+
+		assertPersonIdent("Me <>", 0, new PersonIdent("Me", "", 0, 0));
+
+		assertPersonIdent("Me <me@example.com>", 0, new PersonIdent("Me",
+				"me@example.com", 0, 0));
+
+		assertPersonIdent("Me <me@example.com> 1234567890", 0, new PersonIdent("Me",
+				"me@example.com", 0, 0));
+
+		assertPersonIdent("Me <me@example.com> 1234567890 ", 0, new PersonIdent("Me",
+				"me@example.com", 0, 0));
 	}
 
-	public void testParsePersonIdent_malformedCases()
-			throws UnsupportedEncodingException {
+	public void testParsePersonIdent_malformedCases() {
 		assertPersonIdent("Me me@example.com> 1234567890 -0700", 0, null);
 		assertPersonIdent("Me <me@example.com 1234567890 -0700", 0, null);
-
-		assertPersonIdent("<>", 0, null);
-		assertPersonIdent("<me@example.com>", 0, null);
-		assertPersonIdent(" <>", 0, null);
-		assertPersonIdent(" <me@example.com>", 0, null);
-		assertPersonIdent("Me <>", 0, null);
-		assertPersonIdent("Me <me@example.com>", 0, null);
-
-		assertPersonIdent("Me <me@example.com> 1234567890", 0, null);
-		assertPersonIdent("<me@example.com> 1234567890 -0700", 0, null);
-		assertPersonIdent("<> 1234567890 -0700", 0, null);
 	}
 
-	private void assertPersonIdent(String line, int nameB, PersonIdent expected)
-			throws UnsupportedEncodingException {
-		PersonIdent actual = RawParseUtils.parsePersonIdent(line
-				.getBytes("UTF-8"), nameB);
+	private void assertPersonIdent(String line, int nameB, PersonIdent expected) {
+		PersonIdent actual = RawParseUtils.parsePersonIdent(line);
 		assertEquals(expected, actual);
 	}
 }
