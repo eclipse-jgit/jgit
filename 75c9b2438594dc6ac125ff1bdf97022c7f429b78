@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALyH///aY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MergeResult.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-19T18:32:23Z",
+      "side": 1,
+      "message": "IMHO this is a mess for an application to parse.\n\nFor this high-level of our API we should have this be a lot easier to work with.  Its a ton more code, but application developers would appreciate something cleaner than a Map of int arrays of int arrays. Just saying it is painful.\n\nWe should do a FileConflictInfo object that is the value of this map, so we have Map\u003cString /* path */, FileConflictInfo\u003e.\n\nThe FileConflictInfo can then have a List\u003cConflictHunk\u003e to describe all of the hunks that are conflicting.\n\nEach ConflictHunk can then provide more detail about the range that is conflicting for each parent that was put in.",
+      "revId": "75c9b2438594dc6ac125ff1bdf97022c7f429b78",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
