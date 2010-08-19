@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALyH///jw\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/events/ConfigChangeEventTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-18T23:15:05Z",
+      "side": 1,
+      "message": "Missing EDL copyright header.",
+      "revId": "73cbf7ba5d1ed06f6720daecb1e0a58c2aa1a2a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyH///jk\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/events/ConfigChangeEventTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-18T23:15:05Z",
+      "side": 1,
+      "message": "s/testChangeEventsOnlyOnSave/testFileRepository_ChangeEventsOnlyOnSave/",
+      "revId": "73cbf7ba5d1ed06f6720daecb1e0a58c2aa1a2a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyH///jo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/FileRepository.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-18T23:15:05Z",
+      "side": 1,
+      "message": "IMHO this is pointless to remove.  There\u0027s no resource leakage resulting from not removing the forwarding handle from the config listener list.  Just drop the field and don\u0027t worry about deregistering.",
+      "revId": "73cbf7ba5d1ed06f6720daecb1e0a58c2aa1a2a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyH///bA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/FileRepository.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-19T17:46:56Z",
+      "side": 1,
+      "message": "No.  Right now a listener stays registered even if you don\u0027t hang onto the ListenerHandle.  You only need the handle if you want to later remove the listener.\n\nMy point here is, we don\u0027t ever need to worry about removing the listener.  The FileRepository always wants to know when the Config changes.  So it should just keep the listener registered so long as it itself exists in the JVM.  There\u0027s no danger of a cycle or anything, the GC will correctly release everything.",
+      "parentUuid": "AAALyH///eQ\u003d",
+      "revId": "73cbf7ba5d1ed06f6720daecb1e0a58c2aa1a2a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
