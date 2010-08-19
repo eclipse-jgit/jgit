@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALyH///nM\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/events/ConfigChangeEventTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-08-17T11:53:22Z",
+      "side": 1,
+      "message": "this assertion seems to be unnecessary (you set it to null one line above)",
+      "revId": "7f0cace50241f6bdcd67557dffbfd354e8163435",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
