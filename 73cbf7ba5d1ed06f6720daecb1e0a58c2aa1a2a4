@@ -36,6 +36,40 @@
     },
     {
       "key": {
+        "uuid": "AAALyH///jg\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/events/ConfigChangeEventTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-18T23:15:05Z",
+      "side": 1,
+      "message": "Style-nit: I would put a blank line between the various \"sections\" of this test, just to make it easier to visually see \"oh, this is the setup, the run, and the verify.  and here\u0027s the next setup, run, verify.\"",
+      "revId": "73cbf7ba5d1ed06f6720daecb1e0a58c2aa1a2a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyH///js\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/FileRepository.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-18T23:15:05Z",
+      "side": 1,
+      "message": "Style-nit: Unnecessary blank line.",
+      "revId": "73cbf7ba5d1ed06f6720daecb1e0a58c2aa1a2a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALyH///jo\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/FileRepository.java",
         "patchSetId": 4
