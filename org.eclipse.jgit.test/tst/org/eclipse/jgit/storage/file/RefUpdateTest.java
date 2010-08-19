@@ -115,7 +115,7 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 		assertNotNull(r.getObjectId());
 		assertNotSame(newid, r.getObjectId());
 		assertSame(ObjectId.class, r.getObjectId().getClass());
-		assertEquals(newid.copy(), r.getObjectId());
+		assertEquals(newid, r.getObjectId());
 		List<org.eclipse.jgit.storage.file.ReflogReader.Entry> reverseEntries1 = db.getReflogReader("refs/heads/abc").getReverseEntries();
 		org.eclipse.jgit.storage.file.ReflogReader.Entry entry1 = reverseEntries1.get(0);
 		assertEquals(1, reverseEntries1.size());

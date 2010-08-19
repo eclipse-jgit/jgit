@@ -317,7 +317,7 @@ class WalkFetchConnection extends BaseFetchConnection {
 		// If we had any prior errors fetching this object they are
 		// now resolved, as the object was parsed successfully.
 		//
-		fetchErrors.remove(id.copy());
+		fetchErrors.remove(id);
 	}
 
 	private void processBlob(final RevObject obj) throws TransportException {
@@ -461,7 +461,7 @@ class WalkFetchConnection extends BaseFetchConnection {
 
 			// We could not obtain the object. There may be reasons why.
 			//
-			List<Throwable> failures = fetchErrors.get(id.copy());
+			List<Throwable> failures = fetchErrors.get(id);
 			final TransportException te;
 
 			te = new TransportException(MessageFormat.format(JGitText.get().cannotGet, id.name()));

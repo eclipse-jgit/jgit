@@ -60,8 +60,8 @@ public class RevObjectTest extends RevWalkTestCase {
 		assertTrue(a1.equals((Object) a1));
 		assertFalse(a1.equals(b1));
 
-		assertTrue(a1.equals(a1.copy()));
-		assertTrue(a1.equals((Object) a1.copy()));
+		assertTrue(a1.equals(a1));
+		assertTrue(a1.equals((Object) a1));
 		assertFalse(a1.equals(""));
 
 		final RevWalk rw2 = new RevWalk(db);

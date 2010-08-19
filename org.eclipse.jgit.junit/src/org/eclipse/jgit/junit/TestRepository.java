@@ -586,7 +586,7 @@ public class TestRepository<R extends Repository> {
 		md.update(Constants.encodeASCII(bin.length));
 		md.update((byte) 0);
 		md.update(bin);
-		Assert.assertEquals(id.copy(), ObjectId.fromRaw(md.digest()));
+		Assert.assertEquals(id, ObjectId.fromRaw(md.digest()));
 	}
 
 	/**

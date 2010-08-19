@@ -102,7 +102,7 @@ public class ReceivePackRefFilterTest extends LocalDiskRepositoryTestCase {
 		Transport t = Transport.open(src, uriOf(dst));
 		try {
 			t.fetch(PM, Collections.singleton(new RefSpec("+refs/*:refs/*")));
-			assertEquals(B.copy(), src.resolve(R_MASTER));
+			assertEquals(B, src.resolve(R_MASTER));
 		} finally {
 			t.close();
 		}
@@ -154,7 +154,7 @@ public class ReceivePackRefFilterTest extends LocalDiskRepositoryTestCase {
 
 		Ref master = refs.get(R_MASTER);
 		assertNotNull("has master", master);
-		assertEquals(B.copy(), master.getObjectId());
+		assertEquals(B, master.getObjectId());
 	}
 
 	public void testSuccess() throws Exception {
@@ -219,7 +219,7 @@ public class ReceivePackRefFilterTest extends LocalDiskRepositoryTestCase {
 		assertNotNull("have result", r);
 		assertNull("private not advertised", r.getAdvertisedRef(R_PRIVATE));
 		assertSame("master updated", RemoteRefUpdate.Status.OK, u.getStatus());
-		assertEquals(N.copy(), dst.resolve(R_MASTER));
+		assertEquals(N, dst.resolve(R_MASTER));
 	}
 
 	public void testCreateBranchAtHiddenCommitFails() throws Exception {
