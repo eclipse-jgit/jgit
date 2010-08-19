@@ -61,10 +61,10 @@ public class ChangeIdUtilTest extends TestCase {
 
 	private final String SOB2 = "Signed-off-by: J Committer <jc@example.com>\n";
 
-	final PersonIdent p = new PersonIdent(
+	final PersonIdent p = RawParseUtils.parsePersonIdent(
 			"A U Thor <author@example.com> 1142878501 -0500");
 
-	final PersonIdent q = new PersonIdent(
+	final PersonIdent q = RawParseUtils.parsePersonIdent(
 			"W Riter <writer@example.com> 1142878502 -0500");
 
 	ObjectId treeId = ObjectId
