@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALyH///0c\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Config.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-11T22:54:28Z",
+      "side": 1,
+      "message": "Please use our ListenerList instead.",
+      "revId": "3ae525e0c3a3006e64ebec1ab5ed7f81cf48b825",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyH///0Y\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Config.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-11T22:54:28Z",
+      "side": 1,
+      "message": "If subclasses are supposed to override this, maybe a method whose default implementation returns true is better.  Then the subclass can override with false if it doesn\u0027t want to do this, and we\u0027re not declaring a field.",
+      "revId": "3ae525e0c3a3006e64ebec1ab5ed7f81cf48b825",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyH///0Q\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Config.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 492,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-11T22:54:28Z",
+      "side": 1,
+      "message": "This is better named fireConfigChangedEvent().",
+      "revId": "3ae525e0c3a3006e64ebec1ab5ed7f81cf48b825",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyH///0U\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Config.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1357,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-11T22:54:28Z",
+      "side": 1,
+      "message": "This should be our existing ConfigChangedListener.",
+      "revId": "3ae525e0c3a3006e64ebec1ab5ed7f81cf48b825",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
