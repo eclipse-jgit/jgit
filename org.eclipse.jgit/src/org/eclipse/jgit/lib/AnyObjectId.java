@@ -219,7 +219,7 @@ public abstract class AnyObjectId implements Comparable {
 		return abbr.prefixCompare(this) == 0;
 	}
 
-	public int hashCode() {
+	public final int hashCode() {
 		return w2;
 	}
 
