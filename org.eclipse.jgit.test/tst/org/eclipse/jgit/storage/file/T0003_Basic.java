@@ -2,6 +2,7 @@
  * Copyright (C) 2007, Dave Watson <dwatson@mimvista.com>
  * Copyright (C) 2007-2010, Robin Rosenberg <robin.rosenberg@dewire.com>
  * Copyright (C) 2006-2008, Shawn O. Pearce <spearce@spearce.org>
+ * Copyright (C) 2010, Chris Aniszczyk <caniszczyk@gmail.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -432,7 +433,7 @@ public class T0003_Basic extends SampleDataRepositoryTestCase {
 		t.setObjId(emptyId);
 		t.setType("blob");
 		t.setTag("test020");
-		t.setAuthor(new PersonIdent(author, 1154236443000L, -4 * 60));
+		t.setTagger(new PersonIdent(author, 1154236443000L, -4 * 60));
 		t.setMessage("test020 tagged\n");
 		t.tag();
 		assertEquals("6759556b09fbb4fd8ae5e315134481cc25d46954", t.getTagId().name());
@@ -440,7 +441,7 @@ public class T0003_Basic extends SampleDataRepositoryTestCase {
 		Tag mapTag = db.mapTag("test020");
 		assertEquals("blob", mapTag.getType());
 		assertEquals("test020 tagged\n", mapTag.getMessage());
-		assertEquals(new PersonIdent(author, 1154236443000L, -4 * 60), mapTag.getAuthor());
+		assertEquals(new PersonIdent(author, 1154236443000L, -4 * 60), mapTag.getTagger());
 		assertEquals("e69de29bb2d1d6434b8b29ae775ad8c2e48c5391", mapTag.getObjId().name());
 	}
 
@@ -466,7 +467,7 @@ public class T0003_Basic extends SampleDataRepositoryTestCase {
 		t.setObjId(almostEmptyTreeId);
 		t.setType("tree");
 		t.setTag("test021");
-		t.setAuthor(new PersonIdent(author, 1154236443000L, -4 * 60));
+		t.setTagger(new PersonIdent(author, 1154236443000L, -4 * 60));
 		t.setMessage("test021 tagged\n");
 		t.tag();
 		assertEquals("b0517bc8dbe2096b419d42424cd7030733f4abe5", t.getTagId().name());
@@ -474,7 +475,7 @@ public class T0003_Basic extends SampleDataRepositoryTestCase {
 		Tag mapTag = db.mapTag("test021");
 		assertEquals("tree", mapTag.getType());
 		assertEquals("test021 tagged\n", mapTag.getMessage());
-		assertEquals(new PersonIdent(author, 1154236443000L, -4 * 60), mapTag.getAuthor());
+		assertEquals(new PersonIdent(author, 1154236443000L, -4 * 60), mapTag.getTagger());
 		assertEquals("417c01c8795a35b8e835113a85a5c0c1c77f67fb", mapTag.getObjId().name());
 	}
 
@@ -493,7 +494,7 @@ public class T0003_Basic extends SampleDataRepositoryTestCase {
 		t.setObjId(almostEmptyCommitId);
 		t.setType("commit");
 		t.setTag("test022");
-		t.setAuthor(new PersonIdent(author, 1154236443000L, -4 * 60));
+		t.setTagger(new PersonIdent(author, 1154236443000L, -4 * 60));
 		t.setMessage("test022 tagged\n");
 		t.tag();
 		assertEquals("0ce2ebdb36076ef0b38adbe077a07d43b43e3807", t.getTagId().name());
@@ -501,7 +502,7 @@ public class T0003_Basic extends SampleDataRepositoryTestCase {
 		Tag mapTag = db.mapTag("test022");
 		assertEquals("commit", mapTag.getType());
 		assertEquals("test022 tagged\n", mapTag.getMessage());
-		assertEquals(new PersonIdent(author, 1154236443000L, -4 * 60), mapTag.getAuthor());
+		assertEquals(new PersonIdent(author, 1154236443000L, -4 * 60), mapTag.getTagger());
 		assertEquals("b5d3b45a96b340441f5abb9080411705c51cc86c", mapTag.getObjId().name());
 	}
 
@@ -567,19 +568,19 @@ public class T0003_Basic extends SampleDataRepositoryTestCase {
 		assertNotNull("have tag test020", mapTag20);
 		assertEquals("blob", mapTag20.getType());
 		assertEquals("test020 tagged\n", mapTag20.getMessage());
-		assertEquals(new PersonIdent(author, 1154236443000L, -4 * 60), mapTag20.getAuthor());
+		assertEquals(new PersonIdent(author, 1154236443000L, -4 * 60), mapTag20.getTagger());
 		assertEquals("e69de29bb2d1d6434b8b29ae775ad8c2e48c5391", mapTag20.getObjId().name());
 
 		Tag mapTag21 = db.mapTag("test021");
 		assertEquals("tree", mapTag21.getType());
 		assertEquals("test021 tagged\n", mapTag21.getMessage());
-		assertEquals(new PersonIdent(author, 1154236443000L, -4 * 60), mapTag21.getAuthor());
+		assertEquals(new PersonIdent(author, 1154236443000L, -4 * 60), mapTag21.getTagger());
 		assertEquals("417c01c8795a35b8e835113a85a5c0c1c77f67fb", mapTag21.getObjId().name());
 
 		Tag mapTag22 = db.mapTag("test022");
 		assertEquals("commit", mapTag22.getType());
 		assertEquals("test022 tagged\n", mapTag22.getMessage());
-		assertEquals(new PersonIdent(author, 1154236443000L, -4 * 60), mapTag22.getAuthor());
+		assertEquals(new PersonIdent(author, 1154236443000L, -4 * 60), mapTag22.getTagger());
 		assertEquals("b5d3b45a96b340441f5abb9080411705c51cc86c", mapTag22.getObjId().name());
 	}
 
