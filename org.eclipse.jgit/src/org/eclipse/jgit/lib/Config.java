@@ -1,4 +1,5 @@
 /*
+ * Copyright (C) 2010, Mathias Kinzler <mathias.kinzler@sap.com>
  * Copyright (C) 2009, Constantine Plotnikov <constantine.plotnikov@gmail.com>
  * Copyright (C) 2007, Dave Watson <dwatson@mimvista.com>
  * Copyright (C) 2008-2010, Google Inc.
@@ -62,6 +63,10 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.events.ConfigChangedEvent;
+import org.eclipse.jgit.events.ConfigChangedListener;
+import org.eclipse.jgit.events.ListenerHandle;
+import org.eclipse.jgit.events.ListenerList;
 import org.eclipse.jgit.util.StringUtils;
 
 
@@ -73,6 +78,9 @@ public class Config {
 	private static final long KiB = 1024;
 	private static final long MiB = 1024 * KiB;
 	private static final long GiB = 1024 * MiB;
+
+	/** the change listeners */
+	private final ListenerList listeners = new ListenerList();
 
 	/**
 	 * Immutable current state of the configuration data.
@@ -450,6 +458,43 @@ public class Config {
 		state.get().cache.remove(parser);
 	}
 
+	/**
+	 * Adds a listener to be notified about changes.
+	 * <p>
+	 * Clients are supposed to remove the listeners after they are done with
+	 * them using the {@link ListenerHandle#remove()} method
+	 *
+	 * @param listener
+	 *            the listener
+	 * @return the handle to the registered listener
+	 */
+	public ListenerHandle addChangeListener(ConfigChangedListener listener) {
+		return listeners.addConfigChangedListener(listener);
+	}
+
+	/**
+	 * Determine whether to issue change events for transient changes.
+	 * <p>
+	 * If <code>true</code> is returned (which is the default behavior),
+	 * {@link #fireConfigChangedEvent()} will be called upon each change.
+	 * <p>
+	 * Subclasses that override this to return <code>false</code> are
+	 * responsible for issuing {@link #fireConfigChangedEvent()} calls
+	 * themselves.
+	 *
+	 * @return <code></code>
+	 */
+	protected boolean notifyUponTransientChanges() {
+		return true;
+	}
+
+	/**
+	 * Notifies the listeners
+	 */
+	protected void fireConfigChangedEvent() {
+		listeners.dispatch(new ConfigChangedEvent());
+	}
+
 	private String getRawString(final String section, final String subsection,
 			final String name) {
 		final List<String> lst = getRawStringList(section, subsection, name);
@@ -681,6 +726,8 @@ public class Config {
 			src = state.get();
 			res = replaceStringList(src, section, subsection, name, values);
 		} while (!state.compareAndSet(src, res));
+		if (notifyUponTransientChanges())
+			fireConfigChangedEvent();
 	}
 
 	private State replaceStringList(final State srcState,

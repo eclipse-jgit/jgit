@@ -54,6 +54,8 @@ import java.util.Set;
 
 import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.events.ConfigChangedEvent;
+import org.eclipse.jgit.events.ConfigChangedListener;
 import org.eclipse.jgit.lib.BaseRepositoryBuilder;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
@@ -156,6 +158,12 @@ public class FileRepository extends Repository {
 
 		loadUserConfig();
 		loadRepoConfig();
+
+		getConfig().addChangeListener(new ConfigChangedListener() {
+			public void onConfigChanged(ConfigChangedEvent event) {
+				fireEvent(event);
+			}
+		});
 
 		refs = new RefDirectory(this);
 		objectDatabase = new ObjectDirectory(repoConfig, //
