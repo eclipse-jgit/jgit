@@ -341,6 +341,7 @@ public final class Constants {
 	 * Convert an OBJ_* type constant to a TYPE_* type constant.
 	 *
 	 * @param typeCode the type code, from a pack representation.
+	 * @see #typeCode(String)
 	 * @return the canonical string name of this type.
 	 */
 	public static String typeString(final int typeCode) {
@@ -356,6 +357,28 @@ public final class Constants {
 		default:
 			throw new IllegalArgumentException(MessageFormat.format(JGitText.get().badObjectType, typeCode));
 		}
+	}
+
+	/**
+	 * Convert a TYPE_* type constant to an OBJ_* type constant.
+	 *
+	 * @param typeString
+	 *            the type string.
+	 * @see #typeString(int)
+	 * @return the type integer corresponding to the type string.
+	 * @throws IllegalArgumentException
+	 *             if the typeString is not one of the TYPE_* constants.
+	 */
+	public static int typeCode(String typeString) {
+		if (TYPE_BLOB.equals(typeString))
+			return OBJ_BLOB;
+		if (TYPE_TREE.equals(typeString))
+			return OBJ_TREE;
+		if (TYPE_COMMIT.equals(typeString))
+			return OBJ_COMMIT;
+		if (TYPE_TAG.equals(typeString))
+			return OBJ_TAG;
+		throw new IllegalArgumentException(MessageFormat.format(JGitText.get().badObjectType, typeString));
 	}
 
 	/**
