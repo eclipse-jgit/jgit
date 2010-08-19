@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALyH///kw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MergeResult.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-08-18T11:57:39Z",
+      "side": 0,
+      "message": "you could simplify this by reusing the other constructor below:\n\n this(newHead, mergedCommits, base, mergeStatus, mergeStrategy, null);",
+      "revId": "7b8e8df7995400637469d08baab2ee1af5537831",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyH///kk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MergeResult.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-08-18T11:57:39Z",
+      "side": 0,
+      "message": "I think the other members of this class should also be added here, something like \"merge of heads x and y with base z using strategy abc results in 13 conflicts (list of conflicts) and has description blabla\"",
+      "revId": "7b8e8df7995400637469d08baab2ee1af5537831",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
