@@ -1,6 +1,7 @@
 /*
  * Copyright (C) 2006-2008, Robin Rosenberg <robin.rosenberg@dewire.com>
  * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org>
+ * Copyright (C) 2010, Chris Aniszczyk <caniszczyk@gmail.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -106,22 +107,6 @@ public class Tag {
 	}
 
 	/**
-	 * @return tagger of a annotated tag or null
-	 */
-	public PersonIdent getAuthor() {
-		decode();
-		return tagger;
-	}
-
-	/**
-	 * Set author of an annotated tag.
-	 * @param a author identifier as a {@link PersonIdent}
-	 */
-	public void setAuthor(final PersonIdent a) {
-		tagger = a;
-	}
-
-	/**
 	 * @return comment of an annotated tag, or null
 	 */
 	public String getMessage() {
@@ -223,7 +208,7 @@ public class Tag {
 	}
 
 	public String toString() {
-		return "tag[" + getTag() + getType() + getObjId() + " " + getAuthor() + "]";
+		return "tag[" + getTag() + getType() + getObjId() + " " + getTagger() + "]";
 	}
 
 	/**
