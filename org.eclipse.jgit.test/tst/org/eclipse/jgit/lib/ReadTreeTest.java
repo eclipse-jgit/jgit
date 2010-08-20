@@ -651,6 +651,10 @@ public abstract class ReadTreeTest extends RepositoryTestCase {
 		String expectedValue;
 		String path;
 		GitIndex theIndex=db.getIndex();
+		// Without an explicit refresh we might miss index updates. If the index
+		// is updated multiple times inside a FileSystemTimer tick db.getIndex will
+		// not reload the index and return a cached (stale) index.
+		theIndex.read();
 		assertEquals("Index has not the right size.", i.size(),
 				theIndex.getMembers().length);
 		for (int j = 0; j < theIndex.getMembers().length; j++) {
