@@ -57,11 +57,11 @@ import org.eclipse.jgit.lib.GitIndex;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdRef;
 import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.Ref.Storage;
 import org.eclipse.jgit.lib.RefUpdate;
-import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.WorkDirCheckout;
+import org.eclipse.jgit.lib.Ref.Storage;
+import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.merge.MergeStrategy;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -176,8 +176,8 @@ public class MergeCommand extends GitCommand<MergeResult> {
 		File workDir = repo.getWorkTree();
 		if (workDir != null) {
 			WorkDirCheckout workDirCheckout = new WorkDirCheckout(repo,
-					workDir, headCommit.asCommit(revWalk).getTree(), index,
-					newHeadCommit.asCommit(revWalk).getTree());
+					workDir, repo.mapTree(headCommit.getTree()), index,
+					repo.mapTree(newHeadCommit.getTree()));
 			workDirCheckout.setFailOnConflict(true);
 			try {
 				workDirCheckout.checkout();

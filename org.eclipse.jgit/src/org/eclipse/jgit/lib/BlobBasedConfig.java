@@ -51,15 +51,24 @@ import java.text.MessageFormat;
 
 import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.errors.IncorrectObjectTypeException;
+import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevTree;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
+import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
 
 /**
- * The configuration file based on the blobs stored in the repository
+ * Configuration file based on the blobs stored in the repository.
+ *
+ * This implementation currently only provides reading support, and is primarily
+ * useful for supporting the {@code .gitmodules} file.
  */
 public class BlobBasedConfig extends Config {
 	/**
-	 * The constructor from a byte array
+	 * Parse a configuration from a byte array.
 	 *
 	 * @param base
 	 *            the base configuration file
@@ -75,11 +84,11 @@ public class BlobBasedConfig extends Config {
 	}
 
 	/**
-	 * The constructor from object identifier
+	 * Load a configuration file from a blob.
 	 *
 	 * @param base
 	 *            the base configuration file
-	 * @param r
+	 * @param db
 	 *            the repository
 	 * @param objectId
 	 *            the object identifier
@@ -88,22 +97,50 @@ public class BlobBasedConfig extends Config {
 	 * @throws ConfigInvalidException
 	 *             the blob is not a valid configuration format.
 	 */
-	public BlobBasedConfig(Config base, final Repository r,
-			final ObjectId objectId) throws IOException, ConfigInvalidException {
-		super(base);
-		ObjectLoader loader = r.open(objectId, Constants.OBJ_BLOB);
-		fromText(RawParseUtils.decode(loader.getCachedBytes()));
+	public BlobBasedConfig(Config base, Repository db, AnyObjectId objectId)
+			throws IOException, ConfigInvalidException {
+		this(base, read(db, objectId));
+	}
+
+	private static byte[] read(Repository db, AnyObjectId blobId)
+			throws MissingObjectException, IncorrectObjectTypeException,
+			IOException {
+		ObjectReader or = db.newObjectReader();
+		try {
+			return read(or, blobId);
+		} finally {
+			or.release();
+		}
+	}
+
+	private static byte[] read(ObjectReader or, AnyObjectId blobId)
+			throws MissingObjectException, IncorrectObjectTypeException,
+			IOException {
+		ObjectLoader loader = or.open(blobId, Constants.OBJ_BLOB);
+		if (loader.isLarge()) {
+			ObjectStream in = loader.openStream();
+			try {
+				byte[] buf = new byte[(int) in.getSize()];
+				IO.readFully(in, buf, 0, buf.length);
+				return buf;
+			} finally {
+				in.close();
+			}
+		}
+		return loader.getCachedBytes();
 	}
 
 	/**
-	 * The constructor from commit and path
+	 * Load a configuration file from a blob stored in a specific commit.
 	 *
 	 * @param base
 	 *            the base configuration file
-	 * @param commit
-	 *            the commit that contains the object
+	 * @param db
+	 *            the repository containing the objects.
+	 * @param treeish
+	 *            the tree (or commit) that contains the object
 	 * @param path
-	 *            the path within the tree of the commit
+	 *            the path within the tree
 	 * @throws FileNotFoundException
 	 *             the path does not exist in the commit's tree.
 	 * @throws IOException
@@ -111,16 +148,37 @@ public class BlobBasedConfig extends Config {
 	 * @throws ConfigInvalidException
 	 *             the blob is not a valid configuration format.
 	 */
-	public BlobBasedConfig(Config base, final Commit commit, final String path)
-			throws FileNotFoundException, IOException, ConfigInvalidException {
-		super(base);
-		final ObjectId treeId = commit.getTreeId();
-		final Repository r = commit.getRepository();
-		final TreeWalk tree = TreeWalk.forPath(r, path, treeId);
-		if (tree == null)
-			throw new FileNotFoundException(MessageFormat.format(JGitText.get().entryNotFoundByPath, path));
-		final ObjectId blobId = tree.getObjectId(0);
-		ObjectLoader loader = r.open(blobId,Constants.OBJ_BLOB);
-		fromText(RawParseUtils.decode(loader.getCachedBytes()));
+	public BlobBasedConfig(Config base, Repository db, AnyObjectId treeish,
+			String path) throws FileNotFoundException, IOException,
+			ConfigInvalidException {
+		this(base, read(db, treeish, path));
+	}
+
+	private static byte[] read(Repository db, AnyObjectId treeish, String path)
+			throws MissingObjectException, IncorrectObjectTypeException,
+			IOException {
+		ObjectReader or = db.newObjectReader();
+		try {
+			TreeWalk tree = TreeWalk.forPath(or, path, asTree(or, treeish));
+			if (tree == null)
+				throw new FileNotFoundException(MessageFormat.format(JGitText
+						.get().entryNotFoundByPath, path));
+			return read(or, tree.getObjectId(0));
+		} finally {
+			or.release();
+		}
+	}
+
+	private static AnyObjectId asTree(ObjectReader or, AnyObjectId treeish)
+			throws MissingObjectException, IncorrectObjectTypeException,
+			IOException {
+		if (treeish instanceof RevTree)
+			return treeish;
+
+		if (treeish instanceof RevCommit
+				&& ((RevCommit) treeish).getTree() != null)
+			return ((RevCommit) treeish).getTree();
+
+		return new RevWalk(or).parseTree(treeish).getId();
 	}
 }

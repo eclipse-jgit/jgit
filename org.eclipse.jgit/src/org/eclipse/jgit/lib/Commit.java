@@ -45,24 +45,18 @@
 
 package org.eclipse.jgit.lib;
 
-import java.io.ByteArrayInputStream;
-import java.io.DataInputStream;
-import java.io.IOException;
 import java.nio.charset.Charset;
-import java.text.MessageFormat;
-
-import org.eclipse.jgit.JGitText;
-import org.eclipse.jgit.errors.CorruptObjectException;
-import org.eclipse.jgit.errors.MissingObjectException;
+import java.util.List;
 
 /**
- * Instances of this class represent a Commit object. It represents a snapshot
- * in a Git repository, who created it and when.
+ * Mutable builder to construct a commit recording the state of a project.
+ *
+ * Applications should use this object when they need to manually construct a
+ * commit and want precise control over its fields. For a higher level interface
+ * see {@link org.eclipse.jgit.api.CommitCommand}.
  */
-public class Commit implements Treeish {
+public class Commit {
 	private static final ObjectId[] EMPTY_OBJECTID_LIST = new ObjectId[0];
-
-	private final Repository objdb;
 
 	private ObjectId commitId;
 
@@ -76,102 +70,21 @@ public class Commit implements Treeish {
 
 	private String message;
 
-	private Tree treeObj;
-
-	private byte[] raw;
-
 	private Charset encoding;
 
-	/**
-	 * Create an empty commit object. More information must be fed to this
-	 * object to make it useful.
-	 *
-	 * @param db
-	 *            The repository with which to associate it.
-	 */
-	public Commit(final Repository db) {
-		objdb = db;
+	/** Initialize an empty commit. */
+	public Commit() {
 		parentIds = EMPTY_OBJECTID_LIST;
+		encoding = Constants.CHARSET;
 	}
 
-	/**
-	 * Create a commit associated with these parents and associate it with a
-	 * repository.
-	 *
-	 * @param db
-	 *            The repository to which this commit object belongs
-	 * @param parentIds
-	 *            Id's of the parent(s)
-	 */
-	public Commit(final Repository db, final ObjectId[] parentIds) {
-		objdb = db;
-		this.parentIds = parentIds;
-	}
-
-	/**
-	 * Create a commit object with the specified id and data from and existing
-	 * commit object in a repository.
-	 *
-	 * @param db
-	 *            The repository to which this commit object belongs
-	 * @param id
-	 *            Commit id
-	 * @param raw
-	 *            Raw commit object data
-	 */
-	public Commit(final Repository db, final ObjectId id, final byte[] raw) {
-		objdb = db;
-		commitId = id;
-		treeId = ObjectId.fromString(raw, 5);
-		parentIds = new ObjectId[1];
-		int np=0;
-		int rawPtr = 46;
-		for (;;) {
-			if (raw[rawPtr] != 'p')
-				break;
-			if (np == 0) {
-				parentIds[np++] = ObjectId.fromString(raw, rawPtr + 7);
-			} else if (np == 1) {
-				parentIds = new ObjectId[] { parentIds[0], ObjectId.fromString(raw, rawPtr + 7) };
-				np++;
-			} else {
-				if (parentIds.length <= np) {
-					ObjectId[] old = parentIds;
-					parentIds = new ObjectId[parentIds.length+32];
-					for (int i=0; i<np; ++i)
-						parentIds[i] = old[i];
-				}
-				parentIds[np++] = ObjectId.fromString(raw, rawPtr + 7);
-			}
-			rawPtr += 48;
-		}
-		if (np != parentIds.length) {
-			ObjectId[] old = parentIds;
-			parentIds = new ObjectId[np];
-			for (int i=0; i<np; ++i)
-				parentIds[i] = old[i];
-		} else
-			if (np == 0)
-				parentIds = EMPTY_OBJECTID_LIST;
-		this.raw = raw;
-	}
-
-	/**
-	 * @return get repository for the commit
-	 */
-	public Repository getRepository() {
-		return objdb;
-	}
-
-	/**
-	 * @return The commit object id
-	 */
+	/** @return this commit's object id. */
 	public ObjectId getCommitId() {
 		return commitId;
 	}
 
 	/**
-	 * Set the id of this object.
+	 * Set the id of this commit object.
 	 *
 	 * @param id
 	 *            the id that we calculated for this object.
@@ -180,6 +93,7 @@ public class Commit implements Treeish {
 		commitId = id;
 	}
 
+	/** @return id of the root tree listing this commit's snapshot. */
 	public ObjectId getTreeId() {
 		return treeId;
 	}
@@ -188,198 +102,197 @@ public class Commit implements Treeish {
 	 * Set the tree id for this commit object
 	 *
 	 * @param id
+	 *            the tree identity.
 	 */
-	public void setTreeId(final ObjectId id) {
-		if (treeId==null || !treeId.equals(id)) {
-			treeObj = null;
-		}
-		treeId = id;
+	public void setTreeId(AnyObjectId id) {
+		treeId = id.copy();
+		commitId = null;
 	}
 
-	public Tree getTree() throws IOException {
-		if (treeObj == null) {
-			treeObj = objdb.mapTree(getTreeId());
-			if (treeObj == null) {
-				throw new MissingObjectException(getTreeId(),
-						Constants.TYPE_TREE);
-			}
-		}
-		return treeObj;
-	}
-
-	/**
-	 * Set the tree object for this commit
-	 * @see #setTreeId
-	 * @param t the Tree object
-	 */
-	public void setTree(final Tree t) {
-		treeId = t.getTreeId();
-		treeObj = t;
-	}
-
-	/**
-	 * @return the author and authoring time for this commit
-	 */
+	/** @return the author of this commit (who wrote it). */
 	public PersonIdent getAuthor() {
-		decode();
 		return author;
 	}
 
 	/**
-	 * Set the author and authoring time for this commit
-	 * @param a
+	 * Set the author (name, email address, and date) of who wrote the commit.
+	 *
+	 * @param newAuthor
+	 *            the new author. Should not be null.
 	 */
-	public void setAuthor(final PersonIdent a) {
-		author = a;
+	public void setAuthor(PersonIdent newAuthor) {
+		author = newAuthor;
+		commitId = null;
 	}
 
-	/**
-	 * @return the committer and commit time for this object
-	 */
+	/** @return the committer and commit time for this object. */
 	public PersonIdent getCommitter() {
-		decode();
 		return committer;
 	}
 
 	/**
 	 * Set the committer and commit time for this object
-	 * @param c the committer information
+	 *
+	 * @param newCommitter
+	 *            the committer information. Should not be null.
 	 */
-	public void setCommitter(final PersonIdent c) {
-		committer = c;
+	public void setCommitter(PersonIdent newCommitter) {
+		committer = newCommitter;
+		commitId = null;
 	}
 
-	/**
-	 * @return the object ids of this commit
-	 */
+	/** @return the ancestors of this commit. Never null. */
 	public ObjectId[] getParentIds() {
 		return parentIds;
 	}
 
 	/**
-	 * @return the commit message
+	 * Set the parent of this commit.
+	 *
+	 * @param newParent
+	 *            the single parent for the commit.
 	 */
+	public void setParentId(AnyObjectId newParent) {
+		parentIds = new ObjectId[] { newParent.copy() };
+		commitId = null;
+	}
+
+	/**
+	 * Set the parents of this commit.
+	 *
+	 * @param parent1
+	 *            the first parent of this commit. Typically this is the current
+	 *            value of the {@code HEAD} reference and is thus the current
+	 *            branch's position in history.
+	 * @param parent2
+	 *            the second parent of this merge commit. Usually this is the
+	 *            branch being merged into the current branch.
+	 */
+	public void setParentIds(AnyObjectId parent1, AnyObjectId parent2) {
+		parentIds = new ObjectId[] { parent1.copy(), parent2.copy() };
+		commitId = null;
+	}
+
+	/**
+	 * Set the parents of this commit.
+	 *
+	 * @param newParents
+	 *            the entire list of parents for this commit.
+	 */
+	public void setParentIds(ObjectId... newParents) {
+		parentIds = new ObjectId[newParents.length];
+		for (int i = 0; i < newParents.length; i++)
+			parentIds[i] = newParents[i].copy();
+		commitId = null;
+	}
+
+	/**
+	 * Set the parents of this commit.
+	 *
+	 * @param newParents
+	 *            the entire list of parents for this commit.
+	 */
+	public void setParentIds(List<? extends AnyObjectId> newParents) {
+		parentIds = new ObjectId[newParents.size()];
+		for (int i = 0; i < newParents.size(); i++)
+			parentIds[i] = newParents.get(i).copy();
+		commitId = null;
+	}
+
+	/**
+	 * Add a parent onto the end of the parent list.
+	 *
+	 * @param additionalParent
+	 *            new parent to add onto the end of the current parent list.
+	 */
+	public void addParentId(AnyObjectId additionalParent) {
+		if (parentIds.length == 0) {
+			setParentId(additionalParent);
+		} else {
+			ObjectId[] newParents = new ObjectId[parentIds.length + 1];
+			for (int i = 0; i < parentIds.length; i++)
+				newParents[i] = parentIds[i];
+			newParents[parentIds.length] = additionalParent.copy();
+			parentIds = newParents;
+			commitId = null;
+		}
+	}
+
+	/** @return the complete commit message. */
 	public String getMessage() {
-		decode();
 		return message;
 	}
 
 	/**
-	 * Set the parents of this commit
-	 * @param parentIds
+	 * Set the commit message.
+	 *
+	 * @param newMessage
+	 *            the commit message. Should not be null.
 	 */
-	public void setParentIds(ObjectId[] parentIds) {
-		this.parentIds = new ObjectId[parentIds.length];
-		for (int i=0; i<parentIds.length; ++i)
-			this.parentIds[i] = parentIds[i];
-	}
-
-	private void decode() {
-		// FIXME: handle I/O errors
-		if (raw != null) {
-			try {
-				DataInputStream br = new DataInputStream(new ByteArrayInputStream(raw));
-				String n = br.readLine();
-				if (n == null || !n.startsWith("tree ")) {
-					throw new CorruptObjectException(commitId, JGitText.get().corruptObjectNotree);
-				}
-				while ((n = br.readLine()) != null && n.startsWith("parent ")) {
-					// empty body
-				}
-				if (n == null || !n.startsWith("author ")) {
-					throw new CorruptObjectException(commitId, JGitText.get().corruptObjectNoAuthor);
-				}
-				String rawAuthor = n.substring("author ".length());
-				n = br.readLine();
-				if (n == null || !n.startsWith("committer ")) {
-					throw new CorruptObjectException(commitId, JGitText.get().corruptObjectNoCommitter);
-				}
-				String rawCommitter = n.substring("committer ".length());
-				n = br.readLine();
-				if (n != null && n.startsWith(	"encoding"))
-					encoding = Charset.forName(n.substring("encoding ".length()));
-				else
-					if (n == null || !n.equals("")) {
-						throw new CorruptObjectException(commitId, MessageFormat.format(
-								JGitText.get().corruptObjectMalformedHeader, n));
-				}
-				byte[] readBuf = new byte[br.available()]; // in-memory stream so this is all bytes left
-				br.read(readBuf);
-				int msgstart = readBuf.length != 0 ? ( readBuf[0] == '\n' ? 1 : 0 ) : 0;
-
-				// If encoding is not specified, the default for commit is UTF-8
-				if (encoding == null) encoding = Constants.CHARSET;
-
-				// TODO: this isn't reliable so we need to guess the encoding from the actual content
-				author = new PersonIdent(new String(rawAuthor.getBytes(),encoding.name()));
-				committer = new PersonIdent(new String(rawCommitter.getBytes(),encoding.name()));
-				message = new String(readBuf,msgstart, readBuf.length-msgstart, encoding.name());
-			} catch (IOException e) {
-				e.printStackTrace();
-			} finally {
-				raw = null;
-			}
-		}
+	public void setMessage(final String newMessage) {
+		message = newMessage;
 	}
 
 	/**
-	 * Set the commit message
+	 * Set the encoding for the commit information
 	 *
-	 * @param m the commit message
+	 * @param encodingName
+	 *            the encoding name. See {@link Charset#forName(String)}.
 	 */
-	public void setMessage(final String m) {
-		message = m;
+	public void setEncoding(String encodingName) {
+		encoding = Charset.forName(encodingName);
 	}
 
 	/**
-	 * Persist this commit object
+	 * Set the encoding for the commit information
 	 *
-	 * @throws IOException
+	 * @param enc
+	 *            the encoding to use.
 	 */
-	public void commit() throws IOException {
-		if (getCommitId() != null)
-			throw new IllegalStateException(MessageFormat.format(JGitText.get().commitAlreadyExists, getCommitId()));
-		ObjectInserter odi = objdb.newObjectInserter();
-		try {
-			ObjectId id = odi.insert(Constants.OBJ_COMMIT, odi.format(this));
-			odi.flush();
-			setCommitId(id);
-		} finally {
-			odi.release();
-		}
+	public void setEncoding(Charset enc) {
+		encoding = enc;
 	}
 
+	/** @return the encoding that should be used for the commit message text. */
+	public Charset getEncoding() {
+		return encoding;
+	}
+
+	@Override
 	public String toString() {
-		return "Commit[" + ObjectId.toString(getCommitId()) + " " + getAuthor() + "]"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-	}
+		StringBuilder r = new StringBuilder();
+		r.append("Commit");
+		if (commitId != null)
+			r.append("[" + commitId.name() + "]");
+		r.append("={\n");
 
-	/**
-	 * State the encoding for the commit information
-	 *
-	 * @param e
-	 *            the encoding. See {@link Charset}
-	 */
-	public void setEncoding(String e) {
-		encoding = Charset.forName(e);
-	}
+		r.append("tree ");
+		r.append(treeId != null ? treeId.name() : "NOT_SET");
+		r.append("\n");
 
-	/**
-	 * State the encoding for the commit information
-	 *
-	 * @param e
-	 *            the encoding. See {@link Charset}
-	 */
-	public void setEncoding(Charset e) {
-		encoding = e;
-	}
+		for (ObjectId p : parentIds) {
+			r.append("parent ");
+			r.append(p.name());
+			r.append("\n");
+		}
 
-	/**
-	 * @return the encoding used. See {@link Charset}
-	 */
-	public String getEncoding() {
-		if (encoding != null)
-			return encoding.name();
-		else
-			return null;
+		r.append("author ");
+		r.append(author != null ? author.toString() : "NOT_SET");
+		r.append("\n");
+
+		r.append("committer ");
+		r.append(committer != null ? committer.toString() : "NOT_SET");
+		r.append("\n");
+
+		if (encoding != null && encoding != Constants.CHARSET) {
+			r.append("encoding ");
+			r.append(encoding.name());
+			r.append("\n");
+		}
+
+		r.append("\n");
+		r.append(message != null ? message : "");
+		r.append("}");
+		return r.toString();
 	}
 }

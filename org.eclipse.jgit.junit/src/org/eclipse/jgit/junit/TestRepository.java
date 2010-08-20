@@ -359,7 +359,7 @@ public class TestRepository<R extends Repository> {
 			final RevCommit... parents) throws Exception {
 		tick(secDelta);
 
-		final Commit c = new Commit(db);
+		final Commit c = new Commit();
 		c.setTreeId(tree);
 		c.setParentIds(parents);
 		c.setAuthor(new PersonIdent(author, new Date(now)));
@@ -811,8 +811,8 @@ public class TestRepository<R extends Repository> {
 			if (self == null) {
 				TestRepository.this.tick(tick);
 
-				final Commit c = new Commit(db);
-				c.setParentIds(parents.toArray(new RevCommit[parents.size()]));
+				final Commit c = new Commit();
+				c.setParentIds(parents);
 				c.setAuthor(new PersonIdent(author, new Date(now)));
 				c.setCommitter(new PersonIdent(committer, new Date(now)));
 				c.setMessage(message);

@@ -162,12 +162,12 @@ public class CommitCommand extends GitCommand<RevCommit> {
 					ObjectId indexTreeId = index.writeTree(odi);
 
 					// Create a Commit object, populate it and write it
-					Commit commit = new Commit(repo);
+					Commit commit = new Commit();
 					commit.setCommitter(committer);
 					commit.setAuthor(author);
 					commit.setMessage(message);
 
-					commit.setParentIds(parents.toArray(new ObjectId[] {}));
+					commit.setParentIds(parents);
 					commit.setTreeId(indexTreeId);
 					ObjectId commitId = odi.insert(Constants.OBJ_COMMIT, odi
 							.format(commit));

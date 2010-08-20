@@ -53,7 +53,6 @@ import java.util.List;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.AnyObjectId;
-import org.eclipse.jgit.lib.Commit;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.MutableObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -204,18 +203,6 @@ public class RevCommit extends RevObject {
 	 */
 	public final int getCommitTime() {
 		return commitTime;
-	}
-
-	/**
-	 * Parse this commit buffer for display.
-	 *
-	 * @param walk
-	 *            revision walker owning this reference.
-	 * @return parsed commit.
-	 */
-	public final Commit asCommit(final RevWalk walk) {
-		// TODO(spearce) Remove repository when this method dies.
-		return new Commit(walk.repository, this, buffer);
 	}
 
 	/**

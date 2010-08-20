@@ -131,7 +131,7 @@ public class CherryPickTest extends RepositoryTestCase {
 
 	private ObjectId commit(final ObjectInserter odi, final DirCache treeB,
 			final ObjectId[] parentIds) throws Exception {
-		final Commit c = new Commit(db);
+		final Commit c = new Commit();
 		c.setTreeId(treeB.writeTree(odi));
 		c.setAuthor(new PersonIdent("A U Thor", "a.u.thor", 1L, 0));
 		c.setCommitter(c.getAuthor());

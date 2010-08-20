@@ -155,8 +155,8 @@ public class MergeCommandTest extends RepositoryTestCase {
 		File workDir = db.getWorkTree();
 		if (workDir != null) {
 			WorkDirCheckout workDirCheckout = new WorkDirCheckout(db,
-					workDir, db.mapCommit(Constants.HEAD).getTree(),
-					db.getIndex(), db.mapCommit(branchName).getTree());
+					workDir, db.mapTree(Constants.HEAD),
+					db.getIndex(), db.mapTree(branchName));
 			workDirCheckout.setFailOnConflict(true);
 			try {
 				workDirCheckout.checkout();
