@@ -55,11 +55,59 @@ import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.MutableObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.util.RawParseUtils;
 
 /** A commit reference to a commit in the DAG. */
 public class RevCommit extends RevObject {
+	/**
+	 * Parse a commit from its canonical format.
+	 *
+	 * This method constructs a temporary revision pool, parses the commit as
+	 * supplied, and returns it to the caller. Since the commit was built inside
+	 * of a private revision pool its parent pointers will be initialized, but
+	 * will not have their headers loaded.
+	 *
+	 * Applications are discouraged from using this API. Callers usually need
+	 * more than one commit. Use {@link RevWalk#parseCommit(AnyObjectId)} to
+	 * obtain a RevCommit from an existing repository.
+	 *
+	 * @param raw
+	 *            the canonical formatted commit to be parsed.
+	 * @return the parsed commit, in an isolated revision pool that is not
+	 *         available to the caller.
+	 */
+	public static RevCommit parse(byte[] raw) {
+		return parse(new RevWalk((ObjectReader) null), raw);
+	}
+
+	/**
+	 * Parse a commit from its canonical format.
+	 *
+	 * This method inserts the commit directly into the caller supplied revision
+	 * pool, making it appear as though the commit exists in the repository,
+	 * even if it doesn't.  The repository under the pool is not affected.
+	 *
+	 * @param rw
+	 *            the revision pool to allocate the commit within. The commit's
+	 *            tree and parent pointers will be obtained from this pool.
+	 * @param raw
+	 *            the canonical formatted commit to be parsed.
+	 * @return the parsed commit, in an isolated revision pool that is not
+	 *         available to the caller.
+	 */
+	public static RevCommit parse(RevWalk rw, byte[] raw) {
+		ObjectInserter.Formatter fmt = new ObjectInserter.Formatter();
+		boolean retain = rw.isRetainBody();
+		rw.setRetainBody(true);
+		RevCommit r = rw.lookupCommit(fmt.idFor(Constants.OBJ_COMMIT, raw));
+		r.parseCanonical(rw, raw);
+		rw.setRetainBody(retain);
+		return r;
+	}
+
 	static final RevCommit[] NO_PARENTS = {};
 
 	private RevTree tree;

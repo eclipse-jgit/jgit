@@ -44,9 +44,12 @@
 package org.eclipse.jgit.revwalk;
 
 import java.io.ByteArrayOutputStream;
+import java.io.UnsupportedEncodingException;
 
+import org.eclipse.jgit.lib.Commit;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RepositoryTestCase;
 
@@ -313,6 +316,24 @@ public class RevCommitParseTest extends RepositoryTestCase {
 		final RevCommit c = create(fullMsg);
 		assertEquals(fullMsg, c.getFullMessage());
 		assertEquals(shortMsg, c.getShortMessage());
+	}
+
+	public void testParse_PublicParseMethod()
+			throws UnsupportedEncodingException {
+		ObjectInserter.Formatter fmt = new ObjectInserter.Formatter();
+		Commit src = new Commit();
+		src.setTreeId(fmt.idFor(Constants.OBJ_TREE, new byte[] {}));
+		src.setAuthor(author);
+		src.setCommitter(committer);
+		src.setMessage("Test commit\n\nThis is a test.\n");
+
+		RevCommit p = RevCommit.parse(fmt.format(src));
+		assertEquals(src.getTreeId(), p.getTree());
+		assertEquals(0, p.getParentCount());
+		assertEquals(author, p.getAuthorIdent());
+		assertEquals(committer, p.getCommitterIdent());
+		assertEquals("Test commit", p.getShortMessage());
+		assertEquals(src.getMessage(), p.getFullMessage());
 	}
 
 	private static ObjectId id(final String str) {
