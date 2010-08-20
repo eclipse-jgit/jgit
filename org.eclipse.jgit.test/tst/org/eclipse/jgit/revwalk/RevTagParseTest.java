@@ -45,10 +45,13 @@ package org.eclipse.jgit.revwalk;
 
 import java.io.ByteArrayOutputStream;
 
+import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RepositoryTestCase;
+import org.eclipse.jgit.lib.Tag;
 
 public class RevTagParseTest extends RepositoryTestCase {
 	public void testTagBlob() throws Exception {
@@ -393,6 +396,23 @@ public class RevTagParseTest extends RepositoryTestCase {
 		final RevTag c = create(fullMsg);
 		assertEquals(fullMsg, c.getFullMessage());
 		assertEquals(shortMsg, c.getShortMessage());
+	}
+
+	public void testParse_PublicParseMethod() throws CorruptObjectException {
+		ObjectInserter.Formatter fmt = new ObjectInserter.Formatter();
+		Tag src = new Tag();
+		src.setObjectId(fmt.idFor(Constants.OBJ_TREE, new byte[] {}),
+				Constants.OBJ_TREE);
+		src.setTagger(committer);
+		src.setTag("a.test");
+		src.setMessage("Test tag\n\nThis is a test.\n");
+
+		RevTag p = RevTag.parse(fmt.format(src));
+		assertEquals(src.getObjectId(), p.getObject());
+		assertEquals(committer, p.getTaggerIdent());
+		assertEquals("a.test", p.getTagName());
+		assertEquals("Test tag", p.getShortMessage());
+		assertEquals(src.getMessage(), p.getFullMessage());
 	}
 
 	private static ObjectId id(final String str) {

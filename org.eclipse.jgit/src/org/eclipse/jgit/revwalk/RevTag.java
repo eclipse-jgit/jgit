@@ -53,12 +53,65 @@ import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.util.MutableInteger;
 import org.eclipse.jgit.util.RawParseUtils;
 
 /** An annotated tag. */
 public class RevTag extends RevObject {
+	/**
+	 * Parse an annotated tag from its canonical format.
+	 *
+	 * This method constructs a temporary revision pool, parses the tag as
+	 * supplied, and returns it to the caller. Since the tag was built inside of
+	 * a private revision pool its object pointer will be initialized, but will
+	 * not have its headers loaded.
+	 *
+	 * Applications are discouraged from using this API. Callers usually need
+	 * more than one object. Use {@link RevWalk#parseTag(AnyObjectId)} to obtain
+	 * a RevTag from an existing repository.
+	 *
+	 * @param raw
+	 *            the canonical formatted tag to be parsed.
+	 * @return the parsed tag, in an isolated revision pool that is not
+	 *         available to the caller.
+	 * @throws CorruptObjectException
+	 *             the tag contains a malformed header that cannot be handled.
+	 */
+	public static RevTag parse(byte[] raw) throws CorruptObjectException {
+		return parse(new RevWalk((ObjectReader) null), raw);
+	}
+
+	/**
+	 * Parse an annotated tag from its canonical format.
+	 *
+	 * This method inserts the tag directly into the caller supplied revision
+	 * pool, making it appear as though the tag exists in the repository, even
+	 * if it doesn't. The repository under the pool is not affected.
+	 *
+	 * @param rw
+	 *            the revision pool to allocate the tag within. The tag's object
+	 *            pointer will be obtained from this pool.
+	 * @param raw
+	 *            the canonical formatted tag to be parsed.
+	 * @return the parsed tag, in an isolated revision pool that is not
+	 *         available to the caller.
+	 * @throws CorruptObjectException
+	 *             the tag contains a malformed header that cannot be handled.
+	 */
+	public static RevTag parse(RevWalk rw, byte[] raw)
+			throws CorruptObjectException {
+		ObjectInserter.Formatter fmt = new ObjectInserter.Formatter();
+		boolean retain = rw.isRetainBody();
+		rw.setRetainBody(true);
+		RevTag r = rw.lookupTag(fmt.idFor(Constants.OBJ_TAG, raw));
+		r.parseCanonical(rw, raw);
+		rw.setRetainBody(retain);
+		return r;
+	}
+
 	private RevObject object;
 
 	private byte[] buffer;
