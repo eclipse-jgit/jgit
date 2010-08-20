@@ -176,27 +176,46 @@ public abstract class Merger {
 	 */
 	protected AbstractTreeIterator mergeBase(final int aIdx, final int bIdx)
 			throws IOException {
+		RevCommit base = getBaseCommit(aIdx, bIdx);
+		return (base == null) ? new EmptyTreeIterator() : openTree(base.getTree());
+	}
+
+	/**
+	 * Return the merge base of two commits.
+	 *
+	 * @param aIdx
+	 *            index of the first commit in {@link #sourceObjects}.
+	 * @param bIdx
+	 *            index of the second commit in {@link #sourceObjects}.
+	 * @return the merge base of two commits
+	 * @throws IncorrectObjectTypeException
+	 *             one of the input objects is not a commit.
+	 * @throws IOException
+	 *             objects are missing or multiple merge bases were found.
+	 */
+	public RevCommit getBaseCommit(final int aIdx, final int bIdx)
+			throws IncorrectObjectTypeException,
+			IOException {
 		if (sourceCommits[aIdx] == null)
 			throw new IncorrectObjectTypeException(sourceObjects[aIdx],
 					Constants.TYPE_COMMIT);
 		if (sourceCommits[bIdx] == null)
 			throw new IncorrectObjectTypeException(sourceObjects[bIdx],
 					Constants.TYPE_COMMIT);
-
 		walk.reset();
 		walk.setRevFilter(RevFilter.MERGE_BASE);
 		walk.markStart(sourceCommits[aIdx]);
 		walk.markStart(sourceCommits[bIdx]);
 		final RevCommit base = walk.next();
 		if (base == null)
-			return new EmptyTreeIterator();
+			return null;
 		final RevCommit base2 = walk.next();
 		if (base2 != null) {
 			throw new IOException(MessageFormat.format(JGitText.get().multipleMergeBasesFor
 					, sourceCommits[aIdx].name(), sourceCommits[bIdx].name()
 					, base.name(), base2.name()));
 		}
-		return openTree(base.getTree());
+		return base;
 	}
 
 	/**
