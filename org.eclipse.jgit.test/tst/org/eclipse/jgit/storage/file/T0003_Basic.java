@@ -77,6 +77,7 @@ import org.eclipse.jgit.lib.Tree;
 import org.eclipse.jgit.lib.TreeEntry;
 import org.eclipse.jgit.lib.WriteTree;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevTag;
 import org.eclipse.jgit.revwalk.RevWalk;
 
 public class T0003_Basic extends SampleDataRepositoryTestCase {
@@ -439,33 +440,19 @@ public class T0003_Basic extends SampleDataRepositoryTestCase {
 
 	public void test020_createBlobTag() throws IOException {
 		final ObjectId emptyId = new ObjectWriter(db).writeBlob(new byte[0]);
-		final Tag t = new Tag(db);
-		t.setObjId(emptyId);
-		t.setType("blob");
+		final Tag t = new Tag();
+		t.setObjectId(emptyId, Constants.OBJ_BLOB);
 		t.setTag("test020");
 		t.setTagger(new PersonIdent(author, 1154236443000L, -4 * 60));
 		t.setMessage("test020 tagged\n");
-		t.tag();
+		insertTag(t);
 		assertEquals("6759556b09fbb4fd8ae5e315134481cc25d46954", t.getTagId().name());
 
-		Tag mapTag = db.mapTag("test020");
-		assertEquals("blob", mapTag.getType());
-		assertEquals("test020 tagged\n", mapTag.getMessage());
-		assertEquals(new PersonIdent(author, 1154236443000L, -4 * 60), mapTag.getTagger());
-		assertEquals("e69de29bb2d1d6434b8b29ae775ad8c2e48c5391", mapTag.getObjId().name());
-	}
-
-	public void test020b_createBlobPlainTag() throws IOException {
-		test020_createBlobTag();
-		Tag t = new Tag(db);
-		t.setTag("test020b");
-		t.setObjId(ObjectId.fromString("e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"));
-		t.tag();
-
-		Tag mapTag = db.mapTag("test020b");
-		assertEquals("e69de29bb2d1d6434b8b29ae775ad8c2e48c5391", mapTag.getObjId().name());
-
-		// We do not repeat the plain tag test for other object types
+		RevTag mapTag = parseTag(t.getTagId());
+		assertEquals(Constants.OBJ_BLOB, mapTag.getObject().getType());
+		assertEquals("test020 tagged\n", mapTag.getFullMessage());
+		assertEquals(new PersonIdent(author, 1154236443000L, -4 * 60), mapTag.getTaggerIdent());
+		assertEquals("e69de29bb2d1d6434b8b29ae775ad8c2e48c5391", mapTag.getObject().getId().name());
 	}
 
 	public void test021_createTreeTag() throws IOException {
@@ -473,20 +460,19 @@ public class T0003_Basic extends SampleDataRepositoryTestCase {
 		final Tree almostEmptyTree = new Tree(db);
 		almostEmptyTree.addEntry(new FileTreeEntry(almostEmptyTree, emptyId, "empty".getBytes(), false));
 		final ObjectId almostEmptyTreeId = new ObjectWriter(db).writeTree(almostEmptyTree);
-		final Tag t = new Tag(db);
-		t.setObjId(almostEmptyTreeId);
-		t.setType("tree");
+		final Tag t = new Tag();
+		t.setObjectId(almostEmptyTreeId, Constants.OBJ_TREE);
 		t.setTag("test021");
 		t.setTagger(new PersonIdent(author, 1154236443000L, -4 * 60));
 		t.setMessage("test021 tagged\n");
-		t.tag();
+		insertTag(t);
 		assertEquals("b0517bc8dbe2096b419d42424cd7030733f4abe5", t.getTagId().name());
 
-		Tag mapTag = db.mapTag("test021");
-		assertEquals("tree", mapTag.getType());
-		assertEquals("test021 tagged\n", mapTag.getMessage());
-		assertEquals(new PersonIdent(author, 1154236443000L, -4 * 60), mapTag.getTagger());
-		assertEquals("417c01c8795a35b8e835113a85a5c0c1c77f67fb", mapTag.getObjId().name());
+		RevTag mapTag = parseTag(t.getTagId());
+		assertEquals(Constants.OBJ_TREE, mapTag.getObject().getType());
+		assertEquals("test021 tagged\n", mapTag.getFullMessage());
+		assertEquals(new PersonIdent(author, 1154236443000L, -4 * 60), mapTag.getTaggerIdent());
+		assertEquals("417c01c8795a35b8e835113a85a5c0c1c77f67fb", mapTag.getObject().getId().name());
 	}
 
 	public void test022_createCommitTag() throws IOException {
@@ -500,20 +486,19 @@ public class T0003_Basic extends SampleDataRepositoryTestCase {
 		almostEmptyCommit.setMessage("test022\n");
 		almostEmptyCommit.setTreeId(almostEmptyTreeId);
 		ObjectId almostEmptyCommitId = insertCommit(almostEmptyCommit);
-		final Tag t = new Tag(db);
-		t.setObjId(almostEmptyCommitId);
-		t.setType("commit");
+		final Tag t = new Tag();
+		t.setObjectId(almostEmptyCommitId,Constants.OBJ_COMMIT);
 		t.setTag("test022");
 		t.setTagger(new PersonIdent(author, 1154236443000L, -4 * 60));
 		t.setMessage("test022 tagged\n");
-		t.tag();
+		insertTag(t);
 		assertEquals("0ce2ebdb36076ef0b38adbe077a07d43b43e3807", t.getTagId().name());
 
-		Tag mapTag = db.mapTag("test022");
-		assertEquals("commit", mapTag.getType());
-		assertEquals("test022 tagged\n", mapTag.getMessage());
-		assertEquals(new PersonIdent(author, 1154236443000L, -4 * 60), mapTag.getTagger());
-		assertEquals("b5d3b45a96b340441f5abb9080411705c51cc86c", mapTag.getObjId().name());
+		RevTag mapTag = parseTag(t.getTagId());
+		assertEquals(Constants.OBJ_COMMIT, mapTag.getObject().getType());
+		assertEquals("test022 tagged\n", mapTag.getFullMessage());
+		assertEquals(new PersonIdent(author, 1154236443000L, -4 * 60), mapTag.getTaggerIdent());
+		assertEquals("b5d3b45a96b340441f5abb9080411705c51cc86c", mapTag.getObject().getId().name());
 	}
 
 	public void test023_createCommitNonAnullii() throws IOException {
@@ -547,51 +532,6 @@ public class T0003_Basic extends SampleDataRepositoryTestCase {
 		commit.setMessage("\u00dcbergeeks");
 		ObjectId cid = insertCommit(commit);
 		assertEquals("2979b39d385014b33287054b87f77bcb3ecb5ebf", cid.name());
-	}
-
-	public void test025_packedRefs() throws IOException {
-		test020_createBlobTag();
-		test021_createTreeTag();
-		test022_createCommitTag();
-
-		if (!new File(db.getDirectory(),"refs/tags/test020").delete()) throw new Error("Cannot delete unpacked tag");
-		if (!new File(db.getDirectory(),"refs/tags/test021").delete()) throw new Error("Cannot delete unpacked tag");
-		if (!new File(db.getDirectory(),"refs/tags/test022").delete()) throw new Error("Cannot delete unpacked tag");
-
-		// We cannot resolve it now, since we have no ref
-		Tag mapTag20missing = db.mapTag("test020");
-		assertNull(mapTag20missing);
-
-		// Construct packed refs file
-		PrintWriter w = new PrintWriter(new FileWriter(new File(db.getDirectory(), "packed-refs")));
-		w.println("# packed-refs with: peeled");
-		w.println("6759556b09fbb4fd8ae5e315134481cc25d46954 refs/tags/test020");
-		w.println("^e69de29bb2d1d6434b8b29ae775ad8c2e48c5391");
-		w.println("b0517bc8dbe2096b419d42424cd7030733f4abe5 refs/tags/test021");
-		w.println("^417c01c8795a35b8e835113a85a5c0c1c77f67fb");
-		w.println("0ce2ebdb36076ef0b38adbe077a07d43b43e3807 refs/tags/test022");
-		w.println("^b5d3b45a96b340441f5abb9080411705c51cc86c");
-		w.close();
-		((RefDirectory)db.getRefDatabase()).rescan();
-
-		Tag mapTag20 = db.mapTag("test020");
-		assertNotNull("have tag test020", mapTag20);
-		assertEquals("blob", mapTag20.getType());
-		assertEquals("test020 tagged\n", mapTag20.getMessage());
-		assertEquals(new PersonIdent(author, 1154236443000L, -4 * 60), mapTag20.getTagger());
-		assertEquals("e69de29bb2d1d6434b8b29ae775ad8c2e48c5391", mapTag20.getObjId().name());
-
-		Tag mapTag21 = db.mapTag("test021");
-		assertEquals("tree", mapTag21.getType());
-		assertEquals("test021 tagged\n", mapTag21.getMessage());
-		assertEquals(new PersonIdent(author, 1154236443000L, -4 * 60), mapTag21.getTagger());
-		assertEquals("417c01c8795a35b8e835113a85a5c0c1c77f67fb", mapTag21.getObjId().name());
-
-		Tag mapTag22 = db.mapTag("test022");
-		assertEquals("commit", mapTag22.getType());
-		assertEquals("test022 tagged\n", mapTag22.getMessage());
-		assertEquals(new PersonIdent(author, 1154236443000L, -4 * 60), mapTag22.getTagger());
-		assertEquals("b5d3b45a96b340441f5abb9080411705c51cc86c", mapTag22.getObjId().name());
 	}
 
 	public void test025_computeSha1NoStore() throws IOException {
@@ -772,6 +712,29 @@ public class T0003_Basic extends SampleDataRepositoryTestCase {
 		RevWalk rw = new RevWalk(db);
 		try {
 			return rw.parseCommit(id);
+		} finally {
+			rw.release();
+		}
+	}
+
+	private ObjectId insertTag(final Tag tag) throws IOException,
+			UnsupportedEncodingException {
+		ObjectInserter oi = db.newObjectInserter();
+		try {
+			ObjectId id = oi.insert(Constants.OBJ_TAG, oi.format(tag));
+			oi.flush();
+			tag.setTagId(id);
+			return id;
+		} finally {
+			oi.release();
+		}
+	}
+
+	private RevTag parseTag(AnyObjectId id) throws MissingObjectException,
+			IncorrectObjectTypeException, IOException {
+		RevWalk rw = new RevWalk(db);
+		try {
+			return rw.parseTag(id);
 		} finally {
 			rw.release();
 		}

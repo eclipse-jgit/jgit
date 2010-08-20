@@ -45,224 +45,77 @@
 
 package org.eclipse.jgit.lib;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.text.MessageFormat;
-
-import org.eclipse.jgit.JGitText;
-import org.eclipse.jgit.errors.CorruptObjectException;
-import org.eclipse.jgit.errors.ObjectWritingException;
+import org.eclipse.jgit.revwalk.RevObject;
 
 /**
- * Represents a named reference to another Git object of any type.
+ * Mutable builder to construct an annotated tag recording a project state.
+ *
+ * Applications should use this object when they need to manually construct a
+ * tag and want precise control over its fields.
  */
 public class Tag {
-	private final Repository objdb;
-
 	private ObjectId tagId;
+
+	private ObjectId object;
+
+	private int type = Constants.OBJ_BAD;
+
+	private String tag;
 
 	private PersonIdent tagger;
 
 	private String message;
 
-	private byte[] raw;
-
-	private String type;
-
-	private String tag;
-
-	private ObjectId objId;
-
-	/**
-	 * Construct a new, yet unnamed Tag.
-	 *
-	 * @param db
-	 */
-	public Tag(final Repository db) {
-		objdb = db;
-	}
-
-	/**
-	 * Construct a Tag representing an existing with a known name referencing an known object.
-	 * This could be either a simple or annotated tag.
-	 *
-	 * @param db {@link Repository}
-	 * @param id target id.
-	 * @param refName tag name or null
-	 * @param raw data of an annotated tag.
-	 */
-	public Tag(final Repository db, final ObjectId id, String refName, final byte[] raw) {
-		objdb = db;
-		if (raw != null) {
-			tagId = id;
-			objId = ObjectId.fromString(raw, 7);
-		} else
-			objId = id;
-		if (refName != null && refName.startsWith("refs/tags/"))
-			refName = refName.substring(10);
-		tag = refName;
-		this.raw = raw;
-	}
-
-	/**
-	 * @return comment of an annotated tag, or null
-	 */
-	public String getMessage() {
-		decode();
-		return message;
-	}
-
-	private void decode() {
-		// FIXME: handle I/O errors
-		if (raw != null) {
-			try {
-				BufferedReader br = new BufferedReader(new InputStreamReader(
-						new ByteArrayInputStream(raw)));
-				String n = br.readLine();
-				if (n == null || !n.startsWith("object ")) {
-					throw new CorruptObjectException(tagId, JGitText.get().corruptObjectNoObject);
-				}
-				objId = ObjectId.fromString(n.substring(7));
-				n = br.readLine();
-				if (n == null || !n.startsWith("type ")) {
-					throw new CorruptObjectException(tagId, JGitText.get().corruptObjectNoType);
-				}
-				type = n.substring("type ".length());
-				n = br.readLine();
-
-				if (n == null || !n.startsWith("tag ")) {
-					throw new CorruptObjectException(tagId, JGitText.get().corruptObjectNoTagName);
-				}
-				tag = n.substring("tag ".length());
-				n = br.readLine();
-
-				// We should see a "tagger" header here, but some repos have tags
-				// without it.
-				if (n == null)
-					throw new CorruptObjectException(tagId, JGitText.get().corruptObjectNoTaggerHeader);
-
-				if (n.length()>0)
-					if (n.startsWith("tagger "))
-						tagger = new PersonIdent(n.substring("tagger ".length()));
-					else
-						throw new CorruptObjectException(tagId, JGitText.get().corruptObjectNoTaggerBadHeader);
-
-				// Message should start with an empty line, but
-				StringBuilder tempMessage = new StringBuilder();
-				char[] readBuf = new char[2048];
-				int readLen;
-				while ((readLen = br.read(readBuf)) > 0) {
-					tempMessage.append(readBuf, 0, readLen);
-				}
-				message = tempMessage.toString();
-				if (message.startsWith("\n"))
-					message = message.substring(1);
-			} catch (IOException e) {
-				e.printStackTrace();
-			} finally {
-				raw = null;
-			}
-		}
-	}
-
-	/**
-	 * Set the message of an annotated tag
-	 * @param m
-	 */
-	public void setMessage(final String m) {
-		message = m;
-	}
-
-	/**
-	 * Store a tag.
-	 * If author, message or type is set make the tag an annotated tag.
-	 *
-	 * @throws IOException
-	 */
-	public void tag() throws IOException {
-		if (getTagId() != null)
-			throw new IllegalStateException(MessageFormat.format(JGitText.get().illegalStateExists, getTagId()));
-		final ObjectId id;
-		final RefUpdate ru;
-
-		if (tagger!=null || message!=null || type!=null) {
-			ObjectInserter odi = objdb.newObjectInserter();
-			try {
-				id = odi.insert(Constants.OBJ_TAG, odi.format(this));
-				odi.flush();
-				setTagId(id);
-			} finally {
-				odi.release();
-			}
-		} else {
-			id = objId;
-		}
-
-		ru = objdb.updateRef(Constants.R_TAGS + getTag());
-		ru.setNewObjectId(id);
-		ru.setRefLogMessage("tagged " + getTag(), false);
-		if (ru.forceUpdate() == RefUpdate.Result.LOCK_FAILURE)
-			throw new ObjectWritingException(MessageFormat.format(JGitText.get().unableToLockTag, getTag()));
-	}
-
-	public String toString() {
-		return "tag[" + getTag() + getType() + getObjId() + " " + getTagger() + "]";
-	}
-
-	/**
-	 * @return SHA-1 of this tag (if annotated and stored).
-	 */
+	/** @return this tag's object id. */
 	public ObjectId getTagId() {
 		return tagId;
 	}
 
 	/**
-	 * Set SHA-1 of this tag. Used by writer.
+	 * Set the id of this tag object.
 	 *
-	 * @param tagId
+	 * @param id
+	 *            the id that we calculated for this object.
 	 */
-	public void setTagId(ObjectId tagId) {
-		this.tagId = tagId;
+	public void setTagId(ObjectId id) {
+		tagId = id;
 	}
 
-	/**
-	 * @return creator of this tag.
-	 */
-	public PersonIdent getTagger() {
-		decode();
-		return tagger;
-	}
-
-	/**
-	 * Set the creator of this tag
-	 *
-	 * @param tagger
-	 */
-	public void setTagger(PersonIdent tagger) {
-		this.tagger = tagger;
-	}
-
-	/**
-	 * @return tag target type
-	 */
-	public String getType() {
-		decode();
+	/** @return the type of object this tag refers to. */
+	public int getObjectType() {
 		return type;
 	}
 
-	/**
-	 * Set tag target type
-	 * @param type
-	 */
-	public void setType(String type) {
-		this.type = type;
+	/** @return the object this tag refers to. */
+	public ObjectId getObjectId() {
+		return object;
 	}
 
 	/**
-	 * @return name of the tag.
+	 * Set the object this tag refers to, and its type.
+	 *
+	 * @param obj
+	 *            the object.
+	 * @param objType
+	 *            the type of {@code obj}. Must be a valid type code.
 	 */
+	public void setObjectId(AnyObjectId obj, int objType) {
+		object = obj.copy();
+		type = objType;
+		tagId = null;
+	}
+
+	/**
+	 * Set the object this tag refers to, and infer its type.
+	 *
+	 * @param obj
+	 *            the object the tag will refer to.
+	 */
+	public void setObjectId(RevObject obj) {
+		setObjectId(obj, obj.getType());
+	}
+
+	/** @return short name of the tag (no {@code refs/tags/} prefix). */
 	public String getTag() {
 		return tag;
 	}
@@ -270,25 +123,77 @@ public class Tag {
 	/**
 	 * Set the name of this tag.
 	 *
-	 * @param tag
+	 * @param shortName
+	 *            new short name of the tag. This short name should not start
+	 *            with {@code refs/} as typically a tag is stored under the
+	 *            reference derived from {@code "refs/tags/" + getTag()}.
 	 */
-	public void setTag(String tag) {
-		this.tag = tag;
+	public void setTag(String shortName) {
+		this.tag = shortName;
+		tagId = null;
+	}
+
+	/** @return creator of this tag. May be null. */
+	public PersonIdent getTagger() {
+		return tagger;
 	}
 
 	/**
-	 * @return the SHA'1 of the object this tag refers to.
-	 */
-	public ObjectId getObjId() {
-		return objId;
-	}
-
-	/**
-	 * Set the id of the object this tag refers to.
+	 * Set the creator of this tag.
 	 *
-	 * @param objId
+	 * @param taggerIdent
+	 *            the creator. May be null.
 	 */
-	public void setObjId(ObjectId objId) {
-		this.objId = objId;
+	public void setTagger(PersonIdent taggerIdent) {
+		tagger = taggerIdent;
+		tagId = null;
+	}
+
+	/** @return the complete commit message. */
+	public String getMessage() {
+		return message;
+	}
+
+	/**
+	 * Set the tag's message.
+	 *
+	 * @param newMessage
+	 *            the tag's message.
+	 */
+	public void setMessage(final String newMessage) {
+		message = newMessage;
+		tagId = null;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder r = new StringBuilder();
+		r.append("Tag");
+		if (tagId != null)
+			r.append("[" + tagId.name() + "]");
+		r.append("={\n");
+
+		r.append("object ");
+		r.append(object != null ? object.name() : "NOT_SET");
+		r.append("\n");
+
+		r.append("type ");
+		r.append(object != null ? Constants.typeString(type) : "NOT_SET");
+		r.append("\n");
+
+		r.append("tag ");
+		r.append(tag != null ? tag : "NOT_SET");
+		r.append("\n");
+
+		if (tagger != null) {
+			r.append("tagger ");
+			r.append(tagger);
+			r.append("\n");
+		}
+
+		r.append("\n");
+		r.append(message != null ? message : "");
+		r.append("}");
+		return r.toString();
 	}
 }

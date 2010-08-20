@@ -397,9 +397,8 @@ public class TestRepository<R extends Repository> {
 	 * @throws Exception
 	 */
 	public RevTag tag(final String name, final RevObject dst) throws Exception {
-		final Tag t = new Tag(db);
-		t.setType(Constants.typeString(dst.getType()));
-		t.setObjId(dst.toObjectId());
+		final Tag t = new Tag();
+		t.setObjectId(dst);
 		t.setTag(name);
 		t.setTagger(new PersonIdent(committer, new Date(now)));
 		t.setMessage("");

@@ -367,11 +367,11 @@ public abstract class ObjectInserter {
 		OutputStreamWriter w = new OutputStreamWriter(os, Constants.CHARSET);
 		try {
 			w.write("object ");
-			tag.getObjId().copyTo(w);
+			tag.getObjectId().copyTo(w);
 			w.write('\n');
 
 			w.write("type ");
-			w.write(tag.getType());
+			w.write(Constants.typeString(tag.getObjectType()));
 			w.write("\n");
 
 			w.write("tag ");

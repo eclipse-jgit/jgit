@@ -54,7 +54,6 @@ import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.PersonIdent;
-import org.eclipse.jgit.lib.Tag;
 import org.eclipse.jgit.util.MutableInteger;
 import org.eclipse.jgit.util.RawParseUtils;
 
@@ -184,17 +183,6 @@ public class RevTag extends RevObject {
 		if (RevCommit.hasLF(raw, msgB, msgE))
 			str = str.replace('\n', ' ');
 		return str;
-	}
-
-	/**
-	 * Parse this tag buffer for display.
-	 *
-	 * @param walk
-	 *            revision walker owning this reference.
-	 * @return parsed tag.
-	 */
-	public Tag asTag(final RevWalk walk) {
-		return new Tag(walk.repository, this, tagName, buffer);
 	}
 
 	/**

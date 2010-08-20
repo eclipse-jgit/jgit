@@ -51,8 +51,10 @@ import java.text.MessageFormat;
 
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.RefUpdate;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 
@@ -80,19 +82,45 @@ class Tag extends TextBuiltin {
 
 		if (!tagName.startsWith(Constants.R_TAGS))
 			tagName = Constants.R_TAGS + tagName;
+
+		String shortName = tagName.substring(Constants.R_TAGS.length());
 		if (!force && db.resolve(tagName) != null) {
 			throw die(MessageFormat.format(CLIText.get().fatalErrorTagExists
-					, tagName.substring(Constants.R_TAGS.length())));
+					, shortName));
 		}
 
 		final ObjectLoader ldr = db.open(object);
+		final ObjectInserter inserter = db.newObjectInserter();
+		final ObjectId id;
+		try {
+			org.eclipse.jgit.lib.Tag tag = new org.eclipse.jgit.lib.Tag();
+			tag.setObjectId(object, ldr.getType());
+			tag.setTagger(new PersonIdent(db));
+			tag.setMessage(message.replaceAll("\r", ""));
+			tag.setTag(shortName);
+			id = inserter.insert(Constants.OBJ_TAG, inserter.format(tag));
+			inserter.flush();
+		} finally {
+			inserter.release();
+		}
 
-		org.eclipse.jgit.lib.Tag tag = new org.eclipse.jgit.lib.Tag(db);
-		tag.setObjId(object);
-		tag.setType(Constants.typeString(ldr.getType()));
-		tag.setTagger(new PersonIdent(db));
-		tag.setMessage(message.replaceAll("\r", ""));
-		tag.setTag(tagName.substring(Constants.R_TAGS.length()));
-		tag.tag();
+		RefUpdate ru = db.updateRef(tagName);
+		ru.setForceUpdate(force);
+		ru.setNewObjectId(id);
+		ru.setRefLogMessage("tagged " + shortName, false);
+		switch (ru.update()) {
+		case NEW:
+		case FAST_FORWARD:
+		case FORCED:
+			break;
+
+		case REJECTED:
+			throw die(MessageFormat.format(CLIText.get().fatalErrorTagExists,
+					shortName));
+
+		default:
+			throw die(MessageFormat.format(CLIText.get().failedToLockTag,
+					shortName, ru.getResult()));
+		}
 	}
 }
