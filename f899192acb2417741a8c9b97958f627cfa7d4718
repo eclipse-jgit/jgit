@@ -1,0 +1,225 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALyH///zo\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/opt/AbstractTreeIteratorHandler.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-11T23:23:25Z",
+      "side": 1,
+      "message": "Why not the default instance?",
+      "revId": "f899192acb2417741a8c9b97958f627cfa7d4718",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyH///zQ\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/io/EolCanonicalizingInputStreamTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-11T23:23:25Z",
+      "side": 1,
+      "message": "Maybe a shorter way to write these inputs is:\n\n  byte[] input \u003d asBytes(\"1\\n\\r2\\n\\r3\");\n\n  private static byte[] asBytes(String in) {\n    return in.getBytes(\"UTF-8\");\n  }",
+      "revId": "f899192acb2417741a8c9b97958f627cfa7d4718",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyH///zs\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawText.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-11T23:23:25Z",
+      "side": 1,
+      "message": "You can write this shorter:\n\n  int size \u003d Math.min(raw.length, FIRST_FEW_BYTES);",
+      "revId": "f899192acb2417741a8c9b97958f627cfa7d4718",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyH///0I\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CoreConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-11T23:23:25Z",
+      "side": 1,
+      "message": "Style-nit: I would prefer isAutoCrlf() or isAutoCRLF(), but isAutocrlf just looks funny to me.",
+      "revId": "f899192acb2417741a8c9b97958f627cfa7d4718",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyH///zk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-11T23:23:25Z",
+      "side": 1,
+      "message": "Style-nit: This can all be one line:\n\n  /** Options used to process the working tree. */",
+      "revId": "f899192acb2417741a8c9b97958f627cfa7d4718",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyH///zY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-11T23:23:25Z",
+      "side": 1,
+      "message": "RawText.isBinary(bytes) is faster.",
+      "revId": "f899192acb2417741a8c9b97958f627cfa7d4718",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyH///zU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-11T23:23:25Z",
+      "side": 1,
+      "message": "Style-nit: Can we use a shorter name here and avoid the line wrapping?",
+      "revId": "f899192acb2417741a8c9b97958f627cfa7d4718",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyH///zg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 602,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-11T23:23:25Z",
+      "side": 1,
+      "message": "Style-nit: I think if you drop the final keyword this will all fit on one line.  We would value that over having the final declaration in such a short method.",
+      "revId": "f899192acb2417741a8c9b97958f627cfa7d4718",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyH///zc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 604,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-11T23:23:25Z",
+      "side": 1,
+      "message": "Style-nit: This is obtuse.  We don\u0027t do this anywhere even though it is shorter way to read the code.  I think we would prefer:\n\n  for (;;) {\n    int r \u003d is.read(contentReadBuffer);\n    if (r \u003c\u003d 0)\n      break;\n    length +\u003d r;\n  }",
+      "revId": "f899192acb2417741a8c9b97958f627cfa7d4718",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyH///z0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeOptions.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-11T23:23:25Z",
+      "side": 1,
+      "message": "Use Config here, we don\u0027t need the load/store methods.",
+      "revId": "f899192acb2417741a8c9b97958f627cfa7d4718",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyH///zw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeOptions.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-11T23:23:25Z",
+      "side": 1,
+      "message": "Same comment as in CoreConfig.",
+      "revId": "f899192acb2417741a8c9b97958f627cfa7d4718",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyH///z8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/IO.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-11T23:23:25Z",
+      "side": 1,
+      "message": "I bet our sizeHint is mostly accurate.  So lets use that to avoid copying.  But fall back into a copying behavior when its wrong:\n\n  byte[] out \u003d new byte[sizeHint];\n  int pos \u003d 0;\n  while (pos \u003c out.length) {\n    int read \u003d in.read(out, pos, out.length - pos);\n    if (read \u003c 0) {\n      byte[] res \u003d new byte[pos];\n      System.arraycopy(out, 0, res, 0, pos);\n      return res;\n    }\n\n    pos +\u003d read;\n  }\n\n  int last \u003d in.read();\n  if (last \u003c 0)\n    return out;\n\n  TemporaryBuffer.Heap tmp \u003d new TemporaryBuffer.Heap(Integer.MAX_VALUE);\n  tmp.write(out);\n  tmp.write(last);\n  tmp.copy(in);\n  return tmp.toByteArray();",
+      "revId": "f899192acb2417741a8c9b97958f627cfa7d4718",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyH///z4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/EolCanonicalizingInputStream.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-11T23:23:25Z",
+      "side": 1,
+      "message": "You need to return single[0] \u0026 0xff.  The result has to be unsigned.",
+      "revId": "f899192acb2417741a8c9b97958f627cfa7d4718",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
