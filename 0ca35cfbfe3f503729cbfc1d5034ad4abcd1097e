@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAALxH///yw\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/io/EolCanonicalizingInputStreamTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2010-07-29T14:25:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALxH///3E\u003d",
+      "revId": "0ca35cfbfe3f503729cbfc1d5034ad4abcd1097e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALxH///34\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawText.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2010-07-27T17:49:36Z",
       "side": 1,
       "message": "Please document that the stream may not be fully read, will be left at an unknown position after consuming an unknown number of bytes, and the caller needs to close it when done.\n\nBecause the stream cannot be easily reset back to the beginning the caller should know that.  Or we need to document with a public constant the amount the stream needs to mark() before calling us if they want to reset.",
+      "revId": "0ca35cfbfe3f503729cbfc1d5034ad4abcd1097e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALxH///ys\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawText.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2010-07-29T14:25:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALxH///34\u003d",
       "revId": "0ca35cfbfe3f503729cbfc1d5034ad4abcd1097e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAALxH///yo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawText.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2010-07-29T14:25:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALxH///30\u003d",
+      "revId": "0ca35cfbfe3f503729cbfc1d5034ad4abcd1097e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALxH///3I\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2010-07-27T17:49:36Z",
       "side": 1,
       "message": "We\u0027re going to need a whole lot more options than just autocrlf flag.  Eventually we would also need the complete clean filter configuration so we can run clean filters when computing an ObjectId from the work tree.\n\nWe probably should create a WorkTreeOptions class in this same package, and make this boolean a final package level member that the WorkingTreeIterator can reach into and inspect.  Then later we can add things like the clean filters to WorkTreeOptions and have them easily carry into the child iterators.",
+      "revId": "0ca35cfbfe3f503729cbfc1d5034ad4abcd1097e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALxH///yk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2010-07-29T14:25:37Z",
+      "side": 1,
+      "message": "I\u0027ve called it WorkingTreeOptions for closer similarity with WorkingTreeIterator.",
+      "parentUuid": "AAALxH///3I\u003d",
       "revId": "0ca35cfbfe3f503729cbfc1d5034ad4abcd1097e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AAALxH///yg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2010-07-29T14:25:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALxH///3U\u003d",
+      "revId": "0ca35cfbfe3f503729cbfc1d5034ad4abcd1097e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALxH///3Q\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
         "patchSetId": 1
@@ -98,6 +188,24 @@
       "writtenOn": "2010-07-27T17:49:36Z",
       "side": 1,
       "message": "I\u0027d prefer not to negate this.  Above you used the true side to mean \"we are doing EOL conversion\" so to be consistent we should do the same thing here.",
+      "revId": "0ca35cfbfe3f503729cbfc1d5034ad4abcd1097e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALxH///yc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2010-07-29T14:25:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALxH///3Q\u003d",
       "revId": "0ca35cfbfe3f503729cbfc1d5034ad4abcd1097e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "AAALxX////E\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2010-07-29T14:25:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALxH///3M\u003d",
+      "revId": "0ca35cfbfe3f503729cbfc1d5034ad4abcd1097e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALxH///3w\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/EolCanonicalizingInputStream.java",
         "patchSetId": 1
@@ -132,6 +258,24 @@
       "writtenOn": "2010-07-27T17:49:36Z",
       "side": 1,
       "message": "I doubt Google wrote this in 2009.  :-)",
+      "revId": "0ca35cfbfe3f503729cbfc1d5034ad4abcd1097e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALxH///y0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/EolCanonicalizingInputStream.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2010-07-29T14:25:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALxH///3w\u003d",
       "revId": "0ca35cfbfe3f503729cbfc1d5034ad4abcd1097e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "AAALxH///zM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/EolCanonicalizingInputStream.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2010-07-29T14:25:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALxH///3c\u003d",
+      "revId": "0ca35cfbfe3f503729cbfc1d5034ad4abcd1097e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALxH///3s\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/EolCanonicalizingInputStream.java",
         "patchSetId": 1
@@ -166,6 +328,24 @@
       "writtenOn": "2010-07-27T17:49:36Z",
       "side": 1,
       "message": "Style-nit: We avoid { on if/for/while/etc. when there is only one statement in the body.",
+      "revId": "0ca35cfbfe3f503729cbfc1d5034ad4abcd1097e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALxH///zI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/EolCanonicalizingInputStream.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2010-07-29T14:25:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALxH///3s\u003d",
       "revId": "0ca35cfbfe3f503729cbfc1d5034ad4abcd1097e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -189,6 +369,24 @@
     },
     {
       "key": {
+        "uuid": "AAALxH///zE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/EolCanonicalizingInputStream.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2010-07-29T14:25:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALxH///3k\u003d",
+      "revId": "0ca35cfbfe3f503729cbfc1d5034ad4abcd1097e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALxH///3g\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/EolCanonicalizingInputStream.java",
         "patchSetId": 1
@@ -200,6 +398,24 @@
       "writtenOn": "2010-07-27T17:49:36Z",
       "side": 1,
       "message": "This comment is pointless.  This is true universally across the board and is why almost every part of JGit uses the read(byte[], int, int) variant whenever possible.  And often times even tries to avoid the InputStream and just work on the object as a complete byte[] (e.g. ObjectLoader\u0027s getCachedBytes method).",
+      "revId": "0ca35cfbfe3f503729cbfc1d5034ad4abcd1097e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALxH///zA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/EolCanonicalizingInputStream.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2010-07-29T14:25:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALxH///3g\u003d",
       "revId": "0ca35cfbfe3f503729cbfc1d5034ad4abcd1097e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -223,6 +439,24 @@
     },
     {
       "key": {
+        "uuid": "AAALxH///y8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/EolCanonicalizingInputStream.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2010-07-29T14:25:37Z",
+      "side": 1,
+      "message": "Phew! That took me a while to understand; anyway I\u0027ve implemented it almost as suggested here.",
+      "parentUuid": "AAALxH///3Y\u003d",
+      "revId": "0ca35cfbfe3f503729cbfc1d5034ad4abcd1097e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALxH///3o\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/EolCanonicalizingInputStream.java",
         "patchSetId": 1
@@ -234,6 +468,24 @@
       "writtenOn": "2010-07-27T17:49:36Z",
       "side": 1,
       "message": "There is no need to call super.close() on InputStream.  It is a no-op method.  Instead you just need to do is.close();",
+      "revId": "0ca35cfbfe3f503729cbfc1d5034ad4abcd1097e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALxH///y4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/EolCanonicalizingInputStream.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2010-07-29T14:25:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALxH///3o\u003d",
       "revId": "0ca35cfbfe3f503729cbfc1d5034ad4abcd1097e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
