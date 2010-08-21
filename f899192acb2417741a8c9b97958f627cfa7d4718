@@ -156,6 +156,24 @@
     },
     {
       "key": {
+        "uuid": "AAALyH///xE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 602,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2010-08-12T16:18:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALyH///zg\u003d",
+      "revId": "f899192acb2417741a8c9b97958f627cfa7d4718",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALyH///zc\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
         "patchSetId": 3
