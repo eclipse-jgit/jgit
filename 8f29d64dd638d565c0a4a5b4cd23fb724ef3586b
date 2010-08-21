@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAALyH///sY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackWriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 816,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-08-13T13:19:09Z",
+      "side": 1,
+      "message": "looks like omission of parameter writeMonitor implies that writing can\u0027t be cancelled anymore hence e.g. long running push can\u0027t be cancelled, or do I miss something ?",
+      "revId": "8f29d64dd638d565c0a4a5b4cd23fb724ef3586b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALyX///5E\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackWriter.java",
         "patchSetId": 3
