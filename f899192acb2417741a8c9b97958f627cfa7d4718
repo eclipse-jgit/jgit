@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAALyH///xg\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/opt/AbstractTreeIteratorHandler.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2010-08-12T16:18:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALyH///zo\u003d",
+      "revId": "f899192acb2417741a8c9b97958f627cfa7d4718",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALyH///zQ\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/io/EolCanonicalizingInputStreamTest.java",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2010-08-11T23:23:25Z",
       "side": 1,
       "message": "Maybe a shorter way to write these inputs is:\n\n  byte[] input \u003d asBytes(\"1\\n\\r2\\n\\r3\");\n\n  private static byte[] asBytes(String in) {\n    return in.getBytes(\"UTF-8\");\n  }",
+      "revId": "f899192acb2417741a8c9b97958f627cfa7d4718",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyH///xc\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/io/EolCanonicalizingInputStreamTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2010-08-12T16:18:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALyH///zQ\u003d",
       "revId": "f899192acb2417741a8c9b97958f627cfa7d4718",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAALyH///xY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawText.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2010-08-12T16:18:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALyH///zs\u003d",
+      "revId": "f899192acb2417741a8c9b97958f627cfa7d4718",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALyH///0I\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CoreConfig.java",
         "patchSetId": 3
@@ -64,6 +118,24 @@
       "writtenOn": "2010-08-11T23:23:25Z",
       "side": 1,
       "message": "Style-nit: I would prefer isAutoCrlf() or isAutoCRLF(), but isAutocrlf just looks funny to me.",
+      "revId": "f899192acb2417741a8c9b97958f627cfa7d4718",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyH///xU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CoreConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2010-08-12T16:18:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALyH///0I\u003d",
       "revId": "f899192acb2417741a8c9b97958f627cfa7d4718",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AAALyH///xQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2010-08-12T16:18:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALyH///zk\u003d",
+      "revId": "f899192acb2417741a8c9b97958f627cfa7d4718",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALyH///zY\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
         "patchSetId": 3
@@ -98,6 +188,24 @@
       "writtenOn": "2010-08-11T23:23:25Z",
       "side": 1,
       "message": "RawText.isBinary(bytes) is faster.",
+      "revId": "f899192acb2417741a8c9b97958f627cfa7d4718",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyH///xM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2010-08-12T16:18:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALyH///zY\u003d",
       "revId": "f899192acb2417741a8c9b97958f627cfa7d4718",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -191,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "AAALyH///xA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 604,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2010-08-12T16:18:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALyH///zc\u003d",
+      "revId": "f899192acb2417741a8c9b97958f627cfa7d4718",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALyH///z0\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeOptions.java",
         "patchSetId": 3
@@ -208,6 +334,24 @@
     },
     {
       "key": {
+        "uuid": "AAALyH///w8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeOptions.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2010-08-12T16:18:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALyH///z0\u003d",
+      "revId": "f899192acb2417741a8c9b97958f627cfa7d4718",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALyH///zw\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeOptions.java",
         "patchSetId": 3
@@ -219,6 +363,24 @@
       "writtenOn": "2010-08-11T23:23:25Z",
       "side": 1,
       "message": "Same comment as in CoreConfig.",
+      "revId": "f899192acb2417741a8c9b97958f627cfa7d4718",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyH///w4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeOptions.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2010-08-12T16:18:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALyH///zw\u003d",
       "revId": "f899192acb2417741a8c9b97958f627cfa7d4718",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -271,6 +433,24 @@
       "writtenOn": "2010-08-11T23:23:25Z",
       "side": 1,
       "message": "You need to return single[0] \u0026 0xff.  The result has to be unsigned.",
+      "revId": "f899192acb2417741a8c9b97958f627cfa7d4718",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyH///ww\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/EolCanonicalizingInputStream.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2010-08-12T16:18:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALyH///z4\u003d",
       "revId": "f899192acb2417741a8c9b97958f627cfa7d4718",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
