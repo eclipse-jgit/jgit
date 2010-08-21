@@ -121,6 +121,24 @@
     },
     {
       "key": {
+        "uuid": "AAALyH///xI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2010-08-12T16:18:19Z",
+      "side": 1,
+      "message": "I\u0027ve extracted two local variables, but it\u0027s still wrapping.",
+      "parentUuid": "AAALyH///zU\u003d",
+      "revId": "f899192acb2417741a8c9b97958f627cfa7d4718",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALyH///zg\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
         "patchSetId": 3
@@ -200,6 +218,24 @@
       "writtenOn": "2010-08-11T23:23:25Z",
       "side": 1,
       "message": "I bet our sizeHint is mostly accurate.  So lets use that to avoid copying.  But fall back into a copying behavior when its wrong:\n\n  byte[] out \u003d new byte[sizeHint];\n  int pos \u003d 0;\n  while (pos \u003c out.length) {\n    int read \u003d in.read(out, pos, out.length - pos);\n    if (read \u003c 0) {\n      byte[] res \u003d new byte[pos];\n      System.arraycopy(out, 0, res, 0, pos);\n      return res;\n    }\n\n    pos +\u003d read;\n  }\n\n  int last \u003d in.read();\n  if (last \u003c 0)\n    return out;\n\n  TemporaryBuffer.Heap tmp \u003d new TemporaryBuffer.Heap(Integer.MAX_VALUE);\n  tmp.write(out);\n  tmp.write(last);\n  tmp.copy(in);\n  return tmp.toByteArray();",
+      "revId": "f899192acb2417741a8c9b97958f627cfa7d4718",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyH///w0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/IO.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2010-08-12T16:18:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALyH///z8\u003d",
       "revId": "f899192acb2417741a8c9b97958f627cfa7d4718",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
