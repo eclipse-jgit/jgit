@@ -1,0 +1,242 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALxH///3E\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/io/EolCanonicalizingInputStreamTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-27T17:49:36Z",
+      "side": 1,
+      "message": "Again, I doubt the Google copyright.",
+      "revId": "0ca35cfbfe3f503729cbfc1d5034ad4abcd1097e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALxH///34\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawText.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-27T17:49:36Z",
+      "side": 1,
+      "message": "Please document that the stream may not be fully read, will be left at an unknown position after consuming an unknown number of bytes, and the caller needs to close it when done.\n\nBecause the stream cannot be easily reset back to the beginning the caller should know that.  Or we need to document with a public constant the amount the stream needs to mark() before calling us if they want to reset.",
+      "revId": "0ca35cfbfe3f503729cbfc1d5034ad4abcd1097e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALxH///30\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawText.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-27T17:49:36Z",
+      "side": 1,
+      "message": "This can return a short read.  We should use a loop to try and get the full buffer length or EOF before we enter into the isBinary logic.",
+      "revId": "0ca35cfbfe3f503729cbfc1d5034ad4abcd1097e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALxH///3I\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-27T17:49:36Z",
+      "side": 1,
+      "message": "We\u0027re going to need a whole lot more options than just autocrlf flag.  Eventually we would also need the complete clean filter configuration so we can run clean filters when computing an ObjectId from the work tree.\n\nWe probably should create a WorkTreeOptions class in this same package, and make this boolean a final package level member that the WorkingTreeIterator can reach into and inspect.  Then later we can add things like the clean filters to WorkTreeOptions and have them easily carry into the child iterators.",
+      "revId": "0ca35cfbfe3f503729cbfc1d5034ad4abcd1097e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALxH///3U\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-27T17:49:36Z",
+      "side": 1,
+      "message": "Style-nit: We cuddle else onto the line with the closing }",
+      "revId": "0ca35cfbfe3f503729cbfc1d5034ad4abcd1097e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALxH///3Q\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-27T17:49:36Z",
+      "side": 1,
+      "message": "I\u0027d prefer not to negate this.  Above you used the true side to mean \"we are doing EOL conversion\" so to be consistent we should do the same thing here.",
+      "revId": "0ca35cfbfe3f503729cbfc1d5034ad4abcd1097e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALxH///3M\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-27T17:49:36Z",
+      "side": 1,
+      "message": "Ouch.  We are scanning through EOL conversion files 3x per computation.  Most of them are going to be source code files, which are typically small texts under 64 KiB.  For these we probably should just allocate a byte[] buffer, slurp the entire file into the buffer, and work with the buffer instead of reading the file 3x into the JVM.  Its actually probably worth it to special case for these smaller text files.",
+      "revId": "0ca35cfbfe3f503729cbfc1d5034ad4abcd1097e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALxH///3w\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/EolCanonicalizingInputStream.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-27T17:49:36Z",
+      "side": 1,
+      "message": "I doubt Google wrote this in 2009.  :-)",
+      "revId": "0ca35cfbfe3f503729cbfc1d5034ad4abcd1097e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALxH///3c\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/EolCanonicalizingInputStream.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-27T17:49:36Z",
+      "side": 1,
+      "message": "Style-nit: Instance members should be lowercase.",
+      "revId": "0ca35cfbfe3f503729cbfc1d5034ad4abcd1097e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALxH///3s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/EolCanonicalizingInputStream.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-27T17:49:36Z",
+      "side": 1,
+      "message": "Style-nit: We avoid { on if/for/while/etc. when there is only one statement in the body.",
+      "revId": "0ca35cfbfe3f503729cbfc1d5034ad4abcd1097e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALxH///3k\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/EolCanonicalizingInputStream.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-27T17:49:36Z",
+      "side": 1,
+      "message": "The easier way to implement this method is usually:\n\n  public int read() throws IOException {\n    byte[] b \u003d new byte[1];\n    int r \u003d read(b);\n    return r \u003d\u003d 1 ? b[0] \u0026 0xff : -1;\n  }\n\nMost callers these days do bulk IO thorugh read(byte[], int, int) and bypass the single byte read.  Thus this method is usually never used.  And JVMs these days are pretty good at cleaning up locally allocated short-term garbage like that single byte byte array so its not the end of the world that we allocate for the read.",
+      "revId": "0ca35cfbfe3f503729cbfc1d5034ad4abcd1097e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALxH///3g\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/EolCanonicalizingInputStream.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-27T17:49:36Z",
+      "side": 1,
+      "message": "This comment is pointless.  This is true universally across the board and is why almost every part of JGit uses the read(byte[], int, int) variant whenever possible.  And often times even tries to avoid the InputStream and just work on the object as a complete byte[] (e.g. ObjectLoader\u0027s getCachedBytes method).",
+      "revId": "0ca35cfbfe3f503729cbfc1d5034ad4abcd1097e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALxH///3Y\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/EolCanonicalizingInputStream.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-27T17:49:36Z",
+      "side": 1,
+      "message": "Instead of reading only the amount that will fit in the caller\u0027s buffer, just fill your entire own local buffer.  At worst you need 1 byte of lookahead.  So at worst when you find a \u0027\\r\u0027 and the local buffer is empty you only need to slide the \u0027\\r\u0027 to the beginning of the local buffer, fill the rest, and continue your scan.\n\nI think that makes your main loop for read look something like this:\n\n  private final byte[] buf \u003d new byte[8192];\n  private final InputStream in;\n  private int cnt;\n  private int ptr;\n\n  public int read(byte[] bs, int off, int len) throws IOException {\n    if (len \u003d\u003d 0)\n      return 0;\n\n    final int startOff \u003d off;\n    final int end \u003d off + len;\n\n    while (off \u003c end) {\n      if (ptr \u003d\u003d cnt) {\n        cnt \u003d in.read(buf, 0, buf.length);\n        if (cnt \u003c 1)\n          break;\n        ptr \u003d 0;\n      }\n\n      byte b \u003d buf[ptr++];\n      if (b !\u003d \u0027\\r\u0027) {\n        bs[off++] \u003d b;\n        continue;\n      }\n\n      if (ptr \u003d\u003d cnt) {\n        cnt \u003d in.read(buf, 1, buf.length - 1);\n        if (cnt \u003c\u003d 0) {\n          bs[off++] \u003d \u0027\\r\u0027;\n          break;\n        }\n        buf[0] \u003d \u0027\\r\u0027;\n        ptr \u003d 1;\n      }\n\n      if (buf[ptr] \u003d\u003d \u0027\\n\u0027) {\n        bs[off++] \u003d \u0027\\n\u0027;\n        ptr++;\n      } else\n        bs[off++] \u003d \u0027\\r\u0027;\n    }\n\n    return startOff \u003d\u003d off ? -1 : off - startOff;\n  }",
+      "revId": "0ca35cfbfe3f503729cbfc1d5034ad4abcd1097e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALxH///3o\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/EolCanonicalizingInputStream.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-27T17:49:36Z",
+      "side": 1,
+      "message": "There is no need to call super.close() on InputStream.  It is a no-op method.  Instead you just need to do is.close();",
+      "revId": "0ca35cfbfe3f503729cbfc1d5034ad4abcd1097e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
