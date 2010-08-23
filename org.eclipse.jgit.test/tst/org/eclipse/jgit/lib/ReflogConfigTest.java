@@ -109,8 +109,13 @@ public class ReflogConfigTest extends RepositoryTestCase {
 		commit.setCommitter(committer);
 		commit.setMessage(commitMsg);
 		commit.setTreeId(t.getTreeId());
-		ObjectWriter writer = new ObjectWriter(db);
-		commit.setCommitId(writer.writeCommit(commit));
+		ObjectInserter inserter = db.newObjectInserter();
+		try {
+			inserter.insert(commit);
+			inserter.flush();
+		} finally {
+			inserter.release();
+		}
 
 		int nl = commitMsg.indexOf('\n');
 		final RefUpdate ru = db.updateRef(Constants.HEAD);

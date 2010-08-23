@@ -43,15 +43,13 @@
 
 package org.eclipse.jgit.treewalk;
 
-import java.io.ByteArrayInputStream;
-
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
 import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.dircache.DirCacheIterator;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
-import org.eclipse.jgit.lib.ObjectWriter;
+import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.RepositoryTestCase;
 
 public class NameConflictTreeWalkTest extends RepositoryTestCase {
@@ -248,11 +246,10 @@ public class NameConflictTreeWalkTest extends RepositoryTestCase {
 
 	private DirCacheEntry makeEntry(final String path, final FileMode mode)
 			throws Exception {
-		final byte[] pathBytes = Constants.encode(path);
 		final DirCacheEntry ent = new DirCacheEntry(path);
 		ent.setFileMode(mode);
-		ent.setObjectId(new ObjectWriter(db).computeBlobSha1(pathBytes.length,
-				new ByteArrayInputStream(pathBytes)));
+		ent.setObjectId(new ObjectInserter.Formatter().idFor(
+				Constants.OBJ_BLOB, Constants.encode(path)));
 		return ent;
 	}
 

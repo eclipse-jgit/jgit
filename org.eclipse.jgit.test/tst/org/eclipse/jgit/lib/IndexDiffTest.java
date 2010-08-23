@@ -56,7 +56,7 @@ public class IndexDiffTest extends RepositoryTestCase {
 		writeTrashFile("file1", "file1");
 		writeTrashFile("dir/subfile", "dir/subfile");
 		Tree tree = new Tree(db);
-		tree.setId(new ObjectWriter(db).writeTree(tree));
+		tree.setId(insertTree(tree));
 
 		index.add(trash, new File(trash, "file1"));
 		index.add(trash, new File(trash, "dir/subfile"));
@@ -83,8 +83,8 @@ public class IndexDiffTest extends RepositoryTestCase {
 		tree.findBlobMember("file2").setId(ObjectId.fromString("30d67d4672d5c05833b7192cc77a79eaafb5c7ad"));
 		Tree tree2 = (Tree) tree.findTreeMember("dir");
 		tree2.findBlobMember("file3").setId(ObjectId.fromString("873fb8d667d05436d728c52b1d7a09528e6eb59b"));
-		tree2.setId(new ObjectWriter(db).writeTree(tree2));
-		tree.setId(new ObjectWriter(db).writeTree(tree));
+		tree2.setId(insertTree(tree2));
+		tree.setId(insertTree(tree));
 
 		FileTreeIterator iterator = new FileTreeIterator(db);
 		IndexDiff diff = new IndexDiff(db, tree.getId(), iterator);
@@ -113,8 +113,8 @@ public class IndexDiffTest extends RepositoryTestCase {
 		assertEquals(2, tree.memberCount());
 
 		Tree tree2 = (Tree) tree.findTreeMember("dir");
-		tree2.setId(new ObjectWriter(db).writeTree(tree2));
-		tree.setId(new ObjectWriter(db).writeTree(tree));
+		tree2.setId(insertTree(tree2));
+		tree.setId(insertTree(tree));
 		FileTreeIterator iterator = new FileTreeIterator(db);
 		IndexDiff diff = new IndexDiff(db, tree.getId(), iterator);
 		diff.diff();
@@ -144,7 +144,7 @@ public class IndexDiffTest extends RepositoryTestCase {
 		tree.addFile("a=c").setId(ObjectId.fromString("06022365ddbd7fb126761319633bf73517770714"));
 		tree.addFile("a=d").setId(ObjectId.fromString("fa6414df3da87840700e9eeb7fc261dd77ccd5c2"));
 
-		tree.setId(new ObjectWriter(db).writeTree(tree));
+		tree.setId(insertTree(tree));
 
 		FileTreeIterator iterator = new FileTreeIterator(db);
 		IndexDiff diff = new IndexDiff(db, tree.getId(), iterator);
@@ -185,10 +185,10 @@ public class IndexDiffTest extends RepositoryTestCase {
 		tree.addFile("a=d").setId(ObjectId.fromString("fa6414df3da87840700e9eeb7fc261dd77ccd5c2"));
 
 		Tree tree3 = (Tree) tree.findTreeMember("a/b.b");
-		tree3.setId(new ObjectWriter(db).writeTree(tree3));
+		tree3.setId(insertTree(tree3));
 		Tree tree2 = (Tree) tree.findTreeMember("a");
-		tree2.setId(new ObjectWriter(db).writeTree(tree2));
-		tree.setId(new ObjectWriter(db).writeTree(tree));
+		tree2.setId(insertTree(tree2));
+		tree.setId(insertTree(tree));
 
 		FileTreeIterator iterator = new FileTreeIterator(db);
 		IndexDiff diff = new IndexDiff(db, tree.getId(), iterator);
@@ -198,5 +198,16 @@ public class IndexDiffTest extends RepositoryTestCase {
 		assertEquals(0, diff.getRemoved().size());
 		assertEquals(0, diff.getMissing().size());
 		assertEquals(0, diff.getModified().size());
+	}
+
+	private ObjectId insertTree(Tree tree) throws IOException {
+		ObjectInserter oi = db.newObjectInserter();
+		try {
+			ObjectId id = oi.insert(Constants.OBJ_TREE, tree.format());
+			oi.flush();
+			return id;
+		} finally {
+			oi.release();
+		}
 	}
 }

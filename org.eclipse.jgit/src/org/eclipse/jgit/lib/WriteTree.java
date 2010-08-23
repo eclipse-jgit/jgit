@@ -46,6 +46,7 @@
 package org.eclipse.jgit.lib;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.text.MessageFormat;
 
@@ -61,7 +62,7 @@ import org.eclipse.jgit.errors.SymlinksNotSupportedException;
  */
 @Deprecated
 public class WriteTree extends TreeVisitorWithCurrentDirectory {
-	private final ObjectWriter ow;
+	private final ObjectInserter inserter;
 
 	/**
 	 * Construct a WriteTree for a given directory
@@ -71,11 +72,20 @@ public class WriteTree extends TreeVisitorWithCurrentDirectory {
 	 */
 	public WriteTree(final File sourceDirectory, final Repository db) {
 		super(sourceDirectory);
-		ow = new ObjectWriter(db);
+		inserter = db.newObjectInserter();
 	}
 
 	public void visitFile(final FileTreeEntry f) throws IOException {
-		f.setId(ow.writeBlob(new File(getCurrentDirectory(), f.getName())));
+		File path = new File(getCurrentDirectory(), f.getName());
+		FileInputStream in = new FileInputStream(path);
+		try {
+			long sz = in.getChannel().size();
+			f.setId(inserter.insert(Constants.OBJ_BLOB, sz, in));
+			inserter.flush();
+		} finally {
+			inserter.release();
+			in.close();
+		}
 	}
 
 	public void visitSymlink(final SymlinkTreeEntry s) throws IOException {
@@ -87,7 +97,12 @@ public class WriteTree extends TreeVisitorWithCurrentDirectory {
 
 	public void endVisitTree(final Tree t) throws IOException {
 		super.endVisitTree(t);
-		t.setId(ow.writeTree(t));
+		try {
+			t.setId(inserter.insert(Constants.OBJ_TREE, t.format()));
+			inserter.flush();
+		} finally {
+			inserter.release();
+		}
 	}
 
 	public void visitGitlink(GitlinkTreeEntry s) throws IOException {

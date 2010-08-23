@@ -43,9 +43,10 @@
 
 package org.eclipse.jgit.revwalk;
 
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileTreeEntry;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.ObjectWriter;
+import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.Tree;
 
 public class ObjectWalkTest extends RevWalkTestCase {
@@ -214,11 +215,16 @@ public class ObjectWalkTest extends RevWalkTestCase {
 			Tree A_A = A.addTree("A");
 			Tree A_B = A.addTree("B");
 
-			final ObjectWriter ow = new ObjectWriter(db);
-			A_A.setId(ow.writeTree(A_A));
-			A_B.setId(ow.writeTree(A_B));
-			A.setId(ow.writeTree(A));
-			root.setId(ow.writeTree(root));
+			final ObjectInserter inserter = db.newObjectInserter();
+			try {
+				A_A.setId(inserter.insert(Constants.OBJ_TREE, A_A.format()));
+				A_B.setId(inserter.insert(Constants.OBJ_TREE, A_B.format()));
+				A.setId(inserter.insert(Constants.OBJ_TREE, A.format()));
+				root.setId(inserter.insert(Constants.OBJ_TREE, root.format()));
+				inserter.flush();
+			} finally {
+				inserter.release();
+			}
 
 			tree_root = rw.parseTree(root.getId());
 			tree_A = rw.parseTree(A.getId());

@@ -110,21 +110,25 @@ public abstract class ReadTreeTest extends RepositoryTestCase {
 
 	private Tree buildTree(HashMap<String, String> headEntries) throws IOException {
 		Tree tree = new Tree(db);
-		ObjectWriter ow = new ObjectWriter(db);
 		if (headEntries == null)
 			return tree;
 		FileTreeEntry fileEntry;
 		Tree parent;
-		for (java.util.Map.Entry<String, String> e : headEntries.entrySet()) {
-			fileEntry = tree.addFile(e.getKey());
-			fileEntry.setId(genSha1(e.getValue()));
-			parent = fileEntry.getParent();
-			while (parent != null) {
-				parent.setId(ow.writeTree(parent));
-				parent = parent.getParent();
+		ObjectInserter oi = db.newObjectInserter();
+		try {
+			for (java.util.Map.Entry<String, String> e : headEntries.entrySet()) {
+				fileEntry = tree.addFile(e.getKey());
+				fileEntry.setId(genSha1(e.getValue()));
+				parent = fileEntry.getParent();
+				while (parent != null) {
+					parent.setId(oi.insert(Constants.OBJ_TREE, parent.format()));
+					parent = parent.getParent();
+				}
 			}
+			oi.flush();
+		} finally {
+			oi.release();
 		}
-
 		return tree;
 	}
 

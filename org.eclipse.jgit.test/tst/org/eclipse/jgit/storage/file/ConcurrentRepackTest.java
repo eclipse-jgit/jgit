@@ -57,8 +57,8 @@ import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectLoader;
-import org.eclipse.jgit.lib.ObjectWriter;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryTestCase;
 import org.eclipse.jgit.revwalk.RevObject;
@@ -265,8 +265,14 @@ public class ConcurrentRepackTest extends RepositoryTestCase {
 			throws IOException {
 		final RevWalk revWalk = new RevWalk(repo);
 		final byte[] bytes = Constants.encode(data);
-		final ObjectWriter ow = new ObjectWriter(repo);
-		final ObjectId id = ow.writeBlob(bytes);
+		final ObjectInserter inserter = repo.newObjectInserter();
+		final ObjectId id;
+		try {
+			id = inserter.insert(Constants.OBJ_BLOB, bytes);
+			inserter.flush();
+		} finally {
+			inserter.release();
+		}
 		try {
 			parse(id);
 			fail("Object " + id.name() + " should not exist in test repository");

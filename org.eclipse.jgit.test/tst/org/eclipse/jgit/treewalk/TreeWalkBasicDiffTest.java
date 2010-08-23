@@ -43,9 +43,13 @@
 
 package org.eclipse.jgit.treewalk;
 
+import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
+import static org.eclipse.jgit.lib.Constants.OBJ_TREE;
+import static org.eclipse.jgit.lib.Constants.encode;
+
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.ObjectWriter;
+import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.RepositoryTestCase;
 import org.eclipse.jgit.lib.Tree;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
@@ -53,11 +57,11 @@ import org.eclipse.jgit.treewalk.filter.TreeFilter;
 public class TreeWalkBasicDiffTest extends RepositoryTestCase {
 	public void testMissingSubtree_DetectFileAdded_FileModified()
 			throws Exception {
-		final ObjectWriter ow = new ObjectWriter(db);
-		final ObjectId aFileId = ow.writeBlob("a".getBytes());
-		final ObjectId bFileId = ow.writeBlob("b".getBytes());
-		final ObjectId cFileId1 = ow.writeBlob("c-1".getBytes());
-		final ObjectId cFileId2 = ow.writeBlob("c-2".getBytes());
+		final ObjectInserter inserter = db.newObjectInserter();
+		final ObjectId aFileId = inserter.insert(OBJ_BLOB, encode("a"));
+		final ObjectId bFileId = inserter.insert(OBJ_BLOB, encode("b"));
+		final ObjectId cFileId1 = inserter.insert(OBJ_BLOB, encode("c-1"));
+		final ObjectId cFileId2 = inserter.insert(OBJ_BLOB, encode("c-2"));
 
 		// Create sub-a/empty, sub-c/empty = hello.
 		final ObjectId oldTree;
@@ -66,14 +70,14 @@ public class TreeWalkBasicDiffTest extends RepositoryTestCase {
 			{
 				final Tree subA = root.addTree("sub-a");
 				subA.addFile("empty").setId(aFileId);
-				subA.setId(ow.writeTree(subA));
+				subA.setId(inserter.insert(OBJ_TREE, subA.format()));
 			}
 			{
 				final Tree subC = root.addTree("sub-c");
 				subC.addFile("empty").setId(cFileId1);
-				subC.setId(ow.writeTree(subC));
+				subC.setId(inserter.insert(OBJ_TREE, subC.format()));
 			}
-			oldTree = ow.writeTree(root);
+			oldTree = inserter.insert(OBJ_TREE, root.format());
 		}
 
 		// Create sub-a/empty, sub-b/empty, sub-c/empty.
@@ -83,20 +87,22 @@ public class TreeWalkBasicDiffTest extends RepositoryTestCase {
 			{
 				final Tree subA = root.addTree("sub-a");
 				subA.addFile("empty").setId(aFileId);
-				subA.setId(ow.writeTree(subA));
+				subA.setId(inserter.insert(OBJ_TREE, subA.format()));
 			}
 			{
 				final Tree subB = root.addTree("sub-b");
 				subB.addFile("empty").setId(bFileId);
-				subB.setId(ow.writeTree(subB));
+				subB.setId(inserter.insert(OBJ_TREE, subB.format()));
 			}
 			{
 				final Tree subC = root.addTree("sub-c");
 				subC.addFile("empty").setId(cFileId2);
-				subC.setId(ow.writeTree(subC));
+				subC.setId(inserter.insert(OBJ_TREE, subC.format()));
 			}
-			newTree = ow.writeTree(root);
+			newTree = inserter.insert(OBJ_TREE, root.format());
 		}
+		inserter.flush();
+		inserter.release();
 
 		final TreeWalk tw = new TreeWalk(db);
 		tw.reset(new ObjectId[] { oldTree, newTree });

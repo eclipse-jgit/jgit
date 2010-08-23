@@ -45,6 +45,7 @@
 
 package org.eclipse.jgit.lib;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.text.MessageFormat;
 
@@ -52,6 +53,7 @@ import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.EntryExistsException;
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.errors.ObjectWritingException;
 import org.eclipse.jgit.util.RawParseUtils;
 
 /**
@@ -602,6 +604,30 @@ public class Tree extends TreeEntry implements Treeish {
 		}
 
 		contents = temp;
+	}
+
+	/**
+	 * Format this Tree in canonical format.
+	 *
+	 * @return canonical encoding of the tree object.
+	 * @throws IOException
+	 *             the tree cannot be loaded, or its not in a writable state.
+	 */
+	public byte[] format() throws IOException {
+		ByteArrayOutputStream o = new ByteArrayOutputStream();
+		for (TreeEntry e : members()) {
+			ObjectId id = e.getId();
+			if (id == null)
+				throw new ObjectWritingException(MessageFormat.format(JGitText
+						.get().objectAtPathDoesNotHaveId, e.getFullName()));
+
+			e.getMode().copyTo(o);
+			o.write(' ');
+			o.write(e.getNameUTF8());
+			o.write(0);
+			id.copyRawTo(o);
+		}
+		return o.toByteArray();
 	}
 
 	public String toString() {

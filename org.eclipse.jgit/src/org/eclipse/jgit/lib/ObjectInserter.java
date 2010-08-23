@@ -47,15 +47,10 @@
 package org.eclipse.jgit.lib;
 
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.MessageDigest;
-import java.text.MessageFormat;
-
-import org.eclipse.jgit.JGitText;
-import org.eclipse.jgit.errors.ObjectWritingException;
 
 /**
  * Inserts objects into an existing {@code ObjectDatabase}.
@@ -286,30 +281,4 @@ public abstract class ObjectInserter {
 	 * released after the subsequent usage.
 	 */
 	public abstract void release();
-
-	/**
-	 * Format a Tree in canonical format.
-	 *
-	 * @param tree
-	 *            the tree object to format
-	 * @return canonical encoding of the tree object.
-	 * @throws IOException
-	 *             the tree cannot be loaded, or its not in a writable state.
-	 */
-	public final byte[] format(Tree tree) throws IOException {
-		ByteArrayOutputStream o = new ByteArrayOutputStream();
-		for (TreeEntry e : tree.members()) {
-			ObjectId id = e.getId();
-			if (id == null)
-				throw new ObjectWritingException(MessageFormat.format(JGitText
-						.get().objectAtPathDoesNotHaveId, e.getFullName()));
-
-			e.getMode().copyTo(o);
-			o.write(' ');
-			o.write(e.getNameUTF8());
-			o.write(0);
-			id.copyRawTo(o);
-		}
-		return o.toByteArray();
-	}
 }

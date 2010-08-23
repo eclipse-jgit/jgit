@@ -424,8 +424,18 @@ public class GitIndex {
 			uid = -1;
 			gid = -1;
 			size = (int) f.length();
-			ObjectWriter writer = new ObjectWriter(db);
-			sha1 = writer.writeBlob(f);
+			ObjectInserter inserter = db.newObjectInserter();
+			try {
+				InputStream in = new FileInputStream(f);
+				try {
+					sha1 = inserter.insert(Constants.OBJ_BLOB, f.length(), in);
+				} finally {
+					in.close();
+				}
+				inserter.flush();
+			} finally {
+				inserter.release();
+			}
 			name = key;
 			flags = (short) ((stage << 12) | name.length); // TODO: fix flags
 			stages = (1 >> getStage());
@@ -444,8 +454,18 @@ public class GitIndex {
 			uid = -1;
 			gid = -1;
 			size = newContent.length;
-			ObjectWriter writer = new ObjectWriter(db);
-			sha1 = writer.writeBlob(newContent);
+			ObjectInserter inserter = db.newObjectInserter();
+			try {
+				InputStream in = new FileInputStream(f);
+				try {
+					sha1 = inserter.insert(Constants.OBJ_BLOB, newContent);
+				} finally {
+					in.close();
+				}
+				inserter.flush();
+			} finally {
+				inserter.release();
+			}
 			name = key;
 			flags = (short) ((stage << 12) | name.length); // TODO: fix flags
 			stages = (1 >> getStage());
@@ -517,11 +537,22 @@ public class GitIndex {
 			}
 			if (modified) {
 				size = (int) f.length();
-				ObjectWriter writer = new ObjectWriter(db);
-				ObjectId newsha1 = writer.writeBlob(f);
-				if (!newsha1.equals(sha1))
-					modified = true;
-				sha1 = newsha1;
+				ObjectInserter oi = db.newObjectInserter();
+				try {
+					InputStream in = new FileInputStream(f);
+					try {
+						ObjectId newsha1 = oi.insert(Constants.OBJ_BLOB, f
+								.length(), in);
+						oi.flush();
+						if (!newsha1.equals(sha1))
+							modified = true;
+						sha1 = newsha1;
+					} finally {
+						in.close();
+					}
+				} finally {
+					oi.release();
+				}
 			}
 			return modified;
 		}
@@ -540,11 +571,16 @@ public class GitIndex {
 		public boolean update(File f, byte[] newContent) throws IOException {
 			boolean modified = false;
 			size = newContent.length;
-			ObjectWriter writer = new ObjectWriter(db);
-			ObjectId newsha1 = writer.writeBlob(newContent);
-			if (!newsha1.equals(sha1))
-				modified = true;
-			sha1 = newsha1;
+			ObjectInserter oi = db.newObjectInserter();
+			try {
+				ObjectId newsha1 = oi.insert(Constants.OBJ_BLOB, newContent);
+				oi.flush();
+				if (!newsha1.equals(sha1))
+					modified = true;
+				sha1 = newsha1;
+			} finally {
+				oi.release();
+			}
 			return modified;
 		}
 
@@ -661,11 +697,9 @@ public class GitIndex {
 				try {
 					InputStream is = new FileInputStream(file);
 					try {
-						ObjectWriter objectWriter = new ObjectWriter(db);
-						ObjectId newId = objectWriter.computeBlobSha1(file
-								.length(), is);
-						boolean ret = !newId.equals(sha1);
-						return ret;
+						ObjectId newId = new ObjectInserter.Formatter().idFor(
+								Constants.OBJ_BLOB, file.length(), is);
+						return !newId.equals(sha1);
 					} catch (IOException e) {
 						e.printStackTrace();
 					} finally {
@@ -932,44 +966,49 @@ public class GitIndex {
 	 */
 	public ObjectId writeTree() throws IOException {
 		checkWriteOk();
-		ObjectWriter writer = new ObjectWriter(db);
-		Tree current = new Tree(db);
-		Stack<Tree> trees = new Stack<Tree>();
-		trees.push(current);
-		String[] prevName = new String[0];
-		for (Entry e : entries.values()) {
-			if (e.getStage() != 0)
-				continue;
-			String[] newName = splitDirPath(e.getName());
-			int c = longestCommonPath(prevName, newName);
-			while (c < trees.size() - 1) {
-				current.setId(writer.writeTree(current));
-				trees.pop();
-				current = trees.isEmpty() ? null : (Tree) trees.peek();
-			}
-			while (trees.size() < newName.length) {
-				if (!current.existsTree(newName[trees.size() - 1])) {
-					current = new Tree(current, Constants.encode(newName[trees.size() - 1]));
-					current.getParent().addEntry(current);
-					trees.push(current);
-				} else {
-					current = (Tree) current.findTreeMember(newName[trees
-							.size() - 1]);
-					trees.push(current);
+		ObjectInserter inserter = db.newObjectInserter();
+			try {
+			Tree current = new Tree(db);
+			Stack<Tree> trees = new Stack<Tree>();
+			trees.push(current);
+			String[] prevName = new String[0];
+			for (Entry e : entries.values()) {
+				if (e.getStage() != 0)
+					continue;
+				String[] newName = splitDirPath(e.getName());
+				int c = longestCommonPath(prevName, newName);
+				while (c < trees.size() - 1) {
+					current.setId(inserter.insert(Constants.OBJ_TREE, current.format()));
+					trees.pop();
+					current = trees.isEmpty() ? null : (Tree) trees.peek();
 				}
+				while (trees.size() < newName.length) {
+					if (!current.existsTree(newName[trees.size() - 1])) {
+						current = new Tree(current, Constants.encode(newName[trees.size() - 1]));
+						current.getParent().addEntry(current);
+						trees.push(current);
+					} else {
+						current = (Tree) current.findTreeMember(newName[trees
+								.size() - 1]);
+						trees.push(current);
+					}
+				}
+				FileTreeEntry ne = new FileTreeEntry(current, e.sha1,
+						Constants.encode(newName[newName.length - 1]),
+						(e.mode & FileMode.EXECUTABLE_FILE.getBits()) == FileMode.EXECUTABLE_FILE.getBits());
+				current.addEntry(ne);
 			}
-			FileTreeEntry ne = new FileTreeEntry(current, e.sha1,
-					Constants.encode(newName[newName.length - 1]),
-					(e.mode & FileMode.EXECUTABLE_FILE.getBits()) == FileMode.EXECUTABLE_FILE.getBits());
-			current.addEntry(ne);
+			while (!trees.isEmpty()) {
+				current.setId(inserter.insert(Constants.OBJ_TREE, current.format()));
+				trees.pop();
+				if (!trees.isEmpty())
+					current = trees.peek();
+			}
+			inserter.flush();
+			return current.getTreeId();
+		} finally {
+			inserter.release();
 		}
-		while (!trees.isEmpty()) {
-			current.setId(writer.writeTree(current));
-			trees.pop();
-			if (!trees.isEmpty())
-				current = trees.peek();
-		}
-		return current.getTreeId();
 	}
 
 	String[] splitDirPath(String name) {
