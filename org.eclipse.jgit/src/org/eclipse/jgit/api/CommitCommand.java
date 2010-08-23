@@ -169,8 +169,7 @@ public class CommitCommand extends GitCommand<RevCommit> {
 
 					commit.setParentIds(parents);
 					commit.setTreeId(indexTreeId);
-					ObjectId commitId = odi.insert(Constants.OBJ_COMMIT, odi
-							.format(commit));
+					ObjectId commitId = odi.insert(commit);
 					odi.flush();
 
 					RevWalk revWalk = new RevWalk(repo);

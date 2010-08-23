@@ -693,13 +693,12 @@ public class T0003_Basic extends SampleDataRepositoryTestCase {
 
 	}
 
-	private ObjectId insertCommit(final CommitBuilder commit) throws IOException,
+	private ObjectId insertCommit(final CommitBuilder builder) throws IOException,
 			UnsupportedEncodingException {
 		ObjectInserter oi = db.newObjectInserter();
 		try {
-			ObjectId id = oi.insert(Constants.OBJ_COMMIT, oi.format(commit));
+			ObjectId id = oi.insert(builder);
 			oi.flush();
-			commit.setCommitId(id);
 			return id;
 		} finally {
 			oi.release();
@@ -721,9 +720,8 @@ public class T0003_Basic extends SampleDataRepositoryTestCase {
 			UnsupportedEncodingException {
 		ObjectInserter oi = db.newObjectInserter();
 		try {
-			ObjectId id = oi.insert(Constants.OBJ_TAG, oi.format(tag));
+			ObjectId id = oi.insert(tag);
 			oi.flush();
-			tag.setTagId(id);
 			return id;
 		} finally {
 			oi.release();

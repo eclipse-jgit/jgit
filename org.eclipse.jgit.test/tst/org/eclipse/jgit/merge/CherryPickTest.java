@@ -45,7 +45,6 @@
 package org.eclipse.jgit.merge;
 
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
-import static org.eclipse.jgit.lib.Constants.OBJ_COMMIT;
 
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
@@ -137,7 +136,7 @@ public class CherryPickTest extends RepositoryTestCase {
 		c.setCommitter(c.getAuthor());
 		c.setParentIds(parentIds);
 		c.setMessage("Tree " + c.getTreeId().name());
-		ObjectId id = odi.insert(OBJ_COMMIT, odi.format(c));
+		ObjectId id = odi.insert(c);
 		odi.flush();
 		return id;
 	}

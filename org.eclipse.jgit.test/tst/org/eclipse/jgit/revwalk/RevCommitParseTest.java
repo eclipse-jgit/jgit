@@ -327,7 +327,7 @@ public class RevCommitParseTest extends RepositoryTestCase {
 		src.setCommitter(committer);
 		src.setMessage("Test commit\n\nThis is a test.\n");
 
-		RevCommit p = RevCommit.parse(fmt.format(src));
+		RevCommit p = RevCommit.parse(src.format());
 		assertEquals(src.getTreeId(), p.getTree());
 		assertEquals(0, p.getParentCount());
 		assertEquals(author, p.getAuthorIdent());

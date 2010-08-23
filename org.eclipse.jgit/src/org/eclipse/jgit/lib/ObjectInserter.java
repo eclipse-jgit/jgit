@@ -51,9 +51,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.text.MessageFormat;
 
@@ -73,16 +70,6 @@ import org.eclipse.jgit.errors.ObjectWritingException;
  * otherwise making the returned ObjectIds visible to other code.
  */
 public abstract class ObjectInserter {
-	private static final byte[] htree = Constants.encodeASCII("tree");
-
-	private static final byte[] hparent = Constants.encodeASCII("parent");
-
-	private static final byte[] hauthor = Constants.encodeASCII("author");
-
-	private static final byte[] hcommitter = Constants.encodeASCII("committer");
-
-	private static final byte[] hencoding = Constants.encodeASCII("encoding");
-
 	/** An inserter that can be used for formatting and id generation only. */
 	public static class Formatter extends ObjectInserter {
 		@Override
@@ -195,6 +182,38 @@ public abstract class ObjectInserter {
 	}
 
 	/**
+	 * Insert a single commit into the store, returning its unique name.
+	 *
+	 * As a side effect, {@link CommitBuilder#getCommitId()} will also be
+	 * populated with the returned ObjectId.
+	 *
+	 * @param builder
+	 *            the builder containing the proposed commit's data.
+	 * @return the name of the commit object.
+	 * @throws IOException
+	 *             the object could not be stored.
+	 */
+	public final ObjectId insert(CommitBuilder builder) throws IOException {
+		return insert(Constants.OBJ_COMMIT, builder.format(this));
+	}
+
+	/**
+	 * Insert a single annotated tag into the store, returning its unique name.
+	 *
+	 * As a side effect, {@link TagBuilder#getTagId()} will also be populated
+	 * with the returned ObjectId.
+	 *
+	 * @param builder
+	 *            the builder containing the proposed tag's data.
+	 * @return the name of the tag object.
+	 * @throws IOException
+	 *             the object could not be stored.
+	 */
+	public final ObjectId insert(TagBuilder builder) throws IOException {
+		return insert(Constants.OBJ_TAG, builder.format(this));
+	}
+
+	/**
 	 * Insert a single object into the store, returning its unique name.
 	 *
 	 * @param type
@@ -292,108 +311,5 @@ public abstract class ObjectInserter {
 			id.copyRawTo(o);
 		}
 		return o.toByteArray();
-	}
-
-	/**
-	 * Format a Commit in canonical format.
-	 *
-	 * @param commit
-	 *            the commit object to format
-	 * @return canonical encoding of the commit object.
-	 * @throws UnsupportedEncodingException
-	 *             the commit's chosen encoding isn't supported on this JVM.
-	 */
-	public final byte[] format(CommitBuilder commit)
-			throws UnsupportedEncodingException {
-		Charset encoding = commit.getEncoding();
-		ByteArrayOutputStream os = new ByteArrayOutputStream();
-		OutputStreamWriter w = new OutputStreamWriter(os, encoding);
-		try {
-			os.write(htree);
-			os.write(' ');
-			commit.getTreeId().copyTo(os);
-			os.write('\n');
-
-			for (ObjectId p : commit.getParentIds()) {
-				os.write(hparent);
-				os.write(' ');
-				p.copyTo(os);
-				os.write('\n');
-			}
-
-			os.write(hauthor);
-			os.write(' ');
-			w.write(commit.getAuthor().toExternalString());
-			w.flush();
-			os.write('\n');
-
-			os.write(hcommitter);
-			os.write(' ');
-			w.write(commit.getCommitter().toExternalString());
-			w.flush();
-			os.write('\n');
-
-			if (encoding != Constants.CHARSET) {
-				os.write(hencoding);
-				os.write(' ');
-				os.write(Constants.encodeASCII(encoding.name()));
-				os.write('\n');
-			}
-
-			os.write('\n');
-
-			if (commit.getMessage() != null) {
-				w.write(commit.getMessage());
-				w.flush();
-			}
-		} catch (IOException err) {
-			// This should never occur, the only way to get it above is
-			// for the ByteArrayOutputStream to throw, but it doesn't.
-			//
-			throw new RuntimeException(err);
-		}
-		return os.toByteArray();
-	}
-
-	/**
-	 * Format a Tag in canonical format.
-	 *
-	 * @param tag
-	 *            the tag object to format
-	 * @return canonical encoding of the tag object.
-	 */
-	public final byte[] format(TagBuilder tag) {
-		ByteArrayOutputStream os = new ByteArrayOutputStream();
-		OutputStreamWriter w = new OutputStreamWriter(os, Constants.CHARSET);
-		try {
-			w.write("object ");
-			tag.getObjectId().copyTo(w);
-			w.write('\n');
-
-			w.write("type ");
-			w.write(Constants.typeString(tag.getObjectType()));
-			w.write("\n");
-
-			w.write("tag ");
-			w.write(tag.getTag());
-			w.write("\n");
-
-			if (tag.getTagger() != null) {
-				w.write("tagger ");
-				w.write(tag.getTagger().toExternalString());
-				w.write('\n');
-			}
-
-			w.write('\n');
-			if (tag.getMessage() != null)
-				w.write(tag.getMessage());
-			w.close();
-		} catch (IOException err) {
-			// This should never occur, the only way to get it above is
-			// for the ByteArrayOutputStream to throw, but it doesn't.
-			//
-			throw new RuntimeException(err);
-		}
-		return os.toByteArray();
 	}
 }

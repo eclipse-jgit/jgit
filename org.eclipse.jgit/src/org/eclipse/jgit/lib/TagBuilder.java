@@ -45,6 +45,10 @@
 
 package org.eclipse.jgit.lib;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+
 import org.eclipse.jgit.revwalk.RevObject;
 
 /**
@@ -167,6 +171,70 @@ public class TagBuilder {
 	public void setMessage(final String newMessage) {
 		message = newMessage;
 		tagId = null;
+	}
+
+	/**
+	 * Format this builder's state as an annotated tag object.
+	 *
+	 * As a side effect, {@link #getTagId()} will be populated with the proper
+	 * ObjectId for the formatted content.
+	 *
+	 * @return this object in the canonical annotated tag format, suitable for
+	 *         storage in a repository.
+	 */
+	public byte[] format() {
+		return format(new ObjectInserter.Formatter());
+	}
+
+	/**
+	 * Format this builder's state as an annotated tag object.
+	 *
+	 * As a side effect, {@link #getTagId()} will be populated with the proper
+	 * ObjectId for the formatted content.
+	 *
+	 * @param oi
+	 *            the inserter whose formatting support will be reused. The
+	 *            inserter itself is not affected, and the annotated tag is not
+	 *            actually inserted into the repository.
+	 * @return this object in the canonical annotated tag format, suitable for
+	 *         storage in a repository.
+	 */
+	public byte[] format(ObjectInserter oi) {
+		ByteArrayOutputStream os = new ByteArrayOutputStream();
+		OutputStreamWriter w = new OutputStreamWriter(os, Constants.CHARSET);
+		try {
+			w.write("object ");
+			getObjectId().copyTo(w);
+			w.write('\n');
+
+			w.write("type ");
+			w.write(Constants.typeString(getObjectType()));
+			w.write("\n");
+
+			w.write("tag ");
+			w.write(getTag());
+			w.write("\n");
+
+			if (getTagger() != null) {
+				w.write("tagger ");
+				w.write(getTagger().toExternalString());
+				w.write('\n');
+			}
+
+			w.write('\n');
+			if (getMessage() != null)
+				w.write(getMessage());
+			w.close();
+		} catch (IOException err) {
+			// This should never occur, the only way to get it above is
+			// for the ByteArrayOutputStream to throw, but it doesn't.
+			//
+			throw new RuntimeException(err);
+		}
+
+		byte[] content = os.toByteArray();
+		setTagId(oi.idFor(Constants.OBJ_TAG, content));
+		return content;
 	}
 
 	@Override

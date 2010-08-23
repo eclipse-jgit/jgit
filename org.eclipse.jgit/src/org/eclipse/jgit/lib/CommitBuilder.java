@@ -45,6 +45,10 @@
 
 package org.eclipse.jgit.lib;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.util.List;
 
@@ -61,6 +65,16 @@ import java.util.List;
  */
 public class CommitBuilder {
 	private static final ObjectId[] EMPTY_OBJECTID_LIST = new ObjectId[0];
+
+	private static final byte[] htree = Constants.encodeASCII("tree");
+
+	private static final byte[] hparent = Constants.encodeASCII("parent");
+
+	private static final byte[] hauthor = Constants.encodeASCII("author");
+
+	private static final byte[] hcommitter = Constants.encodeASCII("committer");
+
+	private static final byte[] hencoding = Constants.encodeASCII("encoding");
 
 	private ObjectId commitId;
 
@@ -260,6 +274,91 @@ public class CommitBuilder {
 	/** @return the encoding that should be used for the commit message text. */
 	public Charset getEncoding() {
 		return encoding;
+	}
+
+	/**
+	 * Format this builder's state as a commit object.
+	 *
+	 * As a side effect, {@link #getCommitId()} will be populated with the
+	 * proper ObjectId for the formatted content.
+	 *
+	 * @return this object in the canonical commit format, suitable for storage
+	 *         in a repository.
+	 * @throws UnsupportedEncodingException
+	 *             the encoding specified by {@link #getEncoding()} is not
+	 *             supported by this Java runtime.
+	 */
+	public byte[] format() throws UnsupportedEncodingException {
+		return format(new ObjectInserter.Formatter());
+	}
+
+	/**
+	 * Format this builder's state as a commit object.
+	 *
+	 * As a side effect, {@link #getCommitId()} will be populated with the
+	 * proper ObjectId for the formatted content.
+	 *
+	 * @param oi
+	 *            the inserter whose formatting support will be reused. The
+	 *            inserter itself is not affected, and the commit is not
+	 *            actually inserted into the repository.
+	 * @return this object in the canonical commit format, suitable for storage
+	 *         in a repository.
+	 * @throws UnsupportedEncodingException
+	 *             the encoding specified by {@link #getEncoding()} is not
+	 *             supported by this Java runtime.
+	 */
+	public byte[] format(ObjectInserter oi) throws UnsupportedEncodingException {
+		ByteArrayOutputStream os = new ByteArrayOutputStream();
+		OutputStreamWriter w = new OutputStreamWriter(os, getEncoding());
+		try {
+			os.write(htree);
+			os.write(' ');
+			getTreeId().copyTo(os);
+			os.write('\n');
+
+			for (ObjectId p : getParentIds()) {
+				os.write(hparent);
+				os.write(' ');
+				p.copyTo(os);
+				os.write('\n');
+			}
+
+			os.write(hauthor);
+			os.write(' ');
+			w.write(getAuthor().toExternalString());
+			w.flush();
+			os.write('\n');
+
+			os.write(hcommitter);
+			os.write(' ');
+			w.write(getCommitter().toExternalString());
+			w.flush();
+			os.write('\n');
+
+			if (getEncoding() != Constants.CHARSET) {
+				os.write(hencoding);
+				os.write(' ');
+				os.write(Constants.encodeASCII(getEncoding().name()));
+				os.write('\n');
+			}
+
+			os.write('\n');
+
+			if (getMessage() != null) {
+				w.write(getMessage());
+				w.flush();
+			}
+		} catch (IOException err) {
+			// This should never occur, the only way to get it above is
+			// for the ByteArrayOutputStream to throw, but it doesn't.
+			//
+			throw new RuntimeException(err);
+		}
+
+		byte[] content = os.toByteArray();
+		setCommitId(oi.idFor(Constants.OBJ_COMMIT, content));
+		return content;
 	}
 
 	@Override

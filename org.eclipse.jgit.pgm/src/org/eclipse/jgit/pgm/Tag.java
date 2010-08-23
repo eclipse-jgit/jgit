@@ -100,7 +100,7 @@ class Tag extends TextBuiltin {
 			tag.setTagger(new PersonIdent(db));
 			tag.setMessage(message.replaceAll("\r", ""));
 			tag.setTag(shortName);
-			id = inserter.insert(Constants.OBJ_TAG, inserter.format(tag));
+			id = inserter.insert(tag);
 			inserter.flush();
 		} finally {
 			inserter.release();

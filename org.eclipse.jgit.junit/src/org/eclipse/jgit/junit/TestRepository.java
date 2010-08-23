@@ -368,7 +368,7 @@ public class TestRepository<R extends Repository> {
 		c.setMessage("");
 		ObjectId id;
 		try {
-			id = inserter.insert(Constants.OBJ_COMMIT, inserter.format(c));
+			id = inserter.insert(c);
 			inserter.flush();
 		} finally {
 			inserter.release();
@@ -405,7 +405,7 @@ public class TestRepository<R extends Repository> {
 		t.setMessage("");
 		ObjectId id;
 		try {
-			id = inserter.insert(Constants.OBJ_TAG, inserter.format(t));
+			id = inserter.insert(t);
 			inserter.flush();
 		} finally {
 			inserter.release();
@@ -822,8 +822,7 @@ public class TestRepository<R extends Repository> {
 				ObjectId commitId;
 				try {
 					c.setTreeId(tree.writeTree(inserter));
-					commitId = inserter.insert(Constants.OBJ_COMMIT, inserter
-							.format(c));
+					commitId = inserter.insert(c);
 					inserter.flush();
 				} finally {
 					inserter.release();

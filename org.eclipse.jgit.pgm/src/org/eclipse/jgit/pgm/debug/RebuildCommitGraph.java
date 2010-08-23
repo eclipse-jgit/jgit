@@ -197,7 +197,7 @@ class RebuildCommitGraph extends TextBuiltin {
 				newc.setCommitter(newc.getAuthor());
 				newc.setParentIds(newParents);
 				newc.setMessage("ORIGINAL " + t.oldId.name() + "\n");
-				t.newId = oi.insert(Constants.OBJ_COMMIT,oi.format(newc));
+				t.newId = oi.insert(newc);
 				rewrites.put(t.oldId, t.newId);
 				pm.update(1);
 			}

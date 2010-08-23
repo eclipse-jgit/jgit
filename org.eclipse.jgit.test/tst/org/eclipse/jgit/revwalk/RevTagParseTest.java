@@ -407,7 +407,7 @@ public class RevTagParseTest extends RepositoryTestCase {
 		src.setTag("a.test");
 		src.setMessage("Test tag\n\nThis is a test.\n");
 
-		RevTag p = RevTag.parse(fmt.format(src));
+		RevTag p = RevTag.parse(src.format());
 		assertEquals(src.getObjectId(), p.getObject());
 		assertEquals(committer, p.getTaggerIdent());
 		assertEquals("a.test", p.getTagName());

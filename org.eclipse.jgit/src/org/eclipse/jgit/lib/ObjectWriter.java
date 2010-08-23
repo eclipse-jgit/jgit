@@ -46,8 +46,6 @@
 package org.eclipse.jgit.lib;
 
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
-import static org.eclipse.jgit.lib.Constants.OBJ_COMMIT;
-import static org.eclipse.jgit.lib.Constants.OBJ_TAG;
 import static org.eclipse.jgit.lib.Constants.OBJ_TREE;
 
 import java.io.File;
@@ -174,7 +172,7 @@ public class ObjectWriter {
 	 */
 	public ObjectId writeCommit(CommitBuilder commit) throws IOException {
 		try {
-			ObjectId id = inserter.insert(OBJ_COMMIT, inserter.format(commit));
+			ObjectId id = inserter.insert(commit);
 			inserter.flush();
 			return id;
 		} finally {
@@ -192,7 +190,7 @@ public class ObjectWriter {
 	 */
 	public ObjectId writeTag(TagBuilder tag) throws IOException {
 		try {
-			ObjectId id = inserter.insert(OBJ_TAG, inserter.format(tag));
+			ObjectId id = inserter.insert(tag);
 			inserter.flush();
 			return id;
 		} finally {
