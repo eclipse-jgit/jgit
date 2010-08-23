@@ -164,7 +164,7 @@ public class MergeCommand extends GitCommand<MergeResult> {
 			throw new JGitInternalException(
 					MessageFormat.format(
 							JGitText.get().exceptionCaughtDuringExecutionOfMergeCommand,
-							e));
+							e), e);
 		}
 	}
 

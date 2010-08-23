@@ -248,7 +248,7 @@ public class CommitCommand extends GitCommand<RevCommit> {
 			} catch (IOException e) {
 				throw new JGitInternalException(MessageFormat.format(
 						JGitText.get().exceptionOccuredDuringReadingOfGIT_DIR,
-						Constants.MERGE_HEAD, e));
+						Constants.MERGE_HEAD, e), e);
 			}
 			if (message == null) {
 				try {
@@ -256,7 +256,7 @@ public class CommitCommand extends GitCommand<RevCommit> {
 				} catch (IOException e) {
 					throw new JGitInternalException(MessageFormat.format(
 							JGitText.get().exceptionOccuredDuringReadingOfGIT_DIR,
-							Constants.MERGE_MSG, e));
+							Constants.MERGE_MSG, e), e);
 				}
 			}
 		}
