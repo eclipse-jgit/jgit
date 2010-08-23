@@ -84,7 +84,7 @@ import org.eclipse.jgit.treewalk.FileTreeIterator;
  */
 public class MergeCommand extends GitCommand<MergeResult> {
 
-	private MergeStrategy mergeStrategy = MergeStrategy.SIMPLE_TWO_WAY_IN_CORE;
+	private MergeStrategy mergeStrategy = MergeStrategy.RESOLVE;
 
 	private List<Ref> commits = new LinkedList<Ref>();
 
