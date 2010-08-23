@@ -93,7 +93,7 @@ public class DiffEntry {
 	 * Convert the TreeWalk into DiffEntry headers.
 	 *
 	 * @param walk
-	 *            the TreeWalk to walk through. Must have exactly two trees.
+	 *            the TreeWalk to walk through. Must have one or two trees.
 	 * @return headers describing the changed files.
 	 * @throws IOException
 	 *             the repository cannot be accessed.
@@ -104,15 +104,25 @@ public class DiffEntry {
 		while (walk.next()) {
 			DiffEntry entry = new DiffEntry();
 
-			walk.getObjectId(idBuf, 0);
-			entry.oldId = AbbreviatedObjectId.fromObjectId(idBuf);
+			if (walk.getTreeCount() == 1) {//
+				walk.getObjectId(idBuf, 0);
+				entry.oldId = A_ZERO;
+				entry.newId = AbbreviatedObjectId.fromObjectId(idBuf);
 
-			walk.getObjectId(idBuf, 1);
-			entry.newId = AbbreviatedObjectId.fromObjectId(idBuf);
+				entry.oldMode = FileMode.MISSING;
+				entry.newMode = walk.getFileMode(0);
+				entry.newPath = walk.getPathString();
+			} else {
+				walk.getObjectId(idBuf, 0);
+				entry.oldId = AbbreviatedObjectId.fromObjectId(idBuf);
 
-			entry.oldMode = walk.getFileMode(0);
-			entry.newMode = walk.getFileMode(1);
-			entry.newPath = entry.oldPath = walk.getPathString();
+				walk.getObjectId(idBuf, 1);
+				entry.newId = AbbreviatedObjectId.fromObjectId(idBuf);
+
+				entry.oldMode = walk.getFileMode(0);
+				entry.newMode = walk.getFileMode(1);
+				entry.newPath = entry.oldPath = walk.getPathString();
+			}
 
 			if (entry.oldMode == FileMode.MISSING) {
 				entry.oldPath = DiffEntry.DEV_NULL;
