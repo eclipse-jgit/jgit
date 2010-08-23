@@ -52,6 +52,10 @@ import org.eclipse.jgit.revwalk.RevObject;
  *
  * Applications should use this object when they need to manually construct a
  * tag and want precise control over its fields.
+ *
+ * To read a tag object, construct a {@link org.eclipse.jgit.revwalk.RevWalk}
+ * and obtain a {@link org.eclipse.jgit.revwalk.RevTag} instance by calling
+ * {@link org.eclipse.jgit.revwalk.RevWalk#parseTag(AnyObjectId)}.
  */
 public class Tag {
 	private ObjectId tagId;

@@ -54,6 +54,10 @@ import java.util.List;
  * Applications should use this object when they need to manually construct a
  * commit and want precise control over its fields. For a higher level interface
  * see {@link org.eclipse.jgit.api.CommitCommand}.
+ *
+ * To read a commit object, construct a {@link org.eclipse.jgit.revwalk.RevWalk}
+ * and obtain a {@link org.eclipse.jgit.revwalk.RevCommit} instance by calling
+ * {@link org.eclipse.jgit.revwalk.RevWalk#parseCommit(AnyObjectId)}.
  */
 public class Commit {
 	private static final ObjectId[] EMPTY_OBJECTID_LIST = new ObjectId[0];
