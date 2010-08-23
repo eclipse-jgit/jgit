@@ -487,6 +487,22 @@ public class DirCacheEntry {
 	}
 
 	/**
+	 * Set the cached size (in bytes) of this file.
+	 *
+	 * @param sz
+	 *            new cached size of the file, as bytes.
+	 * @throws IllegalArgumentException
+	 *             if the size exceeds the 2 GiB barrier imposed by current file
+	 *             format limitations.
+	 */
+	public void setLength(final long sz) {
+		if (Integer.MAX_VALUE <= sz)
+			throw new IllegalArgumentException(MessageFormat.format(JGitText
+					.get().sizeExceeds2GB, getPathString(), sz));
+		setLength((int) sz);
+	}
+
+	/**
 	 * Obtain the ObjectId for the entry.
 	 * <p>
 	 * Using this method to compare ObjectId values between entries is
