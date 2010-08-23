@@ -51,6 +51,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -373,6 +374,8 @@ public abstract class Repository {
 	 * Currently supported is combinations of these.
 	 * <ul>
 	 * <li>SHA-1 - a SHA-1</li>
+	 * <li>SHA-1 abbreviation - a leading prefix of a SHA-1. At least the first
+	 * two bytes must be supplied.</li>
 	 * <li>refs/... - a ref name</li>
 	 * <li>ref^n - nth parent reference</li>
 	 * <li>ref~n - distance via parent reference</li>
@@ -383,8 +386,8 @@ public abstract class Repository {
 	 *
 	 * Not supported is:
 	 * <ul>
+	 * <li>tag-NNN-gcommit - a non tagged revision from git describe</li>
 	 * <li>timestamps in reflogs, ref@{full or relative timestamp}</li>
-	 * <li>abbreviated SHA-1's</li>
 	 * </ul>
 	 *
 	 * @param revstr
@@ -569,8 +572,24 @@ public abstract class Repository {
 	private ObjectId resolveSimple(final String revstr) throws IOException {
 		if (ObjectId.isId(revstr))
 			return ObjectId.fromString(revstr);
-		final Ref r = getRefDatabase().getRef(revstr);
-		return r != null ? r.getObjectId() : null;
+
+		Ref r = getRefDatabase().getRef(revstr);
+		if (r != null)
+			return r.getObjectId();
+
+		if (AbbreviatedObjectId.isId(revstr)) {
+			AbbreviatedObjectId id = AbbreviatedObjectId.fromString(revstr);
+			ObjectReader reader = newObjectReader();
+			try {
+				Collection<ObjectId> matches = reader.resolve(id);
+				if (matches.size() == 1)
+					return matches.iterator().next();
+			} finally {
+				reader.release();
+			}
+		}
+
+		return null;
 	}
 
 	/** Increment the use counter by one, requiring a matched {@link #close()}. */

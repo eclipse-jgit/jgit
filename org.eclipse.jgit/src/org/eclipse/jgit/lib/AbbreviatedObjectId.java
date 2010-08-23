@@ -63,6 +63,27 @@ import org.eclipse.jgit.util.RawParseUtils;
  */
 public final class AbbreviatedObjectId {
 	/**
+	 * Test a string of characters to verify it is a hex format.
+	 * <p>
+	 * If true the string can be parsed with {@link #fromString(String)}.
+	 *
+	 * @param id
+	 *            the string to test.
+	 * @return true if the string can converted into an AbbreviatedObjectId.
+	 */
+	public static final boolean isId(final String id) {
+		if (id.length() < 2 || Constants.OBJECT_ID_STRING_LENGTH < id.length())
+			return false;
+		try {
+			for (int i = 0; i < id.length(); i++)
+				RawParseUtils.parseHexInt4((byte) id.charAt(i));
+			return true;
+		} catch (ArrayIndexOutOfBoundsException e) {
+			return false;
+		}
+	}
+
+	/**
 	 * Convert an AbbreviatedObjectId from hex characters (US-ASCII).
 	 *
 	 * @param buf
@@ -205,7 +226,7 @@ public final class AbbreviatedObjectId {
 	 *         &gt;0 if this abbreviation names an object that is after
 	 *         <code>other</code>.
 	 */
-	public int prefixCompare(final AnyObjectId other) {
+	public final int prefixCompare(final AnyObjectId other) {
 		int cmp;
 
 		cmp = NB.compareUInt32(w1, mask(1, other.w1));
@@ -225,6 +246,83 @@ public final class AbbreviatedObjectId {
 			return cmp;
 
 		return NB.compareUInt32(w5, mask(5, other.w5));
+	}
+
+	/**
+	 * Compare this abbreviation to a network-byte-order ObjectId.
+	 *
+	 * @param bs
+	 *            array containing the other ObjectId in network byte order.
+	 * @param p
+	 *            position within {@code bs} to start the compare at. At least
+	 *            20 bytes, starting at this position are required.
+	 * @return &lt;0 if this abbreviation names an object that is less than
+	 *         <code>other</code>; 0 if this abbreviation exactly matches the
+	 *         first {@link #length()} digits of <code>other.name()</code>;
+	 *         &gt;0 if this abbreviation names an object that is after
+	 *         <code>other</code>.
+	 */
+	public final int prefixCompare(final byte[] bs, final int p) {
+		int cmp;
+
+		cmp = NB.compareUInt32(w1, mask(1, NB.decodeInt32(bs, p)));
+		if (cmp != 0)
+			return cmp;
+
+		cmp = NB.compareUInt32(w2, mask(2, NB.decodeInt32(bs, p + 4)));
+		if (cmp != 0)
+			return cmp;
+
+		cmp = NB.compareUInt32(w3, mask(3, NB.decodeInt32(bs, p + 8)));
+		if (cmp != 0)
+			return cmp;
+
+		cmp = NB.compareUInt32(w4, mask(4, NB.decodeInt32(bs, p + 12)));
+		if (cmp != 0)
+			return cmp;
+
+		return NB.compareUInt32(w5, mask(5, NB.decodeInt32(bs, p + 16)));
+	}
+
+	/**
+	 * Compare this abbreviation to a network-byte-order ObjectId.
+	 *
+	 * @param bs
+	 *            array containing the other ObjectId in network byte order.
+	 * @param p
+	 *            position within {@code bs} to start the compare at. At least 5
+	 *            ints, starting at this position are required.
+	 * @return &lt;0 if this abbreviation names an object that is less than
+	 *         <code>other</code>; 0 if this abbreviation exactly matches the
+	 *         first {@link #length()} digits of <code>other.name()</code>;
+	 *         &gt;0 if this abbreviation names an object that is after
+	 *         <code>other</code>.
+	 */
+	public final int prefixCompare(final int[] bs, final int p) {
+		int cmp;
+
+		cmp = NB.compareUInt32(w1, mask(1, bs[p]));
+		if (cmp != 0)
+			return cmp;
+
+		cmp = NB.compareUInt32(w2, mask(2, bs[p + 1]));
+		if (cmp != 0)
+			return cmp;
+
+		cmp = NB.compareUInt32(w3, mask(3, bs[p + 2]));
+		if (cmp != 0)
+			return cmp;
+
+		cmp = NB.compareUInt32(w4, mask(4, bs[p + 3]));
+		if (cmp != 0)
+			return cmp;
+
+		return NB.compareUInt32(w5, mask(5, bs[p + 4]));
+	}
+
+	/** @return value for a fan-out style map, only valid of length >= 2. */
+	public final int getFirstByte() {
+		return w1 >>> 24;
 	}
 
 	private int mask(final int word, final int v) {

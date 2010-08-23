@@ -45,9 +45,12 @@ package org.eclipse.jgit.storage.file;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Set;
 
+import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectDatabase;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.storage.pack.ObjectToPack;
@@ -96,6 +99,9 @@ abstract class FileObjectDatabase extends ObjectDatabase {
 
 		return false;
 	}
+
+	abstract void resolve(Set<ObjectId> matches, AbbreviatedObjectId id)
+			throws IOException;
 
 	/**
 	 * Open an object from this database.

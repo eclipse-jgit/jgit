@@ -45,15 +45,20 @@
 package org.eclipse.jgit.storage.file;
 
 import java.io.IOException;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.zip.DataFormatException;
 import java.util.zip.Inflater;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.StoredObjectRepresentationNotAvailableException;
+import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.InflaterCache;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.ProgressMonitor;
@@ -81,6 +86,16 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 	@Override
 	public ObjectReader newReader() {
 		return new WindowCursor(db);
+	}
+
+	@Override
+	public Collection<ObjectId> resolve(AbbreviatedObjectId id)
+			throws IOException {
+		if (id.isComplete())
+			return Collections.singleton(id.toObjectId());
+		HashSet<ObjectId> matches = new HashSet<ObjectId>(4);
+		db.resolve(matches, id);
+		return matches;
 	}
 
 	public boolean has(AnyObjectId objectId) throws IOException {

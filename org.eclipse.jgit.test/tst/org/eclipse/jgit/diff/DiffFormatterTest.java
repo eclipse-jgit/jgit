@@ -74,6 +74,7 @@ public class DiffFormatterTest extends RepositoryTestCase {
 		testDb = new TestRepository(db);
 		df = new DiffFormatter(DisabledOutputStream.INSTANCE);
 		df.setRepository(db);
+		df.setAbbreviationLength(8);
 	}
 
 	public void testCreateFileHeader_Modify() throws Exception {
@@ -159,8 +160,8 @@ public class DiffFormatterTest extends RepositoryTestCase {
 
 	private String makeDiffHeader(String pathA, String pathB, ObjectId aId,
 			ObjectId bId) {
-		String a = aId.abbreviate(db).name();
-		String b = bId.abbreviate(db).name();
+		String a = aId.abbreviate(8).name();
+		String b = bId.abbreviate(8).name();
 		return DIFF + "a/" + pathA + " " + "b/" + pathB + "\n" + //
 				"index " + a + ".." + b + " " + REGULAR_FILE + "\n" + //
 				"--- a/" + pathA + "\n" + //
@@ -169,8 +170,8 @@ public class DiffFormatterTest extends RepositoryTestCase {
 
 	private String makeDiffHeaderModeChange(String pathA, String pathB,
 			ObjectId aId, ObjectId bId, String modeA, String modeB) {
-		String a = aId.abbreviate(db).name();
-		String b = bId.abbreviate(db).name();
+		String a = aId.abbreviate(8).name();
+		String b = bId.abbreviate(8).name();
 		return DIFF + "a/" + pathA + " " + "b/" + pathB + "\n" + //
 				"old mode " + modeA + "\n" + //
 				"new mode " + modeB + "\n" + //
@@ -182,5 +183,4 @@ public class DiffFormatterTest extends RepositoryTestCase {
 	private ObjectId blob(String content) throws Exception {
 		return testDb.blob(content).copy();
 	}
-
 }

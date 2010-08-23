@@ -53,6 +53,7 @@ import java.util.Map.Entry;
 
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefComparator;
 import org.eclipse.jgit.lib.RefRename;
@@ -182,9 +183,16 @@ class Branch extends TextBuiltin {
 				addRef("(no branch)", head);
 			addRefs(refs, Constants.R_HEADS, !remote);
 			addRefs(refs, Constants.R_REMOTES, remote);
-			for (final Entry<String, Ref> e : printRefs.entrySet()) {
-				final Ref ref = e.getValue();
-				printHead(e.getKey(), current.equals(ref.getName()), ref);
+
+			ObjectReader reader = db.newObjectReader();
+			try {
+				for (final Entry<String, Ref> e : printRefs.entrySet()) {
+					final Ref ref = e.getValue();
+					printHead(reader, e.getKey(),
+							current.equals(ref.getName()), ref);
+				}
+			} finally {
+				reader.release();
 			}
 		}
 	}
@@ -205,8 +213,8 @@ class Branch extends TextBuiltin {
 		maxNameLength = Math.max(maxNameLength, name.length());
 	}
 
-	private void printHead(final String ref, final boolean isCurrent,
-			final Ref refObj) throws Exception {
+	private void printHead(final ObjectReader reader, final String ref,
+			final boolean isCurrent, final Ref refObj) throws Exception {
 		out.print(isCurrent ? '*' : ' ');
 		out.print(' ');
 		out.print(ref);
@@ -214,7 +222,7 @@ class Branch extends TextBuiltin {
 			final int spaces = maxNameLength - ref.length() + 1;
 			out.format("%" + spaces + "s", "");
 			final ObjectId objectId = refObj.getObjectId();
-			out.print(objectId.abbreviate(db).name());
+			out.print(reader.abbreviate(objectId).name());
 			out.print(' ');
 			out.print(rw.parseCommit(objectId).getShortMessage());
 		}

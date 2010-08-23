@@ -48,9 +48,11 @@ import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.Set;
 
 import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
@@ -219,6 +221,41 @@ class PackIndexV2 extends PackIndex {
 
 	public Iterator<MutableEntry> iterator() {
 		return new EntriesIteratorV2();
+	}
+
+	@Override
+	void resolve(Set<ObjectId> matches, AbbreviatedObjectId id, int matchLimit)
+			throws IOException {
+		int[] data = names[id.getFirstByte()];
+		int max = offset32[id.getFirstByte()].length >>> 2;
+		int high = max;
+		if (high == 0)
+			return;
+		int low = 0;
+		do {
+			int p = (low + high) >>> 1;
+			final int cmp = id.prefixCompare(data, idOffset(p));
+			if (cmp < 0)
+				high = p;
+			else if (cmp == 0) {
+				// We may have landed in the middle of the matches.  Move
+				// backwards to the start of matches, then walk forwards.
+				//
+				while (0 < p && id.prefixCompare(data, idOffset(p - 1)) == 0)
+					p--;
+				for (; p < max && id.prefixCompare(data, idOffset(p)) == 0; p++) {
+					matches.add(ObjectId.fromRaw(data, idOffset(p)));
+					if (matches.size() > matchLimit)
+						break;
+				}
+				return;
+			} else
+				low = p + 1;
+		} while (low < high);
+	}
+
+	private static int idOffset(int p) {
+		return (p << 2) + p; // p * 5
 	}
 
 	private int binarySearchLevelTwo(final AnyObjectId objId, final int levelOne) {

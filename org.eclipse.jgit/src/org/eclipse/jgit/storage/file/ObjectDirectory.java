@@ -65,8 +65,10 @@ import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.PackMismatchException;
 import org.eclipse.jgit.events.ConfigChangedEvent;
 import org.eclipse.jgit.events.ConfigChangedListener;
+import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.CoreConfig;
 import org.eclipse.jgit.lib.ObjectDatabase;
 import org.eclipse.jgit.lib.ObjectId;
@@ -99,6 +101,9 @@ import org.eclipse.jgit.util.FS;
 public class ObjectDirectory extends FileObjectDatabase implements
 		ConfigChangedListener {
 	private static final PackList NO_PACKS = new PackList(-1, -1, new PackFile[0]);
+
+	/** Maximum number of candidates offered as resolutions of abbreviation. */
+	private static final int RESOLVE_ABBREV_LIMIT = 256;
 
 	private final Config config;
 
@@ -278,6 +283,48 @@ public class ObjectDirectory extends FileObjectDatabase implements
 			}
 		}
 		return false;
+	}
+
+	void resolve(Set<ObjectId> matches, AbbreviatedObjectId id)
+			throws IOException {
+		PackList pList = packList.get();
+		if (pList == null)
+			pList = scanPacks(pList);
+		for (PackFile p : pList.packs) {
+			try {
+				p.resolve(matches, id, RESOLVE_ABBREV_LIMIT);
+			} catch (IOException e) {
+				// Assume the pack is corrupted.
+				//
+				removePack(p);
+			}
+			if (matches.size() > RESOLVE_ABBREV_LIMIT)
+				return;
+		}
+
+		String fanOut = id.name().substring(0, 2);
+		String[] entries = new File(getDirectory(), fanOut).list();
+		if (entries != null) {
+			for (String e : entries) {
+				if (e.length() != Constants.OBJECT_ID_STRING_LENGTH - 2)
+					continue;
+				try {
+					ObjectId entId = ObjectId.fromString(fanOut + e);
+					if (id.prefixCompare(entId) == 0)
+						matches.add(entId);
+				} catch (IllegalArgumentException notId) {
+					continue;
+				}
+				if (matches.size() > RESOLVE_ABBREV_LIMIT)
+					return;
+			}
+		}
+
+		for (AlternateHandle alt : myAlternates()) {
+			alt.db.resolve(matches, id);
+			if (matches.size() > RESOLVE_ABBREV_LIMIT)
+				return;
+		}
 	}
 
 	ObjectLoader openObject1(final WindowCursor curs,

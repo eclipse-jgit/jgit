@@ -44,8 +44,10 @@
 package org.eclipse.jgit.lib;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -73,6 +75,104 @@ public abstract class ObjectReader {
 	 * @return a brand new reader, using the same data source.
 	 */
 	public abstract ObjectReader newReader();
+
+	/**
+	 * Obtain a unique abbreviation (prefix) of an object SHA-1.
+	 *
+	 * This method uses a reasonable default for the minimum length. Callers who
+	 * don't care about the minimum length should prefer this method.
+	 *
+	 * The returned abbreviation would expand back to the argument ObjectId when
+	 * passed to {@link #resolve(AbbreviatedObjectId)}, assuming no new objects
+	 * are added to this repository between calls.
+	 *
+	 * @param objectId
+	 *            object identity that needs to be abbreviated.
+	 * @return SHA-1 abbreviation.
+	 * @throws IOException
+	 *             the object store cannot be read.
+	 */
+	public AbbreviatedObjectId abbreviate(AnyObjectId objectId)
+			throws IOException {
+		return abbreviate(objectId, 7);
+	}
+
+	/**
+	 * Obtain a unique abbreviation (prefix) of an object SHA-1.
+	 *
+	 * The returned abbreviation would expand back to the argument ObjectId when
+	 * passed to {@link #resolve(AbbreviatedObjectId)}, assuming no new objects
+	 * are added to this repository between calls.
+	 *
+	 * The default implementation of this method abbreviates the id to the
+	 * minimum length, then resolves it to see if there are multiple results.
+	 * When multiple results are found, the length is extended by 1 and resolve
+	 * is tried again.
+	 *
+	 * @param objectId
+	 *            object identity that needs to be abbreviated.
+	 * @param len
+	 *            minimum length of the abbreviated string. Must be in the range
+	 *            [2, {@value Constants#OBJECT_ID_STRING_LENGTH}].
+	 * @return SHA-1 abbreviation. If no matching objects exist in the
+	 *         repository, the abbreviation will match the minimum length.
+	 * @throws IOException
+	 *             the object store cannot be read.
+	 */
+	public AbbreviatedObjectId abbreviate(AnyObjectId objectId, int len)
+			throws IOException {
+		if (len == Constants.OBJECT_ID_STRING_LENGTH)
+			return AbbreviatedObjectId.fromObjectId(objectId);
+
+		AbbreviatedObjectId abbrev = objectId.abbreviate(len);
+		Collection<ObjectId> matches = resolve(abbrev);
+		while (1 < matches.size() && len < Constants.OBJECT_ID_STRING_LENGTH) {
+			abbrev = objectId.abbreviate(++len);
+			List<ObjectId> n = new ArrayList<ObjectId>(8);
+			for (ObjectId candidate : matches) {
+				if (abbrev.prefixCompare(candidate) == 0)
+					n.add(candidate);
+			}
+			if (1 < n.size())
+				matches = n;
+			else
+				matches = resolve(abbrev);
+		}
+		return abbrev;
+	}
+
+	/**
+	 * Resolve an abbreviated ObjectId to its full form.
+	 *
+	 * This method searches for an ObjectId that begins with the abbreviation,
+	 * and returns at least some matching candidates.
+	 *
+	 * If the returned collection is empty, no objects start with this
+	 * abbreviation. The abbreviation doesn't belong to this repository, or the
+	 * repository lacks the necessary objects to complete it.
+	 *
+	 * If the collection contains exactly one member, the abbreviation is
+	 * (currently) unique within this database. There is a reasonably high
+	 * probability that the returned id is what was previously abbreviated.
+	 *
+	 * If the collection contains 2 or more members, the abbreviation is not
+	 * unique. In this case the implementation is only required to return at
+	 * least 2 candidates to signal the abbreviation has conflicts. User
+	 * friendly implementations should return as many candidates as reasonably
+	 * possible, as the caller may be able to disambiguate further based on
+	 * context. However since databases can be very large (e.g. 10 million
+	 * objects) returning 625,000 candidates for the abbreviation "0" is simply
+	 * unreasonable, so implementors should draw the line at around 256 matches.
+	 *
+	 * @param id
+	 *            abbreviated id to resolve to a complete identity. The
+	 *            abbreviation must have a length of at least 2.
+	 * @return candidates that begin with the abbreviated identity.
+	 * @throws IOException
+	 *             the object store cannot be read.
+	 */
+	public abstract Collection<ObjectId> resolve(AbbreviatedObjectId id)
+			throws IOException;
 
 	/**
 	 * Does the requested object exist in this database?

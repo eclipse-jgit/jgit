@@ -353,8 +353,8 @@ public class RemoteRefUpdate {
 	@Override
 	public String toString() {
 		return "RemoteRefUpdate[remoteName=" + remoteName + ", " + status
-				+ ", " + (expectedOldObjectId!=null?expectedOldObjectId.abbreviate(localDb).name() :"(null)")
-				+ "..." + (newObjectId != null ? newObjectId.abbreviate(localDb).name() : "(null)")
+				+ ", " + (expectedOldObjectId!=null ? expectedOldObjectId.name() : "(null)")
+				+ "..." + (newObjectId != null ? newObjectId.name() : "(null)")
 				+ (fastForward ? ", fastForward" : "")
 				+ ", srcRef=" + srcRef + (forceUpdate ? ", forceUpdate" : "") + ", message=" + (message != null ? "\""
 				+ message + "\"" : "null") + "]";

@@ -46,7 +46,9 @@ package org.eclipse.jgit.storage.file;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Set;
 
+import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectDatabase;
@@ -141,6 +143,17 @@ class CachedObjectDirectory extends FileObjectDatabase {
 			}
 		}
 		return alts;
+	}
+
+	@Override
+	void resolve(Set<ObjectId> matches, AbbreviatedObjectId id)
+			throws IOException {
+		// In theory we could accelerate the loose object scan using our
+		// unpackedObjects map, but its not worth the huge code complexity.
+		// Scanning a single loose directory is fast enough, and this is
+		// unlikely to be called anyway.
+		//
+		wrapped.resolve(matches, id);
 	}
 
 	@Override

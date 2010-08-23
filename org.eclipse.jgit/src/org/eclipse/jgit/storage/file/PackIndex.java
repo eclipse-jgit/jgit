@@ -50,9 +50,11 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.Iterator;
+import java.util.Set;
 
 import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.MutableObjectId;
 import org.eclipse.jgit.lib.ObjectId;
@@ -248,6 +250,9 @@ public abstract class PackIndex implements Iterable<PackIndex.MutableEntry> {
 	 * @return true if CRC32 is stored, false otherwise
 	 */
 	abstract boolean hasCRC32Support();
+
+	abstract void resolve(Set<ObjectId> matches, AbbreviatedObjectId id,
+			int matchLimit) throws IOException;
 
 	/**
 	 * Represent mutable entry of pack index consisting of object id and offset

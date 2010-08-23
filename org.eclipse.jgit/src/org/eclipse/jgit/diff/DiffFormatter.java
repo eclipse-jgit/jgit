@@ -63,6 +63,7 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.CoreConfig;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectLoader;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.patch.FileHeader;
 import org.eclipse.jgit.patch.HunkHeader;
@@ -100,7 +101,7 @@ public class DiffFormatter {
 	public DiffFormatter(OutputStream out) {
 		this.out = out;
 		setContext(3);
-		setAbbreviationLength(8);
+		setAbbreviationLength(7);
 	}
 
 	/** @return the stream we are outputting data to. */
@@ -327,10 +328,18 @@ public class DiffFormatter {
 		o.write(encode("+++ " + newName + '\n'));
 	}
 
-	private String format(AbbreviatedObjectId oldId) {
-		if (oldId.isComplete() && db != null)
-			oldId = oldId.toObjectId().abbreviate(db, abbreviationLength);
-		return oldId.name();
+	private String format(AbbreviatedObjectId id) {
+		if (id.isComplete() && db != null) {
+			ObjectReader reader = db.newObjectReader();
+			try {
+				id = reader.abbreviate(id.toObjectId(), abbreviationLength);
+			} catch (IOException cannotAbbreviate) {
+				// Ignore this. We'll report the full identity.
+			} finally {
+				reader.release();
+			}
+		}
+		return id.name();
 	}
 
 	private static String quotePath(String name) {
