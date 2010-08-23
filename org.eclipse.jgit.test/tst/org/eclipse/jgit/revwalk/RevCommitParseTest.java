@@ -46,7 +46,7 @@ package org.eclipse.jgit.revwalk;
 import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
 
-import org.eclipse.jgit.lib.Commit;
+import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -321,7 +321,7 @@ public class RevCommitParseTest extends RepositoryTestCase {
 	public void testParse_PublicParseMethod()
 			throws UnsupportedEncodingException {
 		ObjectInserter.Formatter fmt = new ObjectInserter.Formatter();
-		Commit src = new Commit();
+		CommitBuilder src = new CommitBuilder();
 		src.setTreeId(fmt.idFor(Constants.OBJ_TREE, new byte[] {}));
 		src.setAuthor(author);
 		src.setCommitter(committer);

@@ -172,7 +172,7 @@ public class ObjectWriter {
 	 * @return SHA-1 of the commit
 	 * @throws IOException
 	 */
-	public ObjectId writeCommit(Commit commit) throws IOException {
+	public ObjectId writeCommit(CommitBuilder commit) throws IOException {
 		try {
 			ObjectId id = inserter.insert(OBJ_COMMIT, inserter.format(commit));
 			inserter.flush();
@@ -190,7 +190,7 @@ public class ObjectWriter {
 	 * @return SHA-1 of the tag
 	 * @throws IOException
 	 */
-	public ObjectId writeTag(Tag tag) throws IOException {
+	public ObjectId writeTag(TagBuilder tag) throws IOException {
 		try {
 			ObjectId id = inserter.insert(OBJ_TAG, inserter.format(tag));
 			inserter.flush();

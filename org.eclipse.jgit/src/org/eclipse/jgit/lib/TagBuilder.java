@@ -57,7 +57,7 @@ import org.eclipse.jgit.revwalk.RevObject;
  * and obtain a {@link org.eclipse.jgit.revwalk.RevTag} instance by calling
  * {@link org.eclipse.jgit.revwalk.RevWalk#parseTag(AnyObjectId)}.
  */
-public class Tag {
+public class TagBuilder {
 	private ObjectId tagId;
 
 	private ObjectId object;

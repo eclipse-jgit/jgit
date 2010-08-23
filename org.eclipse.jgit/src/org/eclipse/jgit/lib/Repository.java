@@ -1091,7 +1091,7 @@ public abstract class Repository {
 	 * file operations triggering a merge will store the IDs of all heads which
 	 * should be merged together with HEAD.
 	 *
-	 * @return a list of {@link Commit}s which IDs are listed in the MERGE_HEAD
+	 * @return a list of commits which IDs are listed in the MERGE_HEAD
 	 *         file or {@code null} if this file doesn't exist. Also if the file
 	 *         exists but is empty {@code null} will be returned
 	 * @throws IOException
@@ -1130,7 +1130,7 @@ public abstract class Repository {
 	 * the file will be deleted
 	 *
 	 * @param heads
-	 *            a list of {@link Commit}s which IDs should be written to
+	 *            a list of commits which IDs should be written to
 	 *            $GIT_DIR/MERGE_HEAD or <code>null</code> to delete the file
 	 * @throws IOException
 	 */

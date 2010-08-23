@@ -93,7 +93,9 @@ class Tag extends TextBuiltin {
 		final ObjectInserter inserter = db.newObjectInserter();
 		final ObjectId id;
 		try {
-			org.eclipse.jgit.lib.Tag tag = new org.eclipse.jgit.lib.Tag();
+			final org.eclipse.jgit.lib.TagBuilder tag;
+
+			tag = new org.eclipse.jgit.lib.TagBuilder();
 			tag.setObjectId(object, ldr.getType());
 			tag.setTagger(new PersonIdent(db));
 			tag.setMessage(message.replaceAll("\r", ""));

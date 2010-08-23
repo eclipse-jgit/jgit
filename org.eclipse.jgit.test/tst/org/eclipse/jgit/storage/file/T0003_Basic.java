@@ -60,7 +60,7 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.AnyObjectId;
-import org.eclipse.jgit.lib.Commit;
+import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileTreeEntry;
@@ -72,7 +72,7 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.SampleDataRepositoryTestCase;
-import org.eclipse.jgit.lib.Tag;
+import org.eclipse.jgit.lib.TagBuilder;
 import org.eclipse.jgit.lib.Tree;
 import org.eclipse.jgit.lib.TreeEntry;
 import org.eclipse.jgit.lib.WriteTree;
@@ -383,7 +383,7 @@ public class T0003_Basic extends SampleDataRepositoryTestCase {
 		assertEquals(ObjectId.fromString("00b1f73724f493096d1ffa0b0f1f1482dbb8c936"),
 				t.getTreeId());
 
-		final Commit c = new Commit();
+		final CommitBuilder c = new CommitBuilder();
 		c.setAuthor(new PersonIdent(author, 1154236443000L, -4 * 60));
 		c.setCommitter(new PersonIdent(committer, 1154236443000L, -4 * 60));
 		c.setMessage("A Commit\n");
@@ -440,7 +440,7 @@ public class T0003_Basic extends SampleDataRepositoryTestCase {
 
 	public void test020_createBlobTag() throws IOException {
 		final ObjectId emptyId = new ObjectWriter(db).writeBlob(new byte[0]);
-		final Tag t = new Tag();
+		final TagBuilder t = new TagBuilder();
 		t.setObjectId(emptyId, Constants.OBJ_BLOB);
 		t.setTag("test020");
 		t.setTagger(new PersonIdent(author, 1154236443000L, -4 * 60));
@@ -460,7 +460,7 @@ public class T0003_Basic extends SampleDataRepositoryTestCase {
 		final Tree almostEmptyTree = new Tree(db);
 		almostEmptyTree.addEntry(new FileTreeEntry(almostEmptyTree, emptyId, "empty".getBytes(), false));
 		final ObjectId almostEmptyTreeId = new ObjectWriter(db).writeTree(almostEmptyTree);
-		final Tag t = new Tag();
+		final TagBuilder t = new TagBuilder();
 		t.setObjectId(almostEmptyTreeId, Constants.OBJ_TREE);
 		t.setTag("test021");
 		t.setTagger(new PersonIdent(author, 1154236443000L, -4 * 60));
@@ -480,13 +480,13 @@ public class T0003_Basic extends SampleDataRepositoryTestCase {
 		final Tree almostEmptyTree = new Tree(db);
 		almostEmptyTree.addEntry(new FileTreeEntry(almostEmptyTree, emptyId, "empty".getBytes(), false));
 		final ObjectId almostEmptyTreeId = new ObjectWriter(db).writeTree(almostEmptyTree);
-		final Commit almostEmptyCommit = new Commit();
+		final CommitBuilder almostEmptyCommit = new CommitBuilder();
 		almostEmptyCommit.setAuthor(new PersonIdent(author, 1154236443000L, -2 * 60)); // not exactly the same
 		almostEmptyCommit.setCommitter(new PersonIdent(author, 1154236443000L, -2 * 60));
 		almostEmptyCommit.setMessage("test022\n");
 		almostEmptyCommit.setTreeId(almostEmptyTreeId);
 		ObjectId almostEmptyCommitId = insertCommit(almostEmptyCommit);
-		final Tag t = new Tag();
+		final TagBuilder t = new TagBuilder();
 		t.setObjectId(almostEmptyCommitId,Constants.OBJ_COMMIT);
 		t.setTag("test022");
 		t.setTagger(new PersonIdent(author, 1154236443000L, -4 * 60));
@@ -506,7 +506,7 @@ public class T0003_Basic extends SampleDataRepositoryTestCase {
 		final Tree almostEmptyTree = new Tree(db);
 		almostEmptyTree.addEntry(new FileTreeEntry(almostEmptyTree, emptyId, "empty".getBytes(), false));
 		final ObjectId almostEmptyTreeId = new ObjectWriter(db).writeTree(almostEmptyTree);
-		Commit commit = new Commit();
+		CommitBuilder commit = new CommitBuilder();
 		commit.setTreeId(almostEmptyTreeId);
 		commit.setAuthor(new PersonIdent("Joe H\u00e4cker","joe@example.com",4294967295000L,60));
 		commit.setCommitter(new PersonIdent("Joe Hacker","joe2@example.com",4294967295000L,60));
@@ -524,7 +524,7 @@ public class T0003_Basic extends SampleDataRepositoryTestCase {
 		final Tree almostEmptyTree = new Tree(db);
 		almostEmptyTree.addEntry(new FileTreeEntry(almostEmptyTree, emptyId, "empty".getBytes(), false));
 		final ObjectId almostEmptyTreeId = new ObjectWriter(db).writeTree(almostEmptyTree);
-		Commit commit = new Commit();
+		CommitBuilder commit = new CommitBuilder();
 		commit.setTreeId(almostEmptyTreeId);
 		commit.setAuthor(new PersonIdent("Joe H\u00e4cker","joe@example.com",4294967295000L,60));
 		commit.setCommitter(new PersonIdent("Joe Hacker","joe2@example.com",4294967295000L,60));
@@ -551,7 +551,7 @@ public class T0003_Basic extends SampleDataRepositoryTestCase {
 		assertEquals(ObjectId.fromString("00b1f73724f493096d1ffa0b0f1f1482dbb8c936"),
 				t.getTreeId());
 
-		final Commit c1 = new Commit();
+		final CommitBuilder c1 = new CommitBuilder();
 		c1.setAuthor(new PersonIdent(author, 1154236443000L, -4 * 60));
 		c1.setCommitter(new PersonIdent(committer, 1154236443000L, -4 * 60));
 		c1.setMessage("A Commit\n");
@@ -562,7 +562,7 @@ public class T0003_Basic extends SampleDataRepositoryTestCase {
 				"803aec4aba175e8ab1d666873c984c0308179099");
 		assertEquals(cmtid1, c1.getCommitId());
 
-		final Commit c2 = new Commit();
+		final CommitBuilder c2 = new CommitBuilder();
 		c2.setAuthor(new PersonIdent(author, 1154236443000L, -4 * 60));
 		c2.setCommitter(new PersonIdent(committer, 1154236443000L, -4 * 60));
 		c2.setMessage("A Commit 2\n");
@@ -583,7 +583,7 @@ public class T0003_Basic extends SampleDataRepositoryTestCase {
 		assertEquals(1, rm2.getParentCount());
 		assertEquals(c1.getCommitId(), rm2.getParent(0));
 
-		final Commit c3 = new Commit();
+		final CommitBuilder c3 = new CommitBuilder();
 		c3.setAuthor(new PersonIdent(author, 1154236443000L, -4 * 60));
 		c3.setCommitter(new PersonIdent(committer, 1154236443000L, -4 * 60));
 		c3.setMessage("A Commit 3\n");
@@ -605,7 +605,7 @@ public class T0003_Basic extends SampleDataRepositoryTestCase {
 		assertEquals(c1.getCommitId(), rm3.getParent(0));
 		assertEquals(c2.getCommitId(), rm3.getParent(1));
 
-		final Commit c4 = new Commit();
+		final CommitBuilder c4 = new CommitBuilder();
 		c4.setAuthor(new PersonIdent(author, 1154236443000L, -4 * 60));
 		c4.setCommitter(new PersonIdent(committer, 1154236443000L, -4 * 60));
 		c4.setMessage("A Commit 4\n");
@@ -693,7 +693,7 @@ public class T0003_Basic extends SampleDataRepositoryTestCase {
 
 	}
 
-	private ObjectId insertCommit(final Commit commit) throws IOException,
+	private ObjectId insertCommit(final CommitBuilder commit) throws IOException,
 			UnsupportedEncodingException {
 		ObjectInserter oi = db.newObjectInserter();
 		try {
@@ -717,7 +717,7 @@ public class T0003_Basic extends SampleDataRepositoryTestCase {
 		}
 	}
 
-	private ObjectId insertTag(final Tag tag) throws IOException,
+	private ObjectId insertTag(final TagBuilder tag) throws IOException,
 			UnsupportedEncodingException {
 		ObjectInserter oi = db.newObjectInserter();
 		try {

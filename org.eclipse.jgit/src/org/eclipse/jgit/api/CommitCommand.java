@@ -50,7 +50,7 @@ import java.util.List;
 import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.errors.UnmergedPathException;
-import org.eclipse.jgit.lib.Commit;
+import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -100,7 +100,7 @@ public class CommitCommand extends GitCommand<RevCommit> {
 	 * class should only be used for one invocation of the command (means: one
 	 * call to {@link #call()})
 	 *
-	 * @return a {@link Commit} object representing the successful commit
+	 * @return a {@link RevCommit} object representing the successful commit.
 	 * @throws NoHeadException
 	 *             when called on a git repo without a HEAD reference
 	 * @throws NoMessageException
@@ -162,7 +162,7 @@ public class CommitCommand extends GitCommand<RevCommit> {
 					ObjectId indexTreeId = index.writeTree(odi);
 
 					// Create a Commit object, populate it and write it
-					Commit commit = new Commit();
+					CommitBuilder commit = new CommitBuilder();
 					commit.setCommitter(committer);
 					commit.setAuthor(author);
 					commit.setMessage(message);

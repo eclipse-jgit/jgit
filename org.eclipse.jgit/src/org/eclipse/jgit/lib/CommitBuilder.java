@@ -59,7 +59,7 @@ import java.util.List;
  * and obtain a {@link org.eclipse.jgit.revwalk.RevCommit} instance by calling
  * {@link org.eclipse.jgit.revwalk.RevWalk#parseCommit(AnyObjectId)}.
  */
-public class Commit {
+public class CommitBuilder {
 	private static final ObjectId[] EMPTY_OBJECTID_LIST = new ObjectId[0];
 
 	private ObjectId commitId;
@@ -77,7 +77,7 @@ public class Commit {
 	private Charset encoding;
 
 	/** Initialize an empty commit. */
-	public Commit() {
+	public CommitBuilder() {
 		parentIds = EMPTY_OBJECTID_LIST;
 		encoding = Constants.CHARSET;
 	}

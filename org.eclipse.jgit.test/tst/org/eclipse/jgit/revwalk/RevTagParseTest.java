@@ -51,7 +51,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RepositoryTestCase;
-import org.eclipse.jgit.lib.Tag;
+import org.eclipse.jgit.lib.TagBuilder;
 
 public class RevTagParseTest extends RepositoryTestCase {
 	public void testTagBlob() throws Exception {
@@ -400,7 +400,7 @@ public class RevTagParseTest extends RepositoryTestCase {
 
 	public void testParse_PublicParseMethod() throws CorruptObjectException {
 		ObjectInserter.Formatter fmt = new ObjectInserter.Formatter();
-		Tag src = new Tag();
+		TagBuilder src = new TagBuilder();
 		src.setObjectId(fmt.idFor(Constants.OBJ_TREE, new byte[] {}),
 				Constants.OBJ_TREE);
 		src.setTagger(committer);

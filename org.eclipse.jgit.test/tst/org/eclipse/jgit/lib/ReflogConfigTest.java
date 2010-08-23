@@ -104,7 +104,7 @@ public class ReflogConfigTest extends RepositoryTestCase {
 
 	private void commit(final Tree t, String commitMsg, PersonIdent author,
 			PersonIdent committer) throws IOException {
-		final Commit commit = new Commit();
+		final CommitBuilder commit = new CommitBuilder();
 		commit.setAuthor(author);
 		commit.setCommitter(committer);
 		commit.setMessage(commitMsg);

@@ -50,7 +50,7 @@ import static org.eclipse.jgit.lib.Constants.OBJ_COMMIT;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
 import org.eclipse.jgit.dircache.DirCacheEntry;
-import org.eclipse.jgit.lib.Commit;
+import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
@@ -131,7 +131,7 @@ public class CherryPickTest extends RepositoryTestCase {
 
 	private ObjectId commit(final ObjectInserter odi, final DirCache treeB,
 			final ObjectId[] parentIds) throws Exception {
-		final Commit c = new Commit();
+		final CommitBuilder c = new CommitBuilder();
 		c.setTreeId(treeB.writeTree(odi));
 		c.setAuthor(new PersonIdent("A U Thor", "a.u.thor", 1L, 0));
 		c.setCommitter(c.getAuthor());

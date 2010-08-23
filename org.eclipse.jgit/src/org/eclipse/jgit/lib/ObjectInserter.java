@@ -303,7 +303,7 @@ public abstract class ObjectInserter {
 	 * @throws UnsupportedEncodingException
 	 *             the commit's chosen encoding isn't supported on this JVM.
 	 */
-	public final byte[] format(Commit commit)
+	public final byte[] format(CommitBuilder commit)
 			throws UnsupportedEncodingException {
 		Charset encoding = commit.getEncoding();
 		ByteArrayOutputStream os = new ByteArrayOutputStream();
@@ -362,7 +362,7 @@ public abstract class ObjectInserter {
 	 *            the tag object to format
 	 * @return canonical encoding of the tag object.
 	 */
-	public final byte[] format(Tag tag) {
+	public final byte[] format(TagBuilder tag) {
 		ByteArrayOutputStream os = new ByteArrayOutputStream();
 		OutputStreamWriter w = new OutputStreamWriter(os, Constants.CHARSET);
 		try {
