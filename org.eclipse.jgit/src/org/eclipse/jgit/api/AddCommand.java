@@ -43,8 +43,8 @@
  */
 package org.eclipse.jgit.api;
 
-import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Collection;
 import java.util.LinkedList;
 
@@ -54,7 +54,8 @@ import org.eclipse.jgit.dircache.DirCacheBuildIterator;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
 import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.dircache.DirCacheIterator;
-import org.eclipse.jgit.lib.ObjectWriter;
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.treewalk.TreeWalk;
@@ -128,9 +129,9 @@ public class AddCommand extends GitCommand<DirCache> {
 		if (filepatterns.contains("."))
 			addAll = true;
 
+		ObjectInserter inserter = repo.newObjectInserter();
 		try {
 			dc = repo.lockDirCache();
-			ObjectWriter ow = new ObjectWriter(repo);
 			DirCacheIterator c;
 
 			DirCacheBuilder builder = dc.builder();
@@ -149,7 +150,6 @@ public class AddCommand extends GitCommand<DirCache> {
 			while (tw.next()) {
 				String path = tw.getPathString();
 
-				final File file = new File(repo.getWorkTree(), path);
 				WorkingTreeIterator f = tw.getTree(1, WorkingTreeIterator.class);
 				if (tw.getTree(0, DirCacheIterator.class) == null &&
 						f != null && f.isEntryIgnored()) {
@@ -162,11 +162,19 @@ public class AddCommand extends GitCommand<DirCache> {
 				else if (!(path.equals(lastAddedFile))) {
 					if (!(update && tw.getTree(0, DirCacheIterator.class) == null)) {
 						if (f != null) { // the file exists
+							long sz = f.getEntryLength();
 							DirCacheEntry entry = new DirCacheEntry(path);
-							entry.setLength((int)f.getEntryLength());
+							entry.setLength(sz);
 							entry.setLastModified(f.getEntryLastModified());
 							entry.setFileMode(f.getEntryFileMode());
-							entry.setObjectId(ow.writeBlob(file));
+
+							InputStream in = f.openEntryStream();
+							try {
+								entry.setObjectId(inserter.insert(
+										Constants.OBJ_BLOB, sz, in));
+							} finally {
+								in.close();
+							}
 
 							builder.add(entry);
 							lastAddedFile = path;
@@ -177,12 +185,14 @@ public class AddCommand extends GitCommand<DirCache> {
 					}
 				}
 			}
+			inserter.flush();
 			builder.commit();
 			setCallable(false);
 		} catch (IOException e) {
 			throw new JGitInternalException(
 					JGitText.get().exceptionCaughtDuringExecutionOfAddCommand, e);
 		} finally {
+			inserter.release();
 			if (dc != null)
 				dc.unlock();
 		}

@@ -385,6 +385,26 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	}
 
 	/**
+	 * Obtain an input stream to read the file content.
+	 * <p>
+	 * Efficient implementations are not required. The caller will usually
+	 * obtain the stream only once per entry, if at all.
+	 * <p>
+	 * The input stream should not use buffering if the implementation can avoid
+	 * it. The caller will buffer as necessary to perform efficient block IO
+	 * operations.
+	 * <p>
+	 * The caller will close the stream once complete.
+	 *
+	 * @return a stream to read from the file.
+	 * @throws IOException
+	 *             the file could not be opened for reading.
+	 */
+	public InputStream openEntryStream() throws IOException {
+		return current().openInputStream();
+	}
+
+	/**
 	 * Determine if the current entry path is ignored by an ignore rule.
 	 *
 	 * @return true if the entry was ignored by an ignore rule file.
