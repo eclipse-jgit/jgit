@@ -1,8 +1,5 @@
 /*
- * Copyright (C) 2009, Google Inc.
- * Copyright (C) 2008, Jonas Fonseca <fonseca@diku.dk>
- * Copyright (C) 2007, Robin Rosenberg <robin.rosenberg@dewire.com>
- * Copyright (C) 2006-2007, Shawn O. Pearce <spearce@spearce.org>
+ * Copyright (C) 2010, Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -48,42 +45,19 @@ package org.eclipse.jgit.errors;
 
 import java.io.IOException;
 import java.text.MessageFormat;
+import java.util.Collection;
 
 import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
-import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 
-/**
- * An expected object is missing.
- */
-public class MissingObjectException extends IOException {
+/** An {@link AbbreviatedObjectId} cannot be extended. */
+public class AmbiguousObjectException extends IOException {
 	private static final long serialVersionUID = 1L;
 
-	private final ObjectId missing;
+	private final AbbreviatedObjectId missing;
 
-	/**
-	 * Construct a MissingObjectException for the specified object id.
-	 * Expected type is reported to simplify tracking down the problem.
-	 *
-	 * @param id SHA-1
-	 * @param type object type
-	 */
-	public MissingObjectException(final ObjectId id, final String type) {
-		super(MessageFormat.format(JGitText.get().missingObject, type, id.name()));
-		missing = id.copy();
-	}
-
-	/**
-	 * Construct a MissingObjectException for the specified object id.
-	 * Expected type is reported to simplify tracking down the problem.
-	 *
-	 * @param id SHA-1
-	 * @param type object type
-	 */
-	public MissingObjectException(final ObjectId id, final int type) {
-		this(id, Constants.typeString(type));
-	}
+	private final Collection<ObjectId> candidates;
 
 	/**
 	 * Construct a MissingObjectException for the specified object id. Expected
@@ -91,17 +65,24 @@ public class MissingObjectException extends IOException {
 	 *
 	 * @param id
 	 *            SHA-1
-	 * @param type
-	 *            object type
+	 * @param candidates
+	 *            the candidate matches returned by the ObjectReader.
 	 */
-	public MissingObjectException(final AbbreviatedObjectId id, final int type) {
-		super(MessageFormat.format(JGitText.get().missingObject, Constants
-				.typeString(type), id.name()));
-		missing = null;
+	public AmbiguousObjectException(final AbbreviatedObjectId id,
+			final Collection<ObjectId> candidates) {
+		super(MessageFormat.format(JGitText.get().ambiguousObjectAbbreviation,
+				id.name()));
+		this.missing = id;
+		this.candidates = candidates;
 	}
 
-	/** @return the ObjectId that was not found. */
-	public ObjectId getObjectId() {
+	/** @return the AbbreviatedObjectId that has more than one result. */
+	public AbbreviatedObjectId getAbbreviatedObjectId() {
 		return missing;
+	}
+
+	/** @return the matching candidates (or at least a subset of them). */
+	public Collection<ObjectId> getCandidates() {
+		return candidates;
 	}
 }
