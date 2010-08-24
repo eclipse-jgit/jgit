@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALyn///8w\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffEntry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-23T15:38:14Z",
+      "side": 1,
+      "message": "Why do we need this?\n\nWhy not just add an EmptyTreeIterator to the TreeWalk in slot 0 inside of EGit?  Then you are comparing the initial commit to the empty tree, and everything magically falls out as added?\n\nIts what I do inside of Gerrit Code Review for initial commits.  And it means I don\u0027t have to muck around with special corner cases like this inside of JGit.",
+      "revId": "faa713bcde6d027a0020acf5edfafcb861a7c704",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
