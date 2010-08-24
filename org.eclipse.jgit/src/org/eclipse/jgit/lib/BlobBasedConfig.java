@@ -57,7 +57,6 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
-import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
 
 /**
@@ -117,17 +116,7 @@ public class BlobBasedConfig extends Config {
 			throws MissingObjectException, IncorrectObjectTypeException,
 			IOException {
 		ObjectLoader loader = or.open(blobId, Constants.OBJ_BLOB);
-		if (loader.isLarge()) {
-			ObjectStream in = loader.openStream();
-			try {
-				byte[] buf = new byte[(int) in.getSize()];
-				IO.readFully(in, buf, 0, buf.length);
-				return buf;
-			} finally {
-				in.close();
-			}
-		}
-		return loader.getCachedBytes();
+		return loader.getCachedBytes(Integer.MAX_VALUE);
 	}
 
 	/**
