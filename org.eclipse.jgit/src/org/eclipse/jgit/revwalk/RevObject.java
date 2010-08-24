@@ -45,40 +45,15 @@ package org.eclipse.jgit.revwalk;
 
 import java.io.IOException;
 
-import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
-import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.ObjectLoader;
-import org.eclipse.jgit.lib.ObjectStream;
-import org.eclipse.jgit.util.IO;
 
 /** Base object type accessed during revision walking. */
 public abstract class RevObject extends ObjectId {
 	static final int PARSED = 1;
-
-	static byte[] asByteArray(RevObject obj, ObjectLoader loader) throws IOException {
-		if (loader.isLarge()) {
-			ObjectStream in = loader.openStream();
-			try {
-				long sz = in.getSize();
-				if (Integer.MAX_VALUE <= sz){
-					if (obj != null)
-						throw new LargeObjectException(obj.copy());
-					throw new LargeObjectException();
-				}
-				byte[] buf = new byte[(int) sz];
-				IO.readFully(in, buf, 0, buf.length);
-				return buf;
-			} finally {
-				in.close();
-			}
-		}
-		return loader.getCachedBytes();
-	}
 
 	int flags;
 
@@ -86,23 +61,11 @@ public abstract class RevObject extends ObjectId {
 		super(name);
 	}
 
-	void parseHeaders(final RevWalk walk) throws MissingObjectException,
-			IncorrectObjectTypeException, IOException {
-		loadCanonical(walk);
-		flags |= PARSED;
-	}
+	abstract void parseHeaders(RevWalk walk) throws MissingObjectException,
+			IncorrectObjectTypeException, IOException;
 
-	void parseBody(final RevWalk walk) throws MissingObjectException,
-			IncorrectObjectTypeException, IOException {
-		if ((flags & PARSED) == 0)
-			parseHeaders(walk);
-	}
-
-	final byte[] loadCanonical(final RevWalk walk) throws IOException,
-			MissingObjectException, IncorrectObjectTypeException,
-			CorruptObjectException {
-		return asByteArray(this, walk.reader.open(this, getType()));
-	}
+	abstract void parseBody(RevWalk walk) throws MissingObjectException,
+			IncorrectObjectTypeException, IOException;
 
 	/**
 	 * Get Git object type. See {@link Constants}.
