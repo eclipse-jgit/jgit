@@ -133,14 +133,14 @@ public class RevCommit extends RevObject {
 	@Override
 	void parseHeaders(final RevWalk walk) throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
-		parseCanonical(walk, loadCanonical(walk));
+		parseCanonical(walk, walk.getCachedBytes(this));
 	}
 
 	@Override
 	void parseBody(final RevWalk walk) throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
 		if (buffer == null) {
-			buffer = loadCanonical(walk);
+			buffer = walk.getCachedBytes(this);
 			if ((flags & PARSED) == 0)
 				parseCanonical(walk, buffer);
 		}
