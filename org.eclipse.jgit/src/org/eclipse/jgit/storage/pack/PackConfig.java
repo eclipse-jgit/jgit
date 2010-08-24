@@ -105,9 +105,9 @@ public class PackConfig {
 	/**
 	 * Default big file threshold: {@value}
 	 *
-	 * @see #setBigFileThreshold(long)
+	 * @see #setBigFileThreshold(int)
 	 */
-	public static final long DEFAULT_BIG_FILE_THRESHOLD = 50 * 1024 * 1024;
+	public static final int DEFAULT_BIG_FILE_THRESHOLD = 50 * 1024 * 1024;
 
 	/**
 	 * Default delta cache size: {@value}
@@ -151,7 +151,7 @@ public class PackConfig {
 
 	private int deltaCacheLimit = DEFAULT_DELTA_CACHE_LIMIT;
 
-	private long bigFileThreshold = DEFAULT_BIG_FILE_THRESHOLD;
+	private int bigFileThreshold = DEFAULT_BIG_FILE_THRESHOLD;
 
 	private int threads;
 
@@ -470,7 +470,7 @@ public class PackConfig {
 	 *
 	 * @return the configured big file threshold.
 	 */
-	public long getBigFileThreshold() {
+	public int getBigFileThreshold() {
 		return bigFileThreshold;
 	}
 
@@ -482,7 +482,7 @@ public class PackConfig {
 	 * @param bigFileThreshold
 	 *            the limit, in bytes.
 	 */
-	public void setBigFileThreshold(long bigFileThreshold) {
+	public void setBigFileThreshold(int bigFileThreshold) {
 		this.bigFileThreshold = bigFileThreshold;
 	}
 
@@ -609,7 +609,7 @@ public class PackConfig {
 		setCompressionLevel(rc.getInt("pack", "compression",
 				rc.getInt("core", "compression", getCompressionLevel())));
 		setIndexVersion(rc.getInt("pack", "indexversion", getIndexVersion()));
-		setBigFileThreshold(rc.getLong("core", "bigfilethreshold", getBigFileThreshold()));
+		setBigFileThreshold(rc.getInt("core", "bigfilethreshold", getBigFileThreshold()));
 		setThreads(rc.getInt("pack", "threads", getThreads()));
 
 		// These variables aren't standardized

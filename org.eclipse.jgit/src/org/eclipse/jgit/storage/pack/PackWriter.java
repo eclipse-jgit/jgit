@@ -48,7 +48,6 @@ import static org.eclipse.jgit.storage.pack.StoredObjectRepresentation.PACK_DELT
 import static org.eclipse.jgit.storage.pack.StoredObjectRepresentation.PACK_WHOLE;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.security.MessageDigest;
 import java.util.ArrayList;
@@ -93,7 +92,6 @@ import org.eclipse.jgit.revwalk.RevFlag;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevSort;
 import org.eclipse.jgit.storage.file.PackIndexWriter;
-import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.TemporaryBuffer;
 
 /**
@@ -957,41 +955,12 @@ public class PackWriter {
 
 	static byte[] buffer(PackConfig config, ObjectReader or, AnyObjectId objId)
 			throws IOException {
-		ObjectLoader ldr = or.open(objId);
-		if (!ldr.isLarge())
-			return ldr.getCachedBytes();
-
 		// PackWriter should have already pruned objects that
 		// are above the big file threshold, so our chances of
 		// the object being below it are very good. We really
 		// shouldn't be here, unless the implementation is odd.
 
-		// If it really is too big to work with, abort out now.
-		//
-		long sz = ldr.getSize();
-		if (config.getBigFileThreshold() <= sz || Integer.MAX_VALUE < sz)
-			throw new LargeObjectException(objId.copy());
-
-		// Its considered to be large by the loader, but we really
-		// want it in byte array format. Try to make it happen.
-		//
-		byte[] buf;
-		try {
-			buf = new byte[(int) sz];
-		} catch (OutOfMemoryError noMemory) {
-			LargeObjectException e;
-
-			e = new LargeObjectException(objId.copy());
-			e.initCause(noMemory);
-			throw e;
-		}
-		InputStream in = ldr.openStream();
-		try {
-			IO.readFully(in, buf, 0, buf.length);
-		} finally {
-			in.close();
-		}
-		return buf;
+		return or.open(objId).getCachedBytes(config.getBigFileThreshold());
 	}
 
 	private Deflater deflater() {
