@@ -43,11 +43,14 @@
 
 package org.eclipse.jgit.errors;
 
+import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 
 /** An object is too big to load into memory as a single byte array. */
 public class LargeObjectException extends RuntimeException {
 	private static final long serialVersionUID = 1L;
+
+	private ObjectId objectId;
 
 	/** Create a large object exception, where the object isn't known. */
 	public LargeObjectException() {
@@ -61,7 +64,28 @@ public class LargeObjectException extends RuntimeException {
 	 *            identity of the object that is too big to be loaded as a byte
 	 *            array in this JVM.
 	 */
-	public LargeObjectException(ObjectId id) {
-		super(id.name());
+	public LargeObjectException(AnyObjectId id) {
+		setObjectId(id);
+	}
+
+	/** @return identity of the object that is too large; may be null. */
+	public ObjectId getObjectId() {
+		return objectId;
+	}
+
+	/**
+	 * Set the identity of the object, if its not already set.
+	 *
+	 * @param id
+	 *            the id of the object that is too large to process.
+	 */
+	public void setObjectId(AnyObjectId id) {
+		if (objectId == null)
+			objectId = id.copy();
+	}
+
+	@Override
+	public String getMessage() {
+		return objectId != null ? objectId.name() : getClass().getSimpleName();
 	}
 }
