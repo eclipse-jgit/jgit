@@ -77,8 +77,20 @@ public abstract class ObjectStream extends InputStream {
 		 *            the loader.
 		 */
 		public SmallStream(ObjectLoader loader) {
-			this.type = loader.getType();
-			this.data = loader.getCachedBytes();
+			this(loader.getType(), loader.getCachedBytes());
+		}
+
+		/**
+		 * Create the stream from an existing byte array and type.
+		 *
+		 *@param type
+		 *            the type constant for the object.
+		 *@param data
+		 *            the fully inflated content of the object.
+		 */
+		public SmallStream(int type, byte[] data) {
+			this.type = type;
+			this.data = data;
 		}
 
 		@Override
