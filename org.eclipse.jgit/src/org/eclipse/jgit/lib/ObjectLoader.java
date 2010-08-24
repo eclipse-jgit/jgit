@@ -53,6 +53,7 @@ import java.io.OutputStream;
 
 import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.util.IO;
 
 /**
  * Base class for a set of loaders for different representations of Git objects.
@@ -104,10 +105,42 @@ public abstract class ObjectLoader {
 	 *             {@link #openStream()} instead to access the contents.
 	 */
 	public final byte[] getBytes() throws LargeObjectException {
-		final byte[] data = getCachedBytes();
-		final byte[] copy = new byte[data.length];
-		System.arraycopy(data, 0, copy, 0, data.length);
-		return copy;
+		return cloneArray(getCachedBytes());
+	}
+
+	/**
+	 * Obtain a copy of the bytes of this object.
+	 *
+	 * If the object size is less than or equal to {@code sizeLimit} this method
+	 * will provide it as a byte array, even if {@link #isLarge()} is true. This
+	 * utility is useful for application code that absolutely must have the
+	 * object as a single contiguous byte array in memory.
+	 *
+	 * Unlike {@link #getCachedBytes(int)} this method returns an array that
+	 * might be modified by the caller.
+	 *
+	 * @param sizeLimit
+	 *            maximum number of bytes to return. If the object is larger
+	 *            than this limit, {@link LargeObjectException} will be thrown.
+	 * @return the bytes of this object.
+	 * @throws LargeObjectException
+	 *             if the object is bigger than {@code sizeLimit}, or if
+	 *             {@link OutOfMemoryError} occurs during allocation of the
+	 *             result array. Callers should use {@link #openStream()}
+	 *             instead to access the contents.
+	 * @throws MissingObjectException
+	 *             the object is large, and it no longer exists.
+	 * @throws IOException
+	 *             the object store cannot be accessed.
+	 */
+	public final byte[] getBytes(int sizeLimit) throws LargeObjectException,
+			MissingObjectException, IOException {
+		byte[] cached = getCachedBytes(sizeLimit);
+		try {
+			return cloneArray(cached);
+		} catch (OutOfMemoryError tooBig) {
+			throw new LargeObjectException();
+		}
 	}
 
 	/**
@@ -125,6 +158,59 @@ public abstract class ObjectLoader {
 	 *             {@link #openStream()} instead to access the contents.
 	 */
 	public abstract byte[] getCachedBytes() throws LargeObjectException;
+
+	/**
+	 * Obtain a reference to the (possibly cached) bytes of this object.
+	 *
+	 * If the object size is less than or equal to {@code sizeLimit} this method
+	 * will provide it as a byte array, even if {@link #isLarge()} is true. This
+	 * utility is useful for application code that absolutely must have the
+	 * object as a single contiguous byte array in memory.
+	 *
+	 * This method offers direct access to the internal caches, potentially
+	 * saving on data copies between the internal cache and higher level code.
+	 * Callers who receive this reference <b>must not</b> modify its contents.
+	 * Changes (if made) will affect the cache but not the repository itself.
+	 *
+	 * @param sizeLimit
+	 *            maximum number of bytes to return. If the object size is
+	 *            larger than this limit and {@link #isLarge()} is true,
+	 *            {@link LargeObjectException} will be thrown.
+	 * @return the cached bytes of this object. Do not modify it.
+	 * @throws LargeObjectException
+	 *             if the object is bigger than {@code sizeLimit}, or if
+	 *             {@link OutOfMemoryError} occurs during allocation of the
+	 *             result array. Callers should use {@link #openStream()}
+	 *             instead to access the contents.
+	 * @throws MissingObjectException
+	 *             the object is large, and it no longer exists.
+	 * @throws IOException
+	 *             the object store cannot be accessed.
+	 */
+	public byte[] getCachedBytes(int sizeLimit) throws LargeObjectException,
+			MissingObjectException, IOException {
+		if (!isLarge())
+			return getCachedBytes();
+
+		ObjectStream in = openStream();
+		try {
+			long sz = in.getSize();
+			if (sizeLimit < sz || Integer.MAX_VALUE < sz)
+				throw new LargeObjectException();
+
+			byte[] buf;
+			try {
+				buf = new byte[(int) sz];
+			} catch (OutOfMemoryError notEnoughHeap) {
+				throw new LargeObjectException();
+			}
+
+			IO.readFully(in, buf, 0, buf.length);
+			return buf;
+		} finally {
+			in.close();
+		}
+	}
 
 	/**
 	 * Obtain an input stream to read this object's data.
@@ -184,6 +270,12 @@ public abstract class ObjectLoader {
 		} else {
 			out.write(getCachedBytes());
 		}
+	}
+
+	private static byte[] cloneArray(final byte[] data) {
+		final byte[] copy = new byte[data.length];
+		System.arraycopy(data, 0, copy, 0, data.length);
+		return copy;
 	}
 
 	/**
