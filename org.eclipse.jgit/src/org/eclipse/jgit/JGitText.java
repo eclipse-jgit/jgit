@@ -71,6 +71,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String advertisementOfCameBefore;
 	/***/ public String amazonS3ActionFailed;
 	/***/ public String amazonS3ActionFailedGivingUp;
+	/***/ public String ambiguousObjectAbbreviation;
 	/***/ public String anExceptionOccurredWhileTryingToAddTheIdOfHEAD;
 	/***/ public String anSSHSessionHasBeenAlreadyCreated;
 	/***/ public String atLeastOnePathIsRequired;
