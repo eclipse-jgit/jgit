@@ -677,7 +677,7 @@ public class DirCache {
 	 *
 	 * @param path
 	 *            the path to search for.
-	 * @return the entry at position <code>i</code>.
+	 * @return the entry for the given <code>path</code>.
 	 */
 	public DirCacheEntry getEntry(final String path) {
 		final int i = findEntry(path);
