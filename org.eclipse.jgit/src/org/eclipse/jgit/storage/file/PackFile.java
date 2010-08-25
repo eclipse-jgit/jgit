@@ -334,7 +334,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 
 			readFully(src.offset + headerCnt, buf, 0, 20, curs);
 			crc1.update(buf, 0, 20);
-			crc2.update(buf, 0, headerCnt);
+			crc2.update(buf, 0, 20);
 			headerCnt += 20;
 		} else {
 			crc1.update(buf, 0, headerCnt);
