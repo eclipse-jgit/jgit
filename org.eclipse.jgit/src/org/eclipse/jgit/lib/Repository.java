@@ -74,8 +74,10 @@ import org.eclipse.jgit.events.RepositoryEvent;
 import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
+import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.storage.file.ReflogReader;
+import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
@@ -577,6 +579,33 @@ public abstract class Repository {
 					}
 				}
 				break;
+			case ':': {
+				RevTree tree;
+				if (ref == null) {
+					// We might not yet have parsed the left hand side.
+					ObjectId id;
+					try {
+						if (i == 0)
+							id = resolve(rw, Constants.HEAD);
+						else
+							id = resolve(rw, new String(rev, 0, i));
+					} catch (RevisionSyntaxException badSyntax) {
+						throw new RevisionSyntaxException(revstr);
+					}
+					if (id == null)
+						return null;
+					tree = rw.parseTree(id);
+				} else {
+					tree = rw.parseTree(ref);
+				}
+
+				if (i == rev.length - i)
+					return tree.copy();
+
+				TreeWalk tw = TreeWalk.forPath(rw.getObjectReader(),
+						new String(rev, i + 1, rev.length - i - 1), tree);
+				return tw != null ? tw.getObjectId(0) : null;
+			}
 
 			default:
 				if (ref != null)
