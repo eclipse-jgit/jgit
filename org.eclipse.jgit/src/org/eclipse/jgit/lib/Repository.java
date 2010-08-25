@@ -375,8 +375,6 @@ public abstract class Repository {
 	 * Currently supported is combinations of these.
 	 * <ul>
 	 * <li>SHA-1 - a SHA-1</li>
-	 * <li>SHA-1 abbreviation - a leading prefix of a SHA-1. At least the first
-	 * two bytes must be supplied.</li>
 	 * <li>refs/... - a ref name</li>
 	 * <li>ref^n - nth parent reference</li>
 	 * <li>ref~n - distance via parent reference</li>
@@ -387,7 +385,6 @@ public abstract class Repository {
 	 *
 	 * Not supported is:
 	 * <ul>
-	 * <li>tag-NNN-gcommit - a non tagged revision from git describe</li>
 	 * <li>timestamps in reflogs, ref@{full or relative timestamp}</li>
 	 * </ul>
 	 *
@@ -562,12 +559,37 @@ public abstract class Repository {
 							revstr);
 				i = m - 1;
 				break;
+			case '-':
+				if (i + 4 < rev.length && rev[i + 1] == 'g'
+						&& isHex(rev[i + 2]) && isHex(rev[i + 3])) {
+					// Possibly output from git describe?
+					// Resolve longest valid abbreviation.
+					int cnt = 2;
+					while (i + 2 + cnt < rev.length && isHex(rev[i + 2 + cnt]))
+						cnt++;
+					String s = new String(rev, i + 2, cnt);
+					if (AbbreviatedObjectId.isId(s)) {
+						ObjectId id = resolveAbbreviation(s);
+						if (id != null) {
+							ref = rw.parseAny(id);
+							i += 1 + s.length();
+						}
+					}
+				}
+				break;
+
 			default:
 				if (ref != null)
 					throw new RevisionSyntaxException(revstr);
 			}
 		}
 		return ref != null ? ref.copy() : resolveSimple(revstr);
+	}
+
+	private static boolean isHex(char c) {
+		return ('0' <= c && c <= '9') //
+				|| ('a' <= c && c <= 'f') //
+				|| ('A' <= c && c <= 'F');
 	}
 
 	private RevObject parseSimple(RevWalk rw, String revstr) throws IOException {
@@ -583,21 +605,27 @@ public abstract class Repository {
 		if (r != null)
 			return r.getObjectId();
 
-		if (AbbreviatedObjectId.isId(revstr)) {
-			AbbreviatedObjectId id = AbbreviatedObjectId.fromString(revstr);
-			ObjectReader reader = newObjectReader();
-			try {
-				Collection<ObjectId> matches = reader.resolve(id);
-				if (matches.size() == 1)
-					return matches.iterator().next();
-				if (1 < matches.size())
-					throw new AmbiguousObjectException(id, matches);
-			} finally {
-				reader.release();
-			}
-		}
+		if (AbbreviatedObjectId.isId(revstr))
+			return resolveAbbreviation(revstr);
 
 		return null;
+	}
+
+	private ObjectId resolveAbbreviation(final String revstr) throws IOException,
+			AmbiguousObjectException {
+		AbbreviatedObjectId id = AbbreviatedObjectId.fromString(revstr);
+		ObjectReader reader = newObjectReader();
+		try {
+			Collection<ObjectId> matches = reader.resolve(id);
+			if (matches.size() == 0)
+				return null;
+			else if (matches.size() == 1)
+				return matches.iterator().next();
+			else
+				throw new AmbiguousObjectException(id, matches);
+		} finally {
+			reader.release();
+		}
 	}
 
 	/** Increment the use counter by one, requiring a matched {@link #close()}. */
