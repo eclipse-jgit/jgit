@@ -287,19 +287,31 @@ public class ObjectDirectory extends FileObjectDatabase implements
 
 	void resolve(Set<ObjectId> matches, AbbreviatedObjectId id)
 			throws IOException {
+		// Go through the packs once. If we didn't find any resolutions
+		// scan for new packs and check once more.
+		//
+		int oldSize = matches.size();
 		PackList pList = packList.get();
-		if (pList == null)
-			pList = scanPacks(pList);
-		for (PackFile p : pList.packs) {
-			try {
-				p.resolve(matches, id, RESOLVE_ABBREV_LIMIT);
-			} catch (IOException e) {
-				// Assume the pack is corrupted.
-				//
-				removePack(p);
+		for (;;) {
+			for (PackFile p : pList.packs) {
+				try {
+					p.resolve(matches, id, RESOLVE_ABBREV_LIMIT);
+				} catch (IOException e) {
+					// Assume the pack is corrupted.
+					//
+					removePack(p);
+				}
+				if (matches.size() > RESOLVE_ABBREV_LIMIT)
+					return;
 			}
-			if (matches.size() > RESOLVE_ABBREV_LIMIT)
-				return;
+			if (matches.size() == oldSize) {
+				PackList nList = scanPacks(pList);
+				if (nList == pList || nList.packs.length == 0)
+					break;
+				pList = nList;
+				continue;
+			}
+			break;
 		}
 
 		String fanOut = id.name().substring(0, 2);
