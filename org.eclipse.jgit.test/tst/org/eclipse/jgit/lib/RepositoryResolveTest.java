@@ -48,6 +48,8 @@ package org.eclipse.jgit.lib;
 
 import java.io.IOException;
 
+import org.eclipse.jgit.errors.IncorrectObjectTypeException;
+
 public class RepositoryResolveTest extends SampleDataRepositoryTestCase {
 
 	public void testObjectId_existing() throws IOException {
@@ -140,4 +142,22 @@ public class RepositoryResolveTest extends SampleDataRepositoryTestCase {
 		assertEquals("856ec208ae6cadac25a6d74f19b12bb27a24fe24",db.resolve("refs/tags/B10th^{tree}").name());
 	}
 
+	public void testParseGitDescribeOutput() throws IOException {
+		ObjectId exp = db.resolve("b");
+		assertEquals(exp, db.resolve("B-g7f82283")); // old style
+		assertEquals(exp, db.resolve("B-6-g7f82283")); // new style
+
+		assertEquals(exp, db.resolve("B-6-g7f82283^0"));
+		assertEquals(exp, db.resolve("B-6-g7f82283^{commit}"));
+
+		try {
+			db.resolve("B-6-g7f82283^{blob}");
+			fail("expected IncorrectObjectTypeException");
+		} catch (IncorrectObjectTypeException badType) {
+			// Expected
+		}
+
+		assertEquals(db.resolve("b^1"), db.resolve("B-6-g7f82283^1"));
+		assertEquals(db.resolve("b~2"), db.resolve("B-6-g7f82283~2"));
+	}
 }
