@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "AAALyn///r0\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/RawParseUtils_ParsePersonIdentTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2010-08-26T10:47:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALyn///xM\u003d",
+      "revId": "85f0c66b79ee7ed740a3243154c8f9ca89eab913",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALyn///xQ\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/RawParseUtils_ParsePersonIdentTest.java",
         "patchSetId": 4
@@ -47,6 +65,24 @@
       "writtenOn": "2010-08-25T17:01:55Z",
       "side": 1,
       "message": "Since nameB is now unused, maybe you can drop it and clarify the code above?  Everyone is passing 0 anyway for it, we probably should have just hard-coded it to to begin with.",
+      "revId": "85f0c66b79ee7ed740a3243154c8f9ca89eab913",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///rw\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/RawParseUtils_ParsePersonIdentTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2010-08-26T10:47:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALyn///xQ\u003d",
       "revId": "85f0c66b79ee7ed740a3243154c8f9ca89eab913",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -70,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "AAALyn///rs\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Commit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2010-08-26T10:47:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALyX///8k\u003d",
+      "revId": "85f0c66b79ee7ed740a3243154c8f9ca89eab913",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALyX///8g\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/PersonIdent.java",
         "patchSetId": 4
@@ -81,6 +135,24 @@
       "writtenOn": "2010-08-25T17:01:55Z",
       "side": 1,
       "message": "I would prefer {@link RawParseUtils#parsePersonIdent(String)} here so that actual HTML documentation provides a jump to the replacement method\u0027s documentation.",
+      "revId": "85f0c66b79ee7ed740a3243154c8f9ca89eab913",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///ro\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/PersonIdent.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2010-08-26T10:47:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALyX///8g\u003d",
       "revId": "85f0c66b79ee7ed740a3243154c8f9ca89eab913",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -104,6 +176,24 @@
     },
     {
       "key": {
+        "uuid": "AAALyn///rk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Tag.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2010-08-26T10:47:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALyn///xc\u003d",
+      "revId": "85f0c66b79ee7ed740a3243154c8f9ca89eab913",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALyn///w8\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RawParseUtils.java",
         "patchSetId": 4
@@ -115,6 +205,24 @@
       "writtenOn": "2010-08-25T17:01:55Z",
       "side": 1,
       "message": "Why emailE - 1?  emailE must be \u0027\u003e\u0027 according to your condition on line 693, or its raw.length.  nextLF will return raw.length if you pass it raw.length.  So I don\u0027t think you need to subtract 1.\n\nActually, the more that I think about this, maybe we can say instead:\n\n  int timeBegin \u003d emailE;\n  do {\n    int e \u003d nextLF(raw, timeBegin, \u0027\u003e\u0027);\n    if (e \u003c raw.length \u0026\u0026 raw[e - 1] \u003d\u003d \u0027\u003e\u0027)\n      timeBegin \u003d e;\n    else\n      break;\n  } while (true);\n\nThat way we only scan the string once going forwards, rather than scanning from the end backwards.  Then you can leave the old time parsing code alone and just update its starting point to be timeBegin.",
+      "revId": "85f0c66b79ee7ed740a3243154c8f9ca89eab913",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///rg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RawParseUtils.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 706,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2010-08-26T10:47:43Z",
+      "side": 1,
+      "message": "If we have passed condition on line 693, we know that raw[emailE - 1] is \u0027\u003e\u0027. raw[emailE] may be LF, so nextLF(raw, emailE) will go too far (to the next LF).\n\nRegarding the suggested loop, the code doesn\u0027t look simpler to me than what the patch contains now, on the other hand it\u0027s not as tolerant regarding \"junk\" after the author email. I\u0027ve added another test case to RawParseUtils_ParsePersonIdentTest.testParsePersonIdent_fuzzyCases() illustrating a possible problem.",
+      "parentUuid": "AAALyn///w8\u003d",
       "revId": "85f0c66b79ee7ed740a3243154c8f9ca89eab913",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
