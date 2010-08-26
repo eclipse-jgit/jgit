@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALyH///as\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RawParseUtils.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 670,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-19T18:26:25Z",
+      "side": 0,
+      "message": "Thanks for fixing the Javadoc here.  Line 681 returning null when there was no \"\u003c\" on the line totally contradicted the documentation.  :-)",
+      "revId": "94ba9574cd5589bbf7a3671533390b43936fe65b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALyH///ag\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RawParseUtils.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 701,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-19T18:26:25Z",
+      "side": 1,
+      "message": "Why do we need to trim this?  Whatever is between \u003c and \u003e should be taken as-is as the email.  Do you have an example of a malformed commit where the email contains leading or trailing whitespace near the \u003c\u003e\u0027s and it needs to be discarded?  Even if that exists, I\u0027d almost still be tempted to say that is the proper text of the address, and we should preserve that text in the parsing.",
+      "revId": "f25b0b1f0af054fb08c658a29a78f6689d949e9e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyH///aw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RawParseUtils.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 705,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-19T18:26:25Z",
+      "side": 1,
+      "message": "No.  When parsing a commit (for example) the array raw contains the entire message.  The tail of the array is the end of the message and has nothing to do with the author or committer line you are trying to parse right now.\n\nThis is why we use emailE above to try to find the termination point within the current line.  nextLF() returns the position of either the \u0027\u003e\u0027 or the \u0027\\n\u0027, whichever occurs first.  And then we try to look only in that range of [nameB, emailE).",
+      "revId": "f25b0b1f0af054fb08c658a29a78f6689d949e9e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyH///a0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RawParseUtils.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1046,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-19T18:26:25Z",
+      "side": 1,
+      "message": "Style-nit: Private constructor in a static utility class is always last.  So move lastIndexOfTrim() above here.",
+      "revId": "f25b0b1f0af054fb08c658a29a78f6689d949e9e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyH///a4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RawParseUtils.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1051,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-19T18:26:25Z",
+      "side": 1,
+      "message": "Style-nit: We don\u0027t use curly braces around simple loops.",
+      "revId": "f25b0b1f0af054fb08c658a29a78f6689d949e9e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
