@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAALyH///ZI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RawParseUtils.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 701,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2010-08-20T13:10:32Z",
+      "side": 1,
+      "message": "I think I\u0027ve taken that from old PersonIdent code, anyway I agree that we shouldn\u0027t trim here. Also name is currently right-trimmed, I will change that to preserve spaces as well (except of the 1-space separator)",
+      "parentUuid": "AAALyH///ag\u003d",
+      "revId": "f25b0b1f0af054fb08c658a29a78f6689d949e9e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALyH///aw\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RawParseUtils.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2010-08-19T18:26:25Z",
       "side": 1,
       "message": "No.  When parsing a commit (for example) the array raw contains the entire message.  The tail of the array is the end of the message and has nothing to do with the author or committer line you are trying to parse right now.\n\nThis is why we use emailE above to try to find the termination point within the current line.  nextLF() returns the position of either the \u0027\u003e\u0027 or the \u0027\\n\u0027, whichever occurs first.  And then we try to look only in that range of [nameB, emailE).",
+      "revId": "f25b0b1f0af054fb08c658a29a78f6689d949e9e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyH///ZE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RawParseUtils.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 705,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2010-08-20T13:10:32Z",
+      "side": 1,
+      "message": "What an ugly bug. Interestingly, no test has detected that. I\u0027ll add assertions to RevCommitParseTest.",
+      "parentUuid": "AAALyH///aw\u003d",
       "revId": "f25b0b1f0af054fb08c658a29a78f6689d949e9e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAALyH///ZA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RawParseUtils.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1046,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2010-08-20T13:10:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALyH///a0\u003d",
+      "revId": "f25b0b1f0af054fb08c658a29a78f6689d949e9e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALyH///a4\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RawParseUtils.java",
         "patchSetId": 2
@@ -64,6 +118,24 @@
       "writtenOn": "2010-08-19T18:26:25Z",
       "side": 1,
       "message": "Style-nit: We don\u0027t use curly braces around simple loops.",
+      "revId": "f25b0b1f0af054fb08c658a29a78f6689d949e9e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyH///Y8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RawParseUtils.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1051,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2010-08-20T13:10:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALyH///a4\u003d",
       "revId": "f25b0b1f0af054fb08c658a29a78f6689d949e9e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
