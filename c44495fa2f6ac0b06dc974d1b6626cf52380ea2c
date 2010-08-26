@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALyn///ts\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffFormatter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 627,
+      "author": {
+        "id": 2
+      },
+      "writtenOn": "2010-08-26T00:15:48Z",
+      "side": 1,
+      "message": "This is essentially duplicated code in the above format(...) in the future we should find a way to collapse the code...",
+      "revId": "c44495fa2f6ac0b06dc974d1b6626cf52380ea2c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
