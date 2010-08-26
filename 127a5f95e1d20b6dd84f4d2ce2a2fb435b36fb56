@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALyn///t4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 2
+      },
+      "writtenOn": "2010-08-26T00:13:40Z",
+      "side": 1,
+      "message": "We should probably use ObjectLoader.STREAM_THRESHOLD to make this a little bit mysterious when looking at the code... keep it all in one place.",
+      "revId": "127a5f95e1d20b6dd84f4d2ce2a2fb435b36fb56",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
