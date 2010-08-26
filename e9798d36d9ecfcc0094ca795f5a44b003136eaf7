@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALyH///j8\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/T0001_PersonIdent.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-18T19:15:29Z",
+      "side": 1,
+      "message": "I agree with the tests for PersonIdent.  But we also need these same tests for RawParseUtils.parsePersonIdent().  That constructor is used for RevCommit\u0027s getAuthor() method, which is probably what most display tools will be relying on.  And I\u0027m reasonably certain we aren\u0027t testing for the multiple author case there, even if it does work.",
+      "revId": "e9798d36d9ecfcc0094ca795f5a44b003136eaf7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyH///j4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/PersonIdent.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-18T19:15:29Z",
+      "side": 1,
+      "message": "This constructor should be taken out back and put out of its misery.\n\nI wonder if we shouldn\u0027t instead write it as:\n\n  PersonIdent self \u003d RawParseUtils.parsePersonIdent(Constants.encode(\"author \" + in), 7);\n  ... copy fields from self to this ...\n\nThat way we only have a single routine to parse the canonical formatting.  This constructor should be infrequently used, so dropping to UTF-8 byte[] and then upconverting back to String shouldn\u0027t be a major performance hit in exchange for having just one implementation to test and maintain.",
+      "revId": "e9798d36d9ecfcc0094ca795f5a44b003136eaf7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
