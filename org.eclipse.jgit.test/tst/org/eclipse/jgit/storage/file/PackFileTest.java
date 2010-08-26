@@ -284,7 +284,8 @@ public class PackFileTest extends LocalDiskRepositoryTestCase {
 		byte[] delta3 = tmp.toByteArray();
 		assertTrue(delta3.length > ObjectLoader.STREAM_THRESHOLD);
 
-		TemporaryBuffer.Heap pack = new TemporaryBuffer.Heap(64 * 1024);
+		TemporaryBuffer.Heap pack = new TemporaryBuffer.Heap(
+				ObjectLoader.STREAM_THRESHOLD + 1024);
 		packHeader(pack, 2);
 		objectHeader(pack, Constants.OBJ_BLOB, data0.length);
 		deflate(pack, data0);
