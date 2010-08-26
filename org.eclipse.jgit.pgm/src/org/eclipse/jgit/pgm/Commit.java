@@ -44,7 +44,6 @@ import org.eclipse.jgit.api.JGitInternalException;
 import org.eclipse.jgit.api.NoHeadException;
 import org.eclipse.jgit.api.NoMessageException;
 import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.util.RawParseUtils;
