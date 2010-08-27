@@ -1,0 +1,191 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALyH///ug\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/TagCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-12T17:26:16Z",
+      "side": 1,
+      "message": "We return a RevTag not a Tag.",
+      "revId": "ab282a918eb51b0e9c55f628a3396ff01c9eb9eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyH///uk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/TagCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-12T17:26:16Z",
+      "side": 1,
+      "message": "Document ConcurrentRefUpdateException?",
+      "revId": "ab282a918eb51b0e9c55f628a3396ff01c9eb9eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyH///uo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/TagCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-12T17:26:16Z",
+      "side": 1,
+      "message": "Style-nit: Subsequent lines get indented another level IIRC.\n\nBut do we really throw UnmergedPathException?  Or WrongRepositoryStateException?",
+      "revId": "ab282a918eb51b0e9c55f628a3396ff01c9eb9eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyH///tw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/TagCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-12T17:26:16Z",
+      "side": 1,
+      "message": "You also need to setAuthor().  The ObjectInserter formatting code will NPE if author is null in the Tag.",
+      "revId": "ab282a918eb51b0e9c55f628a3396ff01c9eb9eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyH///t8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/TagCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-12T17:26:16Z",
+      "side": 1,
+      "message": "objId within the tag is always null, which will cause the tag code below to always NPE because we can\u0027t open the object specified by the null ObjectId...\n\nYou need to use HEAD if the caller hasn\u0027t set the id, and you need a setter to allow the caller to set an id if they choose to tag something other than HEAD.",
+      "revId": "ab282a918eb51b0e9c55f628a3396ff01c9eb9eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyH///uA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/TagCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-12T17:26:16Z",
+      "side": 1,
+      "message": "Don\u0027t bother setting the id.  Just use tagId below instead of newTag.getTagId().",
+      "revId": "ab282a918eb51b0e9c55f628a3396ff01c9eb9eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyH///uE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/TagCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-12T17:26:16Z",
+      "side": 1,
+      "message": "Style-nit: We don\u0027t put braces around a case block unless the case block is allocating local variables.",
+      "revId": "ab282a918eb51b0e9c55f628a3396ff01c9eb9eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyH///uI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/TagCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-12T17:26:16Z",
+      "side": 1,
+      "message": "What are we falling through from?",
+      "revId": "ab282a918eb51b0e9c55f628a3396ff01c9eb9eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyH///uQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/TagCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-12T17:26:16Z",
+      "side": 1,
+      "message": "An empty message is OK.",
+      "revId": "ab282a918eb51b0e9c55f628a3396ff01c9eb9eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyH///uM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/TagCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-12T17:26:16Z",
+      "side": 1,
+      "message": "Please don\u0027t leave a TODO if we can avoid it.",
+      "revId": "ab282a918eb51b0e9c55f628a3396ff01c9eb9eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyH///uY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/TagCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-12T17:26:16Z",
+      "side": 1,
+      "message": "Actually I would do the reverse and have setSigned(boolean).",
+      "revId": "ab282a918eb51b0e9c55f628a3396ff01c9eb9eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
