@@ -33,6 +33,24 @@
       "revId": "342f6e7eb1438d99e8e418de5392b5582c3293f8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALw3///2c\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 570,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-07-22T14:32:26Z",
+      "side": 1,
+      "message": "I added also a check for m\u003d\u003d0 because the original check went explicitly against a merge-tree which has a file in this directory/file conflict\n\nBUT: during testing this I detected our isDirectoryFileConflict() was implemented wrong. Therefore I put the work on NameConflictTreeWalker into an own change. I am sure what is in that proposal is sub-optimal ... but it works. Let\u0027s focus on this change on DirCacheCheckout.",
+      "parentUuid": "AAALwn////A\u003d",
+      "revId": "342f6e7eb1438d99e8e418de5392b5582c3293f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
