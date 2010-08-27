@@ -1,0 +1,278 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALwX///Ks\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-06T20:46:28Z",
+      "side": 1,
+      "message": "We\u0027re trying to get rid of the Tree class.  If you need a tree type thing, use a RevTree.",
+      "revId": "36e2a520773da38f5ac0c9074a33ace75104eb7e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///Ko\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-06T20:46:28Z",
+      "side": 1,
+      "message": "For an empty tree like thing, use new EmptyTreeIterator() instead.  When you later ask for this slot as a CanonicalTreeParser type you will get back a null pointer.  (TreeWalk internally creates an EmptyTreeIterator as it dives down into non-existent subdirectories.)",
+      "revId": "36e2a520773da38f5ac0c9074a33ace75104eb7e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///Kg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-06T20:46:28Z",
+      "side": 1,
+      "message": "We really should report on these failures.  On Windows if an application has a file open (e.g. Microsoft Word has the document file open) and we try to delete it, the delete fails by returning false.  Now the working directory has finished switching over, but there is this untracked file left laying around because an external application outside of our control is doing bad things to us.\n\nIMHO, its a checkout failure if we can\u0027t remove the file we want to remove... but since we are committed at this point to finishing the checkout we should keep going and report failure at the end after everything has been updated.  Ideally we make the list of left-behind files available to the calling application, so it can help the user to handle this messed up working tree by offering to retry deleting these files after they have closed the application(s) using them.",
+      "revId": "36e2a520773da38f5ac0c9074a33ace75104eb7e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///KI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-06T20:46:28Z",
+      "side": 1,
+      "message": "Wasn\u0027t this already set by checkoutEntry?  And likewise with the length, I suggest below that it should be set in checkout Entry.",
+      "revId": "36e2a520773da38f5ac0c9074a33ace75104eb7e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///Kk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-06T20:46:28Z",
+      "side": 1,
+      "message": "Style-nit: This method can be static.",
+      "revId": "36e2a520773da38f5ac0c9074a33ace75104eb7e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///Kc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-06T20:46:28Z",
+      "side": 1,
+      "message": "I would be willing to bet you a beer next time we meet up in person that just doing:\n\n  if (!parentFile.delete())\n    break;\n\nis faster.  We have to do a system call to read the directory contents, and the operating system is forbidden from letting us remove a directory so long as it has at least one file/directory within it.  So we can accomplish both tasks in one system call by trying the delete, and aborting as soon as it doesn\u0027t work.",
+      "revId": "36e2a520773da38f5ac0c9074a33ace75104eb7e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///KY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-06T20:46:28Z",
+      "side": 1,
+      "message": "Ick.  Maybe make the TreeWalk a field so you can just do tw.getPathString() here instead?",
+      "revId": "36e2a520773da38f5ac0c9074a33ace75104eb7e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///KU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-06T20:46:28Z",
+      "side": 1,
+      "message": "This test is far cheaper than the cost to get a path string, *or* to get ObjectIds, and yet happens for untracked files that aren\u0027t properly git ignored by us... so it happens a lot.  Pull this test up to the very start of the method so we can fail out much more rapidly when it occurs.",
+      "revId": "36e2a520773da38f5ac0c9074a33ace75104eb7e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///KE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 662,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-06T20:46:28Z",
+      "side": 1,
+      "message": "Should this be private?",
+      "revId": "36e2a520773da38f5ac0c9074a33ace75104eb7e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///KA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 675,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-06T20:46:28Z",
+      "side": 1,
+      "message": "A NameConflictTreeWalk should have dived into the working tree and told you about these conflicts.\n\nIf the tree wants to put a blob at \"foo\", but the working directory has \"foo/bar.c\" and \"foo/other.c\", so \"foo\" is a directory, you should get:\n\n  Path \"foo\":  Index blob;  working directory tree\n  Path \"foo/bar.c\":  Index none; working directory file\n  Path \"foo/other.c\":  Index none; working directory file\n\nThis means that you don\u0027t need to implement this recursion logic, you just need to keep track of D/F conflicts by storing the prefix path and then on each subsequent step of the walker check to see if the path is covered by one of those prefix paths.  If it is, you are inside of a D/F conflict and the working tree is conflicting with the blob record.\n\nActually, this is all something that the NameConflictTreeWalk should be able to tell you.  Just add a isDirectoryFileConflict() method to NameConflictTreeWalk that can export this, and keeps track of the current state for you.\n\nThe basic logic might be:\n\n* in combineDF() store the treeMatch iterator into a new dfConflict field, inside of the \"if (treeMatch !\u003d null) {\" condition near the end of the method.  Only set the field if it is currently null.\n* implement isDirectoryFileConflict to return true if dfConflict !\u003d null\n* modify popEntriesEqual to clear dfConflict if dfConflict is any of the current iterators, before popping.",
+      "revId": "36e2a520773da38f5ac0c9074a33ace75104eb7e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///J8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 728,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-06T20:46:28Z",
+      "side": 1,
+      "message": "Correct.  This cleanup is only safe if these paths are registered in the ignore list.",
+      "revId": "36e2a520773da38f5ac0c9074a33ace75104eb7e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwn////Q\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 728,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-16T02:10:14Z",
+      "side": 1,
+      "message": "Oddly, Git takes the attitude that if a file is in the ignore list, its OK for Git to destroy it, because its probably a build artifact or something else that is generated.  Though maybe that only applies to ignores that came from a .gitignore that is tracked?  I\u0027m pretty sure though C Git will happily delete a conflicting ignored file.",
+      "parentUuid": "AAALwX//+7I\u003d",
+      "revId": "36e2a520773da38f5ac0c9074a33ace75104eb7e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///J4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 745,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-06T20:46:28Z",
+      "side": 1,
+      "message": "Why do we have to setup a whole new tree walk here?  Can\u0027t you use the existing walk state to check this?",
+      "revId": "36e2a520773da38f5ac0c9074a33ace75104eb7e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwn////M\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 745,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-16T02:10:14Z",
+      "side": 1,
+      "message": "OK, thanks for explaining why the brute force approach is used here inside of isModified().  Its fine for now.",
+      "parentUuid": "AAALwX//+7w\u003d",
+      "revId": "36e2a520773da38f5ac0c9074a33ace75104eb7e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///KQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 793,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-06T20:46:28Z",
+      "side": 1,
+      "message": "Given that we have already done this in the caller, do we also need to repeat it here?",
+      "revId": "36e2a520773da38f5ac0c9074a33ace75104eb7e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///KM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 826,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-06T20:46:28Z",
+      "side": 1,
+      "message": "Shouldn\u0027t we also set the length here?",
+      "revId": "36e2a520773da38f5ac0c9074a33ace75104eb7e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
