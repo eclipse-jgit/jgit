@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALyn///qc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/TagCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-26T18:46:56Z",
+      "side": 1,
+      "message": "I hate to a nit, but can we use either tagId or newTag.getTagId() consistently here?  You use one form right here, and the other form 3 lines below when you setNewObjectId().  It would be nice if we just used tagId.",
+      "revId": "4973bbee474328170c8dee1e25ac9578fbe58d99",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///qU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/TagCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-26T18:46:56Z",
+      "side": 1,
+      "message": "Is this really an internal exception?  If the caller gave us a tag name that we won\u0027t accept as a reference name that is rather different than us encountering a form of repository corruption they cannot recover from easily.  The caller just needs to correct their input.\n\nI\u0027m thinking about the EGit UI case here.  If the UI just passes through the tag name entered by the user, runs call(), we need to throw something that tells the UI it should backup and let the user correct their input.  But if we got a valid tag name and crash because something goes wrong deep inside of the ObjectInserter, that\u0027s a totally different kind of error for the EGit UI to present to the human.",
+      "revId": "4973bbee474328170c8dee1e25ac9578fbe58d99",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///qY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/TagCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-26T18:46:56Z",
+      "side": 1,
+      "message": "Nope, still wrong on the docs:\n\n /**\n  * If set to true the Tag command creates a signed tag.\n  * This corresponds to the -s parameter on the command line.",
+      "revId": "4973bbee474328170c8dee1e25ac9578fbe58d99",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
