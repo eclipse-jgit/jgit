@@ -1,0 +1,242 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALyn///0w\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/TagCommandTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-25T02:38:12Z",
+      "side": 1,
+      "message": "Insanely long lines.  Our Eclipse code style formatter knows the line length.  Please apply it to this file.  I know you aren\u0027t coding for JGit in NetBeans... :-)",
+      "revId": "d5eba2cf8a751c8952e3caccfa885416040f1ab0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///1k\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/TagCommand.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-25T02:38:12Z",
+      "side": 1,
+      "message": "Use \"\" instead.  But actually this isn\u0027t necessary.  TagBuilder will now correctly accept a null message.",
+      "revId": "d5eba2cf8a751c8952e3caccfa885416040f1ab0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///1g\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/TagCommand.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-25T02:38:12Z",
+      "side": 1,
+      "message": "s/author/tagger/",
+      "revId": "d5eba2cf8a751c8952e3caccfa885416040f1ab0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///1M\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/TagCommand.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-25T02:38:12Z",
+      "side": 1,
+      "message": "Line is too long, please line-wrap it.",
+      "revId": "d5eba2cf8a751c8952e3caccfa885416040f1ab0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///1I\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/TagCommand.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-25T02:38:12Z",
+      "side": 1,
+      "message": "IIRC resolve can return null here, and setObjectId won\u0027t check.  We\u0027ll later crash hard.  Check the result of resolve() and if its null use the NoHeadException.  At which point you can probably just remove getRef() above and just do the resolve HEAD^{commit}, if that fails for any reason we throw NoHeadException.",
+      "revId": "d5eba2cf8a751c8952e3caccfa885416040f1ab0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///1E\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/TagCommand.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-25T02:38:12Z",
+      "side": 1,
+      "message": "This doesn\u0027t compile.  You need to pass a RevObject, or know the object type.  Since the caller only gave you an ObjectId, you may need to open that and get the type off the ObjectLoader.",
+      "revId": "d5eba2cf8a751c8952e3caccfa885416040f1ab0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///1A\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/TagCommand.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-25T02:38:12Z",
+      "side": 1,
+      "message": "inserter.insert(newTag) is a newer short form of this.",
+      "revId": "d5eba2cf8a751c8952e3caccfa885416040f1ab0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///08\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/TagCommand.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-25T02:38:12Z",
+      "side": 1,
+      "message": "This isn\u0027t necessary.  format() and inserter.insert(newTag) do this indirectly.",
+      "revId": "d5eba2cf8a751c8952e3caccfa885416040f1ab0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///04\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/TagCommand.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-25T02:38:12Z",
+      "side": 1,
+      "message": "Pass in revWalk here to update() so we can reuse the revision pool you already have.",
+      "revId": "d5eba2cf8a751c8952e3caccfa885416040f1ab0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///1c\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/TagCommand.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-25T02:38:12Z",
+      "side": 1,
+      "message": "if (signed) is enough.  We try not to compare boolean variables to boolean constants.",
+      "revId": "d5eba2cf8a751c8952e3caccfa885416040f1ab0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///00\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/TagCommand.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-25T02:38:12Z",
+      "side": 1,
+      "message": "No getters for author, objectId, forceUpdate, or signed.  Should we do getters for everything?  Or nothing at all?  CommitCommand tends to do getters for each field, though its missing for setAll().",
+      "revId": "d5eba2cf8a751c8952e3caccfa885416040f1ab0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///1Y\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/TagCommand.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-25T02:38:12Z",
+      "side": 1,
+      "message": "s/parameter -a/parameter -s/",
+      "revId": "d5eba2cf8a751c8952e3caccfa885416040f1ab0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///1U\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/TagCommand.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-25T02:38:12Z",
+      "side": 1,
+      "message": "Extra blank line.",
+      "revId": "d5eba2cf8a751c8952e3caccfa885416040f1ab0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///1Q\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/TagCommand.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-25T02:38:12Z",
+      "side": 1,
+      "message": "s/Author/Tagger/",
+      "revId": "d5eba2cf8a751c8952e3caccfa885416040f1ab0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
