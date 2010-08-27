@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALyX///0k\u003d",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/JGitText.properties",
+        "patchSetId": 5
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-08-21T21:46:18Z",
+      "side": 1,
+      "message": "copy\u0026paste error: s/execution of commit command/execution of tag command/",
+      "revId": "004974b3d9f2b808231b9a711cd59e7d6b353ce1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyX///0g\u003d",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/JGitText.properties",
+        "patchSetId": 5
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-08-21T21:46:18Z",
+      "side": 1,
+      "message": "Signing isn\u0027t supported on tag operations yet.\n\nI think we want to implement this ...",
+      "revId": "004974b3d9f2b808231b9a711cd59e7d6b353ce1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyX///0Y\u003d",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/JGitText.properties",
+        "patchSetId": 5
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-08-21T21:46:18Z",
+      "side": 1,
+      "message": "avoid slang which might confuse users:\n\nTag on repository without HEAD is currently not supported",
+      "revId": "004974b3d9f2b808231b9a711cd59e7d6b353ce1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyX///0U\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/TagCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-08-21T21:46:18Z",
+      "side": 1,
+      "message": "that\u0027s wrong, should be:\n\n return message;",
+      "revId": "004974b3d9f2b808231b9a711cd59e7d6b353ce1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyX///0Q\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/TagCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-08-21T21:46:18Z",
+      "side": 1,
+      "message": "if signed \u003d\u003d true we could fail fast throwing an UnsupportedOperationException here until we implement signed tags",
+      "revId": "004974b3d9f2b808231b9a711cd59e7d6b353ce1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyX///0M\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/TagCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-08-21T21:46:18Z",
+      "side": 1,
+      "message": "I think setting forceUpdate on not yet existing tag is also valid\n\ns/replaces/may replace/",
+      "revId": "004974b3d9f2b808231b9a711cd59e7d6b353ce1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
