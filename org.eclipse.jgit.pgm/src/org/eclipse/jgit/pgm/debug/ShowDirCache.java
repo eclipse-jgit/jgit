@@ -59,7 +59,7 @@ class ShowDirCache extends TextBuiltin {
 		final SimpleDateFormat fmt;
 		fmt = new SimpleDateFormat("yyyyMMdd,HHmmss.SSS");
 
-		final DirCache cache = db.readDirCache();
+		final DirCache cache = db.readDirCache(false);
 		for (int i = 0; i < cache.getEntryCount(); i++) {
 			final DirCacheEntry ent = cache.getEntry(i);
 			final FileMode mode = FileMode.fromBits(ent.getRawMode());

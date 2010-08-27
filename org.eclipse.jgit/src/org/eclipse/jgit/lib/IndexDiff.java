@@ -148,7 +148,7 @@ public class IndexDiff {
 	 */
 	public boolean diff() throws IOException {
 		boolean changesExist = false;
-		DirCache dirCache = repository.readDirCache();
+		DirCache dirCache = repository.readDirCache(true);
 		TreeWalk treeWalk = new TreeWalk(repository);
 		treeWalk.reset();
 		treeWalk.setRecursive(true);

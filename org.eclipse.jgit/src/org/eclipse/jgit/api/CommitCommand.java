@@ -152,7 +152,7 @@ public class CommitCommand extends GitCommand<RevCommit> {
 				parents.add(0, headId);
 
 			// lock the index
-			DirCache index = repo.lockDirCache();
+			DirCache index = repo.lockDirCache(false);
 			try {
 				ObjectInserter odi = repo.newObjectInserter();
 				try {

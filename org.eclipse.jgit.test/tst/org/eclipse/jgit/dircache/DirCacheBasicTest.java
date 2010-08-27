@@ -54,7 +54,7 @@ public class DirCacheBasicTest extends RepositoryTestCase {
 		final File idx = new File(db.getDirectory(), "index");
 		assertFalse(idx.exists());
 
-		final DirCache dc = db.readDirCache();
+		final DirCache dc = db.readDirCache(false);
 		assertNotNull(dc);
 		assertEquals(0, dc.getEntryCount());
 	}
@@ -63,7 +63,7 @@ public class DirCacheBasicTest extends RepositoryTestCase {
 		final File idx = new File(db.getDirectory(), "tmp_index");
 		assertFalse(idx.exists());
 
-		final DirCache dc = DirCache.read(idx, db.getFS());
+		final DirCache dc = DirCache.read(idx, db.getFS(), false);
 		assertNotNull(dc);
 		assertEquals(0, dc.getEntryCount());
 	}
@@ -74,7 +74,7 @@ public class DirCacheBasicTest extends RepositoryTestCase {
 		assertFalse(idx.exists());
 		assertFalse(lck.exists());
 
-		final DirCache dc = db.lockDirCache();
+		final DirCache dc = db.lockDirCache(false);
 		assertNotNull(dc);
 		assertFalse(idx.exists());
 		assertTrue(lck.exists());
@@ -91,7 +91,7 @@ public class DirCacheBasicTest extends RepositoryTestCase {
 		assertFalse(idx.exists());
 		assertFalse(lck.exists());
 
-		final DirCache dc = DirCache.lock(idx, db.getFS());
+		final DirCache dc = DirCache.lock(idx, db.getFS(), false);
 		assertNotNull(dc);
 		assertFalse(idx.exists());
 		assertTrue(lck.exists());
@@ -108,7 +108,7 @@ public class DirCacheBasicTest extends RepositoryTestCase {
 		assertFalse(idx.exists());
 		assertFalse(lck.exists());
 
-		final DirCache dc = db.lockDirCache();
+		final DirCache dc = db.lockDirCache(false);
 		assertEquals(0, lck.length());
 		dc.write();
 		assertEquals(12 + 20, lck.length());
@@ -124,7 +124,7 @@ public class DirCacheBasicTest extends RepositoryTestCase {
 		assertFalse(idx.exists());
 		assertFalse(lck.exists());
 
-		final DirCache dc = db.lockDirCache();
+		final DirCache dc = db.lockDirCache(false);
 		assertEquals(0, lck.length());
 		dc.write();
 		assertEquals(12 + 20, lck.length());
@@ -141,13 +141,13 @@ public class DirCacheBasicTest extends RepositoryTestCase {
 		assertFalse(idx.exists());
 		assertFalse(lck.exists());
 		{
-			final DirCache dc = db.lockDirCache();
+			final DirCache dc = db.lockDirCache(false);
 			dc.write();
 			assertTrue(dc.commit());
 			assertTrue(idx.exists());
 		}
 		{
-			final DirCache dc = db.readDirCache();
+			final DirCache dc = db.readDirCache(false);
 			assertEquals(0, dc.getEntryCount());
 		}
 	}
@@ -158,13 +158,13 @@ public class DirCacheBasicTest extends RepositoryTestCase {
 		assertFalse(idx.exists());
 		assertFalse(lck.exists());
 		{
-			final DirCache dc = db.lockDirCache();
+			final DirCache dc = db.lockDirCache(false);
 			dc.write();
 			assertTrue(dc.commit());
 			assertTrue(idx.exists());
 		}
 		{
-			final DirCache dc = db.lockDirCache();
+			final DirCache dc = db.lockDirCache(false);
 			assertEquals(0, dc.getEntryCount());
 			assertTrue(idx.exists());
 			assertTrue(lck.exists());
@@ -173,7 +173,7 @@ public class DirCacheBasicTest extends RepositoryTestCase {
 	}
 
 	public void testBuildThenClear() throws Exception {
-		final DirCache dc = db.readDirCache();
+		final DirCache dc = db.readDirCache(false);
 
 		final String[] paths = { "a.", "a.b", "a/b", "a0b" };
 		final DirCacheEntry[] ents = new DirCacheEntry[paths.length];
@@ -195,7 +195,7 @@ public class DirCacheBasicTest extends RepositoryTestCase {
 	}
 
 	public void testDetectUnmergedPaths() throws Exception {
-		final DirCache dc = db.readDirCache();
+		final DirCache dc = db.readDirCache(false);
 		final DirCacheEntry[] ents = new DirCacheEntry[3];
 
 		ents[0] = new DirCacheEntry("a", 1);
@@ -213,7 +213,7 @@ public class DirCacheBasicTest extends RepositoryTestCase {
 	}
 
 	public void testFindOnEmpty() throws Exception {
-		final DirCache dc = DirCache.newInCore();
+		final DirCache dc = DirCache.newInCore(false);
 		final byte[] path = Constants.encode("a");
 		assertEquals(-1, dc.findEntry(path, path.length));
 	}

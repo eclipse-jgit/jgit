@@ -131,7 +131,7 @@ public class AddCommand extends GitCommand<DirCache> {
 
 		ObjectInserter inserter = repo.newObjectInserter();
 		try {
-			dc = repo.lockDirCache();
+			dc = repo.lockDirCache(false);
 			DirCacheIterator c;
 
 			DirCacheBuilder builder = dc.builder();

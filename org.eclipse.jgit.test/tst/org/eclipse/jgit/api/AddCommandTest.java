@@ -220,7 +220,7 @@ public class AddCommandTest extends RepositoryTestCase {
 		writer.close();
 
 		ObjectInserter newObjectInserter = db.newObjectInserter();
-		DirCache dc = db.lockDirCache();
+		DirCache dc = db.lockDirCache(false);
 		DirCacheBuilder builder = dc.builder();
 
 		addEntryToBuilder("b.txt", file2, newObjectInserter, builder, 0);

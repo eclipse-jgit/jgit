@@ -66,10 +66,10 @@ public class CherryPickTest extends RepositoryTestCase {
 		// Cherry-pick "T" onto "O". This shouldn't introduce "p-fail", which
 		// was created by "P", nor should it modify "a", which was done by "P".
 		//
-		final DirCache treeB = db.readDirCache();
-		final DirCache treeO = db.readDirCache();
-		final DirCache treeP = db.readDirCache();
-		final DirCache treeT = db.readDirCache();
+		final DirCache treeB = db.readDirCache(false);
+		final DirCache treeO = db.readDirCache(false);
+		final DirCache treeP = db.readDirCache(false);
+		final DirCache treeT = db.readDirCache(false);
 		{
 			final DirCacheBuilder b = treeB.builder();
 			final DirCacheBuilder o = treeO.builder();

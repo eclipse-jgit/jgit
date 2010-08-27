@@ -52,7 +52,7 @@ import org.eclipse.jgit.lib.RepositoryTestCase;
 public class DirCacheBuilderTest extends RepositoryTestCase {
 	public void testBuildEmpty() throws Exception {
 		{
-			final DirCache dc = db.lockDirCache();
+			final DirCache dc = db.lockDirCache(false);
 			final DirCacheBuilder b = dc.builder();
 			assertNotNull(b);
 			b.finish();
@@ -60,13 +60,13 @@ public class DirCacheBuilderTest extends RepositoryTestCase {
 			assertTrue(dc.commit());
 		}
 		{
-			final DirCache dc = db.readDirCache();
+			final DirCache dc = db.readDirCache(false);
 			assertEquals(0, dc.getEntryCount());
 		}
 	}
 
 	public void testBuildRejectsUnsetFileMode() throws Exception {
-		final DirCache dc = DirCache.newInCore();
+		final DirCache dc = DirCache.newInCore(false);
 		final DirCacheBuilder b = dc.builder();
 		assertNotNull(b);
 
@@ -86,7 +86,7 @@ public class DirCacheBuilderTest extends RepositoryTestCase {
 		final int length = 1342;
 		final DirCacheEntry entOrig;
 		{
-			final DirCache dc = db.lockDirCache();
+			final DirCache dc = db.lockDirCache(false);
 			final DirCacheBuilder b = dc.builder();
 			assertNotNull(b);
 
@@ -113,7 +113,7 @@ public class DirCacheBuilderTest extends RepositoryTestCase {
 			assertTrue(dc.commit());
 		}
 		{
-			final DirCache dc = db.readDirCache();
+			final DirCache dc = db.readDirCache(false);
 			assertEquals(1, dc.getEntryCount());
 
 			final DirCacheEntry entRead = dc.getEntry(0);
@@ -135,7 +135,7 @@ public class DirCacheBuilderTest extends RepositoryTestCase {
 		final int length = 1342;
 		final DirCacheEntry entOrig;
 		{
-			final DirCache dc = db.lockDirCache();
+			final DirCache dc = db.lockDirCache(false);
 			final DirCacheBuilder b = dc.builder();
 			assertNotNull(b);
 
@@ -160,7 +160,7 @@ public class DirCacheBuilderTest extends RepositoryTestCase {
 			assertFalse(new File(db.getDirectory(), "index.lock").exists());
 		}
 		{
-			final DirCache dc = db.readDirCache();
+			final DirCache dc = db.readDirCache(false);
 			assertEquals(1, dc.getEntryCount());
 
 			final DirCacheEntry entRead = dc.getEntry(0);
@@ -177,7 +177,7 @@ public class DirCacheBuilderTest extends RepositoryTestCase {
 
 	public void testFindSingleFile() throws Exception {
 		final String path = "a-file-path";
-		final DirCache dc = db.readDirCache();
+		final DirCache dc = db.readDirCache(false);
 		final DirCacheBuilder b = dc.builder();
 		assertNotNull(b);
 
@@ -202,7 +202,7 @@ public class DirCacheBuilderTest extends RepositoryTestCase {
 	}
 
 	public void testAdd_InGitSortOrder() throws Exception {
-		final DirCache dc = db.readDirCache();
+		final DirCache dc = db.readDirCache(false);
 
 		final String[] paths = { "a.", "a.b", "a/b", "a0b" };
 		final DirCacheEntry[] ents = new DirCacheEntry[paths.length];
@@ -226,7 +226,7 @@ public class DirCacheBuilderTest extends RepositoryTestCase {
 	}
 
 	public void testAdd_ReverseGitSortOrder() throws Exception {
-		final DirCache dc = db.readDirCache();
+		final DirCache dc = db.readDirCache(false);
 
 		final String[] paths = { "a.", "a.b", "a/b", "a0b" };
 		final DirCacheEntry[] ents = new DirCacheEntry[paths.length];
@@ -250,7 +250,7 @@ public class DirCacheBuilderTest extends RepositoryTestCase {
 	}
 
 	public void testBuilderClear() throws Exception {
-		final DirCache dc = db.readDirCache();
+		final DirCache dc = db.readDirCache(false);
 
 		final String[] paths = { "a.", "a.b", "a/b", "a0b" };
 		final DirCacheEntry[] ents = new DirCacheEntry[paths.length];

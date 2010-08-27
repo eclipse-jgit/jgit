@@ -52,7 +52,7 @@ import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
 
 public class DirCacheBuilderIteratorTest extends RepositoryTestCase {
 	public void testPathFilterGroup_DoesNotSkipTail() throws Exception {
-		final DirCache dc = db.readDirCache();
+		final DirCache dc = db.readDirCache(false);
 
 		final FileMode mode = FileMode.REGULAR_FILE;
 		final String[] paths = { "a.", "a/b", "a/c", "a/d", "a0b" };

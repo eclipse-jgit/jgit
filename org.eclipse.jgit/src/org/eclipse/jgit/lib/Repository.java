@@ -908,6 +908,7 @@ public abstract class Repository {
 	 * The new index will be read before it is returned to the caller. Read
 	 * failures are reported as exceptions and therefore prevent the method from
 	 * returning a partially populated index.
+	 * @param readOnly
 	 *
 	 * @return a cache representing the contents of the specified index file (if
 	 *         it exists) or an empty cache if the file does not exist.
@@ -920,9 +921,9 @@ public abstract class Repository {
 	 *             the index file is using a format or extension that this
 	 *             library does not support.
 	 */
-	public DirCache readDirCache() throws NoWorkTreeException,
+	public DirCache readDirCache(boolean readOnly) throws NoWorkTreeException,
 			CorruptObjectException, IOException {
-		return DirCache.read(getIndexFile(), getFS());
+		return DirCache.read(getIndexFile(), getFS(), readOnly);
 	}
 
 	/**
@@ -931,6 +932,7 @@ public abstract class Repository {
 	 * The new index will be locked and then read before it is returned to the
 	 * caller. Read failures are reported as exceptions and therefore prevent
 	 * the method from returning a partially populated index.
+	 * @param readOnly
 	 *
 	 * @return a cache representing the contents of the specified index file (if
 	 *         it exists) or an empty cache if the file does not exist.
@@ -944,9 +946,9 @@ public abstract class Repository {
 	 *             the index file is using a format or extension that this
 	 *             library does not support.
 	 */
-	public DirCache lockDirCache() throws NoWorkTreeException,
+	public DirCache lockDirCache(boolean readOnly) throws NoWorkTreeException,
 			CorruptObjectException, IOException {
-		return DirCache.lock(getIndexFile(), getFS());
+		return DirCache.lock(getIndexFile(), getFS(), readOnly);
 	}
 
 	static byte[] gitInternalSlash(byte[] bytes) {
@@ -988,7 +990,7 @@ public abstract class Repository {
 		if (new File(getDirectory(), "MERGE_HEAD").exists()) {
 			// we are merging - now check whether we have unmerged paths
 			try {
-				if (!readDirCache().hasUnmergedPaths()) {
+				if (!readDirCache(true).hasUnmergedPaths()) {
 					// no unmerged paths -> return the MERGING_RESOLVED state
 					return RepositoryState.MERGING_RESOLVED;
 				}

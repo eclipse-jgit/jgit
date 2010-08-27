@@ -242,7 +242,7 @@ public class TestRepository<R extends Repository> {
 	 * @throws Exception
 	 */
 	public RevTree tree(final DirCacheEntry... entries) throws Exception {
-		final DirCache dc = DirCache.newInCore();
+		final DirCache dc = DirCache.newInCore(true);
 		final DirCacheBuilder b = dc.builder();
 		for (final DirCacheEntry e : entries)
 			b.add(e);
@@ -715,7 +715,7 @@ public class TestRepository<R extends Repository> {
 	public class CommitBuilder {
 		private final BranchBuilder branch;
 
-		private final DirCache tree = DirCache.newInCore();
+		private final DirCache tree = DirCache.newInCore(false);
 
 		private final List<RevCommit> parents = new ArrayList<RevCommit>(2);
 
