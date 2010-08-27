@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAALwX///FA\u003d",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/JGitText.properties",
+        "patchSetId": 4
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-07-08T23:47:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALwX///N8\u003d",
+      "revId": "36e2a520773da38f5ac0c9074a33ace75104eb7e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALwX///N4\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
         "patchSetId": 4
@@ -53,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "AAALwX//+/M\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-07-08T23:47:22Z",
+      "side": 1,
+      "message": "changed all the tree references to ObjectID because I need Ids and not trees. The main thing I do with the trees is feeding them into the treewalk - and therefore (strangly?) I cannot put a tree itself but an Id.\n\nOne  problem remains: that is one remaining call to Tree.findBlobMember() in hasParentBlob() (now called mergeTreeHasParentBlob()). I asked in http://dev.eclipse.org/mhonarc/lists/jgit-dev/msg00458.html about the meaning of this call and would be happy to remove this call. Because of this problem I still have a reference to a Tree, but not in the API of this class.",
+      "parentUuid": "AAALwX///Ks\u003d",
+      "revId": "36e2a520773da38f5ac0c9074a33ace75104eb7e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALwX///N0\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
         "patchSetId": 4
@@ -64,6 +100,24 @@
       "writtenOn": "2010-07-06T15:14:33Z",
       "side": 1,
       "message": "object not class",
+      "revId": "36e2a520773da38f5ac0c9074a33ace75104eb7e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX//+/Y\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-07-08T23:47:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALwX///N0\u003d",
       "revId": "36e2a520773da38f5ac0c9074a33ace75104eb7e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -121,6 +175,24 @@
     },
     {
       "key": {
+        "uuid": "AAALwX//+/A\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-07-08T23:47:22Z",
+      "side": 1,
+      "message": "see comment above",
+      "parentUuid": "AAALwX///Ns\u003d",
+      "revId": "36e2a520773da38f5ac0c9074a33ace75104eb7e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALwX///No\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
         "patchSetId": 4
@@ -132,6 +204,24 @@
       "writtenOn": "2010-07-06T15:14:33Z",
       "side": 1,
       "message": "style nit:\ns/processing/Processing/",
+      "revId": "36e2a520773da38f5ac0c9074a33ace75104eb7e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX//++8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-07-08T23:47:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALwX///No\u003d",
       "revId": "36e2a520773da38f5ac0c9074a33ace75104eb7e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -155,6 +245,24 @@
     },
     {
       "key": {
+        "uuid": "AAALwX//++4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-07-08T23:47:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALwX///Nk\u003d",
+      "revId": "36e2a520773da38f5ac0c9074a33ace75104eb7e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALwX///Ng\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
         "patchSetId": 4
@@ -166,6 +274,24 @@
       "writtenOn": "2010-07-06T15:14:33Z",
       "side": 1,
       "message": "cannotDeleteFile: this doesn\u0027t look like the correct message\n\nI would rather expect a dedicated exception here, javadoc for setFailOnConflict() says this would throw a CheckoutConflictException",
+      "revId": "36e2a520773da38f5ac0c9074a33ace75104eb7e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX//++0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-07-08T23:47:22Z",
+      "side": 1,
+      "message": "you are right - this exception is completely wrong. I changed it.",
+      "parentUuid": "AAALwX///Ng\u003d",
       "revId": "36e2a520773da38f5ac0c9074a33ace75104eb7e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -189,6 +315,24 @@
     },
     {
       "key": {
+        "uuid": "AAALwX//++Y\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-07-08T23:47:22Z",
+      "side": 1,
+      "message": "I added a boolean return value to the checkout method. If false is returned this means that not all obsolete files could be deleted and getToBeDeleted() contains the path names of the remaining files.",
+      "parentUuid": "AAALwX///Kg\u003d",
+      "revId": "36e2a520773da38f5ac0c9074a33ace75104eb7e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALwX///KI\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
         "patchSetId": 4
@@ -200,6 +344,24 @@
       "writtenOn": "2010-07-06T20:46:28Z",
       "side": 1,
       "message": "Wasn\u0027t this already set by checkoutEntry?  And likewise with the length, I suggest below that it should be set in checkout Entry.",
+      "revId": "36e2a520773da38f5ac0c9074a33ace75104eb7e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX//++E\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-07-08T23:47:22Z",
+      "side": 1,
+      "message": "i put everything in checkoutEntry()",
+      "parentUuid": "AAALwX///KI\u003d",
       "revId": "36e2a520773da38f5ac0c9074a33ace75104eb7e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -223,6 +385,24 @@
     },
     {
       "key": {
+        "uuid": "AAALwX//++A\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-07-08T23:47:22Z",
+      "side": 1,
+      "message": "created a new exception for that",
+      "parentUuid": "AAALwX///NQ\u003d",
+      "revId": "36e2a520773da38f5ac0c9074a33ace75104eb7e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALwX///Kk\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
         "patchSetId": 4
@@ -234,6 +414,24 @@
       "writtenOn": "2010-07-06T20:46:28Z",
       "side": 1,
       "message": "Style-nit: This method can be static.",
+      "revId": "36e2a520773da38f5ac0c9074a33ace75104eb7e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX//+98\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-07-08T23:47:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALwX///Kk\u003d",
       "revId": "36e2a520773da38f5ac0c9074a33ace75104eb7e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -257,6 +455,24 @@
     },
     {
       "key": {
+        "uuid": "AAALwX//+94\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-07-08T23:47:22Z",
+      "side": 1,
+      "message": "that\u0027s right. I will not bet against it (although I owe you lot of beers for again and again finding style-nits and serious problems in my code. Never ever was my code so well reviewed).\n\nI was thinking about removing this method. We already walked over every single file and folder in the workTree. We should know the pathes of empty folders. But a first tryout grew too complicated and I wrote it down on the todo list.\n\nI more and more think it was a mistake to copy WorkDircheckout and create DirCacheCheckout from that copy. I was overwhelmed by so many topics that I thought this would save me some effort. But understanding WorkDirCheckout and writing DirCachecheckout from scratch would have been better because I wouldn\u0027t copy all that strange code.",
+      "parentUuid": "AAALwX///Kc\u003d",
+      "revId": "36e2a520773da38f5ac0c9074a33ace75104eb7e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALwX///NM\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
         "patchSetId": 4
@@ -268,6 +484,24 @@
       "writtenOn": "2010-07-06T15:14:33Z",
       "side": 1,
       "message": "s/with the index:/with the corresponding index entry:/",
+      "revId": "36e2a520773da38f5ac0c9074a33ace75104eb7e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX//+90\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-07-08T23:47:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALwX///NM\u003d",
       "revId": "36e2a520773da38f5ac0c9074a33ace75104eb7e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -353,6 +587,24 @@
       "writtenOn": "2010-07-06T15:14:33Z",
       "side": 1,
       "message": "typo: s/Non-Exisiting/Non-Existing/",
+      "revId": "36e2a520773da38f5ac0c9074a33ace75104eb7e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX//+9c\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 426,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-07-08T23:47:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALwX///M4\u003d",
       "revId": "36e2a520773da38f5ac0c9074a33ace75104eb7e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
