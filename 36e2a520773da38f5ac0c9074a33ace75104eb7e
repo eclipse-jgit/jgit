@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAALwX///E8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-07-08T23:47:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALwX///N4\u003d",
+      "revId": "36e2a520773da38f5ac0c9074a33ace75104eb7e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALwX///Ks\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
         "patchSetId": 4
@@ -525,6 +543,24 @@
     },
     {
       "key": {
+        "uuid": "AAALwX//+9k\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-07-08T23:47:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALwX///KY\u003d",
+      "revId": "36e2a520773da38f5ac0c9074a33ace75104eb7e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALwX///KU\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
         "patchSetId": 4
@@ -542,6 +578,24 @@
     },
     {
       "key": {
+        "uuid": "AAALwX//+9s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-07-08T23:47:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALwX///KU\u003d",
+      "revId": "36e2a520773da38f5ac0c9074a33ace75104eb7e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALwX///NA\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
         "patchSetId": 4
@@ -553,6 +607,24 @@
       "writtenOn": "2010-07-06T15:14:33Z",
       "side": 1,
       "message": "typo and incomplete comment, better:\n\nfile only exists in working tree -\u003e ignore it",
+      "revId": "36e2a520773da38f5ac0c9074a33ace75104eb7e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX//+9o\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-07-08T23:47:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALwX///NA\u003d",
       "revId": "36e2a520773da38f5ac0c9074a33ace75104eb7e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -645,6 +717,24 @@
     },
     {
       "key": {
+        "uuid": "AAALwX//+9U\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 602,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-07-08T23:47:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALwX///Mw\u003d",
+      "revId": "36e2a520773da38f5ac0c9074a33ace75104eb7e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALwX///Ms\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
         "patchSetId": 4
@@ -656,6 +746,24 @@
       "writtenOn": "2010-07-06T15:14:33Z",
       "side": 1,
       "message": "javadoc missing for parameter path",
+      "revId": "36e2a520773da38f5ac0c9074a33ace75104eb7e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX//+9Q\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 603,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-07-08T23:47:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALwX///Ms\u003d",
       "revId": "36e2a520773da38f5ac0c9074a33ace75104eb7e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -713,6 +821,24 @@
     },
     {
       "key": {
+        "uuid": "AAALwX//+80\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 665,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-07-08T23:47:22Z",
+      "side": 1,
+      "message": "yes, that\u0027s a TODO. Similar in WorkDirCheckout where this was copied from.",
+      "parentUuid": "AAALwX///MQ\u003d",
+      "revId": "36e2a520773da38f5ac0c9074a33ace75104eb7e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALwX///KA\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
         "patchSetId": 4
@@ -724,6 +850,24 @@
       "writtenOn": "2010-07-06T20:46:28Z",
       "side": 1,
       "message": "A NameConflictTreeWalk should have dived into the working tree and told you about these conflicts.\n\nIf the tree wants to put a blob at \"foo\", but the working directory has \"foo/bar.c\" and \"foo/other.c\", so \"foo\" is a directory, you should get:\n\n  Path \"foo\":  Index blob;  working directory tree\n  Path \"foo/bar.c\":  Index none; working directory file\n  Path \"foo/other.c\":  Index none; working directory file\n\nThis means that you don\u0027t need to implement this recursion logic, you just need to keep track of D/F conflicts by storing the prefix path and then on each subsequent step of the walker check to see if the path is covered by one of those prefix paths.  If it is, you are inside of a D/F conflict and the working tree is conflicting with the blob record.\n\nActually, this is all something that the NameConflictTreeWalk should be able to tell you.  Just add a isDirectoryFileConflict() method to NameConflictTreeWalk that can export this, and keeps track of the current state for you.\n\nThe basic logic might be:\n\n* in combineDF() store the treeMatch iterator into a new dfConflict field, inside of the \"if (treeMatch !\u003d null) {\" condition near the end of the method.  Only set the field if it is currently null.\n* implement isDirectoryFileConflict to return true if dfConflict !\u003d null\n* modify popEntriesEqual to clear dfConflict if dfConflict is any of the current iterators, before popping.",
+      "revId": "36e2a520773da38f5ac0c9074a33ace75104eb7e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALw3///1s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 675,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-07-22T15:46:12Z",
+      "side": 1,
+      "message": "Shawn, I found problems with this implementation. Problem is that we will not go into combineDF() always. I saw it not happen when there is no gap between the file and the dir. I added tests to NameConflictTreeWalk tests which show the problem.\n\nI am also not sure whether we always enter popEntriesEqual to clean up after we left the D/F conflict path.\n\nI added another implementation of this in http://egit.eclipse.org/r/#change,1169.",
+      "parentUuid": "AAALwX//+7Y\u003d",
       "revId": "36e2a520773da38f5ac0c9074a33ace75104eb7e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -862,6 +1006,24 @@
       "writtenOn": "2010-07-06T20:46:28Z",
       "side": 1,
       "message": "Shouldn\u0027t we also set the length here?",
+      "revId": "36e2a520773da38f5ac0c9074a33ace75104eb7e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX//+9A\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 826,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-07-08T23:47:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALwX///KM\u003d",
       "revId": "36e2a520773da38f5ac0c9074a33ace75104eb7e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
