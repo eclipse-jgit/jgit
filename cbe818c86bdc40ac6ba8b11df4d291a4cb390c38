@@ -16,6 +16,91 @@
       "revId": "cbe818c86bdc40ac6ba8b11df4d291a4cb390c38",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///48\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/ReadTreeTest.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 439,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-08-24T06:18:07Z",
+      "side": 1,
+      "message": "Here DirCacheCheckout would fail on a assertion for which WorkDirCheckout succeed (see the comment). How do we handle this.",
+      "revId": "cbe818c86bdc40ac6ba8b11df4d291a4cb390c38",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///44\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/ReadTreeTest.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 451,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-08-24T06:18:07Z",
+      "side": 1,
+      "message": "Here DirCacheCheckout would fail on a assertion for which WorkDirCheckout succeed (see the comment). How do we handle this.",
+      "revId": "cbe818c86bdc40ac6ba8b11df4d291a4cb390c38",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///40\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/ReadTreeTest.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 476,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-08-24T06:18:07Z",
+      "side": 1,
+      "message": "Here DirCacheCheckout would fail on a assertion for which WorkDirCheckout succeed (see the comment). How do we handle this.",
+      "revId": "cbe818c86bdc40ac6ba8b11df4d291a4cb390c38",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///4w\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/ReadTreeTest.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 551,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-08-24T06:18:07Z",
+      "side": 1,
+      "message": "Here DirCacheCheckout would fail on a assertion for which WorkDirCheckout succeed (see the comment). How do we handle this.",
+      "revId": "cbe818c86bdc40ac6ba8b11df4d291a4cb390c38",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///4s\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/ReadTreeTest.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 562,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-08-24T06:18:07Z",
+      "side": 1,
+      "message": "Here DirCacheCheckout would fail on a assertion for which WorkDirCheckout succeed (see the comment). How do we handle this.",
+      "revId": "cbe818c86bdc40ac6ba8b11df4d291a4cb390c38",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
