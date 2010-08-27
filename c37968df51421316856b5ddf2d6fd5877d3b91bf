@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALyn///7I\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/ReadTreeTest.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-23T23:54:05Z",
+      "side": 1,
+      "message": "We shouldn\u0027t rely on platform encoding.  Please specify \"UTF-8\" or something here.",
+      "revId": "c37968df51421316856b5ddf2d6fd5877d3b91bf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///7U\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-23T23:54:05Z",
+      "side": 1,
+      "message": "Yes.  Its always a conflict.  I\u0027m not sure you can sanely resolve this case otherwise.",
+      "revId": "c37968df51421316856b5ddf2d6fd5877d3b91bf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///7Q\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 497,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-23T23:54:05Z",
+      "side": 1,
+      "message": "Actually, you *might* have the id of the tree.  Right now its really rare though if JGit is involved.  :-(",
+      "revId": "c37968df51421316856b5ddf2d6fd5877d3b91bf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///7M\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 791,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-23T23:54:05Z",
+      "side": 1,
+      "message": "Style-nit: File.createTempFile() should be sufficient since we already import java.io.File here.  And we prefer spaces around operators like +.\n\nFinally, should we use \"._\" instead as the prefix?  That way the temporary file is hidden from view when a user is doing `ls` at the same time as a checkout is occurring?",
+      "revId": "c37968df51421316856b5ddf2d6fd5877d3b91bf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
