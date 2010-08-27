@@ -1,0 +1,396 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALu3///kI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-06-14T16:41:29Z",
+      "side": 1,
+      "message": "You should document that the caller is expected to lock the DirCache before they pass it into you.",
+      "revId": "fb7e0af443d2c2d12e32353ede6c5bb36c6ad94a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALu3///kY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-06-14T16:41:29Z",
+      "side": 1,
+      "message": "If we already passed these arguments to the constructor, why do we have to pass them again to this method?",
+      "revId": "fb7e0af443d2c2d12e32353ede6c5bb36c6ad94a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALu3///kU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-06-14T16:41:29Z",
+      "side": 1,
+      "message": "I think its going to be faster to add a WorkingTreeIterator to the same walk, and using the existence of its WorkingTreeIterator on the current path name to tell you if the file exists, or not.\n\nThat strategy is based off doing a directory listing and testing set contents in memory, rather than doing a stat() call to test for the name being present.  It also lets you avoid the (relatively expensive) getEntryPathString() call.",
+      "revId": "fb7e0af443d2c2d12e32353ede6c5bb36c6ad94a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALu3///gs\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-06-15T15:07:58Z",
+      "side": 1,
+      "message": "Sorry about the lagging replies.  I\u0027ve had more code review requests than I know what to do with, when you sum up all of the projects that I\u0027m working on.  Some stuff just slips through the cracks, and unfortunately you lost time for it.\n\nI think you are right, most compares don\u0027t require that 4th working tree iterator.  But a handful do.  Its probably better to keep that 4th working tree iterator running in parallel so that those compares are cheaper.  Unfortunately, we may wind up doing a stat() of each path to determine if its a file or a directory, and that stat is wasted if you later don\u0027t need to look at that particular path name.  However, I would rather the code be correct and easy to follow (it really is a 4-way join) than fast and obtuse.  We can always try to improve the working tree performance later.\n\nWorkDirCheckout predates the WorkingTreeIterator class, so it couldn\u0027t use it.  However, it does still have to hit the filesystem to figure out what is going, on and do that 4th join.\n\nAnyway, let me try to reply to [2] in context, rather than here.",
+      "parentUuid": "AAALu3///hM\u003d",
+      "revId": "fb7e0af443d2c2d12e32353ede6c5bb36c6ad94a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALu3///kM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-06-14T16:41:29Z",
+      "side": 1,
+      "message": "You probably should apply removed first.\n\nIf we have foo/bar turning into just foo, we need to safely delete the file bar, and safely delete the directory foo, before we can safely create the file called foo.\n\nAlso, we should try to apply these in order, starting from the bottom of the tree up.  That way you can avoid doing removeEmptyParents() until the last name scheduled for removal in that directory is removed.\n\nIts not all that hard.  Since removed is a List\u003cString\u003e, and its built during the name traversal, these are already sorted properly.  We just have to keep track of the directory prefix as we walk through the names:\n\n  String last \u003d \"\";\n  for (String r : removed) {\n    if (!samePrefix(r, last))\n      removeEmptyParents(last);\n    ... delete r\n    last \u003d r;\n  }\n  removeEmptyParents(last);\n\n  private boolean isSamePrefix(String a, String b) {\n    int as \u003d a.lastIndexOf(\u0027/\u0027);\n    int bs \u003d b.lastIndexOf(\u0027/\u0027);\n    return a.substring(0, as + 1).equals(bs.substring(0, bs + 1));\n  }",
+      "revId": "fb7e0af443d2c2d12e32353ede6c5bb36c6ad94a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALu3///kQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-06-14T16:41:29Z",
+      "side": 1,
+      "message": "Like with the 2-tree form of processEntry, I think you want actually a 4th tree here, the WorkingTreeIterator.\n\nYea, its ugly.  You are trying to do a merge across 4 things:\n\n * HEAD\n * index\n * working directory\n * target tree\n\nAnd the rules are about how working directory needs to match index and/or HEAD in order for an edit from target to be applied.",
+      "revId": "fb7e0af443d2c2d12e32353ede6c5bb36c6ad94a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALu3///j8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-06-14T16:41:29Z",
+      "side": 1,
+      "message": "Clever!",
+      "revId": "fb7e0af443d2c2d12e32353ede6c5bb36c6ad94a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALu3///kA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 464,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-06-14T16:41:29Z",
+      "side": 1,
+      "message": "tabs here, but spaces on next few lines, makes it harder to read.",
+      "revId": "fb7e0af443d2c2d12e32353ede6c5bb36c6ad94a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALu3///kE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 491,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-06-14T16:41:29Z",
+      "side": 1,
+      "message": "tabs here, but spaces on next few lines, makes it harder to read.",
+      "revId": "fb7e0af443d2c2d12e32353ede6c5bb36c6ad94a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALu3///k4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheEntry.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 598,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-06-14T16:41:29Z",
+      "side": 1,
+      "message": "FWIW, I never intended for this DirCacheEntry class to be responsible for this sort of status check code.  I meant for this to go into some other new class that was running a TreeWalk of some sort over a FileTreeIterator and a DirCacheIterator.\n\nFor example, FileTreeIterator already has the ability to compute the ObjectId of the file on the fly.  This is derived through the WorkingTreeIterator base class.\n\nBy doing this sort of stuff through the WorkingTreeIterator, we can use the Eclipse IResource APIs to access the files when inside of EGit, rather than relying on java.io.File.  This means we could rely on the Eclipse stat cache rather than always hitting stat() on the filesystem, and we could make use of the IResource APIs to modify the files, so the workbench would be properly notified of any edits we make.\n\nRelying on WorkingTreeIterator might also simplify some of the logic around the mode test.  Its already converted the filesystem mode into the raw mode format we use in the index, making direct compares easier.",
+      "revId": "fb7e0af443d2c2d12e32353ede6c5bb36c6ad94a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALu3///lk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheEntry.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 649,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-06-14T16:41:29Z",
+      "side": 1,
+      "message": "Our getLastModified() is returning milliseconds.  Dividing by 1000000L here is going to produce the wrong unit.",
+      "revId": "fb7e0af443d2c2d12e32353ede6c5bb36c6ad94a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALu3///lg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheEntry.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 653,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-06-14T16:41:29Z",
+      "side": 1,
+      "message": "We should also be looking for the \"racy git\" case here.\n\nIf mightBeRacilyClean() returns true, we need to do a content check, no matter what forceContentCheck says.  This is to avoid the case where the index was written out with the same timestamp as the file itself, making the file timestamp somewhat in doubt about being modified or being clean.",
+      "revId": "fb7e0af443d2c2d12e32353ede6c5bb36c6ad94a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALu3///lc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheEntry.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 664,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-06-14T16:41:29Z",
+      "side": 1,
+      "message": "Please don\u0027t print stack traces to System.err.",
+      "revId": "fb7e0af443d2c2d12e32353ede6c5bb36c6ad94a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALu3///lY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheEntry.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 670,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-06-14T16:41:29Z",
+      "side": 1,
+      "message": "Again, don\u0027t print to System.err.",
+      "revId": "fb7e0af443d2c2d12e32353ede6c5bb36c6ad94a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALu3///k8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheEntry.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 674,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-06-14T16:41:29Z",
+      "side": 1,
+      "message": "This can happen if the user is racing with us and removes the file after we\u0027ve checked for it existing.  Instead we should silently treat this as though length() \u003d\u003d0 and exists() \u003d\u003d false.  Which above means \"return true\".  So we should just document why its OK to simply \"return true\" here, and return true.",
+      "revId": "fb7e0af443d2c2d12e32353ede6c5bb36c6ad94a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALu3///lo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheEntry.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 690,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-06-14T16:41:29Z",
+      "side": 1,
+      "message": "In light of Ifc4278078b298781d55cf5421e9647a21fa5db24 being merged first, we probably should be using the Repository\u0027s FS here.  Which means we might need to be passing it down.",
+      "revId": "fb7e0af443d2c2d12e32353ede6c5bb36c6ad94a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALu3///k0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheEntry.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 707,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-06-14T16:41:29Z",
+      "side": 1,
+      "message": "Like the status method above, I never meant for this to be in the DirCacheEntry code.  Instead I meant for it to be in some other class that is interacting with the TreeWalk and the WorkingTreeIterator.  That way we can write out through the IResource APIs and properly notify the workbench of an edit.",
+      "revId": "fb7e0af443d2c2d12e32353ede6c5bb36c6ad94a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALu3///kw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheEntry.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 709,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-06-14T16:41:29Z",
+      "side": 1,
+      "message": "This returns null if the object doesn\u0027t exist in the repository.  This could happen in the case of repository corruption on disk.  We should at least give a better error message than NullPointerException when the object isn\u0027t present, like throwing back a MissingObjectException.\n\nIn hindsight this is a mess.  The open family on Repository should be throwing that MissingObjectException and never return null.  Every single caller wants the object, or throws.  We really need to fix that in the API, and then fix the callers.  But until then, callers are responsible for checking.  *sigh*",
+      "revId": "fb7e0af443d2c2d12e32353ede6c5bb36c6ad94a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALu3///ks\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheEntry.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 710,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-06-14T16:41:29Z",
+      "side": 1,
+      "message": "Using getCachedBytes() is faster, it doesn\u0027t make a copy, but you have to promise you won\u0027t modify the array.  :-)",
+      "revId": "fb7e0af443d2c2d12e32353ede6c5bb36c6ad94a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALu3///kc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheEntry.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 711,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-06-14T16:41:29Z",
+      "side": 1,
+      "message": "I think its dangerous to delete the file and rewrite it in place.  Its safer to write to a temporary file in the target directory, and rename the temporary file over to the real name.  If the rename fails (e.g. due to Windows stupidity), you can try deleting the target and then renaming.\n\nIIRC C git takes this approach to file writing.  It almost always writes to a temporary file in the same directory and then tries to rename over to the target.  That way if you crash while writing, the user isn\u0027t left with a half-written file that might somehow be taken as an edit.  Instead they are left with a file that isn\u0027t updated at all.",
+      "revId": "fb7e0af443d2c2d12e32353ede6c5bb36c6ad94a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALu3///ko\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheEntry.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 713,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-06-14T16:41:29Z",
+      "side": 1,
+      "message": "Why are we writing out through a channel?  Why not just write to the file stream?",
+      "revId": "fb7e0af443d2c2d12e32353ede6c5bb36c6ad94a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALu3///kk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheEntry.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 715,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-06-14T16:41:29Z",
+      "side": 1,
+      "message": "This needs to be in a try/finally so that we ensure the file was closed.",
+      "revId": "fb7e0af443d2c2d12e32353ede6c5bb36c6ad94a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALu3///kg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheEntry.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 729,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-06-14T16:41:29Z",
+      "side": 1,
+      "message": "I\u0027m pretty sure our setLastModified takes milliseconds.",
+      "revId": "fb7e0af443d2c2d12e32353ede6c5bb36c6ad94a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
