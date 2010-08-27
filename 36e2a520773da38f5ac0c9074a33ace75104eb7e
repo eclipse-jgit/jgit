@@ -159,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AAALwX//+/I\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-07-08T23:47:22Z",
+      "side": 1,
+      "message": "This method walks over two real git trees (head und merge). The two other things I am walking over are not really trees: the index (DirCache) is not a tree and the FileSystem with our working tree is also no tree. When we enter this method then the end-user has specified exactly two trees - and index and working tree are derived from the current repo. That\u0027s I guess why this method was once named preScanTwoTrees().",
+      "parentUuid": "AAALwX///Nw\u003d",
+      "revId": "36e2a520773da38f5ac0c9074a33ace75104eb7e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALwX///Ko\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
         "patchSetId": 4
@@ -170,6 +188,24 @@
       "writtenOn": "2010-07-06T20:46:28Z",
       "side": 1,
       "message": "For an empty tree like thing, use new EmptyTreeIterator() instead.  When you later ask for this slot as a CanonicalTreeParser type you will get back a null pointer.  (TreeWalk internally creates an EmptyTreeIterator as it dives down into non-existent subdirectories.)",
+      "revId": "36e2a520773da38f5ac0c9074a33ace75104eb7e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX//+/E\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-07-08T23:47:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALwX///Ko\u003d",
       "revId": "36e2a520773da38f5ac0c9074a33ace75104eb7e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -648,6 +684,24 @@
     },
     {
       "key": {
+        "uuid": "AAALwX//+9g\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-07-08T23:47:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALwX///M8\u003d",
+      "revId": "36e2a520773da38f5ac0c9074a33ace75104eb7e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALwX///M4\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
         "patchSetId": 4
@@ -694,6 +748,24 @@
       "writtenOn": "2010-07-06T15:14:33Z",
       "side": 1,
       "message": "typo: s/conflicts/conflict/",
+      "revId": "36e2a520773da38f5ac0c9074a33ace75104eb7e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX//+9Y\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-07-08T23:47:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALwX///M0\u003d",
       "revId": "36e2a520773da38f5ac0c9074a33ace75104eb7e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -787,6 +859,24 @@
     },
     {
       "key": {
+        "uuid": "AAALwX//+88\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 612,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-07-08T23:47:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALwX///Mo\u003d",
+      "revId": "36e2a520773da38f5ac0c9074a33ace75104eb7e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALwX///KE\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
         "patchSetId": 4
@@ -798,6 +888,24 @@
       "writtenOn": "2010-07-06T20:46:28Z",
       "side": 1,
       "message": "Should this be private?",
+      "revId": "36e2a520773da38f5ac0c9074a33ace75104eb7e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX//+84\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 662,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-07-08T23:47:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALwX///KE\u003d",
       "revId": "36e2a520773da38f5ac0c9074a33ace75104eb7e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -856,6 +964,24 @@
     },
     {
       "key": {
+        "uuid": "AAALwX//+7Y\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 675,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-07-08T23:47:22Z",
+      "side": 1,
+      "message": "I\u0027ll propose the change to NameConflictTreeWalk. Only one confirmation needed:\nIn the third step you mention \"before popping\". After reading the code I think \"t.back(t.matchShift);t.matchShift \u003d 0\" is your \"pop\" implementation, right?",
+      "parentUuid": "AAALwX///KA\u003d",
+      "revId": "36e2a520773da38f5ac0c9074a33ace75104eb7e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALw3///1s\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
         "patchSetId": 4
@@ -891,6 +1017,24 @@
     },
     {
       "key": {
+        "uuid": "AAALwX//+7E\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 723,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-07-08T23:47:22Z",
+      "side": 1,
+      "message": "the semantics is not clear to me, see my comment below. I\u0027ll document if it is clear.",
+      "parentUuid": "AAALwX///MM\u003d",
+      "revId": "36e2a520773da38f5ac0c9074a33ace75104eb7e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALwX///J8\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
         "patchSetId": 4
@@ -902,6 +1046,24 @@
       "writtenOn": "2010-07-06T20:46:28Z",
       "side": 1,
       "message": "Correct.  This cleanup is only safe if these paths are registered in the ignore list.",
+      "revId": "36e2a520773da38f5ac0c9074a33ace75104eb7e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX//+7I\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 728,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-07-08T23:47:22Z",
+      "side": 1,
+      "message": "Don\u0027t get it: if pathes are in the ignore list it is even more dangerouse to delete files, or?",
+      "parentUuid": "AAALwX///J8\u003d",
       "revId": "36e2a520773da38f5ac0c9074a33ace75104eb7e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -943,6 +1105,23 @@
     },
     {
       "key": {
+        "uuid": "AAALwX//+70\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 743,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-07-08T23:47:22Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "36e2a520773da38f5ac0c9074a33ace75104eb7e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALwX///J4\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
         "patchSetId": 4
@@ -954,6 +1133,24 @@
       "writtenOn": "2010-07-06T20:46:28Z",
       "side": 1,
       "message": "Why do we have to setup a whole new tree walk here?  Can\u0027t you use the existing walk state to check this?",
+      "revId": "36e2a520773da38f5ac0c9074a33ace75104eb7e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX//+7w\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 745,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-07-08T23:47:22Z",
+      "side": 1,
+      "message": "I want to do this in a later optimization of checkout. I would need to delay the decision of what to do with a certain entry until the Treewalk has walked also the whole subtree.\nExample: \nHead: foo/c\nIndex: foo/c, foo/d\nMerge: foo\n\nThe first entry I have to deal with is \"foo\" and I detect a file/folder conflict. To decide what to do with foo I have to know wether index entry foo/c is clean - but this entry comes later in the Treewalk.\n\nI was planning to store a list of (path,entry, dirtyOp, cleanOp) triples: when I finally found out the index under path is clean/dirty then the entry is processed according to cleanOp/dirtyOp.  Operations could be UPDATE,CONFLICT ...\n\nBut as I said: to reduce complexity for this proposal I did a brute force attempt to start a new walk.",
+      "parentUuid": "AAALwX///J4\u003d",
       "revId": "36e2a520773da38f5ac0c9074a33ace75104eb7e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -989,6 +1186,24 @@
       "writtenOn": "2010-07-06T20:46:28Z",
       "side": 1,
       "message": "Given that we have already done this in the caller, do we also need to repeat it here?",
+      "revId": "36e2a520773da38f5ac0c9074a33ace75104eb7e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX//+7s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 793,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-07-08T23:47:22Z",
+      "side": 1,
+      "message": "I stated now explicitly in the docs that the parent folder has to exist before this method is called.  And of course: I removed this mkdirs.",
+      "parentUuid": "AAALwX///KQ\u003d",
       "revId": "36e2a520773da38f5ac0c9074a33ace75104eb7e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
