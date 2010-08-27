@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALyH///jE\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/TagCommandTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-18T23:26:49Z",
+      "side": 1,
+      "message": "Please also add a test for when you use setId() to tag something that is not HEAD.",
+      "revId": "332579d894ed5fbffbc46812741671e7ad22a9ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyH///jY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/TagCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-18T23:26:49Z",
+      "side": 1,
+      "message": "This should only fail if id \u003d\u003d null.",
+      "revId": "332579d894ed5fbffbc46812741671e7ad22a9ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyH///jQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/TagCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-18T23:26:49Z",
+      "side": 1,
+      "message": "These args aren\u0027t right for the message.  Shouldn\u0027t we be recording refName here instead of Constants.HEAD?  And is newTag.toString() the right thing to embed as {1} in the message?  (I\u0027m not sure, I don\u0027t know exactly what this message text says.)\n\nAlso I think this is supposed to be a ConcurrentRefUpdateException.",
+      "revId": "332579d894ed5fbffbc46812741671e7ad22a9ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyH///jM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/TagCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-18T23:26:49Z",
+      "side": 1,
+      "message": "We should explain in a message that signed isn\u0027t supported.",
+      "revId": "332579d894ed5fbffbc46812741671e7ad22a9ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyH///jI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/TagCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-18T23:26:49Z",
+      "side": 1,
+      "message": "We really should validate that the expression Constants.R_TAGS + name will pass Repository.isValidRefName().  If it doesn\u0027t we should fail-fast either here during setName(), or during processOptions() above.\n\nI\u0027m pretty sure that updateRef() will blindly do whatever you tell it, and we are relying on callers to check that the name is reasonable.",
+      "revId": "332579d894ed5fbffbc46812741671e7ad22a9ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
