@@ -229,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "AAALwX///Pk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 464,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-07-05T23:51:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALu3///kA\u003d",
+      "revId": "fb7e0af443d2c2d12e32353ede6c5bb36c6ad94a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALu3///kE\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
         "patchSetId": 2
@@ -351,6 +369,24 @@
     },
     {
       "key": {
+        "uuid": "AAALwX///QM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheEntry.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 653,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-07-05T23:51:57Z",
+      "side": 1,
+      "message": "yes, that\u0027s true. But couldn\u0027t we do that in another proposal? I would like not to more topics to this proposal. WorkDirCheckout was not handling it and this proposal is about a port of the semantics of WorkDirCheckout. I agree think we should not make use of this Checkout without racy git situations are handled.",
+      "parentUuid": "AAALu3///lg\u003d",
+      "revId": "fb7e0af443d2c2d12e32353ede6c5bb36c6ad94a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALu3///lc\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheEntry.java",
         "patchSetId": 2
@@ -362,6 +398,24 @@
       "writtenOn": "2010-06-14T16:41:29Z",
       "side": 1,
       "message": "Please don\u0027t print stack traces to System.err.",
+      "revId": "fb7e0af443d2c2d12e32353ede6c5bb36c6ad94a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwX///ww\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheEntry.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 664,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-07-05T23:51:57Z",
+      "side": 1,
+      "message": "sure, you are right. This is blindly copied from GitIndex where we do the same. This this code went into WorkingTreeIterator where we can compare IDs this may even not be needed anymore",
+      "parentUuid": "AAALu3///lc\u003d",
       "revId": "fb7e0af443d2c2d12e32353ede6c5bb36c6ad94a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
