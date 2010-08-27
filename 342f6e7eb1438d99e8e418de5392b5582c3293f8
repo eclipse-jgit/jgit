@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALwn////U\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-16T02:14:26Z",
+      "side": 1,
+      "message": "Style-nit: Our public API should return Map, Set, List and not a concrete implementation type.  Sorry I missed this during earlier review iterations.",
+      "revId": "342f6e7eb1438d99e8e418de5392b5582c3293f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALwn////A\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 570,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-16T02:14:26Z",
+      "side": 1,
+      "message": "Isn\u0027t this just:\n\n  if (walk.isDirectoryFileConflict())\n\nat this point?  Basically we can\u0027t rely on Tree anymore, its dead and going away.  So we should be able to do the same thing with TreeWalk/NameConflictTreeWalk... and if we can\u0027t we should try to address the problem in those APIs rather than making new code rely on deprecated code.",
+      "revId": "342f6e7eb1438d99e8e418de5392b5582c3293f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
