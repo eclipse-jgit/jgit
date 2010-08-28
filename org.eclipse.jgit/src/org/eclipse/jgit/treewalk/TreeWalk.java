@@ -532,8 +532,8 @@ public class TreeWalk {
 			}
 
 			for (;;) {
-				final AbstractTreeIterator t = min();
-				if (t.eof()) {
+				final AbstractTreeIterator tmin = min();
+				if (tmin.eof()) {
 					if (depth > 0) {
 						exitSubtree();
 						if (postOrderTraversal) {
@@ -547,13 +547,14 @@ public class TreeWalk {
 					return false;
 				}
 
-				currentHead = t;
-				if (!filter.include(this)) {
+				currentHead = tmin;
+
+				if (isSkipCurrentEntry() || !filter.include(this)) {
 					skipEntriesEqual();
 					continue;
 				}
 
-				if (recursive && FileMode.TREE.equals(t.mode)) {
+				if (recursive && FileMode.TREE.equals(tmin.mode)) {
 					enterSubtree();
 					continue;
 				}
@@ -956,6 +957,15 @@ public class TreeWalk {
 				minRef = t;
 		}
 		currentHead = minRef;
+	}
+
+	private boolean isSkipCurrentEntry() {
+		final AbstractTreeIterator ch = currentHead;
+		for (final AbstractTreeIterator t : trees)
+			if (t.matches == ch && t.isSkipped())
+				return true;
+
+		return false;
 	}
 
 	private CanonicalTreeParser parserFor(final AnyObjectId id)
