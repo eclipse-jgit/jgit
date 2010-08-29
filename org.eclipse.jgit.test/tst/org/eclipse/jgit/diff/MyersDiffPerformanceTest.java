@@ -100,7 +100,7 @@ public class MyersDiffPerformanceTest extends TestCase {
 			return ("diffing " + N / 2 + " bytes took " + runningTime
 					+ " ns. N=" + N + ", D=" + D + ", time/(N*D):"
 					+ fmt.format(perf1()) + ", time/(N*D^2):" + fmt
-					.format(perf2()));
+.format(perf2()) + "\n");
 		}
 	}
 
@@ -116,13 +116,21 @@ public class MyersDiffPerformanceTest extends TestCase {
 
 	public void test() {
 		if (stopwatch!=null) {
+			// run some tests without recording to let JIT do its optimization
+			test(10000);
+			test(20000);
+			test(10000);
+			test(20000);
+
 			List<PerfData> perfData = new LinkedList<PerfData>();
 			perfData.add(test(10000));
 			perfData.add(test(20000));
-			perfData.add(test(50000));
+			perfData.add(test(40000));
 			perfData.add(test(80000));
-			perfData.add(test(99999));
-			perfData.add(test(999999));
+			perfData.add(test(160000));
+			perfData.add(test(320000));
+			perfData.add(test(640000));
+			perfData.add(test(1280000));
 
 			Comparator<PerfData> c = getComparator(1);
 			double factor = Collections.max(perfData, c).perf1()
