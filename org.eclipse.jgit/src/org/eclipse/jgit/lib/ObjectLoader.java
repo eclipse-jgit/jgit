@@ -66,7 +66,7 @@ public abstract class ObjectLoader {
 	 * Objects larger than this size must be accessed as a stream through the
 	 * loader's {@link #openStream()} method.
 	 */
-	public static final int STREAM_THRESHOLD = 15 * 1024 * 1024;
+	public static final int STREAM_THRESHOLD = 5 * 1024 * 1024;
 
 	/**
 	 * @return Git in pack object type, see {@link Constants}.
