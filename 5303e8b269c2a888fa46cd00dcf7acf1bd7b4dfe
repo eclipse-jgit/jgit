@@ -1,0 +1,22 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALyn///eA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 548,
+      "author": {
+        "id": 2
+      },
+      "writtenOn": "2010-08-30T20:44:08Z",
+      "side": 1,
+      "message": "Regarding locked DirCache instances, please file a bug for this so we can track it and get to it. Things are good enough at the moment.",
+      "parentUuid": "AAALyn///zk\u003d",
+      "revId": "5303e8b269c2a888fa46cd00dcf7acf1bd7b4dfe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
