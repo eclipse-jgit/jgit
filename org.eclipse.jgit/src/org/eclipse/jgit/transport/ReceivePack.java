@@ -1048,7 +1048,7 @@ public class ReceivePack {
 	private void sendStatusReport(final boolean forClient, final Reporter out)
 			throws IOException {
 		if (unpackError != null) {
-			out.sendString(MessageFormat.format(JGitText.get().unpackError, unpackError.getMessage()));
+			out.sendString("unpack error " + unpackError.getMessage());
 			if (forClient) {
 				for (final ReceiveCommand cmd : commands) {
 					out.sendString("ng " + cmd.getRefName()
