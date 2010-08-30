@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALyn///7o\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-23T23:38:31Z",
+      "side": 1,
+      "message": "Missing copyright header.",
+      "revId": "aa542b3ecd984891a9e9290f3491f8b9ccac819c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///7k\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-23T23:38:31Z",
+      "side": 1,
+      "message": "This isn\u0027t necessary.  When you need the inserter call getObjectInserter().  Your super class manages allocation and release for you.",
+      "revId": "aa542b3ecd984891a9e9290f3491f8b9ccac819c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///7g\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-23T23:38:31Z",
+      "side": 1,
+      "message": "This should be customizable by the caller.  And more interestingly, I\u0027d love to use this in Gerrit Code Review, and also to implement the recursive variant for multiple merge bases.\n\nThe latter two uses require that we *do not* have a working tree during the merge, and also that we don\u0027t lockDirCache() above but instead create a new in-core only DirCache.",
+      "revId": "aa542b3ecd984891a9e9290f3491f8b9ccac819c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///70\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/StrategyResolve.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-23T23:38:31Z",
+      "side": 1,
+      "message": "Style-nit: Missing copyright header.",
+      "revId": "aa542b3ecd984891a9e9290f3491f8b9ccac819c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///7w\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/StrategyResolve.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-23T23:38:31Z",
+      "side": 1,
+      "message": "Style-nit: We don\u0027t use @author tags.  And even if we did, this one isn\u0027t very useful to the rest of the world.  :-)",
+      "revId": "aa542b3ecd984891a9e9290f3491f8b9ccac819c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///7s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/StrategyResolve.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-23T23:38:31Z",
+      "side": 1,
+      "message": "I think \"resolve\" fits better with the other strategy names we have.",
+      "revId": "aa542b3ecd984891a9e9290f3491f8b9ccac819c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
