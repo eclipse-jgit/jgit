@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALw3///04\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/PackWriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-07-22T17:44:33Z",
+      "side": 1,
+      "message": "This conflicts with my change I3f8af29066cc5a2132dc4a75c9654d97800f2f18.",
+      "revId": "f5f0ac55fc5ee299a2212418ba43534cadbb6d2e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
