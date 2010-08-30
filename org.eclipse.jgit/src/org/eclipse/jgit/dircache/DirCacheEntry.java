@@ -108,11 +108,18 @@ public class DirCacheEntry {
 	private static final int P_OBJECTID = 40;
 
 	private static final int P_FLAGS = 60;
+	private static final int P_FLAGS2 = 62;
 
 	/** Mask applied to data in {@link #P_FLAGS} to get the name length. */
 	private static final int NAME_MASK = 0xfff;
 
-	static final int INFO_LEN = 62;
+	private static final int EXTENDED = 0x4000;
+	private static final int INTENT_TO_ADD = 0x20000000; // CE_INTENT_TO_ADD
+	private static final int SKIP_WORKTREE = 0x40000000; // CE_SKIP_WORKTREE
+	private static final int EXTENDED_FLAGS = (INTENT_TO_ADD | SKIP_WORKTREE);
+
+	private static final int INFO_LEN = 62;
+	private static final int INFO_LEN_EXTENDED = 64;
 
 	private static final int ASSUME_VALID = 0x80;
 
@@ -127,13 +134,27 @@ public class DirCacheEntry {
 	/** Our encoded path name, from the root of the repository. */
 	final byte[] path;
 
-	DirCacheEntry(final byte[] sharedInfo, final int infoAt,
-			final InputStream in, final MessageDigest md) throws IOException {
+	DirCacheEntry(final byte[] sharedInfo, final int[] infoAt,
+	              final InputStream in, final MessageDigest md) throws IOException {
 		info = sharedInfo;
-		infoOffset = infoAt;
+		infoOffset = infoAt[0];
 
 		IO.readFully(in, info, infoOffset, INFO_LEN);
-		md.update(info, infoOffset, INFO_LEN);
+
+		final boolean extended = isExtended();
+		final int len;
+		if (extended) {
+			len = INFO_LEN_EXTENDED;
+			IO.readFully(in, info, infoOffset + INFO_LEN, INFO_LEN_EXTENDED - INFO_LEN);
+
+			if ((getExtendedFlags() & ~EXTENDED_FLAGS) != 0)
+				throw new IOException("Unrecognized extended flags: " + getExtendedFlags());
+		}
+		else
+			len = INFO_LEN;
+
+		infoAt[0] += len;
+		md.update(info, infoOffset, len);
 
 		int pathLen = NB.decodeUInt16(info, infoOffset + P_FLAGS) & NAME_MASK;
 		int skipped = 0;
@@ -166,7 +187,7 @@ public class DirCacheEntry {
 		// Index records are padded out to the next 8 byte alignment
 		// for historical reasons related to how C Git read the files.
 		//
-		final int actLen = INFO_LEN + pathLen;
+		final int actLen = len + pathLen;
 		final int expLen = (actLen + 8) & ~7;
 		final int padLen = expLen - actLen - skipped;
 		if (padLen > 0) {
@@ -397,6 +418,24 @@ public class DirCacheEntry {
 	}
 
 	/**
+	 * Returns whether this entry should be skipped from the working tree.
+	 *
+	 * @return true if this entry should be skipepd.
+	 */
+	public boolean isSkipWorkTree() {
+		return (getExtendedFlags() & SKIP_WORKTREE) == SKIP_WORKTREE;
+	}
+
+	/**
+	 * Returns whether this entry is intent to be added to the Index.
+	 *
+	 * @return true if this entry is intent to add.
+	 */
+	public boolean isIntentToAdd() {
+		return (getExtendedFlags() & INTENT_TO_ADD) == INTENT_TO_ADD;
+	}
+
+	/**
 	 * Obtain the raw {@link FileMode} bits for this entry.
 	 *
 	 * @return mode bits for the entry.
@@ -571,6 +610,13 @@ public class DirCacheEntry {
 				| NB.decodeUInt16(info, infoOffset + P_FLAGS) & ~NAME_MASK);
 	}
 
+	/**
+	 * @return true if the entry contains extended flags.
+	 */
+	public boolean isExtended() {
+		return (NB.decodeUInt16(info, infoOffset + P_FLAGS) & EXTENDED) == EXTENDED;
+	}
+
 	private long decodeTS(final int pIdx) {
 		final int base = infoOffset + pIdx;
 		final int sec = NB.decodeInt32(info, base);
@@ -582,6 +628,14 @@ public class DirCacheEntry {
 		final int base = infoOffset + pIdx;
 		NB.encodeInt32(info, base, (int) (when / 1000));
 		NB.encodeInt32(info, base + 4, ((int) (when % 1000)) * 1000000);
+	}
+
+	private int getExtendedFlags() {
+		if (!isExtended()) {
+			return 0;
+		}
+
+		return NB.decodeUInt16(info, infoOffset + P_FLAGS2) << 16;
 	}
 
 	private static String toString(final byte[] path) {
@@ -610,5 +664,9 @@ public class DirCacheEntry {
 			}
 		}
 		return componentHasChars;
+	}
+
+	static int getMaximumInfoLength(boolean extended) {
+		return extended ? INFO_LEN_EXTENDED : INFO_LEN;
 	}
 }

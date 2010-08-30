@@ -922,7 +922,32 @@ public abstract class Repository {
 	 */
 	public DirCache readDirCache() throws NoWorkTreeException,
 			CorruptObjectException, IOException {
-		return DirCache.read(getIndexFile(), getFS());
+		return readDirCache(false);
+	}
+
+	/**
+	 * Create a new in-core index representation and read an index from disk.
+	 * <p>
+	 * The new index will be read before it is returned to the caller. Read
+	 * failures are reported as exceptions and therefore prevent the method from
+	 * returning a partially populated index.
+	 *
+	 * @param readOnly
+	 *
+	 * @return a cache representing the contents of the specified index file (if
+	 *         it exists) or an empty cache if the file does not exist.
+	 * @throws NoWorkTreeException
+	 *             if this is bare, which implies it has no working directory.
+	 *             See {@link #isBare()}.
+	 * @throws IOException
+	 *             the index file is present but could not be read.
+	 * @throws CorruptObjectException
+	 *             the index file is using a format or extension that this
+	 *             library does not support.
+	 */
+	public DirCache readDirCache(boolean readOnly) throws NoWorkTreeException,
+			CorruptObjectException, IOException {
+		return DirCache.read(getIndexFile(), getFS(), readOnly);
 	}
 
 	/**
