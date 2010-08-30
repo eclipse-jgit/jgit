@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALyH///lM\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/MergeCommandTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2010-08-18T09:13:57Z",
+      "side": 1,
+      "message": "This TODO can be removed now.",
+      "revId": "14268b16613d3ee17b8edef68828e5acfd52d09f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyH///k8\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/MergeCommandTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2010-08-18T09:13:57Z",
+      "side": 1,
+      "message": "You removed the test that merge fails when the index is dirty. Was this on purpose?",
+      "revId": "14268b16613d3ee17b8edef68828e5acfd52d09f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyH///lE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MergeCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2010-08-18T09:13:57Z",
+      "side": 1,
+      "message": "failingPaths",
+      "revId": "14268b16613d3ee17b8edef68828e5acfd52d09f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyH///lA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2010-08-18T09:13:57Z",
+      "side": 1,
+      "message": "At the moment failingPathes can only have one entry, right? The iteration is stopped after the first failure. Do we really need the map? Now the MergeFailureReason is in this Map belonging to one path, but I think that there is in fact only one MergeFailureReason for the whole merge?",
+      "revId": "14268b16613d3ee17b8edef68828e5acfd52d09f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
