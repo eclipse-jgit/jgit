@@ -424,8 +424,9 @@ class DeltaWindow {
 			try {
 				idx = new DeltaIndex(buffer(ent));
 			} catch (OutOfMemoryError noMemory) {
-				LargeObjectException e = new LargeObjectException(ent.object);
-				e.initCause(noMemory);
+				LargeObjectException.OutOfMemory e;
+				e = new LargeObjectException.OutOfMemory(noMemory);
+				e.setObjectId(ent.object);
 				throw e;
 			}
 			if (0 < maxMemory)

@@ -139,7 +139,7 @@ public abstract class ObjectLoader {
 		try {
 			return cloneArray(cached);
 		} catch (OutOfMemoryError tooBig) {
-			throw new LargeObjectException();
+			throw new LargeObjectException.OutOfMemory(tooBig);
 		}
 	}
 
@@ -195,14 +195,17 @@ public abstract class ObjectLoader {
 		ObjectStream in = openStream();
 		try {
 			long sz = in.getSize();
-			if (sizeLimit < sz || Integer.MAX_VALUE < sz)
-				throw new LargeObjectException();
+			if (sizeLimit < sz)
+				throw new LargeObjectException.ExceedsLimit(sizeLimit, sz);
+
+			if (Integer.MAX_VALUE < sz)
+				throw new LargeObjectException.ExceedsByteArrayLimit();
 
 			byte[] buf;
 			try {
 				buf = new byte[(int) sz];
 			} catch (OutOfMemoryError notEnoughHeap) {
-				throw new LargeObjectException();
+				throw new LargeObjectException.OutOfMemory(notEnoughHeap);
 			}
 
 			IO.readFully(in, buf, 0, buf.length);

@@ -157,7 +157,9 @@ class LargePackedDeltaObject extends ObjectLoader {
 		try {
 			throw new LargeObjectException(getObjectId());
 		} catch (IOException cannotObtainId) {
-			throw new LargeObjectException();
+			LargeObjectException err = new LargeObjectException();
+			err.initCause(cannotObtainId);
+			throw err;
 		}
 	}
 

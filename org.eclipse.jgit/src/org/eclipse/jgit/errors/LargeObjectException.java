@@ -43,6 +43,9 @@
 
 package org.eclipse.jgit.errors;
 
+import java.text.MessageFormat;
+
+import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 
@@ -73,6 +76,13 @@ public class LargeObjectException extends RuntimeException {
 		return objectId;
 	}
 
+	/** @return either the hex encoded name of the object, or 'unknown object'. */
+	protected String getObjectName() {
+		if (getObjectId() != null)
+			return getObjectId().name();
+		return JGitText.get().unknownObject;
+	}
+
 	/**
 	 * Set the identity of the object, if its not already set.
 	 *
@@ -86,6 +96,68 @@ public class LargeObjectException extends RuntimeException {
 
 	@Override
 	public String getMessage() {
-		return objectId != null ? objectId.name() : getClass().getSimpleName();
+		return MessageFormat.format(JGitText.get().largeObjectException,
+				getObjectName());
+	}
+
+	/** An error caused by the JVM being out of heap space. */
+	public static class OutOfMemory extends LargeObjectException {
+		private static final long serialVersionUID = 1L;
+
+		/**
+		 * Construct a wrapper around the original OutOfMemoryError.
+		 *
+		 * @param cause
+		 *            the original root cause.
+		 */
+		public OutOfMemory(OutOfMemoryError cause) {
+			initCause(cause);
+		}
+
+		@Override
+		public String getMessage() {
+			return MessageFormat.format(JGitText.get().largeObjectOutOfMemory,
+					getObjectName());
+		}
+	}
+
+	/** Object size exceeds JVM limit of 2 GiB per byte array. */
+	public static class ExceedsByteArrayLimit extends LargeObjectException {
+		private static final long serialVersionUID = 1L;
+
+		@Override
+		public String getMessage() {
+			return MessageFormat
+					.format(JGitText.get().largeObjectExceedsByteArray,
+							getObjectName());
+		}
+	}
+
+	/** Object size exceeds the caller's upper limit. */
+	public static class ExceedsLimit extends LargeObjectException {
+		private static final long serialVersionUID = 1L;
+
+		private final long limit;
+
+		private final long size;
+
+		/**
+		 * Construct an exception for a particular size being exceeded.
+		 *
+		 * @param limit
+		 *            the limit the caller imposed on the object.
+		 * @param size
+		 *            the actual size of the object.
+		 */
+		public ExceedsLimit(long limit, long size) {
+			this.limit = limit;
+			this.size = size;
+		}
+
+		@Override
+		public String getMessage() {
+			return MessageFormat.format(JGitText.get().largeObjectExceedsLimit,
+					getObjectName(), limit, size);
+		}
 	}
 }
