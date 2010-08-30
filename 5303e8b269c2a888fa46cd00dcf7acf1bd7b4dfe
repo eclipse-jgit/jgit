@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAALyn///zk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 548,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-08-25T10:16:40Z",
+      "side": 1,
+      "message": "Here we accept only locked DirCaches (that\u0027s a requirement from DirCacheBuilder.commit()). Shawn commented that he would like to use not locked DirCache instances. Not sure how to do that.",
+      "revId": "5303e8b269c2a888fa46cd00dcf7acf1bd7b4dfe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALyn///eA\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
         "patchSetId": 6
