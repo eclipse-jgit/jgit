@@ -613,7 +613,7 @@ public class IndexPack {
 				missing.add(baseId);
 				continue;
 			}
-			final byte[] data = ldr.getCachedBytes();
+			final byte[] data = ldr.getCachedBytes(Integer.MAX_VALUE);
 			final int typeCode = ldr.getType();
 			final PackedObjectInfo oe;
 
@@ -870,7 +870,7 @@ public class IndexPack {
 
 		try {
 			final ObjectLoader ldr = readCurs.open(id, type);
-			final byte[] existingData = ldr.getCachedBytes();
+			final byte[] existingData = ldr.getCachedBytes(Integer.MAX_VALUE);
 			if (!Arrays.equals(data, existingData)) {
 				throw new IOException(MessageFormat.format(JGitText.get().collisionOn, id.name()));
 			}
