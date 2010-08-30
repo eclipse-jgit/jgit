@@ -657,6 +657,20 @@ public abstract class ReadTreeTest extends RepositoryTestCase {
 		assertTrue(new File(trash, "foo").isFile());
 	}
 
+	public void testDontOverwriteDirtyFile() throws IOException {
+		setupCase(mk("foo"), mk("other"), mk("foo"));
+		writeTrashFile("foo", "different");
+		try {
+			checkout();
+			fail("Didn't got the expected conflict");
+		} catch (CheckoutConflictException e) {
+			assertIndex(mk("foo"));
+			assertWorkDir(mkmap("foo", "different"));
+			assertTrue(getConflicts().equals(Arrays.asList("foo")));
+			assertTrue(new File(trash, "foo").isFile());
+		}
+	}
+
 	/**
 	 * The interface these tests need from a class implementing a checkout
 	 */
