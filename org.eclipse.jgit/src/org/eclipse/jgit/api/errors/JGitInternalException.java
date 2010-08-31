@@ -35,21 +35,42 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package org.eclipse.jgit.api;
+package org.eclipse.jgit.api.errors;
 
 /**
- * Exception thrown when the state of the repository doesn't allow the execution
- * of a certain command. E.g. when a CommitCommand should be executed on a
- * repository with unresolved conflicts this exception will be thrown.
+ * Exception thrown when during command execution a low-level exception from the
+ * JGit library is thrown. Also when certain low-level error situations are
+ * reported by JGit through return codes this Exception will be thrown.
+ * <p>
+ * During command execution a lot of exceptions may be thrown. Some of them
+ * represent error situations which can be handled specifically by the caller of
+ * the command. But a lot of exceptions are so low-level that is is unlikely
+ * that the caller of the command can handle them effectively. The huge number
+ * of these low-level exceptions which are thrown by the commands lead to a
+ * complicated and wide interface of the commands. Callers of the API have to
+ * deal with a lot of exceptions they don't understand.
+ * <p>
+ * To overcome this situation this class was introduced. Commands will wrap all
+ * exceptions they declare as low-level in their context into an instance of
+ * this class. Callers of the commands have to deal with one type of low-level
+ * exceptions. Callers will always get access to the original exception (if
+ * available) by calling {@code #getCause()}.
  */
-public class WrongRepositoryStateException extends GitAPIException {
+public class JGitInternalException extends RuntimeException {
 	private static final long serialVersionUID = 1L;
 
-	WrongRepositoryStateException(String message, Throwable cause) {
+	/**
+	 * @param message
+	 * @param cause
+	 */
+	public JGitInternalException(String message, Throwable cause) {
 		super(message, cause);
 	}
 
-	WrongRepositoryStateException(String message) {
+	/**
+	 * @param message
+	 */
+	public JGitInternalException(String message) {
 		super(message);
 	}
 }

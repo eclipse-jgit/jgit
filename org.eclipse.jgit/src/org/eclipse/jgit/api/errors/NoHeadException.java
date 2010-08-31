@@ -35,19 +35,27 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package org.eclipse.jgit.api;
-
+package org.eclipse.jgit.api.errors;
 
 /**
- * Exception thrown when a merge command was called without specifying the
- * proper amount/type of merge heads. E.g. a non-octopus merge strategy was
- * confronted with more than one head to be merged into HEAD. Another
- * case would be if a merge was called without including any head.
+ * Exception thrown when a command expected the {@code HEAD} reference to exist
+ * but couldn't find such a reference
  */
-public class InvalidMergeHeadsException extends GitAPIException {
+public class NoHeadException extends GitAPIException {
 	private static final long serialVersionUID = 1L;
 
-	InvalidMergeHeadsException(String msg) {
-		super(msg);
+	/**
+	 * @param message
+	 * @param cause
+	 */
+	public NoHeadException(String message, Throwable cause) {
+		super(message, cause);
+	}
+
+	/**
+	 * @param message
+	 */
+	public NoHeadException(String message) {
+		super(message);
 	}
 }
