@@ -91,8 +91,6 @@ public class DirCache {
 
 	private static final int EXT_TREE = 0x54524545 /* 'TREE' */;
 
-	private static final int INFO_LEN = DirCacheEntry.INFO_LEN;
-
 	private static final DirCacheEntry[] NO_ENTRIES = {};
 
 	static final Comparator<DirCacheEntry> ENT_CMP = new Comparator<DirCacheEntry>() {
@@ -322,7 +320,7 @@ public class DirCache {
 		tree = null;
 	}
 
-	private void readFrom(final FileInputStream inStream) throws IOException,
+	private void readFrom(final InputStream inStream) throws IOException,
 			CorruptObjectException {
 		final BufferedInputStream in = new BufferedInputStream(inStream);
 		final MessageDigest md = Constants.newMessageDigest();
@@ -335,7 +333,10 @@ public class DirCache {
 		if (!is_DIRC(hdr))
 			throw new CorruptObjectException(JGitText.get().notADIRCFile);
 		final int ver = NB.decodeInt32(hdr, 4);
-		if (ver != 2)
+		boolean extended = false;
+		if (ver == 3)
+			extended = true;
+		else if (ver != 2)
 			throw new CorruptObjectException(MessageFormat.format(JGitText.get().unknownDIRCVersion, ver));
 		entryCnt = NB.decodeInt32(hdr, 8);
 		if (entryCnt < 0)
@@ -343,10 +344,13 @@ public class DirCache {
 
 		// Load the individual file entries.
 		//
-		final byte[] infos = new byte[INFO_LEN * entryCnt];
+		final int infoLength = DirCacheEntry.getMaximumInfoLength(extended);
+		final byte[] infos = new byte[infoLength * entryCnt];
 		sortedEntries = new DirCacheEntry[entryCnt];
+
+		final MutableInteger infoAt = new MutableInteger();
 		for (int i = 0; i < entryCnt; i++)
-			sortedEntries[i] = new DirCacheEntry(infos, i * INFO_LEN, in, md);
+			sortedEntries[i] = new DirCacheEntry(infos, infoAt, in, md);
 		lastModified = liveFile.lastModified();
 
 		// After the file entries are index extensions, and then a footer.
@@ -484,15 +488,19 @@ public class DirCache {
 		}
 	}
 
-	private void writeTo(final OutputStream os) throws IOException {
+	void writeTo(final OutputStream os) throws IOException {
 		final MessageDigest foot = Constants.newMessageDigest();
 		final DigestOutputStream dos = new DigestOutputStream(os, foot);
+
+		boolean extended = false;
+		for (int i = 0; i < entryCnt; i++)
+			extended |= sortedEntries[i].isExtended();
 
 		// Write the header.
 		//
 		final byte[] tmp = new byte[128];
 		System.arraycopy(SIG_DIRC, 0, tmp, 0, SIG_DIRC.length);
-		NB.encodeInt32(tmp, 4, /* version */2);
+		NB.encodeInt32(tmp, 4, extended ? 3 : 2);
 		NB.encodeInt32(tmp, 8, entryCnt);
 		dos.write(tmp, 0, 12);
 
