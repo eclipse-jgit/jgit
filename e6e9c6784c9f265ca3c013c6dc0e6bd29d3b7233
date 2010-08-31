@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALyn///i0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-08-29T14:22:26Z",
+      "side": 1,
+      "message": "Make this an addition in a sepatate commit so we can review thiis flaga and derived changes separately.",
+      "revId": "e6e9c6784c9f265ca3c013c6dc0e6bd29d3b7233",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///iw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 949,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-08-29T14:22:26Z",
+      "side": 1,
+      "message": "Why would we need to lock if it is read-only?",
+      "revId": "e6e9c6784c9f265ca3c013c6dc0e6bd29d3b7233",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
