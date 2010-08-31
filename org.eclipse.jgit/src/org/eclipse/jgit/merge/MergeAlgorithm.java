@@ -195,11 +195,42 @@ public final class MergeAlgorithm {
 					theirsEndB += oursEdit.getEndA() - theirsEdit.getEndA();
 				}
 
+				// A conflicting region is found. Strip off common lines in
+				// in the beginning and the end of the conflicting region
+				int conflictLen = Math.min(oursEndB - oursBeginB, theirsEndB
+						- theirsBeginB);
+				int commonPrefix = 0;
+				while (commonPrefix < conflictLen
+						&& ours.equals(oursBeginB + commonPrefix, theirs,
+								theirsBeginB + commonPrefix))
+					commonPrefix++;
+				conflictLen -= commonPrefix;
+				int commonSuffix = 0;
+				while (commonSuffix < conflictLen
+						&& ours.equals(oursEndB - commonSuffix - 1, theirs,
+								theirsEndB - commonSuffix - 1))
+					commonSuffix++;
+				conflictLen -= commonSuffix;
+
+				// Add the common lines at start of conflict
+				if (commonPrefix > 0)
+					result.add(1, oursBeginB, oursBeginB + commonPrefix,
+							ConflictState.NO_CONFLICT);
+
 				// Add the conflict
-				result.add(1, oursBeginB, oursEndB,
-						ConflictState.FIRST_CONFLICTING_RANGE);
-				result.add(2, theirsBeginB, theirsEndB,
-						ConflictState.NEXT_CONFLICTING_RANGE);
+				if (conflictLen > 0) {
+					result.add(1, oursBeginB + commonPrefix, oursEndB
+							- commonSuffix,
+							ConflictState.FIRST_CONFLICTING_RANGE);
+					result.add(2, theirsBeginB + commonPrefix, theirsEndB
+							- commonSuffix,
+							ConflictState.NEXT_CONFLICTING_RANGE);
+				}
+
+				// Add the common lines at end of conflict
+				if (commonSuffix > 0)
+					result.add(1, oursEndB - commonSuffix, oursEndB,
+							ConflictState.NO_CONFLICT);
 
 				current = Math.max(oursEdit.getEndA(), theirsEdit.getEndA());
 				oursEdit = nextOursEdit;
