@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALyn///c4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1055,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-30T21:34:34Z",
+      "side": 1,
+      "message": "Nak.  \" is a valid name in a ref:\n\n  $ git check-ref-format \u0027refs/heads/foo\"bar\u0027 \u0026\u0026 echo $?\n  0",
+      "revId": "7430312f2b27c80f76fc7d517d8c8d452338a8be",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
