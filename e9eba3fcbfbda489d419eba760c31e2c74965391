@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "AAALyn///U4\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/dircache/DirCacheCGitCompatabilityTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-31T19:08:18Z",
+      "side": 1,
+      "message": "Style-nit: This all fits on one line.",
+      "revId": "e9eba3fcbfbda489d419eba760c31e2c74965391",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALyn///U0\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/dircache/DirCacheCGitCompatabilityTest.java",
         "patchSetId": 3
@@ -30,6 +47,23 @@
       "writtenOn": "2010-08-31T19:08:18Z",
       "side": 1,
       "message": "Actually the count was 7.",
+      "revId": "e9eba3fcbfbda489d419eba760c31e2c74965391",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///Uw\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/dircache/DirCacheCGitCompatabilityTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-31T19:08:18Z",
+      "side": 1,
+      "message": "These last 3 files aren\u0027t in the index.",
       "revId": "e9eba3fcbfbda489d419eba760c31e2c74965391",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
