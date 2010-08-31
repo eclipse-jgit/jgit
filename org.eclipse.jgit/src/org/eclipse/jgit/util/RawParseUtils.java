@@ -155,6 +155,9 @@ public final class RawParseUtils {
 			return o;
 		}
 		final boolean isneg = value < 0;
+		if (isneg) {
+			value = -value;
+		}
 		while (value != 0) {
 			b[--o] = base10byte[value % 10];
 			value /= 10;
