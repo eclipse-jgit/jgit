@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAALyn///YU\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2010-08-31T12:12:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALyn///ac\u003d",
+      "revId": "737c5903abf604c86720683ad900743932cf35b4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALyn///b4\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCache.java",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAALyn///YQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2010-08-31T12:12:17Z",
+      "side": 1,
+      "message": "I\u0027ve added writing support now and skipped this flag, however I\u0027m not sure if this is OK regarding RESOLVE_UNDO.",
+      "parentUuid": "AAALyn///b4\u003d",
+      "revId": "737c5903abf604c86720683ad900743932cf35b4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALyn///b0\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCache.java",
         "patchSetId": 2
@@ -47,6 +83,24 @@
       "writtenOn": "2010-08-31T00:45:21Z",
       "side": 1,
       "message": "Style-nit: Please try to avoid reformatting lines you haven\u0027t modified.",
+      "revId": "737c5903abf604c86720683ad900743932cf35b4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///Z4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2010-08-31T12:12:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALyn///b0\u003d",
       "revId": "737c5903abf604c86720683ad900743932cf35b4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -121,6 +175,24 @@
     },
     {
       "key": {
+        "uuid": "AAALyn///Zs\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2010-08-31T12:12:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALyn///bk\u003d",
+      "revId": "737c5903abf604c86720683ad900743932cf35b4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALyn///bg\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCache.java",
         "patchSetId": 2
@@ -138,6 +210,24 @@
     },
     {
       "key": {
+        "uuid": "AAALyn///Zk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2010-08-31T12:12:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALyn///bg\u003d",
+      "revId": "737c5903abf604c86720683ad900743932cf35b4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALyn///bc\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCache.java",
         "patchSetId": 2
@@ -149,6 +239,24 @@
       "writtenOn": "2010-08-31T00:45:21Z",
       "side": 1,
       "message": "Its OK to ignore an extension whose name is fully upper-case.  That still holds true in version 3, doesn\u0027t it?  So we should be OK to just ignore the EXT_RESOLVE_UNDO entry for now, and add support for it later on.",
+      "revId": "737c5903abf604c86720683ad900743932cf35b4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///Zg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2010-08-31T12:12:17Z",
+      "side": 1,
+      "message": "Is RESOLVE_UNDO definitely a performance optimization?",
+      "parentUuid": "AAALyn///bc\u003d",
       "revId": "737c5903abf604c86720683ad900743932cf35b4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -258,6 +366,24 @@
     },
     {
       "key": {
+        "uuid": "AAALyn///ZM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 607,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2010-08-31T12:12:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALyn///bI\u003d",
+      "revId": "737c5903abf604c86720683ad900743932cf35b4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALyn///a4\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheEntry.java",
         "patchSetId": 2
@@ -269,6 +395,24 @@
       "writtenOn": "2010-08-31T00:45:21Z",
       "side": 1,
       "message": "This collides with the UPDATE_NEEDED flag below.  As far as I can tel they sit in the same bit slot.  Perhaps a change before this one to correct our definition of UPDATE_NEEDED would be a good idea.",
+      "revId": "737c5903abf604c86720683ad900743932cf35b4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///YY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheEntry.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2010-08-31T12:12:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALyn///a4\u003d",
       "revId": "737c5903abf604c86720683ad900743932cf35b4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -292,6 +436,24 @@
     },
     {
       "key": {
+        "uuid": "AAALyn///ZI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheEntry.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2010-08-31T12:12:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALyn///ak\u003d",
+      "revId": "737c5903abf604c86720683ad900743932cf35b4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALyn///bE\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheEntry.java",
         "patchSetId": 2
@@ -303,6 +465,24 @@
       "writtenOn": "2010-08-31T00:45:21Z",
       "side": 1,
       "message": "Style-nit: Unnecessary reformatting.  This line used to indent with tabs, now its using spaces.",
+      "revId": "737c5903abf604c86720683ad900743932cf35b4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///ZE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheEntry.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2010-08-31T12:12:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALyn///bE\u003d",
       "revId": "737c5903abf604c86720683ad900743932cf35b4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -326,6 +506,24 @@
     },
     {
       "key": {
+        "uuid": "AAALyn///ZA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheEntry.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2010-08-31T12:12:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALyn///bA\u003d",
+      "revId": "737c5903abf604c86720683ad900743932cf35b4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALyn///a0\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheEntry.java",
         "patchSetId": 2
@@ -337,6 +535,24 @@
       "writtenOn": "2010-08-31T00:45:21Z",
       "side": 1,
       "message": "The bit is either set or not, so !\u003d 0 is a faster test here.",
+      "revId": "737c5903abf604c86720683ad900743932cf35b4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///Y8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheEntry.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 426,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2010-08-31T12:12:17Z",
+      "side": 1,
+      "message": "Hm, \"faster\" ... :) OK.",
+      "parentUuid": "AAALyn///a0\u003d",
       "revId": "737c5903abf604c86720683ad900743932cf35b4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -372,6 +588,24 @@
       "writtenOn": "2010-08-31T00:45:21Z",
       "side": 1,
       "message": "The bit is either set or not, so !\u003d 0 is a faster test here.",
+      "revId": "737c5903abf604c86720683ad900743932cf35b4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///Y4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheEntry.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2010-08-31T12:12:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALyn///aw\u003d",
       "revId": "737c5903abf604c86720683ad900743932cf35b4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
