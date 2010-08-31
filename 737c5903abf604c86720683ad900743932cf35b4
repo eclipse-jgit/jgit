@@ -1,0 +1,448 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALyn///ac\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-31T00:45:21Z",
+      "side": 1,
+      "message": "A new unit test for version 3 formatted index files would also be nice.",
+      "revId": "737c5903abf604c86720683ad900743932cf35b4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///b4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-31T00:45:21Z",
+      "side": 1,
+      "message": "I assume this flag won\u0027t be in the final version of the patch when we have writing support?",
+      "revId": "737c5903abf604c86720683ad900743932cf35b4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///b0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-31T00:45:21Z",
+      "side": 1,
+      "message": "Style-nit: Please try to avoid reformatting lines you haven\u0027t modified.",
+      "revId": "737c5903abf604c86720683ad900743932cf35b4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///bs\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-31T00:45:21Z",
+      "side": 1,
+      "message": "Style-nit: Unnecessary reformatting.",
+      "revId": "737c5903abf604c86720683ad900743932cf35b4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///bw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-31T00:45:21Z",
+      "side": 1,
+      "message": "Style-nit: Unnecessary reformatting.",
+      "revId": "737c5903abf604c86720683ad900743932cf35b4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///bo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-31T00:45:21Z",
+      "side": 1,
+      "message": "Please use our MutableInteger class instead.",
+      "revId": "737c5903abf604c86720683ad900743932cf35b4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///bk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-31T00:45:21Z",
+      "side": 1,
+      "message": "The whole line is still shorter without the local temporary variable, and then we don\u0027t even need the curly brackets.  So basically, uh, use the older layout for this line of code.  :-)",
+      "revId": "737c5903abf604c86720683ad900743932cf35b4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///bg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-31T00:45:21Z",
+      "side": 1,
+      "message": "Style-nit: Unnecessary reformatting.",
+      "revId": "737c5903abf604c86720683ad900743932cf35b4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///bc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-31T00:45:21Z",
+      "side": 1,
+      "message": "Its OK to ignore an extension whose name is fully upper-case.  That still holds true in version 3, doesn\u0027t it?  So we should be OK to just ignore the EXT_RESOLVE_UNDO entry for now, and add support for it later on.",
+      "revId": "737c5903abf604c86720683ad900743932cf35b4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///VU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-31T18:41:22Z",
+      "side": 1,
+      "message": "Its not a performance optimization, but its categorized as one.  The reason being that they didn\u0027t want to completely break every existing Git implementation from being able to read a newer style index.  I don\u0027t claim to understand what they did, I\u0027m just saying what it is.  The \"standards\" say any extension named with 4 capitals is an optional extension that can be safely skipped.  All other extensions must be rejected without further processing.  \u0027REUC\u0027 is in the former category.",
+      "parentUuid": "AAALyn///Zg\u003d",
+      "revId": "737c5903abf604c86720683ad900743932cf35b4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///bY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 432,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-31T00:45:21Z",
+      "side": 1,
+      "message": "Style-nit: Unnecessary reformatting.",
+      "revId": "737c5903abf604c86720683ad900743932cf35b4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///bU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-31T00:45:21Z",
+      "side": 1,
+      "message": "Style-nit: Unnecessary reformatting.",
+      "revId": "737c5903abf604c86720683ad900743932cf35b4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///bQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 454,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-31T00:45:21Z",
+      "side": 1,
+      "message": "Style-nit: Unnecessary reformatting.",
+      "revId": "737c5903abf604c86720683ad900743932cf35b4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///bM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 489,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-31T00:45:21Z",
+      "side": 1,
+      "message": "Style-nit: Unnecessary reformatting.",
+      "revId": "737c5903abf604c86720683ad900743932cf35b4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///bI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 607,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-31T00:45:21Z",
+      "side": 1,
+      "message": "Style-nit: Unnecessary reformatting.",
+      "revId": "737c5903abf604c86720683ad900743932cf35b4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///a4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheEntry.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-31T00:45:21Z",
+      "side": 1,
+      "message": "This collides with the UPDATE_NEEDED flag below.  As far as I can tel they sit in the same bit slot.  Perhaps a change before this one to correct our definition of UPDATE_NEEDED would be a good idea.",
+      "revId": "737c5903abf604c86720683ad900743932cf35b4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///ak\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheEntry.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-31T00:45:21Z",
+      "side": 1,
+      "message": "I\u0027m not sure these end-of-line comments provide us anything of value.",
+      "revId": "737c5903abf604c86720683ad900743932cf35b4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///bE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheEntry.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-31T00:45:21Z",
+      "side": 1,
+      "message": "Style-nit: Unnecessary reformatting.  This line used to indent with tabs, now its using spaces.",
+      "revId": "737c5903abf604c86720683ad900743932cf35b4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///bA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheEntry.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-31T00:45:21Z",
+      "side": 1,
+      "message": "Seems we use this only once.  Wouldn\u0027t it be easier to just do if (isExtended()) below?\n\nAside: And oh, the guy who came up with this format should be taken out back and shot.  Conditionally adding 2 bytes to an index record only based on a bit buried deep inside of the record?  Stupid.  Records are *still* padded out to an 8 byte alignment.  That padding wastes more than the 2 bytes would.  For many records, I\u0027d bet we could fit the 2 additional bytes into the padding.  *sigh*",
+      "revId": "737c5903abf604c86720683ad900743932cf35b4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///a0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheEntry.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 426,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-31T00:45:21Z",
+      "side": 1,
+      "message": "The bit is either set or not, so !\u003d 0 is a faster test here.",
+      "revId": "737c5903abf604c86720683ad900743932cf35b4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///VY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheEntry.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 426,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-31T18:41:22Z",
+      "side": 1,
+      "message": "Its faster to compare to 0 because the JVM has opcodes specifically for that.  Comparing to a constant value like 0x40000000 requires using additional instructions to load that large integer from the constant pool onto the stack, and then compare to that integer.\n\nWhen you turn around and JIT this bytecode, most processors can perform a compare-to-zero-and-conditional-jump pretty efficiently, its a very common idiom.  Comparing to a larger value like 0x40000000 still requires pushing that value into a register from the instruction stream, then doing the compare.  So assuming everything JITs out nicely, comparing to 0 should still be a full clock cycle faster than not.\n\nOf course in all of this I\u0027m assuming the compiler isn\u0027t smart enough to realize that the mask involved in the preceding \u0026 operator contains only a single bit set, and that therefore the result of the \u0026 operation is either going to be 0 or !\u003d 0, and that therefore it can optimize out the equality test to be a compare with zero instead of compare with the constant.  It may be that the compiler and-or-JIT is smart enough to figure that out, in which case my rule is pointless.  (FWIW, I just checked, the Sun javac can\u0027t do this optimization even when compiling with -O.)\n\nAnyway, even ignoring all of that, our coding style when comparing a single bit is to use !\u003d 0, not the constant itself a second time.  We only use the constant when the \u0026 mask contains more than one bit and we need to test that a specific bit pattern remains, e.g. the way we test in FileMode.\n\n:-)",
+      "parentUuid": "AAALyn///Y8\u003d",
+      "revId": "737c5903abf604c86720683ad900743932cf35b4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///aw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheEntry.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-31T00:45:21Z",
+      "side": 1,
+      "message": "The bit is either set or not, so !\u003d 0 is a faster test here.",
+      "revId": "737c5903abf604c86720683ad900743932cf35b4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///ao\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheEntry.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 616,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-31T00:45:21Z",
+      "side": 1,
+      "message": "I\u0027m not sure we should expose this as a public member yet.  I doubt callers really need it, so lets start with it as package private.",
+      "revId": "737c5903abf604c86720683ad900743932cf35b4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///a8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheEntry.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 617,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-31T00:45:21Z",
+      "side": 1,
+      "message": "Please do similar to what we do with ASSUME_VALID and UPDATE_NEEDED by checking the specific byte that this flag appears in and avoiding the decode to uint16.",
+      "revId": "737c5903abf604c86720683ad900743932cf35b4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///as\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheEntry.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 634,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-31T00:45:21Z",
+      "side": 1,
+      "message": "I would prefer:\n\n  if (isExtended())\n   return NB.decodeUInt16(info, infoOffset + P_FLAGS2) \u003c\u003c 16;\n  else\n    return 0;",
+      "revId": "737c5903abf604c86720683ad900743932cf35b4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///ag\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 948,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-31T00:45:21Z",
+      "side": 1,
+      "message": "I assume we\u0027ll drop this new variant in the when you add write support?",
+      "revId": "737c5903abf604c86720683ad900743932cf35b4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
