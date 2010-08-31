@@ -183,11 +183,11 @@ public class DirCacheCGitCompatabilityTest extends LocalDiskRepositoryTestCase {
 	}
 
 	public void testReadWriteV3() throws Exception {
-		final File file = pathOf("gitgit.index.v3.skipWorkTree");
+		final File file = pathOf("gitgit.index.v3");
 		final DirCache dc = new DirCache(file, FS.DETECTED);
 		dc.read();
 
-		assertEquals(7, dc.getEntryCount());
+		assertEquals(10, dc.getEntryCount());
 		assertV3TreeEntry(0, "dir1/file1.txt", false, false, dc);
 		assertV3TreeEntry(1, "dir2/file2.txt", true, false, dc);
 		assertV3TreeEntry(2, "dir3/file3.txt", false, false, dc);
@@ -195,6 +195,9 @@ public class DirCacheCGitCompatabilityTest extends LocalDiskRepositoryTestCase {
 		assertV3TreeEntry(4, "dir4/file4.txt", true, false, dc);
 		assertV3TreeEntry(5, "dir4/file4a.txt", false, false, dc);
 		assertV3TreeEntry(6, "file.txt", true, false, dc);
+		assertV3TreeEntry(7, "newdir1/newfile1.txt", false, true, dc);
+		assertV3TreeEntry(8, "newdir1/newfile2.txt", false, true, dc);
+		assertV3TreeEntry(9, "newfile.txt", false, true, dc);
 
 		final ByteArrayOutputStream bos = new ByteArrayOutputStream();
 		dc.writeTo(bos);
