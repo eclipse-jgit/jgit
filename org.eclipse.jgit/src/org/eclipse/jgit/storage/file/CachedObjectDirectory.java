@@ -218,9 +218,4 @@ class CachedObjectDirectory extends FileObjectDatabase {
 			WindowCursor curs) throws IOException {
 		wrapped.selectObjectRepresentation(packer, otp, curs);
 	}
-
-	@Override
-	int getStreamFileThreshold() {
-		return wrapped.getStreamFileThreshold();
-	}
 }
