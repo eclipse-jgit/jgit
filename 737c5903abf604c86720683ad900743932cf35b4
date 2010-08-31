@@ -124,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "AAALyn///Z0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2010-08-31T12:12:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALyn///bs\u003d",
+      "revId": "737c5903abf604c86720683ad900743932cf35b4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALyn///bw\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCache.java",
         "patchSetId": 2
@@ -141,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AAALyn///Zw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2010-08-31T12:12:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALyn///bw\u003d",
+      "revId": "737c5903abf604c86720683ad900743932cf35b4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALyn///bo\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCache.java",
         "patchSetId": 2
@@ -152,6 +188,24 @@
       "writtenOn": "2010-08-31T00:45:21Z",
       "side": 1,
       "message": "Please use our MutableInteger class instead.",
+      "revId": "737c5903abf604c86720683ad900743932cf35b4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///Zo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2010-08-31T12:12:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALyn///bo\u003d",
       "revId": "737c5903abf604c86720683ad900743932cf35b4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -298,6 +352,24 @@
     },
     {
       "key": {
+        "uuid": "AAALyn///Zc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 432,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2010-08-31T12:12:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALyn///bY\u003d",
+      "revId": "737c5903abf604c86720683ad900743932cf35b4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALyn///bU\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCache.java",
         "patchSetId": 2
@@ -309,6 +381,24 @@
       "writtenOn": "2010-08-31T00:45:21Z",
       "side": 1,
       "message": "Style-nit: Unnecessary reformatting.",
+      "revId": "737c5903abf604c86720683ad900743932cf35b4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///ZY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2010-08-31T12:12:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALyn///bU\u003d",
       "revId": "737c5903abf604c86720683ad900743932cf35b4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -332,6 +422,24 @@
     },
     {
       "key": {
+        "uuid": "AAALyn///ZU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 454,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2010-08-31T12:12:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALyn///bQ\u003d",
+      "revId": "737c5903abf604c86720683ad900743932cf35b4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALyn///bM\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCache.java",
         "patchSetId": 2
@@ -343,6 +451,24 @@
       "writtenOn": "2010-08-31T00:45:21Z",
       "side": 1,
       "message": "Style-nit: Unnecessary reformatting.",
+      "revId": "737c5903abf604c86720683ad900743932cf35b4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///ZQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 489,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2010-08-31T12:12:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALyn///bM\u003d",
       "revId": "737c5903abf604c86720683ad900743932cf35b4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -629,6 +755,24 @@
     },
     {
       "key": {
+        "uuid": "AAALyn///Y0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheEntry.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 616,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2010-08-31T12:12:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALyn///ao\u003d",
+      "revId": "737c5903abf604c86720683ad900743932cf35b4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALyn///a8\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheEntry.java",
         "patchSetId": 2
@@ -646,6 +790,24 @@
     },
     {
       "key": {
+        "uuid": "AAALyn///Yw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheEntry.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 617,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2010-08-31T12:12:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALyn///a8\u003d",
+      "revId": "737c5903abf604c86720683ad900743932cf35b4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALyn///as\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheEntry.java",
         "patchSetId": 2
@@ -657,6 +819,24 @@
       "writtenOn": "2010-08-31T00:45:21Z",
       "side": 1,
       "message": "I would prefer:\n\n  if (isExtended())\n   return NB.decodeUInt16(info, infoOffset + P_FLAGS2) \u003c\u003c 16;\n  else\n    return 0;",
+      "revId": "737c5903abf604c86720683ad900743932cf35b4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///Ys\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheEntry.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 634,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2010-08-31T12:12:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALyn///as\u003d",
       "revId": "737c5903abf604c86720683ad900743932cf35b4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
