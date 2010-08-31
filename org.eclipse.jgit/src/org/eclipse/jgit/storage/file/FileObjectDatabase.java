@@ -248,8 +248,6 @@ abstract class FileObjectDatabase extends ObjectDatabase {
 
 	abstract FileObjectDatabase newCachedFileObjectDatabase();
 
-	abstract int getStreamFileThreshold();
-
 	static class AlternateHandle {
 		final FileObjectDatabase db;
 
