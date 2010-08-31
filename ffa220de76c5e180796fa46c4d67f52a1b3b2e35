@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALyn///V8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RawParseUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-31T18:20:11Z",
+      "side": 1,
+      "message": "Style-nit: The curly braces aren\u0027t necessary.\n\nI\u0027m going to cherry-pick this directly onto master, its a simple bug fix that I don\u0027t want to be held up on the DIRC version 3 code.",
+      "revId": "ffa220de76c5e180796fa46c4d67f52a1b3b2e35",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
