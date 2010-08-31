@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010, Christian Halstrick <christian.halstrick@sap.com> and
+ * Copyright (C) 2010, Chris Aniszczyk <caniszczyk@gmail.com> and
  * other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available under the
@@ -35,20 +35,19 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package org.eclipse.jgit.api;
+package org.eclipse.jgit.api.errors;
 
 /**
- * Exception thrown when a command expected the {@code HEAD} reference to exist
- * but couldn't find such a reference
+ * Exception thrown when a tag command was called with an invalid tag name (or
+ * null), such as bad~tag.
  */
-public class NoHeadException extends GitAPIException {
+public class InvalidTagNameException extends GitAPIException {
 	private static final long serialVersionUID = 1L;
 
-	NoHeadException(String message, Throwable cause) {
-		super(message, cause);
-	}
-
-	NoHeadException(String message) {
-		super(message);
+	/**
+	 * @param msg
+	 */
+	public InvalidTagNameException(String msg) {
+		super(msg);
 	}
 }

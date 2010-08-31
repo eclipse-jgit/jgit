@@ -1,5 +1,6 @@
 /*
- * Copyright (C) 2010, Christian Halstrick <christian.halstrick@sap.com> and
+ * Copyright (C) 2010, Christian Halstrick <christian.halstrick@sap.com>,
+ * Copyright (C) 2010, Stefan Lay <stefan.lay@sap.com> and
  * other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available under the
@@ -35,53 +36,30 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package org.eclipse.jgit.api;
 
-import java.text.MessageFormat;
-
-import org.eclipse.jgit.JGitText;
-import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.RefUpdate;
+package org.eclipse.jgit.api.errors;
 
 /**
- * Exception thrown when a command wants to update a ref but failed because
- * another process is accessing (or even also updating) the ref.
- *
- * @see org.eclipse.jgit.lib.RefUpdate.Result#LOCK_FAILURE
+ * Exception thrown when the options given to a command don't include a
+ * file pattern which is mandatory for processing.
  */
-public class ConcurrentRefUpdateException extends GitAPIException {
+public class NoFilepatternException extends GitAPIException {
+
 	private static final long serialVersionUID = 1L;
-	private RefUpdate.Result rc;
-	private Ref ref;
 
-	ConcurrentRefUpdateException(String message, Ref ref,
-			RefUpdate.Result rc, Throwable cause) {
-		super((rc == null) ? message : message + ". "
-				+ MessageFormat.format(JGitText.get().refUpdateReturnCodeWas, rc), cause);
-		this.rc = rc;
-		this.ref = ref;
-	}
-
-	ConcurrentRefUpdateException(String message, Ref ref,
-			RefUpdate.Result rc) {
-		super((rc == null) ? message : message + ". "
-				+ MessageFormat.format(JGitText.get().refUpdateReturnCodeWas, rc));
-		this.rc = rc;
-		this.ref = ref;
+	/**
+	 * @param message
+	 * @param cause
+	 */
+	public NoFilepatternException(String message, Throwable cause) {
+		super(message, cause);
 	}
 
 	/**
-	 * @return the {@link Ref} which was tried to by updated
+	 * @param message
 	 */
-	public Ref getRef() {
-		return ref;
+	public NoFilepatternException(String message) {
+		super(message);
 	}
 
-	/**
-	 * @return the result which was returned by {@link RefUpdate#update()} and
-	 *         which caused this error
-	 */
-	public RefUpdate.Result getResult() {
-		return rc;
-	}
 }

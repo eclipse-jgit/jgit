@@ -35,51 +35,64 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package org.eclipse.jgit.api;
+package org.eclipse.jgit.api.errors;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.text.MessageFormat;
+
+import org.eclipse.jgit.JGitText;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefUpdate;
 
 /**
- * Exception thrown when a command can't succeed because of unresolved
- * conflicts.
+ * Exception thrown when a command wants to update a ref but failed because
+ * another process is accessing (or even also updating) the ref.
+ *
+ * @see org.eclipse.jgit.lib.RefUpdate.Result#LOCK_FAILURE
  */
-public class CheckoutConflictException extends GitAPIException {
+public class ConcurrentRefUpdateException extends GitAPIException {
 	private static final long serialVersionUID = 1L;
-	private List<String> conflictingPaths;
+	private RefUpdate.Result rc;
+	private Ref ref;
 
-	CheckoutConflictException(String message, Throwable cause) {
-		super(message, cause);
-	}
-
-	CheckoutConflictException(String message, List<String> conflictingPaths, Throwable cause) {
-		super(message, cause);
-		this.conflictingPaths = conflictingPaths;
-	}
-
-	CheckoutConflictException(String message) {
-		super(message);
-	}
-
-	CheckoutConflictException(String message, List<String> conflictingPaths) {
-		super(message);
-		this.conflictingPaths = conflictingPaths;
-	}
-
-	/** @return all the paths where unresolved conflicts have been detected */
-	public List<String> getConflictingPaths() {
-		return conflictingPaths;
+	/**
+	 * @param message
+	 * @param ref
+	 * @param rc
+	 * @param cause
+	 */
+	public ConcurrentRefUpdateException(String message, Ref ref,
+			RefUpdate.Result rc, Throwable cause) {
+		super((rc == null) ? message : message + ". "
+				+ MessageFormat.format(JGitText.get().refUpdateReturnCodeWas, rc), cause);
+		this.rc = rc;
+		this.ref = ref;
 	}
 
 	/**
-	 * Adds a new conflicting path
-	 * @param conflictingPath
-	 * @return {@code this}
+	 * @param message
+	 * @param ref
+	 * @param rc
 	 */
-	CheckoutConflictException addConflictingPath(String conflictingPath) {
-		if (conflictingPaths == null)
-			conflictingPaths = new LinkedList<String>();
-		conflictingPaths.add(conflictingPath);
-		return this;
+	public ConcurrentRefUpdateException(String message, Ref ref,
+			RefUpdate.Result rc) {
+		super((rc == null) ? message : message + ". "
+				+ MessageFormat.format(JGitText.get().refUpdateReturnCodeWas, rc));
+		this.rc = rc;
+		this.ref = ref;
+	}
+
+	/**
+	 * @return the {@link Ref} which was tried to by updated
+	 */
+	public Ref getRef() {
+		return ref;
+	}
+
+	/**
+	 * @return the result which was returned by {@link RefUpdate#update()} and
+	 *         which caused this error
+	 */
+	public RefUpdate.Result getResult() {
+		return rc;
 	}
 }

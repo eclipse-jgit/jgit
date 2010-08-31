@@ -38,11 +38,11 @@
 package org.eclipse.jgit.pgm;
 
 import org.eclipse.jgit.api.CommitCommand;
-import org.eclipse.jgit.api.ConcurrentRefUpdateException;
 import org.eclipse.jgit.api.Git;
-import org.eclipse.jgit.api.JGitInternalException;
-import org.eclipse.jgit.api.NoHeadException;
-import org.eclipse.jgit.api.NoMessageException;
+import org.eclipse.jgit.api.errors.ConcurrentRefUpdateException;
+import org.eclipse.jgit.api.errors.JGitInternalException;
+import org.eclipse.jgit.api.errors.NoHeadException;
+import org.eclipse.jgit.api.errors.NoMessageException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.revwalk.RevCommit;

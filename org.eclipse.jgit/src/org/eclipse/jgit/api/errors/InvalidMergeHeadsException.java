@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010, Chris Aniszczyk <caniszczyk@gmail.com> and
+ * Copyright (C) 2010, Christian Halstrick <christian.halstrick@sap.com> and
  * other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available under the
@@ -35,16 +35,22 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package org.eclipse.jgit.api;
+package org.eclipse.jgit.api.errors;
+
 
 /**
- * Exception thrown when a tag command was called with an invalid tag name (or
- * null), such as bad~tag.
+ * Exception thrown when a merge command was called without specifying the
+ * proper amount/type of merge heads. E.g. a non-octopus merge strategy was
+ * confronted with more than one head to be merged into HEAD. Another
+ * case would be if a merge was called without including any head.
  */
-public class InvalidTagNameException extends GitAPIException {
+public class InvalidMergeHeadsException extends GitAPIException {
 	private static final long serialVersionUID = 1L;
 
-	InvalidTagNameException(String msg) {
+	/**
+	 * @param msg
+	 */
+	public InvalidMergeHeadsException(String msg) {
 		super(msg);
 	}
 }
