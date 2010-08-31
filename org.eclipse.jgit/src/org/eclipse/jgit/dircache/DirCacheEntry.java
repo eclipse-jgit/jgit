@@ -116,7 +116,8 @@ public class DirCacheEntry {
 
 	private static final int ASSUME_VALID = 0x80;
 
-	private static final int UPDATE_NEEDED = 0x40;
+	/** In-core flag signaling that the entry should be considered as modified. */
+	private static final int UPDATE_NEEDED = 0x1;
 
 	/** (Possibly shared) header information storage. */
 	private final byte[] info;
@@ -126,6 +127,9 @@ public class DirCacheEntry {
 
 	/** Our encoded path name, from the root of the repository. */
 	final byte[] path;
+
+	/** Flags which are never stored to disk. */
+	private byte inCoreFlags;
 
 	DirCacheEntry(final byte[] sharedInfo, final int infoAt,
 			final InputStream in, final MessageDigest md) throws IOException {
@@ -370,7 +374,7 @@ public class DirCacheEntry {
 	 * @return true if this entry should be checked for changes
 	 */
 	public boolean isUpdateNeeded() {
-		return (info[infoOffset + P_FLAGS] & UPDATE_NEEDED) != 0;
+		return (inCoreFlags & UPDATE_NEEDED) != 0;
 	}
 
 	/**
@@ -380,9 +384,9 @@ public class DirCacheEntry {
 	 */
 	public void setUpdateNeeded(boolean updateNeeded) {
 		if (updateNeeded)
-			info[infoOffset + P_FLAGS] |= UPDATE_NEEDED;
+			inCoreFlags |= UPDATE_NEEDED;
 		else
-			info[infoOffset + P_FLAGS] &= ~UPDATE_NEEDED;
+			inCoreFlags &= ~UPDATE_NEEDED;
 	}
 
 	/**
