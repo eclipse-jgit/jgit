@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALyn///U8\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/dircache/DirCacheCGitCompatabilityTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-31T19:08:18Z",
+      "side": 1,
+      "message": "Actually the file name is \"gitgit.index.v3.skipWorkTree\"",
+      "revId": "e9eba3fcbfbda489d419eba760c31e2c74965391",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///U0\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/dircache/DirCacheCGitCompatabilityTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-31T19:08:18Z",
+      "side": 1,
+      "message": "Actually the count was 7.",
+      "revId": "e9eba3fcbfbda489d419eba760c31e2c74965391",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///Us\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/dircache/DirCacheCGitCompatabilityTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-31T19:08:18Z",
+      "side": 1,
+      "message": "Typically we use assertEquals(Arrays.equals(expectedBytes, indexBytes));",
+      "revId": "e9eba3fcbfbda489d419eba760c31e2c74965391",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///Uo\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/dircache/DirCacheCGitCompatabilityTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-31T19:08:18Z",
+      "side": 1,
+      "message": "Style-nit: Line too long.",
+      "revId": "e9eba3fcbfbda489d419eba760c31e2c74965391",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///VM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-31T18:47:54Z",
+      "side": 1,
+      "message": "Style-nit: Curly braces aren\u0027t necessary here.",
+      "revId": "e9eba3fcbfbda489d419eba760c31e2c74965391",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///VI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-31T18:47:54Z",
+      "side": 1,
+      "message": "Style-nit: Curly braces aren\u0027t necessary.",
+      "revId": "e9eba3fcbfbda489d419eba760c31e2c74965391",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///VE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheEntry.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-31T18:47:54Z",
+      "side": 1,
+      "message": "Style-nit: We cuddle the else onto the line with the closing }",
+      "revId": "e9eba3fcbfbda489d419eba760c31e2c74965391",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
