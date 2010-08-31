@@ -116,8 +116,8 @@ public class AddCommand extends GitCommand<DirCache> {
 	 * Executes the {@code Add} command. Each instance of this class should only
 	 * be used for one invocation of the command. Don't call this method twice
 	 * on an instance.
-	 *
-	 * @return the DirCache after Add
+	 * 
+	 * @return the {@link DirCache} after Add
 	 */
 	public DirCache call() throws NoFilepatternException {
 

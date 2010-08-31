@@ -88,8 +88,8 @@ public class LogCommand extends GitCommand<Iterable<RevCommit>> {
 	 * {@link #not(AnyObjectId)}, ..) of this class. Each instance of this class
 	 * should only be used for one invocation of the command. Don't call this
 	 * method twice on an instance.
-	 *
-	 * @return an iteration over RevCommits
+	 * 
+	 * @return an iteration over {@link RevCommit}s
 	 */
 	public Iterable<RevCommit> call() throws NoHeadException,
 			JGitInternalException {

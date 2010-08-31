@@ -1,4 +1,5 @@
 org.eclipse.jgit.pgm.AmazonS3Client
+org.eclipse.jgit.pgm.Blame
 org.eclipse.jgit.pgm.Branch
 org.eclipse.jgit.pgm.Clone
 org.eclipse.jgit.pgm.Commit

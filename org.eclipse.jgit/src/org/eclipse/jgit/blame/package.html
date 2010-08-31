@@ -1,0 +1,37 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+</head>
+<body>
+
+Provides blame/praise/annotate functionality
+
+<h3>blame/praise/annotate functionality</h3>
+This package implements blame annotation support for jgit. This makes it
+possible to determine when a specific line in a file was added to that file
+and where it was originally introduced.
+
+<h3>Outline of blame algorithm</h2>
+<p>This blame implementation is based on the cgit blame algorithm described here: <br>
+<a href="https://kerneltrap.org/mailarchive/git/2006/10/12/224187">https://kerneltrap.org/mailarchive/git/2006/10/12/224187</a>
+</p>
+
+<p>
+The algorithm and structure in builtin-blame.c was used as a basis for this implementation,
+cf. <a href="http://repo.or.cz/w/git.git/blob/HEAD:/builtin/blame.c">http://repo.or.cz/w/git.git/blob/HEAD:/builtin/blame.c</a>
+</p>
+
+<p>
+The basic idea of this algorithm is to pass blame for all lines in a file (in
+a specific commit) to files in parent commits. This can only be done for lines
+that are the same. Any lines that are in this commit, but not any of the parents
+were introduced in this commit. All lines already existing in a parent commit
+can be blamed on the parent, which can then in turn pass the blame to its parents.
+If a file has not changed in a commit, all blame can be passed to the parent. The
+initial addition of a file is a degenerate case, where the file in the parent commit
+is completely empty, so no blame can be passed and this commit has to shoulder
+all the blame. Since the commit graph is a DAG this algorithm always terminates.
+</p>
+
+</body>
+</html>
