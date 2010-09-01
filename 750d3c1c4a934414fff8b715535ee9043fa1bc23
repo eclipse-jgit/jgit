@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAALyn///YI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheIterator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2010-08-31T12:18:27Z",
+      "side": 1,
+      "message": "I though about that, but from my understanding TreeFilters are in the responsibility of the API user, while it\u0027s the responsibility of the DirCacheIterator to decide what is relevant for the TreeWalk. I guess that in almost every case one will use DirCacheIterator(DirCache dc) constructor, so from API user\u0027s perspective current solution seems to be easier and safer.",
+      "parentUuid": "AAALyn///aU\u003d",
+      "revId": "750d3c1c4a934414fff8b715535ee9043fa1bc23",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALyn///UM\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheIterator.java",
         "patchSetId": 2
