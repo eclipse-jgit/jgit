@@ -45,7 +45,6 @@
 package org.eclipse.jgit.dircache;
 
 import java.io.IOException;
-import java.util.Arrays;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.lib.Constants;
@@ -142,9 +141,16 @@ public class DirCacheIterator extends AbstractTreeIterator {
 	}
 
 	@Override
+	public boolean hasId() {
+		if (currentSubtree != null)
+			return currentSubtree.isValid();
+		return currentEntry != null;
+	}
+
+	@Override
 	public byte[] idBuffer() {
 		if (currentSubtree != null)
-			return subtreeId;
+			return currentSubtree.isValid() ? subtreeId : zeroid;
 		if (currentEntry != null)
 			return currentEntry.idBuffer();
 		return zeroid;
@@ -218,8 +224,6 @@ public class DirCacheIterator extends AbstractTreeIterator {
 
 				if (s.isValid())
 					s.getObjectId().copyRawTo(subtreeId, 0);
-				else
-					Arrays.fill(subtreeId, (byte) 0);
 				mode = FileMode.TREE.getBits();
 				path = cep;
 				pathLen = pathOffset + s.nameLength();

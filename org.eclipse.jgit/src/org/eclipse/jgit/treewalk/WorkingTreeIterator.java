@@ -195,6 +195,13 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	}
 
 	@Override
+	public boolean hasId() {
+		if (contentIdFromPtr == ptr)
+			return true;
+		return (mode & FileMode.TYPE_MASK) == FileMode.TYPE_FILE;
+	}
+
+	@Override
 	public byte[] idBuffer() {
 		if (contentIdFromPtr == ptr)
 			return contentId;
