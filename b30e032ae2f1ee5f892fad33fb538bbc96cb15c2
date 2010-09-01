@@ -2,6 +2,41 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAALyn///PM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/IndexDiff.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-01T22:16:52Z",
+      "side": 1,
+      "message": "s/1/INDEX/ ?",
+      "revId": "b30e032ae2f1ee5f892fad33fb538bbc96cb15c2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///Ow\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/IndexDiff.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-01T22:18:20Z",
+      "side": 1,
+      "message": "Also we really should apply the skipping / not ignored logic before ANY_DIFF, not after.  That way we don\u0027t look at paths that we aren\u0027t supposed to even care about.",
+      "parentUuid": "AAALyn///PM\u003d",
+      "revId": "b30e032ae2f1ee5f892fad33fb538bbc96cb15c2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALyn///PI\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/SkipWorkTreeFilter.java",
         "patchSetId": 4
