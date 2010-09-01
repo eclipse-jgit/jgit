@@ -122,7 +122,7 @@ class Diff extends TextBuiltin {
 		diffFmt.setContext(lines);
 	}
 
-	@Option(name = "--abbrev", metaVar = "n")
+	@Option(name = "--abbrev", metaVar = "metaVar_n")
 	void abbrev(int lines) {
 		diffFmt.setAbbreviationLength(lines);
 	}
