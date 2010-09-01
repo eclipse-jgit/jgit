@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALyn///WM\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-31T18:13:20Z",
+      "side": 1,
+      "message": "Typo on invalid (you have \"inavlid\").",
+      "revId": "0f4cd528f8d6e47031c76a7ddd532aa11c08bb3a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///WI\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/ConfigTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-31T18:13:20Z",
+      "side": 1,
+      "message": "Unfortunately the other tests are in a class called RepositoryConfigTest.  (Historical reasons.)\n\nI would support the idea of renaming that test class to ConfigTest, and then adding this new method to it.",
+      "revId": "0f4cd528f8d6e47031c76a7ddd532aa11c08bb3a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///WE\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/ConfigTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-31T18:13:20Z",
+      "side": 1,
+      "message": "If you look atRepositoryTestCase we flat out assert a very specific formatting for the entire file.  So for this we would say:\n\n  String exp \u003d \"[testsection \\\"testsubsection\\\"]\\n\\ttestname\u003dtestvalue\\n\";\n  assertEquals(exp, config.toText());",
+      "revId": "0f4cd528f8d6e47031c76a7ddd532aa11c08bb3a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
