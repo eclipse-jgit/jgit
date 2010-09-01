@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALyn///PQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/IndexDiff.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-01T22:16:52Z",
+      "side": 0,
+      "message": "I have to say I find this line amusing.  At least the class is deprecated and should die...  :-)",
+      "revId": "253b36d27a3d249ec8290b99bf38275d003766e1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}

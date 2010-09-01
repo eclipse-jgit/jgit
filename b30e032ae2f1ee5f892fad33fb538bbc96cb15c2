@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALyn///PI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/SkipWorkTreeFilter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-01T22:16:52Z",
+      "side": 1,
+      "message": "Google owns me^Hmy work on JGit.",
+      "revId": "b30e032ae2f1ee5f892fad33fb538bbc96cb15c2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///PA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/SkipWorkTreeFilter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-01T22:16:52Z",
+      "side": 1,
+      "message": "We should also have a toString so printing a filter graph is semi-useful:\n\n  @Override\n  public String toString() {\n    return \"SkipWorkTree(\" + treeIdx + \")\";\n  }\n\nToday I wished we had it in the NotIgnoredFilter.  (I\u0027m writing up a change to add a toString() there right now...)",
+      "revId": "b30e032ae2f1ee5f892fad33fb538bbc96cb15c2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
