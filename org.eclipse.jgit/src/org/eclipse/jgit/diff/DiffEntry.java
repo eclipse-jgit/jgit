@@ -82,6 +82,15 @@ public class DiffEntry {
 		COPY;
 	}
 
+	/** Specify the old or new side for more generalized access. */
+	public static enum Side {
+		/** The old side of a DiffEntry. */
+		OLD,
+
+		/** The new side of a DiffEntry. */
+		NEW;
+	}
+
 	/**
 	 * Create an empty DiffEntry
 	 */
@@ -284,6 +293,17 @@ public class DiffEntry {
 		return newPath;
 	}
 
+	/**
+	 * Get the path associated with this file.
+	 *
+	 * @param side
+	 *            which path to obtain.
+	 * @return name for this file.
+	 */
+	public String getPath(Side side) {
+		return side == Side.OLD ? getOldPath() : getNewPath();
+	}
+
 	/** @return the old file mode, if described in the patch */
 	public FileMode getOldMode() {
 		return oldMode;
@@ -292,6 +312,17 @@ public class DiffEntry {
 	/** @return the new file mode, if described in the patch */
 	public FileMode getNewMode() {
 		return newMode;
+	}
+
+	/**
+	 * Get the mode associated with this file.
+	 *
+	 * @param side
+	 *            which mode to obtain.
+	 * @return the mode.
+	 */
+	public FileMode getMode(Side side) {
+		return side == Side.OLD ? getOldMode() : getNewMode();
 	}
 
 	/** @return the type of change this patch makes on {@link #getNewPath()} */
@@ -324,6 +355,17 @@ public class DiffEntry {
 	 */
 	public AbbreviatedObjectId getNewId() {
 		return newId;
+	}
+
+	/**
+	 * Get the object id.
+	 *
+	 * @param side
+	 *            the side of the id to get.
+	 * @return the object id; null if there is no index line
+	 */
+	public AbbreviatedObjectId getId(Side side) {
+		return side == Side.OLD ? getOldId() : getNewId();
 	}
 
 	@Override
