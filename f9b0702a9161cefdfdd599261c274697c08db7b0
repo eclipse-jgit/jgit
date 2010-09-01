@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALyn///cw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Config.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 839,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-30T21:36:26Z",
+      "side": 1,
+      "message": "Can we have a unit test to verify this works correctly?  I\u0027m especially concerned about regressions in the future so it would be nice if we have a test case that shows proper quoting.",
+      "revId": "f9b0702a9161cefdfdd599261c274697c08db7b0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
