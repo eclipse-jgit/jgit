@@ -52,16 +52,44 @@ public abstract class FS {
 	/** The auto-detected implementation selected for this operating system and JRE. */
 	public static final FS DETECTED;
 
-	static {
+	/**
+	 * Auto-detect the appropriate file system abstraction, taking into account
+	 * the presence of a Cygwin installation on the system. Using jgit in
+	 * combination with Cygwin requires a more elaborate (and possibly slower)
+	 * resolution of file system paths.
+	 *
+	 * @param cygwinUsed
+	 *            <ul>
+	 *            <li><code>Boolean.TRUE</code> to assume that Cygwin is used in
+	 *            combination with jgit</li>
+	 *            <li><code>Boolean.FALSE</code> to assume that Cygwin is
+	 *            <b>not</b> used with jgit</li>
+	 *            <li><code>null</code> to auto-detect whether a Cygwin
+	 *            installation is present on the system and in this case assume
+	 *            that Cygwin is used</li>
+	 *            </ul>
+	 *
+	 *            Note: this parameter is only relevant on Windows.
+	 *
+	 * @return detected file system abstraction
+	 */
+	public static FS detect(Boolean cygwinUsed) {
 		if (FS_Win32.detect()) {
-			if (FS_Win32_Cygwin.detect())
-				DETECTED = new FS_Win32_Cygwin();
+			boolean useCygwin = (cygwinUsed == null && FS_Win32_Cygwin.detect())
+					|| Boolean.TRUE.equals(cygwinUsed);
+
+			if (useCygwin)
+				return new FS_Win32_Cygwin();
 			else
-				DETECTED = new FS_Win32();
+				return new FS_Win32();
 		} else if (FS_POSIX_Java6.detect())
-			DETECTED = new FS_POSIX_Java6();
+			return new FS_POSIX_Java6();
 		else
-			DETECTED = new FS_POSIX_Java5();
+			return new FS_POSIX_Java5();
+	}
+
+	static {
+		DETECTED = detect(null);
 	}
 
 	private final File userHome;
