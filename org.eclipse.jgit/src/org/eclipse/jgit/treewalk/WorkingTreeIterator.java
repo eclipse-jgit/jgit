@@ -333,6 +333,15 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	}
 
 	@Override
+	public void reset() {
+		if (!first()) {
+			ptr = 0;
+			if (!eof())
+				parseEntry();
+		}
+	}
+
+	@Override
 	public boolean first() {
 		return ptr == 0;
 	}
