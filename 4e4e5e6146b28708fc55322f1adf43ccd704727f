@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAALyn///QY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/AbstractTreeIterator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 525,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2010-09-01T14:28:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALyn///UQ\u003d",
+      "revId": "4e4e5e6146b28708fc55322f1adf43ccd704727f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALyn///UU\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/TreeWalk.java",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2010-08-31T19:31:39Z",
       "side": 1,
       "message": "I wouldn\u0027t rename this variable as part of this change.  You don\u0027t reference it any new code.  So as bad as the name might be, I don\u0027t see a compelling motivation to change these lines as part of this commit.\n\nWe really try to avoid editing lines we don\u0027t have to.  If you were actually using t as a parameter to isSkipCurrentEntry() then I might be willing to accept a rename of it as part of the same commit.  But since you don\u0027t need it, it doesn\u0027t make sense.",
+      "revId": "4e4e5e6146b28708fc55322f1adf43ccd704727f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///QU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/TreeWalk.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 536,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2010-09-01T14:28:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALyn///UU\u003d",
       "revId": "4e4e5e6146b28708fc55322f1adf43ccd704727f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
