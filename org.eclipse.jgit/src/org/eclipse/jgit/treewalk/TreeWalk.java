@@ -683,8 +683,6 @@ public class TreeWalk {
 		final AbstractTreeIterator ch = currentHead;
 		final AbstractTreeIterator a = trees[nthA];
 		final AbstractTreeIterator b = trees[nthB];
-		if (a.matches == ch && b.matches == ch)
-			return a.idEqual(b);
 		if (a.matches != ch && b.matches != ch) {
 			// If neither tree matches the current path node then neither
 			// tree has this entry. In such case the ObjectId is zero(),
@@ -692,6 +690,10 @@ public class TreeWalk {
 			//
 			return true;
 		}
+		if (!a.hasId() || !b.hasId())
+			return false;
+		if (a.matches == ch && b.matches == ch)
+			return a.idEqual(b);
 		return false;
 	}
 

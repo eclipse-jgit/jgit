@@ -369,6 +369,9 @@ public abstract class AbstractTreeIterator {
 				otherIterator.idBuffer(), otherIterator.idOffset());
 	}
 
+	/** @return true if the entry has a valid ObjectId. */
+	public abstract boolean hasId();
+
 	/**
 	 * Get the object id of the current entry.
 	 *

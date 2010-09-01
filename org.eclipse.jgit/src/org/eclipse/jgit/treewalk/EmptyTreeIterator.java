@@ -93,6 +93,11 @@ public class EmptyTreeIterator extends AbstractTreeIterator {
 	}
 
 	@Override
+	public boolean hasId() {
+		return false;
+	}
+
+	@Override
 	public ObjectId getEntryObjectId() {
 		return ObjectId.zeroId();
 	}
