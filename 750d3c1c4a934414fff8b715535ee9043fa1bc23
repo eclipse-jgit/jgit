@@ -1,0 +1,39 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALyn///aU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheIterator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-31T00:50:12Z",
+      "side": 1,
+      "message": "Instead of mucking with the TreeWalk API, we can do this through a TreeFilter:\n\n  class SkipWorkTreeFilter {\n    private final int treeIdx;\n\n    SkipWorkTreeFilter(int treeIdx) {\n      this.treeIdx \u003d treeIdx;\n    }\n\n    boolean include(TreeWalk walker) {\n      DirCacheIterator i \u003d walker.getTree(treeIdx);\n      if (i \u003d\u003d null)\n        return true;\n\n      DirCacheEntry e \u003d i.getDirCacheEntry();\n      return e \u003d\u003d null || !e.isSkipWorkTree();\n    }\n  }\n\nCallers who want work tree skipping can just and this filter in with any other filters they are running on the TreeWalk.",
+      "revId": "750d3c1c4a934414fff8b715535ee9043fa1bc23",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///UM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheIterator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-31T19:30:24Z",
+      "side": 1,
+      "message": "I still don\u0027t think this belongs on the iterators.  I think it belongs as a TreeFilter, and callers who are using a DirCache during a walk should be dropping in the skip filter of they don\u0027t want to see the currently skipped paths.\n\nI\u0027m really thinking about cases like AddCommand or Merge which need to see the path no matter what, because they may need to un-skip the entry from the index if the working tree actually has that same location.  Or at the least error out.\n\nMeanwhile other cases like doing a status actually want to skip those paths.  Or do they?  Even on status, what should happen if I create foo/bar.txt when foo/bar.txt is marked as skipped in the index?  Shouldn\u0027t we highlight this case to the user?\n\nSo blindly skipping a path because one iterator has it tagged as skipped doesn\u0027t seem quite right.  If the caller really does want to ignore that record, they can easily do so if we provide them with a TreeFilter that can perform the skipping.  And then its their job to add it into the filter graph, just like its their job to add in TreeFilter.ANY_DIFF if they want a difference across the trees.",
+      "parentUuid": "AAALyn///YI\u003d",
+      "revId": "750d3c1c4a934414fff8b715535ee9043fa1bc23",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
