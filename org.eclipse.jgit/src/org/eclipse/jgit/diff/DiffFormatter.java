@@ -49,6 +49,8 @@ import static org.eclipse.jgit.diff.DiffEntry.ChangeType.COPY;
 import static org.eclipse.jgit.diff.DiffEntry.ChangeType.DELETE;
 import static org.eclipse.jgit.diff.DiffEntry.ChangeType.MODIFY;
 import static org.eclipse.jgit.diff.DiffEntry.ChangeType.RENAME;
+import static org.eclipse.jgit.diff.DiffEntry.Side.NEW;
+import static org.eclipse.jgit.diff.DiffEntry.Side.OLD;
 import static org.eclipse.jgit.lib.Constants.encode;
 import static org.eclipse.jgit.lib.Constants.encodeASCII;
 import static org.eclipse.jgit.lib.FileMode.GITLINK;
@@ -85,7 +87,9 @@ import org.eclipse.jgit.storage.pack.PackConfig;
 import org.eclipse.jgit.treewalk.AbstractTreeIterator;
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
 import org.eclipse.jgit.treewalk.TreeWalk;
+import org.eclipse.jgit.treewalk.WorkingTreeIterator;
 import org.eclipse.jgit.treewalk.filter.AndTreeFilter;
+import org.eclipse.jgit.treewalk.filter.NotIgnoredFilter;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
 import org.eclipse.jgit.util.QuotedString;
 import org.eclipse.jgit.util.io.DisabledOutputStream;
@@ -128,6 +132,8 @@ public class DiffFormatter {
 
 	private ProgressMonitor progressMonitor;
 
+	private ContentSource.Pair source;
+
 	/**
 	 * Create a new formatter with a default level of context.
 	 *
@@ -160,6 +166,9 @@ public class DiffFormatter {
 
 		db = repository;
 		reader = db.newObjectReader();
+
+		ContentSource cs = ContentSource.create(reader);
+		source = new ContentSource.Pair(cs, cs);
 
 		DiffConfig dc = db.getConfig().get(DiffConfig.KEY);
 		if (dc.isNoPrefix()) {
@@ -406,14 +415,17 @@ public class DiffFormatter {
 		walk.addTree(b);
 		walk.setRecursive(true);
 
-		if (pathFilter == TreeFilter.ALL) {
-			walk.setFilter(TreeFilter.ANY_DIFF);
-		} else if (pathFilter instanceof FollowFilter) {
-			walk.setFilter(pathFilter);
-		} else {
-			walk.setFilter(AndTreeFilter
-					.create(pathFilter, TreeFilter.ANY_DIFF));
-		}
+		TreeFilter filter = pathFilter;
+
+		if (a instanceof WorkingTreeIterator)
+			filter = AndTreeFilter.create(filter, new NotIgnoredFilter(0));
+		if (b instanceof WorkingTreeIterator)
+			filter = AndTreeFilter.create(filter, new NotIgnoredFilter(1));
+		if (!(pathFilter instanceof FollowFilter))
+			filter = AndTreeFilter.create(filter, TreeFilter.ANY_DIFF);
+		walk.setFilter(filter);
+
+		source = new ContentSource.Pair(source(a), source(b));
 
 		List<DiffEntry> files = DiffEntry.scan(walk);
 		if (pathFilter instanceof FollowFilter && isAdd(files)) {
@@ -426,7 +438,13 @@ public class DiffFormatter {
 			walk.reset();
 			walk.addTree(a);
 			walk.addTree(b);
-			walk.setFilter(TreeFilter.ANY_DIFF);
+
+			filter = TreeFilter.ANY_DIFF;
+			if (a instanceof WorkingTreeIterator)
+				filter = AndTreeFilter.create(new NotIgnoredFilter(0), filter);
+			if (b instanceof WorkingTreeIterator)
+				filter = AndTreeFilter.create(new NotIgnoredFilter(1), filter);
+			walk.setFilter(filter);
 
 			if (renameDetector == null)
 				setDetectRenames(true);
@@ -436,6 +454,12 @@ public class DiffFormatter {
 			files = detectRenames(files);
 
 		return files;
+	}
+
+	private ContentSource source(AbstractTreeIterator iterator) {
+		if (iterator instanceof WorkingTreeIterator)
+			return ContentSource.create((WorkingTreeIterator) iterator);
+		return ContentSource.create(reader);
 	}
 
 	private List<DiffEntry> detectRenames(List<DiffEntry> files)
@@ -835,12 +859,8 @@ public class DiffFormatter {
 		} else {
 			assertHaveRepository();
 
-			byte[] aRaw = open(ent.getOldPath(), //
-					ent.getOldMode(), //
-					ent.getOldId());
-			byte[] bRaw = open(ent.getNewPath(), //
-					ent.getNewMode(), //
-					ent.getNewId());
+			byte[] aRaw = open(OLD, ent);
+			byte[] bRaw = open(NEW, ent);
 
 			if (aRaw == BINARY || bRaw == BINARY //
 					|| RawText.isBinary(aRaw) || RawText.isBinary(bRaw)) {
@@ -878,29 +898,38 @@ public class DiffFormatter {
 			throw new IllegalStateException(JGitText.get().repositoryIsRequired);
 	}
 
-	private byte[] open(String path, FileMode mode, AbbreviatedObjectId id)
+	private byte[] open(DiffEntry.Side side, DiffEntry entry)
 			throws IOException {
-		if (mode == FileMode.MISSING)
+		if (entry.getMode(side) == FileMode.MISSING)
 			return EMPTY;
 
-		if (mode.getObjectType() != Constants.OBJ_BLOB)
+		if (entry.getMode(side).getObjectType() != Constants.OBJ_BLOB)
 			return EMPTY;
 
-		if (isBinary(path))
+		if (isBinary(entry.getPath(side)))
 			return BINARY;
 
+		AbbreviatedObjectId id = entry.getId(side);
 		if (!id.isComplete()) {
 			Collection<ObjectId> ids = reader.resolve(id);
-			if (ids.size() == 1)
+			if (ids.size() == 1) {
 				id = AbbreviatedObjectId.fromObjectId(ids.iterator().next());
-			else if (ids.size() == 0)
+				switch (side) {
+				case OLD:
+					entry.oldId = id;
+					break;
+				case NEW:
+					entry.newId = id;
+					break;
+				}
+			} else if (ids.size() == 0)
 				throw new MissingObjectException(id, Constants.OBJ_BLOB);
 			else
 				throw new AmbiguousObjectException(id, ids);
 		}
 
 		try {
-			ObjectLoader ldr = reader.open(id.toObjectId());
+			ObjectLoader ldr = source.open(side, entry);
 			return ldr.getBytes(binaryFileThreshold);
 
 		} catch (LargeObjectException.ExceedsLimit overLimit) {
