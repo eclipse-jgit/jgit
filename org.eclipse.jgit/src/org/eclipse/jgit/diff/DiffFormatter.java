@@ -212,33 +212,8 @@ public class DiffFormatter {
 	 *             be written to.
 	 */
 	public void format(DiffEntry ent) throws IOException {
-		writeDiffHeader(out, ent);
-
-		if (ent.getOldMode() == GITLINK || ent.getNewMode() == GITLINK) {
-			writeGitLinkDiffText(out, ent);
-		} else {
-			if (db == null)
-				throw new IllegalStateException(
-						JGitText.get().repositoryIsRequired);
-
-			ObjectReader reader = db.newObjectReader();
-			byte[] aRaw, bRaw;
-			try {
-				aRaw = open(reader, ent.getOldMode(), ent.getOldId());
-				bRaw = open(reader, ent.getNewMode(), ent.getNewId());
-			} finally {
-				reader.release();
-			}
-
-			if (RawText.isBinary(aRaw) || RawText.isBinary(bRaw)) {
-				out.write(encodeASCII("Binary files differ\n"));
-
-			} else {
-				RawText a = rawTextFactory.create(aRaw);
-				RawText b = rawTextFactory.create(bRaw);
-				formatEdits(a, b, new MyersDiff(a, b).getEdits());
-			}
-		}
+		FormatResult res = createFormatResult(ent);
+		format(res.header, res.a, res.b);
 	}
 
 	private void writeGitLinkDiffText(OutputStream o, DiffEntry ent)
@@ -406,8 +381,8 @@ public class DiffFormatter {
 		if (!head.getHunks().isEmpty())
 			end = head.getHunks().get(0).getStartOffset();
 		out.write(head.getBuffer(), start, end - start);
-
-		formatEdits(a, b, head.toEditList());
+		if (head.getPatchType() == PatchType.UNIFIED)
+			formatEdits(a, b, head.toEditList());
 	}
 
 	/**
@@ -603,6 +578,20 @@ public class DiffFormatter {
 	 */
 	public FileHeader createFileHeader(DiffEntry ent) throws IOException,
 			CorruptObjectException, MissingObjectException {
+		return createFormatResult(ent).header;
+	}
+
+	private static class FormatResult {
+		FileHeader header;
+
+		RawText a;
+
+		RawText b;
+	}
+
+	private FormatResult createFormatResult(DiffEntry ent) throws IOException,
+			CorruptObjectException, MissingObjectException {
+		final FormatResult res = new FormatResult();
 		ByteArrayOutputStream buf = new ByteArrayOutputStream();
 		final EditList editList;
 		final FileHeader.PatchType type;
@@ -631,14 +620,15 @@ public class DiffFormatter {
 				editList = new EditList();
 				type = PatchType.BINARY;
 			} else {
-				RawText a = rawTextFactory.create(aRaw);
-				RawText b = rawTextFactory.create(bRaw);
-				editList = new MyersDiff(a, b).getEdits();
+				res.a = rawTextFactory.create(aRaw);
+				res.b = rawTextFactory.create(bRaw);
+				editList = new MyersDiff(res.a, res.b).getEdits();
 				type = PatchType.UNIFIED;
 			}
 		}
 
-		return new FileHeader(buf.toByteArray(), editList, type);
+		res.header = new FileHeader(buf.toByteArray(), editList, type);
+		return res;
 	}
 
 	private int findCombinedEnd(final List<Edit> edits, final int i) {
