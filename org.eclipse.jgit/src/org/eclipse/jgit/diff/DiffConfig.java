@@ -55,10 +55,26 @@ public class DiffConfig {
 		}
 	};
 
+	private final boolean noPrefix;
+
+	private final boolean renames;
+
 	private final int renameLimit;
 
 	private DiffConfig(final Config rc) {
+		noPrefix = rc.getBoolean("diff", "noprefix", false);
+		renames = rc.getBoolean("diff", "renames", false);
 		renameLimit = rc.getInt("diff", "renamelimit", 200);
+	}
+
+	/** @return true if the prefix "a/" and "b/" should be suppressed. */
+	public boolean isNoPrefix() {
+		return noPrefix;
+	}
+
+	/** @return true if rename detection is enabled by default. */
+	public boolean isRenameDetectionEnabled() {
+		return renames;
 	}
 
 	/** @return limit on number of paths to perform inexact rename detection. */

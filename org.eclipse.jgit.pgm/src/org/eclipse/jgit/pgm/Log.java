@@ -51,32 +51,25 @@ import java.text.DateFormat;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.TimeZone;
 
-import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.diff.DiffFormatter;
 import org.eclipse.jgit.diff.RawTextIgnoreAllWhitespace;
 import org.eclipse.jgit.diff.RawTextIgnoreLeadingWhitespace;
 import org.eclipse.jgit.diff.RawTextIgnoreTrailingWhitespace;
 import org.eclipse.jgit.diff.RawTextIgnoreWhitespaceChange;
 import org.eclipse.jgit.diff.RenameDetector;
-import org.eclipse.jgit.diff.DiffEntry.ChangeType;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.revwalk.FollowFilter;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.eclipse.jgit.treewalk.TreeWalk;
-import org.eclipse.jgit.treewalk.filter.AndTreeFilter;
-import org.eclipse.jgit.treewalk.filter.TreeFilter;
 import org.kohsuke.args4j.Option;
 
 @Command(common = true, usage = "usage_viewCommitHistory")
@@ -98,7 +91,12 @@ class Log extends RevWalkTextBuiltin {
 	boolean showPatch;
 
 	@Option(name = "-M", usage = "usage_detectRenames")
-	private boolean detectRenames;
+	private Boolean detectRenames;
+
+	@Option(name = "--no-renames", usage = "usage_noRenames")
+	void noRenames(@SuppressWarnings("unused") boolean on) {
+		detectRenames = Boolean.FALSE;
+	}
 
 	@Option(name = "-l", usage = "usage_renameLimit")
 	private Integer renameLimit;
@@ -156,6 +154,24 @@ class Log extends RevWalkTextBuiltin {
 	}
 
 	@Override
+	protected void run() throws Exception {
+		diffFmt.setRepository(db);
+		try {
+			diffFmt.setPathFilter(pathFilter);
+			if (detectRenames != null)
+				diffFmt.setDetectRenames(detectRenames.booleanValue());
+			if (renameLimit != null && diffFmt.isDetectRenames()) {
+				RenameDetector rd = diffFmt.getRenameDetector();
+				rd.setRenameLimit(renameLimit.intValue());
+			}
+
+			super.run();
+		} finally {
+			diffFmt.release();
+		}
+	}
+
+	@Override
 	protected void show(final RevCommit c) throws Exception {
 		out.print(CLIText.get().commitLabel);
 		out.print(" ");
@@ -196,71 +212,16 @@ class Log extends RevWalkTextBuiltin {
 	}
 
 	private void showDiff(RevCommit c) throws IOException {
-		final TreeWalk tw = new TreeWalk(db);
-		tw.setRecursive(true);
-		tw.reset();
-		tw.addTree(c.getParent(0).getTree());
-		tw.addTree(c.getTree());
-		tw.setFilter(AndTreeFilter.create(pathFilter, TreeFilter.ANY_DIFF));
+		final RevTree a = c.getParent(0).getTree();
+		final RevTree b = c.getTree();
 
-		List<DiffEntry> files = DiffEntry.scan(tw);
-		if (pathFilter instanceof FollowFilter && isAdd(files)) {
-			// The file we are following was added here, find where it
-			// came from so we can properly show the rename or copy,
-			// then continue digging backwards.
-			//
-			tw.reset();
-			tw.addTree(c.getParent(0).getTree());
-			tw.addTree(c.getTree());
-			tw.setFilter(TreeFilter.ANY_DIFF);
-			files = updateFollowFilter(detectRenames(DiffEntry.scan(tw)));
-
-		} else if (detectRenames)
-			files = detectRenames(files);
-
-		if (showNameAndStatusOnly) {
-			Diff.nameStatus(out, files);
-
-		} else {
-			diffFmt.setRepository(db);
-			diffFmt.format(files);
+		if (showNameAndStatusOnly)
+			Diff.nameStatus(out, diffFmt.scan(a, b));
+		else {
+			diffFmt.format(a, b);
 			diffFmt.flush();
 		}
 		out.println();
-	}
-
-	private List<DiffEntry> detectRenames(List<DiffEntry> files)
-			throws IOException {
-		RenameDetector rd = new RenameDetector(db);
-		if (renameLimit != null)
-			rd.setRenameLimit(renameLimit.intValue());
-		rd.addAll(files);
-		return rd.compute();
-	}
-
-	private boolean isAdd(List<DiffEntry> files) {
-		String oldPath = ((FollowFilter) pathFilter).getPath();
-		for (DiffEntry ent : files) {
-			if (ent.getChangeType() == ChangeType.ADD
-					&& ent.getNewPath().equals(oldPath))
-				return true;
-		}
-		return false;
-	}
-
-	private List<DiffEntry> updateFollowFilter(List<DiffEntry> files) {
-		String oldPath = ((FollowFilter) pathFilter).getPath();
-		for (DiffEntry ent : files) {
-			if (isRename(ent) && ent.getNewPath().equals(oldPath)) {
-				pathFilter = FollowFilter.create(ent.getOldPath());
-				return Collections.singletonList(ent);
-			}
-		}
-		return Collections.emptyList();
-	}
-
-	private static boolean isRename(DiffEntry ent) {
-		return ent.getChangeType() == ChangeType.RENAME
-				|| ent.getChangeType() == ChangeType.COPY;
+		out.flush();
 	}
 }

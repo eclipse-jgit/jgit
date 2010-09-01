@@ -77,10 +77,17 @@ public class DiffFormatterTest extends RepositoryTestCase {
 		df.setAbbreviationLength(8);
 	}
 
+	@Override
+	public void tearDown() throws Exception {
+		if (df != null)
+			df.release();
+		super.tearDown();
+	}
+
 	public void testCreateFileHeader_Add() throws Exception {
 		ObjectId adId = blob("a\nd\n");
 		DiffEntry ent = DiffEntry.add("FOO", adId);
-		FileHeader fh = df.createFileHeader(ent);
+		FileHeader fh = df.toFileHeader(ent);
 
 		String diffHeader = "diff --git a/FOO b/FOO\n" //
 				+ "new file mode " + REGULAR_FILE + "\n"
@@ -115,7 +122,7 @@ public class DiffFormatterTest extends RepositoryTestCase {
 	public void testCreateFileHeader_Delete() throws Exception {
 		ObjectId adId = blob("a\nd\n");
 		DiffEntry ent = DiffEntry.delete("FOO", adId);
-		FileHeader fh = df.createFileHeader(ent);
+		FileHeader fh = df.toFileHeader(ent);
 
 		String diffHeader = "diff --git a/FOO b/FOO\n" //
 				+ "deleted file mode " + REGULAR_FILE + "\n"
@@ -158,7 +165,7 @@ public class DiffFormatterTest extends RepositoryTestCase {
 
 		DiffEntry mod = DiffEntry.pair(ChangeType.MODIFY, ad, abcd, 0);
 
-		FileHeader fh = df.createFileHeader(mod);
+		FileHeader fh = df.toFileHeader(mod);
 
 		assertEquals(diffHeader, RawParseUtils.decode(fh.getBuffer()));
 		assertEquals(0, fh.getStartOffset());
@@ -193,7 +200,7 @@ public class DiffFormatterTest extends RepositoryTestCase {
 
 		DiffEntry mod = DiffEntry.pair(ChangeType.MODIFY, ad, abcd, 0);
 
-		FileHeader fh = df.createFileHeader(mod);
+		FileHeader fh = df.toFileHeader(mod);
 
 		assertEquals(diffHeader, RawParseUtils.decode(fh.getBuffer()));
 		assertEquals(FileHeader.PatchType.BINARY, fh.getPatchType());
@@ -218,7 +225,7 @@ public class DiffFormatterTest extends RepositoryTestCase {
 
 		DiffEntry mod = DiffEntry.pair(ChangeType.MODIFY, ad, abcd, 0);
 
-		FileHeader fh = df.createFileHeader(mod);
+		FileHeader fh = df.toFileHeader(mod);
 
 		assertEquals(diffHeader, RawParseUtils.decode(fh.getBuffer()));
 
