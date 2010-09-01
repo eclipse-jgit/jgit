@@ -73,7 +73,7 @@ import org.eclipse.jgit.util.QuotedString;
 import org.eclipse.jgit.util.io.DisabledOutputStream;
 
 /**
- * Format an {@link EditList} as a Git style unified patch script.
+ * Format a Git style patch script.
  */
 public class DiffFormatter {
 	private static final byte[] noNewLine = encodeASCII("\\ No newline at end of file\n");
