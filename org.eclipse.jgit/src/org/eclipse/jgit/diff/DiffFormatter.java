@@ -45,6 +45,7 @@
 package org.eclipse.jgit.diff;
 
 import static org.eclipse.jgit.diff.DiffEntry.ChangeType.ADD;
+import static org.eclipse.jgit.diff.DiffEntry.ChangeType.COPY;
 import static org.eclipse.jgit.diff.DiffEntry.ChangeType.DELETE;
 import static org.eclipse.jgit.diff.DiffEntry.ChangeType.MODIFY;
 import static org.eclipse.jgit.diff.DiffEntry.ChangeType.RENAME;
@@ -56,6 +57,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.jgit.JGitText;
@@ -65,16 +67,26 @@ import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
+import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.patch.FileHeader;
 import org.eclipse.jgit.patch.HunkHeader;
 import org.eclipse.jgit.patch.FileHeader.PatchType;
+import org.eclipse.jgit.revwalk.FollowFilter;
+import org.eclipse.jgit.revwalk.RevTree;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.storage.pack.PackConfig;
+import org.eclipse.jgit.treewalk.AbstractTreeIterator;
+import org.eclipse.jgit.treewalk.CanonicalTreeParser;
+import org.eclipse.jgit.treewalk.TreeWalk;
+import org.eclipse.jgit.treewalk.filter.AndTreeFilter;
+import org.eclipse.jgit.treewalk.filter.TreeFilter;
 import org.eclipse.jgit.util.QuotedString;
 import org.eclipse.jgit.util.io.DisabledOutputStream;
 
@@ -96,6 +108,8 @@ public class DiffFormatter {
 
 	private Repository db;
 
+	private ObjectReader reader;
+
 	private int context = 3;
 
 	private int abbreviationLength = 7;
@@ -107,6 +121,12 @@ public class DiffFormatter {
 	private String oldPrefix = "a/";
 
 	private String newPrefix = "b/";
+
+	private TreeFilter pathFilter = TreeFilter.ALL;
+
+	private RenameDetector renameDetector;
+
+	private ProgressMonitor progressMonitor;
 
 	/**
 	 * Create a new formatter with a default level of context.
@@ -128,11 +148,25 @@ public class DiffFormatter {
 	/**
 	 * Set the repository the formatter can load object contents from.
 	 *
+	 * Once a repository has been set, the formatter must be released to ensure
+	 * the internal ObjectReader is able to release its resources.
+	 *
 	 * @param repository
 	 *            source repository holding referenced objects.
 	 */
 	public void setRepository(Repository repository) {
+		if (reader != null)
+			reader.release();
+
 		db = repository;
+		reader = db.newObjectReader();
+
+		DiffConfig dc = db.getConfig().get(DiffConfig.KEY);
+		if (dc.isNoPrefix()) {
+			setOldPrefix("");
+			setNewPrefix("");
+		}
+		setDetectRenames(dc.isRenameDetectionEnabled());
 	}
 
 	/**
@@ -220,6 +254,64 @@ public class DiffFormatter {
 		newPrefix = prefix;
 	}
 
+	/** @return true if rename detection is enabled. */
+	public boolean isDetectRenames() {
+		return renameDetector != null;
+	}
+
+	/**
+	 * Enable or disable rename detection.
+	 *
+	 * Before enabling rename detection the repository must be set with
+	 * {@link #setRepository(Repository)}. Once enabled the detector can be
+	 * configured away from its defaults by obtaining the instance directly from
+	 * {@link #getRenameDetector()} and invoking configuration.
+	 *
+	 * @param on
+	 *            if rename detection should be enabled.
+	 */
+	public void setDetectRenames(boolean on) {
+		if (on && renameDetector == null) {
+			assertHaveRepository();
+			renameDetector = new RenameDetector(db);
+		} else if (!on)
+			renameDetector = null;
+	}
+
+	/** @return the rename detector if rename detection is enabled. */
+	public RenameDetector getRenameDetector() {
+		return renameDetector;
+	}
+
+	/**
+	 * Set the progress monitor for long running rename detection.
+	 *
+	 * @param pm
+	 *            progress monitor to receive rename detection status through.
+	 */
+	public void setProgressMonitor(ProgressMonitor pm) {
+		progressMonitor = pm;
+	}
+
+	/**
+	 * Set the filter to produce only specific paths.
+	 *
+	 * If the filter is an instance of {@link FollowFilter}, the filter path
+	 * will be updated during successive scan or format invocations. The updated
+	 * path can be obtained from {@link #getPathFilter()}.
+	 *
+	 * @param filter
+	 *            the tree filter to apply.
+	 */
+	public void setPathFilter(TreeFilter filter) {
+		pathFilter = filter != null ? filter : TreeFilter.ALL;
+	}
+
+	/** @return the current path filter. */
+	public TreeFilter getPathFilter() {
+		return pathFilter;
+	}
+
 	/**
 	 * Flush the underlying output stream of this formatter.
 	 *
@@ -228,6 +320,208 @@ public class DiffFormatter {
 	 */
 	public void flush() throws IOException {
 		out.flush();
+	}
+
+	/** Release the internal ObjectReader state. */
+	public void release() {
+		if (reader != null)
+			reader.release();
+	}
+
+	/**
+	 * Determine the differences between two trees.
+	 *
+	 * No output is created, instead only the file paths that are different are
+	 * returned. Callers may choose to format these paths themselves, or convert
+	 * them into {@link FileHeader} instances with a complete edit list by
+	 * calling {@link #toFileHeader(DiffEntry)}.
+	 *
+	 * @param a
+	 *            the old (or previous) side.
+	 * @param b
+	 *            the new (or updated) side.
+	 * @return the paths that are different.
+	 * @throws IOException
+	 *             trees cannot be read or file contents cannot be read.
+	 */
+	public List<DiffEntry> scan(AnyObjectId a, AnyObjectId b)
+			throws IOException {
+		assertHaveRepository();
+
+		RevWalk rw = new RevWalk(reader);
+		return scan(rw.parseTree(a), rw.parseTree(b));
+	}
+
+	/**
+	 * Determine the differences between two trees.
+	 *
+	 * No output is created, instead only the file paths that are different are
+	 * returned. Callers may choose to format these paths themselves, or convert
+	 * them into {@link FileHeader} instances with a complete edit list by
+	 * calling {@link #toFileHeader(DiffEntry)}.
+	 *
+	 * @param a
+	 *            the old (or previous) side.
+	 * @param b
+	 *            the new (or updated) side.
+	 * @return the paths that are different.
+	 * @throws IOException
+	 *             trees cannot be read or file contents cannot be read.
+	 */
+	public List<DiffEntry> scan(RevTree a, RevTree b) throws IOException {
+		assertHaveRepository();
+
+		CanonicalTreeParser aParser = new CanonicalTreeParser();
+		CanonicalTreeParser bParser = new CanonicalTreeParser();
+
+		aParser.reset(reader, a);
+		bParser.reset(reader, b);
+
+		return scan(aParser, bParser);
+	}
+
+	/**
+	 * Determine the differences between two trees.
+	 *
+	 * No output is created, instead only the file paths that are different are
+	 * returned. Callers may choose to format these paths themselves, or convert
+	 * them into {@link FileHeader} instances with a complete edit list by
+	 * calling {@link #toFileHeader(DiffEntry)}.
+	 *
+	 * @param a
+	 *            the old (or previous) side.
+	 * @param b
+	 *            the new (or updated) side.
+	 * @return the paths that are different.
+	 * @throws IOException
+	 *             trees cannot be read or file contents cannot be read.
+	 */
+	public List<DiffEntry> scan(AbstractTreeIterator a, AbstractTreeIterator b)
+			throws IOException {
+		assertHaveRepository();
+
+		TreeWalk walk = new TreeWalk(reader);
+		walk.reset();
+		walk.addTree(a);
+		walk.addTree(b);
+		walk.setRecursive(true);
+
+		if (pathFilter == TreeFilter.ALL) {
+			walk.setFilter(TreeFilter.ANY_DIFF);
+		} else if (pathFilter instanceof FollowFilter) {
+			walk.setFilter(pathFilter);
+		} else {
+			walk.setFilter(AndTreeFilter
+					.create(pathFilter, TreeFilter.ANY_DIFF));
+		}
+
+		List<DiffEntry> files = DiffEntry.scan(walk);
+		if (pathFilter instanceof FollowFilter && isAdd(files)) {
+			// The file we are following was added here, find where it
+			// came from so we can properly show the rename or copy,
+			// then continue digging backwards.
+			//
+			a.reset();
+			b.reset();
+			walk.reset();
+			walk.addTree(a);
+			walk.addTree(b);
+			walk.setFilter(TreeFilter.ANY_DIFF);
+
+			if (renameDetector == null)
+				setDetectRenames(true);
+			files = updateFollowFilter(detectRenames(DiffEntry.scan(walk)));
+
+		} else if (renameDetector != null)
+			files = detectRenames(files);
+
+		return files;
+	}
+
+	private List<DiffEntry> detectRenames(List<DiffEntry> files)
+			throws IOException {
+		renameDetector.reset();
+		renameDetector.addAll(files);
+		return renameDetector.compute(reader, progressMonitor);
+	}
+
+	private boolean isAdd(List<DiffEntry> files) {
+		String oldPath = ((FollowFilter) pathFilter).getPath();
+		for (DiffEntry ent : files) {
+			if (ent.getChangeType() == ADD && ent.getNewPath().equals(oldPath))
+				return true;
+		}
+		return false;
+	}
+
+	private List<DiffEntry> updateFollowFilter(List<DiffEntry> files) {
+		String oldPath = ((FollowFilter) pathFilter).getPath();
+		for (DiffEntry ent : files) {
+			if (isRename(ent) && ent.getNewPath().equals(oldPath)) {
+				pathFilter = FollowFilter.create(ent.getOldPath());
+				return Collections.singletonList(ent);
+			}
+		}
+		return Collections.emptyList();
+	}
+
+	private static boolean isRename(DiffEntry ent) {
+		return ent.getChangeType() == RENAME || ent.getChangeType() == COPY;
+	}
+
+	/**
+	 * Format the differences between two trees.
+	 *
+	 * The patch is expressed as instructions to modify {@code a} to make it
+	 * {@code b}.
+	 *
+	 * @param a
+	 *            the old (or previous) side.
+	 * @param b
+	 *            the new (or updated) side.
+	 * @throws IOException
+	 *             trees cannot be read, file contents cannot be read, or the
+	 *             patch cannot be output.
+	 */
+	public void format(AnyObjectId a, AnyObjectId b) throws IOException {
+		format(scan(a, b));
+	}
+
+	/**
+	 * Format the differences between two trees.
+	 *
+	 * The patch is expressed as instructions to modify {@code a} to make it
+	 * {@code b}.
+	 *
+	 * @param a
+	 *            the old (or previous) side.
+	 * @param b
+	 *            the new (or updated) side.
+	 * @throws IOException
+	 *             trees cannot be read, file contents cannot be read, or the
+	 *             patch cannot be output.
+	 */
+	public void format(RevTree a, RevTree b) throws IOException {
+		format(scan(a, b));
+	}
+
+	/**
+	 * Format the differences between two trees.
+	 *
+	 * The patch is expressed as instructions to modify {@code a} to make it
+	 * {@code b}.
+	 *
+	 * @param a
+	 *            the old (or previous) side.
+	 * @param b
+	 *            the new (or updated) side.
+	 * @throws IOException
+	 *             trees cannot be read, file contents cannot be read, or the
+	 *             patch cannot be output.
+	 */
+	public void format(AbstractTreeIterator a, AbstractTreeIterator b)
+			throws IOException {
+		format(scan(a, b));
 	}
 
 	/**
@@ -272,13 +566,10 @@ public class DiffFormatter {
 
 	private String format(AbbreviatedObjectId id) {
 		if (id.isComplete() && db != null) {
-			ObjectReader reader = db.newObjectReader();
 			try {
 				id = reader.abbreviate(id.toObjectId(), abbreviationLength);
 			} catch (IOException cannotAbbreviate) {
 				// Ignore this. We'll report the full identity.
-			} finally {
-				reader.release();
 			}
 		}
 		return id.name();
@@ -319,22 +610,22 @@ public class DiffFormatter {
 			end = head.getHunks().get(0).getStartOffset();
 		out.write(head.getBuffer(), start, end - start);
 		if (head.getPatchType() == PatchType.UNIFIED)
-			formatEdits(a, b, head.toEditList());
+			format(head.toEditList(), a, b);
 	}
 
 	/**
 	 * Formats a list of edits in unified diff format
 	 *
+	 * @param edits
+	 *            some differences which have been calculated between A and B
 	 * @param a
 	 *            the text A which was compared
 	 * @param b
 	 *            the text B which was compared
-	 * @param edits
-	 *            some differences which have been calculated between A and B
 	 * @throws IOException
 	 */
-	public void formatEdits(final RawText a, final RawText b,
-			final EditList edits) throws IOException {
+	public void format(final EditList edits, final RawText a, final RawText b)
+			throws IOException {
 		for (int curIdx = 0; curIdx < edits.size();) {
 			Edit curEdit = edits.get(curIdx);
 			final int endIdx = findCombinedEnd(edits, curIdx);
@@ -513,7 +804,7 @@ public class DiffFormatter {
 	 * @throws MissingObjectException
 	 *             one of the blobs referenced by the DiffEntry is missing.
 	 */
-	public FileHeader createFileHeader(DiffEntry ent) throws IOException,
+	public FileHeader toFileHeader(DiffEntry ent) throws IOException,
 			CorruptObjectException, MissingObjectException {
 		return createFormatResult(ent).header;
 	}
@@ -542,24 +833,14 @@ public class DiffFormatter {
 			type = PatchType.UNIFIED;
 
 		} else {
-			if (db == null)
-				throw new IllegalStateException(
-						JGitText.get().repositoryIsRequired);
+			assertHaveRepository();
 
-			ObjectReader reader = db.newObjectReader();
-			byte[] aRaw, bRaw;
-			try {
-				aRaw = open(reader, //
-						ent.getOldPath(), //
-						ent.getOldMode(), //
-						ent.getOldId());
-				bRaw = open(reader, //
-						ent.getNewPath(), //
-						ent.getNewMode(), //
-						ent.getNewId());
-			} finally {
-				reader.release();
-			}
+			byte[] aRaw = open(ent.getOldPath(), //
+					ent.getOldMode(), //
+					ent.getOldId());
+			byte[] bRaw = open(ent.getNewPath(), //
+					ent.getNewMode(), //
+					ent.getNewId());
 
 			if (aRaw == BINARY || bRaw == BINARY //
 					|| RawText.isBinary(aRaw) || RawText.isBinary(bRaw)) {
@@ -592,8 +873,13 @@ public class DiffFormatter {
 		return res;
 	}
 
-	private byte[] open(ObjectReader reader, String path, FileMode mode,
-			AbbreviatedObjectId id) throws IOException {
+	private void assertHaveRepository() {
+		if (db == null)
+			throw new IllegalStateException(JGitText.get().repositoryIsRequired);
+	}
+
+	private byte[] open(String path, FileMode mode, AbbreviatedObjectId id)
+			throws IOException {
 		if (mode == FileMode.MISSING)
 			return EMPTY;
 
