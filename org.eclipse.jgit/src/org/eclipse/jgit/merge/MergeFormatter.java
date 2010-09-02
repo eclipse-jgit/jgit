@@ -76,14 +76,13 @@ public class MergeFormatter {
 	 *            metadata
 	 * @throws IOException
 	 */
-	public void formatMerge(OutputStream out, MergeResult res,
+	public void formatMerge(OutputStream out, MergeResult<RawText> res,
 			List<String> seqName, String charsetName) throws IOException {
 		String lastConflictingName = null; // is set to non-null whenever we are
 		// in a conflict
 		boolean threeWayMerge = (res.getSequences().size() == 3);
 		for (MergeChunk chunk : res) {
-			RawText seq = (RawText) res.getSequences().get(
-					chunk.getSequenceIndex());
+			RawText seq = res.getSequences().get(chunk.getSequenceIndex());
 			if (lastConflictingName != null
 					&& chunk.getConflictState() != ConflictState.NEXT_CONFLICTING_RANGE) {
 				// found the end of an conflict

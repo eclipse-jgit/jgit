@@ -49,48 +49,50 @@ import org.eclipse.jgit.lib.Constants;
 import junit.framework.TestCase;
 
 public class RawTextIgnoreAllWhitespaceTest extends TestCase {
+	private final RawTextComparator cmp = RawTextComparator.WS_IGNORE_ALL;
+
 	public void testEqualsWithoutWhitespace() {
-		final RawText a = new RawTextIgnoreAllWhitespace(Constants
+		final RawText a = new RawText(cmp, Constants
 				.encodeASCII("foo-a\nfoo-b\nfoo\n"));
-		final RawText b = new RawTextIgnoreAllWhitespace(Constants
+		final RawText b = new RawText(cmp, Constants
 				.encodeASCII("foo-b\nfoo-c\nf\n"));
 
 		assertEquals(3, a.size());
 		assertEquals(3, b.size());
 
 		// foo-a != foo-b
-		assertFalse(a.equals(0, b, 0));
-		assertFalse(b.equals(0, a, 0));
+		assertFalse(cmp.equals(a, 0, b, 0));
+		assertFalse(cmp.equals(b, 0, a, 0));
 
 		// foo-b == foo-b
-		assertTrue(a.equals(1, b, 0));
-		assertTrue(b.equals(0, a, 1));
+		assertTrue(cmp.equals(a, 1, b, 0));
+		assertTrue(cmp.equals(b, 0, a, 1));
 
 		// foo != f
-		assertFalse(a.equals(2, b, 2));
-		assertFalse(b.equals(2, a, 2));
+		assertFalse(cmp.equals(a, 2, b, 2));
+		assertFalse(cmp.equals(b, 2, a, 2));
 	}
 
 	public void testEqualsWithWhitespace() {
-		final RawText a = new RawTextIgnoreAllWhitespace(Constants
+		final RawText a = new RawText(cmp, Constants
 				.encodeASCII("foo-a\n         \n a b c\na      \n"));
-		final RawText b = new RawTextIgnoreAllWhitespace(Constants
+		final RawText b = new RawText(cmp, Constants
 				.encodeASCII("foo-a        b\n\nab  c\na\n"));
 
 		// "foo-a" != "foo-a        b"
-		assertFalse(a.equals(0, b, 0));
-		assertFalse(b.equals(0, a, 0));
+		assertFalse(cmp.equals(a, 0, b, 0));
+		assertFalse(cmp.equals(b, 0, a, 0));
 
 		// "         " == ""
-		assertTrue(a.equals(1, b, 1));
-		assertTrue(b.equals(1, a, 1));
+		assertTrue(cmp.equals(a, 1, b, 1));
+		assertTrue(cmp.equals(b, 1, a, 1));
 
 		// " a b c" == "ab  c"
-		assertTrue(a.equals(2, b, 2));
-		assertTrue(b.equals(2, a, 2));
+		assertTrue(cmp.equals(a, 2, b, 2));
+		assertTrue(cmp.equals(b, 2, a, 2));
 
 		// "a      " == "a"
-		assertTrue(a.equals(3, b, 3));
-		assertTrue(b.equals(3, a, 3));
+		assertTrue(cmp.equals(a, 3, b, 3));
+		assertTrue(cmp.equals(b, 3, a, 3));
 	}
 }

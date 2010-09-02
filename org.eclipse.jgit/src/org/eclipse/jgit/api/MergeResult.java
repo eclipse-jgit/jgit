@@ -134,7 +134,7 @@ public class MergeResult {
 	 */
 	public MergeResult(ObjectId newHead, ObjectId base,
 			ObjectId[] mergedCommits, MergeStatus mergeStatus,
-			Map<String, org.eclipse.jgit.merge.MergeResult> lowLevelResults,
+			Map<String, org.eclipse.jgit.merge.MergeResult<?>> lowLevelResults,
 			MergeStrategy mergeStrategy) {
 		this(newHead, base, mergedCommits, mergeStatus, mergeStrategy, lowLevelResults, null);
 	}
@@ -160,7 +160,7 @@ public class MergeResult {
 	public MergeResult(ObjectId newHead, ObjectId base,
 			ObjectId[] mergedCommits, MergeStatus mergeStatus,
 			MergeStrategy mergeStrategy,
-			Map<String, org.eclipse.jgit.merge.MergeResult> lowLevelResults,
+			Map<String, org.eclipse.jgit.merge.MergeResult<?>> lowLevelResults,
 			String description) {
 		this.newHead = newHead;
 		this.mergedCommits = mergedCommits;
@@ -243,7 +243,7 @@ public class MergeResult {
 	 * @param path
 	 * @param lowLevelResult
 	 */
-	public void addConflict(String path, org.eclipse.jgit.merge.MergeResult lowLevelResult) {
+	public void addConflict(String path, org.eclipse.jgit.merge.MergeResult<?> lowLevelResult) {
 		if (conflicts == null)
 			conflicts = new HashMap<String, int[][]>();
 		int nrOfConflicts = 0;
