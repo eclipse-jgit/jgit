@@ -44,6 +44,10 @@
 
 package org.eclipse.jgit.diff;
 
+import static org.eclipse.jgit.diff.DiffEntry.ChangeType.ADD;
+import static org.eclipse.jgit.diff.DiffEntry.ChangeType.DELETE;
+import static org.eclipse.jgit.diff.DiffEntry.ChangeType.MODIFY;
+import static org.eclipse.jgit.diff.DiffEntry.ChangeType.RENAME;
 import static org.eclipse.jgit.lib.Constants.encode;
 import static org.eclipse.jgit.lib.Constants.encodeASCII;
 import static org.eclipse.jgit.lib.FileMode.GITLINK;
@@ -55,6 +59,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.jgit.JGitText;
+import org.eclipse.jgit.diff.DiffEntry.ChangeType;
 import org.eclipse.jgit.errors.AmbiguousObjectException;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -89,6 +94,10 @@ public class DiffFormatter {
 	private RawText.Factory rawTextFactory = RawText.FACTORY;
 
 	private int bigFileThreshold = 50 * 1024 * 1024;
+
+	private String oldPrefix = "a/";
+
+	private String newPrefix = "b/";
 
 	/**
 	 * Create a new formatter with a default level of context.
@@ -179,6 +188,32 @@ public class DiffFormatter {
 	}
 
 	/**
+	 * Set the prefix applied in front of old file paths.
+	 *
+	 * @param prefix
+	 *            the prefix in front of old paths. Typically this is the
+	 *            standard string {@code "a/"}, but may be any prefix desired by
+	 *            the caller. Must not be null. Use the empty string to have no
+	 *            prefix at all.
+	 */
+	public void setOldPrefix(String prefix) {
+		oldPrefix = prefix;
+	}
+
+	/**
+	 * Set the prefix applied in front of new file paths.
+	 *
+	 * @param prefix
+	 *            the prefix in front of new paths. Typically this is the
+	 *            standard string {@code "b/"}, but may be any prefix desired by
+	 *            the caller. Must not be null. Use the empty string to have no
+	 *            prefix at all.
+	 */
+	public void setNewPrefix(String prefix) {
+		newPrefix = prefix;
+	}
+
+	/**
 	 * Flush the underlying output stream of this formatter.
 	 *
 	 * @throws IOException
@@ -226,89 +261,6 @@ public class DiffFormatter {
 			o.write(encodeASCII("+Subproject commit " + ent.getNewId().name()
 					+ "\n"));
 		}
-	}
-
-	private void writeDiffHeader(OutputStream o, DiffEntry ent)
-			throws IOException {
-		String oldName = quotePath("a/" + ent.getOldPath());
-		String newName = quotePath("b/" + ent.getNewPath());
-		o.write(encode("diff --git " + oldName + " " + newName + "\n"));
-
-		switch (ent.getChangeType()) {
-		case ADD:
-			o.write(encodeASCII("new file mode "));
-			ent.getNewMode().copyTo(o);
-			o.write('\n');
-			break;
-
-		case DELETE:
-			o.write(encodeASCII("deleted file mode "));
-			ent.getOldMode().copyTo(o);
-			o.write('\n');
-			break;
-
-		case RENAME:
-			o.write(encodeASCII("similarity index " + ent.getScore() + "%"));
-			o.write('\n');
-
-			o.write(encode("rename from " + quotePath(ent.getOldPath())));
-			o.write('\n');
-
-			o.write(encode("rename to " + quotePath(ent.getNewPath())));
-			o.write('\n');
-			break;
-
-		case COPY:
-			o.write(encodeASCII("similarity index " + ent.getScore() + "%"));
-			o.write('\n');
-
-			o.write(encode("copy from " + quotePath(ent.getOldPath())));
-			o.write('\n');
-
-			o.write(encode("copy to " + quotePath(ent.getNewPath())));
-			o.write('\n');
-
-			if (!ent.getOldMode().equals(ent.getNewMode())) {
-				o.write(encodeASCII("new file mode "));
-				ent.getNewMode().copyTo(o);
-				o.write('\n');
-			}
-			break;
-		case MODIFY:
-			int score = ent.getScore();
-			if (0 < score && score <= 100) {
-				o.write(encodeASCII("dissimilarity index " + (100 - score)
-						+ "%"));
-				o.write('\n');
-			}
-			break;
-		}
-
-		switch (ent.getChangeType()) {
-		case RENAME:
-		case MODIFY:
-			if (!ent.getOldMode().equals(ent.getNewMode())) {
-				o.write(encodeASCII("old mode "));
-				ent.getOldMode().copyTo(o);
-				o.write('\n');
-
-				o.write(encodeASCII("new mode "));
-				ent.getNewMode().copyTo(o);
-				o.write('\n');
-			}
-		}
-
-		o.write(encodeASCII("index " //
-				+ format(ent.getOldId()) //
-				+ ".." //
-				+ format(ent.getNewId())));
-		if (ent.getOldMode().equals(ent.getNewMode())) {
-			o.write(' ');
-			ent.getNewMode().copyTo(o);
-		}
-		o.write('\n');
-		o.write(encode("--- " + oldName + '\n'));
-		o.write(encode("+++ " + newName + '\n'));
 	}
 
 	private String format(AbbreviatedObjectId id) {
@@ -596,12 +548,14 @@ public class DiffFormatter {
 		final EditList editList;
 		final FileHeader.PatchType type;
 
-		writeDiffHeader(buf, ent);
+		formatHeader(buf, ent);
 
 		if (ent.getOldMode() == GITLINK || ent.getNewMode() == GITLINK) {
+			formatOldNewPaths(buf, ent);
 			writeGitLinkDiffText(buf, ent);
 			editList = new EditList();
 			type = PatchType.UNIFIED;
+
 		} else {
 			if (db == null)
 				throw new IllegalStateException(
@@ -616,19 +570,146 @@ public class DiffFormatter {
 			}
 
 			if (RawText.isBinary(aRaw) || RawText.isBinary(bRaw)) {
+				formatOldNewPaths(buf, ent);
 				buf.write(encodeASCII("Binary files differ\n"));
 				editList = new EditList();
 				type = PatchType.BINARY;
+
 			} else {
 				res.a = rawTextFactory.create(aRaw);
 				res.b = rawTextFactory.create(bRaw);
 				editList = new MyersDiff(res.a, res.b).getEdits();
 				type = PatchType.UNIFIED;
+
+				switch (ent.getChangeType()) {
+				case RENAME:
+				case COPY:
+					if (!editList.isEmpty())
+						formatOldNewPaths(buf, ent);
+					break;
+
+				default:
+					formatOldNewPaths(buf, ent);
+					break;
+				}
 			}
 		}
 
 		res.header = new FileHeader(buf.toByteArray(), editList, type);
 		return res;
+	}
+
+	private void formatHeader(ByteArrayOutputStream o, DiffEntry ent)
+			throws IOException {
+		final ChangeType type = ent.getChangeType();
+		final String oldp = ent.getOldPath();
+		final String newp = ent.getNewPath();
+		final FileMode oldMode = ent.getOldMode();
+		final FileMode newMode = ent.getNewMode();
+
+		o.write(encodeASCII("diff --git "));
+		o.write(encode(quotePath(oldPrefix + (type == ADD ? newp : oldp))));
+		o.write(' ');
+		o.write(encode(quotePath(newPrefix + (type == DELETE ? oldp : newp))));
+		o.write('\n');
+
+		switch (type) {
+		case ADD:
+			o.write(encodeASCII("new file mode "));
+			newMode.copyTo(o);
+			o.write('\n');
+			break;
+
+		case DELETE:
+			o.write(encodeASCII("deleted file mode "));
+			oldMode.copyTo(o);
+			o.write('\n');
+			break;
+
+		case RENAME:
+			o.write(encodeASCII("similarity index " + ent.getScore() + "%"));
+			o.write('\n');
+
+			o.write(encode("rename from " + quotePath(oldp)));
+			o.write('\n');
+
+			o.write(encode("rename to " + quotePath(newp)));
+			o.write('\n');
+			break;
+
+		case COPY:
+			o.write(encodeASCII("similarity index " + ent.getScore() + "%"));
+			o.write('\n');
+
+			o.write(encode("copy from " + quotePath(oldp)));
+			o.write('\n');
+
+			o.write(encode("copy to " + quotePath(newp)));
+			o.write('\n');
+
+			if (!oldMode.equals(newMode)) {
+				o.write(encodeASCII("new file mode "));
+				newMode.copyTo(o);
+				o.write('\n');
+			}
+			break;
+
+		case MODIFY:
+			if (0 < ent.getScore()) {
+				o.write(encodeASCII("dissimilarity index "
+						+ (100 - ent.getScore()) + "%"));
+				o.write('\n');
+			}
+			break;
+		}
+
+		if ((type == MODIFY || type == RENAME) && !oldMode.equals(newMode)) {
+			o.write(encodeASCII("old mode "));
+			oldMode.copyTo(o);
+			o.write('\n');
+
+			o.write(encodeASCII("new mode "));
+			newMode.copyTo(o);
+			o.write('\n');
+		}
+
+		if (!ent.getOldId().equals(ent.getNewId())) {
+			o.write(encodeASCII("index " //
+					+ format(ent.getOldId()) //
+					+ ".." //
+					+ format(ent.getNewId())));
+			if (oldMode.equals(newMode)) {
+				o.write(' ');
+				newMode.copyTo(o);
+			}
+			o.write('\n');
+		}
+	}
+
+	private void formatOldNewPaths(ByteArrayOutputStream o, DiffEntry ent)
+			throws IOException {
+		final String oldp;
+		final String newp;
+
+		switch (ent.getChangeType()) {
+		case ADD:
+			oldp = DiffEntry.DEV_NULL;
+			newp = quotePath(newPrefix + ent.getNewPath());
+			break;
+
+		case DELETE:
+			oldp = quotePath(oldPrefix + ent.getOldPath());
+			newp = DiffEntry.DEV_NULL;
+			break;
+
+		default:
+			oldp = quotePath(oldPrefix + ent.getOldPath());
+			newp = quotePath(newPrefix + ent.getNewPath());
+			break;
+		}
+
+		o.write(encode("--- " + oldp + "\n"));
+		o.write(encode("+++ " + newp + "\n"));
 	}
 
 	private int findCombinedEnd(final List<Edit> edits, final int i) {
