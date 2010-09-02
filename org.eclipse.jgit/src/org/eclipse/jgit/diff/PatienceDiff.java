@@ -139,13 +139,25 @@ public class PatienceDiff<S extends Sequence> {
 
 	private final S b;
 
+	/** Result edits we have determined that must be made to convert a to b. */
 	private final EditList edits;
+
+	/**
+	 * Temporary list holding pairs of (index_B, index_A) that are common.
+	 *
+	 * This list is computed during {@link #match(long[], long[])} and cleared
+	 * during each step of the main algorithm. We keep it as an instance member
+	 * so the memory allocation can be reused for each match stage, rather than
+	 * churning a lot of garbage.
+	 */
+	private final LongList matches;
 
 	private PatienceDiff(SequenceComparator<S> cmp, S a, S b) {
 		this.cmp = cmp;
 		this.a = a;
 		this.b = b;
 		this.edits = new EditList();
+		this.matches = new LongList();
 	}
 
 	private void diff(Edit e) {
@@ -162,9 +174,8 @@ public class PatienceDiff<S extends Sequence> {
 			return;
 		}
 
-		LongList matchPoints = match(index(a, e.beginA, e.endA), index(b,
-				e.beginB, e.endB));
-		if (matchPoints.size() == 0) {
+		match(index(a, e.beginA, e.endA), index(b, e.beginB, e.endB));
+		if (matches.size() == 0) {
 			// If we have no unique common lines, replace the entire region
 			// on the one side with the region from the other. But can this
 			// be less than optimal? This implies we had no unique lines.
@@ -179,16 +190,16 @@ public class PatienceDiff<S extends Sequence> {
 		// - the common sequence
 		// - edit after
 		//
-		Edit lcs = longestCommonSubsequence(e, matchPoints);
+		Edit lcs = longestCommonSubsequence(e);
 
 		diff(e.before(lcs));
 		diff(e.after(lcs));
 	}
 
-	private Edit longestCommonSubsequence(Edit e, LongList matchPoints) {
+	private Edit longestCommonSubsequence(Edit e) {
 		Edit lcs = new Edit(0, 0);
-		for (int i = 0; i < matchPoints.size(); i++) {
-			long rec = matchPoints.get(i);
+		for (int i = 0; i < matches.size(); i++) {
+			long rec = matches.get(i);
 
 			int bs = hashOf(rec);
 			if (bs < lcs.endB)
@@ -218,8 +229,8 @@ public class PatienceDiff<S extends Sequence> {
 		return lcs;
 	}
 
-	private LongList match(long[] ah, long[] bh) {
-		final LongList matches = new LongList();
+	private void match(long[] ah, long[] bh) {
+		matches.clear();
 
 		int aIdx = 0;
 		int bIdx = 0;
@@ -262,7 +273,6 @@ public class PatienceDiff<S extends Sequence> {
 		}
 
 		matches.sort();
-		return matches;
 	}
 
 	private long[] index(S content, int as, int ae) {
