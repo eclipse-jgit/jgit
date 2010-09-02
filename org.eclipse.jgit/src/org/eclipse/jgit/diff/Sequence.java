@@ -1,4 +1,5 @@
 /*
+ * Copyright (C) 2010, Google Inc.
  * Copyright (C) 2008-2009, Johannes E. Schindelin <johannes.schindelin@gmx.de>
  * and other copyright owners as documented in the project's IP log.
  *
@@ -44,41 +45,20 @@
 package org.eclipse.jgit.diff;
 
 /**
- * Arbitrary sequence of elements with fast comparison support.
- * <p>
+ * Arbitrary sequence of elements.
+ *
  * A sequence of elements is defined to contain elements in the index range
  * <code>[0, {@link #size()})</code>, like a standard Java List implementation.
- * Unlike a List, the members of the sequence are not directly obtainable, but
- * element equality can be tested if two Sequences are the same implementation.
- * <p>
- * An implementation may chose to implement the equals semantic as necessary,
- * including fuzzy matching rules such as ignoring insignificant sub-elements,
- * e.g. ignoring whitespace differences in text.
- * <p>
+ * Unlike a List, the members of the sequence are not directly obtainable.
+ *
  * Implementations of Sequence are primarily intended for use in content
  * difference detection algorithms, to produce an {@link EditList} of
  * {@link Edit} instances describing how two Sequence instances differ.
+ *
+ * To be compared against another Sequence of the same type, a supporting
+ * {@link SequenceComparator} must also be supplied.
  */
-public interface Sequence {
+public abstract class Sequence {
 	/** @return total number of items in the sequence. */
-	public int size();
-
-	/**
-	 * Determine if the i-th member is equal to the j-th member.
-	 * <p>
-	 * Implementations must ensure <code>equals(thisIdx,other,otherIdx)</code>
-	 * returns the same as <code>other.equals(otherIdx,this,thisIdx)</code>.
-	 *
-	 * @param thisIdx
-	 *            index within <code>this</code> sequence; must be in the range
-	 *            <code>[ 0, this.size() )</code>.
-	 * @param other
-	 *            another sequence; must be the same implementation class, that
-	 *            is <code>this.getClass() == other.getClass()</code>.
-	 * @param otherIdx
-	 *            index within <code>other</code> sequence; must be in the range
-	 *            <code>[ 0, other.size() )</code>.
-	 * @return true if the elements are equal; false if they are not equal.
-	 */
-	public boolean equals(int thisIdx, Sequence other, int otherIdx);
+	public abstract int size();
 }

@@ -114,7 +114,7 @@ public class DiffFormatter {
 
 	private int abbreviationLength = 7;
 
-	private RawText.Factory rawTextFactory = RawText.FACTORY;
+	private RawTextComparator comparator = RawTextComparator.DEFAULT;
 
 	private int binaryFileThreshold = DEFAULT_BINARY_FILE_THRESHOLD;
 
@@ -204,14 +204,14 @@ public class DiffFormatter {
 	 *            the factory to create different output. Different types of
 	 *            factories can produce different whitespace behavior, for
 	 *            example.
-	 * @see RawText#FACTORY
-	 * @see RawTextIgnoreAllWhitespace#FACTORY
-	 * @see RawTextIgnoreLeadingWhitespace#FACTORY
-	 * @see RawTextIgnoreTrailingWhitespace#FACTORY
-	 * @see RawTextIgnoreWhitespaceChange#FACTORY
+	 * @see RawTextComparator#DEFAULT
+	 * @see RawTextComparator#WS_IGNORE_ALL
+	 * @see RawTextComparator#WS_IGNORE_CHANGE
+	 * @see RawTextComparator#WS_IGNORE_LEADING
+	 * @see RawTextComparator#WS_IGNORE_TRAILING
 	 */
-	public void setRawTextFactory(RawText.Factory type) {
-		rawTextFactory = type;
+	public void setDiffComparator(RawTextComparator type) {
+		comparator = type;
 	}
 
 	/**
@@ -850,9 +850,9 @@ public class DiffFormatter {
 				type = PatchType.BINARY;
 
 			} else {
-				res.a = rawTextFactory.create(aRaw);
-				res.b = rawTextFactory.create(bRaw);
-				editList = new MyersDiff(res.a, res.b).getEdits();
+				RawText a = new RawText(comparator, aRaw);
+				RawText b = new RawText(comparator, bRaw);
+				editList = new MyersDiff<RawText>(comparator, a, b).getEdits();
 				type = PatchType.UNIFIED;
 
 				switch (ent.getChangeType()) {

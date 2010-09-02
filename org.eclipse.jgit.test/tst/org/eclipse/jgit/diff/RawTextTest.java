@@ -61,17 +61,18 @@ public class RawTextTest extends TestCase {
 	public void testEquals() {
 		final RawText a = new RawText(Constants.encodeASCII("foo-a\nfoo-b\n"));
 		final RawText b = new RawText(Constants.encodeASCII("foo-b\nfoo-c\n"));
+		RawTextComparator cmp = RawTextComparator.DEFAULT;
 
 		assertEquals(2, a.size());
 		assertEquals(2, b.size());
 
 		// foo-a != foo-b
-		assertFalse(a.equals(0, b, 0));
-		assertFalse(b.equals(0, a, 0));
+		assertFalse(cmp.equals(a, 0, b, 0));
+		assertFalse(cmp.equals(b, 0, a, 0));
 
 		// foo-b == foo-b
-		assertTrue(a.equals(1, b, 0));
-		assertTrue(b.equals(0, a, 1));
+		assertTrue(cmp.equals(a, 1, b, 0));
+		assertTrue(cmp.equals(b, 0, a, 1));
 	}
 
 	public void testWriteLine1() throws IOException {

@@ -63,7 +63,8 @@ public class MyersDiffTest extends TestCase {
 	}
 
 	public void assertDiff(String a, String b, String edits) {
-		MyersDiff diff = new MyersDiff(toCharArray(a), toCharArray(b));
+		MyersDiff diff = new MyersDiff<CharArray>(new CharCmp(),
+				toCharArray(a), toCharArray(b));
 		assertEquals(edits, toString(diff.getEdits()));
 	}
 
@@ -80,8 +81,7 @@ public class MyersDiffTest extends TestCase {
 		return new CharArray(s);
 	}
 
-	protected static String toString(Sequence seq, int begin, int end) {
-		CharArray a = (CharArray)seq;
+	protected static String toString(CharArray a, int begin, int end) {
 		return new String(a.array, begin, end - begin);
 	}
 
@@ -97,13 +97,21 @@ public class MyersDiffTest extends TestCase {
 			+ ")";
 	}
 
-	private static class CharArray implements Sequence {
+	private static class CharArray extends Sequence {
 		char[] array;
 		public CharArray(String s) { array = s.toCharArray(); }
 		public int size() { return array.length; }
-		public boolean equals(int i, Sequence other, int j) {
-			CharArray o = (CharArray)other;
-			return array[i] == o.array[j];
+	}
+
+	private static class CharCmp extends SequenceComparator<CharArray> {
+		@Override
+		public boolean equals(CharArray a, int ai, CharArray b, int bi) {
+			return a.array[ai] == b.array[bi];
+		}
+
+		@Override
+		public int hash(CharArray seq, int ptr) {
+			return seq.array[ptr];
 		}
 	}
 }

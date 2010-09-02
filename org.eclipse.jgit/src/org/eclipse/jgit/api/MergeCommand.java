@@ -173,7 +173,7 @@ public class MergeCommand extends GitCommand<MergeResult> {
 				ThreeWayMerger merger = (ThreeWayMerger) mergeStrategy
 						.newMerger(repo);
 				boolean noProblems;
-				Map<String, org.eclipse.jgit.merge.MergeResult> lowLevelResults = null;
+				Map<String, org.eclipse.jgit.merge.MergeResult<?>> lowLevelResults = null;
 				Map<String, MergeFailureReason> failingPaths = null;
 				if (merger instanceof ResolveMerger) {
 					ResolveMerger resolveMerger = (ResolveMerger) merger;
