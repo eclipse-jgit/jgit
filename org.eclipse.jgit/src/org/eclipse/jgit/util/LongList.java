@@ -44,6 +44,8 @@
 
 package org.eclipse.jgit.util;
 
+import java.util.Arrays;
+
 /** A more efficient List<Long> using a primitive long array. */
 public class LongList {
 	private long[] entries;
@@ -144,6 +146,11 @@ public class LongList {
 	public void fillTo(int toIndex, final long val) {
 		while (count < toIndex)
 			add(val);
+	}
+
+	/** Sort the list of longs according to their natural ordering. */
+	public void sort() {
+		Arrays.sort(entries, 0, count);
 	}
 
 	private void grow() {
