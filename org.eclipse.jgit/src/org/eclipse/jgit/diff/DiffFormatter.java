@@ -62,10 +62,10 @@ import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.diff.DiffEntry.ChangeType;
 import org.eclipse.jgit.errors.AmbiguousObjectException;
 import org.eclipse.jgit.errors.CorruptObjectException;
+import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.CoreConfig;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
@@ -74,6 +74,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.patch.FileHeader;
 import org.eclipse.jgit.patch.HunkHeader;
 import org.eclipse.jgit.patch.FileHeader.PatchType;
+import org.eclipse.jgit.storage.pack.PackConfig;
 import org.eclipse.jgit.util.QuotedString;
 import org.eclipse.jgit.util.io.DisabledOutputStream;
 
@@ -81,7 +82,15 @@ import org.eclipse.jgit.util.io.DisabledOutputStream;
  * Format a Git style patch script.
  */
 public class DiffFormatter {
+	private static final int DEFAULT_BINARY_FILE_THRESHOLD = PackConfig.DEFAULT_BIG_FILE_THRESHOLD;
+
 	private static final byte[] noNewLine = encodeASCII("\\ No newline at end of file\n");
+
+	/** Magic return content indicating it is empty or no content present. */
+	private static final byte[] EMPTY = new byte[] {};
+
+	/** Magic return indicating the content is binary. */
+	private static final byte[] BINARY = new byte[] {};
 
 	private final OutputStream out;
 
@@ -93,7 +102,7 @@ public class DiffFormatter {
 
 	private RawText.Factory rawTextFactory = RawText.FACTORY;
 
-	private int bigFileThreshold = 50 * 1024 * 1024;
+	private int binaryFileThreshold = DEFAULT_BINARY_FILE_THRESHOLD;
 
 	private String oldPrefix = "a/";
 
@@ -124,9 +133,6 @@ public class DiffFormatter {
 	 */
 	public void setRepository(Repository repository) {
 		db = repository;
-
-		CoreConfig cfg = db.getConfig().get(CoreConfig.KEY);
-		bigFileThreshold = cfg.getStreamFileThreshold();
 	}
 
 	/**
@@ -175,16 +181,17 @@ public class DiffFormatter {
 	}
 
 	/**
-	 * Set the maximum file size that should be considered for diff output.
-	 * <p>
-	 * Text files that are larger than this size will not have a difference
-	 * generated during output.
+	 * Set maximum file size for text files.
 	 *
-	 * @param bigFileThreshold
-	 *            the limit, in bytes.
+	 * Files larger than this size will be treated as though they are binary and
+	 * not text. Default is {@value #DEFAULT_BINARY_FILE_THRESHOLD} .
+	 *
+	 * @param threshold
+	 *            the limit, in bytes. Files larger than this size will be
+	 *            assumed to be binary, even if they aren't.
 	 */
-	public void setBigFileThreshold(int bigFileThreshold) {
-		this.bigFileThreshold = bigFileThreshold;
+	public void setBinaryFileThreshold(int threshold) {
+		this.binaryFileThreshold = threshold;
 	}
 
 	/**
@@ -280,28 +287,6 @@ public class DiffFormatter {
 	private static String quotePath(String name) {
 		String q = QuotedString.GIT_PATH.quote(name);
 		return ('"' + name + '"').equals(q) ? name : q;
-	}
-
-	private byte[] open(ObjectReader reader, FileMode mode,
-			AbbreviatedObjectId id) throws IOException {
-		if (mode == FileMode.MISSING)
-			return new byte[] {};
-
-		if (mode.getObjectType() != Constants.OBJ_BLOB)
-			return new byte[] {};
-
-		if (!id.isComplete()) {
-			Collection<ObjectId> ids = reader.resolve(id);
-			if (ids.size() == 1)
-				id = AbbreviatedObjectId.fromObjectId(ids.iterator().next());
-			else if (ids.size() == 0)
-				throw new MissingObjectException(id, Constants.OBJ_BLOB);
-			else
-				throw new AmbiguousObjectException(id, ids);
-		}
-
-		ObjectLoader ldr = reader.open(id.toObjectId());
-		return ldr.getCachedBytes(bigFileThreshold);
 	}
 
 	/**
@@ -560,16 +545,24 @@ public class DiffFormatter {
 			if (db == null)
 				throw new IllegalStateException(
 						JGitText.get().repositoryIsRequired);
+
 			ObjectReader reader = db.newObjectReader();
 			byte[] aRaw, bRaw;
 			try {
-				aRaw = open(reader, ent.getOldMode(), ent.getOldId());
-				bRaw = open(reader, ent.getNewMode(), ent.getNewId());
+				aRaw = open(reader, //
+						ent.getOldPath(), //
+						ent.getOldMode(), //
+						ent.getOldId());
+				bRaw = open(reader, //
+						ent.getNewPath(), //
+						ent.getNewMode(), //
+						ent.getNewId());
 			} finally {
 				reader.release();
 			}
 
-			if (RawText.isBinary(aRaw) || RawText.isBinary(bRaw)) {
+			if (aRaw == BINARY || bRaw == BINARY //
+					|| RawText.isBinary(aRaw) || RawText.isBinary(bRaw)) {
 				formatOldNewPaths(buf, ent);
 				buf.write(encodeASCII("Binary files differ\n"));
 				editList = new EditList();
@@ -597,6 +590,50 @@ public class DiffFormatter {
 
 		res.header = new FileHeader(buf.toByteArray(), editList, type);
 		return res;
+	}
+
+	private byte[] open(ObjectReader reader, String path, FileMode mode,
+			AbbreviatedObjectId id) throws IOException {
+		if (mode == FileMode.MISSING)
+			return EMPTY;
+
+		if (mode.getObjectType() != Constants.OBJ_BLOB)
+			return EMPTY;
+
+		if (isBinary(path))
+			return BINARY;
+
+		if (!id.isComplete()) {
+			Collection<ObjectId> ids = reader.resolve(id);
+			if (ids.size() == 1)
+				id = AbbreviatedObjectId.fromObjectId(ids.iterator().next());
+			else if (ids.size() == 0)
+				throw new MissingObjectException(id, Constants.OBJ_BLOB);
+			else
+				throw new AmbiguousObjectException(id, ids);
+		}
+
+		try {
+			ObjectLoader ldr = reader.open(id.toObjectId());
+			return ldr.getBytes(binaryFileThreshold);
+
+		} catch (LargeObjectException.ExceedsLimit overLimit) {
+			return BINARY;
+
+		} catch (LargeObjectException.ExceedsByteArrayLimit overLimit) {
+			return BINARY;
+
+		} catch (LargeObjectException.OutOfMemory tooBig) {
+			return BINARY;
+
+		} catch (LargeObjectException tooBig) {
+			tooBig.setObjectId(id.toObjectId());
+			throw tooBig;
+		}
+	}
+
+	private boolean isBinary(String path) {
+		return false;
 	}
 
 	private void formatHeader(ByteArrayOutputStream o, DiffEntry ent)
