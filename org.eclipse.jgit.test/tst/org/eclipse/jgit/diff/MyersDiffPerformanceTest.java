@@ -163,14 +163,15 @@ public class MyersDiffPerformanceTest extends TestCase {
 		String b = DiffTestDataGenerator.generateSequence(characters, 1621, 5);
 		CharArray ac = new CharArray(a);
 		CharArray bc = new CharArray(b);
-		MyersDiff myersDiff = null;
+		CharCmp cmp = new CharCmp();
+		MyersDiff<CharArray> myersDiff = null;
 		int cpuTimeChanges = 0;
 		long lastReadout = 0;
 		long interimTime = 0;
 		int repetitions = 0;
 		stopwatch.start();
 		while (cpuTimeChanges < minCPUTimerTicks && interimTime < longTaskBoundary) {
-			myersDiff = new MyersDiff(ac, bc);
+			myersDiff = new MyersDiff<CharArray>(cmp, ac, bc);
 			repetitions++;
 			interimTime = stopwatch.readout();
 			if (interimTime != lastReadout) {
@@ -179,26 +180,34 @@ public class MyersDiffPerformanceTest extends TestCase {
 			}
 		}
 		ret.runningTime = stopwatch.stop() / repetitions;
-		ret.N = (ac.size() + bc.size());
+		ret.N = cmp.size(ac) + cmp.size(bc);
 		ret.D = myersDiff.getEdits().size();
 
 		return ret;
 	}
 
-	private static class CharArray implements Sequence {
-		private final char[] array;
+	private static class CharArray {
+		char[] array;
 
 		public CharArray(String s) {
 			array = s.toCharArray();
 		}
+	}
 
-		public int size() {
-			return array.length;
+	private static class CharCmp extends DiffComparator<CharArray> {
+		@Override
+		public int size(CharArray seq) {
+			return seq.array.length;
 		}
 
-		public boolean equals(int i, Sequence other, int j) {
-			CharArray o = (CharArray) other;
-			return array[i] == o.array[j];
+		@Override
+		public boolean equals(CharArray a, int ai, CharArray b, int bi) {
+			return a.array[ai] == b.array[bi];
+		}
+
+		@Override
+		public int hash(CharArray seq, int ptr) {
+			return seq.array[ptr];
 		}
 	}
 }

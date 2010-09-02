@@ -46,12 +46,11 @@ package org.eclipse.jgit.merge;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.jgit.diff.Sequence;
 import org.eclipse.jgit.merge.MergeChunk.ConflictState;
 import org.eclipse.jgit.util.IntList;
 
 /**
- * The result of merging a number of {@link Sequence} objects. These sequences
+ * The result of merging a number of sequence objects. These sequences
  * have one common predecessor sequence. The result of a merge is a list of
  * MergeChunks. Each MergeChunk contains either a range (a subsequence) from
  * one of the merged sequences, a range from the common predecessor or a
@@ -63,9 +62,12 @@ import org.eclipse.jgit.util.IntList;
  * This class does not know anything about how to present the merge result to
  * the end-user. MergeFormatters have to be used to construct something human
  * readable.
+ *
+ * @param <S>
+ *            type of sequence.
  */
-public class MergeResult implements Iterable<MergeChunk> {
-	private final List<Sequence> sequences;
+public class MergeResult<S> implements Iterable<MergeChunk> {
+	private final List<S> sequences;
 
 	private final IntList chunks = new IntList();
 
@@ -79,7 +81,7 @@ public class MergeResult implements Iterable<MergeChunk> {
 	 *            followed by the merged sequences. This list should not be
 	 *            modified anymore during the lifetime of this {@link MergeResult}.
 	 */
-	public MergeResult(List<Sequence> sequences) {
+	public MergeResult(List<S> sequences) {
 		this.sequences = sequences;
 	}
 
@@ -120,7 +122,7 @@ public class MergeResult implements Iterable<MergeChunk> {
 	 * @return the common predecessor at position 0 followed by the merged
 	 *         sequences.
 	 */
-	public List<Sequence> getSequences() {
+	public List<S> getSequences() {
 		return sequences;
 	}
 

@@ -86,7 +86,7 @@ public class DiffFormatter {
 
 	private int abbreviationLength = 7;
 
-	private RawText.Factory rawTextFactory = RawText.FACTORY;
+	private RawTextComparator comparator = RawTextComparator.DEFAULT;
 
 	private int bigFileThreshold = 50 * 1024 * 1024;
 
@@ -155,14 +155,14 @@ public class DiffFormatter {
 	 *            the factory to create different output. Different types of
 	 *            factories can produce different whitespace behavior, for
 	 *            example.
-	 * @see RawText#FACTORY
-	 * @see RawTextIgnoreAllWhitespace#FACTORY
-	 * @see RawTextIgnoreLeadingWhitespace#FACTORY
-	 * @see RawTextIgnoreTrailingWhitespace#FACTORY
-	 * @see RawTextIgnoreWhitespaceChange#FACTORY
+	 * @see RawTextComparator#DEFAULT
+	 * @see RawTextComparator#WS_IGNORE_ALL
+	 * @see RawTextComparator#WS_IGNORE_CHANGE
+	 * @see RawTextComparator#WS_IGNORE_LEADING
+	 * @see RawTextComparator#WS_IGNORE_TRAILING
 	 */
-	public void setRawTextFactory(RawText.Factory type) {
-		rawTextFactory = type;
+	public void setDiffComparator(RawTextComparator type) {
+		comparator = type;
 	}
 
 	/**
@@ -234,9 +234,9 @@ public class DiffFormatter {
 				out.write(encodeASCII("Binary files differ\n"));
 
 			} else {
-				RawText a = rawTextFactory.create(aRaw);
-				RawText b = rawTextFactory.create(bRaw);
-				formatEdits(a, b, new MyersDiff(a, b).getEdits());
+				RawText a = new RawText(comparator, aRaw);
+				RawText b = new RawText(comparator, bRaw);
+				formatEdits(a, b, diff(a, b));
 			}
 		}
 	}
@@ -631,14 +631,18 @@ public class DiffFormatter {
 				editList = new EditList();
 				type = PatchType.BINARY;
 			} else {
-				RawText a = rawTextFactory.create(aRaw);
-				RawText b = rawTextFactory.create(bRaw);
-				editList = new MyersDiff(a, b).getEdits();
+				RawText a = new RawText(comparator, aRaw);
+				RawText b = new RawText(comparator, bRaw);
+				editList = diff(a, b);
 				type = PatchType.UNIFIED;
 			}
 		}
 
 		return new FileHeader(buf.toByteArray(), editList, type);
+	}
+
+	private EditList diff(RawText a, RawText b) {
+		return new MyersDiff<RawText>(comparator, a, b).getEdits();
 	}
 
 	private int findCombinedEnd(final List<Edit> edits, final int i) {

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008-2009, Johannes E. Schindelin <johannes.schindelin@gmx.de>
+ * Copyright (C) 2010, Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -44,41 +44,51 @@
 package org.eclipse.jgit.diff;
 
 /**
- * Arbitrary sequence of elements with fast comparison support.
- * <p>
- * A sequence of elements is defined to contain elements in the index range
- * <code>[0, {@link #size()})</code>, like a standard Java List implementation.
- * Unlike a List, the members of the sequence are not directly obtainable, but
- * element equality can be tested if two Sequences are the same implementation.
- * <p>
- * An implementation may chose to implement the equals semantic as necessary,
- * including fuzzy matching rules such as ignoring insignificant sub-elements,
- * e.g. ignoring whitespace differences in text.
- * <p>
- * Implementations of Sequence are primarily intended for use in content
- * difference detection algorithms, to produce an {@link EditList} of
- * {@link Edit} instances describing how two Sequence instances differ.
+ * Equivalence function for a sequence compared in a difference algorithm.
+ *
+ * Difference algorithms can use a comparator to compare portions of two
+ * sequences and discover the minimal edits required to transform from one
+ * sequence to the other sequence.
+ *
+ * Indexes within a sequence are zero-based.
+ *
+ * @param <S>
+ *            type of sequence the comparator supports.
  */
-public interface Sequence {
-	/** @return total number of items in the sequence. */
-	public int size();
+public abstract class DiffComparator<S> {
+	/**
+	 * Get the length of the sequence.
+	 *
+	 * @param seq
+	 *            the sequence.
+	 * @return number of items in the sequence.
+	 */
+	public abstract int size(S seq);
 
 	/**
-	 * Determine if the i-th member is equal to the j-th member.
-	 * <p>
-	 * Implementations must ensure <code>equals(thisIdx,other,otherIdx)</code>
-	 * returns the same as <code>other.equals(otherIdx,this,thisIdx)</code>.
+	 * Compare two items to determine if they are identical.
 	 *
-	 * @param thisIdx
-	 *            index within <code>this</code> sequence; must be in the range
-	 *            <code>[ 0, this.size() )</code>.
-	 * @param other
-	 *            another sequence; must be the same implementation class, that
-	 *            is <code>this.getClass() == other.getClass()</code>.
-	 * @param otherIdx
-	 *            index within <code>other</code> sequence; must be in the range
-	 *            <code>[ 0, other.size() )</code>.
-	 * @return true if the elements are equal; false if they are not equal.
+	 * @param a
+	 *            the first sequence.
+	 * @param ai
+	 *            item of {@code ai} to compare.
+	 * @param b
+	 *            the second sequence.
+	 * @param bi
+	 *            item of {@code bi} to compare.
+	 * @return true if the two items are identical according to this function's
+	 *         equivalence rule.
 	 */
-	public boolean equals(int thisIdx, Sequence other, int otherIdx);
+	public abstract boolean equals(S a, int ai, S b, int bi);
+
+	/**
+	 * Get a hash value for an item in a sequence.
+	 *
+	 * @param seq
+	 *            the sequence.
+	 * @param ptr
+	 *            the item to obtain the hash for.
+	 * @return hash the hash value.
+	 */
+	public abstract int hash(S seq, int ptr);
 }

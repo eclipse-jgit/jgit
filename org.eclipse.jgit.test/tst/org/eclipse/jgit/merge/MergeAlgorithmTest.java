@@ -49,6 +49,7 @@ import java.io.IOException;
 import junit.framework.TestCase;
 
 import org.eclipse.jgit.diff.RawText;
+import org.eclipse.jgit.diff.RawTextComparator;
 import org.eclipse.jgit.lib.Constants;
 
 public class MergeAlgorithmTest extends TestCase {
@@ -190,7 +191,7 @@ public class MergeAlgorithmTest extends TestCase {
 	}
 
 	private String merge(String commonBase, String ours, String theirs) throws IOException {
-		MergeResult r=MergeAlgorithm.merge(new RawText(Constants.encode(commonBase)), new RawText(Constants.encode(ours)), new RawText(Constants.encode(theirs)));
+		MergeResult r=MergeAlgorithm.merge(RawTextComparator.DEFAULT, new RawText(Constants.encode(commonBase)), new RawText(Constants.encode(ours)), new RawText(Constants.encode(theirs)));
 		ByteArrayOutputStream bo=new ByteArrayOutputStream(50);
 		fmt.formatMerge(bo, r, "B", "O", "T", Constants.CHARACTER_ENCODING);
 		return new String(bo.toByteArray(), Constants.CHARACTER_ENCODING);
