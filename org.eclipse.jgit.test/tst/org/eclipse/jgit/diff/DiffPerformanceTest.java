@@ -62,7 +62,7 @@ import org.eclipse.jgit.util.CPUTimeStopWatch;
  * diffs between chunks of different length, measure the needed time and check
  * that time/(N*D) does not differ more than a certain factor.
  */
-public class MyersDiffPerformanceTest extends TestCase {
+public class DiffPerformanceTest extends TestCase {
 	private static final long longTaskBoundary = 5000000000L;
 
 	private static final int minCPUTimerTicks = 10;
@@ -72,6 +72,8 @@ public class MyersDiffPerformanceTest extends TestCase {
 	private CPUTimeStopWatch stopwatch=CPUTimeStopWatch.createInstance();
 
 	public class PerfData {
+		private final String testName = getName();
+
 		private NumberFormat fmt = new DecimalFormat("#.##E0");
 
 		public long runningTime;
@@ -97,10 +99,10 @@ public class MyersDiffPerformanceTest extends TestCase {
 		}
 
 		public String toString() {
-			return ("diffing " + N / 2 + " bytes took " + runningTime
+			return (testName + " " + N / 2 + " bytes took " + runningTime
 					+ " ns. N=" + N + ", D=" + D + ", time/(N*D):"
-					+ fmt.format(perf1()) + ", time/(N*D^2):" + fmt
-.format(perf2()) + "\n");
+					+ fmt.format(perf1()) + ", time/(N*D^2):"
+					+ fmt.format(perf2()));
 		}
 	}
 
@@ -114,23 +116,23 @@ public class MyersDiffPerformanceTest extends TestCase {
 		};
 	}
 
-	public void test() {
+	public void testMyers() {
 		if (stopwatch!=null) {
 			// run some tests without recording to let JIT do its optimization
-			test(10000);
-			test(20000);
-			test(10000);
-			test(20000);
+			testMyers(10000);
+			testMyers(20000);
+			testMyers(10000);
+			testMyers(20000);
 
 			List<PerfData> perfData = new LinkedList<PerfData>();
-			perfData.add(test(10000));
-			perfData.add(test(20000));
-			perfData.add(test(40000));
-			perfData.add(test(80000));
-			perfData.add(test(160000));
-			perfData.add(test(320000));
-			perfData.add(test(640000));
-			perfData.add(test(1280000));
+			perfData.add(testMyers(10000));
+			perfData.add(testMyers(20000));
+			perfData.add(testMyers(40000));
+			perfData.add(testMyers(80000));
+			perfData.add(testMyers(160000));
+			perfData.add(testMyers(320000));
+			perfData.add(testMyers(640000));
+			perfData.add(testMyers(1280000));
 
 			Comparator<PerfData> c = getComparator(1);
 			double factor = Collections.max(perfData, c).perf1()
@@ -145,6 +147,67 @@ public class MyersDiffPerformanceTest extends TestCase {
 		}
 	}
 
+	public void testPatience() {
+		if (stopwatch != null) {
+			// run some tests without recording to let JIT do its optimization
+			testPatience(10000);
+			testPatience(20000);
+			testPatience(10000);
+			testPatience(20000);
+
+			List<PerfData> perfData = new LinkedList<PerfData>();
+			perfData.add(testPatience(10000));
+			perfData.add(testPatience(20000));
+			perfData.add(testPatience(40000));
+			perfData.add(testPatience(80000));
+			perfData.add(testPatience(160000));
+			perfData.add(testPatience(320000));
+			perfData.add(testPatience(640000));
+			perfData.add(testPatience(1280000));
+
+			Comparator<PerfData> c = getComparator(1);
+			double factor = Collections.max(perfData, c).perf1()
+					/ Collections.min(perfData, c).perf1();
+			assertTrue(
+					"minimun and maximum of performance-index t/(N*D) differed too much. Measured factor of "
+							+ factor
+							+ " (maxFactor="
+							+ maxFactor
+							+ "). Perfdata=<" + perfData.toString() + ">",
+					factor < maxFactor);
+		}
+	}
+
+	private PerfData testPatience(int characters) {
+		PerfData ret = new PerfData();
+		String a = DiffTestDataGenerator.generateSequence(characters, 971, 3);
+		String b = DiffTestDataGenerator.generateSequence(characters, 1621, 5);
+		CharArray ac = new CharArray(a);
+		CharArray bc = new CharArray(b);
+		CharCmp cmp = new CharCmp();
+		int cpuTimeChanges = 0;
+		long lastReadout = 0;
+		long interimTime = 0;
+		int repetitions = 0;
+		stopwatch.start();
+		EditList diff = null;
+		while (cpuTimeChanges < minCPUTimerTicks
+				&& interimTime < longTaskBoundary) {
+			diff = new PatienceDiff().diff(cmp, ac, bc);
+			repetitions++;
+			interimTime = stopwatch.readout();
+			if (interimTime != lastReadout) {
+				cpuTimeChanges++;
+				lastReadout = interimTime;
+			}
+		}
+		ret.runningTime = stopwatch.stop() / repetitions;
+		ret.N = ac.size() + bc.size();
+		ret.D = diff.size();
+
+		return ret;
+	}
+
 	/**
 	 * Tests the performance of MyersDiff for texts which are similar (not
 	 * random data). The CPU time is measured and returned. Because of bad
@@ -157,7 +220,7 @@ public class MyersDiffPerformanceTest extends TestCase {
 	 *            the size of the diffed character sequences.
 	 * @return performance data
 	 */
-	private PerfData test(int characters) {
+	private PerfData testMyers(int characters) {
 		PerfData ret = new PerfData();
 		String a = DiffTestDataGenerator.generateSequence(characters, 971, 3);
 		String b = DiffTestDataGenerator.generateSequence(characters, 1621, 5);
