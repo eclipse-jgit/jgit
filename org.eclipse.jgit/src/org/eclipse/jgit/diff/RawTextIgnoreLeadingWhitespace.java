@@ -78,7 +78,7 @@ public class RawTextIgnoreLeadingWhitespace extends RawText {
 
 	private static boolean equals(final RawText a, final int ai,
 			final RawText b, final int bi) {
-		if (a.hashes.get(ai) != b.hashes.get(bi))
+		if (a.hashes[ai] != b.hashes[bi])
 			return false;
 
 		int as = a.lines.get(ai);
