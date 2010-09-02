@@ -49,57 +49,58 @@ import org.eclipse.jgit.lib.Constants;
 import junit.framework.TestCase;
 
 public class RawTextIgnoreWhitespaceChangeTest extends TestCase {
+	private final RawTextComparator cmp = RawTextComparator.WS_IGNORE_CHANGE;
+
 	public void testEqualsWithoutWhitespace() {
-		final RawText a = new RawTextIgnoreWhitespaceChange(Constants
+		final RawText a = new RawText(cmp, Constants
 				.encodeASCII("foo-a\nfoo-b\nfoo\n"));
-		final RawText b = new RawTextIgnoreWhitespaceChange(Constants
+		final RawText b = new RawText(cmp, Constants
 				.encodeASCII("foo-b\nfoo-c\nf\n"));
 
 		assertEquals(3, a.size());
 		assertEquals(3, b.size());
 
 		// foo-a != foo-b
-		assertFalse(a.equals(0, b, 0));
-		assertFalse(b.equals(0, a, 0));
+		assertFalse(cmp.equals(a, 0, b, 0));
+		assertFalse(cmp.equals(b, 0, a, 0));
 
 		// foo-b == foo-b
-		assertTrue(a.equals(1, b, 0));
-		assertTrue(b.equals(0, a, 1));
+		assertTrue(cmp.equals(a, 1, b, 0));
+		assertTrue(cmp.equals(b, 0, a, 1));
 
 		// foo != f
-		assertFalse(a.equals(2, b, 2));
-		assertFalse(b.equals(2, a, 2));
+		assertFalse(cmp.equals(a, 2, b, 2));
+		assertFalse(cmp.equals(b, 2, a, 2));
 	}
 
 	public void testEqualsWithWhitespace() {
-		final RawText a = new RawTextIgnoreWhitespaceChange(
-				Constants
-						.encodeASCII("foo-a\n         \n a b c\na      \n  foo\na  b  c\n"));
-		final RawText b = new RawTextIgnoreWhitespaceChange(Constants
+		final RawText a = new RawText(cmp, Constants
+				.encodeASCII("foo-a\n         \n a b c\na      \n  foo\na  b  c\n"));
+		final RawText b = new RawText(cmp, Constants
 				.encodeASCII("foo-a        b\n\nab  c\na\nfoo\na b     c  \n"));
 
 		// "foo-a" != "foo-a        b"
-		assertFalse(a.equals(0, b, 0));
-		assertFalse(b.equals(0, a, 0));
+		assertFalse(cmp.equals(a, 0, b, 0));
+		assertFalse(cmp.equals(b, 0, a, 0));
 
 		// "         " == ""
-		assertTrue(a.equals(1, b, 1));
-		assertTrue(b.equals(1, a, 1));
+		assertTrue(cmp.equals(a, 1, b, 1));
+		assertTrue(cmp.equals(b, 1, a, 1));
 
 		// " a b c" != "ab  c"
-		assertFalse(a.equals(2, b, 2));
-		assertFalse(b.equals(2, a, 2));
+		assertFalse(cmp.equals(a, 2, b, 2));
+		assertFalse(cmp.equals(b, 2, a, 2));
 
 		// "a      " == "a"
-		assertTrue(a.equals(3, b, 3));
-		assertTrue(b.equals(3, a, 3));
+		assertTrue(cmp.equals(a, 3, b, 3));
+		assertTrue(cmp.equals(b, 3, a, 3));
 
 		// "  foo" != "foo"
-		assertFalse(a.equals(4, b, 4));
-		assertFalse(b.equals(4, a, 4));
+		assertFalse(cmp.equals(a, 4, b, 4));
+		assertFalse(cmp.equals(b, 4, a, 4));
 
 		// "a  b  c" == "a b     c  "
-		assertTrue(a.equals(5, b, 5));
-		assertTrue(b.equals(5, a, 5));
+		assertTrue(cmp.equals(a, 5, b, 5));
+		assertTrue(cmp.equals(b, 5, a, 5));
 	}
 }
