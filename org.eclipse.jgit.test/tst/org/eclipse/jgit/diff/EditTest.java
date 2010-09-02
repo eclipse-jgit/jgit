@@ -61,6 +61,8 @@ public class EditTest extends TestCase {
 		assertEquals(1, e.getEndA());
 		assertEquals(3, e.getBeginB());
 		assertEquals(3, e.getEndB());
+		assertTrue("is empty", e.isEmpty());
+		assertSame(Edit.Type.EMPTY, e.getType());
 	}
 
 	public void testSwap() {
@@ -75,21 +77,34 @@ public class EditTest extends TestCase {
 	public void testType_Insert() {
 		final Edit e = new Edit(1, 1, 1, 2);
 		assertSame(Edit.Type.INSERT, e.getType());
+		assertFalse("not empty", e.isEmpty());
+		assertEquals(0, e.getLengthA());
+		assertEquals(1, e.getLengthB());
 	}
 
 	public void testType_Delete() {
 		final Edit e = new Edit(1, 2, 1, 1);
 		assertSame(Edit.Type.DELETE, e.getType());
+		assertFalse("not empty", e.isEmpty());
+		assertEquals(1, e.getLengthA());
+		assertEquals(0, e.getLengthB());
 	}
 
 	public void testType_Replace() {
 		final Edit e = new Edit(1, 2, 1, 4);
 		assertSame(Edit.Type.REPLACE, e.getType());
+		assertFalse("not empty", e.isEmpty());
+		assertEquals(1, e.getLengthA());
+		assertEquals(3, e.getLengthB());
 	}
 
 	public void testType_Empty() {
-		assertSame(Edit.Type.EMPTY, new Edit(1, 1, 2, 2).getType());
+		final Edit e = new Edit(1, 1, 2, 2);
+		assertSame(Edit.Type.EMPTY, e.getType());
 		assertSame(Edit.Type.EMPTY, new Edit(1, 2).getType());
+		assertTrue("is empty", e.isEmpty());
+		assertEquals(0, e.getLengthA());
+		assertEquals(0, e.getLengthB());
 	}
 
 	public void testToString() {
@@ -142,5 +157,13 @@ public class EditTest extends TestCase {
 
 		e.extendB();
 		assertEquals(new Edit(1, 2, 1, 3), e);
+	}
+
+	public void testBeforeAfterCuts() {
+		final Edit whole = new Edit(1, 8, 2, 9);
+		final Edit mid = new Edit(4, 5, 3, 6);
+
+		assertEquals(new Edit(1, 4, 2, 3), whole.before(mid));
+		assertEquals(new Edit(5, 8, 6, 9), whole.after(mid));
 	}
 }

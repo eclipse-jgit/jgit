@@ -130,6 +130,11 @@ public class Edit {
 		return Type.REPLACE;
 	}
 
+	/** @return true if the edit is empty (lengths of both a and b is zero). */
+	public final boolean isEmpty() {
+		return beginA == endA && beginB == endB;
+	}
+
 	/** @return start point in sequence A. */
 	public final int getBeginA() {
 		return beginA;
@@ -148,6 +153,42 @@ public class Edit {
 	/** @return end point in sequence B. */
 	public final int getEndB() {
 		return endB;
+	}
+
+	/** @return length of the region in A. */
+	public final int getLengthA() {
+		return endA - beginA;
+	}
+
+	/** @return length of the region in B. */
+	public final int getLengthB() {
+		return endB - beginB;
+	}
+
+	/**
+	 * Construct a new edit representing the region before cut.
+	 *
+	 * @param cut
+	 *            the cut point. The beginning A and B points are used as the
+	 *            end points of the returned edit.
+	 * @return an edit representing the slice of {@code this} edit that occurs
+	 *         before {@code cut} starts.
+	 */
+	public final Edit before(Edit cut) {
+		return new Edit(beginA, cut.beginA, beginB, cut.beginB);
+	}
+
+	/**
+	 * Construct a new edit representing the region after cut.
+	 *
+	 * @param cut
+	 *            the cut point. The ending A and B points are used as the
+	 *            starting points of the returned edit.
+	 * @return an edit representing the slice of {@code this} edit that occurs
+	 *         after {@code cut} ends.
+	 */
+	public final Edit after(Edit cut) {
+		return new Edit(cut.endA, endA, cut.endB, endB);
 	}
 
 	/** Increase {@link #getEndA()} by 1. */
