@@ -92,4 +92,41 @@ public abstract class SequenceComparator<S extends Sequence> {
 	 * @return hash the hash value.
 	 */
 	public abstract int hash(S seq, int ptr);
+
+	/**
+	 * Modify the edit to remove common leading and trailing items.
+	 *
+	 * The supplied edit {@code e} is reduced in size by moving the beginning A
+	 * and B points so the edit does not cover any items that are in common
+	 * between the two sequences. The ending A and B points are also shifted to
+	 * remove common items from the end of the region.
+	 *
+	 * @param a
+	 *            the first sequence.
+	 * @param b
+	 *            the second sequence.
+	 * @param e
+	 *            the edit to start with and update.
+	 * @return {@code e} if it was updated in-place, otherwise a new edit
+	 *         containing the reduced region.
+	 */
+	public Edit reduceCommonStartEnd(S a, S b, Edit e) {
+		// Skip over items that are common at the start.
+		//
+		while (e.beginA < e.endA && e.beginB < e.endB
+				&& equals(a, e.beginA, b, e.beginB)) {
+			e.beginA++;
+			e.beginB++;
+		}
+
+		// Skip over items that are common at the end.
+		//
+		while (e.beginA < e.endA && e.beginB < e.endB
+				&& equals(a, e.endA - 1, b, e.endB - 1)) {
+			e.endA--;
+			e.endB--;
+		}
+
+		return e;
+	}
 }
