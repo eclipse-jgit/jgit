@@ -16,6 +16,24 @@
       "revId": "e29cd27961856376184edc74df700629003ad2f0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///IQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/WindowCacheConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-02T19:38:59Z",
+      "side": 1,
+      "message": "I hate ConfigConstants.  And none of the other constants here use it...  :-)",
+      "parentUuid": "AAALyn///Ic\u003d",
+      "revId": "e29cd27961856376184edc74df700629003ad2f0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
