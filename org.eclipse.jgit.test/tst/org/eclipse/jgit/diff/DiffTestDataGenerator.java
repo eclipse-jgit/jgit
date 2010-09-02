@@ -78,8 +78,11 @@ public class DiffTestDataGenerator {
 		StringBuilder text = new StringBuilder(len);
 		int skipStart = skipPeriod - skipLength;
 		int skippedChars = 0;
+		int block = 0;
 		for (int i = 0; i - skippedChars < len; ++i) {
-			if (skipPeriod == 0 || i % skipPeriod < skipStart) {
+			if ((i % skipPeriod) == 1)
+				text.append((char) (256 + block++));
+			else if (skipPeriod == 0 || i % skipPeriod < skipStart) {
 				text.append((char) (32 + i % 95));
 			} else {
 				skippedChars++;
