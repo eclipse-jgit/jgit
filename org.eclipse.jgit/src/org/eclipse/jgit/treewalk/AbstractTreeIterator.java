@@ -497,6 +497,22 @@ public abstract class AbstractTreeIterator {
 	}
 
 	/**
+	 * Position this iterator on the first entry.
+	 *
+	 * The default implementation of this method uses {@code back(1)} until
+	 * {@code first()} is true. This is most likely not the most efficient
+	 * method of repositioning the iterator to its first entry, so subclasses
+	 * are strongly encouraged to override the method.
+	 *
+	 * @throws CorruptObjectException
+	 *             the tree is invalid.
+	 */
+	public void reset() throws CorruptObjectException {
+		while (!first())
+			back(1);
+	}
+
+	/**
 	 * Is this tree iterator positioned on its first entry?
 	 * <p>
 	 * An iterator is positioned on the first entry if <code>back(1)</code>

@@ -108,6 +108,11 @@ public class EmptyTreeIterator extends AbstractTreeIterator {
 	}
 
 	@Override
+	public void reset() {
+		// Do nothing.
+	}
+
+	@Override
 	public boolean first() {
 		return true;
 	}
