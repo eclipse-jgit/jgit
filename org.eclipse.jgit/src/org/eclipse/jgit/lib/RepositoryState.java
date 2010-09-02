@@ -73,11 +73,11 @@ public enum RepositoryState {
 		public String getDescription() { return JGitText.get().repositoryState_normal; }
 	},
 
-	/** An unfinished merge. Must resole or reset before continuing normally
+	/** An unfinished merge. Must resolve or reset before continuing normally
 	 */
 	MERGING {
 		public boolean canCheckout() { return false; }
-		public boolean canResetHead() { return false; }
+		public boolean canResetHead() { return true; }
 		public boolean canCommit() { return false; }
 		public String getDescription() { return JGitText.get().repositoryState_conflicts; }
 	},
