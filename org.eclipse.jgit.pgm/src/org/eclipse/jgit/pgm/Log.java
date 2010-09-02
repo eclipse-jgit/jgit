@@ -58,10 +58,7 @@ import java.util.Set;
 import java.util.TimeZone;
 
 import org.eclipse.jgit.diff.DiffFormatter;
-import org.eclipse.jgit.diff.RawTextIgnoreAllWhitespace;
-import org.eclipse.jgit.diff.RawTextIgnoreLeadingWhitespace;
-import org.eclipse.jgit.diff.RawTextIgnoreTrailingWhitespace;
-import org.eclipse.jgit.diff.RawTextIgnoreWhitespaceChange;
+import org.eclipse.jgit.diff.RawTextComparator;
 import org.eclipse.jgit.diff.RenameDetector;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
@@ -106,22 +103,22 @@ class Log extends RevWalkTextBuiltin {
 
 	@Option(name = "--ignore-space-at-eol")
 	void ignoreSpaceAtEol(@SuppressWarnings("unused") boolean on) {
-		diffFmt.setRawTextFactory(RawTextIgnoreTrailingWhitespace.FACTORY);
+		diffFmt.setDiffComparator(RawTextComparator.WS_IGNORE_TRAILING);
 	}
 
 	@Option(name = "--ignore-leading-space")
 	void ignoreLeadingSpace(@SuppressWarnings("unused") boolean on) {
-		diffFmt.setRawTextFactory(RawTextIgnoreLeadingWhitespace.FACTORY);
+		diffFmt.setDiffComparator(RawTextComparator.WS_IGNORE_LEADING);
 	}
 
 	@Option(name = "-b", aliases = { "--ignore-space-change" })
 	void ignoreSpaceChange(@SuppressWarnings("unused") boolean on) {
-		diffFmt.setRawTextFactory(RawTextIgnoreWhitespaceChange.FACTORY);
+		diffFmt.setDiffComparator(RawTextComparator.WS_IGNORE_CHANGE);
 	}
 
 	@Option(name = "-w", aliases = { "--ignore-all-space" })
 	void ignoreAllSpace(@SuppressWarnings("unused") boolean on) {
-		diffFmt.setRawTextFactory(RawTextIgnoreAllWhitespace.FACTORY);
+		diffFmt.setDiffComparator(RawTextComparator.WS_IGNORE_ALL);
 	}
 
 	@Option(name = "-U", aliases = { "--unified" }, metaVar = "metaVar_linesOfContext")
