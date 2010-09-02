@@ -65,26 +65,7 @@ import org.eclipse.jgit.util.RawParseUtils;
  * line number 1. Callers may need to subtract 1 prior to invoking methods if
  * they are converting from "line number" to "element index".
  */
-public class RawText implements Sequence {
-	/** Creates a RawText instance. */
-	public static interface Factory {
-		/**
-		 * Construct a RawText instance for the content.
-		 *
-		 * @param input
-		 *            the content array.
-		 * @return a RawText instance wrapping this content.
-		 */
-		RawText create(byte[] input);
-	}
-
-	/** Creates RawText that does not treat whitespace specially. */
-	public static final Factory FACTORY = new Factory() {
-		public RawText create(byte[] input) {
-			return new RawText(input);
-		}
-	};
-
+public class RawText extends Sequence {
 	/** Number of bytes to check for heuristics in {@link #isBinary(byte[])} */
 	private static final int FIRST_FEW_BYTES = 8000;
 
@@ -107,9 +88,24 @@ public class RawText implements Sequence {
 	 *            through cached arrays is safe.
 	 */
 	public RawText(final byte[] input) {
+		this(RawTextComparator.DEFAULT, input);
+	}
+
+	/**
+	 * Create a new sequence from an existing content byte array.
+	 * <p>
+	 * The entire array (indexes 0 through length-1) is used as the content.
+	 *
+	 * @param input
+	 *            the content array. The array is never modified, so passing
+	 *            through cached arrays is safe.
+	 * @param cmp
+	 *            comparator that will later be used to compare texts.
+	 */
+	public RawText(RawTextComparator cmp, byte[] input) {
 		content = input;
 		lines = RawParseUtils.lineMap(content, 0, content.length);
-		hashes = computeHashes();
+		hashes = computeHashes(cmp);
 	}
 
 	/**
@@ -126,36 +122,13 @@ public class RawText implements Sequence {
 		this(IO.readFully(file));
 	}
 
+	/** @return total number of items in the sequence. */
 	public int size() {
 		// The line map is always 2 entries larger than the number of lines in
 		// the file. Index 0 is padded out/unused. The last index is the total
 		// length of the buffer, and acts as a sentinel.
 		//
 		return lines.size() - 2;
-	}
-
-	public boolean equals(final int i, final Sequence other, final int j) {
-		return equals(this, i + 1, (RawText) other, j + 1);
-	}
-
-	private static boolean equals(final RawText a, final int ai,
-			final RawText b, final int bi) {
-		if (a.hashes[ai] != b.hashes[bi])
-			return false;
-
-		int as = a.lines.get(ai);
-		int bs = b.lines.get(bi);
-		final int ae = a.lines.get(ai + 1);
-		final int be = b.lines.get(bi + 1);
-
-		if (ae - as != be - bs)
-			return false;
-
-		while (as < ae) {
-			if (a.content[as++] != b.content[bs++])
-				return false;
-		}
-		return true;
 	}
 
 	/**
@@ -197,32 +170,14 @@ public class RawText implements Sequence {
 		return content[end - 1] != '\n';
 	}
 
-	private int[] computeHashes() {
+	private int[] computeHashes(RawTextComparator cmp) {
 		final int[] r = new int[lines.size()];
 		for (int lno = 1; lno < lines.size() - 1; lno++) {
 			final int ptr = lines.get(lno);
 			final int end = lines.get(lno + 1);
-			r[lno] = hashLine(content, ptr, end);
+			r[lno] = cmp.hashRegion(content, ptr, end);
 		}
 		return r;
-	}
-
-	/**
-	 * Compute a hash code for a single line.
-	 *
-	 * @param raw
-	 *            the raw file content.
-	 * @param ptr
-	 *            first byte of the content line to hash.
-	 * @param end
-	 *            1 past the last byte of the content line.
-	 * @return hash code for the region <code>[ptr, end)</code> of raw.
-	 */
-	protected int hashLine(final byte[] raw, int ptr, final int end) {
-		int hash = 5381;
-		for (; ptr < end; ptr++)
-			hash = (hash << 5) ^ (raw[ptr] & 0xff);
-		return hash;
 	}
 
 	/**
