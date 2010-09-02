@@ -50,32 +50,26 @@ import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.WorkingTreeIterator;
 
 /**
- * This filter includes workdir entries that are not ignored. This class is
- * immutable.
+ * Skip {@link WorkingTreeIterator} entries that appear in gitignore files.
  */
 public class NotIgnoredFilter extends TreeFilter {
-
-	private final int workdirTreeIndex;
+	private final int index;
 
 	/**
-	 * constructor
+	 * Construct a filter to ignore paths known to a particular iterator.
 	 *
 	 * @param workdirTreeIndex
 	 *            index of the workdir tree in the tree walk
 	 */
 	public NotIgnoredFilter(final int workdirTreeIndex) {
-		this.workdirTreeIndex = workdirTreeIndex;
+		this.index = workdirTreeIndex;
 	}
 
 	@Override
-	public boolean include(TreeWalk walker) throws MissingObjectException,
+	public boolean include(TreeWalk tw) throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
-		WorkingTreeIterator workingTreeIterator = walker.getTree(
-				workdirTreeIndex, WorkingTreeIterator.class);
-		if (workingTreeIterator != null)
-			// do not include ignored entries
-			return !workingTreeIterator.isEntryIgnored();
-		return true;
+		WorkingTreeIterator i = tw.getTree(index, WorkingTreeIterator.class);
+		return i == null || !i.isEntryIgnored();
 	}
 
 	@Override
@@ -89,4 +83,8 @@ public class NotIgnoredFilter extends TreeFilter {
 		return this;
 	}
 
+	@Override
+	public String toString() {
+		return "NotIgnored(" + index + ")";
+	}
 }
