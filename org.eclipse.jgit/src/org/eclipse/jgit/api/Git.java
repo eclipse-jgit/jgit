@@ -160,6 +160,19 @@ public class Git {
 	}
 
 	/**
+	 * Returns a command object to execute a {@code Branch} command
+	 *
+	 * @see <a
+	 *      href="http://www.kernel.org/pub/software/scm/git/docs/git-branch.html"
+	 *      >Git documentation about Branch</a>
+	 * @return a {@link BranchCommand} used to collect all optional parameters
+	 *         and to finally execute the {@code Branch} command
+	 */
+	public BranchCommand branch() {
+		return new BranchCommand(repo);
+	}
+
+	/**
 	 * @return the git repository this class is interacting with
 	 */
 	public Repository getRepository() {
