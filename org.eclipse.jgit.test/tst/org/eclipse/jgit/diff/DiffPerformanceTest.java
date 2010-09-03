@@ -99,7 +99,8 @@ public class DiffPerformanceTest extends TestCase {
 		}
 
 		public String toString() {
-			return (testName + " " + N / 2 + " bytes took " + runningTime
+			return (String.format("%15s", testName) + " " + N / 2
+					+ " bytes took " + String.format("%12d", runningTime)
 					+ " ns. N=" + N + ", D=" + D + ", time/(N*D):"
 					+ fmt.format(perf1()) + ", time/(N*D^2):"
 					+ fmt.format(perf2()));
@@ -125,14 +126,15 @@ public class DiffPerformanceTest extends TestCase {
 			testMyers(20000);
 
 			List<PerfData> perfData = new LinkedList<PerfData>();
-			perfData.add(testMyers(10000));
-			perfData.add(testMyers(20000));
+			// perfData.add(testMyers(10000));
+			// perfData.add(testMyers(20000));
 			perfData.add(testMyers(40000));
-			perfData.add(testMyers(80000));
-			perfData.add(testMyers(160000));
-			perfData.add(testMyers(320000));
-			perfData.add(testMyers(640000));
-			perfData.add(testMyers(1280000));
+			// perfData.add(testMyers(80000));
+			// perfData.add(testMyers(160000));
+			// perfData.add(testMyers(320000));
+			// perfData.add(testMyers(640000));
+			// perfData.add(testMyers(1280000));
+			System.out.println(perfData.get(0).toString());
 
 			Comparator<PerfData> c = getComparator(1);
 			double factor = Collections.max(perfData, c).perf1()
@@ -156,14 +158,19 @@ public class DiffPerformanceTest extends TestCase {
 			testPatience(20000);
 
 			List<PerfData> perfData = new LinkedList<PerfData>();
-			perfData.add(testPatience(10000));
-			perfData.add(testPatience(20000));
+			// perfData.add(testPatience(10000));
+			// perfData.add(testPatience(20000));
 			perfData.add(testPatience(40000));
-			perfData.add(testPatience(80000));
-			perfData.add(testPatience(160000));
-			perfData.add(testPatience(320000));
-			perfData.add(testPatience(640000));
-			perfData.add(testPatience(1280000));
+			// perfData.add(testPatience(80000));
+			// perfData.add(testPatience(160000));
+			// perfData.add(testPatience(320000));
+			// perfData.add(testPatience(640000));
+			// perfData.add(testPatience(1280000));
+			System.out.println(perfData.get(0).toString());
+			System.out.println(testPatience(40000));
+			System.out.println(testPatience(40000));
+			System.out.println(testPatience(40000));
+			System.out.println(testPatience(40000));
 
 			Comparator<PerfData> c = getComparator(1);
 			double factor = Collections.max(perfData, c).perf1()
@@ -206,7 +213,6 @@ public class DiffPerformanceTest extends TestCase {
 		ret.D = diff.size();
 
 		// to be removed
-		System.out.println(ret.toString());
 		return ret;
 	}
 
@@ -249,7 +255,6 @@ public class DiffPerformanceTest extends TestCase {
 		ret.D = myersDiff.getEdits().size();
 
 		// to be removed
-		System.out.println(ret.toString());
 		return ret;
 	}
 

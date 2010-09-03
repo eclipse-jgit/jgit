@@ -107,8 +107,6 @@ import org.eclipse.jgit.util.LongList;
  *            type of sequence.
  */
 public class PatienceDiff<S extends Sequence> {
-	private static final int HASH_SHIFT = 32;
-
 	/**
 	 * Compute the difference between two sequences.
 	 *
@@ -128,9 +126,26 @@ public class PatienceDiff<S extends Sequence> {
 		Edit e = new Edit(0, a.size(), 0, b.size());
 		e = cmp.reduceCommonStartEnd(a, b, e);
 
-		PatienceDiff<S> d = new PatienceDiff<S>(cmp, a, b);
-		d.diff(e);
-		return d.edits;
+		switch (e.getType()) {
+		case INSERT:
+		case DELETE: {
+			EditList r = new EditList();
+			r.add(e);
+			return r;
+		}
+
+		case REPLACE: {
+			PatienceDiff<S> d = new PatienceDiff<S>(cmp, a, b, e);
+			d.diff(e);
+			return d.edits;
+		}
+
+		case EMPTY:
+			return new EditList();
+
+		default:
+			throw new IllegalStateException();
+		}
 	}
 
 	private final SequenceComparator<S> cmp;
@@ -145,26 +160,39 @@ public class PatienceDiff<S extends Sequence> {
 	/**
 	 * Temporary list holding pairs of (index_B, index_A) that are common.
 	 *
-	 * This list is computed during {@link #match(long[], long[])} and cleared
-	 * during each step of the main algorithm. We keep it as an instance member
-	 * so the memory allocation can be reused for each match stage, rather than
+	 * This list is computed during {@link #match(Edit)} and cleared during each
+	 * step of the main algorithm. We keep it as an instance member so the
+	 * memory allocation can be reused for each match stage, rather than
 	 * churning a lot of garbage.
 	 */
 	private final LongList matches;
 
-	private PatienceDiff(SequenceComparator<S> cmp, S a, S b) {
+	private final LongList splitHoldingQueue;
+
+	private final long[] aIndex;
+
+	private final long[] bIndex;
+
+	private PatienceDiff(SequenceComparator<S> cmp, S a, S b, Edit region) {
 		this.cmp = cmp;
 		this.a = a;
 		this.b = b;
 		this.edits = new EditList();
 		this.matches = new LongList();
+		this.splitHoldingQueue = new LongList();
+		this.aIndex = index(a, region.beginA, region.endA);
+		this.bIndex = index(b, region.beginB, region.endB);
 	}
 
-	private void diff(Edit e) {
-		switch (e.getType()) {
+	private void diff(Edit region) {
+		diff(region, new Edit(0, aIndex.length, 0, bIndex.length));
+	}
+
+	private void diff(Edit region, Edit index) {
+		switch (region.getType()) {
 		case INSERT:
 		case DELETE:
-			edits.add(e);
+			edits.add(region);
 			return;
 
 		case REPLACE:
@@ -174,13 +202,14 @@ public class PatienceDiff<S extends Sequence> {
 			return;
 		}
 
-		match(index(a, e.beginA, e.endA), index(b, e.beginB, e.endB));
+		match(index);
+
 		if (matches.size() == 0) {
 			// If we have no unique common lines, replace the entire region
 			// on the one side with the region from the other. But can this
 			// be less than optimal? This implies we had no unique lines.
 			//
-			edits.add(e);
+			edits.add(region);
 			return;
 		}
 
@@ -190,31 +219,44 @@ public class PatienceDiff<S extends Sequence> {
 		// - the common sequence
 		// - edit after
 		//
-		Edit lcs = longestCommonSubsequence(e);
+		Edit lcs = longestCommonSubsequence(region);
+		Edit rBefore = region.before(lcs);
+		Edit rAfter = region.after(lcs);
 
-		diff(e.before(lcs));
-		diff(e.after(lcs));
+		Edit iBefore = new Edit(0, 0);
+		Edit iAfter = new Edit(0, 0);
+
+		splitIndexA(index, rBefore, rAfter, iBefore, iAfter);
+		splitIndexB(index, rBefore, rAfter, iBefore, iAfter);
+
+		region = null;
+		index = null;
+		lcs = null;
+
+		diff(rBefore, iBefore);
+		diff(rAfter, iAfter);
 	}
 
-	private Edit longestCommonSubsequence(Edit e) {
+	private Edit longestCommonSubsequence(Edit region) {
 		Edit lcs = new Edit(0, 0);
 		for (int i = 0; i < matches.size(); i++) {
 			long rec = matches.get(i);
 
-			int bs = hashOf(rec);
+			int bs = bOf(rec);
 			if (bs < lcs.endB)
 				continue;
 
-			int as = lineOf(rec);
+			int as = aOf(rec);
 			int ae = as + 1;
 			int be = bs + 1;
 
-			while (e.beginA < as && e.beginB < bs
+			while (region.beginA < as && region.beginB < bs
 					&& cmp.equals(a, as - 1, b, bs - 1)) {
 				as--;
 				bs--;
 			}
-			while (ae < e.endA && be < e.endB && cmp.equals(a, ae, b, be)) {
+			while (ae < region.endA && be < region.endB
+					&& cmp.equals(a, ae, b, be)) {
 				ae++;
 				be++;
 			}
@@ -229,96 +271,229 @@ public class PatienceDiff<S extends Sequence> {
 		return lcs;
 	}
 
-	private void match(long[] ah, long[] bh) {
+	private void match(Edit index) {
 		matches.clear();
 
-		int aIdx = 0;
-		int bIdx = 0;
-		int aKey = hashOf(ah[aIdx]);
-		int bKey = hashOf(bh[bIdx]);
+		int aIdx = index.beginA;
+		int bIdx = index.beginB;
+		int aKey = hashOf(aIndex[aIdx]);
+		int bKey = hashOf(bIndex[bIdx]);
 
 		for (;;) {
 			if (aKey < bKey) {
-				if (++aIdx == ah.length)
+				if (++aIdx == index.endA)
 					break;
-				aKey = hashOf(ah[aIdx]);
+				aKey = hashOf(aIndex[aIdx]);
 
 			} else if (aKey > bKey) {
-				if (++bIdx == bh.length)
+				if (++bIdx == index.endB)
 					break;
-				bKey = hashOf(bh[bIdx]);
+				bKey = hashOf(bIndex[bIdx]);
 
-			} else if (!isUnique(a, ah, aIdx)) {
-				if (++aIdx == ah.length)
+			} else if (!isUnique(a, aIndex, aIdx, index.beginA, index.endA)) {
+				if (++aIdx == index.endA)
 					break;
-				aKey = hashOf(ah[aIdx]);
+				aKey = hashOf(aIndex[aIdx]);
 
-			} else if (!isUnique(b, bh, bIdx)) {
-				if (++bIdx == bh.length)
+			} else if (!isUnique(b, bIndex, bIdx, index.beginB, index.endB)) {
+				if (++bIdx == index.endB)
 					break;
-				bKey = hashOf(bh[bIdx]);
+				bKey = hashOf(bIndex[bIdx]);
 
 			} else {
-				final int aLine = lineOf(ah[aIdx]);
-				final int bLine = lineOf(bh[bIdx]);
+				final int aLine = elementOf(aIndex[aIdx]);
+				final int bLine = elementOf(bIndex[bIdx]);
 
 				if (cmp.equals(a, aLine, b, bLine))
-					matches.add(pair(bLine, aLine));
+					matches.add(pairBA(bLine, aLine));
 
-				if (++aIdx == ah.length || ++bIdx == bh.length)
+				if (++aIdx == index.endA || ++bIdx == index.endB)
 					break;
-				aKey = hashOf(ah[aIdx]);
-				bKey = hashOf(bh[bIdx]);
+				aKey = hashOf(aIndex[aIdx]);
+				bKey = hashOf(bIndex[bIdx]);
 			}
 		}
 
 		matches.sort();
 	}
 
+	private void splitIndexA(Edit index, Edit rBefore, Edit rAfter,
+			Edit iBefore, Edit iAfter) {
+		splitHoldingQueue.clear();
+
+		int bOut = index.beginA;
+		int aOut = bOut + rBefore.getLengthA();
+		final int seg1 = aOut;
+
+		iBefore.beginA = bOut;
+		iAfter.beginA = aOut;
+
+		for (int p = index.beginA; p < seg1; p++) {
+			long rec = aIndex[p];
+			int line = elementOf(rec);
+
+			if (line < rBefore.endA)
+				aIndex[bOut++] = rec;
+
+			else if (rAfter.beginA <= line) {
+				long tmpRec = aIndex[aOut];
+				int tmpLine = elementOf(tmpRec);
+				if (tmpLine < rBefore.endA || rAfter.beginA <= tmpLine)
+					splitHoldingQueue.add(tmpRec);
+				aIndex[aOut++] = rec;
+			}
+		}
+
+		for (int k = 0; k < splitHoldingQueue.size(); k++) {
+			long rec = splitHoldingQueue.get(k);
+			int line = elementOf(rec);
+
+			if (line < rBefore.endA)
+				aIndex[bOut++] = rec;
+
+			else if (rAfter.beginA <= line) {
+				long tmpRec = aIndex[aOut];
+				int tmpLine = elementOf(tmpRec);
+				if (tmpLine < rBefore.endA || rAfter.beginA <= tmpLine)
+					splitHoldingQueue.add(tmpRec);
+				aIndex[aOut++] = rec;
+			}
+		}
+
+		for (int p = aOut; p < index.endA; p++) {
+			long rec = aIndex[p];
+			int line = elementOf(rec);
+
+			if (line < rBefore.endA)
+				aIndex[bOut++] = rec;
+
+			else if (rAfter.beginA <= line)
+				aIndex[aOut++] = rec;
+		}
+
+		iBefore.endA = bOut;
+		iAfter.endA = aOut;
+	}
+
+	private void splitIndexB(Edit index, Edit rBefore, Edit rAfter,
+			Edit iBefore, Edit iAfter) {
+		splitHoldingQueue.clear();
+
+		int bOut = index.beginB;
+		int aOut = bOut + rBefore.getLengthB();
+		final int seg1 = aOut;
+
+		iBefore.beginB = bOut;
+		iAfter.beginB = aOut;
+
+		for (int p = index.beginB; p < seg1; p++) {
+			long rec = bIndex[p];
+			int line = elementOf(rec);
+
+			if (line < rBefore.endB)
+				bIndex[bOut++] = rec;
+
+			else if (rAfter.beginB <= line) {
+				long tmpRec = bIndex[aOut];
+				int tmpLine = elementOf(tmpRec);
+				if (tmpLine < rBefore.endB || rAfter.beginB <= tmpLine)
+					splitHoldingQueue.add(tmpRec);
+				bIndex[aOut++] = rec;
+			}
+		}
+
+		for (int k = 0; k < splitHoldingQueue.size(); k++) {
+			long rec = splitHoldingQueue.get(k);
+			int line = elementOf(rec);
+
+			if (line < rBefore.endB)
+				bIndex[bOut++] = rec;
+
+			else if (rAfter.beginB <= line) {
+				long tmpRec = bIndex[aOut];
+				int tmpLine = elementOf(tmpRec);
+				if (tmpLine < rBefore.endB || rAfter.beginB <= tmpLine)
+					splitHoldingQueue.add(tmpRec);
+				bIndex[aOut++] = rec;
+			}
+		}
+
+		for (int p = aOut; p < index.endB; p++) {
+			long rec = bIndex[p];
+			int line = elementOf(rec);
+
+			if (line < rBefore.endB)
+				bIndex[bOut++] = rec;
+
+			else if (rAfter.beginB <= line)
+				bIndex[aOut++] = rec;
+		}
+
+		iBefore.endB = bOut;
+		iAfter.endB = aOut;
+	}
+
 	private long[] index(S content, int as, int ae) {
 		long[] index = new long[ae - as];
 		for (int i = 0; as < ae; as++, i++)
-			index[i] = pair(cmp.hash(content, as), as);
+			index[i] = pairHashElement(cmp.hash(content, as), as);
 		Arrays.sort(index);
 		return index;
 	}
 
-	private boolean isUnique(S raw, long[] hashes, int ptr) {
+	private boolean isUnique(S raw, long[] hashes, int ptr, int min, int max) {
 		long rec = hashes[ptr];
+
 		final int hash = hashOf(rec);
-		final int line = lineOf(rec);
+		final int line = elementOf(rec);
 
 		// We might be in the middle of the range of values that match
 		// our hash. If a prior record matches us, we aren't unique.
 		//
-		for (int i = ptr - 1; 0 <= i; i--) {
+		for (int i = ptr - 1; min <= i; i--) {
 			rec = hashes[i];
 			if (hashOf(rec) != hash)
 				break;
-			if (cmp.equals(raw, line, raw, lineOf(rec)))
+			if (cmp.equals(raw, line, raw, elementOf(rec)))
 				return false;
 		}
 
-		while (++ptr < hashes.length) {
+		while (++ptr < max) {
 			rec = hashes[ptr];
 			if (hashOf(rec) != hash)
-				return true;
-			if (cmp.equals(raw, line, raw, lineOf(rec)))
+				break;
+			if (cmp.equals(raw, line, raw, elementOf(rec)))
 				return false;
 		}
 
 		return true;
 	}
 
-	private static long pair(int hash, int line) {
-		return (((long) hash) << HASH_SHIFT) | line;
+	// Pairs a hash code and an element.
+
+	private static long pairHashElement(int hash, int elem) {
+		return (((long) hash) << 32) | elem;
 	}
 
 	private static int hashOf(long v) {
-		return (int) (v >>> HASH_SHIFT);
+		return (int) (v >>> 32);
 	}
 
-	private static int lineOf(long v) {
+	private static int elementOf(long v) {
+		return ((int) v);
+	}
+
+	// Pairs a B and A element together.
+
+	private static long pairBA(int b, int a) {
+		return (((long) b) << 32) | a;
+	}
+
+	private static int bOf(long v) {
+		return (int) (v >>> 32);
+	}
+
+	private static int aOf(long v) {
 		return (int) v;
 	}
 }

@@ -171,6 +171,15 @@ public class PatienceDiffTest extends TestCase {
 		assertEquals(new Edit(6, 7, 6, 7), r.get(1));
 	}
 
+	public void testPerformanceTestDeltaLength() {
+		String a = DiffTestDataGenerator.generateSequence(40000, 971, 3);
+		String b = DiffTestDataGenerator.generateSequence(40000, 1621, 5);
+		CharArray ac = new CharArray(a);
+		CharArray bc = new CharArray(b);
+		EditList r = PatienceDiff.diff(new CharCmp(), ac, bc);
+		assertEquals(25, r.size());
+	}
+
 	private static EditList diff(RawText a, RawText b) {
 		return PatienceDiff.diff(RawTextComparator.DEFAULT, a, b);
 	}
@@ -185,6 +194,31 @@ public class PatienceDiffTest extends TestCase {
 			return new RawText(r.toString().getBytes("UTF-8"));
 		} catch (UnsupportedEncodingException e) {
 			throw new RuntimeException(e);
+		}
+	}
+
+	private static class CharArray extends Sequence {
+		final char[] array;
+
+		public CharArray(String s) {
+			array = s.toCharArray();
+		}
+
+		@Override
+		public int size() {
+			return array.length;
+		}
+	}
+
+	private static class CharCmp extends SequenceComparator<CharArray> {
+		@Override
+		public boolean equals(CharArray a, int ai, CharArray b, int bi) {
+			return a.array[ai] == b.array[bi];
+		}
+
+		@Override
+		public int hash(CharArray seq, int ptr) {
+			return seq.array[ptr];
 		}
 	}
 }
