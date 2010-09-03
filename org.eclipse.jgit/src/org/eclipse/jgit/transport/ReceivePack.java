@@ -68,6 +68,7 @@ import java.util.Set;
 import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.PackProtocolException;
+import org.eclipse.jgit.errors.UnpackException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
@@ -661,6 +662,9 @@ public class ReceivePack {
 			}
 
 			postReceive.onPostReceive(this, filterCommands(Result.OK));
+
+			if (unpackError != null)
+				throw new UnpackException(unpackError);
 		}
 	}
 

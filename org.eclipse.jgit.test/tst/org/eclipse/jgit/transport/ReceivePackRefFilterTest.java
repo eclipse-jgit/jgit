@@ -52,6 +52,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.zip.Deflater;
 
+import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.errors.UnpackException;
 import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Constants;
@@ -240,7 +242,15 @@ public class ReceivePackRefFilterTest extends LocalDiskRepositoryTestCase {
 		rp.setCheckReceivedObjects(true);
 		rp.setCheckReferencedObjectsAreReachable(true);
 		rp.setRefFilter(new HidePrivateFilter());
-		rp.receive(new ByteArrayInputStream(inBuf.toByteArray()), outBuf, null);
+		try {
+			receive(rp, inBuf, outBuf);
+			fail("Expected UnpackException");
+		} catch (UnpackException failed) {
+			Throwable err = failed.getCause();
+			assertTrue(err instanceof MissingObjectException);
+			MissingObjectException moe = (MissingObjectException) err;
+			assertEquals(P, moe.getObjectId());
+		}
 
 		final PacketLineIn r = asPacketLineIn(outBuf);
 		String master = r.readString();
@@ -252,6 +262,12 @@ public class ReceivePackRefFilterTest extends LocalDiskRepositoryTestCase {
 		assertEquals("unpack error Missing commit " + P.name(), r.readString());
 		assertEquals("ng refs/heads/s n/a (unpacker error)", r.readString());
 		assertSame(PacketLineIn.END, r.readString());
+	}
+
+	private void receive(final ReceivePack rp,
+			final TemporaryBuffer.Heap inBuf, final TemporaryBuffer.Heap outBuf)
+			throws IOException {
+		rp.receive(new ByteArrayInputStream(inBuf.toByteArray()), outBuf, null);
 	}
 
 	public void testUsingHiddenDeltaBaseFails() throws Exception {
@@ -275,7 +291,15 @@ public class ReceivePackRefFilterTest extends LocalDiskRepositoryTestCase {
 		rp.setCheckReceivedObjects(true);
 		rp.setCheckReferencedObjectsAreReachable(true);
 		rp.setRefFilter(new HidePrivateFilter());
-		rp.receive(new ByteArrayInputStream(inBuf.toByteArray()), outBuf, null);
+		try {
+			receive(rp, inBuf, outBuf);
+			fail("Expected UnpackException");
+		} catch (UnpackException failed) {
+			Throwable err = failed.getCause();
+			assertTrue(err instanceof MissingObjectException);
+			MissingObjectException moe = (MissingObjectException) err;
+			assertEquals(b, moe.getObjectId());
+		}
 
 		final PacketLineIn r = asPacketLineIn(outBuf);
 		String master = r.readString();
@@ -316,7 +340,15 @@ public class ReceivePackRefFilterTest extends LocalDiskRepositoryTestCase {
 		rp.setCheckReceivedObjects(true);
 		rp.setCheckReferencedObjectsAreReachable(true);
 		rp.setRefFilter(new HidePrivateFilter());
-		rp.receive(new ByteArrayInputStream(inBuf.toByteArray()), outBuf, null);
+		try {
+			receive(rp, inBuf, outBuf);
+			fail("Expected UnpackException");
+		} catch (UnpackException failed) {
+			Throwable err = failed.getCause();
+			assertTrue(err instanceof MissingObjectException);
+			MissingObjectException moe = (MissingObjectException) err;
+			assertEquals(b, moe.getObjectId());
+		}
 
 		final PacketLineIn r = asPacketLineIn(outBuf);
 		String master = r.readString();
@@ -358,7 +390,15 @@ public class ReceivePackRefFilterTest extends LocalDiskRepositoryTestCase {
 		rp.setCheckReceivedObjects(true);
 		rp.setCheckReferencedObjectsAreReachable(true);
 		rp.setRefFilter(new HidePrivateFilter());
-		rp.receive(new ByteArrayInputStream(inBuf.toByteArray()), outBuf, null);
+		try {
+			receive(rp, inBuf, outBuf);
+			fail("Expected UnpackException");
+		} catch (UnpackException failed) {
+			Throwable err = failed.getCause();
+			assertTrue(err instanceof MissingObjectException);
+			MissingObjectException moe = (MissingObjectException) err;
+			assertEquals(n, moe.getObjectId());
+		}
 
 		final PacketLineIn r = asPacketLineIn(outBuf);
 		String master = r.readString();
@@ -397,7 +437,15 @@ public class ReceivePackRefFilterTest extends LocalDiskRepositoryTestCase {
 		rp.setCheckReceivedObjects(true);
 		rp.setCheckReferencedObjectsAreReachable(true);
 		rp.setRefFilter(new HidePrivateFilter());
-		rp.receive(new ByteArrayInputStream(inBuf.toByteArray()), outBuf, null);
+		try {
+			receive(rp, inBuf, outBuf);
+			fail("Expected UnpackException");
+		} catch (UnpackException failed) {
+			Throwable err = failed.getCause();
+			assertTrue(err instanceof MissingObjectException);
+			MissingObjectException moe = (MissingObjectException) err;
+			assertEquals(t, moe.getObjectId());
+		}
 
 		final PacketLineIn r = asPacketLineIn(outBuf);
 		String master = r.readString();
