@@ -222,14 +222,24 @@ public abstract class QuotedString {
 			for (int i = 'A'; i <= 'Z'; i++)
 				quote[i] = 0;
 			quote[' '] = 0;
+			quote['$'] = 0;
+			quote['%'] = 0;
+			quote['&'] = 0;
+			quote['*'] = 0;
 			quote['+'] = 0;
 			quote[','] = 0;
 			quote['-'] = 0;
 			quote['.'] = 0;
 			quote['/'] = 0;
+			quote[':'] = 0;
+			quote[';'] = 0;
 			quote['='] = 0;
+			quote['?'] = 0;
+			quote['@'] = 0;
 			quote['_'] = 0;
 			quote['^'] = 0;
+			quote['|'] = 0;
+			quote['~'] = 0;
 
 			quote['\u0007'] = 'a';
 			quote['\b'] = 'b';
@@ -335,7 +345,7 @@ public abstract class QuotedString {
 				case '2':
 				case '3': {
 					int cp = in[inPtr - 1] - '0';
-					while (inPtr < inEnd) {
+					for (int n = 1; n < 3 && inPtr < inEnd; n++) {
 						final byte c = in[inPtr];
 						if ('0' <= c && c <= '7') {
 							cp <<= 3;

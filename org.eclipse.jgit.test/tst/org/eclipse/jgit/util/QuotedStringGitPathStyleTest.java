@@ -153,7 +153,7 @@ public class QuotedStringGitPathStyleTest extends TestCase {
 
 	public void testQuote_OctalAll() {
 		assertQuote("\\001", "\1");
-		assertQuote("\\176", "~");
+		assertQuote("\\177", "\u007f");
 		assertQuote("\\303\\277", "\u00ff"); // \u00ff in UTF-8
 	}
 
@@ -183,5 +183,10 @@ public class QuotedStringGitPathStyleTest extends TestCase {
 
 	public void testQuote_Ang() {
 		assertQuote("\\303\\205ngstr\\303\\266m", "\u00c5ngstr\u00f6m");
+	}
+
+	public void testQuoteAtAndNumber() {
+		assertSame("abc@2x.png", GIT_PATH.quote("abc@2x.png"));
+		assertDequote("abc@2x.png", "abc\\1002x.png");
 	}
 }
