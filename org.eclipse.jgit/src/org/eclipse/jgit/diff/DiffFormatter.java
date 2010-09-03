@@ -600,8 +600,7 @@ public class DiffFormatter {
 	}
 
 	private static String quotePath(String name) {
-		String q = QuotedString.GIT_PATH.quote(name);
-		return ('"' + name + '"').equals(q) ? name : q;
+		return QuotedString.GIT_PATH.quote(name);
 	}
 
 	/**
