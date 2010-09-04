@@ -234,10 +234,10 @@ class Log extends RevWalkTextBuiltin {
 		if (showNameAndStatusOnly)
 			Diff.nameStatus(out, diffFmt.scan(a, b));
 		else {
+			out.flush();
 			diffFmt.format(a, b);
 			diffFmt.flush();
 		}
 		out.println();
-		out.flush();
 	}
 }
