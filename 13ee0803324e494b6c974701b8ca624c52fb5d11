@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALyn///E8\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/diff/DiffPerformanceTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-03T14:22:12Z",
+      "side": 1,
+      "message": "Obviously we don\u0027t want to remove these tests.  This is temporary just to make it easier to understand the performance impacts of changes made to PatienceDiff.",
+      "revId": "13ee0803324e494b6c974701b8ca624c52fb5d11",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///Ew\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/PatienceDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-03T14:22:12Z",
+      "side": 1,
+      "message": "Once we know that an item is a match point that isn\u0027t contained within another match point, its going to be a match point in any recursive step we run.\n\nI tried caching the Edit here indexed by bOf(rec), so that on recursive steps we didn\u0027t need to redo the stretching of a match to determine its total length.  Unfortunately that proved to be slower than not caching at all.  Like the isUnique() caching below I think this is being caused by the input sequence having too cheap of an equals() method.\n\nFWIW, I tried caching in a HashMap\u003cInteger,Edit\u003e, and also in a sorted list of Edit (sorted by startB).  The latter seemed like a good idea because the match list is already sorted, so we could merge-join the two lists together in this loop.  I suspect the caching was slower because of the amount of memory being allocated to track the Edit instances.\n\nSo then I went and removed use of Edit for region and index throughout the code, so that we didn\u0027t do memory allocations at all.  That was even slower than using the Edit instances, as apparently pushing 8 ints onto the call stack during each frame activation was slower than allocating the two objects and pushing only those two references onto the stack.  Yuck.",
+      "revId": "13ee0803324e494b6c974701b8ca624c52fb5d11",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///E4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/PatienceDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-03T14:22:12Z",
+      "side": 1,
+      "message": "This split function should be combined with its sibling, splitIndexB.  Its a massive amount of complex code that is duplicated between the two.",
+      "revId": "13ee0803324e494b6c974701b8ca624c52fb5d11",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///Es\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/PatienceDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-03T14:22:12Z",
+      "side": 1,
+      "message": "Right now I suspect this is why we are losing so badly to MyersDiff.  Sorting the lines is O(N log N).  MyersDiff is able to run in O(N) time.  Switching this to being a hashtable and trying to get O(N) construction time may help things considerably.",
+      "revId": "13ee0803324e494b6c974701b8ca624c52fb5d11",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///E0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/PatienceDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 444,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-03T14:22:12Z",
+      "side": 1,
+      "message": "FWIW, I tried caching the results of isUnique in a record.  Once we know a record is unique within a particular index segment, it will remain unique for the rest of the recursive steps that contain the record, because each step is splitting the index in half (or even smaller).\n\nThe caching worked by shifting the element position up 1 bit and OR\u0027ing in 1 as soon as we found the element was unique.  The start of the method then became:\n\n  if ((rec \u0026 1) !\u003d 0)\n   return true;\n\nThis turned out to be slower on every system I tried it on, but I suspect its artificial due to the type of Sequence being used by the performance test.  equals() on that char[] based sequence used by the test is insanely fast.  equals() on a larger line input like RawText uses is a lot slower.  We should revisit this caching concept by testing on a more common input.",
+      "revId": "13ee0803324e494b6c974701b8ca624c52fb5d11",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
