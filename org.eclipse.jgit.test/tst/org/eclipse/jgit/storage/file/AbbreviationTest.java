@@ -144,7 +144,6 @@ public class AbbreviationTest extends LocalDiskRepositoryTestCase {
 		assertEquals(id, db.resolve(reader.abbreviate(id, 8).name()));
 	}
 
-	@SuppressWarnings("unchecked")
 	public void testAbbreviateIsActuallyUnique() throws Exception {
 		// This test is far more difficult. We have to manually craft
 		// an input that contains collisions at a particular prefix,
