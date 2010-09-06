@@ -384,9 +384,9 @@ public class IpLogGenerator {
 					else
 						oldImage = new byte[0];
 
-					EditList edits = new MyersDiff<RawText>(
+					EditList edits = MyersDiff.INSTANCE.diff(
 							RawTextComparator.DEFAULT, new RawText(oldImage),
-							new RawText(openBlob(1))).getEdits();
+							new RawText(openBlob(1)));
 					for (Edit e : edits)
 						addedLines += e.getEndB() - e.getBeginB();
 				}

@@ -106,13 +106,21 @@ import org.eclipse.jgit.util.LongList;
  *            type of sequence.
  */
 public class MyersDiff<S extends Sequence> {
+	/** Singleton instance of MyersDiff. */
+	public static final DiffAlgorithm INSTANCE = new DiffAlgorithm() {
+		public <S extends Sequence, C extends SequenceComparator<? super S>> EditList diff(
+				C cmp, S a, S b) {
+			return new MyersDiff<S>(cmp, a, b).getEdits();
+		}
+	};
+
 	/**
 	 * The list of edits found during the last call to {@link #calculateEdits()}
 	 */
 	protected EditList edits;
 
 	/** Comparison function for sequences. */
-	protected SequenceComparator<S> cmp;
+	protected SequenceComparator<? super S> cmp;
 
 	/**
 	 * The first text to be compared. Referred to as "Text A" in the comments
@@ -124,14 +132,7 @@ public class MyersDiff<S extends Sequence> {
 	 */
 	protected S b;
 
-	/**
-	 * The only constructor
-	 *
-	 * @param cmp comparison method for this execution.
-	 * @param a   the text A which should be compared
-	 * @param b   the text B which should be compared
-	 */
-	public MyersDiff(SequenceComparator<S> cmp, S a, S b) {
+	private MyersDiff(SequenceComparator<? super S> cmp, S a, S b) {
 		this.cmp = cmp;
 		this.a = a;
 		this.b = b;
