@@ -215,7 +215,8 @@ public abstract class DeltaStream extends InputStream {
 				if (n < 0)
 					throw new CorruptObjectException(
 							JGitText.get().baseLengthIncorrect);
-				baseOffset += n;
+				copyOffset += n;
+				baseOffset = copyOffset;
 				break;
 
 			case CMD_INSERT:
@@ -225,6 +226,7 @@ public abstract class DeltaStream extends InputStream {
 
 			case CMD_EOF:
 				return 0 < act ? act : -1;
+
 			default:
 				throw new CorruptObjectException(
 						JGitText.get().unsupportedCommand0);
