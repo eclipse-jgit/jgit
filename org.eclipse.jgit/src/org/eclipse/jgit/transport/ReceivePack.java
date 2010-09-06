@@ -810,6 +810,8 @@ public class ReceivePack {
 		ip = null;
 
 		final ObjectWalk ow = new ObjectWalk(db);
+		ow.setRetainBody(false);
+
 		for (final ReceiveCommand cmd : commands) {
 			if (cmd.getResult() != Result.NOT_ATTEMPTED)
 				continue;
