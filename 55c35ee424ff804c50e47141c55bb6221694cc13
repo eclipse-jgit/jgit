@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "AAALyn///JY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/Edit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-09-02T21:21:11Z",
+      "side": 1,
+      "message": "Yes, Myers does use the term distance - but not for the length of regions. It is used in the context of \"edit distances\". One reason more not to call it distance here.",
+      "parentUuid": "AAALyn///KI\u003d",
+      "revId": "55c35ee424ff804c50e47141c55bb6221694cc13",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALyn///Mk\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/Edit.java",
         "patchSetId": 1
