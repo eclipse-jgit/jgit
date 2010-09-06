@@ -1,0 +1,40 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALyn///KM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/Edit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-02T18:20:24Z",
+      "side": 1,
+      "message": "Right.  Because isEmpty() is declared final, it should be able to be inlined by the complier and later by the JIT without any larger analysis work being required.  Since the expression is so trivial, it should be a really good candidate for the inlining.  4 loads and 2 compares is bordering on the cost of the method call enter/exit, so it really should inline.\n\nBut, in reality, I wasn\u0027t thinking too much about performance here.  I just selected the expression and did Refactor \u003e Extract Method in Eclipse and moved on.  The getType() method isn\u0027t very fast to begin with.  Its coded more for readability than it is for speed.  I think there may be some redundant compares occurring for some code paths.  If I cared a lot about the performance of this function I would probably redo how some of these compares occur.\n\nI did the extraction of the method because I was planning on using isEmpty() inside patience diff.  But I later concluded that was foolish.  The place I wanted it was part of the critical path of patience diff, but I proved to myself that at that point in the code isEmpty() is always false.  Therefore the call was unnecessary and I backed out of it.  But I forgot to undo this refactoring.",
+      "parentUuid": "AAALyn///Ms\u003d",
+      "revId": "55c35ee424ff804c50e47141c55bb6221694cc13",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///KI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/Edit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-02T18:20:24Z",
+      "side": 1,
+      "message": "It may be that the Myers paper uses distance, but that\u0027s not where I got it from.  I like Christian\u0027s wording better.  I\u0027ll amend the comment.",
+      "parentUuid": "AAALyn///Mc\u003d",
+      "revId": "55c35ee424ff804c50e47141c55bb6221694cc13",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
