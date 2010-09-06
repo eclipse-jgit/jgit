@@ -256,7 +256,7 @@ public abstract class ObjectLoader {
 			ObjectStream in = openStream();
 			try {
 				final long sz = in.getSize();
-				byte[] tmp = new byte[1024];
+				byte[] tmp = new byte[8192];
 				long copied = 0;
 				while (copied < sz) {
 					int n = in.read(tmp);
