@@ -994,7 +994,7 @@ public class PackWriter {
 
 		final ObjectWalk walker = new ObjectWalk(reader);
 		walker.setRetainBody(false);
-		walker.sort(RevSort.COMMIT_TIME_DESC);
+		walker.sort(RevSort.TOPO);
 		if (thin && !not.isEmpty())
 			walker.sort(RevSort.BOUNDARY, true);
 

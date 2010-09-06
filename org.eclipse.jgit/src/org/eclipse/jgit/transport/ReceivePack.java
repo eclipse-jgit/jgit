@@ -84,6 +84,7 @@ import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
 import org.eclipse.jgit.revwalk.RevObject;
+import org.eclipse.jgit.revwalk.RevSort;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.storage.file.PackLock;
@@ -811,6 +812,11 @@ public class ReceivePack {
 
 		final ObjectWalk ow = new ObjectWalk(db);
 		ow.setRetainBody(false);
+		if (checkReferencedIsReachable) {
+			ow.sort(RevSort.TOPO);
+			if (!baseObjects.isEmpty())
+				ow.sort(RevSort.BOUNDARY, true);
+		}
 
 		for (final ReceiveCommand cmd : commands) {
 			if (cmd.getResult() != Result.NOT_ATTEMPTED)
@@ -832,22 +838,19 @@ public class ReceivePack {
 			}
 		}
 
-		if (checkReferencedIsReachable) {
-			for (ObjectId id : baseObjects) {
-				   RevObject b = ow.lookupAny(id, Constants.OBJ_BLOB);
-				   if (!b.has(RevFlag.UNINTERESTING))
-				     throw new MissingObjectException(b, b.getType());
-			}
-		}
-
 		RevCommit c;
 		while ((c = ow.next()) != null) {
-			if (checkReferencedIsReachable && !providedObjects.contains(c))
+			if (checkReferencedIsReachable //
+					&& !c.has(RevFlag.UNINTERESTING) //
+					&& !providedObjects.contains(c))
 				throw new MissingObjectException(c, Constants.TYPE_COMMIT);
 		}
 
 		RevObject o;
 		while ((o = ow.nextObject()) != null) {
+			if (o.has(RevFlag.UNINTERESTING))
+				continue;
+
 			if (checkReferencedIsReachable) {
 				if (providedObjects.contains(o))
 					continue;
@@ -857,6 +860,14 @@ public class ReceivePack {
 
 			if (o instanceof RevBlob && !db.hasObject(o))
 				throw new MissingObjectException(o, Constants.TYPE_BLOB);
+		}
+
+		if (checkReferencedIsReachable) {
+			for (ObjectId id : baseObjects) {
+				o = ow.parseAny(id);
+				if (!o.has(RevFlag.UNINTERESTING))
+					throw new MissingObjectException(o, o.getType());
+			}
 		}
 	}
 

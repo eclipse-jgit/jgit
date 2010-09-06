@@ -66,6 +66,7 @@ import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.storage.file.ObjectDirectory;
+import org.eclipse.jgit.storage.pack.BinaryDelta;
 import org.eclipse.jgit.util.NB;
 import org.eclipse.jgit.util.TemporaryBuffer;
 
@@ -271,16 +272,24 @@ public class ReceivePackRefFilterTest extends LocalDiskRepositoryTestCase {
 	}
 
 	public void testUsingHiddenDeltaBaseFails() throws Exception {
+		byte[] delta = { 0x1, 0x1, 0x1, 'c' };
+		TestRepository<Repository> s = new TestRepository<Repository>(src);
+		RevCommit N = s.commit().parent(B).add("q",
+				s.blob(BinaryDelta.apply(dst.open(b).getCachedBytes(), delta)))
+				.create();
+
 		final TemporaryBuffer.Heap pack = new TemporaryBuffer.Heap(1024);
-		packHeader(pack, 1);
+		packHeader(pack, 3);
+		copy(pack, src.open(N));
+		copy(pack, src.open(s.parseBody(N).getTree()));
 		pack.write((Constants.OBJ_REF_DELTA) << 4 | 4);
 		b.copyRawTo(pack);
-		deflate(pack, new byte[] { 0x1, 0x1, 0x1, 'b' });
+		deflate(pack, delta);
 		digest(pack);
 
-		final TemporaryBuffer.Heap inBuf = new TemporaryBuffer.Heap(256);
+		final TemporaryBuffer.Heap inBuf = new TemporaryBuffer.Heap(1024);
 		final PacketLineOut inPckLine = new PacketLineOut(inBuf);
-		inPckLine.writeString(ObjectId.zeroId().name() + ' ' + P.name() + ' '
+		inPckLine.writeString(ObjectId.zeroId().name() + ' ' + N.name() + ' '
 				+ "refs/heads/s" + '\0'
 				+ BasePackPushConnection.CAPABILITY_REPORT_STATUS);
 		inPckLine.end();
