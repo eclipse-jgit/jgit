@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "AAALy3////k\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawText.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-09-06T21:31:13Z",
+      "side": 1,
+      "message": "I agree, let\u0027s defer that until we have patience diff in.\n\nOne comment about avoiding calculating unneeded hashes: I think that diff algorithms know what hashes they\u0027ll need and they should trigger the calculation, right?",
+      "parentUuid": "AAALy3////4\u003d",
+      "revId": "d2d180dbf0b155485838269b94321ec0eaff2921",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALy3////Q\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawText.java",
         "patchSetId": 4
