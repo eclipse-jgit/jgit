@@ -1,0 +1,40 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALyn///Jc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffComparator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-02T19:15:26Z",
+      "side": 1,
+      "message": "Interfaces are slower to perform virtual dispatch than classes, because their virtual function tables are more complicated to layout.  Yes some of the JVMs have gotten better about it, but they still have to pay some penalties that don\u0027t exist with an abstract base class.\n\nMy other rationale is I want to add some default behavior to this class later.  Like in the patience diff patch I add reduceCommonStartEnd().  It has a default implementation based upon equals() but will later be replaced for the RawTextComparator with something that is more tightly tied to the representation.\n\nMaking the comparator an abstract class means we can later shift other logic into this class to support diff algorithms, and once we do that comparator implementors have a choice of using our naive equals() based approaches, or doing something even faster with their own sequence models, if they can support it.",
+      "parentUuid": "AAALyn///MI\u003d",
+      "revId": "d5df2e45d3c875ec989821835a23732dbd4edcd1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///JI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffComparator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-02T19:15:26Z",
+      "side": 1,
+      "message": "I\u0027ll agree with you that size() seems misplaced.  It probably is.  I can bring back Sequence and put size on it.\n\nBut hash() is part of the equivalence function.  The hash computed by ignore trailing whitespace is different than the hash computed by the default ignore-nothing.  If two items in the sequence are equal by the equals() function, their hashes must also be equal.  Putting hash() on the model starts to make it much harder to ensure this remains true.\n\nI also didn\u0027t want to enforce the requirement that the hash be pre-computed by the sequence model.  Instead I wanted to allow the equivalence function to handle the hash.  If it caches the hashes in the model (like RawText does), great.  But I think in the case of patience diff I might be able to only get the hash once for each line.  That means the implementor might be able to avoid keeping the hashes, and perhaps more importantly, avoid computing them for the long common header/footers that often exist on files.\n\nSo I don\u0027t think we should move hash.",
+      "parentUuid": "AAALyn///MU\u003d",
+      "revId": "d5df2e45d3c875ec989821835a23732dbd4edcd1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
