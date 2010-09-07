@@ -160,6 +160,19 @@ public class Git {
 	}
 
 	/**
+	 * Returns a command object to execute a {@code Fetch} command
+	 *
+	 * @see <a
+	 *      href="http://www.kernel.org/pub/software/scm/git/docs/git-fetch.html"
+	 *      >Git documentation about Fetch</a>
+	 * @return a {@link FetchCommand} used to collect all optional parameters
+	 *         and to finally execute the {@code Fetch} command
+	 */
+	public FetchCommand fetch() {
+		return new FetchCommand(repo);
+	}
+
+	/**
 	 * @return the git repository this class is interacting with
 	 */
 	public Repository getRepository() {
