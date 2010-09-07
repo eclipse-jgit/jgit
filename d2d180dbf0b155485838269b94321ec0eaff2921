@@ -1,0 +1,40 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALy3////4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawText.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-06T20:44:13Z",
+      "side": 1,
+      "message": "We currently do use the hashes collection, the RawTextComparator implementations reach inside and read it directly.  But I see your point.\n\nI think removing it is going to be a bit more work than I\u0027d like to squash into this refactoring change, so I\u0027d like to actually defer it until after we have PatienceDiff in.  Some of the optimizations I\u0027d like to do is to avoid computing the hashes for the ranges we don\u0027t care about (basically do it after common header/footer elimination... aka step 1 of patience diff).",
+      "parentUuid": "AAALyn///Cg\u003d",
+      "revId": "d2d180dbf0b155485838269b94321ec0eaff2921",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3////Q\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawText.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-06T22:43:02Z",
+      "side": 1,
+      "message": "Yes.  The diff implementation knows the hashes it needs.\n\nActually what I\u0027m planning on doing is removing the hashes collection altogether from the RawText object and making the diff implementation cache it.  Then RawTextComparator\u0027s hash method stops looking inside of RawText.hashes and instead computes the hash on the fly.\n\nFor PatienceDiff this means we\u0027ll hash the lines after we\u0027ve narrowed the file down by skipping common headers and footers, and then we\u0027ll keep those hash arrays throughout the execution of the diff.\n\nFor MyersDiff, I think its the same thing.  Only right now its probably not doing the common header/footer elimination.\n\nLonger term, I might be changing PatienceDiff to actually construct the hashes table by assigning a unique int to each unique line.  Doing so by hashing both A and B into a single hashtable, and if its the first occurrence of that element, assign it a new unique value.  This way later on we can do compares during the recursive steps by just int equality and bypass the DiffComparator altogether.",
+      "parentUuid": "AAALy3////k\u003d",
+      "revId": "d2d180dbf0b155485838269b94321ec0eaff2921",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
