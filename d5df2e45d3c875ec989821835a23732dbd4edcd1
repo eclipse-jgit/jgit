@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAALyn///MM\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/diff/MyersDiffPerformanceTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-09-02T13:41:36Z",
+      "side": 1,
+      "message": "Somehow odd to ask the comparator and not the object itself about the size.",
+      "revId": "d5df2e45d3c875ec989821835a23732dbd4edcd1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///MI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffComparator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-09-02T13:41:36Z",
+      "side": 1,
+      "message": "Any reason for not using an interface?",
+      "revId": "d5df2e45d3c875ec989821835a23732dbd4edcd1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALyn///Jc\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffComparator.java",
         "patchSetId": 1
@@ -20,6 +54,41 @@
     },
     {
       "key": {
+        "uuid": "AAALyn///Hc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffComparator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-09-02T21:59:02Z",
+      "side": 1,
+      "message": "Ok, I got your two arguments of performance and default implementations. Having interfaces for Sequence and DiffComparator would allow us to have single classes which implement both (like standard java where equals and hash are in every (model) class). This would help writing smaller tests - but in real code we would really want seperate implementations for Sequence and DiffComparator. So, runtime-performance argument beats smaller-tests - I am fine with the abstract class.",
+      "parentUuid": "AAALyn///Jc\u003d",
+      "revId": "d5df2e45d3c875ec989821835a23732dbd4edcd1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///MU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffComparator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-09-02T13:41:36Z",
+      "side": 1,
+      "message": "Isn\u0027t this class doing more then a comparator? This class tells us about sizes and hashes - things which have nothing to do with comparision. I don\u0027t expect them in a comparator.\n\nI agree that we need a Comparator concept (also because of the auto-CRLF stuff). But shouldn\u0027t we leave aspects which belong to one Diff-able object in a seperate class/interface? Something which was previously called Sequence.\n\nSomething like\n\nabstract class DiffComparator\u003cS extends Sequence\u003e {\n  public abstract boolean equals(S a, int ai, S b, int bi);\n}\n\nabstract class Sequence {\n  public abstract int size();\n  public abstract int hash(int ptr);\n}",
+      "revId": "d5df2e45d3c875ec989821835a23732dbd4edcd1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALyn///JI\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffComparator.java",
         "patchSetId": 1
@@ -32,6 +101,24 @@
       "side": 1,
       "message": "I\u0027ll agree with you that size() seems misplaced.  It probably is.  I can bring back Sequence and put size on it.\n\nBut hash() is part of the equivalence function.  The hash computed by ignore trailing whitespace is different than the hash computed by the default ignore-nothing.  If two items in the sequence are equal by the equals() function, their hashes must also be equal.  Putting hash() on the model starts to make it much harder to ensure this remains true.\n\nI also didn\u0027t want to enforce the requirement that the hash be pre-computed by the sequence model.  Instead I wanted to allow the equivalence function to handle the hash.  If it caches the hashes in the model (like RawText does), great.  But I think in the case of patience diff I might be able to only get the hash once for each line.  That means the implementor might be able to avoid keeping the hashes, and perhaps more importantly, avoid computing them for the long common header/footers that often exist on files.\n\nSo I don\u0027t think we should move hash.",
       "parentUuid": "AAALyn///MU\u003d",
+      "revId": "d5df2e45d3c875ec989821835a23732dbd4edcd1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///Ho\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffComparator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-09-02T21:59:02Z",
+      "side": 1,
+      "message": "I agree, hash and equivalence are tied so strongly together that they have to be implemented in the same class. Maybe it\u0027s just the class name which disturbed me: a comparator which offers functionalities working on a single object (not comparing two objects). But since hashes may be needed for efficient equivalence calculation I am convinced.",
+      "parentUuid": "AAALyn///JI\u003d",
       "revId": "d5df2e45d3c875ec989821835a23732dbd4edcd1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
