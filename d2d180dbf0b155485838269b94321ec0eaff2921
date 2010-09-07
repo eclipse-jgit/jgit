@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAALyn///Cg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawText.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-09-04T08:33:01Z",
+      "side": 1,
+      "message": "We accept a comparator here which we don\u0027t store but only once\nuse in this Constructor. We use it only to fill hashes ... which is\nagain not used anymore, or? Why don\u0027t we skip the comparator and remove hashes and computeHashes?",
+      "revId": "d2d180dbf0b155485838269b94321ec0eaff2921",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALy3////4\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawText.java",
         "patchSetId": 4
@@ -32,6 +49,23 @@
       "side": 1,
       "message": "Yes.  The diff implementation knows the hashes it needs.\n\nActually what I\u0027m planning on doing is removing the hashes collection altogether from the RawText object and making the diff implementation cache it.  Then RawTextComparator\u0027s hash method stops looking inside of RawText.hashes and instead computes the hash on the fly.\n\nFor PatienceDiff this means we\u0027ll hash the lines after we\u0027ve narrowed the file down by skipping common headers and footers, and then we\u0027ll keep those hash arrays throughout the execution of the diff.\n\nFor MyersDiff, I think its the same thing.  Only right now its probably not doing the common header/footer elimination.\n\nLonger term, I might be changing PatienceDiff to actually construct the hashes table by assigning a unique int to each unique line.  Doing so by hashing both A and B into a single hashtable, and if its the first occurrence of that element, assign it a new unique value.  This way later on we can do compares during the recursive steps by just int equality and bypass the DiffComparator altogether.",
       "parentUuid": "AAALy3////k\u003d",
+      "revId": "d2d180dbf0b155485838269b94321ec0eaff2921",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///Ck\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/SequenceComparator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-09-04T08:33:01Z",
+      "side": 1,
+      "message": "Why do we have this comment here: it is explicitly permissible to do something but callers should be smart enough not to do it. Do we really want to save one if in the implementations? If it brings huge performance gains I could unterstand, but not if it is e.g. not measurable in our tests",
       "revId": "d2d180dbf0b155485838269b94321ec0eaff2921",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
