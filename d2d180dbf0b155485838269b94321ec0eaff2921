@@ -35,6 +35,24 @@
       "revId": "d2d180dbf0b155485838269b94321ec0eaff2921",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3////8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/SequenceComparator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-06T20:44:13Z",
+      "side": 1,
+      "message": "Good point.  I\u0027ll drop the last sentence.",
+      "parentUuid": "AAALyn///Ck\u003d",
+      "revId": "d2d180dbf0b155485838269b94321ec0eaff2921",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
