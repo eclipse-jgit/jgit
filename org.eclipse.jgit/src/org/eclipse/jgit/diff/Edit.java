@@ -121,13 +121,18 @@ public class Edit {
 
 	/** @return the type of this region */
 	public final Type getType() {
-		if (beginA == endA && beginB < endB)
-			return Type.INSERT;
-		if (beginA < endA && beginB == endB)
-			return Type.DELETE;
-		if (beginA == endA && beginB == endB)
-			return Type.EMPTY;
-		return Type.REPLACE;
+		if (beginA < endA) {
+			if (beginB < endB)
+				return Type.REPLACE;
+			else /* if (beginB == endB) */
+				return Type.DELETE;
+
+		} else /* if (beginA == endA) */{
+			if (beginB < endB)
+				return Type.INSERT;
+			else /* if (beginB == endB) */
+				return Type.EMPTY;
+		}
 	}
 
 	/** @return true if the edit is empty (lengths of both a and b is zero). */
