@@ -62,6 +62,9 @@ abstract class FileObjectDatabase extends ObjectDatabase {
 		return new WindowCursor(this);
 	}
 
+	@Override
+	public abstract ObjectDirectoryInserter newInserter();
+
 	/**
 	 * Does the requested object exist in this database?
 	 * <p>
@@ -245,6 +248,8 @@ abstract class FileObjectDatabase extends ObjectDatabase {
 
 	abstract long getObjectSize2(WindowCursor curs, String objectName,
 			AnyObjectId objectId) throws IOException;
+
+	abstract boolean insertUnpackedObject(File tmp, ObjectId id, boolean force);
 
 	abstract FileObjectDatabase newCachedFileObjectDatabase();
 

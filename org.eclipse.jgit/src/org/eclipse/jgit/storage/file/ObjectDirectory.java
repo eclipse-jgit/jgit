@@ -69,7 +69,6 @@ import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectDatabase;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.RepositoryCache;
 import org.eclipse.jgit.lib.RepositoryCache.FileKey;
@@ -176,7 +175,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 	}
 
 	@Override
-	public ObjectInserter newInserter() {
+	public ObjectDirectoryInserter newInserter() {
 		return new ObjectDirectoryInserter(this, config);
 	}
 
@@ -455,8 +454,48 @@ public class ObjectDirectory extends FileObjectDatabase {
 		}
 	}
 
-	void addUnpackedObject(ObjectId id) {
-		unpackedObjectCache.add(id);
+	@Override
+	boolean insertUnpackedObject(File tmp, ObjectId id, boolean force) {
+		if (!force && has(id)) {
+			// Object is already in the repository, remove temporary file.
+			//
+			tmp.delete();
+			return true;
+		}
+		tmp.setReadOnly();
+
+		final File dst = fileFor(id);
+		if (force && dst.exists()) {
+			tmp.delete();
+			return true;
+		}
+		if (tmp.renameTo(dst)) {
+			unpackedObjectCache.add(id);
+			return true;
+		}
+
+		// Maybe the directory doesn't exist yet as the object
+		// directories are always lazily created. Note that we
+		// try the rename first as the directory likely does exist.
+		//
+		dst.getParentFile().mkdir();
+		if (tmp.renameTo(dst)) {
+			unpackedObjectCache.add(id);
+			return true;
+		}
+
+		if (!force && has(id)) {
+			tmp.delete();
+			return true;
+		}
+
+		// The object failed to be renamed into its proper
+		// location and it doesn't exist in the repository
+		// either. We really don't know what went wrong, so
+		// fail.
+		//
+		tmp.delete();
+		return false;
 	}
 
 	boolean tryAgain1() {
