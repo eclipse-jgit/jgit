@@ -196,6 +196,9 @@ public class JGitText extends TranslationBundle {
 	/***/ public String encryptionError;
 	/***/ public String endOfFileInEscape;
 	/***/ public String entryNotFoundByPath;
+	/***/ public String enumValueNotSupported2;
+	/***/ public String enumValueNotSupported3;
+	/***/ public String enumValuesNotAvailable;
 	/***/ public String errorDecodingFromFile;
 	/***/ public String errorEncodingFromFile;
 	/***/ public String errorInBase64CodeReadingStream;

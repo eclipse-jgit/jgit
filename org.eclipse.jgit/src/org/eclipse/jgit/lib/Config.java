@@ -334,6 +334,95 @@ public class Config {
 	}
 
 	/**
+	 * Parse an enumeration from the configuration.
+	 *
+	 * @param <T>
+	 *            type of the enumeration object.
+	 * @param section
+	 *            section the key is grouped within.
+	 * @param subsection
+	 *            subsection name, such a remote or branch name.
+	 * @param name
+	 *            name of the key to get.
+	 * @param defaultValue
+	 *            default value to return if no value was present.
+	 * @return the selected enumeration value, or {@code defaultValue}.
+	 */
+	public <T extends Enum<?>> T getEnum(final String section,
+			final String subsection, final String name, final T defaultValue) {
+		final T[] all = allValuesOf(defaultValue);
+		return getEnum(all, section, subsection, name, defaultValue);
+	}
+
+	@SuppressWarnings("unchecked")
+	private static <T> T[] allValuesOf(final T value) {
+		try {
+			return (T[]) value.getClass().getMethod("values").invoke(null);
+		} catch (Exception err) {
+			String typeName = value.getClass().getName();
+			String msg = MessageFormat.format(
+					JGitText.get().enumValuesNotAvailable, typeName);
+			throw new IllegalArgumentException(msg, err);
+		}
+	}
+
+	/**
+	 * Parse an enumeration from the configuration.
+	 *
+	 * @param <T>
+	 *            type of the enumeration object.
+	 * @param all
+	 *            all possible values in the enumeration which should be
+	 *            recognized. Typically {@code EnumType.values()}.
+	 * @param section
+	 *            section the key is grouped within.
+	 * @param subsection
+	 *            subsection name, such a remote or branch name.
+	 * @param name
+	 *            name of the key to get.
+	 * @param defaultValue
+	 *            default value to return if no value was present.
+	 * @return the selected enumeration value, or {@code defaultValue}.
+	 */
+	public <T extends Enum<?>> T getEnum(final T[] all, final String section,
+			final String subsection, final String name, final T defaultValue) {
+		String value = getString(section, subsection, name);
+		if (value == null)
+			return defaultValue;
+
+		String n = value.replace(' ', '_');
+		T trueState = null;
+		T falseState = null;
+		for (T e : all) {
+			if (StringUtils.equalsIgnoreCase(e.name(), n))
+				return e;
+			else if (StringUtils.equalsIgnoreCase(e.name(), "TRUE"))
+				trueState = e;
+			else if (StringUtils.equalsIgnoreCase(e.name(), "FALSE"))
+				falseState = e;
+		}
+
+		// This is an odd little fallback. C Git sometimes allows boolean
+		// values in a tri-state with other things. If we have both a true
+		// and a false value in our enumeration, assume its one of those.
+		//
+		if (trueState != null && falseState != null) {
+			try {
+				return StringUtils.toBoolean(n) ? trueState : falseState;
+			} catch (IllegalArgumentException err) {
+				// Fall through and use our custom error below.
+			}
+		}
+
+		if (subsection != null)
+			throw new IllegalArgumentException(MessageFormat.format(JGitText
+					.get().enumValueNotSupported3, section, name, value));
+		else
+			throw new IllegalArgumentException(MessageFormat.format(JGitText
+					.get().enumValueNotSupported2, section, name, value));
+	}
+
+	/**
 	 * Get string value
 	 *
 	 * @param section
@@ -623,6 +712,32 @@ public class Config {
 	public void setBoolean(final String section, final String subsection,
 			final String name, final boolean value) {
 		setString(section, subsection, name, value ? "true" : "false");
+	}
+
+	/**
+	 * Add or modify a configuration value. The parameters will result in a
+	 * configuration entry like this.
+	 *
+	 * <pre>
+	 * [section &quot;subsection&quot;]
+	 *         name = value
+	 * </pre>
+	 *
+	 * @param <T>
+	 *            type of the enumeration object.
+	 * @param section
+	 *            section name, e.g "branch"
+	 * @param subsection
+	 *            optional subsection value, e.g. a branch name
+	 * @param name
+	 *            parameter name, e.g. "filemode"
+	 * @param value
+	 *            parameter value
+	 */
+	public <T extends Enum<?>> void setEnum(final String section,
+			final String subsection, final String name, final T value) {
+		String n = value.name().toLowerCase().replace('_', ' ');
+		setString(section, subsection, name, n);
 	}
 
 	/**

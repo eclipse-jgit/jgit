@@ -299,7 +299,15 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	}
 
 	private boolean mightNeedCleaning(Entry entry) {
-		return options.isAutoCRLF();
+		switch (options.getAutoCRLF()) {
+		case FALSE:
+		default:
+			return false;
+
+		case TRUE:
+		case INPUT:
+			return true;
+		}
 	}
 
 	private boolean isBinary(Entry entry, byte[] content, int sz) {

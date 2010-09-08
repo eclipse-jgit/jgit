@@ -229,6 +229,38 @@ public class ConfigTest extends TestCase {
 		assertFalse(c.getBoolean("s", "b", true));
 	}
 
+	static enum TestEnum {
+		ONE_TWO;
+	}
+
+	public void testGetEnum() throws ConfigInvalidException {
+		Config c = parse("[s]\na = ON\nb = input\nc = true\nd = off\n");
+		assertSame(CoreConfig.AutoCRLF.TRUE, c.getEnum("s", null, "a",
+				CoreConfig.AutoCRLF.FALSE));
+
+		assertSame(CoreConfig.AutoCRLF.INPUT, c.getEnum("s", null, "b",
+				CoreConfig.AutoCRLF.FALSE));
+
+		assertSame(CoreConfig.AutoCRLF.TRUE, c.getEnum("s", null, "c",
+				CoreConfig.AutoCRLF.FALSE));
+
+		assertSame(CoreConfig.AutoCRLF.FALSE, c.getEnum("s", null, "d",
+				CoreConfig.AutoCRLF.TRUE));
+
+		c = new Config();
+		assertSame(CoreConfig.AutoCRLF.FALSE, c.getEnum("s", null, "d",
+				CoreConfig.AutoCRLF.FALSE));
+
+		c = parse("[s \"b\"]\n\tc = one two\n");
+		assertSame(TestEnum.ONE_TWO, c.getEnum("s", "b", "c", TestEnum.ONE_TWO));
+	}
+
+	public void testSetEnum() {
+		final Config c = new Config();
+		c.setEnum("s", "b", "c", TestEnum.ONE_TWO);
+		assertEquals("[s \"b\"]\n\tc = one two\n", c.toText());
+	}
+
 	public void testReadLong() throws ConfigInvalidException {
 		assertReadLong(1L);
 		assertReadLong(-1L);

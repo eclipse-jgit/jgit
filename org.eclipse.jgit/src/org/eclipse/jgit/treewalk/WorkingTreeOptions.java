@@ -44,6 +44,7 @@ package org.eclipse.jgit.treewalk;
 
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.CoreConfig;
+import org.eclipse.jgit.lib.CoreConfig.AutoCRLF;
 
 /**
  * Contains options used by the WorkingTreeIterator.
@@ -57,7 +58,7 @@ public class WorkingTreeOptions {
 	 * @return created working tree options
 	 */
 	public static WorkingTreeOptions createDefaultInstance() {
-		return new WorkingTreeOptions(false);
+		return new WorkingTreeOptions(AutoCRLF.FALSE);
 	}
 
 	/**
@@ -69,14 +70,14 @@ public class WorkingTreeOptions {
 	 * @return created working tree options
 	 */
 	public static WorkingTreeOptions createConfigurationInstance(Config config) {
-		return new WorkingTreeOptions(config.get(CoreConfig.KEY).isAutoCRLF());
+		return new WorkingTreeOptions(config.get(CoreConfig.KEY).getAutoCRLF());
 	}
 
 	/**
 	 * Indicates whether EOLs of text files should be converted to '\n' before
 	 * calculating the blob ID.
 	 **/
-	private final boolean autoCRLF;
+	private final AutoCRLF autoCRLF;
 
 	/**
 	 * Creates new options.
@@ -85,7 +86,7 @@ public class WorkingTreeOptions {
 	 *            indicates whether EOLs of text files should be converted to
 	 *            '\n' before calculating the blob ID.
 	 */
-	public WorkingTreeOptions(boolean autoCRLF) {
+	public WorkingTreeOptions(AutoCRLF autoCRLF) {
 		this.autoCRLF = autoCRLF;
 	}
 
@@ -95,7 +96,7 @@ public class WorkingTreeOptions {
 	 *
 	 * @return true if EOLs should be canonicalized.
 	 */
-	public boolean isAutoCRLF() {
+	public AutoCRLF getAutoCRLF() {
 		return autoCRLF;
 	}
 }
