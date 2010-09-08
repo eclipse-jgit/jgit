@@ -45,7 +45,7 @@ package org.eclipse.jgit.storage.file;
 
 import java.lang.ref.SoftReference;
 
-class UnpackedObjectCache {
+class DeltaBaseCache {
 	private static final int CACHE_SZ = 1024;
 
 	private static final SoftReference<Entry> DEAD;
@@ -164,7 +164,7 @@ class UnpackedObjectCache {
 		e.sz = 0;
 	}
 
-	private UnpackedObjectCache() {
+	private DeltaBaseCache() {
 		throw new UnsupportedOperationException();
 	}
 

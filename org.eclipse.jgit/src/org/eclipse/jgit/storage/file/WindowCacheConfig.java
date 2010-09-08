@@ -146,7 +146,7 @@ public class WindowCacheConfig {
 	}
 
 	/**
-	 * @return maximum number of bytes to cache in {@link UnpackedObjectCache}
+	 * @return maximum number of bytes to cache in {@link DeltaBaseCache}
 	 *         for inflated, recently accessed objects, without delta chains.
 	 *         <b>Default 10 MB.</b>
 	 */
@@ -157,7 +157,7 @@ public class WindowCacheConfig {
 	/**
 	 * @param newLimit
 	 *            maximum number of bytes to cache in
-	 *            {@link UnpackedObjectCache} for inflated, recently accessed
+	 *            {@link DeltaBaseCache} for inflated, recently accessed
 	 *            objects, without delta chains.
 	 */
 	public void setDeltaBaseCacheLimit(final int newLimit) {
