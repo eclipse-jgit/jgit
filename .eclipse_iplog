@@ -37,3 +37,8 @@
 	use = unmodified binary
 	state = approved
 
+[CQ "3886"]
+	description = Apache SSHD Version: 0.3.0 (Subset)
+	license = Apache License, 2.0, New BSD license, MIT license
+	use = unmodified source & binary
+	state = approved
