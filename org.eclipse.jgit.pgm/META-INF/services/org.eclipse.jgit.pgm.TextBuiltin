@@ -23,7 +23,7 @@ org.eclipse.jgit.pgm.ReceivePack
 org.eclipse.jgit.pgm.RevList
 org.eclipse.jgit.pgm.RevParse
 org.eclipse.jgit.pgm.Rm
-org.eclipse.jgit.pgm.ShowRev
+org.eclipse.jgit.pgm.Show
 org.eclipse.jgit.pgm.ShowRef
 org.eclipse.jgit.pgm.Tag
 org.eclipse.jgit.pgm.UploadPack
