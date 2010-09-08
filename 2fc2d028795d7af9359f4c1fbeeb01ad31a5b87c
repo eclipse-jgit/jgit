@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALyH///bQ\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/CatFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-19T17:44:36Z",
+      "side": 1,
+      "message": "Since we\u0027re mucking about with this, lets just define:\n\n  public enum ObjectType {\n    COMMIT(Constants.OBJ_COMMIT, Constants.TYPE_COMMIT),\n    TREE(...),\n    BLOB(...),\n    TAG(...)\n\n    public int getPackType() {\n      return packType;\n    }\n\n    public String getTypeString() {\n      return typeName;\n    }\n\n    public static ObjectType forPackType(int type) {...}\n    public static ObjectType forTypeString(String type) {...}\n  }\n\nand declare this as part of our public API.  While we are at it we can add getObjectType() to ObjectLoader, ObjectStream, and RevObject should an application prefer to use the type-safe enum variant.  We should also implement overload forms of the open(ObjectId,int) method to be open(ObjectId,ObjectType).  Our current typing code was before we supported Java 5 and had  access to enums.  The enums are a bit cleaner to work with, so we might as well just start supporting it.  IMHO that should all be in its own change, before you add CatFile.\n\nThen you can just use ObjectType here for your parameter.",
+      "revId": "2fc2d028795d7af9359f4c1fbeeb01ad31a5b87c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyH///bM\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/CatFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-19T17:44:36Z",
+      "side": 1,
+      "message": "Use db.open(objectId, typeCode) instead.",
+      "revId": "2fc2d028795d7af9359f4c1fbeeb01ad31a5b87c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyH///bI\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/CatFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-19T17:44:36Z",
+      "side": 1,
+      "message": "Do not do single byte IO.  Most of our ObjectStream implementations perform very poorly.  Allocate a new byte[4096] or new byte[8192] and do IO in larger units.\n\nAlso the size is well known (outputStream.getSize()).  It is good to be paranoid, so double check that the total number of bytes output matches the size of the stream.  If they differ, complain, loudly with a die.",
+      "revId": "2fc2d028795d7af9359f4c1fbeeb01ad31a5b87c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
