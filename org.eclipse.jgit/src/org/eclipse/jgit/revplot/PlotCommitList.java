@@ -114,11 +114,14 @@ public class PlotCommitList<L extends PlotLane> extends
 
 	@Override
 	protected void enter(final int index, final PlotCommit<L> currCommit) {
-		setupChildren(currCommit);
+		notifyParents(currCommit);
 
 		final int nChildren = currCommit.getChildCount();
-		if (nChildren == 0)
+		if (nChildren == 0) {
+			currCommit.lane = nextFreeLane();
+			activeLanes.add(currCommit.lane);
 			return;
+		}
 
 		if (nChildren == 1 && currCommit.children[0].getParentCount() < 2) {
 			// Only one child, child has only us as their parent.
@@ -132,6 +135,8 @@ public class PlotCommitList<L extends PlotLane> extends
 				activeLanes.add(c.lane);
 			}
 
+			// tell everybody on rows between us and our child that our lane
+			// will pass along them
 			for (int r = index - 1; r >= 0; r--) {
 				final PlotCommit rObj = get(r);
 				if (rObj == c)
@@ -167,7 +172,7 @@ public class PlotCommitList<L extends PlotLane> extends
 		}
 	}
 
-	private void setupChildren(final PlotCommit<L> currCommit) {
+	private void notifyParents(final PlotCommit<L> currCommit) {
 		final int nParents = currCommit.getParentCount();
 		for (int i = 0; i < nParents; i++)
 			((PlotCommit) currCommit.getParent(i)).addChild(currCommit);
