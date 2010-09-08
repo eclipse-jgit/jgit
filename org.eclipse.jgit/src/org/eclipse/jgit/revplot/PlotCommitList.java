@@ -1,5 +1,6 @@
 /*
- * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org>
+ * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org>,
+ * Copyright (C) 2010, Christian Halstrick <christian.halstrick@sap.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -68,17 +69,17 @@ public class PlotCommitList<L extends PlotLane> extends
 		RevCommitList<PlotCommit<L>> {
 	static final int MAX_LENGTH = 25;
 
-	private int lanesAllocated;
+	private int positionsAllocated;
 
-	private final TreeSet<Integer> freeLanes = new TreeSet<Integer>();
+	private final TreeSet<Integer> freePositions = new TreeSet<Integer>();
 
 	private final HashSet<PlotLane> activeLanes = new HashSet<PlotLane>(32);
 
 	@Override
 	public void clear() {
 		super.clear();
-		lanesAllocated = 0;
-		freeLanes.clear();
+		positionsAllocated = 0;
+		freePositions.clear();
 		activeLanes.clear();
 	}
 
@@ -144,13 +145,47 @@ public class PlotCommitList<L extends PlotLane> extends
 			// Use a different lane.
 			//
 
+			// Process all our children. Especially important when there is more
+			// than one child (e.g. a commit is processed where other branches
+			// fork out). For each child the following is done
+			// 1. If no lane was assigned to the child a new lane is created and
+			// assigned
+			// 2. The lane of the child is closed. If this frees a position,
+			// this position will be added freePositions list.
+			// If we have multiple children which where previously not on a lane
+			// each such child will get his own new lane but all those new lanes
+			// will be on the same position. We have to take care that not
+			// multiple
+			// newly created (in step 1) lanes occupy that position on which the
+			// parent's lane will be on. Therefore we delay closing the lane
+			// with the
+			// parents position until all children are processed.
+
+			// The lane on that position the current commit will be on
+			PlotLane reservedLane = null;
+
 			for (int i = 0; i < nChildren; i++) {
 				final PlotCommit c = currCommit.children[i];
-				if (activeLanes.remove(c.lane)) {
-					recycleLane((L) c.lane);
-					freeLanes.add(Integer.valueOf(c.lane.getPosition()));
-				}
+				// don't forget to position all of your children if they are
+				// not already positioned.
+				if (c.lane == null) {
+					c.lane = nextFreeLane();
+					if (reservedLane != null)
+						closeLane(c.lane);
+					else
+						reservedLane = c.lane;
+				} else
+					if (reservedLane == null && activeLanes.contains(c.lane))
+						reservedLane = c.lane;
+					else
+						if (activeLanes.remove(c.lane))
+							closeLane(c.lane);
 			}
+
+			// finally all children are processed. We can close the lane on that
+			// position our current commit will be on.
+			if (reservedLane != null)
+				closeLane(reservedLane);
 
 			currCommit.lane = nextFreeLane();
 			activeLanes.add(currCommit.lane);
@@ -167,6 +202,11 @@ public class PlotCommitList<L extends PlotLane> extends
 		}
 	}
 
+	private void closeLane(PlotLane reservedLane) {
+		recycleLane((L) reservedLane);
+		freePositions.add(Integer.valueOf(reservedLane.getPosition()));
+	}
+
 	private void setupChildren(final PlotCommit<L> currCommit) {
 		final int nParents = currCommit.getParentCount();
 		for (int i = 0; i < nParents; i++)
@@ -175,12 +215,12 @@ public class PlotCommitList<L extends PlotLane> extends
 
 	private PlotLane nextFreeLane() {
 		final PlotLane p = createLane();
-		if (freeLanes.isEmpty()) {
-			p.position = lanesAllocated++;
+		if (freePositions.isEmpty()) {
+			p.position = positionsAllocated++;
 		} else {
-			final Integer min = freeLanes.first();
+			final Integer min = freePositions.first();
 			p.position = min.intValue();
-			freeLanes.remove(min);
+			freePositions.remove(min);
 		}
 		return p;
 	}
