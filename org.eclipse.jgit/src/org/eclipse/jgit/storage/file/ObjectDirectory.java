@@ -117,6 +117,8 @@ public class ObjectDirectory extends FileObjectDatabase {
 
 	private final AtomicReference<AlternateHandle[]> alternates;
 
+	private final UnpackedObjectCache unpackedObjectCache;
+
 	/**
 	 * Initialize a reference to an on-disk object directory.
 	 *
@@ -140,6 +142,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 		packDirectory = new File(objects, "pack");
 		alternatesFile = new File(infoDirectory, "alternates");
 		packList = new AtomicReference<PackList>(NO_PACKS);
+		unpackedObjectCache = new UnpackedObjectCache();
 		this.fs = fs;
 
 		alternates = new AtomicReference<AlternateHandle[]>();
@@ -179,6 +182,8 @@ public class ObjectDirectory extends FileObjectDatabase {
 
 	@Override
 	public void close() {
+		unpackedObjectCache.clear();
+
 		final PackList packs = packList.get();
 		packList.set(NO_PACKS);
 		for (final PackFile p : packs.packs)
@@ -255,6 +260,8 @@ public class ObjectDirectory extends FileObjectDatabase {
 	}
 
 	boolean hasObject1(final AnyObjectId objectId) {
+		if (unpackedObjectCache.isUnpacked(objectId))
+			return true;
 		for (final PackFile p : packList.get().packs) {
 			try {
 				if (p.hasObject(objectId)) {
@@ -328,6 +335,14 @@ public class ObjectDirectory extends FileObjectDatabase {
 
 	ObjectLoader openObject1(final WindowCursor curs,
 			final AnyObjectId objectId) throws IOException {
+		if (unpackedObjectCache.isUnpacked(objectId)) {
+			ObjectLoader ldr = openObject2(curs, objectId.name(), objectId);
+			if (ldr != null)
+				return ldr;
+			else
+				unpackedObjectCache.remove(objectId);
+		}
+
 		PackList pList = packList.get();
 		SEARCH: for (;;) {
 			for (final PackFile p : pList.packs) {
@@ -429,13 +444,19 @@ public class ObjectDirectory extends FileObjectDatabase {
 			File path = fileFor(objectName);
 			FileInputStream in = new FileInputStream(path);
 			try {
+				unpackedObjectCache.add(objectId);
 				return UnpackedObject.open(in, path, objectId, curs);
 			} finally {
 				in.close();
 			}
 		} catch (FileNotFoundException noFile) {
+			unpackedObjectCache.remove(objectId);
 			return null;
 		}
+	}
+
+	void addUnpackedObject(ObjectId id) {
+		unpackedObjectCache.add(id);
 	}
 
 	boolean tryAgain1() {
