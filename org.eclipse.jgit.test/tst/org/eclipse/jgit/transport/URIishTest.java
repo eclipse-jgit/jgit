@@ -83,6 +83,16 @@ public class URIishTest extends TestCase {
 		assertEquals(u, new URIish(str));
 	}
 
+	public void testRelativePath() throws Exception {
+		final String str = "../../foo/bar";
+		URIish u = new URIish(str);
+		assertNull(u.getScheme());
+		assertFalse(u.isRemote());
+		assertEquals(str, u.getPath());
+		assertEquals(str, u.toString());
+		assertEquals(u, new URIish(str));
+	}
+
 	public void testUNC() throws Exception {
 		final String str = "\\\\some\\place";
 		URIish u = new URIish(str);
