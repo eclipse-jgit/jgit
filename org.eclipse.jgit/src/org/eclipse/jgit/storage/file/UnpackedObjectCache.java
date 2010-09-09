@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org>
+ * Copyright (C) 2010, Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -43,153 +43,107 @@
 
 package org.eclipse.jgit.storage.file;
 
-import java.lang.ref.SoftReference;
+import java.util.concurrent.atomic.AtomicReferenceArray;
 
+import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.ObjectId;
+
+/** Remembers objects that are currently unpacked. */
 class UnpackedObjectCache {
-	private static final int CACHE_SZ = 1024;
+	private static final int INITIAL_BITS = 5; // size = 32
 
-	private static final SoftReference<Entry> DEAD;
+	private static final int MAX_BITS = 11; // size = 2048
 
-	private static int hash(final long position) {
-		return (((int) position) << 22) >>> 22;
+	private volatile Table table;
+
+	UnpackedObjectCache() {
+		table = new Table(INITIAL_BITS);
 	}
 
-	private static int maxByteCount;
-
-	private static final Slot[] cache;
-
-	private static Slot lruHead;
-
-	private static Slot lruTail;
-
-	private static int openByteCount;
-
-	static {
-		DEAD = new SoftReference<Entry>(null);
-		maxByteCount = new WindowCacheConfig().getDeltaBaseCacheLimit();
-
-		cache = new Slot[CACHE_SZ];
-		for (int i = 0; i < CACHE_SZ; i++)
-			cache[i] = new Slot();
+	boolean isUnpacked(AnyObjectId objectId) {
+		return table.contains(objectId);
 	}
 
-	static synchronized void reconfigure(final WindowCacheConfig cfg) {
-		final int dbLimit = cfg.getDeltaBaseCacheLimit();
-		if (maxByteCount != dbLimit) {
-			maxByteCount = dbLimit;
-			releaseMemory();
+	void add(AnyObjectId objectId) {
+		Table t = table;
+		if (t.add(objectId)) {
+			// The object either already exists in the table, or was
+			// successfully added. Either way leave the table alone.
+			//
+		} else {
+			// The object won't fit into the table. Implement a crude
+			// cache removal by just dropping the table away, but double
+			// it in size for the next incarnation.
+			//
+			Table n = new Table(Math.min(t.bits + 1, MAX_BITS));
+			n.add(objectId);
+			table = n;
 		}
 	}
 
-	static synchronized Entry get(final PackFile pack, final long position) {
-		final Slot e = cache[hash(position)];
-		if (e.provider == pack && e.position == position) {
-			final Entry buf = e.data.get();
-			if (buf != null) {
-				moveToHead(e);
-				return buf;
+	void remove(AnyObjectId objectId) {
+		if (isUnpacked(objectId))
+			clear();
+	}
+
+	void clear() {
+		table = new Table(INITIAL_BITS);
+	}
+
+	private static class Table {
+		private static final int MAX_CHAIN = 8;
+
+		private final AtomicReferenceArray<ObjectId> ids;
+
+		private final int shift;
+
+		final int bits;
+
+		Table(int bits) {
+			this.ids = new AtomicReferenceArray<ObjectId>(1 << bits);
+			this.shift = 32 - bits;
+			this.bits = bits;
+		}
+
+		boolean contains(AnyObjectId toFind) {
+			int i = index(toFind);
+			for (int n = 0; n < MAX_CHAIN; n++) {
+				ObjectId obj = ids.get(i);
+				if (obj == null)
+					break;
+
+				if (AnyObjectId.equals(obj, toFind))
+					return true;
+
+				if (++i == ids.length())
+					i = 0;
 			}
+			return false;
 		}
-		return null;
-	}
 
-	static synchronized void store(final PackFile pack, final long position,
-			final byte[] data, final int objectType) {
-		if (data.length > maxByteCount)
-			return; // Too large to cache.
+		boolean add(AnyObjectId toAdd) {
+			int i = index(toAdd);
+			for (int n = 0; n < MAX_CHAIN;) {
+				ObjectId obj = ids.get(i);
+				if (obj == null) {
+					if (ids.compareAndSet(i, null, toAdd.copy()))
+						return true;
+					else
+						continue;
+				}
 
-		final Slot e = cache[hash(position)];
-		clearEntry(e);
+				if (AnyObjectId.equals(obj, toAdd))
+					return true;
 
-		openByteCount += data.length;
-		releaseMemory();
-
-		e.provider = pack;
-		e.position = position;
-		e.sz = data.length;
-		e.data = new SoftReference<Entry>(new Entry(data, objectType));
-		moveToHead(e);
-	}
-
-	private static void releaseMemory() {
-		while (openByteCount > maxByteCount && lruTail != null) {
-			final Slot currOldest = lruTail;
-			final Slot nextOldest = currOldest.lruPrev;
-
-			clearEntry(currOldest);
-			currOldest.lruPrev = null;
-			currOldest.lruNext = null;
-
-			if (nextOldest == null)
-				lruHead = null;
-			else
-				nextOldest.lruNext = null;
-			lruTail = nextOldest;
-		}
-	}
-
-	static synchronized void purge(final PackFile file) {
-		for (final Slot e : cache) {
-			if (e.provider == file) {
-				clearEntry(e);
-				unlink(e);
+				if (++i == ids.length())
+					i = 0;
+				n++;
 			}
+			return false;
 		}
-	}
 
-	private static void moveToHead(final Slot e) {
-		unlink(e);
-		e.lruPrev = null;
-		e.lruNext = lruHead;
-		if (lruHead != null)
-			lruHead.lruPrev = e;
-		else
-			lruTail = e;
-		lruHead = e;
-	}
-
-	private static void unlink(final Slot e) {
-		final Slot prev = e.lruPrev;
-		final Slot next = e.lruNext;
-		if (prev != null)
-			prev.lruNext = next;
-		if (next != null)
-			next.lruPrev = prev;
-	}
-
-	private static void clearEntry(final Slot e) {
-		openByteCount -= e.sz;
-		e.provider = null;
-		e.data = DEAD;
-		e.sz = 0;
-	}
-
-	private UnpackedObjectCache() {
-		throw new UnsupportedOperationException();
-	}
-
-	static class Entry {
-		final byte[] data;
-
-		final int type;
-
-		Entry(final byte[] aData, final int aType) {
-			data = aData;
-			type = aType;
+		private int index(AnyObjectId id) {
+			return id.hashCode() >>> shift;
 		}
-	}
-
-	private static class Slot {
-		Slot lruPrev;
-
-		Slot lruNext;
-
-		PackFile provider;
-
-		long position;
-
-		int sz;
-
-		SoftReference<Entry> data = DEAD;
 	}
 }

@@ -69,7 +69,6 @@ import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectDatabase;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.RepositoryCache;
 import org.eclipse.jgit.lib.RepositoryCache.FileKey;
@@ -117,6 +116,8 @@ public class ObjectDirectory extends FileObjectDatabase {
 
 	private final AtomicReference<AlternateHandle[]> alternates;
 
+	private final UnpackedObjectCache unpackedObjectCache;
+
 	/**
 	 * Initialize a reference to an on-disk object directory.
 	 *
@@ -140,6 +141,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 		packDirectory = new File(objects, "pack");
 		alternatesFile = new File(infoDirectory, "alternates");
 		packList = new AtomicReference<PackList>(NO_PACKS);
+		unpackedObjectCache = new UnpackedObjectCache();
 		this.fs = fs;
 
 		alternates = new AtomicReference<AlternateHandle[]>();
@@ -173,12 +175,14 @@ public class ObjectDirectory extends FileObjectDatabase {
 	}
 
 	@Override
-	public ObjectInserter newInserter() {
+	public ObjectDirectoryInserter newInserter() {
 		return new ObjectDirectoryInserter(this, config);
 	}
 
 	@Override
 	public void close() {
+		unpackedObjectCache.clear();
+
 		final PackList packs = packList.get();
 		packList.set(NO_PACKS);
 		for (final PackFile p : packs.packs)
@@ -255,6 +259,8 @@ public class ObjectDirectory extends FileObjectDatabase {
 	}
 
 	boolean hasObject1(final AnyObjectId objectId) {
+		if (unpackedObjectCache.isUnpacked(objectId))
+			return true;
 		for (final PackFile p : packList.get().packs) {
 			try {
 				if (p.hasObject(objectId)) {
@@ -328,6 +334,14 @@ public class ObjectDirectory extends FileObjectDatabase {
 
 	ObjectLoader openObject1(final WindowCursor curs,
 			final AnyObjectId objectId) throws IOException {
+		if (unpackedObjectCache.isUnpacked(objectId)) {
+			ObjectLoader ldr = openObject2(curs, objectId.name(), objectId);
+			if (ldr != null)
+				return ldr;
+			else
+				unpackedObjectCache.remove(objectId);
+		}
+
 		PackList pList = packList.get();
 		SEARCH: for (;;) {
 			for (final PackFile p : pList.packs) {
@@ -429,13 +443,59 @@ public class ObjectDirectory extends FileObjectDatabase {
 			File path = fileFor(objectName);
 			FileInputStream in = new FileInputStream(path);
 			try {
+				unpackedObjectCache.add(objectId);
 				return UnpackedObject.open(in, path, objectId, curs);
 			} finally {
 				in.close();
 			}
 		} catch (FileNotFoundException noFile) {
+			unpackedObjectCache.remove(objectId);
 			return null;
 		}
+	}
+
+	@Override
+	boolean insertUnpackedObject(File tmp, ObjectId id, boolean force) {
+		if (!force && has(id)) {
+			// Object is already in the repository, remove temporary file.
+			//
+			tmp.delete();
+			return true;
+		}
+		tmp.setReadOnly();
+
+		final File dst = fileFor(id);
+		if (force && dst.exists()) {
+			tmp.delete();
+			return true;
+		}
+		if (tmp.renameTo(dst)) {
+			unpackedObjectCache.add(id);
+			return true;
+		}
+
+		// Maybe the directory doesn't exist yet as the object
+		// directories are always lazily created. Note that we
+		// try the rename first as the directory likely does exist.
+		//
+		dst.getParentFile().mkdir();
+		if (tmp.renameTo(dst)) {
+			unpackedObjectCache.add(id);
+			return true;
+		}
+
+		if (!force && has(id)) {
+			tmp.delete();
+			return true;
+		}
+
+		// The object failed to be renamed into its proper
+		// location and it doesn't exist in the repository
+		// either. We really don't know what went wrong, so
+		// fail.
+		//
+		tmp.delete();
+		return false;
 	}
 
 	boolean tryAgain1() {

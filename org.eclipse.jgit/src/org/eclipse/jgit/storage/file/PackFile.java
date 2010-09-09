@@ -220,7 +220,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 	 * Close the resources utilized by this repository
 	 */
 	public void close() {
-		UnpackedObjectCache.purge(this);
+		DeltaBaseCache.purge(this);
 		WindowCache.purge(this);
 		synchronized (this) {
 			loadedIdx = null;
@@ -272,14 +272,6 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 	 */
 	ObjectId findObjectForOffset(final long offset) throws IOException {
 		return getReverseIdx().findObject(offset);
-	}
-
-	private final UnpackedObjectCache.Entry readCache(final long position) {
-		return UnpackedObjectCache.get(this, position);
-	}
-
-	private final void saveCache(final long position, final byte[] data, final int type) {
-		UnpackedObjectCache.store(this, position, data, type);
 	}
 
 	private final byte[] decompress(final long position, final long totalSize,
@@ -700,7 +692,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 		byte[] data;
 		int type;
 
-		UnpackedObjectCache.Entry e = readCache(posBase);
+		DeltaBaseCache.Entry e = DeltaBaseCache.get(this, posBase);
 		if (e != null) {
 			data = e.data;
 			type = e.type;
@@ -715,7 +707,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 			}
 			data = p.getCachedBytes();
 			type = p.getType();
-			saveCache(posBase, data, type);
+			DeltaBaseCache.store(this, posBase, data, type);
 		}
 
 		// At this point we have the base, and its small, and the delta
