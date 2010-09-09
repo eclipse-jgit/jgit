@@ -64,7 +64,12 @@ public class URIish implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private static final Pattern FULL_URI = Pattern
-			.compile("^(?:([a-z][a-z0-9+-]+)://(?:([^/]+?)(?::([^/]+?))?@)?(?:([^/]+?))?(?::(\\d+))?)?((?:[A-Za-z]:)?/.+)$");
+			.compile("^(?:([a-z][a-z0-9+-]+)://" + // optional gopher://
+					"(?:([^/]+?)(?::([^/]+?))?@)?" + // optional user:password@
+					"(?:([^/]+?))?(?::(\\d+))?)?" + // optional example.com:1337
+					"((?:[A-Za-z]:)?" + // optional drive-letter:
+					"(?:\\.\\.)?" + // optionally a relative path
+					"/.+)$"); // /anything
 
 	private static final Pattern SCP_URI = Pattern
 			.compile("^(?:([^@]+?)@)?([^:]+?):(.+)$");
