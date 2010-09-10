@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALy3///y0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-10T04:01:30Z",
+      "side": 1,
+      "message": "gopher?  Seriously?  Why not http?  :-)",
+      "revId": "b74de0450a1c602b22884e19d994ce2f52634c77",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///ys\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-10T04:01:30Z",
+      "side": 1,
+      "message": "Style-nit: We put the + at the start of the line, not at the end.",
+      "revId": "b74de0450a1c602b22884e19d994ce2f52634c77",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///yo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-10T04:01:30Z",
+      "side": 1,
+      "message": "Do we want to promote this pattern?  This seems to allow \"http://example.com/../foo\" which is nonsense as a URL.\n\nI wonder if we don\u0027t just need a different URL pattern altogether for this, similar to the SCP_URI special case we have.  Maybe a new pattern that we test before SCP_URI and FULL_URI that looks like:\n\n  PATH_URI \u003d \"(?:[A-Za-z]:\"  // optional drive-letter\n    + \"|\\.|\\.\\.)?\" // or optional relative path indicator\n    + \"(/.+)$\"\n\nThat\u0027s just off the top of my head while distracted by other things going on in the room around me, so don\u0027t hold me to this being the correct pattern or anything, but I think its possible to recognize a local file path that isn\u0027t like a URL before trying the FULL_URI variant and without allowing \"http://example.com/../foo\".",
+      "revId": "b74de0450a1c602b22884e19d994ce2f52634c77",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
