@@ -216,7 +216,7 @@ public abstract class RawTextComparator extends SequenceComparator<RawText> {
 		}
 	};
 
-	/** Ignores trailing whitespace. */
+	/** Ignores whitespace occurring between non-whitespace characters. */
 	public static final RawTextComparator WS_IGNORE_CHANGE = new RawTextComparator() {
 		@Override
 		public boolean equals(RawText a, int ai, RawText b, int bi) {
