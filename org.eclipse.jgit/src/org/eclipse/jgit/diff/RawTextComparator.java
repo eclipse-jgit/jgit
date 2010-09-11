@@ -57,9 +57,6 @@ public abstract class RawTextComparator extends SequenceComparator<RawText> {
 			ai++;
 			bi++;
 
-			if (a.hashes[ai] != b.hashes[bi])
-				return false;
-
 			int as = a.lines.get(ai);
 			int bs = b.lines.get(bi);
 			final int ae = a.lines.get(ai + 1);
@@ -76,7 +73,7 @@ public abstract class RawTextComparator extends SequenceComparator<RawText> {
 		}
 
 		@Override
-		public int hashRegion(final byte[] raw, int ptr, final int end) {
+		protected int hashRegion(final byte[] raw, int ptr, final int end) {
 			int hash = 5381;
 			for (; ptr < end; ptr++)
 				hash = (hash << 5) ^ (raw[ptr] & 0xff);
@@ -90,9 +87,6 @@ public abstract class RawTextComparator extends SequenceComparator<RawText> {
 		public boolean equals(RawText a, int ai, RawText b, int bi) {
 			ai++;
 			bi++;
-
-			if (a.hashes[ai] != b.hashes[bi])
-				return false;
 
 			int as = a.lines.get(ai);
 			int bs = b.lines.get(bi);
@@ -127,7 +121,7 @@ public abstract class RawTextComparator extends SequenceComparator<RawText> {
 		}
 
 		@Override
-		public int hashRegion(byte[] raw, int ptr, int end) {
+		protected int hashRegion(byte[] raw, int ptr, int end) {
 			int hash = 5381;
 			for (; ptr < end; ptr++) {
 				byte c = raw[ptr];
@@ -144,9 +138,6 @@ public abstract class RawTextComparator extends SequenceComparator<RawText> {
 		public boolean equals(RawText a, int ai, RawText b, int bi) {
 			ai++;
 			bi++;
-
-			if (a.hashes[ai] != b.hashes[bi])
-				return false;
 
 			int as = a.lines.get(ai);
 			int bs = b.lines.get(bi);
@@ -167,7 +158,7 @@ public abstract class RawTextComparator extends SequenceComparator<RawText> {
 		}
 
 		@Override
-		public int hashRegion(final byte[] raw, int ptr, int end) {
+		protected int hashRegion(final byte[] raw, int ptr, int end) {
 			int hash = 5381;
 			ptr = trimLeadingWhitespace(raw, ptr, end);
 			for (; ptr < end; ptr++) {
@@ -183,9 +174,6 @@ public abstract class RawTextComparator extends SequenceComparator<RawText> {
 		public boolean equals(RawText a, int ai, RawText b, int bi) {
 			ai++;
 			bi++;
-
-			if (a.hashes[ai] != b.hashes[bi])
-				return false;
 
 			int as = a.lines.get(ai);
 			int bs = b.lines.get(bi);
@@ -206,7 +194,7 @@ public abstract class RawTextComparator extends SequenceComparator<RawText> {
 		}
 
 		@Override
-		public int hashRegion(final byte[] raw, int ptr, int end) {
+		protected int hashRegion(final byte[] raw, int ptr, int end) {
 			int hash = 5381;
 			end = trimTrailingWhitespace(raw, ptr, end);
 			for (; ptr < end; ptr++) {
@@ -222,9 +210,6 @@ public abstract class RawTextComparator extends SequenceComparator<RawText> {
 		public boolean equals(RawText a, int ai, RawText b, int bi) {
 			ai++;
 			bi++;
-
-			if (a.hashes[ai] != b.hashes[bi])
-				return false;
 
 			int as = a.lines.get(ai);
 			int bs = b.lines.get(bi);
@@ -255,7 +240,7 @@ public abstract class RawTextComparator extends SequenceComparator<RawText> {
 		}
 
 		@Override
-		public int hashRegion(final byte[] raw, int ptr, int end) {
+		protected int hashRegion(final byte[] raw, int ptr, int end) {
 			int hash = 5381;
 			end = trimTrailingWhitespace(raw, ptr, end);
 			while (ptr < end) {
@@ -271,8 +256,10 @@ public abstract class RawTextComparator extends SequenceComparator<RawText> {
 	};
 
 	@Override
-	public int hash(RawText seq, int ptr) {
-		return seq.hashes[ptr + 1];
+	public int hash(RawText seq, int lno) {
+		final int begin = seq.lines.get(lno + 1);
+		final int end = seq.lines.get(lno + 2);
+		return hashRegion(seq.content, begin, end);
 	}
 
 	/**
@@ -286,5 +273,5 @@ public abstract class RawTextComparator extends SequenceComparator<RawText> {
 	 *            1 past the last byte of the region.
 	 * @return hash code for the region <code>[ptr, end)</code> of raw.
 	 */
-	public abstract int hashRegion(byte[] raw, int ptr, int end);
+	protected abstract int hashRegion(byte[] raw, int ptr, int end);
 }

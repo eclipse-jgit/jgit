@@ -115,32 +115,36 @@ public class MyersDiff<S extends Sequence> {
 	};
 
 	/**
-	 * The list of edits found during the last call to {@link #calculateEdits()}
+	 * The list of edits found during the last call to {@link #calculateEdits(Edit)}
 	 */
 	protected EditList edits;
 
 	/** Comparison function for sequences. */
-	protected SequenceComparator<? super S> cmp;
+	protected HashedSequenceComparator<S> cmp;
 
 	/**
 	 * The first text to be compared. Referred to as "Text A" in the comments
 	 */
-	protected S a;
+	protected HashedSequence<S> a;
 
 	/**
 	 * The second text to be compared. Referred to as "Text B" in the comments
 	 */
-	protected S b;
+	protected HashedSequence<S> b;
 
 	private MyersDiff(SequenceComparator<? super S> cmp, S a, S b) {
-		this.cmp = cmp;
-		this.a = a;
-		this.b = b;
-		calculateEdits();
+		Edit region = new Edit(0, a.size(), 0, b.size());
+		HashedSequencePair<S> pair;
+		pair = new HashedSequencePair<S>(cmp, a, b, region);
+
+		this.cmp = pair.getComparator();
+		this.a = pair.getA();
+		this.b = pair.getB();
+		calculateEdits(region);
 	}
 
 	/**
-	 * @return the list of edits found during the last call to {@link #calculateEdits()}
+	 * @return the list of edits found during the last call to {@link #calculateEdits(Edit)}
 	 */
 	public EditList getEdits() {
 		return edits;
@@ -152,11 +156,12 @@ public class MyersDiff<S extends Sequence> {
 	/**
 	 * Entrypoint into the algorithm this class is all about. This method triggers that the
 	 * differences between A and B are calculated in form of a list of edits.
+	 * @param r defines the range of elements in A and B that are compared.
 	 */
-	protected void calculateEdits() {
+	protected void calculateEdits(Edit r) {
 		edits = new EditList();
 
-		middle.initialize(0, a.size(), 0, b.size());
+		middle.initialize(r.beginA, r.endA, r.beginB, r.endB);
 		if (middle.beginA >= middle.endA &&
 				middle.beginB >= middle.endB)
 			return;

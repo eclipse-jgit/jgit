@@ -882,8 +882,8 @@ public class DiffFormatter {
 				type = PatchType.BINARY;
 
 			} else {
-				res.a = new RawText(comparator, aRaw);
-				res.b = new RawText(comparator, bRaw);
+				res.a = new RawText(aRaw);
+				res.b = new RawText(bRaw);
 				editList = diff(res.a, res.b);
 				type = PatchType.UNIFIED;
 

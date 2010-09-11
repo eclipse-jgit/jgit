@@ -75,9 +75,6 @@ public class RawText extends Sequence {
 	/** Map of line number to starting position within {@link #content}. */
 	protected final IntList lines;
 
-	/** Hash code for each line, for fast equality elimination. */
-	protected final int[] hashes;
-
 	/**
 	 * Create a new sequence from an existing content byte array.
 	 * <p>
@@ -105,7 +102,6 @@ public class RawText extends Sequence {
 	public RawText(RawTextComparator cmp, byte[] input) {
 		content = input;
 		lines = RawParseUtils.lineMap(content, 0, content.length);
-		hashes = computeHashes(cmp);
 	}
 
 	/**
@@ -168,16 +164,6 @@ public class RawText extends Sequence {
 		if (end == 0)
 			return true;
 		return content[end - 1] != '\n';
-	}
-
-	private int[] computeHashes(RawTextComparator cmp) {
-		final int[] r = new int[lines.size()];
-		for (int lno = 1; lno < lines.size() - 1; lno++) {
-			final int ptr = lines.get(lno);
-			final int end = lines.get(lno + 1);
-			r[lno] = cmp.hashRegion(content, ptr, end);
-		}
-		return r;
 	}
 
 	/**
