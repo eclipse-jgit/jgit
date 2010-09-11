@@ -46,6 +46,7 @@ package org.eclipse.jgit.diff;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 import junit.framework.TestCase;
 
@@ -97,5 +98,52 @@ public class RawTextTest extends TestCase {
 		a.writeLine(o, 1);
 		final byte[] r = o.toByteArray();
 		assertEquals("", RawParseUtils.decode(r));
+	}
+
+	public void testComparatorReduceCommonStartEnd()
+			throws UnsupportedEncodingException {
+		final RawTextComparator c = RawTextComparator.DEFAULT;
+		Edit e;
+
+		e = c.reduceCommonStartEnd(t(""), t(""), new Edit(0, 0, 0, 0));
+		assertEquals(new Edit(0, 0, 0, 0), e);
+
+		e = c.reduceCommonStartEnd(t("a"), t("b"), new Edit(0, 1, 0, 1));
+		assertEquals(new Edit(0, 1, 0, 1), e);
+
+		e = c.reduceCommonStartEnd(t("a"), t("a"), new Edit(0, 1, 0, 1));
+		assertEquals(new Edit(1, 1, 1, 1), e);
+
+		e = c.reduceCommonStartEnd(t("axB"), t("axC"), new Edit(0, 3, 0, 3));
+		assertEquals(new Edit(2, 3, 2, 3), e);
+
+		e = c.reduceCommonStartEnd(t("Bxy"), t("Cxy"), new Edit(0, 3, 0, 3));
+		assertEquals(new Edit(0, 1, 0, 1), e);
+
+		e = c.reduceCommonStartEnd(t("bc"), t("Abc"), new Edit(0, 2, 0, 3));
+		assertEquals(new Edit(0, 0, 0, 1), e);
+
+		e = new Edit(0, 5, 0, 5);
+		e = c.reduceCommonStartEnd(t("abQxy"), t("abRxy"), e);
+		assertEquals(new Edit(2, 3, 2, 3), e);
+
+		RawText a = new RawText("p\na b\nQ\nc d\n".getBytes("UTF-8"));
+		RawText b = new RawText("p\na  b \nR\n c  d \n".getBytes("UTF-8"));
+		e = new Edit(0, 4, 0, 4);
+		e = RawTextComparator.WS_IGNORE_ALL.reduceCommonStartEnd(a, b, e);
+		assertEquals(new Edit(2, 3, 2, 3), e);
+	}
+
+	private static RawText t(String text) {
+		StringBuilder r = new StringBuilder();
+		for (int i = 0; i < text.length(); i++) {
+			r.append(text.charAt(i));
+			r.append('\n');
+		}
+		try {
+			return new RawText(r.toString().getBytes("UTF-8"));
+		} catch (UnsupportedEncodingException e) {
+			throw new RuntimeException(e);
+		}
 	}
 }
