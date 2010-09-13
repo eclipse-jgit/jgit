@@ -50,8 +50,10 @@ import java.util.List;
 
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
+import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.pgm.opt.PathTreeFilterHandler;
 import org.eclipse.jgit.revwalk.FollowFilter;
 import org.eclipse.jgit.revwalk.ObjectWalk;
@@ -79,6 +81,9 @@ abstract class RevWalkTextBuiltin extends TextBuiltin {
 
 	@Option(name = "--total-count")
 	boolean count = false;
+
+	@Option(name = "--all")
+	boolean all = false;
 
 	char[] outbuffer = new char[Constants.OBJECT_ID_LENGTH * 2];
 
@@ -155,6 +160,18 @@ abstract class RevWalkTextBuiltin extends TextBuiltin {
 			walk.setRevFilter(revLimiter.get(0));
 		else if (revLimiter.size() > 1)
 			walk.setRevFilter(AndRevFilter.create(revLimiter));
+
+		if (all)
+			for (Ref a : db.getAllRefs().values()) {
+				ObjectId oid = a.getPeeledObjectId();
+				if (oid == null)
+					oid = a.getObjectId();
+				try {
+					commits.add(walk.parseCommit(oid));
+				} catch (IncorrectObjectTypeException e) {
+					// Ignore all refs which are not commits
+				}
+			}
 
 		if (commits.isEmpty()) {
 			final ObjectId head = db.resolve(Constants.HEAD);
