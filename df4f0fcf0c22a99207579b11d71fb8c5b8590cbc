@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAALy3///wM\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revplot/PlotCommitListTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-09-12T19:22:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALy3///w8\u003d",
+      "revId": "df4f0fcf0c22a99207579b11d71fb8c5b8590cbc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALy3///w4\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revplot/PlotCommitListTest.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAALy3///wI\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revplot/PlotCommitListTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-09-12T19:22:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALy3///w4\u003d",
+      "revId": "df4f0fcf0c22a99207579b11d71fb8c5b8590cbc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALy3///w0\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revplot/PlotCommitListTest.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2010-09-10T22:05:32Z",
       "side": 1,
       "message": "This 3 args-per-commit syntax is obtuse.  I would prefer to be a bit more declarative within the test, at the expense of slightly more framework to implement the test.\n\nEither inline the assertions for c, b, a in the test, or setup something that lets you describe the values, e.g.:\n\n  private TestList expected;\n\n  expected.row(c).lane(0).parent(b);\n  expected.row(b).lane(0).parent(a);\n  expected.row(a).lane(0);\n  assertCommitList(pcl);",
+      "revId": "df4f0fcf0c22a99207579b11d71fb8c5b8590cbc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///wE\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revplot/PlotCommitListTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-09-12T19:22:24Z",
+      "side": 1,
+      "message": "I agree, I\u0027ll propose something like you suggested.",
+      "parentUuid": "AAALy3///w0\u003d",
       "revId": "df4f0fcf0c22a99207579b11d71fb8c5b8590cbc",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -87,6 +141,24 @@
     },
     {
       "key": {
+        "uuid": "AAALy3///wA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revplot/PlotCommitList.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-09-12T19:22:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALy3///xE\u003d",
+      "revId": "df4f0fcf0c22a99207579b11d71fb8c5b8590cbc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALy3///xM\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revplot/PlotCommitList.java",
         "patchSetId": 1
@@ -98,6 +170,24 @@
       "writtenOn": "2010-09-10T22:05:32Z",
       "side": 1,
       "message": "Incomplete sentence here.  \"They\" ?",
+      "revId": "df4f0fcf0c22a99207579b11d71fb8c5b8590cbc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///v8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revplot/PlotCommitList.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-09-12T19:22:24Z",
+      "side": 1,
+      "message": "just removed the incomplete sentence",
+      "parentUuid": "AAALy3///xM\u003d",
       "revId": "df4f0fcf0c22a99207579b11d71fb8c5b8590cbc",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -121,6 +211,24 @@
     },
     {
       "key": {
+        "uuid": "AAALy3///v4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revplot/PlotCommitList.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-09-12T19:22:24Z",
+      "side": 1,
+      "message": "Yes, thats right. I want to make sure that in the end all commits are positioned. Previously that was not always true - we repaired unpositioned children only when they occured for parents with one child where the child had only one parent (us).\nI\u0027ll add a comment describing that better.",
+      "parentUuid": "AAALy3///xI\u003d",
+      "revId": "df4f0fcf0c22a99207579b11d71fb8c5b8590cbc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALy3///xA\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revplot/PlotCommitList.java",
         "patchSetId": 1
@@ -132,6 +240,24 @@
       "writtenOn": "2010-09-10T22:05:32Z",
       "side": 1,
       "message": "I don\u0027t understand the point of the reservedLane concept. Can you better describe either in a comment or the commit message what we are trying to do here?",
+      "revId": "df4f0fcf0c22a99207579b11d71fb8c5b8590cbc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///v0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revplot/PlotCommitList.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-09-12T19:22:24Z",
+      "side": 1,
+      "message": "I\u0027ll add a comment here.",
+      "parentUuid": "AAALy3///xA\u003d",
       "revId": "df4f0fcf0c22a99207579b11d71fb8c5b8590cbc",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
