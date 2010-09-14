@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALy3///w8\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revplot/PlotCommitListTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-10T22:05:32Z",
+      "side": 1,
+      "message": "testLinear",
+      "revId": "df4f0fcf0c22a99207579b11d71fb8c5b8590cbc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///w4\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revplot/PlotCommitListTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-10T22:05:32Z",
+      "side": 1,
+      "message": "parseCommit or lookupCommit is the better way to do this.  Its dangerous to use createCommit directly because you might create two different RevCommits with the same ObjectId within the walker pool.  That will confuse flags later during the traversal algorithm.",
+      "revId": "df4f0fcf0c22a99207579b11d71fb8c5b8590cbc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///w0\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revplot/PlotCommitListTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-10T22:05:32Z",
+      "side": 1,
+      "message": "This 3 args-per-commit syntax is obtuse.  I would prefer to be a bit more declarative within the test, at the expense of slightly more framework to implement the test.\n\nEither inline the assertions for c, b, a in the test, or setup something that lets you describe the values, e.g.:\n\n  private TestList expected;\n\n  expected.row(c).lane(0).parent(b);\n  expected.row(b).lane(0).parent(a);\n  expected.row(a).lane(0);\n  assertCommitList(pcl);",
+      "revId": "df4f0fcf0c22a99207579b11d71fb8c5b8590cbc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///ww\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revplot/PlotCommitListTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-10T22:05:32Z",
+      "side": 1,
+      "message": "That\u0027s a bug.  We shouldn\u0027t do that.\n\nWhen we markStart the commits they are tagged with the SEEN flag.  That should prevent them from being added back into the pending queue when they are encountered as a parent of a commit that was popped from pending.  If that isn\u0027t working, its certainly a bug inside of the walker.",
+      "revId": "df4f0fcf0c22a99207579b11d71fb8c5b8590cbc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///xE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revplot/PlotCommitList.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-10T22:05:32Z",
+      "side": 1,
+      "message": "Typo on the name, should be reservedLane.",
+      "revId": "df4f0fcf0c22a99207579b11d71fb8c5b8590cbc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///xM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revplot/PlotCommitList.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-10T22:05:32Z",
+      "side": 1,
+      "message": "Incomplete sentence here.  \"They\" ?",
+      "revId": "df4f0fcf0c22a99207579b11d71fb8c5b8590cbc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///xI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revplot/PlotCommitList.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-10T22:05:32Z",
+      "side": 1,
+      "message": "I\u0027m not sure I understand what we are doing here.  The child doesn\u0027t yet have a lane, so we allocate one for it.  Then we immediately recycle that lane and make it free again?\n\nThis is because the lane terminates here, right?  Can we describe that in a comment here?",
+      "revId": "df4f0fcf0c22a99207579b11d71fb8c5b8590cbc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///xA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revplot/PlotCommitList.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-10T22:05:32Z",
+      "side": 1,
+      "message": "I don\u0027t understand the point of the reservedLane concept. Can you better describe either in a comment or the commit message what we are trying to do here?",
+      "revId": "df4f0fcf0c22a99207579b11d71fb8c5b8590cbc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
