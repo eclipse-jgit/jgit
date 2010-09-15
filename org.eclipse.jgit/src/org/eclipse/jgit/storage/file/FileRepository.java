@@ -231,10 +231,26 @@ public class FileRepository extends Repository {
 		head.disableRefLog();
 		head.link(Constants.R_HEADS + Constants.MASTER);
 
+		final boolean fileMode;
+		if (getFS().supportsExecute()) {
+			File tmp = File.createTempFile("try", "execute", getDirectory());
+
+			getFS().setExecute(tmp, true);
+			final boolean on = getFS().canExecute(tmp);
+
+			getFS().setExecute(tmp, false);
+			final boolean off = getFS().canExecute(tmp);
+			tmp.delete();
+
+			fileMode = on && !off;
+		} else {
+			fileMode = false;
+		}
+
 		cfg.setInt(ConfigConstants.CONFIG_CORE_SECTION, null,
 				ConfigConstants.CONFIG_KEY_REPO_FORMAT_VERSION, 0);
 		cfg.setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
-				ConfigConstants.CONFIG_KEY_FILEMODE, true);
+				ConfigConstants.CONFIG_KEY_FILEMODE, fileMode);
 		if (bare)
 			cfg.setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
 					ConfigConstants.CONFIG_KEY_BARE, true);
