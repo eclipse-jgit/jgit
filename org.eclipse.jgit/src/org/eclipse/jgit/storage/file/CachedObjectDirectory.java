@@ -213,8 +213,22 @@ class CachedObjectDirectory extends FileObjectDatabase {
 	}
 
 	@Override
-	boolean insertUnpackedObject(File tmp, ObjectId objectId, boolean force) {
-		return wrapped.insertUnpackedObject(tmp, objectId, force);
+	InsertLooseObjectResult insertUnpackedObject(File tmp, ObjectId objectId,
+			boolean createDuplicate) {
+		InsertLooseObjectResult result = wrapped.insertUnpackedObject(tmp,
+				objectId, createDuplicate);
+		switch (result) {
+		case INSERTED:
+		case EXISTS_LOOSE:
+			if (!unpackedObjects.contains(objectId))
+				unpackedObjects.add(objectId);
+			break;
+
+		case EXISTS_PACKED:
+		case FAILURE:
+			break;
+		}
+		return result;
 	}
 
 	@Override
