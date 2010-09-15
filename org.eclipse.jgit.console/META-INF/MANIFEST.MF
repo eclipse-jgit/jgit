@@ -3,11 +3,11 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %plugin_name
 Bundle-SymbolicName: org.eclipse.jgit.console
-Bundle-Version: 0.9.1
+Bundle-Version: 0.9.2.qualifier
 Bundle-Vendor: %provider_name
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Export-Package: org.eclipse.jgit.console;version="0.9.1"
-Import-Package: org.eclipse.jgit.nls;version="[0.9.1,0.10.0)",
- org.eclipse.jgit.transport;version="[0.9.1,0.10.0)",
- org.eclipse.jgit.util;version="[0.9.1,0.10.0)"
+Export-Package: org.eclipse.jgit.console;version="0.9.2"
+Import-Package: org.eclipse.jgit.nls;version="[0.9.2,0.10.0)",
+ org.eclipse.jgit.transport;version="[0.9.2,0.10.0)",
+ org.eclipse.jgit.util;version="[0.9.2,0.10.0)"
 Require-Bundle: com.jcraft.jsch;bundle-version="[0.1.37,0.2.0)"
