@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALy3///qI\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/RevWalkTextBuiltin.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-16T01:08:50Z",
+      "side": 1,
+      "message": "I would prefer to say:\n\n  if (oid \u003d\u003d null)\n    oid \u003d a.getObjectId();\n\nover using the ?: operator below.",
+      "revId": "e9f452d439abdefef378686f2d18ffacbca14ad5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///qE\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/RevWalkTextBuiltin.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-16T01:08:50Z",
+      "side": 1,
+      "message": "Not every ref points to a commit.  For example in the jgit repository itself the ref refs/tags/spearce-gpg-pub points to a blob.  :-)\n\nThis should be wrapped in a try/catch to catch IncorrectObjectTypeException and ignore the error.",
+      "revId": "e9f452d439abdefef378686f2d18ffacbca14ad5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
