@@ -310,14 +310,33 @@ public class T0003_Basic extends SampleDataRepositoryTestCase {
 		assertTrue("Read-only " + o, !o.canWrite());
 	}
 
-	public void test005_ReadSimpleConfig() {
+	public void test005_ReadSimpleConfig() throws IOException {
 		final Config c = db.getConfig();
 		assertNotNull(c);
 		assertEquals("0", c.getString("core", null, "repositoryformatversion"));
 		assertEquals("0", c.getString("CoRe", null, "REPOSITORYFoRmAtVeRsIoN"));
-		assertEquals("true", c.getString("core", null, "filemode"));
-		assertEquals("true", c.getString("cOrE", null, "fIlEModE"));
+		assertEquals(Boolean.valueOf(getFilemode()).toString(),
+				c.getString("core", null, "filemode"));
+		assertEquals(Boolean.valueOf(getFilemode()).toString(),
+				c.getString("cOrE", null, "fIlEModE"));
 		assertNull(c.getString("notavalue", null, "reallyNotAValue"));
+	}
+
+	private boolean getFilemode() throws IOException {
+		if (db.getFS().supportsExecute()) {
+			File tmp = File.createTempFile("try", "execute", db.getDirectory());
+
+			db.getFS().setExecute(tmp, true);
+			final boolean on = db.getFS().canExecute(tmp);
+
+			db.getFS().setExecute(tmp, false);
+			final boolean off = db.getFS().canExecute(tmp);
+			tmp.delete();
+
+			return on && !off;
+		} else {
+			return false;
+		}
 	}
 
 	public void test006_ReadUglyConfig() throws IOException,
