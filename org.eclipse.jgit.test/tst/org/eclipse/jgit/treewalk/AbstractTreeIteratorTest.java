@@ -48,6 +48,7 @@ import java.io.IOException;
 
 import junit.framework.TestCase;
 
+import org.eclipse.jgit.attributes.AttributesQuery;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
@@ -77,6 +78,11 @@ public class AbstractTreeIteratorTest extends TestCase {
 		public AbstractTreeIterator createSubtreeIterator(ObjectReader reader)
 				throws IncorrectObjectTypeException, IOException {
 			return null;
+		}
+
+		protected AttributesQuery decorateAttributesQuery(AttributesQuery query)
+				throws IOException {
+			return query;
 		}
 	}
 

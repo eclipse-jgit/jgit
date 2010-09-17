@@ -50,6 +50,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
 import java.nio.charset.CharacterCodingException;
@@ -61,6 +62,11 @@ import java.util.Collections;
 import java.util.Comparator;
 
 import org.eclipse.jgit.JGitText;
+import org.eclipse.jgit.attributes.Attribute;
+import org.eclipse.jgit.attributes.AttributeValue;
+import org.eclipse.jgit.attributes.Attributes;
+import org.eclipse.jgit.attributes.AttributesCollector;
+import org.eclipse.jgit.attributes.AttributesQuery;
 import org.eclipse.jgit.diff.RawText;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheEntry;
@@ -68,10 +74,12 @@ import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.ignore.IgnoreNode;
 import org.eclipse.jgit.ignore.IgnoreRule;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.CoreConfig;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.IO;
+import org.eclipse.jgit.util.RawParseUtils;
 import org.eclipse.jgit.util.io.EolCanonicalizingInputStream;
 
 /**
@@ -125,6 +133,8 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	/** If there is a .gitignore file present, the parsed rules from it. */
 	private IgnoreNode ignoreNode;
 
+	private AttributesNode attributesNode;
+
 	/** Options used to process the working tree. */
 	private final WorkingTreeOptions options;
 
@@ -175,6 +185,14 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		nameEncoder = p.nameEncoder;
 		options = p.options;
 	}
+
+	/**
+	 * @param query
+	 * @return ...
+	 * @throws IOException
+	 */
+	protected abstract AttributesQuery decorateAttributesQuery(
+			AttributesQuery query) throws IOException;
 
 	/**
 	 * Initialize this iterator for the root level of a repository.
@@ -252,14 +270,17 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 				initializeDigestAndReadBuffer();
 
 				final long len = e.getLength();
-				if (!mightNeedCleaning(e))
+				final Boolean isText = determineIsText();
+				if (Boolean.FALSE.equals(isText)
+						|| (isText == null && options.getAutoCRLF() == CoreConfig.AutoCRLF.FALSE))
 					return computeHash(is, len);
 
 				if (len <= MAXIMUM_FILE_SIZE_TO_READ_FULLY) {
 					ByteBuffer rawbuf = IO.readWholeStream(is, (int) len);
 					byte[] raw = rawbuf.array();
 					int n = rawbuf.limit();
-					if (!isBinary(e, raw, n)) {
+					if (Boolean.TRUE.equals(isText)
+							|| (isText == null && !isBinary(e, raw, n))) {
 						rawbuf = filterClean(e, raw, n);
 						raw = rawbuf.array();
 						n = rawbuf.limit();
@@ -267,7 +288,8 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 					return computeHash(new ByteArrayInputStream(raw, 0, n), n);
 				}
 
-				if (isBinary(e))
+				if (Boolean.FALSE.equals(isText)
+						|| (isText == null && isBinary(e)))
 					return computeHash(is, len);
 
 				final long canonLen;
@@ -295,18 +317,6 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 			// Suppress any error related to closing an input
 			// stream. We don't care, we should not have any
 			// outstanding data to flush or anything like that.
-		}
-	}
-
-	private boolean mightNeedCleaning(Entry entry) {
-		switch (options.getAutoCRLF()) {
-		case FALSE:
-		default:
-			return false;
-
-		case TRUE:
-		case INPUT:
-			return true;
 		}
 	}
 
@@ -479,6 +489,27 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		return ignoreNode;
 	}
 
+	private Boolean determineIsText() throws IOException {
+		final AttributesNode node = getAttributesNode();
+		if (node == null) {
+			return null;
+		}
+
+		final EolTextAttributesCollector collector = new EolTextAttributesCollector();
+		node.query.collect(getEntryPathString(), collector);
+		return collector.getText();
+	}
+
+	private AttributesNode getAttributesNode() throws IOException {
+		final WorkingTreeIterator parent = (WorkingTreeIterator)this.parent;
+		if (attributesNode != null) {
+			attributesNode.load(this);
+			return attributesNode;
+		}
+
+		return parent != null ? parent.getAttributesNode() : null;
+	}
+
 	private static final Comparator<Entry> ENTRY_CMP = new Comparator<Entry>() {
 		public int compare(final Entry o1, final Entry o2) {
 			final byte[] a = o1.encodedName;
@@ -531,6 +562,8 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 				continue;
 			if (Constants.DOT_GIT_IGNORE.equals(name))
 				ignoreNode = new PerDirectoryIgnoreNode(e);
+			if (Constants.DOT_GIT_ATTRIBUTES.equals(name))
+				attributesNode = new AttributesNode(e);
 			if (i != o)
 				entries[o] = e;
 			e.encodeName(nameEncoder);
@@ -855,6 +888,74 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 			}
 
 			return r.getRules().isEmpty() ? null : r;
+		}
+	}
+
+	private static class AttributesNode {
+		final Entry entry;
+
+		AttributesQuery query;
+
+		AttributesNode(Entry entry) {
+			this.entry = entry;
+		}
+
+		AttributesQuery load(WorkingTreeIterator iterator) throws IOException {
+			if (query != null) {
+				return query;
+			}
+
+			final Attributes attributes = new Attributes();
+			final InputStream in = entry.openInputStream();
+			try {
+				attributes.parse(new InputStreamReader(in));
+			} finally {
+				in.close();
+			}
+
+			final WorkingTreeIterator parentIterator = (WorkingTreeIterator) iterator.parent;
+			final AttributesNode parentNode = parentIterator != null ? parentIterator
+					.getAttributesNode() : null;
+			final AttributesQuery parentQuery = parentNode != null ? parentNode.query
+					: null;
+
+			final String pathString = iterator.getEntryPathString();
+			final String basePath = pathString.substring(0, pathString.length()
+					- RawParseUtils.pathTail(pathString).length());
+			query = iterator.decorateAttributesQuery(new AttributesQuery(
+					attributes, basePath, parentQuery));
+			return query;
+		}
+	}
+
+	private static class EolTextAttributesCollector implements
+			AttributesCollector {
+		private static final String TEXT = "text";
+
+		private static final String EOL = "eol";
+
+		private Boolean text;
+
+		public Boolean getText() {
+			return text;
+		}
+
+		public boolean collect(Attribute attribute) {
+			final String key = attribute.getKey();
+			if (!TEXT.equals(key) && !EOL.equals(key))
+				return true;
+
+			// "text" and "eol" attribute determines whether the file should
+			// be considered as "text" and hence will be stored with LF in the
+			// repository.
+			final AttributeValue value = attribute.getValue();
+			if (value == AttributeValue.UNSET)
+				text = Boolean.FALSE;
+			else if (value != null)
+				text = Boolean.TRUE;
+
+			// "text" has higher precedence, even if it's specified later.
+			return EOL.equals(key);
 		}
 	}
 }
