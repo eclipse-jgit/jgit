@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAALy3///+k\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffAlgorithm.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-09-07T23:21:54Z",
+      "side": 1,
+      "message": "first ? probably you meant second ...",
+      "revId": "7b1395e11ebfefc9480dd7ca53f78f3e1853187b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALy3///wo\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffAlgorithm.java",
         "patchSetId": 1
