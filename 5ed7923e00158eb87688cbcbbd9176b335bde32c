@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALy3///20\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/FetchCommandTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-09T01:42:46Z",
+      "side": 1,
+      "message": "Don\u0027t just assertNotNull here.  You have the proper commit and tag objects above (well, you threw away the tag).  Assert that the values read from db are equal to the values you created in db2.  That covers both the not-null did-it-create and also the did it copy as expected tests in one statement.",
+      "revId": "5ed7923e00158eb87688cbcbbd9176b335bde32c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///24\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Git.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-09T01:42:46Z",
+      "side": 1,
+      "message": "Style-nit: Trailing whitespace.",
+      "revId": "5ed7923e00158eb87688cbcbbd9176b335bde32c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
