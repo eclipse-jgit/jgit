@@ -395,6 +395,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String repositoryState_rebaseWithMerge;
 	/***/ public String requiredHashFunctionNotAvailable;
 	/***/ public String resolvingDeltas;
+	/***/ public String resultLengthIncorrect;
 	/***/ public String searchForReuse;
 	/***/ public String sequenceTooLargeForDiffAlgorithm;	
 	/***/ public String serviceNotPermitted;

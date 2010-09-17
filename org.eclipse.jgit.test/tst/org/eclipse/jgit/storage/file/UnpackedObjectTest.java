@@ -67,6 +67,8 @@ import org.eclipse.jgit.lib.ObjectStream;
 import org.eclipse.jgit.util.IO;
 
 public class UnpackedObjectTest extends LocalDiskRepositoryTestCase {
+	private int streamThreshold = 16 * 1024;
+
 	private TestRng rng;
 
 	private FileRepository repo;
@@ -75,6 +77,11 @@ public class UnpackedObjectTest extends LocalDiskRepositoryTestCase {
 
 	protected void setUp() throws Exception {
 		super.setUp();
+
+		WindowCacheConfig cfg = new WindowCacheConfig();
+		cfg.setStreamFileThreshold(streamThreshold);
+		WindowCache.reconfigure(cfg);
+
 		rng = new TestRng(getName());
 		repo = createBareRepository();
 		wc = (WindowCursor) repo.newObjectReader();
@@ -83,6 +90,7 @@ public class UnpackedObjectTest extends LocalDiskRepositoryTestCase {
 	protected void tearDown() throws Exception {
 		if (wc != null)
 			wc.release();
+		WindowCache.reconfigure(new WindowCacheConfig());
 		super.tearDown();
 	}
 
@@ -113,7 +121,7 @@ public class UnpackedObjectTest extends LocalDiskRepositoryTestCase {
 
 	public void testStandardFormat_LargeObject() throws Exception {
 		final int type = Constants.OBJ_BLOB;
-		byte[] data = rng.nextBytes(ObjectLoader.STREAM_THRESHOLD + 5);
+		byte[] data = rng.nextBytes(streamThreshold + 5);
 		ObjectId id = new ObjectInserter.Formatter().idFor(type, data);
 		write(id, compressStandardFormat(type, data));
 
@@ -268,7 +276,7 @@ public class UnpackedObjectTest extends LocalDiskRepositoryTestCase {
 	public void testStandardFormat_LargeObject_CorruptZLibStream()
 			throws Exception {
 		final int type = Constants.OBJ_BLOB;
-		byte[] data = rng.nextBytes(ObjectLoader.STREAM_THRESHOLD + 5);
+		byte[] data = rng.nextBytes(streamThreshold + 5);
 		ObjectId id = new ObjectInserter.Formatter().idFor(type, data);
 		byte[] gz = compressStandardFormat(type, data);
 		gz[gz.length - 1] = 0;
@@ -305,7 +313,7 @@ public class UnpackedObjectTest extends LocalDiskRepositoryTestCase {
 	public void testStandardFormat_LargeObject_TruncatedZLibStream()
 			throws Exception {
 		final int type = Constants.OBJ_BLOB;
-		byte[] data = rng.nextBytes(ObjectLoader.STREAM_THRESHOLD + 5);
+		byte[] data = rng.nextBytes(streamThreshold + 5);
 		ObjectId id = new ObjectInserter.Formatter().idFor(type, data);
 		byte[] gz = compressStandardFormat(type, data);
 		byte[] tr = new byte[gz.length - 1];
@@ -339,7 +347,7 @@ public class UnpackedObjectTest extends LocalDiskRepositoryTestCase {
 	public void testStandardFormat_LargeObject_TrailingGarbage()
 			throws Exception {
 		final int type = Constants.OBJ_BLOB;
-		byte[] data = rng.nextBytes(ObjectLoader.STREAM_THRESHOLD + 5);
+		byte[] data = rng.nextBytes(streamThreshold + 5);
 		ObjectId id = new ObjectInserter.Formatter().idFor(type, data);
 		byte[] gz = compressStandardFormat(type, data);
 		byte[] tr = new byte[gz.length + 1];
@@ -396,7 +404,7 @@ public class UnpackedObjectTest extends LocalDiskRepositoryTestCase {
 
 	public void testPackFormat_LargeObject() throws Exception {
 		final int type = Constants.OBJ_BLOB;
-		byte[] data = rng.nextBytes(ObjectLoader.STREAM_THRESHOLD + 5);
+		byte[] data = rng.nextBytes(streamThreshold + 5);
 		ObjectId id = new ObjectInserter.Formatter().idFor(type, data);
 		write(id, compressPackFormat(type, data));
 

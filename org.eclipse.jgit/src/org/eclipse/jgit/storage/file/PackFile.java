@@ -63,6 +63,7 @@ import java.util.zip.Inflater;
 
 import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.CorruptObjectException;
+import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.PackInvalidException;
 import org.eclipse.jgit.errors.PackMismatchException;
@@ -274,12 +275,11 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 		return getReverseIdx().findObject(offset);
 	}
 
-	private final byte[] decompress(final long position, final long totalSize,
-			final WindowCursor curs) throws IOException, DataFormatException {
-		final byte[] dstbuf = new byte[(int) totalSize];
-		if (curs.inflate(this, position, dstbuf, 0) != totalSize)
+	private final void decompress(final long position, final WindowCursor curs,
+			final byte[] dstbuf, final int dstoff, final int dstsz)
+			throws IOException, DataFormatException {
+		if (curs.inflate(this, position, dstbuf, dstoff) != dstsz)
 			throw new EOFException(MessageFormat.format(JGitText.get().shortCompressedStreamAt, position));
-		return dstbuf;
 	}
 
 	final void copyAsIs(PackOutputStream out, LocalObjectToPack src,
@@ -630,10 +630,16 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 			case Constants.OBJ_BLOB:
 			case Constants.OBJ_TAG: {
 				if (sz < curs.getStreamFileThreshold()) {
-					byte[] data = decompress(pos + p, sz, curs);
+					byte[] data;
+					try {
+						data = new byte[(int) sz];
+					} catch (OutOfMemoryError tooBig) {
+						return largeWhole(curs, pos, type, sz, p);
+					}
+					decompress(pos + p, curs, data, 0, data.length);
 					return new ObjectLoader.SmallObject(type, data);
 				}
-				return new LargePackedWholeObject(type, sz, pos, p, this, curs.db);
+				return largeWhole(curs, pos, type, sz, p);
 			}
 
 			case Constants.OBJ_OFS_DELTA: {
@@ -680,44 +686,58 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 	private ObjectLoader loadDelta(long posSelf, int hdrLen, long sz,
 			long posBase, WindowCursor curs) throws IOException,
 			DataFormatException {
-		if (curs.getStreamFileThreshold() <= sz) {
-			// The delta instruction stream itself is pretty big, and
-			// that implies the resulting object is going to be massive.
-			// Use only the large delta format here.
-			//
-			return new LargePackedDeltaObject(posSelf, posBase, hdrLen, //
-					this, curs.db);
-		}
+		if (Integer.MAX_VALUE <= sz)
+			return largeDelta(posSelf, hdrLen, posBase, curs);
 
-		byte[] data;
+		byte[] base;
 		int type;
 
 		DeltaBaseCache.Entry e = DeltaBaseCache.get(this, posBase);
 		if (e != null) {
-			data = e.data;
+			base = e.data;
 			type = e.type;
 		} else {
 			ObjectLoader p = load(curs, posBase);
-			if (p.isLarge()) {
-				// The base itself is large. We have to produce a large
-				// delta stream as we don't want to build the whole base.
-				//
-				return new LargePackedDeltaObject(posSelf, posBase, hdrLen,
-						this, curs.db);
+			try {
+				base = p.getCachedBytes(curs.getStreamFileThreshold());
+			} catch (LargeObjectException tooBig) {
+				return largeDelta(posSelf, hdrLen, posBase, curs);
 			}
-			data = p.getCachedBytes();
 			type = p.getType();
-			DeltaBaseCache.store(this, posBase, data, type);
+			DeltaBaseCache.store(this, posBase, base, type);
 		}
 
-		// At this point we have the base, and its small, and the delta
-		// stream also is small, so the result object cannot be more than
-		// 2x our small size. This occurs if the delta instructions were
-		// "copy entire base, literal insert entire delta". Go with the
-		// faster small object style at this point.
-		//
-		data = BinaryDelta.apply(data, decompress(posSelf + hdrLen, sz, curs));
-		return new ObjectLoader.SmallObject(type, data);
+		final byte[] delta;
+		try {
+			delta = new byte[(int) sz];
+		} catch (OutOfMemoryError tooBig) {
+			return largeDelta(posSelf, hdrLen, posBase, curs);
+		}
+
+		decompress(posSelf + hdrLen, curs, delta, 0, delta.length);
+		sz = BinaryDelta.getResultSize(delta);
+		if (Integer.MAX_VALUE <= sz)
+			return largeDelta(posSelf, hdrLen, posBase, curs);
+
+		final byte[] result;
+		try {
+			result = new byte[(int) sz];
+		} catch (OutOfMemoryError tooBig) {
+			return largeDelta(posSelf, hdrLen, posBase, curs);
+		}
+
+		BinaryDelta.apply(base, delta, result);
+		return new ObjectLoader.SmallObject(type, result);
+	}
+
+	private LargePackedWholeObject largeWhole(final WindowCursor curs,
+			final long pos, final int type, long sz, int p) {
+		return new LargePackedWholeObject(type, sz, pos, p, this, curs.db);
+	}
+
+	private LargePackedDeltaObject largeDelta(long posObj, int hdrLen,
+			long posBase, WindowCursor wc) {
+		return new LargePackedDeltaObject(posObj, posBase, hdrLen, this, wc.db);
 	}
 
 	byte[] getDeltaHeader(WindowCursor wc, long pos)
