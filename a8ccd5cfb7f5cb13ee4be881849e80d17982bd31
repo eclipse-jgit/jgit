@@ -16,6 +16,24 @@
       "revId": "a8ccd5cfb7f5cb13ee4be881849e80d17982bd31",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///m4\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/storage/file/T0003_Basic.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2010-09-17T14:27:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALy3///nM\u003d",
+      "revId": "a8ccd5cfb7f5cb13ee4be881849e80d17982bd31",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
