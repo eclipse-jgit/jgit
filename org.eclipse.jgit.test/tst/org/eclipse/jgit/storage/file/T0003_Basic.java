@@ -60,7 +60,6 @@ import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.CommitBuilder;
-import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileTreeEntry;
 import org.eclipse.jgit.lib.ObjectDatabase;
@@ -308,16 +307,6 @@ public class T0003_Basic extends SampleDataRepositoryTestCase {
 				"9de29bb2d1d6434b8b29ae775ad8c2e48c5391");
 		assertTrue("Exists " + o, o.isFile());
 		assertTrue("Read-only " + o, !o.canWrite());
-	}
-
-	public void test005_ReadSimpleConfig() {
-		final Config c = db.getConfig();
-		assertNotNull(c);
-		assertEquals("0", c.getString("core", null, "repositoryformatversion"));
-		assertEquals("0", c.getString("CoRe", null, "REPOSITORYFoRmAtVeRsIoN"));
-		assertEquals("true", c.getString("core", null, "filemode"));
-		assertEquals("true", c.getString("cOrE", null, "fIlEModE"));
-		assertNull(c.getString("notavalue", null, "reallyNotAValue"));
 	}
 
 	public void test006_ReadUglyConfig() throws IOException,
