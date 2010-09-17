@@ -115,6 +115,25 @@ public class BinaryDelta {
 	 * @return patched base
 	 */
 	public static final byte[] apply(final byte[] base, final byte[] delta) {
+		return apply(base, delta, null);
+	}
+
+	/**
+	 * Apply the changes defined by delta to the data in base, yielding a new
+	 * array of bytes.
+	 *
+	 * @param base
+	 *            some byte representing an object of some kind.
+	 * @param delta
+	 *            a git pack delta defining the transform from one version to
+	 *            another.
+	 * @param result
+	 *            array to store the result into. If null the result will be
+	 *            allocated and returned.
+	 * @return either {@code result}, or the result array allocated.
+	 */
+	public static final byte[] apply(final byte[] base, final byte[] delta,
+			byte[] result) {
 		int deltaPtr = 0;
 
 		// Length of the base object (a variable length int).
@@ -140,7 +159,12 @@ public class BinaryDelta {
 			shift += 7;
 		} while ((c & 0x80) != 0);
 
-		final byte[] result = new byte[resLen];
+		if (result == null)
+			result = new byte[resLen];
+		else if (result.length != resLen)
+			throw new IllegalArgumentException(
+					JGitText.get().resultLengthIncorrect);
+
 		int resultPtr = 0;
 		while (deltaPtr < delta.length) {
 			final int cmd = delta[deltaPtr++] & 0xff;
