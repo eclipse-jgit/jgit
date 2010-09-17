@@ -90,9 +90,9 @@ public final class MergeAlgorithm {
 		sequences.add(ours);
 		sequences.add(theirs);
 		MergeResult result = new MergeResult<S>(sequences);
-		EditList oursEdits = new MyersDiff<S>(cmp, base, ours).getEdits();
+		EditList oursEdits = MyersDiff.INSTANCE.diff(cmp, base, ours);
 		Iterator<Edit> baseToOurs = oursEdits.iterator();
-		EditList theirsEdits = new MyersDiff<S>(cmp, base, theirs).getEdits();
+		EditList theirsEdits = MyersDiff.INSTANCE.diff(cmp, base, theirs);
 		Iterator<Edit> baseToTheirs = theirsEdits.iterator();
 		int current = 0; // points to the next line (first line is 0) of base
 		                 // which was not handled yet

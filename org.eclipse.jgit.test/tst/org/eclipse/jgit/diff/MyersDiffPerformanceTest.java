@@ -164,14 +164,14 @@ public class MyersDiffPerformanceTest extends TestCase {
 		CharArray ac = new CharArray(a);
 		CharArray bc = new CharArray(b);
 		CharCmp cmp = new CharCmp();
-		MyersDiff<CharArray> myersDiff = null;
+		int D = 0;
 		int cpuTimeChanges = 0;
 		long lastReadout = 0;
 		long interimTime = 0;
 		int repetitions = 0;
 		stopwatch.start();
 		while (cpuTimeChanges < minCPUTimerTicks && interimTime < longTaskBoundary) {
-			myersDiff = new MyersDiff<CharArray>(cmp, ac, bc);
+			D = MyersDiff.INSTANCE.diff(cmp, ac, bc).size();
 			repetitions++;
 			interimTime = stopwatch.readout();
 			if (interimTime != lastReadout) {
@@ -181,7 +181,7 @@ public class MyersDiffPerformanceTest extends TestCase {
 		}
 		ret.runningTime = stopwatch.stop() / repetitions;
 		ret.N = ac.size() + bc.size();
-		ret.D = myersDiff.getEdits().size();
+		ret.D = D;
 
 		return ret;
 	}

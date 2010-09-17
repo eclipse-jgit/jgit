@@ -63,9 +63,9 @@ public class MyersDiffTest extends TestCase {
 	}
 
 	public void assertDiff(String a, String b, String edits) {
-		MyersDiff diff = new MyersDiff<CharArray>(new CharCmp(),
+		EditList editList = MyersDiff.INSTANCE.diff(new CharCmp(),
 				toCharArray(a), toCharArray(b));
-		assertEquals(edits, toString(diff.getEdits()));
+		assertEquals(edits, toString(editList));
 	}
 
 	private static String toString(EditList list) {
