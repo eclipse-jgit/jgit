@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALy3///nM\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/storage/file/T0003_Basic.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-17T14:12:47Z",
+      "side": 1,
+      "message": "I think we can just drop this test method.\n\ntest006_readCaseInsensitive in TestConfig already does the same thing, and doesn\u0027t require this OS specific test for the value being asserted.",
+      "revId": "a8ccd5cfb7f5cb13ee4be881849e80d17982bd31",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
