@@ -83,8 +83,17 @@ class ObjectDirectoryInserter extends ObjectInserter {
 		final MessageDigest md = digest();
 		final File tmp = toTemp(md, type, len, is);
 		final ObjectId id = ObjectId.fromRaw(md.digest());
-		if (db.insertUnpackedObject(tmp, id, false /* no duplicate */))
+
+		switch (db.insertUnpackedObject(tmp, id, false /* no duplicate */)) {
+		case INSERTED:
+		case EXISTS_PACKED:
+		case EXISTS_LOOSE:
 			return id;
+
+		case FAILURE:
+		default:
+			break;
+		}
 
 		final File dst = db.fileFor(id);
 		throw new ObjectWritingException("Unable to create new object: " + dst);
