@@ -187,15 +187,15 @@ class CachedObjectDirectory extends FileObjectDatabase {
 
 	@Override
 	boolean hasObject2(String objectId) {
-		// This method should never be invoked.
-		throw new UnsupportedOperationException();
+		return unpackedObjects.contains(ObjectId.fromString(objectId));
 	}
 
 	@Override
 	ObjectLoader openObject2(WindowCursor curs, String objectName,
 			AnyObjectId objectId) throws IOException {
-		// This method should never be invoked.
-		throw new UnsupportedOperationException();
+		if (unpackedObjects.contains(objectId))
+			return wrapped.openObject2(curs, objectName, objectId);
+		return null;
 	}
 
 	@Override
@@ -208,8 +208,9 @@ class CachedObjectDirectory extends FileObjectDatabase {
 	@Override
 	long getObjectSize2(WindowCursor curs, String objectName, AnyObjectId objectId)
 			throws IOException {
-		// This method should never be invoked.
-		throw new UnsupportedOperationException();
+		if (unpackedObjects.contains(objectId))
+			return wrapped.getObjectSize2(curs, objectName, objectId);
+		return -1;
 	}
 
 	@Override
