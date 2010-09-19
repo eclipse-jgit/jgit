@@ -68,6 +68,9 @@ public abstract class MergeStrategy {
 
 	/** Simple strategy to merge paths. It tries to merge also contents. Multiple merge bases are not supported */
 	public static final ThreeWayMergeStrategy RESOLVE = new StrategyResolve();
+	
+	/** Simple strategy to merge paths. It tries to merge also contents. Multiple merge bases are not supported */
+	public static final ThreeWayMergeStrategy RESOLVE_IN_CORE = new StrategyResolveInCore();
 
 	private static final HashMap<String, MergeStrategy> STRATEGIES = new HashMap<String, MergeStrategy>();
 
