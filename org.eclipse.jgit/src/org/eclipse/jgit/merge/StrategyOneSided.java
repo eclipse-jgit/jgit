@@ -84,6 +84,11 @@ public class StrategyOneSided extends MergeStrategy {
 		return new OneSide(db, treeIndex);
 	}
 
+	@Override
+	public Merger newMerger(final Repository db, boolean inCore) {
+		return new OneSide(db, treeIndex);
+	}
+
 	static class OneSide extends Merger {
 		private final int treeIndex;
 
