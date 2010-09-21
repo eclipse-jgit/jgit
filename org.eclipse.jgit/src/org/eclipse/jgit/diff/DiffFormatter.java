@@ -118,7 +118,7 @@ public class DiffFormatter {
 
 	private int abbreviationLength = 7;
 
-	private DiffAlgorithm diffAlgorithm = MyersDiff.INSTANCE;
+	private DiffAlgorithm diffAlgorithm = new HistogramDiff();
 
 	private RawTextComparator comparator = RawTextComparator.DEFAULT;
 
@@ -213,7 +213,7 @@ public class DiffFormatter {
 	 *
 	 * @param alg
 	 *            the algorithm to produce text file differences.
-	 * @see MyersDiff#INSTANCE
+	 * @see HistogramDiff
 	 */
 	public void setDiffAlgorithm(DiffAlgorithm alg) {
 		diffAlgorithm = alg;
