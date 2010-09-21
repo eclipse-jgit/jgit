@@ -38,6 +38,24 @@
     },
     {
       "key": {
+        "uuid": "AAALyn//+7I\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/PatienceDiff.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-06T16:40:12Z",
+      "side": 1,
+      "message": "The diff() method is recursive.  When we recurse on the left and right halves, both halves are required to each produce at least one Edit result.\n\nRather than doing:\n\n  EditList r \u003d new EditList();\n  r.addAll(diff(... before half ...));\n  r.addAll(diff(... after half ...));\n  return r;\n\nAnd having this nasty continuous recopying of data from one result list to another as we pop back up the call stack, we insert the edits in-place into the diff instance.  That way the list isn\u0027t copied on each recursive invocation.\n\nI can\u0027t say I\u0027ve optimized the code as well as we can do yet, but I was trying to avoid memory allocations and excessive copying inside the main loop.",
+      "parentUuid": "AAALyn//+8M\u003d",
+      "revId": "f3babe9e9845e9e33108e6fc5f4bcbc507c741df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALyn//+7E\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/PatienceDiffIndex.java",
         "patchSetId": 6
