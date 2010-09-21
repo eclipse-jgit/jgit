@@ -83,6 +83,12 @@ public class StrategySimpleTwoWayInCore extends ThreeWayMergeStrategy {
 		return new InCoreMerger(db);
 	}
 
+	@Override
+	public ThreeWayMerger newMerger(Repository db, boolean inCore) {
+		// This class is always inCore, so ignore the parameter
+		return newMerger(db);
+	}
+
 	private static class InCoreMerger extends ThreeWayMerger {
 		private static final int T_BASE = 0;
 
@@ -193,4 +199,5 @@ public class StrategySimpleTwoWayInCore extends ThreeWayMergeStrategy {
 			return resultTree;
 		}
 	}
+
 }

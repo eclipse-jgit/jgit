@@ -143,4 +143,15 @@ public abstract class MergeStrategy {
 	 * @return the new merge instance which implements this strategy.
 	 */
 	public abstract Merger newMerger(Repository db);
+
+	/**
+	 * Create a new merge instance.
+	 *
+	 * @param db
+	 *            repository database the merger will read from, and eventually
+	 *            write results back to.
+	 * @param inCore
+	 * @return the new merge instance which implements this strategy.
+	 */
+	public abstract Merger newMerger(Repository db, boolean inCore);
 }

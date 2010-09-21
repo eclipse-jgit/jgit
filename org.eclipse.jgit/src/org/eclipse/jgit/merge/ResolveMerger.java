@@ -128,18 +128,34 @@ public class ResolveMerger extends ThreeWayMerger {
 
 	private boolean enterSubtree;
 
+	private boolean inCore;
+
 	private DirCache dircache;
 
 	private WorkingTreeIterator workingTreeIt;
 
 
+
+	/**
+	 * @param local
+	 * @param inCore
+	 */
+	protected ResolveMerger(Repository local, boolean inCore) {
+		super(local);
+		commitNames = new String[] { "BASE", "OURS", "THEIRS" };
+		oi = getObjectInserter();
+		this.inCore = inCore;
+
+		if (inCore) {
+			dircache = DirCache.newInCore();
+		}
+	}
+
 	/**
 	 * @param local
 	 */
 	protected ResolveMerger(Repository local) {
-		super(local);
-		commitNames = new String[] { "BASE", "OURS", "THEIRS" };
-		oi = getObjectInserter();
+		this(local, false);
 	}
 
 	@Override
@@ -171,29 +187,41 @@ public class ResolveMerger extends ThreeWayMerger {
 						tw.getTree(T_THEIRS, CanonicalTreeParser.class),
 						tw.getTree(T_INDEX, DirCacheBuildIterator.class),
 						(workingTreeIt == null) ? null : tw.getTree(T_FILE, WorkingTreeIterator.class))) {
-					cleanUp();
+					if (!inCore)
+						cleanUp();
 					return false;
 				}
 				if (tw.isSubtree() && enterSubtree)
 					tw.enterSubtree();
 			}
 
-			// All content-merges are successfully done. If we can now write the
-			// new
-			// index we are on quite safe ground. Even if the checkout of files
-			// coming from "theirs" fails the user can work around such failures
-			// by
-			// checking out the index again.
-			if (!builder.commit()) {
-				cleanUp();
-				throw new IndexWriteException();
-			}
-			builder = null;
+			if (!inCore) {
+				// All content-merges are successfully done. If we can now write
+				// the
+				// new
+				// index we are on quite safe ground. Even if the checkout of
+				// files
+				// coming from "theirs" fails the user can work around such
+				// failures
+				// by
+				// checking out the index again.
+				if (!builder.commit()) {
+					cleanUp();
+					throw new IndexWriteException();
+				}
+				builder = null;
 
-			// No problem found. The only thing left to be done is to checkout
-			// all files from "theirs" which have been selected to go into the
-			// new index.
-			checkout();
+				// No problem found. The only thing left to be done is to
+				// checkout
+				// all files from "theirs" which have been selected to go into
+				// the
+				// new index.
+				checkout();
+			} else {
+				builder.finish();
+				builder = null;
+			}
+
 			if (getUnmergedPathes().isEmpty()) {
 				resultTree = dircache.writeTree(oi);
 				return true;
@@ -391,14 +419,18 @@ public class ResolveMerger extends ThreeWayMerger {
 		}
 
 		if (nonTree(modeO) && nonTree(modeT)) {
-			// We are going to update the worktree. Make sure the worktree is
-			// not modified
-			if (work != null
-					&& (!nonTree(work.getEntryRawMode()) || work.isModified(
-							index.getDirCacheEntry(), true, true, db.getFS()))) {
-				failingPathes.put(tw.getPathString(),
-						MergeFailureReason.DIRTY_WORKTREE);
-				return false;
+			if (!inCore) {
+				// We are going to update the worktree. Make sure the worktree
+				// is
+				// not modified
+				if (work != null
+						&& (!nonTree(work.getEntryRawMode()) || work
+								.isModified(index.getDirCacheEntry(), true,
+										true, db.getFS()))) {
+					failingPathes.put(tw.getPathString(),
+							MergeFailureReason.DIRTY_WORKTREE);
+					return false;
+				}
 			}
 
 			if (!contentMerge(base, ours, theirs)) {
@@ -421,24 +453,41 @@ public class ResolveMerger extends ThreeWayMerger {
 				getRawText(ours.getEntryObjectId(), db),
 				getRawText(theirs.getEntryObjectId(), db));
 
-		File workTree = db.getWorkTree();
-		if (workTree == null)
-			// TODO: This should be handled by WorkingTreeIterators which
-			// support write operations
-			throw new UnsupportedOperationException();
+		File of = null;
+		FileOutputStream fos;
+		if (!inCore) {
+			File workTree = db.getWorkTree();
+			if (workTree == null)
+				// TODO: This should be handled by WorkingTreeIterators which
+				// support write operations
+				throw new UnsupportedOperationException();
 
-		File of = new File(workTree, tw.getPathString());
-		FileOutputStream fos = new FileOutputStream(of);
-		try {
-			fmt.formatMerge(fos, result, Arrays.asList(commitNames),
-					Constants.CHARACTER_ENCODING);
-		} finally {
-			fos.close();
+			of = new File(workTree, tw.getPathString());
+			fos = new FileOutputStream(of);
+			try {
+				fmt.formatMerge(fos, result, Arrays.asList(commitNames),
+						Constants.CHARACTER_ENCODING);
+			} finally {
+				fos.close();
+			}
 		}
+		else if (!result.containsConflicts()) {
+			// When working inCore, only trivial merges can be handled,
+			// so we generate objects only in conflict free cases
+			of = File.createTempFile("merge_", "_temp", null);
+			fos = new FileOutputStream(of);
+			try {
+				fmt.formatMerge(fos, result, Arrays.asList(commitNames),
+						Constants.CHARACTER_ENCODING);
+			} finally {
+				fos.close();
+			}
+		}
+
 		if (result.containsConflicts()) {
 			// a conflict occured, the file will contain conflict markers
 			// the index will be populated with the three stages and only the
-			// workdir contains the halfways merged content
+			// workdir (if used) contains the halfways merged content
 			add(tw.getRawPath(), base, DirCacheEntry.STAGE_1);
 			add(tw.getRawPath(), ours, DirCacheEntry.STAGE_2);
 			add(tw.getRawPath(), theirs, DirCacheEntry.STAGE_3);
@@ -457,6 +506,8 @@ public class ResolveMerger extends ThreeWayMerger {
 						is));
 			} finally {
 				is.close();
+				if (inCore)
+					of.delete();
 			}
 			builder.add(dce);
 			return true;
