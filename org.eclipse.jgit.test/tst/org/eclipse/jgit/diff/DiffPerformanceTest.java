@@ -252,7 +252,7 @@ public class DiffPerformanceTest extends TestCase {
 		return ret;
 	}
 
-	private static class CharArray extends Sequence {
+	static class CharArray extends Sequence {
 		final char[] array;
 
 		public CharArray(String s) {
@@ -265,7 +265,7 @@ public class DiffPerformanceTest extends TestCase {
 		}
 	}
 
-	private static class CharCmp extends SequenceComparator<CharArray> {
+	static class CharCmp extends SequenceComparator<CharArray> {
 		@Override
 		public boolean equals(CharArray a, int ai, CharArray b, int bi) {
 			return a.array[ai] == b.array[bi];
