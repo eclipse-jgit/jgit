@@ -142,6 +142,23 @@
     },
     {
       "key": {
+        "uuid": "AAALyn//++I\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/PatienceDiffIndex.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-09-06T16:20:30Z",
+      "side": 1,
+      "message": "If we want that this core algorithm stays maintainable we should add at least documentation for the three main entrypoints scanA, scanB and match. I know they are not public ... but I had a hard time understanding",
+      "revId": "f3babe9e9845e9e33108e6fc5f4bcbc507c741df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALyn//+7A\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/PatienceDiffIndex.java",
         "patchSetId": 6
