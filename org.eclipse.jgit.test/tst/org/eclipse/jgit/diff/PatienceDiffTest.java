@@ -71,7 +71,20 @@ public class PatienceDiffTest extends AbstractDiffTestCase {
 		String b = DiffTestDataGenerator.generateSequence(40000, 1621, 5);
 		CharArray ac = new CharArray(a);
 		CharArray bc = new CharArray(b);
-		EditList r = algorithm().diff(new CharCmp(), ac, bc);
+
+		PatienceDiff pd = new PatienceDiff();
+		EditList r;
+
+		pd.setFallbackAlgorithm(null);
+		r = pd.diff(new CharCmp(), ac, bc);
 		assertEquals(25, r.size());
+
+		pd.setFallbackAlgorithm(HistogramDiff.INSTANCE);
+		r = pd.diff(new CharCmp(), ac, bc);
+		assertEquals(71, r.size());
+
+		pd.setFallbackAlgorithm(MyersDiff.INSTANCE);
+		r = pd.diff(new CharCmp(), ac, bc);
+		assertEquals(73, r.size());
 	}
 }
