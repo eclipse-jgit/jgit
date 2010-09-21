@@ -17,6 +17,24 @@
       "revId": "fe2f0bae29c59a9040a8d6026160bdc28120f2a5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///oQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/HashedSequenceComparator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-16T22:51:12Z",
+      "side": 1,
+      "message": "I didn\u0027t do that because it would require PatienceDiff to perform a translation on every Edit it creates to translate from the HashedSequence wrapping the Subsequence space into the original space.\n\nUsing the original element indexes meant I didn\u0027t have to do the translation on the Edit.\n\nBut maybe you are right.  Maybe we should be doing the translation on the Edit at the end.  The Edit list is shorter than the element list.  So deferring the translation means we can save operations (by not translating on each hash call), and its probably more clear.\n\nI\u0027ll rework this.  Thanks.",
+      "parentUuid": "AAALy3///og\u003d",
+      "revId": "fe2f0bae29c59a9040a8d6026160bdc28120f2a5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
