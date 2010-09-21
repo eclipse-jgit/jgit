@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAALy3///o8\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-09-16T22:16:57Z",
+      "side": 1,
+      "message": "\u0027nad\u0027? That\u0027s a typo, or?",
+      "revId": "fe2f0bae29c59a9040a8d6026160bdc28120f2a5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///o0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/HashedSequence.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-09-16T22:16:57Z",
+      "side": 1,
+      "message": "One thing surprised me: I was expecting a HashedSequence would also be responsible for triggering hash calculation for certain elements. A getter for the hashCode of element x which would look up if we have the hashCode already and if not trigger calculation. This lazy way of calculation hashes may reduce our resource demand on huge contents. Maybe, on huge contents we switch to a diff which only needs the hashes for a certain window on the Sequence. Ok, ok, that\u0027s far away in the moment - but a HashedSequence which really only a dumb store will prevent us to do so.",
+      "revId": "fe2f0bae29c59a9040a8d6026160bdc28120f2a5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALy3///oY\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/HashedSequence.java",
         "patchSetId": 1
@@ -14,6 +48,40 @@
       "side": 1,
       "message": "There is no point in trying to lazily compute a hash code for a each element.  The way that any diff function works, we will need to examine the hash code of each element at least once before the function is complete.  Therefore we need each code at least once, and therefore we can do it all faster by *not* being lazy about it.  Being lazy requires checking to see if the code has been computed yet, per element.  That\u0027s expensive.\n\nIf you look at the PatienceDiffIndex code, it loops through every element in the region of both sequences and gets their hash code.  No sense in lazily computing that.\n\nWe can avoid hash computation for common header/footers by looking for those common header/footer elements and skipping over them.  But that only works because the start and end of a sequence we easily defined (0 and size()-1), and we can work under the assumption that it is common for the header and footer to not change for at least one element in either direction, due to file copyright headers often being unchanged, and due to most edits appearing more in the middle of a file rather than at the exact end of it.\n\nBut that still leaves us with the entire mid section, where we have to compute everything.",
       "parentUuid": "AAALy3///o0\u003d",
+      "revId": "fe2f0bae29c59a9040a8d6026160bdc28120f2a5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///o4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/HashedSequence.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-09-16T22:16:57Z",
+      "side": 1,
+      "message": "If I understand correctly HashedSequence does not only add a cache of hashes to Sequence, but also offers the funtionality to work only on a subset of the original sequence. By having an offset here we will ignore some prefix of the original Sequence. Correct? Then you should document.",
+      "revId": "fe2f0bae29c59a9040a8d6026160bdc28120f2a5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///og\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/HashedSequenceComparator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-09-16T22:16:57Z",
+      "side": 1,
+      "message": "Maybe now I understand better why we have the begin field in the HashedSequence. I was expecting a HashedSequenceComparator to do one thing: provide a fast equals() and hash() by using the knowledge that the Sequences have hashes with them. But additionally we do some index translation with offset. Isn\u0027t the Subsequence focusing on index translation. Maybe we could always use Subsequences for index translation and remove that aspect from this class.",
       "revId": "fe2f0bae29c59a9040a8d6026160bdc28120f2a5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
