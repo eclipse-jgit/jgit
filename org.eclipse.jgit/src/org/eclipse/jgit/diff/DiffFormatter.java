@@ -118,7 +118,7 @@ public class DiffFormatter {
 
 	private int abbreviationLength = 7;
 
-	private DiffAlgorithm diffAlgorithm = MyersDiff.INSTANCE;
+	private DiffAlgorithm diffAlgorithm = new PatienceDiff();
 
 	private RawTextComparator comparator = RawTextComparator.DEFAULT;
 
@@ -213,6 +213,7 @@ public class DiffFormatter {
 	 *
 	 * @param alg
 	 *            the algorithm to produce text file differences.
+	 * @see PatienceDiff
 	 * @see MyersDiff#INSTANCE
 	 */
 	public void setDiffAlgorithm(DiffAlgorithm alg) {
