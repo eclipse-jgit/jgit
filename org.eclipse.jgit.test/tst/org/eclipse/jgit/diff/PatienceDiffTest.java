@@ -43,6 +43,9 @@
 
 package org.eclipse.jgit.diff;
 
+import org.eclipse.jgit.diff.MyersDiffPerformanceTest.CharArray;
+import org.eclipse.jgit.diff.MyersDiffPerformanceTest.CharCmp;
+
 public class PatienceDiffTest extends AbstractDiffTestCase {
 	@Override
 	protected DiffAlgorithm algorithm() {
@@ -70,30 +73,5 @@ public class PatienceDiffTest extends AbstractDiffTestCase {
 		CharArray bc = new CharArray(b);
 		EditList r = algorithm().diff(new CharCmp(), ac, bc);
 		assertEquals(25, r.size());
-	}
-
-	private static class CharArray extends Sequence {
-		final char[] array;
-
-		public CharArray(String s) {
-			array = s.toCharArray();
-		}
-
-		@Override
-		public int size() {
-			return array.length;
-		}
-	}
-
-	private static class CharCmp extends SequenceComparator<CharArray> {
-		@Override
-		public boolean equals(CharArray a, int ai, CharArray b, int bi) {
-			return a.array[ai] == b.array[bi];
-		}
-
-		@Override
-		public int hash(CharArray seq, int ptr) {
-			return seq.array[ptr];
-		}
 	}
 }
