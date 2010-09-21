@@ -52,14 +52,12 @@ package org.eclipse.jgit.diff;
  * algorithms may support parameterization, in which case the caller can create
  * a unique instance per thread.
  */
-public interface DiffAlgorithm {
+public abstract class DiffAlgorithm {
 	/**
 	 * Compare two sequences and identify a list of edits between them.
-	 * 
+	 *
 	 * @param <S>
 	 *            type of sequence being compared.
-	 * @param <C>
-	 *            type of comparator to evaluate the sequence elements.
 	 * @param cmp
 	 *            the comparator supplying the element equivalence function.
 	 * @param a
@@ -74,6 +72,57 @@ public interface DiffAlgorithm {
 	 *         sequences are identical according to {@code cmp}'s rules. The
 	 *         result list is never null.
 	 */
-	public <S extends Sequence, C extends SequenceComparator<? super S>> EditList diff(
-			C cmp, S a, S b);
+	public <S extends Sequence> EditList diff(
+			SequenceComparator<? super S> cmp, S a, S b) {
+		Edit region = cmp.reduceCommonStartEnd(a, b, coverEdit(a, b));
+
+		switch (region.getType()) {
+		case INSERT:
+		case DELETE:
+			return EditList.singleton(region);
+
+		case REPLACE: {
+			SubsequenceComparator<S> cs = new SubsequenceComparator<S>(cmp);
+			Subsequence<S> as = Subsequence.a(a, region);
+			Subsequence<S> bs = Subsequence.b(b, region);
+			return Subsequence.toBase(diffNonCommon(cs, as, bs), as, bs);
+		}
+
+		case EMPTY:
+			return new EditList(0);
+
+		default:
+			throw new IllegalStateException();
+		}
+	}
+
+	private static <S extends Sequence> Edit coverEdit(S a, S b) {
+		return new Edit(0, a.size(), 0, b.size());
+	}
+
+	/**
+	 * Compare two sequences and identify a list of edits between them.
+	 *
+	 * This method should be invoked only after the two sequences have been
+	 * proven to have no common starting or ending elements. The expected
+	 * elimination of common starting and ending elements is automatically
+	 * performed by the {@link #diff(SequenceComparator, Sequence, Sequence)}
+	 * method, which invokes this method using {@link Subsequence}s.
+	 *
+	 * @param <S>
+	 *            type of sequence being compared.
+	 * @param cmp
+	 *            the comparator supplying the element equivalence function.
+	 * @param a
+	 *            the first (also known as old or pre-image) sequence. Edits
+	 *            returned by this algorithm will reference indexes using the
+	 *            'A' side: {@link Edit#getBeginA()}, {@link Edit#getEndA()}.
+	 * @param b
+	 *            the second (also known as new or post-image) sequence. Edits
+	 *            returned by this algorithm will reference indexes using the
+	 *            'B' side: {@link Edit#getBeginB()}, {@link Edit#getEndB()}.
+	 * @return a modifiable edit list comparing the two sequences.
+	 */
+	public abstract <S extends Sequence> EditList diffNonCommon(
+			SequenceComparator<? super S> cmp, S a, S b);
 }

@@ -99,7 +99,7 @@ package org.eclipse.jgit.diff;
  * by the prior step 2 or 5.</li>
  * </ol>
  */
-public class PatienceDiff implements DiffAlgorithm {
+public class PatienceDiff extends DiffAlgorithm {
 	/** Algorithm we use when there are no common unique lines in a region. */
 	private DiffAlgorithm fallback;
 
@@ -114,38 +114,10 @@ public class PatienceDiff implements DiffAlgorithm {
 		fallback = alg;
 	}
 
-	public <S extends Sequence, C extends SequenceComparator<? super S>> EditList diff(
-			C cmp, S a, S b) {
-		Edit region = new Edit(0, a.size(), 0, b.size());
-		region = cmp.reduceCommonStartEnd(a, b, region);
-
-		switch (region.getType()) {
-		case INSERT:
-		case DELETE: {
-			EditList r = new EditList();
-			r.add(region);
-			return r;
-		}
-
-		case REPLACE: {
-			SubsequenceComparator<S> cs = new SubsequenceComparator<S>(cmp);
-			Subsequence<S> as = Subsequence.a(a, region);
-			Subsequence<S> bs = Subsequence.b(b, region);
-			return Subsequence.toBase(diffImpl(cs, as, bs), as, bs);
-		}
-
-		case EMPTY:
-			return new EditList();
-
-		default:
-			throw new IllegalStateException();
-		}
-	}
-
-	private <S extends Sequence, C extends SequenceComparator<? super S>> EditList diffImpl(
-			C cmp, S a, S b) {
+	public <S extends Sequence> EditList diffNonCommon(
+			SequenceComparator<? super S> cmp, S a, S b) {
 		State<S> s = new State<S>(new HashedSequencePair<S>(cmp, a, b));
-		s.diff(new Edit(0, s.a.size(), 0, s.b.size()), null, 0, 0);
+		s.diffReplace(new Edit(0, s.a.size(), 0, s.b.size()), null, 0, 0);
 		return s.edits;
 	}
 
@@ -166,25 +138,12 @@ public class PatienceDiff implements DiffAlgorithm {
 			this.edits = new EditList();
 		}
 
-		private void diff(Edit r, long[] pCommon, int pIdx, int pEnd) {
-			switch (r.getType()) {
-			case INSERT:
-			case DELETE:
-				edits.add(r);
-				return;
-
-			case REPLACE:
-				break;
-
-			case EMPTY:
-			default:
-				throw new IllegalStateException();
-			}
-
+		void diffReplace(Edit r, long[] pCommon, int pIdx, int pEnd) {
 			PatienceDiffIndex<S> p;
+			Edit lcs;
 
 			p = new PatienceDiffIndex<S>(cmp, a, b, r, pCommon, pIdx, pEnd);
-			Edit lcs = p.findLongestCommonSequence();
+			lcs = p.findLongestCommonSequence();
 
 			if (lcs != null) {
 				pCommon = p.nCommon;
@@ -196,20 +155,40 @@ public class PatienceDiff implements DiffAlgorithm {
 				diff(r.after(lcs), pCommon, pIdx + 1, pEnd);
 
 			} else if (fallback != null) {
-				p = null;
 				pCommon = null;
+				p = null;
 
-				SubsequenceComparator<HashedSequence<S>> cs;
-				cs = new SubsequenceComparator<HashedSequence<S>>(cmp);
-
+				SubsequenceComparator<HashedSequence<S>> cs = subcmp();
 				Subsequence<HashedSequence<S>> as = Subsequence.a(a, r);
 				Subsequence<HashedSequence<S>> bs = Subsequence.b(b, r);
-				EditList res = fallback.diff(cs, as, bs);
+
+				EditList res = fallback.diffNonCommon(cs, as, bs);
 				edits.addAll(Subsequence.toBase(res, as, bs));
 
 			} else {
 				edits.add(r);
 			}
+		}
+
+		private void diff(Edit r, long[] pCommon, int pIdx, int pEnd) {
+			switch (r.getType()) {
+			case INSERT:
+			case DELETE:
+				edits.add(r);
+				break;
+
+			case REPLACE:
+				diffReplace(r, pCommon, pIdx, pEnd);
+				break;
+
+			case EMPTY:
+			default:
+				throw new IllegalStateException();
+			}
+		}
+
+		private SubsequenceComparator<HashedSequence<S>> subcmp() {
+			return new SubsequenceComparator<HashedSequence<S>>(cmp);
 		}
 	}
 }
