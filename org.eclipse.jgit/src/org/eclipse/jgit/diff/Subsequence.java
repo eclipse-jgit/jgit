@@ -54,6 +54,81 @@ package org.eclipse.jgit.diff;
  *            the base sequence type.
  */
 public final class Subsequence<S extends Sequence> extends Sequence {
+	/**
+	 * Construct a subsequence around the A region/base sequence.
+	 * 
+	 * @param <S>
+	 *            the base sequence type.
+	 * @param a
+	 *            the A sequence.
+	 * @param region
+	 *            the region of {@code a} to create a subsequence around.
+	 * @return subsequence of {@code base} as described by A in {@code region}.
+	 */
+	public static <S extends Sequence> Subsequence<S> a(S a, Edit region) {
+		return new Subsequence<S>(a, region.beginA, region.endA);
+	}
+
+	/**
+	 * Construct a subsequence around the B region/base sequence.
+	 * 
+	 * @param <S>
+	 *            the base sequence type.
+	 * @param b
+	 *            the B sequence.
+	 * @param region
+	 *            the region of {@code b} to create a subsequence around.
+	 * @return subsequence of {@code base} as described by B in {@code region}.
+	 */
+	public static <S extends Sequence> Subsequence<S> b(S b, Edit region) {
+		return new Subsequence<S>(b, region.beginB, region.endB);
+	}
+
+	/**
+	 * Adjust the Edit to reflect positions in the base sequence.
+	 * 
+	 * @param <S>
+	 *            the base sequence type.
+	 * @param e
+	 *            edit to adjust in-place. Prior to invocation the indexes are
+	 *            in terms of the two subsequences; after invocation the indexes
+	 *            are in terms of the base sequences.
+	 * @param a
+	 *            the A sequence.
+	 * @param b
+	 *            the B sequence.
+	 */
+	public static <S extends Sequence> void toBase(Edit e, Subsequence<S> a,
+			Subsequence<S> b) {
+		e.beginA += a.begin;
+		e.endA += a.begin;
+
+		e.beginB += b.begin;
+		e.endB += b.begin;
+	}
+
+	/**
+	 * Adjust the Edits to reflect positions in the base sequence.
+	 *
+	 * @param <S>
+	 *            the base sequence type.
+	 * @param edits
+	 *            edits to adjust in-place. Prior to invocation the indexes are
+	 *            in terms of the two subsequences; after invocation the indexes
+	 *            are in terms of the base sequences.
+	 * @param a
+	 *            the A sequence.
+	 * @param b
+	 *            the B sequence.
+	 * @return always {@code edits} (as the list was updated in-place).
+	 */
+	public static <S extends Sequence> EditList toBase(EditList edits,
+			Subsequence<S> a, Subsequence<S> b) {
+		for (Edit e : edits)
+			toBase(e, a, b);
+		return edits;
+	}
+
 	final S base;
 
 	final int begin;
