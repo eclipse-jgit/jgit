@@ -67,6 +67,18 @@ public abstract class ThreeWayMerger extends Merger {
 	}
 
 	/**
+	 * Create a new merge instance for a repository.
+	 *
+	 * @param local
+	 *            the repository this merger will read and write data on.
+	 * @param inCore
+	 *            perform the merge in core with no working folder involved
+	 */
+	protected ThreeWayMerger(final Repository local, boolean inCore) {
+		this(local);
+	}
+
+	/**
 	 * Set the common ancestor tree.
 	 *
 	 * @param id
