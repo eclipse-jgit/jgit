@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAALyn//+8I\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/diff/PatienceDiffTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-09-06T16:20:30Z",
+      "side": 1,
+      "message": "A lot of these testcases make also sense for MyersDiff, right? If we would have the abstraction for DiffAlgorithms we could reuse. But I know: some of the test\u0027s are specific to PatienceDiff.",
+      "revId": "f3babe9e9845e9e33108e6fc5f4bcbc507c741df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALyn//+7Q\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/diff/PatienceDiffTest.java",
         "patchSetId": 6
@@ -14,6 +31,23 @@
       "side": 1,
       "message": "Yes, many of these tests should produce identical results under MyersDiff.  We should take your Diff abstraction idea and abstract both implementations, then do a common base test suite that provides most of these tests and use two subclasses to drive them for each implementation.\n\nBut a few of these, especially testEdit_NoUniqueMiddleSideA and B variants are specific to the current implementation of PatienceDiff not having a fallback.  MyersDiff shouldn\u0027t have the same results here.  And neither would a PatienceDiff that had an actual fallback for the degenerate case these represent.",
       "parentUuid": "AAALyn//+8I\u003d",
+      "revId": "f3babe9e9845e9e33108e6fc5f4bcbc507c741df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn//+8Y\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/PatienceDiff.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-09-06T16:20:30Z",
+      "side": 1,
+      "message": "Super small diff algorithm. I like it.\n\nBut a more general question: I guess that in the end we want to configure which diff algorithm to use. It would be nice to have a silver bullet fitting all situations ... but that\u0027s not so likely, or? Even a patience diff sometimes wants to fall back to other diffs.\n\nSo, isn\u0027t it time for a DiffAlgorithm abstraction? Some common superclass of PatienceDiff and MyersDiff? And e.g. PatienceDiff would get an DiffAlgorithm as constructor parameter so it knows to which algorithm to fall back to?",
       "revId": "f3babe9e9845e9e33108e6fc5f4bcbc507c741df",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -38,6 +72,23 @@
     },
     {
       "key": {
+        "uuid": "AAALyn//+8M\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/PatienceDiff.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-09-06T16:20:30Z",
+      "side": 1,
+      "message": "Why do we have this field? I don\u0027t see any use of this field anymore if only diff() would return such an EditList",
+      "revId": "f3babe9e9845e9e33108e6fc5f4bcbc507c741df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALyn//+7I\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/PatienceDiff.java",
         "patchSetId": 6
@@ -50,6 +101,23 @@
       "side": 1,
       "message": "The diff() method is recursive.  When we recurse on the left and right halves, both halves are required to each produce at least one Edit result.\n\nRather than doing:\n\n  EditList r \u003d new EditList();\n  r.addAll(diff(... before half ...));\n  r.addAll(diff(... after half ...));\n  return r;\n\nAnd having this nasty continuous recopying of data from one result list to another as we pop back up the call stack, we insert the edits in-place into the diff instance.  That way the list isn\u0027t copied on each recursive invocation.\n\nI can\u0027t say I\u0027ve optimized the code as well as we can do yet, but I was trying to avoid memory allocations and excessive copying inside the main loop.",
       "parentUuid": "AAALyn//+8M\u003d",
+      "revId": "f3babe9e9845e9e33108e6fc5f4bcbc507c741df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn//++U\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/PatienceDiffIndex.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-09-06T16:20:30Z",
+      "side": 1,
+      "message": "Shouldn\u0027t the first parameter be called \u0027b\u0027. That would be more symmetric to scanA().",
       "revId": "f3babe9e9845e9e33108e6fc5f4bcbc507c741df",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
