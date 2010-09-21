@@ -1,0 +1,195 @@
+/*
+ * Copyright (C) 2010, Google Inc.
+ * and other copyright owners as documented in the project's IP log.
+ *
+ * This program and the accompanying materials are made available
+ * under the terms of the Eclipse Distribution License v1.0 which
+ * accompanies this distribution, is reproduced below, and is
+ * available at http://www.eclipse.org/org/documents/edl-v10.php
+ *
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or
+ * without modification, are permitted provided that the following
+ * conditions are met:
+ *
+ * - Redistributions of source code must retain the above copyright
+ *   notice, this list of conditions and the following disclaimer.
+ *
+ * - Redistributions in binary form must reproduce the above
+ *   copyright notice, this list of conditions and the following
+ *   disclaimer in the documentation and/or other materials provided
+ *   with the distribution.
+ *
+ * - Neither the name of the Eclipse Foundation, Inc. nor the
+ *   names of its contributors may be used to endorse or promote
+ *   products derived from this software without specific prior
+ *   written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND
+ * CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
+ * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+ * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package org.eclipse.jgit.diff;
+
+/**
+ * An extended form of Bram Cohen's patience diff algorithm.
+ *
+ * This implementation was derived by using the 4 rules that are outlined in
+ * Bram Cohen's <a href="http://bramcohen.livejournal.com/73318.html">blog</a>,
+ * and then was further extended to support low-occurrence common elements.
+ *
+ * The basic idea of the algorithm is to create a histogram of occurrences for
+ * each element of sequence A. Each element of sequence B is then considered in
+ * turn. If the element also exists in sequence A, and has a lower occurrence
+ * count, the positions are considered as a candidate for the longest common
+ * subsequence (LCS). After scanning of B is complete the LCS that has the
+ * lowest number of occurrences is chosen as a split point. The region is split
+ * around the LCS, and the algorithm is recursively applied to the sections
+ * before and after the LCS.
+ *
+ * By always selecting a LCS position with the lowest occurrence count, this
+ * algorithm behaves exactly like Bram Cohen's patience diff whenever there is a
+ * unique common element available between the two sequences. When no unique
+ * elements exist, the lowest occurrence element is chosen instead. This offers
+ * more readable diffs than simply falling back on the standard Myers' O(ND)
+ * algorithm would produce.
+ *
+ * To prevent the algorithm from having an O(N^2) running time, an upper limit
+ * on the number of unique elements in a histogram bucket is configured by
+ * {@link #setMaxChainLength(int)}. If sequence A has more than this many
+ * elements that hash into the same hash bucket, the algorithm passes the region
+ * to {@link #setFallbackAlgorithm(DiffAlgorithm)}. If no fallback algorithm is
+ * configured, the region is emitted as a replace edit.
+ *
+ * During scanning of sequence B, any element of A that occurs more than
+ * {@link #setMaxChainLength(int)} times is never considered for an LCS match
+ * position, even if it is common between the two sequences. This limits the
+ * number of locations in sequence A that must be considered to find the LCS,
+ * and helps maintain a lower running time bound.
+ *
+ * So long as {@link #setMaxChainLength(int)} is a small constant (such as 64),
+ * the algorithm runs in O(N * D) time, where N is the sum of the input lengths
+ * and D is the number of edits in the resulting EditList. If the supplied
+ * {@link SequenceComparator} has a good hash function, this implementation
+ * typically out-performs {@link MyersDiff}, even though its theoretical running
+ * time is the same.
+ *
+ * This implementation has an internal limitation that prevents it from handling
+ * sequences with more than 268,435,456 (2^28) elements.
+ */
+public class HistogramDiff extends DiffAlgorithm {
+	/** Algorithm to use when there are too many element occurrences. */
+	private DiffAlgorithm fallback = MyersDiff.INSTANCE;
+
+	/**
+	 * Maximum number of positions to consider for a given element hash.
+	 *
+	 * All elements with the same hash are stored into a single chain. The chain
+	 * size is capped to ensure search is linear time at O(len_A + len_B) rather
+	 * than quadratic at O(len_A * len_B).
+	 */
+	private int maxChainLength = 64;
+
+	/**
+	 * Set the algorithm used when there are too many element occurrences.
+	 *
+	 * @param alg
+	 *            the secondary algorithm. If null the region will be denoted as
+	 *            a single REPLACE block.
+	 */
+	public void setFallbackAlgorithm(DiffAlgorithm alg) {
+		fallback = alg;
+	}
+
+	/**
+	 * Maximum number of positions to consider for a given element hash.
+	 *
+	 * All elements with the same hash are stored into a single chain. The chain
+	 * size is capped to ensure search is linear time at O(len_A + len_B) rather
+	 * than quadratic at O(len_A * len_B).
+	 *
+	 * @param maxLen
+	 *            new maximum length.
+	 */
+	public void setMaxChainLength(int maxLen) {
+		maxChainLength = maxLen;
+	}
+
+	public <S extends Sequence> EditList diffNonCommon(
+			SequenceComparator<? super S> cmp, S a, S b) {
+		State<S> s = new State<S>(new HashedSequencePair<S>(cmp, a, b));
+		s.diffReplace(new Edit(0, s.a.size(), 0, s.b.size()));
+		return s.edits;
+	}
+
+	private class State<S extends Sequence> {
+		private final HashedSequenceComparator<S> cmp;
+
+		private final HashedSequence<S> a;
+
+		private final HashedSequence<S> b;
+
+		/** Result edits we have determined that must be made to convert a to b. */
+		final EditList edits;
+
+		State(HashedSequencePair<S> p) {
+			this.cmp = p.getComparator();
+			this.a = p.getA();
+			this.b = p.getB();
+			this.edits = new EditList();
+		}
+
+		void diffReplace(Edit r) {
+			Edit lcs = new HistogramDiffIndex<S>(maxChainLength, cmp, a, b, r)
+					.findLongestCommonSequence();
+			if (lcs != null) {
+				diff(r.before(lcs));
+				diff(r.after(lcs));
+
+			} else if (fallback != null) {
+				SubsequenceComparator<HashedSequence<S>> cs = subcmp();
+				Subsequence<HashedSequence<S>> as = Subsequence.a(a, r);
+				Subsequence<HashedSequence<S>> bs = Subsequence.b(b, r);
+
+				EditList res = fallback.diffNonCommon(cs, as, bs);
+				edits.addAll(Subsequence.toBase(res, as, bs));
+
+			} else {
+				edits.add(r);
+			}
+		}
+
+		private void diff(Edit r) {
+			switch (r.getType()) {
+			case INSERT:
+			case DELETE:
+				edits.add(r);
+				break;
+
+			case REPLACE:
+				diffReplace(r);
+				break;
+
+			case EMPTY:
+			default:
+				throw new IllegalStateException();
+			}
+		}
+
+		private SubsequenceComparator<HashedSequence<S>> subcmp() {
+			return new SubsequenceComparator<HashedSequence<S>>(cmp);
+		}
+	}
+}
