@@ -1,0 +1,76 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALyn//+7Q\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/diff/PatienceDiffTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-06T16:40:12Z",
+      "side": 1,
+      "message": "Yes, many of these tests should produce identical results under MyersDiff.  We should take your Diff abstraction idea and abstract both implementations, then do a common base test suite that provides most of these tests and use two subclasses to drive them for each implementation.\n\nBut a few of these, especially testEdit_NoUniqueMiddleSideA and B variants are specific to the current implementation of PatienceDiff not having a fallback.  MyersDiff shouldn\u0027t have the same results here.  And neither would a PatienceDiff that had an actual fallback for the degenerate case these represent.",
+      "parentUuid": "AAALyn//+8I\u003d",
+      "revId": "f3babe9e9845e9e33108e6fc5f4bcbc507c741df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn//+7M\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/PatienceDiff.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-06T16:40:12Z",
+      "side": 1,
+      "message": "Yup, agree fully.  I\u0027ll work up a DiffAlgorithm abstraction as a predecessor of this change and post it for review soon.",
+      "parentUuid": "AAALyn//+8Y\u003d",
+      "revId": "f3babe9e9845e9e33108e6fc5f4bcbc507c741df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn//+7E\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/PatienceDiffIndex.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-06T16:40:12Z",
+      "side": 1,
+      "message": "Good point, thanks.  I\u0027ll rename it.",
+      "parentUuid": "AAALyn//++U\u003d",
+      "revId": "f3babe9e9845e9e33108e6fc5f4bcbc507c741df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn//+7A\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/PatienceDiffIndex.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-06T16:40:12Z",
+      "side": 1,
+      "message": "OK, will document.",
+      "parentUuid": "AAALyn//++I\u003d",
+      "revId": "f3babe9e9845e9e33108e6fc5f4bcbc507c741df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
