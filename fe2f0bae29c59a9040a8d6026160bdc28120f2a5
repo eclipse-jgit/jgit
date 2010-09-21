@@ -1,0 +1,22 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALy3///oY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/HashedSequence.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-16T22:51:12Z",
+      "side": 1,
+      "message": "There is no point in trying to lazily compute a hash code for a each element.  The way that any diff function works, we will need to examine the hash code of each element at least once before the function is complete.  Therefore we need each code at least once, and therefore we can do it all faster by *not* being lazy about it.  Being lazy requires checking to see if the code has been computed yet, per element.  That\u0027s expensive.\n\nIf you look at the PatienceDiffIndex code, it loops through every element in the region of both sequences and gets their hash code.  No sense in lazily computing that.\n\nWe can avoid hash computation for common header/footers by looking for those common header/footer elements and skipping over them.  But that only works because the start and end of a sequence we easily defined (0 and size()-1), and we can work under the assumption that it is common for the header and footer to not change for at least one element in either direction, due to file copyright headers often being unchanged, and due to most edits appearing more in the middle of a file rather than at the exact end of it.\n\nBut that still leaves us with the entire mid section, where we have to compute everything.",
+      "parentUuid": "AAALy3///o0\u003d",
+      "revId": "fe2f0bae29c59a9040a8d6026160bdc28120f2a5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
