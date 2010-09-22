@@ -145,6 +145,7 @@ public class TagCommand extends GitCommand<RevTag> {
 					RefUpdate tagRef = repo.updateRef(refName);
 					tagRef.setNewObjectId(tagId);
 					tagRef.setForceUpdate(forceUpdate);
+					tagRef.setRefLogMessage("tagged " + name, false);
 					Result updateResult = tagRef.update(revWalk);
 					switch (updateResult) {
 					case NEW:
