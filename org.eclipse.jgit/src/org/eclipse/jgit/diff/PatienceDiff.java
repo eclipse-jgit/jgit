@@ -117,7 +117,7 @@ public class PatienceDiff extends DiffAlgorithm {
 	public <S extends Sequence> EditList diffNonCommon(
 			SequenceComparator<? super S> cmp, S a, S b) {
 		State<S> s = new State<S>(new HashedSequencePair<S>(cmp, a, b));
-		s.diffReplace(new Edit(0, s.a.size(), 0, s.b.size()), null, 0, 0);
+		s.diffReplace(new Edit(0, s.a.size(), 0, s.b.size()));
 		return s.edits;
 	}
 
@@ -138,30 +138,18 @@ public class PatienceDiff extends DiffAlgorithm {
 			this.edits = new EditList();
 		}
 
-		void diffReplace(Edit r, long[] pCommon, int pIdx, int pEnd) {
-			PatienceDiffIndex<S> p;
-			Edit lcs;
-
-			p = new PatienceDiffIndex<S>(cmp, a, b, r, pCommon, pIdx, pEnd);
-			lcs = p.findLongestCommonSequence();
-
+		void diffReplace(Edit r) {
+			Edit lcs = new PatienceDiffIndex<S>(cmp, a, b, r)
+					.findLongestCommonSequence();
 			if (lcs != null) {
-				pCommon = p.nCommon;
-				pIdx = p.cIdx;
-				pEnd = p.nCnt;
-				p = null;
 
-				diff(r.before(lcs), pCommon, 0, pIdx);
-				diff(r.after(lcs), pCommon, pIdx + 1, pEnd);
+				diff(r.before(lcs));
+				diff(r.after(lcs));
 
 			} else if (fallback instanceof HistogramDiff) {
-				pCommon = null;
-				p = null;
 				((HistogramDiff) fallback).diffNonCommon(edits, cmp, a, b, r);
 
 			} else if (fallback != null) {
-				pCommon = null;
-				p = null;
 
 				SubsequenceComparator<HashedSequence<S>> cs = subcmp();
 				Subsequence<HashedSequence<S>> as = Subsequence.a(a, r);
@@ -175,7 +163,7 @@ public class PatienceDiff extends DiffAlgorithm {
 			}
 		}
 
-		private void diff(Edit r, long[] pCommon, int pIdx, int pEnd) {
+		private void diff(Edit r) {
 			switch (r.getType()) {
 			case INSERT:
 			case DELETE:
@@ -183,7 +171,7 @@ public class PatienceDiff extends DiffAlgorithm {
 				break;
 
 			case REPLACE:
-				diffReplace(r, pCommon, pIdx, pEnd);
+				diffReplace(r);
 				break;
 
 			case EMPTY:
