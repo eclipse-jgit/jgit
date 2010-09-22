@@ -366,9 +366,10 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 					if (authMethod == HttpAuthMethod.NONE)
 						throw new TransportException(uri,
 								"authentication not supported");
-					if (1 < authAttempts || uri.getUser() == null)
+					if (1 < authAttempts
+							|| !authMethod.authorize(uri, credentialsProvider)) {
 						throw new TransportException(uri, "not authorized");
-					authMethod.authorize(uri);
+					}
 					authAttempts++;
 					continue;
 

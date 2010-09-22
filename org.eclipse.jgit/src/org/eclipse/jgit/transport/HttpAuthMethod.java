@@ -98,9 +98,32 @@ abstract class HttpAuthMethod {
 	 *
 	 * @param uri
 	 *            the URI used to create the connection.
+	 * @param credentialsProvider
+	 *            the credentials provider, or null. If provided,
+	 *            {@link URIish#getPass() credentials in the URI} are ignored.
+	 *
+	 * @return true if the authentication method is able to provide
+	 *         authorization for the given URI
 	 */
-	void authorize(URIish uri) {
-		authorize(uri.getUser(), uri.getPass());
+	boolean authorize(URIish uri, CredentialsProvider credentialsProvider) {
+		String username = null;
+		String password = null;
+		if (credentialsProvider != null) {
+			Credentials credentials = credentialsProvider.getCredentials(uri);
+			if (credentials instanceof UsernamePasswordCredentials) {
+				UsernamePasswordCredentials usernamePasswordCredentials = (UsernamePasswordCredentials) credentials;
+				username = usernamePasswordCredentials.getUsername();
+				password = usernamePasswordCredentials.getPassword();
+			} // else unsupported credentials type
+		} else {
+			username = uri.getUser();
+			password = uri.getPass();
+		}
+		if (username != null) {
+			authorize(username, password);
+			return true;
+		}
+		return false;
 	}
 
 	/**
