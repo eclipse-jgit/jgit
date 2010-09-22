@@ -1,0 +1,22 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALy3///eA\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 2
+      },
+      "writtenOn": "2010-09-21T23:59:24Z",
+      "side": 1,
+      "message": "Should be \"which promises\", just throw out \"we know\"",
+      "parentUuid": "AAALy3///eo\u003d",
+      "revId": "c28dafabbc71ffeff9be03602aad1d450e832018",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
