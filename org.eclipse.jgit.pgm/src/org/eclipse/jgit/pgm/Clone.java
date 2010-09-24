@@ -146,7 +146,7 @@ class Clone extends AbstractFetchCommand {
 		} finally {
 			tn.close();
 		}
-		showFetchResult(tn, r);
+		showFetchResult(r);
 		return r;
 	}
 
