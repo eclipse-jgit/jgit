@@ -47,13 +47,15 @@ package org.eclipse.jgit.pgm;
 
 import java.util.List;
 
-import org.kohsuke.args4j.Argument;
-import org.kohsuke.args4j.Option;
+import org.eclipse.jgit.api.FetchCommand;
+import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.TextProgressMonitor;
 import org.eclipse.jgit.transport.FetchResult;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.Transport;
+import org.kohsuke.args4j.Argument;
+import org.kohsuke.args4j.Option;
 
 @Command(common = true, usage = "usage_updateRemoteRefsFromAnotherRepository")
 class Fetch extends AbstractFetchCommand {
@@ -90,6 +92,18 @@ class Fetch extends AbstractFetchCommand {
 
 	@Override
 	protected void run() throws Exception {
+		Git git = new Git(db);
+		FetchCommand fetch = git.fetch();
+		fetch.setCheckFetchedObjects(fsck.booleanValue());
+		fetch.setRemoveDeletedRefs(prune.booleanValue());
+		fetch.setRefSpecs(toget);
+		fetch.setTimeout(timeout);
+		fetch.setProgressMonitor(new TextProgressMonitor());
+
+		FetchResult result = fetch.call();
+		if (result.getTrackingRefUpdates().isEmpty())
+			return;
+
 		final Transport tn = Transport.open(db, remote);
 		if (fsck != null)
 			tn.setCheckFetchedObjects(fsck.booleanValue());
@@ -100,14 +114,6 @@ class Fetch extends AbstractFetchCommand {
 			tn.setFetchThin(thin.booleanValue());
 		if (0 <= timeout)
 			tn.setTimeout(timeout);
-		final FetchResult r;
-		try {
-			r = tn.fetch(new TextProgressMonitor(), toget);
-			if (r.getTrackingRefUpdates().isEmpty())
-				return;
-		} finally {
-			tn.close();
-		}
-		showFetchResult(tn, r);
+		showFetchResult(result);
 	}
 }
