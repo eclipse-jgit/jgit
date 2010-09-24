@@ -78,7 +78,7 @@ public abstract class RawTextComparator extends SequenceComparator<RawText> {
 		protected int hashRegion(final byte[] raw, int ptr, final int end) {
 			int hash = 5381;
 			for (; ptr < end; ptr++)
-				hash = (hash << 5) ^ (raw[ptr] & 0xff);
+				hash = ((hash << 5) + hash) + (raw[ptr] & 0xff);
 			return hash;
 		}
 	};
@@ -128,7 +128,7 @@ public abstract class RawTextComparator extends SequenceComparator<RawText> {
 			for (; ptr < end; ptr++) {
 				byte c = raw[ptr];
 				if (!isWhitespace(c))
-					hash = (hash << 5) ^ (c & 0xff);
+					hash = ((hash << 5) + hash) + (c & 0xff);
 			}
 			return hash;
 		}
@@ -163,9 +163,8 @@ public abstract class RawTextComparator extends SequenceComparator<RawText> {
 		protected int hashRegion(final byte[] raw, int ptr, int end) {
 			int hash = 5381;
 			ptr = trimLeadingWhitespace(raw, ptr, end);
-			for (; ptr < end; ptr++) {
-				hash = (hash << 5) ^ (raw[ptr] & 0xff);
-			}
+			for (; ptr < end; ptr++)
+				hash = ((hash << 5) + hash) + (raw[ptr] & 0xff);
 			return hash;
 		}
 	};
@@ -199,9 +198,8 @@ public abstract class RawTextComparator extends SequenceComparator<RawText> {
 		protected int hashRegion(final byte[] raw, int ptr, int end) {
 			int hash = 5381;
 			end = trimTrailingWhitespace(raw, ptr, end);
-			for (; ptr < end; ptr++) {
-				hash = (hash << 5) ^ (raw[ptr] & 0xff);
-			}
+			for (; ptr < end; ptr++)
+				hash = ((hash << 5) + hash) + (raw[ptr] & 0xff);
 			return hash;
 		}
 	};
@@ -247,7 +245,7 @@ public abstract class RawTextComparator extends SequenceComparator<RawText> {
 			end = trimTrailingWhitespace(raw, ptr, end);
 			while (ptr < end) {
 				byte c = raw[ptr];
-				hash = (hash << 5) ^ (c & 0xff);
+				hash = ((hash << 5) + hash) + (c & 0xff);
 				if (isWhitespace(c))
 					ptr = trimLeadingWhitespace(raw, ptr, end);
 				else

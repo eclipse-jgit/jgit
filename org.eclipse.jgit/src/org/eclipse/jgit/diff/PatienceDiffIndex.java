@@ -91,10 +91,11 @@ final class PatienceDiffIndex<S extends Sequence> {
 	/** 1 past the last valid entry in {@link #pCommon}. */
 	private final int pEnd;
 
-	/** Keyed by {@code cmp.hash() & tableMask} to yield an entry offset. */
+	/** Keyed by {@link #hash(HashedSequence, int)} to get an entry offset. */
 	private final int[] table;
 
-	private final int tableMask;
+	/** Number of low bits to discard from a key to index {@link #table}. */
+	private final int keyShift;
 
 	// To save memory the buckets for hash chains are stored in correlated
 	// arrays. This permits us to get 3 values per entry, without paying
@@ -158,8 +159,9 @@ final class PatienceDiffIndex<S extends Sequence> {
 		this.pEnd = pCnt;
 
 		final int sz = region.getLengthB();
-		table = new int[tableSize(sz)];
-		tableMask = table.length - 1;
+		final int tableBits = tableBits(sz);
+		table = new int[1 << tableBits];
+		keyShift = 32 - tableBits;
 
 		// As we insert elements we preincrement so that 0 is never a
 		// valid entry. Therefore we have to allocate one extra space.
@@ -187,7 +189,7 @@ final class PatienceDiffIndex<S extends Sequence> {
 		final int end = region.endB;
 		int pIdx = pBegin;
 		SCAN: while (ptr < end) {
-			final int tIdx = cmp.hash(b, ptr) & tableMask;
+			final int tIdx = hash(b, ptr);
 
 			if (pIdx < pEnd) {
 				final long priorRec = pCommon[pIdx];
@@ -244,7 +246,7 @@ final class PatienceDiffIndex<S extends Sequence> {
 		final int end = region.endA;
 		int pLast = pBegin - 1;
 		SCAN: while (ptr < end) {
-			final int tIdx = cmp.hash(a, ptr) & tableMask;
+			final int tIdx = hash(a, ptr);
 
 			for (int eIdx = table[tIdx]; eIdx != 0; eIdx = next[eIdx]) {
 				final long rec = ptrs[eIdx];
@@ -391,6 +393,10 @@ final class PatienceDiffIndex<S extends Sequence> {
 		return lcs;
 	}
 
+	private int hash(HashedSequence<S> s, int idx) {
+		return (cmp.hash(s, idx) * 0x9e370001 /* mix bits */) >>> keyShift;
+	}
+
 	private static boolean isDuplicate(long rec) {
 		return (((int) rec) & DUPLICATE_MASK) != 0;
 	}
@@ -407,11 +413,12 @@ final class PatienceDiffIndex<S extends Sequence> {
 		return (int) (rec >>> B_SHIFT);
 	}
 
-	private static int tableSize(final int worstCaseBlockCnt) {
-		int shift = 32 - Integer.numberOfLeadingZeros(worstCaseBlockCnt);
-		int sz = 1 << (shift - 1);
-		if (sz < worstCaseBlockCnt)
-			sz <<= 1;
-		return sz;
+	private static int tableBits(final int sz) {
+		int bits = 31 - Integer.numberOfLeadingZeros(sz);
+		if (bits == 0)
+			bits = 1;
+		if (1 << bits < sz)
+			bits++;
+		return bits;
 	}
 }
