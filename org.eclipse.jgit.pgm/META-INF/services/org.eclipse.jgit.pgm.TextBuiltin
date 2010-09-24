@@ -31,6 +31,7 @@ org.eclipse.jgit.pgm.debug.ShowCacheTree
 org.eclipse.jgit.pgm.debug.ShowCommands
 org.eclipse.jgit.pgm.debug.ShowDirCache
 org.eclipse.jgit.pgm.debug.ShowPackDelta
+org.eclipse.jgit.pgm.debug.TextHashFunctions
 org.eclipse.jgit.pgm.debug.WriteDirCache
 
 org.eclipse.jgit.pgm.eclipse.Iplog
