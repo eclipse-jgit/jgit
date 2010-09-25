@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALy3///dI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/PatienceDiffIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-22T04:10:58Z",
+      "side": 1,
+      "message": "This is wrong.  We need to account for the fact that another element within the region spanned by lcs might be unique even though the original element that caused us to create the region is now not unique.",
+      "revId": "bf3261065e17401a842dc3c59aadd18a9e331a85",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
