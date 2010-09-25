@@ -89,7 +89,7 @@ package org.eclipse.jgit.diff;
  * This implementation has an internal limitation that prevents it from handling
  * sequences with more than 268,435,456 (2^28) elements.
  */
-public class HistogramDiff extends DiffAlgorithm {
+public class HistogramDiff extends LowLevelDiffAlgorithm {
 	/** Algorithm to use when there are too many element occurrences. */
 	private DiffAlgorithm fallback = MyersDiff.INSTANCE;
 
@@ -127,11 +127,10 @@ public class HistogramDiff extends DiffAlgorithm {
 		maxChainLength = maxLen;
 	}
 
-	public <S extends Sequence> EditList diffNonCommon(
-			SequenceComparator<? super S> cmp, S a, S b) {
-		State<S> s = new State<S>(new HashedSequencePair<S>(cmp, a, b));
-		s.diffReplace(new Edit(0, s.a.size(), 0, s.b.size()));
-		return s.edits;
+	public <S extends Sequence> void diffNonCommon(EditList edits,
+			HashedSequenceComparator<S> cmp, HashedSequence<S> a,
+			HashedSequence<S> b, Edit region) {
+		new State<S>(edits, cmp, a, b).diffReplace(region);
 	}
 
 	private class State<S extends Sequence> {
@@ -144,11 +143,12 @@ public class HistogramDiff extends DiffAlgorithm {
 		/** Result edits we have determined that must be made to convert a to b. */
 		final EditList edits;
 
-		State(HashedSequencePair<S> p) {
-			this.cmp = p.getComparator();
-			this.a = p.getA();
-			this.b = p.getB();
-			this.edits = new EditList();
+		State(EditList edits, HashedSequenceComparator<S> cmp,
+				HashedSequence<S> a, HashedSequence<S> b) {
+			this.cmp = cmp;
+			this.a = a;
+			this.b = b;
+			this.edits = edits;
 		}
 
 		void diffReplace(Edit r) {
@@ -166,6 +166,10 @@ public class HistogramDiff extends DiffAlgorithm {
 					diff(r.before(lcs));
 					diff(r.after(lcs));
 				}
+
+			} else if (fallback instanceof LowLevelDiffAlgorithm) {
+				LowLevelDiffAlgorithm fb = (LowLevelDiffAlgorithm) fallback;
+				fb.diffNonCommon(edits, cmp, a, b, r);
 
 			} else if (fallback != null) {
 				SubsequenceComparator<HashedSequence<S>> cs = subcmp();
