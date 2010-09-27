@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALy3///cw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-09-22T17:14:55Z",
+      "side": 1,
+      "message": "style: unnecessary empty line",
+      "revId": "9262618204b7c51e2e58bc6f4d2f1b5e6614eeff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///cs\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-09-22T17:14:55Z",
+      "side": 1,
+      "message": "just for my understanding: \u0027incore\u0027 not only mean that we will ignore the workingdir - but we will also not update any index, right? The incore version of the Dircache is not supposed to ever be persisted.\nI do see that we will use DirCache.writeTree() in the end (which I think is permitted even on a incore DirCache) to write to the object database our merge result - but the index itself is not updated. Correct?",
+      "revId": "9262618204b7c51e2e58bc6f4d2f1b5e6614eeff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///co\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-09-22T17:14:55Z",
+      "side": 1,
+      "message": "because you skip cleanUp() in case of inCore the attribute modifiedFiles may still be filled wrongly. When the incore-merge fails for whatever reason should clean the modifiedFiles list. Maybe it is better to modifiy cleanup() to do only that in case of an incore.",
+      "revId": "9262618204b7c51e2e58bc6f4d2f1b5e6614eeff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///cM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 423,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-09-22T17:14:55Z",
+      "side": 1,
+      "message": "We are not fillining the failingpathes list in case of \"incore\". Therefore we will not be able to report why a incore merge failed.",
+      "revId": "9262618204b7c51e2e58bc6f4d2f1b5e6614eeff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///bs\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 423,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-09-22T20:57:57Z",
+      "side": 1,
+      "message": "I agree!",
+      "parentUuid": "AAALy3///b8\u003d",
+      "revId": "9262618204b7c51e2e58bc6f4d2f1b5e6614eeff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///cQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-09-22T17:14:55Z",
+      "side": 1,
+      "message": "Only two additional if\u0027s in the mainloop (one here and one in mergeimpl()). Great, from my point of view we can spent that.",
+      "revId": "9262618204b7c51e2e58bc6f4d2f1b5e6614eeff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///cI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 469,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-09-22T17:14:55Z",
+      "side": 1,
+      "message": "Is there no way we can get rid of using temporary files here. In memory would fit better in case of inCore, or? Both, this MergeFormatter and also later the ObjectInserter are not bound to files but just to Input/Outputstreams.",
+      "revId": "9262618204b7c51e2e58bc6f4d2f1b5e6614eeff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///bo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 469,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-09-22T20:57:57Z",
+      "side": 1,
+      "message": "I don\u0027t think you have missed something - I guess it\u0027s no so easy with standard java. But Shawn provided a class TemporaryBuffer.LocalFile which may be helpful. You may also decide to leave this optimization for the next proposal and stay with this temporary file for now.",
+      "parentUuid": "AAALy3///cA\u003d",
+      "revId": "9262618204b7c51e2e58bc6f4d2f1b5e6614eeff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
