@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALy3///Yw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-09-24T13:13:27Z",
+      "side": 1,
+      "message": "style-nit: please use tabs here for indention",
+      "revId": "566ac8d0c2b255d2a175b2655df7c01e28cca0da",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///Yk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-09-24T13:13:27Z",
+      "side": 1,
+      "message": "style-nit: wrong indention on the previous two lines",
+      "revId": "566ac8d0c2b255d2a175b2655df7c01e28cca0da",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///Ys\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-09-24T13:13:27Z",
+      "side": 1,
+      "message": "style-nit: please remove trailing whitespaces",
+      "revId": "566ac8d0c2b255d2a175b2655df7c01e28cca0da",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
