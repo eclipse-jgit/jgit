@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAALy3///fs\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-09-21T11:31:10Z",
+      "side": 1,
+      "message": "I am not sure about cherry-picking. That\u0027s I think a different\r\nstory from merge. With merge you have two states A and B and the merge result consists parts from A, parts from B and conflicts. A cherry pick is AFAIK different. There you take the diff of one commit (what lines are changed by this single commit) and try to apply this change on some other state. You have to solve problems like \"Where in the target state do I have to add this change. Line numbers are not sufficient - you have to find the common lines (the context) listed in the diff)\". Problems which a merge algorithm doesn\u0027t care about.",
+      "revId": "5b873dead3682f79110f58d7806e43f50bcc5045",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALy3///fc\u003d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -48,6 +65,24 @@
       "writtenOn": "2010-09-20T22:49:43Z",
       "side": 1,
       "message": "This code is complex enough that it should be shared with ResolveMerger somehow.",
+      "revId": "5b873dead3682f79110f58d7806e43f50bcc5045",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///f4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMergerInCore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-09-21T07:33:56Z",
+      "side": 1,
+      "message": "It\u0027s not only this method, but also mergeImpl() which looks similar enough to be reused.",
+      "parentUuid": "AAALy3///gY\u003d",
       "revId": "5b873dead3682f79110f58d7806e43f50bcc5045",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
