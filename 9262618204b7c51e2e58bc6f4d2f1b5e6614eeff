@@ -106,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "AAALy3///b8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 423,
+      "author": {
+        "id": 86
+      },
+      "writtenOn": "2010-09-22T17:55:55Z",
+      "side": 1,
+      "message": "failingPathes indicate only paths that failed abnormally (not because of a conflict) but rather because of dirty index or working folder, so it looks not applicable to inCore.\nFor conflict failures their is unmergedPathes list which we do update.",
+      "parentUuid": "AAALy3///cM\u003d",
+      "revId": "9262618204b7c51e2e58bc6f4d2f1b5e6614eeff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALy3///bs\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
         "patchSetId": 3
