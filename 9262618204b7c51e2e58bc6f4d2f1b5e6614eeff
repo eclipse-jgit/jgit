@@ -158,6 +158,24 @@
     },
     {
       "key": {
+        "uuid": "AAALy3///cA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 469,
+      "author": {
+        "id": 86
+      },
+      "writtenOn": "2010-09-22T17:55:55Z",
+      "side": 1,
+      "message": "I\u0027ve actually looked at this option and tried to see if I can use some kind of pipes for this but couldn\u0027t find a good and simple solution (but frankly I don\u0027t have any experience with java and the available modules, so there must be something I missed). \nGoing that route though will make the code different enough that it may require a split into a different class.",
+      "parentUuid": "AAALy3///cI\u003d",
+      "revId": "9262618204b7c51e2e58bc6f4d2f1b5e6614eeff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALy3///bo\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
         "patchSetId": 3
