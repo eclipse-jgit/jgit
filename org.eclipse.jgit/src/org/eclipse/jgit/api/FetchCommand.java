@@ -80,6 +80,10 @@ public class FetchCommand extends GitCommand<FetchResult> {
 
 	private boolean removeDeletedRefs;
 
+	private boolean dryRun;
+
+	private boolean thin = Transport.DEFAULT_FETCH_THIN;
+
 	private int timeout;
 
 
@@ -115,6 +119,8 @@ public class FetchCommand extends GitCommand<FetchResult> {
 			transport.setCheckFetchedObjects(checkFetchedObjects);
 			transport.setRemoveDeletedRefs(removeDeletedRefs);
 			transport.setTimeout(timeout);
+			transport.setDryRun(dryRun);
+			transport.setFetchThin(thin);
 
 			try {
 				FetchResult result = transport.fetch(monitor, refSpecs);
@@ -269,6 +275,46 @@ public class FetchCommand extends GitCommand<FetchResult> {
 		checkCallable();
 		this.refSpecs.clear();
 		this.refSpecs.addAll(specs);
+		return this;
+	}
+
+	/**
+	 * @return the dry run preference for the fetch operation
+	 */
+	public boolean isDryRun() {
+		return dryRun;
+	}
+
+	/**
+	 * Sets whether the fetch operation should be a dry run
+	 *
+	 * @param dryRun
+	 * @return {@code this}
+	 */
+	public FetchCommand setDryRun(boolean dryRun) {
+		checkCallable();
+		this.dryRun = dryRun;
+		return this;
+	}
+
+	/**
+	 * @return the thin-pack preference for fetch operation
+	 */
+	public boolean isThin() {
+		return thin;
+	}
+
+	/**
+	 * Sets the thin-pack preference for fetch operation.
+	 *
+	 * Default setting is Transport.DEFAULT_FETCH_THIN
+	 *
+	 * @param thin
+	 * @return {@code this}
+	 */
+	public FetchCommand setThin(boolean thin) {
+		checkCallable();
+		this.thin = thin;
 		return this;
 	}
 
