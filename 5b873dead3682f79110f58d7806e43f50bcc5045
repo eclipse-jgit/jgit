@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALy3///fc\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-21T14:14:09Z",
+      "side": 1,
+      "message": "cherry-pick can be implemented using merge.  :-)\n\nLets say we want to cherry-pick commit C, whose parent is B, and we want to apply it on top of Q:\n\n  o----- B ----- C\n   \\\n    o--o--o-- Q\n\n* Set the \"ours\" side to be Q.\n* Set the \"theirs\" side to be C.\n* Fix the merge base to be C^1, that is B.\n\nWhere there is a B-C difference, it shows up as an edit made by \"them\" and is applied by the merge as a \"theirs\" side edit.  Where there is a B-Q difference, it shows up as an edit made by \"us\" and shows up as an \"ours\" side edit.  Providing that these edits aren\u0027t conflicting, the merge will complete cleanly.",
+      "parentUuid": "AAALy3///fs\u003d",
+      "revId": "5b873dead3682f79110f58d7806e43f50bcc5045",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///gc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeStrategy.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-20T22:49:43Z",
+      "side": 1,
+      "message": "Style-nit: Trailing space at end of line.",
+      "revId": "5b873dead3682f79110f58d7806e43f50bcc5045",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///gY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMergerInCore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-20T22:49:43Z",
+      "side": 1,
+      "message": "This code is complex enough that it should be shared with ResolveMerger somehow.",
+      "revId": "5b873dead3682f79110f58d7806e43f50bcc5045",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///gU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/StrategyResolveInCore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-20T22:49:43Z",
+      "side": 1,
+      "message": "Please also include the standard line:\n\n * and other copyright owners as documented in the project\u0027s IP log.\n\nBecause we don\u0027t always update the copyright headers when an edit is made to the file after it is added to the repository.  The foundation requires us to have this line to alert readers that the above copyright notices might not be sufficient to fully document the current owners of the file.",
+      "revId": "5b873dead3682f79110f58d7806e43f50bcc5045",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
