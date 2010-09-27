@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "AAALy3///b0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 86
+      },
+      "writtenOn": "2010-09-22T17:55:55Z",
+      "side": 1,
+      "message": "that is correct, the idea was not to touch working folder and index at all",
+      "parentUuid": "AAALy3///cs\u003d",
+      "revId": "9262618204b7c51e2e58bc6f4d2f1b5e6614eeff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALy3///co\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
         "patchSetId": 3
@@ -47,6 +65,24 @@
       "writtenOn": "2010-09-22T17:14:55Z",
       "side": 1,
       "message": "because you skip cleanUp() in case of inCore the attribute modifiedFiles may still be filled wrongly. When the incore-merge fails for whatever reason should clean the modifiedFiles list. Maybe it is better to modifiy cleanup() to do only that in case of an incore.",
+      "revId": "9262618204b7c51e2e58bc6f4d2f1b5e6614eeff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///b4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 86
+      },
+      "writtenOn": "2010-09-22T17:55:55Z",
+      "side": 1,
+      "message": "good point.",
+      "parentUuid": "AAALy3///co\u003d",
       "revId": "9262618204b7c51e2e58bc6f4d2f1b5e6614eeff",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
