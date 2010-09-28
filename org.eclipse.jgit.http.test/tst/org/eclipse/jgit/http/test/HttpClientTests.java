@@ -45,7 +45,9 @@ package org.eclipse.jgit.http.test;
 
 import java.io.File;
 import java.net.URI;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -56,10 +58,12 @@ import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.NoRemoteRepositoryException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.errors.TransportException;
+import org.eclipse.jgit.errors.UnsupportedCredentialType;
 import org.eclipse.jgit.http.server.GitServlet;
 import org.eclipse.jgit.http.server.resolver.RepositoryResolver;
 import org.eclipse.jgit.http.server.resolver.ServiceNotEnabledException;
 import org.eclipse.jgit.http.test.util.AccessEvent;
+import org.eclipse.jgit.http.test.util.AppServer;
 import org.eclipse.jgit.http.test.util.HttpTestCase;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Constants;
@@ -68,6 +72,7 @@ import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.storage.file.FileRepository;
+import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.FetchConnection;
 import org.eclipse.jgit.transport.Transport;
 import org.eclipse.jgit.transport.URIish;
@@ -287,6 +292,64 @@ public class HttpClientTests extends HttpTestCase {
 			}
 		} finally {
 			t.close();
+		}
+	}
+
+	public void testListRemote_Dumb_Auth() throws Exception {
+		Repository dst = createBareRepository();
+		Transport t = Transport.open(dst, dumbAuthBasicURI);
+		t.setCredentialsProvider(new TestCredentialsProvider(
+				AppServer.username, AppServer.password));
+		try {
+			t.openFetch();
+		} finally {
+			t.close();
+		}
+		t = Transport.open(dst, dumbAuthBasicURI);
+		t.setCredentialsProvider(new TestCredentialsProvider(
+				AppServer.username, ""));
+		try {
+			t.openFetch();
+			fail("connection opened even info/refs needs auth basic and we provide wrong password");
+		} catch (TransportException err) {
+			String exp = dumbAuthBasicURI + ": "
+					+ JGitText.get().notAuthorized;
+			assertEquals(exp, err.getMessage());
+		} finally {
+			t.close();
+		}
+	}
+
+	static class TestCredentialsProvider extends CredentialsProvider {
+		static Set<CredentialType> supported;
+
+		private String username;
+
+		private String password;
+
+		public TestCredentialsProvider(String username, String password) {
+			this.username = username;
+			this.password = password;
+		}
+		public Set<CredentialType> getSupportedCredentialTypes() {
+			if (supported == null) {
+				supported = new HashSet<CredentialType>();
+				supported.add(CredentialType.USERNAME);
+				supported.add(CredentialType.PASSWORD);
+			}
+			return supported;
+		}
+
+		public String getCredentials(URIish uri, CredentialType type)
+				throws UnsupportedCredentialType {
+			switch (type) {
+			case USERNAME:
+				return username;
+			case PASSWORD:
+				return password;
+			default:
+				throw new UnsupportedCredentialType(uri, type.toString());
+			}
 		}
 	}
 
