@@ -173,6 +173,19 @@ public class Git {
 	}
 
 	/**
+	 * Returns a command object to execute a {@code Push} command
+	 *
+	 * @see <a
+	 *      href="http://www.kernel.org/pub/software/scm/git/docs/git-push.html"
+	 *      >Git documentation about Push</a>
+	 * @return a {@link PushCommand} used to collect all optional parameters and
+	 *         to finally execute the {@code Push} command
+	 */
+	public PushCommand push() {
+		return new PushCommand(repo);
+	}
+
+	/**
 	 * @return the git repository this class is interacting with
 	 */
 	public Repository getRepository() {
