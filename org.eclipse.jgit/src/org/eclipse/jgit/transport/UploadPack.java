@@ -76,6 +76,7 @@ import org.eclipse.jgit.transport.RefAdvertiser.PacketLineOutRefAdvertiser;
 import org.eclipse.jgit.util.io.InterruptTimer;
 import org.eclipse.jgit.util.io.TimeoutInputStream;
 import org.eclipse.jgit.util.io.TimeoutOutputStream;
+import java.util.concurrent.Executor;
 
 /**
  * Implements the server side of a fetch connection, transmitting objects.
@@ -632,8 +633,14 @@ public class UploadPack {
 		}
 
 		PackConfig cfg = packConfig;
-		if (cfg == null)
+		if (cfg == null) {
 			cfg = new PackConfig(db);
+			cfg.setExecutor(new Executor() {
+				public void execute(Runnable command) {
+					command.run();
+				}
+			});
+		}
 		final PackWriter pw = new PackWriter(cfg, walk.getObjectReader());
 		try {
 			pw.setDeltaBaseAsOffset(options.contains(OPTION_OFS_DELTA));
