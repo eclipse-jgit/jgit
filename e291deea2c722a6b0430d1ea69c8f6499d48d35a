@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALy3///nE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/WindowCacheConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-17T14:20:05Z",
+      "side": 1,
+      "message": "I\u0027m kind of on the fence about this.\n\nAll of the other changes in PackFile make sense, when we run out of memory and cannot complete the allocation we can still try to limp along and process the object as a stream.  But increasing our default to 50 MiB seems high if the JVM heap default is only 64 MiB on a system.  :-)\n\nI really wish I had a better method for handling random access to the delta base, but the pack file format doesn\u0027t allow us to do random access to a whole object, and neither does the loose object format.  I tried setting compression to 0 when we stream a delta back out as a loose object to cache it, but zlib still inserts these headers every 64k to denote its a stored literal block.  Since the headers can appear at any length (it depends on the buffer size of the deflater, which is defined down inside of the C code and is not visible to Java), its very hard to do random access within the file even if compression is disabled.\n\nWe could implement our own object cache on disk, where we deflate the file as individual small segments, so we can do random access and inflate only near the target.  But then we have to write our own cache management for this area on disk, and native Git won\u0027t know to clean it up during `git gc`.\n\nIts a tough problem and I don\u0027t have a good solution yet.  *sigh*  But this change is probably better than what we have right now.",
+      "revId": "e291deea2c722a6b0430d1ea69c8f6499d48d35a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
