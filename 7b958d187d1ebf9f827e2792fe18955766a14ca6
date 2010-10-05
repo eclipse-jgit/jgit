@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALy3///Lg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Git.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-10-03T21:17:10Z",
+      "side": 1,
+      "message": "style nit: trailing whitespace",
+      "revId": "7b958d187d1ebf9f827e2792fe18955766a14ca6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///LU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PushCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-10-03T21:17:10Z",
+      "side": 1,
+      "message": "typo: s/fetch/push/",
+      "revId": "7b958d187d1ebf9f827e2792fe18955766a14ca6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///Lc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PushCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-10-03T21:17:10Z",
+      "side": 1,
+      "message": "typo: s/fetch/push/",
+      "revId": "7b958d187d1ebf9f827e2792fe18955766a14ca6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///LY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PushCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-10-03T21:17:10Z",
+      "side": 1,
+      "message": "could be simplified:\nCollections.addAll(refsSpecs, specs);",
+      "revId": "7b958d187d1ebf9f827e2792fe18955766a14ca6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
