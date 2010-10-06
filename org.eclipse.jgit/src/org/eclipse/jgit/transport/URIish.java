@@ -61,19 +61,64 @@ import org.eclipse.jgit.lib.Constants;
  * any special character is written as-is.
  */
 public class URIish implements Serializable {
+	/**
+	 * Part of a pattern which matches the scheme part (git, http, ...) of an
+	 * URI. Defines one capturing group containing the scheme without the
+	 * trailing colon and slashes
+	 */
+	private static final String SCHEME_P = "([a-z][a-z0-9+-]+)://";
+
+	/**
+	 * Part of a pattern which matches the optional user/password part (e.g.
+	 * root:pwd@ in git://root:pwd@host.xyz/a.git) of URIs. Defines two
+	 * capturing groups: the first containing the user and the second containing
+	 * the password
+	 */
+	private static final String OPT_USER_PWD_P = "(?:([^/]+?)(?::([^/]+?))?@)?";
+
+	/**
+	 * Part of a pattern which matches the optional host part of URIs. Defines
+	 * one capturing group containing the host name.
+	 */
+	private static final String OPT_HOST_P = "(?:([^/]+?))?";
+
+	/**
+	 * Part of a pattern which matches the optional port part of URIs. Defines
+	 * one capturing group containing the port without the preceding colon.
+	 */
+	private static final String OPT_PORT_P = "(?::(\\d+))?";
+
+	/**
+	 * Part of a pattern which matches the optional drive letter in paths (e.g.
+	 * D: in file:///D:/a.txt). Defines no capturing group.
+	 */
+	private static final String OPT_DRIVE_LETTER_P = "(?:[A-Za-z]:)?";
+
+	/**
+	 * Part of a pattern which matches a relative path. Relative paths don't
+	 * start with slash or drive letters. Defines no capturing group.
+	 */
+	private static final String OPT_RELATIVE_PATH_P = "(?:\\.\\.)?";
+
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * A pattern matching standard URI: </br>
+	 * <code>scheme "://" user_password? hostname? portnumber? path</code>
+	 */
 	private static final Pattern FULL_URI = Pattern.compile("^" //
 			+ "(?:" //
-			+ "([a-z][a-z0-9+-]+)://" // optional http://
-			+ "(?:([^/]+?)(?::([^/]+?))?@)?" // optional user:password@
-			+ "(?:([^/]+?))?(?::(\\d+))?" // optional example.com:1337
+			+ SCHEME_P //
+			+ OPT_USER_PWD_P //
+			+ OPT_HOST_P //
+			+ OPT_PORT_P //
 			+ ")?" //
-			+ "(" + "(?:[A-Za-z]:)?" // optional drive-letter:
-			+ "(?:\\.\\.)?" // optionally a relative path
-			+ "/.+" //
+			+ "(" + OPT_DRIVE_LETTER_P + OPT_RELATIVE_PATH_P + "/.+" //
 			+ ")$"); // /anything
 
+	/**
+	 * A pattern matching SCP URI's of the form user@host:path/to/repo.git
+	 */
 	private static final Pattern SCP_URI = Pattern.compile("^" //
 			+ "(?:([^@]+?)@)?" //
 			+ "([^:]+?)" //
