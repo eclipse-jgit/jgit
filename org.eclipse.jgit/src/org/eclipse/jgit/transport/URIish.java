@@ -144,6 +144,16 @@ public class URIish implements Serializable {
 			+ "$");
 
 	/**
+	 * A pattern matching a URI for the scheme 'file' which has only ':/' as
+	 * separator between scheme and path. Standard file URIs have '://' as
+	 * separator, but java.io.File.toURI() constructs those URIs.
+	 */
+	private static final Pattern SINGLE_SLASH_FILE_URI = Pattern.compile("^" //
+			+ "(file):(/(?!/)" //
+			+ PATH_P //
+			+ ")$");
+
+	/**
 	 * A pattern matching a SCP URI's of the form user@host:path/to/repo.git
 	 */
 	private static final Pattern SCP_URI = Pattern.compile("^" //
@@ -174,30 +184,37 @@ public class URIish implements Serializable {
 	 */
 	public URIish(String s) throws URISyntaxException {
 		s = s.replace('\\', '/');
-		Matcher matcher = FULL_URI.matcher(s);
+		Matcher matcher = SINGLE_SLASH_FILE_URI.matcher(s);
 		if (matcher.matches()) {
 			scheme = matcher.group(1);
-			user = matcher.group(2);
-			pass = matcher.group(3);
-			host = matcher.group(4);
-			if (matcher.group(5) != null)
-				port = Integer.parseInt(matcher.group(5));
-			path = cleanLeadingSlashes(
-					n2e(matcher.group(6)) + n2e(matcher.group(7)), scheme);
+			path = cleanLeadingSlashes(matcher.group(2), scheme);
 		} else {
-			matcher = SCP_URI.matcher(s);
+			matcher = FULL_URI.matcher(s);
 			if (matcher.matches()) {
-				user = matcher.group(1);
-				pass = matcher.group(2);
-				host = matcher.group(3);
-				path = matcher.group(4);
+				scheme = matcher.group(1);
+				user = matcher.group(2);
+				pass = matcher.group(3);
+				host = matcher.group(4);
+				if (matcher.group(5) != null)
+					port = Integer.parseInt(matcher.group(5));
+				path = cleanLeadingSlashes(
+						n2e(matcher.group(6)) + n2e(matcher.group(7)),
+						scheme);
 			} else {
-				matcher = LOCAL_FILE.matcher(s);
+				matcher = SCP_URI.matcher(s);
 				if (matcher.matches()) {
-					path = matcher.group(1);
-				} else
-					throw new URISyntaxException(s,
-							JGitText.get().cannotParseGitURIish);
+					user = matcher.group(1);
+					pass = matcher.group(2);
+					host = matcher.group(3);
+					path = matcher.group(4);
+				} else {
+					matcher = LOCAL_FILE.matcher(s);
+					if (matcher.matches()) {
+						path = matcher.group(1);
+					} else
+						throw new URISyntaxException(s,
+								JGitText.get().cannotParseGitURIish);
+				}
 			}
 		}
 	}
