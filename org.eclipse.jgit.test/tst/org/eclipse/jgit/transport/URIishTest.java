@@ -45,6 +45,8 @@
 
 package org.eclipse.jgit.transport;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.URISyntaxException;
 
 import junit.framework.TestCase;
@@ -446,6 +448,41 @@ public class URIishTest extends TestCase {
 		assertEquals("user", u.getUser());
 		assertEquals("secret@pass", u.getPass());
 		assertEquals(u, new URIish(str));
+	}
+
+	public void testFileProtocol() throws IllegalArgumentException,
+			URISyntaxException, IOException {
+		// as defined by git docu
+		URIish u = new URIish("file:///a/b.txt");
+		assertEquals("file", u.getScheme());
+		assertFalse(u.isRemote());
+		assertNull(u.getHost());
+		assertNull(u.getPass());
+		assertEquals("/a/b.txt", u.getPath());
+		assertEquals(-1, u.getPort());
+		assertNull(u.getUser());
+		assertEquals("b.txt", u.getHumanishName());
+
+		File tmp = File.createTempFile("jgitUnitTest", ".tmp");
+		u = new URIish(tmp.toURI().toString());
+		assertEquals("file", u.getScheme());
+		assertFalse(u.isRemote());
+		assertNull(u.getHost());
+		assertNull(u.getPass());
+		assertTrue(u.getPath().contains("jgitUnitTest"));
+		assertEquals(-1, u.getPort());
+		assertNull(u.getUser());
+		assertTrue(u.getHumanishName().startsWith("jgitUnitTest"));
+
+		u = new URIish("file:/a/b.txt");
+		assertEquals("file", u.getScheme());
+		assertFalse(u.isRemote());
+		assertNull(u.getHost());
+		assertNull(u.getPass());
+		assertEquals("/a/b.txt", u.getPath());
+		assertEquals(-1, u.getPort());
+		assertNull(u.getUser());
+		assertEquals("b.txt", u.getHumanishName());
 	}
 
 	public void testMissingPort() throws URISyntaxException {
