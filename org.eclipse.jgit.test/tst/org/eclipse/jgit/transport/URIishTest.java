@@ -447,4 +447,10 @@ public class URIishTest extends TestCase {
 		assertEquals("secret@pass", u.getPass());
 		assertEquals(u, new URIish(str));
 	}
+
+	public void testMissingPort() throws URISyntaxException {
+		final String incorrectSshUrl = "ssh://some-host:/path/to/repository.git";
+		URIish u = new URIish(incorrectSshUrl);
+		assertFalse(TransportGitSsh.canHandle(u));
+	}
 }
