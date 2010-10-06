@@ -356,7 +356,8 @@ public class URIishTest extends TestCase {
 
 	public void testGetValidSlashHumanishName()
 			throws IllegalArgumentException, URISyntaxException {
-		String humanishName = new URIish(GIT_SCHEME + "abc/").getHumanishName();
+		String humanishName = new URIish(GIT_SCHEME + "host/abc/")
+				.getHumanishName();
 		assertEquals("abc", humanishName);
 	}
 
@@ -394,7 +395,7 @@ public class URIishTest extends TestCase {
 
 	public void testGetValidDotGitSlashHumanishName()
 			throws IllegalArgumentException, URISyntaxException {
-		String humanishName = new URIish(GIT_SCHEME + "abc.git/")
+		String humanishName = new URIish(GIT_SCHEME + "host.xy/abc.git/")
 				.getHumanishName();
 		assertEquals("abc", humanishName);
 	}
