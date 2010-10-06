@@ -2,6 +2,7 @@
  * Copyright (C) 2009, Mykola Nikishov <mn@mn.com.ua>
  * Copyright (C) 2008, Robin Rosenberg <robin.rosenberg@dewire.com>
  * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org>
+ * Copyright (C) 2010, Christian Halstrick <christian.halstrick@sap.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -74,7 +75,7 @@ public class URIish implements Serializable {
 	 * capturing groups: the first containing the user and the second containing
 	 * the password
 	 */
-	private static final String OPT_USER_PWD_P = "(?:([^/]+?)(?::([^/]+?))?@)?";
+	private static final String OPT_USER_PWD_P = "(?:([^/:@]+)(?::([^/]+))?@)?";
 
 	/**
 	 * Part of a pattern which matches the optional host part of URIs. Defines
