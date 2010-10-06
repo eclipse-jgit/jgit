@@ -134,6 +134,15 @@ public class Git {
 	}
 
 	/**
+	 * Returns a command object to execute a {@code Branch} command
+	 * 
+	 * @return a {@link BranchCommand}
+	 */
+	public BranchCommand branch() {
+		return new BranchCommand(repo);
+	}
+
+	/**
 	 * Returns a command object to execute a {@code Add} command
 	 *
 	 * @see <a

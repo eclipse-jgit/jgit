@@ -176,6 +176,9 @@ public class JGitText extends TranslationBundle {
 	/***/ public String couldNotURLEncodeToUTF8;
 	/***/ public String couldNotWriteFile;
 	/***/ public String countingObjects;
+	/***/ public String createBranchFailedUnknownReason;
+	/***/ public String createBranchMissingName;
+	/***/ public String createBranchUnexpectedResult;
 	/***/ public String creatingDeltasIsNotImplemented;
 	/***/ public String daemonAlreadyRunning;
 	/***/ public String deletingNotSupported;
@@ -330,6 +333,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String notValid;
 	/***/ public String nothingToFetch;
 	/***/ public String nothingToPush;
+	/***/ public String notMergedExceptionMessage;
 	/***/ public String objectAtHasBadZlibStream;
 	/***/ public String objectAtPathDoesNotHaveId;
 	/***/ public String objectIsCorrupt;
@@ -368,6 +372,8 @@ public class JGitText extends TranslationBundle {
 	/***/ public String readTimedOut;
 	/***/ public String readingObjectsFromLocalRepositoryFailed;
 	/***/ public String receivingObjects;
+	/***/ public String refAlreadExists;
+	/***/ public String refNotResolved;
 	/***/ public String refUpdateReturnCodeWas;
 	/***/ public String reflogsNotYetSupportedByRevisionParser;
 	/***/ public String remoteConfigHasNoURIAssociated;
@@ -375,6 +381,9 @@ public class JGitText extends TranslationBundle {
 	/***/ public String remoteDoesNotSupportSmartHTTPPush;
 	/***/ public String remoteHungUpUnexpectedly;
 	/***/ public String remoteNameCantBeNull;
+	/***/ public String renameBranchFailedBecauseTag;
+	/***/ public String renameBranchFailedUnknownReason;
+	/***/ public String renameBranchUnexpectedResult;
 	/***/ public String renamesAlreadyFound;
 	/***/ public String renamesBreakingModifies;
 	/***/ public String renamesFindingByContent;
@@ -396,7 +405,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String requiredHashFunctionNotAvailable;
 	/***/ public String resolvingDeltas;
 	/***/ public String searchForReuse;
-	/***/ public String sequenceTooLargeForDiffAlgorithm;	
+	/***/ public String sequenceTooLargeForDiffAlgorithm;
 	/***/ public String serviceNotPermitted;
 	/***/ public String shortCompressedStreamAt;
 	/***/ public String shortReadOfBlock;
