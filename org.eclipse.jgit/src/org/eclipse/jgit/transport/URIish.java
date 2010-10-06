@@ -78,16 +78,22 @@ public class URIish implements Serializable {
 	private static final String OPT_USER_PWD_P = "(?:([^/:@]+)(?::([^/]+))?@)?";
 
 	/**
-	 * Part of a pattern which matches the optional host part of URIs. Defines
-	 * one capturing group containing the host name.
+	 * Part of a pattern which matches the host part of URIs. Defines one
+	 * capturing group containing the host name.
 	 */
-	private static final String OPT_HOST_P = "(?:([^/]+?))?";
+	private static final String HOST_P = "([^/:]+)";
 
 	/**
 	 * Part of a pattern which matches the optional port part of URIs. Defines
 	 * one capturing group containing the port without the preceding colon.
 	 */
 	private static final String OPT_PORT_P = "(?::(\\d+))?";
+
+	/**
+	 * Part of a pattern which matches the ~username part (e.g. /~root in
+	 * git://host.xyz/~root/a.git) of URIs. Defines no capturing group.
+	 */
+	private static final String USER_HOME_P = "(?:/~(?:[^/]+))";
 
 	/**
 	 * Part of a pattern which matches the optional drive letter in paths (e.g.
@@ -99,7 +105,14 @@ public class URIish implements Serializable {
 	 * Part of a pattern which matches a relative path. Relative parts don't
 	 * start with slash or drive letters. Defines no capturing group.
 	 */
-	private static final String OPT_RELATIVE_PATH_P = "(?:\\.\\.)?";
+	private static final String RELATIVE_PATH_P = "(?:(?:[^/]+/)*[^/]+/?)";
+
+	/**
+	 * Part of a pattern which matches a relative or absolute path. Defines no
+	 * capturing group.
+	 */
+	private static final String PATH_P = "(" + OPT_DRIVE_LETTER_P + "/?"
+			+ RELATIVE_PATH_P + ")";
 
 	private static final long serialVersionUID = 1L;
 
@@ -109,24 +122,37 @@ public class URIish implements Serializable {
 	 * ~username.
 	 */
 	private static final Pattern FULL_URI = Pattern.compile("^" //
-			+ "(?:" //
 			+ SCHEME_P //
+			+ "(?:" // start a group containing hostname and all options only
+					// availabe when a hostname is there
 			+ OPT_USER_PWD_P //
-			+ OPT_HOST_P //
+			+ HOST_P //
 			+ OPT_PORT_P //
-			+ ")?" //
-			+ "(" + OPT_DRIVE_LETTER_P + OPT_RELATIVE_PATH_P + "/.+" //
-			+ ")$"); // /anything
+			+ "(" // open a catpuring group the the user-home-dir part
+			+ (USER_HOME_P + "?") //
+			+ "/)" //
+			+ ")?" // close the optional group containing hostname
+			+ "(.+)?" //
+			+ "$");
+
+	/**
+	 * A pattern matching the reference to a local file. This may be an absolute
+	 * path (maybe even containing windows drive-letters) or an relative path.
+	 */
+	private static final Pattern LOCAL_FILE = Pattern.compile("^" //
+			+ "(/?" + PATH_P + ")" //
+			+ "$");
 
 	/**
 	 * A pattern matching a SCP URI's of the form user@host:path/to/repo.git
 	 */
 	private static final Pattern SCP_URI = Pattern.compile("^" //
-			+ "(?:([^@]+?)@)?" //
-			+ "([^:]+?)" //
-			+ ":" //
-			+ "(.+)" //
-			+ "$"); //
+			+ OPT_USER_PWD_P //
+			+ HOST_P //
+			+ ":(" //
+			+ ("(?:" + USER_HOME_P + "/)?") //
+			+ RELATIVE_PATH_P //
+			+ ")$");
 
 	private String scheme;
 
@@ -156,25 +182,47 @@ public class URIish implements Serializable {
 			host = matcher.group(4);
 			if (matcher.group(5) != null)
 				port = Integer.parseInt(matcher.group(5));
-			path = matcher.group(6);
-			if (path.length() >= 3
-			&& path.charAt(0) == '/'
-			&& path.charAt(2) == ':'
-			&& (path.charAt(1) >= 'A' && path.charAt(1) <= 'Z'
-			 || path.charAt(1) >= 'a' && path.charAt(1) <= 'z'))
-				path = path.substring(1);
-			else if (scheme != null && path.length() >= 2
-					&& path.charAt(0) == '/' && path.charAt(1) == '~')
-				path = path.substring(1);
+			path = cleanLeadingSlashes(
+					n2e(matcher.group(6)) + n2e(matcher.group(7)), scheme);
 		} else {
 			matcher = SCP_URI.matcher(s);
 			if (matcher.matches()) {
 				user = matcher.group(1);
-				host = matcher.group(2);
-				path = matcher.group(3);
-			} else
-				throw new URISyntaxException(s, JGitText.get().cannotParseGitURIish);
+				pass = matcher.group(2);
+				host = matcher.group(3);
+				path = matcher.group(4);
+			} else {
+				matcher = LOCAL_FILE.matcher(s);
+				if (matcher.matches()) {
+					path = matcher.group(1);
+				} else
+					throw new URISyntaxException(s,
+							JGitText.get().cannotParseGitURIish);
+			}
 		}
+	}
+
+	private String n2e(String s) {
+		if (s == null)
+			return "";
+		else
+			return s;
+	}
+
+	// takes care to cut of a leading slash if a windows drive letter or a
+	// user-home-dir specifications are
+	private String cleanLeadingSlashes(String p, String s) {
+		if (p.length() >= 3
+				&& p.charAt(0) == '/'
+				&& p.charAt(2) == ':'
+				&& (p.charAt(1) >= 'A' && p.charAt(1) <= 'Z' || p.charAt(1) >= 'a'
+						&& p.charAt(1) <= 'z'))
+			return p.substring(1);
+		else if (s != null && p.length() >= 2 && p.charAt(0) == '/'
+				&& p.charAt(1) == '~')
+			return p.substring(1);
+		else
+			return p;
 	}
 
 	/**
