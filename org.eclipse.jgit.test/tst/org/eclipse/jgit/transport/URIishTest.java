@@ -424,4 +424,27 @@ public class URIishTest extends TestCase {
 		assertEquals("c", humanishName);
 	}
 
+	public void testUserPasswordAndPort() throws URISyntaxException {
+		String str = "http://user:secret@host.xy:80/some/path";
+		URIish u = new URIish(str);
+		assertEquals("http", u.getScheme());
+		assertTrue(u.isRemote());
+		assertEquals("/some/path", u.getPath());
+		assertEquals("host.xy", u.getHost());
+		assertEquals(80, u.getPort());
+		assertEquals("user", u.getUser());
+		assertEquals("secret", u.getPass());
+		assertEquals(u, new URIish(str));
+
+		str = "http://user:secret@pass@host.xy:80/some/path";
+		u = new URIish(str);
+		assertEquals("http", u.getScheme());
+		assertTrue(u.isRemote());
+		assertEquals("/some/path", u.getPath());
+		assertEquals("host.xy", u.getHost());
+		assertEquals(80, u.getPort());
+		assertEquals("user", u.getUser());
+		assertEquals("secret@pass", u.getPass());
+		assertEquals(u, new URIish(str));
+	}
 }
