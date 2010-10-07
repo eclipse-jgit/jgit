@@ -115,9 +115,9 @@ import org.eclipse.jgit.util.io.UnionInputStream;
  */
 public class TransportHttp extends HttpTransport implements WalkTransport,
 		PackTransport {
-	private static final String SVC_UPLOAD_PACK = "git-upload-pack";
+	private static final String SVC_UPLOAD_PACK = "git-upload-pack"; //$NON-NLS-1$
 
-	private static final String SVC_RECEIVE_PACK = "git-receive-pack";
+	private static final String SVC_RECEIVE_PACK = "git-receive-pack"; //$NON-NLS-1$
 
 	private static final String userAgent = computeUserAgent();
 
@@ -125,7 +125,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		if (!uri.isRemote())
 			return false;
 		final String s = uri.getScheme();
-		return "http".equals(s) || "https".equals(s) || "ftp".equals(s);
+		return "http".equals(s) || "https".equals(s) || "ftp".equals(s); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 	}
 
 	private static String computeUserAgent() {
@@ -149,7 +149,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		final int postBuffer;
 
 		HttpConfig(final Config rc) {
-			postBuffer = rc.getInt("http", "postbuffer", 1 * 1024 * 1024);
+			postBuffer = rc.getInt("http", "postbuffer", 1 * 1024 * 1024); //$NON-NLS-1$  //$NON-NLS-2$
 		}
 	}
 
@@ -170,10 +170,10 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		super(local, uri);
 		try {
 			String uriString = uri.toString();
-			if (!uriString.endsWith("/"))
-				uriString += "/";
+			if (!uriString.endsWith("/")) //$NON-NLS-1$
+				uriString += "/"; //$NON-NLS-1$
 			baseUrl = new URL(uriString);
-			objectsUrl = new URL(baseUrl, "objects/");
+			objectsUrl = new URL(baseUrl, "objects/"); //$NON-NLS-1$
 		} catch (MalformedURLException e) {
 			throw new NotSupportedException(MessageFormat.format(JGitText.get().invalidURL, uri), e);
 		}
@@ -333,8 +333,8 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 			b.append(Constants.INFO_REFS);
 
 			if (useSmartHttp) {
-				b.append(b.indexOf("?") < 0 ? '?' : '&');
-				b.append("service=");
+				b.append(b.indexOf("?") < 0 ? '?' : '&'); //$NON-NLS-1$
+				b.append("service="); //$NON-NLS-1$
 				b.append(service);
 			}
 
@@ -348,10 +348,10 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 			for (;;) {
 				final HttpURLConnection conn = httpOpen(u);
 				if (useSmartHttp) {
-					String exp = "application/x-" + service + "-advertisement";
-					conn.setRequestProperty(HDR_ACCEPT, exp + ", */*");
+					String exp = "application/x-" + service + "-advertisement"; //$NON-NLS-1$ //$NON-NLS-2$
+					conn.setRequestProperty(HDR_ACCEPT, exp + ", */*"); //$NON-NLS-1$
 				} else {
-					conn.setRequestProperty(HDR_ACCEPT, "*/*");
+					conn.setRequestProperty(HDR_ACCEPT, "*/*"); //$NON-NLS-1$
 				}
 				final int status = HttpSupport.response(conn);
 				switch (status) {
@@ -359,25 +359,27 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 					return conn;
 
 				case HttpURLConnection.HTTP_NOT_FOUND:
-					throw new NoRemoteRepositoryException(uri, u + " not found");
+					throw new NoRemoteRepositoryException(uri,
+							MessageFormat.format(JGitText.get().uriNotFound, u));
 
 				case HttpURLConnection.HTTP_UNAUTHORIZED:
 					authMethod = HttpAuthMethod.scanResponse(conn);
 					if (authMethod == HttpAuthMethod.NONE)
-						throw new TransportException(uri,
-								"authentication not supported");
+						throw new TransportException(uri, MessageFormat.format(
+								JGitText.get().authenticationNotSupported, uri));
 					if (1 < authAttempts || uri.getUser() == null)
-						throw new TransportException(uri, "not authorized");
+						throw new TransportException(uri,
+								JGitText.get().notAuthorized);
 					authMethod.authorize(uri);
 					authAttempts++;
 					continue;
 
 				case HttpURLConnection.HTTP_FORBIDDEN:
-					throw new TransportException(uri, service
-							+ " not permitted");
+					throw new TransportException(uri, MessageFormat.format(
+							JGitText.get().serviceNotPermitted, service));
 
 				default:
-					String err = status + " " + conn.getResponseMessage();
+					String err = status + " " + conn.getResponseMessage(); //$NON-NLS-1$
 					throw new TransportException(uri, err);
 				}
 			}
@@ -400,7 +402,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		conn.setRequestMethod(method);
 		conn.setUseCaches(false);
 		conn.setRequestProperty(HDR_ACCEPT_ENCODING, ENCODING_GZIP);
-		conn.setRequestProperty(HDR_PRAGMA, "no-cache");//$NON-NLS-1$
+		conn.setRequestProperty(HDR_PRAGMA, "no-cache"); //$NON-NLS-1$
 		conn.setRequestProperty(HDR_USER_AGENT, userAgent);
 		conn.setConnectTimeout(getTimeout() * 1000);
 		conn.setReadTimeout(getTimeout() * 1000);
@@ -422,7 +424,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 	}
 
 	private boolean isSmartHttp(final HttpURLConnection c, final String service) {
-		final String expType = "application/x-" + service + "-advertisement";
+		final String expType = "application/x-" + service + "-advertisement"; //$NON-NLS-1$ //$NON-NLS-2$
 		final String actType = c.getContentType();
 		return expType.equals(actType);
 	}
@@ -443,7 +445,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 
 		final PacketLineIn pckIn = new PacketLineIn(new UnionInputStream(
 				new ByteArrayInputStream(magic), in));
-		final String exp = "# service=" + service;
+		final String exp = "# service=" + service; //$NON-NLS-1$
 		final String act = pckIn.readString();
 		if (!exp.equals(act)) {
 			throw new TransportException(uri, MessageFormat.format(
@@ -500,7 +502,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 						final String s = br.readLine();
 						if (s == null || s.length() == 0)
 							break;
-						if (!s.startsWith("P pack-") || !s.endsWith(".pack"))
+						if (!s.startsWith("P pack-") || !s.endsWith(".pack")) //$NON-NLS-1$ //$NON-NLS-2$
 							throw invalidAdvertisement(s);
 						packs.add(s.substring(2));
 					}
@@ -526,8 +528,8 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 			case HttpURLConnection.HTTP_NOT_FOUND:
 				throw new FileNotFoundException(u.toString());
 			default:
-				throw new IOException(u.toString() + ": "
-						+ HttpSupport.response(c) + " "
+				throw new IOException(u.toString() + ": " //$NON-NLS-1$
+						+ HttpSupport.response(c) + " " //$NON-NLS-1$
 						+ c.getResponseMessage());
 			}
 		}
@@ -549,14 +551,14 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 
 				name = line.substring(tab + 1);
 				id = ObjectId.fromString(line.substring(0, tab));
-				if (name.endsWith("^{}")) {
+				if (name.endsWith("^{}")) { //$NON-NLS-1$
 					name = name.substring(0, name.length() - 3);
 					final Ref prior = avail.get(name);
 					if (prior == null)
 						throw outOfOrderAdvertisement(name);
 
 					if (prior.getPeeledObjectId() != null)
-						throw duplicateAdvertisement(name + "^{}");
+						throw duplicateAdvertisement(name + "^{}"); //$NON-NLS-1$
 
 					avail.put(name, new ObjectIdRef.PeeledTag(
 							Ref.Storage.NETWORK, name,
@@ -667,8 +669,8 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 
 		Service(final String serviceName) {
 			this.serviceName = serviceName;
-			this.requestType = "application/x-" + serviceName + "-request";
-			this.responseType = "application/x-" + serviceName + "-result";
+			this.requestType = "application/x-" + serviceName + "-request"; //$NON-NLS-1$ //$NON-NLS-2$
+			this.responseType = "application/x-" + serviceName + "-result"; //$NON-NLS-1$ //$NON-NLS-2$
 
 			this.execute = new HttpExecuteStream();
 			this.in = new UnionInputStream(execute);
@@ -725,7 +727,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 
 			final int status = HttpSupport.response(conn);
 			if (status != HttpURLConnection.HTTP_OK) {
-				throw new TransportException(uri, status + " "
+				throw new TransportException(uri, status + " " //$NON-NLS-1$
 						+ conn.getResponseMessage());
 			}
 
