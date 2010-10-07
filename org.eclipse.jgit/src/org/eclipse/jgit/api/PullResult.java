@@ -1,6 +1,5 @@
 /*
  * Copyright (C) 2010, Mathias Kinzler <mathias.kinzler@sap.com>
- * Copyright (C) 2010, Chris Aniszczyk <caniszczyk@gmail.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -41,50 +40,61 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.eclipse.jgit.lib;
+package org.eclipse.jgit.api;
+
+import org.eclipse.jgit.transport.FetchResult;
 
 /**
- * Constants for use with the Configuration classes: section names,
- * configuration keys
+ * Encapsulates the result of a {@link PullCommand}
  */
-public class ConfigConstants {
-	/** The "core" section */
-	public static final String CONFIG_CORE_SECTION = "core";
+public class PullResult {
+	private final FetchResult fetchResult;
 
-	/** The "branch" section */
-	public static final String CONFIG_BRANCH_SECTION = "branch";
+	private final MergeResult mergeResult;
 
-	/** The "remote" section */
-	public static final String CONFIG_REMOTE_SECTION = "remote";
+	private final String fetchedFrom;
 
-	/** The "autocrlf" key */
-	public static final String CONFIG_KEY_AUTOCRLF = "autocrlf";
+	PullResult(FetchResult fetchResult, String fetchedFrom,
+			MergeResult mergeResult) {
+		this.fetchResult = fetchResult;
+		this.fetchedFrom = fetchedFrom;
+		this.mergeResult = mergeResult;
+	}
 
-	/** The "bare" key */
-	public static final String CONFIG_KEY_BARE = "bare";
+	/**
+	 * @return the fetch result, or <code>null</code>
+	 */
+	public FetchResult getFetchResult() {
+		return this.fetchResult;
+	}
 
-	/** The "filemode" key */
-	public static final String CONFIG_KEY_FILEMODE = "filemode";
+	/**
+	 * @return the merge result, or <code>null</code>
+	 */
+	public MergeResult getMergeResult() {
+		return this.mergeResult;
+	}
 
-	/** The "logallrefupdates" key */
-	public static final String CONFIG_KEY_LOGALLREFUPDATES = "logallrefupdates";
+	/**
+	 * @return the name of the remote configuration from which fetch was tried,
+	 *         or <code>null</code>
+	 */
+	public String getFetchedFrom() {
+		return this.fetchedFrom;
+	}
 
-	/** The "repositoryformatversion" key */
-	public static final String CONFIG_KEY_REPO_FORMAT_VERSION = "repositoryformatversion";
-
-	/** The "worktree" key */
-	public static final String CONFIG_KEY_WORKTREE = "worktree";
-
-	/** The "remote" key */
-	public static final String CONFIG_KEY_REMOTE = "remote";
-
-	/** The "merge" key */
-	public static final String CONFIG_KEY_MERGE = "merge";
-
-	/** The "rebase" key */
-	public static final String CONFIG_KEY_REBASE = "rebase";
-
-	/** The "url" key */
-	public static final String CONFIG_KEY_URL = "url";
-
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		if (fetchResult != null)
+			sb.append(fetchResult.toString());
+		else
+			sb.append("No fetch result");
+		sb.append("\n");
+		if (mergeResult != null)
+			sb.append(mergeResult.toString());
+		else
+			sb.append("No merge result");
+		return sb.toString();
+	}
 }

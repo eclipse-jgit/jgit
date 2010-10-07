@@ -116,6 +116,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String cannotMovePackTo;
 	/***/ public String cannotOpenService;
 	/***/ public String cannotParseGitURIish;
+	/***/ public String cannotPullOnARepoWithState;
 	/***/ public String cannotRead;
 	/***/ public String cannotReadBlob;
 	/***/ public String cannotReadCommit;
@@ -181,6 +182,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String daemonAlreadyRunning;
 	/***/ public String deletingNotSupported;
 	/***/ public String destinationIsNotAWildcard;
+	/***/ public String detachedHeadDetected;
 	/***/ public String dirCacheDoesNotHaveABackingFile;
 	/***/ public String dirCacheFileIsNotLocked;
 	/***/ public String dirCacheIsNotLocked;
@@ -213,6 +215,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String exceptionCaughtDuringExecutionOfFetchCommand;
 	/***/ public String exceptionCaughtDuringExecutionOfMergeCommand;
 	/***/ public String exceptionCaughtDuringExecutionOfPushCommand;
+	/***/ public String exceptionCaughtDuringExecutionOfPullCommand;
 	/***/ public String exceptionCaughtDuringExecutionOfTagCommand;
 	/***/ public String exceptionOccuredDuringAddingOfOptionToALogCommand;
 	/***/ public String exceptionOccuredDuringReadingOfGIT_DIR;
@@ -301,6 +304,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String mergeStrategyDoesNotSupportHeads;
 	/***/ public String mergeUsingStrategyResultedInDescription;
 	/***/ public String missingAccesskey;
+	/***/ public String missingConfigurationForKey;
 	/***/ public String missingDeltaBase;
 	/***/ public String missingForwardImageInGITBinaryPatch;
 	/***/ public String missingObject;
@@ -344,6 +348,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String onlyOneOperationCallPerConnectionIsSupported;
 	/***/ public String openFilesMustBeAtLeast1;
 	/***/ public String openingConnection;
+	/***/ public String operationCanceled;
 	/***/ public String outputHasAlreadyBeenStarted;
 	/***/ public String packChecksumMismatch;
 	/***/ public String packCorruptedWhileWritingToFilesystem;
@@ -364,6 +369,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String problemWithResolvingPushRefSpecsLocally;
 	/***/ public String progressMonUploading;
 	/***/ public String propertyIsAlreadyNonNull;
+	/***/ public String pullTaskName;
 	/***/ public String pushCancelled;
 	/***/ public String pushIsNotSupportedForBundleTransport;
 	/***/ public String pushNotPermitted;
