@@ -134,6 +134,15 @@ public class Git {
 	}
 
 	/**
+	 * Returns a command object to execute a {@code Pull} command
+	 *
+	 * @return a {@link PullCommand}
+	 */
+	public PullCommand pull() {
+		return new PullCommand(repo);
+	}
+
+	/**
 	 * Returns a command object to execute a {@code Add} command
 	 *
 	 * @see <a
