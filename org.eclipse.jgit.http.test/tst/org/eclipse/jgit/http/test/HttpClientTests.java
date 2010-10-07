@@ -280,7 +280,7 @@ public class HttpClientTests extends HttpTestCase {
 				t.openFetch();
 				fail("connection opened even info/refs needs auth basic");
 			} catch (TransportException err) {
-				String status = "401 Unauthorized";
+				String status = "authentication not supported";
 				String exp = dumbAuthBasicURI + ": " + status;
 				assertEquals(exp, err.getMessage());
 			}
@@ -297,7 +297,7 @@ public class HttpClientTests extends HttpTestCase {
 				t.openFetch();
 				fail("connection opened even though service disabled");
 			} catch (TransportException err) {
-				String status = "401 Unauthorized";
+				String status = "authentication not supported";
 				String exp = smartAuthBasicURI + ": " + status;
 				assertEquals(exp, err.getMessage());
 			}

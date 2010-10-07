@@ -398,7 +398,7 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 				t.push(NullProgressMonitor.INSTANCE, Collections.singleton(u));
 				fail("anonymous push incorrectly accepted without error");
 			} catch (TransportException e) {
-				final String status = "401 Unauthorized";
+				final String status = "authentication not supported";
 				final String exp = remoteURI.toString() + ": " + status;
 				assertEquals(exp, e.getMessage());
 			}
