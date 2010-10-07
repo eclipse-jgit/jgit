@@ -720,7 +720,7 @@ public class PackWriter {
 		if (executor instanceof ExecutorService) {
 			// Caller supplied us a service, use it directly.
 			//
-			runTasks((ExecutorService) executor, myTasks, errors);
+			runTasks(pm, (ExecutorService) executor, myTasks, errors);
 
 		} else if (executor == null) {
 			// Caller didn't give us a way to run the tasks, spawn up a
@@ -728,7 +728,7 @@ public class PackWriter {
 			//
 			ExecutorService pool = Executors.newFixedThreadPool(threads);
 			try {
-				runTasks(pool, myTasks, errors);
+				runTasks(pm, pool, myTasks, errors);
 			} finally {
 				pool.shutdown();
 				for (;;) {
@@ -751,7 +751,7 @@ public class PackWriter {
 				executor.execute(new Runnable() {
 					public void run() {
 						try {
-							task.call();
+							pm.update(task.call());
 						} catch (Throwable failure) {
 							errors.add(failure);
 						} finally {
@@ -789,16 +789,16 @@ public class PackWriter {
 		}
 	}
 
-	private void runTasks(ExecutorService pool, List<DeltaTask> tasks,
+	private void runTasks(ProgressMonitor monitor, ExecutorService pool, List<DeltaTask> tasks,
 			List<Throwable> errors) throws IOException {
-		List<Future<?>> futures = new ArrayList<Future<?>>(tasks.size());
+		List<Future<Integer>> futures = new ArrayList<Future<Integer>>(tasks.size());
 		for (DeltaTask task : tasks)
 			futures.add(pool.submit(task));
 
 		try {
-			for (Future<?> f : futures) {
+			for (Future<Integer> f : futures) {
 				try {
-					f.get();
+					monitor.update(f.get());
 				} catch (ExecutionException failed) {
 					errors.add(failed.getCause());
 				}

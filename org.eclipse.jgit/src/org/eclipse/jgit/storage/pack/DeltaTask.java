@@ -48,14 +48,14 @@ import java.util.concurrent.Callable;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.ProgressMonitor;
 
-final class DeltaTask implements Callable<Object> {
+final class DeltaTask implements Callable<Integer> {
 	private final PackConfig config;
 
 	private final ObjectReader templateReader;
 
 	private final DeltaCache dc;
 
-	private final ProgressMonitor pm;
+	private final UpdateCounter pm;
 
 	private final int batchSize;
 
@@ -68,13 +68,18 @@ final class DeltaTask implements Callable<Object> {
 		this.config = config;
 		this.templateReader = reader;
 		this.dc = dc;
-		this.pm = pm;
+		this.pm = new UpdateCounter(pm);
 		this.batchSize = batchSize;
 		this.start = start;
 		this.list = list;
 	}
 
-	public Object call() throws Exception {
+	/**
+	 * Returns accumulated value of completed updates
+	 *
+	 * @return see above
+	 */
+	public Integer call() throws Exception {
 		final ObjectReader or = templateReader.newReader();
 		try {
 			DeltaWindow dw;
@@ -83,6 +88,45 @@ final class DeltaTask implements Callable<Object> {
 		} finally {
 			or.release();
 		}
-		return null;
+		return pm.getUpdatesCount();
+	}
+
+	/**
+	 * Wrapper around {@link ProgressMonitor} that accumulates updates instead send them to wrapped monitor.
+	 */
+	private static class UpdateCounter implements ProgressMonitor {
+		private final ProgressMonitor delegate;
+
+		private int updates = 0;
+
+		private UpdateCounter(ProgressMonitor pm) {
+			this.delegate = pm;
+		}
+
+		public void start(int totalTasks) {
+			delegate.start(totalTasks);
+		}
+
+		public void beginTask(String title, int totalWork) {
+			delegate.beginTask(title, totalWork);
+		}
+
+		public void update(int completed) {
+			synchronized (this) {
+				updates += completed;
+			}
+		}
+
+		public void endTask() {
+			delegate.endTask();
+		}
+
+		public boolean isCancelled() {
+			return delegate.isCancelled();
+		}
+
+		public int getUpdatesCount() {
+			return updates;
+		}
 	}
 }
