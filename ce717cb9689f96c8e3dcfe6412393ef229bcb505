@@ -1,0 +1,395 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALyn//+90\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/BranchCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-06T15:57:09Z",
+      "side": 1,
+      "message": "This doesn\u0027t make sense.  We don\u0027t care about HEAD, unless HEAD is the branch being renamed.",
+      "revId": "ce717cb9689f96c8e3dcfe6412393ef229bcb505",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn//+9o\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/BranchCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-06T15:57:09Z",
+      "side": 1,
+      "message": "Do not assign null here.  The compiler should (correctly) error and refuse to compile the class if the try block below does not assign a value before return.",
+      "revId": "ce717cb9689f96c8e3dcfe6412393ef229bcb505",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn//+8o\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/BranchCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-06T15:57:09Z",
+      "side": 1,
+      "message": "You need to document that oldBranchName \u003d\u003d null causes the current branch to be renamed.  This is really obtuse and nobody is going to know to do that.",
+      "revId": "ce717cb9689f96c8e3dcfe6412393ef229bcb505",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn//+80\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/BranchCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-06T15:57:09Z",
+      "side": 1,
+      "message": "Missing checkCallable();",
+      "revId": "ce717cb9689f96c8e3dcfe6412393ef229bcb505",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn//+9w\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/BranchCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-06T15:57:09Z",
+      "side": 1,
+      "message": "You shouldn\u0027t need to resolve HEAD to delete a branch that isn\u0027t HEAD.",
+      "revId": "ce717cb9689f96c8e3dcfe6412393ef229bcb505",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn//+9s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/BranchCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-06T15:57:09Z",
+      "side": 1,
+      "message": "Yes.  You cannot delete the branch that HEAD has checked out right now.  The caller should instead detached HEAD, or checkout a different branch first.  This is probably a new top-level exception type for us, I can\u0027t think of an existing error type that makes sense to use.",
+      "revId": "ce717cb9689f96c8e3dcfe6412393ef229bcb505",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn//+9g\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/BranchCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-06T15:57:09Z",
+      "side": 1,
+      "message": "You also need to handle other types like LOCK_FAILURE, IO_FAILURE and REJECTED_CURRENT_BRANCH.\n\nYes, even though above you checked for what should be the REJECTED_CURRENT_BRANCH case, another thread might have changed HEAD in the meantime and JGit is going to check again during the delete invocation.  You need to handle that here.",
+      "revId": "ce717cb9689f96c8e3dcfe6412393ef229bcb505",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn//+9k\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/BranchCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-06T15:57:09Z",
+      "side": 1,
+      "message": "I don\u0027t think this is necessarily an error.  The caller asked us to remove it.  Its gone.  If they really demand that we error out on this, maybe we have an optional flag that they should set:\n\n  setFailDeleteIfNotExisting()\n\nOr we should expose a Result type to the caller that they can examine, with two different results:\n\n  DELETED\n  DID_NOT_EXIST\n\nMost callers are just happy that the thing they asked to remove is in fact removed, and don\u0027t care how that happened.",
+      "revId": "ce717cb9689f96c8e3dcfe6412393ef229bcb505",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn//+8k\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/BranchCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-06T15:57:09Z",
+      "side": 1,
+      "message": "Not an internal exception.",
+      "revId": "ce717cb9689f96c8e3dcfe6412393ef229bcb505",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn//+8g\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/BranchCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-06T15:57:09Z",
+      "side": 1,
+      "message": "Not an internal exception.",
+      "revId": "ce717cb9689f96c8e3dcfe6412393ef229bcb505",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn//+8c\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/BranchCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-06T15:57:09Z",
+      "side": 1,
+      "message": "Should support remote here too.",
+      "revId": "ce717cb9689f96c8e3dcfe6412393ef229bcb505",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn//+8U\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/BranchCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-06T15:57:09Z",
+      "side": 1,
+      "message": "Need to handle LOCK_FAILURE, IO_FAILURE, REJECTED.",
+      "revId": "ce717cb9689f96c8e3dcfe6412393ef229bcb505",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn//+9c\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/BranchCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-06T15:57:09Z",
+      "side": 1,
+      "message": "I\u0027m not sure suffixed is the right word for inserting a prefix.",
+      "revId": "ce717cb9689f96c8e3dcfe6412393ef229bcb505",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn//+9Y\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/BranchCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-06T15:57:09Z",
+      "side": 1,
+      "message": "If remote is true, should we use R_REMOTES instead?",
+      "revId": "ce717cb9689f96c8e3dcfe6412393ef229bcb505",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn//+9U\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/BranchCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-06T15:57:09Z",
+      "side": 1,
+      "message": "This isn\u0027t an internal exception.  It should be a proper top-level API error that callers should check for and expect.  Don\u0027t we already have one for TagCommand?  There we throw InvalidTagNameException.  So we need InvalidBranchNameException.",
+      "revId": "ce717cb9689f96c8e3dcfe6412393ef229bcb505",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn//+9Q\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/BranchCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-06T15:57:09Z",
+      "side": 1,
+      "message": "Also not an internal exception.",
+      "revId": "ce717cb9689f96c8e3dcfe6412393ef229bcb505",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn//+9M\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/BranchCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-06T15:57:09Z",
+      "side": 1,
+      "message": "Yes",
+      "revId": "ce717cb9689f96c8e3dcfe6412393ef229bcb505",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn//+9I\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/BranchCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-06T15:57:09Z",
+      "side": 1,
+      "message": "You need to handle a lot more.  LOCK_FAILURE, IO_FAILURE.",
+      "revId": "ce717cb9689f96c8e3dcfe6412393ef229bcb505",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn//+9E\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/BranchCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-06T15:57:09Z",
+      "side": 1,
+      "message": "You need to lookup the Ref after you\u0027ve updated or created it, because the Ref that is cached in the refUpdate is stale.",
+      "revId": "ce717cb9689f96c8e3dcfe6412393ef229bcb505",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn//+8w\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/BranchCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-06T15:57:09Z",
+      "side": 1,
+      "message": "Missing checkCallable();",
+      "revId": "ce717cb9689f96c8e3dcfe6412393ef229bcb505",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn//+88\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/BranchCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-06T15:57:09Z",
+      "side": 1,
+      "message": "Missing checkCallable();",
+      "revId": "ce717cb9689f96c8e3dcfe6412393ef229bcb505",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn//+9A\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/BranchCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-06T15:57:09Z",
+      "side": 1,
+      "message": "You should overload this too:\n\n  public BranchCommand setObjectId(AnyObjectId id) {\n    checkCallable();\n    this.id \u003d id.name();\n    return this;\n  }",
+      "revId": "ce717cb9689f96c8e3dcfe6412393ef229bcb505",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn//+8s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/BranchCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-06T15:57:09Z",
+      "side": 1,
+      "message": "Missing checkCallable();",
+      "revId": "ce717cb9689f96c8e3dcfe6412393ef229bcb505",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
