@@ -82,9 +82,6 @@ import org.eclipse.jgit.treewalk.FileTreeIterator;
  * supported options and arguments of this command and a {@link #call()} method
  * to finally execute the command. Each instance of this class should only be
  * used for one invocation of the command (means: one call to {@link #call()})
- * <p>
- * This is currently a very basic implementation which takes only one commits to
- * merge with as option. Furthermore it does supports only fast forward.
  *
  * @see <a href="http://www.kernel.org/pub/software/scm/git/docs/git-merge.html"
  *      >Git documentation about Merge</a>
