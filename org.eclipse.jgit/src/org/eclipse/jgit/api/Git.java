@@ -143,13 +143,49 @@ public class Git {
 	}
 
 	/**
-	 * Returns a command object to execute a {@code Add} command
+	 * Returns a command object used to create branches
 	 *
+	 * @return a {@link CreateBranchCommand}
+	 */
+	public CreateBranchCommand branchCreate() {
+		return new CreateBranchCommand(repo);
+	}
+
+	/**
+	 * Returns a command object used to delete branches
+	 *
+	 * @return a {@link DeleteBranchCommand}
+	 */
+	public DeleteBranchCommand branchDelete() {
+		return new DeleteBranchCommand(repo);
+	}
+
+	/**
+	 * Returns a command object used to list branches
+	 *
+	 * @return a {@link ListBranchCommand}
+	 */
+	public ListBranchCommand branchList() {
+		return new ListBranchCommand(repo);
+	}
+
+	/**
+	 * Returns a command object used to rename branches
+	 *
+	 * @return a {@link RenameBranchCommand}
+	 */
+	public RenameBranchCommand branchRename() {
+		return new RenameBranchCommand(repo);
+	}
+
+	/**
+	 * Returns a command object to execute a {@code Add} command
+	 * 
 	 * @see <a
 	 *      href="http://www.kernel.org/pub/software/scm/git/docs/git-add.html"
 	 *      >Git documentation about Add</a>
-	 * @return a {@link AddCommand} used to collect all optional parameters
-	 *         and to finally execute the {@code Add} command
+	 * @return a {@link AddCommand} used to collect all optional parameters and
+	 *         to finally execute the {@code Add} command
 	 */
 	public AddCommand add() {
 		return new AddCommand(repo);
