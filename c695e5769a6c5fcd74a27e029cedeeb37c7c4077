@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAALy3///FE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-10-07T07:39:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALy3///Hw\u003d",
+      "revId": "c695e5769a6c5fcd74a27e029cedeeb37c7c4077",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALy3///Hs\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAALy3///FA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-10-07T07:39:27Z",
+      "side": 1,
+      "message": "previously we had some special constructs for scheme://host/~username/path . This is not needed anymore. So I will remove the \u0027~username\u0027 reference from this javadoc.\n\nI\u0027ll also reword the part saying that a host \u0027contains\u0027 user/pwd,... etc.",
+      "parentUuid": "AAALy3///Hs\u003d",
+      "revId": "c695e5769a6c5fcd74a27e029cedeeb37c7c4077",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALy3///Ho\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2010-10-06T16:28:05Z",
       "side": 1,
       "message": "typo: s/a SCP URI\u0027s/SCP URI\u0027s/",
+      "revId": "c695e5769a6c5fcd74a27e029cedeeb37c7c4077",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///E8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-10-07T07:39:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALy3///Ho\u003d",
       "revId": "c695e5769a6c5fcd74a27e029cedeeb37c7c4077",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
