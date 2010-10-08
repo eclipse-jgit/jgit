@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALy3///Fs\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PullCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-10-06T18:25:22Z",
+      "side": 1,
+      "message": "Sure we can.  You just can\u0027t use branch configuration to do it.  Instead the caller must give us options like a remote name or URI, and optionally a remote branch as well.  These override the configuration defaults.",
+      "revId": "a0148681bef4f12a03534f25f5b10e0883ccba16",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///Fo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PullCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-10-06T18:25:22Z",
+      "side": 1,
+      "message": "Instead of reading the branch name twice from HEAD, read it once with getFullBranch() and trim it yourself if it starts with R_HEADS.",
+      "revId": "a0148681bef4f12a03534f25f5b10e0883ccba16",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///Fk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PullCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-10-06T18:25:22Z",
+      "side": 1,
+      "message": "Instead of this loop, you just want:\n\n  Ref r \u003d fetchRes.getAdvertisedRef(remoteBranchName);\n  if (r \u003d\u003d null)\n    r \u003d fetchRes.getAdvertisedRef(R_HEADS + remoteBranchName);\n\nThen you can use r.getObjectId() to tell you what the object is.",
+      "revId": "a0148681bef4f12a03534f25f5b10e0883ccba16",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///Fg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PullCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-10-06T18:25:22Z",
+      "side": 1,
+      "message": "This won\u0027t quite create the correct merge message.  During a pull we want to know the URI of the remote, and the remote branch name, not the local tracking branch name.",
+      "revId": "a0148681bef4f12a03534f25f5b10e0883ccba16",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
