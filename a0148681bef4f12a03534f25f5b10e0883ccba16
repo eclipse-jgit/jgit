@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAALy3///Ew\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PullCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 46
+      },
+      "writtenOn": "2010-10-07T09:42:25Z",
+      "side": 1,
+      "message": "Absolutely. But these additional parameters are out of scope for the moment.",
+      "parentUuid": "AAALy3///Fs\u003d",
+      "revId": "a0148681bef4f12a03534f25f5b10e0883ccba16",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALy3///Fo\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PullCommand.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2010-10-06T18:25:22Z",
       "side": 1,
       "message": "Instead of reading the branch name twice from HEAD, read it once with getFullBranch() and trim it yourself if it starts with R_HEADS.",
+      "revId": "a0148681bef4f12a03534f25f5b10e0883ccba16",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///Es\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PullCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 46
+      },
+      "writtenOn": "2010-10-07T09:42:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALy3///Fo\u003d",
       "revId": "a0148681bef4f12a03534f25f5b10e0883ccba16",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAALy3///Eo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PullCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 46
+      },
+      "writtenOn": "2010-10-07T09:42:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALy3///Fk\u003d",
+      "revId": "a0148681bef4f12a03534f25f5b10e0883ccba16",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALy3///Fg\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PullCommand.java",
         "patchSetId": 2
@@ -64,6 +118,24 @@
       "writtenOn": "2010-10-06T18:25:22Z",
       "side": 1,
       "message": "This won\u0027t quite create the correct merge message.  During a pull we want to know the URI of the remote, and the remote branch name, not the local tracking branch name.",
+      "revId": "a0148681bef4f12a03534f25f5b10e0883ccba16",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///Ek\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PullCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 46
+      },
+      "writtenOn": "2010-10-07T09:42:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALy3///Fg\u003d",
       "revId": "a0148681bef4f12a03534f25f5b10e0883ccba16",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
