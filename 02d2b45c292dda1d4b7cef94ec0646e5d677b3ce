@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALy3///HU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 638,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-10-06T16:36:22Z",
+      "side": 1,
+      "message": "We can\u0027t do this.  By setting the executor you are always disabling threaded delta computation.  Why does this fix the error?\n\nIs the problem that we are doing writes from a delta thread in order to update the progress stream, and then later we try to write to the pipe from a different thread to write the pack?  If that is the problem than the correct fix is to modify PackWriter to ensure that the progress messages are written from the \"main\" thread rather than from one of the background delta threads.",
+      "revId": "02d2b45c292dda1d4b7cef94ec0646e5d677b3ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
