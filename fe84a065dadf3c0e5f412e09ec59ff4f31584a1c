@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALy3///B4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-10-07T22:41:33Z",
+      "side": 1,
+      "message": "typo: s/an relative/a relative/",
+      "revId": "fe84a065dadf3c0e5f412e09ec59ff4f31584a1c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
