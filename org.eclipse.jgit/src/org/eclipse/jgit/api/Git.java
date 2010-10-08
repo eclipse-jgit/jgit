@@ -231,6 +231,19 @@ public class Git {
 	}
 
 	/**
+	 * Returns a command object to execute a {@code cherry-pick} command
+	 *
+	 * @see <a
+	 *      href="http://www.kernel.org/pub/software/scm/git/docs/git-cherry-pick.html"
+	 *      >Git documentation about cherry-pick</a>
+	 * @return a {@link CherryPickCommand} used to collect all optional
+	 *         parameters and to finally execute the {@code cherry-pick} command
+	 */
+	public CherryPickCommand cherryPick() {
+		return new CherryPickCommand(repo);
+	}
+
+	/**
 	 * @return the git repository this class is interacting with
 	 */
 	public Repository getRepository() {
