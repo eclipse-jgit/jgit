@@ -143,6 +143,42 @@ public class Git {
 	}
 
 	/**
+	 * Returns a command object used to create branches
+	 *
+	 * @return a {@link CreateBranchCommand}
+	 */
+	public CreateBranchCommand branchCreate() {
+		return new CreateBranchCommand(repo);
+	}
+
+	/**
+	 * Returns a command object used to delete branches
+	 *
+	 * @return a {@link DeleteBranchCommand}
+	 */
+	public DeleteBranchCommand branchDelete() {
+		return new DeleteBranchCommand(repo);
+	}
+
+	/**
+	 * Returns a command object used to list branches
+	 *
+	 * @return a {@link ListBranchCommand}
+	 */
+	public ListBranchCommand branchList() {
+		return new ListBranchCommand(repo);
+	}
+
+	/**
+	 * Returns a command object used to rename branches
+	 *
+	 * @return a {@link RenameBranchCommand}
+	 */
+	public RenameBranchCommand branchRename() {
+		return new RenameBranchCommand(repo);
+	}
+
+	/**
 	 * Returns a command object to execute a {@code Add} command
 	 *
 	 * @see <a
