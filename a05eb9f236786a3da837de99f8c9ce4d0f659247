@@ -1,0 +1,242 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALy3///KY\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/PullCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-10-05T19:50:38Z",
+      "side": 1,
+      "message": "style nit: usually we don\u0027t have a blank line here",
+      "revId": "a05eb9f236786a3da837de99f8c9ce4d0f659247",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///KU\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/PullCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-10-05T19:50:38Z",
+      "side": 1,
+      "message": "I think this should be renamed to testPullFastForward",
+      "revId": "a05eb9f236786a3da837de99f8c9ce4d0f659247",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///KQ\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/PullCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-10-05T19:50:38Z",
+      "side": 1,
+      "message": "should be renamed to testPullConflict",
+      "revId": "a05eb9f236786a3da837de99f8c9ce4d0f659247",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///KE\u003d",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/JGitText.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-10-05T19:50:38Z",
+      "side": 1,
+      "message": "I am not a native English speaker, but \"pull on\" sounds like this is borrowed from German, I would rather expect something like \"pull into\"",
+      "revId": "a05eb9f236786a3da837de99f8c9ce4d0f659247",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///KM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PullCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-10-05T19:50:38Z",
+      "side": 1,
+      "message": "style nit: avoid this blank line",
+      "revId": "a05eb9f236786a3da837de99f8c9ce4d0f659247",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///KI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PullCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-10-05T19:50:38Z",
+      "side": 1,
+      "message": "add a link to the git reference documentation for this command",
+      "revId": "a05eb9f236786a3da837de99f8c9ce4d0f659247",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///Js\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PullCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-10-05T19:50:38Z",
+      "side": 1,
+      "message": "missing javadoc",
+      "revId": "a05eb9f236786a3da837de99f8c9ce4d0f659247",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///KA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PullCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-10-05T19:50:38Z",
+      "side": 1,
+      "message": "it may also happen that this branch is configured for \"pull --rebase\" instead of the default, in that case we should show a different error message explaining that rebase isn\u0027t yet supported",
+      "revId": "a05eb9f236786a3da837de99f8c9ce4d0f659247",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///J8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PullCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-10-05T19:50:38Z",
+      "side": 1,
+      "message": "I think this comment doesn\u0027t add any value",
+      "revId": "a05eb9f236786a3da837de99f8c9ce4d0f659247",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///Jw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PullCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-10-05T19:50:38Z",
+      "side": 1,
+      "message": "I don\u0027t understand this logic, I think the full ref for the remote tracking branch can be completely determined from the name of the remote branch and the pull configuration. Why should we need to observe which branch gets updated ?",
+      "revId": "a05eb9f236786a3da837de99f8c9ce4d0f659247",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///Jo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PullResult.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-10-05T19:50:38Z",
+      "side": 1,
+      "message": "style nit: avoid this empty line",
+      "revId": "a05eb9f236786a3da837de99f8c9ce4d0f659247",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///Jk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/errors/CanceledException.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-10-05T19:50:38Z",
+      "side": 1,
+      "message": "style nit: avoid this empty line",
+      "revId": "a05eb9f236786a3da837de99f8c9ce4d0f659247",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///Jg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/errors/DetachedHeadException.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-10-05T19:50:38Z",
+      "side": 1,
+      "message": "style nit: avoid this empty line",
+      "revId": "a05eb9f236786a3da837de99f8c9ce4d0f659247",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///Jc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/errors/InvalidConfigurationException.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-10-05T19:50:38Z",
+      "side": 1,
+      "message": "style nit: avoid this empty line",
+      "revId": "a05eb9f236786a3da837de99f8c9ce4d0f659247",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
