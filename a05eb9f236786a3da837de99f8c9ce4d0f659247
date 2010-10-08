@@ -172,6 +172,24 @@
     },
     {
       "key": {
+        "uuid": "AAALy3///JI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PullCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-10-05T23:43:37Z",
+      "side": 1,
+      "message": "The pull configuration talks only about the name of the remote repo and the branch name on that remote repository. It doesn\u0027t mention any name of a local (remote tracking) branch. \n\nImagine that a configuration like this\n\n[remote \"eclipse\"]\n        url \u003d git://egit.eclipse.org/jgit.git\n        fetch \u003d +refs/heads/*:refs/heads/fromEclipse/*\n[branch \"master\"]\n        remote \u003d eclipse\n        merge \u003d refs/heads/master\n\nWe want finally to merge refs/heads/fromEclipse/master into master. But thats hard to find out if you only look at the pull configuration. And you also don\u0027t want to parse the fetch configuration. But the fetch command tells us which remote branch went into which local branch. Thats why we have this here.",
+      "parentUuid": "AAALy3///Jw\u003d",
+      "revId": "a05eb9f236786a3da837de99f8c9ce4d0f659247",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALy3///Jo\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PullResult.java",
         "patchSetId": 1
