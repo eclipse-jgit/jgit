@@ -116,7 +116,7 @@ public class RevCommit extends RevObject {
 
 	int commitTime; // An int here for performance, overflows in 2038
 
-	int inDegree;
+	int annotationId;
 
 	private byte[] buffer;
 
@@ -537,13 +537,43 @@ public class RevCommit extends RevObject {
 	}
 
 	/**
+	 * Get the value of an annotation, or null.
+	 *
+	 * @param <V>
+	 *            the type of the annotated value.
+	 * @param annotations
+	 *            the annotation collection.
+	 * @return the current annotation, null if never assigned.
+	 */
+	public final <V> V get(RevAnnotation<V> annotations) {
+		return annotations.get(this);
+	}
+
+	/**
+	 * Set the value of an annotation.
+	 *
+	 * @param <V>
+	 *            the type of the annotated value.
+	 * @param <S>
+	 *            actual type being stored.
+	 * @param annotations
+	 *            the annotation collection.
+	 * @param value
+	 *            the new annotation. May be null.
+	 */
+	public final <V, S extends V> void set(RevAnnotation<V> annotations, S value) {
+		annotations.set(this, value);
+	}
+
+	/**
 	 * Reset this commit to allow another RevWalk with the same instances.
 	 * <p>
 	 * Subclasses <b>must</b> call <code>super.reset()</code> to ensure the
 	 * basic information can be correctly cleared out.
 	 */
 	public void reset() {
-		inDegree = 0;
+		// TODO Remove this method from the API.
+		// Legacy method, do nothing.
 	}
 
 	final void disposeBody() {
