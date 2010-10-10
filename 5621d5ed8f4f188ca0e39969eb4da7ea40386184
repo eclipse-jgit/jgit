@@ -2,6 +2,74 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAALy3///DE\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/BranchCommandTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-10-07T22:07:12Z",
+      "side": 1,
+      "message": "Why do you create this file? It\u0027s not added to the initial commit.",
+      "revId": "5621d5ed8f4f188ca0e39969eb4da7ea40386184",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///DA\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/BranchCommandTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-10-07T22:07:12Z",
+      "side": 1,
+      "message": "Why don\u0027t you use writeTrashFile(filename, data)? A single call does what your 4 lines do. This comment is applicable a lot of times in this File.",
+      "revId": "5621d5ed8f4f188ca0e39969eb4da7ea40386184",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///DI\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/BranchCommandTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-10-07T22:07:12Z",
+      "side": 1,
+      "message": "shouldn\u0027t we delete those commented out lines?",
+      "revId": "5621d5ed8f4f188ca0e39969eb4da7ea40386184",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///C8\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/BranchCommandTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-10-07T22:07:12Z",
+      "side": 1,
+      "message": "It\u0027s not needed to create the localRepository. As this test is subclass\nof RepositoryTestCase all tests automatically have access to a test repo. Just call getRepository() to get access to it.",
+      "revId": "5621d5ed8f4f188ca0e39969eb4da7ea40386184",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALy3///BY\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CreateBranchCommand.java",
         "patchSetId": 3
@@ -70,6 +138,23 @@
     },
     {
       "key": {
+        "uuid": "AAALy3///Cs\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CreateBranchCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-10-07T22:07:12Z",
+      "side": 1,
+      "message": "We should accept by also RevCommits as starting point. Same as in MergeCommand.include(..) - we have to accept Strings as well as higher-level objects.\n\nImagine you create the first branch with this command (which would return a RevCommit) and then you want to create a second branch with the first branch as starting point. We already have the object of right type in hand, but we are forced to convert it to a String and then this class will convert back the String to a RevCommit.",
+      "revId": "5621d5ed8f4f188ca0e39969eb4da7ea40386184",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALy3///BQ\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CreateBranchCommand.java",
         "patchSetId": 3
@@ -81,6 +166,91 @@
       "writtenOn": "2010-10-08T02:01:26Z",
       "side": 1,
       "message": "Why do we have this method?  We don\u0027t do this for any other command object type.",
+      "revId": "5621d5ed8f4f188ca0e39969eb4da7ea40386184",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///Cw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DeleteBranchCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-10-07T22:07:12Z",
+      "side": 1,
+      "message": "You don\u0027t return a List\u003cRef\u003e because this would return Refs which are deleted already, right?",
+      "revId": "5621d5ed8f4f188ca0e39969eb4da7ea40386184",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///Co\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DeleteBranchCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-10-07T22:07:12Z",
+      "side": 1,
+      "message": "You don\u0027t have a setMode() here as the command does. On command line if you want to delete a remote tracking branch you have to specify \u0027-r\u0027, otherwise the operation is prohibited.\n\nBut I am not sure whether I really want this feature in our API. I think it is ok to delete remote tracking branches without given the mode.",
+      "revId": "5621d5ed8f4f188ca0e39969eb4da7ea40386184",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///DQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Git.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-10-07T22:07:12Z",
+      "side": 1,
+      "message": "Trailing whitespace error! Make sure you have our standard jgit preferences active which would delete such whitespaces.",
+      "revId": "5621d5ed8f4f188ca0e39969eb4da7ea40386184",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///DM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Git.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-10-07T22:07:12Z",
+      "side": 1,
+      "message": "you didn\u0027t wanted to change these comment, or?",
+      "revId": "5621d5ed8f4f188ca0e39969eb4da7ea40386184",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///Cg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/errors/CannotDeleteCurrentBranchException.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-10-07T22:07:12Z",
+      "side": 1,
+      "message": "Missing copyright header",
       "revId": "5621d5ed8f4f188ca0e39969eb4da7ea40386184",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
