@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "AAALy3///D0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/BranchCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-10-07T12:49:39Z",
+      "side": 1,
+      "message": "If we implement each mode in his own class (BranchDelete, BranchCreate,...) then we don\u0027t need the Mode enum anymore. I hope we can also get rid of this options map. Why not store the options simply in plain attributes?",
+      "revId": "7afdbeb360f5748a63a26f040822c2bfdd450c01",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALy3///F0\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/BranchCommand.java",
         "patchSetId": 1
@@ -30,6 +47,41 @@
       "writtenOn": "2010-10-06T17:34:18Z",
       "side": 1,
       "message": "This is hideous.  What about having branchList(), branchCreate(), branchRename(), branchDelete() methods on Git that create different command objects for each operation?\n\nI think callers can handle typing branchCreate() vs. branch().setCreate(...)",
+      "revId": "7afdbeb360f5748a63a26f040822c2bfdd450c01",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///D4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/BranchCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-10-07T12:49:39Z",
+      "side": 1,
+      "message": "I also think so. If git porcelain commands have different modes which don\u0027t even share common paramenters (like create vs. list) they should go into different commands implemented in seperate classes.",
+      "parentUuid": "AAALy3///F0\u003d",
+      "revId": "7afdbeb360f5748a63a26f040822c2bfdd450c01",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///Dw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/BranchCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-10-07T12:49:39Z",
+      "side": 1,
+      "message": "that\u0027s not really a commit message, or? No commit get\u0027s this message. I suggest reflogMessage.",
       "revId": "7afdbeb360f5748a63a26f040822c2bfdd450c01",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
