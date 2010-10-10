@@ -51,22 +51,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefRename;
 import org.eclipse.jgit.lib.RefUpdate;
+import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.SampleDataRepositoryTestCase;
-import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.eclipse.jgit.storage.file.FileRepository;
-import org.eclipse.jgit.storage.file.LockFile;
-import org.eclipse.jgit.storage.file.RefDirectory;
-import org.eclipse.jgit.storage.file.RefDirectoryUpdate;
-import org.eclipse.jgit.storage.file.ReflogReader;
 
 public class RefUpdateTest extends SampleDataRepositoryTestCase {
 
@@ -103,9 +99,7 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 	public void testNoCacheObjectIdSubclass() throws IOException {
 		final String newRef = "refs/heads/abc";
 		final RefUpdate ru = updateRef(newRef);
-		final RevCommit newid = new RevCommit(ru.getNewObjectId()) {
-			// empty
-		};
+		final SubclassedId newid = new SubclassedId(ru.getNewObjectId());
 		ru.setNewObjectId(newid);
 		Result update = ru.update();
 		assertEquals(Result.NEW, update);
@@ -131,19 +125,11 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 			throws IOException {
 		final String newRef = "refs/heads/z";
 		final RefUpdate ru = updateRef(newRef);
-		final RevCommit newid = new RevCommit(ru.getNewObjectId()) {
-			// empty
-		};
-		ru.setNewObjectId(newid);
 		Result update = ru.update();
 		assertEquals(Result.NEW, update);
 		// end setup
 		final String newRef2 = "refs/heads/z/a";
 		final RefUpdate ru2 = updateRef(newRef2);
-		final RevCommit newid2 = new RevCommit(ru2.getNewObjectId()) {
-			// empty
-		};
-		ru.setNewObjectId(newid2);
 		Result update2 = ru2.update();
 		assertEquals(Result.LOCK_FAILURE, update2);
 		assertEquals(1, db.getReflogReader("refs/heads/z").getReverseEntries().size());
@@ -154,10 +140,6 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 			throws IOException {
 		final String newRef = "refs/heads/master/x";
 		final RefUpdate ru = updateRef(newRef);
-		final RevCommit newid = new RevCommit(ru.getNewObjectId()) {
-			// empty
-		};
-		ru.setNewObjectId(newid);
 		Result update = ru.update();
 		assertEquals(Result.LOCK_FAILURE, update);
 		assertNull(db.getReflogReader("refs/heads/master/x"));
@@ -168,19 +150,11 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 			throws IOException {
 		final String newRef = "refs/heads/z/a";
 		final RefUpdate ru = updateRef(newRef);
-		final RevCommit newid = new RevCommit(ru.getNewObjectId()) {
-			// empty
-		};
-		ru.setNewObjectId(newid);
 		Result update = ru.update();
 		assertEquals(Result.NEW, update);
 		// end setup
 		final String newRef2 = "refs/heads/z";
 		final RefUpdate ru2 = updateRef(newRef2);
-		final RevCommit newid2 = new RevCommit(ru2.getNewObjectId()) {
-			// empty
-		};
-		ru.setNewObjectId(newid2);
 		Result update2 = ru2.update();
 		assertEquals(Result.LOCK_FAILURE, update2);
 		assertEquals(1, db.getReflogReader("refs/heads/z/a").getReverseEntries().size());
@@ -192,10 +166,6 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 			throws IOException {
 		final String newRef = "refs/heads/prefix";
 		final RefUpdate ru = updateRef(newRef);
-		final RevCommit newid = new RevCommit(ru.getNewObjectId()) {
-			// empty
-		};
-		ru.setNewObjectId(newid);
 		Result update = ru.update();
 		assertEquals(Result.LOCK_FAILURE, update);
 		assertNull(db.getReflogReader("refs/heads/prefix"));
@@ -852,5 +822,11 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 		RefDirectoryUpdate update = refs.newUpdate(refName, true);
 		update.setNewObjectId(newId);
 		refs.log(update, msg, true);
+	}
+
+	private static class SubclassedId extends ObjectId {
+		SubclassedId(AnyObjectId src) {
+			super(src);
+		}
 	}
 }
