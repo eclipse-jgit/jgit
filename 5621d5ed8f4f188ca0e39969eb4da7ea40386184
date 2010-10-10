@@ -53,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "AAALy3//+/4\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/BranchCommandTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 46
+      },
+      "writtenOn": "2010-10-08T12:10:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALy3///DI\u003d",
+      "revId": "5621d5ed8f4f188ca0e39969eb4da7ea40386184",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALy3///C8\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/BranchCommandTest.java",
         "patchSetId": 3
@@ -201,6 +219,24 @@
       "writtenOn": "2010-10-07T22:07:12Z",
       "side": 1,
       "message": "You don\u0027t return a List\u003cRef\u003e because this would return Refs which are deleted already, right?",
+      "revId": "5621d5ed8f4f188ca0e39969eb4da7ea40386184",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3//++o\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DeleteBranchCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 46
+      },
+      "writtenOn": "2010-10-08T12:10:05Z",
+      "side": 1,
+      "message": "Exactly.",
+      "parentUuid": "AAALy3///Cw\u003d",
       "revId": "5621d5ed8f4f188ca0e39969eb4da7ea40386184",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
