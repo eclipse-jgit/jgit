@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALy3///BY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CreateBranchCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-10-08T02:01:26Z",
+      "side": 1,
+      "message": "typo on set-upstream",
+      "revId": "5621d5ed8f4f188ca0e39969eb4da7ea40386184",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///BU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CreateBranchCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-10-08T02:01:26Z",
+      "side": 1,
+      "message": "Maybe SET_UPSTREAM ?",
+      "revId": "5621d5ed8f4f188ca0e39969eb4da7ea40386184",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///BM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CreateBranchCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-10-08T02:01:26Z",
+      "side": 1,
+      "message": "If you are taking a String, use repo.resolve(String) to convert it to an ObjectId.  This guess work here is repeating only some of that logic, poorly, and fails on things like abbreviations.\n\nIts OK to have the special case to see if its a remote branch, but that\u0027s probably something like:\n\n  Ref ref \u003d repo.getRef(R_REMOTES + startPoint);\n  ObjectId id;\n  if (ref !\u003d null) {\n    ... its a remote tracking branch, setup tracking ...\n    id \u003d ref.getObjectId();\n  } else {\n    ... anything else cannot be tracked automatically ...\n    id \u003d repo.resolve(startPoint);\n  }",
+      "revId": "5621d5ed8f4f188ca0e39969eb4da7ea40386184",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///BI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CreateBranchCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-10-08T02:01:26Z",
+      "side": 1,
+      "message": "I would prefer to trim the length of R_REMOTES off first, and then split.  That way you only need to split twice to get remote name and branch name, and we don\u0027t have this odd constant here.",
+      "revId": "5621d5ed8f4f188ca0e39969eb4da7ea40386184",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///BQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CreateBranchCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-10-08T02:01:26Z",
+      "side": 1,
+      "message": "Why do we have this method?  We don\u0027t do this for any other command object type.",
+      "revId": "5621d5ed8f4f188ca0e39969eb4da7ea40386184",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
