@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALy3///F4\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-10-06T17:34:18Z",
+      "side": 1,
+      "message": "Please rebase one change on top of the other, so that the Exception is properly defined before its used in either place.",
+      "revId": "7afdbeb360f5748a63a26f040822c2bfdd450c01",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///F0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/BranchCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-10-06T17:34:18Z",
+      "side": 1,
+      "message": "This is hideous.  What about having branchList(), branchCreate(), branchRename(), branchDelete() methods on Git that create different command objects for each operation?\n\nI think callers can handle typing branchCreate() vs. branch().setCreate(...)",
+      "revId": "7afdbeb360f5748a63a26f040822c2bfdd450c01",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
