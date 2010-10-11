@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAALy3//+7M\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/debug/DiffAlgorithms.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-10-11T11:43:35Z",
+      "side": 1,
+      "message": "I suggest \"Maximum size in KiB to scan per file revision\". I was mislead in believing thats a limit on the whole testcase: when DiffAlgorithms has diffed int total that amount of  bytes he\u0027ll stop.",
+      "revId": "3e726e2980e252d320af4fef7897b66790066a75",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALy3//+6I\u003d",
         "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/debug/DiffAlgorithms.java",
         "patchSetId": 1
@@ -14,6 +31,23 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "AAALy3//+7M\u003d",
+      "revId": "3e726e2980e252d320af4fef7897b66790066a75",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3//+7Q\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/debug/DiffAlgorithms.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-10-11T11:43:35Z",
+      "side": 1,
+      "message": "That\u0027s a limit on the number of comparisons you\u0027ll do. If if the repo contains only 1 file we can reach this limit. I suggest \"Number of file revisions to be compared\"",
       "revId": "3e726e2980e252d320af4fef7897b66790066a75",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -38,6 +72,23 @@
     },
     {
       "key": {
+        "uuid": "AAALy3//+7I\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/debug/DiffAlgorithms.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-10-11T11:43:35Z",
+      "side": 1,
+      "message": "This prints as strange heading for the last two columns. I thought the columns titled with \"N\u003d\" string will contain something related to N.\nHere my suggestion:\n\n\t\tout.format(\"Compared bytes per file: min N\u003d%d, max N\u003d%d\\n\", minN,\n\t\t\t\tmaxN);\n\t\tout.format(\"%-25s %12s ( %12s %12s )\\n\", //\n\t\t\t\t\"Algorithm\", \"Time (ns)\", \"Time(ns) on\", \"Time(ns) on\");\n\t\tout.format(\"%-25s %12s ( %12s %12s )\\n\", //\n\t\t\t\t\"\", \"\", \"smallest file\", \"biggest file\");\n\t\tout.println(\"-----------------------------------------------------\");",
+      "revId": "3e726e2980e252d320af4fef7897b66790066a75",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALy3//+6A\u003d",
         "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/debug/DiffAlgorithms.java",
         "patchSetId": 1
@@ -56,6 +107,23 @@
     },
     {
       "key": {
+        "uuid": "AAALy3//+7g\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/debug/DiffAlgorithms.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-10-11T11:43:35Z",
+      "side": 1,
+      "message": "shouldn\u0027t this method be called \u0027included\u0027 ? I wrongly thought \"include()\" would include something somewhere.",
+      "revId": "3e726e2980e252d320af4fef7897b66790066a75",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALy3//+58\u003d",
         "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/debug/DiffAlgorithms.java",
         "patchSetId": 1
@@ -68,6 +136,23 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "AAALy3//+7g\u003d",
+      "revId": "3e726e2980e252d320af4fef7897b66790066a75",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3//+7c\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/debug/DiffAlgorithms.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-10-11T11:43:35Z",
+      "side": 1,
+      "message": "min and max are mini-/maximal because of N, not because of the runtime. Right?",
       "revId": "3e726e2980e252d320af4fef7897b66790066a75",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
