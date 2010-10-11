@@ -51,7 +51,7 @@ import java.io.InputStream;
 
 import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.CorruptObjectException;
-import org.eclipse.jgit.util.IO;
+import org.eclipse.jgit.util.io.SeekableInputStream;
 
 /**
  * Inflates a delta in an incremental way.
@@ -62,7 +62,7 @@ import org.eclipse.jgit.util.IO;
  * skip by only moving through the delta stream, making restarts of stacked
  * deltas reasonably efficient.
  */
-public abstract class DeltaStream extends InputStream {
+public class DeltaStream extends InputStream {
 	private static final int CMD_COPY = 0;
 
 	private static final int CMD_INSERT = 1;
@@ -70,6 +70,8 @@ public abstract class DeltaStream extends InputStream {
 	private static final int CMD_EOF = 2;
 
 	private final InputStream deltaStream;
+
+	private final SeekableInputStream baseStream;
 
 	private long baseSize;
 
@@ -80,12 +82,6 @@ public abstract class DeltaStream extends InputStream {
 	private int cmdptr;
 
 	private int cmdcnt;
-
-	/** Stream to read from the base object. */
-	private InputStream baseStream;
-
-	/** Current position within {@link #baseStream}. */
-	private long baseOffset;
 
 	private int curcmd;
 
@@ -100,12 +96,16 @@ public abstract class DeltaStream extends InputStream {
 	 *
 	 * @param deltaStream
 	 *            the stream to read delta instructions from.
+	 * @param baseStream
+	 *            stream to read the base data from.
 	 * @throws IOException
 	 *             the delta instruction stream cannot be read, or is
 	 *             inconsistent with the the base object information.
 	 */
-	public DeltaStream(final InputStream deltaStream) throws IOException {
+	public DeltaStream(final InputStream deltaStream,
+			final SeekableInputStream baseStream) throws IOException {
 		this.deltaStream = deltaStream;
+		this.baseStream = baseStream;
 		if (!fill(cmdbuf.length))
 			throw new EOFException();
 
@@ -118,6 +118,12 @@ public abstract class DeltaStream extends InputStream {
 			shift += 7;
 		} while ((c & 0x80) != 0);
 
+		if (baseSize != baseStream.size()) {
+			deltaStream.close();
+			baseStream.close();
+			throw new CorruptObjectException(JGitText.get().baseLengthIncorrect);
+		}
+
 		// Length of the resulting object.
 		//
 		shift = 0;
@@ -129,30 +135,6 @@ public abstract class DeltaStream extends InputStream {
 
 		curcmd = next();
 	}
-
-	/**
-	 * Open the base stream.
-	 * <p>
-	 * The {@code DeltaStream} may close and reopen the base stream multiple
-	 * times if copy instructions use offsets out of order. This can occur if a
-	 * large block in the file was moved from near the top, to near the bottom.
-	 * In such cases the reopened stream is skipped to the target offset, so
-	 * {@code skip(long)} should be as efficient as possible.
-	 *
-	 * @return stream to read from the base object. This stream should not be
-	 *         buffered (or should be only minimally buffered), and does not
-	 *         need to support mark/reset.
-	 * @throws IOException
-	 *             the base object cannot be opened for reading.
-	 */
-	protected abstract InputStream openBase() throws IOException;
-
-	/**
-	 * @return length of the base object, in bytes.
-	 * @throws IOException
-	 *             the length of the base cannot be determined.
-	 */
-	protected abstract long getBaseSize() throws IOException;
 
 	/** @return total size of this stream, in bytes. */
 	public long getSize() {
@@ -169,8 +151,7 @@ public abstract class DeltaStream extends InputStream {
 	@Override
 	public void close() throws IOException {
 		deltaStream.close();
-		if (baseStream != null)
-			baseStream.close();
+		baseStream.close();
 	}
 
 	@Override
@@ -210,13 +191,12 @@ public abstract class DeltaStream extends InputStream {
 			int n = Math.min(len, copySize);
 			switch (curcmd) {
 			case CMD_COPY:
-				seekBase();
+				baseStream.seek(copyOffset);
 				n = baseStream.read(buf, off, n);
 				if (n < 0)
 					throw new CorruptObjectException(
 							JGitText.get().baseLengthIncorrect);
 				copyOffset += n;
-				baseOffset = copyOffset;
 				break;
 
 			case CMD_INSERT:
@@ -318,26 +298,5 @@ public abstract class DeltaStream extends InputStream {
 
 	private int have() {
 		return cmdcnt - cmdptr;
-	}
-
-	private void seekBase() throws IOException {
-		if (baseStream == null) {
-			baseStream = openBase();
-			if (getBaseSize() != baseSize)
-				throw new CorruptObjectException(
-						JGitText.get().baseLengthIncorrect);
-			IO.skipFully(baseStream, copyOffset);
-			baseOffset = copyOffset;
-
-		} else if (baseOffset < copyOffset) {
-			IO.skipFully(baseStream, copyOffset - baseOffset);
-			baseOffset = copyOffset;
-
-		} else if (baseOffset > copyOffset) {
-			baseStream.close();
-			baseStream = openBase();
-			IO.skipFully(baseStream, copyOffset);
-			baseOffset = copyOffset;
-		}
 	}
 }

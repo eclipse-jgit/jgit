@@ -45,11 +45,11 @@ package org.eclipse.jgit.storage.file;
 
 import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.zip.DataFormatException;
-import java.util.zip.DeflaterOutputStream;
 import java.util.zip.InflaterInputStream;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
@@ -61,7 +61,7 @@ import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectStream;
 import org.eclipse.jgit.storage.pack.BinaryDelta;
 import org.eclipse.jgit.storage.pack.DeltaStream;
-import org.eclipse.jgit.util.io.TeeInputStream;
+import org.eclipse.jgit.util.io.SeekableInputStream;
 
 class LargePackedDeltaObject extends ObjectLoader {
 	private static final long SIZE_UNKNOWN = -1;
@@ -80,9 +80,8 @@ class LargePackedDeltaObject extends ObjectLoader {
 
 	private final FileObjectDatabase db;
 
-	LargePackedDeltaObject(long objectOffset,
-			long baseOffset, int headerLength, PackFile pack,
-			FileObjectDatabase db) {
+	LargePackedDeltaObject(long objectOffset, long baseOffset,
+			int headerLength, PackFile pack, FileObjectDatabase db) {
 		this.type = Constants.OBJ_BAD;
 		this.size = SIZE_UNKNOWN;
 		this.objectOffset = objectOffset;
@@ -174,32 +173,17 @@ class LargePackedDeltaObject extends ObjectLoader {
 		final ObjectId myId = getObjectId();
 		final WindowCursor wc = new WindowCursor(db);
 		ObjectLoader ldr = db.openObject2(wc, myId.name(), myId);
-		if (ldr != null)
+		if (ldr != null) {
+			wc.release();
 			return ldr.openStream();
+		}
 
-		InputStream in = open(wc);
-		in = new BufferedInputStream(in, 8192);
-
-		// While we inflate the object, also deflate it back as a loose
-		// object. This will later be cleaned up by a gc pass, but until
-		// then we will reuse the loose form by the above code path.
-		//
-		int myType = getType();
-		long mySize = getSize();
-		final ObjectDirectoryInserter odi = db.newInserter();
-		final File tmp = odi.newTempFile();
-		DeflaterOutputStream dOut = odi.compress(new FileOutputStream(tmp));
-		odi.writeHeader(dOut, myType, mySize);
-
-		in = new TeeInputStream(in, dOut);
-		return new ObjectStream.Filter(myType, mySize, in) {
+		InputStream in = new BufferedInputStream(open(wc), 8192);
+		return new ObjectStream.Filter(getType(), getSize(), in) {
 			@Override
 			public void close() throws IOException {
 				super.close();
-
-				odi.release();
 				wc.release();
-				db.insertUnpackedObject(tmp, myId, true /* force creation */);
 			}
 		};
 	}
@@ -217,46 +201,74 @@ class LargePackedDeltaObject extends ObjectLoader {
 			//
 			return wc.open(getObjectId()).openStream();
 		}
-		delta = new InflaterInputStream(delta);
 
-		final ObjectLoader base = pack.load(wc, baseOffset);
-		DeltaStream ds = new DeltaStream(delta) {
-			private long baseSize = SIZE_UNKNOWN;
+		ObjectId baseId = pack.findObjectForOffset(baseOffset);
+		SeekableInputStream base = openBase(wc, baseId);
 
-			@Override
-			protected InputStream openBase() throws IOException {
-				InputStream in;
-				if (base instanceof LargePackedDeltaObject)
-					in = ((LargePackedDeltaObject) base).open(wc);
-				else
-					in = base.openStream();
-				if (baseSize == SIZE_UNKNOWN) {
-					if (in instanceof DeltaStream)
-						baseSize = ((DeltaStream) in).getSize();
-					else if (in instanceof ObjectStream)
-						baseSize = ((ObjectStream) in).getSize();
-				}
-				return in;
-			}
-
-			@Override
-			protected long getBaseSize() throws IOException {
-				if (baseSize == SIZE_UNKNOWN) {
-					// This code path should never be used as DeltaStream
-					// is supposed to open the stream first, which would
-					// initialize the size for us directly from the stream.
-					baseSize = base.getSize();
-				}
-				return baseSize;
-			}
-		};
-		if (type == Constants.OBJ_BAD) {
-			if (!(base instanceof LargePackedDeltaObject))
-				type = base.getType();
-		}
+		DeltaStream ds = new DeltaStream(new InflaterInputStream(delta), base);
 		if (size == SIZE_UNKNOWN)
 			size = ds.getSize();
 		return ds;
+	}
+
+	private SeekableInputStream openBase(final WindowCursor wc,
+			final ObjectId baseId) throws IOException, MissingObjectException,
+			FileNotFoundException {
+		final File basePath = wc.db.deltaBaseCacheEntry(baseId);
+		for (;;) {
+			try {
+				return SeekableInputStream.open(basePath);
+
+			} catch (FileNotFoundException notFound) {
+				extractBase(wc, basePath);
+			}
+		}
+	}
+
+	private void extractBase(final WindowCursor wc, final File basePath)
+			throws IOException, MissingObjectException, FileNotFoundException {
+		File dir = basePath.getParentFile();
+		if (!dir.exists())
+			dir.mkdirs();
+
+		boolean ok = false;
+		File tmp = File.createTempFile("base", "dat", dir);
+		try {
+			ObjectStream in = pack.load(wc, baseOffset).openStream();
+			try {
+				if (type == Constants.OBJ_BAD)
+					type = in.getType();
+
+				long cnt = 0;
+				final long len = in.getSize();
+				FileOutputStream out = new FileOutputStream(tmp);
+				try {
+					byte[] buf = new byte[8192];
+					for (;;) {
+						int n = in.read(buf);
+						if (n < 0)
+							break;
+						out.write(buf, 0, n);
+						cnt += n;
+					}
+				} finally {
+					out.close();
+				}
+
+				if (len == cnt)
+					ok = true;
+			} finally {
+				in.close();
+			}
+
+			if (ok) {
+				tmp.setReadOnly();
+				ok = tmp.renameTo(basePath);
+			}
+		} finally {
+			if (!ok)
+				tmp.delete();
+		}
 	}
 
 	private ObjectId getObjectId() throws IOException {
