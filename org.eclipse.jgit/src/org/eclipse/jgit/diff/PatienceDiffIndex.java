@@ -244,7 +244,7 @@ final class PatienceDiffIndex<S extends Sequence> {
 	private void scanA() {
 		int ptr = region.beginA;
 		final int end = region.endA;
-		int pLast = pBegin - 1;
+		int pLast = pBegin;
 		SCAN: while (ptr < end) {
 			final int tIdx = hash(a, ptr);
 
@@ -276,12 +276,7 @@ final class PatienceDiffIndex<S extends Sequence> {
 					// fact that pCommon is sorted by B, and its likely that
 					// matches in A appear in the same order as they do in B.
 					//
-					for (int pIdx = pLast + 1;; pIdx++) {
-						if (pIdx == pEnd)
-							pIdx = pBegin;
-						else if (pIdx == pLast)
-							break;
-
+					for (int pIdx = pLast;;) {
 						final long priorRec = pCommon[pIdx];
 						final int priorB = bOf(priorRec);
 						if (bs < priorB)
@@ -291,6 +286,12 @@ final class PatienceDiffIndex<S extends Sequence> {
 							pLast = pIdx;
 							continue SCAN;
 						}
+
+						pIdx++;
+						if (pIdx == pEnd)
+							pIdx = pBegin;
+						if (pIdx == pLast)
+							break;
 					}
 				}
 
