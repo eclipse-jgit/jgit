@@ -127,13 +127,14 @@ public class DeleteBranchCommand extends GitCommand<List<String>> {
 				Ref currentRef = repo.getRef(branchName);
 				if (currentRef == null)
 					continue;
-				if (currentRef.getName().equals(currentBranch))
+				String fullName = currentRef.getName();
+				if (fullName.equals(currentBranch))
 					throw new CannotDeleteCurrentBranchException(
 							MessageFormat
 									.format(
 											JGitText.get().cannotDeleteCheckedOutBranch,
 											branchName));
-				RefUpdate update = repo.updateRef(currentRef.getName());
+				RefUpdate update = repo.updateRef(fullName);
 				update.setRefLogMessage("branch deleted", false);
 				update.setForceUpdate(true);
 				Result deleteResult = update.delete();
@@ -150,11 +151,16 @@ public class DeleteBranchCommand extends GitCommand<List<String>> {
 				}
 
 				if (ok) {
-					result.add(currentRef.getName());
-					// remove upstream configuration if any
-					repo.getConfig().unsetSection(
-							ConfigConstants.CONFIG_BRANCH_SECTION, branchName);
-					repo.getConfig().save();
+					result.add(fullName);
+					if (fullName.startsWith(Constants.R_HEADS)) {
+						String shortenedName = fullName
+								.substring(Constants.R_HEADS.length());
+						// remove upstream configuration if any
+						repo.getConfig().unsetSection(
+								ConfigConstants.CONFIG_BRANCH_SECTION,
+								shortenedName);
+						repo.getConfig().save();
+					}
 				} else
 					throw new JGitInternalException(MessageFormat.format(
 							JGitText.get().deleteBranchUnexpectedResult,

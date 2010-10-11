@@ -287,6 +287,16 @@ public class BranchCommandTest extends RepositoryTestCase {
 		// the pull configuration should be gone after deletion
 		assertNull(localGit.getRepository().getConfig().getString("branch",
 				"newFromRemote", "remote"));
+
+		createBranch(localGit, "newFromRemote", false, remote.getName(), null);
+		assertEquals("origin", localGit.getRepository().getConfig().getString(
+				"branch", "newFromRemote", "remote"));
+		localGit.branchDelete().setBranchNames("refs/heads/newFromRemote")
+				.call();
+		// the pull configuration should be gone after deletion
+		assertNull(localGit.getRepository().getConfig().getString("branch",
+				"newFromRemote", "remote"));
+
 		// use --no-track
 		createBranch(localGit, "newFromRemote", false, remote.getName(),
 				SetupUpstreamMode.NOTRACK);
@@ -307,7 +317,8 @@ public class BranchCommandTest extends RepositoryTestCase {
 				SetupUpstreamMode.TRACK);
 		assertEquals(".", localGit.getRepository().getConfig().getString(
 				"branch", "newFromMaster", "remote"));
-		localGit.branchDelete().setBranchNames("newFromMaster").call();
+		localGit.branchDelete().setBranchNames("refs/heads/newFromMaster")
+				.call();
 		// the pull configuration should be gone after deletion
 		assertNull(localGit.getRepository().getConfig().getString("branch",
 				"newFromRemote", "remote"));
