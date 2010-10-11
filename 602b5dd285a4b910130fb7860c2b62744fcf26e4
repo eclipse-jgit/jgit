@@ -1,0 +1,22 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALy3//+9E\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/diff/DiffPerformanceTest.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-10-09T06:08:13Z",
+      "side": 1,
+      "message": "Thanks for that explanation.\n\nThe algorithm is absolutely O(N*D)... worst case, which is what big-O notation means.  :-)  In the worst case the input consists of N unique elements, and the difference between A and B is B inserts a new element between each element of A.  This means we\u0027ll have an edit list of D \u003d N/2, and HistogramDiff splits and recurses D times, with each recursion looking at N-2 elements from the higher level.\n\nThis doesn\u0027t happen often fortunately.  Even in our contrived DiffTestDataGenerator we don\u0027t see this sort of input.  In the contrived test data we have a number of unique elements that can be hashed and located efficiently (since they are just primitive char).  Because there is no fallback, we only match on the common low-occurrence elements, which are quickly found in the hashtable.  Because there are so few of these, D is practically constant, and our run time during this test probably behaves more like O(N) time.\n\nThe more that I think about it, the more that I\u0027m uncertain we should even have this test.  We don\u0027t really change MyersDiff that often.  Testing for algorithm correctness is sufficient.  If we are really meddling with the algorithm, we should be running it against real data sets like linux-2.6.git to see if there is a performance difference on real-world inputs, not contrived cases.  Our DiffAlgorithm implementations are designed to run well on human written source code.  They are designed to run no worse than O(N * D) on all inputs.  The latter I\u0027m willing to prove theoretically rather than rely on a benchmark.  The former can only be well established by periodically running the tests over some real-world corpuses that people actually care about.\n\nSo I think I\u0027ll try to write a new test program similar to TextHashFunctions, but to exercise our DiffAlgorithms instead of line-level hash routines.",
+      "parentUuid": "AAALy3///Wg\u003d",
+      "revId": "602b5dd285a4b910130fb7860c2b62744fcf26e4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
