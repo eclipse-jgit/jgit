@@ -93,6 +93,7 @@ public class CommandRef {
 				s.append(Character.toLowerCase(c));
 			} else {
 				s.append(c);
+				lastWasDash = false;
 			}
 		}
 		return s.toString();
