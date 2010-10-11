@@ -114,16 +114,13 @@ public class CreateBranchCommand extends GitCommand<Ref> {
 	 *             that already exists
 	 * @throws RefNotFoundException
 	 *             if the start point can not be found
-	 * @throws AmbiguousObjectException
-	 *             if the start point is ambiguous
 	 * @throws InvalidRefNameException
 	 *             if the provided name is <code>null</code> or otherwise
 	 *             invalid
 	 * @return the newly created branch
 	 */
 	public Ref call() throws JGitInternalException, RefAlreadyExistsException,
-			RefNotFoundException, AmbiguousObjectException,
-			InvalidRefNameException {
+			RefNotFoundException, InvalidRefNameException {
 		checkCallable();
 		processOptions();
 		try {
@@ -267,8 +264,6 @@ public class CreateBranchCommand extends GitCommand<Ref> {
 				config.save();
 			}
 			return result;
-		} catch (AmbiguousObjectException e) {
-			throw e;
 		} catch (IOException ioe) {
 			throw new JGitInternalException(ioe.getMessage(), ioe);
 		}
