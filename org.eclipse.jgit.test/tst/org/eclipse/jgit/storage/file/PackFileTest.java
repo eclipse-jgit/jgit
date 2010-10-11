@@ -63,6 +63,7 @@ import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectStream;
 import org.eclipse.jgit.revwalk.RevBlob;
+import org.eclipse.jgit.storage.pack.BinaryDelta;
 import org.eclipse.jgit.storage.pack.DeltaEncoder;
 import org.eclipse.jgit.transport.IndexPack;
 import org.eclipse.jgit.util.IO;
@@ -219,7 +220,7 @@ public class PackFileTest extends LocalDiskRepositoryTestCase {
 		in.close();
 	}
 
-	public void testDelta_LargeObjectChain() throws Exception {
+	public void testDelta_LargeObjectChain_NoReverseSeek() throws Exception {
 		ObjectInserter.Formatter fmt = new ObjectInserter.Formatter();
 		byte[] data0 = new byte[streamThreshold + 5];
 		Arrays.fill(data0, (byte) 0xf3);
@@ -281,6 +282,65 @@ public class PackFileTest extends LocalDiskRepositoryTestCase {
 		byte[] act = new byte[data3.length];
 		IO.readFully(in, act, 0, data3.length);
 		assertTrue("same content", Arrays.equals(act, data3));
+		assertEquals("stream at EOF", -1, in.read());
+		in.close();
+	}
+
+	public void testDelta_LargeObjectChain_HasReverseSeek() throws Exception {
+		ObjectInserter.Formatter fmt = new ObjectInserter.Formatter();
+		byte[] data0 = new byte[4 * streamThreshold + 5];
+		Arrays.fill(data0, (byte) 0xf3);
+		ObjectId id0 = fmt.idFor(Constants.OBJ_BLOB, data0);
+
+		TemporaryBuffer.Heap pack = new TemporaryBuffer.Heap(64 * 1024);
+		packHeader(pack, 2);
+		objectHeader(pack, Constants.OBJ_BLOB, data0.length);
+		deflate(pack, data0);
+
+		ByteArrayOutputStream tmp = new ByteArrayOutputStream();
+		DeltaEncoder de = new DeltaEncoder(tmp, data0.length, data0.length);
+		de.copy(2 * streamThreshold, data0.length - 2 * streamThreshold - 5);
+		de.copy(1 * streamThreshold, streamThreshold);
+		de.copy(0 * streamThreshold, streamThreshold - 1);
+		de.insert("b");
+		de.copy(data0.length - 5, 5);
+		byte[] delta1 = tmp.toByteArray();
+		byte[] data1 = BinaryDelta.apply(data0, delta1);
+		ObjectId id1 = fmt.idFor(Constants.OBJ_BLOB, data1);
+		objectHeader(pack, Constants.OBJ_REF_DELTA, delta1.length);
+		id0.copyRawTo(pack);
+		deflate(pack, delta1);
+
+		digest(pack);
+		final byte[] raw = pack.toByteArray();
+		IndexPack ip = IndexPack.create(repo, new ByteArrayInputStream(raw));
+		ip.setFixThin(true);
+		ip.index(NullProgressMonitor.INSTANCE);
+		ip.renameAndOpenPack();
+
+		assertTrue("has blob", wc.has(id1));
+
+		ObjectLoader ol = wc.open(id1);
+		assertNotNull("created loader", ol);
+		assertEquals(Constants.OBJ_BLOB, ol.getType());
+		assertEquals(data1.length, ol.getSize());
+		assertTrue("is large", ol.isLarge());
+		try {
+			ol.getCachedBytes();
+			fail("Should have thrown LargeObjectException");
+		} catch (LargeObjectException tooBig) {
+			assertEquals(MessageFormat.format(
+					JGitText.get().largeObjectException, id1.name()),
+					tooBig.getMessage());
+		}
+
+		ObjectStream in = ol.openStream();
+		assertNotNull("have stream", in);
+		assertEquals(Constants.OBJ_BLOB, in.getType());
+		assertEquals(data1.length, in.getSize());
+		byte[] act = new byte[data1.length];
+		IO.readFully(in, act, 0, data1.length);
+		assertTrue("same content", Arrays.equals(act, data1));
 		assertEquals("stream at EOF", -1, in.read());
 		in.close();
 	}

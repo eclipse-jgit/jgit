@@ -108,6 +108,8 @@ public class ObjectDirectory extends FileObjectDatabase {
 
 	private final File packDirectory;
 
+	private final File deltaBaseCacheDirectory;
+
 	private final File alternatesFile;
 
 	private final AtomicReference<PackList> packList;
@@ -139,6 +141,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 		objects = dir;
 		infoDirectory = new File(objects, "info");
 		packDirectory = new File(objects, "pack");
+		deltaBaseCacheDirectory = new File(objects, "delta-base-cache");
 		alternatesFile = new File(infoDirectory, "alternates");
 		packList = new AtomicReference<PackList>(NO_PACKS);
 		unpackedObjectCache = new UnpackedObjectCache();
@@ -212,6 +215,14 @@ public class ObjectDirectory extends FileObjectDatabase {
 		final String d = objectName.substring(0, 2);
 		final String f = objectName.substring(2);
 		return new File(new File(objects, d), f);
+	}
+
+	@Override
+	File deltaBaseCacheEntry(ObjectId baseId) {
+		String objectName = baseId.name();
+		final String d = objectName.substring(0, 2);
+		final String f = objectName.substring(2);
+		return new File(new File(deltaBaseCacheDirectory, d), f);
 	}
 
 	/**
