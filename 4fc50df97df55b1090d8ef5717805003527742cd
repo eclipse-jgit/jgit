@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALy3//+6c\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/PatienceDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-10-11T18:45:17Z",
+      "side": 1,
+      "message": "If you want to wonder about a bad corner case, this is it.  This condition is technically impossible to have happen in PatienceDiff.  We never should be in a recursive step with an EMPTY region.  Its not an issue to ignore the EMPTY block, but this used to throw ISE because it cannot happen if the implementation works correctly.\n\nHistogramDiff has the same thing.  Only its perfectly happy over the same input data to throw ISE on EMPTY (as it never throws ISE).  That tells me PatienceDiff is potentially broken in some other way if it needs this break statement here.",
+      "revId": "4fc50df97df55b1090d8ef5717805003527742cd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
