@@ -237,4 +237,9 @@ class CachedObjectDirectory extends FileObjectDatabase {
 			WindowCursor curs) throws IOException {
 		wrapped.selectObjectRepresentation(packer, otp, curs);
 	}
+
+	@Override
+	File deltaBaseCacheEntry(ObjectId baseId) {
+		return wrapped.deltaBaseCacheEntry(baseId);
+	}
 }
