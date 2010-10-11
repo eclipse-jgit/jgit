@@ -1,0 +1,94 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALy3//+6I\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/debug/DiffAlgorithms.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-10-11T19:42:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALy3//+7M\u003d",
+      "revId": "3e726e2980e252d320af4fef7897b66790066a75",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3//+6E\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/debug/DiffAlgorithms.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-10-11T19:42:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALy3//+7Q\u003d",
+      "revId": "3e726e2980e252d320af4fef7897b66790066a75",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3//+6A\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/debug/DiffAlgorithms.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-10-11T19:42:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALy3//+7I\u003d",
+      "revId": "3e726e2980e252d320af4fef7897b66790066a75",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3//+58\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/debug/DiffAlgorithms.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-10-11T19:42:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALy3//+7g\u003d",
+      "revId": "3e726e2980e252d320af4fef7897b66790066a75",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3//+54\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/debug/DiffAlgorithms.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-10-11T19:42:12Z",
+      "side": 1,
+      "message": "Yes, min/max are because of N and not running time.  I\u0027ll rename these fields to clarify that.",
+      "parentUuid": "AAALy3//+7c\u003d",
+      "revId": "3e726e2980e252d320af4fef7897b66790066a75",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
