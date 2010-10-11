@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAALy3///Wo\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/diff/DiffPerformanceTest.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-25T02:16:43Z",
+      "side": 1,
+      "message": "This test is failing:\n\njunit.framework.AssertionFailedError: minimun and maximum of performance-index t/(N*D) differed too much. Measured factor of 20.26732580423589 (maxFactor\u003d15). Perfdata\u003d\u003c[testHistogram 10000 bytes took 2879800 ns. N\u003d20000, D\u003d18, time/(N*D):8E0, time/(N*D^2):4.44E-1, testHistogram 20000 bytes took 8130200 ns. N\u003d40000, D\u003d36, time/(N*D):5.65E0, time/(N*D^2):1.57E-1, testHistogram 40000 bytes took 18798500 ns. N\u003d80000, D\u003d70, time/(N*D):3.36E0, time/(N*D^2):4.8E-2, testHistogram 80000 bytes took 48076800 ns. N\u003d160000, D\u003d143, time/(N*D):2.1E0, time/(N*D^2):1.47E-2, testHistogram 160000 bytes took 96502500 ns. N\u003d320000, D\u003d287, time/(N*D):1.05E0, time/(N*D^2):3.66E-3, testHistogram 320000 bytes took 257217700 ns. N\u003d640000, D\u003d574, time/(N*D):7E-1, time/(N*D^2):1.22E-3, testHistogram 640000 bytes took 780854428 ns. N\u003d1280000, D\u003d1148, time/(N*D):5.31E-1, time/(N*D^2):4.63E-4, testHistogram 1280000 bytes took 2317911000 ns. N\u003d2560000, D\u003d2294, time/(N*D):3.95E-1, time/(N*D^2):1.72E-4]\u003e\n\nand I don\u0027t know why. Christian, do you have any ideas?",
+      "revId": "602b5dd285a4b910130fb7860c2b62744fcf26e4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALy3//+9E\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/diff/DiffPerformanceTest.java",
         "patchSetId": 12
