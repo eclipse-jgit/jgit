@@ -1,0 +1,22 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALy3///eY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffFormatter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-21T22:55:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALy3///eg\u003d",
+      "revId": "af2a573d54ae126d8bcad9046a1b792db9436c0f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
