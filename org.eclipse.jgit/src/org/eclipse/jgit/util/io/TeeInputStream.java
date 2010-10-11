@@ -110,7 +110,7 @@ public class TeeInputStream extends InputStream {
 
 		int n = src.read(b, off, len);
 		if (0 < n)
-			dst.write(b, off, len);
+			dst.write(b, off, n);
 		return n;
 	}
 
