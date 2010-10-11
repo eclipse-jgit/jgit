@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALyn///HM\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/diff/MyersDiffPerformanceTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-02T22:19:39Z",
+      "side": 1,
+      "message": "Should we rename the class to DiffPerformanceTest?",
+      "revId": "c232d790ee23061b96dbd59ddd4e4e526d7dc9c2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///HI\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/diff/MyersDiffPerformanceTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-02T22:19:39Z",
+      "side": 1,
+      "message": "Myers promises to run in O(N * D), where N is the sum of the lengths of A and B, and D is the size of the minimum edit script.  I don\u0027t think this is true for the current PatienceDiff implementation.\n\nIn particular there is a sorting step during each recursion.  But if I\u0027m thinking it through correctly, PatienceDiff\u0027s running time should be bounded by the size of the inputs, around O(A log A + B log B + D) \u003d~ O(N log N + D).  That matches with a variation of Myers\u0027 algorithm that uses suffix trees.\n\nI _think_ O(N log N + D) is going to be faster than O(N * D), but if N is really big, log N could easily exceed D.  :-)",
+      "revId": "c232d790ee23061b96dbd59ddd4e4e526d7dc9c2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///HE\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/diff/MyersDiffPerformanceTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-02T22:19:39Z",
+      "side": 1,
+      "message": "This is actually a horrible input for PatienceDiff, and the result is D (length of the edit script) is always exactly 1... a full replace.\n\nThe problem stems from PatienceDiff needing to locate a unique common point within each segment.  The generated input is segments of single characters, which wind up repeating and being not-unique anymore.  This is a corner case that PatienceDiff falls down on.  Consequently MyersDiff produces actual edits and PatienceDiff doesn\u0027t.\n\nI\u0027ll try to come up with a better input.",
+      "revId": "c232d790ee23061b96dbd59ddd4e4e526d7dc9c2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
