@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAALy3///Wg\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/diff/DiffPerformanceTest.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-09-25T21:57:29Z",
+      "side": 1,
+      "message": "Yes I have: the measured runtime behaviour of HistogramDiff doesn\u0027t match our expectations. The error message looks frightening - but in fact it tells very explicitly what went wrong.\n\nHere is what is happing: In testHistogram() you told the testFramework to feed example-texts of different sizes (beginning with 10.000 up to 1.280.000) to HistogramDiff. For each run we measure how much CPUTime is used to calculate the diff. With that we calculate different \"performance indexes\". The index \"perf1\" is perf1\u003dcpuTime/(N*D) and perf2\u003dcpuTime/(N*D*D). We are not interested in the actual values of this indexes - but a algorithm which is expected to have a runtime behaviour of O(N*D) the index perf1 should be quite constant. And for O(N*D) algorithms perf2 should be constant.\"quite constant\" means: max(perfX)/min(perfX) must be less a given constant.\n\nYou said in testHistogram() that HistogramDiff should behave like a O(N*D) algorithm (because you check for perf1()) and that max/min should not be more than 15 (maxfactor). But perf1() decreases!!!! with longer texts. Means: the algorithms behaves with our test data better then a O(N*D) algorithm. Hhmmm, good result, but can it be true? I am sure we depend on N - but is the number of differences really influencing our performance so much?\n\nWhat we can do is to increasing the accepted factor (maxfactor) to more than 20 ... or calculate a different performance index (e.g. t/(n*log(d))) and see whether we have like that kind of algorithm.",
+      "parentUuid": "AAALy3///Wo\u003d",
+      "revId": "602b5dd285a4b910130fb7860c2b62744fcf26e4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALy3//+9E\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/diff/DiffPerformanceTest.java",
         "patchSetId": 12
