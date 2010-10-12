@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALu3///so\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/URIishTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 11
+      },
+      "writtenOn": "2010-06-08T08:26:36Z",
+      "side": 1,
+      "message": "This test violates the rule \"exactly one test to fail for any given bug\". Would it be better to split it up into 5 individual tests?",
+      "revId": "7f439d3c4cf5b6a6ae22ecd8c9e38b5d6823699f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
