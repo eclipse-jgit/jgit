@@ -48,6 +48,7 @@ import org.eclipse.jgit.api.CreateBranchCommand.SetupUpstreamMode;
 import org.eclipse.jgit.api.ListBranchCommand.ListMode;
 import org.eclipse.jgit.api.errors.CannotDeleteCurrentBranchException;
 import org.eclipse.jgit.api.errors.DetachedHeadException;
+import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.InvalidRefNameException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.api.errors.NotMergedException;
@@ -398,6 +399,11 @@ public class BranchCommandTest extends RepositoryTestCase {
 				.setOldName(remoteBranch.getName()).setNewName("newRemote")
 				.call();
 		assertEquals(Constants.R_REMOTES + "newRemote", renamed.getName());
+	}
+
+	public void testCreationImplicitStart() throws JGitInternalException,
+			GitAPIException {
+		git.branchCreate().setName("topic").call();
 	}
 
 	public Ref createBranch(Git actGit, String name, boolean force,

@@ -77,7 +77,7 @@ public class CreateBranchCommand extends GitCommand<Ref> {
 
 	private SetupUpstreamMode upstreamMode;
 
-	private String startPoint;
+	private String startPoint = Constants.HEAD;
 
 	private RevCommit startCommit;
 
@@ -275,9 +275,8 @@ public class CreateBranchCommand extends GitCommand<Ref> {
 			return startCommit.getId();
 		ObjectId result = null;
 		try {
-			if (startPoint == null)
-				result = repo.resolve(Constants.HEAD);
-			result = repo.resolve(startPoint);
+			result = repo.resolve((startPoint == null) ? Constants.HEAD
+					: startPoint);
 		} catch (AmbiguousObjectException e) {
 			throw e;
 		}
