@@ -191,10 +191,10 @@
           <version>2.1.1</version>
         </plugin>
 
-	<plugin>
+        <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-javadoc-plugin</artifactId>
-	  <version>2.7</version>
+          <version>2.7</version>
         </plugin>
 
         <plugin>
@@ -223,43 +223,16 @@
             <id>translate-qualifier</id>
             <phase>generate-resources</phase>
             <configuration>
-	      <tasks unless="${translate-qualifier}">
-		<copy file="META-INF/MANIFEST.MF" tofile="${bundle-manifest}" overwrite="true"/>
-		<replace file="${bundle-manifest}">
-		  <replacefilter token=".qualifier" value=".${maven.build.timestamp}"/>
-	        </replace>
-	      </tasks>
+	          <tasks unless="${translate-qualifier}">
+                <copy file="META-INF/MANIFEST.MF" tofile="${bundle-manifest}" overwrite="true"/>
+                <replace file="${bundle-manifest}">
+                  <replacefilter token=".qualifier" value=".${maven.build.timestamp}"/>
+                </replace>
+              </tasks>
             </configuration>
             <goals>
               <goal>run</goal>
             </goals>
-          </execution>
-        </executions>
-      </plugin>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-source-plugin</artifactId>
-        <inherited>true</inherited>
-        <executions>
-          <execution>
-            <id>attach-sources</id>
-            <phase>process-classes</phase>
-            <goals>
-              <goal>jar</goal>
-            </goals>
-            <configuration>
-            <archive>
-              <manifestEntries>
-                <Bundle-ManifestVersion>2</Bundle-ManifestVersion>
-                <Bundle-Name>${project.name} - Sources</Bundle-Name>
-                <Bundle-SymbolicName>${project.artifactId}.source;singleton:=true</Bundle-SymbolicName>
-                <Bundle-Vendor>Eclipse.org - JGit</Bundle-Vendor>
-                <Bundle-Version>${parsedVersion.osgiVersion}</Bundle-Version>
-                <Eclipse-SourceBundle>${project.artifactId};version="${parsedVersion.osgiVersion}";roots:="."</Eclipse-SourceBundle>
-               </manifestEntries>
-             </archive>
-            </configuration>
           </execution>
         </executions>
       </plugin>
