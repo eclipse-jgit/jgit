@@ -74,7 +74,7 @@ public class HistogramDiffTest extends AbstractDiffTestCase {
 		assertEquals(new Edit(3, 3, 2, 5), r.get(1)); // INSERT "SRR"
 	}
 
-	public void testExceedsChainLenght_DuringScanOfA() {
+	public void testExceedsChainLength_DuringScanOfA() {
 		HistogramDiff hd = new HistogramDiff();
 		hd.setFallbackAlgorithm(null);
 		hd.setMaxChainLength(3);
@@ -96,7 +96,7 @@ public class HistogramDiffTest extends AbstractDiffTestCase {
 		assertEquals(new Edit(0, 4, 0, 4), r.get(0));
 	}
 
-	public void testExceedsChainLenght_DuringScanOfB() {
+	public void testExceedsChainLength_DuringScanOfB() {
 		HistogramDiff hd = new HistogramDiff();
 		hd.setFallbackAlgorithm(null);
 		hd.setMaxChainLength(1);
