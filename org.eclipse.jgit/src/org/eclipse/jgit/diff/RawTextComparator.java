@@ -303,7 +303,15 @@ public abstract class RawTextComparator extends SequenceComparator<RawText> {
 		e.beginB = findForwardLine(b.lines, e.beginB, bPtr);
 
 		e.endA = findReverseLine(a.lines, e.endA, aEnd);
+
+		final boolean partialA = aEnd < a.lines.get(e.endA + 1);
+		if (partialA)
+			bEnd += a.lines.get(e.endA + 1) - aEnd;
+
 		e.endB = findReverseLine(b.lines, e.endB, bEnd);
+
+		if (!partialA && bEnd < b.lines.get(e.endB + 1))
+			e.endA++;
 
 		return super.reduceCommonStartEnd(a, b, e);
 	}
