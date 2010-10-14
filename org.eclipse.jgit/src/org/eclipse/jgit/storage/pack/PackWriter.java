@@ -59,7 +59,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
@@ -675,7 +674,7 @@ public class PackWriter {
 		}
 
 		final DeltaCache dc = new ThreadSafeDeltaCache(config);
-		final ProgressMonitor pm = new ThreadSafeProgressMonitor(monitor);
+		final ThreadSafeProgressMonitor pm = new ThreadSafeProgressMonitor(monitor);
 
 		// Guess at the size of batch we want. Because we don't really
 		// have a way for a thread to steal work from another thread if
@@ -713,6 +712,7 @@ public class PackWriter {
 			i += batchSize;
 			myTasks.add(new DeltaTask(config, reader, dc, pm, batchSize, start, list));
 		}
+		pm.startWorkers(myTasks.size());
 
 		final Executor executor = config.getExecutor();
 		final List<Throwable> errors = Collections
@@ -720,7 +720,7 @@ public class PackWriter {
 		if (executor instanceof ExecutorService) {
 			// Caller supplied us a service, use it directly.
 			//
-			runTasks((ExecutorService) executor, myTasks, errors);
+			runTasks((ExecutorService) executor, pm, myTasks, errors);
 
 		} else if (executor == null) {
 			// Caller didn't give us a way to run the tasks, spawn up a
@@ -728,7 +728,7 @@ public class PackWriter {
 			//
 			ExecutorService pool = Executors.newFixedThreadPool(threads);
 			try {
-				runTasks(pool, myTasks, errors);
+				runTasks(pool, pm, myTasks, errors);
 			} finally {
 				pool.shutdown();
 				for (;;) {
@@ -746,7 +746,6 @@ public class PackWriter {
 			// asynchronous execution.  Wrap everything and hope it
 			// can schedule these for us.
 			//
-			final CountDownLatch done = new CountDownLatch(myTasks.size());
 			for (final DeltaTask task : myTasks) {
 				executor.execute(new Runnable() {
 					public void run() {
@@ -754,14 +753,12 @@ public class PackWriter {
 							task.call();
 						} catch (Throwable failure) {
 							errors.add(failure);
-						} finally {
-							done.countDown();
 						}
 					}
 				});
 			}
 			try {
-				done.await();
+				pm.waitForCompletion();
 			} catch (InterruptedException ie) {
 				// We can't abort the other tasks as we have no handle.
 				// Cross our fingers and just break out anyway.
@@ -789,13 +786,14 @@ public class PackWriter {
 		}
 	}
 
-	private void runTasks(ExecutorService pool, List<DeltaTask> tasks,
-			List<Throwable> errors) throws IOException {
+	private void runTasks(ExecutorService pool, ThreadSafeProgressMonitor pm,
+			List<DeltaTask> tasks, List<Throwable> errors) throws IOException {
 		List<Future<?>> futures = new ArrayList<Future<?>>(tasks.size());
 		for (DeltaTask task : tasks)
 			futures.add(pool.submit(task));
 
 		try {
+			pm.waitForCompletion();
 			for (Future<?> f : futures) {
 				try {
 					f.get();
