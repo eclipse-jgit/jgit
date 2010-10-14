@@ -52,9 +52,9 @@ public class RawTextIgnoreWhitespaceChangeTest extends TestCase {
 	private final RawTextComparator cmp = RawTextComparator.WS_IGNORE_CHANGE;
 
 	public void testEqualsWithoutWhitespace() {
-		final RawText a = new RawText(cmp, Constants
+		final RawText a = new RawText(Constants
 				.encodeASCII("foo-a\nfoo-b\nfoo\n"));
-		final RawText b = new RawText(cmp, Constants
+		final RawText b = new RawText(Constants
 				.encodeASCII("foo-b\nfoo-c\nf\n"));
 
 		assertEquals(3, a.size());
@@ -74,9 +74,9 @@ public class RawTextIgnoreWhitespaceChangeTest extends TestCase {
 	}
 
 	public void testEqualsWithWhitespace() {
-		final RawText a = new RawText(cmp, Constants
+		final RawText a = new RawText(Constants
 				.encodeASCII("foo-a\n         \n a b c\na      \n  foo\na  b  c\n"));
-		final RawText b = new RawText(cmp, Constants
+		final RawText b = new RawText(Constants
 				.encodeASCII("foo-a        b\n\nab  c\na\nfoo\na b     c  \n"));
 
 		// "foo-a" != "foo-a        b"
