@@ -53,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "AAALzX///9w\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CherryPickCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-10-15T14:41:21Z",
+      "side": 1,
+      "message": "got it.",
+      "parentUuid": "AAALzX///+s\u003d",
+      "revId": "7159de976a44cfdf6de82d2cd4fd1278cab59305",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALzX///+o\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CherryPickCommand.java",
         "patchSetId": 2
@@ -98,6 +116,24 @@
       "writtenOn": "2010-10-15T00:52:36Z",
       "side": 1,
       "message": "I think this isn\u0027t the best class name for this meaning of an error.  Maybe call it MulitpleParentsNotSupportedException?",
+      "revId": "7159de976a44cfdf6de82d2cd4fd1278cab59305",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALzX///98\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/errors/InvalidCherryPickCommit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-10-15T14:41:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALzX///+4\u003d",
       "revId": "7159de976a44cfdf6de82d2cd4fd1278cab59305",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
