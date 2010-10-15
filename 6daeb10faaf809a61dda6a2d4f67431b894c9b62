@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALy3//+1c\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CherryPickCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-10-12T19:31:00Z",
+      "side": 1,
+      "message": "The final commit is what is returned when there are multiple commits, right?  So maybe instead say the new HEAD is returned.  What happens if one succeeds and another fails, does the whole command stop, or is HEAD partially updated?",
+      "revId": "6daeb10faaf809a61dda6a2d4f67431b894c9b62",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3//+1g\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CherryPickCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-10-12T19:31:00Z",
+      "side": 1,
+      "message": "Don\u0027t initialize to null.\n\n  RevWalk revWalk \u003d new RevWalk(repo);\n  try {\n  } finally {\n    revWalk.release();\n  }",
+      "revId": "6daeb10faaf809a61dda6a2d4f67431b894c9b62",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3//+1Y\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CherryPickCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-10-12T19:31:00Z",
+      "side": 1,
+      "message": "This is faster:\n\n  revWalk.parseHeaders(srcCommit.getParent(0))",
+      "revId": "6daeb10faaf809a61dda6a2d4f67431b894c9b62",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3//+1U\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CherryPickCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-10-12T19:31:00Z",
+      "side": 1,
+      "message": "Ugh.  Can we do something to improve the name of setWorkingTreeIt?  Maybe call it setWorkingTreeIterator?\n\nI don\u0027t know if you have heard, but there is this fancy editor for Java called Eclipse.  You can use Ctrl-Space to ask it to complete aLengthyMethodNameThatIsTooLongToTypeButIsVeryDescriptiveOfItsPurpose, which means using abbreviations isn\u0027t necessary.  :-)",
+      "revId": "6daeb10faaf809a61dda6a2d4f67431b894c9b62",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3//+1Q\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CherryPickCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-10-12T19:31:00Z",
+      "side": 1,
+      "message": "The loop just stopped.  Shouldn\u0027t we continue looking at the next commit in the commits collection?",
+      "revId": "6daeb10faaf809a61dda6a2d4f67431b894c9b62",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
