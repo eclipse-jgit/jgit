@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAALzX///+c\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CherryPickCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-10-15T14:41:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALzX///+0\u003d",
+      "revId": "7159de976a44cfdf6de82d2cd4fd1278cab59305",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALzX///+w\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CherryPickCommand.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2010-10-15T00:52:36Z",
       "side": 1,
       "message": "lookupCommit assumes the thing is a commit.  That should be true, but someone may have manually done something in the repository to make HEAD be a non-commit.\n\nYou should use parseCommit here and take the parsing hit in order to ensure the new parent is actually a commit.  Otherwise we might create a corrupt object where a parent points to something that isn\u0027t a commit if HEAD was mangled externally.",
+      "revId": "7159de976a44cfdf6de82d2cd4fd1278cab59305",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALzX///94\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CherryPickCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-10-15T14:41:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALzX///+w\u003d",
       "revId": "7159de976a44cfdf6de82d2cd4fd1278cab59305",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -82,6 +118,24 @@
       "writtenOn": "2010-10-15T00:52:36Z",
       "side": 1,
       "message": "You missed changing this:\n\n  revWalk.parseHeaders(srcCommit.getParent(0))",
+      "revId": "7159de976a44cfdf6de82d2cd4fd1278cab59305",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALzX///90\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CherryPickCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-10-15T14:41:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALzX///+o\u003d",
       "revId": "7159de976a44cfdf6de82d2cd4fd1278cab59305",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
