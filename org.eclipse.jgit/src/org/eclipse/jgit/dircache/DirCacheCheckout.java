@@ -280,10 +280,13 @@ public class DirCacheCheckout {
 				if (walk.isDirectoryFileConflict()) {
 					conflicts.add(walk.getPathString());
 				} else {
-					// ... and the working dir contained a file or folder ->
-					// add it to the removed set and remove it from conflicts set
-					remove(i.getEntryPathString());
-					conflicts.remove(i.getEntryPathString());
+					if (i != null) {
+						// ... and the working dir contained a file or folder ->
+						// add it to the removed set and remove it from
+						// conflicts set
+						remove(i.getEntryPathString());
+						conflicts.remove(i.getEntryPathString());
+					}
 				}
 			} else
 				keep(i.getDirCacheEntry());
