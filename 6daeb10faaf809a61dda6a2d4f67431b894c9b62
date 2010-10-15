@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAALzH////8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CherryPickCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-10-13T09:32:00Z",
+      "side": 1,
+      "message": "Regarding failure handling. This command should stop after the first failing cherry-pick. HEAD will then point to the result of the last successful cherry-pick. But you are right, how do I then report the overall success of this command. \n\nMy proposal: I\u0027ll return a RevCommit which points to new HEAD only if all cherry-picks where succesfull. Otherwise null is returned. Additionally I add a getSuccesfullyCherryPickedRefs() to publish a list of all successful cherry-picks.",
+      "parentUuid": "AAALy3//+1c\u003d",
+      "revId": "6daeb10faaf809a61dda6a2d4f67431b894c9b62",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALy3//+1g\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CherryPickCommand.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2010-10-12T19:31:00Z",
       "side": 1,
       "message": "Don\u0027t initialize to null.\n\n  RevWalk revWalk \u003d new RevWalk(repo);\n  try {\n  } finally {\n    revWalk.release();\n  }",
+      "revId": "6daeb10faaf809a61dda6a2d4f67431b894c9b62",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALzH////4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CherryPickCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-10-13T09:32:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALy3//+1g\u003d",
       "revId": "6daeb10faaf809a61dda6a2d4f67431b894c9b62",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAALzH////0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CherryPickCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-10-13T09:32:00Z",
+      "side": 1,
+      "message": "I\u0027ll do. That this line was wrong costed me an hour during development. I only looked up the srcParent RevCommit and when I later set the base of the merge to srcParent.getTree() the base was set to null. Everything succeeded afterwards but of course the merge result was buggy.",
+      "parentUuid": "AAALy3//+1Y\u003d",
+      "revId": "6daeb10faaf809a61dda6a2d4f67431b894c9b62",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALy3//+1U\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CherryPickCommand.java",
         "patchSetId": 1
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "AAALzH////w\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CherryPickCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-10-13T09:32:00Z",
+      "side": 1,
+      "message": "Heard about that editor :-) Of course I can change that. Farewell ugly name! Had some long debugging sessions together and now its time to go.",
+      "parentUuid": "AAALy3//+1U\u003d",
+      "revId": "6daeb10faaf809a61dda6a2d4f67431b894c9b62",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALy3//+1Q\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CherryPickCommand.java",
         "patchSetId": 1
@@ -81,6 +153,24 @@
       "writtenOn": "2010-10-12T19:31:00Z",
       "side": 1,
       "message": "The loop just stopped.  Shouldn\u0027t we continue looking at the next commit in the commits collection?",
+      "revId": "6daeb10faaf809a61dda6a2d4f67431b894c9b62",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALzH////Q\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CherryPickCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-10-13T09:32:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALy3//+1Q\u003d",
       "revId": "6daeb10faaf809a61dda6a2d4f67431b894c9b62",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
