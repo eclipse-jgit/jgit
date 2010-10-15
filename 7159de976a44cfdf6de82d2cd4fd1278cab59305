@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALzX///+0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CherryPickCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-10-15T00:52:36Z",
+      "side": 1,
+      "message": "Style-nit: Constructors should appear before instance methods.",
+      "revId": "7159de976a44cfdf6de82d2cd4fd1278cab59305",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALzX///+w\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CherryPickCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-10-15T00:52:36Z",
+      "side": 1,
+      "message": "lookupCommit assumes the thing is a commit.  That should be true, but someone may have manually done something in the repository to make HEAD be a non-commit.\n\nYou should use parseCommit here and take the parsing hit in order to ensure the new parent is actually a commit.  Otherwise we might create a corrupt object where a parent points to something that isn\u0027t a commit if HEAD was mangled externally.",
+      "revId": "7159de976a44cfdf6de82d2cd4fd1278cab59305",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALzX///+s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CherryPickCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-10-15T00:52:36Z",
+      "side": 1,
+      "message": "FWIW, there is a use case for cherry-picking commits with more than one parent.  Its called reverting (or replaying) a merge.  In those cases the caller needs to tell us what parent to compare against as an input argument.\n\nI don\u0027t know how you will implement revert, but keep in mind we will want to come back here and optionally support a different parent when there are more than 1 parents involved.",
+      "revId": "7159de976a44cfdf6de82d2cd4fd1278cab59305",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALzX///+o\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CherryPickCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-10-15T00:52:36Z",
+      "side": 1,
+      "message": "You missed changing this:\n\n  revWalk.parseHeaders(srcCommit.getParent(0))",
+      "revId": "7159de976a44cfdf6de82d2cd4fd1278cab59305",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALzX///+k\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CherryPickCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-10-15T00:52:36Z",
+      "side": 1,
+      "message": "Thanks for fixing; this is better.",
+      "revId": "7159de976a44cfdf6de82d2cd4fd1278cab59305",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALzX///+4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/errors/InvalidCherryPickCommit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-10-15T00:52:36Z",
+      "side": 1,
+      "message": "I think this isn\u0027t the best class name for this meaning of an error.  Maybe call it MulitpleParentsNotSupportedException?",
+      "revId": "7159de976a44cfdf6de82d2cd4fd1278cab59305",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
