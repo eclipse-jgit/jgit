@@ -66,13 +66,13 @@ import org.eclipse.jgit.lib.ObjectInserter;
 
 /** Creates loose objects in a {@link ObjectDirectory}. */
 class ObjectDirectoryInserter extends ObjectInserter {
-	private final ObjectDirectory db;
+	private final FileObjectDatabase db;
 
 	private final Config config;
 
 	private Deflater deflate;
 
-	ObjectDirectoryInserter(final ObjectDirectory dest, final Config cfg) {
+	ObjectDirectoryInserter(final FileObjectDatabase dest, final Config cfg) {
 		db = dest;
 		config = cfg;
 	}

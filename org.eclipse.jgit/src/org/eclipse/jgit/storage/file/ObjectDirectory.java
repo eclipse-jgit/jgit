@@ -204,14 +204,9 @@ public class ObjectDirectory extends FileObjectDatabase {
 	 *            identity of the loose object to map to the directory.
 	 * @return location of the object, if it were to exist as a loose object.
 	 */
+	@Override
 	public File fileFor(final AnyObjectId objectId) {
-		return fileFor(objectId.name());
-	}
-
-	private File fileFor(final String objectName) {
-		final String d = objectName.substring(0, 2);
-		final String f = objectName.substring(2);
-		return new File(new File(objects, d), f);
+		return super.fileFor(objectId);
 	}
 
 	/**
@@ -513,6 +508,10 @@ public class ObjectDirectory extends FileObjectDatabase {
 		if (old.tryAgain(packDirectory.lastModified()))
 			return old != scanPacks(old);
 		return false;
+	}
+
+	Config getConfig() {
+		return config;
 	}
 
 	private void insertPack(final PackFile pf) {

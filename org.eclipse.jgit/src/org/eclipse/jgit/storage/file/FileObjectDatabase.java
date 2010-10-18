@@ -49,6 +49,7 @@ import java.util.Set;
 
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectDatabase;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
@@ -67,7 +68,9 @@ abstract class FileObjectDatabase extends ObjectDatabase {
 	}
 
 	@Override
-	public abstract ObjectDirectoryInserter newInserter();
+	public ObjectDirectoryInserter newInserter() {
+		return new ObjectDirectoryInserter(this, getConfig());
+	}
 
 	/**
 	 * Does the requested object exist in this database?
@@ -81,6 +84,23 @@ abstract class FileObjectDatabase extends ObjectDatabase {
 	 */
 	public boolean has(final AnyObjectId objectId) {
 		return hasObjectImpl1(objectId) || hasObjectImpl2(objectId.name());
+	}
+
+	/**
+	 * Compute the location of a loose object file.
+	 *
+	 * @param objectId
+	 *            identity of the loose object to map to the directory.
+	 * @return location of the object, if it were to exist as a loose object.
+	 */
+	File fileFor(final AnyObjectId objectId) {
+		return fileFor(objectId.name());
+	}
+
+	File fileFor(final String objectName) {
+		final String d = objectName.substring(0, 2);
+		final String f = objectName.substring(2);
+		return new File(new File(getDirectory(), d), f);
 	}
 
 	final boolean hasObjectImpl1(final AnyObjectId objectId) {
@@ -109,6 +129,8 @@ abstract class FileObjectDatabase extends ObjectDatabase {
 
 	abstract void resolve(Set<ObjectId> matches, AbbreviatedObjectId id)
 			throws IOException;
+
+	abstract Config getConfig();
 
 	/**
 	 * Open an object from this database.
