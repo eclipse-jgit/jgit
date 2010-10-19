@@ -48,7 +48,9 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import org.eclipse.jgit.api.CreateBranchCommand.SetupUpstreamMode;
 import org.eclipse.jgit.api.MergeResult.MergeStatus;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.RepositoryTestCase;
 import org.eclipse.jgit.lib.StoredConfig;
@@ -121,6 +123,46 @@ public class PullCommandTest extends RepositoryTestCase {
 		assertEquals(res.getMergeResult().getMergeStatus(),
 				MergeStatus.CONFLICTING);
 		String result = "<<<<<<< HEAD\nTarget change\n=======\n"
+				+ sourceChangeString + "\n";
+		assertFileContentsEqual(targetFile, result);
+	}
+
+	public void testPullLocalConflict() throws Exception {
+		target.branchCreate().setName("basedOnMaster").setStartPoint(
+				"refs/heads/master").setUpstreamMode(SetupUpstreamMode.TRACK)
+				.call();
+		target.getRepository().updateRef(Constants.HEAD).link(
+				"refs/heads/basedOnMaster");
+		PullResult res = target.pull().call();
+		// nothing to update since we don't have different data yet
+		assertNull(res.getFetchResult());
+		assertTrue(res.getMergeResult().getMergeStatus().equals(
+				MergeStatus.ALREADY_UP_TO_DATE));
+
+		assertFileContentsEqual(targetFile, "Hello world");
+
+		// change the file in master
+		target.getRepository().updateRef(Constants.HEAD).link(
+				"refs/heads/master");
+		writeToFile(targetFile, "Master change");
+		target.add().addFilepattern("SomeFile.txt").call();
+		target.commit().setMessage("Source change in master").call();
+
+		// change the file in slave
+		target.getRepository().updateRef(Constants.HEAD).link(
+				"refs/heads/basedOnMaster");
+		writeToFile(targetFile, "Slave change");
+		target.add().addFilepattern("SomeFile.txt").call();
+		target.commit().setMessage("Source change in based on master").call();
+
+		res = target.pull().call();
+
+		String sourceChangeString = "Master change\n>>>>>>> branch 'refs/heads/master' of local repository";
+
+		assertNull(res.getFetchResult());
+		assertEquals(res.getMergeResult().getMergeStatus(),
+				MergeStatus.CONFLICTING);
+		String result = "<<<<<<< HEAD\nSlave change\n=======\n"
 				+ sourceChangeString + "\n";
 		assertFileContentsEqual(targetFile, result);
 	}
