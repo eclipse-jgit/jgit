@@ -157,14 +157,6 @@ public class PullCommand extends GitCommand<PullResult> {
 			throw new InvalidConfigurationException(MessageFormat.format(
 					JGitText.get().missingConfigurationForKey, missingKey));
 		}
-		final String remoteUri = repo.getConfig().getString("remote", remote,
-				ConfigConstants.CONFIG_KEY_URL);
-		if (remoteUri == null) {
-			String missingKey = ConfigConstants.CONFIG_REMOTE_SECTION + DOT
-					+ remote + DOT + ConfigConstants.CONFIG_KEY_URL;
-			throw new InvalidConfigurationException(MessageFormat.format(
-					JGitText.get().missingConfigurationForKey, missingKey));
-		}
 
 		// get the name of the branch in the remote repository
 		// stored in configuration key branch.<branch name>.merge
@@ -175,13 +167,14 @@ public class PullCommand extends GitCommand<PullResult> {
 			// check if the branch is configured for pull-rebase
 			remoteBranchName = repoConfig.getString(
 					ConfigConstants.CONFIG_BRANCH_SECTION, branchName,
-					ConfigConstants.CONFIG_KEY_MERGE);
+					ConfigConstants.CONFIG_KEY_REBASE);
 			if (remoteBranchName != null) {
 				// TODO implement pull-rebase
 				throw new JGitInternalException(
 						"Pull with rebase is not yet supported");
 			}
 		}
+
 		if (remoteBranchName == null) {
 			String missingKey = ConfigConstants.CONFIG_BRANCH_SECTION + DOT
 					+ branchName + DOT + ConfigConstants.CONFIG_KEY_MERGE;
@@ -189,45 +182,77 @@ public class PullCommand extends GitCommand<PullResult> {
 					JGitText.get().missingConfigurationForKey, missingKey));
 		}
 
-		if (monitor.isCancelled())
-			throw new CanceledException(MessageFormat.format(
-					JGitText.get().operationCanceled,
-					JGitText.get().pullTaskName));
+		String remoteUri;
+		FetchResult fetchRes;
+		if (!remote.equals(".")) {
+			remoteUri = repo.getConfig().getString("remote", remote,
+					ConfigConstants.CONFIG_KEY_URL);
+			if (remoteUri == null) {
+				String missingKey = ConfigConstants.CONFIG_REMOTE_SECTION + DOT
+						+ remote + DOT + ConfigConstants.CONFIG_KEY_URL;
+				throw new InvalidConfigurationException(MessageFormat.format(
+						JGitText.get().missingConfigurationForKey, missingKey));
+			}
 
-		FetchCommand fetch = new FetchCommand(repo);
-		fetch.setRemote(remote);
-		if (monitor != null)
-			fetch.setProgressMonitor(monitor);
-		fetch.setTimeout(this.timeout);
+			if (monitor.isCancelled())
+				throw new CanceledException(MessageFormat.format(
+						JGitText.get().operationCanceled,
+						JGitText.get().pullTaskName));
 
-		FetchResult fetchRes = fetch.call();
+			FetchCommand fetch = new FetchCommand(repo);
+			fetch.setRemote(remote);
+			if (monitor != null)
+				fetch.setProgressMonitor(monitor);
+			fetch.setTimeout(this.timeout);
+
+			fetchRes = fetch.call();
+		} else {
+			// we can skip the fetch altogether
+			remoteUri = "local repository";
+			fetchRes = null;
+		}
 
 		monitor.update(1);
 
 		// we check the updates to see which of the updated branches corresponds
 		// to the remote branch name
 
-		AnyObjectId commitToMerge = null;
+		AnyObjectId commitToMerge;
 
-		Ref r = fetchRes.getAdvertisedRef(remoteBranchName);
-		if (r == null)
-			r = fetchRes.getAdvertisedRef(Constants.R_HEADS + remoteBranchName);
-		if (r == null) {
-			// TODO: we should be able to get the mapping also if nothing was
-			// updated by the fetch; for the time being, use the naming
-			// convention as fall back
-			String remoteTrackingBranch = Constants.R_REMOTES + remote + '/'
-					+ branchName;
+		if (!remote.equals(".")) {
+			Ref r = null;
+			if (fetchRes != null) {
+				r = fetchRes.getAdvertisedRef(remoteBranchName);
+				if (r == null)
+					r = fetchRes.getAdvertisedRef(Constants.R_HEADS
+							+ remoteBranchName);
+			}
+			if (r == null) {
+				// TODO: we should be able to get the mapping also if nothing
+				// was
+				// updated by the fetch; for the time being, use the naming
+				// convention as fall back
+				String remoteTrackingBranch = Constants.R_REMOTES + remote
+						+ '/' + branchName;
+				try {
+					commitToMerge = repo.resolve(remoteTrackingBranch);
+				} catch (IOException e) {
+					throw new JGitInternalException(
+							JGitText.get().exceptionCaughtDuringExecutionOfPullCommand,
+							e);
+				}
+
+			} else
+				commitToMerge = r.getObjectId();
+		} else {
 			try {
-				commitToMerge = repo.resolve(remoteTrackingBranch);
+				commitToMerge = repo.resolve(remoteBranchName);
 			} catch (IOException e) {
 				throw new JGitInternalException(
 						JGitText.get().exceptionCaughtDuringExecutionOfPullCommand,
 						e);
 			}
-
-		} else
-			commitToMerge = r.getObjectId();
+		}
 
 		if (monitor.isCancelled())
 			throw new CanceledException(MessageFormat.format(
