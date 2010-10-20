@@ -79,6 +79,9 @@ public final class Constants {
 	/** Special name for the "HEAD" symbolic-ref. */
 	public static final String HEAD = "HEAD";
 
+	/** Special name for the "FETCH_HEAD" symbolic-ref. */
+	public static final String FETCH_HEAD = "FETCH_HEAD";
+
 	/**
 	 * Text string that identifies an object as a commit.
 	 * <p>

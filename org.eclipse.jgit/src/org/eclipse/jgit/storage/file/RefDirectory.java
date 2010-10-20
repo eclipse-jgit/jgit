@@ -318,6 +318,8 @@ public class RefDirectory extends RefDatabase {
 		void scan(String prefix) {
 			if (ALL.equals(prefix)) {
 				scanOne(HEAD);
+				scanOne(Constants.FETCH_HEAD);
+				scanOne(Constants.MERGE_HEAD);
 				scanTree(R_REFS, refsDir);
 
 				// If any entries remain, they are deleted, drop them.
