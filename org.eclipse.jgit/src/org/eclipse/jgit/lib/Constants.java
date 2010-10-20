@@ -79,6 +79,9 @@ public final class Constants {
 	/** Special name for the "HEAD" symbolic-ref. */
 	public static final String HEAD = "HEAD";
 
+	/** Special name for the "FETCH_HEAD" symbolic-ref. */
+	public static final String FETCH_HEAD = "FETCH_HEAD";
+
 	/**
 	 * Text string that identifies an object as a commit.
 	 * <p>
@@ -526,6 +529,12 @@ public final class Constants {
 
 	/** name of the file containing the IDs of the parents of a merge commit */
 	public static final String MERGE_HEAD = "MERGE_HEAD";
+
+	/**
+	 * name of the ref ORIG_HEAD used by certain commands to store the original
+	 * value of HEAD
+	 */
+	public static final String ORIG_HEAD = "ORIG_HEAD";
 
 	/** objectid for the empty blob */
 	public static final ObjectId EMPTY_BLOB_ID = ObjectId
