@@ -84,6 +84,8 @@ public class IndexDiff {
 
 	private final RevTree tree;
 
+	private TreeFilter filter = null;
+
 	private final WorkingTreeIterator initialWorkingTreeIterator;
 
 	private HashSet<String> added = new HashSet<String>();
@@ -140,6 +142,15 @@ public class IndexDiff {
 		this.initialWorkingTreeIterator = workingTreeIterator;
 	}
 
+	/**
+	 * Sets a filter. Can be used e.g. for restricting the tree walk to a set of
+	 * files.
+	 * 
+	 * @param filter
+	 */
+	public void setFilter(TreeFilter filter) {
+		this.filter = filter;
+	}
 
 	/**
 	 * Run the diff operation. Until this is called, all lists will be empty
@@ -160,10 +171,15 @@ public class IndexDiff {
 			treeWalk.addTree(new EmptyTreeIterator());
 		treeWalk.addTree(new DirCacheIterator(dirCache));
 		treeWalk.addTree(initialWorkingTreeIterator);
-		treeWalk.setFilter(TreeFilter.ANY_DIFF);
-		treeWalk.setFilter(AndTreeFilter.create(new TreeFilter[] {
-				new NotIgnoredFilter(WORKDIR), new SkipWorkTreeFilter(INDEX),
-				TreeFilter.ANY_DIFF }));
+		if (filter == null)
+			treeWalk.setFilter(AndTreeFilter.create(new TreeFilter[] {
+					new NotIgnoredFilter(WORKDIR),
+					new SkipWorkTreeFilter(INDEX), TreeFilter.ANY_DIFF }));
+		else
+			treeWalk.setFilter(AndTreeFilter
+					.create(new TreeFilter[] { new NotIgnoredFilter(WORKDIR),
+							new SkipWorkTreeFilter(INDEX), TreeFilter.ANY_DIFF,
+							filter }));
 		while (treeWalk.next()) {
 			AbstractTreeIterator treeIterator = treeWalk.getTree(TREE,
 					AbstractTreeIterator.class);
