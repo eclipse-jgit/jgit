@@ -203,7 +203,7 @@ abstract class HttpAuthMethod {
 			final String expect;
 			if ("auth".equals(qop)) {
 				final String c = p.get("cnonce");
-				final String nc = String.format("%8.8x", ++requestCount);
+				final String nc = String.format("%08x", ++requestCount);
 				p.put("nc", nc);
 				expect = KD(H(A1), nonce + ":" + nc + ":" + c + ":" + qop + ":"
 						+ H(A2));
