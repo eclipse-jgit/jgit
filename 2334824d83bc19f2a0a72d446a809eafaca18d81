@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALzX///1k\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/HttpAuthMethod.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-10-23T21:23:56Z",
+      "side": 1,
+      "message": "IIRC nc needs to be 0 padded to 8 digits.  Which is what I was trying to do with 8.8x.",
+      "revId": "2334824d83bc19f2a0a72d446a809eafaca18d81",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
