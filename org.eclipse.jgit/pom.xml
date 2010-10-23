@@ -147,6 +147,7 @@
             <configuration>
                <findbugsXmlOutput>true</findbugsXmlOutput>
                <failOnError>false</failOnError>
+               <excludeFilterFile>findBugs/FindBugsExcludeFilter.xml</excludeFilterFile>
             </configuration>
             <executions>
                <execution>
