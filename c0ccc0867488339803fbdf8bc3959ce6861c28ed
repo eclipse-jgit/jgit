@@ -16,6 +16,60 @@
       "revId": "c0ccc0867488339803fbdf8bc3959ce6861c28ed",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALzX///3c\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/RefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-10-22T00:48:48Z",
+      "side": 1,
+      "message": "Repository.readMergeHeads() will return you the content from MERGE_HEAD, or null if the file isn\u0027t present.  When there is more than one item in the resulting list the UI probably should have a notion of this and offer the user a way to deal with the 2nd, 3rd, etc. items.  Its a UI wart that C Git accepts MERGE_HEAD and always assumes the 1st item.\n\nWe don\u0027t have a reader for FETCH_HEAD, that\u0027s true.  We should implement one.  But again here, FETCH_HEAD may have multiple results, and the UI might want to be smarter about how it uses the information that is contained in FETCH_HEAD.  That is, if I say \"cherry-pick FETCH_HEAD\" I might want an option to include the URL and branch that I cherry-picked this from, similar to the way `git pull` works.  And even better, if I say \"merge FETCH_HEAD\" I should be offered a default merge message similar to the way pull would have done it... and that needs the URL and branch data from FETCH_HEAD, data that wouldn\u0027t normally be available in a Ref object.\n\nSince the two data objects (FETCH_HEAD and MERGE_HEAD) contain different information beyond what a simple Ref is, I think its reasonable to say that these are *not* treated as a Ref and aren\u0027t returned by default in the Ref collections that an application can access.  If you do want this data, you should inquire for it against Repository... and we already have one of those accessors implemented, we just need FETCH_HEAD to re-create the FetchResult object that the prior fetch() call would have created in-memory anyway.\n\nIf an application Just Doesn\u0027t Care (tm), it can always do:\n\n  Map\u003cString, Ref\u003e all \u003d repo.getAllRefs();\n  Ref r \u003d  repo.getRef(\"MERGE_HEAD\");\n  if (r !\u003d null)\n    r.put(\"MERGE_HEAD\", r);\n  r \u003d repo.getRef(\"FETCH_HEAD\");\n  if (r !\u003d null)\n    r.put(\"FETCH_HEAD\", r);\n\nbut my argument above is, applications that want to support these two names in a way that is more sophisticated than simply taking a users-specified revision string and passing it into Repository.resolve(String) should be using other APIs that provide the full richness of the data they are accessing, rather than trying to shoe-horn the data into the rather limited Ref interface.",
+      "parentUuid": "AAALzX///38\u003d",
+      "revId": "c0ccc0867488339803fbdf8bc3959ce6861c28ed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALzX///2Y\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/RefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-10-23T07:30:19Z",
+      "side": 1,
+      "message": "OK, I don\u0027t have a good answer for you as to why repo.getRef(\"FETCH_HEAD\") works but repo.getAllRefs().containsKey(\"FETCH_HEAD\") should return false.\n\nI can try to justify myself by saying that FETCH_HEAD isn\u0027t really a ref, and thus isn\u0027t returned by getAllRefs().  And getRef() just takes its input relative to $GIT_DIR and tries to treat the thing you named as a ref... if it smells enough like a ref to be read as a ref, it is, even if it isn\u0027t really a ref.  My justification for this getRef() behavior is that it is what is needed to be compatible with C Git, in case someone does something like:\n\n  echo somesha1 \u003e.git/MY_NAME\n  jgit log MY_NAME\n\nI can also try to justify my position by saying that C Git\u0027s implementation of `git for-each-ref` does not report ORIG_HEAD, FETCH_HEAD or MERGE_HEAD.  JGit\u0027s getAllRefs() method is our internal API equivalent to `git for-each-ref`.  If we want to behave the same way under the same repository state, we shouldn\u0027t report those names.\n\nBut it sounds like you disagree with me.  The current behavior is all rooted around mirroring C Git behavior around the same concepts.  I\u0027m not going to try and say C Git is correct, though I\u0027m sure that if you ask this sort of stuff over on the C Git list you will get a whole bunch of people trying to justify the way it its, and the real reason is really \"it just is, that\u0027s just how it evolved over the years, we didn\u0027t design this stuff, it just got patched and patched and patched and uh... it is the way it it is\".\n\nAs far as adding ORIG_HEAD goes, same deal as above.  `git for-each-ref` doesn\u0027t recognize ORIG_HEAD, and so getAllRefs() doesn\u0027t either.  But at least ORIG_HEAD is more like a proper ref... its not like FETCH_HEAD or MERGE_HEAD, because it doesn\u0027t carry additional data in it.  (Though it has been proposed to add more data onto the end of the file for use during rebase and bisect.)",
+      "parentUuid": "AAALzX///3U\u003d",
+      "revId": "c0ccc0867488339803fbdf8bc3959ce6861c28ed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALzX///14\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/RefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-10-23T19:00:48Z",
+      "side": 1,
+      "message": "OK, but I wouldn\u0027t call it implicit.  Perhaps this on RefDatabase?\n\n  /**\n   * Get the additional reference-like entities from the repository.\n   *\n   * The result list includes non-ref items such as MERGE_HEAD,\n   * and FETCH_RESULT cast to be refs.\n   */\n  List\u003cRef\u003e getAdditionalRefs()",
+      "parentUuid": "AAALzX///2I\u003d",
+      "revId": "c0ccc0867488339803fbdf8bc3959ce6861c28ed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
