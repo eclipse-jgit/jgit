@@ -1,0 +1,39 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALzX///4Q\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/IndexDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-10-21T17:53:53Z",
+      "side": 1,
+      "message": "Bug in Eclipse.\n\nThe formatter insists on putting a space at the end of a blank Javadoc line.  The formatter runs after the remove trailing space on a blank line during save.\n\nYou can coax it into removing that space by deleting it manually, saving the file, then doing undo right away.  Yes, its crap.  But I don\u0027t have the time or the energy to debug this part of Eclipse and patch it.",
+      "parentUuid": "AAALzX///4g\u003d",
+      "revId": "a10386a11039c150c7c16105ee5ad07a51eba315",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALzX///4I\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/IndexDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-10-21T17:58:39Z",
+      "side": 1,
+      "message": "Doesn\u0027t AndTreeFilter take a List also?  If so can\u0027t we make a temporary list here and put the three default items in, then the one conditional user filter?\n\nIf the user filter is a path filter (and it probably is) its faster if its first in the list.  Paths are very cheap to evaluate and they rule out most of the project\u0027s files.",
+      "revId": "a10386a11039c150c7c16105ee5ad07a51eba315",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
