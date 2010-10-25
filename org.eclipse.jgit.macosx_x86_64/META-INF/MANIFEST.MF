@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %plugin_name
+Bundle-NativeCode: /native/macosx/x86_64/libjgitnative.jnilib;
+ osname=macosx;
+ processor=x86_64;
+Bundle-RequiredExecutionEnvironment: JavaSE-1.5
+Bundle-SymbolicName: org.eclipse.jgit.macosx.x86_64;singleton:=true
+Bundle-Vendor: %provider_name
+Bundle-Version: 0.10.0.qualifier
+Export-Package: org.eclipse.jgit.util.fs.os;version="0.10.0";
+ x-friends:="org.eclipse.jgit";uses:="org.eclipse.jgit.util.fs"
+Fragment-Host: org.eclipse.jgit;bundle-version="[0.10.0,0.11.0)"
+Import-Package: org.eclipse.jgit.util.fs
+
