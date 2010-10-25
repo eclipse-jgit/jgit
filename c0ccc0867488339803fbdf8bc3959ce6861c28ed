@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALzX///4Y\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/RefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-10-21T17:49:26Z",
+      "side": 1,
+      "message": "NAK.  These must not show up in protocol advertisements, etc.  If an application needs them it should read them.\n\nBesides both files are *not* standard ref format.  They can contain more than one ref.  And in FETCH_HEAD\u0027s case, they also have URL data and branch data.  The fact that they can work like a ref is a bug in the C Git implementation that only looks at the first 40 bytes of a \"ref like file\" to see if it is a SHA-1.  In hindsight we might never have permitted these files to be \"ref like\" by having a stricter ref file parser.",
+      "revId": "c0ccc0867488339803fbdf8bc3959ce6861c28ed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
