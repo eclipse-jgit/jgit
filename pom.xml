@@ -137,6 +137,16 @@
     <jetty-version>7.0.1.v20091125</jetty-version>
   </properties>
 
+  <pluginRepositories>
+    <pluginRepository>
+      <!-- need maven-findbugs-2.3.2-SNAPSHOT, see
+           http://jira.codehaus.org/browse/MFINDBUGS-122
+           remove this when this version is released -->
+      <id>codehaus.snapshots</id>
+      <url>http://snapshots.repository.codehaus.org/</url>
+    </pluginRepository>
+  </pluginRepositories>
+
   <build>
     <pluginManagement>
       <plugins>
@@ -201,6 +211,21 @@
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>build-helper-maven-plugin</artifactId>
           <version>1.5</version>
+        </plugin>
+
+        <plugin>
+          <!-- need maven-findbugs-2.3.2-SNAPSHOT, see
+               http://jira.codehaus.org/browse/MFINDBUGS-122
+               switch to released version when available -->
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>findbugs-maven-plugin</artifactId>
+          <version>2.3.2-SNAPSHOT</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-pmd-plugin</artifactId>
+          <version>2.5</version>
         </plugin>
       </plugins>
     </pluginManagement>
