@@ -34,6 +34,23 @@
       "revId": "01d1b20a3d7be1c0b480c7fb5c9773c161fe5c15",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///Bo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackWriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 801,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-10-08T01:47:41Z",
+      "side": 1,
+      "message": "Like I said in the DeltaTask code, this is too late.  We want the progress updates to occur as the tasks complete some work units, so the user knows we are working and about how far we are through the object set.",
+      "revId": "01d1b20a3d7be1c0b480c7fb5c9773c161fe5c15",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
