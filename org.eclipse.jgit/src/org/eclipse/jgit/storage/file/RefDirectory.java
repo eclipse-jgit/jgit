@@ -800,6 +800,13 @@ public class RefDirectory extends RefDatabase {
 		final LooseRef n = scanRef(null, name);
 		if (n == null)
 			return packed.get(name);
+
+		// check whether the found new ref is the an additional ref. These refs
+		// should not go into looseRefs
+		for (int i = 0; i < additionalRefsNames.length; i++)
+			if (name.equals(additionalRefsNames[i]))
+				return n;
+
 		if (looseRefs.compareAndSet(curList, curList.add(idx, n)))
 			modCnt.incrementAndGet();
 		return n;
