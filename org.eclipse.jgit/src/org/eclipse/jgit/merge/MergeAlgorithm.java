@@ -201,28 +201,39 @@ public final class MergeAlgorithm {
 
 				// A conflicting region is found. Strip off common lines in
 				// in the beginning and the end of the conflicting region
-				int conflictLen = Math.min(oursEndB - oursBeginB, theirsEndB
-						- theirsBeginB);
+
+				// Determine the minimum length of the conflicting areas in OURS
+				// and THEIRS. Also determine how much bigger the conflicting
+				// area in THEIRS is compared to OURS. All that is needed to
+				// limit the search for common areas at the beginning or end
+				// (the common areas cannot be bigger then the smaller
+				// conflicting area. The delta is needed to know whether the
+				// complete conflicting area is common in OURS and THEIRS.
+				int minBSize = oursEndB - oursBeginB;
+				int BSizeDelta = minBSize - (theirsEndB - theirsBeginB);
+				if (BSizeDelta > 0)
+					minBSize -= BSizeDelta;
+
 				int commonPrefix = 0;
-				while (commonPrefix < conflictLen
+				while (commonPrefix < minBSize
 						&& cmp.equals(ours, oursBeginB + commonPrefix, theirs,
 								theirsBeginB + commonPrefix))
 					commonPrefix++;
-				conflictLen -= commonPrefix;
+				minBSize -= commonPrefix;
 				int commonSuffix = 0;
-				while (commonSuffix < conflictLen
+				while (commonSuffix < minBSize
 						&& cmp.equals(ours, oursEndB - commonSuffix - 1, theirs,
 								theirsEndB - commonSuffix - 1))
 					commonSuffix++;
-				conflictLen -= commonSuffix;
+				minBSize -= commonSuffix;
 
 				// Add the common lines at start of conflict
 				if (commonPrefix > 0)
 					result.add(1, oursBeginB, oursBeginB + commonPrefix,
 							ConflictState.NO_CONFLICT);
 
-				// Add the conflict
-				if (conflictLen > 0) {
+				// Add the conflict (Only if there is a conflict left to report)
+				if (minBSize > 0 || BSizeDelta != 0) {
 					result.add(1, oursBeginB + commonPrefix, oursEndB
 							- commonSuffix,
 							ConflictState.FIRST_CONFLICTING_RANGE);
