@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALzX///to\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/RefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 805,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-10-27T14:57:32Z",
+      "side": 1,
+      "message": "Makes sense. It does mean we can\u0027t cache these.  But that\u0027s better than an infinite loop.  :-)",
+      "revId": "2c38e5d46155106fa0a0aed2b551207f0e6f2f2a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
