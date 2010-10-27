@@ -1,0 +1,22 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALzX///vQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/DeltaTask.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-10-26T18:15:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALzX///5g\u003d",
+      "revId": "4052c0812e95fee20e0d2b3fbd6a6218b48f1b92",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
