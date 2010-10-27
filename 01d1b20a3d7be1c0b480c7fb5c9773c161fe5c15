@@ -1,0 +1,39 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALy3///Bs\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/DeltaTask.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-10-08T01:47:41Z",
+      "side": 1,
+      "message": "This isn\u0027t very useful, because we\u0027ll only get progress updates when the tasks terminate.  That\u0027s going to happen about once per core on the server.  If we have 2 cores, we\u0027ll get an update just before its done saying \"50%\" and then almost immediately another update saying \"100%\"... but it may have taken an hour to reach that point while the threads worked.  :-(\n\nWe need to increment the counter, and set a signal that makes the main thread wake up and update the progress monitor based on the increments that were made to the counter since the last time it observed the counter.",
+      "revId": "01d1b20a3d7be1c0b480c7fb5c9773c161fe5c15",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALzH///3M\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/DeltaTask.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-10-14T19:00:40Z",
+      "side": 1,
+      "message": "Well, normally a ProgressMonitor is *not* thread-safe.  Callers who need one to be are responsible for ensuring that is true.\n\nEGit supplies a thread-safe ProgressMonitor, but only because its invoking JGit from a worker thread and wants the updates visible to the UI thread.  So EGit is responsible for supplying a thread-safe ProgressMonitor to JGit when it calls JGit.\n\nHowever within JGit we assume the ProgressMonitor is \"owned\" by the thread that it is given to.  If that thread then spawns its own helper threads, that spawn site is responsible for making the supplied ProgressMonitor thread-safe.  To do that we wrap it in the ThreadSafeProgressMonitor. Unfortunately it seems that isn\u0027t compatible with the PipeOutputStream so we need to arrange for a different use of the ThreadSafeProgressMonitor.\n\nI would prefer rewriting ThreadSafeProgressMonitor to use a different API definition and behavior, than to rewrite the pipe stream code.  We can\u0027t ensure callers won\u0027t give us the stock J2SE pipe stream types... and if they do we would have this bug you are reporting.  And there is currently only 1 caller in JGit (PackWriter, for threaded delta search).\n\n\nMaybe instead the ThreadSafeProgressMonitor remembers what thread allocated it, and only pushes updates to the underlying ProgressMonitor if they are being made by the allocation thread.  If they are made by a different thread, then the updates are pushed into an update queue that the allocation thread must spin-out through a new public method.\n\nWe\u0027d have to change some of the logic in PackWriter so that we spin out the update queue of the ThreadSafeProgressMonitor if the tasks are running on background threads.  That gets somewhat ugly because we can\u0027t easily determine when to stop spinning the queue because the threads are all completed.  One way to do that would be to also associate a worker count-down into the ThreadSafeProgressMonitor.  Use two new APIs to tell it when a worker starts, and when a worker ends.  PackWriter can tell it how many tasks its about to start, and then have each task use a finally block to tell the ThreadSafeProgressMonitor when the task is terminating.  The spin-out method would stop spinning the update queue when the active task count drops to 0.",
+      "parentUuid": "AAALzH///3o\u003d",
+      "revId": "01d1b20a3d7be1c0b480c7fb5c9773c161fe5c15",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
