@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAALzH///3o\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/DeltaTask.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 89
+      },
+      "writtenOn": "2010-10-14T15:07:26Z",
+      "side": 1,
+      "message": "But in this case we should do this change everywhere ProgressMonitor associated with PipedInput/OutputStream is used from several threads. Maybe we need piped streams that do not check that writing/reading threads are alive?",
+      "parentUuid": "AAALy3///Bs\u003d",
+      "revId": "01d1b20a3d7be1c0b480c7fb5c9773c161fe5c15",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALzH///3M\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/DeltaTask.java",
         "patchSetId": 1
