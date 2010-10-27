@@ -98,6 +98,7 @@ public class MergeAlgorithmTest extends TestCase {
 	String replace_BCDEGI_by_ZZZZZZ=A+Z+Z+Z+Z+F+Z+H+Z+J;
 	String replace_CEFGHJ_by_YYYYYY=A+B+Y+D+Y+Y+Y+Y+I+Y;
 	String replace_BDE_by_ZZY=A+Z+C+Z+Y+F+G+H+I+J;
+	String delete_C=A+B+D+E+F+G+H+I+J;
 
 	/**
 	 * Check for a conflict where the second text was changed similar to the
@@ -188,6 +189,16 @@ public class MergeAlgorithmTest extends TestCase {
 	public void testSameModification() throws IOException {
 		assertEquals(replace_C_by_Z,
 				merge(base, replace_C_by_Z, replace_C_by_Z));
+	}
+
+	/**
+	 * Check that a deleted vs. a modified line shows up as conflict (see Bug
+	 * 328551)
+	 *
+	 * @throws IOException
+	 */
+	public void testDeleteVsModify() throws IOException {
+		assertEquals(A+B+XXX_0+XXX_1+Z+XXX_2+D+E+F+G+H+I+J, merge(base, delete_C, replace_C_by_Z));
 	}
 
 	private String merge(String commonBase, String ours, String theirs) throws IOException {
