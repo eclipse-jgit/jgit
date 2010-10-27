@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALzX///zE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-10-25T16:24:10Z",
+      "side": 1,
+      "message": "You are right, we can improve performance here. But maybe in a little bit different way as you suggested.\n\nThis looks like a small change but could be very bad regarding\nperformance. Your change will force us to read every single bit of every file in the working tree. The problem is \"m.idEqual(f)\" which triggers the computation of sha-1 on the content of the file in the working tree. I would like to avoid computing the id if it is not necessary. E.g. if the last-modification time of the file is the same as we have in the index we know that the file is the same as in the index and for this one we already know the id.\n\nLook at how WorkingTreeIterator.isModified() is used at the end of processEntry(AbstractTreeIterator h, AbstractTreeIterator m, DirCacheBuildIterator i, WorkingTreeIterator f) to see how we could better decide when to overwrite the file or not.",
+      "revId": "9e025a53facd42410796eae821baaeff684a25c5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
