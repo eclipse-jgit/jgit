@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAALzX///7c\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PullCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 46
+      },
+      "writtenOn": "2010-10-19T06:57:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALzX////I\u003d",
+      "revId": "87552081772df98e9899afdffdb7e47553954fcb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALzX////A\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PullCommand.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2010-10-15T00:43:42Z",
       "side": 1,
       "message": "This call is identical to the one before it on line 164.  Which means its pointless, if the call above returned null, we should get null again here.  I think you meant to test a different key here, but you tested CONFIG_KEY_MERGE again.",
+      "revId": "87552081772df98e9899afdffdb7e47553954fcb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALzX///7Y\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PullCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 46
+      },
+      "writtenOn": "2010-10-19T06:57:53Z",
+      "side": 1,
+      "message": "Duh. Yes, of course. Done. Thanks for pointing it out.",
+      "parentUuid": "AAALzX////A\u003d",
       "revId": "87552081772df98e9899afdffdb7e47553954fcb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAALzX///7U\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PullCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 46
+      },
+      "writtenOn": "2010-10-19T06:57:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALzX////M\u003d",
+      "revId": "87552081772df98e9899afdffdb7e47553954fcb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALzX////E\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PullCommand.java",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2010-10-15T00:43:42Z",
       "side": 1,
       "message": "FWIW, FetchCommand should always produce FetchResult, unless there was a network error that prevented communication from occurring.  Even if no objects were obtained, there should still be the advertised refs.  If the ref ISN\u0027T found its an error and you should stop immediately, not fall back on a stale tracking branch that is guessed by naming convention.",
+      "revId": "87552081772df98e9899afdffdb7e47553954fcb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALzX///7M\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PullCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 46
+      },
+      "writtenOn": "2010-10-19T06:57:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALzX////E\u003d",
       "revId": "87552081772df98e9899afdffdb7e47553954fcb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
