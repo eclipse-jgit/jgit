@@ -4,7 +4,7 @@
           memory mapped segments if the JVM heap is out of address space.
        -->
      <Match>
-       <Class name="org.eclipse.jgit.lib.PackFile" />
+       <Class name="org.eclipse.jgit.storage.file.PackFile" />
        <Method name="mmap" />
        <Bug pattern="DM_GC" />
      </Match>
@@ -21,7 +21,7 @@
           here with == assuming .equals() style equality.
        -->
      <Match>
-       <Class name="org.eclipse.jgit.lib.util.StringUtils" />
+       <Class name="org.eclipse.jgit.util.StringUtils" />
        <Bug pattern="ES_COMPARING_PARAMETER_STRING_WITH_EQ" />
      </Match>
 </FindBugsFilter>
