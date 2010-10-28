@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALzX///q4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PullCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-10-28T16:16:11Z",
+      "side": 1,
+      "message": "Since we need this twice, maybe we should do:\n\n  final boolean isRemote \u003d !remote.equals(\".\");",
+      "revId": "30c36882887edf44c9824ac5954ab16eb5b35703",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
