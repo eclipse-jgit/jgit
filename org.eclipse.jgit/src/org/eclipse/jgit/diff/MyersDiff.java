@@ -300,7 +300,7 @@ public class MyersDiff<S extends Sequence> {
 
 			final int getIndex(int d, int k) {
 // TODO: remove
-if (((d + k - middleK) % 2) == 1)
+if (((d + k - middleK) % 2) != 0)
 	throw new RuntimeException(MessageFormat.format(JGitText.get().unexpectedOddResult, d, k, middleK));
 				return (d + k - middleK) / 2;
 			}
@@ -472,7 +472,7 @@ if (k < beginK || k > endK)
 				if (k < backward.beginK || k > backward.endK)
 					return false;
 				// TODO: move out of loop
-				if (((d - 1 + k - backward.middleK) % 2) == 1)
+				if (((d - 1 + k - backward.middleK) % 2) != 0)
 					return false;
 				if (x < backward.getX(d - 1, k))
 					return false;
@@ -514,7 +514,7 @@ if (k < beginK || k > endK)
 				if (k < forward.beginK || k > forward.endK)
 					return false;
 				// TODO: move out of loop
-				if (((d + k - forward.middleK) % 2) == 1)
+				if (((d + k - forward.middleK) % 2) != 0)
 					return false;
 				if (x > forward.getX(d, k))
 					return false;
