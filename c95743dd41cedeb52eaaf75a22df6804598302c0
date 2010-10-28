@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALzX///sk\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-10-28T14:21:11Z",
+      "side": 1,
+      "message": "Style-nit: You should add:\n\n  Bug: 328551\n\nto the footer before the Change-Id line.",
+      "revId": "c95743dd41cedeb52eaaf75a22df6804598302c0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALzX///ss\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-10-28T14:21:11Z",
+      "side": 1,
+      "message": "What commit is this?  I can\u0027t find it in the JGit project.",
+      "revId": "c95743dd41cedeb52eaaf75a22df6804598302c0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALzX///so\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-10-28T14:21:11Z",
+      "side": 1,
+      "message": "Style-nit:  I would put a blank line before here to separate the two paragraphs (what the issue is, and then what the fix is).",
+      "revId": "c95743dd41cedeb52eaaf75a22df6804598302c0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
