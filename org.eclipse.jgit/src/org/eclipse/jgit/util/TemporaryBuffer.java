@@ -527,9 +527,9 @@ public abstract class TemporaryBuffer extends OutputStream {
 
 	private class BlockInputStream extends InputStream {
 		private byte[] singleByteBuffer;
-		private int blockIndex;
+		private int blockIndex = 0;
 		private Block block;
-		private int blockPos;
+		private int blockPos = 0;
 
 		BlockInputStream() {
 			block = blocks.get(blockIndex);
