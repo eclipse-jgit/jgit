@@ -24,4 +24,11 @@
        <Class name="org.eclipse.jgit.util.StringUtils" />
        <Bug pattern="ES_COMPARING_PARAMETER_STRING_WITH_EQ" />
      </Match>
+
+     <!-- We want complete control over clone behavior and
+          don't want to use Object's clone implementation.
+       -->
+     <Match>
+       <Bug pattern="CN_IMPLEMENTS_CLONE_BUT_NOT_CLONEABLE" />
+     </Match>
 </FindBugsFilter>
