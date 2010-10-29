@@ -31,4 +31,11 @@
      <Match>
        <Bug pattern="CN_IMPLEMENTS_CLONE_BUT_NOT_CLONEABLE" />
      </Match>
+
+     <!-- blockIndex is initialized to 0 automatically.
+       -->
+     <Match>
+       <Class name="org.eclipse.jgit.util.TemporaryBuffer$BlockInputStream" />
+       <Bug pattern="UR_UNINIT_READ" />
+     </Match>
 </FindBugsFilter>
