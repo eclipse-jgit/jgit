@@ -105,7 +105,7 @@ public class IgnoreRule {
 
 		if (pattern.contains("*") || pattern.contains("?") || pattern.contains("[")) {
 			try {
-				matcher = new FileNameMatcher(pattern, new Character('/'));
+				matcher = new FileNameMatcher(pattern, Character.valueOf('/'));
 			} catch (InvalidPatternException e) {
 				e.printStackTrace();
 			}
