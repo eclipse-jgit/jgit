@@ -599,7 +599,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 					JGitText.get().packObjectCountMismatch, packCnt, idx.getObjectCount(), getPackFile()));
 
 		fd.seek(length - 20);
-		fd.read(buf, 0, 20);
+		fd.readFully(buf, 0, 20);
 		if (!Arrays.equals(buf, packChecksum))
 			throw new PackMismatchException(MessageFormat.format(
 					JGitText.get().packObjectCountMismatch
