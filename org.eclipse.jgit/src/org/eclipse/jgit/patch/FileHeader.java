@@ -148,7 +148,7 @@ public class FileHeader extends DiffEntry {
 		this(headerLines, 0);
 		endOffset = headerLines.length;
 		int ptr = parseGitFileName(Patch.DIFF_GIT.length, headerLines.length);
-		ptr = parseGitHeaders(ptr, headerLines.length);
+		parseGitHeaders(ptr, headerLines.length);
 		this.patchType = type;
 		addHunk(new HunkHeader(this, edits));
 	}
