@@ -85,7 +85,24 @@ public abstract class DiffAlgorithm {
 			SubsequenceComparator<S> cs = new SubsequenceComparator<S>(cmp);
 			Subsequence<S> as = Subsequence.a(a, region);
 			Subsequence<S> bs = Subsequence.b(b, region);
-			return Subsequence.toBase(diffNonCommon(cs, as, bs), as, bs);
+			EditList e = Subsequence.toBase(diffNonCommon(cs, as, bs), as, bs);
+
+			// The last insertion may need to be shifted later if it
+			// inserts elements that were previously reduced out as
+			// common at the end.
+			//
+			Edit last = e.get(e.size() - 1);
+			if (last.getType() == Edit.Type.INSERT) {
+				while (last.endB < b.size()
+						&& cmp.equals(b, last.beginB, b, region.endB)) {
+					last.beginA++;
+					last.endA++;
+					last.beginB++;
+					last.endB++;
+				}
+			}
+
+			return e;
 		}
 
 		case EMPTY:
