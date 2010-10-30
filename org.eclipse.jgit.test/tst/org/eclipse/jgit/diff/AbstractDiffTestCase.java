@@ -166,6 +166,13 @@ public abstract class AbstractDiffTestCase extends TestCase {
 		assertEquals(new Edit(4, 5, 3, 4), r.get(1));
 	}
 
+	public void testEdit_InsertNearCommonTail() {
+		EditList r = diff(t("aq}nb"), t("aCq}nD}nb"));
+		assertEquals(new Edit(1, 1, 1, 2), r.get(0));
+		assertEquals(new Edit(3, 3, 4, 7), r.get(1));
+		assertEquals(2, r.size());
+	}
+
 	public EditList diff(RawText a, RawText b) {
 		return algorithm().diff(RawTextComparator.DEFAULT, a, b);
 	}
