@@ -106,10 +106,10 @@ final class HistogramDiffIndex<S extends Sequence> {
 	private int recCnt;
 
 	/**
-	 * For {@code ptr}, {@code next[ptr - nextShift]} has subsequent index.
+	 * For {@code ptr}, {@code next[ptr - ptrShift]} has subsequent index.
 	 *
 	 * For the sequence element {@code ptr}, the value stored at location
-	 * {@code next[ptr - nextShift]} is the next occurrence of the exact same
+	 * {@code next[ptr - ptrShift]} is the next occurrence of the exact same
 	 * element in the sequence.
 	 *
 	 * Chains always run from the lowest index to the largest index. Therefore
@@ -118,13 +118,25 @@ final class HistogramDiffIndex<S extends Sequence> {
 	 * be a valid next element.
 	 *
 	 * The array is sized to be {@code region.getLengthA()} and element indexes
-	 * are converted to array indexes by subtracting {@link #nextShift}, which
-	 * is just a cached version of {@code region.beginA}.
+	 * are converted to array indexes by subtracting {@link #ptrShift}, which is
+	 * just a cached version of {@code region.beginA}.
 	 */
 	private int[] next;
 
+	/**
+	 * For element {@code ptr} in A, index of the record in {@link #recs} array.
+	 *
+	 * The record at {@code recs[recIdx[ptr - ptrShift]]} is the record
+	 * describing all occurrences of the element appearing in sequence A at
+	 * position {@code ptr}. The record is needed to get the occurrence count of
+	 * the element, or to locate all other occurrences of that element within
+	 * sequence A. This index provides constant-time access to the record, and
+	 * avoids needing to scan the hash chain.
+	 */
+	private int[] recIdx;
+
 	/** Value to subtract from element indexes to key {@link #next} array. */
-	private int nextShift;
+	private int ptrShift;
 
 	private Edit lcs;
 
@@ -148,10 +160,11 @@ final class HistogramDiffIndex<S extends Sequence> {
 		final int tableBits = tableBits(sz);
 		table = new int[1 << tableBits];
 		keyShift = 32 - tableBits;
-		nextShift = r.beginA;
+		ptrShift = r.beginA;
 
 		recs = new long[Math.max(4, sz >>> 3)];
 		next = new int[sz];
+		recIdx = new int[sz];
 	}
 
 	Edit findLongestCommonSequence() {
@@ -187,7 +200,8 @@ final class HistogramDiffIndex<S extends Sequence> {
 					if (MAX_CNT < newCnt)
 						newCnt = MAX_CNT;
 					recs[rIdx] = recCreate(recNext(rec), ptr, newCnt);
-					next[ptr - nextShift] = recPtr(rec);
+					next[ptr - ptrShift] = recPtr(rec);
+					recIdx[ptr - ptrShift] = rIdx;
 					continue SCAN;
 				}
 
@@ -210,6 +224,7 @@ final class HistogramDiffIndex<S extends Sequence> {
 			}
 
 			recs[rIdx] = recCreate(table[tIdx], ptr, 1);
+			recIdx[ptr - ptrShift] = rIdx;
 			table[tIdx] = rIdx;
 		}
 		return true;
@@ -234,25 +249,30 @@ final class HistogramDiffIndex<S extends Sequence> {
 
 			hasCommon = true;
 			TRY_LOCATIONS: for (;;) {
-				int np = next[as - nextShift];
+				int np = next[as - ptrShift];
 				int bs = bPtr;
 				int ae = as + 1;
 				int be = bs + 1;
+				int rc = recCnt(rec);
 
 				while (region.beginA < as && region.beginB < bs
 						&& cmp.equals(a, as - 1, b, bs - 1)) {
 					as--;
 					bs--;
+					if (1 < rc)
+						rc = Math.min(rc, recCnt(recs[recIdx[as - ptrShift]]));
 				}
 				while (ae < region.endA && be < region.endB
 						&& cmp.equals(a, ae, b, be)) {
+					if (1 < rc)
+						rc = Math.min(rc, recCnt(recs[recIdx[ae - ptrShift]]));
 					ae++;
 					be++;
 				}
 
 				if (bNext < be)
 					bNext = be;
-				if (lcs.getLengthA() < ae - as || recCnt(rec) < cnt) {
+				if (lcs.getLengthA() < ae - as || rc < cnt) {
 					// If this region is the longest, or there are less
 					// occurrences of it in A, its now our LCS.
 					//
@@ -260,7 +280,7 @@ final class HistogramDiffIndex<S extends Sequence> {
 					lcs.beginB = bs;
 					lcs.endA = ae;
 					lcs.endB = be;
-					cnt = recCnt(rec);
+					cnt = rc;
 				}
 
 				// Because we added elements in reverse order index 0
@@ -275,7 +295,7 @@ final class HistogramDiffIndex<S extends Sequence> {
 					// The next location to consider was actually within
 					// the LCS we examined above. Don't reconsider it.
 					//
-					np = next[np - nextShift];
+					np = next[np - ptrShift];
 					if (np == 0)
 						break TRY_LOCATIONS;
 				}
