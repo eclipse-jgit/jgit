@@ -117,7 +117,7 @@ final class HistogramDiffIndex<S extends Sequence> {
 	 * This allows a chain to terminate with {@code 0}, as {@code 0} would never
 	 * be a valid next element.
 	 *
-	 * The array is sized to be {@code region.getLenghtA()} and element indexes
+	 * The array is sized to be {@code region.getLengthA()} and element indexes
 	 * are converted to array indexes by subtracting {@link #nextShift}, which
 	 * is just a cached version of {@code region.beginA}.
 	 */
