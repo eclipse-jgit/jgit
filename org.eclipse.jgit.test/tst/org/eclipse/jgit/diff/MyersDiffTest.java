@@ -43,21 +43,9 @@
 
 package org.eclipse.jgit.diff;
 
-import org.eclipse.jgit.diff.DiffPerformanceTest.CharArray;
-import org.eclipse.jgit.diff.DiffPerformanceTest.CharCmp;
-
 public class MyersDiffTest extends AbstractDiffTestCase {
 	@Override
 	protected DiffAlgorithm algorithm() {
 		return MyersDiff.INSTANCE;
-	}
-
-	public void testPerformanceTestDeltaLength() {
-		String a = DiffTestDataGenerator.generateSequence(40000, 971, 3);
-		String b = DiffTestDataGenerator.generateSequence(40000, 1621, 5);
-		CharArray ac = new CharArray(a);
-		CharArray bc = new CharArray(b);
-		EditList r = algorithm().diff(new CharCmp(), ac, bc);
-		assertEquals(131, r.size());
 	}
 }
