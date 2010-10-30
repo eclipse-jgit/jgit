@@ -270,6 +270,19 @@ public class Git {
 	}
 
 	/**
+	 * Returns a command object to execute a {@code checkout} command
+	 *
+	 * @see <a
+	 *      href="http://www.kernel.org/pub/software/scm/git/docs/git-checkout.html"
+	 *      >Git documentation about checkout</a>
+	 * @return a {@link CheckoutCommand} used to collect all optional parameters
+	 *         and to finally execute the {@code checkout} command
+	 */
+	public CheckoutCommand checkout() {
+		return new CheckoutCommand(repo);
+	}
+
+	/**
 	 * @return the git repository this class is interacting with
 	 */
 	public Repository getRepository() {
