@@ -1,0 +1,40 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALzX///kM\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/diff/HistogramDiffTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-11-01T21:09:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALzX///lU\u003d",
+      "revId": "55d78018a96a3082e6e8f9f3ba2133166b33390a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALzX///kI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/HistogramDiffIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-11-01T21:09:33Z",
+      "side": 1,
+      "message": "Comment fixed.",
+      "parentUuid": "AAALzX///lo\u003d",
+      "revId": "55d78018a96a3082e6e8f9f3ba2133166b33390a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
