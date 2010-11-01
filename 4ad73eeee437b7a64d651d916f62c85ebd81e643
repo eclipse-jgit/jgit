@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALzX///nw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/TemporaryBuffer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 530,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-10-29T14:43:05Z",
+      "side": 1,
+      "message": "This is stupid.  The code analyzer is wrong.\n\nThese variables are required to be initialized to 0 by the JRE.  We don\u0027t initialize them ourselves.",
+      "revId": "4ad73eeee437b7a64d651d916f62c85ebd81e643",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
