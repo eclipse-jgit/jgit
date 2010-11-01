@@ -16,6 +16,24 @@
       "revId": "4ad73eeee437b7a64d651d916f62c85ebd81e643",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALzX///mA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/TemporaryBuffer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 530,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-10-30T00:07:45Z",
+      "side": 1,
+      "message": "you may silence the erring analyzer by adding another filter to the exclude filters",
+      "parentUuid": "AAALzX///nw\u003d",
+      "revId": "4ad73eeee437b7a64d651d916f62c85ebd81e643",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
