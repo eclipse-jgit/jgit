@@ -34,6 +34,24 @@
       "revId": "4ad73eeee437b7a64d651d916f62c85ebd81e643",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALzX///ko\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/TemporaryBuffer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 530,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2010-10-31T16:32:07Z",
+      "side": 1,
+      "message": "I just thought \"explicit is better than implicit\". No problem, I\u0027ll silence it.",
+      "parentUuid": "AAALzX///nw\u003d",
+      "revId": "4ad73eeee437b7a64d651d916f62c85ebd81e643",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
