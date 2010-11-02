@@ -223,6 +223,23 @@ public abstract class FileMode {
 	}
 
 	/**
+	 * Copy this mode as a sequence of octal US-ASCII bytes.
+	 *
+	 * The mode is copied as a sequence of octal digits using the US-ASCII
+	 * character encoding. The sequence does not use a leading '0' prefix to
+	 * indicate octal notation. This method is suitable for generation of a mode
+	 * string within a GIT tree object.
+	 *
+	 * @param buf
+	 *            buffer to copy the mode to.
+	 * @param ptr
+	 *            position within {@code buf} for first digit.
+	 */
+	public void copyTo(byte[] buf, int ptr) {
+		System.arraycopy(octalBytes, 0, buf, ptr, octalBytes.length);
+	}
+
+	/**
 	 * @return the number of bytes written by {@link #copyTo(OutputStream)}.
 	 */
 	public int copyToLength() {
