@@ -45,7 +45,6 @@
 
 package org.eclipse.jgit.lib;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.text.MessageFormat;
 
@@ -614,20 +613,16 @@ public class Tree extends TreeEntry implements Treeish {
 	 *             the tree cannot be loaded, or its not in a writable state.
 	 */
 	public byte[] format() throws IOException {
-		ByteArrayOutputStream o = new ByteArrayOutputStream();
+		TreeFormatter fmt = new TreeFormatter();
 		for (TreeEntry e : members()) {
 			ObjectId id = e.getId();
 			if (id == null)
 				throw new ObjectWritingException(MessageFormat.format(JGitText
 						.get().objectAtPathDoesNotHaveId, e.getFullName()));
 
-			e.getMode().copyTo(o);
-			o.write(' ');
-			o.write(e.getNameUTF8());
-			o.write(0);
-			id.copyRawTo(o);
+			fmt.append(e.getNameUTF8(), e.getMode(), id);
 		}
-		return o.toByteArray();
+		return fmt.toByteArray();
 	}
 
 	public String toString() {
