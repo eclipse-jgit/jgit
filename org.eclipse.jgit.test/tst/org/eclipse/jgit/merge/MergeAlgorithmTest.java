@@ -107,7 +107,7 @@ public class MergeAlgorithmTest extends TestCase {
 	 * @throws IOException
 	 */
 	public void testTwoComplicatedModifications() throws IOException {
-		assertEquals(t("a<ZZZZfZh=bYdYYYY>ZY"),
+		assertEquals(t("a<ZZZZfZhZj=bYdYYYYiY>"),
 				merge("abcdefghij", "aZZZZfZhZj", "abYdYYYYiY"));
 	}
 
@@ -151,6 +151,18 @@ public class MergeAlgorithmTest extends TestCase {
 	public void testDeleteVsModify() throws IOException {
 		assertEquals(t("ab<=Z>defghij"),
 				merge("abcdefghij", "abdefghij", "abZdefghij"));
+	}
+
+	public void testInsertVsModify() throws IOException {
+		assertEquals(t("a<bZ=XY>"), merge("ab", "abZ", "aXY"));
+	}
+
+	public void testAdjacentModifications() throws IOException {
+		assertEquals(t("a<Zc=bY>d"), merge("abcd", "aZcd", "abYd"));
+	}
+
+	public void testSeperateModifications() throws IOException {
+		assertEquals(t("aZcYe"), merge("abcde", "aZcde", "abcYe"));
 	}
 
 	private String merge(String commonBase, String ours, String theirs) throws IOException {
