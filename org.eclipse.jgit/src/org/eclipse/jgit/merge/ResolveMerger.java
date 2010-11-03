@@ -93,7 +93,9 @@ public class ResolveMerger extends ThreeWayMerger {
 		/** the merge failed because of a dirty index */
 		DIRTY_INDEX,
 		/** the merge failed because of a dirty workingtree */
-		DIRTY_WORKTREE
+		DIRTY_WORKTREE,
+		/** the merge failed because of a file could not be deleted */
+		COULD_NOT_DELETE
 	}
 
 	private NameConflictTreeWalk tw;
@@ -229,10 +231,16 @@ public class ResolveMerger extends ThreeWayMerger {
 	private void checkout() throws NoWorkTreeException, IOException {
 		for (Map.Entry<String, DirCacheEntry> entry : toBeCheckedOut.entrySet()) {
 			File f = new File(db.getWorkTree(), entry.getKey());
-			createDir(f.getParentFile());
-			DirCacheCheckout.checkoutEntry(db,
-					f,
-					entry.getValue(), true);
+			if (entry.getValue() != null) {
+				createDir(f.getParentFile());
+				DirCacheCheckout.checkoutEntry(db,
+						f,
+						entry.getValue(), true);
+			} else {
+				if (!f.delete())
+					failingPathes.put(entry.getKey(),
+							MergeFailureReason.COULD_NOT_DELETE);
+			}
 			modifiedFiles.add(entry.getKey());
 		}
 	}
@@ -373,13 +381,21 @@ public class ResolveMerger extends ThreeWayMerger {
 			return true;
 		}
 
-		if (nonTree(modeT) && modeB == modeO && tw.idEqual(T_BASE, T_OURS)) {
+		if (modeB == modeO && tw.idEqual(T_BASE, T_OURS)) {
 			// OURS was not changed compared to base. All changes must be in
 			// THEIRS. Choose THEIRS.
-			DirCacheEntry e=add(tw.getRawPath(), theirs, DirCacheEntry.STAGE_0);
-			if (e!=null)
-				toBeCheckedOut.put(tw.getPathString(), e);
-			return true;
+			if (nonTree(modeT)) {
+				DirCacheEntry e = add(tw.getRawPath(), theirs,
+						DirCacheEntry.STAGE_0);
+				if (e != null)
+					toBeCheckedOut.put(tw.getPathString(), e);
+				return true;
+			} else if (modeT == 0) {
+				// we want THEIRS ... but THEIRS contains the deletion of the
+				// file
+				toBeCheckedOut.put(tw.getPathString(), null);
+				return true;
+			}
 		}
 
 		if (tw.isSubtree()) {
