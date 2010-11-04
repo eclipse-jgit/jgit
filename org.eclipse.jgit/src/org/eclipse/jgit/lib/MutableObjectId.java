@@ -74,6 +74,60 @@ public class MutableObjectId extends AnyObjectId {
 		fromObjectId(src);
 	}
 
+	/**
+	 * Set any byte in the id.
+	 *
+	 * @param index
+	 *            index of the byte to set in the raw form of the ObjectId. Must
+	 *            be in range [0, {@link Constants#OBJECT_ID_LENGTH}).
+	 * @param value
+	 *            the value of the specified byte at {@code index}. Values are
+	 *            unsigned and thus are in the range [0,255] rather than the
+	 *            signed byte range of [-128, 127].
+	 * @throws ArrayIndexOutOfBoundsException
+	 *             {@code index} is less than 0, equal to
+	 *             {@link Constants#OBJECT_ID_LENGTH}, or greater than
+	 *             {@link Constants#OBJECT_ID_LENGTH}.
+	 */
+	public void setByte(int index, int value) {
+		switch (index >> 2) {
+		case 0:
+			w1 = set(w1, index & 3, value);
+			break;
+		case 1:
+			w2 = set(w2, index & 3, value);
+			break;
+		case 2:
+			w3 = set(w3, index & 3, value);
+			break;
+		case 3:
+			w4 = set(w4, index & 3, value);
+			break;
+		case 4:
+			w5 = set(w5, index & 3, value);
+			break;
+		default:
+			throw new ArrayIndexOutOfBoundsException(index);
+		}
+	}
+
+	private static int set(int w, int index, int value) {
+		value &= 0xff;
+
+		switch (index) {
+		case 0:
+			return (w & 0x00ffffff) | (value << 24);
+		case 1:
+			return (w & 0xff00ffff) | (value << 16);
+		case 2:
+			return (w & 0xffff00ff) | (value << 8);
+		case 3:
+			return (w & 0xffffff00) | value;
+		default:
+			throw new ArrayIndexOutOfBoundsException();
+		}
+	}
+
 	/** Make this id match {@link ObjectId#zeroId()}. */
 	public void clear() {
 		w1 = 0;
