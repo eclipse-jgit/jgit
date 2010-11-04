@@ -122,4 +122,33 @@ public class ObjectIdTest extends TestCase {
 		for (int i = 2; i < 20; i++)
 			assertEquals("index " + i, raw[i] & 0xff, id.getByte(i));
 	}
+
+	public void testSetByte() {
+		byte[] exp = new byte[20];
+		for (int i = 0; i < 20; i++)
+			exp[i] = (byte) (0xa0 + i);
+
+		MutableObjectId id = new MutableObjectId();
+		id.fromRaw(exp);
+		assertEquals(ObjectId.fromRaw(exp).name(), id.name());
+
+		id.setByte(0, 0x10);
+		assertEquals(0x10, id.getByte(0));
+		exp[0] = 0x10;
+		assertEquals(ObjectId.fromRaw(exp).name(), id.name());
+
+		for (int p = 1; p < 20; p++) {
+			id.setByte(p, 0x10 + p);
+			assertEquals(0x10 + p, id.getByte(p));
+			exp[p] = (byte) (0x10 + p);
+			assertEquals(ObjectId.fromRaw(exp).name(), id.name());
+		}
+
+		for (int p = 0; p < 20; p++) {
+			id.setByte(p, 0x80 + p);
+			assertEquals(0x80 + p, id.getByte(p));
+			exp[p] = (byte) (0x80 + p);
+			assertEquals(ObjectId.fromRaw(exp).name(), id.name());
+		}
+	}
 }
