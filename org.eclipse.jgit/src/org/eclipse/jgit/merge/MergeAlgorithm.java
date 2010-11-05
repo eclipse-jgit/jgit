@@ -103,7 +103,7 @@ public final class MergeAlgorithm {
 		// leave the loop when there are no edits more for ours or for theirs
 		// (or both)
 		while (theirsEdit != END_EDIT || oursEdit != END_EDIT) {
-			if (oursEdit.getEndA() <= theirsEdit.getBeginA()) {
+			if (oursEdit.getEndA() < theirsEdit.getBeginA()) {
 				// something was changed in ours not overlapping with any change
 				// from theirs. First add the common part in front of the edit
 				// then the edit.
@@ -115,7 +115,7 @@ public final class MergeAlgorithm {
 						ConflictState.NO_CONFLICT);
 				current = oursEdit.getEndA();
 				oursEdit = nextEdit(baseToOurs);
-			} else if (theirsEdit.getEndA() <= oursEdit.getBeginA()) {
+			} else if (theirsEdit.getEndA() < oursEdit.getBeginA()) {
 				// something was changed in theirs not overlapping with any
 				// from ours. First add the common part in front of the edit
 				// then the edit.
@@ -179,10 +179,10 @@ public final class MergeAlgorithm {
 				Edit nextOursEdit = nextEdit(baseToOurs);
 				Edit nextTheirsEdit = nextEdit(baseToTheirs);
 				for (;;) {
-					if (oursEdit.getEndA() > nextTheirsEdit.getBeginA()) {
+					if (oursEdit.getEndA() >= nextTheirsEdit.getBeginA()) {
 						theirsEdit = nextTheirsEdit;
 						nextTheirsEdit = nextEdit(baseToTheirs);
-					} else if (theirsEdit.getEndA() > nextOursEdit.getBeginA()) {
+					} else if (theirsEdit.getEndA() >= nextOursEdit.getBeginA()) {
 						oursEdit = nextOursEdit;
 						nextOursEdit = nextEdit(baseToOurs);
 					} else {
