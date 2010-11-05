@@ -184,6 +184,17 @@ public class TestRepository<R extends Repository> {
 	}
 
 	/**
+	 * Set the author and committer using {@link #getClock()}.
+	 *
+	 * @param c
+	 *            the commit builder to store.
+	 */
+	public void setAuthorAndCommitter(org.eclipse.jgit.lib.CommitBuilder c) {
+		c.setAuthor(new PersonIdent(author, new Date(now)));
+		c.setCommitter(new PersonIdent(committer, new Date(now)));
+	}
+
+	/**
 	 * Create a new blob object in the repository.
 	 *
 	 * @param content
@@ -815,8 +826,7 @@ public class TestRepository<R extends Repository> {
 
 				c = new org.eclipse.jgit.lib.CommitBuilder();
 				c.setParentIds(parents);
-				c.setAuthor(new PersonIdent(author, new Date(now)));
-				c.setCommitter(new PersonIdent(committer, new Date(now)));
+				setAuthorAndCommitter(c);
 				c.setMessage(message);
 
 				ObjectId commitId;
