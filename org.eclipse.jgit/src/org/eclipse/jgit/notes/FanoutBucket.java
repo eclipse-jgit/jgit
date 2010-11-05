@@ -43,12 +43,16 @@
 
 package org.eclipse.jgit.notes;
 
+import static org.eclipse.jgit.lib.FileMode.TREE;
+
 import java.io.IOException;
 
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.lib.TreeFormatter;
 
 /**
  * A note tree holding only note subtrees, each named using a 2 digit hex name.
@@ -136,6 +140,43 @@ class FanoutBucket extends InMemoryNoteBucket {
 		}
 	}
 
+	private static final byte[] hexchar = { '0', '1', '2', '3', '4', '5', '6',
+			'7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
+
+	@Override
+	ObjectId writeTree(ObjectInserter inserter) throws IOException {
+		byte[] nameBuf = new byte[2];
+		TreeFormatter fmt = new TreeFormatter(treeSize());
+		NonNoteEntry e = nonNotes;
+
+		for (int cell = 0; cell < 256; cell++) {
+			NoteBucket b = table[cell];
+			if (b == null)
+				continue;
+
+			nameBuf[0] = hexchar[cell >>> 4];
+			nameBuf[1] = hexchar[cell & 0x0f];
+
+			while (e != null && e.pathCompare(nameBuf, 0, 2, TREE) < 0) {
+				e.format(fmt);
+				e = e.next;
+			}
+
+			fmt.append(nameBuf, 0, 2, TREE, b.writeTree(inserter));
+		}
+
+		for (; e != null; e = e.next)
+			e.format(fmt);
+		return fmt.insert(inserter);
+	}
+
+	private int treeSize() {
+		int sz = cnt * TreeFormatter.entrySize(TREE, 2);
+		for (NonNoteEntry e = nonNotes; e != null; e = e.next)
+			sz += e.treeEntrySize();
+		return sz;
+	}
+
 	private int cell(AnyObjectId id) {
 		return id.getByte(prefixLen >> 1);
 	}
@@ -156,6 +197,11 @@ class FanoutBucket extends InMemoryNoteBucket {
 		InMemoryNoteBucket set(AnyObjectId noteOn, AnyObjectId noteData,
 				ObjectReader or) throws IOException {
 			return load(noteOn, or).set(noteOn, noteData, or);
+		}
+
+		@Override
+		ObjectId writeTree(ObjectInserter inserter) {
+			return treeId;
 		}
 
 		private NoteBucket load(AnyObjectId objId, ObjectReader or)
