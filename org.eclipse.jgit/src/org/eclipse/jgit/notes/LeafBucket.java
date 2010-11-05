@@ -47,6 +47,8 @@ import static org.eclipse.jgit.lib.Constants.OBJECT_ID_STRING_LENGTH;
 import static org.eclipse.jgit.lib.FileMode.REGULAR_FILE;
 
 import java.io.IOException;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectId;
@@ -101,6 +103,28 @@ class LeafBucket extends InMemoryNoteBucket {
 	ObjectId get(AnyObjectId objId, ObjectReader or) {
 		int idx = search(objId);
 		return 0 <= idx ? notes[idx].getData() : null;
+	}
+
+	@Override
+	Iterator<Note> iterator(AnyObjectId objId, ObjectReader reader) {
+		return new Iterator<Note>() {
+			private int idx;
+
+			public boolean hasNext() {
+				return idx < cnt;
+			}
+
+			public Note next() {
+				if (hasNext())
+					return notes[idx++];
+				else
+					throw new NoSuchElementException();
+			}
+
+			public void remove() {
+				throw new UnsupportedOperationException();
+			}
+		};
 	}
 
 	InMemoryNoteBucket set(AnyObjectId noteOn, AnyObjectId noteData,
