@@ -84,6 +84,9 @@ class FanoutBucket extends InMemoryNoteBucket {
 	 */
 	private final NoteBucket[] table;
 
+	/** Number of non-null slots in {@link #table}. */
+	private int cnt;
+
 	FanoutBucket(int prefixLen) {
 		super(prefixLen);
 		table = new NoteBucket[256];
@@ -91,12 +94,46 @@ class FanoutBucket extends InMemoryNoteBucket {
 
 	void parseOneEntry(int cell, ObjectId id) {
 		table[cell] = new LazyNoteBucket(id);
+		cnt++;
 	}
 
 	@Override
 	ObjectId get(AnyObjectId objId, ObjectReader or) throws IOException {
 		NoteBucket b = table[cell(objId)];
 		return b != null ? b.get(objId, or) : null;
+	}
+
+	@Override
+	InMemoryNoteBucket set(AnyObjectId noteOn, AnyObjectId noteData,
+			ObjectReader or) throws IOException {
+		int cell = cell(noteOn);
+		NoteBucket b = table[cell];
+
+		if (b == null) {
+			if (noteData == null)
+				return this;
+
+			LeafBucket n = new LeafBucket(prefixLen + 2);
+			table[cell] = n.set(noteOn, noteData, or);
+			cnt++;
+			return this;
+
+		} else {
+			NoteBucket n = b.set(noteOn, noteData, or);
+			if (n == null) {
+				table[cell] = null;
+				cnt--;
+
+				if (cnt == 0)
+					return null;
+
+				return this;
+
+			} else if (n != b) {
+				table[cell] = n;
+			}
+			return this;
+		}
 	}
 
 	private int cell(AnyObjectId id) {
@@ -113,6 +150,12 @@ class FanoutBucket extends InMemoryNoteBucket {
 		@Override
 		ObjectId get(AnyObjectId objId, ObjectReader or) throws IOException {
 			return load(objId, or).get(objId, or);
+		}
+
+		@Override
+		InMemoryNoteBucket set(AnyObjectId noteOn, AnyObjectId noteData,
+				ObjectReader or) throws IOException {
+			return load(noteOn, or).set(noteOn, noteData, or);
 		}
 
 		private NoteBucket load(AnyObjectId objId, ObjectReader or)
