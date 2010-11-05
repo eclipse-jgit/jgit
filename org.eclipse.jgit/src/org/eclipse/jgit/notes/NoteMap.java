@@ -49,26 +49,20 @@ import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.AnyObjectId;
-import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.ObjectIdSubclassMap;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevTree;
-import org.eclipse.jgit.treewalk.TreeWalk;
-import org.eclipse.jgit.util.RawParseUtils;
 
 /**
  * Index of notes from a note branch.
  *
  * This class is not thread-safe, and relies on an {@link ObjectReader} that it
- * borrows/shares with the caller.
- *
- * The current implementation is not very efficient. During load it recursively
- * scans the entire note branch and indexes all annotated objects. If there are
- * more than 256 notes in the branch, and not all of them will be accessed by
- * the caller, this aggressive up-front loading probably takes too much time.
+ * borrows/shares with the caller. The reader can be used during any call, and
+ * is not released by this class. The caller should arrange for releasing the
+ * shared {@code ObjectReader} at the proper times.
  */
 public class NoteMap {
 	/**
@@ -152,7 +146,7 @@ public class NoteMap {
 	private final ObjectReader reader;
 
 	/** All of the notes that have been loaded. */
-	private ObjectIdSubclassMap<Note> notes = new ObjectIdSubclassMap<Note>();
+	private InMemoryNoteBucket root;
 
 	private NoteMap(ObjectReader reader) {
 		this.reader = reader;
@@ -164,10 +158,11 @@ public class NoteMap {
 	 * @param id
 	 *            the object to look for.
 	 * @return the note's blob ObjectId, or null if no note exists.
+	 * @throws IOException
+	 *             a portion of the note space is not accessible.
 	 */
-	public ObjectId get(AnyObjectId id) {
-		Note note = notes.get(id);
-		return note != null ? note.getData() : null;
+	public ObjectId get(AnyObjectId id) throws IOException {
+		return root.get(id, reader);
 	}
 
 	/**
@@ -176,8 +171,10 @@ public class NoteMap {
 	 * @param id
 	 *            the object to look for.
 	 * @return true if a note exists; false if there is no note.
+	 * @throws IOException
+	 *             a portion of the note space is not accessible.
 	 */
-	public boolean contains(AnyObjectId id) {
+	public boolean contains(AnyObjectId id) throws IOException {
 		return get(id) != null;
 	}
 
@@ -216,60 +213,9 @@ public class NoteMap {
 			return null;
 	}
 
-	private void load(ObjectId treeId) throws MissingObjectException,
+	private void load(ObjectId rootTree) throws MissingObjectException,
 			IncorrectObjectTypeException, CorruptObjectException, IOException {
-		try {
-			byte[] idBuf = new byte[Constants.OBJECT_ID_LENGTH];
-			TreeWalk tw = new TreeWalk(reader);
-			tw.reset();
-			tw.setRecursive(true);
-			tw.addTree(treeId);
-
-			notes.clear();
-
-			while (tw.next()) {
-				ObjectId pathId = pathToId(idBuf, tw.getRawPath());
-				if (pathId != null)
-					notes.add(new Note(pathId, tw.getObjectId(0)));
-			}
-		} finally {
-			reader.release();
-		}
-	}
-
-	private static ObjectId pathToId(byte[] rawIdBuf, byte[] path) {
-		int r = 0;
-
-		for (int i = 0; i < path.length; i++) {
-			byte c = path[i];
-
-			// Skip embedded '/' in paths, these aren't part of a name.
-			if (c == '/')
-				continue;
-
-			// We need at least 2 digits to consume in this cycle.
-			if (path.length < i + 2)
-				return null;
-
-			// We cannot exceed an ObjectId raw length.
-			if (r == Constants.OBJECT_ID_STRING_LENGTH)
-				return null;
-
-			int high, low;
-			try {
-				high = RawParseUtils.parseHexInt4(c);
-				low = RawParseUtils.parseHexInt4(path[++i]);
-			} catch (ArrayIndexOutOfBoundsException notHex) {
-				return null;
-			}
-
-			rawIdBuf[r++] = (byte) ((high << 4) | low);
-		}
-
-		// We need exactly the right number of input bytes.
-		if (r == Constants.OBJECT_ID_LENGTH)
-			return ObjectId.fromRaw(rawIdBuf);
-		else
-			return null;
+		AbbreviatedObjectId none = AbbreviatedObjectId.fromString("");
+		root = NoteParser.parse(none, rootTree, reader);
 	}
 }
