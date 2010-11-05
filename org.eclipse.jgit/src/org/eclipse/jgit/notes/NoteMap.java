@@ -309,6 +309,21 @@ public class NoteMap {
 		set(noteOn, null);
 	}
 
+	/**
+	 * Write this note map as a tree.
+	 *
+	 * @param inserter
+	 *            inserter to use when writing trees to the object database.
+	 *            Caller is responsible for flushing the inserter before trying
+	 *            to read the objects, or exposing them through a reference.
+	 * @return the top level tree.
+	 * @throws IOException
+	 *             a tree could not be written.
+	 */
+	public ObjectId writeTree(ObjectInserter inserter) throws IOException {
+		return root.writeTree(inserter);
+	}
+
 	private void load(ObjectId rootTree) throws MissingObjectException,
 			IncorrectObjectTypeException, CorruptObjectException, IOException {
 		AbbreviatedObjectId none = AbbreviatedObjectId.fromString("");
