@@ -64,6 +64,9 @@ abstract class NoteBucket {
 	abstract Iterator<Note> iterator(AnyObjectId objId, ObjectReader reader)
 			throws IOException;
 
+	abstract int estimateSize(AnyObjectId noteOn, ObjectReader or)
+			throws IOException;
+
 	abstract InMemoryNoteBucket set(AnyObjectId noteOn, AnyObjectId noteData,
 			ObjectReader reader) throws IOException;
 
