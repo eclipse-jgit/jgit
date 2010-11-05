@@ -2,6 +2,7 @@
  * Copyright (C) 2009, Constantine Plotnikov <constantine.plotnikov@gmail.com>
  * Copyright (C) 2008, Google Inc.
  * Copyright (C) 2010, Robin Rosenberg <robin.rosenberg@dewire.com>
+ * Copyright (C) 2010, Sasa Zivkov <sasa.zivkov@sap.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -66,6 +67,8 @@ class Init extends TextBuiltin {
 	protected void run() throws Exception {
 		if (gitdir == null)
 			gitdir = new File(bare ? "." : Constants.DOT_GIT);
+		else
+			bare = true;
 		db = new FileRepository(gitdir);
 		db.create(bare);
 		out.println(MessageFormat.format(CLIText.get().initializedEmptyGitRepositoryIn, gitdir.getAbsolutePath()));
