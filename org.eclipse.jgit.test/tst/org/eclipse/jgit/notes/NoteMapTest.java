@@ -44,6 +44,8 @@
 package org.eclipse.jgit.notes;
 
 import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.MutableObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryTestCase;
@@ -56,17 +58,21 @@ public class NoteMapTest extends RepositoryTestCase {
 
 	private ObjectReader reader;
 
+	private ObjectInserter inserter;
+
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 
 		tr = new TestRepository<Repository>(db);
 		reader = db.newObjectReader();
+		inserter = db.newObjectInserter();
 	}
 
 	@Override
 	protected void tearDown() throws Exception {
 		reader.release();
+		inserter.release();
 		super.tearDown();
 	}
 
@@ -180,6 +186,99 @@ public class NoteMapTest extends RepositoryTestCase {
 		byte[] act = map.getCachedBytes(a, exp.length() * 4);
 		assertNotNull("has data for a", act);
 		assertEquals(exp, RawParseUtils.decode(act));
+	}
+
+	public void testCreateFromEmpty() throws Exception {
+		RevBlob a = tr.blob("a");
+		RevBlob b = tr.blob("b");
+		RevBlob data1 = tr.blob("data1");
+		RevBlob data2 = tr.blob("data2");
+
+		NoteMap map = NoteMap.newEmptyMap();
+		assertFalse("no a", map.contains(a));
+		assertFalse("no b", map.contains(b));
+
+		map.set(a, data1);
+		map.set(b, data2);
+
+		assertEquals(data1, map.get(a));
+		assertEquals(data2, map.get(b));
+
+		map.remove(a);
+		map.remove(b);
+
+		assertFalse("no a", map.contains(a));
+		assertFalse("no b", map.contains(b));
+
+		map.set(a, "data1", inserter);
+		assertEquals(data1, map.get(a));
+
+		map.set(a, null, inserter);
+		assertFalse("no a", map.contains(a));
+	}
+
+	public void testEditFlat() throws Exception {
+		RevBlob a = tr.blob("a");
+		RevBlob b = tr.blob("b");
+		RevBlob data1 = tr.blob("data1");
+		RevBlob data2 = tr.blob("data2");
+
+		RevCommit r = tr.commit() //
+				.add(a.name(), data1) //
+				.add(b.name(), data2) //
+				.create();
+		tr.parseBody(r);
+
+		NoteMap map = NoteMap.read(reader, r);
+		map.set(a, data2);
+		map.set(b, null);
+		map.set(data1, b);
+		map.set(data2, null);
+
+		assertEquals(data2, map.get(a));
+		assertEquals(b, map.get(data1));
+		assertFalse("no b", map.contains(b));
+		assertFalse("no data2", map.contains(data2));
+
+		MutableObjectId id = new MutableObjectId();
+		for (int p = 42; p > 0; p--) {
+			id.setByte(1, p);
+			map.set(id, data1);
+		}
+
+		for (int p = 42; p > 0; p--) {
+			id.setByte(1, p);
+			assertTrue("contains " + id, map.contains(id));
+		}
+	}
+
+	public void testEditFanout2_38() throws Exception {
+		RevBlob a = tr.blob("a");
+		RevBlob b = tr.blob("b");
+		RevBlob data1 = tr.blob("data1");
+		RevBlob data2 = tr.blob("data2");
+
+		RevCommit r = tr.commit() //
+				.add(fanout(2, a.name()), data1) //
+				.add(fanout(2, b.name()), data2) //
+				.create();
+		tr.parseBody(r);
+
+		NoteMap map = NoteMap.read(reader, r);
+		map.set(a, data2);
+		map.set(b, null);
+		map.set(data1, b);
+		map.set(data2, null);
+
+		assertEquals(data2, map.get(a));
+		assertEquals(b, map.get(data1));
+		assertFalse("no b", map.contains(b));
+		assertFalse("no data2", map.contains(data2));
+
+		map.set(a, null);
+		map.set(data1, null);
+		assertFalse("no a", map.contains(a));
+		assertFalse("no data1", map.contains(data1));
 	}
 
 	private static String fanout(int prefix, String name) {
