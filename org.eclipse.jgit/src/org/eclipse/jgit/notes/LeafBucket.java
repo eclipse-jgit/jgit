@@ -43,11 +43,16 @@
 
 package org.eclipse.jgit.notes;
 
+import static org.eclipse.jgit.lib.Constants.OBJECT_ID_STRING_LENGTH;
+import static org.eclipse.jgit.lib.FileMode.REGULAR_FILE;
+
 import java.io.IOException;
 
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.lib.TreeFormatter;
 
 /**
  * A note tree holding only notes, with no subtrees.
@@ -124,6 +129,39 @@ class LeafBucket extends InMemoryNoteBucket {
 		} else {
 			return this;
 		}
+	}
+
+	@Override
+	ObjectId writeTree(ObjectInserter inserter) throws IOException {
+		byte[] nameBuf = new byte[OBJECT_ID_STRING_LENGTH];
+		int nameLen = OBJECT_ID_STRING_LENGTH - prefixLen;
+		TreeFormatter fmt = new TreeFormatter(treeSize(nameLen));
+		NonNoteEntry e = nonNotes;
+
+		for (int i = 0; i < cnt; i++) {
+			Note n = notes[i];
+
+			n.copyTo(nameBuf, 0);
+
+			while (e != null
+					&& e.pathCompare(nameBuf, prefixLen, nameLen, REGULAR_FILE) < 0) {
+				e.format(fmt);
+				e = e.next;
+			}
+
+			fmt.append(nameBuf, prefixLen, nameLen, REGULAR_FILE, n.getData());
+		}
+
+		for (; e != null; e = e.next)
+			e.format(fmt);
+		return fmt.insert(inserter);
+	}
+
+	private int treeSize(final int nameLen) {
+		int sz = cnt * TreeFormatter.entrySize(REGULAR_FILE, nameLen);
+		for (NonNoteEntry e = nonNotes; e != null; e = e.next)
+			sz += e.treeEntrySize();
+		return sz;
 	}
 
 	void parseOneEntry(AnyObjectId noteOn, AnyObjectId noteData) {
