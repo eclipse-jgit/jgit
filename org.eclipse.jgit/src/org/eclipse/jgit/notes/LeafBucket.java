@@ -73,6 +73,8 @@ import org.eclipse.jgit.lib.TreeFormatter;
  * A LeafBucket must be parsed from a tree object by {@link NoteParser}.
  */
 class LeafBucket extends InMemoryNoteBucket {
+	static final int MAX_SIZE = 256;
+
 	/** All note blobs in this bucket, sorted sequentially. */
 	private Note[] notes;
 
@@ -142,13 +144,18 @@ class LeafBucket extends InMemoryNoteBucket {
 			}
 
 		} else if (noteData != null) {
-			growIfFull();
-			p = -(p + 1);
-			if (p < cnt)
-				System.arraycopy(notes, p, notes, p + 1, cnt - p);
-			notes[p] = new Note(noteOn, noteData.copy());
-			cnt++;
-			return this;
+			if (shouldSplit()) {
+				return split().set(noteOn, noteData, or);
+
+			} else {
+				growIfFull();
+				p = -(p + 1);
+				if (p < cnt)
+					System.arraycopy(notes, p, notes, p + 1, cnt - p);
+				notes[p] = new Note(noteOn, noteData.copy());
+				cnt++;
+				return this;
+			}
 
 		} else {
 			return this;
@@ -193,11 +200,35 @@ class LeafBucket extends InMemoryNoteBucket {
 		notes[cnt++] = new Note(noteOn, noteData.copy());
 	}
 
+	@Override
+	InMemoryNoteBucket append(Note note) {
+		if (shouldSplit()) {
+			return split().append(note);
+
+		} else {
+			growIfFull();
+			notes[cnt++] = note;
+			return this;
+		}
+	}
+
 	private void growIfFull() {
 		if (notes.length == cnt) {
 			Note[] n = new Note[notes.length * 2];
 			System.arraycopy(notes, 0, n, 0, cnt);
 			notes = n;
 		}
+	}
+
+	private boolean shouldSplit() {
+		return MAX_SIZE <= cnt && prefixLen + 2 < OBJECT_ID_STRING_LENGTH;
+	}
+
+	private InMemoryNoteBucket split() {
+		FanoutBucket n = new FanoutBucket(prefixLen);
+		for (int i = 0; i < cnt; i++)
+			n.append(notes[i]);
+		n.nonNotes = nonNotes;
+		return n;
 	}
 }

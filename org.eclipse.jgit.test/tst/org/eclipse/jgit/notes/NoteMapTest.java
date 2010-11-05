@@ -47,6 +47,7 @@ import java.io.IOException;
 
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.CommitBuilder;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.MutableObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
@@ -359,6 +360,46 @@ public class NoteMapTest extends RepositoryTestCase {
 		assertFalse("no data2", map.contains(data2));
 		assertEquals(b, TreeWalk
 				.forPath(reader, "zoo-animals.txt", n.getTree()).getObjectId(0));
+	}
+
+	public void testLeafSplitsWhenFull() throws Exception {
+		RevBlob data1 = tr.blob("data1");
+		MutableObjectId idBuf = new MutableObjectId();
+
+		RevCommit r = tr.commit() //
+				.add(data1.name(), data1) //
+				.create();
+		tr.parseBody(r);
+
+		NoteMap map = NoteMap.read(reader, r);
+		for (int i = 0; i < 254; i++) {
+			idBuf.setByte(Constants.OBJECT_ID_LENGTH - 1, i);
+			map.set(idBuf, data1);
+		}
+
+		RevCommit n = commitNoteMap(map);
+		TreeWalk tw = new TreeWalk(reader);
+		tw.reset(n.getTree());
+		while (tw.next())
+			assertFalse("no fan-out subtree", tw.isSubtree());
+
+		for (int i = 254; i < 256; i++) {
+			idBuf.setByte(Constants.OBJECT_ID_LENGTH - 1, i);
+			map.set(idBuf, data1);
+		}
+		idBuf.setByte(Constants.OBJECT_ID_LENGTH - 2, 1);
+		map.set(idBuf, data1);
+		n = commitNoteMap(map);
+
+		// The 00 bucket is fully split.
+		String path = fanout(38, idBuf.name());
+		tw = TreeWalk.forPath(reader, path, n.getTree());
+		assertNotNull("has " + path, tw);
+
+		// The other bucket is not.
+		path = fanout(2, data1.name());
+		tw = TreeWalk.forPath(reader, path, n.getTree());
+		assertNotNull("has " + path, tw);
 	}
 
 	public void testRemoveDeletesTreeFanout2_38() throws Exception {
