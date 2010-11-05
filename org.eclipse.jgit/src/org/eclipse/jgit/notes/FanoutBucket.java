@@ -46,9 +46,12 @@ package org.eclipse.jgit.notes;
 import static org.eclipse.jgit.lib.FileMode.TREE;
 
 import java.io.IOException;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.MutableObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
@@ -105,6 +108,54 @@ class FanoutBucket extends InMemoryNoteBucket {
 	ObjectId get(AnyObjectId objId, ObjectReader or) throws IOException {
 		NoteBucket b = table[cell(objId)];
 		return b != null ? b.get(objId, or) : null;
+	}
+
+	@Override
+	Iterator<Note> iterator(AnyObjectId objId, final ObjectReader reader)
+			throws IOException {
+		final MutableObjectId id = new MutableObjectId();
+		id.fromObjectId(objId);
+
+		return new Iterator<Note>() {
+			private int cell;
+
+			private Iterator<Note> itr;
+
+			public boolean hasNext() {
+				if (itr != null && itr.hasNext())
+					return true;
+
+				for (; cell < table.length; cell++) {
+					NoteBucket b = table[cell];
+					if (b == null)
+						continue;
+
+					try {
+						id.setByte(prefixLen >> 1, cell);
+						itr = b.iterator(id, reader);
+					} catch (IOException err) {
+						throw new RuntimeException(err);
+					}
+
+					if (itr.hasNext()) {
+						cell++;
+						return true;
+					}
+				}
+				return false;
+			}
+
+			public Note next() {
+				if (hasNext())
+					return itr.next();
+				else
+					throw new NoSuchElementException();
+			}
+
+			public void remove() {
+				throw new UnsupportedOperationException();
+			}
+		};
 	}
 
 	@Override
@@ -191,6 +242,12 @@ class FanoutBucket extends InMemoryNoteBucket {
 		@Override
 		ObjectId get(AnyObjectId objId, ObjectReader or) throws IOException {
 			return load(objId, or).get(objId, or);
+		}
+
+		@Override
+		Iterator<Note> iterator(AnyObjectId objId, ObjectReader reader)
+				throws IOException {
+			return load(objId, reader).iterator(objId, reader);
 		}
 
 		@Override
