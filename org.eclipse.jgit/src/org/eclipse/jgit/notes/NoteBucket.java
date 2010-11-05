@@ -58,4 +58,7 @@ import org.eclipse.jgit.lib.ObjectReader;
 abstract class NoteBucket {
 	abstract ObjectId get(AnyObjectId objId, ObjectReader reader)
 			throws IOException;
+
+	abstract InMemoryNoteBucket set(AnyObjectId noteOn, AnyObjectId noteData,
+			ObjectReader reader) throws IOException;
 }

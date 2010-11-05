@@ -43,6 +43,8 @@
 
 package org.eclipse.jgit.notes;
 
+import java.io.IOException;
+
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
@@ -94,6 +96,34 @@ class LeafBucket extends InMemoryNoteBucket {
 	ObjectId get(AnyObjectId objId, ObjectReader or) {
 		int idx = search(objId);
 		return 0 <= idx ? notes[idx].getData() : null;
+	}
+
+	InMemoryNoteBucket set(AnyObjectId noteOn, AnyObjectId noteData,
+			ObjectReader or) throws IOException {
+		int p = search(noteOn);
+		if (0 <= p) {
+			if (noteData != null) {
+				notes[p].setData(noteData.copy());
+				return this;
+
+			} else {
+				System.arraycopy(notes, p + 1, notes, p, cnt - p - 1);
+				cnt--;
+				return 0 < cnt ? this : null;
+			}
+
+		} else if (noteData != null) {
+			growIfFull();
+			p = -(p + 1);
+			if (p < cnt)
+				System.arraycopy(notes, p, notes, p + 1, cnt - p);
+			notes[p] = new Note(noteOn, noteData.copy());
+			cnt++;
+			return this;
+
+		} else {
+			return this;
+		}
 	}
 
 	void parseOneEntry(AnyObjectId noteOn, AnyObjectId noteData) {
