@@ -68,4 +68,6 @@ abstract class InMemoryNoteBucket extends NoteBucket {
 	InMemoryNoteBucket(int prefixLen) {
 		this.prefixLen = prefixLen;
 	}
+
+	abstract InMemoryNoteBucket append(Note note);
 }
