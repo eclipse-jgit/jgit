@@ -44,6 +44,7 @@
 package org.eclipse.jgit.notes;
 
 import java.io.IOException;
+import java.util.Iterator;
 
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectId;
@@ -58,6 +59,9 @@ import org.eclipse.jgit.lib.ObjectReader;
  */
 abstract class NoteBucket {
 	abstract ObjectId get(AnyObjectId objId, ObjectReader reader)
+			throws IOException;
+
+	abstract Iterator<Note> iterator(AnyObjectId objId, ObjectReader reader)
 			throws IOException;
 
 	abstract InMemoryNoteBucket set(AnyObjectId noteOn, AnyObjectId noteData,
