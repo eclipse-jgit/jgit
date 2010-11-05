@@ -159,6 +159,33 @@ class FanoutBucket extends InMemoryNoteBucket {
 	}
 
 	@Override
+	int estimateSize(AnyObjectId noteOn, ObjectReader or) throws IOException {
+		// If most of this fan-out is full, estimate it should still be split.
+		if (LeafBucket.MAX_SIZE * 3 / 4 <= cnt)
+			return 1 + LeafBucket.MAX_SIZE;
+
+		// Due to the uniform distribution of ObjectIds, having less nodes full
+		// indicates a good chance the total number of children below here
+		// is less than the MAX_SIZE split point. Get a more accurate count.
+
+		MutableObjectId id = new MutableObjectId();
+		id.fromObjectId(noteOn);
+
+		int sz = 0;
+		for (int cell = 0; cell < 256; cell++) {
+			NoteBucket b = table[cell];
+			if (b == null)
+				continue;
+
+			id.setByte(prefixLen >> 1, cell);
+			sz += b.estimateSize(id, or);
+			if (LeafBucket.MAX_SIZE < sz)
+				break;
+		}
+		return sz;
+	}
+
+	@Override
 	InMemoryNoteBucket set(AnyObjectId noteOn, AnyObjectId noteData,
 			ObjectReader or) throws IOException {
 		int cell = cell(noteOn);
@@ -181,6 +208,15 @@ class FanoutBucket extends InMemoryNoteBucket {
 
 				if (cnt == 0)
 					return null;
+
+				if (estimateSize(noteOn, or) < LeafBucket.MAX_SIZE) {
+					// We are small enough to just contract to a single leaf.
+					InMemoryNoteBucket r = new LeafBucket(prefixLen);
+					for (Iterator<Note> i = iterator(noteOn, or); i.hasNext();)
+						r = r.append(i.next());
+					r.nonNotes = nonNotes;
+					return r;
+				}
 
 				return this;
 
@@ -266,6 +302,11 @@ class FanoutBucket extends InMemoryNoteBucket {
 		Iterator<Note> iterator(AnyObjectId objId, ObjectReader reader)
 				throws IOException {
 			return load(objId, reader).iterator(objId, reader);
+		}
+
+		@Override
+		int estimateSize(AnyObjectId objId, ObjectReader or) throws IOException {
+			return load(objId, or).estimateSize(objId, or);
 		}
 
 		@Override
