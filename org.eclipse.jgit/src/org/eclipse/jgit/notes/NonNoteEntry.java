@@ -43,29 +43,29 @@
 
 package org.eclipse.jgit.notes;
 
-/** A note bucket that has been loaded into the process. */
-abstract class InMemoryNoteBucket extends NoteBucket {
-	/**
-	 * Number of leading digits that leads to this bucket in the note path.
-	 *
-	 * This is counted in terms of hex digits, not raw bytes. Each bucket level
-	 * is typically 2 higher than its parent, placing about 256 items in each
-	 * level of the tree.
-	 */
-	final int prefixLen;
+import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.FileMode;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.TreeFormatter;
 
-	/**
-	 * Chain of non-note tree entries found at this path in the tree.
-	 *
-	 * During parsing of a note tree into the in-memory representation,
-	 * {@link NoteParser} keeps track of all non-note tree entries and stores
-	 * them here as a sorted linked list. That list can be merged back with the
-	 * note data that is held by the subclass, allowing the tree to be
-	 * recreated.
-	 */
-	NonNoteEntry nonNotes;
+/** A tree entry found in a note branch that isn't a valid note. */
+class NonNoteEntry extends ObjectId {
+	/** Name of the entry in the tree, in raw format. */
+	private final byte[] name;
 
-	InMemoryNoteBucket(int prefixLen) {
-		this.prefixLen = prefixLen;
+	/** Mode of the entry as parsed from the tree. */
+	private final FileMode mode;
+
+	/** The next non-note entry in the same tree, as defined by tree order. */
+	NonNoteEntry next;
+
+	NonNoteEntry(byte[] name, FileMode mode, AnyObjectId id) {
+		super(id);
+		this.name = name;
+		this.mode = mode;
+	}
+
+	void format(TreeFormatter fmt) {
+		fmt.append(name, mode, this);
 	}
 }

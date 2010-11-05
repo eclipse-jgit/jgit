@@ -52,6 +52,7 @@ import java.io.IOException;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
+import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.MutableObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
@@ -87,12 +88,16 @@ final class NoteParser extends CanonicalTreeParser {
 	static InMemoryNoteBucket parse(AbbreviatedObjectId prefix,
 			final ObjectId treeId, final ObjectReader reader)
 			throws IOException {
-		return new NoteParser(prefix, reader, treeId).parseTree();
+		return new NoteParser(prefix, reader, treeId).parse();
 	}
 
 	private final AbbreviatedObjectId prefix;
 
 	private final int pathPadding;
+
+	private NonNoteEntry firstNonNote;
+
+	private NonNoteEntry lastNonNote;
 
 	private NoteParser(AbbreviatedObjectId p, ObjectReader r, ObjectId t)
 			throws IncorrectObjectTypeException, IOException {
@@ -106,6 +111,12 @@ final class NoteParser extends CanonicalTreeParser {
 			System.arraycopy(path, 0, path, pathPadding, prefix.length());
 	}
 
+	private InMemoryNoteBucket parse() {
+		InMemoryNoteBucket r = parseTree();
+		r.nonNotes = firstNonNote;
+		return r;
+	}
+
 	private InMemoryNoteBucket parseTree() {
 		for (; !eof(); next(1)) {
 			if (pathLen == pathPadding + OBJECT_ID_STRING_LENGTH && isHex())
@@ -113,6 +124,9 @@ final class NoteParser extends CanonicalTreeParser {
 
 			else if (getNameLength() == 2 && isHex() && isTree())
 				return parseFanoutTree();
+
+			else
+				storeNonNote();
 		}
 
 		// If we cannot determine the style used, assume its a leaf.
@@ -126,6 +140,8 @@ final class NoteParser extends CanonicalTreeParser {
 		for (; !eof(); next(1)) {
 			if (parseObjectId(idBuf))
 				leaf.parseOneEntry(idBuf, getEntryObjectId());
+			else
+				storeNonNote();
 		}
 
 		return leaf;
@@ -150,6 +166,8 @@ final class NoteParser extends CanonicalTreeParser {
 			final int cell = parseFanoutCell();
 			if (0 <= cell)
 				fanout.parseOneEntry(cell, getEntryObjectId());
+			else
+				storeNonNote();
 		}
 
 		return fanout;
@@ -166,6 +184,21 @@ final class NoteParser extends CanonicalTreeParser {
 		} else {
 			return -1;
 		}
+	}
+
+	private void storeNonNote() {
+		ObjectId id = getEntryObjectId();
+		FileMode fileMode = getEntryFileMode();
+
+		byte[] name = new byte[getNameLength()];
+		getName(name, 0);
+
+		NonNoteEntry ent = new NonNoteEntry(name, fileMode, id);
+		if (firstNonNote == null)
+			firstNonNote = ent;
+		if (lastNonNote != null)
+			lastNonNote.next = ent;
+		lastNonNote = ent;
 	}
 
 	private boolean isTree() {
