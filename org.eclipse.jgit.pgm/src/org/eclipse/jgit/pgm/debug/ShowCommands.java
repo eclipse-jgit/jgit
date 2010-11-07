@@ -54,7 +54,7 @@ import org.eclipse.jgit.pgm.TextBuiltin;
 
 @Command(usage = "usage_displayAListOfAllRegisteredJgitCommands")
 class ShowCommands extends TextBuiltin {
-	@Option(name = "--pretty", usage = "usage_alterTheDetailShown")
+	@Option(name = "--pretty", metaVar = "metaVar_commandDetail", usage = "usage_alterTheDetailShown")
 	private Format pretty = Format.USAGE;
 
 	@Override
