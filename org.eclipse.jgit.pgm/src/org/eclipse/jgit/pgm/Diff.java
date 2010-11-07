@@ -111,7 +111,7 @@ class Diff extends TextBuiltin {
 		}
 	};
 
-	@Option(name = "--algorithm", usage = "usage_diffAlgorithm")
+	@Option(name = "--algorithm", metaVar = "metaVar_diffAlg", usage = "usage_diffAlgorithm")
 	void setAlgorithm(SupportedAlgorithm s) {
 		diffFmt.setDiffAlgorithm(s.algorithm);
 	}
