@@ -38,4 +38,12 @@
        <Class name="org.eclipse.jgit.util.TemporaryBuffer$BlockInputStream" />
        <Bug pattern="UR_UNINIT_READ" />
      </Match>
+
+	<!-- Silence invoke inefficient String constructor, we do not want to pool
+		here -->
+     <Match>
+       <Class name="org.eclipse.jgit.transport.PacketLineIn" />
+       <Method name="&lt;clinit&gt;" />
+       <Bug pattern="DM_STRING_CTOR" />
+     </Match>
 </FindBugsFilter>
