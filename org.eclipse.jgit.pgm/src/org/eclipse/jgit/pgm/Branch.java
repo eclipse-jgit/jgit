@@ -150,7 +150,7 @@ class Branch extends TextBuiltin {
 					startBranch = startRef.getName();
 				else
 					startBranch = startAt.name();
-				startBranch = db.shortenRefName(startBranch);
+				startBranch = Repository.shortenRefName(startBranch);
 				String newRefName = newHead;
 				if (!newRefName.startsWith(Constants.R_HEADS))
 					newRefName = Constants.R_HEADS + newRefName;
