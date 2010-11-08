@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALzn///3c\u003d",
+        "filename": "org.eclipse.jgit/findBugs/FindBugsExcludeFilter.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-11-08T20:27:20Z",
+      "side": 1,
+      "message": "In the past we have worked around this in FindBugs by instead defining the code to be:\n\n  new StringBuilder(str.length()).append(str).toString();\n\nOr whatever it needs to be.  The end result is 1 allocation more (the temporary StringBuilder), but that can be stack allocated in some cases on some modern Java 6 runtimes.  I probably would have preferred changing the code here over defining the exception in the FindBugs configuration file.",
+      "revId": "1e510ec20e0391010419b17e9a9095ad54941d3c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
