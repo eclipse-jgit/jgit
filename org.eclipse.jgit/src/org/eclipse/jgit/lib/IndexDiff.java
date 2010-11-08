@@ -203,6 +203,9 @@ public class IndexDiff {
 					if (!fileModeTree.equals(FileMode.TYPE_TREE)) {
 						removed.add(treeIterator.getEntryPathString());
 						changesExist = true;
+						if (workingTreeIterator != null)
+							untracked.add(workingTreeIterator
+									.getEntryPathString());
 					}
 				}
 			} else {
