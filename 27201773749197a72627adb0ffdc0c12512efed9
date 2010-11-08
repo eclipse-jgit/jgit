@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALz3///+w\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/IndexDiffTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-11-08T23:28:32Z",
+      "side": 1,
+      "message": "DirCacheEditor might have been easier here:\n\n  DirCacheEditor edit \u003d dirc.editor();\n  edit.add(new DirCacheEditor.DeletePath(path));\n  edit.commit();\n\n:-)",
+      "revId": "27201773749197a72627adb0ffdc0c12512efed9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
