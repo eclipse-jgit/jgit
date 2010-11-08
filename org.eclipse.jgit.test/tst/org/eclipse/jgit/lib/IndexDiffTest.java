@@ -48,6 +48,9 @@ package org.eclipse.jgit.lib;
 import java.io.File;
 import java.io.IOException;
 
+import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.dircache.DirCache;
+import org.eclipse.jgit.dircache.DirCacheEditor;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
 
 public class IndexDiffTest extends RepositoryTestCase {
@@ -209,5 +212,33 @@ public class IndexDiffTest extends RepositoryTestCase {
 		} finally {
 			oi.release();
 		}
+	}
+
+	/**
+	 * A file is removed from the index but stays in the working directory. It
+	 * is checked if IndexDiff detects this file as removed and untracked.
+	 *
+	 * @throws Exception
+	 */
+	public void testRemovedUntracked() throws Exception{
+		Git git = new Git(db);
+		String path = "file";
+		writeTrashFile(path, "content");
+		git.add().addFilepattern(path).call();
+		git.commit().setMessage("commit").call();
+		removeFromIndex(path);
+		FileTreeIterator iterator = new FileTreeIterator(db);
+		IndexDiff diff = new IndexDiff(db, Constants.HEAD, iterator);
+		diff.diff();
+		assertTrue(diff.getRemoved().contains(path));
+		assertTrue(diff.getUntracked().contains(path));
+	}
+
+	private void removeFromIndex(String path) throws IOException {
+		final DirCache dirc = db.lockDirCache();
+		final DirCacheEditor edit = dirc.editor();
+		edit.add(new DirCacheEditor.DeletePath(path));
+		if (!edit.commit())
+			throw new IOException("could not commit");
 	}
 }
