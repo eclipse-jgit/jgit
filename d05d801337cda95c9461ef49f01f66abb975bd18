@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALzn///2Q\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/JGitText.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-11-08T21:51:25Z",
+      "side": 1,
+      "message": "I\u0027m not sure I\u0027m happy with this.  The current file is neatly organized, one string name per line.  The new formatting is 3 lines per string.  Ugh.\n\nI just undo the code formatter on save.  So my fingers now do \"Ctrl-S Ctrl-Z\" when editing this file.",
+      "revId": "d05d801337cda95c9461ef49f01f66abb975bd18",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
