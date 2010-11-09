@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAALzX///ow\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/MergeMessageFormatterTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2010-10-29T11:05:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALzX///rE\u003d",
+      "revId": "406226b0749e2dc9f7765f4ad85346f1c8284b9b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALzX///rA\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/MergeMessageFormatterTest.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2010-10-28T16:09:32Z",
       "side": 1,
       "message": "Style-nit: Insert a blank line right here.",
+      "revId": "406226b0749e2dc9f7765f4ad85346f1c8284b9b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALzX///os\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/MergeMessageFormatterTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2010-10-29T11:05:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALzX///rA\u003d",
       "revId": "406226b0749e2dc9f7765f4ad85346f1c8284b9b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,42 @@
     },
     {
       "key": {
+        "uuid": "AAALzX///oo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeMessageFormatter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2010-10-29T11:05:00Z",
+      "side": 1,
+      "message": "I just saw that PullCommand does the following:\n\n\t\tmerge.include(\"branch \\\u0027\" + remoteBranchName + \"\\\u0027 of \" + remoteUri,\n\t\t\t\tcommitToMerge);\n\nSo we already get the right remote URI from the Ref, I have to check if this case is handled properly in MergeMessageFormatter.",
+      "parentUuid": "AAALzX///rY\u003d",
+      "revId": "406226b0749e2dc9f7765f4ad85346f1c8284b9b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALzX///oM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeMessageFormatter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2010-10-29T11:34:21Z",
+      "side": 1,
+      "message": "In MergeCommand, the following Ref is created for an include as above:\n\nnew ObjectIdRef.Unpeeled(Storage.LOOSE, name, commit.copy())\n\nThe problem is, how can MergeMessageFormatter distinguish this case from the case where just a SHA1 was specified to be merged?\n\nAFAICS, EGit can\u0027t yet merge a commit directly, only a branch. I don\u0027t know what the Ref is going to be for a SHA1-referenced commit.",
+      "parentUuid": "AAALzX///oo\u003d",
+      "revId": "406226b0749e2dc9f7765f4ad85346f1c8284b9b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALzX///rg\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeMessageFormatter.java",
         "patchSetId": 1
@@ -64,6 +136,24 @@
       "writtenOn": "2010-10-28T16:09:32Z",
       "side": 1,
       "message": "Style-nit: We don\u0027t use { } around the statements when there is only one statement being nested.\n\nI would also put a blank line before each else if to make the code more readable:\n\n  if (ref.getName().startsWith(Constants.R_HEADS))\n    branches.add(...);\n\n  else if (ref.getName().startsWith(Constants.R_REMOTES))\n    remoteBranches.add(...);",
+      "revId": "406226b0749e2dc9f7765f4ad85346f1c8284b9b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALzX///qg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeMessageFormatter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2010-10-29T11:05:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALzX///rg\u003d",
       "revId": "406226b0749e2dc9f7765f4ad85346f1c8284b9b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -87,6 +177,24 @@
     },
     {
       "key": {
+        "uuid": "AAALzX///qw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeMessageFormatter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2010-10-29T11:05:00Z",
+      "side": 1,
+      "message": "As far as I could see, C Git also puts the full SHA-1, therefore I went with that. For example, see the message of b54410085b89845b2a76340ee09b75189f18107d in the egit repository.",
+      "parentUuid": "AAALzX///rc\u003d",
+      "revId": "406226b0749e2dc9f7765f4ad85346f1c8284b9b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALzX///rI\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeMessageFormatter.java",
         "patchSetId": 1
@@ -98,6 +206,24 @@
       "writtenOn": "2010-10-28T16:09:32Z",
       "side": 1,
       "message": "Instead of testing that the short name is master... I would test the full name:\n\n  if (target.getName().equals(Constants.R_HEADS + Constants.MASTER))\n\nThat way we don\u0027t accidentally use the \"merge into master format\" if someone manages to make us merge into a branch called \"refs/mynames/master\".",
+      "revId": "406226b0749e2dc9f7765f4ad85346f1c8284b9b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALzX///qc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeMessageFormatter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2010-10-29T11:05:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALzX///rI\u003d",
       "revId": "406226b0749e2dc9f7765f4ad85346f1c8284b9b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -121,6 +247,24 @@
     },
     {
       "key": {
+        "uuid": "AAALzX///ok\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeMessageFormatter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2010-10-29T11:05:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALzX///rM\u003d",
+      "revId": "406226b0749e2dc9f7765f4ad85346f1c8284b9b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALzX///rU\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeMessageFormatter.java",
         "patchSetId": 1
@@ -132,6 +276,24 @@
       "writtenOn": "2010-10-28T16:09:32Z",
       "side": 1,
       "message": "Yup.  Repository.shortenRefName().  Unfortunately its not static, even though it doesn\u0027t use any local state.  You might want to consider refactoring that method to be static first so you can reuse it here.\n\nActually, I\u0027m inclined to say it should move to Ref (which is hard because Ref is an interface and not an abstract class) and be both static and an instance member:\n\n  public static String shortenRefName(String refName);\n\n  public String getShortName() {\n    return shortenRefName(getName());\n  }",
+      "revId": "406226b0749e2dc9f7765f4ad85346f1c8284b9b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALzX///og\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeMessageFormatter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2010-10-29T11:05:00Z",
+      "side": 1,
+      "message": "Yeah, I looked first on Ref if there\u0027s already a method for this and didn\u0027t find it so I implemented it myself.\n\nSo should I refactor Ref to be an abstract class? Or introduce an \"AbstractRef\"? (No, that would be ugly for the static method, i.e. AbstractRef.shortenRefName) Or a utility class called Refs a la Guava? Meh.",
+      "parentUuid": "AAALzX///rU\u003d",
       "revId": "406226b0749e2dc9f7765f4ad85346f1c8284b9b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
