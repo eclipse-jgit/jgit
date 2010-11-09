@@ -57,7 +57,8 @@ import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
 
 class PacketLineIn {
-	static final String END = new String("") /* must not string pool */;
+	/* must not string pool */
+	static final String END = new StringBuilder(0).toString();
 
 	static enum AckNackResult {
 		/** NAK */
