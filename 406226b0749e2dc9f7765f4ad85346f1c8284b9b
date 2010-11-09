@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALzX///rE\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/MergeMessageFormatterTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-10-28T16:09:32Z",
+      "side": 1,
+      "message": "Style-nit: Insert a blank line right here.",
+      "revId": "406226b0749e2dc9f7765f4ad85346f1c8284b9b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALzX///rA\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/MergeMessageFormatterTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-10-28T16:09:32Z",
+      "side": 1,
+      "message": "Style-nit: Insert a blank line right here.",
+      "revId": "406226b0749e2dc9f7765f4ad85346f1c8284b9b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALzX///rY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeMessageFormatter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-10-28T16:09:32Z",
+      "side": 1,
+      "message": "C Git also takes in the URIish so that during a pull we can include the URL that was given on the command line when performing the merge.\n\nIf we are merging a remote tracking branch, I wonder if we should also infer the URL from the configuration file.  IIRC git gui does that when it generates a merge using a local tracking branch.",
+      "revId": "406226b0749e2dc9f7765f4ad85346f1c8284b9b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALzX///rg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeMessageFormatter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-10-28T16:09:32Z",
+      "side": 1,
+      "message": "Style-nit: We don\u0027t use { } around the statements when there is only one statement being nested.\n\nI would also put a blank line before each else if to make the code more readable:\n\n  if (ref.getName().startsWith(Constants.R_HEADS))\n    branches.add(...);\n\n  else if (ref.getName().startsWith(Constants.R_REMOTES))\n    remoteBranches.add(...);",
+      "revId": "406226b0749e2dc9f7765f4ad85346f1c8284b9b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALzX///rc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeMessageFormatter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-10-28T16:09:32Z",
+      "side": 1,
+      "message": "If ref.getName() is a commit SHA-1 do we want to abbreviate it here instead of putting the full 40 digits?  Since this is the summary line and the full 40 digits is available in the parent pointer anyway, it might make the message cleaner to read if we just abbreviate it at 7 digits.\n\nDoing the abbreviation will require you to pass in the current ObjectReader to the constructor of the formatter.",
+      "revId": "406226b0749e2dc9f7765f4ad85346f1c8284b9b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALzX///rI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeMessageFormatter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-10-28T16:09:32Z",
+      "side": 1,
+      "message": "Instead of testing that the short name is master... I would test the full name:\n\n  if (target.getName().equals(Constants.R_HEADS + Constants.MASTER))\n\nThat way we don\u0027t accidentally use the \"merge into master format\" if someone manages to make us merge into a branch called \"refs/mynames/master\".",
+      "revId": "406226b0749e2dc9f7765f4ad85346f1c8284b9b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALzX///rM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeMessageFormatter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-10-28T16:09:32Z",
+      "side": 1,
+      "message": "Not a bad idea.  It might be worth moving this and the join(Collection\u003cString\u003e, String) above.",
+      "revId": "406226b0749e2dc9f7765f4ad85346f1c8284b9b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALzX///rU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeMessageFormatter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-10-28T16:09:32Z",
+      "side": 1,
+      "message": "Yup.  Repository.shortenRefName().  Unfortunately its not static, even though it doesn\u0027t use any local state.  You might want to consider refactoring that method to be static first so you can reuse it here.\n\nActually, I\u0027m inclined to say it should move to Ref (which is hard because Ref is an interface and not an abstract class) and be both static and an instance member:\n\n  public static String shortenRefName(String refName);\n\n  public String getShortName() {\n    return shortenRefName(getName());\n  }",
+      "revId": "406226b0749e2dc9f7765f4ad85346f1c8284b9b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
