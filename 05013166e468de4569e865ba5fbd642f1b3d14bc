@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALzn///5g\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeMessageFormatter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-11-05T21:28:10Z",
+      "side": 1,
+      "message": "Lets just make Repository.shortenRefName static, and use that instead of getShortName above.",
+      "revId": "05013166e468de4569e865ba5fbd642f1b3d14bc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
