@@ -172,12 +172,24 @@ public class URIishTest extends TestCase {
 		assertEquals(u, new URIish(str));
 	}
 
-	public void testScpStyleWithoutUser() throws Exception {
+	public void testScpStyleWithoutUserRelativePath() throws Exception {
 		final String str = "example.com:some/p ath";
 		URIish u = new URIish(str);
 		assertNull(u.getScheme());
 		assertTrue(u.isRemote());
 		assertEquals("some/p ath", u.getPath());
+		assertEquals("example.com", u.getHost());
+		assertEquals(-1, u.getPort());
+		assertEquals(str, u.toString());
+		assertEquals(u, new URIish(str));
+	}
+
+	public void testScpStyleWithoutUserAbsolutePath() throws Exception {
+		final String str = "example.com:/some/p ath";
+		URIish u = new URIish(str);
+		assertNull(u.getScheme());
+		assertTrue(u.isRemote());
+		assertEquals("/some/p ath", u.getPath());
 		assertEquals("example.com", u.getHost());
 		assertEquals(-1, u.getPort());
 		assertEquals(str, u.toString());

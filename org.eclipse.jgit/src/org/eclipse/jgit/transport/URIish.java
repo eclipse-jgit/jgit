@@ -155,12 +155,22 @@ public class URIish implements Serializable {
 	/**
 	 * A pattern matching a SCP URI's of the form user@host:path/to/repo.git
 	 */
-	private static final Pattern SCP_URI = Pattern.compile("^" //
+	private static final Pattern RELATIVE_SCP_URI = Pattern.compile("^" //
 			+ OPT_USER_PWD_P //
 			+ HOST_P //
 			+ ":(" //
 			+ ("(?:" + USER_HOME_P + "/)?") //
 			+ RELATIVE_PATH_P //
+			+ ")$");
+
+	/**
+	 * A pattern matching a SCP URI's of the form user@host:/path/to/repo.git
+	 */
+	private static final Pattern ABSOLUTE_SCP_URI = Pattern.compile("^" //
+			+ OPT_USER_PWD_P //
+			+ "([^/:]{2,})" //
+			+ ":(" //
+			+ "/" + RELATIVE_PATH_P //
 			+ ")$");
 
 	private String scheme;
@@ -200,19 +210,27 @@ public class URIish implements Serializable {
 						n2e(matcher.group(6)) + n2e(matcher.group(7)),
 						scheme);
 			} else {
-				matcher = SCP_URI.matcher(s);
+				matcher = RELATIVE_SCP_URI.matcher(s);
 				if (matcher.matches()) {
 					user = matcher.group(1);
 					pass = matcher.group(2);
 					host = matcher.group(3);
 					path = matcher.group(4);
 				} else {
-					matcher = LOCAL_FILE.matcher(s);
+					matcher = ABSOLUTE_SCP_URI.matcher(s);
 					if (matcher.matches()) {
-						path = matcher.group(1);
-					} else
-						throw new URISyntaxException(s,
-								JGitText.get().cannotParseGitURIish);
+						user = matcher.group(1);
+						pass = matcher.group(2);
+						host = matcher.group(3);
+						path = matcher.group(4);
+					} else {
+						matcher = LOCAL_FILE.matcher(s);
+						if (matcher.matches()) {
+							path = matcher.group(1);
+						} else
+							throw new URISyntaxException(s,
+									JGitText.get().cannotParseGitURIish);
+					}
 				}
 			}
 		}
