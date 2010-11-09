@@ -247,7 +247,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 		assertEquals(thirdCommit, newHead.getParent(0));
 		assertEquals(secondCommit, newHead.getParent(1));
 		assertEquals(
-				"merging 3fa334456d236a92db020289fe0bf481d91777b4 into HEAD",
+				"Merge commit '3fa334456d236a92db020289fe0bf481d91777b4' into HEAD",
 				newHead.getFullMessage());
 		// @TODO fix me
 		assertEquals(RepositoryState.SAFE, db.getRepositoryState());
@@ -307,7 +307,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 		assertEquals(thirdCommit, newHead.getParent(0));
 		assertEquals(secondCommit, newHead.getParent(1));
 		assertEquals(
-				"merging 064d54d98a4cdb0fed1802a21c656bfda67fe879 into HEAD",
+				"Merge commit '064d54d98a4cdb0fed1802a21c656bfda67fe879' into HEAD",
 				newHead.getFullMessage());
 
 		assertEquals(RepositoryState.SAFE, db.getRepositoryState());
