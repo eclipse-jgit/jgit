@@ -282,7 +282,7 @@ public class HttpClientTests extends HttpTestCase {
 				fail("connection opened even info/refs needs auth basic");
 			} catch (TransportException err) {
 				String exp = dumbAuthBasicURI + ": "
-						+ JGitText.get().authenticationNotSupported;
+						+ JGitText.get().notAuthorized;
 				assertEquals(exp, err.getMessage());
 			}
 		} finally {
@@ -299,7 +299,7 @@ public class HttpClientTests extends HttpTestCase {
 				fail("connection opened even though service disabled");
 			} catch (TransportException err) {
 				String exp = smartAuthBasicURI + ": "
-						+ JGitText.get().authenticationNotSupported;
+						+ JGitText.get().notAuthorized;
 				assertEquals(exp, err.getMessage());
 			}
 		} finally {
