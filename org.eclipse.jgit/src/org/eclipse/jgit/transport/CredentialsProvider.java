@@ -63,6 +63,23 @@ import org.eclipse.jgit.errors.UnsupportedCredentialItem;
  * @see UsernamePasswordCredentialsProvider
  */
 public abstract class CredentialsProvider {
+	private static volatile CredentialsProvider defaultProvider;
+
+	/** @return the default credentials provider, or null. */
+	public static CredentialsProvider getDefault() {
+		return defaultProvider;
+	}
+
+	/**
+	 * Set the default credentials provider.
+	 *
+	 * @param p
+	 *            the new default provider, may be null to select no default.
+	 */
+	public static void setDefault(CredentialsProvider p) {
+		defaultProvider = p;
+	}
+
 	/**
 	 * Check if the provider can supply the necessary {@link CredentialItem}s.
 	 *
