@@ -97,12 +97,58 @@ public abstract class AnyObjectId implements Comparable {
 	int w5;
 
 	/**
-	 * For ObjectIdMap
+	 * Get the first 8 bits of the ObjectId.
 	 *
-	 * @return a discriminator usable for a fan-out style map
+	 * This is a faster version of {@code getByte(0)}.
+	 *
+	 * @return a discriminator usable for a fan-out style map. Returned values
+	 *         are unsigned and thus are in the range [0,255] rather than the
+	 *         signed byte range of [-128, 127].
 	 */
 	public final int getFirstByte() {
 		return w1 >>> 24;
+	}
+
+	/**
+	 * Get any byte from the ObjectId.
+	 *
+	 * Callers hard-coding {@code getByte(0)} should instead use the much faster
+	 * special case variant {@link #getFirstByte()}.
+	 *
+	 * @param index
+	 *            index of the byte to obtain from the raw form of the ObjectId.
+	 *            Must be in range [0, {@link Constants#OBJECT_ID_LENGTH}).
+	 * @return the value of the requested byte at {@code index}. Returned values
+	 *         are unsigned and thus are in the range [0,255] rather than the
+	 *         signed byte range of [-128, 127].
+	 * @throws ArrayIndexOutOfBoundsException
+	 *             {@code index} is less than 0, equal to
+	 *             {@link Constants#OBJECT_ID_LENGTH}, or greater than
+	 *             {@link Constants#OBJECT_ID_LENGTH}.
+	 */
+	public final int getByte(int index) {
+		int w;
+		switch (index >> 2) {
+		case 0:
+			w = w1;
+			break;
+		case 1:
+			w = w2;
+			break;
+		case 2:
+			w = w3;
+			break;
+		case 3:
+			w = w4;
+			break;
+		case 4:
+			w = w5;
+			break;
+		default:
+			throw new ArrayIndexOutOfBoundsException(index);
+		}
+
+		return (w >>> (8 * (3 - (index & 3)))) & 0xff;
 	}
 
 	/**
