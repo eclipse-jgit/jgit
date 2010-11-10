@@ -44,7 +44,6 @@
 
 package org.eclipse.jgit.storage.file;
 
-import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -229,26 +228,10 @@ public class LockFile {
 	 *             before throwing the underlying exception to the caller.
 	 */
 	public void write(final ObjectId id) throws IOException {
-		requireLock();
-		try {
-			final BufferedOutputStream b;
-			b = new BufferedOutputStream(os, Constants.OBJECT_ID_STRING_LENGTH + 1);
-			id.copyTo(b);
-			b.write('\n');
-			b.flush();
-			fLck.release();
-			b.close();
-			os = null;
-		} catch (IOException ioe) {
-			unlock();
-			throw ioe;
-		} catch (RuntimeException ioe) {
-			unlock();
-			throw ioe;
-		} catch (Error ioe) {
-			unlock();
-			throw ioe;
-		}
+		byte[] buf = new byte[Constants.OBJECT_ID_STRING_LENGTH + 1];
+		id.copyTo(buf, 0);
+		buf[Constants.OBJECT_ID_STRING_LENGTH] = '\n';
+		write(buf);
 	}
 
 	/**
