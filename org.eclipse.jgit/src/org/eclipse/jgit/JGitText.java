@@ -317,6 +317,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String missingForwardImageInGITBinaryPatch;
 	/***/ public String missingObject;
 	/***/ public String missingPrerequisiteCommits;
+	/***/ public String missingRequiredParameter;
 	/***/ public String missingSecretkey;
 	/***/ public String mixedStagesNotAllowed;
 	/***/ public String multipleMergeBasesFor;
@@ -495,4 +496,5 @@ public class JGitText extends TranslationBundle {
 	/***/ public String writingNotSupported;
 	/***/ public String writingObjects;
 	/***/ public String wrongDecompressedLength;
+	/***/ public String wrongRepositoryState;
 }
