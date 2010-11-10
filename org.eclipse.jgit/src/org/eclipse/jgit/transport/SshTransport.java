@@ -128,7 +128,8 @@ public abstract class SshTransport extends TcpTransport {
 		final String host = uri.getHost();
 		final int port = uri.getPort();
 		try {
-			sock = sch.getSession(user, pass, host, port, local.getFS());
+			sock = sch.getSession(user, pass, host, port,
+					getCredentialsProvider(), local.getFS());
 			if (!sock.isConnected())
 				sock.connect(tms);
 		} catch (JSchException je) {

@@ -77,6 +77,11 @@ public class UsernamePasswordCredentialsProvider extends CredentialsProvider {
 	}
 
 	@Override
+	public boolean isInteractive() {
+		return false;
+	}
+
+	@Override
 	public boolean supports(CredentialItem... items) {
 		for (CredentialItem i : items) {
 			if (i instanceof CredentialItem.Username)
