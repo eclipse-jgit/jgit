@@ -60,6 +60,7 @@ import org.eclipse.jgit.http.server.GitServlet;
 import org.eclipse.jgit.http.server.resolver.RepositoryResolver;
 import org.eclipse.jgit.http.server.resolver.ServiceNotEnabledException;
 import org.eclipse.jgit.http.test.util.AccessEvent;
+import org.eclipse.jgit.http.test.util.AppServer;
 import org.eclipse.jgit.http.test.util.HttpTestCase;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Constants;
@@ -71,6 +72,7 @@ import org.eclipse.jgit.storage.file.FileRepository;
 import org.eclipse.jgit.transport.FetchConnection;
 import org.eclipse.jgit.transport.Transport;
 import org.eclipse.jgit.transport.URIish;
+import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 
 public class HttpClientTests extends HttpTestCase {
 	private TestRepository<FileRepository> remoteRepository;
@@ -285,6 +287,31 @@ public class HttpClientTests extends HttpTestCase {
 						+ JGitText.get().notAuthorized;
 				assertEquals(exp, err.getMessage());
 			}
+		} finally {
+			t.close();
+		}
+	}
+
+	public void testListRemote_Dumb_Auth() throws Exception {
+		Repository dst = createBareRepository();
+		Transport t = Transport.open(dst, dumbAuthBasicURI);
+		t.setCredentialsProvider(new UsernamePasswordCredentialsProvider(
+				AppServer.username, AppServer.password));
+		try {
+			t.openFetch();
+		} finally {
+			t.close();
+		}
+		t = Transport.open(dst, dumbAuthBasicURI);
+		t.setCredentialsProvider(new UsernamePasswordCredentialsProvider(
+				AppServer.username, ""));
+		try {
+			t.openFetch();
+			fail("connection opened even info/refs needs auth basic and we provide wrong password");
+		} catch (TransportException err) {
+			String exp = dumbAuthBasicURI + ": "
+					+ JGitText.get().notAuthorized;
+			assertEquals(exp, err.getMessage());
 		} finally {
 			t.close();
 		}
