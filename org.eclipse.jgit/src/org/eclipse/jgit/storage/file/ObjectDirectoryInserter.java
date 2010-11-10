@@ -52,6 +52,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.channels.Channels;
 import java.security.DigestOutputStream;
 import java.security.MessageDigest;
 import java.util.zip.Deflater;
@@ -60,7 +61,6 @@ import java.util.zip.DeflaterOutputStream;
 import org.eclipse.jgit.errors.ObjectWritingException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.CoreConfig;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 
@@ -68,13 +68,13 @@ import org.eclipse.jgit.lib.ObjectInserter;
 class ObjectDirectoryInserter extends ObjectInserter {
 	private final FileObjectDatabase db;
 
-	private final Config config;
+	private final WriteConfig config;
 
 	private Deflater deflate;
 
 	ObjectDirectoryInserter(final FileObjectDatabase dest, final Config cfg) {
 		db = dest;
-		config = cfg;
+		config = cfg.get(WriteConfig.KEY);
 	}
 
 	@Override
@@ -121,9 +121,13 @@ class ObjectDirectoryInserter extends ObjectInserter {
 		boolean delete = true;
 		File tmp = newTempFile();
 		try {
-			DigestOutputStream dOut = new DigestOutputStream(
-					compress(new FileOutputStream(tmp)), md);
+			FileOutputStream fOut = new FileOutputStream(tmp);
 			try {
+				OutputStream out = fOut;
+				if (config.getFSyncObjectFiles())
+					out = Channels.newOutputStream(fOut.getChannel());
+				DeflaterOutputStream cOut = compress(out);
+				DigestOutputStream dOut = new DigestOutputStream(cOut, md);
 				writeHeader(dOut, type, len);
 
 				final byte[] buf = buffer();
@@ -134,8 +138,12 @@ class ObjectDirectoryInserter extends ObjectInserter {
 					dOut.write(buf, 0, n);
 					len -= n;
 				}
+				dOut.flush();
+				cOut.finish();
 			} finally {
-				dOut.close();
+				if (config.getFSyncObjectFiles())
+					fOut.getChannel().force(true);
+				fOut.close();
 			}
 
 			delete = false;
@@ -160,7 +168,7 @@ class ObjectDirectoryInserter extends ObjectInserter {
 
 	DeflaterOutputStream compress(final OutputStream out) {
 		if (deflate == null)
-			deflate = new Deflater(config.get(CoreConfig.KEY).getCompression());
+			deflate = new Deflater(config.getCompression());
 		else
 			deflate.reset();
 		return new DeflaterOutputStream(out, deflate);
