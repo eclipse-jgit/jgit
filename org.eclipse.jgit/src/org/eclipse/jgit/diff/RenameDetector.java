@@ -357,9 +357,17 @@ public class RenameDetector {
 
 			if (pm == null)
 				pm = NullProgressMonitor.INSTANCE;
+
+			if (0 < breakScore)
 				breakModifies(reader, pm);
+
+			if (!added.isEmpty() && !deleted.isEmpty())
 				findExactRenames(pm);
+
+			if (!added.isEmpty() && !deleted.isEmpty())
 				findContentRenames(reader, pm);
+
+			if (0 < breakScore && !added.isEmpty() && !deleted.isEmpty())
 				rejoinModifies(pm);
 
 			entries.addAll(added);
@@ -383,9 +391,6 @@ public class RenameDetector {
 
 	private void breakModifies(ContentSource.Pair reader, ProgressMonitor pm)
 			throws IOException {
-		if (breakScore <= 0)
-			return;
-
 		ArrayList<DiffEntry> newEntries = new ArrayList<DiffEntry>(entries.size());
 
 		pm.beginTask(JGitText.get().renamesBreakingModifies, entries.size());
@@ -469,9 +474,6 @@ public class RenameDetector {
 			ProgressMonitor pm)
 			throws IOException {
 		int cnt = Math.max(added.size(), deleted.size());
-		if (cnt == 0)
-			return;
-
 		if (getRenameLimit() == 0 || cnt <= getRenameLimit()) {
 			SimilarityRenameDetector d;
 
@@ -489,9 +491,6 @@ public class RenameDetector {
 
 	@SuppressWarnings("unchecked")
 	private void findExactRenames(ProgressMonitor pm) {
-		if (added.isEmpty() || deleted.isEmpty())
-			return;
-
 		pm.beginTask(JGitText.get().renamesFindingExact, //
 				added.size() + added.size() + deleted.size()
 						+ added.size() * deleted.size());
