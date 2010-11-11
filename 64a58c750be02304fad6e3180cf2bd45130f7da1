@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAALzn///8o\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/notes/NoteMap.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2010-11-04T14:54:32Z",
+      "side": 1,
+      "message": "Is reset() needed here?\nThe javadoc of TreeWalk says that reset() is only necessary if the same TreeWalk object is to be reused again. Here it is used only once.",
+      "revId": "64a58c750be02304fad6e3180cf2bd45130f7da1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALzn///8g\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/notes/NoteMap.java",
         "patchSetId": 2
