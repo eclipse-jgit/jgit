@@ -2,6 +2,57 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAALy3///Sg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Credentials.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-09-28T07:50:00Z",
+      "side": 1,
+      "message": "missing license header",
+      "revId": "03df90b66731844dcd8143a8237c099a7b0b9fa2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///Ss\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Credentials.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-09-28T07:50:00Z",
+      "side": 1,
+      "message": "I don\u0027t understand the purpose of this class, all the methods defined here are already defined on java.lang.Object",
+      "revId": "03df90b66731844dcd8143a8237c099a7b0b9fa2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///Sc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/CredentialsProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-09-28T07:50:00Z",
+      "side": 1,
+      "message": "missing license header",
+      "revId": "03df90b66731844dcd8143a8237c099a7b0b9fa2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALy3///GQ\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/HttpAuthMethod.java",
         "patchSetId": 1
@@ -13,6 +64,23 @@
       "writtenOn": "2010-10-06T17:23:04Z",
       "side": 1,
       "message": "Don\u0027t initialize to null.  Let the compiler require us to ensure the values are initialized in every branch below.",
+      "revId": "03df90b66731844dcd8143a8237c099a7b0b9fa2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///So\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/HttpAuthMethod.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-09-28T07:50:00Z",
+      "side": 1,
+      "message": "this downcasting looks ugly",
       "revId": "03df90b66731844dcd8143a8237c099a7b0b9fa2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -47,6 +115,23 @@
       "writtenOn": "2010-10-06T17:23:04Z",
       "side": 1,
       "message": "We would prefer this to be private and use the getter.",
+      "revId": "03df90b66731844dcd8143a8237c099a7b0b9fa2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///Sk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UsernamePasswordCredentials.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-09-28T07:50:00Z",
+      "side": 1,
+      "message": "missing license header",
       "revId": "03df90b66731844dcd8143a8237c099a7b0b9fa2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
