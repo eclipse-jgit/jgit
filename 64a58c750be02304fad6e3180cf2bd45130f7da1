@@ -1,0 +1,22 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALzn///8g\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/notes/NoteMap.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-11-04T19:49:39Z",
+      "side": 1,
+      "message": "IIRC, yes, its still needed here.\n\nFor stupid historical reasons a TreeWalk starts with an empty tree iterator in the first slot.  We don\u0027t want that here, so we have to throw it away with a reset() call.\n\nI keep meaning to change TreeWalk to remove that initial empty tree, but I haven\u0027t had a chance to yet.  The initial empty tree was to help ObjectWalk, but it turns out ObjectWalk no longer uses TreeWalk (it uses the CanonicalTreeParser directly for performance reasons) and the initial empty tree is *never* useful.  Everyone has to reset to discard it.  So we should just drop it from the initial object.",
+      "parentUuid": "AAALzn///8o\u003d",
+      "revId": "64a58c750be02304fad6e3180cf2bd45130f7da1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
