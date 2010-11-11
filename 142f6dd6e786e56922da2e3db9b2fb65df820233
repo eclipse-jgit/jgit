@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALzX///kA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/notes/Note.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 94
+      },
+      "writtenOn": "2010-11-01T21:04:48Z",
+      "side": 1,
+      "message": "Javadocs for my mouse to hover on:\n\n\t/**\n\t * A Git note about the commit referenced by \u003ccode\u003enoteOn\u003c/code\u003e.\n\t * \n\t * @param noteOn\n\t *            the commit which is referenced by this note\n\t * @param noteData\n\t *            the actual note data contained in this note\n\t */",
+      "revId": "142f6dd6e786e56922da2e3db9b2fb65df820233",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALzX///kE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/notes/NoteMap.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 94
+      },
+      "writtenOn": "2010-11-01T21:04:48Z",
+      "side": 1,
+      "message": "Is there a missing word right here? \"...caller because loading...\"",
+      "revId": "142f6dd6e786e56922da2e3db9b2fb65df820233",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
