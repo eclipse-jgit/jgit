@@ -305,14 +305,8 @@ public class LockFile {
 			}
 
 			@Override
-			public void flush() throws IOException {
-				out.flush();
-			}
-
-			@Override
 			public void close() throws IOException {
 				try {
-					out.flush();
 					if (fsync)
 						os.getChannel().force(true);
 					out.close();
