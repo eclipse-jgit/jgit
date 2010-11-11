@@ -57,6 +57,7 @@ import java.util.List;
 
 import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.diff.DiffEntry.ChangeType;
+import org.eclipse.jgit.diff.SimilarityIndex.TableFullException;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.NullProgressMonitor;
@@ -445,14 +446,23 @@ public class RenameDetector {
 
 	private int calculateModifyScore(ContentSource.Pair reader, DiffEntry d)
 			throws IOException {
-		SimilarityIndex src = new SimilarityIndex();
-		src.hash(reader.open(OLD, d));
-		src.sort();
+		try {
+			SimilarityIndex src = new SimilarityIndex();
+			src.hash(reader.open(OLD, d));
+			src.sort();
 
-		SimilarityIndex dst = new SimilarityIndex();
-		dst.hash(reader.open(NEW, d));
-		dst.sort();
-		return src.score(dst, 100);
+			SimilarityIndex dst = new SimilarityIndex();
+			dst.hash(reader.open(NEW, d));
+			dst.sort();
+			return src.score(dst, 100);
+		} catch (TableFullException tableFull) {
+			// If either table overflowed while being constructed, don't allow
+			// the pair to be broken. Returning 1 higher than breakScore will
+			// ensure its not similar, but not quite dissimilar enough to break.
+			//
+			overRenameLimit = true;
+			return breakScore + 1;
+		}
 	}
 
 	private void findContentRenames(ContentSource.Pair reader,
@@ -468,6 +478,7 @@ public class RenameDetector {
 			d = new SimilarityRenameDetector(reader, deleted, added);
 			d.setRenameScore(getRenameScore());
 			d.compute(pm);
+			overRenameLimit |= d.isTableOverflow();
 			deleted = d.getLeftOverSources();
 			added = d.getLeftOverDestinations();
 			entries.addAll(d.getMatches());
