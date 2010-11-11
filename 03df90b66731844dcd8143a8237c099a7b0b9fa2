@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALy3///GQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/HttpAuthMethod.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-10-06T17:23:04Z",
+      "side": 1,
+      "message": "Don\u0027t initialize to null.  Let the compiler require us to ensure the values are initialized in every branch below.",
+      "revId": "03df90b66731844dcd8143a8237c099a7b0b9fa2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///GM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/HttpAuthMethod.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-10-06T17:23:04Z",
+      "side": 1,
+      "message": "I agree, the downcast here is ugly.\n\nA more clean solution is to have the provider be a callback that we ask for data from:\n\n  c \u003d credentialsProvider.getCredentials(uri, \"Username\", \"Password\");\n  username \u003d c.get(0);\n  passsword \u003d c.get(1);\n\nOr something like that.  The idea being that the protocol here provides prompts to the provider letting it know what it needs, and the provider returns that data in the credentials object.\n\nTo be safe we probably don\u0027t want to pass in username/password as strings, but instead have a prompt type object that is abstract, with two concrete instances for USERNAME and PASSWORD that are standard singletons.  LIkewise we could do a PASSPHRASE standard singleton to decrypt an SSH key.",
+      "revId": "03df90b66731844dcd8143a8237c099a7b0b9fa2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///GI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Transport.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 565,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-10-06T17:23:04Z",
+      "side": 1,
+      "message": "We would prefer this to be private and use the getter.",
+      "revId": "03df90b66731844dcd8143a8237c099a7b0b9fa2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
