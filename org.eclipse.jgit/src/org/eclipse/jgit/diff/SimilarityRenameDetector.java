@@ -219,11 +219,6 @@ class SimilarityRenameDetector {
 		long[] dstSizes = new long[dsts.size()];
 		BitSet dstTooLarge = null;
 
-		// Init the size arrays to some value that indicates that we haven't
-		// calculated the size yet. Since sizes cannot be negative, -1 will work
-		Arrays.fill(srcSizes, -1);
-		Arrays.fill(dstSizes, -1);
-
 		// Consider each pair of files, if the score is above the minimum
 		// threshold we need record that scoring in the matrix so we can
 		// later find the best matches.
@@ -257,14 +252,14 @@ class SimilarityRenameDetector {
 				}
 
 				long srcSize = srcSizes[srcIdx];
-				if (srcSize < 0) {
-					srcSize = size(OLD, srcEnt);
+				if (srcSize == 0) {
+					srcSize = size(OLD, srcEnt) + 1;
 					srcSizes[srcIdx] = srcSize;
 				}
 
 				long dstSize = dstSizes[dstIdx];
-				if (dstSize < 0) {
-					dstSize = size(NEW, dstEnt);
+				if (dstSize == 0) {
+					dstSize = size(NEW, dstEnt) + 1;
 					dstSizes[dstIdx] = dstSize;
 				}
 
