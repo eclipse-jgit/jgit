@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL0H///7U\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Credentials.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-11-10T15:44:57Z",
+      "side": 1,
+      "message": "This class has been removed",
+      "parentUuid": "AAALy3///Ss\u003d",
+      "revId": "03df90b66731844dcd8143a8237c099a7b0b9fa2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALy3///Sc\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/CredentialsProvider.java",
         "patchSetId": 1
@@ -53,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL0H///7Q\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/CredentialsProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-11-10T15:44:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALy3///Sc\u003d",
+      "revId": "03df90b66731844dcd8143a8237c099a7b0b9fa2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALy3///GQ\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/HttpAuthMethod.java",
         "patchSetId": 1
@@ -64,6 +100,24 @@
       "writtenOn": "2010-10-06T17:23:04Z",
       "side": 1,
       "message": "Don\u0027t initialize to null.  Let the compiler require us to ensure the values are initialized in every branch below.",
+      "revId": "03df90b66731844dcd8143a8237c099a7b0b9fa2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0H///7c\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/HttpAuthMethod.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-11-10T15:44:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALy3///GQ\u003d",
       "revId": "03df90b66731844dcd8143a8237c099a7b0b9fa2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -104,6 +158,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL0H///7Y\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/HttpAuthMethod.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-11-10T15:44:57Z",
+      "side": 1,
+      "message": "This has been reworked and simplified completely.",
+      "parentUuid": "AAALy3///GM\u003d",
+      "revId": "03df90b66731844dcd8143a8237c099a7b0b9fa2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALy3///GI\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Transport.java",
         "patchSetId": 1
@@ -121,6 +193,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL0H///7M\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Transport.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 565,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-11-10T15:44:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALy3///GI\u003d",
+      "revId": "03df90b66731844dcd8143a8237c099a7b0b9fa2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALy3///Sk\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UsernamePasswordCredentials.java",
         "patchSetId": 1
@@ -132,6 +222,24 @@
       "writtenOn": "2010-09-28T07:50:00Z",
       "side": 1,
       "message": "missing license header",
+      "revId": "03df90b66731844dcd8143a8237c099a7b0b9fa2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0H///7I\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UsernamePasswordCredentials.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-11-10T15:44:57Z",
+      "side": 1,
+      "message": "This class has been removed",
+      "parentUuid": "AAALy3///Sk\u003d",
       "revId": "03df90b66731844dcd8143a8237c099a7b0b9fa2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
