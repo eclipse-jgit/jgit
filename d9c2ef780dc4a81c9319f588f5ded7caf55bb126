@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL0H///58\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/errors/UnsupportedCredentialType.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-11-10T19:52:27Z",
+      "side": 1,
+      "message": "Style-nit: Unnecessary blank line.",
+      "revId": "d9c2ef780dc4a81c9319f588f5ded7caf55bb126",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0H///6I\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/CredentialsProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-11-10T19:52:27Z",
+      "side": 1,
+      "message": "Style-nit: Trailing whitespace.",
+      "revId": "d9c2ef780dc4a81c9319f588f5ded7caf55bb126",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0H///6E\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/CredentialsProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-11-10T19:52:27Z",
+      "side": 1,
+      "message": "Style-nit: Trailing whitespace.",
+      "revId": "d9c2ef780dc4a81c9319f588f5ded7caf55bb126",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0H///6A\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/CredentialsProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-11-10T19:52:27Z",
+      "side": 1,
+      "message": "Doesn\u0027t this interface limit us to prompting twice for input?  That is, if the caller knows it needs both USERNAME and PASSWORD (think HTTP basic auth) we have to ask the provider twice.  So the provider has to open a dialog and ask for username, close that dialog, return the value, then open another to ask for password.  Ick.\n\nWhat about this interface instead:\n\n  public abstract Map\u003cCredentialType, Object\u003e getCredentials(URIish uri, CredentialType... types);\n\nThen we can ask for either one value, or multiple values, at one time.\n\nBut this still isn\u0027t completely flexible.  We can\u0027t use this interface to ask for an SSH key passphrase for example, because we cannot extend the CredentialType enumeration with a new value.\n\nI have a different alternative idea.  I\u0027ll try uploading a replacement patch set with it for comments.",
+      "revId": "d9c2ef780dc4a81c9319f588f5ded7caf55bb126",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
