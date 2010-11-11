@@ -55,7 +55,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.jgit.awtui.AwtAuthenticator;
-import org.eclipse.jgit.awtui.AwtSshSessionFactory;
+import org.eclipse.jgit.awtui.AwtCredentialsProvider;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryBuilder;
@@ -114,7 +114,7 @@ public class Main {
 		try {
 			if (!installConsole()) {
 				AwtAuthenticator.install();
-				AwtSshSessionFactory.install();
+				AwtCredentialsProvider.install();
 			}
 			configureHttpProxy();
 			execute(argv);
@@ -218,7 +218,7 @@ public class Main {
 	private static boolean installConsole() {
 		try {
 			install("org.eclipse.jgit.console.ConsoleAuthenticator");
-			install("org.eclipse.jgit.console.ConsoleSshSessionFactory");
+			install("org.eclipse.jgit.console.ConsoleCredentialsProvider");
 			return true;
 		} catch (ClassNotFoundException e) {
 			return false;
