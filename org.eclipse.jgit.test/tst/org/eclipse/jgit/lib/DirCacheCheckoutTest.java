@@ -37,12 +37,22 @@
  */
 package org.eclipse.jgit.lib;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.MergeResult.MergeStatus;
+import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.api.errors.NoFilepatternException;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheCheckout;
+import org.eclipse.jgit.errors.CorruptObjectException;
+import org.eclipse.jgit.errors.NoWorkTreeException;
+import org.eclipse.jgit.lib.RefUpdate.Result;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 
 public class DirCacheCheckoutTest extends ReadTreeTest {
 	private DirCacheCheckout dco;
@@ -83,4 +93,78 @@ public class DirCacheCheckoutTest extends ReadTreeTest {
 	public List<String> getConflicts() {
 		return dco.getConflicts();
 	}
+
+	public void testResetHard() throws IOException, NoFilepatternException,
+			GitAPIException {
+		Git git = new Git(db);
+		writeTrashFile("f", "f()");
+		writeTrashFile("D/g", "g()");
+		git.add().addFilepattern(".").call();
+		git.commit().setMessage("inital").call();
+		assertIndex(mkmap("f", "f()", "D/g", "g()"));
+
+		git.branchCreate().setName("topic").call();
+
+		writeTrashFile("f", "f()\nmaster");
+		writeTrashFile("D/g", "g()\ng2()");
+		writeTrashFile("E/h", "h()");
+		git.add().addFilepattern(".").call();
+		RevCommit master = git.commit().setMessage("master-1").call();
+		assertIndex(mkmap("f", "f()\nmaster", "D/g", "g()\ng2()", "E/h", "h()"));
+
+		checkoutBranch("refs/heads/topic");
+		assertIndex(mkmap("f", "f()", "D/g", "g()"));
+
+		writeTrashFile("f", "f()\nside");
+		assertTrue(new File(db.getWorkTree(), "D/g").delete());
+		writeTrashFile("G/i", "i()");
+		git.add().addFilepattern(".").call();
+		git.add().addFilepattern(".").setUpdate(true).call();
+		RevCommit topic = git.commit().setMessage("topic-1").call();
+		assertIndex(mkmap("f", "f()\nside", "G/i", "i()"));
+
+		resetHard(master);
+		assertIndex(mkmap("f", "f()\nmaster", "D/g", "g()\ng2()", "E/h", "h()"));
+		resetHard(topic);
+		assertIndex(mkmap("f", "f()\nside", "G/i", "i()"));
+		assertWorkDir(mkmap("f", "f()\nside", "G/i", "i()"));
+
+		assertEquals(MergeStatus.CONFLICTING, git.merge().include(master)
+				.call().getMergeStatus());
+		assertEquals(
+				"[E/h, mode:100644][G/i, mode:100644][f, mode:100644, stage:1][f, mode:100644, stage:2][f, mode:100644, stage:3]",
+				indexState(0));
+
+		resetHard(master);
+		assertIndex(mkmap("f", "f()\nmaster", "D/g", "g()\ng2()", "E/h", "h()"));
+		assertWorkDir(mkmap("f", "f()\nmaster", "D/g", "g()\ng2()", "E/h",
+				"h()"));
+	}
+
+	private DirCacheCheckout resetHard(RevCommit commit)
+			throws NoWorkTreeException,
+			CorruptObjectException, IOException {
+		DirCacheCheckout dc;
+		dc = new DirCacheCheckout(db, null, db.lockDirCache(),
+				commit.getTree());
+		dc.setFailOnConflict(true);
+		assertTrue(dc.checkout());
+		return dc;
+	}
+
+	private void checkoutBranch(String branchName)
+			throws IllegalStateException, IOException {
+		RevWalk walk = new RevWalk(db);
+		RevCommit head = walk.parseCommit(db.resolve(Constants.HEAD));
+		RevCommit branch = walk.parseCommit(db.resolve(branchName));
+		DirCacheCheckout dco = new DirCacheCheckout(db, head.getTree().getId(),
+				db.lockDirCache(), branch.getTree().getId());
+		dco.setFailOnConflict(true);
+		assertTrue(dco.checkout());
+		walk.release();
+		// update the HEAD
+		RefUpdate refUpdate = db.updateRef(Constants.HEAD);
+		assertEquals(Result.FORCED, refUpdate.link(branchName));
+	}
+
 }
