@@ -577,6 +577,7 @@ public abstract class Transport {
 		this.local = local;
 		this.uri = uri;
 		this.checkFetchedObjects = tc.isFsckObjects();
+		this.credentialsProvider = CredentialsProvider.getDefault();
 	}
 
 	/**
