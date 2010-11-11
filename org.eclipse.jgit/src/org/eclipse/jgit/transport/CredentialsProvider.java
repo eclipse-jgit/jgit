@@ -81,6 +81,17 @@ public abstract class CredentialsProvider {
 	}
 
 	/**
+	 * Check if the provider is interactive with the end-user.
+	 *
+	 * An interactive provider may try to open a dialog box, or prompt for input
+	 * on the terminal, and will wait for a user response. A non-interactive
+	 * provider will either populate CredentialItems, or fail.
+	 *
+	 * @return {@code true} if the provider is interactive with the end-user.
+	 */
+	public abstract boolean isInteractive();
+
+	/**
 	 * Check if the provider can supply the necessary {@link CredentialItem}s.
 	 *
 	 * @param items

@@ -211,6 +211,60 @@ public abstract class CredentialItem {
 		}
 	}
 
+	/** An item whose value is a boolean choice, presented as Yes/No. */
+	public static class YesNoType extends CredentialItem {
+		private boolean value;
+
+		/**
+		 * Initialize a prompt for a single boolean answer.
+		 *
+		 * @param promptText
+		 *            prompt to display to the user alongside of the input
+		 *            field. Should be sufficient text to indicate what to
+		 *            supply for this item.
+		 */
+		public YesNoType(String promptText) {
+			super(promptText, false);
+		}
+
+		@Override
+		public void clear() {
+			value = false;
+		}
+
+		/** @return the current value */
+		public boolean getValue() {
+			return value;
+		}
+
+		/**
+		 * Set the new value.
+		 *
+		 * @param newValue
+		 */
+		public void setValue(boolean newValue) {
+			value = newValue;
+		}
+	}
+
+	/** An advice message presented to the user, with no response required. */
+	public static class InformationalMessage extends CredentialItem {
+		/**
+		 * Initialize an informational message.
+		 *
+		 * @param messageText
+		 *            message to display to the user.
+		 */
+		public InformationalMessage(String messageText) {
+			super(messageText, false);
+		}
+
+		@Override
+		public void clear() {
+			// Nothing to clear.
+		}
+	}
+
 	/** Prompt for a username, which is not masked on input. */
 	public static class Username extends StringType {
 		/** Initialize a new username item, with a default username prompt. */
