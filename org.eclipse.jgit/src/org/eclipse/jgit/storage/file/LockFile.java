@@ -51,6 +51,8 @@ import java.io.FileOutputStream;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.ByteBuffer;
+import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
 import java.nio.channels.OverlappingFileLockException;
 import java.text.MessageFormat;
@@ -59,6 +61,7 @@ import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.util.FS;
+import org.eclipse.jgit.util.io.ChannelOutputStream;
 
 /**
  * Git style file locking and replacement.
@@ -91,6 +94,8 @@ public class LockFile {
 	private FileOutputStream os;
 
 	private boolean needStatInformation;
+
+	private boolean fsync;
 
 	private long commitLastModified;
 
@@ -191,10 +196,21 @@ public class LockFile {
 		try {
 			final FileInputStream fis = new FileInputStream(ref);
 			try {
-				final byte[] buf = new byte[2048];
-				int r;
-				while ((r = fis.read(buf)) >= 0)
-					os.write(buf, 0, r);
+				if (fsync) {
+					FileChannel in = fis.getChannel();
+					long pos = 0;
+					long cnt = in.size();
+					while (0 < cnt) {
+						long r = os.getChannel().transferFrom(in, pos, cnt);
+						pos += r;
+						cnt -= r;
+					}
+				} else {
+					final byte[] buf = new byte[2048];
+					int r;
+					while ((r = fis.read(buf)) >= 0)
+						os.write(buf, 0, r);
+				}
 			} finally {
 				fis.close();
 			}
@@ -251,8 +267,15 @@ public class LockFile {
 	public void write(final byte[] content) throws IOException {
 		requireLock();
 		try {
-			os.write(content);
-			os.flush();
+			if (fsync) {
+				FileChannel fc = os.getChannel();
+				ByteBuffer buf = ByteBuffer.wrap(content);
+				while (0 < buf.remaining())
+					fc.write(buf);
+				fc.force(true);
+			} else {
+				os.write(content);
+			}
 			fLck.release();
 			os.close();
 			os = null;
@@ -279,34 +302,43 @@ public class LockFile {
 	 */
 	public OutputStream getOutputStream() {
 		requireLock();
+
+		final OutputStream out;
+		if (fsync)
+			out = new ChannelOutputStream(os.getChannel());
+		else
+			out = os;
+
 		return new OutputStream() {
 			@Override
 			public void write(final byte[] b, final int o, final int n)
 					throws IOException {
-				os.write(b, o, n);
+				out.write(b, o, n);
 			}
 
 			@Override
 			public void write(final byte[] b) throws IOException {
-				os.write(b);
+				out.write(b);
 			}
 
 			@Override
 			public void write(final int b) throws IOException {
-				os.write(b);
+				out.write(b);
 			}
 
 			@Override
 			public void flush() throws IOException {
-				os.flush();
+				out.flush();
 			}
 
 			@Override
 			public void close() throws IOException {
 				try {
-					os.flush();
+					out.flush();
+					if (fsync)
+						os.getChannel().force(true);
 					fLck.release();
-					os.close();
+					out.close();
 					os = null;
 				} catch (IOException ioe) {
 					unlock();
@@ -337,6 +369,16 @@ public class LockFile {
 	 */
 	public void setNeedStatInformation(final boolean on) {
 		needStatInformation = on;
+	}
+
+	/**
+	 * Request that {@link #commit()} force dirty data to the drive.
+	 *
+	 * @param on
+	 *            true if dirty data should be forced to the drive.
+	 */
+	public void setFSync(final boolean on) {
+		fsync = on;
 	}
 
 	/**

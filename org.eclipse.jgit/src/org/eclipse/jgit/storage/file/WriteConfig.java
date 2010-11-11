@@ -59,9 +59,12 @@ class WriteConfig {
 
 	private final boolean fsyncObjectFiles;
 
+	private final boolean fsyncRefFiles;
+
 	private WriteConfig(final Config rc) {
 		compression = rc.get(CoreConfig.KEY).getCompression();
 		fsyncObjectFiles = rc.getBoolean("core", "fsyncobjectfiles", false);
+		fsyncRefFiles = rc.getBoolean("core", "fsyncreffiles", false);
 	}
 
 	int getCompression() {
@@ -70,5 +73,9 @@ class WriteConfig {
 
 	boolean getFSyncObjectFiles() {
 		return fsyncObjectFiles;
+	}
+
+	boolean getFSyncRefFiles() {
+		return fsyncRefFiles;
 	}
 }
