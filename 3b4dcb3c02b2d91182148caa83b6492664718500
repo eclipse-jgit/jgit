@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL0H///6Q\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-11-10T18:15:07Z",
+      "side": 1,
+      "message": "I don\u0027t think this is the solution.  From what I know of how this code works, we shouldn\u0027t be here for a directory name.  If we are and i.getDirCacheEntry() \u003d\u003d null, we would execute the else case below and call keep(null), which should also then NPE, or NPE very late downstream when the new index contains an empty slot.\n\nI think the better question is, why are we looking at a subtree here in \"i\" and in this code path?",
+      "revId": "3b4dcb3c02b2d91182148caa83b6492664718500",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
