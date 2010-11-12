@@ -314,9 +314,9 @@ public class DirCacheCheckout {
 			WorkingTreeIterator f) {
 		if (m != null) {
 			if (i == null || f == null || !m.idEqual(i)
-					|| (i.getDirCacheEntry() != null && f.isModified(i
-							.getDirCacheEntry(), true, config_filemode(), repo
-							.getFS()))) {
+					|| (i.getDirCacheEntry() != null && (f.isModified(
+							i.getDirCacheEntry(), true, config_filemode(),
+							repo.getFS()) || i.getDirCacheEntry().getStage() != 0))) {
 				update(m.getEntryPathString(), m.getEntryObjectId(),
 						m.getEntryFileMode());
 			} else
@@ -334,7 +334,7 @@ public class DirCacheCheckout {
 						conflicts.remove(i.getEntryPathString());
 					}
 				}
-			} else
+			} else if (i.getDirCacheEntry().getStage() == 0)
 				keep(i.getDirCacheEntry());
 		}
 	}
@@ -372,10 +372,14 @@ public class DirCacheCheckout {
 
 		File file=null;
 		String last = "";
-		for (String r : removed) {
+		// when deleting files process them in the opposite order as they have
+		// been reported. This ensures the files are deleted before we delete
+		// their parent folders
+		for (int i = removed.size() - 1; i >= 0; i--) {
+			String r = removed.get(i);
 			file = new File(repo.getWorkTree(), r);
-			if (!file.delete())
-				toBeDeleted.add(r);
+			if (!file.delete() && file.exists())
+					toBeDeleted.add(r);
 			else {
 				if (!isSamePrefix(r, last))
 					removeEmptyParents(file);
