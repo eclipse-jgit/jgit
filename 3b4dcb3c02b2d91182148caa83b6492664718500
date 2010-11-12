@@ -16,6 +16,24 @@
       "revId": "3b4dcb3c02b2d91182148caa83b6492664718500",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0H///5o\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-11-10T21:54:03Z",
+      "side": 1,
+      "message": "Hmmm, why shouldn\u0027t we be here for an subtree path? This method is only called from prescanOneTree() (when we ignore HEAD during clone or reset operations). There we create a non-recursive treewalk for merge, index and worktree and jump for every path into this method. In the clone use-case worktree and index should be empty, right? But during a reset it is likely that we are here because e.g. the worktree contains a folder for that path.\n\nNow the good news: keep() tests for null values and therefore will not lead to an NPE.\nAnd the bad news: f.isModified() doesn\u0027t test for null values and will NPE. So, I would guess this check is ok and needed.\n\nI think we really need tests here. DirCacheCheckout.prescanTwoTrees is well tested. But prescanOneTree is not. I try to create some tests which improve test coverage.",
+      "parentUuid": "AAAL0H///6Q\u003d",
+      "revId": "3b4dcb3c02b2d91182148caa83b6492664718500",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
