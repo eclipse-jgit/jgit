@@ -47,6 +47,7 @@ import java.io.IOException;
 
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
 
 /**
@@ -61,4 +62,6 @@ abstract class NoteBucket {
 
 	abstract InMemoryNoteBucket set(AnyObjectId noteOn, AnyObjectId noteData,
 			ObjectReader reader) throws IOException;
+
+	abstract ObjectId writeTree(ObjectInserter inserter) throws IOException;
 }
