@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL0H///yk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/notes/FanoutBucket.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 94
+      },
+      "writtenOn": "2010-11-12T22:29:31Z",
+      "side": 1,
+      "message": "About the millionth time someone has had to write this :-(",
+      "revId": "3e2b9b691ed30d53750cc08c2b89577b78e6d19a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
