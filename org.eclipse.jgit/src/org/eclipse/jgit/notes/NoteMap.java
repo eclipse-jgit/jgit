@@ -51,7 +51,9 @@ import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevTree;
@@ -65,6 +67,17 @@ import org.eclipse.jgit.revwalk.RevTree;
  * shared {@code ObjectReader} at the proper times.
  */
 public class NoteMap {
+	/**
+	 * Construct a new empty note map.
+	 *
+	 * @return an empty note map.
+	 */
+	public static NoteMap newEmptyMap() {
+		NoteMap r = new NoteMap(null /* no reader */);
+		r.root = new LeafBucket(0);
+		return r;
+	}
+
 	/**
 	 * Load a collection of notes from a branch.
 	 *
@@ -211,6 +224,89 @@ public class NoteMap {
 			return reader.open(dataId).getCachedBytes(sizeLimit);
 		else
 			return null;
+	}
+
+	/**
+	 * Attach (or remove) a note on an object.
+	 *
+	 * If no note exists, a new note is stored. If a note already exists for the
+	 * given object, it is replaced (or removed).
+	 *
+	 * This method only updates the map in memory.
+	 *
+	 * If the caller wants to attach a UTF-8 encoded string message to an
+	 * object, {@link #set(AnyObjectId, String, ObjectInserter)} is a convenient
+	 * way to encode and update a note in one step.
+	 *
+	 * @param noteOn
+	 *            the object to attach the note to. This same ObjectId can later
+	 *            be used as an argument to {@link #get(AnyObjectId)} or
+	 *            {@link #getCachedBytes(AnyObjectId, int)} to read back the
+	 *            {@code noteData}.
+	 * @param noteData
+	 *            data to associate with the note. This must be the ObjectId of
+	 *            a blob that already exists in the repository. If null the note
+	 *            will be deleted, if present.
+	 * @throws IOException
+	 *             a portion of the note space is not accessible.
+	 */
+	public void set(AnyObjectId noteOn, ObjectId noteData) throws IOException {
+		InMemoryNoteBucket newRoot = root.set(noteOn, noteData, reader);
+		if (newRoot == null) {
+			newRoot = new LeafBucket(0);
+			newRoot.nonNotes = root.nonNotes;
+		}
+		root = newRoot;
+	}
+
+	/**
+	 * Attach a note to an object.
+	 *
+	 * If no note exists, a new note is stored. If a note already exists for the
+	 * given object, it is replaced (or removed).
+	 *
+	 * @param noteOn
+	 *            the object to attach the note to. This same ObjectId can later
+	 *            be used as an argument to {@link #get(AnyObjectId)} or
+	 *            {@link #getCachedBytes(AnyObjectId, int)} to read back the
+	 *            {@code noteData}.
+	 * @param noteData
+	 *            text to store in the note. The text will be UTF-8 encoded when
+	 *            stored in the repository. If null the note will be deleted, if
+	 *            the empty string a note with the empty string will be stored.
+	 * @param ins
+	 *            inserter to write the encoded {@code noteData} out as a blob.
+	 *            The caller must ensure the inserter is flushed before the
+	 *            updated note map is made available for reading.
+	 * @throws IOException
+	 *             the note data could not be stored in the repository.
+	 */
+	public void set(AnyObjectId noteOn, String noteData, ObjectInserter ins)
+			throws IOException {
+		ObjectId dataId;
+		if (noteData != null) {
+			byte[] dataUTF8 = Constants.encode(noteData);
+			dataId = ins.insert(Constants.OBJ_BLOB, dataUTF8);
+		} else {
+			dataId = null;
+		}
+		set(noteOn, dataId);
+	}
+
+	/**
+	 * Remove a note from an object.
+	 *
+	 * If no note exists, no action is performed.
+	 *
+	 * This method only updates the map in memory.
+	 *
+	 * @param noteOn
+	 *            the object to remove the note from.
+	 * @throws IOException
+	 *             a portion of the note space is not accessible.
+	 */
+	public void remove(AnyObjectId noteOn) throws IOException {
+		set(noteOn, null);
 	}
 
 	private void load(ObjectId rootTree) throws MissingObjectException,
