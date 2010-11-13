@@ -49,10 +49,12 @@ import static org.eclipse.jgit.diff.DiffEntry.Side.OLD;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.BitSet;
 import java.util.List;
 
 import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.diff.DiffEntry.ChangeType;
+import org.eclipse.jgit.diff.SimilarityIndex.TableFullException;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ProgressMonitor;
@@ -109,6 +111,9 @@ class SimilarityRenameDetector {
 
 	/** Score a pair must exceed to be considered a rename. */
 	private int renameScore = 60;
+
+	/** Set if any {@link SimilarityIndex.TableFullException} occurs. */
+	private boolean tableOverflow;
 
 	private List<DiffEntry> out;
 
@@ -182,6 +187,10 @@ class SimilarityRenameDetector {
 		return dsts;
 	}
 
+	boolean isTableOverflow() {
+		return tableOverflow;
+	}
+
 	private static List<DiffEntry> compactSrcList(List<DiffEntry> in) {
 		ArrayList<DiffEntry> r = new ArrayList<DiffEntry>(in.size());
 		for (DiffEntry e : in) {
@@ -208,25 +217,22 @@ class SimilarityRenameDetector {
 
 		long[] srcSizes = new long[srcs.size()];
 		long[] dstSizes = new long[dsts.size()];
-
-		// Init the size arrays to some value that indicates that we haven't
-		// calculated the size yet. Since sizes cannot be negative, -1 will work
-		Arrays.fill(srcSizes, -1);
-		Arrays.fill(dstSizes, -1);
+		BitSet dstTooLarge = null;
 
 		// Consider each pair of files, if the score is above the minimum
 		// threshold we need record that scoring in the matrix so we can
 		// later find the best matches.
 		//
 		int mNext = 0;
-		for (int srcIdx = 0; srcIdx < srcs.size(); srcIdx++) {
+		SRC: for (int srcIdx = 0; srcIdx < srcs.size(); srcIdx++) {
 			DiffEntry srcEnt = srcs.get(srcIdx);
 			if (!isFile(srcEnt.oldMode)) {
 				pm.update(dsts.size());
 				continue;
 			}
 
-			SimilarityIndex s = hash(OLD, srcEnt);
+			SimilarityIndex s = null;
+
 			for (int dstIdx = 0; dstIdx < dsts.size(); dstIdx++) {
 				DiffEntry dstEnt = dsts.get(dstIdx);
 
@@ -240,15 +246,20 @@ class SimilarityRenameDetector {
 					continue;
 				}
 
+				if (dstTooLarge != null && dstTooLarge.get(dstIdx)) {
+					pm.update(1);
+					continue;
+				}
+
 				long srcSize = srcSizes[srcIdx];
-				if (srcSize < 0) {
-					srcSize = size(OLD, srcEnt);
+				if (srcSize == 0) {
+					srcSize = size(OLD, srcEnt) + 1;
 					srcSizes[srcIdx] = srcSize;
 				}
 
 				long dstSize = dstSizes[dstIdx];
-				if (dstSize < 0) {
-					dstSize = size(NEW, dstEnt);
+				if (dstSize == 0) {
+					dstSize = size(NEW, dstEnt) + 1;
 					dstSizes[dstIdx] = dstSize;
 				}
 
@@ -260,7 +271,27 @@ class SimilarityRenameDetector {
 					continue;
 				}
 
-				SimilarityIndex d = hash(NEW, dstEnt);
+				if (s == null) {
+					try {
+						s = hash(OLD, srcEnt);
+					} catch (TableFullException tableFull) {
+						tableOverflow = true;
+						continue SRC;
+					}
+				}
+
+				SimilarityIndex d;
+				try {
+					d = hash(NEW, dstEnt);
+				} catch (TableFullException tableFull) {
+					if (dstTooLarge == null)
+						dstTooLarge = new BitSet(dsts.size());
+					dstTooLarge.set(dstIdx);
+					tableOverflow = true;
+					pm.update(1);
+					continue;
+				}
+
 				int contentScore = s.score(d, 10000);
 
 				// nameScore returns a value between 0 and 100, but we want it
@@ -336,7 +367,7 @@ class SimilarityRenameDetector {
 	}
 
 	private SimilarityIndex hash(DiffEntry.Side side, DiffEntry ent)
-			throws IOException {
+			throws IOException, TableFullException {
 		SimilarityIndex r = new SimilarityIndex();
 		r.hash(reader.open(side, ent));
 		r.sort();

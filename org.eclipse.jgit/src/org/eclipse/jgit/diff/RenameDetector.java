@@ -57,6 +57,7 @@ import java.util.List;
 
 import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.diff.DiffEntry.ChangeType;
+import org.eclipse.jgit.diff.SimilarityIndex.TableFullException;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.NullProgressMonitor;
@@ -356,9 +357,17 @@ public class RenameDetector {
 
 			if (pm == null)
 				pm = NullProgressMonitor.INSTANCE;
+
+			if (0 < breakScore)
 				breakModifies(reader, pm);
+
+			if (!added.isEmpty() && !deleted.isEmpty())
 				findExactRenames(pm);
+
+			if (!added.isEmpty() && !deleted.isEmpty())
 				findContentRenames(reader, pm);
+
+			if (0 < breakScore && !added.isEmpty() && !deleted.isEmpty())
 				rejoinModifies(pm);
 
 			entries.addAll(added);
@@ -382,9 +391,6 @@ public class RenameDetector {
 
 	private void breakModifies(ContentSource.Pair reader, ProgressMonitor pm)
 			throws IOException {
-		if (breakScore <= 0)
-			return;
-
 		ArrayList<DiffEntry> newEntries = new ArrayList<DiffEntry>(entries.size());
 
 		pm.beginTask(JGitText.get().renamesBreakingModifies, entries.size());
@@ -445,29 +451,36 @@ public class RenameDetector {
 
 	private int calculateModifyScore(ContentSource.Pair reader, DiffEntry d)
 			throws IOException {
-		SimilarityIndex src = new SimilarityIndex();
-		src.hash(reader.open(OLD, d));
-		src.sort();
+		try {
+			SimilarityIndex src = new SimilarityIndex();
+			src.hash(reader.open(OLD, d));
+			src.sort();
 
-		SimilarityIndex dst = new SimilarityIndex();
-		dst.hash(reader.open(NEW, d));
-		dst.sort();
-		return src.score(dst, 100);
+			SimilarityIndex dst = new SimilarityIndex();
+			dst.hash(reader.open(NEW, d));
+			dst.sort();
+			return src.score(dst, 100);
+		} catch (TableFullException tableFull) {
+			// If either table overflowed while being constructed, don't allow
+			// the pair to be broken. Returning 1 higher than breakScore will
+			// ensure its not similar, but not quite dissimilar enough to break.
+			//
+			overRenameLimit = true;
+			return breakScore + 1;
+		}
 	}
 
 	private void findContentRenames(ContentSource.Pair reader,
 			ProgressMonitor pm)
 			throws IOException {
 		int cnt = Math.max(added.size(), deleted.size());
-		if (cnt == 0)
-			return;
-
 		if (getRenameLimit() == 0 || cnt <= getRenameLimit()) {
 			SimilarityRenameDetector d;
 
 			d = new SimilarityRenameDetector(reader, deleted, added);
 			d.setRenameScore(getRenameScore());
 			d.compute(pm);
+			overRenameLimit |= d.isTableOverflow();
 			deleted = d.getLeftOverSources();
 			added = d.getLeftOverDestinations();
 			entries.addAll(d.getMatches());
@@ -478,9 +491,6 @@ public class RenameDetector {
 
 	@SuppressWarnings("unchecked")
 	private void findExactRenames(ProgressMonitor pm) {
-		if (added.isEmpty() || deleted.isEmpty())
-			return;
-
 		pm.beginTask(JGitText.get().renamesFindingExact, //
 				added.size() + added.size() + deleted.size()
 						+ added.size() * deleted.size());
