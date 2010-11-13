@@ -7,98 +7,30 @@
 
 package org.eclipse.jgit.util;
 
-import java.io.Closeable;
-import java.io.IOException;
 import java.text.MessageFormat;
 
 import org.eclipse.jgit.JGitText;
 
-
 /**
  * Encodes and decodes to and from Base64 notation.
- *
  * <p>
- * Change Log:
- * </p>
- * <ul>
- *  <li>v2.1 - Cleaned up javadoc comments and unused variables and methods. Added
- *   some convenience methods for reading and writing to and from files.</li>
- *  <li>v2.0.2 - Now specifies UTF-8 encoding in places where the code fails on systems
- *   with other encodings (like EBCDIC).</li>
- *  <li>v2.0.1 - Fixed an error when decoding a single byte, that is, when the
- *   encoded data was a single byte.</li>
- *  <li>v2.0 - I got rid of methods that used booleans to set options.
- *   Now everything is more consolidated and cleaner. The code now detects
- *   when data that's being decoded is gzip-compressed and will decompress it
- *   automatically. Generally things are cleaner. You'll probably have to
- *   change some method calls that you were making to support the new
- *   options format (<tt>int</tt>s that you "OR" together).</li>
- *  <li>v1.5.1 - Fixed bug when decompressing and decoding to a
- *   byte[] using <tt>decode( String s, boolean gzipCompressed )</tt>.
- *   Added the ability to "suspend" encoding in the Output Stream so
- *   you can turn on and off the encoding if you need to embed base64
- *   data in an otherwise "normal" stream (like an XML file).</li>
- *  <li>v1.5 - Output stream passes on flush() command but doesn't do anything itself.
- *      This helps when using GZIP streams.
- *      Added the ability to GZip-compress objects before encoding them.</li>
- *  <li>v1.4 - Added helper methods to read/write files.</li>
- *  <li>v1.3.6 - Fixed OutputStream.flush() so that 'position' is reset.</li>
- *  <li>v1.3.5 - Added flag to turn on and off line breaks. Fixed bug in input stream
- *      where last buffer being read, if not completely full, was not returned.</li>
- *  <li>v1.3.4 - Fixed when "improperly padded stream" error was thrown at the wrong time.</li>
- *  <li>v1.3.3 - Fixed I/O streams which were totally messed up.</li>
- * </ul>
- *
- * <p>
- * I am placing this code in the Public Domain. Do with it as you will.
- * This software comes with no guarantees or warranties but with
- * plenty of well-wishing instead!
- * Please visit <a href="http://iharder.net/base64">http://iharder.net/base64</a>
- * periodically to check for updates or to contribute improvements.
+ * I am placing this code in the Public Domain. Do with it as you will. This
+ * software comes with no guarantees or warranties but with plenty of
+ * well-wishing instead! Please visit <a
+ * href="http://iharder.net/base64">http://iharder.net/base64</a> periodically
+ * to check for updates or to contribute improvements.
  * </p>
  *
  * @author Robert Harder
  * @author rob@iharder.net
- * @version 2.1
+ * @version 2.1, stripped to minimum feature set used by JGit.
  */
 public class Base64
 {
-
-/* ********  P U B L I C   F I E L D S  ******** */
-
-
-    /** No options specified. Value is zero. */
-    public final static int NO_OPTIONS = 0;
-
-    /** Specify encoding. */
-    public final static int ENCODE = 1;
-
-
-    /** Specify decoding. */
-    public final static int DECODE = 0;
-
-
-    /** Specify that data should be gzip-compressed. */
-    public final static int GZIP = 2;
-
-
-    /** Don't break lines when encoding (violates strict Base64 specification) */
-    public final static int DONT_BREAK_LINES = 8;
-
-
 /* ********  P R I V A T E   F I E L D S  ******** */
-
-
-    /** Maximum line length (76) of Base64 output. */
-    private final static int MAX_LINE_LENGTH = 76;
-
 
     /** The equals sign (=) as a byte. */
     private final static byte EQUALS_SIGN = (byte)'=';
-
-
-    /** The new line character (\n) as a byte. */
-    private final static byte NEW_LINE = (byte)'\n';
 
 
     /** Preferred encoding. */
@@ -181,45 +113,10 @@ public class Base64
     private final static byte WHITE_SPACE_ENC = -5; // Indicates white space in encoding
     private final static byte EQUALS_SIGN_ENC = -1; // Indicates equals sign in encoding
 
-    private static void closeStream(Closeable stream) {
-        if (stream != null) {
-            try {
-                stream.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
     /** Defeats instantiation. */
     private Base64() {
         //suppress empty block warning
     }
-
-/* ********  E N C O D I N G   M E T H O D S  ******** */
-
-
-    /**
-     * Encodes up to the first three bytes of array <var>threeBytes</var>
-     * and returns a four-byte array in Base64 notation.
-     * The actual number of significant bytes in your array is
-     * given by <var>numSigBytes</var>.
-     * The array <var>threeBytes</var> needs only be as big as
-     * <var>numSigBytes</var>.
-     * Code can reuse a byte array by passing a four-byte array as <var>b4</var>.
-     *
-     * @param b4 A reusable byte array to reduce array instantiation
-     * @param threeBytes the array to convert
-     * @param numSigBytes the number of significant bytes in your array
-     * @return four byte array in Base64 notation.
-     * @since 1.5.1
-     */
-    private static byte[] encode3to4( byte[] b4, byte[] threeBytes, int numSigBytes )
-    {
-        encode3to4( threeBytes, 0, numSigBytes, b4, 0 );
-        return b4;
-    }   // end encode3to4
-
 
     /**
      * Encodes up to three bytes of the array <var>source</var>
@@ -289,108 +186,8 @@ public class Base64
         }   // end switch
     }   // end encode3to4
 
-
-
-    /**
-     * Serializes an object and returns the Base64-encoded
-     * version of that serialized object. If the object
-     * cannot be serialized or there is another error,
-     * the method will return <tt>null</tt>.
-     * The object is not GZip-compressed before being encoded.
-     *
-     * @param serializableObject The object to encode
-     * @return The Base64-encoded object
-     * @since 1.4
-     */
-    public static String encodeObject( java.io.Serializable serializableObject )
-    {
-        return encodeObject( serializableObject, NO_OPTIONS );
-    }   // end encodeObject
-
-
-
-    /**
-     * Serializes an object and returns the Base64-encoded
-     * version of that serialized object. If the object
-     * cannot be serialized or there is another error,
-     * the method will return <tt>null</tt>.
-     * <p>
-     * Valid options:<pre>
-     *   GZIP: gzip-compresses object before encoding it.
-     *   DONT_BREAK_LINES: don't break lines at 76 characters
-     *     <i>Note: Technically, this makes your encoding non-compliant.</i>
-     * </pre>
-     * <p>
-     * Example: <code>encodeObject( myObj, Base64.GZIP )</code> or
-     * <p>
-     * Example: <code>encodeObject( myObj, Base64.GZIP | Base64.DONT_BREAK_LINES )</code>
-     *
-     * @param serializableObject The object to encode
-     * @param options Specified options
-     * @return The Base64-encoded object
-     * @see Base64#GZIP
-     * @see Base64#DONT_BREAK_LINES
-     * @since 2.0
-     */
-    public static String encodeObject( java.io.Serializable serializableObject, int options )
-    {
-        // Streams
-        java.io.ByteArrayOutputStream  baos  = null;
-        java.io.OutputStream           b64os = null;
-        java.io.ObjectOutputStream     oos   = null;
-        java.util.zip.GZIPOutputStream gzos  = null;
-
-        // Isolate options
-        int gzip           = (options & GZIP);
-        int dontBreakLines = (options & DONT_BREAK_LINES);
-
-        try
-        {
-            // ObjectOutputStream -> (GZIP) -> Base64 -> ByteArrayOutputStream
-            baos  = new java.io.ByteArrayOutputStream();
-            b64os = new Base64.OutputStream( baos, ENCODE | dontBreakLines );
-
-            // GZip?
-            if( gzip == GZIP )
-            {
-                gzos = new java.util.zip.GZIPOutputStream( b64os );
-                oos  = new java.io.ObjectOutputStream( gzos );
-            }   // end if: gzip
-            else
-                oos   = new java.io.ObjectOutputStream( b64os );
-
-            oos.writeObject( serializableObject );
-        }   // end try
-        catch( java.io.IOException e )
-        {
-            e.printStackTrace();
-            return null;
-        }   // end catch
-        finally
-        {
-            closeStream(oos);
-            closeStream(gzos);
-            closeStream(b64os);
-            closeStream(baos);
-        }   // end finally
-
-        // Return value according to relevant encoding.
-        try
-        {
-            return new String( baos.toByteArray(), PREFERRED_ENCODING );
-        }   // end try
-        catch (java.io.UnsupportedEncodingException uue)
-        {
-            return new String( baos.toByteArray() );
-        }   // end catch
-
-    }   // end encode
-
-
-
     /**
      * Encodes a byte array into Base64 notation.
-     * Does not GZip-compress data.
      *
      * @param source The data to convert
      * @return encoded base64 representation of source.
@@ -398,41 +195,11 @@ public class Base64
      */
     public static String encodeBytes( byte[] source )
     {
-        return encodeBytes( source, 0, source.length, NO_OPTIONS );
+		return encodeBytes(source, 0, source.length);
     }   // end encodeBytes
-
-
 
     /**
      * Encodes a byte array into Base64 notation.
-     * <p>
-     * Valid options:<pre>
-     *   GZIP: gzip-compresses object before encoding it.
-     *   DONT_BREAK_LINES: don't break lines at 76 characters
-     *     <i>Note: Technically, this makes your encoding non-compliant.</i>
-     * </pre>
-     * <p>
-     * Example: <code>encodeBytes( myData, Base64.GZIP )</code> or
-     * <p>
-     * Example: <code>encodeBytes( myData, Base64.GZIP | Base64.DONT_BREAK_LINES )</code>
-     *
-     *
-     * @param source The data to convert
-     * @param options Specified options
-     * @return encoded base64 representation of source.
-     * @see Base64#GZIP
-     * @see Base64#DONT_BREAK_LINES
-     * @since 2.0
-     */
-    public static String encodeBytes( byte[] source, int options )
-    {
-        return encodeBytes( source, 0, source.length, options );
-    }   // end encodeBytes
-
-
-    /**
-     * Encodes a byte array into Base64 notation.
-     * Does not GZip-compress data.
      *
      * @param source The data to convert
      * @param off Offset in array where conversion should begin
@@ -442,106 +209,16 @@ public class Base64
      */
     public static String encodeBytes( byte[] source, int off, int len )
     {
-        return encodeBytes( source, off, len, NO_OPTIONS );
-    }   // end encodeBytes
-
-
-
-    /**
-     * Encodes a byte array into Base64 notation.
-     * <p>
-     * Valid options:<pre>
-     *   GZIP: gzip-compresses object before encoding it.
-     *   DONT_BREAK_LINES: don't break lines at 76 characters
-     *     <i>Note: Technically, this makes your encoding non-compliant.</i>
-     * </pre>
-     * <p>
-     * Example: <code>encodeBytes( myData, Base64.GZIP )</code> or
-     * <p>
-     * Example: <code>encodeBytes( myData, Base64.GZIP | Base64.DONT_BREAK_LINES )</code>
-     *
-     *
-     * @param source The data to convert
-     * @param off Offset in array where conversion should begin
-     * @param len Length of data to convert
-     * @param options Specified options
-     * @return encoded base64 representation of source.
-     * @see Base64#GZIP
-     * @see Base64#DONT_BREAK_LINES
-     * @since 2.0
-     */
-    public static String encodeBytes( byte[] source, int off, int len, int options )
-    {
-        // Isolate options
-        int dontBreakLines = ( options & DONT_BREAK_LINES );
-        int gzip           = ( options & GZIP   );
-
-        // Compress?
-        if( gzip == GZIP )
-        {
-            java.io.ByteArrayOutputStream  baos  = null;
-            java.util.zip.GZIPOutputStream gzos  = null;
-            Base64.OutputStream            b64os = null;
-
-
-            try
-            {
-                // GZip -> Base64 -> ByteArray
-                baos = new java.io.ByteArrayOutputStream();
-                b64os = new Base64.OutputStream( baos, ENCODE | dontBreakLines );
-                gzos  = new java.util.zip.GZIPOutputStream( b64os );
-
-                gzos.write( source, off, len );
-                gzos.close();
-            }   // end try
-            catch( java.io.IOException e )
-            {
-                e.printStackTrace();
-                return null;
-            }   // end catch
-            finally
-            {
-                closeStream(gzos);
-                closeStream(b64os);
-                closeStream(baos);
-            }   // end finally
-
-            // Return value according to relevant encoding.
-            try
-            {
-                return new String( baos.toByteArray(), PREFERRED_ENCODING );
-            }   // end try
-            catch (java.io.UnsupportedEncodingException uue)
-            {
-                return new String( baos.toByteArray() );
-            }   // end catch
-        }   // end if: compress
-
-        // Else, don't compress. Better not to use streams at all then.
-        else
-        {
-            // Convert option to boolean in way that code likes it.
-            boolean breakLines = dontBreakLines == 0;
-
             int    len43   = len * 4 / 3;
             byte[] outBuff = new byte[   ( len43 )                      // Main 4:3
                                        + ( (len % 3) > 0 ? 4 : 0 )      // Account for padding
-                                       + (breakLines ? ( len43 / MAX_LINE_LENGTH ) : 0) ]; // New lines
+		];
             int d = 0;
             int e = 0;
             int len2 = len - 2;
-            int lineLength = 0;
             for( ; d < len2; d+=3, e+=4 )
             {
                 encode3to4( source, d+off, 3, outBuff, e );
-
-                lineLength += 4;
-                if( breakLines && lineLength == MAX_LINE_LENGTH )
-                {
-                    outBuff[e+4] = NEW_LINE;
-                    e++;
-                    lineLength = 0;
-                }   // end if: end of line
             }   // end for: each piece of array
 
             if( d < len )
@@ -560,8 +237,6 @@ public class Base64
             {
                 return new String( outBuff, 0, e );
             }   // end catch
-
-        }   // end else: don't compress
 
     }   // end encodeBytes
 
@@ -655,20 +330,19 @@ public class Base64
         }
     }   // end decodeToBytes
 
-
-
-
-    /**
-     * Very low-level access to decoding ASCII characters in
-     * the form of a byte array. Does not support automatically
-     * gunzipping or any other "fancy" features.
-     *
-     * @param source The Base64 encoded data
-     * @param off    The offset of where to begin decoding
-     * @param len    The length of characters to decode
-     * @return decoded data
-     * @since 1.3
-     */
+	/**
+	 * Very low-level access to decoding ASCII characters in the form of a byte
+	 * array.
+	 *
+	 * @param source
+	 *            The Base64 encoded data
+	 * @param off
+	 *            The offset of where to begin decoding
+	 * @param len
+	 *            The length of characters to decode
+	 * @return decoded data
+	 * @since 1.3
+	 */
     public static byte[] decode( byte[] source, int off, int len )
     {
         int    len34   = len * 3 / 4;
@@ -715,17 +389,14 @@ public class Base64
         return out;
     }   // end decode
 
-
-
-
-    /**
-     * Decodes data from Base64 notation, automatically
-     * detecting gzip-compressed data and decompressing it.
-     *
-     * @param s the string to decode
-     * @return the decoded data
-     * @since 1.4
-     */
+	/**
+	 * Decodes data from Base64 notation.
+	 *
+	 * @param s
+	 *            the string to decode
+	 * @return the decoded data
+	 * @since 1.4
+	 */
     public static byte[] decode( String s )
     {
         byte[] bytes;
@@ -737,742 +408,7 @@ public class Base64
         {
             bytes = s.getBytes();
         }   // end catch
-		//</change>
 
-        // Decode
-        bytes = decode( bytes, 0, bytes.length );
-
-
-        // Check to see if it's gzip-compressed
-        // GZIP Magic Two-Byte Number: 0x8b1f (35615)
-        if( bytes != null && bytes.length >= 4 )
-        {
-
-            int head = (bytes[0] & 0xff) | ((bytes[1] << 8) & 0xff00);
-            if( java.util.zip.GZIPInputStream.GZIP_MAGIC == head )
-            {
-                java.io.ByteArrayInputStream  bais = null;
-                java.util.zip.GZIPInputStream gzis = null;
-                java.io.ByteArrayOutputStream baos = null;
-                byte[] buffer = new byte[2048];
-                int    length = 0;
-
-                try
-                {
-                    baos = new java.io.ByteArrayOutputStream();
-                    bais = new java.io.ByteArrayInputStream( bytes );
-                    gzis = new java.util.zip.GZIPInputStream( bais );
-
-                    while( ( length = gzis.read( buffer ) ) >= 0 )
-                    {
-                        baos.write(buffer,0,length);
-                    }   // end while: reading input
-
-                    // No error? Get new bytes.
-                    bytes = baos.toByteArray();
-
-                }   // end try
-                catch( java.io.IOException e )
-                {
-                    // Just return originally-decoded bytes
-                }   // end catch
-                finally
-                {
-                    closeStream(baos);
-                    closeStream(gzis);
-                    closeStream(bais);
-                }   // end finally
-
-            }   // end if: gzipped
-        }   // end if: bytes.length >= 2
-
-        return bytes;
+		return decode(bytes, 0, bytes.length);
     }   // end decode
-
-
-
-
-    /**
-     * Attempts to decode Base64 data and deserialize a Java
-     * Object within. Returns <tt>null</tt> if there was an error.
-     *
-     * @param encodedObject The Base64 data to decode
-     * @return The decoded and deserialized object
-     * @since 1.5
-     */
-    public static Object decodeToObject( String encodedObject )
-    {
-        // Decode and gunzip if necessary
-        byte[] objBytes = decode( encodedObject );
-
-        java.io.ByteArrayInputStream  bais = null;
-        java.io.ObjectInputStream     ois  = null;
-        Object obj = null;
-
-        try
-        {
-            bais = new java.io.ByteArrayInputStream( objBytes );
-            ois  = new java.io.ObjectInputStream( bais );
-
-            obj = ois.readObject();
-        }   // end try
-        catch( java.io.IOException e )
-        {
-            e.printStackTrace();
-        }   // end catch
-        catch( java.lang.ClassNotFoundException e )
-        {
-            e.printStackTrace();
-        }   // end catch
-        finally
-        {
-            closeStream(bais);
-            closeStream(ois);
-        }   // end finally
-
-        return obj;
-    }   // end decodeObject
-
-
-
-    /**
-     * Convenience method for encoding data to a file.
-     *
-     * @param dataToEncode byte array of data to encode in base64 form
-     * @param filename Filename for saving encoded data
-     * @return <tt>true</tt> if successful, <tt>false</tt> otherwise
-     *
-     * @since 2.1
-     */
-    public static boolean encodeToFile( byte[] dataToEncode, String filename )
-    {
-        boolean success = false;
-        Base64.OutputStream bos = null;
-        try
-        {
-            bos = new Base64.OutputStream(
-                      new java.io.FileOutputStream( filename ), Base64.ENCODE );
-            bos.write( dataToEncode );
-            success = true;
-        }   // end try
-        catch( java.io.IOException e )
-        {
-
-            success = false;
-        }   // end catch: IOException
-        finally
-        {
-            closeStream(bos);
-        }   // end finally
-
-        return success;
-    }   // end encodeToFile
-
-
-    /**
-     * Convenience method for decoding data to a file.
-     *
-     * @param dataToDecode Base64-encoded data as a string
-     * @param filename Filename for saving decoded data
-     * @return <tt>true</tt> if successful, <tt>false</tt> otherwise
-     *
-     * @since 2.1
-     */
-    public static boolean decodeToFile( String dataToDecode, String filename )
-    {
-        boolean success = false;
-        Base64.OutputStream bos = null;
-        try
-        {
-                bos = new Base64.OutputStream(
-                          new java.io.FileOutputStream( filename ), Base64.DECODE );
-                bos.write( dataToDecode.getBytes( PREFERRED_ENCODING ) );
-                success = true;
-        }   // end try
-        catch( java.io.IOException e )
-        {
-            success = false;
-        }   // end catch: IOException
-        finally
-        {
-            closeStream(bos);
-        }   // end finally
-
-        return success;
-    }   // end decodeToFile
-
-
-
-
-    /**
-     * Convenience method for reading a base64-encoded
-     * file and decoding it.
-     *
-     * @param filename Filename for reading encoded data
-     * @return decoded byte array or null if unsuccessful
-     *
-     * @since 2.1
-     */
-    public static byte[] decodeFromFile( String filename )
-    {
-        byte[] decodedData = null;
-        Base64.InputStream bis = null;
-        try
-        {
-            // Set up some useful variables
-            java.io.File file = new java.io.File( filename );
-            byte[] buffer = null;
-            int length   = 0;
-            int numBytes = 0;
-
-            // Check for size of file
-            if( file.length() > Integer.MAX_VALUE )
-            {
-                System.err.println(MessageFormat.format(JGitText.get().fileIsTooBigForThisConvenienceMethod, file.length()));
-                return null;
-            }   // end if: file too big for int index
-            buffer = new byte[ (int)file.length() ];
-
-            // Open a stream
-            bis = new Base64.InputStream(
-                      new java.io.BufferedInputStream(
-                      new java.io.FileInputStream( file ) ), Base64.DECODE );
-
-            // Read until done
-            while( ( numBytes = bis.read( buffer, length, 4096 ) ) >= 0 )
-                length += numBytes;
-
-            // Save in a variable to return
-            decodedData = new byte[ length ];
-            System.arraycopy( buffer, 0, decodedData, 0, length );
-
-        }   // end try
-        catch( java.io.IOException e )
-        {
-            System.err.println(MessageFormat.format(JGitText.get().errorDecodingFromFile, filename));
-        }   // end catch: IOException
-        finally
-        {
-            closeStream(bis);
-        }   // end finally
-
-        return decodedData;
-    }   // end decodeFromFile
-
-
-
-    /**
-     * Convenience method for reading a binary file
-     * and base64-encoding it.
-     *
-     * @param filename Filename for reading binary data
-     * @return base64-encoded string or null if unsuccessful
-     *
-     * @since 2.1
-     */
-    public static String encodeFromFile( String filename )
-    {
-        String encodedData = null;
-        Base64.InputStream bis = null;
-        try
-        {
-            // Set up some useful variables
-            java.io.File file = new java.io.File( filename );
-            byte[] buffer = new byte[ (int)(file.length() * 1.4) ];
-            int length   = 0;
-            int numBytes = 0;
-
-            // Open a stream
-            bis = new Base64.InputStream(
-                      new java.io.BufferedInputStream(
-                      new java.io.FileInputStream( file ) ), Base64.ENCODE );
-
-            // Read until done
-            while( ( numBytes = bis.read( buffer, length, 4096 ) ) >= 0 )
-                length += numBytes;
-
-            // Save in a variable to return
-            encodedData = new String( buffer, 0, length, Base64.PREFERRED_ENCODING );
-
-        }   // end try
-        catch( java.io.IOException e )
-        {
-            System.err.println(MessageFormat.format(JGitText.get().errorEncodingFromFile, filename));
-        }   // end catch: IOException
-        finally
-        {
-            closeStream(bis);
-        }   // end finally
-
-        return encodedData;
-        }   // end encodeFromFile
-
-
-
-
-    /* ********  I N N E R   C L A S S   I N P U T S T R E A M  ******** */
-
-
-
-    /**
-     * A {@link Base64.InputStream} will read data from another
-     * <tt>java.io.InputStream</tt>, given in the constructor,
-     * and encode/decode to/from Base64 notation on the fly.
-     *
-     * @see Base64
-     * @since 1.3
-     */
-    public static class InputStream extends java.io.FilterInputStream
-    {
-        private boolean encode;         // Encoding or decoding
-        private int     position;       // Current position in the buffer
-        private byte[]  buffer;         // Small buffer holding converted data
-        private int     bufferLength;   // Length of buffer (3 or 4)
-        private int     numSigBytes;    // Number of meaningful bytes in the buffer
-        private int     lineLength;
-        private boolean breakLines;     // Break lines at less than 80 characters
-
-
-        /**
-         * Constructs a {@link Base64.InputStream} in DECODE mode.
-         *
-         * @param in the <tt>java.io.InputStream</tt> from which to read data.
-         * @since 1.3
-         */
-        public InputStream( java.io.InputStream in )
-        {
-            this( in, DECODE );
-        }   // end constructor
-
-
-        /**
-         * Constructs a {@link Base64.InputStream} in
-         * either ENCODE or DECODE mode.
-         * <p>
-         * Valid options:<pre>
-         *   ENCODE or DECODE: Encode or Decode as data is read.
-         *   DONT_BREAK_LINES: don't break lines at 76 characters
-         *     (only meaningful when encoding)
-         *     <i>Note: Technically, this makes your encoding non-compliant.</i>
-         * </pre>
-         * <p>
-         * Example: <code>new Base64.InputStream( in, Base64.DECODE )</code>
-         *
-         *
-         * @param in the <tt>java.io.InputStream</tt> from which to read data.
-         * @param options Specified options
-         * @see Base64#ENCODE
-         * @see Base64#DECODE
-         * @see Base64#DONT_BREAK_LINES
-         * @since 2.0
-         */
-        public InputStream( java.io.InputStream in, int options )
-        {
-            super( in );
-            this.breakLines   = (options & DONT_BREAK_LINES) != DONT_BREAK_LINES;
-            this.encode       = (options & ENCODE) == ENCODE;
-            this.bufferLength = encode ? 4 : 3;
-            this.buffer   = new byte[ bufferLength ];
-            this.position = -1;
-            this.lineLength = 0;
-        }   // end constructor
-
-        /**
-         * Reads enough of the input stream to convert
-         * to/from Base64 and returns the next byte.
-         *
-         * @return next byte
-         * @since 1.3
-         */
-        public int read() throws java.io.IOException
-        {
-            // Do we need to get data?
-            if( position < 0 )
-            {
-                if( encode )
-                {
-                    byte[] b3 = new byte[3];
-                    int numBinaryBytes = 0;
-                    for( int i = 0; i < 3; i++ )
-                    {
-                        try
-                        {
-                            int b = in.read();
-
-                            // If end of stream, b is -1.
-                            if( b >= 0 )
-                            {
-                                b3[i] = (byte)b;
-                                numBinaryBytes++;
-                            }   // end if: not end of stream
-
-                        }   // end try: read
-                        catch( java.io.IOException e )
-                        {
-                            // Only a problem if we got no data at all.
-                            if( i == 0 )
-                                throw e;
-
-                        }   // end catch
-                    }   // end for: each needed input byte
-
-                    if( numBinaryBytes > 0 )
-                    {
-                        encode3to4( b3, 0, numBinaryBytes, buffer, 0 );
-                        position = 0;
-                        numSigBytes = 4;
-                    }   // end if: got data
-                    else
-                    {
-                        return -1;
-                    }   // end else
-                }   // end if: encoding
-
-                // Else decoding
-                else
-                {
-                    byte[] b4 = new byte[4];
-                    int i = 0;
-                    for( i = 0; i < 4; i++ )
-                    {
-                        // Read four "meaningful" bytes:
-                        int b = 0;
-                        do{ b = in.read(); }
-                        while( b >= 0 && DECODABET[ b & 0x7f ] <= WHITE_SPACE_ENC );
-
-                        if( b < 0 )
-                            break; // Reads a -1 if end of stream
-
-                        b4[i] = (byte)b;
-                    }   // end for: each needed input byte
-
-                    if( i == 4 )
-                    {
-                        numSigBytes = decode4to3( b4, 0, buffer, 0 );
-                        position = 0;
-                    }   // end if: got four characters
-                    else if( i == 0 ){
-                        return -1;
-                    }   // end else if: also padded correctly
-                    else
-                    {
-                        // Must have broken out from above.
-                        throw new java.io.IOException(JGitText.get().improperlyPaddedBase64Input);
-                    }   // end
-
-                }   // end else: decode
-            }   // end else: get data
-
-            // Got data?
-            if( position >= 0 )
-            {
-                // End of relevant data?
-                if( /*!encode &&*/ position >= numSigBytes )
-                    return -1;
-
-                if( encode && breakLines && lineLength >= MAX_LINE_LENGTH )
-                {
-                    lineLength = 0;
-                    return '\n';
-                }   // end if
-                else
-                {
-                    lineLength++;   // This isn't important when decoding
-                                    // but throwing an extra "if" seems
-                                    // just as wasteful.
-
-                    int b = buffer[ position++ ];
-
-                    if( position >= bufferLength )
-                        position = -1;
-
-                    return b & 0xFF; // This is how you "cast" a byte that's
-                                     // intended to be unsigned.
-                }   // end else
-            }   // end if: position >= 0
-
-            // Else error
-            else
-            {
-                // When JDK1.4 is more accepted, use an assertion here.
-                throw new java.io.IOException(JGitText.get().errorInBase64CodeReadingStream);
-            }   // end else
-        }   // end read
-
-
-        /**
-         * Calls {@link #read()} repeatedly until the end of stream
-         * is reached or <var>len</var> bytes are read.
-         * Returns number of bytes read into array or -1 if
-         * end of stream is encountered.
-         *
-         * @param dest array to hold values
-         * @param off offset for array
-         * @param len max number of bytes to read into array
-         * @return bytes read into array or -1 if end of stream is encountered.
-         * @since 1.3
-         */
-        public int read( byte[] dest, int off, int len ) throws java.io.IOException
-        {
-            int i;
-            int b;
-            for( i = 0; i < len; i++ )
-            {
-                b = read();
-
-                //if( b < 0 && i == 0 )
-                //    return -1;
-
-                if( b >= 0 )
-                    dest[off + i] = (byte)b;
-                else if( i == 0 )
-                    return -1;
-                else
-                    break; // Out of 'for' loop
-            }   // end for: each byte read
-            return i;
-        }   // end read
-
-    }   // end inner class InputStream
-
-
-
-
-
-
-    /* ********  I N N E R   C L A S S   O U T P U T S T R E A M  ******** */
-
-
-
-    /**
-     * A {@link Base64.OutputStream} will write data to another
-     * <tt>java.io.OutputStream</tt>, given in the constructor,
-     * and encode/decode to/from Base64 notation on the fly.
-     *
-     * @see Base64
-     * @since 1.3
-     */
-    public static class OutputStream extends java.io.FilterOutputStream
-    {
-        private boolean encode;
-        private int     position;
-        private byte[]  buffer;
-        private int     bufferLength;
-        private int     lineLength;
-        private boolean breakLines;
-        private byte[]  b4; // Scratch used in a few places
-        private boolean suspendEncoding;
-
-        /**
-         * Constructs a {@link Base64.OutputStream} in ENCODE mode.
-         *
-         * @param out the <tt>java.io.OutputStream</tt> to which data will be written.
-         * @since 1.3
-         */
-        public OutputStream( java.io.OutputStream out )
-        {
-            this( out, ENCODE );
-        }   // end constructor
-
-
-        /**
-         * Constructs a {@link Base64.OutputStream} in
-         * either ENCODE or DECODE mode.
-         * <p>
-         * Valid options:<pre>
-         *   ENCODE or DECODE: Encode or Decode as data is read.
-         *   DONT_BREAK_LINES: don't break lines at 76 characters
-         *     (only meaningful when encoding)
-         *     <i>Note: Technically, this makes your encoding non-compliant.</i>
-         * </pre>
-         * <p>
-         * Example: <code>new Base64.OutputStream( out, Base64.ENCODE )</code>
-         *
-         * @param out the <tt>java.io.OutputStream</tt> to which data will be written.
-         * @param options Specified options.
-         * @see Base64#ENCODE
-         * @see Base64#DECODE
-         * @see Base64#DONT_BREAK_LINES
-         * @since 1.3
-         */
-        public OutputStream( java.io.OutputStream out, int options )
-        {
-            super( out );
-            this.breakLines   = (options & DONT_BREAK_LINES) != DONT_BREAK_LINES;
-            this.encode       = (options & ENCODE) == ENCODE;
-            this.bufferLength = encode ? 3 : 4;
-            this.buffer       = new byte[ bufferLength ];
-            this.position     = 0;
-            this.lineLength   = 0;
-            this.suspendEncoding = false;
-            this.b4           = new byte[4];
-        }   // end constructor
-
-
-        /**
-         * Writes the byte to the output stream after
-         * converting to/from Base64 notation.
-         * When encoding, bytes are buffered three
-         * at a time before the output stream actually
-         * gets a write() call.
-         * When decoding, bytes are buffered four
-         * at a time.
-         *
-         * @param theByte the byte to write
-         * @since 1.3
-         */
-        public void write(int theByte) throws java.io.IOException
-        {
-            // Encoding suspended?
-            if( suspendEncoding )
-            {
-                super.out.write( theByte );
-                return;
-            }   // end if: suspended
-
-            // Encode?
-            if( encode )
-            {
-                buffer[ position++ ] = (byte)theByte;
-                if( position >= bufferLength )  // Enough to encode.
-                {
-                    out.write( encode3to4( b4, buffer, bufferLength ) );
-
-                    lineLength += 4;
-                    if( breakLines && lineLength >= MAX_LINE_LENGTH )
-                    {
-                        out.write( NEW_LINE );
-                        lineLength = 0;
-                    }   // end if: end of line
-
-                    position = 0;
-                }   // end if: enough to output
-            }   // end if: encoding
-
-            // Else, Decoding
-            else
-            {
-                // Meaningful Base64 character?
-                if( DECODABET[ theByte & 0x7f ] > WHITE_SPACE_ENC )
-                {
-                    buffer[ position++ ] = (byte)theByte;
-                    if( position >= bufferLength )  // Enough to output.
-                    {
-                        int len = Base64.decode4to3( buffer, 0, b4, 0 );
-                        out.write( b4, 0, len );
-                        //out.write( Base64.decode4to3( buffer ) );
-                        position = 0;
-                    }   // end if: enough to output
-                }   // end if: meaningful base64 character
-                else if( DECODABET[ theByte & 0x7f ] != WHITE_SPACE_ENC )
-                {
-                    throw new java.io.IOException(JGitText.get().invalidCharacterInBase64Data);
-                }   // end else: not white space either
-            }   // end else: decoding
-        }   // end write
-
-
-
-        /**
-         * Calls {@link #write(int)} repeatedly until <var>len</var>
-         * bytes are written.
-         *
-         * @param theBytes array from which to read bytes
-         * @param off offset for array
-         * @param len max number of bytes to read into array
-         * @since 1.3
-         */
-        public void write( byte[] theBytes, int off, int len ) throws java.io.IOException
-        {
-            // Encoding suspended?
-            if( suspendEncoding )
-            {
-                super.out.write( theBytes, off, len );
-                return;
-            }   // end if: suspended
-
-            for( int i = 0; i < len; i++ )
-            {
-                write( theBytes[ off + i ] );
-            }   // end for: each byte written
-
-        }   // end write
-
-
-
-        /**
-         * Method added by PHIL. [Thanks, PHIL. -Rob]
-         * This pads the buffer without closing the stream.
-         * @throws java.io.IOException input was not properly padded.
-         */
-        public void flushBase64() throws java.io.IOException
-        {
-            if( position > 0 )
-            {
-                if( encode )
-                {
-                    out.write( encode3to4( b4, buffer, position ) );
-                    position = 0;
-                }   // end if: encoding
-                else
-                {
-                    throw new java.io.IOException(JGitText.get().base64InputNotProperlyPadded);
-                }   // end else: decoding
-            }   // end if: buffer partially full
-
-        }   // end flush
-
-
-        /**
-         * Flushes and closes (I think, in the superclass) the stream.
-         *
-         * @since 1.3
-         */
-        public void close() throws java.io.IOException
-        {
-            // 1. Ensure that pending characters are written
-            flushBase64();
-
-            // 2. Actually close the stream
-            // Base class both flushes and closes.
-            super.close();
-
-            buffer = null;
-            out    = null;
-        }   // end close
-
-
-
-        /**
-         * Suspends encoding of the stream.
-         * May be helpful if you need to embed a piece of
-         * base640-encoded data in a stream.
-         *
-         * @throws java.io.IOException input was not properly padded.
-         * @since 1.5.1
-         */
-        public void suspendEncoding() throws java.io.IOException
-        {
-            flushBase64();
-            this.suspendEncoding = true;
-        }   // end suspendEncoding
-
-
-        /**
-         * Resumes encoding of the stream.
-         * May be helpful if you need to embed a piece of
-         * base640-encoded data in a stream.
-         *
-         * @since 1.5.1
-         */
-        public void resumeEncoding()
-        {
-            this.suspendEncoding = false;
-        }   // end resumeEncoding
-
-
-
-    }   // end inner class OutputStream
-
-
 }   // end class Base64
