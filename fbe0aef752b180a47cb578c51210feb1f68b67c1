@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL0H///0k\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/DirCacheCheckoutTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-11-12T16:50:03Z",
+      "side": 1,
+      "message": "getId() here isn\u0027t necessary, RevTree is an ObjectId.",
+      "revId": "fbe0aef752b180a47cb578c51210feb1f68b67c1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0H///0w\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-11-12T16:50:03Z",
+      "side": 1,
+      "message": "The classic way to write this loop is:\n\n for (int i \u003d removed.size() - 1; i \u003e\u003d 0; i--) {\n   String r \u003d removed.get(i);\n\nThat way you save a subtraction operation during each iteration.  And that form is what most C programmers use to go backwards (because they want to save the subtraction), so its what most people reading a backwards loop expect to see.\n\nThis form I had never seen before, it took me a while to process the loop condition and conclude it was correct.  :-(",
+      "revId": "fbe0aef752b180a47cb578c51210feb1f68b67c1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0H///0o\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-11-12T16:50:03Z",
+      "side": 1,
+      "message": "Why isn\u0027t this expression changed to be:\n\n  if (!file.delete() \u0026\u0026 file.exists())\n\n?  If the file doesn\u0027t delete and doesn\u0027t exist, why shouldn\u0027t we fall through to the else case below for isSamePrefix() removeEmptyParents?  If the file deletion failed because its already gone, then the parent might be empty and we might be able to remove it.",
+      "revId": "fbe0aef752b180a47cb578c51210feb1f68b67c1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
