@@ -72,6 +72,7 @@ import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.IO;
+import org.eclipse.jgit.util.SystemReader;
 import org.eclipse.jgit.util.io.EolCanonicalizingInputStream;
 
 /**
@@ -128,6 +129,9 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	/** Options used to process the working tree. */
 	private final WorkingTreeOptions options;
 
+	/** Time of creation of the iterator */
+	private final long now;
+
 	/**
 	 * Create a new iterator with no parent.
 	 *
@@ -138,6 +142,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		super();
 		nameEncoder = Constants.CHARSET.newEncoder();
 		this.options = options;
+		now = SystemReader.getInstance().getCurrentTime();
 	}
 
 	/**
@@ -162,6 +167,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		super(prefix);
 		nameEncoder = Constants.CHARSET.newEncoder();
 		this.options = options;
+		now = SystemReader.getInstance().getCurrentTime();
 	}
 
 	/**
@@ -174,6 +180,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		super(p);
 		nameEncoder = p.nameEncoder;
 		options = p.options;
+		now = SystemReader.getInstance().getCurrentTime();
 	}
 
 	/**
@@ -584,9 +591,6 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		if (entry.isUpdateNeeded())
 			return true;
 
-		if (!entry.isSmudged() && (getEntryLength() != entry.getLength()))
-			return true;
-
 		// Determine difference in mode-bits of file and index-entry. In the
 		// bitwise presentation of modeDiff we'll have a '1' when the two modes
 		// differ at this position.
@@ -626,7 +630,17 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 				// Lets do a content check
 				return contentCheck(entry);
 			} else {
-				// The file is clean by timestamps and the entry is not
+				// Check file length only if the modification time is recent.
+				// FAT
+				// is the file system with the lowest granularity of two seconds
+				// so we consider files with a time stamp of three seconds ago
+				// to
+				// have a reliable last modification time and then we trust that
+				// its size has not changed either.
+				if (fileLastModified + 3000L > now)
+					if (getEntryLength() != entry.getLength())
+						return true;
+				// The file is clean by timestamp and file size and the entry is not
 				// smudged: Can't get any cleaner!
 				return false;
 			}
