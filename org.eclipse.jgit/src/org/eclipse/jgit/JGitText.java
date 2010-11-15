@@ -225,6 +225,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String exceptionCaughtDuringExecutionOfMergeCommand;
 	/***/ public String exceptionCaughtDuringExecutionOfPushCommand;
 	/***/ public String exceptionCaughtDuringExecutionOfPullCommand;
+	/***/ public String exceptionCaughtDuringExecutionOfRmCommand;
 	/***/ public String exceptionCaughtDuringExecutionOfTagCommand;
 	/***/ public String exceptionOccuredDuringAddingOfOptionToALogCommand;
 	/***/ public String exceptionOccuredDuringReadingOfGIT_DIR;
