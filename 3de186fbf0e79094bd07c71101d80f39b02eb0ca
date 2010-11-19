@@ -16,6 +16,24 @@
       "revId": "3de186fbf0e79094bd07c71101d80f39b02eb0ca",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0n///9s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-11-19T23:54:36Z",
+      "side": 0,
+      "message": "The replacing method doesn\u0027t need to initialize the parent, or copy the fields down from it because the IteratorState object is shared between the parent and all subiterators that are created from it.  So we only have to initialize once, and there is no copy down from the parent.\n\nThus, the code is simpler, but may be a bit slower for very flat trees, but may be a bit faster for deeper trees.  Java trees are very deep, and are very likely to be processed by JGit (due to its embedding in Eclipse), so the fact that we may be a bit faster for deeper trees (due to less copying and recursing during setup of the digest and buffer) means this simpler code is probably better anyway.  :-)",
+      "parentUuid": "AAAL0n///+U\u003d",
+      "revId": "3de186fbf0e79094bd07c71101d80f39b02eb0ca",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
