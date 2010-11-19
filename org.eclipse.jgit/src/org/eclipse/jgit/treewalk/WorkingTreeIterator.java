@@ -90,7 +90,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	protected static final Entry[] EOF = {};
 
 	/** Size we perform file IO in if we have to read and hash a file. */
-	private static final int BUFFER_SIZE = 2048;
+	static final int BUFFER_SIZE = 2048;
 
 	/**
 	 * Maximum size of files which may be read fully into memory for performance
@@ -98,20 +98,14 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	 */
 	private static final long MAXIMUM_FILE_SIZE_TO_READ_FULLY = 65536;
 
+	/** Inherited state of this iterator, describing working tree, etc. */
+	private final IteratorState state;
+
 	/** The {@link #idBuffer()} for the current entry. */
 	private byte[] contentId;
 
 	/** Index within {@link #entries} that {@link #contentId} came from. */
 	private int contentIdFromPtr;
-
-	/** Buffer used to perform {@link #contentId} computations. */
-	private byte[] contentReadBuffer;
-
-	/** Digest computer for {@link #contentId} computations. */
-	private MessageDigest contentDigest;
-
-	/** File name character encoder. */
-	private final CharsetEncoder nameEncoder;
 
 	/** List of entries obtained from the subclass. */
 	private Entry[] entries;
@@ -125,9 +119,6 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	/** If there is a .gitignore file present, the parsed rules from it. */
 	private IgnoreNode ignoreNode;
 
-	/** Options used to process the working tree. */
-	private final WorkingTreeOptions options;
-
 	/**
 	 * Create a new iterator with no parent.
 	 *
@@ -136,8 +127,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	 */
 	protected WorkingTreeIterator(WorkingTreeOptions options) {
 		super();
-		nameEncoder = Constants.CHARSET.newEncoder();
-		this.options = options;
+		state = new IteratorState(options);
 	}
 
 	/**
@@ -160,8 +150,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	protected WorkingTreeIterator(final String prefix,
 			WorkingTreeOptions options) {
 		super(prefix);
-		nameEncoder = Constants.CHARSET.newEncoder();
-		this.options = options;
+		state = new IteratorState(options);
 	}
 
 	/**
@@ -172,8 +161,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	 */
 	protected WorkingTreeIterator(final WorkingTreeIterator p) {
 		super(p);
-		nameEncoder = p.nameEncoder;
-		options = p.options;
+		state = p.state;
 	}
 
 	/**
@@ -222,21 +210,6 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		return zeroid;
 	}
 
-	private void initializeDigestAndReadBuffer() {
-		if (contentDigest != null)
-			return;
-
-		if (parent == null) {
-			contentReadBuffer = new byte[BUFFER_SIZE];
-			contentDigest = Constants.newMessageDigest();
-		} else {
-			final WorkingTreeIterator p = (WorkingTreeIterator) parent;
-			p.initializeDigestAndReadBuffer();
-			contentReadBuffer = p.contentReadBuffer;
-			contentDigest = p.contentDigest;
-		}
-	}
-
 	private static final byte[] digits = { '0', '1', '2', '3', '4', '5', '6',
 			'7', '8', '9' };
 
@@ -249,7 +222,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 			if (is == null)
 				return zeroid;
 			try {
-				initializeDigestAndReadBuffer();
+				state.initializeDigestAndReadBuffer();
 
 				final long len = e.getLength();
 				if (!mightNeedCleaning(e))
@@ -299,7 +272,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	}
 
 	private boolean mightNeedCleaning(Entry entry) {
-		switch (options.getAutoCRLF()) {
+		switch (getOptions().getAutoCRLF()) {
 		case FALSE:
 		default:
 			return false;
@@ -339,7 +312,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	 * @return working tree options
 	 */
 	public WorkingTreeOptions getOptions() {
-		return options;
+		return state.options;
 	}
 
 	@Override
@@ -520,6 +493,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		entries = list;
 		int i, o;
 
+		final CharsetEncoder nameEncoder = state.nameEncoder;
 		for (i = 0, o = 0; i < entries.length; i++) {
 			final Entry e = entries[i];
 			if (e == null)
@@ -678,6 +652,9 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	}
 
 	private byte[] computeHash(InputStream in, long length) throws IOException {
+		final MessageDigest contentDigest = state.contentDigest;
+		final byte[] contentReadBuffer = state.contentReadBuffer;
+
 		contentDigest.reset();
 		contentDigest.update(hblob);
 		contentDigest.update((byte) ' ');
@@ -855,6 +832,32 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 			}
 
 			return r.getRules().isEmpty() ? null : r;
+		}
+	}
+
+	private static final class IteratorState {
+		/** Options used to process the working tree. */
+		final WorkingTreeOptions options;
+
+		/** File name character encoder. */
+		final CharsetEncoder nameEncoder;
+
+		/** Digest computer for {@link #contentId} computations. */
+		MessageDigest contentDigest;
+
+		/** Buffer used to perform {@link #contentId} computations. */
+		byte[] contentReadBuffer;
+
+		IteratorState(WorkingTreeOptions options) {
+			this.options = options;
+			this.nameEncoder = Constants.CHARSET.newEncoder();
+		}
+
+		void initializeDigestAndReadBuffer() {
+			if (contentDigest == null) {
+				contentDigest = Constants.newMessageDigest();
+				contentReadBuffer = new byte[BUFFER_SIZE];
+			}
 		}
 	}
 }
