@@ -64,6 +64,7 @@ import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.diff.RawText;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheEntry;
+import org.eclipse.jgit.dircache.DirCacheIterator;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.ignore.IgnoreNode;
 import org.eclipse.jgit.ignore.IgnoreRule;
@@ -181,6 +182,24 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		ignoreNode = new RootIgnoreNode(entry, repo);
 	}
 
+	/**
+	 * Define the matching {@link DirCacheIterator}, to optimize ObjectIds.
+	 *
+	 * Once the DirCacheIterator has been set this iterator must only be
+	 * advanced by the TreeWalk that is supplied, as it assumes that itself and
+	 * the corresponding DirCacheIterator are positioned on the same file path
+	 * whenever {@link #idBuffer()} is invoked.
+	 *
+	 * @param walk
+	 *            the walk that will be advancing this iterator.
+	 * @param treeId
+	 *            index of the matching {@link DirCacheIterator}.
+	 */
+	public void setDirCacheIterator(TreeWalk walk, int treeId) {
+		state.walk = walk;
+		state.dirCacheTree = treeId;
+	}
+
 	@Override
 	public boolean hasId() {
 		if (contentIdFromPtr == ptr)
@@ -192,6 +211,25 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	public byte[] idBuffer() {
 		if (contentIdFromPtr == ptr)
 			return contentId;
+
+		if (state.walk != null) {
+			// If there is a matching DirCacheIterator, we can reuse
+			// its idBuffer, but only if we appear to be clean against
+			// the cached index information for the path.
+			//
+			DirCacheIterator i = state.walk.getTree(state.dirCacheTree,
+					DirCacheIterator.class);
+			if (i != null) {
+				DirCacheEntry ent = i.getDirCacheEntry();
+				if (ent != null && !isModified(ent, //
+						false /* no content check */, //
+						false /* no execute bit check */, //
+						FS.DETECTED)) {
+					return i.idBuffer();
+				}
+			}
+		}
+
 		switch (mode & FileMode.TYPE_MASK) {
 		case FileMode.TYPE_FILE:
 			contentIdFromPtr = ptr;
@@ -838,6 +876,12 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 
 		/** Buffer used to perform {@link #contentId} computations. */
 		byte[] contentReadBuffer;
+
+		/** TreeWalk with a (supposedly) matching DirCacheIterator. */
+		TreeWalk walk;
+
+		/** Position of the matching {@link DirCacheIterator}. */
+		int dirCacheTree;
 
 		IteratorState(WorkingTreeOptions options) {
 			this.options = options;
