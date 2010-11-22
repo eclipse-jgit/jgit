@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL0n///8s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 2
+      },
+      "writtenOn": "2010-11-22T15:50:38Z",
+      "side": 1,
+      "message": "shouldn\u0027t \u0027rebase-merge\u0027 be a constant somewhere?",
+      "revId": "7409a1c55869cd0f3ea9e2d5afedbc786fb8dec8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
