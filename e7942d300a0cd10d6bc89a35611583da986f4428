@@ -1,0 +1,242 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL0H///9o\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-11-10T02:18:13Z",
+      "side": 1,
+      "message": "This is a bit too magic for our style.  It works because the statement is actually pulled into the constructor after super(repo) is called, and thus repo in the super class is already defined.  But its funny to read it like that.\n\nI would prefer to do this inside of the constructor, similar to now the RevWalk is allocated inside of the constructor.",
+      "revId": "e7942d300a0cd10d6bc89a35611583da986f4428",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0H///80\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-11-10T02:18:13Z",
+      "side": 1,
+      "message": "You should add a TODO for yourself here, we later want to avoid doing the cherryPick() if the first parent of commitToPick is the current HEAD.  Instead we should fast-forward to commitToPick, so that the branch isn\u0027t modified.\n\nC Git does this to avoid unnecessary object rewriting, which is really useful when you are using Gerrit Code Review as your upstream review system and you accidentally `git rebase -i HEAD~toofarback`.  So long as none of those commits are modified, they keep the same SHA-1 and Gerrit doesn\u0027t know you \"rebased\".",
+      "revId": "e7942d300a0cd10d6bc89a35611583da986f4428",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0H///9A\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-11-10T02:18:13Z",
+      "side": 1,
+      "message": "We shouldn\u0027t assume encoding is platform encoding, but instead use UTF-8 explicitly like we did above.\n\nAlso, this commit list doesn\u0027t change between steps, unless we modify it.  Ideally we would keep the list as an instance member and flush it to the \"git-rebase-todo\" file only when call() is complete and the rebase is *not* successful.  That way we aren\u0027t updating the file on each commit, but instead are updating only once when we are returning control to the caller.",
+      "revId": "e7942d300a0cd10d6bc89a35611583da986f4428",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0H///88\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-11-10T02:18:13Z",
+      "side": 1,
+      "message": "You shouldn\u0027t open a writer on top of the same file you are reading.  The writer may have just truncated the file, making it impossible to read later sections of the same file.  This is one reason we use LockFile in a lot of the code, because it writes to a temporary file alongside of the original, and then does a rename during commit.",
+      "revId": "e7942d300a0cd10d6bc89a35611583da986f4428",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0H///84\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-11-10T02:18:13Z",
+      "side": 1,
+      "message": "We try to avoid StringTokenizer.  I would just parse the line by hand.  And even then, we don\u0027t actually need to decode up into String data to parse this, its simple enough to load the entire todo-list into memory as a byte[] and use RawParseUtils to scan through the byte[] and process that into an in-memory representation:\n\n  static enum Operation {\n    PICK;  // later add SQUASH, EDIT, etc.\n  }\n\n  static class Step {\n    Operation operation;\n    ObjectId commit;\n    byte[] shortMessage;\n  }\n\n  List\u003cStep\u003e todo;\n\n  List\u003cStep\u003e loadSteps() {\n    byte[] buf \u003d IO.readFully(new File(rebaseDir, \"git-rebase-todo\"));\n    int ptr \u003d 0;\n    ArrayList\u003cStep\u003e r \u003d new ArrayList\u003cStep\u003e();\n    while (ptr \u003c buf.length) {\n      ...\n    }\n    return r;\n  }",
+      "revId": "e7942d300a0cd10d6bc89a35611583da986f4428",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0H///9I\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-11-10T02:18:13Z",
+      "side": 1,
+      "message": "Unfortunately this will fail when HEAD is detached.  When HEAD is detached this method returns the 40 digit hex SHA-1.  C Git in the same case puts \"detached HEAD\" into the head-name file.\n\nIt can also return null.  Which will NPE later on when you fill the head-name file.\n\nI think the only safe thing to do is:\n\n  Ref head \u003d repo.getRef(Constants.HEAD);\n  if (head \u003d\u003d null || head.getObjectId() \u003d\u003d null)\n    throw new RefNotFoundException(...);\n\n  String headName;\n  if (head.isSymbolic())\n    headName \u003d head.getTarget().getName();\n  else\n    headName \u003d \"detached HEAD\";\n\n  ObjectId headId \u003d head.getObjectId();\n\nIts perhaps longer, but it gives you direct access to the various states that are involved.",
+      "revId": "e7942d300a0cd10d6bc89a35611583da986f4428",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0H///9Y\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-11-10T02:18:13Z",
+      "side": 1,
+      "message": "Hmm.  Isn\u0027t this always true?  commit is reachable from headCommit, that\u0027s how we found it and included it into the result from LogCommand.  Thus its always merged into headCommit, and thus this expression is always true.  So aren\u0027t you always falling out with cherryPickList empty?",
+      "revId": "e7942d300a0cd10d6bc89a35611583da986f4428",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0H///9U\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-11-10T02:18:13Z",
+      "side": 1,
+      "message": "Why is this commented out?",
+      "revId": "e7942d300a0cd10d6bc89a35611583da986f4428",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0H///9Q\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-11-10T02:18:13Z",
+      "side": 1,
+      "message": "We don\u0027t use FileWriter because the encoding can be platform-specific.  Instead use FileOuputStream and enforce use of UTF-8 by wrapping it in an OutputStreamWriter, or by doing sb.toString().getBytes(\"UTF-8\") below.",
+      "revId": "e7942d300a0cd10d6bc89a35611583da986f4428",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0H///9E\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-11-10T02:18:13Z",
+      "side": 1,
+      "message": "This reader needs to be released.  Or alternatively, use the reader from your current walk:\n\n  reader \u003d walk.getObjectReader();",
+      "revId": "e7942d300a0cd10d6bc89a35611583da986f4428",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0H///9M\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-11-10T02:18:13Z",
+      "side": 1,
+      "message": "Aren\u0027t we missing an LF here?  getShortMessage() IIRC doesn\u0027t include the LF.",
+      "revId": "e7942d300a0cd10d6bc89a35611583da986f4428",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0H///9c\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-11-10T02:18:13Z",
+      "side": 1,
+      "message": "If I recall listFiles() can return null if you can\u0027t read the directory, but you can stat it to determine it is a directory.  (E.g. x but no r bit.)\n\nThus we prefer something like:\n\n  File[] children \u003d fileOrFolder.listFiles();\n  if (children !\u003d null) {\n    for (File child : children)\n      deleteRecursive(child);\n  }\n\nAnd since listFiles() returns null when the fileOrFolder is not a directory, you an also skip the isDirectory() test.",
+      "revId": "e7942d300a0cd10d6bc89a35611583da986f4428",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0H///9g\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-11-10T02:18:13Z",
+      "side": 1,
+      "message": "FWIW the .getId() calls here are unnecessary.  You should be able to pass the RevTree returned by getTree() directly to the DirCacheCheckout constructor.",
+      "revId": "e7942d300a0cd10d6bc89a35611583da986f4428",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0H///9k\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 413,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-11-10T02:18:13Z",
+      "side": 1,
+      "message": "There isn\u0027t any value in doing walk.release() until the finally block of call(), when you also monitor.endTask().  The temporary resources used by the RevWalk\u0027s internal ObjectReader is generally pretty light-weight and might as well stick around for the duration of the call.",
+      "revId": "e7942d300a0cd10d6bc89a35611583da986f4428",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
