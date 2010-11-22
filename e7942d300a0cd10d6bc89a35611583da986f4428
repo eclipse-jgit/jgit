@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL0H///8s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 46
+      },
+      "writtenOn": "2010-11-10T13:57:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL0H///9o\u003d",
+      "revId": "e7942d300a0cd10d6bc89a35611583da986f4428",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL0H///80\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
         "patchSetId": 3
@@ -47,6 +65,24 @@
       "writtenOn": "2010-11-10T02:18:13Z",
       "side": 1,
       "message": "We shouldn\u0027t assume encoding is platform encoding, but instead use UTF-8 explicitly like we did above.\n\nAlso, this commit list doesn\u0027t change between steps, unless we modify it.  Ideally we would keep the list as an instance member and flush it to the \"git-rebase-todo\" file only when call() is complete and the rebase is *not* successful.  That way we aren\u0027t updating the file on each commit, but instead are updating only once when we are returning control to the caller.",
+      "revId": "e7942d300a0cd10d6bc89a35611583da986f4428",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0H///8U\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 46
+      },
+      "writtenOn": "2010-11-10T13:57:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL0H///9A\u003d",
       "revId": "e7942d300a0cd10d6bc89a35611583da986f4428",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -183,6 +219,24 @@
       "writtenOn": "2010-11-10T02:18:13Z",
       "side": 1,
       "message": "Aren\u0027t we missing an LF here?  getShortMessage() IIRC doesn\u0027t include the LF.",
+      "revId": "e7942d300a0cd10d6bc89a35611583da986f4428",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0H///70\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 46
+      },
+      "writtenOn": "2010-11-10T13:57:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL0H///9M\u003d",
       "revId": "e7942d300a0cd10d6bc89a35611583da986f4428",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
