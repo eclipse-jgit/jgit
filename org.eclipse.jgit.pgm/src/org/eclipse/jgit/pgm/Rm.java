@@ -1,4 +1,5 @@
 /*
+ * Copyright (C) 2010, Chris Aniszczyk <caniszczyk@gmail.com>
  * Copyright (C) 2008, Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
@@ -43,56 +44,29 @@
 
 package org.eclipse.jgit.pgm;
 
-import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
+import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.RmCommand;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.spi.StopOptionHandler;
-import org.eclipse.jgit.dircache.DirCache;
-import org.eclipse.jgit.dircache.DirCacheBuildIterator;
-import org.eclipse.jgit.dircache.DirCacheBuilder;
-import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.FileMode;
-import org.eclipse.jgit.pgm.opt.PathTreeFilterHandler;
-import org.eclipse.jgit.treewalk.TreeWalk;
-import org.eclipse.jgit.treewalk.filter.TreeFilter;
 
 @Command(usage = "usage_StopTrackingAFile", common = true)
 class Rm extends TextBuiltin {
-	@Argument(metaVar = "metaVar_path", usage = "usage_path", multiValued = true, required = true, handler = PathTreeFilterHandler.class)
-	@Option(name = "--", handler = StopOptionHandler.class)
-	private TreeFilter paths;
+	@Argument(metaVar = "metaVar_path", usage = "usage_path", multiValued = true, required = true)
 
-	private File root;
+	@Option(name = "--", handler = StopOptionHandler.class)
+	private List<String> paths = new ArrayList<String>();
+
 
 	@Override
 	protected void run() throws Exception {
-		root = db.getWorkTree();
-
-		final DirCache dirc = db.lockDirCache();
-		final DirCacheBuilder edit = dirc.builder();
-
-		final TreeWalk walk = new TreeWalk(db);
-		walk.reset(); // drop the first empty tree, which we do not need here
-		walk.setRecursive(true);
-		walk.setFilter(paths);
-		walk.addTree(new DirCacheBuildIterator(edit));
-
-		while (walk.next()) {
-			final File path = new File(root, walk.getPathString());
-			final FileMode mode = walk.getFileMode(0);
-			if (mode.getObjectType() == Constants.OBJ_BLOB) {
-				// Deleting a blob is simply a matter of removing
-				// the file or symlink named by the tree entry.
-				delete(path);
-			}
-		}
-
-		edit.commit();
+		RmCommand command = new Git(db).rm();
+		for (String p : paths)
+			command.addFilepattern(p);
+		command.call();
 	}
 
-	private void delete(File p) {
-		while (p != null && !p.equals(root) && p.delete())
-			p = p.getParentFile();
-	}
 }
