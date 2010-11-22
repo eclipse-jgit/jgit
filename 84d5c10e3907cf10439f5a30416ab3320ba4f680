@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL0H////w\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 46
+      },
+      "writtenOn": "2010-11-09T17:16:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALz3////M\u003d",
+      "revId": "84d5c10e3907cf10439f5a30416ab3320ba4f680",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALz3////I\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2010-11-08T23:22:57Z",
       "side": 1,
       "message": "Why are we using rebase-apply?  Dumping to patch files and back is pretty ugly.  I think we should instead be targeting the rebase interactive style of temporary data.  We can churn through most of the work directly inside of the JVM without writing temporary state, until we hit a conflict and need to stop for resolution.  That removes most of the performance disadvantage of the rebase interactive temporary format.\n\nActually, that format should be faster because we aren\u0027t dumping the diff of each commit out to disk, and reading it back in.\n\nIf we _really_ want to test what happens when you apply this series of patches to another branch, we shouldn\u0027t be doing that through rebase.  I know Junio C Hamano argues that is a use for rebase, but in practice nobody uses it like that, they rebase once and keep the result if it was successful.  The rebase interactive script is a better way to do that.",
+      "revId": "84d5c10e3907cf10439f5a30416ab3320ba4f680",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0H////I\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 46
+      },
+      "writtenOn": "2010-11-09T17:16:28Z",
+      "side": 1,
+      "message": "Ok, it took me some discussion with Christian, but we hope that we understood this correctly.",
+      "parentUuid": "AAALz3////I\u003d",
       "revId": "84d5c10e3907cf10439f5a30416ab3320ba4f680",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL0H////s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 46
+      },
+      "writtenOn": "2010-11-09T17:16:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALz3////A\u003d",
+      "revId": "84d5c10e3907cf10439f5a30416ab3320ba4f680",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALz3////E\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
         "patchSetId": 2
@@ -64,6 +118,24 @@
       "writtenOn": "2010-11-08T23:22:57Z",
       "side": 1,
       "message": "FWIW we prefer the style:\n\n  FileOutputStream fos \u003d new FileOutputStream(file);\n  try {\n    fos.write(content.getBytes(\"UTF-8\"));\n  } finally {\n    fos.close();\n  }",
+      "revId": "84d5c10e3907cf10439f5a30416ab3320ba4f680",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0H////o\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 46
+      },
+      "writtenOn": "2010-11-09T17:16:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALz3////E\u003d",
       "revId": "84d5c10e3907cf10439f5a30416ab3320ba4f680",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL0H////k\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 46
+      },
+      "writtenOn": "2010-11-09T17:16:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALz3////U\u003d",
+      "revId": "84d5c10e3907cf10439f5a30416ab3320ba4f680",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALz3////Y\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
         "patchSetId": 2
@@ -98,6 +188,24 @@
       "writtenOn": "2010-11-08T23:22:57Z",
       "side": 1,
       "message": "We know what we read head to above on line 391 with the parseCommit call.  If HEAD isn\u0027t that when the update occurs, we\u0027re screwed, as someone else has updated HEAD behind our backs.  Add in:\n\n  refUpdate.setExpectedOldObjectId(head);\n\nAlso we have a RevWalk on hand, pass that to forceUpdate() so it doesn\u0027t need to allocate its own revision pool.",
+      "revId": "84d5c10e3907cf10439f5a30416ab3320ba4f680",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0H////g\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 46
+      },
+      "writtenOn": "2010-11-09T17:16:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALz3////Y\u003d",
       "revId": "84d5c10e3907cf10439f5a30416ab3320ba4f680",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL0H////c\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 46
+      },
+      "writtenOn": "2010-11-09T17:16:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALz3////c\u003d",
+      "revId": "84d5c10e3907cf10439f5a30416ab3320ba4f680",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALz3////o\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
         "patchSetId": 2
@@ -132,6 +258,24 @@
       "writtenOn": "2010-11-08T23:22:57Z",
       "side": 1,
       "message": "We would never do multiple actions at once.  So make this an enum that selects the operation mode, e.g.:\n\n  enum Operation {\n    BEGIN, CONTINUE, SKIP, ABORT;\n  }\n\nand have the individual set methods assign the enum field accordingly.",
+      "revId": "84d5c10e3907cf10439f5a30416ab3320ba4f680",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0H////Y\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 46
+      },
+      "writtenOn": "2010-11-09T17:16:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALz3////o\u003d",
       "revId": "84d5c10e3907cf10439f5a30416ab3320ba4f680",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL0H////U\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 464,
+      "author": {
+        "id": 46
+      },
+      "writtenOn": "2010-11-09T17:16:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALz3////g\u003d",
+      "revId": "84d5c10e3907cf10439f5a30416ab3320ba4f680",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALz3////k\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
         "patchSetId": 2
@@ -166,6 +328,24 @@
       "writtenOn": "2010-11-08T23:22:57Z",
       "side": 1,
       "message": "Why not use the RevWalk we allocated in our constructor?",
+      "revId": "84d5c10e3907cf10439f5a30416ab3320ba4f680",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0H////Q\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 471,
+      "author": {
+        "id": 46
+      },
+      "writtenOn": "2010-11-09T17:16:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALz3////k\u003d",
       "revId": "84d5c10e3907cf10439f5a30416ab3320ba4f680",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
