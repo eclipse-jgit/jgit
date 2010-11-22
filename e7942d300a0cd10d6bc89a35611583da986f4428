@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL0H///8o\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 46
+      },
+      "writtenOn": "2010-11-10T13:57:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL0H///80\u003d",
+      "revId": "e7942d300a0cd10d6bc89a35611583da986f4428",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL0H///9A\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
         "patchSetId": 3
@@ -106,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL0H///8Q\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 46
+      },
+      "writtenOn": "2010-11-10T13:57:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL0H///88\u003d",
+      "revId": "e7942d300a0cd10d6bc89a35611583da986f4428",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL0H///84\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
         "patchSetId": 3
@@ -117,6 +153,24 @@
       "writtenOn": "2010-11-10T02:18:13Z",
       "side": 1,
       "message": "We try to avoid StringTokenizer.  I would just parse the line by hand.  And even then, we don\u0027t actually need to decode up into String data to parse this, its simple enough to load the entire todo-list into memory as a byte[] and use RawParseUtils to scan through the byte[] and process that into an in-memory representation:\n\n  static enum Operation {\n    PICK;  // later add SQUASH, EDIT, etc.\n  }\n\n  static class Step {\n    Operation operation;\n    ObjectId commit;\n    byte[] shortMessage;\n  }\n\n  List\u003cStep\u003e todo;\n\n  List\u003cStep\u003e loadSteps() {\n    byte[] buf \u003d IO.readFully(new File(rebaseDir, \"git-rebase-todo\"));\n    int ptr \u003d 0;\n    ArrayList\u003cStep\u003e r \u003d new ArrayList\u003cStep\u003e();\n    while (ptr \u003c buf.length) {\n      ...\n    }\n    return r;\n  }",
+      "revId": "e7942d300a0cd10d6bc89a35611583da986f4428",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0H///8M\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 46
+      },
+      "writtenOn": "2010-11-10T13:57:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL0H///84\u003d",
       "revId": "e7942d300a0cd10d6bc89a35611583da986f4428",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -140,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL0H///8I\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 46
+      },
+      "writtenOn": "2010-11-10T13:57:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL0H///9I\u003d",
+      "revId": "e7942d300a0cd10d6bc89a35611583da986f4428",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL0H///9Y\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
         "patchSetId": 3
@@ -151,6 +223,24 @@
       "writtenOn": "2010-11-10T02:18:13Z",
       "side": 1,
       "message": "Hmm.  Isn\u0027t this always true?  commit is reachable from headCommit, that\u0027s how we found it and included it into the result from LogCommand.  Thus its always merged into headCommit, and thus this expression is always true.  So aren\u0027t you always falling out with cherryPickList empty?",
+      "revId": "e7942d300a0cd10d6bc89a35611583da986f4428",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0H///8E\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 46
+      },
+      "writtenOn": "2010-11-10T13:57:36Z",
+      "side": 1,
+      "message": "Actually, the opposite is true: the test never returned true... In any case, the intention here was to skip those commits that bring changes that have already been included... Obviously, this is not the right thing to do here, so I removed it.",
+      "parentUuid": "AAAL0H///9Y\u003d",
       "revId": "e7942d300a0cd10d6bc89a35611583da986f4428",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -174,6 +264,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL0H///8A\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 46
+      },
+      "writtenOn": "2010-11-10T13:57:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL0H///9U\u003d",
+      "revId": "e7942d300a0cd10d6bc89a35611583da986f4428",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL0H///9Q\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
         "patchSetId": 3
@@ -191,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL0H///78\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 46
+      },
+      "writtenOn": "2010-11-10T13:57:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL0H///9Q\u003d",
+      "revId": "e7942d300a0cd10d6bc89a35611583da986f4428",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL0H///9E\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
         "patchSetId": 3
@@ -202,6 +328,24 @@
       "writtenOn": "2010-11-10T02:18:13Z",
       "side": 1,
       "message": "This reader needs to be released.  Or alternatively, use the reader from your current walk:\n\n  reader \u003d walk.getObjectReader();",
+      "revId": "e7942d300a0cd10d6bc89a35611583da986f4428",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0H///74\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 46
+      },
+      "writtenOn": "2010-11-10T13:57:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL0H///9E\u003d",
       "revId": "e7942d300a0cd10d6bc89a35611583da986f4428",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -260,6 +404,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL0H///7o\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 46
+      },
+      "writtenOn": "2010-11-10T13:57:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL0H///9c\u003d",
+      "revId": "e7942d300a0cd10d6bc89a35611583da986f4428",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL0H///9g\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
         "patchSetId": 3
@@ -277,6 +439,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL0H///7w\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 46
+      },
+      "writtenOn": "2010-11-10T13:57:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL0H///9g\u003d",
+      "revId": "e7942d300a0cd10d6bc89a35611583da986f4428",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL0H///9k\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
         "patchSetId": 3
@@ -288,6 +468,24 @@
       "writtenOn": "2010-11-10T02:18:13Z",
       "side": 1,
       "message": "There isn\u0027t any value in doing walk.release() until the finally block of call(), when you also monitor.endTask().  The temporary resources used by the RevWalk\u0027s internal ObjectReader is generally pretty light-weight and might as well stick around for the duration of the call.",
+      "revId": "e7942d300a0cd10d6bc89a35611583da986f4428",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0H///7s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 413,
+      "author": {
+        "id": 46
+      },
+      "writtenOn": "2010-11-10T13:57:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL0H///9k\u003d",
       "revId": "e7942d300a0cd10d6bc89a35611583da986f4428",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
