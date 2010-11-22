@@ -390,7 +390,7 @@ public class ResolveMerger extends ThreeWayMerger {
 				if (e != null)
 					toBeCheckedOut.put(tw.getPathString(), e);
 				return true;
-			} else if (modeT == 0) {
+			} else if ((modeT == 0) && (modeB != 0)) {
 				// we want THEIRS ... but THEIRS contains the deletion of the
 				// file
 				toBeCheckedOut.put(tw.getPathString(), null);
