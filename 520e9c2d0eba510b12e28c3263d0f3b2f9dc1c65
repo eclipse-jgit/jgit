@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL0H///x8\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CheckoutCommandTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-11-12T23:23:12Z",
+      "side": 1,
+      "message": "I can\u0027t imagine the reason for this commit? There is no content yet available. Is it only to create a master branch. The first real commit will create this branch and there will no sideeffects anymore by this commit. I would just remove this line.",
+      "revId": "520e9c2d0eba510b12e28c3263d0f3b2f9dc1c65",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0H///xs\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CheckoutCommandTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-11-12T23:23:12Z",
+      "side": 1,
+      "message": "The master branch is already created by the previous commit. And that branch already points exactly to that commit you are creating the branch and do a refupdate. Just skip the next 5 lines.",
+      "revId": "520e9c2d0eba510b12e28c3263d0f3b2f9dc1c65",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0H///xo\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CheckoutCommandTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-11-12T23:23:12Z",
+      "side": 1,
+      "message": "I am not sure whether you have created what you wanted. You have three commits and two branches (master and test) which both point to the last commit. Thats what you wanted?\n\nI would have expected something like:\n\n\tprotected void setUp() throws Exception {\n\t\tsuper.setUp();\n\t\tgit \u003d new Git(db);\n\n\t\t// commit something\n\t\twriteTrashFile(\"Test.txt\", \"Hello world\");\n\t\tgit.add().addFilepattern(\"Test.txt\").call();\n\t\tinitialCommit \u003d git.commit().setMessage(\"Initial commit\").call();\n\n\t\t// create a master branch and switch to it\n\t\tgit.branchCreate().setName(\"test\").call();\n\t\tRefUpdate rup \u003d db.updateRef(Constants.HEAD);\n\t\trup.link(\"refs/heads/test\");\n\n\t\t// commit something on the test branch\n\t\twriteTrashFile(\"Test.txt\", \"Some change\");\n\t\tgit.add().addFilepattern(\"Test.txt\").call();\n\t\tsecondCommit \u003d git.commit().setMessage(\"Second commit\").call();\n\t}",
+      "revId": "520e9c2d0eba510b12e28c3263d0f3b2f9dc1c65",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0H///xk\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CheckoutCommandTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-11-12T23:23:12Z",
+      "side": 1,
+      "message": "We should at least once test that we are switching to a branch which not pointing to the current head. One check where you switch from test to master and check that the content has changed afterwards.",
+      "revId": "520e9c2d0eba510b12e28c3263d0f3b2f9dc1c65",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0H///xg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CheckoutCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-11-12T23:23:12Z",
+      "side": 1,
+      "message": "currently checking out only pathes is not supported.",
+      "revId": "520e9c2d0eba510b12e28c3263d0f3b2f9dc1c65",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0H///xc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CheckoutCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-11-12T23:23:12Z",
+      "side": 1,
+      "message": "You don\u0027t need the two getId() calls. What you get back from getTree is already sufficient.",
+      "revId": "520e9c2d0eba510b12e28c3263d0f3b2f9dc1c65",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
