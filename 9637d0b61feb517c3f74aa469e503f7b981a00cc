@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL0X///98\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CheckoutCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-11-18T11:03:02Z",
+      "side": 1,
+      "message": "Don\u0027t you want to call setUpstreamMode() only when upstreamMode is different from null? Either we give a DefaultValue to upstreamMode or we don\u0027t call it if it is null.",
+      "revId": "9637d0b61feb517c3f74aa469e503f7b981a00cc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0n////8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CheckoutCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-11-18T11:03:02Z",
+      "side": 1,
+      "message": "this will lead to reflog\u0027s like: \"checkout: moving from HEAD\". We want to deref headRef to get to the branch name HEAD points to. Something like headRef.getTarget().getName(). Maybe we have to take care that headRef.getTarget() is not null.",
+      "revId": "9637d0b61feb517c3f74aa469e503f7b981a00cc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0X///94\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CheckoutCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-11-18T11:03:02Z",
+      "side": 1,
+      "message": "Thats hard to understand. You accept a parameter called \"startPoint\" but you will always set the class attribute \"startPoint\" to null. If we would call the parameter startCommit instead of startPoint the code would look clearer.\n\nI guess the same comment is also true for some other commands. I\u0027ll check and fix them also.",
+      "revId": "9637d0b61feb517c3f74aa469e503f7b981a00cc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
