@@ -50,6 +50,8 @@ import java.io.InputStreamReader;
 
 import org.eclipse.jgit.api.RebaseCommand.Operation;
 import org.eclipse.jgit.api.RebaseResult.Status;
+import org.eclipse.jgit.api.errors.RefNotFoundException;
+import org.eclipse.jgit.api.errors.WrongRepositoryStateException;
 import org.eclipse.jgit.dircache.DirCacheCheckout;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
@@ -82,6 +84,21 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		refUpdate.link(branchName);
 	}
 
+	private void checkoutCommit(RevCommit commit) throws IllegalStateException,
+			IOException {
+		RevWalk walk = new RevWalk(db);
+		RevCommit head = walk.parseCommit(db.resolve(Constants.HEAD));
+		DirCacheCheckout dco = new DirCacheCheckout(db, head.getTree(),
+				db.lockDirCache(), commit.getTree());
+		dco.setFailOnConflict(true);
+		dco.checkout();
+		walk.release();
+		// update the HEAD
+		RefUpdate refUpdate = db.updateRef(Constants.HEAD, true);
+		refUpdate.setNewObjectId(commit);
+		refUpdate.forceUpdate();
+	}
+
 	public void testFastForwardWithNewFile() throws Exception {
 		Git git = new Git(db);
 
@@ -104,6 +121,39 @@ public class RebaseCommandTest extends RepositoryTestCase {
 
 		RebaseResult res = git.rebase().setUpstream("refs/heads/master").call();
 		assertEquals(Status.UP_TO_DATE, res.getStatus());
+	}
+
+	public void testUpToDate() throws Exception {
+		Git git = new Git(db);
+
+		// create file1 on master
+		writeTrashFile("file1", "file1");
+		git.add().addFilepattern("file1").call();
+		RevCommit first = git.commit().setMessage("Add file1").call();
+
+		assertTrue(new File(db.getWorkTree(), "file1").exists());
+
+		RebaseResult res = git.rebase().setUpstream(first).call();
+		assertEquals(Status.UP_TO_DATE, res.getStatus());
+	}
+
+	public void testUnknownUpstream() throws Exception {
+		Git git = new Git(db);
+
+		// create file1 on master
+		writeTrashFile("file1", "file1");
+		git.add().addFilepattern("file1").call();
+		git.commit().setMessage("Add file1").call();
+
+		assertTrue(new File(db.getWorkTree(), "file1").exists());
+
+		try {
+			git.rebase().setUpstream("refs/heads/xyz")
+					.call();
+			fail("expected exception was not thrown");
+		} catch (RefNotFoundException e) {
+			// expected exception
+		}
 	}
 
 	public void testConflictFreeWithSingleFile() throws Exception {
@@ -140,6 +190,46 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		assertEquals("refs/heads/topic", db.getFullBranch());
 		assertEquals(lastMasterChange, new RevWalk(db).parseCommit(
 				db.resolve(Constants.HEAD)).getParent(0));
+	}
+
+	public void testDetachedHead() throws Exception {
+		Git git = new Git(db);
+
+		// create file1 on master
+		File theFile = writeTrashFile("file1", "1\n2\n3\n");
+		git.add().addFilepattern("file1").call();
+		RevCommit second = git.commit().setMessage("Add file1").call();
+		assertTrue(new File(db.getWorkTree(), "file1").exists());
+		// change first line in master and commit
+		writeTrashFile("file1", "1master\n2\n3\n");
+		checkFile(theFile, "1master\n2\n3\n");
+		git.add().addFilepattern("file1").call();
+		RevCommit lastMasterChange = git.commit()
+				.setMessage("change file1 in master").call();
+
+		// create a topic branch based on second commit
+		createBranch(second, "refs/heads/topic");
+		checkoutBranch("refs/heads/topic");
+		// we have the old content again
+		checkFile(theFile, "1\n2\n3\n");
+
+		assertTrue(new File(db.getWorkTree(), "file1").exists());
+		// change third line in topic branch
+		writeTrashFile("file1", "1\n2\n3\ntopic\n");
+		git.add().addFilepattern("file1").call();
+		RevCommit topicCommit = git.commit()
+				.setMessage("change file1 in topic").call();
+		checkoutBranch("refs/heads/master");
+		checkoutCommit(topicCommit);
+		assertEquals(topicCommit.getId().getName(), db.getFullBranch());
+
+		RebaseResult res = git.rebase().setUpstream("refs/heads/master").call();
+		assertEquals(Status.OK, res.getStatus());
+		checkFile(theFile, "1master\n2\n3\ntopic\n");
+		assertEquals(lastMasterChange,
+				new RevWalk(db).parseCommit(db.resolve(Constants.HEAD))
+						.getParent(0));
+
 	}
 
 	public void testFilesAddedFromTwoBranches() throws Exception {
@@ -234,6 +324,15 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		// the first one should be included, so we should have left two picks in
 		// the file
 		assertEquals(countPicks(), 2);
+
+		// rebase should not succeed in this state
+		try {
+			git.rebase().setUpstream("refs/heads/master").call();
+			fail("Expected exception was not thrown");
+		} catch (WrongRepositoryStateException e) {
+			// expected
+		}
+
 		// abort should reset to topic branch
 		res = git.rebase().setOperation(Operation.ABORT).call();
 		assertEquals(res.getStatus(), Status.ABORTED);
