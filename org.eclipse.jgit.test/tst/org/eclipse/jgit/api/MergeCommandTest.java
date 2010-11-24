@@ -247,6 +247,57 @@ public class MergeCommandTest extends RepositoryTestCase {
 		assertEquals(RepositoryState.MERGING, db.getRepositoryState());
 	}
 
+	public void testMultipleCreations() throws Exception {
+		Git git = new Git(db);
+
+		writeTrashFile("a", "1\na\n3\n");
+		git.add().addFilepattern("a").call();
+		RevCommit initialCommit = git.commit().setMessage("initial").call();
+
+		createBranch(initialCommit, "refs/heads/side");
+		checkoutBranch("refs/heads/side");
+
+		writeTrashFile("b", "1\nb(side)\n3\n");
+		git.add().addFilepattern("b").call();
+		RevCommit secondCommit = git.commit().setMessage("side").call();
+
+		checkoutBranch("refs/heads/master");
+
+		writeTrashFile("b", "1\nb(main)\n3\n");
+		git.add().addFilepattern("b").call();
+		git.commit().setMessage("main").call();
+
+		MergeResult result = git.merge().include(secondCommit.getId())
+				.setStrategy(MergeStrategy.RESOLVE).call();
+		assertEquals(MergeStatus.CONFLICTING, result.getMergeStatus());
+	}
+
+	public void testMultipleCreationsSameContent() throws Exception {
+		Git git = new Git(db);
+
+		writeTrashFile("a", "1\na\n3\n");
+		git.add().addFilepattern("a").call();
+		RevCommit initialCommit = git.commit().setMessage("initial").call();
+
+		createBranch(initialCommit, "refs/heads/side");
+		checkoutBranch("refs/heads/side");
+
+		writeTrashFile("b", "1\nb(1)\n3\n");
+		git.add().addFilepattern("b").call();
+		RevCommit secondCommit = git.commit().setMessage("side").call();
+
+		checkoutBranch("refs/heads/master");
+
+		writeTrashFile("b", "1\nb(1)\n3\n");
+		git.add().addFilepattern("b").call();
+		git.commit().setMessage("main").call();
+
+		MergeResult result = git.merge().include(secondCommit.getId())
+				.setStrategy(MergeStrategy.RESOLVE).call();
+		assertEquals(MergeStatus.MERGED, result.getMergeStatus());
+		assertEquals("1\nb(1)\n3\n", read(new File(db.getWorkTree(), "b")));
+	}
+
 	public void testSuccessfulContentMerge() throws Exception {
 		Git git = new Git(db);
 
@@ -413,6 +464,34 @@ public class MergeCommandTest extends RepositoryTestCase {
 		assertFalse(new File(db.getWorkTree(), "b").exists());
 		assertEquals("1\nc(main)\n3\n",
 				read(new File(db.getWorkTree(), "c/c/c")));
+	}
+
+	public void testMultipleDeletions() throws Exception {
+		Git git = new Git(db);
+
+		writeTrashFile("a", "1\na\n3\n");
+		git.add().addFilepattern("a").call();
+		RevCommit initialCommit = git.commit().setMessage("initial").call();
+
+		createBranch(initialCommit, "refs/heads/side");
+		checkoutBranch("refs/heads/side");
+
+		assertTrue(new File(db.getWorkTree(), "a").delete());
+		git.add().addFilepattern("a").setUpdate(true).call();
+		RevCommit secondCommit = git.commit().setMessage("side").call();
+
+		assertFalse(new File(db.getWorkTree(), "a").exists());
+		checkoutBranch("refs/heads/master");
+		assertTrue(new File(db.getWorkTree(), "a").exists());
+
+		assertTrue(new File(db.getWorkTree(), "a").delete());
+		git.add().addFilepattern("a").setUpdate(true).call();
+		git.commit().setMessage("main").call();
+
+		// We are merging a deletion into our branch
+		MergeResult result = git.merge().include(secondCommit.getId())
+				.setStrategy(MergeStrategy.RESOLVE).call();
+		assertEquals(MergeStatus.MERGED, result.getMergeStatus());
 	}
 
 	public void testDeletionAndConflict() throws Exception {

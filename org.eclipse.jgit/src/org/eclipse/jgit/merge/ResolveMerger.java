@@ -453,15 +453,19 @@ public class ResolveMerger extends ThreeWayMerger {
 		return true;
 	}
 
+	private static final RawText emptyText = new RawText(new byte[0]);
+
 	private boolean contentMerge(CanonicalTreeParser base,
 			CanonicalTreeParser ours, CanonicalTreeParser theirs)
 			throws FileNotFoundException, IllegalStateException, IOException {
 		MergeFormatter fmt = new MergeFormatter();
 
+		RawText baseText = (base == null) ? emptyText : getRawText(
+				base.getEntryObjectId(), db);
+
 		// do the merge
 		MergeResult<RawText> result = MergeAlgorithm.merge(
-				RawTextComparator.DEFAULT,
-				getRawText(base.getEntryObjectId(), db),
+				RawTextComparator.DEFAULT, baseText,
 				getRawText(ours.getEntryObjectId(), db),
 				getRawText(theirs.getEntryObjectId(), db));
 
