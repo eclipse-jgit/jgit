@@ -458,8 +458,9 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 	}
 
 	private String readFile(File directory, String fileName) throws IOException {
+		// the trim will remove line feeds that may exist in the file
 		return RawParseUtils
-				.decode(IO.readFully(new File(directory, fileName)));
+				.decode(IO.readFully(new File(directory, fileName))).trim();
 	}
 
 	private void checkoutCommit(RevCommit commit) throws IOException {
