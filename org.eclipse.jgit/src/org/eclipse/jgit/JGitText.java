@@ -69,6 +69,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String aNewObjectIdIsRequired;
 	/***/ public String abbreviationLengthMustBeNonNegative;
 	/***/ public String abortingRebase;
+	/***/ public String accessFileDenied;
 	/***/ public String advertisementCameBefore;
 	/***/ public String advertisementOfCameBefore;
 	/***/ public String amazonS3ActionFailed;
@@ -312,6 +313,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String lockError;
 	/***/ public String lockOnNotClosed;
 	/***/ public String lockOnNotHeld;
+	/***/ public String lstatImplIllegalResult;
 	/***/ public String malformedpersonIdentString;
 	/***/ public String mergeStrategyAlreadyExistsAsDefault;
 	/***/ public String mergeStrategyDoesNotSupportHeads;
@@ -336,6 +338,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String noHEADExistsAndNoExplicitStartingRevisionWasSpecified;
 	/***/ public String noHMACsupport;
 	/***/ public String noMergeHeadSpecified;
+	/***/ public String noSuchFile;
 	/***/ public String noSuchRef;
 	/***/ public String noXMLParserAvailable;
 	/***/ public String notABoolean;
