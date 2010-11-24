@@ -55,15 +55,35 @@ public class DiffConfig {
 		}
 	};
 
+	/** Permissible values for {@code diff.renames}. */
+	public static enum RenameDetectionType {
+		/** Rename detection is disabled. */
+		FALSE,
+
+		/** Rename detection is enabled. */
+		TRUE,
+
+		/** Copies should be detected too. */
+		COPY
+	}
+
 	private final boolean noPrefix;
 
-	private final boolean renames;
+	private final RenameDetectionType renameDetectionType;
 
 	private final int renameLimit;
 
 	private DiffConfig(final Config rc) {
 		noPrefix = rc.getBoolean("diff", "noprefix", false);
-		renames = rc.getBoolean("diff", "renames", false);
+
+		final String renameString = rc.getString("diff", null, "renames");
+		if ("true".equals(renameString))
+			renameDetectionType = RenameDetectionType.TRUE;
+		else if ("copy".equals(renameString) || "copies".equals(renameString))
+			renameDetectionType = RenameDetectionType.COPY;
+		else
+			renameDetectionType = RenameDetectionType.FALSE;
+
 		renameLimit = rc.getInt("diff", "renamelimit", 200);
 	}
 
@@ -74,7 +94,12 @@ public class DiffConfig {
 
 	/** @return true if rename detection is enabled by default. */
 	public boolean isRenameDetectionEnabled() {
-		return renames;
+		return renameDetectionType != RenameDetectionType.FALSE;
+	}
+
+	/** @return type of rename detection to perform. */
+	public RenameDetectionType getRenameDetectionType() {
+		return renameDetectionType;
 	}
 
 	/** @return limit on number of paths to perform inexact rename detection. */
