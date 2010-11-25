@@ -350,6 +350,98 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		assertFalse(new File(db.getDirectory(), "rebase-merge").exists());
 	}
 
+	public void testAbortOnConflictFileCreationAndDeletion() throws Exception {
+		Git git = new Git(db);
+
+		// create file1 on master
+		writeTrashFile("file1", "Hello World");
+		git.add().addFilepattern("file1").call();
+		// create file2 on master
+		File file2 = writeTrashFile("file2", "Hello World 2");
+		git.add().addFilepattern("file2").call();
+		// create file3 on master
+		File file3 = writeTrashFile("file3", "Hello World 3");
+		git.add().addFilepattern("file3").call();
+
+		RevCommit firstInMaster = git.commit()
+				.setMessage("Add file 1, 2 and 3").call();
+
+		// create file4 on master
+		File file4 = writeTrashFile("file4", "Hello World 4");
+		git.add().addFilepattern("file4").call();
+
+		deleteTrashFile("file2");
+		git.add().setUpdate(true).addFilepattern("file2").call();
+		// create folder folder6 on topic (conflicts with file folder6 on topic
+		// later on)
+		writeTrashFile("folder6/file1", "Hello World folder6");
+		git.add().addFilepattern("folder6/file1").call();
+
+		git.commit()
+				.setMessage(
+						"Add file 4 and folder folder6, delete file2 on master")
+				.call();
+
+		// create a topic branch based on second commit
+		createBranch(firstInMaster, "refs/heads/topic");
+		checkoutBranch("refs/heads/topic");
+
+		deleteTrashFile("file3");
+		git.add().setUpdate(true).addFilepattern("file3").call();
+		// create file5 on topic
+		File file5 = writeTrashFile("file5", "Hello World 5");
+		git.add().addFilepattern("file5").call();
+		git.commit().setMessage("Delete file3 and add file5 in topic").call();
+
+		// create file folder6 on topic (conflicts with folder6 on master)
+		writeTrashFile("folder6", "Hello World 6");
+		git.add().addFilepattern("folder6").call();
+		// create file7 on topic
+		File file7 = writeTrashFile("file7", "Hello World 7");
+		git.add().addFilepattern("file7").call();
+
+		deleteTrashFile("file5");
+		git.add().setUpdate(true).addFilepattern("file5").call();
+		RevCommit conflicting = git.commit()
+				.setMessage("Delete file5, add file folder6 and file7 in topic")
+				.call();
+
+		RebaseResult res = git.rebase().setUpstream("refs/heads/master").call();
+		assertEquals(Status.STOPPED, res.getStatus());
+		assertEquals(conflicting, res.getCurrentCommit());
+
+		assertEquals(RepositoryState.REBASING_MERGE, db.getRepositoryState());
+		assertTrue(new File(db.getDirectory(), "rebase-merge").exists());
+		// the first one should be included, so we should have left two picks in
+		// the file
+		assertEquals(1, countPicks());
+
+		assertFalse(file2.exists());
+		assertFalse(file3.exists());
+		assertTrue(file4.exists());
+		assertFalse(file5.exists());
+		assertTrue(file7.exists());
+
+		// abort should reset to topic branch
+		res = git.rebase().setOperation(Operation.ABORT).call();
+		assertEquals(res.getStatus(), Status.ABORTED);
+		assertEquals("refs/heads/topic", db.getFullBranch());
+		RevWalk rw = new RevWalk(db);
+		assertEquals(conflicting,
+				rw.parseCommit(db.resolve(Constants.HEAD)));
+		assertEquals(RepositoryState.SAFE, db.getRepositoryState());
+
+		// rebase- dir in .git must be deleted
+		assertFalse(new File(db.getDirectory(), "rebase-merge").exists());
+
+		assertTrue(file2.exists());
+		assertFalse(file3.exists());
+		assertFalse(file4.exists());
+		assertFalse(file5.exists());
+		assertTrue(file7.exists());
+
+	}
+
 	private int countPicks() throws IOException {
 		int count = 0;
 		File todoFile = new File(db.getDirectory(),
