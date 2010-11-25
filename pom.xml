@@ -178,6 +178,11 @@
         </plugin>
 
         <plugin>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>2.5</version>
+        </plugin>
+
+        <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-shade-plugin</artifactId>
           <version>1.2</version>
@@ -211,6 +216,12 @@
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>build-helper-maven-plugin</artifactId>
           <version>1.5</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>native-maven-plugin</artifactId>
+          <version>1.0-alpha-5</version>
         </plugin>
 
         <plugin>
@@ -353,6 +364,19 @@
       </activation>
       <modules>
         <module>org.eclipse.jgit.console</module>
+      </modules>
+    </profile>
+
+    <!-- Set -Djgit.native.skip=true to use pure Java -->
+    <profile>
+      <id>jgit.native</id>
+      <activation>
+        <property>
+          <name>!jgit.native.skip</name>
+        </property>
+      </activation>
+      <modules>
+        <module>libjgit_native</module>
       </modules>
     </profile>
   </profiles>

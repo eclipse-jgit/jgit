@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-   Copyright (C) 2009, Google Inc.
-   Copyright (C) 2008, Imran M Yousuf <imyousuf@smartitengineering.com>
-   Copyright (C) 2008, Jonas Fonseca <fonseca@diku.dk>
+   Copyright (C) 2010, Google Inc.
    and other copyright owners as documented in the project's IP log.
 
    This program and the accompanying materials are made available
@@ -55,106 +53,113 @@
     <version>0.10.0-SNAPSHOT</version>
   </parent>
 
-  <artifactId>org.eclipse.jgit.test</artifactId>
-  <name>JGit - Core Tests</name>
+  <artifactId>libjgit_native</artifactId>
+  <name>JGit - Native</name>
+  <packaging>jnilib</packaging>
 
   <description>
-    JUnit tests for the core library.
+    Native support library
   </description>
 
   <properties>
-    <jni_dir>${basedir}/../libjgit_native/target</jni_dir>
+    <macos_ver>10.5</macos_ver>
+    <macos_sdk>MacOSX${macos_ver}.sdk</macos_sdk>
+    <macos_jni>/Developer/SDKs/${macos_sdk}/System/Library/Frameworks/JavaVM.framework/Headers</macos_jni>
+
+    <jni_inc>${java.home}/../include</jni_inc>
+
+    <jni_linker_options>-shared</jni_linker_options>
+
+    <os_name>${os.name}</os_name>
+    <os_arch>${os.arch}</os_arch>
   </properties>
 
-  <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <scope>test</scope>
-    </dependency>
+  <profiles>
+    <profile>
+      <id>libjgit_native.mac</id>
+      <activation>
+        <os>
+          <family>mac</family>
+        </os>
+      </activation>
+      <properties>
+        <os_name>macosx</os_name>
+        <jni_inc>${macos_jni}</jni_inc>
+      </properties>
+    </profile>
 
+    <profile>
+      <id>libjgit_native.win32</id>
+      <activation>
+        <os>
+          <family>windows</family>
+        </os>
+      </activation>
+      <properties>
+        <os_name>win32</os_name>
+        <jni_linker_options>/INCREMENTAL:NO /DLL user32.lib kernel32.lib</jni_linker_options>
+      </properties>
+    </profile>
+  </profiles>
+
+  <dependencies>
     <dependency>
       <groupId>org.eclipse.jgit</groupId>
       <artifactId>org.eclipse.jgit</artifactId>
       <version>${project.version}</version>
     </dependency>
-
-    <dependency>
-      <groupId>org.eclipse.jgit</groupId>
-      <artifactId>org.eclipse.jgit.junit</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.eclipse.jgit</groupId>
-      <artifactId>org.eclipse.jgit.ui</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.eclipse.jgit</groupId>
-      <artifactId>org.eclipse.jgit.console</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.eclipse.jgit</groupId>
-      <artifactId>org.eclipse.jgit.http.server</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.eclipse.jgit</groupId>
-      <artifactId>org.eclipse.jgit.iplog</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.eclipse.jgit</groupId>
-      <artifactId>org.eclipse.jgit.pgm</artifactId>
-      <version>${project.version}</version>
-    </dependency>
   </dependencies>
 
-  <profiles>
-    <profile>
-      <id>jgit.native</id>
-      <activation>
-        <property>
-          <name>!jgit.native.skip</name>
-        </property>
-      </activation>
-      <dependencies>
-        <dependency>
-          <groupId>org.eclipse.jgit</groupId>
-          <artifactId>libjgit_native</artifactId>
-          <version>${project.version}</version>
-          <type>jnilib</type>
-        </dependency>
-      </dependencies>
-    </profile>
-  </profiles>
-
   <build>
-    <testSourceDirectory>tst/</testSourceDirectory>
-
-    <testResources>
-      <testResource>
-        <directory>tst-rsrc/</directory>
-      </testResource>
-    </testResources>
-
     <plugins>
       <plugin>
-        <artifactId>maven-surefire-plugin</artifactId>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>native-maven-plugin</artifactId>
+        <extensions>true</extensions>
         <configuration>
-          <argLine>-Xmx256m -Dfile.encoding=UTF-8 -Djava.library.path=${jni_dir}</argLine>
-          <includes>
-            <include>**/*Test.java</include>
-            <include>**/*TestCase.java</include>
-            <include>**/T000*.java</include>
-          </includes>
+          <javahOS>${os.name}</javahOS>
+
+          <javahClassNames>
+            <javahClassNames>org.eclipse.jgit.util.fs.FSAccessNative</javahClassNames>
+          </javahClassNames>
+
+          <jdkIncludePath>${jni_inc}</jdkIncludePath>
+
+          <sources>
+            <source>
+              <directory>src</directory>
+              <includes>
+                <include>*.c</include>
+              </includes>
+            </source>
+          </sources>
+
+          <linkerStartOptions>
+            <linkerStartOption>${jni_linker_options}</linkerStartOption>
+          </linkerStartOptions>
         </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>copy_jnilib</id>
+            <phase>compile</phase>
+            <configuration>
+              <tasks>
+                <copy
+                  file="${basedir}/target/libjgit_native.jnilib"
+                  todir="${basedir}/../org.eclipse.jgit.${os_name}_${os_arch}"
+                  overwrite="true" />
+              </tasks>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
