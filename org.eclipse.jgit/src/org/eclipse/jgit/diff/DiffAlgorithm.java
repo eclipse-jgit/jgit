@@ -54,6 +54,30 @@ package org.eclipse.jgit.diff;
  */
 public abstract class DiffAlgorithm {
 	/**
+	 * Supported diff algorithm
+	 */
+	public enum SupportedAlgorithm {
+		/**
+		 * Myers diff algorithm
+		 */
+		myers(MyersDiff.INSTANCE),
+
+		/**
+		 * Histogram diff algorithm
+		 */
+		histogram(new HistogramDiff());
+
+		/**
+		 * Diff algorithm
+		 */
+		public DiffAlgorithm algorithm;
+
+		SupportedAlgorithm(DiffAlgorithm a) {
+			algorithm = a;
+		}
+	};
+
+	/**
 	 * Compare two sequences and identify a list of edits between them.
 	 *
 	 * @param <S>
