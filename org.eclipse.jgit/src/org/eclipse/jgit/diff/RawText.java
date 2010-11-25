@@ -75,6 +75,9 @@ public class RawText extends Sequence {
 	/** Map of line number to starting position within {@link #content}. */
 	protected final IntList lines;
 
+	/** A Rawtext of length 0 */
+	public static final RawText EMPTY_TEXT = new RawText(new byte[0]);
+
 	/**
 	 * Create a new sequence from an existing content byte array.
 	 * <p>

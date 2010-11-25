@@ -458,10 +458,12 @@ public class ResolveMerger extends ThreeWayMerger {
 			throws FileNotFoundException, IllegalStateException, IOException {
 		MergeFormatter fmt = new MergeFormatter();
 
+		RawText baseText = base == null ? RawText.EMPTY_TEXT : getRawText(
+				base.getEntryObjectId(), db);
+
 		// do the merge
 		MergeResult<RawText> result = MergeAlgorithm.merge(
-				RawTextComparator.DEFAULT,
-				getRawText(base.getEntryObjectId(), db),
+				RawTextComparator.DEFAULT, baseText,
 				getRawText(ours.getEntryObjectId(), db),
 				getRawText(theirs.getEntryObjectId(), db));
 
