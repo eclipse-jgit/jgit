@@ -165,8 +165,27 @@ public class MergeAlgorithmTest extends TestCase {
 		assertEquals(t("aZcYe"), merge("abcde", "aZcde", "abcYe"));
 	}
 
+	/**
+	 * Test merging two contents which do one similar modification and one
+	 * insertion is only done by one side. Between modification and insertion is
+	 * a block which is common between the two contents and the common base
+	 *
+	 * @throws IOException
+	 */
+	public void testTwoSimilarModsAndOneInsert() throws IOException {
+		assertEquals(t("IAAJ"), merge("iA", "IA", "IAAJ"));
+		assertEquals(t("aBcDde"), merge("abcde", "aBcde", "aBcDde"));
+		assertEquals(t("IAJ"), merge("iA", "IA", "IAJ"));
+		assertEquals(t("IAAAJ"), merge("iA", "IA", "IAAAJ"));
+		assertEquals(t("IAAAJCAB"), merge("iACAB", "IACAB", "IAAAJCAB"));
+		assertEquals(t("HIAAAJCAB"), merge("HiACAB", "HIACAB", "HIAAAJCAB"));
+		assertEquals(t("AGADEFHIAAAJCAB"),
+				merge("AGADEFHiACAB", "AGADEFHIACAB", "AGADEFHIAAAJCAB"));
+
+	}
+
 	private String merge(String commonBase, String ours, String theirs) throws IOException {
-		MergeResult r = MergeAlgorithm.merge(RawTextComparator.DEFAULT,
+		MergeResult r = new MergeAlgorithm().merge(RawTextComparator.DEFAULT,
 				T(commonBase), T(ours), T(theirs));
 		ByteArrayOutputStream bo=new ByteArrayOutputStream(50);
 		fmt.formatMerge(bo, r, "B", "O", "T", Constants.CHARACTER_ENCODING);

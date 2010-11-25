@@ -50,6 +50,7 @@ import java.util.List;
 import org.eclipse.jgit.diff.DiffAlgorithm;
 import org.eclipse.jgit.diff.Edit;
 import org.eclipse.jgit.diff.EditList;
+import org.eclipse.jgit.diff.HistogramDiff;
 import org.eclipse.jgit.diff.MyersDiff;
 import org.eclipse.jgit.diff.Sequence;
 import org.eclipse.jgit.diff.SequenceComparator;
@@ -67,7 +68,7 @@ public final class MergeAlgorithm {
 	 * algorithm
 	 */
 	public MergeAlgorithm() {
-		this(MyersDiff.INSTANCE);
+		this(new HistogramDiff());
 	}
 
 	/**
