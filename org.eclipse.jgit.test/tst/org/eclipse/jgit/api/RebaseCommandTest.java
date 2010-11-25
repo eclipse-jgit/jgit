@@ -284,7 +284,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		// create file1 on master
 		File theFile = writeTrashFile("file1", "1\n2\n3\n");
 		git.add().addFilepattern("file1").call();
-		RevCommit second = git.commit().setMessage("Add file1").call();
+		RevCommit firstInMaster = git.commit().setMessage("Add file1").call();
 		assertTrue(new File(db.getWorkTree(), "file1").exists());
 		// change first line in master and commit
 		writeTrashFile("file1", "1master\n2\n3\n");
@@ -293,37 +293,40 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		git.commit().setMessage("change file1 in master").call();
 
 		// create a topic branch based on second commit
-		createBranch(second, "refs/heads/topic");
+		createBranch(firstInMaster, "refs/heads/topic");
 		checkoutBranch("refs/heads/topic");
 		// we have the old content again
 		checkFile(theFile, "1\n2\n3\n");
 
 		assertTrue(new File(db.getWorkTree(), "file1").exists());
 		// add a line (non-conflicting)
-		writeTrashFile("file1", "1\n2\n3\n4\n");
+		writeTrashFile("file1", "1\n2\n3\ntopic4\n");
 		git.add().addFilepattern("file1").call();
 		git.commit().setMessage("add a line to file1 in topic").call();
 
 		// change first line (conflicting)
-		writeTrashFile("file1", "1topic\n2\n3\n4\n");
+		writeTrashFile("file1", "1topic\n2\n3\ntopic4\n");
 		git.add().addFilepattern("file1").call();
-		git.commit().setMessage("change file1 in topic").call();
+		RevCommit conflicting = git.commit()
+				.setMessage("change file1 in topic").call();
 
 		// change second line (not conflicting)
-		writeTrashFile("file1", "1topic\n2topic\n3\n4\n");
+		writeTrashFile("file1", "1topic\n2topic\n3\ntopic4\n");
 		git.add().addFilepattern("file1").call();
 		RevCommit lastTopicCommit = git.commit().setMessage(
 				"change file1 in topic again").call();
 
 		RebaseResult res = git.rebase().setUpstream("refs/heads/master").call();
 		assertEquals(Status.STOPPED, res.getStatus());
+		assertEquals(conflicting, res.getCurrentCommit());
 		checkFile(theFile,
-				"<<<<<<< OURS\n1master\n=======\n1topic\n>>>>>>> THEIRS\n2\n3\n4\n");
+				"<<<<<<< OURS\n1master\n=======\n1topic\n>>>>>>> THEIRS\n2\n3\ntopic4\n");
 
 		assertEquals(RepositoryState.REBASING_MERGE, db.getRepositoryState());
+		assertTrue(new File(db.getDirectory(), "rebase-merge").exists());
 		// the first one should be included, so we should have left two picks in
 		// the file
-		assertEquals(countPicks(), 2);
+		assertEquals(2, countPicks());
 
 		// rebase should not succeed in this state
 		try {
@@ -337,10 +340,14 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		res = git.rebase().setOperation(Operation.ABORT).call();
 		assertEquals(res.getStatus(), Status.ABORTED);
 		assertEquals("refs/heads/topic", db.getFullBranch());
-		checkFile(theFile, "1topic\n2topic\n3\n4\n");
+		checkFile(theFile, "1topic\n2topic\n3\ntopic4\n");
 		RevWalk rw = new RevWalk(db);
 		assertEquals(lastTopicCommit, rw
 				.parseCommit(db.resolve(Constants.HEAD)));
+		assertEquals(RepositoryState.SAFE, db.getRepositoryState());
+
+		// rebase- dir in .git must be deleted
+		assertFalse(new File(db.getDirectory(), "rebase-merge").exists());
 	}
 
 	private int countPicks() throws IOException {
