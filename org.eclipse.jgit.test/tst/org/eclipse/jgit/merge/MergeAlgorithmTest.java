@@ -166,7 +166,7 @@ public class MergeAlgorithmTest extends TestCase {
 	}
 
 	private String merge(String commonBase, String ours, String theirs) throws IOException {
-		MergeResult r = MergeAlgorithm.merge(RawTextComparator.DEFAULT,
+		MergeResult r = new MergeAlgorithm().merge(RawTextComparator.DEFAULT,
 				T(commonBase), T(ours), T(theirs));
 		ByteArrayOutputStream bo=new ByteArrayOutputStream(50);
 		fmt.formatMerge(bo, r, "B", "O", "T", Constants.CHARACTER_ENCODING);

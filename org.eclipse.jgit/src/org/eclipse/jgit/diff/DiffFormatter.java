@@ -63,6 +63,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.jgit.JGitText;
+import org.eclipse.jgit.diff.DiffAlgorithm.SupportedAlgorithm;
 import org.eclipse.jgit.diff.DiffEntry.ChangeType;
 import org.eclipse.jgit.errors.AmbiguousObjectException;
 import org.eclipse.jgit.errors.CorruptObjectException;
@@ -70,6 +71,7 @@ import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
@@ -118,7 +120,7 @@ public class DiffFormatter {
 
 	private int abbreviationLength = 7;
 
-	private DiffAlgorithm diffAlgorithm = new HistogramDiff();
+	private DiffAlgorithm diffAlgorithm;
 
 	private RawTextComparator comparator = RawTextComparator.DEFAULT;
 
@@ -178,6 +180,12 @@ public class DiffFormatter {
 			setNewPrefix("");
 		}
 		setDetectRenames(dc.isRenameDetectionEnabled());
+
+		diffAlgorithm = DiffAlgorithm.getAlgorithm(db.getConfig().getEnum(
+				ConfigConstants.CONFIG_DIFF_SECTION, null,
+				ConfigConstants.CONFIG_KEY_ALGORITHM,
+				SupportedAlgorithm.HISTOGRAM));
+
 	}
 
 	/**

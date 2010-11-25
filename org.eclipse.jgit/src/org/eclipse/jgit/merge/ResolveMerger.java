@@ -58,6 +58,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.jgit.JGitText;
+import org.eclipse.jgit.diff.DiffAlgorithm;
+import org.eclipse.jgit.diff.DiffAlgorithm.SupportedAlgorithm;
 import org.eclipse.jgit.diff.RawText;
 import org.eclipse.jgit.diff.RawTextComparator;
 import org.eclipse.jgit.diff.Sequence;
@@ -71,6 +73,7 @@ import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.IndexWriteException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.NoWorkTreeException;
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
@@ -136,6 +139,7 @@ public class ResolveMerger extends ThreeWayMerger {
 
 	private WorkingTreeIterator workingTreeIterator;
 
+	private MergeAlgorithm mergeAlgorithm;
 
 	/**
 	 * @param local
@@ -143,6 +147,11 @@ public class ResolveMerger extends ThreeWayMerger {
 	 */
 	protected ResolveMerger(Repository local, boolean inCore) {
 		super(local);
+		SupportedAlgorithm diffAlg = local.getConfig().getEnum(
+				ConfigConstants.CONFIG_DIFF_SECTION, null,
+				ConfigConstants.CONFIG_KEY_ALGORITHM,
+				SupportedAlgorithm.HISTOGRAM);
+		mergeAlgorithm = new MergeAlgorithm(DiffAlgorithm.getAlgorithm(diffAlg));
 		commitNames = new String[] { "BASE", "OURS", "THEIRS" };
 		oi = getObjectInserter();
 		this.inCore = inCore;
@@ -459,7 +468,7 @@ public class ResolveMerger extends ThreeWayMerger {
 		MergeFormatter fmt = new MergeFormatter();
 
 		// do the merge
-		MergeResult<RawText> result = MergeAlgorithm.merge(
+		MergeResult<RawText> result = mergeAlgorithm.merge(
 				RawTextComparator.DEFAULT,
 				getRawText(base.getEntryObjectId(), db),
 				getRawText(ours.getEntryObjectId(), db),
