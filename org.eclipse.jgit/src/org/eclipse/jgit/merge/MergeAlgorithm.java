@@ -50,24 +50,24 @@ import java.util.List;
 import org.eclipse.jgit.diff.DiffAlgorithm;
 import org.eclipse.jgit.diff.Edit;
 import org.eclipse.jgit.diff.EditList;
-import org.eclipse.jgit.diff.MyersDiff;
+import org.eclipse.jgit.diff.HistogramDiff;
 import org.eclipse.jgit.diff.Sequence;
 import org.eclipse.jgit.diff.SequenceComparator;
 import org.eclipse.jgit.merge.MergeChunk.ConflictState;
 
 /**
  * Provides the merge algorithm which does a three-way merge on content provided
- * as RawText. By default {@link MyersDiff} is used as diff algorithm.
+ * as RawText. By default {@link HistogramDiff} is used as diff algorithm.
  */
 public final class MergeAlgorithm {
 	private final DiffAlgorithm diffAlg;
 
 	/**
-	 * Creates a new MergeAlgorithm which uses {@link MyersDiff} as diff
+	 * Creates a new MergeAlgorithm which uses {@link HistogramDiff} as diff
 	 * algorithm
 	 */
 	public MergeAlgorithm() {
-		this(MyersDiff.INSTANCE);
+		this(new HistogramDiff());
 	}
 
 	/**
