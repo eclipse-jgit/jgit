@@ -96,6 +96,12 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 		return path;
 	}
 
+	protected void deleteTrashFile(final String name) throws IOException {
+		File path = new File(db.getWorkTree(), name);
+		if (!path.delete())
+			throw new IOException("Could not delete file " + path.getPath());
+	}
+
 	protected static void checkFile(File f, final String checkData)
 			throws IOException {
 		Reader r = new InputStreamReader(new FileInputStream(f), "ISO-8859-1");
