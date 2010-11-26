@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL0n///xk\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-11-25T23:30:39Z",
+      "side": 1,
+      "message": "I agree, HistogramDiff should be our default. But since I already saw 3 diff algorithms (myers, patience, histogram) up to know I think its a good idea to to give the option to configure the algorithm.",
+      "parentUuid": "AAAL0n///y4\u003d",
+      "revId": "84c148e6b67e6820a7fc5cd1f32436be055cb140",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL0n///zE\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffAlgorithm.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2010-11-25T18:00:12Z",
       "side": 1,
       "message": "Nak.  This is now public, and mutable, and a singleton.\n\nChange the enum to be:\n\n  public enum SupportedAlgorithm {\n    MYERS, HISTOGRAM\n  }\n\n  public static DiffAlgorithm getAlgorithm(SupportedAlgorithm alg) {\n    switch(alg) {\n    case MYERS:\n      return MyersDiff.INSTANCE;\n    case HISTOGRAM:\n      return new HistogramDiff();\n    }\n  }",
+      "revId": "84c148e6b67e6820a7fc5cd1f32436be055cb140",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0n///xg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffAlgorithm.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-11-25T23:30:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL0n///zE\u003d",
       "revId": "84c148e6b67e6820a7fc5cd1f32436be055cb140",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL0n///xc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeAlgorithm.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-11-25T23:30:39Z",
+      "side": 1,
+      "message": "be patient. Thats in the next proposal 1958. This proposal was meant just to make the diff algorithm configurable. 1958 switches the default.",
+      "parentUuid": "AAAL0n///y0\u003d",
+      "revId": "84c148e6b67e6820a7fc5cd1f32436be055cb140",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL0n///y8\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeAlgorithm.java",
         "patchSetId": 1
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL0n///xY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeAlgorithm.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-11-25T23:30:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL0n///y8\u003d",
+      "revId": "84c148e6b67e6820a7fc5cd1f32436be055cb140",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL0n///yw\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
         "patchSetId": 1
@@ -81,6 +153,24 @@
       "writtenOn": "2010-11-25T18:00:12Z",
       "side": 1,
       "message": "Should we also honor this variable in DiffFormatter?",
+      "revId": "84c148e6b67e6820a7fc5cd1f32436be055cb140",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0n///xQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-11-25T23:30:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL0n///yw\u003d",
       "revId": "84c148e6b67e6820a7fc5cd1f32436be055cb140",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false

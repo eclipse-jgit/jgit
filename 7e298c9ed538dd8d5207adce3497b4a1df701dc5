@@ -16,6 +16,24 @@
       "revId": "7e298c9ed538dd8d5207adce3497b4a1df701dc5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0n///xU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeAlgorithm.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-11-25T23:30:39Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "AAAL0n///zA\u003d",
+      "revId": "7e298c9ed538dd8d5207adce3497b4a1df701dc5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
