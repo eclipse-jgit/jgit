@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL0n///yU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 465,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-11-25T18:07:08Z",
+      "side": 1,
+      "message": "Nak.  This strips everything after the first line.  That\u0027s not what we want, is it?\n\nTo trim the trailing LF(s), use:\n\n  int end \u003d content.length;\n  while (0 \u003c end \u0026\u0026 content[end - 1] \u003d\u003d \u0027\\n\u0027)\n    end--;\n  return RawParseUtils.decode(content, 0, end);",
+      "revId": "a5aa5785ca729efc899f0557bd0cd829959721a7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
