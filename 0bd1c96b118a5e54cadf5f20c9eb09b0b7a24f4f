@@ -33,6 +33,24 @@
       "revId": "0bd1c96b118a5e54cadf5f20c9eb09b0b7a24f4f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0n///qo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2010-11-29T16:17:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL0n///tY\u003d",
+      "revId": "0bd1c96b118a5e54cadf5f20c9eb09b0b7a24f4f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
