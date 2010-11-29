@@ -16,6 +16,24 @@
       "revId": "f55d955e37235d4d00f5b0febd6aa10c0e27814e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0n///wE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2010-11-26T10:11:47Z",
+      "side": 1,
+      "message": "I\u0027d prefer to not spoil the enum with a redundant COPIES, so I\u0027ve fixed it using StringUtils\u0027 boolean translation.",
+      "parentUuid": "AAAL0n///zY\u003d",
+      "revId": "f55d955e37235d4d00f5b0febd6aa10c0e27814e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
