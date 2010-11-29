@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL0n///tc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-11-27T01:48:30Z",
+      "side": 1,
+      "message": "Should we use StringUtils.equalsIgnoreCase here?",
+      "revId": "0bd1c96b118a5e54cadf5f20c9eb09b0b7a24f4f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0n///tY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-11-27T01:48:30Z",
+      "side": 1,
+      "message": "This doesn\u0027t reject on null.  I would instead write:\n\n  if (renameBoolean \u003d\u003d null)\n    throw new IllegalArgumentException(....);\n else if (renameBoolean)\n    renameDetectionType \u003d RenameDetectionType.TRUE;\n else\n    renameDetectionType \u003d RenameDetectionType.FALSE;",
+      "revId": "0bd1c96b118a5e54cadf5f20c9eb09b0b7a24f4f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
