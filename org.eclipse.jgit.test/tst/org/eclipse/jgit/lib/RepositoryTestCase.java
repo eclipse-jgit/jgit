@@ -138,6 +138,8 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 
 	public static final int CONTENT = 16;
 
+	public static final int ASSUME_UNCHANGED = 32;
+
 	/**
 	 * Represent the state of the index in one String. This representation is
 	 * useful when writing tests which do assertions on the state of the index.
@@ -209,6 +211,9 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 						+ new String(db.open(entry.getObjectId(),
 								Constants.OBJ_BLOB).getCachedBytes(), "UTF-8"));
 			}
+			if (0 != (includedOptions & ASSUME_UNCHANGED))
+				sb.append(", assume-unchanged:"
+						+ Boolean.toString(entry.isAssumeValid()));
 			sb.append("]");
 		}
 		return sb.toString();
