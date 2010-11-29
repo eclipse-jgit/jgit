@@ -64,15 +64,10 @@ import org.eclipse.jgit.treewalk.filter.SkipWorkTreeFilter;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
 
 /**
- * Compares the index, a tree, and the working directory
- * Ignored files are not taken into account.
- * The following information is retrieved:
- * <li> added files
- * <li> changed files
- * <li> removed files
- * <li> missing files
- * <li> modified files
- * <li> untracked files
+ * Compares the index, a tree, and the working directory Ignored files are not
+ * taken into account. The following information is retrieved: <li>added files
+ * <li>changed files <li>removed files <li>missing files <li>modified files <li>
+ * untracked files <li>files with assume-unchanged flag
  */
 public class IndexDiff {
 
@@ -101,6 +96,8 @@ public class IndexDiff {
 	private HashSet<String> modified = new HashSet<String>();
 
 	private HashSet<String> untracked = new HashSet<String>();
+
+	private HashSet<String> assumeUnchanged = new HashSet<String>();
 
 	/**
 	 * Construct an IndexDiff
@@ -190,6 +187,10 @@ public class IndexDiff {
 					WorkingTreeIterator.class);
 			FileMode fileModeTree = treeWalk.getFileMode(TREE);
 
+			if (dirCacheIterator != null) {
+				if (dirCacheIterator.getDirCacheEntry().isAssumeValid())
+					assumeUnchanged.add(dirCacheIterator.getEntryPathString());
+			}
 			if (treeIterator != null) {
 				if (dirCacheIterator != null) {
 					if (!treeIterator.getEntryObjectId().equals(
@@ -280,6 +281,13 @@ public class IndexDiff {
 	 */
 	public HashSet<String> getUntracked() {
 		return untracked;
+	}
+
+	/**
+	 * @return list of files with the flag assume-unchanged
+	 */
+	public HashSet<String> getAssumeUnchanged() {
+		return assumeUnchanged;
 	}
 
 }
