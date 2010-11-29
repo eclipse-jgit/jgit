@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL0n///zY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-11-25T17:46:36Z",
+      "side": 1,
+      "message": "We now set FALSE when diff.renames \u003d yes or diff.renames \u003d on.  That doesn\u0027t match C Git, does it?\n\nFortunately getEnum almost does what you want, as it honors yes/on as aliases for true and no/off as aliases for false.  So maybe redefine it this way:\n\n- add COPIES to RenameDetectionType\n- use rc.getEnum(\"diff\", null\", \"renames\", RenameDetectionType.values())\n- translate COPIES to always be COPY",
+      "revId": "f55d955e37235d4d00f5b0febd6aa10c0e27814e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
