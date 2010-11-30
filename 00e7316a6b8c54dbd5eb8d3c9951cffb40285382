@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL0n///os\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/IndexDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-11-29T23:18:40Z",
+      "side": 1,
+      "message": "I would prefer to not reformat this HTML list, its harder to read in the source.\n\nThe reason its not formatting right is because its invalid HTML.  If you change the list to be a proper list type, the Javadoc formatter will do the right thing:\n\n  * \u003cul\u003e\n  * \u003cli\u003eadded files\u003c/li\u003e\n  * \u003cli\u003echanged files\u003c/li\u003e\n  * \u003cli\u003eremoved files\u003c/li\u003e\n  * \u003c/ul\u003e",
+      "revId": "00e7316a6b8c54dbd5eb8d3c9951cffb40285382",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0n///ok\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/IndexDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-11-29T23:18:40Z",
+      "side": 1,
+      "message": "Style-nit: I would insert a blank line before this line.",
+      "revId": "00e7316a6b8c54dbd5eb8d3c9951cffb40285382",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0n///oo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/IndexDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-11-29T23:18:40Z",
+      "side": 1,
+      "message": "None of these methods should export HashSet.  They should be exporting Set\u003cString\u003e instead in case we change our internal representation to be something else, e.g a TreeSet, or a custom Set implementation that uses a smaller storage and is easier to construct given the fact that we iterate names in path-order.\n\nYou can add it as HashSet\u003cString\u003e here if you then immediately follow up with a change that fixes all of these methods to return Set\u003cString\u003e.  (Or please do the reverse, insert a new commit that fixes the existing methods to return Set\u003cString\u003e and change this commit to return Set\u003cString\u003e.)",
+      "revId": "00e7316a6b8c54dbd5eb8d3c9951cffb40285382",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
