@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL0n///mo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/IndexDiff.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-11-30T18:45:47Z",
+      "side": 1,
+      "message": "The others are declared Set\u003cString\u003e, but this is declared HashSet\u003cString\u003e.  Can we use the more generic Set\u003cString\u003e as the field type?",
+      "revId": "60b6681e5a835a3de37c7cc7bdf6d73ad30a03b1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
