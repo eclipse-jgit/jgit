@@ -185,6 +185,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 			for (Step step : steps) {
 				if (step.action != Action.PICK)
 					continue;
+				popSteps(1);
 				Collection<ObjectId> ids = or.resolve(step.commit);
 				if (ids.size() != 1)
 					throw new JGitInternalException(
@@ -203,7 +204,6 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 						.call();
 				monitor.endTask();
 				if (newHead == null) {
-					popSteps(stepsToPop);
 					return new RebaseResult(commitToPick);
 				}
 				stepsToPop++;
@@ -238,14 +238,15 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 	private void popSteps(int numSteps) throws IOException {
 		if (numSteps == 0)
 			return;
-		List<String> lines = new ArrayList<String>();
-		File file = new File(rebaseDir, "git-rebase-todo");
+		List<String> todoLines = new ArrayList<String>();
+		List<String> poppedLines = new ArrayList<String>();
+		File todoFile = new File(rebaseDir, "git-rebase-todo");
+		File doneFile = new File(rebaseDir, "done");
 		BufferedReader br = new BufferedReader(new InputStreamReader(
-				new FileInputStream(file), "UTF-8"));
-		int popped = 0;
+				new FileInputStream(todoFile), "UTF-8"));
 		try {
 			// check if the line starts with a action tag (pick, skip...)
-			while (popped < numSteps) {
+			while (poppedLines.size() < numSteps) {
 				String popCandidate = br.readLine();
 				if (popCandidate == null)
 					break;
@@ -256,28 +257,43 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 					pop = Action.parse(actionToken) != null;
 				}
 				if (pop)
-					popped++;
+					poppedLines.add(popCandidate);
 				else
-					lines.add(popCandidate);
+					todoLines.add(popCandidate);
 			}
 			String readLine = br.readLine();
 			while (readLine != null) {
-				lines.add(readLine);
+				todoLines.add(readLine);
 				readLine = br.readLine();
 			}
 		} finally {
 			br.close();
 		}
 
-		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(
-				new FileOutputStream(file), "UTF-8"));
+		BufferedWriter todoWriter = new BufferedWriter(new OutputStreamWriter(
+				new FileOutputStream(todoFile), "UTF-8"));
 		try {
-			for (String writeLine : lines) {
-				bw.write(writeLine);
-				bw.newLine();
+			for (String writeLine : todoLines) {
+				todoWriter.write(writeLine);
+				todoWriter.newLine();
 			}
 		} finally {
-			bw.close();
+			todoWriter.close();
+		}
+
+		if (poppedLines.size() > 0) {
+			// append here
+			BufferedWriter doneWriter = new BufferedWriter(
+					new OutputStreamWriter(
+							new FileOutputStream(doneFile, true), "UTF-8"));
+			try {
+				for (String writeLine : poppedLines) {
+					doneWriter.write(writeLine);
+					doneWriter.newLine();
+				}
+			} finally {
+				doneWriter.close();
+			}
 		}
 	}
 

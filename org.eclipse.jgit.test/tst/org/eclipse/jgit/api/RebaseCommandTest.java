@@ -326,7 +326,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		assertTrue(new File(db.getDirectory(), "rebase-merge").exists());
 		// the first one should be included, so we should have left two picks in
 		// the file
-		assertEquals(2, countPicks());
+		assertEquals(1, countPicks());
 
 		// rebase should not succeed in this state
 		try {
@@ -414,7 +414,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		assertTrue(new File(db.getDirectory(), "rebase-merge").exists());
 		// the first one should be included, so we should have left two picks in
 		// the file
-		assertEquals(1, countPicks());
+		assertEquals(0, countPicks());
 
 		assertFalse(file2.exists());
 		assertFalse(file3.exists());
