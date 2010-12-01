@@ -64,7 +64,7 @@ import org.eclipse.jgit.lib.Repository;
  */
 public abstract class GitCommand<T> implements Callable<T> {
 	/** The repository this command is working with */
-	final protected Repository repo;
+	static protected Repository repo;
 
 	/**
 	 * a state which tells whether it is allowed to call {@link #call()} on this
@@ -75,11 +75,20 @@ public abstract class GitCommand<T> implements Callable<T> {
 	/**
 	 * Creates a new command which interacts with a single repository
 	 *
+	 * @see #setRepository(Repository)
+	 */
+	protected GitCommand() {
+		// do nothing
+	}
+
+	/**
+	 * Creates a new command which interacts with a single repository
+	 *
 	 * @param repo
 	 *            the {@link Repository} this command should interact with
 	 */
 	protected GitCommand(Repository repo) {
-		this.repo = repo;
+		setRepository(repo);
 	}
 
 	/**
@@ -87,6 +96,15 @@ public abstract class GitCommand<T> implements Callable<T> {
 	 */
 	public Repository getRepository() {
 		return repo;
+	}
+
+	/**
+	 * Set's the {@link Repository} this command is interacting with
+	 *
+	 * @param repository
+	 */
+	protected void setRepository(Repository repository) {
+		repo = repository;
 	}
 
 	/**
@@ -111,7 +129,7 @@ public abstract class GitCommand<T> implements Callable<T> {
 	 *             is {@code false}
 	 */
 	protected void checkCallable() {
-		if (!callable)
+		if (!callable || repo == null)
 			throw new IllegalStateException(MessageFormat.format(
 					JGitText.get().commandWasCalledInTheWrongState
 					, this.getClass().getName()));
