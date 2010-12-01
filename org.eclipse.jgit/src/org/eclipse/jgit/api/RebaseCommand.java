@@ -322,6 +322,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		rebaseDir.mkdir();
 
 		createFile(repo.getDirectory(), "ORIG_HEAD", headId.name());
+		createFile(rebaseDir, "orig-head", headId.name());
 		createFile(rebaseDir, "head", headId.name());
 		createFile(rebaseDir, "head-name", headName);
 		createFile(rebaseDir, "onto", upstreamCommit.name());
