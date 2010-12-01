@@ -758,12 +758,9 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 			readFully(pos, ib, 0, 20, curs);
 			int c = ib[0] & 0xff;
 			final int type = (c >> 4) & 7;
-			int shift = 4;
 			int p = 1;
-			while ((c & 0x80) != 0) {
+			while ((c & 0x80) != 0)
 				c = ib[p++] & 0xff;
-				shift += 7;
-			}
 
 			switch (type) {
 			case Constants.OBJ_COMMIT:
