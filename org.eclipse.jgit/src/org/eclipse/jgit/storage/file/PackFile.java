@@ -758,9 +758,6 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 			readFully(pos, ib, 0, 20, curs);
 			int c = ib[0] & 0xff;
 			final int type = (c >> 4) & 7;
-			int p = 1;
-			while ((c & 0x80) != 0)
-				c = ib[p++] & 0xff;
 
 			switch (type) {
 			case Constants.OBJ_COMMIT:
@@ -770,6 +767,9 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 				return type;
 
 			case Constants.OBJ_OFS_DELTA: {
+				int p = 1;
+				while ((c & 0x80) != 0)
+					c = ib[p++] & 0xff;
 				c = ib[p++] & 0xff;
 				long ofs = c & 127;
 				while ((c & 128) != 0) {
@@ -783,6 +783,9 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 			}
 
 			case Constants.OBJ_REF_DELTA: {
+				int p = 1;
+				while ((c & 0x80) != 0)
+					c = ib[p++] & 0xff;
 				readFully(pos + p, ib, 0, 20, curs);
 				pos = findDeltaBase(ObjectId.fromRaw(ib));
 				continue;
