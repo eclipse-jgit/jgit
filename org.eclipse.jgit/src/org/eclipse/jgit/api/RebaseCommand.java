@@ -325,6 +325,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		createFile(rebaseDir, "head", headId.name());
 		createFile(rebaseDir, "head-name", headName);
 		createFile(rebaseDir, "onto", upstreamCommit.name());
+		createFile(rebaseDir, "interactive", "");
 		BufferedWriter fw = new BufferedWriter(new OutputStreamWriter(
 				new FileOutputStream(new File(rebaseDir, "git-rebase-todo")),
 				"UTF-8"));
