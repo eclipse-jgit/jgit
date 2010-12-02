@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL0n///jc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/GitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-12-01T15:46:37Z",
+      "side": 1,
+      "message": "I think this should not be static.\n\nHow should that work in a multi-threaded environment like e.g. Gerrit which is hosting many repositories ?",
+      "revId": "058d0ce77c3c6a45d3f3b3b4d7f0ed43eecbd797",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
