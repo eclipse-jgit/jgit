@@ -189,7 +189,7 @@ public abstract class ObjectInserter {
 	 *             the object could not be stored.
 	 */
 	public final ObjectId insert(CommitBuilder builder) throws IOException {
-		return insert(Constants.OBJ_COMMIT, builder.format(this));
+		return insert(Constants.OBJ_COMMIT, builder.build(this));
 	}
 
 	/**
@@ -205,7 +205,7 @@ public abstract class ObjectInserter {
 	 *             the object could not be stored.
 	 */
 	public final ObjectId insert(TagBuilder builder) throws IOException {
-		return insert(Constants.OBJ_TAG, builder.format(this));
+		return insert(Constants.OBJ_TAG, builder.build(this));
 	}
 
 	/**
