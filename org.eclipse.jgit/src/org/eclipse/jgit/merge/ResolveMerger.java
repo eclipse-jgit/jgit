@@ -471,7 +471,7 @@ public class ResolveMerger extends ThreeWayMerger {
 				base.getEntryObjectId(), db);
 
 		// do the merge
-		MergeResult<RawText> result = MergeAlgorithm.merge(
+		MergeResult<RawText> result = mergeAlgorithm.merge(
 				RawTextComparator.DEFAULT, baseText,
 				getRawText(ours.getEntryObjectId(), db),
 				getRawText(theirs.getEntryObjectId(), db));
