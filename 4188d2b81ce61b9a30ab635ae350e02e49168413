@@ -36,6 +36,42 @@
     },
     {
       "key": {
+        "uuid": "AAAL0n///x0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 456,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-11-25T22:43:37Z",
+      "side": 1,
+      "message": "Its now a constant in the RawText class itself",
+      "parentUuid": "AAAL0n///yc\u003d",
+      "revId": "4188d2b81ce61b9a30ab635ae350e02e49168413",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0n///x4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 456,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-11-25T22:43:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL0n///3Q\u003d",
+      "revId": "4188d2b81ce61b9a30ab635ae350e02e49168413",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL0n///yg\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2010-11-25T18:05:07Z",
       "side": 1,
       "message": "Style-nit: Parens aren\u0027t necessary around the conditional.",
+      "revId": "4188d2b81ce61b9a30ab635ae350e02e49168413",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0n///xw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 463,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-11-25T22:43:37Z",
+      "side": 1,
+      "message": "that rule is new to me. I thought the parens together with the ? operator are ok. But ok - I\u0027ll removed them",
+      "parentUuid": "AAAL0n///yg\u003d",
       "revId": "4188d2b81ce61b9a30ab635ae350e02e49168413",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
