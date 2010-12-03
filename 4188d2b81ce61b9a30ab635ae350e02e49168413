@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAL0n///3Q\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 456,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-11-24T15:35:52Z",
+      "side": 1,
+      "message": "style-nit: as this is a constant this should probably be all upper case : EMPTY_TEXT",
+      "revId": "4188d2b81ce61b9a30ab635ae350e02e49168413",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL0n///yc\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
         "patchSetId": 1
