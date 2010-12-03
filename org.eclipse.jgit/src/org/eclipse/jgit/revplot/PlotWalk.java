@@ -44,6 +44,10 @@
 
 package org.eclipse.jgit.revplot;
 
+import static org.eclipse.jgit.lib.Constants.R_HEADS;
+import static org.eclipse.jgit.lib.Constants.R_REMOTES;
+import static org.eclipse.jgit.lib.Constants.R_TAGS;
+
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
@@ -131,11 +135,14 @@ public class PlotWalk extends RevWalk {
 					return -1;
 				if (t1 < t2)
 					return 1;
-				return 0;
 			} catch (IOException e) {
 				// ignore
-				return 0;
 			}
+
+			int cmp = kind(o1) - kind(o2);
+			if (cmp == 0)
+				cmp = o1.getName().compareTo(o2.getName());
+			return cmp;
 		}
 
 		long timeof(RevObject o) {
@@ -147,6 +154,16 @@ public class PlotWalk extends RevWalk {
 				return who != null ? who.getWhen().getTime() : 0;
 			}
 			return 0;
+		}
+
+		int kind(Ref r) {
+			if (r.getName().startsWith(R_TAGS))
+				return 0;
+			if (r.getName().startsWith(R_HEADS))
+				return 1;
+			if (r.getName().startsWith(R_REMOTES))
+				return 2;
+			return 3;
 		}
 	}
 }
