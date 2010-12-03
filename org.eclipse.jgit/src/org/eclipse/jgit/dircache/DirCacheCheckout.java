@@ -45,8 +45,6 @@ package org.eclipse.jgit.dircache;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.nio.channels.FileChannel;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -840,17 +838,11 @@ public class DirCacheCheckout {
 			throw new MissingObjectException(entry.getObjectId(),
 					Constants.TYPE_BLOB);
 
-		byte[] bytes = ol.getCachedBytes();
-
 		File parentDir = f.getParentFile();
 		File tmpFile = File.createTempFile("._" + f.getName(), null, parentDir);
-		FileChannel channel = new FileOutputStream(tmpFile).getChannel();
-		ByteBuffer buffer = ByteBuffer.wrap(bytes);
+		FileOutputStream channel = new FileOutputStream(tmpFile);
 		try {
-			int j = channel.write(buffer);
-			if (j != bytes.length)
-				throw new IOException(MessageFormat.format(
-						JGitText.get().couldNotWriteFile, tmpFile));
+			ol.copyTo(channel);
 		} finally {
 			channel.close();
 		}
