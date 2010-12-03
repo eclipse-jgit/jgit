@@ -258,7 +258,7 @@ public class Git {
 
 	/**
 	 * Returns a command object to execute a {@code rm} command
-	 * 
+	 *
 	 * @see <a
 	 *      href="http://www.kernel.org/pub/software/scm/git/docs/git-rm.html"
 	 *      >Git documentation about rm</a>
@@ -280,6 +280,19 @@ public class Git {
 	 */
 	public CheckoutCommand checkout() {
 		return new CheckoutCommand(repo);
+	}
+
+	/**
+	 * Returns a command object to execute a {@code init} command
+	 *
+	 * @see <a
+	 *      href="http://www.kernel.org/pub/software/scm/git/docs/git-init.html"
+	 *      >Git documentation about init</a>
+	 * @return a {@link InitCommand} used to collect all optional parameters and
+	 *         to finally execute the {@code init} command
+	 */
+	static public InitCommand init() {
+		return new InitCommand();
 	}
 
 	/**
