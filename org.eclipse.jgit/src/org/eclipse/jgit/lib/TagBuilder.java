@@ -193,6 +193,16 @@ public class TagBuilder {
 		return os.toByteArray();
 	}
 
+	/**
+	 * Format this builder's state as an annotated tag object.
+	 *
+	 * @return this object in the canonical annotated tag format, suitable for
+	 *         storage in a repository.
+	 */
+	public byte[] toByteArray() {
+		return build();
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder r = new StringBuilder();
