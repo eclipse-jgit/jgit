@@ -177,6 +177,22 @@ public abstract class ObjectInserter {
 	}
 
 	/**
+	 * Insert a single tree into the store, returning its unique name.
+	 *
+	 * @param formatter
+	 *            the formatter containing the proposed tree's data.
+	 * @return the name of the tree object.
+	 * @throws IOException
+	 *             the object could not be stored.
+	 */
+	public final ObjectId insert(TreeFormatter formatter) throws IOException {
+		// Delegate to the formatter, as then it can pass the raw internal
+		// buffer back to this inserter, avoiding unnecessary data copying.
+		//
+		return formatter.insertTo(this);
+	}
+
+	/**
 	 * Insert a single commit into the store, returning its unique name.
 	 *
 	 * @param builder
