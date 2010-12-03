@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL0n///yc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 456,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-11-25T18:05:07Z",
+      "side": 1,
+      "message": "I agree with Matthias, this should be EMPTY_TEXT.\n\nAlso, Gerrit Code Review defines an EMPTY_TEXT constant itself.  Maybe put this in RawText as a public static final constant so I can drop the one in Gerrit?  (My point here is, some applications probably also need the empty text the same way you need it here, so it should be a standard constant we export.)",
+      "revId": "4188d2b81ce61b9a30ab635ae350e02e49168413",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0n///yg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 463,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-11-25T18:05:07Z",
+      "side": 1,
+      "message": "Style-nit: Parens aren\u0027t necessary around the conditional.",
+      "revId": "4188d2b81ce61b9a30ab635ae350e02e49168413",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
