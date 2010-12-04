@@ -84,6 +84,7 @@ public class IndexPackTest extends RepositoryTestCase {
 		final InputStream is = new FileInputStream(packFile);
 		try {
 			IndexPack pack = new IndexPack(db, is, new File(trash, "tmp_pack1"));
+            pack.setObjectChecking(true); // worth turning on, I made an error in unpacking data which would have been caught by this
 			pack.index(new TextProgressMonitor());
 			PackFile file = new PackFile(new File(trash, "tmp_pack1.idx"), new File(trash, "tmp_pack1.pack"));
 			assertTrue(file.hasObject(ObjectId.fromString("4b825dc642cb6eb9a060e54bf8d69288fbee4904")));
