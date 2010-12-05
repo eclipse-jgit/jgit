@@ -178,6 +178,31 @@ public class BranchCommandTest extends RepositoryTestCase {
 		assertEquals(2, git.branchList().setListMode(ListMode.ALL).call()
 				.size()
 				- allBefore);
+
+		// if new name starts with /refs/heads/, don't prepend it a second time
+		// in CreateBranchCommand
+		newBranch = createBranch(git, "refs/heads/newBranch", false, "master",
+				null);
+		assertEquals("refs/heads/newBranch", newBranch.getName());
+		assertEquals(3, git.branchList().call().size() - localBefore);
+		assertEquals(0, git.branchList().setListMode(ListMode.REMOTE).call()
+				.size()
+				- remoteBefore);
+		assertEquals(3, git.branchList().setListMode(ListMode.ALL).call()
+				.size()
+				- allBefore);
+
+		// if new name doesn't start with /refs/heads/, prepend it
+		// in CreateBranchCommand
+		newBranch = createBranch(git, "newBranch2", false, "master", null);
+		assertEquals("refs/heads/newBranch2", newBranch.getName());
+		assertEquals(4, git.branchList().call().size() - localBefore);
+		assertEquals(0, git.branchList().setListMode(ListMode.REMOTE).call()
+				.size()
+				- remoteBefore);
+		assertEquals(4, git.branchList().setListMode(ListMode.ALL).call()
+				.size()
+				- allBefore);
 	}
 
 	public void testCreateFromCommit() throws Exception {
