@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL0n///XA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportGitSsh.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 2
+      },
+      "writtenOn": "2010-12-05T15:50:05Z",
+      "side": 1,
+      "message": "Do we really want these as inner classes?",
+      "revId": "04b289cc42f62369bde83b025bc64ab01bcdcb79",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
