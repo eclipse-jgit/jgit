@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL0n///Yc\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-12-04T08:16:56Z",
+      "side": 1,
+      "message": "This gives the impression that ref type is the first sort key, while in the code commit time is,\n\nThis sort order is probably better handled as an UI issue, but this is a good default.",
+      "revId": "864091d982a32050fa6dc3d5969b51b94f0e488c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
