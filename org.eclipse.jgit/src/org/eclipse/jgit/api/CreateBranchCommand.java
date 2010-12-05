@@ -173,7 +173,14 @@ public class CreateBranchCommand extends GitCommand<Ref> {
 							+ startPointFullName;
 			}
 
-			RefUpdate updateRef = repo.updateRef(Constants.R_HEADS + name);
+			RefUpdate updateRef;
+
+			if (name.startsWith(Constants.R_HEADS)) {
+				updateRef = repo.updateRef(name);
+			} else {
+				updateRef = repo.updateRef(Constants.R_HEADS + name);
+			}
+
 			updateRef.setNewObjectId(startAt);
 			updateRef.setRefLogMessage(refLogMessage, false);
 			Result updateResult;
