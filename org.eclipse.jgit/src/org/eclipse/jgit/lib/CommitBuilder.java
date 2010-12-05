@@ -288,8 +288,8 @@ public class CommitBuilder {
 	 *             the encoding specified by {@link #getEncoding()} is not
 	 *             supported by this Java runtime.
 	 */
-	public byte[] format() throws UnsupportedEncodingException {
-		return format(new ObjectInserter.Formatter());
+	public byte[] build() throws UnsupportedEncodingException {
+		return build(new ObjectInserter.Formatter());
 	}
 
 	/**
@@ -308,7 +308,7 @@ public class CommitBuilder {
 	 *             the encoding specified by {@link #getEncoding()} is not
 	 *             supported by this Java runtime.
 	 */
-	public byte[] format(ObjectInserter oi) throws UnsupportedEncodingException {
+	public byte[] build(ObjectInserter oi) throws UnsupportedEncodingException {
 		ByteArrayOutputStream os = new ByteArrayOutputStream();
 		OutputStreamWriter w = new OutputStreamWriter(os, getEncoding());
 		try {

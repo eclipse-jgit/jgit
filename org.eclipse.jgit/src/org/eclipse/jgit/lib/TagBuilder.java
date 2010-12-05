@@ -182,8 +182,8 @@ public class TagBuilder {
 	 * @return this object in the canonical annotated tag format, suitable for
 	 *         storage in a repository.
 	 */
-	public byte[] format() {
-		return format(new ObjectInserter.Formatter());
+	public byte[] build() {
+		return build(new ObjectInserter.Formatter());
 	}
 
 	/**
@@ -199,7 +199,7 @@ public class TagBuilder {
 	 * @return this object in the canonical annotated tag format, suitable for
 	 *         storage in a repository.
 	 */
-	public byte[] format(ObjectInserter oi) {
+	public byte[] build(ObjectInserter oi) {
 		ByteArrayOutputStream os = new ByteArrayOutputStream();
 		OutputStreamWriter w = new OutputStreamWriter(os, Constants.CHARSET);
 		try {
