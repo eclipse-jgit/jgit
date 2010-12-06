@@ -397,7 +397,7 @@ public class LockFile {
 		if (lck.renameTo(ref))
 			return true;
 		if (!ref.exists() || deleteRef())
-			if (lck.renameTo(ref))
+			if (renameLock())
 				return true;
 		unlock();
 		return false;
@@ -412,6 +412,25 @@ public class LockFile {
 		//
 		for (int attempts = 0; attempts < 10; attempts++) {
 			if (ref.delete())
+				return true;
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				return false;
+			}
+		}
+		return false;
+	}
+
+	private boolean renameLock() {
+		if (!fs.retryFailedLockFileCommit())
+			return lck.renameTo(ref);
+
+		// File renaming fails on windows if another thread is
+		// concurrently reading the same file. So try a few times.
+		//
+		for (int attempts = 0; attempts < 10; attempts++) {
+			if (lck.renameTo(ref))
 				return true;
 			try {
 				Thread.sleep(100);
