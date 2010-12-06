@@ -64,6 +64,7 @@ import org.eclipse.jgit.lib.RepositoryTestCase;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.storage.pack.PackWriter;
+import org.eclipse.jgit.util.FileUtils;
 
 public class ConcurrentRepackTest extends RepositoryTestCase {
 	public void setUp() throws Exception {
@@ -236,10 +237,10 @@ public class ConcurrentRepackTest extends RepositoryTestCase {
 		touch(begin, files[0].getParentFile());
 	}
 
-	private static void delete(final File[] list) {
+	private static void delete(final File[] list) throws IOException {
 		final long begin = list[0].getParentFile().lastModified();
 		for (final File f : list) {
-			f.delete();
+			FileUtils.delete(f);
 			assertFalse(f + " was removed", f.exists());
 		}
 		touch(begin, list[0].getParentFile());

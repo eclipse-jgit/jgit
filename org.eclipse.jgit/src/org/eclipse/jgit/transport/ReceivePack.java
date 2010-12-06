@@ -669,7 +669,7 @@ public class ReceivePack {
 		}
 	}
 
-	private void unlockPack() {
+	private void unlockPack() throws IOException {
 		if (packLock != null) {
 			packLock.unlock();
 			packLock = null;

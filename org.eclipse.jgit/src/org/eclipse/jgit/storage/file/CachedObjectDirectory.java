@@ -216,7 +216,7 @@ class CachedObjectDirectory extends FileObjectDatabase {
 
 	@Override
 	InsertLooseObjectResult insertUnpackedObject(File tmp, ObjectId objectId,
-			boolean createDuplicate) {
+			boolean createDuplicate) throws IOException {
 		InsertLooseObjectResult result = wrapped.insertUnpackedObject(tmp,
 				objectId, createDuplicate);
 		switch (result) {

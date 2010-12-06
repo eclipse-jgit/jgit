@@ -66,6 +66,7 @@ import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.storage.file.FileObjectDatabase.AlternateHandle;
 import org.eclipse.jgit.storage.file.FileObjectDatabase.AlternateRepository;
+import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.SystemReader;
 
 /**
@@ -240,7 +241,7 @@ public class FileRepository extends Repository {
 
 			getFS().setExecute(tmp, false);
 			final boolean off = getFS().canExecute(tmp);
-			tmp.delete();
+			FileUtils.delete(tmp);
 
 			fileMode = on && !off;
 		} else {

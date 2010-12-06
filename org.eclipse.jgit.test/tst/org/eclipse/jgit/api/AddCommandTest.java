@@ -57,6 +57,7 @@ import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.RepositoryTestCase;
+import org.eclipse.jgit.util.FileUtils;
 
 public class AddCommandTest extends RepositoryTestCase {
 
@@ -172,7 +173,7 @@ public class AddCommandTest extends RepositoryTestCase {
 		DirCache dc = git.add().addFilepattern("a.txt").call();
 
 		dc.getEntry(0).getObjectId();
-		file.delete();
+		FileUtils.delete(file);
 
 		// is supposed to do nothing
 		dc = git.add().addFilepattern("a.txt").call();
@@ -195,7 +196,7 @@ public class AddCommandTest extends RepositoryTestCase {
 		git.commit().setMessage("commit a.txt").call();
 
 		dc.getEntry(0).getObjectId();
-		file.delete();
+		FileUtils.delete(file);
 
 		// is supposed to do nothing
 		dc = git.add().addFilepattern("a.txt").call();
@@ -392,7 +393,7 @@ public class AddCommandTest extends RepositoryTestCase {
 		writer.close();
 
 		// file sub/b.txt is deleted
-		file2.delete();
+		FileUtils.delete(file2);
 
 		git.add().addFilepattern("sub").call();
 		// change in sub/a.txt is staged
@@ -444,7 +445,7 @@ public class AddCommandTest extends RepositoryTestCase {
 		writer.print("modified content");
 		writer.close();
 
-		file2.delete();
+		FileUtils.delete(file2);
 
 		// change in sub/a.txt is staged
 		// deletion of sub/b.txt is staged

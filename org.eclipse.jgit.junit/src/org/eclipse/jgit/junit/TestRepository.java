@@ -97,6 +97,7 @@ import org.eclipse.jgit.storage.file.PackIndex.MutableEntry;
 import org.eclipse.jgit.storage.pack.PackWriter;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
+import org.eclipse.jgit.util.FileUtils;
 
 /**
  * Wrapper to make creating test data easier.
@@ -651,10 +652,10 @@ public class TestRepository<R extends Repository> {
 		}
 	}
 
-	private void prunePacked(ObjectDirectory odb) {
+	private void prunePacked(ObjectDirectory odb) throws IOException {
 		for (PackFile p : odb.getPacks()) {
 			for (MutableEntry e : p)
-				odb.fileFor(e.toObjectId()).delete();
+				FileUtils.delete(odb.fileFor(e.toObjectId()));
 		}
 	}
 
