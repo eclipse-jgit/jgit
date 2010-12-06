@@ -72,6 +72,7 @@ import org.eclipse.jgit.treewalk.WorkingTreeIterator;
 import org.eclipse.jgit.treewalk.WorkingTreeOptions;
 import org.eclipse.jgit.treewalk.filter.PathFilter;
 import org.eclipse.jgit.util.FS;
+import org.eclipse.jgit.util.FileUtils;
 
 /**
  * This class handles checking out one or two trees merging with the index. This
@@ -784,7 +785,10 @@ public class DirCacheCheckout {
 		}
 		for (String r : removed) {
 			File file = new File(repo.getWorkTree(), r);
-			file.delete();
+			if (!file.delete())
+				throw new CheckoutConflictException(
+						MessageFormat.format(JGitText.get().cannotDeleteFile,
+								file.getAbsolutePath()));
 			removeEmptyParents(file);
 		}
 	}
@@ -854,7 +858,7 @@ public class DirCacheCheckout {
 		if (!tmpFile.renameTo(f)) {
 			// tried to rename which failed. Let' delete the target file and try
 			// again
-			f.delete();
+			FileUtils.delete(f);
 			if (!tmpFile.renameTo(f)) {
 				throw new IOException(MessageFormat.format(
 						JGitText.get().couldNotWriteFile, tmpFile.getPath(),

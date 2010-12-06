@@ -276,7 +276,7 @@ abstract class FileObjectDatabase extends ObjectDatabase {
 			AnyObjectId objectId) throws IOException;
 
 	abstract InsertLooseObjectResult insertUnpackedObject(File tmp,
-			ObjectId id, boolean createDuplicate);
+			ObjectId id, boolean createDuplicate) throws IOException;
 
 	abstract FileObjectDatabase newCachedFileObjectDatabase();
 

@@ -48,6 +48,7 @@ import java.io.IOException;
 
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.util.FS;
+import org.eclipse.jgit.util.FileUtils;
 
 /** Keeps track of a {@link PackFile}'s associated <code>.keep</code> file. */
 public class PackLock {
@@ -90,8 +91,13 @@ public class PackLock {
 		return lf.commit();
 	}
 
-	/** Remove the <code>.keep</code> file that holds this pack in place. */
-	public void unlock() {
-		keepFile.delete();
+	/**
+	 * Remove the <code>.keep</code> file that holds this pack in place.
+	 *
+	 * @throws IOException
+	 *             if deletion of .keep file failed
+	 */
+	public void unlock() throws IOException {
+		FileUtils.delete(keepFile);
 	}
 }

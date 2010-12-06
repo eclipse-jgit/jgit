@@ -83,6 +83,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
 import org.eclipse.jgit.treewalk.NameConflictTreeWalk;
 import org.eclipse.jgit.treewalk.WorkingTreeIterator;
+import org.eclipse.jgit.util.FileUtils;
 
 /**
  * A three-way merger performing a content-merge if necessary
@@ -261,7 +262,7 @@ public class ResolveMerger extends ThreeWayMerger {
 				p = p.getParentFile();
 			if (p == null || p.isDirectory())
 				throw new IOException(JGitText.get().cannotCreateDirectory);
-			p.delete();
+			FileUtils.delete(p);
 			if (!f.mkdirs())
 				throw new IOException(JGitText.get().cannotCreateDirectory);
 		}
@@ -530,7 +531,7 @@ public class ResolveMerger extends ThreeWayMerger {
 			} finally {
 				is.close();
 				if (inCore)
-					of.delete();
+					FileUtils.delete(of);
 			}
 			builder.add(dce);
 			return true;
