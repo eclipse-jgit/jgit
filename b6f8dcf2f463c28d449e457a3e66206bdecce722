@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL0n///Z8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/InitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-03T17:24:12Z",
+      "side": 1,
+      "message": "As far as I know, almost nobody reinitializes a repository.  Its an ancient arcane concept.",
+      "revId": "b6f8dcf2f463c28d449e457a3e66206bdecce722",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0n///aI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/InitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-03T17:24:12Z",
+      "side": 1,
+      "message": "IMHO, this should be created by a static part of Git:\n\n  class Git {\n    public static InitCommand init() {\n      return new InitCommand();\n    }\n  }\n\nThen the usage is something like:\n\n  Git git \u003d Git.init().setDirectory(\"/path/to/dir\").call();\n\nClone would be similar.",
+      "revId": "b6f8dcf2f463c28d449e457a3e66206bdecce722",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0n///aM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/InitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-03T17:24:12Z",
+      "side": 1,
+      "message": "Instead of returning Repository, maybe we should return a Git.  That way the Git object is ready to be used by the caller.",
+      "revId": "b6f8dcf2f463c28d449e457a3e66206bdecce722",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0n///aA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/InitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-03T17:24:12Z",
+      "side": 1,
+      "message": "If bare is false, I wonder if we shouldn\u0027t append \"/\"+Constants.DOT_GIT.",
+      "revId": "b6f8dcf2f463c28d449e457a3e66206bdecce722",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0n///aQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/InitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-03T17:24:12Z",
+      "side": 1,
+      "message": "If directory is null, we might want to use GIT_DIR rather than \".\".  So maybe instead:\n\n  builder.readEnvironment();\n  if (directory !\u003d null) {\n    File d \u003d new File(directory);\n    if (!bare)\n      d \u003d new File(d, Constants.DOT_GIT);\n    builder.setGitDir(d);\n  } else if (builder.getGitDir() \u003d\u003d null) {\n    File d \u003d new File(\".\");\n    if (!bare)\n      d \u003d new File(d, Constants.DOT_GIT);\n    builder.setGitDir(d);\n  }",
+      "revId": "b6f8dcf2f463c28d449e457a3e66206bdecce722",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0n///aU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/InitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-03T17:24:12Z",
+      "side": 1,
+      "message": "You still need to do:\n\n  repository.create(bare);\n\nto create the repository on disk.",
+      "revId": "b6f8dcf2f463c28d449e457a3e66206bdecce722",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0n///aE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/InitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-03T17:24:12Z",
+      "side": 1,
+      "message": "IMHO this should be setDirectory() not setDirectoryName().",
+      "revId": "b6f8dcf2f463c28d449e457a3e66206bdecce722",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
