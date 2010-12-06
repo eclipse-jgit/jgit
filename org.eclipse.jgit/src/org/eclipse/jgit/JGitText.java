@@ -192,6 +192,8 @@ public class JGitText extends TranslationBundle {
 	/***/ public String credentialUsername;
 	/***/ public String daemonAlreadyRunning;
 	/***/ public String deleteBranchUnexpectedResult;
+	/***/ public String deleteFileFailed;
+	/***/ public String deleteFileWithRepetitionsFailed;
 	/***/ public String deletingNotSupported;
 	/***/ public String destinationIsNotAWildcard;
 	/***/ public String detachedHeadDetected;
@@ -425,7 +427,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String repositoryState_rebaseOrApplyMailbox;
 	/***/ public String repositoryState_rebaseWithMerge;
 	/***/ public String requiredHashFunctionNotAvailable;
-	/***/ public String resettingHead;	
+	/***/ public String resettingHead;
 	/***/ public String resolvingDeltas;
 	/***/ public String resultLengthIncorrect;
 	/***/ public String rewinding;
