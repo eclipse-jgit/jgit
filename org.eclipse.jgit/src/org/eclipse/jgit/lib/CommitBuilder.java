@@ -310,6 +310,19 @@ public class CommitBuilder {
 		return os.toByteArray();
 	}
 
+	/**
+	 * Format this builder's state as a commit object.
+	 *
+	 * @return this object in the canonical commit format, suitable for storage
+	 *         in a repository.
+	 * @throws UnsupportedEncodingException
+	 *             the encoding specified by {@link #getEncoding()} is not
+	 *             supported by this Java runtime.
+	 */
+	public byte[] toByteArray() throws UnsupportedEncodingException {
+		return build();
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder r = new StringBuilder();
