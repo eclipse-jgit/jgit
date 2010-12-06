@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL0n///R8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Git.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-06T23:58:49Z",
+      "side": 1,
+      "message": "Style-nit: Should be \"public static\".  And should be declared *before* the constructor of the class, not in the middle of the instance methods.",
+      "revId": "f7a566c1aaed71f275567a2047dff1c806240449",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
