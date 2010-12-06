@@ -52,12 +52,16 @@ import java.io.OutputStream;
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.NoRemoteRepositoryException;
 import org.eclipse.jgit.errors.TransportException;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.util.QuotedString;
+import org.eclipse.jgit.util.SystemReader;
 import org.eclipse.jgit.util.io.MessageWriter;
 import org.eclipse.jgit.util.io.StreamCopyThread;
 
@@ -106,6 +110,8 @@ public class TransportGitSsh extends SshTransport implements PackTransport {
 	}
 
 	private Connection newConnection() {
+		if (useExtConnection())
+			return new ExtConnection();
 		return new JschConnection();
 	}
 
@@ -281,6 +287,89 @@ public class TransportGitSsh extends SshTransport implements PackTransport {
 						channel.disconnect();
 				} finally {
 					channel = null;
+				}
+			}
+		}
+	}
+
+	private static boolean useExtConnection() {
+		return SystemReader.getInstance().getenv("GIT_SSH") != null;
+	}
+
+	private class ExtConnection extends Connection {
+		private Process proc;
+
+		private int exitStatus;
+
+		@Override
+		void exec(String commandName) throws TransportException {
+			String ssh = SystemReader.getInstance().getenv("GIT_SSH");
+			boolean putty = ssh.toLowerCase().contains("plink");
+
+			List<String> args = new ArrayList<String>();
+			args.add(ssh);
+			if (putty)
+				args.add("--batch");
+			if (0 < getURI().getPort()) {
+				args.add(putty ? "-P" : "-p");
+				args.add(String.valueOf(getURI().getPort()));
+			}
+			if (getURI().getUser() != null)
+				args.add(getURI().getUser() + "@" + getURI().getHost());
+			else
+				args.add(getURI().getHost());
+			args.add(commandFor(commandName));
+
+			ProcessBuilder pb = new ProcessBuilder();
+			pb.command(args);
+
+			if (local.getDirectory() != null)
+				pb.environment().put(Constants.GIT_DIR_KEY,
+						local.getDirectory().getPath());
+
+			try {
+				proc = pb.start();
+			} catch (IOException err) {
+				throw new TransportException(uri, err.getMessage(), err);
+			}
+		}
+
+		@Override
+		void connect() throws TransportException {
+			// Nothing to do, the process was already opened.
+		}
+
+		@Override
+		InputStream getInputStream() throws IOException {
+			return proc.getInputStream();
+		}
+
+		@Override
+		OutputStream getOutputStream() throws IOException {
+			return proc.getOutputStream();
+		}
+
+		@Override
+		InputStream getErrorStream() throws IOException {
+			return proc.getErrorStream();
+		}
+
+		@Override
+		int getExitStatus() {
+			return exitStatus;
+		}
+
+		@Override
+		void close() {
+			if (proc != null) {
+				try {
+					try {
+						exitStatus = proc.waitFor();
+					} catch (InterruptedException e) {
+						// Ignore the interrupt, but return immediately.
+					}
+				} finally {
+					proc = null;
 				}
 			}
 		}
