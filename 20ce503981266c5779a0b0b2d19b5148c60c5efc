@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL0n///Vc\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 102
+      },
+      "writtenOn": "2010-12-06T00:03:20Z",
+      "side": 1,
+      "message": "Thanks for the review  - I guess you\u0027re right, in that it\u0027s definite over-engineering with regard to solving the problem I actually want to solve (the memory consumption in IndexPack).\n\nI think I was a bit drawn into doing this refactor because I have a personal preference for smaller classes, and when I see three methods all doing the same type of action I get a pavlovian desire to define an interface - it\u0027s something my therapist and I are working on.\n\nIn any case, you\u0027re right, it\u0027s not necessary for the end result I want, so I\u0027ll abandon this change.",
+      "parentUuid": "AAAL0n///V8\u003d",
+      "revId": "20ce503981266c5779a0b0b2d19b5148c60c5efc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL0n///Wc\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectChecker.java",
         "patchSetId": 1
