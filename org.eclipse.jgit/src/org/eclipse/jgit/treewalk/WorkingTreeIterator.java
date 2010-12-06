@@ -70,7 +70,6 @@ import org.eclipse.jgit.ignore.IgnoreRule;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.io.EolCanonicalizingInputStream;
 
@@ -225,15 +224,15 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 				state.initializeDigestAndReadBuffer();
 
 				final long len = e.getLength();
-				if (!mightNeedCleaning(e))
+				if (!mightNeedCleaning())
 					return computeHash(is, len);
 
 				if (len <= MAXIMUM_FILE_SIZE_TO_READ_FULLY) {
 					ByteBuffer rawbuf = IO.readWholeStream(is, (int) len);
 					byte[] raw = rawbuf.array();
 					int n = rawbuf.limit();
-					if (!isBinary(e, raw, n)) {
-						rawbuf = filterClean(e, raw, n);
+					if (!isBinary(raw, n)) {
+						rawbuf = filterClean(raw, n);
 						raw = rawbuf.array();
 						n = rawbuf.limit();
 					}
@@ -244,14 +243,14 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 					return computeHash(is, len);
 
 				final long canonLen;
-				final InputStream lenIs = filterClean(e, e.openInputStream());
+				final InputStream lenIs = filterClean(e.openInputStream());
 				try {
 					canonLen = computeLength(lenIs);
 				} finally {
 					safeClose(lenIs);
 				}
 
-				return computeHash(filterClean(e, is), canonLen);
+				return computeHash(filterClean(is), canonLen);
 			} finally {
 				safeClose(is);
 			}
@@ -271,7 +270,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		}
 	}
 
-	private boolean mightNeedCleaning(Entry entry) {
+	private boolean mightNeedCleaning() {
 		switch (getOptions().getAutoCRLF()) {
 		case FALSE:
 		default:
@@ -283,7 +282,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		}
 	}
 
-	private boolean isBinary(Entry entry, byte[] content, int sz) {
+	private boolean isBinary(byte[] content, int sz) {
 		return RawText.isBinary(content, sz);
 	}
 
@@ -296,13 +295,13 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		}
 	}
 
-	private ByteBuffer filterClean(Entry entry, byte[] src, int n)
+	private ByteBuffer filterClean(byte[] src, int n)
 			throws IOException {
 		InputStream in = new ByteArrayInputStream(src);
-		return IO.readWholeStream(filterClean(entry, in), n);
+		return IO.readWholeStream(filterClean(in), n);
 	}
 
-	private InputStream filterClean(Entry entry, InputStream in) {
+	private InputStream filterClean(InputStream in) {
 		return new EolCanonicalizingInputStream(in);
 	}
 
@@ -544,14 +543,10 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	 * @param checkFilemode
 	 *            whether the executable-bit in the filemode should be checked
 	 *            to detect modifications
-	 * @param fs
-	 *            The filesystem this repo uses. Needed to find out whether the
-	 *            executable-bits are supported
-	 *
 	 * @return true if content is most likely different.
 	 */
 	public boolean isModified(DirCacheEntry entry, boolean forceContentCheck,
-			boolean checkFilemode, FS fs) {
+			boolean checkFilemode) {
 		if (entry.isAssumeValid())
 			return false;
 
