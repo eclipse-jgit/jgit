@@ -80,8 +80,21 @@ public class Git {
 	private final Repository repo;
 
 	/**
+	 * Returns a command object to execute a {@code clone} command
+	 * 
+	 * @see <a
+	 *      href="http://www.kernel.org/pub/software/scm/git/docs/git-clone.html"
+	 *      >Git documentation about clone</a>
+	 * @return a {@link CloneCommand} used to collect all optional parameters
+	 *         and to finally execute the {@code clone} command
+	 */
+	static public CloneCommand cloneRepository() {
+		return new CloneCommand();
+	}
+
+	/**
 	 * Returns a command object to execute a {@code init} command
-	 *
+	 * 
 	 * @see <a
 	 *      href="http://www.kernel.org/pub/software/scm/git/docs/git-init.html"
 	 *      >Git documentation about init</a>
