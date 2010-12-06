@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL0n///Zc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Git.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-03T21:30:49Z",
+      "side": 1,
+      "message": "Style-nit: Static methods should appear at the start of the class, before instance members.",
+      "revId": "7d7f700a264373fade64499e2a5b34f995119891",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0n///ZY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/InitCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-03T21:30:49Z",
+      "side": 1,
+      "message": "I think we should still use Callable:\n\n  class InitCommand implements Callable\u003cGit\u003e",
+      "revId": "7d7f700a264373fade64499e2a5b34f995119891",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0n///ZU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/InitCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-03T21:30:49Z",
+      "side": 1,
+      "message": "Why are we running findGitDir()?  It should have been explicitly set above.",
+      "revId": "7d7f700a264373fade64499e2a5b34f995119891",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0n///ZQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/InitCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-03T21:30:49Z",
+      "side": 1,
+      "message": "Why is directory a string and not a java.io.File ?",
+      "revId": "7d7f700a264373fade64499e2a5b34f995119891",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
