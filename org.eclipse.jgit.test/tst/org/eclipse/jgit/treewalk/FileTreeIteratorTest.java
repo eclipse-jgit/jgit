@@ -51,6 +51,7 @@ import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.RepositoryTestCase;
+import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.RawParseUtils;
 
 public class FileTreeIteratorTest extends RepositoryTestCase {
@@ -170,7 +171,7 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 
 		// Verify it was cached by removing the file and getting it again.
 		//
-		new File(trash, paths[0]).delete();
+		FileUtils.delete(new File(trash, paths[0]));
 		assertEquals(expect, top.getEntryObjectId());
 	}
 
