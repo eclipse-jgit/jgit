@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL0n///WA\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-05T23:25:30Z",
+      "side": 1,
+      "message": "Style-nit: Commit messages shouldn\u0027t be longer than 70 characters per line, otherwise they don\u0027t format well in traditional Git tools like gitk, git log, etc.",
+      "revId": "20ce503981266c5779a0b0b2d19b5148c60c5efc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0n///V8\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-05T23:25:30Z",
+      "side": 1,
+      "message": "I\u0027m not sure how this refactoring really helps us avoid checking a blob.  I think its a massive amount of over-engineering for a simple problem.\n\nWe don\u0027t want to materialize the entire content of a blob in order to check it, because there isn\u0027t a reason to check the blob, we can\u0027t verify anything about it except compute its SHA-1... which IndexPack already has to do in order to build the index file.\n\nGit usually doesn\u0027t create new object types.  In 5 years we are still using the original 4 object types that Linus Torvalds defined.  We could just as easily add a test to IndexPack that says something like:\n\n  if (type !\u003d OBJ_BLOB)\n    check(data);\n\nThat is a much simpler change.",
+      "revId": "20ce503981266c5779a0b0b2d19b5148c60c5efc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0n///Wc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-05T23:25:30Z",
+      "side": 1,
+      "message": "Given that the values are between 1 and 4, an array might be a better choice here.  Elsewhere, e.g. in PackWriter, we use an array.",
+      "revId": "20ce503981266c5779a0b0b2d19b5148c60c5efc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0n///WY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-05T23:25:30Z",
+      "side": 1,
+      "message": "Style-nit: We put spaces between method arguments.",
+      "revId": "20ce503981266c5779a0b0b2d19b5148c60c5efc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0n///WM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-05T23:25:30Z",
+      "side": 1,
+      "message": "Style-nit: We try to line-wrap lines at 80 characters.  Sure terminals are wider, but we often view JGit code side-by-side during code reviews, or within IDEs with a ton of other widgets along the left and right sides of the code.  So keeping a narrow text width makes it easier to still read everything.",
+      "revId": "20ce503981266c5779a0b0b2d19b5148c60c5efc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0n///WU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-05T23:25:30Z",
+      "side": 1,
+      "message": "Style-nit: We put spaces around operators, and we omit unnecessary curly braces:\n\n  if (objectChecker !\u003d null)\n    objectChecker.check(raw);",
+      "revId": "20ce503981266c5779a0b0b2d19b5148c60c5efc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0n///WQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-05T23:25:30Z",
+      "side": 1,
+      "message": "We require Javadoc for public declarations.",
+      "revId": "20ce503981266c5779a0b0b2d19b5148c60c5efc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0n///WI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/objectcheckers/CommitChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-05T23:25:30Z",
+      "side": 1,
+      "message": "Style-nit:  All file headers must contain our BSD derived license text.",
+      "revId": "20ce503981266c5779a0b0b2d19b5148c60c5efc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0n///WE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/objectcheckers/IObjectChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-05T23:25:30Z",
+      "side": 1,
+      "message": "Style-nit: We don\u0027t use the I prefix for interfaces.",
+      "revId": "20ce503981266c5779a0b0b2d19b5148c60c5efc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
