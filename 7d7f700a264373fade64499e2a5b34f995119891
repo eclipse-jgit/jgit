@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAL0n///Zk\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/InitCommandTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-12-03T21:24:48Z",
+      "side": 1,
+      "message": "debug this single test case and stop here, the resulting file system structure has the git repo structure twice, this looks weird,\nI think something is wrong here :\n\ntest1291411370681_0\n- .git\n  - branches\n  - config\n  - HEAD\n  - logs\n  - objects\n  - refs\n- test1\n  - branches\n  - config\n  - HEAD\n  - logs\n  - objects\n  - refs",
+      "revId": "7d7f700a264373fade64499e2a5b34f995119891",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0n///Zo\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/InitCommandTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-12-03T21:24:48Z",
+      "side": 1,
+      "message": "debug this single test case and stop here, the resulting file system structure has the git repo structure twice, this looks weird,\nI think something is wrong here :\n\ntest1291410985097_0\n- .git\n  - branches\n  - config\n  - HEAD\n  - logs\n  - objects\n  - refs\n- test2\n  - branches\n  - config\n  - HEAD\n  - logs\n  - objects\n  - refs",
+      "revId": "7d7f700a264373fade64499e2a5b34f995119891",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL0n///Zc\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Git.java",
         "patchSetId": 2
