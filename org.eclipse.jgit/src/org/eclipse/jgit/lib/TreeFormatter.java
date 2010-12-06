@@ -279,7 +279,7 @@ public class TreeFormatter {
 	 * @throws IOException
 	 *             the tree could not be stored.
 	 */
-	public ObjectId insert(ObjectInserter ins) throws IOException {
+	public ObjectId insertTo(ObjectInserter ins) throws IOException {
 		if (buf != null)
 			return ins.insert(OBJ_TREE, buf, 0, ptr);
 
@@ -293,7 +293,7 @@ public class TreeFormatter {
 	 * This method is not efficient, as it needs to create a copy of the
 	 * internal buffer in order to supply an array of the correct size to the
 	 * caller. If the buffer is just to pass to an ObjectInserter, consider
-	 * using {@link #insert(ObjectInserter)} instead.
+	 * using {@link ObjectInserter#insert(TreeFormatter)} instead.
 	 *
 	 * @return a copy of this formatter's buffer.
 	 */

@@ -190,7 +190,7 @@ class LeafBucket extends InMemoryNoteBucket {
 
 		for (; e != null; e = e.next)
 			e.format(fmt);
-		return fmt.insert(inserter);
+		return inserter.insert(fmt);
 	}
 
 	private int treeSize(final int nameLen) {
