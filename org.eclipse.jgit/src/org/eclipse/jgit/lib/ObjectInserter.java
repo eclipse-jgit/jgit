@@ -179,9 +179,6 @@ public abstract class ObjectInserter {
 	/**
 	 * Insert a single commit into the store, returning its unique name.
 	 *
-	 * As a side effect, {@link CommitBuilder#getCommitId()} will also be
-	 * populated with the returned ObjectId.
-	 *
 	 * @param builder
 	 *            the builder containing the proposed commit's data.
 	 * @return the name of the commit object.
@@ -189,14 +186,11 @@ public abstract class ObjectInserter {
 	 *             the object could not be stored.
 	 */
 	public final ObjectId insert(CommitBuilder builder) throws IOException {
-		return insert(Constants.OBJ_COMMIT, builder.build(this));
+		return insert(Constants.OBJ_COMMIT, builder.build());
 	}
 
 	/**
 	 * Insert a single annotated tag into the store, returning its unique name.
-	 *
-	 * As a side effect, {@link TagBuilder#getTagId()} will also be populated
-	 * with the returned ObjectId.
 	 *
 	 * @param builder
 	 *            the builder containing the proposed tag's data.
@@ -205,7 +199,7 @@ public abstract class ObjectInserter {
 	 *             the object could not be stored.
 	 */
 	public final ObjectId insert(TagBuilder builder) throws IOException {
-		return insert(Constants.OBJ_TAG, builder.build(this));
+		return insert(Constants.OBJ_TAG, builder.build());
 	}
 
 	/**

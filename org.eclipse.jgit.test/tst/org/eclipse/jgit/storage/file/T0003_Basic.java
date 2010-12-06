@@ -377,11 +377,11 @@ public class T0003_Basic extends SampleDataRepositoryTestCase {
 		c.setTreeId(t.getTreeId());
 		assertEquals(t.getTreeId(), c.getTreeId());
 
-		insertCommit(c);
+		ObjectId actid = insertCommit(c);
 
 		final ObjectId cmtid = ObjectId.fromString(
 				"803aec4aba175e8ab1d666873c984c0308179099");
-		assertEquals(cmtid, c.getCommitId());
+		assertEquals(cmtid, actid);
 
 		// Verify the commit we just wrote is in the correct format.
 		ObjectDatabase odb = db.getObjectDatabase();
@@ -397,7 +397,7 @@ public class T0003_Basic extends SampleDataRepositoryTestCase {
 		}
 
 		// Verify we can read it.
-		RevCommit c2 = parseCommit(c.getCommitId());
+		RevCommit c2 = parseCommit(actid);
 		assertNotNull(c2);
 		assertEquals(c.getMessage(), c2.getFullMessage());
 		assertEquals(c.getTreeId(), c2.getTree());
@@ -432,10 +432,10 @@ public class T0003_Basic extends SampleDataRepositoryTestCase {
 		t.setTag("test020");
 		t.setTagger(new PersonIdent(author, 1154236443000L, -4 * 60));
 		t.setMessage("test020 tagged\n");
-		insertTag(t);
-		assertEquals("6759556b09fbb4fd8ae5e315134481cc25d46954", t.getTagId().name());
+		ObjectId actid = insertTag(t);
+		assertEquals("6759556b09fbb4fd8ae5e315134481cc25d46954", actid.name());
 
-		RevTag mapTag = parseTag(t.getTagId());
+		RevTag mapTag = parseTag(actid);
 		assertEquals(Constants.OBJ_BLOB, mapTag.getObject().getType());
 		assertEquals("test020 tagged\n", mapTag.getFullMessage());
 		assertEquals(new PersonIdent(author, 1154236443000L, -4 * 60), mapTag.getTaggerIdent());
@@ -452,10 +452,10 @@ public class T0003_Basic extends SampleDataRepositoryTestCase {
 		t.setTag("test021");
 		t.setTagger(new PersonIdent(author, 1154236443000L, -4 * 60));
 		t.setMessage("test021 tagged\n");
-		insertTag(t);
-		assertEquals("b0517bc8dbe2096b419d42424cd7030733f4abe5", t.getTagId().name());
+		ObjectId actid = insertTag(t);
+		assertEquals("b0517bc8dbe2096b419d42424cd7030733f4abe5", actid.name());
 
-		RevTag mapTag = parseTag(t.getTagId());
+		RevTag mapTag = parseTag(actid);
 		assertEquals(Constants.OBJ_TREE, mapTag.getObject().getType());
 		assertEquals("test021 tagged\n", mapTag.getFullMessage());
 		assertEquals(new PersonIdent(author, 1154236443000L, -4 * 60), mapTag.getTaggerIdent());
@@ -478,10 +478,10 @@ public class T0003_Basic extends SampleDataRepositoryTestCase {
 		t.setTag("test022");
 		t.setTagger(new PersonIdent(author, 1154236443000L, -4 * 60));
 		t.setMessage("test022 tagged\n");
-		insertTag(t);
-		assertEquals("0ce2ebdb36076ef0b38adbe077a07d43b43e3807", t.getTagId().name());
+		ObjectId actid = insertTag(t);
+		assertEquals("0ce2ebdb36076ef0b38adbe077a07d43b43e3807", actid.name());
 
-		RevTag mapTag = parseTag(t.getTagId());
+		RevTag mapTag = parseTag(actid);
 		assertEquals(Constants.OBJ_COMMIT, mapTag.getObject().getType());
 		assertEquals("test022 tagged\n", mapTag.getFullMessage());
 		assertEquals(new PersonIdent(author, 1154236443000L, -4 * 60), mapTag.getTaggerIdent());
@@ -543,10 +543,10 @@ public class T0003_Basic extends SampleDataRepositoryTestCase {
 		c1.setMessage("A Commit\n");
 		c1.setTreeId(t.getTreeId());
 		assertEquals(t.getTreeId(), c1.getTreeId());
-		insertCommit(c1);
+		ObjectId actid1 = insertCommit(c1);
 		final ObjectId cmtid1 = ObjectId.fromString(
 				"803aec4aba175e8ab1d666873c984c0308179099");
-		assertEquals(cmtid1, c1.getCommitId());
+		assertEquals(cmtid1, actid1);
 
 		final CommitBuilder c2 = new CommitBuilder();
 		c2.setAuthor(new PersonIdent(author, 1154236443000L, -4 * 60));
@@ -554,20 +554,20 @@ public class T0003_Basic extends SampleDataRepositoryTestCase {
 		c2.setMessage("A Commit 2\n");
 		c2.setTreeId(t.getTreeId());
 		assertEquals(t.getTreeId(), c2.getTreeId());
-		c2.setParentIds(c1.getCommitId());
-		insertCommit(c2);
+		c2.setParentIds(actid1);
+		ObjectId actid2 = insertCommit(c2);
 		final ObjectId cmtid2 = ObjectId.fromString(
 				"95d068687c91c5c044fb8c77c5154d5247901553");
-		assertEquals(cmtid2, c2.getCommitId());
+		assertEquals(cmtid2, actid2);
 
 		RevCommit rm2 = parseCommit(cmtid2);
 		assertNotSame(c2, rm2); // assert the parsed objects is not from the cache
 		assertEquals(c2.getAuthor(), rm2.getAuthorIdent());
-		assertEquals(c2.getCommitId(), rm2.getId());
+		assertEquals(actid2, rm2.getId());
 		assertEquals(c2.getMessage(), rm2.getFullMessage());
 		assertEquals(c2.getTreeId(), rm2.getTree().getId());
 		assertEquals(1, rm2.getParentCount());
-		assertEquals(c1.getCommitId(), rm2.getParent(0));
+		assertEquals(actid1, rm2.getParent(0));
 
 		final CommitBuilder c3 = new CommitBuilder();
 		c3.setAuthor(new PersonIdent(author, 1154236443000L, -4 * 60));
@@ -575,21 +575,21 @@ public class T0003_Basic extends SampleDataRepositoryTestCase {
 		c3.setMessage("A Commit 3\n");
 		c3.setTreeId(t.getTreeId());
 		assertEquals(t.getTreeId(), c3.getTreeId());
-		c3.setParentIds(c1.getCommitId(), c2.getCommitId());
-		insertCommit(c3);
+		c3.setParentIds(actid1, actid2);
+		ObjectId actid3 = insertCommit(c3);
 		final ObjectId cmtid3 = ObjectId.fromString(
 				"ce6e1ce48fbeeb15a83f628dc8dc2debefa066f4");
-		assertEquals(cmtid3, c3.getCommitId());
+		assertEquals(cmtid3, actid3);
 
 		RevCommit rm3 = parseCommit(cmtid3);
 		assertNotSame(c3, rm3); // assert the parsed objects is not from the cache
 		assertEquals(c3.getAuthor(), rm3.getAuthorIdent());
-		assertEquals(c3.getCommitId(), rm3.getId());
+		assertEquals(actid3, rm3.getId());
 		assertEquals(c3.getMessage(), rm3.getFullMessage());
 		assertEquals(c3.getTreeId(), rm3.getTree().getId());
 		assertEquals(2, rm3.getParentCount());
-		assertEquals(c1.getCommitId(), rm3.getParent(0));
-		assertEquals(c2.getCommitId(), rm3.getParent(1));
+		assertEquals(actid1, rm3.getParent(0));
+		assertEquals(actid2, rm3.getParent(1));
 
 		final CommitBuilder c4 = new CommitBuilder();
 		c4.setAuthor(new PersonIdent(author, 1154236443000L, -4 * 60));
@@ -597,22 +597,22 @@ public class T0003_Basic extends SampleDataRepositoryTestCase {
 		c4.setMessage("A Commit 4\n");
 		c4.setTreeId(t.getTreeId());
 		assertEquals(t.getTreeId(), c3.getTreeId());
-		c4.setParentIds(c1.getCommitId(), c2.getCommitId(), c3.getCommitId());
-		insertCommit(c4);
+		c4.setParentIds(actid1, actid2, actid3);
+		ObjectId actid4 = insertCommit(c4);
 		final ObjectId cmtid4 = ObjectId.fromString(
 				"d1fca9fe3fef54e5212eb67902c8ed3e79736e27");
-		assertEquals(cmtid4, c4.getCommitId());
+		assertEquals(cmtid4, actid4);
 
 		RevCommit rm4 = parseCommit(cmtid4);
 		assertNotSame(c4, rm3); // assert the parsed objects is not from the cache
 		assertEquals(c4.getAuthor(), rm4.getAuthorIdent());
-		assertEquals(c4.getCommitId(), rm4.getId());
+		assertEquals(actid4, rm4.getId());
 		assertEquals(c4.getMessage(), rm4.getFullMessage());
 		assertEquals(c4.getTreeId(), rm4.getTree().getId());
 		assertEquals(3, rm4.getParentCount());
-		assertEquals(c1.getCommitId(), rm4.getParent(0));
-		assertEquals(c2.getCommitId(), rm4.getParent(1));
-		assertEquals(c3.getCommitId(), rm4.getParent(2));
+		assertEquals(actid1, rm4.getParent(0));
+		assertEquals(actid2, rm4.getParent(1));
+		assertEquals(actid3, rm4.getParent(2));
 	}
 
 	public void test027_UnpackedRefHigherPriorityThanPacked() throws IOException {
