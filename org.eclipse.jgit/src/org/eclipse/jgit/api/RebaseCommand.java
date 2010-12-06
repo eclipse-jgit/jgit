@@ -76,6 +76,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
 
@@ -218,7 +219,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 					rup = repo.updateRef(Constants.HEAD);
 					rup.link(headName);
 				}
-				deleteRecursive(rebaseDir);
+				FileUtils.recursiveDelete(rebaseDir);
 				return new RebaseResult(Status.OK);
 			}
 			return new RebaseResult(Status.UP_TO_DATE);
@@ -441,22 +442,12 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 				}
 			}
 			// cleanup the files
-			deleteRecursive(rebaseDir);
+			FileUtils.recursiveDelete(rebaseDir);
 			return new RebaseResult(Status.ABORTED);
 
 		} finally {
 			monitor.endTask();
 		}
-	}
-
-	private void deleteRecursive(File fileOrFolder) throws IOException {
-		File[] children = fileOrFolder.listFiles();
-		if (children != null) {
-			for (File child : children)
-				deleteRecursive(child);
-		}
-		if (!fileOrFolder.delete())
-			throw new IOException("Could not delete " + fileOrFolder.getPath());
 	}
 
 	private String readFile(File directory, String fileName) throws IOException {

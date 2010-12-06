@@ -62,6 +62,7 @@ import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
 import org.eclipse.jgit.storage.file.FileRepository;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
+import org.eclipse.jgit.util.FileUtils;
 
 /**
  * Base class for most JGit unit tests.
@@ -98,8 +99,7 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 
 	protected void deleteTrashFile(final String name) throws IOException {
 		File path = new File(db.getWorkTree(), name);
-		if (!path.delete())
-			throw new IOException("Could not delete file " + path.getPath());
+		FileUtils.delete(path);
 	}
 
 	protected static void checkFile(File f, final String checkData)
@@ -323,7 +323,7 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 			}
 			return actTime;
 		} finally {
-			tmp.delete();
+			FileUtils.delete(tmp);
 		}
 	}
 }
