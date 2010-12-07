@@ -51,6 +51,7 @@ import java.text.MessageFormat;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.InitCommand;
+import org.eclipse.jgit.lib.Repository;
 import org.kohsuke.args4j.Option;
 
 @Command(common = true, usage = "usage_CreateAnEmptyGitRepository")
@@ -68,7 +69,9 @@ class Init extends TextBuiltin {
 		InitCommand command = Git.init();
 		command.setBare(bare);
 		command.setDirectory(gitdir);
-		command.call();
-		out.println(MessageFormat.format(CLIText.get().initializedEmptyGitRepositoryIn, gitdir.getAbsolutePath()));
+		Repository repository = command.call().getRepository();
+		out.println(MessageFormat.format(
+				CLIText.get().initializedEmptyGitRepositoryIn, repository
+						.getDirectory().getAbsolutePath()));
 	}
 }
