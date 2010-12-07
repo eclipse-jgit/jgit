@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL0n///R0\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Init.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-07T00:00:18Z",
+      "side": 1,
+      "message": "This will NPE unless the user passed --git-dir on the command line to us.  Which means this fails:\n\n  mkdir foo\n  cd foo\n  jgit init\n\nYou need to instead do:\n\n  Git git \u003d command.call();\n  out.println(.... git.getRepository().getDirectory().getAbsolutePath());",
+      "revId": "8f6c8818dcbcbeadcdd2c4f20e23dff4fc0e8517",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
