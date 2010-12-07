@@ -80,6 +80,19 @@ public class Git {
 	private final Repository repo;
 
 	/**
+	 * Returns a command object to execute a {@code init} command
+	 * 
+	 * @see <a
+	 *      href="http://www.kernel.org/pub/software/scm/git/docs/git-init.html"
+	 *      >Git documentation about init</a>
+	 * @return a {@link InitCommand} used to collect all optional parameters and
+	 *         to finally execute the {@code init} command
+	 */
+	public static InitCommand init() {
+		return new InitCommand();
+	}
+
+	/**
 	 * Constructs a new {@link Git} object which can interact with the specified
 	 * git repository. All command classes returned by methods of this class
 	 * will always interact with this git repository.
@@ -280,19 +293,6 @@ public class Git {
 	 */
 	public CheckoutCommand checkout() {
 		return new CheckoutCommand(repo);
-	}
-
-	/**
-	 * Returns a command object to execute a {@code init} command
-	 *
-	 * @see <a
-	 *      href="http://www.kernel.org/pub/software/scm/git/docs/git-init.html"
-	 *      >Git documentation about init</a>
-	 * @return a {@link InitCommand} used to collect all optional parameters and
-	 *         to finally execute the {@code init} command
-	 */
-	static public InitCommand init() {
-		return new InitCommand();
 	}
 
 	/**
