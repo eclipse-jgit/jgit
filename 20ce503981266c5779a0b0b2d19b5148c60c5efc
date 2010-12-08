@@ -16,6 +16,23 @@
       "revId": "20ce503981266c5779a0b0b2d19b5148c60c5efc",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0n///Uw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/IndexPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 729,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-06T00:10:03Z",
+      "side": 0,
+      "message": "Like Math.min, please don\u0027t make unrelated changes.",
+      "revId": "20ce503981266c5779a0b0b2d19b5148c60c5efc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }

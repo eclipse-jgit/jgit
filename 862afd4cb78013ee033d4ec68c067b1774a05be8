@@ -174,6 +174,23 @@
     },
     {
       "key": {
+        "uuid": "AAAL03///+8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/IndexPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 967,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-07T16:38:11Z",
+      "side": 1,
+      "message": "I think things will be easier if inflate is defined as:\n\n  private InputStream inflate(final Source src, final long inflatedSize)\n\nWhere it returns an InputStream that the caller can read to get the inflated data from.  For performance reasons we should try to use a single InputStream object, just like we use a single Inflater, and just reset it along with the Inflater when the method is invoked.\n\nThis way above in inflateAndReturn we can use IO.readFully() to read from the InputStream directly into the byte[] we have allocated and will return to the caller.  This reduces the number of allocations and copies involved.",
+      "revId": "862afd4cb78013ee033d4ec68c067b1774a05be8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL0n///VA\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/IndexPack.java",
         "patchSetId": 1
