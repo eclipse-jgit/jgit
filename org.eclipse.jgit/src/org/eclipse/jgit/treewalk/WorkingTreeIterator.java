@@ -540,10 +540,16 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	 * @param forceContentCheck
 	 *            True if the actual file content should be checked if
 	 *            modification time differs.
+	 * @param checkAssumeValid
+	 *            whether to check the assume-valid flag of the index entry or
+	 *            not. If <code>true</code> and the index entry has the
+	 *            assume-valid flag set then no modification is detected and
+	 *            <code>false</code> is returned
 	 * @return true if content is most likely different.
 	 */
-	public boolean isModified(DirCacheEntry entry, boolean forceContentCheck) {
-		if (entry.isAssumeValid())
+	public boolean isModified(DirCacheEntry entry, boolean forceContentCheck,
+			boolean checkAssumeValid) {
+		if (checkAssumeValid && entry.isAssumeValid())
 			return false;
 
 		if (entry.isUpdateNeeded())
@@ -596,6 +602,22 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 				return false;
 			}
 		}
+	}
+
+	/**
+	 * Checks whether this entry differs from a given entry from the
+	 * {@link DirCache} taking into account the assume-valid flag of the index.
+	 * Same as <code>isModified(DirCacheEntry, boolean, true)</code>
+	 *
+	 * @param entry
+	 *            the entry from the dircache we want to compare against
+	 * @param forceContentCheck
+	 *            True if the actual file content should be checked if
+	 *            modification time differs.
+	 * @return true if content is most likely different.
+	 */
+	public boolean isModified(DirCacheEntry entry, boolean forceContentCheck) {
+		return isModified(entry, forceContentCheck, true);
 	}
 
 	/**
