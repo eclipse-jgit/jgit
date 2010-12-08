@@ -232,7 +232,8 @@ public class IndexDiff {
 					missing.add(treeWalk.getPathString());
 					changesExist = true;
 				} else {
-					if (!dirCacheIterator.idEqual(workingTreeIterator)) {
+					if (workingTreeIterator.isModified(
+							dirCacheIterator.getDirCacheEntry(), true)) {
 						// in index, in workdir, content differs => modified
 						modified.add(treeWalk.getPathString());
 						changesExist = true;
