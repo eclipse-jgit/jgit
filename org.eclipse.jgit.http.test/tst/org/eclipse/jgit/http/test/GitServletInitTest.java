@@ -52,9 +52,9 @@ import junit.framework.TestCase;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jgit.http.server.GitServlet;
-import org.eclipse.jgit.http.test.util.AppServer;
-import org.eclipse.jgit.http.test.util.MockServletConfig;
-import org.eclipse.jgit.http.test.util.RecordingLogger;
+import org.eclipse.jgit.junit.http.AppServer;
+import org.eclipse.jgit.junit.http.MockServletConfig;
+import org.eclipse.jgit.junit.http.RecordingLogger;
 
 public class GitServletInitTest extends TestCase {
 	private AppServer server;

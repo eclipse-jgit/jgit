@@ -51,7 +51,7 @@ import junit.framework.TestCase;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jgit.http.server.glue.ErrorServlet;
-import org.eclipse.jgit.http.test.util.AppServer;
+import org.eclipse.jgit.junit.http.AppServer;
 
 public class ErrorServletTest extends TestCase {
 	private AppServer server;
