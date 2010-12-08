@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAL03///98\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/IndexPack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 102
+      },
+      "writtenOn": "2010-12-08T00:48:33Z",
+      "side": 1,
+      "message": "Perhaps name this \u0027deferredCheckBlobs\u0027 - as all other types should\u0026will get checked immediately?",
+      "revId": "bbe5420878f190f487aeca88581fc5d12203df48",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL03///8I\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/IndexPack.java",
         "patchSetId": 2
@@ -14,6 +31,23 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "AAAL03///98\u003d",
+      "revId": "bbe5420878f190f487aeca88581fc5d12203df48",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL03///8Q\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/IndexPack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 102
+      },
+      "writtenOn": "2010-12-08T00:48:33Z",
+      "side": 1,
+      "message": "Possible optimization: It struck me that if the repo is empty (ie. you are cloning), you could set this to a small multiple of BUFFER_SIZE - you know that you\u0027ll never have to go back and do a deferred check for a known blob, because you don\u0027t have any. Consequently you get the benefit of not having to allocate an array for any blob you encounter :)",
       "revId": "bbe5420878f190f487aeca88581fc5d12203df48",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -56,6 +90,23 @@
     },
     {
       "key": {
+        "uuid": "AAAL03///94\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/IndexPack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 914,
+      "author": {
+        "id": 102
+      },
+      "writtenOn": "2010-12-08T00:48:33Z",
+      "side": 1,
+      "message": "\u0027doDeferredBlobChecks()\u0027 ?",
+      "revId": "bbe5420878f190f487aeca88581fc5d12203df48",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL03///8A\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/IndexPack.java",
         "patchSetId": 2
@@ -68,6 +119,23 @@
       "side": 1,
       "message": "Done, called \"doDeferredCheckBlobs()\".",
       "parentUuid": "AAAL03///94\u003d",
+      "revId": "bbe5420878f190f487aeca88581fc5d12203df48",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL03///90\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/IndexPack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 933,
+      "author": {
+        "id": 102
+      },
+      "writtenOn": "2010-12-08T00:48:33Z",
+      "side": 1,
+      "message": "This switch statement looks unnecessary to me - if the value of \u0027type\u0027 is not BLOB we should throw an exception straight away.",
       "revId": "bbe5420878f190f487aeca88581fc5d12203df48",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
