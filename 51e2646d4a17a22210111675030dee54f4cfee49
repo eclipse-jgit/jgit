@@ -16,6 +16,24 @@
       "revId": "51e2646d4a17a22210111675030dee54f4cfee49",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL03///zs\u003d",
+        "filename": "org.eclipse.jgit.junit.http/META-INF/MANIFEST.MF",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 44
+      },
+      "writtenOn": "2010-12-08T17:11:41Z",
+      "side": 1,
+      "message": "Right. Should we move to 7.1.6 as proposed by Chris?",
+      "parentUuid": "AAAL03///z4\u003d",
+      "revId": "51e2646d4a17a22210111675030dee54f4cfee49",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
