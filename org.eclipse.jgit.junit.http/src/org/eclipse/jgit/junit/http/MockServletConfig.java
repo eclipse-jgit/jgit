@@ -41,7 +41,7 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.eclipse.jgit.http.test.util;
+package org.eclipse.jgit.junit.http;
 
 import java.util.Enumeration;
 import java.util.HashMap;

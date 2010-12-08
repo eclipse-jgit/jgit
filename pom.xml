@@ -134,7 +134,7 @@
     <junit-version>3.8.2</junit-version>
     <args4j-version>2.0.12</args4j-version>
     <servlet-api-version>2.5</servlet-api-version>
-    <jetty-version>7.0.1.v20091125</jetty-version>
+    <jetty-version>7.1.1.v20100517</jetty-version>
   </properties>
 
   <pluginRepositories>
@@ -364,6 +364,7 @@
     <module>org.eclipse.jgit.iplog</module>
     <module>org.eclipse.jgit.pgm</module>
     <module>org.eclipse.jgit.junit</module>
+	<module>org.eclipse.jgit.junit.http</module>
 
     <module>org.eclipse.jgit.test</module>
     <module>org.eclipse.jgit.http.test</module>
