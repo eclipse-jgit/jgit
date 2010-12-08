@@ -1,0 +1,76 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL03///8E\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/IndexPack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-08T01:05:12Z",
+      "side": 1,
+      "message": "I don\u0027t think this special case for empty local repository is useful.  Further down we only add a blob to deferredCheckBlobs if the blob already exists in the local repository.  If the repository is empty, that check is really fast (searching an empty hash map is constant time) and it returns false, so we never put the blob into deferredCheckBlobs.",
+      "parentUuid": "AAAL03///8Q\u003d",
+      "revId": "bbe5420878f190f487aeca88581fc5d12203df48",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL03///7g\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/IndexPack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-08T01:19:36Z",
+      "side": 1,
+      "message": "Ok, now I understand your point.\n\nEven on a non-empty repository, a large percentage of the blob objects received will be new and streaming would be efficient, as they don\u0027t need to access the data twice.  If however a blob already exists, we already have to do disk IO to load the existing blob.  Doing another disk IO to load back part of this pack is bad, but we\u0027re already suffering disk IO to load the existing blob.\n\nMaybe its OK to just always stream blobs and take a double IO hit anytime this blob already exists.",
+      "parentUuid": "AAAL03///7o\u003d",
+      "revId": "bbe5420878f190f487aeca88581fc5d12203df48",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL03///8A\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/IndexPack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 914,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-08T01:05:12Z",
+      "side": 1,
+      "message": "Done, called \"doDeferredCheckBlobs()\".",
+      "parentUuid": "AAAL03///94\u003d",
+      "revId": "bbe5420878f190f487aeca88581fc5d12203df48",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL03///78\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/IndexPack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 933,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-08T01:05:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL03///90\u003d",
+      "revId": "bbe5420878f190f487aeca88581fc5d12203df48",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
