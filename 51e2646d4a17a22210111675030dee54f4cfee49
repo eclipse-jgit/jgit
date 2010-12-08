@@ -34,6 +34,24 @@
       "revId": "51e2646d4a17a22210111675030dee54f4cfee49",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL03///zQ\u003d",
+        "filename": "org.eclipse.jgit.junit.http/META-INF/MANIFEST.MF",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-08T17:47:57Z",
+      "side": 1,
+      "message": "Yes.  Please upgrade to a version that is available both under p2 and Maven so we are consistent (and on a newer release).",
+      "parentUuid": "AAAL03///zs\u003d",
+      "revId": "51e2646d4a17a22210111675030dee54f4cfee49",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
