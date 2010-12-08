@@ -168,7 +168,6 @@ public class IndexDiff {
 	 * @throws IOException
 	 */
 	public boolean diff() throws IOException {
-		boolean changesExist = false;
 		dirCache = repository.readDirCache();
 
 		TreeWalk treeWalk = new TreeWalk(repository);
@@ -203,12 +202,10 @@ public class IndexDiff {
 							!= dirCacheIterator.getEntryRawMode()) {
 						// in repo, in index, content diff => changed
 						changed.add(treeWalk.getPathString());
-						changesExist = true;
 					}
 				} else {
 					// in repo, not in index => removed
 					removed.add(treeWalk.getPathString());
-					changesExist = true;
 					if (workingTreeIterator != null)
 						untracked.add(treeWalk.getPathString());
 				}
@@ -216,13 +213,11 @@ public class IndexDiff {
 				if (dirCacheIterator != null) {
 					// not in repo, in index => added
 					added.add(treeWalk.getPathString());
-					changesExist = true;
 				} else {
 					// not in repo, not in index => untracked
 					if (workingTreeIterator != null
 							&& !workingTreeIterator.isEntryIgnored()) {
 						untracked.add(treeWalk.getPathString());
-						changesExist = true;
 					}
 				}
 			}
@@ -231,18 +226,22 @@ public class IndexDiff {
 				if (workingTreeIterator == null) {
 					// in index, not in workdir => missing
 					missing.add(treeWalk.getPathString());
-					changesExist = true;
 				} else {
 					if (workingTreeIterator.isModified(
 							dirCacheIterator.getDirCacheEntry(), true)) {
 						// in index, in workdir, content differs => modified
 						modified.add(treeWalk.getPathString());
-						changesExist = true;
 					}
 				}
 			}
 		}
-		return changesExist;
+
+		if (added.isEmpty() && changed.isEmpty() && removed.isEmpty()
+				&& missing.isEmpty() && modified.isEmpty()
+				&& untracked.isEmpty())
+			return false;
+		else
+			return true;
 	}
 
 	/**
