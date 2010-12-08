@@ -195,7 +195,7 @@ public class IndexDiff {
 
 			if (dirCacheIterator != null) {
 				if (dirCacheIterator.getDirCacheEntry().isAssumeValid())
-					assumeUnchanged.add(dirCacheIterator.getEntryPathString());
+					assumeUnchanged.add(treeWalk.getPathString());
 			}
 
 			if (treeIterator != null) {
@@ -203,29 +203,28 @@ public class IndexDiff {
 					if (!treeIterator.getEntryObjectId().equals(
 							dirCacheIterator.getEntryObjectId())) {
 						// in repo, in index, content diff => changed
-						changed.add(dirCacheIterator.getEntryPathString());
+						changed.add(treeWalk.getPathString());
 						changesExist = true;
 					}
 				} else {
 					// in repo, not in index => removed
 					if (!fileModeTree.equals(FileMode.TYPE_TREE)) {
-						removed.add(treeIterator.getEntryPathString());
+						removed.add(treeWalk.getPathString());
 						changesExist = true;
 						if (workingTreeIterator != null)
-							untracked.add(workingTreeIterator
-									.getEntryPathString());
+							untracked.add(treeWalk.getPathString());
 					}
 				}
 			} else {
 				if (dirCacheIterator != null) {
 					// not in repo, in index => added
-					added.add(dirCacheIterator.getEntryPathString());
+					added.add(treeWalk.getPathString());
 					changesExist = true;
 				} else {
 					// not in repo, not in index => untracked
 					if (workingTreeIterator != null
 							&& !workingTreeIterator.isEntryIgnored()) {
-						untracked.add(workingTreeIterator.getEntryPathString());
+						untracked.add(treeWalk.getPathString());
 						changesExist = true;
 					}
 				}
@@ -234,12 +233,12 @@ public class IndexDiff {
 			if (dirCacheIterator != null) {
 				if (workingTreeIterator == null) {
 					// in index, not in workdir => missing
-					missing.add(dirCacheIterator.getEntryPathString());
+					missing.add(treeWalk.getPathString());
 					changesExist = true;
 				} else {
 					if (!dirCacheIterator.idEqual(workingTreeIterator)) {
 						// in index, in workdir, content differs => modified
-						modified.add(dirCacheIterator.getEntryPathString());
+						modified.add(treeWalk.getPathString());
 						changesExist = true;
 					}
 				}
