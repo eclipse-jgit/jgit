@@ -70,6 +70,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL0n///Ug\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/IndexPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 479,
+      "author": {
+        "id": 102
+      },
+      "writtenOn": "2010-12-06T00:58:51Z",
+      "side": 1,
+      "message": "Yup, it\u0027s definitely only a partial fix :-)  I know I\u0027m only fixing what\u0027s easy - not what\u0027s Hard.\n\nHowever there\u0027s at least one problem-case where what\u0027s /easy/ is also what is *beneficial* , and that\u0027s in the case of the Unwise-Big-Blob-Committer:\n\nThe Unwise-Big-Blob-Committer unwisely commits a 500MB file into their repo - perhaps they regret it later, but they just delete it in a later commit, and move on - they\u0027re unlikely to clean their repository using rebasing or whatever. If the 500MB file compresses well the pack-file won\u0027t even make a dint in the network bandwidth when cloning.\n\nThe 500MB file is never part of a delta because it\u0027s a random dumb file - no-one ever committed a file even remotely like it. But it\u0027s still in the pack file, it still verified by JGit\u0027s IndexPack.whole() method when the pack file is loaded, and still causes an OutOfMemoryException.\n\n\nFixing the Hard thing here- resolveDeltas - fixes the problem for people who actually *deliberately* use large files in their repos. Fixing the \u0027easy\u0027 thing - object checking - fixes the problem for people who once *accidentally* checked a dumb big file into their project. I think the first scenario is pretty rare. The second is more common. At the very least, it would be nice to help people who have been a victim of the UBBC :)",
+      "parentUuid": "AAAL0n///Us\u003d",
+      "revId": "862afd4cb78013ee033d4ec68c067b1774a05be8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL03////E\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/IndexPack.java",
         "patchSetId": 1
@@ -99,6 +117,24 @@
       "writtenOn": "2010-12-05T23:16:02Z",
       "side": 1,
       "message": "We have to continue to do the existing object check, even for blobs.  This is a safety measure to prevent a SHA-1 collision from corrupting the local repository.\n\nNormally when an object is added to a repository we compute the SHA-1 for it, then check to see if the object exists.  If it does, we don\u0027t create the new object, we instead rely upon the existing content.  This prevents an object that has the same SHA-1 but different content from entering the repository, so that it at least continues to return older content as expected.\n\nHowever, here we are keeping the pack file as-is in the repository.  That means we may wind up with another copy of an already existing object.  In order to ensure we will continue to return the same content, we need to compare byte-for-byte.\n\nIts slow, yes.  But its a safety feature that should never trip (in theory), and is one that we have to keep.",
+      "revId": "862afd4cb78013ee033d4ec68c067b1774a05be8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0n///Uc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/IndexPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 842,
+      "author": {
+        "id": 102
+      },
+      "writtenOn": "2010-12-06T00:58:51Z",
+      "side": 1,
+      "message": "I need to introduce a streaming byte-for-byte comparison, I guess.",
+      "parentUuid": "AAAL0n///Wk\u003d",
       "revId": "862afd4cb78013ee033d4ec68c067b1774a05be8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
