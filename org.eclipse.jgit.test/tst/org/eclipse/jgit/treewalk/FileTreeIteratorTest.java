@@ -80,7 +80,7 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 		final File r = new File(trash, paths[0]);
 		assertTrue(r.isFile());
 		final FileTreeIterator fti = new FileTreeIterator(r, db.getFS(),
-				WorkingTreeOptions.createConfigurationInstance(db.getConfig()));
+				db.getConfig().get(WorkingTreeOptions.KEY));
 		assertTrue(fti.first());
 		assertTrue(fti.eof());
 	}
@@ -89,7 +89,7 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 		final File r = new File(trash, "not-existing-file");
 		assertFalse(r.exists());
 		final FileTreeIterator fti = new FileTreeIterator(r, db.getFS(),
-				WorkingTreeOptions.createConfigurationInstance(db.getConfig()));
+				db.getConfig().get(WorkingTreeOptions.KEY));
 		assertTrue(fti.first());
 		assertTrue(fti.eof());
 	}
@@ -101,14 +101,14 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 		assertTrue(r.isDirectory());
 
 		final FileTreeIterator fti = new FileTreeIterator(r, db.getFS(),
-				WorkingTreeOptions.createConfigurationInstance(db.getConfig()));
+				db.getConfig().get(WorkingTreeOptions.KEY));
 		assertTrue(fti.first());
 		assertTrue(fti.eof());
 	}
 
 	public void testSimpleIterate() throws Exception {
 		final FileTreeIterator top = new FileTreeIterator(trash, db.getFS(),
-				WorkingTreeOptions.createConfigurationInstance(db.getConfig()));
+				db.getConfig().get(WorkingTreeOptions.KEY));
 
 		assertTrue(top.first());
 		assertFalse(top.eof());
@@ -157,7 +157,7 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 
 	public void testComputeFileObjectId() throws Exception {
 		final FileTreeIterator top = new FileTreeIterator(trash, db.getFS(),
-				WorkingTreeOptions.createConfigurationInstance(db.getConfig()));
+				db.getConfig().get(WorkingTreeOptions.KEY));
 
 		final MessageDigest md = Constants.newMessageDigest();
 		md.update(Constants.encodeASCII(Constants.TYPE_BLOB));

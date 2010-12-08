@@ -245,7 +245,7 @@ public class ResolveMerger extends ThreeWayMerger {
 				createDir(f.getParentFile());
 				DirCacheCheckout.checkoutEntry(db,
 						f,
-						entry.getValue(), true);
+						entry.getValue());
 			} else {
 				if (!f.delete())
 					failingPathes.put(entry.getKey(),
@@ -447,8 +447,7 @@ public class ResolveMerger extends ThreeWayMerger {
 				// is not modified
 				if (work != null
 						&& (!nonTree(work.getEntryRawMode()) || work
-								.isModified(index.getDirCacheEntry(), true,
-										true))) {
+								.isModified(index.getDirCacheEntry(), true))) {
 					failingPathes.put(tw.getPathString(),
 							MergeFailureReason.DIRTY_WORKTREE);
 					return false;
