@@ -198,8 +198,9 @@ public class IndexDiff {
 
 			if (treeIterator != null) {
 				if (dirCacheIterator != null) {
-					if (!treeIterator.getEntryObjectId().equals(
-							dirCacheIterator.getEntryObjectId())) {
+					if (!treeIterator.idEqual(dirCacheIterator)
+							|| treeIterator.getEntryRawMode()
+							!= dirCacheIterator.getEntryRawMode()) {
 						// in repo, in index, content diff => changed
 						changed.add(treeWalk.getPathString());
 						changesExist = true;
