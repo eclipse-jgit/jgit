@@ -192,7 +192,6 @@ public class IndexDiff {
 					DirCacheIterator.class);
 			WorkingTreeIterator workingTreeIterator = treeWalk.getTree(WORKDIR,
 					WorkingTreeIterator.class);
-			FileMode fileModeTree = treeWalk.getFileMode(TREE);
 
 			if (dirCacheIterator != null) {
 				if (dirCacheIterator.getDirCacheEntry().isAssumeValid())
@@ -209,12 +208,10 @@ public class IndexDiff {
 					}
 				} else {
 					// in repo, not in index => removed
-					if (!fileModeTree.equals(FileMode.TYPE_TREE)) {
-						removed.add(treeWalk.getPathString());
-						changesExist = true;
-						if (workingTreeIterator != null)
-							untracked.add(treeWalk.getPathString());
-					}
+					removed.add(treeWalk.getPathString());
+					changesExist = true;
+					if (workingTreeIterator != null)
+						untracked.add(treeWalk.getPathString());
 				}
 			} else {
 				if (dirCacheIterator != null) {
