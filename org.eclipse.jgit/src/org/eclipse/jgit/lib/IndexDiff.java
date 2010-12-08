@@ -105,7 +105,9 @@ public class IndexDiff {
 
 	private Set<String> untracked = new HashSet<String>();
 
-	private Set<String> assumeUnchanged = new HashSet<String>();
+	private Set<String> assumeUnchanged;
+
+	private DirCache dirCache;
 
 	/**
 	 * Construct an IndexDiff
@@ -167,7 +169,8 @@ public class IndexDiff {
 	 */
 	public boolean diff() throws IOException {
 		boolean changesExist = false;
-		DirCache dirCache = repository.readDirCache();
+		dirCache = repository.readDirCache();
+
 		TreeWalk treeWalk = new TreeWalk(repository);
 		treeWalk.setRecursive(true);
 		// add the trees (tree, dirchache, workdir)
@@ -191,11 +194,6 @@ public class IndexDiff {
 					DirCacheIterator.class);
 			WorkingTreeIterator workingTreeIterator = treeWalk.getTree(WORKDIR,
 					WorkingTreeIterator.class);
-
-			if (dirCacheIterator != null) {
-				if (dirCacheIterator.getDirCacheEntry().isAssumeValid())
-					assumeUnchanged.add(treeWalk.getPathString());
-			}
 
 			if (treeIterator != null) {
 				if (dirCacheIterator != null) {
@@ -290,6 +288,13 @@ public class IndexDiff {
 	 * @return list of files with the flag assume-unchanged
 	 */
 	public Set<String> getAssumeUnchanged() {
+		if (assumeUnchanged == null) {
+			HashSet<String> unchanged = new HashSet<String>();
+			for (int i = 0; i < dirCache.getEntryCount(); i++)
+				if (dirCache.getEntry(i).isAssumeValid())
+					unchanged.add(dirCache.getEntry(i).getPathString());
+			assumeUnchanged = unchanged;
+		}
 		return assumeUnchanged;
 	}
 }
