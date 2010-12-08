@@ -105,7 +105,7 @@ public class TreeWalkBasicDiffTest extends RepositoryTestCase {
 		inserter.release();
 
 		final TreeWalk tw = new TreeWalk(db);
-		tw.reset(new ObjectId[] { oldTree, newTree });
+		tw.reset(oldTree, newTree);
 		tw.setRecursive(true);
 		tw.setFilter(TreeFilter.ANY_DIFF);
 

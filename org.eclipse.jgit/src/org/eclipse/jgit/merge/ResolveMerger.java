@@ -59,10 +59,10 @@ import java.util.Map;
 
 import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.diff.DiffAlgorithm;
-import org.eclipse.jgit.diff.DiffAlgorithm.SupportedAlgorithm;
 import org.eclipse.jgit.diff.RawText;
 import org.eclipse.jgit.diff.RawTextComparator;
 import org.eclipse.jgit.diff.Sequence;
+import org.eclipse.jgit.diff.DiffAlgorithm.SupportedAlgorithm;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuildIterator;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
@@ -183,7 +183,6 @@ public class ResolveMerger extends ThreeWayMerger {
 			DirCacheBuildIterator buildIt = new DirCacheBuildIterator(builder);
 
 			tw = new NameConflictTreeWalk(db);
-			tw.reset();
 			tw.addTree(mergeBase());
 			tw.addTree(sourceTrees[0]);
 			tw.addTree(sourceTrees[1]);

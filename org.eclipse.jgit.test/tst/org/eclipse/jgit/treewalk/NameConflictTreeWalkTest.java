@@ -82,7 +82,6 @@ public class NameConflictTreeWalkTest extends RepositoryTestCase {
 		}
 
 		final TreeWalk tw = new TreeWalk(db);
-		tw.reset();
 		tw.addTree(new DirCacheIterator(tree0));
 		tw.addTree(new DirCacheIterator(tree1));
 
@@ -113,7 +112,6 @@ public class NameConflictTreeWalkTest extends RepositoryTestCase {
 		}
 
 		final NameConflictTreeWalk tw = new NameConflictTreeWalk(db);
-		tw.reset();
 		tw.addTree(new DirCacheIterator(tree0));
 		tw.addTree(new DirCacheIterator(tree1));
 
@@ -149,7 +147,6 @@ public class NameConflictTreeWalkTest extends RepositoryTestCase {
 		}
 
 		final NameConflictTreeWalk tw = new NameConflictTreeWalk(db);
-		tw.reset();
 		tw.addTree(new DirCacheIterator(tree0));
 		tw.addTree(new DirCacheIterator(tree1));
 
@@ -185,7 +182,6 @@ public class NameConflictTreeWalkTest extends RepositoryTestCase {
 		}
 
 		final NameConflictTreeWalk tw = new NameConflictTreeWalk(db);
-		tw.reset();
 		tw.addTree(new DirCacheIterator(tree0));
 		tw.addTree(new DirCacheIterator(tree1));
 
@@ -222,7 +218,6 @@ public class NameConflictTreeWalkTest extends RepositoryTestCase {
 		}
 
 		final NameConflictTreeWalk tw = new NameConflictTreeWalk(db);
-		tw.reset();
 		tw.addTree(new DirCacheIterator(tree0));
 		tw.addTree(new DirCacheIterator(tree1));
 

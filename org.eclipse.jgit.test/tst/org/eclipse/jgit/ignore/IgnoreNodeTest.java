@@ -158,7 +158,6 @@ public class IgnoreNodeTest extends RepositoryTestCase {
 
 	private void beginWalk() throws CorruptObjectException {
 		walk = new TreeWalk(db);
-		walk.reset();
 		walk.addTree(new FileTreeIterator(db));
 	}
 

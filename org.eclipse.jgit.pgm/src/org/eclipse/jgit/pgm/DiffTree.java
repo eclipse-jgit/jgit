@@ -74,7 +74,6 @@ class DiffTree extends TextBuiltin {
 	@Override
 	protected void run() throws Exception {
 		final TreeWalk walk = new TreeWalk(db);
-		walk.reset();
 		walk.setRecursive(recursive);
 		for (final AbstractTreeIterator i : trees)
 			walk.addTree(i);

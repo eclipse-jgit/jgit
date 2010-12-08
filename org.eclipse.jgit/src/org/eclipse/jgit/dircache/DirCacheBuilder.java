@@ -165,7 +165,6 @@ public class DirCacheBuilder extends BaseDirCacheEditor {
 	public void addTree(final byte[] pathPrefix, final int stage,
 			final ObjectReader reader, final AnyObjectId tree) throws IOException {
 		final TreeWalk tw = new TreeWalk(reader);
-		tw.reset();
 		tw.addTree(new CanonicalTreeParser(pathPrefix, reader, tree
 				.toObjectId()));
 		tw.setRecursive(true);

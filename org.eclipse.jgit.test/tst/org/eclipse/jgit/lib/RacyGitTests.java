@@ -77,7 +77,6 @@ public class RacyGitTests extends RepositoryTestCase {
 		FileTreeIteratorWithTimeControl fileIt = new FileTreeIteratorWithTimeControl(
 				db, modTimes);
 		NameConflictTreeWalk tw = new NameConflictTreeWalk(db);
-		tw.reset();
 		tw.addTree(fileIt);
 		tw.setRecursive(true);
 		FileTreeIterator t;

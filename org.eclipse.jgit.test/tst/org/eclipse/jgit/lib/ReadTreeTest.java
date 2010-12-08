@@ -685,7 +685,6 @@ public abstract class ReadTreeTest extends RepositoryTestCase {
 	public void assertWorkDir(HashMap<String, String> i)
 			throws CorruptObjectException, IOException {
 		TreeWalk walk = new TreeWalk(db);
-		walk.reset();
 		walk.setRecursive(true);
 		walk.addTree(new FileTreeIterator(db));
 		String expectedValue;

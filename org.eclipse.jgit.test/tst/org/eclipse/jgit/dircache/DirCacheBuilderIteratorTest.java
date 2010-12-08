@@ -71,7 +71,6 @@ public class DirCacheBuilderIteratorTest extends RepositoryTestCase {
 		final int expIdx = 2;
 		final DirCacheBuilder b = dc.builder();
 		final TreeWalk tw = new TreeWalk(db);
-		tw.reset();
 		tw.addTree(new DirCacheBuildIterator(b));
 		tw.setRecursive(true);
 		tw.setFilter(PathFilterGroup.createFromStrings(Collections

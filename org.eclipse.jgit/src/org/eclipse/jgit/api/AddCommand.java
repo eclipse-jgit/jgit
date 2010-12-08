@@ -138,7 +138,6 @@ public class AddCommand extends GitCommand<DirCache> {
 
 			DirCacheBuilder builder = dc.builder();
 			final TreeWalk tw = new TreeWalk(repo);
-			tw.reset();
 			tw.addTree(new DirCacheBuildIterator(builder));
 			if (workingTreeIterator == null)
 				workingTreeIterator = new FileTreeIterator(repo);

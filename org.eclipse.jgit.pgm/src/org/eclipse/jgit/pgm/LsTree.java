@@ -62,7 +62,6 @@ class LsTree extends TextBuiltin {
 	@Override
 	protected void run() throws Exception {
 		final TreeWalk walk = new TreeWalk(db);
-		walk.reset(); // drop the first empty tree, which we do not need here
 		walk.setRecursive(recursive);
 		walk.addTree(tree);
 

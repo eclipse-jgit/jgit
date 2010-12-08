@@ -112,7 +112,6 @@ public class StrategySimpleTwoWayInCore extends ThreeWayMergeStrategy {
 
 		@Override
 		protected boolean mergeImpl() throws IOException {
-			tw.reset();
 			tw.addTree(mergeBase());
 			tw.addTree(sourceTrees[0]);
 			tw.addTree(sourceTrees[1]);

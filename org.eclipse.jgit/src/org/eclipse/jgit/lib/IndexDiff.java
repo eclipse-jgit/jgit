@@ -169,7 +169,6 @@ public class IndexDiff {
 		boolean changesExist = false;
 		DirCache dirCache = repository.readDirCache();
 		TreeWalk treeWalk = new TreeWalk(repository);
-		treeWalk.reset();
 		treeWalk.setRecursive(true);
 		// add the trees (tree, dirchache, workdir)
 		if (tree != null)

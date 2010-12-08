@@ -59,7 +59,6 @@ import org.eclipse.jgit.diff.RawText;
 import org.eclipse.jgit.diff.RawTextComparator;
 import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
-import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.MutableObjectId;
@@ -190,7 +189,7 @@ class DiffAlgorithms extends TextBuiltin {
 
 				RevCommit p = c.getParent(0);
 				rw.parseHeaders(p);
-				tw.reset(new AnyObjectId[] { p.getTree(), c.getTree() });
+				tw.reset(p.getTree(), c.getTree());
 				while (tw.next()) {
 					if (!isFile(tw, 0) || !isFile(tw, 1))
 						continue;

@@ -64,7 +64,6 @@ public class DirCacheIteratorTest extends RepositoryTestCase {
 		assertEquals(0, dc.getEntryCount());
 
 		final TreeWalk tw = new TreeWalk(db);
-		tw.reset();
 		tw.addTree(new DirCacheIterator(dc));
 		assertFalse(tw.next());
 	}
@@ -112,7 +111,6 @@ public class DirCacheIteratorTest extends RepositoryTestCase {
 
 		final DirCacheIterator i = new DirCacheIterator(dc);
 		final TreeWalk tw = new TreeWalk(db);
-		tw.reset();
 		tw.addTree(i);
 		int pathIdx = 0;
 		while (tw.next()) {
@@ -149,7 +147,6 @@ public class DirCacheIteratorTest extends RepositoryTestCase {
 
 		final DirCacheIterator i = new DirCacheIterator(dc);
 		final TreeWalk tw = new TreeWalk(db);
-		tw.reset();
 		tw.addTree(i);
 		tw.setRecursive(false);
 		int pathIdx = 0;
@@ -189,7 +186,6 @@ public class DirCacheIteratorTest extends RepositoryTestCase {
 
 		final DirCacheIterator i = new DirCacheIterator(dc);
 		final TreeWalk tw = new TreeWalk(db);
-		tw.reset();
 		tw.addTree(i);
 		tw.setRecursive(true);
 		int pathIdx = 0;
@@ -223,7 +219,6 @@ public class DirCacheIteratorTest extends RepositoryTestCase {
 		b.finish();
 
 		final TreeWalk tw = new TreeWalk(db);
-		tw.reset();
 		tw.addTree(new DirCacheIterator(dc));
 		tw.setRecursive(true);
 		int pathIdx = 0;

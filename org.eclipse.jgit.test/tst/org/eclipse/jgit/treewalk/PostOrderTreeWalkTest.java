@@ -98,7 +98,6 @@ public class PostOrderTreeWalkTest extends RepositoryTestCase {
 		}
 
 		final TreeWalk tw = new TreeWalk(db);
-		tw.reset();
 		tw.setPostOrderTraversal(false);
 		tw.addTree(new DirCacheIterator(tree));
 
@@ -127,7 +126,6 @@ public class PostOrderTreeWalkTest extends RepositoryTestCase {
 		}
 
 		final TreeWalk tw = new TreeWalk(db);
-		tw.reset();
 		tw.setPostOrderTraversal(true);
 		tw.addTree(new DirCacheIterator(tree));
 
@@ -162,7 +160,6 @@ public class PostOrderTreeWalkTest extends RepositoryTestCase {
 		}
 
 		final TreeWalk tw = new TreeWalk(db);
-		tw.reset();
 		tw.setPostOrderTraversal(true);
 		tw.addTree(new DirCacheIterator(tree));
 
