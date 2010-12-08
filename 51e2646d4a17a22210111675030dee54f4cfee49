@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL03///z4\u003d",
+        "filename": "org.eclipse.jgit.junit.http/META-INF/MANIFEST.MF",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-08T16:54:50Z",
+      "side": 1,
+      "message": "Why the heck are we using 7.0.1 in OSGi land, and 7.1 in Maven land?\n\nI\u0027d like them to be as close to the same version as possible so we have less surprises when tests get run.",
+      "revId": "51e2646d4a17a22210111675030dee54f4cfee49",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
