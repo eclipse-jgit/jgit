@@ -252,8 +252,10 @@ public class IndexDiffTest extends RepositoryTestCase {
 		IndexDiff diff = new IndexDiff(db, Constants.HEAD, iterator);
 		diff.diff();
 		assertEquals(1, diff.getAssumeUnchanged().size());
-		assertEquals(2, diff.getModified().size());
+		assertEquals(1, diff.getModified().size());
 		assertEquals(0, diff.getChanged().size());
+		assertTrue(diff.getAssumeUnchanged().contains("file2"));
+		assertTrue(diff.getModified().contains("file"));
 
 		git.add().addFilepattern(".").call();
 
@@ -261,10 +263,9 @@ public class IndexDiffTest extends RepositoryTestCase {
 		diff = new IndexDiff(db, Constants.HEAD, iterator);
 		diff.diff();
 		assertEquals(1, diff.getAssumeUnchanged().size());
-		assertEquals(1, diff.getModified().size());
+		assertEquals(0, diff.getModified().size());
 		assertEquals(1, diff.getChanged().size());
 		assertTrue(diff.getAssumeUnchanged().contains("file2"));
-		assertTrue(diff.getModified().contains("file2"));
 		assertTrue(diff.getChanged().contains("file"));
 	}
 
