@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL03///7o\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/IndexPack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 102
+      },
+      "writtenOn": "2010-12-08T01:14:07Z",
+      "side": 1,
+      "message": "I\u0027m trying to get at the fact that blob-streaming should be *faster* pretty much as soon as the blob size rises above BUFFER_SIZE, as blob-streaming doesn\u0027t do the byte array allocation (of  \u0027dst\u0027) that occurs in inflateAndReturn().\n\nThe only reason not to do blob streaming is that you might later have to do disk IO if you\u0027re unlucky. If your repository is empty, you\u0027ll never be unlucky.",
+      "parentUuid": "AAAL03///8E\u003d",
+      "revId": "bbe5420878f190f487aeca88581fc5d12203df48",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL03///7g\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/IndexPack.java",
         "patchSetId": 2
