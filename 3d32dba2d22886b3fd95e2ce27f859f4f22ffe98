@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL0n///Q8\u003d",
+        "filename": "org.eclipse.jgit.junit/src/org/eclipse/jgit/junit/TestRepository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 658,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-07T00:27:15Z",
+      "side": 1,
+      "message": "It might be OK for a missing file to fail to delete here.  It depends on how the repository was constructed during a test as to whether or not a pack will contain an object that should be removed or not.",
+      "revId": "3d32dba2d22886b3fd95e2ce27f859f4f22ffe98",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0n///Q4\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/ignore/IgnoreNodeTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-07T00:27:15Z",
+      "side": 1,
+      "message": "Why FileUtils.delete() here, but assertTrue() in other JUnit tests?",
+      "revId": "3d32dba2d22886b3fd95e2ce27f859f4f22ffe98",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
