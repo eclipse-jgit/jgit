@@ -43,59 +43,33 @@
 package org.eclipse.jgit.treewalk;
 
 import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.CoreConfig;
+import org.eclipse.jgit.lib.Config.SectionParser;
 import org.eclipse.jgit.lib.CoreConfig.AutoCRLF;
 
-/**
- * Contains options used by the WorkingTreeIterator.
- */
+/** Options used by the {@link WorkingTreeIterator}. */
 public class WorkingTreeOptions {
+	/** Key for {@link Config#get(SectionParser)}. */
+	public static final Config.SectionParser<WorkingTreeOptions> KEY = new SectionParser<WorkingTreeOptions>() {
+		public WorkingTreeOptions parse(final Config cfg) {
+			return new WorkingTreeOptions(cfg);
+		}
+	};
 
-	/**
-	 * Creates default options which reflect the original configuration of Git
-	 * on Unix systems.
-	 *
-	 * @return created working tree options
-	 */
-	public static WorkingTreeOptions createDefaultInstance() {
-		return new WorkingTreeOptions(AutoCRLF.FALSE);
-	}
+	private final boolean fileMode;
 
-	/**
-	 * Creates options based on the specified repository configuration.
-	 *
-	 * @param config
-	 *            repository configuration to create options for
-	 *
-	 * @return created working tree options
-	 */
-	public static WorkingTreeOptions createConfigurationInstance(Config config) {
-		return new WorkingTreeOptions(config.get(CoreConfig.KEY).getAutoCRLF());
-	}
-
-	/**
-	 * Indicates whether EOLs of text files should be converted to '\n' before
-	 * calculating the blob ID.
-	 **/
 	private final AutoCRLF autoCRLF;
 
-	/**
-	 * Creates new options.
-	 *
-	 * @param autoCRLF
-	 *            indicates whether EOLs of text files should be converted to
-	 *            '\n' before calculating the blob ID.
-	 */
-	public WorkingTreeOptions(AutoCRLF autoCRLF) {
-		this.autoCRLF = autoCRLF;
+	private WorkingTreeOptions(final Config rc) {
+		fileMode = rc.getBoolean("core", "filemode", true);
+		autoCRLF = rc.getEnum("core", null, "autocrlf", AutoCRLF.FALSE);
 	}
 
-	/**
-	 * Indicates whether EOLs of text files should be converted to '\n' before
-	 * calculating the blob ID.
-	 *
-	 * @return true if EOLs should be canonicalized.
-	 */
+	/** @return true if the execute bit on working files should be trusted. */
+	public boolean isFileMode() {
+		return fileMode;
+	}
+
+	/** @return how automatic CRLF conversion has been configured. */
 	public AutoCRLF getAutoCRLF() {
 		return autoCRLF;
 	}

@@ -540,13 +540,9 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	 * @param forceContentCheck
 	 *            True if the actual file content should be checked if
 	 *            modification time differs.
-	 * @param checkFilemode
-	 *            whether the executable-bit in the filemode should be checked
-	 *            to detect modifications
 	 * @return true if content is most likely different.
 	 */
-	public boolean isModified(DirCacheEntry entry, boolean forceContentCheck,
-			boolean checkFilemode) {
+	public boolean isModified(DirCacheEntry entry, boolean forceContentCheck) {
 		if (entry.isAssumeValid())
 			return false;
 
@@ -563,7 +559,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		// Ignore the executable file bits if checkFilemode tells me to do so.
 		// Ignoring is done by setting the bits representing a EXECUTABLE_FILE
 		// to '0' in modeDiff
-		if (!checkFilemode)
+		if (!state.options.isFileMode())
 			modeDiff &= ~FileMode.EXECUTABLE_FILE.getBits();
 		if (modeDiff != 0)
 			// Report a modification if the modes still (after potentially

@@ -84,8 +84,8 @@ public class FileTreeIterator extends WorkingTreeIterator {
 	 *            the repository whose working tree will be scanned.
 	 */
 	public FileTreeIterator(Repository repo) {
-		this(repo.getWorkTree(), repo.getFS(), WorkingTreeOptions
-				.createConfigurationInstance(repo.getConfig()));
+		this(repo.getWorkTree(), repo.getFS(),
+				repo.getConfig().get(WorkingTreeOptions.KEY));
 		initRootIterator(repo);
 	}
 
