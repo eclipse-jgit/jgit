@@ -1,0 +1,22 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL03///0U\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/IndexDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-08T16:33:51Z",
+      "side": 0,
+      "message": "If we are in a file/folder conflict, we shouldn\u0027t ever see the folder.  A recursive TreeWalk doesn\u0027t return folders, only files.\n\nIf \"foo\" is a file in the dirCache, and now a directory in the workingTree, and the workingTree also has \"foo/bar\", we should see during iteration:\n\n First Result:\n    dirCacheIterator \u003d \"foo\"\n    workingTreeIterator \u003d null\n\n  Second Result\n    dirCacheIterator \u003d null\n    workingTreeIterator \u003d \"foo/bar\"\n\nNow if you changed the type of TreeWalk to NameConflictTreeWalk then this may change a little.  In a recursive NameConflictTreeWalk we may very well wind up with a tree when there is also a file.\n\nSo I think this change is safe, because we should never be seeing a tree type on any of the iterators, as the recursive TreeWalk won\u0027t return them.",
+      "parentUuid": "AAAL03///6U\u003d",
+      "revId": "72921ba349640c76408a818e4da5d117f1e7303b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
