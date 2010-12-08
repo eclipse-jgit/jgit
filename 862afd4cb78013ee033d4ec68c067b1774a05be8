@@ -1,0 +1,295 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL0n///Vk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/IndexPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-06T00:10:03Z",
+      "side": 1,
+      "message": "Style-nit: Please don\u0027t re-order imports.",
+      "revId": "862afd4cb78013ee033d4ec68c067b1774a05be8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0n///Vs\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/IndexPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-06T00:10:03Z",
+      "side": 1,
+      "message": "Style-nit: We never import *.",
+      "revId": "862afd4cb78013ee033d4ec68c067b1774a05be8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0n///Vo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/IndexPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-06T00:10:03Z",
+      "side": 1,
+      "message": "Style-nit: Static imports go before class imports.",
+      "revId": "862afd4cb78013ee033d4ec68c067b1774a05be8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0n///Us\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/IndexPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 479,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-06T00:10:03Z",
+      "side": 1,
+      "message": "The resolveDeltas part of IndexPack is the most memory consuming part, and you didn\u0027t address it to use streaming techniques.  So thus far your change is only a partial fix to the problem.  :-)\n\nFWIW, this is the harder part to fix.  The base object is needed during the entire chain processing.",
+      "revId": "862afd4cb78013ee033d4ec68c067b1774a05be8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL03////E\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/IndexPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 479,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-07T16:38:11Z",
+      "side": 1,
+      "message": "OK, I agree that your partial fix is stll at least of some value to us.  So lets fix this whole object case for the non-delta compressed big blobs, and then later work on the delta chain problem.",
+      "parentUuid": "AAAL0n///Ug\u003d",
+      "revId": "862afd4cb78013ee033d4ec68c067b1774a05be8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0n///Wk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/IndexPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 842,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-05T23:16:02Z",
+      "side": 1,
+      "message": "We have to continue to do the existing object check, even for blobs.  This is a safety measure to prevent a SHA-1 collision from corrupting the local repository.\n\nNormally when an object is added to a repository we compute the SHA-1 for it, then check to see if the object exists.  If it does, we don\u0027t create the new object, we instead rely upon the existing content.  This prevents an object that has the same SHA-1 but different content from entering the repository, so that it at least continues to return older content as expected.\n\nHowever, here we are keeping the pack file as-is in the repository.  That means we may wind up with another copy of an already existing object.  In order to ensure we will continue to return the same content, we need to compare byte-for-byte.\n\nIts slow, yes.  But its a safety feature that should never trip (in theory), and is one that we have to keep.",
+      "revId": "862afd4cb78013ee033d4ec68c067b1774a05be8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL03////A\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/IndexPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 842,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-07T16:38:11Z",
+      "side": 1,
+      "message": "Yes, we need a streaming byte-for-byte compare.  That is easier if you change the inflate routine to provide an InputStream to the caller, instead of accepting an OutputStream that it copies onto.",
+      "parentUuid": "AAAL0n///Uc\u003d",
+      "revId": "862afd4cb78013ee033d4ec68c067b1774a05be8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0n///U0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/IndexPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 957,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-06T00:10:03Z",
+      "side": 1,
+      "message": "This comment is no longer relevant since the argument it applied to (the boolean keep) was removed.",
+      "revId": "862afd4cb78013ee033d4ec68c067b1774a05be8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0n///U4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/IndexPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 963,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-06T00:10:03Z",
+      "side": 1,
+      "message": "This comment is no longer relevant, since the argument it applied to (the boolean keep) was removed.",
+      "revId": "862afd4cb78013ee033d4ec68c067b1774a05be8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0n///U8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/IndexPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 964,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-06T00:10:03Z",
+      "side": 1,
+      "message": "This creates a copy of the data, which means we are copying the data twice.  Since this code is part of the inner loop of IndexPack I would like to avoid that copying by properly allocating the output buffer and writing into it directly.\n\nThat might mean a variant of ByteArrayOutputStream has to be written and put into jgit.util.io.",
+      "revId": "862afd4cb78013ee033d4ec68c067b1774a05be8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0n///VA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/IndexPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 968,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-06T00:10:03Z",
+      "side": 1,
+      "message": "Style-nit: We use tabs for indentation, not spaces.",
+      "revId": "862afd4cb78013ee033d4ec68c067b1774a05be8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0n///VM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/IndexPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 976,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-06T00:10:03Z",
+      "side": 1,
+      "message": "There is no need to compute the number of bytes to inflate, the 3rd argument here is the maximum number of bytes that outBuffer can receive.  So you can simplify your code to be:\n\n  int r \u003d inf.inflate(outBuffer, 0, outBuffer.length);",
+      "revId": "862afd4cb78013ee033d4ec68c067b1774a05be8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0n///VI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/IndexPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 977,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-06T00:10:03Z",
+      "side": 1,
+      "message": "Style-nit: We put spaces between arguments.",
+      "revId": "862afd4cb78013ee033d4ec68c067b1774a05be8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0n///VQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/IndexPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 989,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-06T00:10:03Z",
+      "side": 1,
+      "message": "This is an unnecessary conversion of tabs to spaces.",
+      "revId": "862afd4cb78013ee033d4ec68c067b1774a05be8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0n///VU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/IndexPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1009,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-06T00:10:03Z",
+      "side": 1,
+      "message": "This is an unnecessary conversion of tabs to spaces.",
+      "revId": "862afd4cb78013ee033d4ec68c067b1774a05be8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0n///V0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/NullOutputStream.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-06T00:10:03Z",
+      "side": 1,
+      "message": "This could be a singleton, so the constructor should be private.\n\nStyle-nit: Spaces around \u003d.",
+      "revId": "862afd4cb78013ee033d4ec68c067b1774a05be8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0n///Vw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/NullOutputStream.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-06T00:10:03Z",
+      "side": 1,
+      "message": "Style-nit: We put the closing curly brace on its own line:\n\n  @Override\n  public void write(int i) throws IOException {\n    // no-op\n  }",
+      "revId": "862afd4cb78013ee033d4ec68c067b1774a05be8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL0n///Vg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/IndexPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 681,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-06T00:10:03Z",
+      "side": 0,
+      "message": "Style-nit: Please don\u0027t make unrelated changes if you can avoid it.  There isn\u0027t a good reason to switch Math.min() to min() while also trying to fix the code to not materialize all data in a byte[].\n\nIf this change is worthwhile (and it may be for readability reasons), please make it a separate commit.",
+      "revId": "20ce503981266c5779a0b0b2d19b5148c60c5efc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
