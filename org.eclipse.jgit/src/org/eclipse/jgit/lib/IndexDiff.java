@@ -280,7 +280,7 @@ public class IndexDiff {
 	}
 
 	/**
-	 * @return list of files on modified on disk relative to the index
+	 * @return list of files that are not ignored, and not in the index.
 	 */
 	public Set<String> getUntracked() {
 		return untracked;
