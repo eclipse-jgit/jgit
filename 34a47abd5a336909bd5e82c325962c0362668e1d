@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL03///9Y\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-12-08T00:16:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL0n///RU\u003d",
+      "revId": "34a47abd5a336909bd5e82c325962c0362668e1d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL0n///RQ\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2010-12-07T00:21:25Z",
       "side": 1,
       "message": "Why does this method pass silently when d does not exist, but delete(f) above fails?",
+      "revId": "34a47abd5a336909bd5e82c325962c0362668e1d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0n///Qg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-12-08T00:16:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL0n///RQ\u003d",
       "revId": "34a47abd5a336909bd5e82c325962c0362668e1d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -81,6 +117,24 @@
       "writtenOn": "2010-12-07T00:21:25Z",
       "side": 1,
       "message": "I wonder if we can\u0027t have a single implementation of the whole class:\n\n  public static final int NONE \u003d 0;\n  public static final int RECURSIVE \u003d 1;\n  public static final int RETRY \u003d 2;\n\n  public static void delete(File f) {\n    delete(f, NONE);\n  }\n\n  public static void delete(File f, int options) {\n    if ((options \u0026 RECURSIVE) !\u003d 0 \u0026\u0026 f.isDirectory()) {\n      final File[] items \u003d f.listFiles();\n      if (items !\u003d null) {\n        for (File c : items)\n          delete(c, options);\n      }\n    }\n\n    if (!f.delete() \u0026\u0026 (options \u0026 RETRY) !\u003d 0 \u0026\u0026 f.exists()) {\n      for (int i \u003d 1; i \u003c 10; i++) {\n        try {\n          Thread.sleep(100);\n        } catch (InterruptedException e) {\n          throw new InterruptedIOException();\n        }\n\n        if (f.delete())\n          return;\n      }\n    }\n\n    throw new IOException();\n  }",
+      "revId": "34a47abd5a336909bd5e82c325962c0362668e1d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL03///9U\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-12-08T00:16:17Z",
+      "side": 1,
+      "message": "thanks for this tip, used that as starting point for next patchset",
+      "parentUuid": "AAAL0n///RE\u003d",
       "revId": "34a47abd5a336909bd5e82c325962c0362668e1d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
