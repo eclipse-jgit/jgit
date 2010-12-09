@@ -2,6 +2,58 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAL1H///+U\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-12-09T15:33:17Z",
+      "side": 1,
+      "message": "s/IndexDiffFitler/IndexDiffFilter/",
+      "revId": "09bb659baa0a37f6430705974e98b1d953418c02",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL1H///9g\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/filter/IndexDiffFilterTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-12-09T17:03:17Z",
+      "side": 1,
+      "message": "Phillip, just propose a new change as a successor of this one where you add all your test improvements.",
+      "parentUuid": "AAAL1H///9w\u003d",
+      "revId": "09bb659baa0a37f6430705974e98b1d953418c02",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL1H///+A\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/filter/IndexDiffFilterTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-12-09T15:33:17Z",
+      "side": 1,
+      "message": "But why have you removed the test-case fro NonRecursive? Specifically because of a comment from you about possible NPEs with non-recursive treewalks we added this test. Since we don\u0027t disallow usage of this filter with non-recursive treewalks we should test it, or?",
+      "revId": "09bb659baa0a37f6430705974e98b1d953418c02",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL1H///9o\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/filter/IndexDiffFilterTest.java",
         "patchSetId": 3
