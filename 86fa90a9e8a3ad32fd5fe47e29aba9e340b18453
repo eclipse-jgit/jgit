@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL03///xA\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/filter/IndexWorkingTreeDiffTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-08T19:48:43Z",
+      "side": 1,
+      "message": "No, this is not a bug.  Its a quirk in the way Git works, and thus in how TreeWalk works.\n\nAbove you converted \"folder\" from a directory into a file.  These names aren\u0027t considered equal by TreeWalk (but they are equal by NameConflictTreeWalk rules).  So you should get \"folder\" twice in a non-recursive TreeWalk... once as a file, and again as a directory.  Then you get the folder/file path within that (now gone) directory.\n\nIf you made the TreeWalk recursive (like the test above) you wouldn\u0027t get the folder-as-directory result, and you would only see it appear once.\n\nIf you made the TreeWalk be a NameConflictTreeWalk instead, then you would get folder only once.",
+      "parentUuid": "AAAL03///4I\u003d",
+      "revId": "86fa90a9e8a3ad32fd5fe47e29aba9e340b18453",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL03///xE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 552,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-08T19:48:43Z",
+      "side": 1,
+      "message": "We shouldn\u0027t need this flag.",
+      "revId": "86fa90a9e8a3ad32fd5fe47e29aba9e340b18453",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL03///w8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/IndexWorkingTreeDiff.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-08T19:48:43Z",
+      "side": 1,
+      "message": "We need to special case when dirCacheIndex or workingTreeIndex are pointing at a tree.  We always need to recurse into the subtree because the WorkingTreeIterator cannot provide an ObjectId to bypass the subtree on equality alone, and the filter is invoked before the recursive flag of the TreeWalk is considered.",
+      "revId": "86fa90a9e8a3ad32fd5fe47e29aba9e340b18453",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL03///w4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/IndexWorkingTreeDiff.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-08T19:48:43Z",
+      "side": 1,
+      "message": "I think we want forceContentCheck to be true here.  This is primarily used only by IndexDiff.  IndexDiff is used only by tools that are trying to create a commit for the user.\n\nIf the user modifies a file, and then reverts its content back to what was already committed (or staged) but doesn\u0027t revert the last modified time of the file, we shouldn\u0027t show the file as modified in IndexDiff just because the timestamp is wrong.  So we should force a content check to ensure this isn\u0027t the case.",
+      "revId": "86fa90a9e8a3ad32fd5fe47e29aba9e340b18453",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
