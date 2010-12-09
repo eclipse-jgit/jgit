@@ -499,6 +499,44 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		assertEquals(RepositoryState.SAFE, db.getRepositoryState());
 	}
 
+	public void testMergeFirstStopOnLastConflictAndSkip() throws Exception {
+		// create file1 on master
+		RevCommit firstInMaster = writeFileAndCommit(FILE1, "Add file1", "1",
+				"2", "3");
+		// change in master
+		writeFileAndCommit(FILE1, "change file1 in master", "1master", "2", "3");
+
+		checkFile(FILE1, "1master", "2", "3");
+		// create a topic branch based on the first commit
+		createBranch(firstInMaster, "refs/heads/topic");
+		checkoutBranch("refs/heads/topic");
+		// we have the old content again
+		checkFile(FILE1, "1", "2", "3");
+
+		// add a line (conflicting)
+		writeFileAndCommit(FILE1, "add a line to file1 in topic", "1topic",
+				"2", "3", "4topic");
+
+		// change first line (conflicting again)
+		writeFileAndCommit(FILE1,
+				"change file1 in topic\n\nThis is conflicting", "1topicagain",
+				"2", "3", "4topic");
+
+		RebaseResult res = git.rebase().setUpstream("refs/heads/master").call();
+		assertEquals(Status.STOPPED, res.getStatus());
+
+		writeFileAndAdd(FILE1, "merged");
+
+		res = git.rebase().setOperation(Operation.CONTINUE).call();
+		assertEquals(Status.STOPPED, res.getStatus());
+
+		res = git.rebase().setOperation(Operation.SKIP).call();
+		assertNotNull(res);
+		assertEquals(Status.OK, res.getStatus());
+		assertEquals(RepositoryState.SAFE, db.getRepositoryState());
+		checkFile(FILE1, "merged");
+	}
+
 	public void testStopOnConflictAndSkipNoConflict() throws Exception {
 		// create file1 on master
 		RevCommit firstInMaster = writeFileAndCommit(FILE1, "Add file1", "1",
