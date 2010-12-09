@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL1H///94\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/filter/IndexWorkingTreeDiffTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-12-09T15:44:02Z",
+      "side": 1,
+      "message": "Philipp, I now see why we don\u0027t see folder/file here. One thing is as Shawn explained that we\u0027ll get folder twice. But another bug is that we have to explicitly call \"if (treewalk.isSubtree())  treewalk.enterSubtree()\" to dive into subtrees. I\u0027ll propose a change for that.",
+      "parentUuid": "AAAL03///xA\u003d",
+      "revId": "86fa90a9e8a3ad32fd5fe47e29aba9e340b18453",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL03///xE\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
         "patchSetId": 2
