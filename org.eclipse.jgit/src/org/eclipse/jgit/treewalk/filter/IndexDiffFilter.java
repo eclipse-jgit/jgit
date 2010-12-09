@@ -124,6 +124,11 @@ public class IndexDiffFilter extends TreeFilter {
 		if (wm == 0)
 			return true;
 
+		// Always include subtrees as WorkingTreeIterator cannot provide
+		// efficient elimination of unmodified subtrees.
+		if (tw.isSubtree())
+			return true;
+
 		// If the path does not appear in the DirCache and its ignored
 		// we can avoid returning a result here, but only if its not in any
 		// other tree.
@@ -147,11 +152,6 @@ public class IndexDiffFilter extends TreeFilter {
 				return true;
 			}
 		}
-
-		// Always include subtrees as WorkingTreeIterator cannot provide
-		// efficient elimination of unmodified subtrees.
-		if (tw.isSubtree())
-			return true;
 
 		// Try the inexpensive comparisons between index and all real trees
 		// first. Only if we don't find a diff here we have to bother with
