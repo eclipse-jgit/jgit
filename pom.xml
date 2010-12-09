@@ -134,7 +134,7 @@
     <junit-version>3.8.2</junit-version>
     <args4j-version>2.0.12</args4j-version>
     <servlet-api-version>2.5</servlet-api-version>
-    <jetty-version>7.1.1.v20100517</jetty-version>
+    <jetty-version>7.1.6.v20100715</jetty-version>
   </properties>
 
   <pluginRepositories>
