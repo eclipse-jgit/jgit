@@ -1,0 +1,22 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL1H///9o\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/filter/IndexDiffFilterTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-09T16:46:14Z",
+      "side": 1,
+      "message": "Originally I removed the testNonRecursiveTreeWalk() because I don\u0027t think you want to use IndexDiffFilter when isRecursive() is false.  Its just not very useful to see the subtree nodes, because you have to see all of them.\n\nBut we can put a test back for that.  It should work.",
+      "parentUuid": "AAAL1H///+A\u003d",
+      "revId": "09bb659baa0a37f6430705974e98b1d953418c02",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
