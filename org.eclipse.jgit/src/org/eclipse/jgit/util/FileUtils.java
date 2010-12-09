@@ -72,6 +72,11 @@ public class FileUtils {
 	public static final int RETRY = 2;
 
 	/**
+	 * Option to skip deletion if file doesn't exist
+	 */
+	public static final int SKIP_MISSING = 4;
+
+	/**
 	 * Delete file or empty folder
 	 *
 	 * @param f
@@ -103,6 +108,9 @@ public class FileUtils {
 	 *             concurrent threads all try to delete the same file.
 	 */
 	public static void delete(final File f, int options) throws IOException {
+		if ((options & SKIP_MISSING) != 0 && !f.exists())
+			return;
+
 		if ((options & RECURSIVE) != 0 && f.isDirectory()) {
 			final File[] items = f.listFiles();
 			if (items != null) {
