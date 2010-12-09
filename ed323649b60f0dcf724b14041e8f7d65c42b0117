@@ -19,6 +19,145 @@
     },
     {
       "key": {
+        "uuid": "AAAL03///58\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 547,
+      "author": {
+        "id": 100
+      },
+      "writtenOn": "2010-12-08T09:58:12Z",
+      "side": 1,
+      "message": "style-nit: three different spellings of assume valid (assume-valid, assumeValid)",
+      "revId": "ed323649b60f0dcf724b14041e8f7d65c42b0117",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL03///5w\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 612,
+      "author": {
+        "id": 100
+      },
+      "writtenOn": "2010-12-08T09:58:12Z",
+      "side": 1,
+      "message": "style-nit: three different spellings of assume valid (assume-valid, assumeValid)",
+      "revId": "ed323649b60f0dcf724b14041e8f7d65c42b0117",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL03///5M\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 612,
+      "author": {
+        "id": 100
+      },
+      "writtenOn": "2010-12-08T15:23:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL03///5w\u003d",
+      "revId": "ed323649b60f0dcf724b14041e8f7d65c42b0117",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL03///50\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/IndexWorkingTreeDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 100
+      },
+      "writtenOn": "2010-12-08T09:58:12Z",
+      "side": 1,
+      "message": "style-nit: content ids",
+      "revId": "ed323649b60f0dcf724b14041e8f7d65c42b0117",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL03///5s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/IndexWorkingTreeDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 100
+      },
+      "writtenOn": "2010-12-08T09:58:12Z",
+      "side": 1,
+      "message": "style-nit: content ids",
+      "revId": "ed323649b60f0dcf724b14041e8f7d65c42b0117",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL03///5E\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/IndexWorkingTreeDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 100
+      },
+      "writtenOn": "2010-12-08T15:23:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL03///5s\u003d",
+      "revId": "ed323649b60f0dcf724b14041e8f7d65c42b0117",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL03///5o\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/IndexWorkingTreeDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 100
+      },
+      "writtenOn": "2010-12-08T09:58:12Z",
+      "side": 1,
+      "message": "style-nit: replace DirCache with index (?)",
+      "revId": "ed323649b60f0dcf724b14041e8f7d65c42b0117",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL03///5A\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/IndexWorkingTreeDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 100
+      },
+      "writtenOn": "2010-12-08T15:23:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL03///5o\u003d",
+      "revId": "ed323649b60f0dcf724b14041e8f7d65c42b0117",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL03///7M\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/IndexWorkingTreeDiff.java",
         "patchSetId": 1
@@ -30,6 +169,24 @@
       "writtenOn": "2010-12-08T01:36:25Z",
       "side": 1,
       "message": "These should be declared final so its much more clear the values can be cached in registers during include().",
+      "revId": "ed323649b60f0dcf724b14041e8f7d65c42b0117",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL03///48\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/IndexWorkingTreeDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 100
+      },
+      "writtenOn": "2010-12-08T15:23:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL03///7M\u003d",
       "revId": "ed323649b60f0dcf724b14041e8f7d65c42b0117",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -70,6 +227,59 @@
     },
     {
       "key": {
+        "uuid": "AAAL03///4s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/IndexWorkingTreeDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 100
+      },
+      "writtenOn": "2010-12-08T15:23:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL03///7U\u003d",
+      "revId": "ed323649b60f0dcf724b14041e8f7d65c42b0117",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL03///5k\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/IndexWorkingTreeDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 100
+      },
+      "writtenOn": "2010-12-08T09:58:12Z",
+      "side": 1,
+      "message": "wm can also be declared as final",
+      "revId": "ed323649b60f0dcf724b14041e8f7d65c42b0117",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL03///4w\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/IndexWorkingTreeDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 100
+      },
+      "writtenOn": "2010-12-08T15:23:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL03///5k\u003d",
+      "revId": "ed323649b60f0dcf724b14041e8f7d65c42b0117",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL03///7I\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/IndexWorkingTreeDiff.java",
         "patchSetId": 1
@@ -81,6 +291,41 @@
       "writtenOn": "2010-12-08T01:36:25Z",
       "side": 1,
       "message": "I think we can reach this point for a directory when TreeWalk.isRecursive() is false and all of the trees are equal above.\n\nWhen that happens we\u0027ll NPE below when isModified() tries to use a null DirCacheEntry.\n\nWe should either document in the class Javadoc that this filter must only be used on a recursive TreeWalk, or we should return true if FileMode.TREE.equals(wm), so the subtree can be considered by the caller.\n\nA more aggressive (and much more complex) approach would be to recursively stat validate the directory contents if the DirCacheIterator has a valid ObjectId for this tree from the \u0027TREE\u0027 cache extension.  If all of the files are stat clean, we can return false back, preventing the need to dive into the tree objects from the repository.  That may save some CPU time, but its really frigging hard to get right here in the face of SkipWorkTreeFilter and NotIgnoredFilter also being in the same filter graph (or not being in the filter graph, depending on what the caller wants).",
+      "revId": "ed323649b60f0dcf724b14041e8f7d65c42b0117",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL03///5g\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/IndexWorkingTreeDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 100
+      },
+      "writtenOn": "2010-12-08T09:58:12Z",
+      "side": 1,
+      "message": "can be changed to:\r\n\r\nreturn work.isModified...",
+      "revId": "ed323649b60f0dcf724b14041e8f7d65c42b0117",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL03///40\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/IndexWorkingTreeDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 100
+      },
+      "writtenOn": "2010-12-08T15:23:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL03///5g\u003d",
       "revId": "ed323649b60f0dcf724b14041e8f7d65c42b0117",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
