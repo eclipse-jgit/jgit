@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "AAAL1H///9w\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/filter/IndexDiffFilterTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 100
+      },
+      "writtenOn": "2010-12-09T16:36:59Z",
+      "side": 1,
+      "message": "I have been working most of the day on improving this test class. I wanted to achive a 100% code coverage for the IndexDiffFilter.include() method. By doing so I actually learned a lot about TreeWalks and TreeFilters ;-)\r\n\r\nAs I am not allowed to upload a patch for this change, I would suggest that we keep this class for now as it is and afterwards enhance it with my version in a separate change.",
+      "revId": "09bb659baa0a37f6430705974e98b1d953418c02",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL1H///9g\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/filter/IndexDiffFilterTest.java",
         "patchSetId": 3
