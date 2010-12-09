@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL03///5Q\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 547,
+      "author": {
+        "id": 100
+      },
+      "writtenOn": "2010-12-08T15:23:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL03///58\u003d",
+      "revId": "ed323649b60f0dcf724b14041e8f7d65c42b0117",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL03///5w\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
         "patchSetId": 1
@@ -82,6 +100,24 @@
       "writtenOn": "2010-12-08T09:58:12Z",
       "side": 1,
       "message": "style-nit: content ids",
+      "revId": "ed323649b60f0dcf724b14041e8f7d65c42b0117",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL03///5I\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/IndexWorkingTreeDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 100
+      },
+      "writtenOn": "2010-12-08T15:23:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL03///50\u003d",
       "revId": "ed323649b60f0dcf724b14041e8f7d65c42b0117",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -204,6 +240,24 @@
       "writtenOn": "2010-12-08T01:36:25Z",
       "side": 1,
       "message": "I don\u0027t think this is possible.  If we have valid values for dirCacheIndex and workingTreeIndex, n must be at least 2.",
+      "revId": "ed323649b60f0dcf724b14041e8f7d65c42b0117",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL03///44\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/IndexWorkingTreeDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 100
+      },
+      "writtenOn": "2010-12-08T15:23:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL03///7Q\u003d",
       "revId": "ed323649b60f0dcf724b14041e8f7d65c42b0117",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
