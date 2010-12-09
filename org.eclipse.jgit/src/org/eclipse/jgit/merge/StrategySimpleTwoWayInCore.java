@@ -131,7 +131,7 @@ public class StrategySimpleTwoWayInCore extends ThreeWayMergeStrategy {
 					add(T_THEIRS, DirCacheEntry.STAGE_0);
 				else if (modeB == modeT && tw.idEqual(T_BASE, T_THEIRS))
 					add(T_OURS, DirCacheEntry.STAGE_0);
-				else if (tw.isSubtree()) {
+				else {
 					if (nonTree(modeB)) {
 						add(T_BASE, DirCacheEntry.STAGE_1);
 						hasConflict = true;
@@ -144,12 +144,8 @@ public class StrategySimpleTwoWayInCore extends ThreeWayMergeStrategy {
 						add(T_THEIRS, DirCacheEntry.STAGE_3);
 						hasConflict = true;
 					}
-					tw.enterSubtree();
-				} else {
-					add(T_BASE, DirCacheEntry.STAGE_1);
-					add(T_OURS, DirCacheEntry.STAGE_2);
-					add(T_THEIRS, DirCacheEntry.STAGE_3);
-					hasConflict = true;
+					if (tw.isSubtree())
+						tw.enterSubtree();
 				}
 			}
 			builder.finish();
