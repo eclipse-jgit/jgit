@@ -16,6 +16,24 @@
       "revId": "c5317f8ce2869391000d5e016eb6b5ae04730336",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL1H///74\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/IndexDiffFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 100
+      },
+      "writtenOn": "2010-12-10T11:54:49Z",
+      "side": 1,
+      "message": "Okay, I did not take the \u0027magic\u0027 of DirCache into account. Now I understand that for an ignored folder, that does not contain any (previously) tracked files, the rawmode of the DirCache entry is 0 (which allows the original implemantation to skip the entire folder). Whereas for folders (ignored or not), that contain tracked files, the rawmode is not 0. Or to put it in other words: DirCache only contains folders, if they contain tracked files...",
+      "parentUuid": "AAAL1H///8E\u003d",
+      "revId": "c5317f8ce2869391000d5e016eb6b5ae04730336",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
