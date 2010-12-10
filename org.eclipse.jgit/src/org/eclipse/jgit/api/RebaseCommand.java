@@ -225,8 +225,6 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 
 			List<Step> steps = loadSteps();
 			for (Step step : steps) {
-				if (step.action != Action.PICK)
-					continue;
 				popSteps(1);
 				Collection<ObjectId> ids = or.resolve(step.commit);
 				if (ids.size() != 1)
@@ -423,6 +421,8 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 				String popCandidate = br.readLine();
 				if (popCandidate == null)
 					break;
+				if (popCandidate.charAt(0) == '#')
+					continue;
 				int spaceIndex = popCandidate.indexOf(' ');
 				boolean pop = false;
 				if (spaceIndex >= 0) {
@@ -686,6 +686,10 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 					String actionToken = new String(buf, tokenBegin, nextSpace
 							- tokenBegin - 1);
 					tokenBegin = nextSpace;
+					if (actionToken.charAt(0) == '#') {
+						tokenCount = 3;
+						break;
+					}
 					Action action = Action.parse(actionToken);
 					if (action != null)
 						current = new Step(Action.parse(actionToken));
@@ -783,7 +787,11 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		static Action parse(String token) {
 			if (token.equals("pick") || token.equals("p"))
 				return PICK;
-			return null;
+			throw new JGitInternalException(
+					MessageFormat
+							.format(
+									"Unknown or unsupported command \"{0}\", only  \"pick\" is allowed",
+									token));
 		}
 	}
 
