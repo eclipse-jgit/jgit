@@ -171,9 +171,9 @@ public class ObjectDirectory extends FileObjectDatabase {
 
 	@Override
 	public void create() throws IOException {
-		objects.mkdirs();
-		infoDirectory.mkdir();
-		packDirectory.mkdir();
+		FileUtils.mkdirs(objects);
+		FileUtils.mkdir(infoDirectory);
+		FileUtils.mkdir(packDirectory);
 	}
 
 	@Override
@@ -491,7 +491,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 		// directories are always lazily created. Note that we
 		// try the rename first as the directory likely does exist.
 		//
-		dst.getParentFile().mkdir();
+		FileUtils.mkdir(dst.getParentFile());
 		if (tmp.renameTo(dst)) {
 			dst.setReadOnly();
 			unpackedObjectCache.add(id);

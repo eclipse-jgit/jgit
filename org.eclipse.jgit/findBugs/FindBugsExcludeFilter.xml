@@ -9,6 +9,13 @@
        <Bug pattern="DM_GC" />
      </Match>
 
+     <!-- Silence ignoring return value of mkdirs -->
+     <Match>
+       <Class name="org.eclipse.jgit.dircache.DirCacheCheckout" />
+       <Method name="checkout" />
+       <Bug pattern="RV_RETURN_VALUE_IGNORED_BAD_PRACTICE" />
+     </Match>
+
 	   <!-- Silence the construction of our magic String instance.
 	     -->
      <Match>
