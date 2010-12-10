@@ -100,7 +100,7 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 	public void testEmptyIfRootIsEmpty() throws Exception {
 		final File r = new File(trash, "not-existing-file");
 		assertFalse(r.exists());
-		r.mkdir();
+		assertTrue(r.mkdir());
 		assertTrue(r.isDirectory());
 
 		final FileTreeIterator fti = new FileTreeIterator(r, db.getFS(),
