@@ -181,7 +181,7 @@ public class T0003_Basic extends SampleDataRepositoryTestCase {
 			throws IOException {
 		File repo1Parent = new File(trash.getParentFile(), "r1");
 		File workdir = new File(trash.getParentFile(), "rw");
-		workdir.mkdir();
+		assertTrue(workdir.mkdir());
 		FileRepository repo1initial = new FileRepository(new File(repo1Parent, Constants.DOT_GIT));
 		repo1initial.create();
 		repo1initial.getConfig().setString("core", null, "worktree",
@@ -206,7 +206,7 @@ public class T0003_Basic extends SampleDataRepositoryTestCase {
 			throws IOException {
 		File repo1Parent = new File(trash.getParentFile(), "r1");
 		File workdir = new File(trash.getParentFile(), "rw");
-		workdir.mkdir();
+		assertTrue(workdir.mkdir());
 		FileRepository repo1initial = new FileRepository(new File(repo1Parent, Constants.DOT_GIT));
 		repo1initial.create();
 		repo1initial.getConfig()
