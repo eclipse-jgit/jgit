@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL1H///8E\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/IndexDiffFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-10T00:36:17Z",
+      "side": 1,
+      "message": "This causes us to always dive into all ignored folders.\n\nIf the ignored folder is a build output directory, we may be looking at millions of file paths that are all ignored, and that we don\u0027t care about, anywhere.\n\nBy putting the check after the DirCache code below we can safely skip ignored directories, but only if there are no tracked files within the ignored directory.  (If a file is tracked, it is should always be looked at, even if it is also ignored.)",
+      "revId": "c5317f8ce2869391000d5e016eb6b5ae04730336",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
