@@ -97,6 +97,7 @@ import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevTag;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.util.FS;
+import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.eclipse.jgit.util.RefList;
@@ -190,13 +191,14 @@ public class RefDirectory extends RefDatabase {
 	}
 
 	public void create() throws IOException {
-		refsDir.mkdir();
-		logsDir.mkdir();
-		logsRefsDir.mkdir();
+		FileUtils.mkdir(refsDir);
+		FileUtils.mkdir(logsDir);
+		FileUtils.mkdir(logsRefsDir);
 
-		new File(refsDir, R_HEADS.substring(R_REFS.length())).mkdir();
-		new File(refsDir, R_TAGS.substring(R_REFS.length())).mkdir();
-		new File(logsRefsDir, R_HEADS.substring(R_REFS.length())).mkdir();
+		FileUtils.mkdir(new File(refsDir, R_HEADS.substring(R_REFS.length())));
+		FileUtils.mkdir(new File(refsDir, R_TAGS.substring(R_REFS.length())));
+		FileUtils.mkdir(new File(logsRefsDir,
+				R_HEADS.substring(R_REFS.length())));
 	}
 
 	@Override
