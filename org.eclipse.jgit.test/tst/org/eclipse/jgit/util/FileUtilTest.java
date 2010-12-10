@@ -49,8 +49,21 @@ import java.io.IOException;
 import junit.framework.TestCase;
 
 public class FileUtilTest extends TestCase {
+
+	private final File trash = new File(new File("target"), "trash");
+
+	@Override
+	protected void setUp() throws Exception {
+		assertTrue(trash.mkdirs());
+	}
+
+	@Override
+	protected void tearDown() throws Exception {
+		FileUtils.delete(trash, FileUtils.RECURSIVE | FileUtils.RETRY);
+	}
+
 	public void testDeleteFile() throws IOException {
-		File f = new File("test");
+		File f = new File(trash, "test");
 		assertTrue(f.createNewFile());
 		FileUtils.delete(f);
 		assertFalse(f.exists());
@@ -70,12 +83,12 @@ public class FileUtilTest extends TestCase {
 	}
 
 	public void testDeleteRecursive() throws IOException {
-		File f1 = new File("test/test/a");
+		File f1 = new File(trash, "test/test/a");
 		f1.mkdirs();
 		f1.createNewFile();
-		File f2 = new File("test/test/b");
+		File f2 = new File(trash, "test/test/b");
 		f2.createNewFile();
-		File d = new File("test");
+		File d = new File(trash, "test");
 		FileUtils.delete(d, FileUtils.RECURSIVE);
 		assertFalse(d.exists());
 
@@ -92,4 +105,58 @@ public class FileUtilTest extends TestCase {
 			fail("recursive deletion of non-existing directory must not fail with option SKIP_MISSING");
 		}
 	}
+
+	public void testMkdir() throws IOException {
+		File d = new File(trash, "test");
+		FileUtils.mkdir(d);
+		assertTrue(d.exists() && d.isDirectory());
+
+		try {
+			FileUtils.mkdir(d);
+			fail("creation of existing directory must fail");
+		} catch (IOException e) {
+			// expected
+		}
+
+		assertTrue(d.delete());
+		File f = new File(trash, "test");
+		assertTrue(f.createNewFile());
+		try {
+			FileUtils.mkdir(d);
+			fail("creation of directory having same path as existing file must"
+					+ " fail");
+		} catch (IOException e) {
+			// expected
+		}
+		assertTrue(f.delete());
+	}
+
+	public void testMkdirs() throws IOException {
+		File root = new File(trash, "test");
+		assertTrue(root.mkdir());
+
+		File d = new File(root, "test/test");
+		FileUtils.mkdirs(d);
+		assertTrue(d.exists() && d.isDirectory());
+
+		try {
+			FileUtils.mkdirs(d);
+			fail("creation of existing directory hierarchy must fail");
+		} catch (IOException e) {
+			// expected
+		}
+
+		FileUtils.delete(root, FileUtils.RECURSIVE);
+		File f = new File(trash, "test");
+		assertTrue(f.createNewFile());
+		try {
+			FileUtils.mkdirs(d);
+			fail("creation of directory having path conflicting with existing"
+					+ " file must fail");
+		} catch (IOException e) {
+			// expected
+		}
+		assertTrue(f.delete());
+	}
+
 }
