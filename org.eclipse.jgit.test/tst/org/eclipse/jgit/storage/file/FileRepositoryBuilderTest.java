@@ -44,6 +44,7 @@
 package org.eclipse.jgit.storage.file;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 
@@ -55,7 +56,7 @@ public class FileRepositoryBuilderTest extends LocalDiskRepositoryTestCase {
 	public void testShouldAutomagicallyDetectGitDirectory() throws Exception {
 		FileRepository r = createWorkRepository();
 		File d = new File(r.getDirectory(), "sub-dir");
-		d.mkdir();
+		assertTrue(d.mkdir());
 
 		assertEquals(r.getDirectory(), new FileRepositoryBuilder()
 				.findGitDir(d).getGitDir());

@@ -46,6 +46,7 @@ package org.eclipse.jgit.transport;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -69,10 +70,10 @@ public class OpenSshConfigTest extends RepositoryTestCase {
 		super.setUp();
 
 		home = new File(trash, "home");
-		home.mkdir();
+		assertTrue(home.mkdir());
 
 		configFile = new File(new File(home, ".ssh"), "config");
-		configFile.getParentFile().mkdir();
+		assertTrue(configFile.getParentFile().mkdir());
 
 		System.setProperty("user.name", "jex_junit");
 		osc = new OpenSshConfig(home, configFile);

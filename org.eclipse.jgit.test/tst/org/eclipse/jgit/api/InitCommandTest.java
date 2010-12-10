@@ -51,6 +51,7 @@ import java.io.IOException;
 
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryTestCase;
+import org.eclipse.jgit.util.FileUtils;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -93,16 +94,8 @@ public class InitCommandTest extends RepositoryTestCase {
 	public static File createTempDirectory(String name) throws IOException {
 		final File temp;
 		temp = File.createTempFile(name, Long.toString(System.nanoTime()));
-
-		if (!(temp.delete())) {
-			throw new IOException("Could not delete temp file: "
-					+ temp.getAbsolutePath());
-		}
-
-		if (!(temp.mkdir())) {
-			throw new IOException("Could not create temp directory: "
-					+ temp.getAbsolutePath());
-		}
+		FileUtils.delete(temp);
+		FileUtils.mkdir(temp);
 		return temp;
 	}
 
