@@ -166,7 +166,6 @@ public class IndexPackTest extends RepositoryTestCase {
 
 		final byte[] raw = pack.toByteArray();
 		IndexPack ip = IndexPack.create(db, new ByteArrayInputStream(raw));
-		ip.setStreamFileThreshold(1);
 		ip.index(NullProgressMonitor.INSTANCE);
 		ip.renameAndOpenPack();
 	}

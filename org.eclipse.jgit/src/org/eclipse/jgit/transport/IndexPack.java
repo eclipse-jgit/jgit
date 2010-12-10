@@ -145,8 +145,6 @@ public class IndexPack {
 
 	private final Repository repo;
 
-	private int streamFileThreshold;
-
 	/**
 	 * Object database used for loading existing objects
 	 */
@@ -244,7 +242,6 @@ public class IndexPack {
 	public IndexPack(final Repository db, final InputStream src,
 			final File dstBase) throws IOException {
 		repo = db;
-		streamFileThreshold = 5 * (1 << 20); // A reasonable default for now.
 		objectDatabase = db.getObjectDatabase().newCachedDatabase();
 		in = src;
 		inflater = new InflaterStream();
@@ -266,10 +263,6 @@ public class IndexPack {
 			dstPack = null;
 			dstIdx = null;
 		}
-	}
-
-	void setStreamFileThreshold(int sz) {
-		streamFileThreshold = sz;
 	}
 
 	/**
@@ -860,7 +853,7 @@ public class IndexPack {
 		objectDigest.update((byte) 0);
 
 		boolean checkContentLater = false;
-		if (type == Constants.OBJ_BLOB && sz >= streamFileThreshold) {
+		if (type == Constants.OBJ_BLOB) {
 			InputStream inf = inflate(Source.INPUT, sz);
 			long cnt = 0;
 			while (cnt < sz) {
