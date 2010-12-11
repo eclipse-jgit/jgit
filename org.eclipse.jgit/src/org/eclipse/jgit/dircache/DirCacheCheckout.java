@@ -384,7 +384,7 @@ public class DirCacheCheckout {
 			// ... create/overwrite this file ...
 			file = new File(repo.getWorkTree(), path);
 			FileUtils.mkdirs(file.getParentFile(), true);
-			file.createNewFile();
+			FileUtils.createNewFile(file);
 			DirCacheEntry entry = dc.getEntry(path);
 			checkoutEntry(repo, file, entry);
 		}
