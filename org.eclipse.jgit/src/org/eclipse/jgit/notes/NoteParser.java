@@ -91,7 +91,7 @@ final class NoteParser extends CanonicalTreeParser {
 		return new NoteParser(prefix, reader, treeId).parse();
 	}
 
-	private final AbbreviatedObjectId prefix;
+	private final int prefixLen;
 
 	private final int pathPadding;
 
@@ -99,16 +99,16 @@ final class NoteParser extends CanonicalTreeParser {
 
 	private NonNoteEntry lastNonNote;
 
-	private NoteParser(AbbreviatedObjectId p, ObjectReader r, ObjectId t)
+	private NoteParser(AbbreviatedObjectId prefix, ObjectReader r, ObjectId t)
 			throws IncorrectObjectTypeException, IOException {
-		super(encodeASCII(p.name()), r, t);
-		prefix = p;
+		super(encodeASCII(prefix.name()), r, t);
+		prefixLen = prefix.length();
 
 		// Our path buffer has a '/' that we don't want after the prefix.
 		// Drop it by shifting the path down one position.
-		pathPadding = 0 < prefix.length() ? 1 : 0;
+		pathPadding = 0 < prefixLen ? 1 : 0;
 		if (0 < pathPadding)
-			System.arraycopy(path, 0, path, pathPadding, prefix.length());
+			System.arraycopy(path, 0, path, pathPadding, prefixLen);
 	}
 
 	private InMemoryNoteBucket parse() {
@@ -130,11 +130,11 @@ final class NoteParser extends CanonicalTreeParser {
 		}
 
 		// If we cannot determine the style used, assume its a leaf.
-		return new LeafBucket(prefix.length());
+		return new LeafBucket(prefixLen);
 	}
 
 	private LeafBucket parseLeafTree() {
-		final LeafBucket leaf = new LeafBucket(prefix.length());
+		final LeafBucket leaf = new LeafBucket(prefixLen);
 		final MutableObjectId idBuf = new MutableObjectId();
 
 		for (; !eof(); next(1)) {
@@ -160,7 +160,7 @@ final class NoteParser extends CanonicalTreeParser {
 	}
 
 	private FanoutBucket parseFanoutTree() {
-		final FanoutBucket fanout = new FanoutBucket(prefix.length());
+		final FanoutBucket fanout = new FanoutBucket(prefixLen);
 
 		for (; !eof(); next(1)) {
 			final int cell = parseFanoutCell();
