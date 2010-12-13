@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL1X////8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-11T01:11:40Z",
+      "side": 1,
+      "message": "Why do we need this int when you use a boolean below?",
+      "revId": "3bbbfa39ab82425b469dbd05335f986dcec1e39d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL1X////4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-11T01:11:40Z",
+      "side": 1,
+      "message": "I would put this on the failure path:\n\n  if (!d.mkdir()) {\n    if (skipExisting \u0026\u0026 d.isDirectory())\n      return;\n\n    throw new IOException(...);\n  }\n\nBecause odds are the caller wants to make a new directory and we can reasonably assume it doesn\u0027t exist yet.  If it does, we\u0027ll fail on the mkdir and check its mode, if its a directory, we\u0027re fine, if its not, we fail.",
+      "revId": "3bbbfa39ab82425b469dbd05335f986dcec1e39d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
