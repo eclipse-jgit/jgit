@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL1X///9I\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/JGitText.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 491,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-12-12T23:20:51Z",
+      "side": 1,
+      "message": "Unrelated whitespace change",
+      "revId": "0af777787db4d052da9fb4bcd9045e311b5cd329",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
