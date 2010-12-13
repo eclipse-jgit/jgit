@@ -1,0 +1,39 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL1H///7g\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffFormatter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-10T16:28:47Z",
+      "side": 1,
+      "message": "This ordering change must be a bug in the Eclipse \"Organize Imports\" command.  I can\u0027t see why it would do this though, FileHeader.PatchType should always be sorting before HunkHeader.  *sigh*",
+      "parentUuid": "AAAL1H///7s\u003d",
+      "revId": "d7583356f948ab2b9b8aa91e6d27fa8fb09a40a3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL1H///7c\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffFormatter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 448,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-10T16:28:47Z",
+      "side": 1,
+      "message": "Oh, right.  OK, that will certainly simplify this block.",
+      "revId": "d7583356f948ab2b9b8aa91e6d27fa8fb09a40a3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
