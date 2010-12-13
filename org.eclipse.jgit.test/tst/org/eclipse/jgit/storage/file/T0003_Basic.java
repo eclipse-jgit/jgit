@@ -182,9 +182,9 @@ public class T0003_Basic extends SampleDataRepositoryTestCase {
 		workdir.mkdir();
 		FileRepository repo1initial = new FileRepository(new File(repo1Parent, Constants.DOT_GIT));
 		repo1initial.create();
-		repo1initial.getConfig().setString("core", null, "worktree",
-				workdir.getAbsolutePath());
-		repo1initial.getConfig().save();
+		final FileBasedConfig cfg = repo1initial.getConfig();
+		cfg.setString("core", null, "worktree", workdir.getAbsolutePath());
+		cfg.save();
 		repo1initial.close();
 
 		File theDir = new File(repo1Parent, Constants.DOT_GIT);
@@ -207,9 +207,9 @@ public class T0003_Basic extends SampleDataRepositoryTestCase {
 		workdir.mkdir();
 		FileRepository repo1initial = new FileRepository(new File(repo1Parent, Constants.DOT_GIT));
 		repo1initial.create();
-		repo1initial.getConfig()
-				.setString("core", null, "worktree", "../../rw");
-		repo1initial.getConfig().save();
+		final FileBasedConfig cfg = repo1initial.getConfig();
+		cfg.setString("core", null, "worktree", "../../rw");
+		cfg.save();
 		repo1initial.close();
 
 		File theDir = new File(repo1Parent, Constants.DOT_GIT);

@@ -500,9 +500,10 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 
 		enableReceivePack();
 
-		db.getConfig().setInt("core", null, "compression", 0);
-		db.getConfig().setInt("http", null, "postbuffer", 8 * 1024);
-		db.getConfig().save();
+		final FileBasedConfig cfg = db.getConfig();
+		cfg.setInt("core", null, "compression", 0);
+		cfg.setInt("http", null, "postbuffer", 8 * 1024);
+		cfg.save();
 
 		t = Transport.open(db, remoteURI);
 		try {
