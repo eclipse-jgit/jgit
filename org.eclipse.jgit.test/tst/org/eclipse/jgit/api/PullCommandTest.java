@@ -199,8 +199,8 @@ public class PullCommandTest extends RepositoryTestCase {
 						.getPath()));
 		config.addFetchRefSpec(new RefSpec(
 				"+refs/heads/*:refs/remotes/origin/*"));
-		targetConfig.save();
 		config.update(targetConfig);
+		targetConfig.save();
 
 		targetFile = new File(dbTarget.getWorkTree(), "SomeFile.txt");
 		writeToFile(targetFile, "Hello world");

@@ -43,6 +43,8 @@
 
 package org.eclipse.jgit.http.test;
 
+import java.io.IOException;
+
 import javax.servlet.http.HttpServletRequestWrapper;
 
 import org.eclipse.jetty.server.Request;
@@ -51,6 +53,7 @@ import org.eclipse.jgit.http.server.resolver.ServiceNotAuthorizedException;
 import org.eclipse.jgit.http.server.resolver.ServiceNotEnabledException;
 import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.StoredConfig;
 
 public class AsIsServiceTest extends LocalDiskRepositoryTestCase {
 	private Repository db;
@@ -87,8 +90,11 @@ public class AsIsServiceTest extends LocalDiskRepositoryTestCase {
 		service.access(new R("bob", "1.2.3.4"), db);
 	}
 
-	public void testCreate_Disabled() throws ServiceNotAuthorizedException {
-		db.getConfig().setBoolean("http", null, "getanyfile", false);
+	public void testCreate_Disabled() throws ServiceNotAuthorizedException,
+			IOException {
+		final StoredConfig cfg = db.getConfig();
+		cfg.setBoolean("http", null, "getanyfile", false);
+		cfg.save();
 
 		try {
 			service.access(new R(null, "1.2.3.4"), db);

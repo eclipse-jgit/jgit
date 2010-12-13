@@ -47,9 +47,9 @@ import java.net.URISyntaxException;
 
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
-import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryTestCase;
+import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevTag;
 import org.eclipse.jgit.transport.RefSpec;
@@ -66,11 +66,12 @@ public class FetchCommandTest extends RepositoryTestCase {
 		Git git2 = new Git(db2);
 
 		// setup the first repository to fetch from the second repository
-		final Config config = db.getConfig();
+		final StoredConfig config = db.getConfig();
 		RemoteConfig remoteConfig = new RemoteConfig(config, "test");
 		URIish uri = new URIish(db2.getDirectory().toURI().toURL());
 		remoteConfig.addURI(uri);
 		remoteConfig.update(config);
+		config.save();
 
 		// create some refs via commits and tag
 		RevCommit commit = git2.commit().setMessage("initial commit").call();

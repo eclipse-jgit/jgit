@@ -68,6 +68,7 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.storage.file.FileRepository;
 import org.eclipse.jgit.transport.FetchConnection;
 import org.eclipse.jgit.transport.Transport;
@@ -336,8 +337,9 @@ public class HttpClientTests extends HttpTestCase {
 
 	public void testListRemote_Smart_UploadPackDisabled() throws Exception {
 		FileRepository src = remoteRepository.getRepository();
-		src.getConfig().setBoolean("http", null, "uploadpack", false);
-		src.getConfig().save();
+		final FileBasedConfig cfg = src.getConfig();
+		cfg.setBoolean("http", null, "uploadpack", false);
+		cfg.save();
 
 		Repository dst = createBareRepository();
 		Transport t = Transport.open(dst, smartAuthNoneURI);
