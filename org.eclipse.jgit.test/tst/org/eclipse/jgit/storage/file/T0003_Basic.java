@@ -49,9 +49,7 @@ package org.eclipse.jgit.storage.file;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 
 import org.eclipse.jgit.JGitText;
@@ -313,15 +311,13 @@ public class T0003_Basic extends SampleDataRepositoryTestCase {
 			ConfigInvalidException {
 		final File cfg = new File(db.getDirectory(), "config");
 		final FileBasedConfig c = new FileBasedConfig(cfg, db.getFS());
-		final FileWriter pw = new FileWriter(cfg);
 		final String configStr = "  [core];comment\n\tfilemode = yes\n"
 				+ "[user]\n"
 				+ "  email = A U Thor <thor@example.com> # Just an example...\n"
 				+ " name = \"A  Thor \\\\ \\\"\\t \"\n"
 				+ "    defaultCheckInComment = a many line\\n\\\ncomment\\n\\\n"
 				+ " to test\n";
-		pw.write(configStr);
-		pw.close();
+		write(cfg, configStr);
 		c.load();
 		assertEquals("yes", c.getString("core", null, "filemode"));
 		assertEquals("A U Thor <thor@example.com>", c
@@ -346,12 +342,10 @@ public class T0003_Basic extends SampleDataRepositoryTestCase {
 
 	public void test008_FailOnWrongVersion() throws IOException {
 		final File cfg = new File(db.getDirectory(), "config");
-		final FileWriter pw = new FileWriter(cfg);
 		final String badvers = "ihopethisisneveraversion";
 		final String configStr = "[core]\n" + "\trepositoryFormatVersion="
 				+ badvers + "\n";
-		pw.write(configStr);
-		pw.close();
+		write(cfg, configStr);
 
 		try {
 			new FileRepository(db.getDirectory());
@@ -616,11 +610,8 @@ public class T0003_Basic extends SampleDataRepositoryTestCase {
 	}
 
 	public void test027_UnpackedRefHigherPriorityThanPacked() throws IOException {
-		PrintWriter writer = new PrintWriter(new FileWriter(new File(db.getDirectory(), "refs/heads/a")));
 		String unpackedId = "7f822839a2fe9760f386cbbbcb3f92c5fe81def7";
-		writer.print(unpackedId);
-		writer.print('\n');
-		writer.close();
+		write(new File(db.getDirectory(), "refs/heads/a"), unpackedId + "\n");
 
 		ObjectId resolved = db.resolve("refs/heads/a");
 		assertEquals(unpackedId, resolved.name());
