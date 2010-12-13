@@ -367,9 +367,9 @@ public class LockFile {
 	/**
 	 * Wait until the lock file information differs from the old file.
 	 * <p>
-	 * This method tests both the length and the last modification date. If both
-	 * are the same, this method sleeps until it can force the new lock file's
-	 * modification date to be later than the target file.
+	 * This method tests the last modification date. If both are the same, this
+	 * method sleeps until it can force the new lock file's modification date to
+	 * be later than the target file.
 	 *
 	 * @throws InterruptedException
 	 *             the thread was interrupted before the last modified date of
@@ -377,14 +377,12 @@ public class LockFile {
 	 *             the target file.
 	 */
 	public void waitForStatChange() throws InterruptedException {
-		if (ref.length() == lck.length()) {
-			long otime = ref.lastModified();
-			long ntime = lck.lastModified();
-			while (otime == ntime) {
-				Thread.sleep(25 /* milliseconds */);
-				lck.setLastModified(System.currentTimeMillis());
-				ntime = lck.lastModified();
-			}
+		FileSnapshot o = FileSnapshot.save(ref);
+		FileSnapshot n = FileSnapshot.save(lck);
+		while (o.equals(n)) {
+			Thread.sleep(25 /* milliseconds */);
+			lck.setLastModified(System.currentTimeMillis());
+			n = FileSnapshot.save(lck);
 		}
 	}
 

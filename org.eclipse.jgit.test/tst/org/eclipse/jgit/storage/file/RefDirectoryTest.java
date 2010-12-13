@@ -61,6 +61,7 @@ import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevTag;
+import org.eclipse.jgit.util.SystemReader;
 
 public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 	private Repository diskRepo;
@@ -1000,6 +1001,10 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 	private void writePackedRefs(String content) throws IOException {
 		File pr = new File(diskRepo.getDirectory(), "packed-refs");
 		write(pr, content);
+
+		final long now = SystemReader.getInstance().getCurrentTime();
+		final int oneHourAgo = 3600 * 1000;
+		pr.setLastModified(now - oneHourAgo);
 	}
 
 	private void deleteLooseRef(String name) {
