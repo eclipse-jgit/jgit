@@ -1000,6 +1000,7 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 	private void writePackedRefs(String content) throws IOException {
 		File pr = new File(diskRepo.getDirectory(), "packed-refs");
 		write(pr, content);
+		pr.setLastModified(1250379778668L /* Aug 15 20:12:58 GMT-03:30 2009 */);
 	}
 
 	private void deleteLooseRef(String name) {
