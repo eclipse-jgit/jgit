@@ -556,15 +556,19 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		// bitwise presentation of modeDiff we'll have a '1' when the two modes
 		// differ at this position.
 		int modeDiff = getEntryRawMode() ^ entry.getRawMode();
-		// Ignore the executable file bits if checkFilemode tells me to do so.
-		// Ignoring is done by setting the bits representing a EXECUTABLE_FILE
-		// to '0' in modeDiff
-		if (!state.options.isFileMode())
-			modeDiff &= ~FileMode.EXECUTABLE_FILE.getBits();
-		if (modeDiff != 0)
-			// Report a modification if the modes still (after potentially
-			// ignoring EXECUTABLE_FILE bits) differ
-			return true;
+
+		// Do not rely on filemode differences in case of symbolic links
+		if (modeDiff != 0 && entry.getFileMode() != FileMode.SYMLINK) {
+			// Ignore the executable file bits if WorkingTreeOptions tell me to
+			// do so. Ignoring is done by setting the bits representing a
+			// EXECUTABLE_FILE to '0' in modeDiff
+			if (!state.options.isFileMode())
+				modeDiff &= ~FileMode.EXECUTABLE_FILE.getBits();
+			if (modeDiff != 0)
+				// Report a modification if the modes still (after potentially
+				// ignoring EXECUTABLE_FILE bits) differ
+				return true;
+		}
 
 		// Git under windows only stores seconds so we round the timestamp
 		// Java gives us if it looks like the timestamp in index is seconds
