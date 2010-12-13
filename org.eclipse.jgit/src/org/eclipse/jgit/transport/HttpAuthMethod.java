@@ -49,10 +49,12 @@ import static org.eclipse.jgit.util.HttpSupport.HDR_WWW_AUTHENTICATE;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
+import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Random;
 
@@ -216,35 +218,50 @@ abstract class HttpAuthMethod {
 		@SuppressWarnings("boxing")
 		@Override
 		void configureRequest(final HttpURLConnection conn) throws IOException {
-			final Map<String, String> p = new HashMap<String, String>(params);
-			p.put("username", user);
+			final Map<String, String> r = new LinkedHashMap<String, String>();
 
-			final String realm = p.get("realm");
-			final String nonce = p.get("nonce");
-			final String uri = p.get("uri");
-			final String qop = p.get("qop");
+			final String realm = params.get("realm");
+			final String nonce = params.get("nonce");
+			final String cnonce = params.get("cnonce");
+			final String uri = uri(conn.getURL());
+			final String qop = params.get("qop");
 			final String method = conn.getRequestMethod();
 
 			final String A1 = user + ":" + realm + ":" + pass;
 			final String A2 = method + ":" + uri;
 
-			final String expect;
+			r.put("username", user);
+			r.put("realm", realm);
+			r.put("nonce", nonce);
+			r.put("uri", uri);
+
+			final String response, nc;
 			if ("auth".equals(qop)) {
-				final String c = p.get("cnonce");
-				final String nc = String.format("%08x", ++requestCount);
-				p.put("nc", nc);
-				expect = KD(H(A1), nonce + ":" + nc + ":" + c + ":" + qop + ":"
+				nc = String.format("%08x", ++requestCount);
+				response = KD(H(A1), nonce + ":" + nc + ":" + cnonce + ":"
+						+ qop
+						+ ":"
 						+ H(A2));
 			} else {
-				expect = KD(H(A1), nonce + ":" + H(A2));
+				nc = null;
+				response = KD(H(A1), nonce + ":" + H(A2));
 			}
-			p.put("response", expect);
+			r.put("response", response);
+			if (params.containsKey("algorithm"))
+				r.put("algorithm", "MD5");
+			if (cnonce != null && qop != null)
+				r.put("cnonce", cnonce);
+			if (params.containsKey("opaque"))
+				r.put("opaque", params.get("opaque"));
+			if (qop != null)
+				r.put("qop", qop);
+			if (nc != null)
+				r.put("nc", nc);
 
 			StringBuilder v = new StringBuilder();
-			for (Map.Entry<String, String> e : p.entrySet()) {
-				if (v.length() > 0) {
+			for (Map.Entry<String, String> e : r.entrySet()) {
+				if (v.length() > 0)
 					v.append(", ");
-				}
 				v.append(e.getKey());
 				v.append('=');
 				v.append('"');
@@ -252,6 +269,25 @@ abstract class HttpAuthMethod {
 				v.append('"');
 			}
 			conn.setRequestProperty(HDR_AUTHORIZATION, NAME + " " + v);
+		}
+
+		private static String uri(URL u) {
+			StringBuilder r = new StringBuilder();
+			r.append(u.getProtocol());
+			r.append("://");
+			r.append(u.getHost());
+			if (0 < u.getPort()) {
+				if (u.getPort() == 80 && "http".equals(u.getProtocol()))
+					/* nothing */;
+				else if (u.getPort() == 443 && "https".equals(u.getProtocol()))
+					/* nothing */;
+				else
+					r.append(':').append(u.getPort());
+			}
+			r.append(u.getPath());
+			if (u.getQuery() != null)
+				r.append('?').append(u.getQuery());
+			return r.toString();
 		}
 
 		private static String H(String data) {
