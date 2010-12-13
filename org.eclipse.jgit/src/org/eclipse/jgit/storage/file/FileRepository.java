@@ -160,7 +160,7 @@ public class FileRepository extends Repository {
 		loadUserConfig();
 		loadRepoConfig();
 
-		getConfig().addChangeListener(new ConfigChangedListener() {
+		repoConfig.addChangeListener(new ConfigChangedListener() {
 			public void onConfigChanged(ConfigChangedEvent event) {
 				fireEvent(event);
 			}

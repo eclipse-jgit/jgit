@@ -186,7 +186,7 @@ public class PullCommand extends GitCommand<PullResult> {
 		String remoteUri;
 		FetchResult fetchRes;
 		if (isRemote) {
-			remoteUri = repo.getConfig().getString("remote", remote,
+			remoteUri = repoConfig.getString("remote", remote,
 					ConfigConstants.CONFIG_KEY_URL);
 			if (remoteUri == null) {
 				String missingKey = ConfigConstants.CONFIG_REMOTE_SECTION + DOT
