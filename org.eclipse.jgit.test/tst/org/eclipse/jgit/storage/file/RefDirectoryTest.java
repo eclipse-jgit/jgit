@@ -1055,6 +1055,10 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 	private void writePackedRefs(String content) throws IOException {
 		File pr = new File(diskRepo.getDirectory(), "packed-refs");
 		write(pr, content);
+
+		final long now = System.currentTimeMillis();
+		final int oneHourAgo = 3600 * 1000;
+		pr.setLastModified(now - oneHourAgo);
 	}
 
 	private void deleteLooseRef(String name) {

@@ -72,6 +72,20 @@ public class FileSnapshot {
 	public static final FileSnapshot DIRTY = new FileSnapshot(-1, -1);
 
 	/**
+	 * A FileSnapshot that is clean if the file does not exist.
+	 * <p>
+	 * This instance is useful if the application wants to consider a missing
+	 * file to be clean. {@link #isModified(File)} will return false if the file
+	 * path does not exist.
+	 */
+	public static final FileSnapshot MISSING_FILE = new FileSnapshot(0, 0) {
+		@Override
+		public boolean isModified(File path) {
+			return path.exists();
+		}
+	};
+
+	/**
 	 * Record a snapshot for a specific file path.
 	 * <p>
 	 * This method should be invoked before the file is accessed.
