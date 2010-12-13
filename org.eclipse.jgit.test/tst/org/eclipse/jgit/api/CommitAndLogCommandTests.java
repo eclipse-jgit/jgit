@@ -43,7 +43,6 @@
 package org.eclipse.jgit.api;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -150,13 +149,9 @@ public class CommitAndLogCommandTests extends RepositoryTestCase {
 		db.updateRef(Constants.HEAD).link("refs/heads/side");
 		RevCommit firstSide = git.commit().setMessage("first side commit").setAuthor(author).call();
 
-		FileWriter wr = new FileWriter(new File(db.getDirectory(),
-				Constants.MERGE_HEAD));
-		wr.write(ObjectId.toString(db.resolve("refs/heads/master")));
-		wr.close();
-		wr = new FileWriter(new File(db.getDirectory(), Constants.MERGE_MSG));
-		wr.write("merging");
-		wr.close();
+		write(new File(db.getDirectory(), Constants.MERGE_HEAD), ObjectId
+				.toString(db.resolve("refs/heads/master")));
+		write(new File(db.getDirectory(), Constants.MERGE_MSG), "merging");
 
 		RevCommit commit = git.commit().call();
 		RevCommit[] parents = commit.getParents();
