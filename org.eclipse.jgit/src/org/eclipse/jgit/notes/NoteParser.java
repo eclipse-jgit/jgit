@@ -165,7 +165,7 @@ final class NoteParser extends CanonicalTreeParser {
 		for (; !eof(); next(1)) {
 			final int cell = parseFanoutCell();
 			if (0 <= cell)
-				fanout.parseOneEntry(cell, getEntryObjectId());
+				fanout.setBucket(cell, getEntryObjectId());
 			else
 				storeNonNote();
 		}
