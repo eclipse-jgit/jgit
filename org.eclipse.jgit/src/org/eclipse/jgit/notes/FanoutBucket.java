@@ -99,8 +99,13 @@ class FanoutBucket extends InMemoryNoteBucket {
 		table = new NoteBucket[256];
 	}
 
-	void parseOneEntry(int cell, ObjectId id) {
+	void setBucket(int cell, ObjectId id) {
 		table[cell] = new LazyNoteBucket(id);
+		cnt++;
+	}
+
+	void setBucket(int cell, InMemoryNoteBucket bucket) {
+		table[cell] = bucket;
 		cnt++;
 	}
 
@@ -108,6 +113,23 @@ class FanoutBucket extends InMemoryNoteBucket {
 	ObjectId get(AnyObjectId objId, ObjectReader or) throws IOException {
 		NoteBucket b = table[cell(objId)];
 		return b != null ? b.get(objId, or) : null;
+	}
+
+	NoteBucket getBucket(int cell) {
+		return table[cell];
+	}
+
+	static InMemoryNoteBucket loadIfLazy(NoteBucket b, AnyObjectId prefix,
+			ObjectReader or) throws IOException {
+		if (b == null)
+			return null;
+		if (b instanceof InMemoryNoteBucket)
+			return (InMemoryNoteBucket) b;
+		return ((LazyNoteBucket) b).load(prefix, or);
+	}
+
+	int size() {
+		return cnt;
 	}
 
 	@Override
@@ -232,6 +254,20 @@ class FanoutBucket extends InMemoryNoteBucket {
 
 	@Override
 	ObjectId writeTree(ObjectInserter inserter) throws IOException {
+		return inserter.insert(build(true, inserter));
+	}
+
+	ObjectId getTreeId() {
+		try {
+			return new ObjectInserter.Formatter().idFor(build(false, null));
+		} catch (IOException e) {
+			// should never happen as we are not inserting
+			throw new RuntimeException(e);
+		}
+	}
+
+	private TreeFormatter build(boolean insert, ObjectInserter inserter)
+			throws IOException {
 		byte[] nameBuf = new byte[2];
 		TreeFormatter fmt = new TreeFormatter(treeSize());
 		NonNoteEntry e = nonNotes;
@@ -249,12 +285,18 @@ class FanoutBucket extends InMemoryNoteBucket {
 				e = e.next;
 			}
 
-			fmt.append(nameBuf, 0, 2, TREE, b.writeTree(inserter));
+			ObjectId id;
+			if (insert) {
+				id = b.writeTree(inserter);
+			} else {
+				id = b.getTreeId();
+			}
+			fmt.append(nameBuf, 0, 2, TREE, id);
 		}
 
 		for (; e != null; e = e.next)
 			e.format(fmt);
-		return inserter.insert(fmt);
+		return fmt;
 	}
 
 	private int treeSize() {
@@ -320,10 +362,15 @@ class FanoutBucket extends InMemoryNoteBucket {
 			return treeId;
 		}
 
-		private NoteBucket load(AnyObjectId objId, ObjectReader or)
+		@Override
+		ObjectId getTreeId() {
+			return treeId;
+		}
+
+		private InMemoryNoteBucket load(AnyObjectId objId, ObjectReader or)
 				throws IOException {
 			AbbreviatedObjectId p = objId.abbreviate(prefixLen + 2);
-			NoteBucket self = NoteParser.parse(p, treeId, or);
+			InMemoryNoteBucket self = NoteParser.parse(p, treeId, or);
 			table[cell(objId)] = self;
 			return self;
 		}
