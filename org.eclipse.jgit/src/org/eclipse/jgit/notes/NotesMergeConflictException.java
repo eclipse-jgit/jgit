@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010, Google Inc.
+ * Copyright (C) 2010, Sasa Zivkov <sasa.zivkov@sap.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -44,37 +44,48 @@
 package org.eclipse.jgit.notes;
 
 import java.io.IOException;
-import java.util.Iterator;
+import java.text.MessageFormat;
 
-import org.eclipse.jgit.lib.AnyObjectId;
-import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.ObjectInserter;
-import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.JGitText;
 
 /**
- * A tree that stores note objects.
- *
- * @see FanoutBucket
- * @see LeafBucket
+ * This exception will be thrown from the {@link NoteMerger} when a conflict on
+ * Notes content is found during merge.
  */
-abstract class NoteBucket {
-	abstract ObjectId get(AnyObjectId objId, ObjectReader reader)
-			throws IOException;
+public class NotesMergeConflictException extends IOException {
+	private static final long serialVersionUID = 1L;
 
-	abstract Iterator<Note> iterator(AnyObjectId objId, ObjectReader reader)
-			throws IOException;
+	/**
+	 * Construct a NotesMergeConflictException for the specified base, ours and
+	 * theirs note versions.
+	 *
+	 * @param base
+	 *            note version
+	 * @param ours
+	 *            note version
+	 * @param theirs
+	 *            note version
+	 */
+	public NotesMergeConflictException(Note base, Note ours, Note theirs) {
+		super(MessageFormat.format(JGitText.get().mergeConflictOnNotes,
+				base.getName(), ours.getName(), theirs.getName()));
+	}
 
-	abstract int estimateSize(AnyObjectId noteOn, ObjectReader or)
-			throws IOException;
+	/**
+	 * Constructs a NotesMergeConflictException for the specified base, ours and
+	 * theirs versions of the root note tree.
+	 *
+	 * @param base
+	 *            version of the root note tree
+	 * @param ours
+	 *            version of the root note tree
+	 * @param theirs
+	 *            version of the root note tree
+	 */
+	public NotesMergeConflictException(NonNoteEntry base, NonNoteEntry ours,
+			NonNoteEntry theirs) {
+		super(MessageFormat.format(JGitText.get().mergeConflictOnNonNoteEntries,
+				base, ours, theirs));
+	}
 
-	abstract InMemoryNoteBucket set(AnyObjectId noteOn, AnyObjectId noteData,
-			ObjectReader reader) throws IOException;
-
-	// TODO: the computation of the tree SHA1 has to be refactored from the
-	// writeTree method so that we can use it for in-memory buckets
-	// to compute their SHA1 and compare with the SHA1 of the other version
-	// of the same tree
-	abstract ObjectId writeTree(ObjectInserter inserter) throws IOException;
-
-	abstract ObjectId getTreeId();
 }

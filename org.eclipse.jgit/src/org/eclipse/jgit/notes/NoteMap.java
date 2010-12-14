@@ -44,6 +44,7 @@
 package org.eclipse.jgit.notes;
 
 import java.io.IOException;
+import java.util.Iterator;
 
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
@@ -52,6 +53,7 @@ import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.MutableObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
@@ -66,7 +68,7 @@ import org.eclipse.jgit.revwalk.RevTree;
  * is not released by this class. The caller should arrange for releasing the
  * shared {@code ObjectReader} at the proper times.
  */
-public class NoteMap {
+public class NoteMap implements Iterable<Note> {
 	/**
 	 * Construct a new empty note map.
 	 *
@@ -155,6 +157,23 @@ public class NoteMap {
 		return map;
 	}
 
+	/**
+	 * Construct a new note map from an existing note bucket.
+	 *
+	 * @param root
+	 *            the root bucket of this note map
+	 * @param reader
+	 *            reader to scan the note branch with. This reader may be
+	 *            retained by the NoteMap for the life of the map in order to
+	 *            support lazy loading of entries.
+	 * @return the note map built from the note bucket
+	 */
+	static NoteMap newMap(InMemoryNoteBucket root, ObjectReader reader) {
+		NoteMap map = new NoteMap(reader);
+		map.root = root;
+		return map;
+	}
+
 	/** Borrowed reader to access the repository. */
 	private final ObjectReader reader;
 
@@ -163,6 +182,33 @@ public class NoteMap {
 
 	private NoteMap(ObjectReader reader) {
 		this.reader = reader;
+	}
+
+	public Iterator<Note> iterator() {
+
+		try {
+			return new Iterator<Note>() {
+
+				private Iterator<Note> itr = root == null ? null : root
+						.iterator(new MutableObjectId(), reader);
+
+				public boolean hasNext() {
+					if (itr == null)
+						return true;
+					return itr.hasNext();
+				}
+
+				public Note next() {
+					return itr.next();
+				}
+
+				public void remove() {
+					throw new UnsupportedOperationException();
+				}
+			};
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	/**
@@ -259,6 +305,10 @@ public class NoteMap {
 		root = newRoot;
 	}
 
+	void append(Note note) {
+		root.append(note);
+	}
+
 	/**
 	 * Attach a note to an object.
 	 *
@@ -322,6 +372,13 @@ public class NoteMap {
 	 */
 	public ObjectId writeTree(ObjectInserter inserter) throws IOException {
 		return root.writeTree(inserter);
+	}
+
+	/**
+	 * @return the root note bucket
+	 */
+	public InMemoryNoteBucket getRoot() {
+		return root;
 	}
 
 	private void load(ObjectId rootTree) throws MissingObjectException,

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010, Google Inc.
+ * Copyright (C) 2010, Sasa Zivkov <sasa.zivkov@sap.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -44,37 +44,68 @@
 package org.eclipse.jgit.notes;
 
 import java.io.IOException;
-import java.util.Iterator;
 
-import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.util.io.UnionInputStream;
 
 /**
- * A tree that stores note objects.
- *
- * @see FanoutBucket
- * @see LeafBucket
+ * Default implementation of the {@link NoteMerger}.
+ * <p>
+ * If the {@link NoteMapMerger} gets instantiated using this constructor
+ * {@link NoteMapMerger#NoteMapMerger(org.eclipse.jgit.lib.Repository)} then it
+ * will use this implementation of the {@link NoteMerger}.
+ * <p>
+ * If ours and theirs are both non-null, which means they are either both edits
+ * or both adds, then this merger will simply join the content of ours and
+ * theirs (in that order) and return that as the merge result.
+ * <p>
+ * If one or ours/theirs is non-null and the other one is null then the non-null
+ * value is returned as the merge result. This means that an edit/delete
+ * conflict is resolved by keeping the edit version.
+ * <p>
+ * If both ours and theirs are null then the result of the merge is also null.
  */
-abstract class NoteBucket {
-	abstract ObjectId get(AnyObjectId objId, ObjectReader reader)
-			throws IOException;
+class DefaultNoteMerger implements NoteMerger {
 
-	abstract Iterator<Note> iterator(AnyObjectId objId, ObjectReader reader)
-			throws IOException;
+	private ObjectReader reader;
 
-	abstract int estimateSize(AnyObjectId noteOn, ObjectReader or)
-			throws IOException;
+	private ObjectInserter inserter;
 
-	abstract InMemoryNoteBucket set(AnyObjectId noteOn, AnyObjectId noteData,
-			ObjectReader reader) throws IOException;
+	/**
+	 * Constructs a DefaultNoteMerger
+	 *
+	 * @param reader
+	 * @param inserter
+	 */
+	DefaultNoteMerger(ObjectReader reader, ObjectInserter inserter) {
+		this.reader = reader;
+		this.inserter = inserter;
+	}
 
-	// TODO: the computation of the tree SHA1 has to be refactored from the
-	// writeTree method so that we can use it for in-memory buckets
-	// to compute their SHA1 and compare with the SHA1 of the other version
-	// of the same tree
-	abstract ObjectId writeTree(ObjectInserter inserter) throws IOException;
+	public Note merge(Note base, Note ours, Note theirs)
+			throws MissingObjectException, IOException {
+		if (ours == null)
+			return theirs;
 
-	abstract ObjectId getTreeId();
+		if (theirs == null)
+			return ours;
+
+		if (ours.getData().equals(theirs.getData())) {
+			return ours;
+		}
+
+		ObjectLoader lo = reader.open(ours.getData());
+		ObjectLoader lt = reader.open(theirs.getData());
+		UnionInputStream union = new UnionInputStream(lo.openStream(),
+				lt.openStream());
+		ObjectId noteData = inserter.insert(Constants.OBJ_BLOB,
+				lo.getSize() + lt.getSize(), union);
+		inserter.flush();
+		return new Note(ours, noteData);
+	}
 }
