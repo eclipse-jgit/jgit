@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010, Google Inc.
+ * Copyright (C) 2010, Sasa Zivkov <sasa.zivkov@sap.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -44,37 +44,32 @@
 package org.eclipse.jgit.notes;
 
 import java.io.IOException;
-import java.util.Iterator;
 
-import org.eclipse.jgit.lib.AnyObjectId;
-import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.ObjectInserter;
-import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.errors.MissingObjectException;
 
 /**
- * A tree that stores note objects.
- *
- * @see FanoutBucket
- * @see LeafBucket
+ * Three-way note merge.
+ * <p>
+ * This class takes three versions of a note: base, ours and theirs, performs
+ * the three-way merge and returns the merge result.
  */
-abstract class NoteBucket {
-	abstract ObjectId get(AnyObjectId objId, ObjectReader reader)
-			throws IOException;
+public interface NoteMerger {
 
-	abstract Iterator<Note> iterator(AnyObjectId objId, ObjectReader reader)
-			throws IOException;
-
-	abstract int estimateSize(AnyObjectId noteOn, ObjectReader or)
-			throws IOException;
-
-	abstract InMemoryNoteBucket set(AnyObjectId noteOn, AnyObjectId noteData,
-			ObjectReader reader) throws IOException;
-
-	// TODO: the computation of the tree SHA1 has to be refactored from the
-	// writeTree method so that we can use it for in-memory buckets
-	// to compute their SHA1 and compare with the SHA1 of the other version
-	// of the same tree
-	abstract ObjectId writeTree(ObjectInserter inserter) throws IOException;
-
-	abstract ObjectId getTreeId();
+	/**
+	 * Merges the conflicting note changes.
+	 *
+	 * @param base
+	 * @param ours
+	 * @param their
+	 * @return the merge result
+	 * @throws NotesMergeConflictException
+	 *             in case there was a merge conflict which this note merger
+	 *             couldn't resolve
+	 * @throws IOException
+	 * @throws MissingObjectException
+	 */
+	Note merge(Note base, Note ours, Note their)
+			throws NotesMergeConflictException, MissingObjectException,
+			IOException;
 }
+
