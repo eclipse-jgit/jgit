@@ -46,6 +46,9 @@ package org.eclipse.jgit.treewalk;
 import java.io.File;
 import java.security.MessageDigest;
 
+import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.dircache.DirCacheCheckout;
+import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
@@ -173,6 +176,24 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 		//
 		FileUtils.delete(new File(trash, paths[0]));
 		assertEquals(expect, top.getEntryObjectId());
+	}
+
+	public void testIsModifiedSymlink() throws Exception {
+		File f = writeTrashFile("symlink", "content");
+		Git git = new Git(db);
+		git.add().addFilepattern("symlink").call();
+		git.commit().setMessage("commit").call();
+
+		// Modify previously committed DirCacheEntry and write it back to disk
+		DirCacheEntry dce = db.readDirCache().getEntry("symlink");
+		dce.setFileMode(FileMode.SYMLINK);
+		DirCacheCheckout.checkoutEntry(db, f, dce);
+
+		FileTreeIterator fti = new FileTreeIterator(trash, db.getFS(), db
+				.getConfig().get(WorkingTreeOptions.KEY));
+		while (!fti.getEntryPathString().equals("symlink"))
+			fti.next(1);
+		assertFalse(fti.isModified(dce, false));
 	}
 
 	private static String nameOf(final AbstractTreeIterator i) {
