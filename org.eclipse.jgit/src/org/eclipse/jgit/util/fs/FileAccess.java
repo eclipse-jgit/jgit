@@ -113,4 +113,16 @@ public abstract class FileAccess {
 	public abstract void symlink(File file, String target)
 			throws UnsupportedOperationException, AccessDeniedException,
 			NoSuchFileException, NotDirectoryException, FileExistsException;
+
+	/**
+	 * List the names within a directory.
+	 *
+	 * @param dir
+	 *            the directory to read.
+	 * @return the names within the directory.
+	 * @throws AccessDeniedException
+	 *             A component of the path prefix denies search permission, or
+	 *             the directory denies listing its contained names.
+	 */
+	public abstract DirEnt[] list(File dir) throws AccessDeniedException;
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010, Google Inc.
+ * Copyright (C) 2010, Google, Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -41,38 +41,54 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "libjgit.h"
+package org.eclipse.jgit.util.fs;
 
-JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM *vm, void *reserved) {
-	JNIEnv *env;
-	void *ppe;
+/** A directory entry as read from the filesystem. */
+public class DirEnt {
+	/** */
+	public static final int TYPE_UNKNOWN = 0;
 
-	if ((*vm)->GetEnv(vm, &ppe, JNI_VERSION_1_4))
-		return JNI_ERR;
+	/** */
+	public static final int TYPE_DIRECTORY = 1;
 
-	env = (JNIEnv *)ppe;
+	/** */
+	public static final int TYPE_FILE = 2;
 
-	if (jgit_util_OnLoad(env))
-		return JNI_ERR;
+	/** */
+	public static final int TYPE_SYMLINK = 3;
 
-	if (jgit_list_OnLoad(env))
-		return JNI_ERR;
+	private String name;
 
-	if (jgit_lstat_OnLoad(env))
-		return JNI_ERR;
+	private int type;
 
-	return JNI_VERSION_1_4;
-}
+	/**
+	 * @param name
+	 */
+	public DirEnt(String name) {
+		this(name, TYPE_UNKNOWN);
+	}
 
-JNIEXPORT void JNICALL JNI_OnUnload(JavaVM *vm, void *reserved) {
-	JNIEnv *env;
-	void *ppe;
+	/**
+	 * @param name
+	 * @param type
+	 */
+	public DirEnt(String name, int type) {
+		this.name = name;
+		this.type = type;
+	}
 
-	if ((*vm)->GetEnv(vm, &ppe, JNI_VERSION_1_2))
-		return;
+	/** @return name of this directory entry. */
+	public String getName() {
+		return name;
+	}
 
-	env = (JNIEnv *)ppe;
-	jgit_util_OnUnload(env);
-	jgit_list_OnUnload(env);
-	jgit_lstat_OnUnload(env);
+	/** @return a {@code TYPE_*} constant declared by this class. */
+	public int getType() {
+		return type;
+	}
+
+	@Override
+	public String toString() {
+		return getName();
+	}
 }
