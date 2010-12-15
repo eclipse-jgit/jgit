@@ -102,6 +102,7 @@
 #define JGIT_FIELD(c, type, name)  JGIT_FIELD_##type(c, name)
 #define JGIT_FIELD_int(c, name)    JGIT_GET_FIELD(c, name, "I")
 #define JGIT_FIELD_long(c, name)   JGIT_GET_FIELD(c, name, "J")
+#define JGIT_FIELD_String(c, name) JGIT_GET_FIELD(c, name, "Ljava/lang/String;")
 
 
 #define JGIT_ALLOC(dst)  (*(env))->AllocObject((env), dst._class)
@@ -116,6 +117,10 @@
 #define JGIT_SET_long(obj, c, name, val) \
   (*(env))->SetLongField((env), (obj), c.name, (jlong)(val))
 
+#define JGIT_SET_String(obj, c, name, val) \
+  (*(env))->SetObjectField((env), (obj), c.name, (val))
+
+
 
 extern void jgit_ThrowErrno(JNIEnv *, const char *);
 extern void jgit_ThrowOutOfMemory(JNIEnv *);
@@ -124,6 +129,9 @@ extern jstring jgit_NewNativeString(JNIEnv *, const char *, size_t);
 
 extern int jgit_util_OnLoad(JNIEnv *);
 extern void jgit_util_OnUnload(JNIEnv *);
+
+extern int jgit_list_OnLoad(JNIEnv *);
+extern void jgit_list_OnUnload(JNIEnv *);
 
 extern int jgit_lstat_OnLoad(JNIEnv *);
 extern void jgit_lstat_OnUnload(JNIEnv *);
