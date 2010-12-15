@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010, Google Inc.
+ * Copyright (C) 2010, Google, Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -41,38 +41,69 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "libjgit.h"
+package org.eclipse.jgit.util.fs;
 
-JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM *vm, void *reserved) {
-	JNIEnv *env;
-	void *ppe;
+/** A directory entry as read from the filesystem. */
+public class DirEnt {
+	// Do not change the values of the TYPE_ constants, as these
+	// must match the native code that translates from OS specific
+	// values to the portable Java values declared here.
 
-	if ((*vm)->GetEnv(vm, &ppe, JNI_VERSION_1_4))
-		return JNI_ERR;
+	/** The type is unknown, a stat must be performed. */
+	public static final int TYPE_UNKNOWN = 0;
 
-	env = (JNIEnv *)ppe;
+	/** The entry is a subdirectory. */
+	public static final int TYPE_DIRECTORY = 1;
 
-	if (jgit_util_OnLoad(env))
-		return JNI_ERR;
+	/** The entry is a file. */
+	public static final int TYPE_FILE = 2;
 
-	if (jgit_list_OnLoad(env))
-		return JNI_ERR;
+	/** The entry is a symbolic link. */
+	public static final int TYPE_SYMLINK = 3;
 
-	if (jgit_lstat_OnLoad(env))
-		return JNI_ERR;
+	/** The entry is a special operating system type, not one of the above. */
+	public static final int TYPE_SPECIAL = 127;
 
-	return JNI_VERSION_1_4;
-}
+	private String name;
 
-JNIEXPORT void JNICALL JNI_OnUnload(JavaVM *vm, void *reserved) {
-	JNIEnv *env;
-	void *ppe;
+	private int type;
 
-	if ((*vm)->GetEnv(vm, &ppe, JNI_VERSION_1_2))
-		return;
+	/**
+	 * Create an entry with an unknown type.
+	 *
+	 * @param name
+	 *            name of the entry in the parent directory.
+	 */
+	public DirEnt(String name) {
+		this(name, TYPE_UNKNOWN);
+	}
 
-	env = (JNIEnv *)ppe;
-	jgit_util_OnUnload(env);
-	jgit_list_OnUnload(env);
-	jgit_lstat_OnUnload(env);
+	/**
+	 * Create an entry with a specific type.
+	 *
+	 * @param name
+	 *            name of the entry in the parent directory.
+	 * @param type
+	 *            type of the entry, using one of the type constants declared in
+	 *            this class.
+	 */
+	public DirEnt(String name, int type) {
+		this.name = name;
+		this.type = type;
+	}
+
+	/** @return name of this directory entry. */
+	public String getName() {
+		return name;
+	}
+
+	/** @return a {@code TYPE_*} constant declared by this class. */
+	public int getType() {
+		return type;
+	}
+
+	@Override
+	public String toString() {
+		return getName();
+	}
 }
