@@ -63,6 +63,18 @@
     dst._class = NULL;                                \
   } while (0)
 
+#define JGIT_CONSTRUCTOR(c, name, sig)                           \
+  do {                                                           \
+    jmethodID m;                                                 \
+                                                                 \
+    m = (*(env))->GetMethodID((env), c._class, "<init>", (sig)); \
+    if (!m) {                                                    \
+      (*(env))->ExceptionClear((env));                           \
+      return -1;                                                 \
+    }                                                            \
+    c.name = m;                                                  \
+  } while (0)
+
 #define JGIT_METHOD(c, name, sig)                             \
   do {                                                        \
     jmethodID m;                                              \
@@ -108,6 +120,7 @@
 extern void jgit_ThrowErrno(JNIEnv *, const char *);
 extern void jgit_ThrowOutOfMemory(JNIEnv *);
 extern char *jgit_GetStringNative(JNIEnv *, jstring);
+extern jstring jgit_NewNativeString(JNIEnv *, const char *, size_t);
 
 extern int jgit_util_OnLoad(JNIEnv *);
 extern void jgit_util_OnUnload(JNIEnv *);
