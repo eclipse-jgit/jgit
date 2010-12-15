@@ -50,6 +50,8 @@ import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Comparator;
 
 import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
 import org.eclipse.jgit.lib.FileMode;
@@ -161,6 +163,7 @@ public class FileAccessNativeTest extends LocalDiskRepositoryTestCase {
 		}
 	}
 
+	@Test
 	public void testSymlink() throws IOException {
 		if (skipTest() || !isPosix())
 			return;
@@ -189,6 +192,54 @@ public class FileAccessNativeTest extends LocalDiskRepositoryTestCase {
 		}
 	}
 
+	@Test
+	public void testList() throws IOException {
+		if (skipTest())
+			return;
+
+		final File a = new File(root, "a€");
+		final File b = new File(root, "b€");
+		final File d = new File(root, "d€");
+		write(a, "a€");
+		access.symlink(b, "a€");
+		assertTrue("created " + d, d.mkdir());
+
+		for (int i = 0; i < 116; i++) {
+			final String name = fileName(i);
+			final File f = new File(root, name);
+			write(f, name);
+		}
+		DirEnt[] ent = access.list(root);
+		assertEquals(120, ent.length);
+
+		Arrays.sort(ent, new Comparator<DirEnt>() {
+			public int compare(DirEnt d1, DirEnt d2) {
+				return d1.getName().compareTo(d2.getName());
+			}
+		});
+
+		DirEnt ent_git = ent[0];
+		DirEnt ent_a = ent[1];
+		DirEnt ent_b = ent[2];
+		DirEnt ent_d = ent[3];
+
+		assertEquals(".git", ent_git.getName());
+		assertEquals("a€", ent_a.getName());
+		assertEquals("b€", ent_b.getName());
+		assertEquals("d€", ent_d.getName());
+
+		assertEquals(DirEnt.TYPE_DIRECTORY, ent_git.getType());
+		assertEquals(DirEnt.TYPE_FILE, ent_a.getType());
+		assertEquals(DirEnt.TYPE_SYMLINK, ent_b.getType());
+		assertEquals(DirEnt.TYPE_DIRECTORY, ent_d.getType());
+
+		for (int i = 4; i < 120; i++) {
+			DirEnt e = ent[i];
+			assertEquals(fileName(i - 4), e.getName());
+			assertEquals(DirEnt.TYPE_FILE, e.getType());
+		}
+	}
+
 	private static boolean isPosix() {
 		return System.getProperty("os.name").toLowerCase().indexOf("windows") == -1;
 	}
@@ -199,5 +250,9 @@ public class FileAccessNativeTest extends LocalDiskRepositoryTestCase {
 		for (int i = 0; i < len - 1; i++)
 			r.append('a');
 		return r.toString();
+	}
+
+	private static String fileName(int i) {
+		return String.format("f%03d", i);
 	}
 }
