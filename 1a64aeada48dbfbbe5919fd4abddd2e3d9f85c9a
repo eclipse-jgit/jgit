@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL1n////w\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 561,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-13T19:11:22Z",
+      "side": 1,
+      "message": "This is more efficient:\n\n  !FileMode.SYMLINK.equals(entry.getRawMode())\n\nThe issue is, getFileMode() has to test a number of FileMode constants to see which one it matches... after it called getRawMode() to get the integer value.  Testing the integer value against FileMode.SYMLINK only will save some compares.",
+      "revId": "1a64aeada48dbfbbe5919fd4abddd2e3d9f85c9a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
