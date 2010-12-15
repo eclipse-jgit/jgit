@@ -349,6 +349,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String notAuthorized;
 	/***/ public String notAValidPack;
 	/***/ public String notFound;
+	/***/ public String noNativeLibraryIn;
 	/***/ public String notValid;
 	/***/ public String nothingToFetch;
 	/***/ public String nothingToPush;
