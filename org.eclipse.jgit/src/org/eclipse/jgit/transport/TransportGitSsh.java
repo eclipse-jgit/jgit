@@ -308,8 +308,8 @@ public class TransportGitSsh extends SshTransport implements PackTransport {
 
 			List<String> args = new ArrayList<String>();
 			args.add(ssh);
-			if (putty)
-				args.add("--batch");
+			if (putty && !ssh.toLowerCase().contains("tortoiseplink"))
+				args.add("-batch");
 			if (0 < getURI().getPort()) {
 				args.add(putty ? "-P" : "-p");
 				args.add(String.valueOf(getURI().getPort()));
