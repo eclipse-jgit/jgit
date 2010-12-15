@@ -43,36 +43,19 @@
 
 package org.eclipse.jgit.util.fs;
 
-import java.io.File;
+import java.io.IOException;
 
-import org.eclipse.jgit.util.NativeLibrary;
+/**
+ * Thrown if native code returns errno {@code EEXIST}.
+ */
+public class FileExistsException extends IOException {
+	private static final long serialVersionUID = 1L;
 
-/** Uses {@link NativeLibrary} to access the filesystem. */
-public class FileAccessNative extends FileAccess {
-	/** Initialize the native file access. */
-	public FileAccessNative() {
-		NativeLibrary.assertLoaded();
+	/**
+	 * @param file
+	 *            a string identifying the file or null if not known
+	 */
+	public FileExistsException(String file) {
+		super(file);
 	}
-
-	public FileInfo lstat(File file) throws NoSuchFileException,
-			NotDirectoryException {
-		return lstatImp(file.getPath());
-	}
-
-	public String readlink(File file) throws UnsupportedOperationException,
-			AccessDeniedException, NoSuchFileException, NotDirectoryException {
-		return readlinkImp(file.getPath());
-	}
-
-	public void symlink(File file, String target)
-			throws UnsupportedOperationException, AccessDeniedException,
-			NoSuchFileException, NotDirectoryException, FileExistsException {
-		symlinkImp(file.getPath(), target);
-	}
-
-	private static native FileInfo lstatImp(String path);
-
-	private static native String readlinkImp(String path);
-
-	private static native void symlinkImp(String path, String target);
 }
