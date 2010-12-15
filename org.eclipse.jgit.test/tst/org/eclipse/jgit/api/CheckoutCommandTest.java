@@ -42,8 +42,11 @@
  */
 package org.eclipse.jgit.api;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 
+import org.eclipse.jgit.api.CheckoutResult.Status;
 import org.eclipse.jgit.api.errors.InvalidRefNameException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.api.errors.RefAlreadyExistsException;
@@ -52,6 +55,7 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.RepositoryTestCase;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.util.FileUtils;
 
 public class CheckoutCommandTest extends RepositoryTestCase {
 	private Git git;
@@ -120,4 +124,49 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 		}
 	}
 
+	public void testCheckoutWithConflict() {
+		CheckoutCommand co = git.checkout();
+		try {
+			writeTrashFile("Test.txt", "Another change");
+			assertEquals(Status.NOT_TRIED, co.getResult().getStatus());
+			co.setName("master").call();
+			fail("Should have failed");
+		} catch (Exception e) {
+			assertEquals(Status.CONFLICTS, co.getResult().getStatus());
+			assertTrue(co.getResult().getConflictList().contains("Test.txt"));
+		}
+	}
+
+	public void testCheckoutWithUndeletedFiles() throws Exception {
+		// this test only makes sense on Windows, as the
+		// underlying file system is prone to the problems
+		// of concurrent read/write access
+		// Should be "Windows 7", "Windows Vista", "Windows XP"
+		String osname = System.getProperty("os.name");
+		if (!osname.startsWith("Windows"))
+			return;
+		CheckoutCommand co = git.checkout();
+		// delete Test.txt in branch test
+		File testFile = new File(db.getWorkTree(), "Test.txt");
+		assertTrue(testFile.exists());
+		FileUtils.delete(testFile);
+		assertFalse(testFile.exists());
+		git.add().addFilepattern("Test.txt");
+		git.commit().setMessage("Delete Test.txt").setAll(true).call();
+		git.checkout().setName("master").call();
+		assertTrue(testFile.exists());
+		// lock the file so it can't be deleted (in Windows, that is)
+		FileInputStream fis = new FileInputStream(testFile);
+		try {
+			assertEquals(Status.NOT_TRIED, co.getResult().getStatus());
+			co.setName("test").call();
+			assertTrue(testFile.exists());
+			assertEquals(Status.UNDELETEDFILES, co.getResult().getStatus());
+			assertTrue(co.getResult().getUndeletedList().contains("Test.txt"));
+		} catch (Exception e) {
+			fail(e.getMessage());
+		} finally {
+			fis.close();
+		}
+	}
 }
