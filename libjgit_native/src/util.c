@@ -47,6 +47,7 @@
 #include "libjgit.h"
 
 static struct { jclass _class; } AccessDenied;
+static struct { jclass _class; } FileExists;
 static struct { jclass _class; } NoSuchFile;
 static struct { jclass _class; } NotDirectory;
 static struct { jclass _class; } NativeException;
@@ -56,10 +57,12 @@ static struct {
 	jclass _class;
 
 	jmethodID getBytes;
+	jmethodID new_bytes;
 } String;
 
 int jgit_util_OnLoad(JNIEnv *env) {
 	JGIT_CLASS( AccessDenied, "org/eclipse/jgit/util/fs/AccessDeniedException" );
+	JGIT_CLASS( FileExists, "org/eclipse/jgit/util/fs/FileExistsException" );
 	JGIT_CLASS( NoSuchFile, "org/eclipse/jgit/util/fs/NoSuchFileException" );
 	JGIT_CLASS( NotDirectory, "org/eclipse/jgit/util/fs/NotDirectoryException" );
 	JGIT_CLASS( NativeException, "org/eclipse/jgit/util/fs/NativeException" );
@@ -67,11 +70,13 @@ int jgit_util_OnLoad(JNIEnv *env) {
 
 	JGIT_CLASS ( String, "java/lang/String" );
 	JGIT_METHOD( String, getBytes, "()[B");
+	JGIT_CONSTRUCTOR(String, new_bytes, "([B)V");
 	return 0;
 }
 
 void jgit_util_OnUnload(JNIEnv *env) {
 	JGIT_DELETE_CLASS( AccessDenied );
+	JGIT_DELETE_CLASS( FileExists );
 	JGIT_DELETE_CLASS( NoSuchFile );
 	JGIT_DELETE_CLASS( NotDirectory );
 	JGIT_DELETE_CLASS( NativeException );
@@ -90,6 +95,11 @@ void jgit_ThrowErrno(JNIEnv *env, const char *path_str) {
 	switch (errno) {
 	case EACCES:
 		err = AccessDenied._class;
+		msg = path_str;
+		break;
+
+	case EEXIST:
+		err = FileExists._class;
 		msg = path_str;
 		break;
 
@@ -140,4 +150,22 @@ char *jgit_GetStringNative(JNIEnv *env, jstring src) {
 	(*env)->DeleteLocalRef(env, buf);
 	r[sz] = 0;
 	return r;
+}
+
+jstring jgit_NewNativeString(JNIEnv *env, const char *src, size_t cnt) {
+	jbyteArray buf;
+	jobject r;
+
+	if ((*env)->EnsureLocalCapacity(env, 2) < 0)
+		return NULL;
+
+	buf = (*env)->NewByteArray(env, cnt);
+	if (!buf)
+		return NULL;
+
+	(*env)->SetByteArrayRegion(env, buf, 0, cnt, src);
+
+	r = (*env)->NewObject(env, String._class, String.new_bytes, buf);
+	(*env)->DeleteLocalRef(env, buf);
+	return (jstring)r;
 }
