@@ -66,7 +66,51 @@ public abstract class FileAccess {
 	 *             lstat returned error ENOTDIR. A component of the path prefix
 	 *             is not a directory.
 	 */
-	public abstract FileInfo lstat(File file)
-			throws AccessDeniedException, NoSuchFileException,
-			NotDirectoryException;
+	public abstract FileInfo lstat(File file) throws AccessDeniedException,
+			NoSuchFileException, NotDirectoryException;
+
+	/**
+	 * Read the target path of a symbolic link.
+	 *
+	 * @param file
+	 *            the file to read the target path of.
+	 * @return path the link points to. If not absolute, this is relative to the
+	 *         link itself.
+	 * @throws UnsupportedOperationException
+	 *             if the implementation does not support symbolic links.
+	 * @throws AccessDeniedException
+	 *             A component of the path prefix denies search permission.
+	 * @throws NoSuchFileException
+	 *             A component of path does not name an existing file or path is
+	 *             an empty string.
+	 * @throws NotDirectoryException
+	 *             A component of the path prefix is not a directory.
+	 */
+	public abstract String readlink(File file)
+			throws UnsupportedOperationException, AccessDeniedException,
+			NoSuchFileException, NotDirectoryException;
+
+	/**
+	 * Set the target path of a symbolic link.
+	 *
+	 * @param file
+	 *            the file to read the target path of.
+	 * @param target
+	 *            the path the link points to. If not absolute, this is relative
+	 *            to the link itself.
+	 * @throws UnsupportedOperationException
+	 *             if the implementation does not support symbolic links.
+	 * @throws AccessDeniedException
+	 *             A component of the path prefix denies search permission.
+	 * @throws NoSuchFileException
+	 *             A component of path does not name an existing file or path is
+	 *             an empty string.
+	 * @throws NotDirectoryException
+	 *             A component of the path prefix is not a directory.
+	 * @throws FileExistsException
+	 *             {@code file} already exists and cannot be replaced.
+	 */
+	public abstract void symlink(File file, String target)
+			throws UnsupportedOperationException, AccessDeniedException,
+			NoSuchFileException, NotDirectoryException, FileExistsException;
 }

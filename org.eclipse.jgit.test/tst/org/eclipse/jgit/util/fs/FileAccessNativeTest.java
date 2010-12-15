@@ -150,7 +150,43 @@ public class FileAccessNativeTest extends LocalDiskRepositoryTestCase {
 		}
 	}
 
+	public void testSymlink() throws IOException {
+		if (skipTest() || !isPosix())
+			return;
+
+		final File path = new File(root, "sym");
+		String dst = "dst";
+
+		access.symlink(path, dst);
+		FileInfo info = access.lstat(path);
+		assertTrue(FileMode.SYMLINK.equals(info.mode()));
+		assertEquals(dst, access.readlink(path));
+		path.delete();
+
+		dst = longString(510);
+		access.symlink(path, dst);
+		info = access.lstat(path);
+		assertTrue(FileMode.SYMLINK.equals(info.mode()));
+		assertEquals(dst, access.readlink(path));
+
+		dst = "a";
+		try {
+			access.symlink(path, dst);
+			fail("symlink replaced an existing link");
+		} catch (FileExistsException exists) {
+			assertEquals(path.getPath(), exists.getMessage());
+		}
+	}
+
 	private static boolean isPosix() {
 		return System.getProperty("os.name").toLowerCase().indexOf("windows") == -1;
+	}
+
+	private static String longString(int len) {
+		StringBuilder r = new StringBuilder(len);
+		r.append('t');
+		for (int i = 0; i < len - 1; i++)
+			r.append('a');
+		return r.toString();
 	}
 }

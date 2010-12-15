@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010, Matthias Sohn <matthias.sohn@sap.com>
+ * Copyright (C) 2010, Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -41,38 +41,83 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.eclipse.jgit.util.fs;
+#include "libjgit.h"
+#include "org_eclipse_jgit_util_fs_FileAccessNative.h"
 
-import java.io.File;
+#include <unistd.h>
+#include <stdlib.h>
 
-import org.eclipse.jgit.util.NativeLibrary;
+JNIEXPORT jstring JNICALL
+Java_org_eclipse_jgit_util_fs_FileAccessNative_readlinkImp(
+		JNIEnv *env, jclass clazz, jstring path) {
+	jstring r = NULL;
+	char *path_str;
+	char small_buf[128];
+	size_t buf_sz = sizeof(small_buf);
+	char *buf_ptr = small_buf;
+	ssize_t n;
 
-/** Uses {@link NativeLibrary} to access the filesystem. */
-public class FileAccessNative extends FileAccess {
-	/** Initialize the native file access. */
-	public FileAccessNative() {
-		NativeLibrary.assertLoaded();
+	path_str = jgit_GetStringNative(env, path);
+	if (!path_str)
+		return NULL;
+
+try_read:
+	n = readlink(path_str, buf_ptr, buf_sz);
+	if (n == buf_sz) {
+		size_t d2 = buf_sz + buf_sz;
+		if (d2 < buf_sz) {
+			jgit_ThrowOutOfMemory(env);
+			goto done;
+		}
+
+		if (buf_ptr != small_buf) {
+			free(buf_ptr);
+			buf_ptr = NULL;
+		}
+
+		buf_ptr = malloc(d2);
+		if (!buf_ptr) {
+			jgit_ThrowOutOfMemory(env);
+			goto done;
+		}
+
+		buf_sz = d2;
+		goto try_read;
 	}
 
-	public FileInfo lstat(File file) throws NoSuchFileException,
-			NotDirectoryException {
-		return lstatImp(file.getPath());
+	if (n < 0) {
+		jgit_ThrowErrno(env, path_str);
+		goto done;
 	}
 
-	public String readlink(File file) throws UnsupportedOperationException,
-			AccessDeniedException, NoSuchFileException, NotDirectoryException {
-		return readlinkImp(file.getPath());
+	r = jgit_NewNativeString(env, buf_ptr, n);
+
+done:
+	if (buf_ptr && buf_ptr != small_buf)
+		free(buf_ptr);
+	free(path_str);
+	return r;
+}
+
+JNIEXPORT void JNICALL
+Java_org_eclipse_jgit_util_fs_FileAccessNative_symlinkImp(
+		JNIEnv *env, jclass clazz, jstring path, jstring target) {
+	char *path_str;
+	char *target_str;
+
+	path_str = jgit_GetStringNative(env, path);
+	if (!path_str)
+		return;
+
+	target_str = jgit_GetStringNative(env, target);
+	if (!target_str) {
+		free(path_str);
+		return;
 	}
 
-	public void symlink(File file, String target)
-			throws UnsupportedOperationException, AccessDeniedException,
-			NoSuchFileException, NotDirectoryException, FileExistsException {
-		symlinkImp(file.getPath(), target);
-	}
+	if (symlink(target_str, path_str))
+		jgit_ThrowErrno(env, path_str);
 
-	private static native FileInfo lstatImp(String path);
-
-	private static native String readlinkImp(String path);
-
-	private static native void symlinkImp(String path, String target);
+	free(target_str);
+	free(path_str);
 }
