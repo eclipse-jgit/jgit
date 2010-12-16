@@ -51,18 +51,17 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.jgit.dircache.DirCache;
+import org.eclipse.jgit.dircache.DirCacheCheckout;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.NotSupportedException;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.GitIndex;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefComparator;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.TextProgressMonitor;
-import org.eclipse.jgit.lib.Tree;
-import org.eclipse.jgit.lib.WorkDirCheckout;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
@@ -187,13 +186,9 @@ class Clone extends AbstractFetchCommand {
 		u.setNewObjectId(commit);
 		u.forceUpdate();
 
-		final GitIndex index = new GitIndex(db);
-		final Tree tree = db.mapTree(commit.getTree());
-		final WorkDirCheckout co;
-
-		co = new WorkDirCheckout(db, db.getWorkTree(), index, tree);
+		DirCache dc = db.lockDirCache();
+		DirCacheCheckout co = new DirCacheCheckout(db, dc, commit.getTree());
 		co.checkout();
-		index.write();
 	}
 
 	private RevCommit parseCommit(final Ref branch)
