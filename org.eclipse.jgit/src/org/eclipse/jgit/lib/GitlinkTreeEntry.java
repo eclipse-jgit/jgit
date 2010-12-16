@@ -45,7 +45,6 @@
 
 package org.eclipse.jgit.lib;
 
-import java.io.IOException;
 
 /**
  * A tree entry representing a gitlink entry used for submodules.
@@ -77,15 +76,6 @@ public class GitlinkTreeEntry extends TreeEntry {
 
 	public FileMode getMode() {
 		return FileMode.GITLINK;
-	}
-
-	public void accept(final TreeVisitor tv, final int flags)
-			throws IOException {
-		if ((MODIFIED_ONLY & flags) == MODIFIED_ONLY && !isModified()) {
-			return;
-		}
-
-		tv.visitGitlink(this);
 	}
 
 	@Override

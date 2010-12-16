@@ -44,7 +44,6 @@
 
 package org.eclipse.jgit.lib;
 
-import java.io.IOException;
 
 /**
  * A tree entry representing a symbolic link.
@@ -76,15 +75,6 @@ public class SymlinkTreeEntry extends TreeEntry {
 
 	public FileMode getMode() {
 		return FileMode.SYMLINK;
-	}
-
-	public void accept(final TreeVisitor tv, final int flags)
-			throws IOException {
-		if ((MODIFIED_ONLY & flags) == MODIFIED_ONLY && !isModified()) {
-			return;
-		}
-
-		tv.visitSymlink(this);
 	}
 
 	public String toString() {

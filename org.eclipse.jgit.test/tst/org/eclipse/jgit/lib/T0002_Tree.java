@@ -108,7 +108,6 @@ public class T0002_Tree extends SampleDataRepositoryTestCase {
 		assertTrue("entries is empty", t.members().length == 0);
 		assertEquals("full name is empty", "", t.getFullName());
 		assertTrue("no id", t.getId() == null);
-		assertTrue("tree is self", t.getTree() == t);
 		assertTrue("database is r", t.getRepository() == db);
 		assertTrue("no foo child", t.findTreeMember("foo") == null);
 		assertTrue("no foo child", t.findBlobMember("foo") == null);
@@ -158,7 +157,6 @@ public class T0002_Tree extends SampleDataRepositoryTestCase {
 		assertTrue("isLoaded", f.isLoaded());
 		assertFalse("has items", f.members().length > 0);
 		assertFalse("is root", f.isRoot());
-		assertTrue("tree is self", f.getTree() == f);
 		assertTrue("parent is modified", t.isModified());
 		assertTrue("parent has no id", t.getId() == null);
 		assertTrue("found bob child", t.findTreeMember(f.getName()) == f);
