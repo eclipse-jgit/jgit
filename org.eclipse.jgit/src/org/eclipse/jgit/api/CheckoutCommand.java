@@ -125,7 +125,7 @@ public class CheckoutCommand extends GitCommand<Ref> {
 			String refLogMessage = "checkout: moving from "
 					+ headRef.getTarget().getName();
 			ObjectId branch = repo.resolve(name);
-			Ref ref = repo.getRef(name);
+
 			if (branch == null)
 				throw new RefNotFoundException(MessageFormat.format(JGitText
 						.get().refNotResolved, name));
@@ -146,7 +146,14 @@ public class CheckoutCommand extends GitCommand<Ref> {
 			refUpdate.setForceUpdate(force);
 			refUpdate.setRefLogMessage(refLogMessage + "to "
 					+ newCommit.getName(), false);
-			Result updateResult = refUpdate.link(ref.getName());
+			Ref ref = repo.getRef(name);
+			Result updateResult;
+			if (ref != null)
+				updateResult = refUpdate.link(ref.getName());
+			else {
+				refUpdate.setNewObjectId(newCommit);
+				updateResult = refUpdate.forceUpdate();
+			}
 
 			setCallable(false);
 
