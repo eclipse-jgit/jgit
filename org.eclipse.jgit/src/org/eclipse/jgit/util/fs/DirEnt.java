@@ -43,6 +43,11 @@
 
 package org.eclipse.jgit.util.fs;
 
+import java.io.File;
+
+import org.eclipse.jgit.lib.FileMode;
+import org.eclipse.jgit.util.FS;
+
 /** A directory entry as read from the filesystem. */
 public class DirEnt {
 	// Do not change the values of the TYPE_ constants, as these
@@ -67,6 +72,8 @@ public class DirEnt {
 	private String name;
 
 	private int type;
+
+	private FileInfo info;
 
 	/**
 	 * Create an entry with an unknown type.
@@ -97,9 +104,81 @@ public class DirEnt {
 		return name;
 	}
 
-	/** @return a {@code TYPE_*} constant declared by this class. */
+	/**
+	 * Get the type of this directory entry.
+	 * <p>
+	 * If the type was not available during listing, the type may be the special
+	 * constant {@link #TYPE_UNKNOWN}. Callers needing to know the exact type of
+	 * the entry should use {@link #getType(File,FS)}, which will force a stat
+	 * call if the FileInfo is not yet cached.
+	 *
+	 * @return a {@code TYPE_*} constant declared by this class.
+	 */
 	public int getType() {
 		return type;
+	}
+
+	/**
+	 * Get the type of this directory entry.
+	 * <p>
+	 * if the type is not yet known, a stat call will be forced to determine it.
+	 *
+	 * @param parent
+	 *            the directory the entry lives within.
+	 * @param fs
+	 *            implementation to use when looking up information.
+	 * @return a {@code TYPE_*} constant declared by this class.
+	 * @throws NoSuchFileException
+	 *             the directory entry no longer exists.
+	 * @throws AccessDeniedException
+	 *             A component of the path prefix denies search permission.
+	 * @throws NotDirectoryException
+	 *             A component of the path prefix is not a directory.
+	 */
+	public int getType(File parent, FS fs) throws AccessDeniedException,
+			NoSuchFileException, NotDirectoryException {
+		if (type == TYPE_UNKNOWN)
+			type = determineType(getFileInfo(parent, fs).mode());
+		return type;
+	}
+
+	private static int determineType(int mode) {
+		switch (mode & FileMode.TYPE_MASK) {
+		case FileMode.TYPE_TREE:
+			return TYPE_DIRECTORY;
+		case FileMode.TYPE_FILE:
+			return TYPE_FILE;
+		case FileMode.TYPE_SYMLINK:
+			return TYPE_SYMLINK;
+		default:
+			return TYPE_SPECIAL;
+		}
+	}
+
+	/**
+	 * Get information about this directory entry.
+	 * <p>
+	 * If the information has already been loaded, a cached FileInfo is
+	 * returned, avoiding additional stat calls on the underlying FS.
+	 *
+	 * @param parent
+	 *            the directory the entry lives within.
+	 * @param fs
+	 *            implementation to use when looking up information.
+	 * @return information about this directory entry.
+	 * @throws NoSuchFileException
+	 *             the directory entry no longer exists.
+	 * @throws AccessDeniedException
+	 *             A component of the path prefix denies search permission.
+	 * @throws NotDirectoryException
+	 *             A component of the path prefix is not a directory.
+	 */
+	public FileInfo getFileInfo(File parent, FS fs)
+			throws AccessDeniedException, NoSuchFileException,
+			NotDirectoryException {
+		if (info == null)
+			info = fs.stat(new File(parent, name));
+		return info;
 	}
 
 	@Override
