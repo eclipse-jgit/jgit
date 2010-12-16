@@ -130,7 +130,7 @@ public class DirCacheCheckout {
 	 *         {@link DirCacheCheckout}.
 	 */
 	public List<String> getToBeDeleted() {
-		return conflicts;
+		return toBeDeleted;
 	}
 
 	/**
