@@ -195,7 +195,7 @@ public abstract class Repository {
 		return getObjectDatabase().newInserter();
 	}
 
-	/** @return a new inserter to create objects in {@link #getObjectDatabase()} */
+	/** @return a new reader to read objects from {@link #getObjectDatabase()} */
 	public ObjectReader newObjectReader() {
 		return getObjectDatabase().newReader();
 	}
