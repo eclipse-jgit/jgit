@@ -128,8 +128,9 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 		}
 	}
 
-	public void testCheckoutWithConflict() {
+	public void testCheckoutWithConflict() throws IOException {
 		CheckoutCommand co = git.checkout();
+		File trashFile = writeTrashFile("Test.txt", "Another change");
 		try {
 			writeTrashFile("Test.txt", "Another change");
 			assertEquals(Status.NOT_TRIED, co.getResult().getStatus());
@@ -137,7 +138,7 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 			fail("Should have failed");
 		} catch (Exception e) {
 			assertEquals(Status.CONFLICTS, co.getResult().getStatus());
-			assertTrue(co.getResult().getConflictList().contains("Test.txt"));
+			assertTrue(co.getResult().getConflictList().contains(trashFile));
 		}
 	}
 
@@ -170,7 +171,7 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 			co.setName("test").call();
 			assertTrue(testFile.exists());
 			assertEquals(Status.NONDELETED, co.getResult().getStatus());
-			assertTrue(co.getResult().getUndeletedList().contains("Test.txt"));
+			assertTrue(co.getResult().getUndeletedList().contains(testFile));
 		} finally {
 			fis.close();
 		}
