@@ -535,7 +535,8 @@ public class T0003_Basic extends SampleDataRepositoryTestCase {
 		final ObjectInserter oi = db.newObjectInserter();
 		try {
 			final ObjectId blobId = oi.insert(Constants.OBJ_BLOB,
-					"and this is the data in me\n".getBytes(Constants.CHARSET));
+					"and this is the data in me\n".getBytes(Constants.CHARSET
+							.name()));
 			TreeFormatter fmt = new TreeFormatter();
 			fmt.append("i-am-a-file", FileMode.REGULAR_FILE, blobId);
 			treeId = oi.insert(fmt);
