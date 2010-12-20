@@ -51,6 +51,24 @@
       "revId": "645d262de6da32fdb05aba5a48dbf6188dfa7776",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2H////o\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CheckoutResult.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-20T19:25:23Z",
+      "side": 1,
+      "message": "Probably.  I don\u0027t think File is the right type for our working tree paths.  Its too easily cast into an absolute or canonical path that then might no longer be part of the working tree.\n\nWe\u0027ve had trouble with that in EGit, and its why we have funny methods to convert a File into a String for a given RepositoryMapping.  (Its been a while since I looked at that code, so I might not be remembering it exactly.)\n\nIf we want the getParentFile() sort of support here, we probably should just introduce a JGit Path type that we can use for these working tree paths.  If we can get by without it, String is probably fine then.",
+      "parentUuid": "AAAL2H////w\u003d",
+      "revId": "645d262de6da32fdb05aba5a48dbf6188dfa7776",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
