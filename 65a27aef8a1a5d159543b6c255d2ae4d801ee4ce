@@ -20,6 +20,23 @@
     },
     {
       "key": {
+        "uuid": "AAAL1n///90\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/FileSnapshot.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-12-14T08:24:31Z",
+      "side": 1,
+      "message": "typo: s/the a/a/",
+      "revId": "65a27aef8a1a5d159543b6c255d2ae4d801ee4ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL13////4\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/FileSnapshot.java",
         "patchSetId": 1
