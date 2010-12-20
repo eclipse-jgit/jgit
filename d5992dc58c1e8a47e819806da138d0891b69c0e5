@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL13///3U\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CheckoutResult.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 46
+      },
+      "writtenOn": "2010-12-20T09:48:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL13///5k\u003d",
+      "revId": "d5992dc58c1e8a47e819806da138d0891b69c0e5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL13///5g\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CheckoutResult.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2010-12-17T16:05:31Z",
       "side": 1,
       "message": "wouldn\u0027t it be better to return List\u003cFile\u003e ?",
+      "revId": "d5992dc58c1e8a47e819806da138d0891b69c0e5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL13///3Q\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CheckoutResult.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 46
+      },
+      "writtenOn": "2010-12-20T09:48:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL13///5g\u003d",
       "revId": "d5992dc58c1e8a47e819806da138d0891b69c0e5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
