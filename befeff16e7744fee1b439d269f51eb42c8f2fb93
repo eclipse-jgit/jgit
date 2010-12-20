@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL13///zs\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/storage/file/T0003_Basic.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 538,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-20T16:25:04Z",
+      "side": 1,
+      "message": "Whoops.  My fault.  Thanks for fixing this.",
+      "revId": "befeff16e7744fee1b439d269f51eb42c8f2fb93",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
