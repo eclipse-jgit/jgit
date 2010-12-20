@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL13///1c\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-12-20T15:14:05Z",
+      "side": 1,
+      "message": "I don\u0027t understand this commit message, it\u0027s a bit too short ;-)",
+      "revId": "e3840090a0106310a4c114ac0b437a748413de7e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
