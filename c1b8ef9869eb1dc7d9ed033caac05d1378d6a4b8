@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL13////o\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CheckoutCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-12-15T21:31:37Z",
+      "side": 1,
+      "message": "Accidentally write-protected directories would cause this on other OS:es too. Quite rare, but might need a different way of testing.",
+      "revId": "c1b8ef9869eb1dc7d9ed033caac05d1378d6a4b8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL13////k\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CheckoutCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-12-15T21:31:37Z",
+      "side": 1,
+      "message": "Drop the catch clause here. The finally will do for cleanup, but let the exception fall out of the test and let JUnit handle it and report it as an error, rather than a failure. Your catch also drop the stack frame which is very bad for debugging.",
+      "revId": "c1b8ef9869eb1dc7d9ed033caac05d1378d6a4b8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL13////g\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CheckoutCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-12-15T21:31:37Z",
+      "side": 1,
+      "message": "Don\u0027t initialize references. Java guarantees default values for all fields. The initialization just means more code to read (and comment on).",
+      "revId": "c1b8ef9869eb1dc7d9ed033caac05d1378d6a4b8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL13////c\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CheckoutCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-12-15T21:31:37Z",
+      "side": 1,
+      "message": "I\u0027d prefer ! ... .isEmpty()",
+      "revId": "c1b8ef9869eb1dc7d9ed033caac05d1378d6a4b8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL13////0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CheckoutResult.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-12-15T21:31:37Z",
+      "side": 1,
+      "message": "Undelete usually means \"recovered after delete\". \nNon-deleted would be better. What if we have both\nconflicts and non-delete files. What status is that?\nWhat is the status when we fail to update files (e.g. that are locked)?",
+      "revId": "c1b8ef9869eb1dc7d9ed033caac05d1378d6a4b8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL13////Y\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-12-15T21:31:37Z",
+      "side": 1,
+      "message": "A separate commit please.",
+      "revId": "c1b8ef9869eb1dc7d9ed033caac05d1378d6a4b8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
