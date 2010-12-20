@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL2H////4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CheckoutResult.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-20T17:51:41Z",
+      "side": 1,
+      "message": "I really don\u0027t think File was the right type to use here.  The list of paths that conflict should be relative to the root of the working tree, because that is what the UI will want to show the user.\n\nIf the UI needs the java.io.File, that\u0027s a simple matter of joining the String with the root of the working tree.\n\nHere by returning java.io.File we can now technically return any path object, one that might not even be prefixed by the working tree root, but is still within it.  Consider if the working tree root is actually resolved via a symlink... here we might return the canonical path and not the logical path.\n\n*sigh*\n\nWe sort-of need the NIO2 Path object.  Maybe we should be implementing something like it for these working tree paths instead of relying on String or File.",
+      "revId": "645d262de6da32fdb05aba5a48dbf6188dfa7776",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
