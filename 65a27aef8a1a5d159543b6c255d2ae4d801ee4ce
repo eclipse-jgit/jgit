@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAL1n///8Y\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/FileSnapshot.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-12-14T23:09:04Z",
+      "side": 1,
+      "message": "Use SystemReader.",
+      "revId": "65a27aef8a1a5d159543b6c255d2ae4d801ee4ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL13////8\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/FileSnapshot.java",
         "patchSetId": 1
@@ -55,6 +72,23 @@
     },
     {
       "key": {
+        "uuid": "AAAL1n///8c\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/FileSnapshot.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-12-14T23:09:04Z",
+      "side": 1,
+      "message": "This is three minutes. \n\nAn since FAT is two seconds we require only larger than two seconds. On many file systems that is three seconds, but 2.001 would do.\n\nWith a Unit test you would have found this out.\n\nDo we break anything because the ObjectDirectory had two /minutes/ as fudge?",
+      "revId": "65a27aef8a1a5d159543b6c255d2ae4d801ee4ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL13////w\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/FileSnapshot.java",
         "patchSetId": 1
@@ -67,6 +101,24 @@
       "side": 1,
       "message": "Ah, right.  Good catch.  I\u0027m changing this to 2500 (2.5 seconds).\n\nObjectDirectory\u0027s use of 2 minutes dates back to pre-Eclipse history:\n\n  commit 4c8d63e588212f48e7ebd09580defd9a62c73c61\n  Author: Shawn O. Pearce \u003cspearce@spearce.org\u003e  Wed Aug 12 12:45:23 2009\n  Committer: Robin Rosenberg \u003crobin.rosenberg@dewire.com\u003e  Wed Aug 12 15:24:37 2009\n  Original File: org.spearce.jgit/src/org/spearce/jgit/lib/ObjectDirectory.java\n\n  Fix racy condition when a repository is repacked\n\n  If the filesystem clock granularity is sufficiently large enough it\n  is possible for a repacking program such as `git repack` to change\n  the same directory more than once within the same modification time.\n\n  If JGit were to scan the directory between changes in the same\n  clock step it will never see the later edits, because the directory\n  modification time has not changed.\n\n  Instead we now keep track of the last time we read the directory.\n  If an object cannot be found on disk and the pack directory\u0027s last\n  modified time is less than 2 minutes since the last time we read\n  the directory\u0027s contents, we scan it again looking for changes.\n\n  Worst case scenario, JGit will list the pack directory once for\n  each requested missing object, until the directory has aged at\n  least 2 minutes.  Most repositories modify this directory only a\n  few times a week, so this is not an undue burden on the host.\n\nI didn\u0027t have a real justification for 2 minutes, it was just a fudge number.  We can probably safely change this to 2.5 seconds.",
       "parentUuid": "AAAL1n///8c\u003d",
+      "revId": "65a27aef8a1a5d159543b6c255d2ae4d801ee4ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL13////Q\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/FileSnapshot.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-12-15T21:36:47Z",
+      "side": 1,
+      "message": "I think it was because updating a pack file might take some time to complete and the check is on the directory. I think that is flawed because we don\u0027t write pack files to their final name, and when we rename to the final name, the directory timestamp is modified, so 2 seconds is probably ok here too.",
+      "parentUuid": "AAAL13////w\u003d",
       "revId": "65a27aef8a1a5d159543b6c255d2ae4d801ee4ce",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
