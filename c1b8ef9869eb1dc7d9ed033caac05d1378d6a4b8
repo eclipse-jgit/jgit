@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL13///9o\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CheckoutCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 46
+      },
+      "writtenOn": "2010-12-16T07:49:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL13////o\u003d",
+      "revId": "c1b8ef9869eb1dc7d9ed033caac05d1378d6a4b8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL13////k\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CheckoutCommandTest.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2010-12-15T21:31:37Z",
       "side": 1,
       "message": "Drop the catch clause here. The finally will do for cleanup, but let the exception fall out of the test and let JUnit handle it and report it as an error, rather than a failure. Your catch also drop the stack frame which is very bad for debugging.",
+      "revId": "c1b8ef9869eb1dc7d9ed033caac05d1378d6a4b8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL13///9k\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CheckoutCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 46
+      },
+      "writtenOn": "2010-12-16T07:49:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL13////k\u003d",
       "revId": "c1b8ef9869eb1dc7d9ed033caac05d1378d6a4b8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL13///9g\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CheckoutCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 46
+      },
+      "writtenOn": "2010-12-16T07:49:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL13////g\u003d",
+      "revId": "c1b8ef9869eb1dc7d9ed033caac05d1378d6a4b8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL13////c\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CheckoutCommand.java",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2010-12-15T21:31:37Z",
       "side": 1,
       "message": "I\u0027d prefer ! ... .isEmpty()",
+      "revId": "c1b8ef9869eb1dc7d9ed033caac05d1378d6a4b8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL13///9c\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CheckoutCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 46
+      },
+      "writtenOn": "2010-12-16T07:49:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL13////c\u003d",
       "revId": "c1b8ef9869eb1dc7d9ed033caac05d1378d6a4b8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL13///9Y\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CheckoutResult.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 46
+      },
+      "writtenOn": "2010-12-16T07:49:26Z",
+      "side": 1,
+      "message": "Renamed to NONDELETED. If there are conflicts, the checkout won\u0027t complete as well as when update fails. In the first case, we have CONFLICTS, in the second case we have ERROR.",
+      "parentUuid": "AAAL13////0\u003d",
+      "revId": "c1b8ef9869eb1dc7d9ed033caac05d1378d6a4b8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL13////Y\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
         "patchSetId": 1
@@ -98,6 +188,24 @@
       "writtenOn": "2010-12-15T21:31:37Z",
       "side": 1,
       "message": "A separate commit please.",
+      "revId": "c1b8ef9869eb1dc7d9ed033caac05d1378d6a4b8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL13///9Q\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 46
+      },
+      "writtenOn": "2010-12-16T07:49:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL13////Y\u003d",
       "revId": "c1b8ef9869eb1dc7d9ed033caac05d1378d6a4b8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
