@@ -104,6 +104,10 @@ public class FileSnapshot {
 		this.cannotBeRacilyClean = notRacyClean(read);
 	}
 
+	long lastModified() {
+		return lastModified;
+	}
+
 	/**
 	 * Check if the path has been modified since the snapshot was saved.
 	 *
