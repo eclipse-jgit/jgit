@@ -42,22 +42,27 @@
  */
 package org.eclipse.jgit.api;
 
+import java.io.File;
 import java.io.IOException;
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.jgit.JGitText;
+import org.eclipse.jgit.api.CheckoutResult.Status;
 import org.eclipse.jgit.api.errors.InvalidRefNameException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.api.errors.RefAlreadyExistsException;
 import org.eclipse.jgit.api.errors.RefNotFoundException;
 import org.eclipse.jgit.dircache.DirCacheCheckout;
 import org.eclipse.jgit.errors.AmbiguousObjectException;
+import org.eclipse.jgit.errors.CheckoutConflictException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
-import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
@@ -80,6 +85,8 @@ public class CheckoutCommand extends GitCommand<Ref> {
 	private String startPoint = Constants.HEAD;
 
 	private RevCommit startCommit;
+
+	private CheckoutResult status;
 
 	/**
 	 * @param repo
@@ -105,7 +112,7 @@ public class CheckoutCommand extends GitCommand<Ref> {
 		processOptions();
 		try {
 
-			if(createBranch) {
+			if (createBranch) {
 				Git git = new Git(repo);
 				CreateBranchCommand command = git.branchCreate();
 				command.setName(name);
@@ -123,20 +130,28 @@ public class CheckoutCommand extends GitCommand<Ref> {
 			ObjectId branch = repo.resolve(name);
 			Ref ref = repo.getRef(name);
 			if (branch == null)
-				throw new RefNotFoundException(MessageFormat.format(
-						JGitText.get().refNotResolved, name));
+				throw new RefNotFoundException(MessageFormat.format(JGitText
+						.get().refNotResolved, name));
 
 			RevCommit newCommit = revWalk.parseCommit(branch);
 
-			DirCacheCheckout dco = new DirCacheCheckout(repo,
-					headCommit.getTree(), repo.lockDirCache(),
-					newCommit.getTree());
+			DirCacheCheckout dco = new DirCacheCheckout(repo, headCommit
+					.getTree(), repo.lockDirCache(), newCommit.getTree());
 			dco.setFailOnConflict(true);
-			dco.checkout();
+			try {
+				dco.checkout();
+			} catch (CheckoutConflictException e) {
+				List<File> fileList = new ArrayList<File>();
+				for (String filePath : dco.getConflicts()) {
+					fileList.add(new File(repo.getWorkTree(), filePath));
+				}
+				status = new CheckoutResult(Status.CONFLICTS, fileList);
+				throw e;
+			}
 			RefUpdate refUpdate = repo.updateRef(Constants.HEAD);
 			refUpdate.setForceUpdate(force);
-			refUpdate.setRefLogMessage(
-					refLogMessage + "to " + newCommit.getName(), false);
+			refUpdate.setRefLogMessage(refLogMessage + "to "
+					+ newCommit.getName(), false);
 			Result updateResult = refUpdate.link(ref.getName());
 
 			setCallable(false);
@@ -156,16 +171,26 @@ public class CheckoutCommand extends GitCommand<Ref> {
 			}
 
 			if (!ok)
-				throw new JGitInternalException(MessageFormat.format(
-						JGitText.get().checkoutUnexpectedResult,
-						updateResult
-						.name()));
+				throw new JGitInternalException(MessageFormat.format(JGitText
+						.get().checkoutUnexpectedResult, updateResult.name()));
 
 			Ref result = repo.getRef(name);
 
+			if (!repo.isBare() && !dco.getToBeDeleted().isEmpty()) {
+				List<File> fileList = new ArrayList<File>();
+				for (String filePath : dco.getToBeDeleted()) {
+					fileList.add(new File(repo.getWorkTree(), filePath));
+				}
+				status = new CheckoutResult(Status.NONDELETED, fileList);
+			}
+			else
+				status = CheckoutResult.OK_RESULT;
 			return result;
 		} catch (IOException ioe) {
 			throw new JGitInternalException(ioe.getMessage(), ioe);
+		} finally {
+			if (status == null)
+				status = CheckoutResult.ERROR_RESULT;
 		}
 	}
 
@@ -268,5 +293,14 @@ public class CheckoutCommand extends GitCommand<Ref> {
 		checkCallable();
 		this.upstreamMode = mode;
 		return this;
+	}
+
+	/**
+	 * @return the result
+	 */
+	public CheckoutResult getResult() {
+		if (status == null)
+			return CheckoutResult.NOT_TRIED_RESULT;
+		return status;
 	}
 }
