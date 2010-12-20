@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAL13///0w\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CheckoutCommandTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-12-20T15:28:07Z",
+      "side": 1,
+      "message": "this assertion fails on Mac OS X using HFS",
+      "revId": "645d262de6da32fdb05aba5a48dbf6188dfa7776",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL2H////4\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CheckoutResult.java",
         "patchSetId": 3
