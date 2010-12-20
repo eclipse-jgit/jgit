@@ -33,6 +33,24 @@
       "revId": "645d262de6da32fdb05aba5a48dbf6188dfa7776",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2H////w\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CheckoutResult.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 46
+      },
+      "writtenOn": "2010-12-20T18:13:51Z",
+      "side": 1,
+      "message": "Actually, it was just forwarding the paths (as String) from DirCacheCheckout in my first iteration of this... Matthias Sohn then suggested to change it to File instead. Your comments make a lot of sense, so I guess we should change it back, right?",
+      "parentUuid": "AAAL2H////4\u003d",
+      "revId": "645d262de6da32fdb05aba5a48dbf6188dfa7776",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
