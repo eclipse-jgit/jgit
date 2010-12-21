@@ -42,7 +42,6 @@
  */
 package org.eclipse.jgit.api;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -97,20 +96,20 @@ public class CheckoutResult {
 
 	private final Status myStatus;
 
-	private final List<File> conflictList;
+	private final List<String> conflictList;
 
-	private final List<File> undeletedList;
+	private final List<String> undeletedList;
 
-	CheckoutResult(Status status, List<File> fileList) {
+	CheckoutResult(Status status, List<String> fileList) {
 		myStatus = status;
 		if (status == Status.CONFLICTS)
 			this.conflictList = fileList;
 		else
-			this.conflictList = new ArrayList<File>(0);
+			this.conflictList = new ArrayList<String>(0);
 		if (status == Status.NONDELETED)
 			this.undeletedList = fileList;
 		else
-			this.undeletedList = new ArrayList<File>(0);
+			this.undeletedList = new ArrayList<String>(0);
 
 	}
 
@@ -125,7 +124,7 @@ public class CheckoutResult {
 	 * @return the list of files that created a checkout conflict, or an empty
 	 *         list if {@link #getStatus()} is not {@link Status#CONFLICTS};
 	 */
-	public List<File> getConflictList() {
+	public List<String> getConflictList() {
 		return conflictList;
 	}
 
@@ -134,7 +133,7 @@ public class CheckoutResult {
 	 *         an empty list if {@link #getStatus()} is not
 	 *         {@link Status#NONDELETED};
 	 */
-	public List<File> getUndeletedList() {
+	public List<String> getUndeletedList() {
 		return undeletedList;
 	}
 
