@@ -192,7 +192,9 @@ public class AppServer {
 		sec.setRealmName(realm);
 		sec.setAuthenticator(authType);
 		sec.setLoginService(users);
-		sec.setConstraintMappings(new ConstraintMapping[] { cm });
+		ArrayList<ConstraintMapping> mappings = new ArrayList<ConstraintMapping>();
+		mappings.add(cm);
+		sec.setConstraintMappings(mappings);
 		sec.setHandler(ctx);
 
 		contexts.removeHandler(ctx);

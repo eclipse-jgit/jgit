@@ -183,4 +183,8 @@ public class RecordingLogger implements Logger {
 	public void debug(Throwable thrown) {
 		// Ignore (not relevant to test failures)
 	}
+
+	public void ignore(Throwable arg0) {
+		// Ignore (not relevant to test failures)
+	}
 }
