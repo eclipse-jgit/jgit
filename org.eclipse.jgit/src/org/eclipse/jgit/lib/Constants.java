@@ -288,7 +288,7 @@ public final class Constants {
 	/**
 	 * The environment variable that tells us which file holds the Git index.
 	 */
-	public static final String GIT_INDEX_KEY = "GIT_INDEX";
+	public static final String GIT_INDEX_FILE_KEY = "GIT_INDEX_FILE";
 
 	/**
 	 * The environment variable that tells us where objects are stored
