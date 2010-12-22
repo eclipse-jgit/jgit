@@ -43,12 +43,15 @@
 
 package org.eclipse.jgit.dircache;
 
+import java.io.File;
 import java.util.Collections;
 
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.RepositoryTestCase;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
+import org.eclipse.jgit.util.FS;
+import org.eclipse.jgit.util.JGitTestUtil;
 
 public class DirCacheIteratorTest extends RepositoryTestCase {
 	public void testEmptyTree_NoTreeWalk() throws Exception {
@@ -268,5 +271,27 @@ public class DirCacheIteratorTest extends RepositoryTestCase {
 			assertSame(mode, tw.getFileMode(0));
 			assertFalse(tw.next());
 		}
+	}
+
+	public void testRemovedSubtree() throws Exception {
+		final File path = JGitTestUtil
+				.getTestResourceFile("dircache.testRemovedSubtree");
+
+		final DirCache dc = DirCache.read(path, FS.DETECTED);
+		assertEquals(2, dc.getEntryCount());
+
+		final TreeWalk tw = new TreeWalk(db);
+		tw.setRecursive(true);
+		tw.addTree(new DirCacheIterator(dc));
+
+		assertTrue(tw.next());
+		assertEquals("a/a", tw.getPathString());
+		assertSame(FileMode.REGULAR_FILE, tw.getFileMode(0));
+
+		assertTrue(tw.next());
+		assertEquals("q", tw.getPathString());
+		assertSame(FileMode.REGULAR_FILE, tw.getFileMode(0));
+
+		assertFalse(tw.next());
 	}
 }
