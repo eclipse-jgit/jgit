@@ -49,7 +49,7 @@ import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-class FS_POSIX_Java6 extends FS {
+class FS_POSIX_Java6 extends FS_POSIX {
 	private static final Method canExecute;
 
 	private static final Method setExecute;

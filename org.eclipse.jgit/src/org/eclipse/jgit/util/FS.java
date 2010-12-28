@@ -47,6 +47,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.Charset;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 
@@ -250,6 +251,30 @@ public abstract class FS {
 			}
 		} catch (IOException e) {
 			// ignore
+		}
+		return null;
+	}
+
+	/**
+	 * @return the $prefix/etc directory C Git would use
+	 */
+	public File gitPrefix() {
+		String osName = SystemReader.getInstance().getProperty("os.name");
+		if (osName.startsWith("Windows") || osName.startsWith("Mac")) {
+			/*
+			 * On MacOSX, PATH is shorter when Eclipse is launched from the
+			 * Finder than from a terminal. Therefore try to launch bash as a
+			 * login shell. Same thing may apply to Cygwin or other bash
+			 * environments.
+			 *
+			 * Other shells are currently not suported
+			 */
+			String w = readPipe(userHome, new String[] { "bash", "--login",
+					"-c",
+					"which git" }, //
+					Charset.defaultCharset().name());
+			File f = new File(w);
+			return f.getParentFile().getParentFile();
 		}
 		return null;
 	}
