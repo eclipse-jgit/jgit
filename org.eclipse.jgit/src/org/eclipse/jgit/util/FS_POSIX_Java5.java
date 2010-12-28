@@ -45,7 +45,7 @@ package org.eclipse.jgit.util;
 
 import java.io.File;
 
-class FS_POSIX_Java5 extends FS {
+class FS_POSIX_Java5 extends FS_POSIX {
 	public boolean supportsExecute() {
 		return false;
 	}
