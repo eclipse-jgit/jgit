@@ -199,4 +199,16 @@ public abstract class FS {
 			return null;
 		return new File(home).getAbsoluteFile();
 	}
+
+	static String scanPath(final String path, String... lookFor) {
+		for (final String p : path.split(File.pathSeparator)) {
+			for (String command : lookFor) {
+				final File e = new File(p, command);
+				if (e.isFile()) {
+					return e.getAbsolutePath();
+				}
+			}
+		}
+		return null;
+	}
 }
