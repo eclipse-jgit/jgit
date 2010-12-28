@@ -120,7 +120,8 @@ public class ConfigTest extends TestCase {
 		final MockSystemReader mockSystemReader = new MockSystemReader();
 		SystemReader.setInstance(mockSystemReader);
 		final String hostname = mockSystemReader.getHostname();
-		final Config userGitConfig = mockSystemReader.openUserConfig(FS.DETECTED);
+		final Config userGitConfig = mockSystemReader.openUserConfig(null,
+				FS.DETECTED);
 		final Config localConfig = new Config(userGitConfig);
 		mockSystemReader.clearProperties();
 

@@ -50,6 +50,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.TimeZone;
 
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 
 /**
@@ -72,9 +73,28 @@ public abstract class SystemReader {
 			return System.getProperty(key);
 		}
 
-		public FileBasedConfig openUserConfig(FS fs) {
+		public FileBasedConfig openSystemConfig(Config parent, FS fs) {
+			File prefix = fs.gitPrefix();
+			if (prefix == null) {
+				return new FileBasedConfig(null, fs) {
+					public void load() {
+						// empty, do not load
+					}
+
+					public boolean isOutdated() {
+						// regular class would bomb here
+						return false;
+					}
+				};
+			}
+			File etc = fs.resolve(prefix, "etc");
+			File config = fs.resolve(etc, "gitconfig");
+			return new FileBasedConfig(parent, config, fs);
+		}
+
+		public FileBasedConfig openUserConfig(Config parent, FS fs) {
 			final File home = fs.userHome();
-			return new FileBasedConfig(new File(home, ".gitconfig"), fs);
+			return new FileBasedConfig(parent, new File(home, ".gitconfig"), fs);
 		}
 
 		public String getHostname() {
@@ -136,12 +156,26 @@ public abstract class SystemReader {
 	public abstract String getProperty(String key);
 
 	/**
+	 * @param parent
+	 *            a config with values not found directly in the returned config
 	 * @param fs
-	 *            the file system abstraction which will be necessary to
-	 *            perform certain file system operations.
+	 *            the file system abstraction which will be necessary to perform
+	 *            certain file system operations.
 	 * @return the git configuration found in the user home
 	 */
-	public abstract FileBasedConfig openUserConfig(FS fs);
+	public abstract FileBasedConfig openUserConfig(Config parent, FS fs);
+
+	/**
+	 * @param parent
+	 *            a config with values not found directly in the returned
+	 *            config. Null is a reasonable value here.
+	 * @param fs
+	 *            the file system abstraction which will be necessary to perform
+	 *            certain file system operations.
+	 * @return the gitonfig configuration found in the system-wide "etc"
+	 *         directory
+	 */
+	public abstract FileBasedConfig openSystemConfig(Config parent, FS fs);
 
 	/**
 	 * @return the current system time

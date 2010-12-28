@@ -45,21 +45,41 @@
 
 package org.eclipse.jgit.junit;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TimeZone;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.SystemReader;
 
 public class MockSystemReader extends SystemReader {
+	private final class MockConfig extends FileBasedConfig {
+		private MockConfig(File cfgLocation, FS fs) {
+			super(cfgLocation, fs);
+		}
+
+		@Override
+		public void load() throws IOException, ConfigInvalidException {
+			// Do nothing
+		}
+
+		@Override
+		public boolean isOutdated() {
+			return false;
+		}
+	}
+
 	final Map<String, String> values = new HashMap<String, String>();
 
 	FileBasedConfig userGitConfig;
+
+	FileBasedConfig systemGitConfig;
 
 	public MockSystemReader() {
 		init(Constants.OS_USER_NAME_KEY);
@@ -67,17 +87,8 @@ public class MockSystemReader extends SystemReader {
 		init(Constants.GIT_AUTHOR_EMAIL_KEY);
 		init(Constants.GIT_COMMITTER_NAME_KEY);
 		init(Constants.GIT_COMMITTER_EMAIL_KEY);
-		userGitConfig = new FileBasedConfig(null, null) {
-			@Override
-			public void load() throws IOException, ConfigInvalidException {
-				// Do nothing
-			}
-
-			@Override
-			public boolean isOutdated() {
-				return false;
-			}
-		};
+		userGitConfig = new MockConfig(null, null);
+		systemGitConfig = new MockConfig(null, null);
 	}
 
 	private void init(final String n) {
@@ -103,8 +114,15 @@ public class MockSystemReader extends SystemReader {
 	}
 
 	@Override
-	public FileBasedConfig openUserConfig(FS fs) {
+	public FileBasedConfig openUserConfig(Config parent, FS fs) {
+		assert parent == null || parent == systemGitConfig;
 		return userGitConfig;
+	}
+
+	@Override
+	public FileBasedConfig openSystemConfig(Config parent, FS fs) {
+		assert parent == null;
+		return systemGitConfig;
 	}
 
 	@Override
@@ -121,4 +139,5 @@ public class MockSystemReader extends SystemReader {
 	public int getTimezone(long when) {
 		return TimeZone.getTimeZone("GMT-03:30").getOffset(when) / (60 * 1000);
 	}
+
 }
