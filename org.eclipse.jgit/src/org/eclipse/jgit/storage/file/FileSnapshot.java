@@ -45,8 +45,6 @@ package org.eclipse.jgit.storage.file;
 
 import java.io.File;
 
-import org.eclipse.jgit.util.SystemReader;
-
 /**
  * Caches when a file was last read, making it possible to detect future edits.
  * <p>
@@ -84,7 +82,7 @@ public class FileSnapshot {
 	 * @return the snapshot.
 	 */
 	public static FileSnapshot save(File path) {
-		final long read = SystemReader.getInstance().getCurrentTime();
+		final long read = System.currentTimeMillis();
 		final long modified = path.lastModified();
 		return new FileSnapshot(read, modified);
 	}
@@ -109,8 +107,8 @@ public class FileSnapshot {
 	}
 
 	/**
-	 * Check if the path has been modified since the snapshot was saved.
-	 *
+	 * Check if the path may have been modified since the snapshot was saved.
+	 * 
 	 * @param path
 	 *            the path the snapshot describes.
 	 * @return true if the path needs to be read again.
@@ -200,6 +198,12 @@ public class FileSnapshot {
 			// but this thread may not have seen the change. The read
 			// of the volatile field lastRead should have fixed that.
 			//
+			return false;
+		}
+
+		// Our lastRead flag may be old, refresh and retry
+		lastRead = System.currentTimeMillis();
+		if (notRacyClean(lastRead)) {
 			return false;
 		}
 
