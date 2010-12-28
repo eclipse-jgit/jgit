@@ -43,7 +43,10 @@
 
 package org.eclipse.jgit.util;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 
@@ -208,6 +211,45 @@ public abstract class FS {
 					return e.getAbsoluteFile();
 				}
 			}
+		}
+		return null;
+	}
+
+	/**
+	 * Execute a command and return a single line of output as a String
+	 *
+	 * @param dir
+	 *            Working directory for the command
+	 * @param command
+	 *            as component array
+	 * @param encoding
+	 * @return the one-line output of the command
+	 */
+	protected String readPipe(final File dir, String[] command, String encoding) {
+		try {
+			final Process p = Runtime.getRuntime().exec(command, null, dir);
+
+			final BufferedReader lineRead = new BufferedReader(
+					new InputStreamReader(p.getInputStream(), encoding));
+			String r = null;
+			try {
+				r = lineRead.readLine();
+			} finally {
+				p.getOutputStream().close();
+				lineRead.close();
+			}
+
+			for (;;) {
+				try {
+					if (p.waitFor() == 0 && r != null && r.length() > 0)
+						return r;
+					break;
+				} catch (InterruptedException ie) {
+					// Stop bothering me, I have a zombie to reap.
+				}
+			}
+		} catch (IOException e) {
+			// ignore
 		}
 		return null;
 	}
