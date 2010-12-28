@@ -1,6 +1,5 @@
 /*
- * Copyright (C) 2009, Google Inc.
- * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org>
+ * Copyright (C) 2019, Robin Rosenberg
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -41,47 +40,16 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
 package org.eclipse.jgit.util;
 
 import java.io.File;
 import java.io.IOException;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 
-class FS_Win32 extends FS {
-	static boolean detect() {
-		final String osDotName = AccessController
-				.doPrivileged(new PrivilegedAction<String>() {
-					public String run() {
-						return System.getProperty("os.name");
-					}
-				});
-		return osDotName != null
-				&& StringUtils.toLowerCase(osDotName).indexOf("windows") != -1;
-	}
+abstract class FS_POSIX extends FS {
 
-	public boolean supportsExecute() {
-		return false;
-	}
-
-	public boolean canExecute(final File f) {
-		return false;
-	}
-
-	public boolean setExecute(final File f, final boolean canExec) {
-		return false;
-	}
-
-	@Override
-	public boolean retryFailedLockFileCommit() {
-		return true;
-	}
-
-	@Override
 	public File gitPrefix() throws IOException {
-		String path = SystemReader.getInstance().getenv("PATH");
-		String gitExe = scanPath(path, "git.exe", "git.cmd");
+		String gitExe = scanPath(SystemReader.getInstance().getenv("PATH"),
+				"git");
 		if (gitExe != null)
 			return new File(gitExe).getAbsoluteFile().getParentFile()
 					.getParentFile();

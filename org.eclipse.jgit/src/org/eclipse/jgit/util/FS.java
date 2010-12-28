@@ -47,6 +47,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.Charset;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 
@@ -252,5 +253,35 @@ public abstract class FS {
 			// ignore
 		}
 		return null;
+	}
+
+	/**
+	 * @return the $prefix/etc directory C Git would use
+	 * @throws IOException
+	 */
+	public File gitPrefix() throws IOException {
+		String w;
+		// bash, bourne shel
+		w = readPipe(null, new String[] { "which git" }, //
+				Charset.defaultCharset().name());
+		if (w == null) {
+			// Korn Shell
+			w = readPipe(null, new String[] { "whence", "git" }, //
+					Charset.defaultCharset().name());
+		}
+		if (w == null) {
+			/*
+			 * On MacOSX, PATH is shorter when Eclipse is launched from the
+			 * Finder than from a terminal. Therefore try to launch bash as a
+			 * login shell.
+			 */
+			w = readPipe(userHome, new String[] { "bash", "--login", "-c",
+					"which git" }, //
+					Charset.defaultCharset().name());
+		}
+		if (w == null)
+			return null;
+		File f = new File(w);
+		return f.getParentFile().getParentFile();
 	}
 }
