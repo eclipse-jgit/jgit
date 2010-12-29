@@ -42,11 +42,8 @@
  */
 package org.eclipse.jgit.api;
 
-import java.io.File;
 import java.io.IOException;
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.api.CheckoutResult.Status;
@@ -141,11 +138,8 @@ public class CheckoutCommand extends GitCommand<Ref> {
 			try {
 				dco.checkout();
 			} catch (CheckoutConflictException e) {
-				List<File> fileList = new ArrayList<File>();
-				for (String filePath : dco.getConflicts()) {
-					fileList.add(new File(repo.getWorkTree(), filePath));
-				}
-				status = new CheckoutResult(Status.CONFLICTS, fileList);
+				status = new CheckoutResult(Status.CONFLICTS, dco
+						.getConflicts());
 				throw e;
 			}
 			Ref ref = repo.getRef(name);
@@ -183,12 +177,9 @@ public class CheckoutCommand extends GitCommand<Ref> {
 				throw new JGitInternalException(MessageFormat.format(JGitText
 						.get().checkoutUnexpectedResult, updateResult.name()));
 
-			if (!repo.isBare() && !dco.getToBeDeleted().isEmpty()) {
-				List<File> fileList = new ArrayList<File>();
-				for (String filePath : dco.getToBeDeleted()) {
-					fileList.add(new File(repo.getWorkTree(), filePath));
-				}
-				status = new CheckoutResult(Status.NONDELETED, fileList);
+			if (!dco.getToBeDeleted().isEmpty()) {
+				status = new CheckoutResult(Status.NONDELETED, dco
+						.getToBeDeleted());
 			}
 			else
 				status = CheckoutResult.OK_RESULT;
