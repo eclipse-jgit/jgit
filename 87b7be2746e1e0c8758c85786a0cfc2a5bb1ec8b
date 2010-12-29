@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "AAAAB3///+0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-03-10T05:19:08Z",
+      "side": 1,
+      "message": "Use SystemReader.getInstance().getProperty(). This advice also means you should not readyy declare this as a constant and not here.\n\nSee also http://egit.eclipse.org/r/#change,145",
+      "revId": "87b7be2746e1e0c8758c85786a0cfc2a5bb1ec8b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAB3////w\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CoreConfig.java",
         "patchSetId": 1
