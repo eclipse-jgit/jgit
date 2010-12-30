@@ -165,7 +165,7 @@ public class CommitAndLogCommandTests extends RepositoryTestCase {
 			JGitInternalException, WrongRepositoryStateException,
 			NoFilepatternException {
 		File file = new File(db.getWorkTree(), "a.txt");
-		file.createNewFile();
+		assertTrue(file.createNewFile());
 		PrintWriter writer = new PrintWriter(file);
 		writer.print("content");
 		writer.close();
