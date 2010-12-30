@@ -47,6 +47,7 @@ package org.eclipse.jgit.util;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.channels.FileLock;
 import java.text.MessageFormat;
 
 import org.eclipse.jgit.JGitText;
@@ -218,5 +219,27 @@ public class FileUtils {
 			throw new IOException(MessageFormat.format(
 					JGitText.get().mkDirsFailed, d.getAbsolutePath()));
 		}
+	}
+
+	/**
+	 * Atomically creates a new, empty file named by this abstract pathname if
+	 * and only if a file with this name does not yet exist. The check for the
+	 * existence of the file and the creation of the file if it does not exist
+	 * are a single operation that is atomic with respect to all other
+	 * filesystem activities that might affect the file.
+	 * <p>
+	 * Note: this method should not be used for file-locking, as the resulting
+	 * protocol cannot be made to work reliably. The {@link FileLock} facility
+	 * should be used instead.
+	 *
+	 * @param f
+	 *            the file to be created
+	 * @throws IOException
+	 *             if the named file already exists or if an I/O error occurred
+	 */
+	public static void createNewFile(File f) throws IOException {
+		if (!f.createNewFile())
+			throw new IOException(MessageFormat.format(
+					JGitText.get().createNewFileFailed, f));
 	}
 }
