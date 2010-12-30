@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL2X///4g\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-12-30T13:35:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL2X///90\u003d",
+      "revId": "4dec29bd67d2fb6dbe77fc773438526fa80408b1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL2X///9w\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_Win32_Cygwin.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2010-12-29T19:10:06Z",
       "side": 1,
       "message": "I would put the getAbsolutePath() part here since we want it as a String.",
+      "revId": "4dec29bd67d2fb6dbe77fc773438526fa80408b1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2X///4c\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_Win32_Cygwin.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-12-30T13:35:20Z",
+      "side": 1,
+      "message": "Done-ish",
+      "parentUuid": "AAAL2X///9w\u003d",
       "revId": "4dec29bd67d2fb6dbe77fc773438526fa80408b1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
