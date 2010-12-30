@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL2X///1s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-30T20:35:43Z",
+      "side": 1,
+      "message": "Style-nit: I\u0027d prefer dropping the curly braces, but I\u0027ll submit this as-is.",
+      "revId": "6cb68b3f3ec9224925b77493a62706dec32fb6ca",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2X///1o\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-30T20:35:43Z",
+      "side": 1,
+      "message": "OK, I think I finally understand why you want to do getAbsoluteFile() here.  If we use the File parameter to exec() the child process will cd into the new location and then run the executable.  If the executable name wasn\u0027t an absolute path, then execution would fail later.\n\nSo this makes sense to do as part of searchPath and just make it less likely we\u0027ll run into that error.",
+      "revId": "6cb68b3f3ec9224925b77493a62706dec32fb6ca",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
