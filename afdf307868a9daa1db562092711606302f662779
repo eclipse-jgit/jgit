@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAL2X///0Y\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 102
+      },
+      "writtenOn": "2010-12-30T23:40:59Z",
+      "side": 1,
+      "message": "It\u0027s a little bit faster!",
+      "revId": "afdf307868a9daa1db562092711606302f662779",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2X///0U\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/IndexPack.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1141,
+      "author": {
+        "id": 102
+      },
+      "writtenOn": "2010-12-30T23:40:59Z",
+      "side": 1,
+      "message": "made this a non-static method, putting it onto DeltaVisit where it looks a bit tider",
+      "revId": "afdf307868a9daa1db562092711606302f662779",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL2X///0E\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/IndexPack.java",
         "patchSetId": 4
