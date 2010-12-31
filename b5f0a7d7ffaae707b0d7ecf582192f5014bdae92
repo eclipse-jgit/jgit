@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "AAAL2X///zI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/IndexPack.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1134,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-31T02:40:23Z",
+      "side": 1,
+      "message": "Whoops, you caught this one.  This constructor could have been private since its only invoked by the DeltaVisit class.  Its just habit of mine to typically avoid the private modifier on a private inner class\u0027s methods/constructors, because the enclosing class can still access them anyway via synthetic accessor methods inserted by the compiler.",
+      "revId": "b5f0a7d7ffaae707b0d7ecf582192f5014bdae92",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL2X///zs\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/IndexPack.java",
         "patchSetId": 5
@@ -30,6 +47,24 @@
       "writtenOn": "2010-12-31T00:55:40Z",
       "side": 1,
       "message": "Fair enough, this method is called from outside the DeltaVisit class",
+      "revId": "b5f0a7d7ffaae707b0d7ecf582192f5014bdae92",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2X///zM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/IndexPack.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1140,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-31T02:40:23Z",
+      "side": 1,
+      "message": "Right.  I didn\u0027t want to pay the penalty for the synthetic accessor method to jump from the enclosing IndexPack class into the DeltaVisit.next() method each time we called next().  Since DeltaVisit is already private, this method is effectively private enough to IndexPack that it doesn\u0027t need to be further protected.",
+      "parentUuid": "AAAL2X///zs\u003d",
       "revId": "b5f0a7d7ffaae707b0d7ecf582192f5014bdae92",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
