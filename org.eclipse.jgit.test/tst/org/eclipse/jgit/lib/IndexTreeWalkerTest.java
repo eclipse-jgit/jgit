@@ -44,11 +44,14 @@
 
 package org.eclipse.jgit.lib;
 
+import static org.junit.Assert.*;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
 import org.eclipse.jgit.lib.GitIndex.Entry;
+import org.junit.Test;
 
 public class IndexTreeWalkerTest extends RepositoryTestCase {
 	private ArrayList<String> treeOnlyEntriesVisited = new ArrayList<String>();
@@ -74,6 +77,7 @@ public class IndexTreeWalkerTest extends RepositoryTestCase {
 	 *       because I already
 	 */
 
+	@Test
 	public void testTreeOnlyOneLevel() throws IOException {
 		GitIndex index = new GitIndex(db);
 		Tree tree = new Tree(db);
@@ -86,6 +90,7 @@ public class IndexTreeWalkerTest extends RepositoryTestCase {
 		assertTrue(treeOnlyEntriesVisited.get(1).equals("foo"));
 	}
 
+	@Test
 	public void testIndexOnlyOneLevel() throws IOException {
 		GitIndex index = new GitIndex(db);
 		Tree tree = new Tree(db);
@@ -98,6 +103,7 @@ public class IndexTreeWalkerTest extends RepositoryTestCase {
 		assertTrue(indexOnlyEntriesVisited.get(1).equals("foo"));
 	}
 
+	@Test
 	public void testBoth() throws IOException {
 		GitIndex index = new GitIndex(db);
 		Tree tree = new Tree(db);
@@ -114,6 +120,7 @@ public class IndexTreeWalkerTest extends RepositoryTestCase {
 
 	}
 
+	@Test
 	public void testIndexOnlySubDirs() throws IOException {
 		GitIndex index = new GitIndex(db);
 		Tree tree = new Tree(db);
@@ -126,6 +133,7 @@ public class IndexTreeWalkerTest extends RepositoryTestCase {
 		assertEquals("foo/bar/baz", indexOnlyEntriesVisited.get(1));
 	}
 
+	@Test
 	public void testLeavingTree() throws IOException {
 		GitIndex index = new GitIndex(db);
 		index.add(trash, writeTrashFile("foo/bar", "foo/bar"));

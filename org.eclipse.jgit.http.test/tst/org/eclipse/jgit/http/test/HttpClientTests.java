@@ -43,6 +43,8 @@
 
 package org.eclipse.jgit.http.test;
 
+import static org.junit.Assert.*;
+
 import java.io.File;
 import java.net.URI;
 import java.util.List;
@@ -86,7 +88,7 @@ public class HttpClientTests extends HttpTestCase {
 
 	private URIish smartAuthBasicURI;
 
-	protected void setUp() throws Exception {
+	public void setUp() throws Exception {
 		super.setUp();
 
 		remoteRepository = createTestRepository();

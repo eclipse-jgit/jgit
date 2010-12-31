@@ -43,7 +43,6 @@
 
 package org.eclipse.jgit.util;
 
-
 /** Conversion utilities for network byte order handling. */
 public final class NB {
 	/**

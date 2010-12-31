@@ -46,6 +46,7 @@ package org.eclipse.jgit.http.test;
 import static org.eclipse.jgit.util.HttpSupport.HDR_ACCEPT;
 import static org.eclipse.jgit.util.HttpSupport.HDR_PRAGMA;
 import static org.eclipse.jgit.util.HttpSupport.HDR_USER_AGENT;
+import static org.junit.Assert.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -70,6 +71,8 @@ import org.eclipse.jgit.transport.HttpTransport;
 import org.eclipse.jgit.transport.Transport;
 import org.eclipse.jgit.transport.TransportHttp;
 import org.eclipse.jgit.transport.URIish;
+import org.junit.Before;
+import org.junit.Test;
 
 public class DumbClientDumbServerTest extends HttpTestCase {
 	private Repository remoteRepository;
@@ -80,7 +83,8 @@ public class DumbClientDumbServerTest extends HttpTestCase {
 
 	private RevCommit A, B;
 
-	protected void setUp() throws Exception {
+	@Before
+	public void setUp() throws Exception {
 		super.setUp();
 
 		final TestRepository src = createTestRepository();
@@ -102,6 +106,7 @@ public class DumbClientDumbServerTest extends HttpTestCase {
 		src.update(master, B);
 	}
 
+	@Test
 	public void testListRemote() throws IOException {
 		Repository dst = createBareRepository();
 
@@ -164,6 +169,7 @@ public class DumbClientDumbServerTest extends HttpTestCase {
 		assertEquals(200, head.getStatus());
 	}
 
+	@Test
 	public void testInitialClone_Loose() throws Exception {
 		Repository dst = createBareRepository();
 		assertFalse(dst.hasObject(A_txt));
@@ -186,6 +192,7 @@ public class DumbClientDumbServerTest extends HttpTestCase {
 		assertEquals(200, loose.get(0).getStatus());
 	}
 
+	@Test
 	public void testInitialClone_Packed() throws Exception {
 		new TestRepository(remoteRepository).packAndPrune();
 
@@ -225,6 +232,7 @@ public class DumbClientDumbServerTest extends HttpTestCase {
 		assertEquals(200, event.getStatus());
 	}
 
+	@Test
 	public void testPushNotSupported() throws Exception {
 		final TestRepository src = createTestRepository();
 		final RevCommit Q = src.commit().create();

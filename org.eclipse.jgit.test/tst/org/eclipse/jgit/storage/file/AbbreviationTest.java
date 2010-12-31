@@ -45,6 +45,7 @@ package org.eclipse.jgit.storage.file;
 
 import static org.eclipse.jgit.lib.Constants.OBJECT_ID_LENGTH;
 import static org.eclipse.jgit.lib.Constants.OBJECT_ID_STRING_LENGTH;
+import static org.junit.Assert.*;
 
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
@@ -64,6 +65,9 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.transport.PackedObjectInfo;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 public class AbbreviationTest extends LocalDiskRepositoryTestCase {
 	private FileRepository db;
@@ -72,6 +76,7 @@ public class AbbreviationTest extends LocalDiskRepositoryTestCase {
 
 	private TestRepository<FileRepository> test;
 
+	@Before
 	public void setUp() throws Exception {
 		super.setUp();
 		db = createBareRepository();
@@ -79,11 +84,13 @@ public class AbbreviationTest extends LocalDiskRepositoryTestCase {
 		test = new TestRepository<FileRepository>(db);
 	}
 
+	@After
 	public void tearDown() throws Exception {
 		if (reader != null)
 			reader.release();
 	}
 
+	@Test
 	public void testAbbreviateOnEmptyRepository() throws IOException {
 		ObjectId id = id("9d5b926ed164e8ee88d3b8b1e525d699adda01ba");
 
@@ -108,6 +115,7 @@ public class AbbreviationTest extends LocalDiskRepositoryTestCase {
 		assertEquals(id, matches.iterator().next());
 	}
 
+	@Test
 	public void testAbbreviateLooseBlob() throws Exception {
 		ObjectId id = test.blob("test");
 
@@ -125,6 +133,7 @@ public class AbbreviationTest extends LocalDiskRepositoryTestCase {
 		assertEquals(id, db.resolve(reader.abbreviate(id, 8).name()));
 	}
 
+	@Test
 	public void testAbbreviatePackedBlob() throws Exception {
 		RevBlob id = test.blob("test");
 		test.branch("master").commit().add("test", id).child();
@@ -144,6 +153,7 @@ public class AbbreviationTest extends LocalDiskRepositoryTestCase {
 		assertEquals(id, db.resolve(reader.abbreviate(id, 8).name()));
 	}
 
+	@Test
 	public void testAbbreviateIsActuallyUnique() throws Exception {
 		// This test is far more difficult. We have to manually craft
 		// an input that contains collisions at a particular prefix,

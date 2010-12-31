@@ -43,12 +43,16 @@
 
 package org.eclipse.jgit.patch;
 
+import static org.junit.Assert.*;
+
 import java.io.IOException;
 import java.io.InputStream;
 
-import junit.framework.TestCase;
+import org.eclipse.jgit.junit.JGitTestUtil;
+import org.junit.Test;
 
-public class PatchErrorTest extends TestCase {
+public class PatchErrorTest {
+	@Test
 	public void testError_DisconnectedHunk() throws IOException {
 		final Patch p = parseTestPatchFile();
 		assertEquals(1, p.getFiles().size());
@@ -68,6 +72,7 @@ public class PatchErrorTest extends TestCase {
 		assertTrue(e.getLineText().startsWith("@@ -109,4 +109,11 @@ assert"));
 	}
 
+	@Test
 	public void testError_TruncatedOld() throws IOException {
 		final Patch p = parseTestPatchFile();
 		assertEquals(1, p.getFiles().size());
@@ -81,6 +86,7 @@ public class PatchErrorTest extends TestCase {
 		assertTrue(e.getLineText().startsWith("@@ -236,9 +236,9 @@ protected "));
 	}
 
+	@Test
 	public void testError_TruncatedNew() throws IOException {
 		final Patch p = parseTestPatchFile();
 		assertEquals(1, p.getFiles().size());
@@ -94,6 +100,7 @@ public class PatchErrorTest extends TestCase {
 		assertTrue(e.getLineText().startsWith("@@ -236,9 +236,9 @@ protected "));
 	}
 
+	@Test
 	public void testError_BodyTooLong() throws IOException {
 		final Patch p = parseTestPatchFile();
 		assertEquals(1, p.getFiles().size());
@@ -107,6 +114,7 @@ public class PatchErrorTest extends TestCase {
 		assertTrue(e.getLineText().startsWith("@@ -109,4 +109,11 @@ assert"));
 	}
 
+	@Test
 	public void testError_GarbageBetweenFiles() throws IOException {
 		final Patch p = parseTestPatchFile();
 		assertEquals(2, p.getFiles().size());
@@ -133,6 +141,7 @@ public class PatchErrorTest extends TestCase {
 		assertEquals("I AM NOT HERE\n", e.getLineText());
 	}
 
+	@Test
 	public void testError_GitBinaryNoForwardHunk() throws IOException {
 		final Patch p = parseTestPatchFile();
 		assertEquals(2, p.getFiles().size());
@@ -163,7 +172,7 @@ public class PatchErrorTest extends TestCase {
 	}
 
 	private Patch parseTestPatchFile() throws IOException {
-		final String patchFile = getName() + ".patch";
+		final String patchFile = JGitTestUtil.getName() + ".patch";
 		final InputStream in = getClass().getResourceAsStream(patchFile);
 		if (in == null) {
 			fail("No " + patchFile + " test vector");

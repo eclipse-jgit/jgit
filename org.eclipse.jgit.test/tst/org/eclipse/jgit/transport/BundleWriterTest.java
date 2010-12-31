@@ -45,6 +45,8 @@
 
 package org.eclipse.jgit.transport;
 
+import static org.junit.Assert.*;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -63,9 +65,11 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.SampleDataRepositoryTestCase;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.junit.Test;
 
 public class BundleWriterTest extends SampleDataRepositoryTestCase {
 
+	@Test
 	public void testWrite0() throws Exception {
 		// Create a tiny bundle, (well one of) the first commits only
 		final byte[] bundle = makeBundle("refs/heads/firstcommit",
@@ -92,6 +96,7 @@ public class BundleWriterTest extends SampleDataRepositoryTestCase {
 	 *
 	 * @throws Exception
 	 */
+	@Test
 	public void testWrite1() throws Exception {
 		byte[] bundle;
 

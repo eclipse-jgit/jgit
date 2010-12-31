@@ -43,6 +43,8 @@
 
 package org.eclipse.jgit.junit;
 
+import static org.junit.Assert.*;
+
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -55,9 +57,6 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import junit.framework.Assert;
-import junit.framework.AssertionFailedError;
 
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
@@ -277,12 +276,10 @@ public class TestRepository<R extends Repository> {
 	 * @param path
 	 *            the path to find the entry of.
 	 * @return the parsed object entry at this path, never null.
-	 * @throws AssertionFailedError
-	 *             if the path does not exist in the given tree.
 	 * @throws Exception
 	 */
 	public RevObject get(final RevTree tree, final String path)
-			throws AssertionFailedError, Exception {
+			throws Exception {
 		final TreeWalk tw = new TreeWalk(pool.getObjectReader());
 		tw.setFilter(PathFilterGroup.createFromStrings(Collections
 				.singleton(path)));
@@ -296,7 +293,7 @@ public class TestRepository<R extends Repository> {
 			final FileMode entmode = tw.getFileMode(0);
 			return pool.lookupAny(entid, entmode.getObjectType());
 		}
-		Assert.fail("Can't find " + path + " in tree " + tree.name());
+		fail("Can't find " + path + " in tree " + tree.name());
 		return null; // never reached.
 	}
 
@@ -598,7 +595,7 @@ public class TestRepository<R extends Repository> {
 		md.update(Constants.encodeASCII(bin.length));
 		md.update((byte) 0);
 		md.update(bin);
-		Assert.assertEquals(id, ObjectId.fromRaw(md.digest()));
+		assertEquals(id, ObjectId.fromRaw(md.digest()));
 	}
 
 	/**

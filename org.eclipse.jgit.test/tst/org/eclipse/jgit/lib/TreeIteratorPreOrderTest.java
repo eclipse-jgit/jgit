@@ -44,11 +44,16 @@
 
 package org.eclipse.jgit.lib;
 
+import static org.junit.Assert.*;
+
 import java.io.IOException;
+
+import org.junit.Test;
 
 public class TreeIteratorPreOrderTest extends RepositoryTestCase {
 
 	/** Empty tree */
+	@Test
 	public void testEmpty() {
 		Tree tree = new Tree(db);
 		TreeIterator i = makeIterator(tree);
@@ -62,6 +67,7 @@ public class TreeIteratorPreOrderTest extends RepositoryTestCase {
 	 *
 	 * @throws IOException
 	 */
+	@Test
 	public void testSimpleF1() throws IOException {
 		Tree tree = new Tree(db);
 		tree.addFile("x");
@@ -78,6 +84,7 @@ public class TreeIteratorPreOrderTest extends RepositoryTestCase {
 	 *
 	 * @throws IOException
 	 */
+	@Test
 	public void testSimpleF2() throws IOException {
 		Tree tree = new Tree(db);
 		tree.addFile("a");
@@ -96,6 +103,7 @@ public class TreeIteratorPreOrderTest extends RepositoryTestCase {
 	 *
 	 * @throws IOException
 	 */
+	@Test
 	public void testSimpleT() throws IOException {
 		Tree tree = new Tree(db);
 		tree.addTree("a");
@@ -107,6 +115,7 @@ public class TreeIteratorPreOrderTest extends RepositoryTestCase {
 		assertFalse(i.hasNext());
 	}
 
+	@Test
 	public void testTricky() throws IOException {
 		Tree tree = new Tree(db);
 		tree.addFile("a.b");

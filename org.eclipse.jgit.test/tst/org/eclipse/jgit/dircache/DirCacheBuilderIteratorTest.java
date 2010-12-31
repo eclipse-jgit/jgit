@@ -43,14 +43,18 @@
 
 package org.eclipse.jgit.dircache;
 
+import static org.junit.Assert.*;
+
 import java.util.Collections;
 
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.RepositoryTestCase;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
+import org.junit.Test;
 
 public class DirCacheBuilderIteratorTest extends RepositoryTestCase {
+	@Test
 	public void testPathFilterGroup_DoesNotSkipTail() throws Exception {
 		final DirCache dc = db.readDirCache();
 

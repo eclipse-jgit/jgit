@@ -129,8 +129,6 @@
           <argLine>-Xmx256m -Dfile.encoding=UTF-8</argLine>
           <includes>
             <include>**/*Test.java</include>
-            <include>**/*TestCase.java</include>
-            <include>**/T000*.java</include>
           </includes>
         </configuration>
       </plugin>

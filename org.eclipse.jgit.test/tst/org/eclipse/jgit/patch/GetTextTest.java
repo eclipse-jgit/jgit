@@ -43,14 +43,18 @@
 
 package org.eclipse.jgit.patch;
 
+import static org.junit.Assert.*;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 
-import junit.framework.TestCase;
+import org.eclipse.jgit.junit.JGitTestUtil;
+import org.junit.Test;
 
-public class GetTextTest extends TestCase {
+public class GetTextTest {
+	@Test
 	public void testGetText_BothISO88591() throws IOException {
 		final Charset cs = Charset.forName("ISO-8859-1");
 		final Patch p = parseTestPatchFile();
@@ -61,6 +65,7 @@ public class GetTextTest extends TestCase {
 		assertEquals(readTestPatchFile(cs), fh.getScriptText(cs, cs));
 	}
 
+	@Test
 	public void testGetText_NoBinary() throws IOException {
 		final Charset cs = Charset.forName("ISO-8859-1");
 		final Patch p = parseTestPatchFile();
@@ -71,6 +76,7 @@ public class GetTextTest extends TestCase {
 		assertEquals(readTestPatchFile(cs), fh.getScriptText(cs, cs));
 	}
 
+	@Test
 	public void testGetText_Convert() throws IOException {
 		final Charset csOld = Charset.forName("ISO-8859-1");
 		final Charset csNew = Charset.forName("UTF-8");
@@ -90,6 +96,7 @@ public class GetTextTest extends TestCase {
 		assertEquals(exp, fh.getScriptText(csOld, csNew));
 	}
 
+	@Test
 	public void testGetText_DiffCc() throws IOException {
 		final Charset csOld = Charset.forName("ISO-8859-1");
 		final Charset csNew = Charset.forName("UTF-8");
@@ -111,7 +118,7 @@ public class GetTextTest extends TestCase {
 	}
 
 	private Patch parseTestPatchFile() throws IOException {
-		final String patchFile = getName() + ".patch";
+		final String patchFile = JGitTestUtil.getName() + ".patch";
 		final InputStream in = getClass().getResourceAsStream(patchFile);
 		if (in == null) {
 			fail("No " + patchFile + " test vector");
@@ -127,7 +134,7 @@ public class GetTextTest extends TestCase {
 	}
 
 	private String readTestPatchFile(final Charset cs) throws IOException {
-		final String patchFile = getName() + ".patch";
+		final String patchFile = JGitTestUtil.getName() + ".patch";
 		final InputStream in = getClass().getResourceAsStream(patchFile);
 		if (in == null) {
 			fail("No " + patchFile + " test vector");

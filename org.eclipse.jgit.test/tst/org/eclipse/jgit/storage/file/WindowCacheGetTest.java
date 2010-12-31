@@ -43,6 +43,8 @@
 
 package org.eclipse.jgit.storage.file;
 
+import static org.junit.Assert.*;
+
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -51,17 +53,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.jgit.errors.CorruptObjectException;
+import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.SampleDataRepositoryTestCase;
-import org.eclipse.jgit.util.JGitTestUtil;
 import org.eclipse.jgit.util.MutableInteger;
+import org.junit.Before;
+import org.junit.Test;
 
 public class WindowCacheGetTest extends SampleDataRepositoryTestCase {
 	private List<TestObject> toLoad;
 
 	@Override
+	@Before
 	public void setUp() throws Exception {
 		super.setUp();
 
@@ -88,6 +93,7 @@ public class WindowCacheGetTest extends SampleDataRepositoryTestCase {
 		assertEquals(96, toLoad.size());
 	}
 
+	@Test
 	public void testCache_Defaults() throws IOException {
 		final WindowCacheConfig cfg = new WindowCacheConfig();
 		WindowCache.reconfigure(cfg);
@@ -99,6 +105,7 @@ public class WindowCacheGetTest extends SampleDataRepositoryTestCase {
 		assertEquals(17346, cache.getOpenBytes());
 	}
 
+	@Test
 	public void testCache_TooFewFiles() throws IOException {
 		final WindowCacheConfig cfg = new WindowCacheConfig();
 		cfg.setPackedGitOpenFiles(2);
@@ -107,6 +114,7 @@ public class WindowCacheGetTest extends SampleDataRepositoryTestCase {
 		checkLimits(cfg);
 	}
 
+	@Test
 	public void testCache_TooSmallLimit() throws IOException {
 		final WindowCacheConfig cfg = new WindowCacheConfig();
 		cfg.setPackedGitWindowSize(4096);

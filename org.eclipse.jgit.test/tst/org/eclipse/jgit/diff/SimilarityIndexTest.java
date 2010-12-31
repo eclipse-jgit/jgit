@@ -43,15 +43,17 @@
 
 package org.eclipse.jgit.diff;
 
+import static org.junit.Assert.*;
+
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
-import junit.framework.TestCase;
-
 import org.eclipse.jgit.diff.SimilarityIndex.TableFullException;
 import org.eclipse.jgit.lib.Constants;
+import org.junit.Test;
 
-public class SimilarityIndexTest extends TestCase {
+public class SimilarityIndexTest {
+	@Test
 	public void testIndexingSmallObject() throws TableFullException {
 		SimilarityIndex si = hash("" //
 				+ "A\n" //
@@ -71,6 +73,7 @@ public class SimilarityIndexTest extends TestCase {
 		assertEquals(2, si.count(si.findIndex(key_D)));
 	}
 
+	@Test
 	public void testIndexingLargeObject() throws IOException,
 			TableFullException {
 		byte[] in = ("" //
@@ -83,6 +86,7 @@ public class SimilarityIndexTest extends TestCase {
 		assertEquals(2, si.size());
 	}
 
+	@Test
 	public void testCommonScore_SameFiles() throws TableFullException {
 		String text = "" //
 				+ "A\n" //
@@ -98,6 +102,7 @@ public class SimilarityIndexTest extends TestCase {
 		assertEquals(100, dst.score(src, 100));
 	}
 
+	@Test
 	public void testCommonScore_EmptyFiles() throws TableFullException {
 		SimilarityIndex src = hash("");
 		SimilarityIndex dst = hash("");
@@ -105,6 +110,7 @@ public class SimilarityIndexTest extends TestCase {
 		assertEquals(0, dst.common(src));
 	}
 
+	@Test
 	public void testCommonScore_TotallyDifferentFiles()
 			throws TableFullException {
 		SimilarityIndex src = hash("A\n");
@@ -113,6 +119,7 @@ public class SimilarityIndexTest extends TestCase {
 		assertEquals(0, dst.common(src));
 	}
 
+	@Test
 	public void testCommonScore_SimiliarBy75() throws TableFullException {
 		SimilarityIndex src = hash("A\nB\nC\nD\n");
 		SimilarityIndex dst = hash("A\nB\nC\nQ\n");

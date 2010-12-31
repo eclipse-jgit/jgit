@@ -42,11 +42,15 @@
  */
 package org.eclipse.jgit.api;
 
+import static org.junit.Assert.*;
+
 import java.io.IOException;
 
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.api.errors.NoFilepatternException;
 import org.eclipse.jgit.lib.RepositoryTestCase;
+import org.junit.Before;
+import org.junit.Test;
 
 public class RmCommandTest extends RepositoryTestCase {
 
@@ -55,7 +59,8 @@ public class RmCommandTest extends RepositoryTestCase {
 	private static final String FILE = "test.txt";
 
 	@Override
-	protected void setUp() throws Exception {
+	@Before
+	public void setUp() throws Exception {
 		super.setUp();
 		git = new Git(db);
 		// commit something
@@ -64,6 +69,7 @@ public class RmCommandTest extends RepositoryTestCase {
 		git.commit().setMessage("Initial commit").call();
 	}
 
+	@Test
 	public void testRemove() throws JGitInternalException,
 			NoFilepatternException, IllegalStateException, IOException {
 		assertEquals("[test.txt, mode:100644, content:Hello world]",

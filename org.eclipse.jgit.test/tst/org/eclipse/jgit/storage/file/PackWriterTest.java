@@ -43,6 +43,7 @@
 
 package org.eclipse.jgit.storage.file;
 
+import static org.junit.Assert.*;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -59,6 +60,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.SampleDataRepositoryTestCase;
@@ -69,7 +71,9 @@ import org.eclipse.jgit.storage.file.PackIndex.MutableEntry;
 import org.eclipse.jgit.storage.pack.PackConfig;
 import org.eclipse.jgit.storage.pack.PackWriter;
 import org.eclipse.jgit.transport.IndexPack;
-import org.eclipse.jgit.util.JGitTestUtil;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 public class PackWriterTest extends SampleDataRepositoryTestCase {
 
@@ -93,6 +97,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 
 	private PackFile pack;
 
+	@Before
 	public void setUp() throws Exception {
 		super.setUp();
 		os = new ByteArrayOutputStream();
@@ -102,6 +107,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 		config = new PackConfig(db);
 	}
 
+	@After
 	public void tearDown() throws Exception {
 		if (writer != null)
 			writer.release();
@@ -111,6 +117,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 	/**
 	 * Test constructor for exceptions, default settings, initialization.
 	 */
+	@Test
 	public void testContructor() {
 		writer = new PackWriter(config, db.newObjectReader());
 		assertEquals(false, writer.isDeltaBaseAsOffset());
@@ -122,6 +129,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 	/**
 	 * Change default settings and verify them.
 	 */
+	@Test
 	public void testModifySettings() {
 		config.setReuseDeltas(false);
 		config.setReuseObjects(false);
@@ -142,6 +150,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 	 *
 	 * @throws IOException
 	 */
+	@Test
 	public void testWriteEmptyPack1() throws IOException {
 		createVerifyOpenPack(EMPTY_LIST_OBJECT, EMPTY_LIST_OBJECT, false, false);
 
@@ -157,6 +166,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 	 *
 	 * @throws IOException
 	 */
+	@Test
 	public void testWriteEmptyPack2() throws IOException {
 		createVerifyOpenPack(EMPTY_LIST_REVS.iterator());
 
@@ -170,6 +180,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 	 *
 	 * @throws IOException
 	 */
+	@Test
 	public void testNotIgnoreNonExistingObjects() throws IOException {
 		final ObjectId nonExisting = ObjectId
 				.fromString("0000000000000000000000000000000000000001");
@@ -187,6 +198,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 	 *
 	 * @throws IOException
 	 */
+	@Test
 	public void testIgnoreNonExistingObjects() throws IOException {
 		final ObjectId nonExisting = ObjectId
 				.fromString("0000000000000000000000000000000000000001");
@@ -201,6 +213,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 	 *
 	 * @throws IOException
 	 */
+	@Test
 	public void testWritePack1() throws IOException {
 		config.setReuseDeltas(false);
 		writeVerifyPack1();
@@ -212,6 +225,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 	 *
 	 * @throws IOException
 	 */
+	@Test
 	public void testWritePack1NoObjectReuse() throws IOException {
 		config.setReuseDeltas(false);
 		config.setReuseObjects(false);
@@ -224,6 +238,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 	 *
 	 * @throws IOException
 	 */
+	@Test
 	public void testWritePack2() throws IOException {
 		writeVerifyPack2(false);
 	}
@@ -234,6 +249,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 	 *
 	 * @throws IOException
 	 */
+	@Test
 	public void testWritePack2DeltasReuseRefs() throws IOException {
 		writeVerifyPack2(true);
 	}
@@ -244,6 +260,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 	 *
 	 * @throws IOException
 	 */
+	@Test
 	public void testWritePack2DeltasReuseOffsets() throws IOException {
 		config.setDeltaBaseAsOffset(true);
 		writeVerifyPack2(true);
@@ -256,6 +273,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 	 *
 	 * @throws IOException
 	 */
+	@Test
 	public void testWritePack2DeltasCRC32Copy() throws IOException {
 		final File packDir = new File(db.getObjectDatabase().getDirectory(), "pack");
 		final File crc32Pack = new File(packDir,
@@ -278,6 +296,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 	 * @throws MissingObjectException
 	 *
 	 */
+	@Test
 	public void testWritePack3() throws MissingObjectException, IOException {
 		config.setReuseDeltas(false);
 		final ObjectId forcedOrder[] = new ObjectId[] {
@@ -307,6 +326,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 	 *
 	 * @throws IOException
 	 */
+	@Test
 	public void testWritePack4() throws IOException {
 		writeVerifyPack4(false);
 	}
@@ -317,6 +337,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 	 *
 	 * @throws IOException
 	 */
+	@Test
 	public void testWritePack4ThinPack() throws IOException {
 		writeVerifyPack4(true);
 	}
@@ -328,6 +349,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 	 *
 	 * @throws Exception
 	 */
+	@Test
 	public void testWritePack2SizeDeltasVsNoDeltas() throws Exception {
 		testWritePack2();
 		final long sizePack2NoDeltas = os.size();
@@ -347,6 +369,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 	 *
 	 * @throws Exception
 	 */
+	@Test
 	public void testWritePack2SizeOffsetsVsRefs() throws Exception {
 		testWritePack2DeltasReuseRefs();
 		final long sizePack2DeltasRefs = os.size();
@@ -365,6 +388,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 	 *
 	 * @throws Exception
 	 */
+	@Test
 	public void testWritePack4SizeThinVsNoThin() throws Exception {
 		testWritePack4();
 		final long sizePack4 = os.size();
@@ -376,6 +400,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 		assertTrue(sizePack4 > sizePack4Thin);
 	}
 
+	@Test
 	public void testWriteIndex() throws Exception {
 		config.setIndexVersion(2);
 		writeVerifyPack4(false);
