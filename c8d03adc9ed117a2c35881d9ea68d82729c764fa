@@ -1,0 +1,276 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL2X///9c\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-29T19:28:01Z",
+      "side": 1,
+      "message": "s/instaled/installed/ (two l\u0027s)",
+      "revId": "c8d03adc9ed117a2c35881d9ea68d82729c764fa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2X///9Y\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-29T19:28:01Z",
+      "side": 1,
+      "message": "s/^Bug /Bug: / (missing :)",
+      "revId": "c8d03adc9ed117a2c35881d9ea68d82729c764fa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2X///8c\u003d",
+        "filename": "org.eclipse.jgit.junit/src/org/eclipse/jgit/junit/MockSystemReader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-29T19:28:01Z",
+      "side": 1,
+      "message": "Typo, should be systemGitConfig.",
+      "revId": "c8d03adc9ed117a2c35881d9ea68d82729c764fa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2X///8o\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/FileRepository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-29T19:28:01Z",
+      "side": 1,
+      "message": "I would prefer \"systemConfig\" as the field name.",
+      "revId": "c8d03adc9ed117a2c35881d9ea68d82729c764fa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2X///8k\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/FileRepository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-29T19:28:01Z",
+      "side": 1,
+      "message": "I would prefer systemConfigInvalid for the translation text name.",
+      "revId": "c8d03adc9ed117a2c35881d9ea68d82729c764fa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2X///8g\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/FileRepository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-29T19:28:01Z",
+      "side": 1,
+      "message": "Should we check for systemConfig.isOutdated() as well?",
+      "revId": "c8d03adc9ed117a2c35881d9ea68d82729c764fa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2X///9Q\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-29T19:28:01Z",
+      "side": 1,
+      "message": "If we have scanPath() above, why do we need to run the shell in order to find it?  Why not just use scanPath()?",
+      "revId": "c8d03adc9ed117a2c35881d9ea68d82729c764fa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2X///9M\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-29T19:28:01Z",
+      "side": 1,
+      "message": "This fallback makes sense... but should only be necessary on Mac OS X.  Should we special case this?\n\n  if (w \u003d\u003d null \u0026\u0026 isMacOSX())",
+      "revId": "c8d03adc9ed117a2c35881d9ea68d82729c764fa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2X///9I\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-29T19:28:01Z",
+      "side": 1,
+      "message": "This needs an @Override annotation.",
+      "revId": "c8d03adc9ed117a2c35881d9ea68d82729c764fa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2X///9E\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-29T19:28:01Z",
+      "side": 1,
+      "message": "I really think you should try this first in the base class, rather than running which and whence.",
+      "revId": "c8d03adc9ed117a2c35881d9ea68d82729c764fa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2X///9A\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_Win32.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-29T19:28:01Z",
+      "side": 1,
+      "message": "This is line-wrapping ugly.  I\u0027d prefer (assuming you change scanPath to return File):\n\n  File gitExe \u003d scanPath(...);\n  if (gitExe !\u003d null) {\n    gitExe \u003d gitExe.getAbsoluteFile();\n    File bin \u003d gitExe.getParentFile();  // discard \"git.exe\"\n    return bin.getParentFile();  // discard \"bin\"\n  }",
+      "revId": "c8d03adc9ed117a2c35881d9ea68d82729c764fa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2X///80\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SystemReader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-29T19:28:01Z",
+      "side": 1,
+      "message": "Please use {} around the return statement, since its multiple lines for the inner class that is overriding the load() routine.",
+      "revId": "c8d03adc9ed117a2c35881d9ea68d82729c764fa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2X///8s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SystemReader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-29T19:28:01Z",
+      "side": 1,
+      "message": "Do we also need to override save() to prevent an NPE when an (invalid) call to save() is made?",
+      "revId": "c8d03adc9ed117a2c35881d9ea68d82729c764fa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2X///8w\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SystemReader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-29T19:28:01Z",
+      "side": 1,
+      "message": "Throws clauses aren\u0027t necessary here since the body does nothing.",
+      "revId": "c8d03adc9ed117a2c35881d9ea68d82729c764fa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2X///84\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SystemReader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-29T19:28:01Z",
+      "side": 1,
+      "message": "This is wrapping ugly, maybe resolve the file first, and then resolve the gitconfig.  That way a symlinked /etc/gitconfig is correctly followed if it came from Cygwin.\n\n  File etc \u003d new File(fs.resolve(prefix, \"etc\"));\n  File config \u003d new File(fs.resolve(etc, \"config\"));\n  return new FileBasedConfig(parent, config, fs);",
+      "revId": "c8d03adc9ed117a2c35881d9ea68d82729c764fa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2X///88\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SystemReader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-29T19:28:01Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be:\n\n  fs.resolve(null, \"/etc/gitconfig\")\n\nBut why are we doing this fallback here?  If the system config cannot be found, this fallback only works on POSIX systems that have had Git installed by the OS distribution.  In theory we should have found the config correctly via the FS_POSIX class anyway.",
+      "revId": "c8d03adc9ed117a2c35881d9ea68d82729c764fa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
