@@ -43,7 +43,12 @@
 
 package org.eclipse.jgit.revwalk;
 
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+
 public class RevWalkSortTest extends RevWalkTestCase {
+	@Test
 	public void testSort_Default() throws Exception {
 		final RevCommit a = commit();
 		final RevCommit b = commit(1, a);
@@ -58,6 +63,7 @@ public class RevWalkSortTest extends RevWalkTestCase {
 		assertNull(rw.next());
 	}
 
+	@Test
 	public void testSort_COMMIT_TIME_DESC() throws Exception {
 		final RevCommit a = commit();
 		final RevCommit b = commit(a);
@@ -73,6 +79,7 @@ public class RevWalkSortTest extends RevWalkTestCase {
 		assertNull(rw.next());
 	}
 
+	@Test
 	public void testSort_REVERSE() throws Exception {
 		final RevCommit a = commit();
 		final RevCommit b = commit(a);
@@ -88,6 +95,7 @@ public class RevWalkSortTest extends RevWalkTestCase {
 		assertNull(rw.next());
 	}
 
+	@Test
 	public void testSort_COMMIT_TIME_DESC_OutOfOrder1() throws Exception {
 		// Despite being out of order time-wise, a strand-of-pearls must
 		// still maintain topological order.
@@ -108,6 +116,7 @@ public class RevWalkSortTest extends RevWalkTestCase {
 		assertNull(rw.next());
 	}
 
+	@Test
 	public void testSort_COMMIT_TIME_DESC_OutOfOrder2() throws Exception {
 		// c1 is back dated before its parent.
 		//
@@ -127,6 +136,7 @@ public class RevWalkSortTest extends RevWalkTestCase {
 		assertNull(rw.next());
 	}
 
+	@Test
 	public void testSort_TOPO() throws Exception {
 		// c1 is back dated before its parent.
 		//
@@ -146,6 +156,7 @@ public class RevWalkSortTest extends RevWalkTestCase {
 		assertNull(rw.next());
 	}
 
+	@Test
 	public void testSort_TOPO_REVERSE() throws Exception {
 		// c1 is back dated before its parent.
 		//

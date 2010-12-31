@@ -42,6 +42,8 @@
  */
 package org.eclipse.jgit.api;
 
+import static org.junit.Assert.*;
+
 import java.io.IOException;
 import java.net.URISyntaxException;
 
@@ -56,9 +58,11 @@ import org.eclipse.jgit.revwalk.RevTag;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteConfig;
 import org.eclipse.jgit.transport.URIish;
+import org.junit.Test;
 
 public class PushCommandTest extends RepositoryTestCase {
 
+	@Test
 	public void testPush() throws JGitInternalException, IOException,
 			GitAPIException, URISyntaxException {
 

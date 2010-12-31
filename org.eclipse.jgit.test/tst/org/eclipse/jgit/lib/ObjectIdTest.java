@@ -45,21 +45,26 @@
 
 package org.eclipse.jgit.lib;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.*;
 
-public class ObjectIdTest extends TestCase {
+import org.junit.Test;
+
+public class ObjectIdTest {
+	@Test
 	public void test001_toString() {
 		final String x = "def4c620bc3713bb1bb26b808ec9312548e73946";
 		final ObjectId oid = ObjectId.fromString(x);
 		assertEquals(x, oid.name());
 	}
 
+	@Test
 	public void test002_toString() {
 		final String x = "ff00eedd003713bb1bb26b808ec9312548e73946";
 		final ObjectId oid = ObjectId.fromString(x);
 		assertEquals(x, oid.name());
 	}
 
+	@Test
 	public void test003_equals() {
 		final String x = "def4c620bc3713bb1bb26b808ec9312548e73946";
 		final ObjectId a = ObjectId.fromString(x);
@@ -68,47 +73,56 @@ public class ObjectIdTest extends TestCase {
 		assertTrue("a and b are same", a.equals(b));
 	}
 
+	@Test
 	public void test004_isId() {
 		assertTrue("valid id", ObjectId
 				.isId("def4c620bc3713bb1bb26b808ec9312548e73946"));
 	}
 
+	@Test
 	public void test005_notIsId() {
 		assertFalse("bob is not an id", ObjectId.isId("bob"));
 	}
 
+	@Test
 	public void test006_notIsId() {
 		assertFalse("39 digits is not an id", ObjectId
 				.isId("def4c620bc3713bb1bb26b808ec9312548e7394"));
 	}
 
+	@Test
 	public void test007_isId() {
 		assertTrue("uppercase is accepted", ObjectId
 				.isId("Def4c620bc3713bb1bb26b808ec9312548e73946"));
 	}
 
+	@Test
 	public void test008_notIsId() {
 		assertFalse("g is not a valid hex digit", ObjectId
 				.isId("gef4c620bc3713bb1bb26b808ec9312548e73946"));
 	}
 
+	@Test
 	public void test009_toString() {
 		final String x = "ff00eedd003713bb1bb26b808ec9312548e73946";
 		final ObjectId oid = ObjectId.fromString(x);
 		assertEquals(x, ObjectId.toString(oid));
 	}
 
+	@Test
 	public void test010_toString() {
 		final String x = "0000000000000000000000000000000000000000";
 		assertEquals(x, ObjectId.toString(null));
 	}
 
+	@Test
 	public void test011_toString() {
 		final String x = "0123456789ABCDEFabcdef1234567890abcdefAB";
 		final ObjectId oid = ObjectId.fromString(x);
 		assertEquals(x.toLowerCase(), oid.name());
 	}
 
+	@Test
 	public void testGetByte() {
 		byte[] raw = new byte[20];
 		for (int i = 0; i < 20; i++)
@@ -123,6 +137,7 @@ public class ObjectIdTest extends TestCase {
 			assertEquals("index " + i, raw[i] & 0xff, id.getByte(i));
 	}
 
+	@Test
 	public void testSetByte() {
 		byte[] exp = new byte[20];
 		for (int i = 0; i < 20; i++)

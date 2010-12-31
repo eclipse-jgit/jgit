@@ -43,22 +43,29 @@
 
 package org.eclipse.jgit.revwalk;
 
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+
 public class DateRevQueueTest extends RevQueueTestCase<DateRevQueue> {
 	protected DateRevQueue create() {
 		return new DateRevQueue();
 	}
 
+	@Test
 	public void testEmpty() throws Exception {
 		super.testEmpty();
 		assertNull(q.peek());
 		assertEquals(Generator.SORT_COMMIT_TIME_DESC, q.outputType());
 	}
 
+	@Test
 	public void testCloneEmpty() throws Exception {
 		q = new DateRevQueue(AbstractRevQueue.EMPTY_QUEUE);
 		assertNull(q.next());
 	}
 
+	@Test
 	public void testInsertOutOfOrder() throws Exception {
 		final RevCommit a = parseBody(commit());
 		final RevCommit b = parseBody(commit(10, a));
@@ -77,6 +84,7 @@ public class DateRevQueueTest extends RevQueueTestCase<DateRevQueue> {
 		assertNull(q.next());
 	}
 
+	@Test
 	public void testInsertTie() throws Exception {
 		final RevCommit a = parseBody(commit());
 		final RevCommit b = parseBody(commit(0, a));
@@ -100,6 +108,7 @@ public class DateRevQueueTest extends RevQueueTestCase<DateRevQueue> {
 		}
 	}
 
+	@Test
 	public void testCloneFIFO() throws Exception {
 		final RevCommit a = parseBody(commit());
 		final RevCommit b = parseBody(commit(200, a));

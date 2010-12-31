@@ -43,9 +43,11 @@
 
 package org.eclipse.jgit.lib;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.*;
 
-public class SymbolicRefTest extends TestCase {
+import org.junit.Test;
+
+public class SymbolicRefTest {
 	private static final ObjectId ID_A = ObjectId
 			.fromString("41eb0d88f833b558bddeb269b7ab77399cdf98ed");
 
@@ -56,6 +58,7 @@ public class SymbolicRefTest extends TestCase {
 
 	private static final String name = "refs/remotes/origin/HEAD";
 
+	@Test
 	public void testConstructor() {
 		Ref t;
 		SymbolicRef r;
@@ -83,6 +86,7 @@ public class SymbolicRefTest extends TestCase {
 		assertTrue("is symbolic", r.isSymbolic());
 	}
 
+	@Test
 	public void testLeaf() {
 		Ref a;
 		SymbolicRef b, c, d;
@@ -114,6 +118,7 @@ public class SymbolicRefTest extends TestCase {
 		assertSame(ID_B, b.getPeeledObjectId());
 	}
 
+	@Test
 	public void testToString() {
 		Ref a;
 		SymbolicRef b, c, d;

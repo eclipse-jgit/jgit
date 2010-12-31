@@ -43,10 +43,15 @@
 
 package org.eclipse.jgit.revwalk;
 
+import static org.junit.Assert.*;
+
 import java.util.Arrays;
 import java.util.Iterator;
 
+import org.junit.Test;
+
 public class RevFlagSetTest extends RevWalkTestCase {
+	@Test
 	public void testEmpty() {
 		final RevFlagSet set = new RevFlagSet();
 		assertEquals(0, set.mask);
@@ -55,6 +60,7 @@ public class RevFlagSetTest extends RevWalkTestCase {
 		assertFalse(set.iterator().hasNext());
 	}
 
+	@Test
 	public void testAddOne() {
 		final String flagName = "flag";
 		final RevFlag flag = rw.newFlag(flagName);
@@ -72,6 +78,7 @@ public class RevFlagSetTest extends RevWalkTestCase {
 		assertFalse(i.hasNext());
 	}
 
+	@Test
 	public void testAddTwo() {
 		final RevFlag flag1 = rw.newFlag("flag_1");
 		final RevFlag flag2 = rw.newFlag("flag_2");
@@ -84,6 +91,7 @@ public class RevFlagSetTest extends RevWalkTestCase {
 		assertEquals(2, set.size());
 	}
 
+	@Test
 	public void testContainsAll() {
 		final RevFlag flag1 = rw.newFlag("flag_1");
 		final RevFlag flag2 = rw.newFlag("flag_2");
@@ -100,6 +108,7 @@ public class RevFlagSetTest extends RevWalkTestCase {
 		assertFalse(set1.containsAll(set2));
 	}
 
+	@Test
 	public void testEquals() {
 		final RevFlag flag1 = rw.newFlag("flag_1");
 		final RevFlag flag2 = rw.newFlag("flag_2");
@@ -112,6 +121,7 @@ public class RevFlagSetTest extends RevWalkTestCase {
 				.equals(set));
 	}
 
+	@Test
 	public void testRemove() {
 		final RevFlag flag1 = rw.newFlag("flag_1");
 		final RevFlag flag2 = rw.newFlag("flag_2");
@@ -125,6 +135,7 @@ public class RevFlagSetTest extends RevWalkTestCase {
 		assertFalse(set.contains(flag1));
 	}
 
+	@Test
 	public void testContains() {
 		final RevFlag flag1 = rw.newFlag("flag_1");
 		final RevFlag flag2 = rw.newFlag("flag_2");

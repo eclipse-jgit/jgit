@@ -43,13 +43,17 @@
 
 package org.eclipse.jgit.dircache;
 
+import static org.junit.Assert.*;
+
 import java.io.File;
 
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.RepositoryTestCase;
+import org.junit.Test;
 
 public class DirCacheBuilderTest extends RepositoryTestCase {
+	@Test
 	public void testBuildEmpty() throws Exception {
 		{
 			final DirCache dc = db.lockDirCache();
@@ -65,6 +69,7 @@ public class DirCacheBuilderTest extends RepositoryTestCase {
 		}
 	}
 
+	@Test
 	public void testBuildRejectsUnsetFileMode() throws Exception {
 		final DirCache dc = DirCache.newInCore();
 		final DirCacheBuilder b = dc.builder();
@@ -79,6 +84,7 @@ public class DirCacheBuilderTest extends RepositoryTestCase {
 		}
 	}
 
+	@Test
 	public void testBuildOneFile_FinishWriteCommit() throws Exception {
 		final String path = "a-file-path";
 		final FileMode mode = FileMode.REGULAR_FILE;
@@ -128,6 +134,7 @@ public class DirCacheBuilderTest extends RepositoryTestCase {
 		}
 	}
 
+	@Test
 	public void testBuildOneFile_Commit() throws Exception {
 		final String path = "a-file-path";
 		final FileMode mode = FileMode.REGULAR_FILE;
@@ -175,6 +182,7 @@ public class DirCacheBuilderTest extends RepositoryTestCase {
 		}
 	}
 
+	@Test
 	public void testFindSingleFile() throws Exception {
 		final String path = "a-file-path";
 		final DirCache dc = db.readDirCache();
@@ -201,6 +209,7 @@ public class DirCacheBuilderTest extends RepositoryTestCase {
 		assertSame(entOrig, dc.getEntry(path));
 	}
 
+	@Test
 	public void testAdd_InGitSortOrder() throws Exception {
 		final DirCache dc = db.readDirCache();
 
@@ -225,6 +234,7 @@ public class DirCacheBuilderTest extends RepositoryTestCase {
 		}
 	}
 
+	@Test
 	public void testAdd_ReverseGitSortOrder() throws Exception {
 		final DirCache dc = db.readDirCache();
 
@@ -249,6 +259,7 @@ public class DirCacheBuilderTest extends RepositoryTestCase {
 		}
 	}
 
+	@Test
 	public void testBuilderClear() throws Exception {
 		final DirCache dc = db.readDirCache();
 

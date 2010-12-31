@@ -43,9 +43,12 @@
 
 package org.eclipse.jgit.util;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.*;
 
-public class NBTest extends TestCase {
+import org.junit.Test;
+
+public class NBTest {
+	@Test
 	public void testCompareUInt32() {
 		assertTrue(NB.compareUInt32(0, 0) == 0);
 		assertTrue(NB.compareUInt32(1, 0) > 0);
@@ -56,6 +59,7 @@ public class NBTest extends TestCase {
 		assertTrue(NB.compareUInt32(1, -1) < 0);
 	}
 
+	@Test
 	public void testDecodeUInt16() {
 		assertEquals(0, NB.decodeUInt16(b(0, 0), 0));
 		assertEquals(0, NB.decodeUInt16(padb(3, 0, 0), 3));
@@ -73,6 +77,7 @@ public class NBTest extends TestCase {
 		assertEquals(0xffff, NB.decodeUInt16(padb(3, 0xff, 0xff), 3));
 	}
 
+	@Test
 	public void testDecodeInt32() {
 		assertEquals(0, NB.decodeInt32(b(0, 0, 0, 0), 0));
 		assertEquals(0, NB.decodeInt32(padb(3, 0, 0, 0, 0), 3));
@@ -93,6 +98,7 @@ public class NBTest extends TestCase {
 				padb(3, 0xff, 0xff, 0xff, 0xff), 3));
 	}
 
+	@Test
 	public void testDecodeUInt32() {
 		assertEquals(0L, NB.decodeUInt32(b(0, 0, 0, 0), 0));
 		assertEquals(0L, NB.decodeUInt32(padb(3, 0, 0, 0, 0), 3));
@@ -113,6 +119,7 @@ public class NBTest extends TestCase {
 				0xff), 3));
 	}
 
+	@Test
 	public void testDecodeUInt64() {
 		assertEquals(0L, NB.decodeUInt64(b(0, 0, 0, 0, 0, 0, 0, 0), 0));
 		assertEquals(0L, NB.decodeUInt64(padb(3, 0, 0, 0, 0, 0, 0, 0, 0), 3));
@@ -145,6 +152,7 @@ public class NBTest extends TestCase {
 				0xff, 0xff, 0xff, 0xff, 0xff, 0xff), 3));
 	}
 
+	@Test
 	public void testEncodeInt16() {
 		final byte[] out = new byte[16];
 
@@ -177,6 +185,7 @@ public class NBTest extends TestCase {
 		assertOutput(b(0xff, 0xff), out, 3);
 	}
 
+	@Test
 	public void testEncodeInt32() {
 		final byte[] out = new byte[16];
 
@@ -217,6 +226,7 @@ public class NBTest extends TestCase {
 		assertOutput(b(0xff, 0xff, 0xff, 0xff), out, 3);
 	}
 
+	@Test
 	public void testEncodeInt64() {
 		final byte[] out = new byte[16];
 

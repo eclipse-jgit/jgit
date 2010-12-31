@@ -44,12 +44,16 @@
 
 package org.eclipse.jgit.lib;
 
+import static org.junit.Assert.*;
+
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class T0002_Tree extends SampleDataRepositoryTestCase {
+import org.junit.Test;
+
+public class T0002_TreeTest extends SampleDataRepositoryTestCase {
 	private static final ObjectId SOME_FAKE_ID = ObjectId.fromString(
 			"0123456789abcdef0123456789abcdef01234567");
 
@@ -71,13 +75,18 @@ public class T0002_Tree extends SampleDataRepositoryTestCase {
 		return Tree.compareNames(abytes, bbytes, lasta, lastb);
 	}
 
+	@Test
 	public void test000_sort_01() throws UnsupportedEncodingException {
 		assertEquals(0, compareNamesUsingSpecialCompare("a","a"));
 	}
+
+	@Test
 	public void test000_sort_02() throws UnsupportedEncodingException {
 		assertEquals(-1, compareNamesUsingSpecialCompare("a","b"));
 		assertEquals(1, compareNamesUsingSpecialCompare("b","a"));
 	}
+
+	@Test
 	public void test000_sort_03() throws UnsupportedEncodingException {
 		assertEquals(1, compareNamesUsingSpecialCompare("a:","a"));
 		assertEquals(1, compareNamesUsingSpecialCompare("a/","a"));
@@ -86,16 +95,21 @@ public class T0002_Tree extends SampleDataRepositoryTestCase {
 		assertEquals(1, compareNamesUsingSpecialCompare("a:","a/"));
 		assertEquals(-1, compareNamesUsingSpecialCompare("a/","a:"));
 	}
+
+	@Test
 	public void test000_sort_04() throws UnsupportedEncodingException {
 		assertEquals(-1, compareNamesUsingSpecialCompare("a.a","a/a"));
 		assertEquals(1, compareNamesUsingSpecialCompare("a/a","a.a"));
 	}
+
+	@Test
 	public void test000_sort_05() throws UnsupportedEncodingException {
 		assertEquals(-1, compareNamesUsingSpecialCompare("a.","a/"));
 		assertEquals(1, compareNamesUsingSpecialCompare("a/","a."));
 
 	}
 
+	@Test
 	public void test001_createEmpty() throws IOException {
 		final Tree t = new Tree(db);
 		assertTrue("isLoaded", t.isLoaded());
@@ -114,6 +128,7 @@ public class T0002_Tree extends SampleDataRepositoryTestCase {
 		assertTrue("no foo child", t.findBlobMember("foo") == null);
 	}
 
+	@Test
 	public void test002_addFile() throws IOException {
 		final Tree t = new Tree(db);
 		t.setId(SOME_FAKE_ID);
@@ -139,6 +154,7 @@ public class T0002_Tree extends SampleDataRepositoryTestCase {
 		assertTrue("iterator is empty", i != null && i.length == 1);
 	}
 
+	@Test
 	public void test004_addTree() throws IOException {
 		final Tree t = new Tree(db);
 		t.setId(SOME_FAKE_ID);
@@ -169,6 +185,7 @@ public class T0002_Tree extends SampleDataRepositoryTestCase {
 		assertTrue("iterator is empty", i.length == 1);
 	}
 
+	@Test
 	public void test005_addRecursiveFile() throws IOException {
 		final Tree t = new Tree(db);
 		final FileTreeEntry f = t.addFile("a/b/c");
@@ -180,6 +197,7 @@ public class T0002_Tree extends SampleDataRepositoryTestCase {
 				.getParent());
 	}
 
+	@Test
 	public void test005_addRecursiveTree() throws IOException {
 		final Tree t = new Tree(db);
 		final Tree f = t.addTree("a/b/c");
@@ -191,6 +209,7 @@ public class T0002_Tree extends SampleDataRepositoryTestCase {
 				.getParent());
 	}
 
+	@Test
 	public void test006_addDeepTree() throws IOException {
 		final Tree t = new Tree(db);
 
@@ -240,6 +259,7 @@ public class T0002_Tree extends SampleDataRepositoryTestCase {
 		assertTrue("t no id", t.getId() == null);
 	}
 
+	@Test
 	public void test007_manyFileLookup() throws IOException {
 		final Tree t = new Tree(db);
 		final List<FileTreeEntry> files = new ArrayList<FileTreeEntry>(26 * 26);
@@ -262,6 +282,7 @@ public class T0002_Tree extends SampleDataRepositoryTestCase {
 		}
 	}
 
+	@Test
 	public void test008_SubtreeInternalSorting() throws IOException {
 		final Tree t = new Tree(db);
 		final FileTreeEntry e0 = t.addFile("a-b");
@@ -278,6 +299,7 @@ public class T0002_Tree extends SampleDataRepositoryTestCase {
 		assertSame(e2, ents[4]);
 	}
 
+	@Test
 	public void test009_SymlinkAndGitlink() throws IOException {
 		final Tree symlinkTree = db.mapTree("symlink");
 		assertTrue("Symlink entry exists", symlinkTree.existsBlob("symlink.txt"));

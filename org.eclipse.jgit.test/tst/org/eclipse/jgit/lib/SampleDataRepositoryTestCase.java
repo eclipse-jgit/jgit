@@ -48,12 +48,12 @@ package org.eclipse.jgit.lib;
 
 import java.io.File;
 
-import org.eclipse.jgit.util.JGitTestUtil;
+import org.eclipse.jgit.junit.JGitTestUtil;
 
 /** Test case which includes C Git generated pack files for testing. */
 public abstract class SampleDataRepositoryTestCase extends RepositoryTestCase {
 	@Override
-	protected void setUp() throws Exception {
+	public void setUp() throws Exception {
 		super.setUp();
 
 		final String[] packs = {

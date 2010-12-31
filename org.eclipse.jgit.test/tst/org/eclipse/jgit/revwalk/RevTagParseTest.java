@@ -43,6 +43,8 @@
 
 package org.eclipse.jgit.revwalk;
 
+import static org.junit.Assert.*;
+
 import java.io.ByteArrayOutputStream;
 
 import org.eclipse.jgit.errors.CorruptObjectException;
@@ -52,20 +54,25 @@ import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RepositoryTestCase;
 import org.eclipse.jgit.lib.TagBuilder;
+import org.junit.Test;
 
 public class RevTagParseTest extends RepositoryTestCase {
+	@Test
 	public void testTagBlob() throws Exception {
 		testOneType(Constants.OBJ_BLOB);
 	}
 
+	@Test
 	public void testTagTree() throws Exception {
 		testOneType(Constants.OBJ_TREE);
 	}
 
+	@Test
 	public void testTagCommit() throws Exception {
 		testOneType(Constants.OBJ_COMMIT);
 	}
 
+	@Test
 	public void testTagTag() throws Exception {
 		testOneType(Constants.OBJ_TAG);
 	}
@@ -92,6 +99,7 @@ public class RevTagParseTest extends RepositoryTestCase {
 		assertSame(rw.lookupAny(id, typeCode), c.getObject());
 	}
 
+	@Test
 	public void testParseAllFields() throws Exception {
 		final ObjectId treeId = id("9788669ad918b6fcce64af8882fc9a81cb6aba67");
 		final String name = "v1.2.3.4.5";
@@ -143,6 +151,7 @@ public class RevTagParseTest extends RepositoryTestCase {
 		assertEquals(taggerEmail, cTagger.getEmailAddress());
 	}
 
+	@Test
 	public void testParseOldStyleNoTagger() throws Exception {
 		final ObjectId treeId = id("9788669ad918b6fcce64af8882fc9a81cb6aba67");
 		final String name = "v1.2.3.4.5";
@@ -203,6 +212,7 @@ public class RevTagParseTest extends RepositoryTestCase {
 		return c;
 	}
 
+	@Test
 	public void testParse_implicit_UTF8_encoded() throws Exception {
 		final ByteArrayOutputStream b = new ByteArrayOutputStream();
 		b.write("object 9788669ad918b6fcce64af8882fc9a81cb6aba67\n"
@@ -227,6 +237,7 @@ public class RevTagParseTest extends RepositoryTestCase {
 				.getFullMessage());
 	}
 
+	@Test
 	public void testParse_implicit_mixed_encoded() throws Exception {
 		final ByteArrayOutputStream b = new ByteArrayOutputStream();
 		b.write("object 9788669ad918b6fcce64af8882fc9a81cb6aba67\n"
@@ -255,6 +266,7 @@ public class RevTagParseTest extends RepositoryTestCase {
 	 *
 	 * @throws Exception
 	 */
+	@Test
 	public void testParse_explicit_encoded() throws Exception {
 		final ByteArrayOutputStream b = new ByteArrayOutputStream();
 		b.write("object 9788669ad918b6fcce64af8882fc9a81cb6aba67\n"
@@ -287,6 +299,7 @@ public class RevTagParseTest extends RepositoryTestCase {
 	 *
 	 * @throws Exception
 	 */
+	@Test
 	public void testParse_explicit_bad_encoded() throws Exception {
 		final ByteArrayOutputStream b = new ByteArrayOutputStream();
 		b.write("object 9788669ad918b6fcce64af8882fc9a81cb6aba67\n"
@@ -321,6 +334,7 @@ public class RevTagParseTest extends RepositoryTestCase {
 	 *
 	 * @throws Exception
 	 */
+	@Test
 	public void testParse_explicit_bad_encoded2() throws Exception {
 		final ByteArrayOutputStream b = new ByteArrayOutputStream();
 		b.write("object 9788669ad918b6fcce64af8882fc9a81cb6aba67\n"
@@ -344,6 +358,7 @@ public class RevTagParseTest extends RepositoryTestCase {
 		assertEquals("\u304d\u308c\u3044\n\nHi\n", c.getFullMessage());
 	}
 
+	@Test
 	public void testParse_NoMessage() throws Exception {
 		final String msg = "";
 		final RevTag c = create(msg);
@@ -351,12 +366,14 @@ public class RevTagParseTest extends RepositoryTestCase {
 		assertEquals(msg, c.getShortMessage());
 	}
 
+	@Test
 	public void testParse_OnlyLFMessage() throws Exception {
 		final RevTag c = create("\n");
 		assertEquals("\n", c.getFullMessage());
 		assertEquals("", c.getShortMessage());
 	}
 
+	@Test
 	public void testParse_ShortLineOnlyNoLF() throws Exception {
 		final String shortMsg = "This is a short message.";
 		final RevTag c = create(shortMsg);
@@ -364,6 +381,7 @@ public class RevTagParseTest extends RepositoryTestCase {
 		assertEquals(shortMsg, c.getShortMessage());
 	}
 
+	@Test
 	public void testParse_ShortLineOnlyEndLF() throws Exception {
 		final String shortMsg = "This is a short message.";
 		final String fullMsg = shortMsg + "\n";
@@ -372,6 +390,7 @@ public class RevTagParseTest extends RepositoryTestCase {
 		assertEquals(shortMsg, c.getShortMessage());
 	}
 
+	@Test
 	public void testParse_ShortLineOnlyEmbeddedLF() throws Exception {
 		final String fullMsg = "This is a\nshort message.";
 		final String shortMsg = fullMsg.replace('\n', ' ');
@@ -380,6 +399,7 @@ public class RevTagParseTest extends RepositoryTestCase {
 		assertEquals(shortMsg, c.getShortMessage());
 	}
 
+	@Test
 	public void testParse_ShortLineOnlyEmbeddedAndEndingLF() throws Exception {
 		final String fullMsg = "This is a\nshort message.\n";
 		final String shortMsg = "This is a short message.";
@@ -388,6 +408,7 @@ public class RevTagParseTest extends RepositoryTestCase {
 		assertEquals(shortMsg, c.getShortMessage());
 	}
 
+	@Test
 	public void testParse_GitStyleMessage() throws Exception {
 		final String shortMsg = "This fixes a bug.";
 		final String body = "We do it with magic and pixie dust and stuff.\n"
@@ -398,6 +419,7 @@ public class RevTagParseTest extends RepositoryTestCase {
 		assertEquals(shortMsg, c.getShortMessage());
 	}
 
+	@Test
 	public void testParse_PublicParseMethod() throws CorruptObjectException {
 		ObjectInserter.Formatter fmt = new ObjectInserter.Formatter();
 		TagBuilder src = new TagBuilder();

@@ -44,18 +44,20 @@
 
 package org.eclipse.jgit.transport;
 
-import java.util.List;
+import static org.junit.Assert.*;
 
-import junit.framework.TestCase;
+import java.util.List;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
+import org.junit.Before;
+import org.junit.Test;
 
-public class RemoteConfigTest extends TestCase {
+public class RemoteConfigTest {
 	private Config config;
 
-	protected void setUp() throws Exception {
-		super.setUp();
+	@Before
+	public void setUp() throws Exception {
 		config = new Config();
 	}
 
@@ -68,10 +70,7 @@ public class RemoteConfigTest extends TestCase {
 		assertEquals(exp, config.toText());
 	}
 
-	private static void assertEquals(final String exp, final URIish act) {
-		assertEquals(exp, act != null ? act.toString() : null);
-	}
-
+	@Test
 	public void testSimple() throws Exception {
 		readConfig("[remote \"spearce\"]\n"
 				+ "url = http://www.spearce.org/egit.git\n"
@@ -90,7 +89,8 @@ public class RemoteConfigTest extends TestCase {
 		assertSame(TagOpt.AUTO_FOLLOW, rc.getTagOpt());
 
 		assertEquals(1, allURIs.size());
-		assertEquals("http://www.spearce.org/egit.git", allURIs.get(0));
+		assertEquals("http://www.spearce.org/egit.git", allURIs.get(0)
+				.toString());
 
 		assertEquals(1, rc.getFetchRefSpecs().size());
 		spec = rc.getFetchRefSpecs().get(0);
@@ -102,6 +102,7 @@ public class RemoteConfigTest extends TestCase {
 		assertEquals(0, rc.getPushRefSpecs().size());
 	}
 
+	@Test
 	public void testSimpleNoTags() throws Exception {
 		readConfig("[remote \"spearce\"]\n"
 				+ "url = http://www.spearce.org/egit.git\n"
@@ -111,6 +112,7 @@ public class RemoteConfigTest extends TestCase {
 		assertSame(TagOpt.NO_TAGS, rc.getTagOpt());
 	}
 
+	@Test
 	public void testSimpleAlwaysTags() throws Exception {
 		readConfig("[remote \"spearce\"]\n"
 				+ "url = http://www.spearce.org/egit.git\n"
@@ -120,6 +122,7 @@ public class RemoteConfigTest extends TestCase {
 		assertSame(TagOpt.FETCH_TAGS, rc.getTagOpt());
 	}
 
+	@Test
 	public void testMirror() throws Exception {
 		readConfig("[remote \"spearce\"]\n"
 				+ "url = http://www.spearce.org/egit.git\n"
@@ -136,7 +139,8 @@ public class RemoteConfigTest extends TestCase {
 		assertNotNull(rc.getPushRefSpecs());
 
 		assertEquals(1, allURIs.size());
-		assertEquals("http://www.spearce.org/egit.git", allURIs.get(0));
+		assertEquals("http://www.spearce.org/egit.git", allURIs.get(0)
+				.toString());
 
 		assertEquals(2, rc.getFetchRefSpecs().size());
 
@@ -155,6 +159,7 @@ public class RemoteConfigTest extends TestCase {
 		assertEquals(0, rc.getPushRefSpecs().size());
 	}
 
+	@Test
 	public void testBackup() throws Exception {
 		readConfig("[remote \"backup\"]\n"
 				+ "url = http://www.spearce.org/egit.git\n"
@@ -172,8 +177,10 @@ public class RemoteConfigTest extends TestCase {
 		assertNotNull(rc.getPushRefSpecs());
 
 		assertEquals(2, allURIs.size());
-		assertEquals("http://www.spearce.org/egit.git", allURIs.get(0));
-		assertEquals("user@repo.or.cz:/srv/git/egit.git", allURIs.get(1));
+		assertEquals("http://www.spearce.org/egit.git", allURIs.get(0)
+				.toString());
+		assertEquals("user@repo.or.cz:/srv/git/egit.git", allURIs.get(1)
+				.toString());
 
 		assertEquals(0, rc.getFetchRefSpecs().size());
 
@@ -191,6 +198,7 @@ public class RemoteConfigTest extends TestCase {
 		assertEquals("refs/tags/*", spec.getDestination());
 	}
 
+	@Test
 	public void testUploadPack() throws Exception {
 		readConfig("[remote \"example\"]\n"
 				+ "url = user@example.com:egit.git\n"
@@ -208,7 +216,7 @@ public class RemoteConfigTest extends TestCase {
 		assertNotNull(rc.getPushRefSpecs());
 
 		assertEquals(1, allURIs.size());
-		assertEquals("user@example.com:egit.git", allURIs.get(0));
+		assertEquals("user@example.com:egit.git", allURIs.get(0).toString());
 
 		assertEquals(1, rc.getFetchRefSpecs().size());
 		spec = rc.getFetchRefSpecs().get(0);
@@ -223,6 +231,7 @@ public class RemoteConfigTest extends TestCase {
 		assertEquals("/path/to/git/git-receive-pack", rc.getReceivePack());
 	}
 
+	@Test
 	public void testUnknown() throws Exception {
 		readConfig("");
 
@@ -234,6 +243,7 @@ public class RemoteConfigTest extends TestCase {
 		assertEquals("git-receive-pack", rc.getReceivePack());
 	}
 
+	@Test
 	public void testAddURI() throws Exception {
 		readConfig("");
 
@@ -249,6 +259,7 @@ public class RemoteConfigTest extends TestCase {
 		assertEquals(1, rc.getURIs().size());
 	}
 
+	@Test
 	public void testRemoveFirstURI() throws Exception {
 		readConfig("");
 
@@ -271,6 +282,7 @@ public class RemoteConfigTest extends TestCase {
 		assertSame(c, rc.getURIs().get(1));
 	}
 
+	@Test
 	public void testRemoveMiddleURI() throws Exception {
 		readConfig("");
 
@@ -293,6 +305,7 @@ public class RemoteConfigTest extends TestCase {
 		assertSame(c, rc.getURIs().get(1));
 	}
 
+	@Test
 	public void testRemoveLastURI() throws Exception {
 		readConfig("");
 
@@ -315,6 +328,7 @@ public class RemoteConfigTest extends TestCase {
 		assertSame(b, rc.getURIs().get(1));
 	}
 
+	@Test
 	public void testRemoveOnlyURI() throws Exception {
 		readConfig("");
 
@@ -329,6 +343,7 @@ public class RemoteConfigTest extends TestCase {
 		assertEquals(0, rc.getURIs().size());
 	}
 
+	@Test
 	public void testCreateOrigin() throws Exception {
 		final RemoteConfig rc = new RemoteConfig(config, "origin");
 		rc.addURI(new URIish("/some/dir"));
@@ -339,6 +354,7 @@ public class RemoteConfigTest extends TestCase {
 				+ "\tfetch = +refs/heads/*:refs/remotes/origin/*\n");
 	}
 
+	@Test
 	public void testSaveAddURI() throws Exception {
 		readConfig("[remote \"spearce\"]\n"
 				+ "url = http://www.spearce.org/egit.git\n"
@@ -354,6 +370,7 @@ public class RemoteConfigTest extends TestCase {
 				+ "\tfetch = +refs/heads/*:refs/remotes/spearce/*\n");
 	}
 
+	@Test
 	public void testSaveRemoveLastURI() throws Exception {
 		readConfig("[remote \"spearce\"]\n"
 				+ "url = http://www.spearce.org/egit.git\n"
@@ -370,6 +387,7 @@ public class RemoteConfigTest extends TestCase {
 				+ "\tfetch = +refs/heads/*:refs/remotes/spearce/*\n");
 	}
 
+	@Test
 	public void testSaveRemoveFirstURI() throws Exception {
 		readConfig("[remote \"spearce\"]\n"
 				+ "url = http://www.spearce.org/egit.git\n"
@@ -385,6 +403,7 @@ public class RemoteConfigTest extends TestCase {
 				+ "\tfetch = +refs/heads/*:refs/remotes/spearce/*\n");
 	}
 
+	@Test
 	public void testSaveNoTags() throws Exception {
 		final RemoteConfig rc = new RemoteConfig(config, "origin");
 		rc.addURI(new URIish("/some/dir"));
@@ -397,6 +416,7 @@ public class RemoteConfigTest extends TestCase {
 				+ "\ttagopt = --no-tags\n");
 	}
 
+	@Test
 	public void testSaveAllTags() throws Exception {
 		final RemoteConfig rc = new RemoteConfig(config, "origin");
 		rc.addURI(new URIish("/some/dir"));
@@ -409,6 +429,7 @@ public class RemoteConfigTest extends TestCase {
 				+ "\ttagopt = --tags\n");
 	}
 
+	@Test
 	public void testSimpleTimeout() throws Exception {
 		readConfig("[remote \"spearce\"]\n"
 				+ "url = http://www.spearce.org/egit.git\n"
@@ -418,6 +439,7 @@ public class RemoteConfigTest extends TestCase {
 		assertEquals(12, rc.getTimeout());
 	}
 
+	@Test
 	public void testSaveTimeout() throws Exception {
 		final RemoteConfig rc = new RemoteConfig(config, "origin");
 		rc.addURI(new URIish("/some/dir"));

@@ -45,11 +45,14 @@
 
 package org.eclipse.jgit.storage.file;
 
+import static org.junit.Assert.*;
+
 import java.io.File;
 
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.util.JGitTestUtil;
+import org.junit.Test;
 
 public class PackIndexV1Test extends PackIndexTestCase {
 	@Override
@@ -70,6 +73,7 @@ public class PackIndexV1Test extends PackIndexTestCase {
 	 * @throws MissingObjectException
 	 */
 	@Override
+	@Test
 	public void testCRC32() throws MissingObjectException {
 		assertFalse(smallIdx.hasCRC32Support());
 		try {

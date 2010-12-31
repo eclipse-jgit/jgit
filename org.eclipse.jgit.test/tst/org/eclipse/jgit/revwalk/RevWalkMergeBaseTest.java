@@ -43,10 +43,14 @@
 
 package org.eclipse.jgit.revwalk;
 
+import static org.junit.Assert.*;
+
 import org.eclipse.jgit.revwalk.filter.RevFilter;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
+import org.junit.Test;
 
 public class RevWalkMergeBaseTest extends RevWalkTestCase {
+	@Test
 	public void testNone() throws Exception {
 		final RevCommit c1 = commit(commit(commit()));
 		final RevCommit c2 = commit(commit(commit()));
@@ -57,6 +61,7 @@ public class RevWalkMergeBaseTest extends RevWalkTestCase {
 		assertNull(rw.next());
 	}
 
+	@Test
 	public void testDisallowTreeFilter() throws Exception {
 		final RevCommit c1 = commit();
 		final RevCommit c2 = commit();
@@ -73,6 +78,7 @@ public class RevWalkMergeBaseTest extends RevWalkTestCase {
 		}
 	}
 
+	@Test
 	public void testSimple() throws Exception {
 		final RevCommit a = commit();
 		final RevCommit b = commit(a);
@@ -86,6 +92,7 @@ public class RevWalkMergeBaseTest extends RevWalkTestCase {
 		assertNull(rw.next());
 	}
 
+	@Test
 	public void testMultipleHeads_SameBase1() throws Exception {
 		final RevCommit a = commit();
 		final RevCommit b = commit(a);
@@ -101,6 +108,7 @@ public class RevWalkMergeBaseTest extends RevWalkTestCase {
 		assertNull(rw.next());
 	}
 
+	@Test
 	public void testMultipleHeads_SameBase2() throws Exception {
 		final RevCommit a = commit();
 		final RevCommit b = commit(a);
@@ -117,6 +125,7 @@ public class RevWalkMergeBaseTest extends RevWalkTestCase {
 		assertNull(rw.next());
 	}
 
+	@Test
 	public void testCrissCross() throws Exception {
 		// See http://marc.info/?l=git&m=111463358500362&w=2 for a nice
 		// description of what this test is creating. We don't have a

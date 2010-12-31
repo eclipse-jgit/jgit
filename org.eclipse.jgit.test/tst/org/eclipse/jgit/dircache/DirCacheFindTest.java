@@ -43,10 +43,14 @@
 
 package org.eclipse.jgit.dircache;
 
+import static org.junit.Assert.*;
+
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.RepositoryTestCase;
+import org.junit.Test;
 
 public class DirCacheFindTest extends RepositoryTestCase {
+	@Test
 	public void testEntriesWithin() throws Exception {
 		final DirCache dc = db.readDirCache();
 

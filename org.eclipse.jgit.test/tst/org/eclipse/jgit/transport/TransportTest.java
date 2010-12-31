@@ -43,6 +43,8 @@
 
 package org.eclipse.jgit.transport;
 
+import static org.junit.Assert.*;
+
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
@@ -50,6 +52,9 @@ import java.util.Collections;
 
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.SampleDataRepositoryTestCase;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 public class TransportTest extends SampleDataRepositoryTestCase {
 	private Transport transport;
@@ -57,6 +62,7 @@ public class TransportTest extends SampleDataRepositoryTestCase {
 	private RemoteConfig remoteConfig;
 
 	@Override
+	@Before
 	public void setUp() throws Exception {
 		super.setUp();
 		final Config config = db.getConfig();
@@ -66,7 +72,8 @@ public class TransportTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Override
-	protected void tearDown() throws Exception {
+	@After
+	public void tearDown() throws Exception {
 		if (transport != null) {
 			transport.close();
 			transport = null;
@@ -80,6 +87,7 @@ public class TransportTest extends SampleDataRepositoryTestCase {
 	 *
 	 * @throws IOException
 	 */
+	@Test
 	public void testFindRemoteRefUpdatesNoWildcardNoTracking()
 			throws IOException {
 		transport = Transport.open(db, remoteConfig);
@@ -102,6 +110,7 @@ public class TransportTest extends SampleDataRepositoryTestCase {
 	 *
 	 * @throws IOException
 	 */
+	@Test
 	public void testFindRemoteRefUpdatesNoWildcardNoDestination()
 			throws IOException {
 		transport = Transport.open(db, remoteConfig);
@@ -123,6 +132,7 @@ public class TransportTest extends SampleDataRepositoryTestCase {
 	 *
 	 * @throws IOException
 	 */
+	@Test
 	public void testFindRemoteRefUpdatesWildcardNoTracking() throws IOException {
 		transport = Transport.open(db, remoteConfig);
 		final Collection<RemoteRefUpdate> result = transport
@@ -150,6 +160,7 @@ public class TransportTest extends SampleDataRepositoryTestCase {
 	 *
 	 * @throws IOException
 	 */
+	@Test
 	public void testFindRemoteRefUpdatesTwoRefSpecs() throws IOException {
 		transport = Transport.open(db, remoteConfig);
 		final RefSpec specA = new RefSpec("+refs/heads/a:refs/heads/b");
@@ -178,6 +189,7 @@ public class TransportTest extends SampleDataRepositoryTestCase {
 	 *
 	 * @throws IOException
 	 */
+	@Test
 	public void testFindRemoteRefUpdatesTrackingRef() throws IOException {
 		remoteConfig.addFetchRefSpec(new RefSpec(
 				"refs/heads/*:refs/remotes/test/*"));

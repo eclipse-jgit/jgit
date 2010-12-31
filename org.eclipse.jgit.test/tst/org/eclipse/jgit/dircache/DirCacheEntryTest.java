@@ -43,12 +43,14 @@
 
 package org.eclipse.jgit.dircache;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.*;
 
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
+import org.junit.Test;
 
-public class DirCacheEntryTest extends TestCase {
+public class DirCacheEntryTest {
+	@Test
 	public void testIsValidPath() {
 		assertTrue(isValidPath("a"));
 		assertTrue(isValidPath("a/b"));
@@ -67,6 +69,7 @@ public class DirCacheEntryTest extends TestCase {
 		return DirCacheEntry.isValidPath(Constants.encode(path));
 	}
 
+	@Test
 	public void testCreate_ByStringPath() {
 		assertEquals("a", new DirCacheEntry("a").getPathString());
 		assertEquals("a/b", new DirCacheEntry("a/b").getPathString());
@@ -79,6 +82,7 @@ public class DirCacheEntryTest extends TestCase {
 		}
 	}
 
+	@Test
 	public void testCreate_ByStringPathAndStage() {
 		DirCacheEntry e;
 
@@ -120,6 +124,7 @@ public class DirCacheEntryTest extends TestCase {
 		}
 	}
 
+	@Test
 	public void testSetFileMode() {
 		final DirCacheEntry e = new DirCacheEntry("a");
 

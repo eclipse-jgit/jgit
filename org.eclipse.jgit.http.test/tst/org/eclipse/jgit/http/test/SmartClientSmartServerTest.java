@@ -43,6 +43,8 @@
 
 package org.eclipse.jgit.http.test;
 
+import static org.junit.Assert.*;
+
 import static org.eclipse.jgit.util.HttpSupport.HDR_CONTENT_ENCODING;
 import static org.eclipse.jgit.util.HttpSupport.HDR_CONTENT_LENGTH;
 import static org.eclipse.jgit.util.HttpSupport.HDR_CONTENT_TYPE;
@@ -92,6 +94,8 @@ import org.eclipse.jgit.transport.RemoteRefUpdate;
 import org.eclipse.jgit.transport.Transport;
 import org.eclipse.jgit.transport.TransportHttp;
 import org.eclipse.jgit.transport.URIish;
+import org.junit.Before;
+import org.junit.Test;
 
 public class SmartClientSmartServerTest extends HttpTestCase {
 	private static final String HDR_TRANSFER_ENCODING = "Transfer-Encoding";
@@ -106,7 +110,8 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 
 	private RevCommit A, B;
 
-	protected void setUp() throws Exception {
+	@Before
+	public void setUp() throws Exception {
 		super.setUp();
 
 		final TestRepository<FileRepository> src = createTestRepository();
@@ -165,6 +170,7 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 		src.update("refs/garbage/a/very/long/ref/name/to/compress", B);
 	}
 
+	@Test
 	public void testListRemote() throws IOException {
 		Repository dst = createBareRepository();
 
@@ -213,6 +219,7 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 		assertEquals("gzip", info.getResponseHeader(HDR_CONTENT_ENCODING));
 	}
 
+	@Test
 	public void testInitialClone_Small() throws Exception {
 		Repository dst = createBareRepository();
 		assertFalse(dst.hasObject(A_txt));
@@ -257,6 +264,7 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 				.getResponseHeader(HDR_CONTENT_TYPE));
 	}
 
+	@Test
 	public void testFetchUpdateExisting() throws Exception {
 		// Bootstrap by doing the clone.
 		//
@@ -336,6 +344,7 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 				.getResponseHeader(HDR_CONTENT_TYPE));
 	}
 
+	@Test
 	public void testInitialClone_BrokenServer() throws Exception {
 		Repository dst = createBareRepository();
 		assertFalse(dst.hasObject(A_txt));
@@ -376,6 +385,7 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 				.getResponseHeader(HDR_CONTENT_TYPE));
 	}
 
+	@Test
 	public void testPush_NotAuthorized() throws Exception {
 		final TestRepository src = createTestRepository();
 		final RevBlob Q_txt = src.blob("new text");
@@ -418,6 +428,7 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 		assertEquals(401, info.getStatus());
 	}
 
+	@Test
 	public void testPush_CreateBranch() throws Exception {
 		final TestRepository src = createTestRepository();
 		final RevBlob Q_txt = src.blob("new text");
@@ -490,6 +501,7 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 				.getResponseHeader(HDR_CONTENT_TYPE));
 	}
 
+	@Test
 	public void testPush_ChunkedEncoding() throws Exception {
 		final TestRepository<FileRepository> src = createTestRepository();
 		final RevBlob Q_bin = src.blob(new TestRng("Q").nextBytes(128 * 1024));

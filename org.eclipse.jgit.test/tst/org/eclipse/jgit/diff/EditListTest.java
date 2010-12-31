@@ -43,11 +43,14 @@
 
 package org.eclipse.jgit.diff;
 
+import static org.junit.Assert.*;
+
 import java.util.Iterator;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
-public class EditListTest extends TestCase {
+public class EditListTest {
+	@Test
 	public void testEmpty() {
 		final EditList l = new EditList();
 		assertEquals(0, l.size());
@@ -60,6 +63,7 @@ public class EditListTest extends TestCase {
 		assertEquals(l.hashCode(), new EditList().hashCode());
 	}
 
+	@Test
 	public void testAddOne() {
 		final Edit e = new Edit(1, 2, 1, 1);
 		final EditList l = new EditList();
@@ -79,6 +83,7 @@ public class EditListTest extends TestCase {
 		assertEquals(l.hashCode(), l2.hashCode());
 	}
 
+	@Test
 	public void testAddTwo() {
 		final Edit e1 = new Edit(1, 2, 1, 1);
 		final Edit e2 = new Edit(8, 8, 8, 12);
@@ -104,6 +109,7 @@ public class EditListTest extends TestCase {
 		assertEquals(l.hashCode(), l2.hashCode());
 	}
 
+	@Test
 	public void testSet() {
 		final Edit e1 = new Edit(1, 2, 1, 1);
 		final Edit e2 = new Edit(3, 4, 3, 3);
@@ -114,6 +120,7 @@ public class EditListTest extends TestCase {
 		assertSame(e2, l.get(0));
 	}
 
+	@Test
 	public void testRemove() {
 		final Edit e1 = new Edit(1, 2, 1, 1);
 		final Edit e2 = new Edit(8, 8, 8, 12);
