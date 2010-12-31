@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL2X///zw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/IndexPack.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1134,
+      "author": {
+        "id": 102
+      },
+      "writtenOn": "2010-12-31T00:55:40Z",
+      "side": 1,
+      "message": "This constructor is only called from within the DeltaVisit class, wasn\u0027t private appropriate?",
+      "revId": "b5f0a7d7ffaae707b0d7ecf582192f5014bdae92",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2X///zs\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/IndexPack.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1140,
+      "author": {
+        "id": 102
+      },
+      "writtenOn": "2010-12-31T00:55:40Z",
+      "side": 1,
+      "message": "Fair enough, this method is called from outside the DeltaVisit class",
+      "revId": "b5f0a7d7ffaae707b0d7ecf582192f5014bdae92",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
