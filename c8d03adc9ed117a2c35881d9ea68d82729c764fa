@@ -53,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL2X///5c\u003d",
+        "filename": "org.eclipse.jgit.junit/src/org/eclipse/jgit/junit/MockSystemReader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-12-30T13:34:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL2X///8c\u003d",
+      "revId": "c8d03adc9ed117a2c35881d9ea68d82729c764fa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL2X///8o\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/FileRepository.java",
         "patchSetId": 1
@@ -99,6 +117,24 @@
       "writtenOn": "2010-12-29T19:28:01Z",
       "side": 1,
       "message": "I would prefer systemConfigInvalid for the translation text name.",
+      "revId": "c8d03adc9ed117a2c35881d9ea68d82729c764fa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2X///5U\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/FileRepository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-12-30T13:34:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL2X///8k\u003d",
       "revId": "c8d03adc9ed117a2c35881d9ea68d82729c764fa",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -192,6 +228,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL2X///5M\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-12-30T13:34:53Z",
+      "side": 1,
+      "message": "Done\n\nI think it makes sense on cygwin too, at least. With current msysgit it doesn\u0027t help becuase if bash is in the path, so is git.",
+      "parentUuid": "AAAL2X///9M\u003d",
+      "revId": "c8d03adc9ed117a2c35881d9ea68d82729c764fa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL2X///9I\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
         "patchSetId": 1
@@ -203,6 +257,24 @@
       "writtenOn": "2010-12-29T19:28:01Z",
       "side": 1,
       "message": "This needs an @Override annotation.",
+      "revId": "c8d03adc9ed117a2c35881d9ea68d82729c764fa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2X///5E\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-12-30T13:34:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL2X///9I\u003d",
       "revId": "c8d03adc9ed117a2c35881d9ea68d82729c764fa",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -412,6 +484,24 @@
       "writtenOn": "2010-12-29T19:28:01Z",
       "side": 1,
       "message": "Shouldn\u0027t this be:\n\n  fs.resolve(null, \"/etc/gitconfig\")\n\nBut why are we doing this fallback here?  If the system config cannot be found, this fallback only works on POSIX systems that have had Git installed by the OS distribution.  In theory we should have found the config correctly via the FS_POSIX class anyway.",
+      "revId": "c8d03adc9ed117a2c35881d9ea68d82729c764fa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2X///4s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SystemReader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-12-30T13:34:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL2X///88\u003d",
       "revId": "c8d03adc9ed117a2c35881d9ea68d82729c764fa",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
