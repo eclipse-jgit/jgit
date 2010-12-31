@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL2X///3o\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 102
+      },
+      "writtenOn": "2010-12-30T09:39:22Z",
+      "side": 1,
+      "message": "Should drop this stat from the commit message until the update has been re-perf-tested!",
+      "revId": "5d23d98496380e14898f63dc5f2b49580daca222",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
