@@ -95,6 +95,8 @@ import org.eclipse.jgit.util.SystemReader;
  *
  */
 public class FileRepository extends Repository {
+	private final FileBasedConfig systemConfig;
+
 	private final FileBasedConfig userConfig;
 
 	private final FileBasedConfig repoConfig;
@@ -152,11 +154,14 @@ public class FileRepository extends Repository {
 	public FileRepository(final BaseRepositoryBuilder options) throws IOException {
 		super(options);
 
-		userConfig = SystemReader.getInstance().openUserConfig(getFS());
+		systemConfig = SystemReader.getInstance().openSystemConfig(null, getFS());
+		userConfig = SystemReader.getInstance().openUserConfig(systemConfig,
+				getFS());
 		repoConfig = new FileBasedConfig(userConfig, //
 				getFS().resolve(getDirectory(), "config"), //
 				getFS());
 
+		loadSystemConfig();
 		loadUserConfig();
 		loadRepoConfig();
 
@@ -181,6 +186,18 @@ public class FileRepository extends Repository {
 						JGitText.get().unknownRepositoryFormat2,
 						repositoryFormatVersion));
 			}
+		}
+	}
+
+	private void loadSystemConfig() throws IOException {
+		try {
+			systemConfig.load();
+		} catch (ConfigInvalidException e1) {
+			IOException e2 = new IOException(MessageFormat.format(JGitText
+					.get().systemConfigFileInvalid, systemConfig.getFile()
+					.getAbsolutePath(), e1));
+			e2.initCause(e1);
+			throw e2;
 		}
 	}
 
@@ -285,6 +302,13 @@ public class FileRepository extends Repository {
 	 * @return the configuration of this repository
 	 */
 	public FileBasedConfig getConfig() {
+		if (systemConfig.isOutdated()) {
+			try {
+				loadSystemConfig();
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+		}
 		if (userConfig.isOutdated()) {
 			try {
 				loadUserConfig();
