@@ -528,29 +528,52 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	}
 
 	/**
-	 * Checks whether this entry differs from a given entry from the
-	 * {@link DirCache}.
-	 *
-	 * File status information is used and if status is same we consider the
-	 * file identical to the state in the working directory. Native git uses
-	 * more stat fields than we have accessible in Java.
+	 * The result of a metadata-comparison between the current entry and a
+	 * {@link DirCacheEntry}
+	 */
+	public enum MetadataDiff {
+		/**
+		 * The entries are equal by metaData (mode, length,
+		 * modification-timestamp) or the <code>assumeValid</code> attribute of
+		 * the index entry is set
+		 */
+		EQUAL,
+
+		/**
+		 * The entries are not equal by metaData (mode, length,
+		 * modification-timestamp) or the <code>isUpdateNeeded</code> attribute
+		 * of the index entry is set
+		 */
+		NOT_EQUAL,
+
+		/** index entry is smudged - can't use that entry for comparison */
+		SMUDGED,
+
+		/**
+		 * The entries are equal by metaData (mode, length) but differ by
+		 * modification-timestamp.
+		 */
+		DIFFER_BY_TIMESTAMP
+	}
+
+	/**
+	 * Compare the metadata (mode, length, modification-timestamp) of the
+	 * current entry and a {@link DirCacheEntry}
 	 *
 	 * @param entry
-	 *            the entry from the dircache we want to compare against
-	 * @param forceContentCheck
-	 *            True if the actual file content should be checked if
-	 *            modification time differs.
-	 * @return true if content is most likely different.
+	 *            the {@link DirCacheEntry} to compare with
+	 * @return a {@link MetadataDiff} which tells whether and how the entries
+	 *         metadata differ
 	 */
-	public boolean isModified(DirCacheEntry entry, boolean forceContentCheck) {
+	public MetadataDiff compareMetadata(DirCacheEntry entry) {
 		if (entry.isAssumeValid())
-			return false;
+			return MetadataDiff.EQUAL;
 
 		if (entry.isUpdateNeeded())
-			return true;
+			return MetadataDiff.NOT_EQUAL;
 
 		if (!entry.isSmudged() && (getEntryLength() != entry.getLength()))
-			return true;
+			return MetadataDiff.NOT_EQUAL;
 
 		// Determine difference in mode-bits of file and index-entry. In the
 		// bitwise presentation of modeDiff we'll have a '1' when the two modes
@@ -567,7 +590,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 			if (modeDiff != 0)
 				// Report a modification if the modes still (after potentially
 				// ignoring EXECUTABLE_FILE bits) differ
-				return true;
+				return MetadataDiff.NOT_EQUAL;
 		}
 
 		// Git under windows only stores seconds so we round the timestamp
@@ -578,27 +601,50 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		if (cacheLastModified % 1000 == 0)
 			fileLastModified = fileLastModified - fileLastModified % 1000;
 
-		if (fileLastModified != cacheLastModified) {
-			// The file is dirty by timestamps
-			if (forceContentCheck) {
+		if (fileLastModified != cacheLastModified)
+			return MetadataDiff.DIFFER_BY_TIMESTAMP;
+		else if (!entry.isSmudged())
+			// The file is clean when you look at timestamps.
+			return MetadataDiff.EQUAL;
+		else
+			return MetadataDiff.SMUDGED;
+	}
+
+	/**
+	 * Checks whether this entry differs from a given entry from the
+	 * {@link DirCache}.
+	 *
+	 * File status information is used and if status is same we consider the
+	 * file identical to the state in the working directory. Native git uses
+	 * more stat fields than we have accessible in Java.
+	 *
+	 * @param entry
+	 *            the entry from the dircache we want to compare against
+	 * @param forceContentCheck
+	 *            True if the actual file content should be checked if
+	 *            modification time differs.
+	 * @return true if content is most likely different.
+	 */
+	public boolean isModified(DirCacheEntry entry, boolean forceContentCheck) {
+		switch (compareMetadata(entry)) {
+		case DIFFER_BY_TIMESTAMP:
+			if (forceContentCheck)
 				// But we are told to look at content even though timestamps
 				// tell us about modification
 				return contentCheck(entry);
-			} else {
+			else
 				// We are told to assume a modification if timestamps differs
 				return true;
-			}
-		} else {
-			// The file is clean when you look at timestamps.
-			if (entry.isSmudged()) {
-				// The file is clean by timestamps but the entry was smudged.
-				// Lets do a content check
-				return contentCheck(entry);
-			} else {
-				// The file is clean by timestamps and the entry is not
-				// smudged: Can't get any cleaner!
-				return false;
-			}
+		case SMUDGED:
+			// The file is clean by timestamps but the entry was smudged.
+			// Lets do a content check
+			return contentCheck(entry);
+		case EQUAL:
+			return false;
+		case NOT_EQUAL:
+			return true;
+		default:
+			return true;
 		}
 	}
 
