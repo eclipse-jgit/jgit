@@ -91,7 +91,6 @@ public class PlotCommitListTest extends RevWalkTestCase {
 		}
 	}
 
-	@SuppressWarnings("boxing")
 	@Test
 	public void testLinear() throws Exception {
 		final RevCommit a = commit();
@@ -112,7 +111,6 @@ public class PlotCommitListTest extends RevWalkTestCase {
 		test.noMoreCommits();
 	}
 
-	@SuppressWarnings("boxing")
 	@Test
 	public void testMerged() throws Exception {
 		final RevCommit a = commit();
@@ -135,7 +133,6 @@ public class PlotCommitListTest extends RevWalkTestCase {
 		test.noMoreCommits();
 	}
 
-	@SuppressWarnings("boxing")
 	@Test
 	public void testSideBranch() throws Exception {
 		final RevCommit a = commit();
@@ -157,7 +154,6 @@ public class PlotCommitListTest extends RevWalkTestCase {
 		test.noMoreCommits();
 	}
 
-	@SuppressWarnings("boxing")
 	@Test
 	public void test2SideBranches() throws Exception {
 		final RevCommit a = commit();
@@ -182,7 +178,6 @@ public class PlotCommitListTest extends RevWalkTestCase {
 		test.noMoreCommits();
 	}
 
-	@SuppressWarnings("boxing")
 	@Test
 	public void testBug300282_1() throws Exception {
 		final RevCommit a = commit();
