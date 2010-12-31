@@ -70,6 +70,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL2X///5Y\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/FileRepository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-12-30T13:34:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL2X///8o\u003d",
+      "revId": "c8d03adc9ed117a2c35881d9ea68d82729c764fa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL2X///8k\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/FileRepository.java",
         "patchSetId": 1
@@ -104,6 +122,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL2X///5Q\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/FileRepository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-12-30T13:34:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL2X///8g\u003d",
+      "revId": "c8d03adc9ed117a2c35881d9ea68d82729c764fa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL2X///9Q\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
         "patchSetId": 1
@@ -115,6 +151,24 @@
       "writtenOn": "2010-12-29T19:28:01Z",
       "side": 1,
       "message": "If we have scanPath() above, why do we need to run the shell in order to find it?  Why not just use scanPath()?",
+      "revId": "c8d03adc9ed117a2c35881d9ea68d82729c764fa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2X///5I\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-12-30T13:34:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL2X///9Q\u003d",
       "revId": "c8d03adc9ed117a2c35881d9ea68d82729c764fa",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -172,6 +226,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL2X///5A\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_POSIX.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-12-30T13:34:53Z",
+      "side": 1,
+      "message": "Dropped the which/whence stuff in the base clas.",
+      "parentUuid": "AAAL2X///9E\u003d",
+      "revId": "c8d03adc9ed117a2c35881d9ea68d82729c764fa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL2X///9A\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_Win32.java",
         "patchSetId": 1
@@ -183,6 +255,24 @@
       "writtenOn": "2010-12-29T19:28:01Z",
       "side": 1,
       "message": "This is line-wrapping ugly.  I\u0027d prefer (assuming you change scanPath to return File):\n\n  File gitExe \u003d scanPath(...);\n  if (gitExe !\u003d null) {\n    gitExe \u003d gitExe.getAbsoluteFile();\n    File bin \u003d gitExe.getParentFile();  // discard \"git.exe\"\n    return bin.getParentFile();  // discard \"bin\"\n  }",
+      "revId": "c8d03adc9ed117a2c35881d9ea68d82729c764fa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2X///48\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS_Win32.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-12-30T13:34:53Z",
+      "side": 1,
+      "message": "Compromise: Dropping getAbsoluteFile since scanPath already does it. That make the line shorter and does not need wrapping.",
+      "parentUuid": "AAAL2X///9A\u003d",
       "revId": "c8d03adc9ed117a2c35881d9ea68d82729c764fa",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -206,6 +296,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL2X///44\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SystemReader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-12-30T13:34:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL2X///80\u003d",
+      "revId": "c8d03adc9ed117a2c35881d9ea68d82729c764fa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL2X///8s\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SystemReader.java",
         "patchSetId": 1
@@ -217,6 +325,24 @@
       "writtenOn": "2010-12-29T19:28:01Z",
       "side": 1,
       "message": "Do we also need to override save() to prevent an NPE when an (invalid) call to save() is made?",
+      "revId": "c8d03adc9ed117a2c35881d9ea68d82729c764fa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2X///40\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SystemReader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-12-30T13:34:53Z",
+      "side": 1,
+      "message": "The UI should tell the user and prevent this in a better manner. If the UI forgets, then the user will know.",
+      "parentUuid": "AAAL2X///8s\u003d",
       "revId": "c8d03adc9ed117a2c35881d9ea68d82729c764fa",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -251,6 +377,24 @@
       "writtenOn": "2010-12-29T19:28:01Z",
       "side": 1,
       "message": "This is wrapping ugly, maybe resolve the file first, and then resolve the gitconfig.  That way a symlinked /etc/gitconfig is correctly followed if it came from Cygwin.\n\n  File etc \u003d new File(fs.resolve(prefix, \"etc\"));\n  File config \u003d new File(fs.resolve(etc, \"config\"));\n  return new FileBasedConfig(parent, config, fs);",
+      "revId": "c8d03adc9ed117a2c35881d9ea68d82729c764fa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2X///4w\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SystemReader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-12-30T13:34:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL2X///84\u003d",
       "revId": "c8d03adc9ed117a2c35881d9ea68d82729c764fa",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
