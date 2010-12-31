@@ -52,7 +52,7 @@ import org.eclipse.jgit.errors.TranslationBundleLoadingException;
 import org.eclipse.jgit.errors.TranslationStringMissingException;
 import org.junit.Test;
 
-public class TestTranslationBundle {
+public class TranslationBundleTest {
 
 	@Test
 	public void testMissingPropertiesFile() {
