@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL2X///8I\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/IndexPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 498,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-29T20:35:51Z",
+      "side": 1,
+      "message": "Style-nit:  Method indentation is wrong.  The entire body needs to be shifted right one more level of indentation.  Gerrit will correctly see its a shift right and should display the change correctly with intraline difference enabled.",
+      "revId": "1d9b3a8ba3c6d874d83cb93ebf171c6ab193e6cc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2X///8E\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/IndexPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-29T20:35:51Z",
+      "side": 1,
+      "message": "Instead of Stack (which uses synchronized), we would prefer to use ArrayList\u003cDeltaVisit\u003e with stack.remove(stack.size()-1) for the pop operation.  This way the JIT doesn\u0027t need to work to optimize out the locking.\n\nFWIW though, this is such a simple usage that I would make the stack myself and avoid all of the extra work that ArrayList (or Stack/Vector) impose on each operation:\n\n  private void resolveDeltas(DeltaVisit visit) ... {\n    while (visit !\u003d null) {\n      visit.data \u003d ...;\n\n      visit.nextChild \u003d firstChildOf(oe);\n      visit \u003d nextVisit(visit);\n    }\n  }\n\n  private static DeltaVisit nextVisit(DeltaVisit visit) {\n    // If our parent has no more children, discard.\n    while (visit.parent !\u003d null \u0026\u0026 visit.parent.nextChild \u003d\u003d null)\n      visit.parent \u003d visit.parent.parent;\n\n    do {\n      UnresolvedDelta childId \u003d visit.nextChild;\n\n      if (childId !\u003d null) {\n        visit.nextChild \u003d childId.next;\n        return new DeltaVisit(childId, visit);\n      }\n\n      visit \u003d visit.parent;\n    } while (visit !\u003d null);\n  }\n\n  private static class DeltaVisit {\n    final UnresolvedDelta id;\n    DeltaVisit parent;\n\n    byte[] data;\n    UnresolvedDelta nextChild;\n  }\n\nI like this solution because its still fairly short, but saves a lot of overhead.  It also give us a nice tail-recursion case to discard an object as soon as its last child is inflated, reducing the memory usage for long delta chains that have only 1 object at each level.",
+      "revId": "1d9b3a8ba3c6d874d83cb93ebf171c6ab193e6cc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2X///78\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/IndexPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 500,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-29T20:35:51Z",
+      "side": 1,
+      "message": "Since the initialDelta is only used to prime the stack, I would instead call the argument \"dv\" and reassign to it in the while loop.  That way we only have one type of DeltaVisit (the active object) in scope and its less likely we\u0027ll use the wrong one.\n\nSometimes assigning to an argument is evil, and sometimes its good.  I think this sort of algorithm is one of those times where its good to reuse the argument variable.",
+      "revId": "1d9b3a8ba3c6d874d83cb93ebf171c6ab193e6cc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2X///8A\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/IndexPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 502,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-29T20:35:51Z",
+      "side": 1,
+      "message": "Style-nit: Spaces around \u003d.",
+      "revId": "1d9b3a8ba3c6d874d83cb93ebf171c6ab193e6cc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2X///74\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/IndexPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 591,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-29T20:35:51Z",
+      "side": 1,
+      "message": "Instead of allocating new chain objects, we could sort the two lists into a single linked list and return the UnresolvedDelta that is at the start of it.  Something like:\n\n  if (a \u003d\u003d null)\n    return b;\n  if (b \u003d\u003d null)\n    return a;\n\n  UnresolvedDelta first \u003d null;\n  UnresolvedDelta last \u003d null;\n\n  while (a !\u003d null || b !\u003d null) {\n    UnresolvedDelta n;\n    if (b \u003d\u003d null || (a !\u003d null \u0026\u0026 a.position \u003c b.position)) {\n      n \u003d a;\n      a \u003d a.next;\n    } else {\n      n \u003d b;\n      b \u003d b.next;\n    }\n\n    if (last !\u003d null) {\n      last.next \u003d n;\n      last \u003d n;\n    } else {\n      first \u003d n;\n      last \u003d n;\n    }\n    n.next \u003d null;\n\n    return first;\n  }\n\nThat gives us a smaller DeltaVisit object, and simplifies code elsewhere probably by not needing both \"a\" and \"b\" chains.\n\nFor most packs we\u0027re using OFS_DELTA format these days, so most delta chains will be only of the \"b\" variant and take the fast path above anyway.  We should see only REF_DELTA on thin packs during fixThinPack(), and they won\u0027t have OFS_DELTA dependencies so they won\u0027t typically have a \"b\" variant, and use the fast path above anyway.  Basically its rather rare to have both chains, so the slow path to rebuild a single linked list isn\u0027t that common.",
+      "revId": "1d9b3a8ba3c6d874d83cb93ebf171c6ab193e6cc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2X///7o\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/IndexPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1087,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-29T20:35:51Z",
+      "side": 1,
+      "message": "Why bother with this type?  Just use UnresolvedDelta for the base case that bootstraps the resolveDeltas() method.\n\nUsing this type inside of UnresolvedDelta increases the memory usage during the scanning of the pack by at least 12 bytes on 32 bit JVMs per object.  Scanning 1 million deltas costs us 12 more MB of memory.  On a 64 bit JVM we could be looking at more than 24 MB here.  I don\u0027t think that is a trivial change.\n\nI\u0027m OK with the DeltaVisit type because its so transient, and you need it for the stack management.  But its not OK to make a massive increase to the relatively persistant unresolved delta chains.",
+      "revId": "1d9b3a8ba3c6d874d83cb93ebf171c6ab193e6cc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2X///70\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/IndexPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1098,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-29T20:35:51Z",
+      "side": 1,
+      "message": "I don\u0027t think this class is necessary.  Within a single resolveDeltas() invocation there can be only one type.  So make type a local variable of resolveDeltas() which is assigned in the part of the switch that does the 4 base types (OBJ_COMMIT, OBJ_TREE, OBJ_BLOB, OBJ_TAG) and pass it to anyone who needs the type... which is only the digestUsing routine.  But that can be put back inline into the resolveDeltas() routine.\n\nThat drops 1 object allocation per object processed during resolveDeltas(), which should help memory usage and decrease GC activity.  Its significant enough, and the code is probably actually shorter this way too, so I think it makes sense to drop this type.",
+      "revId": "1d9b3a8ba3c6d874d83cb93ebf171c6ab193e6cc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2X///7s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/IndexPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1126,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-29T20:35:51Z",
+      "side": 1,
+      "message": "Since we bootstrap resolveDeltas() with no data (just a position) if you make this non-final we can assign it during the base case when the type is also discovered and stored into the local variable.",
+      "revId": "1d9b3a8ba3c6d874d83cb93ebf171c6ab193e6cc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2X///7w\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/IndexPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1128,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-29T20:35:51Z",
+      "side": 1,
+      "message": "If you do the list rebuild above like I suggest, this is only one list of UnresolvedDelta type.\n\nChange the field to be non-final, and update it when you pop the delta off.  I think you can find a way to leave the DeltaVisit on the stack during the loop and only pop it when the UnresolvedDelta variable goes null at the end.  If its still non-null (because there is another delta to process) you can just update the field and leave the stack alone.\n\nThat should also further reduce memory allocations and GC activity, because we aren\u0027t re-creating the current DeltaVisit when we need to remember another delta that needs this base information.",
+      "revId": "1d9b3a8ba3c6d874d83cb93ebf171c6ab193e6cc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
