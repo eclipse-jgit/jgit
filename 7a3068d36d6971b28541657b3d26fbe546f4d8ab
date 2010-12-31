@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL2X///1E\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-30T20:59:05Z",
+      "side": 1,
+      "message": "I preferred making this abstract, and putting the bash executions down into the FS implementation that might actually use it.",
+      "revId": "7a3068d36d6971b28541657b3d26fbe546f4d8ab",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
