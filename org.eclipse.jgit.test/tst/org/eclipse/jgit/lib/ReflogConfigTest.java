@@ -45,11 +45,17 @@
 
 package org.eclipse.jgit.lib;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import java.io.IOException;
 
 import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.junit.Test;
 
 public class ReflogConfigTest extends RepositoryTestCase {
+	@Test
 	public void testlogAllRefUpdates() throws Exception {
 		long commitTime = 1154236443000L;
 		int tz = -4 * 60;

@@ -44,13 +44,21 @@
 
 package org.eclipse.jgit.lib;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
 import org.eclipse.jgit.errors.CheckoutConflictException;
+import org.junit.Test;
 
 public class WorkDirCheckoutTest extends RepositoryTestCase {
+	@Test
 	public void testFindingConflicts() throws IOException {
 		GitIndex index = new GitIndex(db);
 		index.add(trash, writeTrashFile("bar", "bar"));
@@ -86,6 +94,7 @@ public class WorkDirCheckoutTest extends RepositoryTestCase {
 		assertTrue(removedEntries.contains("foo"));
 	}
 
+	@Test
 	public void testCheckingOutWithConflicts() throws IOException {
 		GitIndex index = new GitIndex(db);
 		index.add(trash, writeTrashFile("bar", "bar"));

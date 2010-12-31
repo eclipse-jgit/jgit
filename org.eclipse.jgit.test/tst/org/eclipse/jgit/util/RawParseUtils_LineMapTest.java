@@ -43,11 +43,15 @@
 
 package org.eclipse.jgit.util;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 import java.io.UnsupportedEncodingException;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
-public class RawParseUtils_LineMapTest extends TestCase {
+public class RawParseUtils_LineMapTest {
+	@Test
 	public void testEmpty() {
 		final IntList map = RawParseUtils.lineMap(new byte[] {}, 0, 0);
 		assertNotNull(map);
@@ -56,6 +60,7 @@ public class RawParseUtils_LineMapTest extends TestCase {
 		assertEquals(0, map.get(1));
 	}
 
+	@Test
 	public void testOneBlankLine() {
 		final IntList map = RawParseUtils.lineMap(new byte[] { '\n' }, 0, 1);
 		assertEquals(3, map.size());
@@ -64,6 +69,7 @@ public class RawParseUtils_LineMapTest extends TestCase {
 		assertEquals(1, map.get(2));
 	}
 
+	@Test
 	public void testTwoLineFooBar() throws UnsupportedEncodingException {
 		final byte[] buf = "foo\nbar\n".getBytes("ISO-8859-1");
 		final IntList map = RawParseUtils.lineMap(buf, 0, buf.length);
@@ -74,6 +80,7 @@ public class RawParseUtils_LineMapTest extends TestCase {
 		assertEquals(buf.length, map.get(3));
 	}
 
+	@Test
 	public void testTwoLineNoLF() throws UnsupportedEncodingException {
 		final byte[] buf = "foo\nbar".getBytes("ISO-8859-1");
 		final IntList map = RawParseUtils.lineMap(buf, 0, buf.length);
@@ -84,6 +91,7 @@ public class RawParseUtils_LineMapTest extends TestCase {
 		assertEquals(buf.length, map.get(3));
 	}
 
+	@Test
 	public void testFourLineBlanks() throws UnsupportedEncodingException {
 		final byte[] buf = "foo\n\n\nbar\n".getBytes("ISO-8859-1");
 		final IntList map = RawParseUtils.lineMap(buf, 0, buf.length);

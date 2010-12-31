@@ -43,15 +43,18 @@
 
 package org.eclipse.jgit.patch;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+
 import java.io.IOException;
 import java.io.InputStream;
 
-import junit.framework.TestCase;
-
 import org.eclipse.jgit.diff.Edit;
 import org.eclipse.jgit.diff.EditList;
+import org.junit.Test;
 
-public class EditListTest extends TestCase {
+public class EditListTest {
+	@Test
 	public void testHunkHeader() throws IOException {
 		final Patch p = parseTestPatchFile("testGetText_BothISO88591.patch");
 		final FileHeader fh = p.getFiles().get(0);
@@ -65,6 +68,7 @@ public class EditListTest extends TestCase {
 		assertEquals(new Edit(16 - 1, 17 - 1, 16 - 1, 17 - 1), list1.get(0));
 	}
 
+	@Test
 	public void testFileHeader() throws IOException {
 		final Patch p = parseTestPatchFile("testGetText_BothISO88591.patch");
 		final FileHeader fh = p.getFiles().get(0);
@@ -74,6 +78,7 @@ public class EditListTest extends TestCase {
 		assertEquals(new Edit(16 - 1, 17 - 1, 16 - 1, 17 - 1), e.get(1));
 	}
 
+	@Test
 	public void testTypes() throws IOException {
 		final Patch p = parseTestPatchFile("testEditList_Types.patch");
 		final FileHeader fh = p.getFiles().get(0);

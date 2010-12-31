@@ -43,21 +43,24 @@
 
 package org.eclipse.jgit.http.test;
 
+import static org.junit.Assert.assertEquals;
+
 import java.net.HttpURLConnection;
 import java.net.URI;
-
-import junit.framework.TestCase;
 
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jgit.http.server.glue.ErrorServlet;
 import org.eclipse.jgit.junit.http.AppServer;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
-public class ErrorServletTest extends TestCase {
+public class ErrorServletTest {
 	private AppServer server;
 
-	protected void setUp() throws Exception {
-		super.setUp();
+	@Before
+	public void setUp() throws Exception {
 
 		server = new AppServer();
 
@@ -68,13 +71,14 @@ public class ErrorServletTest extends TestCase {
 		server.setUp();
 	}
 
-	protected void tearDown() throws Exception {
+	@After
+	public void tearDown() throws Exception {
 		if (server != null) {
 			server.tearDown();
 		}
-		super.tearDown();
 	}
 
+	@Test
 	public void testHandler() throws Exception {
 		final URI uri = server.getURI();
 		assertEquals(404, ((HttpURLConnection) uri.resolve("/404").toURL()

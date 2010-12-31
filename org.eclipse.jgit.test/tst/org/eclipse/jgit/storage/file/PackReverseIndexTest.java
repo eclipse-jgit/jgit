@@ -44,10 +44,17 @@
 
 package org.eclipse.jgit.storage.file;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import org.eclipse.jgit.errors.CorruptObjectException;
+import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.lib.RepositoryTestCase;
 import org.eclipse.jgit.storage.file.PackIndex.MutableEntry;
-import org.eclipse.jgit.util.JGitTestUtil;
+import org.junit.Before;
+import org.junit.Test;
 
 public class PackReverseIndexTest extends RepositoryTestCase {
 
@@ -58,6 +65,7 @@ public class PackReverseIndexTest extends RepositoryTestCase {
 	/**
 	 * Set up tested class instance, test constructor by the way.
 	 */
+	@Before
 	public void setUp() throws Exception {
 		super.setUp();
 		// index with both small (< 2^31) and big offsets
@@ -69,6 +77,7 @@ public class PackReverseIndexTest extends RepositoryTestCase {
 	/**
 	 * Test findObject() for all index entries.
 	 */
+	@Test
 	public void testFindObject() {
 		for (MutableEntry me : idx)
 			assertEquals(me.toObjectId(), reverseIdx.findObject(me.getOffset()));
@@ -77,6 +86,7 @@ public class PackReverseIndexTest extends RepositoryTestCase {
 	/**
 	 * Test findObject() with illegal argument.
 	 */
+	@Test
 	public void testFindObjectWrongOffset() {
 		assertNull(reverseIdx.findObject(0));
 	}
@@ -86,6 +96,7 @@ public class PackReverseIndexTest extends RepositoryTestCase {
 	 *
 	 * @throws CorruptObjectException
 	 */
+	@Test
 	public void testFindNextOffset() throws CorruptObjectException {
 		long offset = findFirstOffset();
 		assertTrue(offset > 0);
@@ -104,6 +115,7 @@ public class PackReverseIndexTest extends RepositoryTestCase {
 	/**
 	 * Test findNextOffset() with wrong illegal argument as offset.
 	 */
+	@Test
 	public void testFindNextOffsetWrongOffset() {
 		try {
 			reverseIdx.findNextOffset(0, Long.MAX_VALUE);

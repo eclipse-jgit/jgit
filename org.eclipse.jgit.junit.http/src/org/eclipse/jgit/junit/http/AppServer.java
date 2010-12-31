@@ -43,6 +43,9 @@
 
 package org.eclipse.jgit.junit.http;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.URI;
@@ -50,8 +53,6 @@ import java.net.URISyntaxException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
-
-import junit.framework.Assert;
 
 import org.eclipse.jetty.http.security.Constraint;
 import org.eclipse.jetty.http.security.Password;
@@ -282,10 +283,10 @@ public class AppServer {
 	}
 
 	private void assertNotYetSetUp() {
-		Assert.assertFalse("server is not running", server.isRunning());
+		assertFalse("server is not running", server.isRunning());
 	}
 
 	private void assertAlreadySetUp() {
-		Assert.assertTrue("server is running", server.isRunning());
+		assertTrue("server is running", server.isRunning());
 	}
 }

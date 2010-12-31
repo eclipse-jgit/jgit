@@ -43,9 +43,15 @@
 
 package org.eclipse.jgit.lib;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 
-public class ObjectIdRefTest extends TestCase {
+import org.junit.Test;
+
+public class ObjectIdRefTest {
 	private static final ObjectId ID_A = ObjectId
 			.fromString("41eb0d88f833b558bddeb269b7ab77399cdf98ed");
 
@@ -54,6 +60,7 @@ public class ObjectIdRefTest extends TestCase {
 
 	private static final String name = "refs/heads/a.test.ref";
 
+	@Test
 	public void testConstructor_PeeledStatusNotKnown() {
 		ObjectIdRef r;
 
@@ -84,6 +91,7 @@ public class ObjectIdRefTest extends TestCase {
 		assertFalse("not symbolic", r.isSymbolic());
 	}
 
+	@Test
 	public void testConstructor_Peeled() {
 		ObjectIdRef r;
 
@@ -106,6 +114,7 @@ public class ObjectIdRefTest extends TestCase {
 		assertSame(ID_B, r.getPeeledObjectId());
 	}
 
+	@Test
 	public void testToString() {
 		ObjectIdRef r;
 

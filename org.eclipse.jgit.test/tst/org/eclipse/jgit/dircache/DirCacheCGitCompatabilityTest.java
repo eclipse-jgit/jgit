@@ -43,6 +43,11 @@
 
 package org.eclipse.jgit.dircache;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -55,6 +60,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.eclipse.jgit.errors.CorruptObjectException;
+import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
@@ -62,11 +68,12 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.IO;
-import org.eclipse.jgit.util.JGitTestUtil;
+import org.junit.Test;
 
 public class DirCacheCGitCompatabilityTest extends LocalDiskRepositoryTestCase {
 	private final File index = pathOf("gitgit.index");
 
+	@Test
 	public void testReadIndex_LsFiles() throws Exception {
 		final Map<String, CGitIndexRecord> ls = readLsFiles();
 		final DirCache dc = new DirCache(index, FS.DETECTED);
@@ -80,6 +87,7 @@ public class DirCacheCGitCompatabilityTest extends LocalDiskRepositoryTestCase {
 		}
 	}
 
+	@Test
 	public void testTreeWalk_LsFiles() throws Exception {
 		final Repository db = createBareRepository();
 		final Map<String, CGitIndexRecord> ls = readLsFiles();
@@ -104,6 +112,7 @@ public class DirCacheCGitCompatabilityTest extends LocalDiskRepositoryTestCase {
 		}
 	}
 
+	@Test
 	public void testUnsupportedOptionalExtension() throws Exception {
 		final DirCache dc = new DirCache(pathOf("gitgit.index.ZZZZ"),
 				FS.DETECTED);
@@ -112,6 +121,7 @@ public class DirCacheCGitCompatabilityTest extends LocalDiskRepositoryTestCase {
 		assertEquals("A", dc.getEntry(0).getPathString());
 	}
 
+	@Test
 	public void testUnsupportedRequiredExtension() throws Exception {
 		final DirCache dc = new DirCache(pathOf("gitgit.index.aaaa"),
 				FS.DETECTED);
@@ -124,6 +134,7 @@ public class DirCacheCGitCompatabilityTest extends LocalDiskRepositoryTestCase {
 		}
 	}
 
+	@Test
 	public void testCorruptChecksumAtFooter() throws Exception {
 		final DirCache dc = new DirCache(pathOf("gitgit.index.badchecksum"),
 				FS.DETECTED);
@@ -146,6 +157,7 @@ public class DirCacheCGitCompatabilityTest extends LocalDiskRepositoryTestCase {
 		assertEquals(c.stage, j.getStage());
 	}
 
+	@Test
 	public void testReadIndex_DirCacheTree() throws Exception {
 		final Map<String, CGitIndexRecord> cList = readLsFiles();
 		final Map<String, CGitLsTreeRecord> cTree = readLsTree();
@@ -181,6 +193,7 @@ public class DirCacheCGitCompatabilityTest extends LocalDiskRepositoryTestCase {
 		}
 	}
 
+	@Test
 	public void testReadWriteV3() throws Exception {
 		final File file = pathOf("gitgit.index.v3");
 		final DirCache dc = new DirCache(file, FS.DETECTED);

@@ -43,16 +43,21 @@
 
 package org.eclipse.jgit.treewalk;
 
-import java.io.ByteArrayOutputStream;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 
-import junit.framework.TestCase;
+import java.io.ByteArrayOutputStream;
 
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.util.RawParseUtils;
+import org.junit.Before;
+import org.junit.Test;
 
-public class CanonicalTreeParserTest extends TestCase {
+public class CanonicalTreeParserTest {
 	private final CanonicalTreeParser ctp = new CanonicalTreeParser();
 
 	private final FileMode m644 = FileMode.REGULAR_FILE;
@@ -74,9 +79,8 @@ public class CanonicalTreeParserTest extends TestCase {
 
 	private byte[] tree3;
 
+	@Before
 	public void setUp() throws Exception {
-		super.setUp();
-
 		tree1 = mktree(entry(m644, "a", hash_a));
 		tree2 = mktree(entry(m644, "a", hash_a), entry(m644, "foo", hash_foo));
 		tree3 = mktree(entry(m644, "a", hash_a), entry(mt, "b_sometree",
@@ -106,11 +110,13 @@ public class CanonicalTreeParserTest extends TestCase {
 				ctp.pathOffset, ctp.pathLen);
 	}
 
+	@Test
 	public void testEmptyTree_AtEOF() throws Exception {
 		ctp.reset(new byte[0]);
 		assertTrue(ctp.eof());
 	}
 
+	@Test
 	public void testOneEntry_Forward() throws Exception {
 		ctp.reset(tree1);
 
@@ -125,6 +131,7 @@ public class CanonicalTreeParserTest extends TestCase {
 		assertTrue(ctp.eof());
 	}
 
+	@Test
 	public void testTwoEntries_ForwardOneAtATime() throws Exception {
 		ctp.reset(tree2);
 
@@ -145,24 +152,28 @@ public class CanonicalTreeParserTest extends TestCase {
 		assertTrue(ctp.eof());
 	}
 
+	@Test
 	public void testOneEntry_Seek1IsEOF() throws Exception {
 		ctp.reset(tree1);
 		ctp.next(1);
 		assertTrue(ctp.eof());
 	}
 
+	@Test
 	public void testTwoEntries_Seek2IsEOF() throws Exception {
 		ctp.reset(tree2);
 		ctp.next(2);
 		assertTrue(ctp.eof());
 	}
 
+	@Test
 	public void testThreeEntries_Seek3IsEOF() throws Exception {
 		ctp.reset(tree3);
 		ctp.next(3);
 		assertTrue(ctp.eof());
 	}
 
+	@Test
 	public void testThreeEntries_Seek2() throws Exception {
 		ctp.reset(tree3);
 
@@ -177,6 +188,7 @@ public class CanonicalTreeParserTest extends TestCase {
 		assertTrue(ctp.eof());
 	}
 
+	@Test
 	public void testOneEntry_Backwards() throws Exception {
 		ctp.reset(tree1);
 		ctp.next(1);
@@ -191,6 +203,7 @@ public class CanonicalTreeParserTest extends TestCase {
 		assertEquals(hash_a, ctp.getEntryObjectId());
 	}
 
+	@Test
 	public void testTwoEntries_BackwardsOneAtATime() throws Exception {
 		ctp.reset(tree2);
 		ctp.next(2);
@@ -209,6 +222,7 @@ public class CanonicalTreeParserTest extends TestCase {
 		assertEquals(hash_a, ctp.getEntryObjectId());
 	}
 
+	@Test
 	public void testTwoEntries_BackwardsTwo() throws Exception {
 		ctp.reset(tree2);
 		ctp.next(2);
@@ -230,6 +244,7 @@ public class CanonicalTreeParserTest extends TestCase {
 		assertTrue(ctp.eof());
 	}
 
+	@Test
 	public void testThreeEntries_BackwardsTwo() throws Exception {
 		ctp.reset(tree3);
 		ctp.next(3);
@@ -251,6 +266,7 @@ public class CanonicalTreeParserTest extends TestCase {
 		assertTrue(ctp.eof());
 	}
 
+	@Test
 	public void testBackwards_ConfusingPathName() throws Exception {
 		final String aVeryConfusingName = "confusing 644 entry 755 and others";
 		ctp.reset(mktree(entry(m644, "a", hash_a), entry(mt, aVeryConfusingName,
@@ -271,6 +287,7 @@ public class CanonicalTreeParserTest extends TestCase {
 		assertEquals(hash_a, ctp.getEntryObjectId());
 	}
 
+	@Test
 	public void testBackwords_Prebuilts1() throws Exception {
 		// What is interesting about this test is the ObjectId for the
 		// "darwin-x86" path entry ends in an octal digit (37 == '7').
@@ -305,6 +322,7 @@ public class CanonicalTreeParserTest extends TestCase {
 		assertEquals(windows, ctp.getEntryObjectId());
 	}
 
+	@Test
 	public void testBackwords_Prebuilts2() throws Exception {
 		// What is interesting about this test is the ObjectId for the
 		// "darwin-x86" path entry ends in an octal digit (37 == '7').
@@ -339,6 +357,7 @@ public class CanonicalTreeParserTest extends TestCase {
 		assertEquals(windows, ctp.getEntryObjectId());
 	}
 
+	@Test
 	public void testFreakingHugePathName() throws Exception {
 		final int n = AbstractTreeIterator.DEFAULT_PATH_SIZE * 4;
 		final StringBuilder b = new StringBuilder(n);

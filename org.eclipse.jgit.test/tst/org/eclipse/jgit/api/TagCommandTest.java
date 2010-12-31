@@ -42,6 +42,9 @@
  */
 package org.eclipse.jgit.api;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+
 import org.eclipse.jgit.api.errors.ConcurrentRefUpdateException;
 import org.eclipse.jgit.api.errors.InvalidTagNameException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
@@ -52,9 +55,11 @@ import org.eclipse.jgit.errors.UnmergedPathException;
 import org.eclipse.jgit.lib.RepositoryTestCase;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevTag;
+import org.junit.Test;
 
 public class TagCommandTest extends RepositoryTestCase {
 
+	@Test
 	public void testTaggingOnHead() throws NoHeadException, NoMessageException,
 			UnmergedPathException, ConcurrentRefUpdateException,
 			JGitInternalException, WrongRepositoryStateException,
@@ -65,6 +70,7 @@ public class TagCommandTest extends RepositoryTestCase {
 		assertEquals(commit.getId(), tag.getObject().getId());
 	}
 
+	@Test
 	public void testTagging() throws NoHeadException, NoMessageException,
 			UnmergedPathException, ConcurrentRefUpdateException,
 			JGitInternalException, WrongRepositoryStateException,
@@ -77,6 +83,7 @@ public class TagCommandTest extends RepositoryTestCase {
 		assertEquals(commit.getId(), tag.getObject().getId());
 	}
 
+	@Test
 	public void testEmptyTagName() throws NoHeadException, NoMessageException,
 			UnmergedPathException, ConcurrentRefUpdateException,
 			JGitInternalException, WrongRepositoryStateException {
@@ -91,6 +98,7 @@ public class TagCommandTest extends RepositoryTestCase {
 		}
 	}
 
+	@Test
 	public void testInvalidTagName() throws NoHeadException,
 			NoMessageException, UnmergedPathException,
 			ConcurrentRefUpdateException, JGitInternalException,
@@ -105,6 +113,7 @@ public class TagCommandTest extends RepositoryTestCase {
 		}
 	}
 
+	@Test
 	public void testFailureOnSignedTags() throws NoHeadException,
 			NoMessageException, UnmergedPathException,
 			ConcurrentRefUpdateException, JGitInternalException,

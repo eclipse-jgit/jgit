@@ -37,7 +37,6 @@
  */
 package org.eclipse.jgit.api.errors;
 
-
 /**
  * Exception thrown when a merge command was called without specifying the
  * proper amount/type of merge heads. E.g. a non-octopus merge strategy was

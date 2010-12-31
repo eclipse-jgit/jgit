@@ -47,6 +47,12 @@ import static org.eclipse.jgit.util.HttpSupport.HDR_ACCEPT;
 import static org.eclipse.jgit.util.HttpSupport.HDR_CONTENT_TYPE;
 import static org.eclipse.jgit.util.HttpSupport.HDR_PRAGMA;
 import static org.eclipse.jgit.util.HttpSupport.HDR_USER_AGENT;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.IOException;
 import java.util.List;
@@ -75,6 +81,8 @@ import org.eclipse.jgit.transport.HttpTransport;
 import org.eclipse.jgit.transport.Transport;
 import org.eclipse.jgit.transport.TransportHttp;
 import org.eclipse.jgit.transport.URIish;
+import org.junit.Before;
+import org.junit.Test;
 
 public class DumbClientSmartServerTest extends HttpTestCase {
 	private Repository remoteRepository;
@@ -85,7 +93,8 @@ public class DumbClientSmartServerTest extends HttpTestCase {
 
 	private RevCommit A, B;
 
-	protected void setUp() throws Exception {
+	@Before
+	public void setUp() throws Exception {
 		super.setUp();
 
 		final TestRepository src = createTestRepository();
@@ -118,6 +127,7 @@ public class DumbClientSmartServerTest extends HttpTestCase {
 		src.update(master, B);
 	}
 
+	@Test
 	public void testListRemote() throws IOException {
 		Repository dst = createBareRepository();
 
@@ -179,6 +189,7 @@ public class DumbClientSmartServerTest extends HttpTestCase {
 		assertEquals("text/plain", head.getResponseHeader(HDR_CONTENT_TYPE));
 	}
 
+	@Test
 	public void testInitialClone_Small() throws Exception {
 		Repository dst = createBareRepository();
 		assertFalse(dst.hasObject(A_txt));
@@ -204,6 +215,7 @@ public class DumbClientSmartServerTest extends HttpTestCase {
 				.getResponseHeader(HDR_CONTENT_TYPE));
 	}
 
+	@Test
 	public void testInitialClone_Packed() throws Exception {
 		new TestRepository(remoteRepository).packAndPrune();
 
@@ -239,6 +251,7 @@ public class DumbClientSmartServerTest extends HttpTestCase {
 				HDR_CONTENT_TYPE));
 	}
 
+	@Test
 	public void testPushNotSupported() throws Exception {
 		final TestRepository src = createTestRepository();
 		final RevCommit Q = src.commit().create();

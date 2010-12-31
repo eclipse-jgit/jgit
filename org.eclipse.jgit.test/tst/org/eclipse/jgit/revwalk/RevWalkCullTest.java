@@ -43,7 +43,12 @@
 
 package org.eclipse.jgit.revwalk;
 
+import static org.junit.Assert.assertNull;
+
+import org.junit.Test;
+
 public class RevWalkCullTest extends RevWalkTestCase {
+	@Test
 	public void testProperlyCullAllAncestors1() throws Exception {
 		// Credit goes to Junio C Hamano <gitster@pobox.com> for this
 		// test case in git-core (t/t6009-rev-list-parent.sh)
@@ -60,6 +65,7 @@ public class RevWalkCullTest extends RevWalkTestCase {
 		assertNull(rw.next());
 	}
 
+	@Test
 	public void testProperlyCullAllAncestors2() throws Exception {
 		// Despite clock skew on c1 being very old it should not
 		// produce, neither should a or b, or any part of that chain.
@@ -77,6 +83,7 @@ public class RevWalkCullTest extends RevWalkTestCase {
 		assertNull(rw.next());
 	}
 
+	@Test
 	public void testProperlyCullAllAncestors_LongHistory() throws Exception {
 		final RevCommit a = commit();
 		RevCommit b = commit(a);

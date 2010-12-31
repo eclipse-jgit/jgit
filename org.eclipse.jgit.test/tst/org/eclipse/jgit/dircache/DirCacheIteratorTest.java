@@ -43,17 +43,25 @@
 
 package org.eclipse.jgit.dircache;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
+
 import java.io.File;
 import java.util.Collections;
 
+import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.RepositoryTestCase;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
 import org.eclipse.jgit.util.FS;
-import org.eclipse.jgit.util.JGitTestUtil;
+import org.junit.Test;
 
 public class DirCacheIteratorTest extends RepositoryTestCase {
+	@Test
 	public void testEmptyTree_NoTreeWalk() throws Exception {
 		final DirCache dc = DirCache.newInCore();
 		assertEquals(0, dc.getEntryCount());
@@ -62,6 +70,7 @@ public class DirCacheIteratorTest extends RepositoryTestCase {
 		assertTrue(i.eof());
 	}
 
+	@Test
 	public void testEmptyTree_WithTreeWalk() throws Exception {
 		final DirCache dc = DirCache.newInCore();
 		assertEquals(0, dc.getEntryCount());
@@ -71,6 +80,7 @@ public class DirCacheIteratorTest extends RepositoryTestCase {
 		assertFalse(tw.next());
 	}
 
+	@Test
 	public void testNoSubtree_NoTreeWalk() throws Exception {
 		final DirCache dc = DirCache.newInCore();
 
@@ -96,6 +106,7 @@ public class DirCacheIteratorTest extends RepositoryTestCase {
 		assertEquals(paths.length, pathIdx);
 	}
 
+	@Test
 	public void testNoSubtree_WithTreeWalk() throws Exception {
 		final DirCache dc = DirCache.newInCore();
 
@@ -128,6 +139,7 @@ public class DirCacheIteratorTest extends RepositoryTestCase {
 		assertEquals(paths.length, pathIdx);
 	}
 
+	@Test
 	public void testSingleSubtree_NoRecursion() throws Exception {
 		final DirCache dc = DirCache.newInCore();
 
@@ -171,6 +183,7 @@ public class DirCacheIteratorTest extends RepositoryTestCase {
 		assertEquals(expPaths.length, pathIdx);
 	}
 
+	@Test
 	public void testSingleSubtree_Recursive() throws Exception {
 		final DirCache dc = DirCache.newInCore();
 
@@ -205,6 +218,7 @@ public class DirCacheIteratorTest extends RepositoryTestCase {
 		assertEquals(paths.length, pathIdx);
 	}
 
+	@Test
 	public void testTwoLevelSubtree_Recursive() throws Exception {
 		final DirCache dc = DirCache.newInCore();
 
@@ -238,6 +252,7 @@ public class DirCacheIteratorTest extends RepositoryTestCase {
 		assertEquals(paths.length, pathIdx);
 	}
 
+	@Test
 	public void testTwoLevelSubtree_FilterPath() throws Exception {
 		final DirCache dc = DirCache.newInCore();
 
@@ -273,6 +288,7 @@ public class DirCacheIteratorTest extends RepositoryTestCase {
 		}
 	}
 
+	@Test
 	public void testRemovedSubtree() throws Exception {
 		final File path = JGitTestUtil
 				.getTestResourceFile("dircache.testRemovedSubtree");

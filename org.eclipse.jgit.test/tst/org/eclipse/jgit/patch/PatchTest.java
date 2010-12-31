@@ -43,21 +43,31 @@
 
 package org.eclipse.jgit.patch;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import java.io.IOException;
 import java.io.InputStream;
 
-import junit.framework.TestCase;
-
+import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
+import org.junit.Test;
 
-public class PatchTest extends TestCase {
+public class PatchTest {
+	@Test
 	public void testEmpty() {
 		final Patch p = new Patch();
 		assertTrue(p.getFiles().isEmpty());
 		assertTrue(p.getErrors().isEmpty());
 	}
 
+	@Test
 	public void testParse_ConfigCaseInsensitive() throws IOException {
 		final Patch p = parseTestPatchFile();
 		assertEquals(2, p.getFiles().size());
@@ -155,6 +165,7 @@ public class PatchTest extends TestCase {
 		}
 	}
 
+	@Test
 	public void testParse_NoBinary() throws IOException {
 		final Patch p = parseTestPatchFile();
 		assertEquals(5, p.getFiles().size());
@@ -190,6 +201,7 @@ public class PatchTest extends TestCase {
 		assertEquals(272, fh.getHunks().get(0).getOldImage().getStartLine());
 	}
 
+	@Test
 	public void testParse_GitBinaryLiteral() throws IOException {
 		final Patch p = parseTestPatchFile();
 		final int[] binsizes = { 359, 393, 372, 404 };
@@ -235,6 +247,7 @@ public class PatchTest extends TestCase {
 		assertEquals(272, fh.getHunks().get(0).getOldImage().getStartLine());
 	}
 
+	@Test
 	public void testParse_GitBinaryDelta() throws IOException {
 		final Patch p = parseTestPatchFile();
 		assertEquals(1, p.getFiles().size());
@@ -272,6 +285,7 @@ public class PatchTest extends TestCase {
 		assertEquals(496, fh.endOffset);
 	}
 
+	@Test
 	public void testParse_FixNoNewline() throws IOException {
 		final Patch p = parseTestPatchFile();
 		assertEquals(1, p.getFiles().size());
@@ -306,6 +320,7 @@ public class PatchTest extends TestCase {
 		}
 	}
 
+	@Test
 	public void testParse_AddNoNewline() throws IOException {
 		final Patch p = parseTestPatchFile();
 		assertEquals(1, p.getFiles().size());
@@ -341,7 +356,7 @@ public class PatchTest extends TestCase {
 	}
 
 	private Patch parseTestPatchFile() throws IOException {
-		final String patchFile = getName() + ".patch";
+		final String patchFile = JGitTestUtil.getName() + ".patch";
 		final InputStream in = getClass().getResourceAsStream(patchFile);
 		if (in == null) {
 			fail("No " + patchFile + " test vector");

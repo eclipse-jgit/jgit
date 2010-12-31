@@ -45,16 +45,23 @@
 
 package org.eclipse.jgit.transport;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
-public class URIishTest extends TestCase {
+public class URIishTest {
 
 	private static final String GIT_SCHEME = "git://";
 
+	@Test
 	public void testUnixFile() throws Exception {
 		final String str = "/home/m y";
 		URIish u = new URIish(str);
@@ -65,6 +72,7 @@ public class URIishTest extends TestCase {
 		assertEquals(u, new URIish(str));
 	}
 
+	@Test
 	public void testWindowsFile() throws Exception {
 		final String str = "D:/m y";
 		URIish u = new URIish(str);
@@ -75,6 +83,7 @@ public class URIishTest extends TestCase {
 		assertEquals(u, new URIish(str));
 	}
 
+	@Test
 	public void testWindowsFile2() throws Exception {
 		final String str = "D:\\m y";
 		URIish u = new URIish(str);
@@ -85,6 +94,7 @@ public class URIishTest extends TestCase {
 		assertEquals(u, new URIish(str));
 	}
 
+	@Test
 	public void testRelativePath() throws Exception {
 		final String str = "../../foo/bar";
 		URIish u = new URIish(str);
@@ -95,6 +105,7 @@ public class URIishTest extends TestCase {
 		assertEquals(u, new URIish(str));
 	}
 
+	@Test
 	public void testUNC() throws Exception {
 		final String str = "\\\\some\\place";
 		URIish u = new URIish(str);
@@ -105,6 +116,7 @@ public class URIishTest extends TestCase {
 		assertEquals(u, new URIish(str));
 	}
 
+	@Test
 	public void testFileProtoUnix() throws Exception {
 		final String str = "file:///home/m y";
 		URIish u = new URIish(str);
@@ -115,6 +127,7 @@ public class URIishTest extends TestCase {
 		assertEquals(u, new URIish(str));
 	}
 
+	@Test
 	public void testFileProtoWindows() throws Exception {
 		final String str = "file:///D:/m y";
 		URIish u = new URIish(str);
@@ -125,6 +138,7 @@ public class URIishTest extends TestCase {
 		assertEquals(u, new URIish(str));
 	}
 
+	@Test
 	public void testGitProtoUnix() throws Exception {
 		final String str = "git://example.com/home/m y";
 		URIish u = new URIish(str);
@@ -136,6 +150,7 @@ public class URIishTest extends TestCase {
 		assertEquals(u, new URIish(str));
 	}
 
+	@Test
 	public void testGitProtoUnixPort() throws Exception {
 		final String str = "git://example.com:333/home/m y";
 		URIish u = new URIish(str);
@@ -148,6 +163,7 @@ public class URIishTest extends TestCase {
 		assertEquals(u, new URIish(str));
 	}
 
+	@Test
 	public void testGitProtoWindowsPort() throws Exception {
 		final String str = "git://example.com:338/D:/m y";
 		URIish u = new URIish(str);
@@ -160,6 +176,7 @@ public class URIishTest extends TestCase {
 		assertEquals(u, new URIish(str));
 	}
 
+	@Test
 	public void testGitProtoWindows() throws Exception {
 		final String str = "git://example.com/D:/m y";
 		URIish u = new URIish(str);
@@ -172,6 +189,7 @@ public class URIishTest extends TestCase {
 		assertEquals(u, new URIish(str));
 	}
 
+	@Test
 	public void testScpStyleWithoutUserRelativePath() throws Exception {
 		final String str = "example.com:some/p ath";
 		URIish u = new URIish(str);
@@ -184,6 +202,7 @@ public class URIishTest extends TestCase {
 		assertEquals(u, new URIish(str));
 	}
 
+	@Test
 	public void testScpStyleWithoutUserAbsolutePath() throws Exception {
 		final String str = "example.com:/some/p ath";
 		URIish u = new URIish(str);
@@ -196,6 +215,7 @@ public class URIishTest extends TestCase {
 		assertEquals(u, new URIish(str));
 	}
 
+	@Test
 	public void testScpStyleWithUser() throws Exception {
 		final String str = "user@example.com:some/p ath";
 		URIish u = new URIish(str);
@@ -209,6 +229,7 @@ public class URIishTest extends TestCase {
 		assertEquals(u, new URIish(str));
 	}
 
+	@Test
 	public void testGitSshProto() throws Exception {
 		final String str = "git+ssh://example.com/some/p ath";
 		URIish u = new URIish(str);
@@ -221,6 +242,7 @@ public class URIishTest extends TestCase {
 		assertEquals(u, new URIish(str));
 	}
 
+	@Test
 	public void testSshGitProto() throws Exception {
 		final String str = "ssh+git://example.com/some/p ath";
 		URIish u = new URIish(str);
@@ -233,6 +255,7 @@ public class URIishTest extends TestCase {
 		assertEquals(u, new URIish(str));
 	}
 
+	@Test
 	public void testSshProto() throws Exception {
 		final String str = "ssh://example.com/some/p ath";
 		URIish u = new URIish(str);
@@ -245,6 +268,7 @@ public class URIishTest extends TestCase {
 		assertEquals(u, new URIish(str));
 	}
 
+	@Test
 	public void testSshProtoWithUserAndPort() throws Exception {
 		final String str = "ssh://user@example.com:33/some/p ath";
 		URIish u = new URIish(str);
@@ -259,6 +283,7 @@ public class URIishTest extends TestCase {
 		assertEquals(u, new URIish(str));
 	}
 
+	@Test
 	public void testSshProtoWithUserPassAndPort() throws Exception {
 		final String str = "ssh://user:pass@example.com:33/some/p ath";
 		URIish u = new URIish(str);
@@ -274,6 +299,7 @@ public class URIishTest extends TestCase {
 		assertEquals(u, new URIish(str));
 	}
 
+	@Test
 	public void testGitWithUserHome() throws Exception {
 		final String str = "git://example.com/~some/p ath";
 		URIish u = new URIish(str);
@@ -290,6 +316,7 @@ public class URIishTest extends TestCase {
 	}
 
 	/* Resolving ~user is beyond standard Java API and need more support
+	@Test
 	public void testFileWithUserHome() throws Exception {
 		final String str = "~some/p ath";
 		URIish u = new URIish(str);
@@ -306,6 +333,7 @@ public class URIishTest extends TestCase {
 	}
 	*/
 
+	@Test
 	public void testFileWithNoneUserHomeWithTilde() throws Exception {
 		final String str = "/~some/p ath";
 		URIish u = new URIish(str);
@@ -321,6 +349,7 @@ public class URIishTest extends TestCase {
 		assertEquals(u, new URIish(str));
 	}
 
+	@Test
 	public void testGetNullHumanishName() {
 		try {
 			new URIish().getHumanishName();
@@ -330,6 +359,7 @@ public class URIishTest extends TestCase {
 		}
 	}
 
+	@Test
 	public void testGetEmptyHumanishName() throws URISyntaxException {
 		try {
 			new URIish(GIT_SCHEME).getHumanishName();
@@ -339,6 +369,7 @@ public class URIishTest extends TestCase {
 		}
 	}
 
+	@Test
 	public void testGetAbsEmptyHumanishName() {
 		try {
 			new URIish().getHumanishName();
@@ -348,26 +379,31 @@ public class URIishTest extends TestCase {
 		}
 	}
 
+	@Test
 	public void testGetValidWithEmptySlashDotGitHumanishName()
 			throws IllegalArgumentException, URISyntaxException {
 		String humanishName = new URIish("/a/b/.git").getHumanishName();
 		assertEquals("b", humanishName);
 	}
 
+	@Test
 	public void testGetWithSlashDotGitHumanishName() throws URISyntaxException {
 		assertEquals("", new URIish("/.git").getHumanishName());
 	}
 
+	@Test
 	public void testGetTwoSlashesDotGitHumanishName() throws URISyntaxException {
 		assertEquals("", new URIish("/.git").getHumanishName());
 	}
 
+	@Test
 	public void testGetValidHumanishName() throws IllegalArgumentException,
 			URISyntaxException {
 		String humanishName = new URIish(GIT_SCHEME + "abc").getHumanishName();
 		assertEquals("abc", humanishName);
 	}
 
+	@Test
 	public void testGetValidSlashHumanishName()
 			throws IllegalArgumentException, URISyntaxException {
 		String humanishName = new URIish(GIT_SCHEME + "host/abc/")
@@ -375,18 +411,21 @@ public class URIishTest extends TestCase {
 		assertEquals("abc", humanishName);
 	}
 
+	@Test
 	public void testGetSlashValidSlashHumanishName()
 			throws IllegalArgumentException, URISyntaxException {
 		String humanishName = new URIish("/abc/").getHumanishName();
 		assertEquals("abc", humanishName);
 	}
 
+	@Test
 	public void testGetSlashValidSlashDotGitSlashHumanishName()
 			throws IllegalArgumentException, URISyntaxException {
 		String humanishName = new URIish("/abc/.git").getHumanishName();
 		assertEquals("abc", humanishName);
 	}
 
+	@Test
 	public void testGetSlashSlashDotGitSlashHumanishName()
 			throws IllegalArgumentException, URISyntaxException {
 		final String humanishName = new URIish(GIT_SCHEME + "/abc//.git")
@@ -394,12 +433,14 @@ public class URIishTest extends TestCase {
 		assertEquals("may return an empty humanish name", "", humanishName);
 	}
 
+	@Test
 	public void testGetSlashesValidSlashHumanishName()
 			throws IllegalArgumentException, URISyntaxException {
 		String humanishName = new URIish("/a/b/c/").getHumanishName();
 		assertEquals("c", humanishName);
 	}
 
+	@Test
 	public void testGetValidDotGitHumanishName()
 			throws IllegalArgumentException, URISyntaxException {
 		String humanishName = new URIish(GIT_SCHEME + "abc.git")
@@ -407,6 +448,7 @@ public class URIishTest extends TestCase {
 		assertEquals("abc", humanishName);
 	}
 
+	@Test
 	public void testGetValidDotGitSlashHumanishName()
 			throws IllegalArgumentException, URISyntaxException {
 		String humanishName = new URIish(GIT_SCHEME + "host.xy/abc.git/")
@@ -414,30 +456,35 @@ public class URIishTest extends TestCase {
 		assertEquals("abc", humanishName);
 	}
 
+	@Test
 	public void testGetValidWithSlashDotGitHumanishName()
 			throws IllegalArgumentException, URISyntaxException {
 		String humanishName = new URIish("/abc.git").getHumanishName();
 		assertEquals("abc", humanishName);
 	}
 
+	@Test
 	public void testGetValidWithSlashDotGitSlashHumanishName()
 			throws IllegalArgumentException, URISyntaxException {
 		String humanishName = new URIish("/abc.git/").getHumanishName();
 		assertEquals("abc", humanishName);
 	}
 
+	@Test
 	public void testGetValidWithSlashesDotGitHumanishName()
 			throws IllegalArgumentException, URISyntaxException {
 		String humanishName = new URIish("/a/b/c.git").getHumanishName();
 		assertEquals("c", humanishName);
 	}
 
+	@Test
 	public void testGetValidWithSlashesDotGitSlashHumanishName()
 			throws IllegalArgumentException, URISyntaxException {
 		String humanishName = new URIish("/a/b/c.git/").getHumanishName();
 		assertEquals("c", humanishName);
 	}
 
+	@Test
 	public void testUserPasswordAndPort() throws URISyntaxException {
 		String str = "http://user:secret@host.xy:80/some/path";
 		URIish u = new URIish(str);
@@ -462,6 +509,7 @@ public class URIishTest extends TestCase {
 		assertEquals(u, new URIish(str));
 	}
 
+	@Test
 	public void testFileProtocol() throws IllegalArgumentException,
 			URISyntaxException, IOException {
 		// as defined by git docu
@@ -497,6 +545,7 @@ public class URIishTest extends TestCase {
 		assertEquals("b.txt", u.getHumanishName());
 	}
 
+	@Test
 	public void testMissingPort() throws URISyntaxException {
 		final String incorrectSshUrl = "ssh://some-host:/path/to/repository.git";
 		URIish u = new URIish(incorrectSshUrl);

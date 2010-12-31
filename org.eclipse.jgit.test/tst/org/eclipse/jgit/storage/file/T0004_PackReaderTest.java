@@ -46,20 +46,25 @@
 
 package org.eclipse.jgit.storage.file;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 import java.io.File;
 import java.io.IOException;
 
+import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.SampleDataRepositoryTestCase;
-import org.eclipse.jgit.util.JGitTestUtil;
+import org.junit.Test;
 
-public class T0004_PackReader extends SampleDataRepositoryTestCase {
+public class T0004_PackReaderTest extends SampleDataRepositoryTestCase {
 	private static final String PACK_NAME = "pack-34be9032ac282b11fa9babdc2b2a93ca996c9c2f";
 	private static final File TEST_PACK = JGitTestUtil.getTestResourceFile(PACK_NAME + ".pack");
 	private static final File TEST_IDX = JGitTestUtil.getTestResourceFile(PACK_NAME + ".idx");
 
+	@Test
 	public void test003_lookupCompressedObject() throws IOException {
 		final PackFile pr;
 		final ObjectId id;
@@ -74,6 +79,7 @@ public class T0004_PackReader extends SampleDataRepositoryTestCase {
 		pr.close();
 	}
 
+	@Test
 	public void test004_lookupDeltifiedObject() throws IOException {
 		final ObjectId id;
 		final ObjectLoader or;

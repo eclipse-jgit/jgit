@@ -49,29 +49,32 @@ import static org.eclipse.jgit.transport.SideBandOutputStream.CH_PROGRESS;
 import static org.eclipse.jgit.transport.SideBandOutputStream.HDR_SIZE;
 import static org.eclipse.jgit.transport.SideBandOutputStream.MAX_BUF;
 import static org.eclipse.jgit.transport.SideBandOutputStream.SMALL_BUF;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.text.MessageFormat;
 
-import junit.framework.TestCase;
-
 import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.lib.Constants;
+import org.junit.Before;
+import org.junit.Test;
 
 // Note, test vectors created with:
 //
 // perl -e 'printf "%4.4x%s\n", 4+length($ARGV[0]),$ARGV[0]'
 
-public class SideBandOutputStreamTest extends TestCase {
+public class SideBandOutputStreamTest {
 	private ByteArrayOutputStream rawOut;
 
-	protected void setUp() throws Exception {
-		super.setUp();
+	@Before
+	public void setUp() throws Exception {
 		rawOut = new ByteArrayOutputStream();
 	}
 
+	@Test
 	public void testWrite_CH_DATA() throws IOException {
 		final SideBandOutputStream out;
 		out = new SideBandOutputStream(CH_DATA, SMALL_BUF, rawOut);
@@ -80,6 +83,7 @@ public class SideBandOutputStreamTest extends TestCase {
 		assertBuffer("0008\001abc");
 	}
 
+	@Test
 	public void testWrite_CH_PROGRESS() throws IOException {
 		final SideBandOutputStream out;
 		out = new SideBandOutputStream(CH_PROGRESS, SMALL_BUF, rawOut);
@@ -88,6 +92,7 @@ public class SideBandOutputStreamTest extends TestCase {
 		assertBuffer("0008\002abc");
 	}
 
+	@Test
 	public void testWrite_CH_ERROR() throws IOException {
 		final SideBandOutputStream out;
 		out = new SideBandOutputStream(CH_ERROR, SMALL_BUF, rawOut);
@@ -96,6 +101,7 @@ public class SideBandOutputStreamTest extends TestCase {
 		assertBuffer("0008\003abc");
 	}
 
+	@Test
 	public void testWrite_Small() throws IOException {
 		final SideBandOutputStream out;
 		out = new SideBandOutputStream(CH_DATA, SMALL_BUF, rawOut);
@@ -106,6 +112,7 @@ public class SideBandOutputStreamTest extends TestCase {
 		assertBuffer("0008\001abc");
 	}
 
+	@Test
 	public void testWrite_SmallBlocks1() throws IOException {
 		final SideBandOutputStream out;
 		out = new SideBandOutputStream(CH_DATA, 6, rawOut);
@@ -116,6 +123,7 @@ public class SideBandOutputStreamTest extends TestCase {
 		assertBuffer("0006\001a0006\001b0006\001c");
 	}
 
+	@Test
 	public void testWrite_SmallBlocks2() throws IOException {
 		final SideBandOutputStream out;
 		out = new SideBandOutputStream(CH_DATA, 6, rawOut);
@@ -124,6 +132,7 @@ public class SideBandOutputStreamTest extends TestCase {
 		assertBuffer("0006\001a0006\001b0006\001c");
 	}
 
+	@Test
 	public void testWrite_SmallBlocks3() throws IOException {
 		final SideBandOutputStream out;
 		out = new SideBandOutputStream(CH_DATA, 7, rawOut);
@@ -133,6 +142,7 @@ public class SideBandOutputStreamTest extends TestCase {
 		assertBuffer("0007\001ab0006\001c");
 	}
 
+	@Test
 	public void testWrite_Large() throws IOException {
 		final int buflen = MAX_BUF - HDR_SIZE;
 		final byte[] buf = new byte[buflen];
@@ -155,6 +165,7 @@ public class SideBandOutputStreamTest extends TestCase {
 		}
 	}
 
+	@Test
 	public void testFlush() throws IOException {
 		final int[] flushCnt = new int[1];
 		final OutputStream mockout = new OutputStream() {
@@ -173,6 +184,7 @@ public class SideBandOutputStreamTest extends TestCase {
 		assertEquals(1, flushCnt[0]);
 	}
 
+	@Test
 	public void testConstructor_RejectsBadChannel() {
 		try {
 			new SideBandOutputStream(-1, MAX_BUF, rawOut);
@@ -197,6 +209,7 @@ public class SideBandOutputStreamTest extends TestCase {
 		}
 	}
 
+	@Test
 	public void testConstructor_RejectsBadBufferSize() {
 		try {
 			new SideBandOutputStream(CH_DATA, -1, rawOut);

@@ -43,15 +43,17 @@
 
 package org.eclipse.jgit.util;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.Date;
 import java.util.TimeZone;
 
-import junit.framework.TestCase;
-
 import org.eclipse.jgit.lib.PersonIdent;
+import org.junit.Test;
 
-public class RawParseUtils_ParsePersonIdentTest extends TestCase {
+public class RawParseUtils_ParsePersonIdentTest {
 
+	@Test
 	public void testParsePersonIdent_legalCases() {
 		final Date when = new Date(1234567890000l);
 		final TimeZone tz = TimeZone.getTimeZone("GMT-7");
@@ -79,6 +81,7 @@ public class RawParseUtils_ParsePersonIdentTest extends TestCase {
 				new PersonIdent("A U Thor", "author@example.com", when, tz));
 	}
 
+	@Test
 	public void testParsePersonIdent_fuzzyCases() {
 		final Date when = new Date(1234567890000l);
 		final TimeZone tz = TimeZone.getTimeZone("GMT-7");
@@ -92,6 +95,7 @@ public class RawParseUtils_ParsePersonIdentTest extends TestCase {
 				new PersonIdent("A U Thor", "author@example.com", when, tz));
 	}
 
+	@Test
 	public void testParsePersonIdent_incompleteCases() {
 		final Date when = new Date(1234567890000l);
 		final TimeZone tz = TimeZone.getTimeZone("GMT-7");
@@ -127,6 +131,7 @@ public class RawParseUtils_ParsePersonIdentTest extends TestCase {
 				"Me", "me@example.com", 0, 0));
 	}
 
+	@Test
 	public void testParsePersonIdent_malformedCases() {
 		assertPersonIdent("Me me@example.com> 1234567890 -0700", null);
 		assertPersonIdent("Me <me@example.com 1234567890 -0700", null);

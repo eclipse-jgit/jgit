@@ -43,6 +43,8 @@
 
 package org.eclipse.jgit.revwalk;
 
+import static org.junit.Assert.assertSame;
+
 import java.util.Date;
 
 import org.eclipse.jgit.dircache.DirCacheEntry;

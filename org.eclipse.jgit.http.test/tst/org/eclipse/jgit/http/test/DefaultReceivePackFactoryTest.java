@@ -43,6 +43,11 @@
 
 package org.eclipse.jgit.http.test;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.fail;
+
 import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequestWrapper;
@@ -57,19 +62,23 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.transport.ReceivePack;
+import org.junit.Before;
+import org.junit.Test;
 
 public class DefaultReceivePackFactoryTest extends LocalDiskRepositoryTestCase {
 	private Repository db;
 
 	private ReceivePackFactory factory;
 
-	protected void setUp() throws Exception {
+	@Before
+	public void setUp() throws Exception {
 		super.setUp();
 
 		db = createBareRepository();
 		factory = new DefaultReceivePackFactory();
 	}
 
+	@Test
 	public void testDisabledSingleton() throws ServiceNotAuthorizedException {
 		factory = ReceivePackFactory.DISABLED;
 
@@ -95,6 +104,7 @@ public class DefaultReceivePackFactoryTest extends LocalDiskRepositoryTestCase {
 		}
 	}
 
+	@Test
 	public void testCreate_NullUser() throws ServiceNotEnabledException {
 		try {
 			factory.create(new R(null, "localhost"), db);
@@ -104,6 +114,7 @@ public class DefaultReceivePackFactoryTest extends LocalDiskRepositoryTestCase {
 		}
 	}
 
+	@Test
 	public void testCreate_EmptyStringUser() throws ServiceNotEnabledException {
 		try {
 			factory.create(new R("", "localhost"), db);
@@ -113,6 +124,7 @@ public class DefaultReceivePackFactoryTest extends LocalDiskRepositoryTestCase {
 		}
 	}
 
+	@Test
 	public void testCreate_AuthUser() throws ServiceNotEnabledException,
 			ServiceNotAuthorizedException {
 		ReceivePack rp;
@@ -130,6 +142,7 @@ public class DefaultReceivePackFactoryTest extends LocalDiskRepositoryTestCase {
 		assertEquals(author.getWhen(), id.getWhen());
 	}
 
+	@Test
 	public void testCreate_Disabled() throws ServiceNotAuthorizedException,
 			IOException {
 		final StoredConfig cfg = db.getConfig();
@@ -158,6 +171,7 @@ public class DefaultReceivePackFactoryTest extends LocalDiskRepositoryTestCase {
 		}
 	}
 
+	@Test
 	public void testCreate_Enabled() throws ServiceNotEnabledException,
 			ServiceNotAuthorizedException, IOException {
 		final StoredConfig cfg = db.getConfig();

@@ -43,23 +43,32 @@
 
 package org.eclipse.jgit.revwalk;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
+
 import java.util.ArrayList;
+
+import org.junit.Test;
 
 public class FIFORevQueueTest extends RevQueueTestCase<FIFORevQueue> {
 	protected FIFORevQueue create() {
 		return new FIFORevQueue();
 	}
 
+	@Test
 	public void testEmpty() throws Exception {
 		super.testEmpty();
 		assertEquals(0, q.outputType());
 	}
 
+	@Test
 	public void testCloneEmpty() throws Exception {
 		q = new FIFORevQueue(AbstractRevQueue.EMPTY_QUEUE);
 		assertNull(q.next());
 	}
 
+	@Test
 	public void testAddLargeBlocks() throws Exception {
 		final ArrayList<RevCommit> lst = new ArrayList<RevCommit>();
 		for (int i = 0; i < 3 * BlockRevQueue.Block.BLOCK_SIZE; i++) {
@@ -71,6 +80,7 @@ public class FIFORevQueueTest extends RevQueueTestCase<FIFORevQueue> {
 			assertSame(lst.get(i), q.next());
 	}
 
+	@Test
 	public void testUnpopAtFront() throws Exception {
 		final RevCommit a = commit();
 		final RevCommit b = commit();

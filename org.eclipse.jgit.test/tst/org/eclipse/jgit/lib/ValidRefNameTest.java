@@ -43,23 +43,28 @@
 
 package org.eclipse.jgit.lib;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
 
-public class ValidRefNameTest extends TestCase {
+import org.junit.Test;
+
+public class ValidRefNameTest {
 	private static void assertValid(final boolean exp, final String name) {
 		assertEquals("\"" + name + "\"", exp, Repository.isValidRefName(name));
 	}
 
+	@Test
 	public void testEmptyString() {
 		assertValid(false, "");
 		assertValid(false, "/");
 	}
 
+	@Test
 	public void testMustHaveTwoComponents() {
 		assertValid(false, "master");
 		assertValid(true, "heads/master");
 	}
 
+	@Test
 	public void testValidHead() {
 		assertValid(true, "refs/heads/master");
 		assertValid(true, "refs/heads/pu");
@@ -67,27 +72,33 @@ public class ValidRefNameTest extends TestCase {
 		assertValid(true, "refs/heads/FoO");
 	}
 
+	@Test
 	public void testValidTag() {
 		assertValid(true, "refs/tags/v1.0");
 	}
 
+	@Test
 	public void testNoLockSuffix() {
 		assertValid(false, "refs/heads/master.lock");
 	}
 
+	@Test
 	public void testNoDirectorySuffix() {
 		assertValid(false, "refs/heads/master/");
 	}
 
+	@Test
 	public void testNoSpace() {
 		assertValid(false, "refs/heads/i haz space");
 	}
 
+	@Test
 	public void testNoAsciiControlCharacters() {
 		for (char c = '\0'; c < ' '; c++)
 			assertValid(false, "refs/heads/mast" + c + "er");
 	}
 
+	@Test
 	public void testNoBareDot() {
 		assertValid(false, "refs/heads/.");
 		assertValid(false, "refs/heads/..");
@@ -95,6 +106,7 @@ public class ValidRefNameTest extends TestCase {
 		assertValid(false, "refs/heads/../master");
 	}
 
+	@Test
 	public void testNoLeadingOrTrailingDot() {
 		assertValid(false, ".");
 		assertValid(false, "refs/heads/.bar");
@@ -102,11 +114,13 @@ public class ValidRefNameTest extends TestCase {
 		assertValid(false, "refs/heads/bar.");
 	}
 
+	@Test
 	public void testContainsDot() {
 		assertValid(true, "refs/heads/m.a.s.t.e.r");
 		assertValid(false, "refs/heads/master..pu");
 	}
 
+	@Test
 	public void testNoMagicRefCharacters() {
 		assertValid(false, "refs/heads/master^");
 		assertValid(false, "refs/heads/^master");
@@ -121,6 +135,7 @@ public class ValidRefNameTest extends TestCase {
 		assertValid(false, ":refs/heads/master");
 	}
 
+	@Test
 	public void testShellGlob() {
 		assertValid(false, "refs/heads/master?");
 		assertValid(false, "refs/heads/?master");
@@ -135,6 +150,7 @@ public class ValidRefNameTest extends TestCase {
 		assertValid(false, "*refs/heads/master");
 	}
 
+	@Test
 	public void testValidSpecialCharacters() {
 		assertValid(true, "refs/heads/!");
 		assertValid(true, "refs/heads/\"");
@@ -166,10 +182,12 @@ public class ValidRefNameTest extends TestCase {
 		assertValid(false, "refs/heads/\\");
 	}
 
+	@Test
 	public void testUnicodeNames() {
 		assertValid(true, "refs/heads/\u00e5ngstr\u00f6m");
 	}
 
+	@Test
 	public void testRefLogQueryIsValidRef() {
 		assertValid(false, "refs/heads/master@{1}");
 		assertValid(false, "refs/heads/master@{1.hour.ago}");

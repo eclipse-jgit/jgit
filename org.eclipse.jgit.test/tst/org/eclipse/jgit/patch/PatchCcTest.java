@@ -43,15 +43,21 @@
 
 package org.eclipse.jgit.patch;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import java.io.IOException;
 import java.io.InputStream;
 
-import junit.framework.TestCase;
-
 import org.eclipse.jgit.diff.DiffEntry;
+import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.lib.FileMode;
+import org.junit.Test;
 
-public class PatchCcTest extends TestCase {
+public class PatchCcTest {
+	@Test
 	public void testParse_OneFileCc() throws IOException {
 		final Patch p = parseTestPatchFile();
 		assertEquals(1, p.getFiles().size());
@@ -107,6 +113,7 @@ public class PatchCcTest extends TestCase {
 		}
 	}
 
+	@Test
 	public void testParse_CcNewFile() throws IOException {
 		final Patch p = parseTestPatchFile();
 		assertEquals(1, p.getFiles().size());
@@ -161,6 +168,7 @@ public class PatchCcTest extends TestCase {
 		}
 	}
 
+	@Test
 	public void testParse_CcDeleteFile() throws IOException {
 		final Patch p = parseTestPatchFile();
 		assertEquals(1, p.getFiles().size());
@@ -190,7 +198,7 @@ public class PatchCcTest extends TestCase {
 	}
 
 	private Patch parseTestPatchFile() throws IOException {
-		final String patchFile = getName() + ".patch";
+		final String patchFile = JGitTestUtil.getName() + ".patch";
 		final InputStream in = getClass().getResourceAsStream(patchFile);
 		if (in == null) {
 			fail("No " + patchFile + " test vector");

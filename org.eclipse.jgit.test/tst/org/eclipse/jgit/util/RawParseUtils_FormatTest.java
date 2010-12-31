@@ -43,11 +43,14 @@
 
 package org.eclipse.jgit.util;
 
+import static org.junit.Assert.assertEquals;
+
 import java.io.UnsupportedEncodingException;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
-public class RawParseUtils_FormatTest extends TestCase {
+public class RawParseUtils_FormatTest {
+	@Test
 	public void testFormatBase10() throws UnsupportedEncodingException {
 		byte[] b = new byte[64];
 		int p;

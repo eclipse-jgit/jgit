@@ -43,29 +43,35 @@
 
 package org.eclipse.jgit.util.io;
 
+import static org.junit.Assert.assertEquals;
+
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
-public class EolCanonicalizingInputStreamTest extends TestCase {
+public class EolCanonicalizingInputStreamTest {
 
+	@Test
 	public void testLF() throws IOException {
 		final byte[] bytes = asBytes("1\n2\n3");
 		test(bytes, bytes);
 	}
 
+	@Test
 	public void testCR() throws IOException {
 		final byte[] bytes = asBytes("1\r2\r3");
 		test(bytes, bytes);
 	}
 
+	@Test
 	public void testCRLF() throws IOException {
 		test(asBytes("1\r\n2\r\n3"), asBytes("1\n2\n3"));
 	}
 
+	@Test
 	public void testLFCR() throws IOException {
 		final byte[] bytes = asBytes("1\n\r2\n\r3");
 		test(bytes, bytes);

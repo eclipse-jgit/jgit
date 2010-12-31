@@ -43,6 +43,10 @@
 
 package org.eclipse.jgit.storage.file;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.fail;
+
 import java.io.File;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -50,6 +54,7 @@ import java.util.NoSuchElementException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.RepositoryTestCase;
 import org.eclipse.jgit.storage.file.PackIndex.MutableEntry;
+import org.junit.Test;
 
 public abstract class PackIndexTestCase extends RepositoryTestCase {
 
@@ -90,6 +95,7 @@ public abstract class PackIndexTestCase extends RepositoryTestCase {
 	 * Test contracts of Iterator methods and this implementation remove()
 	 * limitations.
 	 */
+	@Test
 	public void testIteratorMethodsContract() {
 		Iterator<PackIndex.MutableEntry> iter = smallIdx.iterator();
 		while (iter.hasNext()) {
@@ -115,6 +121,7 @@ public abstract class PackIndexTestCase extends RepositoryTestCase {
 	 * Test results of iterator comparing to content of well-known (prepared)
 	 * small index.
 	 */
+	@Test
 	public void testIteratorReturnedValues1() {
 		Iterator<PackIndex.MutableEntry> iter = smallIdx.iterator();
 		assertEquals("4b825dc642cb6eb9a060e54bf8d69288fbee4904", iter.next()
@@ -139,6 +146,7 @@ public abstract class PackIndexTestCase extends RepositoryTestCase {
 	/**
 	 * Compare offset from iterator entries with output of findOffset() method.
 	 */
+	@Test
 	public void testCompareEntriesOffsetsWithFindOffsets() {
 		for (MutableEntry me : smallIdx) {
 			assertEquals(smallIdx.findOffset(me.toObjectId()), me.getOffset());
@@ -152,6 +160,7 @@ public abstract class PackIndexTestCase extends RepositoryTestCase {
 	 * Test partial results of iterator comparing to content of well-known
 	 * (prepared) dense index, that may need multi-level indexing.
 	 */
+	@Test
 	public void testIteratorReturnedValues2() {
 		Iterator<PackIndex.MutableEntry> iter = denseIdx.iterator();
 		while (!iter.next().name().equals(

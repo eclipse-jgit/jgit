@@ -42,15 +42,19 @@
  */
 package org.eclipse.jgit.ignore;
 
-import junit.framework.Assert;
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
+import org.junit.Test;
 
 
 /**
  * Tests ignore pattern matches
  */
-public class IgnoreMatcherTest  extends TestCase{
+public class IgnoreMatcherTest {
 
+	@Test
 	public void testBasic() {
 		String pattern = "/test.stp";
 		assertMatched(pattern, "/test.stp");
@@ -59,6 +63,7 @@ public class IgnoreMatcherTest  extends TestCase{
 		assertNotMatched(pattern, "/test.stp");
 	}
 
+	@Test
 	public void testFileNameWildcards() {
 		//Test basic * and ? for any pattern + any character
 		String pattern = "*.st?";
@@ -118,6 +123,7 @@ public class IgnoreMatcherTest  extends TestCase{
 		assertNotMatched(pattern, "/src/new.c");
 	}
 
+	@Test
 	public void testTargetWithoutLeadingSlash() {
 		//Test basic * and ? for any pattern + any character
 		String pattern = "/*.st?";
@@ -177,6 +183,7 @@ public class IgnoreMatcherTest  extends TestCase{
 		assertNotMatched(pattern, "src/new.c");
 	}
 
+	@Test
 	public void testParentDirectoryGitIgnores() {
 		//Contains git ignore patterns such as might be seen in a parent directory
 
@@ -210,6 +217,7 @@ public class IgnoreMatcherTest  extends TestCase{
 		assertNotMatched(pattern, "/src/new/a/file.c");
 	}
 
+	@Test
 	public void testTrailingSlash() {
 		String pattern = "/src/";
 		assertMatched(pattern, "/src/");
@@ -220,6 +228,7 @@ public class IgnoreMatcherTest  extends TestCase{
 		assertNotMatched(pattern, "/srcA/");
 	}
 
+	@Test
 	public void testNameOnlyMatches() {
 		/*
 		 * Name-only matches do not contain any path separators
@@ -270,11 +279,13 @@ public class IgnoreMatcherTest  extends TestCase{
 		assertNotMatched(pattern, "/cr3");
 	}
 
+	@Test
 	public void testNegation() {
 		String pattern = "!/test.stp";
 		assertMatched(pattern, "/test.stp");
 	}
 
+	@Test
 	public void testGetters() {
 		IgnoreRule r = new IgnoreRule("/pattern/");
 		assertFalse(r.getNameOnly());
@@ -329,7 +340,8 @@ public class IgnoreMatcherTest  extends TestCase{
 	 */
 	public void assertMatched(String pattern, String target) {
 		boolean value = match(pattern, target);
-		Assert.assertTrue("Expected a match for: " + pattern + " with: " + target, value);
+		assertTrue("Expected a match for: " + pattern + " with: " + target,
+				value);
 	}
 
 	/**
@@ -342,7 +354,8 @@ public class IgnoreMatcherTest  extends TestCase{
 	 */
 	public void assertNotMatched(String pattern, String target) {
 		boolean value = match(pattern, target);
-		Assert.assertFalse("Expected no match for: " + pattern + " with: " + target, value);
+		assertFalse("Expected no match for: " + pattern + " with: " + target,
+				value);
 	}
 
 	/**

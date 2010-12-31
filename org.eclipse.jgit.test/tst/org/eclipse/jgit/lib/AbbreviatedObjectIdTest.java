@@ -43,9 +43,17 @@
 
 package org.eclipse.jgit.lib;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
-public class AbbreviatedObjectIdTest extends TestCase {
+import org.junit.Test;
+
+public class AbbreviatedObjectIdTest {
+	@Test
 	public void testEmpty_FromByteArray() {
 		final AbbreviatedObjectId i;
 		i = AbbreviatedObjectId.fromString(new byte[] {}, 0, 0);
@@ -55,6 +63,7 @@ public class AbbreviatedObjectIdTest extends TestCase {
 		assertEquals("", i.name());
 	}
 
+	@Test
 	public void testEmpty_FromString() {
 		final AbbreviatedObjectId i = AbbreviatedObjectId.fromString("");
 		assertNotNull(i);
@@ -63,6 +72,7 @@ public class AbbreviatedObjectIdTest extends TestCase {
 		assertEquals("", i.name());
 	}
 
+	@Test
 	public void testFull_FromByteArray() {
 		final String s = "7b6e8067ec96acef9a4184b43210d583b6d2f99a";
 		final byte[] b = Constants.encodeASCII(s);
@@ -79,6 +89,7 @@ public class AbbreviatedObjectIdTest extends TestCase {
 		assertEquals(f.hashCode(), i.hashCode());
 	}
 
+	@Test
 	public void testFull_FromString() {
 		final String s = "7b6e8067ec96acef9a4184b43210d583b6d2f99a";
 		final AbbreviatedObjectId i = AbbreviatedObjectId.fromString(s);
@@ -93,6 +104,7 @@ public class AbbreviatedObjectIdTest extends TestCase {
 		assertEquals(f.hashCode(), i.hashCode());
 	}
 
+	@Test
 	public void test1_FromString() {
 		final String s = "7";
 		final AbbreviatedObjectId i = AbbreviatedObjectId.fromString(s);
@@ -103,6 +115,7 @@ public class AbbreviatedObjectIdTest extends TestCase {
 		assertNull(i.toObjectId());
 	}
 
+	@Test
 	public void test2_FromString() {
 		final String s = "7b";
 		final AbbreviatedObjectId i = AbbreviatedObjectId.fromString(s);
@@ -113,6 +126,7 @@ public class AbbreviatedObjectIdTest extends TestCase {
 		assertNull(i.toObjectId());
 	}
 
+	@Test
 	public void test3_FromString() {
 		final String s = "7b6";
 		final AbbreviatedObjectId i = AbbreviatedObjectId.fromString(s);
@@ -123,6 +137,7 @@ public class AbbreviatedObjectIdTest extends TestCase {
 		assertNull(i.toObjectId());
 	}
 
+	@Test
 	public void test4_FromString() {
 		final String s = "7b6e";
 		final AbbreviatedObjectId i = AbbreviatedObjectId.fromString(s);
@@ -133,6 +148,7 @@ public class AbbreviatedObjectIdTest extends TestCase {
 		assertNull(i.toObjectId());
 	}
 
+	@Test
 	public void test5_FromString() {
 		final String s = "7b6e8";
 		final AbbreviatedObjectId i = AbbreviatedObjectId.fromString(s);
@@ -143,6 +159,7 @@ public class AbbreviatedObjectIdTest extends TestCase {
 		assertNull(i.toObjectId());
 	}
 
+	@Test
 	public void test6_FromString() {
 		final String s = "7b6e80";
 		final AbbreviatedObjectId i = AbbreviatedObjectId.fromString(s);
@@ -153,6 +170,7 @@ public class AbbreviatedObjectIdTest extends TestCase {
 		assertNull(i.toObjectId());
 	}
 
+	@Test
 	public void test7_FromString() {
 		final String s = "7b6e806";
 		final AbbreviatedObjectId i = AbbreviatedObjectId.fromString(s);
@@ -163,6 +181,7 @@ public class AbbreviatedObjectIdTest extends TestCase {
 		assertNull(i.toObjectId());
 	}
 
+	@Test
 	public void test8_FromString() {
 		final String s = "7b6e8067";
 		final AbbreviatedObjectId i = AbbreviatedObjectId.fromString(s);
@@ -173,6 +192,7 @@ public class AbbreviatedObjectIdTest extends TestCase {
 		assertNull(i.toObjectId());
 	}
 
+	@Test
 	public void test9_FromString() {
 		final String s = "7b6e8067e";
 		final AbbreviatedObjectId i = AbbreviatedObjectId.fromString(s);
@@ -183,6 +203,7 @@ public class AbbreviatedObjectIdTest extends TestCase {
 		assertNull(i.toObjectId());
 	}
 
+	@Test
 	public void test17_FromString() {
 		final String s = "7b6e8067ec96acef9";
 		final AbbreviatedObjectId i = AbbreviatedObjectId.fromString(s);
@@ -193,6 +214,7 @@ public class AbbreviatedObjectIdTest extends TestCase {
 		assertNull(i.toObjectId());
 	}
 
+	@Test
 	public void testEquals_Short() {
 		final String s = "7b6e8067";
 		final AbbreviatedObjectId a = AbbreviatedObjectId.fromString(s);
@@ -203,6 +225,7 @@ public class AbbreviatedObjectIdTest extends TestCase {
 		assertTrue(b.equals(a));
 	}
 
+	@Test
 	public void testEquals_Full() {
 		final String s = "7b6e8067ec96acef9a4184b43210d583b6d2f99a";
 		final AbbreviatedObjectId a = AbbreviatedObjectId.fromString(s);
@@ -213,6 +236,7 @@ public class AbbreviatedObjectIdTest extends TestCase {
 		assertTrue(b.equals(a));
 	}
 
+	@Test
 	public void testNotEquals_SameLength() {
 		final String sa = "7b6e8067";
 		final String sb = "7b6e806e";
@@ -222,6 +246,7 @@ public class AbbreviatedObjectIdTest extends TestCase {
 		assertFalse(b.equals(a));
 	}
 
+	@Test
 	public void testNotEquals_DiffLength() {
 		final String sa = "7b6e8067abcd";
 		final String sb = "7b6e8067";
@@ -231,6 +256,7 @@ public class AbbreviatedObjectIdTest extends TestCase {
 		assertFalse(b.equals(a));
 	}
 
+	@Test
 	public void testPrefixCompare_Full() {
 		final String s1 = "7b6e8067ec96acef9a4184b43210d583b6d2f99a";
 		final AbbreviatedObjectId a = AbbreviatedObjectId.fromString(s1);
@@ -249,6 +275,7 @@ public class AbbreviatedObjectIdTest extends TestCase {
 		assertFalse(i3.startsWith(a));
 	}
 
+	@Test
 	public void testPrefixCompare_1() {
 		final String sa = "7";
 		final AbbreviatedObjectId a = AbbreviatedObjectId.fromString(sa);
@@ -269,6 +296,7 @@ public class AbbreviatedObjectIdTest extends TestCase {
 		assertFalse(i3.startsWith(a));
 	}
 
+	@Test
 	public void testPrefixCompare_7() {
 		final String sa = "7b6e806";
 		final AbbreviatedObjectId a = AbbreviatedObjectId.fromString(sa);
@@ -289,6 +317,7 @@ public class AbbreviatedObjectIdTest extends TestCase {
 		assertFalse(i3.startsWith(a));
 	}
 
+	@Test
 	public void testPrefixCompare_8() {
 		final String sa = "7b6e8067";
 		final AbbreviatedObjectId a = AbbreviatedObjectId.fromString(sa);
@@ -309,6 +338,7 @@ public class AbbreviatedObjectIdTest extends TestCase {
 		assertFalse(i3.startsWith(a));
 	}
 
+	@Test
 	public void testPrefixCompare_9() {
 		final String sa = "7b6e8067e";
 		final AbbreviatedObjectId a = AbbreviatedObjectId.fromString(sa);
@@ -329,6 +359,7 @@ public class AbbreviatedObjectIdTest extends TestCase {
 		assertFalse(i3.startsWith(a));
 	}
 
+	@Test
 	public void testPrefixCompare_17() {
 		final String sa = "7b6e8067ec96acef9";
 		final AbbreviatedObjectId a = AbbreviatedObjectId.fromString(sa);
@@ -349,6 +380,7 @@ public class AbbreviatedObjectIdTest extends TestCase {
 		assertFalse(i3.startsWith(a));
 	}
 
+	@Test
 	public void testIsId() {
 		// These are all too short.
 		assertFalse(AbbreviatedObjectId.isId(""));

@@ -43,6 +43,13 @@
 
 package org.eclipse.jgit.http.test;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -51,8 +58,10 @@ import org.eclipse.jgit.http.server.resolver.FileResolver;
 import org.eclipse.jgit.http.server.resolver.ServiceNotEnabledException;
 import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
 import org.eclipse.jgit.lib.Repository;
+import org.junit.Test;
 
 public class FileResolverTest extends LocalDiskRepositoryTestCase {
+	@Test
 	public void testUnreasonableNames() throws ServiceNotEnabledException {
 		assertUnreasonable("");
 		assertUnreasonable("a\\b");
@@ -83,6 +92,7 @@ public class FileResolverTest extends LocalDiskRepositoryTestCase {
 		}
 	}
 
+	@Test
 	public void testExportOk() throws IOException {
 		final Repository a = createBareRepository();
 		final String name = a.getDirectory().getName();
@@ -116,6 +126,7 @@ public class FileResolverTest extends LocalDiskRepositoryTestCase {
 		}
 	}
 
+	@Test
 	public void testNotAGitRepository() throws IOException,
 			ServiceNotEnabledException {
 		final Repository a = createBareRepository();

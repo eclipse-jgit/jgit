@@ -43,6 +43,10 @@
 
 package org.eclipse.jgit.treewalk;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import java.io.File;
 import java.security.MessageDigest;
 
@@ -56,12 +60,15 @@ import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.RepositoryTestCase;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.RawParseUtils;
+import org.junit.Before;
+import org.junit.Test;
 
 public class FileTreeIteratorTest extends RepositoryTestCase {
 	private final String[] paths = { "a,", "a,b", "a/b", "a0b" };
 
 	private long[] mtime;
 
+	@Before
 	public void setUp() throws Exception {
 		super.setUp();
 
@@ -79,6 +86,7 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 		}
 	}
 
+	@Test
 	public void testEmptyIfRootIsFile() throws Exception {
 		final File r = new File(trash, paths[0]);
 		assertTrue(r.isFile());
@@ -88,6 +96,7 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 		assertTrue(fti.eof());
 	}
 
+	@Test
 	public void testEmptyIfRootDoesNotExist() throws Exception {
 		final File r = new File(trash, "not-existing-file");
 		assertFalse(r.exists());
@@ -97,6 +106,7 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 		assertTrue(fti.eof());
 	}
 
+	@Test
 	public void testEmptyIfRootIsEmpty() throws Exception {
 		final File r = new File(trash, "not-existing-file");
 		assertFalse(r.exists());
@@ -109,6 +119,7 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 		assertTrue(fti.eof());
 	}
 
+	@Test
 	public void testSimpleIterate() throws Exception {
 		final FileTreeIterator top = new FileTreeIterator(trash, db.getFS(),
 				db.getConfig().get(WorkingTreeOptions.KEY));
@@ -158,6 +169,7 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 		assertTrue(top.eof());
 	}
 
+	@Test
 	public void testComputeFileObjectId() throws Exception {
 		final FileTreeIterator top = new FileTreeIterator(trash, db.getFS(),
 				db.getConfig().get(WorkingTreeOptions.KEY));
@@ -178,6 +190,7 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 		assertEquals(expect, top.getEntryObjectId());
 	}
 
+	@Test
 	public void testIsModifiedSymlink() throws Exception {
 		File f = writeTrashFile("symlink", "content");
 		Git git = new Git(db);

@@ -42,10 +42,16 @@
  */
 package org.eclipse.jgit.events;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+
 import org.eclipse.jgit.lib.RepositoryTestCase;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.junit.Test;
 
 public class ConfigChangeEventTest extends RepositoryTestCase {
+	@Test
 	public void testFileRepository_ChangeEventsOnlyOnSave() throws Exception {
 		final ConfigChangedEvent[] events = new ConfigChangedEvent[1];
 		db.getListenerList().addConfigChangedListener(

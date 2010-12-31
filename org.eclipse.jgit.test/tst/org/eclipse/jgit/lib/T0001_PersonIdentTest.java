@@ -1,7 +1,5 @@
 /*
- * Copyright (C) 2008-2009, Google Inc.
- * Copyright (C) 2008, Imran M Yousuf <imyousuf@smartitengineering.com>
- * Copyright (C) 2008, Jonas Fonseca <fonseca@diku.dk>
+ * Copyright (C) 2006-2007, Shawn O. Pearce <spearce@spearce.org>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -43,37 +41,36 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.eclipse.jgit.util;
+package org.eclipse.jgit.lib;
 
-import java.io.File;
-import java.net.URISyntaxException;
-import java.net.URL;
+import static org.junit.Assert.assertEquals;
 
-public abstract class JGitTestUtil {
-	public static final String CLASSPATH_TO_RESOURCES = "org/eclipse/jgit/test/resources/";
+import java.util.Date;
+import java.util.TimeZone;
 
-	private JGitTestUtil() {
-		throw new UnsupportedOperationException();
+import org.junit.Test;
+
+public class T0001_PersonIdentTest {
+
+	@Test
+	public void test001_NewIdent() {
+		final PersonIdent p = new PersonIdent("A U Thor", "author@example.com",
+				new Date(1142878501000L), TimeZone.getTimeZone("EST"));
+		assertEquals("A U Thor", p.getName());
+		assertEquals("author@example.com", p.getEmailAddress());
+		assertEquals(1142878501000L, p.getWhen().getTime());
+		assertEquals("A U Thor <author@example.com> 1142878501 -0500",
+				p.toExternalString());
 	}
 
-	public static File getTestResourceFile(final String fileName) {
-		if (fileName == null || fileName.length() <= 0) {
-			return null;
-		}
-		final URL url = cl().getResource(CLASSPATH_TO_RESOURCES + fileName);
-		if (url == null) {
-			// If URL is null then try to load it as it was being
-			// loaded previously
-			return new File("tst", fileName);
-		}
-		try {
-			return new File(url.toURI());
-		} catch(URISyntaxException e) {
-			return new File(url.getPath());
-		}
-	}
-
-	private static ClassLoader cl() {
-		return JGitTestUtil.class.getClassLoader();
+	@Test
+	public void test002_NewIdent() {
+		final PersonIdent p = new PersonIdent("A U Thor", "author@example.com",
+				new Date(1142878501000L), TimeZone.getTimeZone("GMT+0230"));
+		assertEquals("A U Thor", p.getName());
+		assertEquals("author@example.com", p.getEmailAddress());
+		assertEquals(1142878501000L, p.getWhen().getTime());
+		assertEquals("A U Thor <author@example.com> 1142878501 +0230",
+				p.toExternalString());
 	}
 }

@@ -45,6 +45,15 @@
 
 package org.eclipse.jgit.storage.file;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -63,6 +72,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.SampleDataRepositoryTestCase;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.junit.Test;
 
 public class RefUpdateTest extends SampleDataRepositoryTestCase {
 
@@ -96,6 +106,7 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 		assertEquals(!removed, db.getAllRefs().containsKey(ref.getName()));
 	}
 
+	@Test
 	public void testNoCacheObjectIdSubclass() throws IOException {
 		final String newRef = "refs/heads/abc";
 		final RefUpdate ru = updateRef(newRef);
@@ -121,6 +132,7 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 		assertEquals(0, reverseEntries2.size());
 	}
 
+	@Test
 	public void testNewNamespaceConflictWithLoosePrefixNameExists()
 			throws IOException {
 		final String newRef = "refs/heads/z";
@@ -136,6 +148,7 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 		assertEquals(0, db.getReflogReader("HEAD").getReverseEntries().size());
 	}
 
+	@Test
 	public void testNewNamespaceConflictWithPackedPrefixNameExists()
 			throws IOException {
 		final String newRef = "refs/heads/master/x";
@@ -146,6 +159,7 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 		assertEquals(0, db.getReflogReader("HEAD").getReverseEntries().size());
 	}
 
+	@Test
 	public void testNewNamespaceConflictWithLoosePrefixOfExisting()
 			throws IOException {
 		final String newRef = "refs/heads/z/a";
@@ -162,6 +176,7 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 		assertEquals(0, db.getReflogReader("HEAD").getReverseEntries().size());
 	}
 
+	@Test
 	public void testNewNamespaceConflictWithPackedPrefixOfExisting()
 			throws IOException {
 		final String newRef = "refs/heads/prefix";
@@ -177,6 +192,7 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 	 *
 	 * @throws IOException
 	 */
+	@Test
 	public void testDeleteHEADreferencedRef() throws IOException {
 		ObjectId pid = db.resolve("refs/heads/master^");
 		RefUpdate updateRef = db.updateRef("refs/heads/master");
@@ -193,6 +209,7 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 		assertEquals(0,db.getReflogReader("HEAD").getReverseEntries().size());
 	}
 
+	@Test
 	public void testLooseDelete() throws IOException {
 		final String newRef = "refs/heads/abc";
 		RefUpdate ref = updateRef(newRef);
@@ -202,6 +219,7 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 		assertNull(db.getReflogReader("refs/heads/abc"));
 	}
 
+	@Test
 	public void testDeleteHead() throws IOException {
 		final RefUpdate ref = updateRef(Constants.HEAD);
 		delete(ref, Result.REJECTED_CURRENT_BRANCH, true, false);
@@ -215,6 +233,7 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 	 *
 	 * @throws IOException
 	 */
+	@Test
 	public void testDeleteLooseAndItsDirectory() throws IOException {
 		ObjectId pid = db.resolve("refs/heads/c^");
 		RefUpdate updateRef = db.updateRef("refs/heads/z/c");
@@ -238,16 +257,19 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 		assertFalse(new File(db.getDirectory(), "logs/refs/heads/z").exists());
 	}
 
+	@Test
 	public void testDeleteNotFound() throws IOException {
 		final RefUpdate ref = updateRef("refs/heads/xyz");
 		delete(ref, Result.NEW, false, true);
 	}
 
+	@Test
 	public void testDeleteFastForward() throws IOException {
 		final RefUpdate ref = updateRef("refs/heads/a");
 		delete(ref, Result.FAST_FORWARD);
 	}
 
+	@Test
 	public void testDeleteForce() throws IOException {
 		final RefUpdate ref = db.updateRef("refs/heads/b");
 		ref.setNewObjectId(db.resolve("refs/heads/a"));
@@ -256,6 +278,7 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 		delete(ref, Result.FORCED);
 	}
 
+	@Test
 	public void testRefKeySameAsName() {
 		Map<String, Ref> allRefs = db.getAllRefs();
 		for (Entry<String, Ref> e : allRefs.entrySet()) {
@@ -269,6 +292,7 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 	 *
 	 * @throws IOException
 	 */
+	@Test
 	public void testUpdateRefForward() throws IOException {
 		ObjectId ppid = db.resolve("refs/heads/master^");
 		ObjectId pid = db.resolve("refs/heads/master");
@@ -293,6 +317,7 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 	 *
 	 * @throws Exception
 	 */
+	@Test
 	public void testUpdateRefDetached() throws Exception {
 		ObjectId pid = db.resolve("refs/heads/master");
 		ObjectId ppid = db.resolve("refs/heads/master^");
@@ -322,6 +347,7 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 	 *
 	 * @throws Exception
 	 */
+	@Test
 	public void testUpdateRefDetachedUnbornHead() throws Exception {
 		ObjectId ppid = db.resolve("refs/heads/master^");
 		writeSymref("HEAD", "refs/heads/unborn");
@@ -352,6 +378,7 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 	 *
 	 * @throws IOException
 	 */
+	@Test
 	public void testDeleteLoosePacked() throws IOException {
 		ObjectId pid = db.resolve("refs/heads/c^");
 		RefUpdate updateRef = db.updateRef("refs/heads/c");
@@ -373,6 +400,7 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 	 *
 	 * @throws IOException
 	 */
+	@Test
 	public void testUpdateRefNoChange() throws IOException {
 		ObjectId pid = db.resolve("refs/heads/master");
 		RefUpdate updateRef = db.updateRef("refs/heads/master");
@@ -392,6 +420,7 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 	 *
 	 * @throws Exception
 	 */
+	@Test
 	public void testRefsCacheAfterUpdate() throws Exception {
 		// Do not use the defalt repo for this case.
 		Map<String, Ref> allRefs = db.getAllRefs();
@@ -429,6 +458,7 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 	 *
 	 * @throws Exception
 	 */
+	@Test
 	public void testRefsCacheAfterUpdateLooseOnly() throws Exception {
 		// Do not use the defalt repo for this case.
 		Map<String, Ref> allRefs = db.getAllRefs();
@@ -454,6 +484,7 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 	 *
 	 * @throws IOException
 	 */
+	@Test
 	public void testUpdateRefLockFailureWrongOldValue() throws IOException {
 		ObjectId pid = db.resolve("refs/heads/master");
 		RefUpdate updateRef = db.updateRef("refs/heads/master");
@@ -469,6 +500,7 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 	 *
 	 * @throws IOException
 	 */
+	@Test
 	public void testUpdateRefForwardWithCheck1() throws IOException {
 		ObjectId ppid = db.resolve("refs/heads/master^");
 		ObjectId pid = db.resolve("refs/heads/master");
@@ -494,6 +526,7 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 	 *
 	 * @throws IOException
 	 */
+	@Test
 	public void testUpdateRefForwardWithCheck2() throws IOException {
 		ObjectId ppid = db.resolve("refs/heads/master^");
 		ObjectId pid = db.resolve("refs/heads/master");
@@ -520,6 +553,7 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 	 *
 	 * @throws IOException
 	 */
+	@Test
 	public void testUpdateRefLockFailureLocked() throws IOException {
 		ObjectId opid = db.resolve("refs/heads/master");
 		ObjectId pid = db.resolve("refs/heads/master^");
@@ -545,6 +579,7 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 	 *
 	 * @throws IOException
 	 */
+	@Test
 	public void testDeleteLoosePackedRejected() throws IOException {
 		ObjectId pid = db.resolve("refs/heads/c^");
 		ObjectId oldpid = db.resolve("refs/heads/c");
@@ -555,6 +590,7 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 		assertEquals(oldpid, db.resolve("refs/heads/c"));
 	}
 
+	@Test
 	public void testRenameBranchNoPreviousLog() throws IOException {
 		assertFalse("precondition, no log on old branchg", new File(db
 				.getDirectory(), "logs/refs/heads/b").exists());
@@ -574,6 +610,7 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 		assertEquals(oldHead, db.resolve(Constants.HEAD)); // unchanged
 	}
 
+	@Test
 	public void testRenameBranchHasPreviousLog() throws IOException {
 		ObjectId rb = db.resolve("refs/heads/b");
 		ObjectId oldHead = db.resolve(Constants.HEAD);
@@ -597,6 +634,7 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 		assertEquals(oldHead, db.resolve(Constants.HEAD)); // unchanged
 	}
 
+	@Test
 	public void testRenameCurrentBranch() throws IOException {
 		ObjectId rb = db.resolve("refs/heads/b");
 		writeSymref(Constants.HEAD, "refs/heads/b");
@@ -620,6 +658,7 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 		assertEquals("Just a message", db.getReflogReader("new/name").getReverseEntries().get(1).getComment());
 	}
 
+	@Test
 	public void testRenameBranchAlsoInPack() throws IOException {
 		ObjectId rb = db.resolve("refs/heads/b");
 		ObjectId rb2 = db.resolve("refs/heads/b~1");
@@ -707,48 +746,56 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 				positive, new File(db.getDirectory(), toName).exists());
 	}
 
+	@Test
 	public void testRenameBranchCannotLockAFileHEADisFromLockHEAD()
 			throws IOException {
 		tryRenameWhenLocked("HEAD", "refs/heads/b", "refs/heads/new/name",
 				"refs/heads/b");
 	}
 
+	@Test
 	public void testRenameBranchCannotLockAFileHEADisFromLockFrom()
 			throws IOException {
 		tryRenameWhenLocked("refs/heads/b", "refs/heads/b",
 				"refs/heads/new/name", "refs/heads/b");
 	}
 
+	@Test
 	public void testRenameBranchCannotLockAFileHEADisFromLockTo()
 			throws IOException {
 		tryRenameWhenLocked("refs/heads/new/name", "refs/heads/b",
 				"refs/heads/new/name", "refs/heads/b");
 	}
 
+	@Test
 	public void testRenameBranchCannotLockAFileHEADisToLockFrom()
 			throws IOException {
 		tryRenameWhenLocked("refs/heads/b", "refs/heads/b",
 				"refs/heads/new/name", "refs/heads/new/name");
 	}
 
+	@Test
 	public void testRenameBranchCannotLockAFileHEADisToLockTo()
 			throws IOException {
 		tryRenameWhenLocked("refs/heads/new/name", "refs/heads/b",
 				"refs/heads/new/name", "refs/heads/new/name");
 	}
 
+	@Test
 	public void testRenameBranchCannotLockAFileHEADisOtherLockFrom()
 			throws IOException {
 		tryRenameWhenLocked("refs/heads/b", "refs/heads/b",
 				"refs/heads/new/name", "refs/heads/a");
 	}
 
+	@Test
 	public void testRenameBranchCannotLockAFileHEADisOtherLockTo()
 			throws IOException {
 		tryRenameWhenLocked("refs/heads/new/name", "refs/heads/b",
 				"refs/heads/new/name", "refs/heads/a");
 	}
 
+	@Test
 	public void testRenameRefNameColission1avoided() throws IOException {
 		// setup
 		ObjectId rb = db.resolve("refs/heads/b");
@@ -781,6 +828,7 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 				.getReverseEntries().get(0).getComment());
 	}
 
+	@Test
 	public void testRenameRefNameColission2avoided() throws IOException {
 		// setup
 		ObjectId rb = db.resolve("refs/heads/b");

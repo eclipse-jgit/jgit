@@ -43,18 +43,23 @@
 
 package org.eclipse.jgit.util;
 
+import static org.eclipse.jgit.util.RawCharUtil.isWhitespace;
+import static org.eclipse.jgit.util.RawCharUtil.trimLeadingWhitespace;
+import static org.eclipse.jgit.util.RawCharUtil.trimTrailingWhitespace;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import java.io.UnsupportedEncodingException;
 
-import junit.framework.TestCase;
-import static org.eclipse.jgit.util.RawCharUtil.isWhitespace;
-import static org.eclipse.jgit.util.RawCharUtil.trimTrailingWhitespace;
-import static org.eclipse.jgit.util.RawCharUtil.trimLeadingWhitespace;
+import org.junit.Test;
 
-public class RawCharUtilTest extends TestCase {
+public class RawCharUtilTest {
 
 	/**
 	 * Test method for {@link RawCharUtil#isWhitespace(byte)}.
 	 */
+	@Test
 	public void testIsWhitespace() {
 		for (byte c = -128; c < 127; c++) {
 			switch (c) {
@@ -76,6 +81,7 @@ public class RawCharUtilTest extends TestCase {
 	 *
 	 * @throws UnsupportedEncodingException
 	 */
+	@Test
 	public void testTrimTrailingWhitespace()
 			throws UnsupportedEncodingException {
 		assertEquals(0, trimTrailingWhitespace("".getBytes("US-ASCII"), 0, 0));
@@ -95,6 +101,7 @@ public class RawCharUtilTest extends TestCase {
 	 *
 	 * @throws UnsupportedEncodingException
 	 */
+	@Test
 	public void testTrimLeadingWhitespace() throws UnsupportedEncodingException {
 		assertEquals(0, trimLeadingWhitespace("".getBytes("US-ASCII"), 0, 0));
 		assertEquals(1, trimLeadingWhitespace(" ".getBytes("US-ASCII"), 0, 1));

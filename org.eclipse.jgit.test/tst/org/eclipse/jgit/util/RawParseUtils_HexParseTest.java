@@ -43,11 +43,14 @@
 
 package org.eclipse.jgit.util;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import org.eclipse.jgit.lib.Constants;
+import org.junit.Test;
 
-public class RawParseUtils_HexParseTest extends TestCase {
+public class RawParseUtils_HexParseTest {
+	@Test
 	public void testInt4_1() {
 		assertEquals(0, RawParseUtils.parseHexInt4((byte) '0'));
 		assertEquals(1, RawParseUtils.parseHexInt4((byte) '1'));
@@ -87,6 +90,7 @@ public class RawParseUtils_HexParseTest extends TestCase {
 		}
 	}
 
+	@Test
 	public void testInt16() {
 		assertEquals(0x0000, parse16("0000"));
 		assertEquals(0x0001, parse16("0001"));
@@ -122,6 +126,7 @@ public class RawParseUtils_HexParseTest extends TestCase {
 		return RawParseUtils.parseHexInt16(Constants.encodeASCII(str), 0);
 	}
 
+	@Test
 	public void testInt32() {
 		assertEquals(0x00000000, parse32("00000000"));
 		assertEquals(0x00000001, parse32("00000001"));

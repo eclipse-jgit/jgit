@@ -44,11 +44,18 @@
 
 package org.eclipse.jgit.lib;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import java.io.IOException;
+
+import org.junit.Test;
 
 public class TreeIteratorLeafOnlyTest extends RepositoryTestCase {
 
 	/** Empty tree */
+	@Test
 	public void testEmpty() {
 		Tree tree = new Tree(db);
 		TreeIterator i = makeIterator(tree);
@@ -60,6 +67,7 @@ public class TreeIteratorLeafOnlyTest extends RepositoryTestCase {
 	 *
 	 * @throws IOException
 	 */
+	@Test
 	public void testSimpleF1() throws IOException {
 		Tree tree = new Tree(db);
 		tree.addFile("x");
@@ -73,6 +81,7 @@ public class TreeIteratorLeafOnlyTest extends RepositoryTestCase {
 	 *
 	 * @throws IOException
 	 */
+	@Test
 	public void testSimpleF2() throws IOException {
 		Tree tree = new Tree(db);
 		tree.addFile("a");
@@ -88,6 +97,7 @@ public class TreeIteratorLeafOnlyTest extends RepositoryTestCase {
 	 *
 	 * @throws IOException
 	 */
+	@Test
 	public void testSimpleT() throws IOException {
 		Tree tree = new Tree(db);
 		tree.addTree("a");
@@ -95,6 +105,7 @@ public class TreeIteratorLeafOnlyTest extends RepositoryTestCase {
 		assertFalse(i.hasNext());
 	}
 
+	@Test
 	public void testTricky() throws IOException {
 		Tree tree = new Tree(db);
 		tree.addFile("a.b");

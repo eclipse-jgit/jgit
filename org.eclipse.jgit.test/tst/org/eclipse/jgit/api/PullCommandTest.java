@@ -42,6 +42,11 @@
  */
 package org.eclipse.jgit.api;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -59,6 +64,8 @@ import org.eclipse.jgit.storage.file.FileRepository;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteConfig;
 import org.eclipse.jgit.transport.URIish;
+import org.junit.Before;
+import org.junit.Test;
 
 public class PullCommandTest extends RepositoryTestCase {
 	/** Second Test repository */
@@ -72,6 +79,7 @@ public class PullCommandTest extends RepositoryTestCase {
 
 	private File targetFile;
 
+	@Test
 	public void testPullFastForward() throws Exception {
 		PullResult res = target.pull().call();
 		// nothing to update since we don't have different data yet
@@ -94,6 +102,7 @@ public class PullCommandTest extends RepositoryTestCase {
 		assertFileContentsEqual(targetFile, "Another change");
 	}
 
+	@Test
 	public void testPullConflict() throws Exception {
 		PullResult res = target.pull().call();
 		// nothing to update since we don't have different data yet
@@ -127,6 +136,7 @@ public class PullCommandTest extends RepositoryTestCase {
 		assertFileContentsEqual(targetFile, result);
 	}
 
+	@Test
 	public void testPullLocalConflict() throws Exception {
 		target.branchCreate().setName("basedOnMaster").setStartPoint(
 				"refs/heads/master").setUpstreamMode(SetupUpstreamMode.TRACK)
@@ -168,7 +178,8 @@ public class PullCommandTest extends RepositoryTestCase {
 	}
 
 	@Override
-	protected void setUp() throws Exception {
+	@Before
+	public void setUp() throws Exception {
 		super.setUp();
 		dbTarget = createWorkRepository();
 		source = new Git(db);

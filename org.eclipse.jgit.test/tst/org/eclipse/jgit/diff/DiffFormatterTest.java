@@ -43,6 +43,8 @@
 
 package org.eclipse.jgit.diff;
 
+import static org.junit.Assert.assertEquals;
+
 import org.eclipse.jgit.diff.DiffEntry.ChangeType;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.FileMode;
@@ -52,6 +54,9 @@ import org.eclipse.jgit.patch.FileHeader;
 import org.eclipse.jgit.patch.HunkHeader;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.eclipse.jgit.util.io.DisabledOutputStream;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 public class DiffFormatterTest extends RepositoryTestCase {
 	private static final String DIFF = "diff --git ";
@@ -69,6 +74,7 @@ public class DiffFormatterTest extends RepositoryTestCase {
 	private TestRepository testDb;
 
 	@Override
+	@Before
 	public void setUp() throws Exception {
 		super.setUp();
 		testDb = new TestRepository(db);
@@ -78,12 +84,14 @@ public class DiffFormatterTest extends RepositoryTestCase {
 	}
 
 	@Override
+	@After
 	public void tearDown() throws Exception {
 		if (df != null)
 			df.release();
 		super.tearDown();
 	}
 
+	@Test
 	public void testCreateFileHeader_Add() throws Exception {
 		ObjectId adId = blob("a\nd\n");
 		DiffEntry ent = DiffEntry.add("FOO", adId);
@@ -119,6 +127,7 @@ public class DiffFormatterTest extends RepositoryTestCase {
 		assertEquals(Edit.Type.INSERT, e.getType());
 	}
 
+	@Test
 	public void testCreateFileHeader_Delete() throws Exception {
 		ObjectId adId = blob("a\nd\n");
 		DiffEntry ent = DiffEntry.delete("FOO", adId);
@@ -154,6 +163,7 @@ public class DiffFormatterTest extends RepositoryTestCase {
 		assertEquals(Edit.Type.DELETE, e.getType());
 	}
 
+	@Test
 	public void testCreateFileHeader_Modify() throws Exception {
 		ObjectId adId = blob("a\nd\n");
 		ObjectId abcdId = blob("a\nb\nc\nd\n");
@@ -188,6 +198,7 @@ public class DiffFormatterTest extends RepositoryTestCase {
 		assertEquals(Edit.Type.INSERT, e.getType());
 	}
 
+	@Test
 	public void testCreateFileHeader_Binary() throws Exception {
 		ObjectId adId = blob("a\nd\n");
 		ObjectId binId = blob("a\nb\nc\n\0\0\0\0d\n");
@@ -211,6 +222,7 @@ public class DiffFormatterTest extends RepositoryTestCase {
 		assertEquals(0, hh.toEditList().size());
 	}
 
+	@Test
 	public void testCreateFileHeader_GitLink() throws Exception {
 		ObjectId aId = blob("a\n");
 		ObjectId bId = blob("b\n");

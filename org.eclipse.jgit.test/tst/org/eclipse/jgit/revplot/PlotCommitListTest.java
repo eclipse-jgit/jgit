@@ -42,8 +42,12 @@
  */
 package org.eclipse.jgit.revplot;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalkTestCase;
+import org.junit.Test;
 
 public class PlotCommitListTest extends RevWalkTestCase {
 
@@ -88,6 +92,7 @@ public class PlotCommitListTest extends RevWalkTestCase {
 	}
 
 	@SuppressWarnings("boxing")
+	@Test
 	public void testLinear() throws Exception {
 		final RevCommit a = commit();
 		final RevCommit b = commit(a);
@@ -108,6 +113,7 @@ public class PlotCommitListTest extends RevWalkTestCase {
 	}
 
 	@SuppressWarnings("boxing")
+	@Test
 	public void testMerged() throws Exception {
 		final RevCommit a = commit();
 		final RevCommit b = commit(a);
@@ -130,6 +136,7 @@ public class PlotCommitListTest extends RevWalkTestCase {
 	}
 
 	@SuppressWarnings("boxing")
+	@Test
 	public void testSideBranch() throws Exception {
 		final RevCommit a = commit();
 		final RevCommit b = commit(a);
@@ -151,6 +158,7 @@ public class PlotCommitListTest extends RevWalkTestCase {
 	}
 
 	@SuppressWarnings("boxing")
+	@Test
 	public void test2SideBranches() throws Exception {
 		final RevCommit a = commit();
 		final RevCommit b = commit(a);
@@ -175,6 +183,7 @@ public class PlotCommitListTest extends RevWalkTestCase {
 	}
 
 	@SuppressWarnings("boxing")
+	@Test
 	public void testBug300282_1() throws Exception {
 		final RevCommit a = commit();
 		final RevCommit b = commit(a);
@@ -212,6 +221,7 @@ public class PlotCommitListTest extends RevWalkTestCase {
 	}
 
 	// test the history of the egit project between 9fdaf3c1 and e76ad9170f
+	@Test
 	public void testEgitHistory() throws Exception {
 		final RevCommit merge_fix = commit();
 		final RevCommit add_simple = commit(merge_fix);

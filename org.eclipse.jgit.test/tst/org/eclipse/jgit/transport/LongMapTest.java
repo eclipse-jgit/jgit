@@ -43,16 +43,24 @@
 
 package org.eclipse.jgit.transport;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 
-public class LongMapTest extends TestCase {
+import org.junit.Before;
+import org.junit.Test;
+
+public class LongMapTest {
 	private LongMap<Long> map;
 
-	protected void setUp() throws Exception {
-		super.setUp();
+	@Before
+	public void setUp() throws Exception {
 		map = new LongMap<Long>();
 	}
 
+	@Test
 	public void testEmptyMap() {
 		assertFalse(map.containsKey(0));
 		assertFalse(map.containsKey(1));
@@ -64,6 +72,7 @@ public class LongMapTest extends TestCase {
 		assertNull(map.remove(1));
 	}
 
+	@Test
 	public void testInsertMinValue() {
 		final Long min = Long.valueOf(Long.MIN_VALUE);
 		assertNull(map.put(Long.MIN_VALUE, min));
@@ -72,6 +81,7 @@ public class LongMapTest extends TestCase {
 		assertFalse(map.containsKey(Integer.MIN_VALUE));
 	}
 
+	@Test
 	public void testReplaceMaxValue() {
 		final Long min = Long.valueOf(Long.MAX_VALUE);
 		final Long one = Long.valueOf(1);
@@ -81,6 +91,7 @@ public class LongMapTest extends TestCase {
 		assertSame(one, map.get(Long.MAX_VALUE));
 	}
 
+	@Test
 	public void testRemoveOne() {
 		final long start = 1;
 		assertNull(map.put(start, Long.valueOf(start)));
@@ -88,6 +99,7 @@ public class LongMapTest extends TestCase {
 		assertFalse(map.containsKey(start));
 	}
 
+	@Test
 	public void testRemoveCollision1() {
 		// This test relies upon the fact that we always >>> 1 the value
 		// to derive an unsigned hash code. Thus, 0 and 1 fall into the
@@ -103,6 +115,7 @@ public class LongMapTest extends TestCase {
 		assertTrue(map.containsKey(1));
 	}
 
+	@Test
 	public void testRemoveCollision2() {
 		// This test relies upon the fact that we always >>> 1 the value
 		// to derive an unsigned hash code. Thus, 0 and 1 fall into the
@@ -118,6 +131,7 @@ public class LongMapTest extends TestCase {
 		assertFalse(map.containsKey(1));
 	}
 
+	@Test
 	public void testSmallMap() {
 		final long start = 12;
 		final long n = 8;
@@ -127,6 +141,7 @@ public class LongMapTest extends TestCase {
 			assertEquals(Long.valueOf(i), map.get(i));
 	}
 
+	@Test
 	public void testLargeMap() {
 		final long start = Integer.MAX_VALUE;
 		final long n = 100000;

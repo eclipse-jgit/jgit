@@ -43,6 +43,12 @@
 
 package org.eclipse.jgit.storage.file;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -53,6 +59,7 @@ import java.util.zip.Deflater;
 
 import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.LargeObjectException;
+import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.junit.TestRng;
@@ -68,6 +75,9 @@ import org.eclipse.jgit.transport.IndexPack;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.NB;
 import org.eclipse.jgit.util.TemporaryBuffer;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 public class PackFileTest extends LocalDiskRepositoryTestCase {
 	private int streamThreshold = 16 * 1024;
@@ -80,29 +90,37 @@ public class PackFileTest extends LocalDiskRepositoryTestCase {
 
 	private WindowCursor wc;
 
-	protected void setUp() throws Exception {
+	private TestRng getRng() {
+		if (rng == null)
+			rng = new TestRng(JGitTestUtil.getName());
+		return rng;
+	}
+
+	@Before
+	public void setUp() throws Exception {
 		super.setUp();
 
 		WindowCacheConfig cfg = new WindowCacheConfig();
 		cfg.setStreamFileThreshold(streamThreshold);
 		WindowCache.reconfigure(cfg);
 
-		rng = new TestRng(getName());
 		repo = createBareRepository();
 		tr = new TestRepository<FileRepository>(repo);
 		wc = (WindowCursor) repo.newObjectReader();
 	}
 
-	protected void tearDown() throws Exception {
+	@After
+	public void tearDown() throws Exception {
 		if (wc != null)
 			wc.release();
 		WindowCache.reconfigure(new WindowCacheConfig());
 		super.tearDown();
 	}
 
+	@Test
 	public void testWhole_SmallObject() throws Exception {
 		final int type = Constants.OBJ_BLOB;
-		byte[] data = rng.nextBytes(300);
+		byte[] data = getRng().nextBytes(300);
 		RevBlob id = tr.blob(data);
 		tr.branch("master").commit().add("A", id).create();
 		tr.packAndPrune();
@@ -126,9 +144,10 @@ public class PackFileTest extends LocalDiskRepositoryTestCase {
 		in.close();
 	}
 
+	@Test
 	public void testWhole_LargeObject() throws Exception {
 		final int type = Constants.OBJ_BLOB;
-		byte[] data = rng.nextBytes(streamThreshold + 5);
+		byte[] data = getRng().nextBytes(streamThreshold + 5);
 		RevBlob id = tr.blob(data);
 		tr.branch("master").commit().add("A", id).create();
 		tr.packAndPrune();
@@ -159,6 +178,7 @@ public class PackFileTest extends LocalDiskRepositoryTestCase {
 		in.close();
 	}
 
+	@Test
 	public void testDelta_SmallObjectChain() throws Exception {
 		ObjectInserter.Formatter fmt = new ObjectInserter.Formatter();
 		byte[] data0 = new byte[512];
@@ -219,6 +239,7 @@ public class PackFileTest extends LocalDiskRepositoryTestCase {
 		in.close();
 	}
 
+	@Test
 	public void testDelta_LargeObjectChain() throws Exception {
 		ObjectInserter.Formatter fmt = new ObjectInserter.Formatter();
 		byte[] data0 = new byte[streamThreshold + 5];
