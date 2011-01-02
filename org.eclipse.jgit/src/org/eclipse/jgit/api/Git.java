@@ -81,7 +81,7 @@ public class Git {
 
 	/**
 	 * Returns a command object to execute a {@code init} command
-	 * 
+	 *
 	 * @see <a
 	 *      href="http://www.kernel.org/pub/software/scm/git/docs/git-init.html"
 	 *      >Git documentation about init</a>
@@ -254,6 +254,19 @@ public class Git {
 	 */
 	public CherryPickCommand cherryPick() {
 		return new CherryPickCommand(repo);
+	}
+
+	/**
+	 * Returns a command object to execute a {@code revert} command
+	 *
+	 * @see <a
+	 *      href="http://www.kernel.org/pub/software/scm/git/docs/git-revert.html"
+	 *      >Git documentation about reverting changes</a>
+	 * @return a {@link RevertCommand} used to collect all optional
+	 *         parameters and to finally execute the {@code cherry-pick} command
+	 */
+	public RevertCommand revert() {
+		return new RevertCommand(repo);
 	}
 
 	/**
