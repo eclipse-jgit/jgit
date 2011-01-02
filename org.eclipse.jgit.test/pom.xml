@@ -124,12 +124,8 @@
     <plugins>
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>2.4.2</version>
         <configuration>
           <argLine>-Xmx256m -Dfile.encoding=UTF-8</argLine>
-          <includes>
-            <include>**/*Test.java</include>
-          </includes>
         </configuration>
       </plugin>
     </plugins>
