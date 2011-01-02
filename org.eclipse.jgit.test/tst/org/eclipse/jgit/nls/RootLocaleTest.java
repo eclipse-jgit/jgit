@@ -41,33 +41,50 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.eclipse.jgit.stringext;
+package org.eclipse.jgit.nls;
 
 import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.awtui.UIText;
 import org.eclipse.jgit.console.ConsoleText;
 import org.eclipse.jgit.http.server.HttpServerText;
 import org.eclipse.jgit.iplog.IpLogText;
-import org.eclipse.jgit.nls.NLS;
 import org.eclipse.jgit.pgm.CLIText;
+import org.junit.Before;
+import org.junit.Test;
 
-public class TestStringExternalization {
-
-	private static Class[] translationBundleClasses = new Class[] {
-		ConsoleText.class, HttpServerText.class, IpLogText.class, CLIText.class,
-		UIText.class, JGitText.class,
-	};
-
-	/**
-	 * Verifies that all translation keys are defined in the root resource bundle.
-	 * <p>
-	 * This makes sure that all translation bundles will get all strings populated
-	 * since the string will be found at last in the root resource bundle.
-	 */
-	public void testAllTranslationKeysDefinedInRoot() {
+public class RootLocaleTest {
+	@Before
+	public void setUp() {
 		NLS.setLocale(NLS.ROOT_LOCALE);
-		for (Class c : translationBundleClasses) {
-			NLS.getBundleFor(c);
-		}
+	}
+
+	@Test
+	public void testJGitText() {
+		NLS.getBundleFor(JGitText.class);
+	}
+
+	@Test
+	public void testHttpServerText() {
+		NLS.getBundleFor(HttpServerText.class);
+	}
+
+	@Test
+	public void testConsoleText() {
+		NLS.getBundleFor(ConsoleText.class);
+	}
+
+	@Test
+	public void testCLIText() {
+		NLS.getBundleFor(CLIText.class);
+	}
+
+	@Test
+	public void testUIText() {
+		NLS.getBundleFor(UIText.class);
+	}
+
+	@Test
+	public void testIpLogText() {
+		NLS.getBundleFor(IpLogText.class);
 	}
 }
