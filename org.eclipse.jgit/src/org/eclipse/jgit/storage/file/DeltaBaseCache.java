@@ -45,6 +45,8 @@ package org.eclipse.jgit.storage.file;
 
 import java.lang.ref.SoftReference;
 
+import org.eclipse.jgit.lib.ObjectLoader;
+
 class DeltaBaseCache {
 	private static final int CACHE_SZ = 1024;
 
@@ -168,14 +170,9 @@ class DeltaBaseCache {
 		throw new UnsupportedOperationException();
 	}
 
-	static class Entry {
-		final byte[] data;
-
-		final int type;
-
+	static class Entry extends ObjectLoader.SmallObject {
 		Entry(final byte[] aData, final int aType) {
-			data = aData;
-			type = aType;
+			super(aType, aData);
 		}
 	}
 

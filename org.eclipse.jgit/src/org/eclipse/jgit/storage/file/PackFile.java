@@ -275,7 +275,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 		return getReverseIdx().findObject(offset);
 	}
 
-	private final void decompress(final long position, final WindowCursor curs,
+	final void decompress(final long position, final WindowCursor curs,
 			final byte[] dstbuf, final int dstoff, final int dstsz)
 			throws IOException, DataFormatException {
 		if (curs.inflate(this, position, dstbuf, dstoff) != dstsz)
@@ -608,62 +608,93 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 					, getPackFile()));
 	}
 
-	ObjectLoader load(final WindowCursor curs, final long pos)
+	ObjectLoader load(final WindowCursor curs, long pos)
 			throws IOException {
 		final byte[] ib = curs.tempId;
-		readFully(pos, ib, 0, 20, curs);
-		int c = ib[0] & 0xff;
-		final int type = (c >> 4) & 7;
-		long sz = c & 15;
-		int shift = 4;
-		int p = 1;
-		while ((c & 0x80) != 0) {
-			c = ib[p++] & 0xff;
-			sz += (c & 0x7f) << shift;
-			shift += 7;
-		}
-
+		Delta delta = null;
+		ObjectLoader ldr = null;
 		try {
-			switch (type) {
-			case Constants.OBJ_COMMIT:
-			case Constants.OBJ_TREE:
-			case Constants.OBJ_BLOB:
-			case Constants.OBJ_TAG: {
-				if (sz < curs.getStreamFileThreshold()) {
-					byte[] data;
-					try {
-						data = new byte[(int) sz];
-					} catch (OutOfMemoryError tooBig) {
-						return largeWhole(curs, pos, type, sz, p);
-					}
-					decompress(pos + p, curs, data, 0, data.length);
-					return new ObjectLoader.SmallObject(type, data);
-				}
-				return largeWhole(curs, pos, type, sz, p);
-			}
-
-			case Constants.OBJ_OFS_DELTA: {
-				c = ib[p++] & 0xff;
-				long ofs = c & 127;
-				while ((c & 128) != 0) {
-					ofs += 1;
+			SEARCH: for (;;) {
+				readFully(pos, ib, 0, 20, curs);
+				int c = ib[0] & 0xff;
+				final int type = (c >> 4) & 7;
+				long sz = c & 15;
+				int shift = 4;
+				int p = 1;
+				while ((c & 0x80) != 0) {
 					c = ib[p++] & 0xff;
-					ofs <<= 7;
-					ofs += (c & 127);
+					sz += (c & 0x7f) << shift;
+					shift += 7;
 				}
-				return loadDelta(pos, p, sz, pos - ofs, curs);
+
+				switch (type) {
+				case Constants.OBJ_COMMIT:
+				case Constants.OBJ_TREE:
+				case Constants.OBJ_BLOB:
+				case Constants.OBJ_TAG: {
+					if (sz < curs.getStreamFileThreshold()) {
+						byte[] data;
+						try {
+							data = new byte[(int) sz];
+						} catch (OutOfMemoryError tooBig) {
+							ldr = new LargePackedWholeObject(type, sz, pos, p, this, curs.db);
+							break SEARCH;
+						}
+						decompress(pos + p, curs, data, 0, data.length);
+						ldr = new ObjectLoader.SmallObject(type, data);
+						break SEARCH;
+					}
+					ldr = new LargePackedWholeObject(type, sz, pos, p, this, curs.db);
+					break SEARCH;
+				}
+
+				case Constants.OBJ_OFS_DELTA: {
+					c = ib[p++] & 0xff;
+					long base = c & 127;
+					while ((c & 128) != 0) {
+						base += 1;
+						c = ib[p++] & 0xff;
+						base <<= 7;
+						base += (c & 127);
+					}
+					base = pos - base;
+					delta = new Delta(delta, pos, sz, p, base);
+
+					ldr = DeltaBaseCache.get(this, base);
+					if (ldr != null) {
+						break SEARCH;
+					} else {
+						pos = base;
+						continue SEARCH;
+					}
+				}
+
+				case Constants.OBJ_REF_DELTA: {
+					readFully(pos + p, ib, 0, 20, curs);
+					long base = findDeltaBase(ObjectId.fromRaw(ib));
+					delta = new Delta(delta, pos, sz, p + 20, base);
+
+					ldr = DeltaBaseCache.get(this, base);
+					if (ldr != null) {
+						break SEARCH;
+					} else {
+						pos = base;
+						continue SEARCH;
+					}
+				}
+
+				default:
+					throw new IOException(MessageFormat.format(
+							JGitText.get().unknownObjectType, type));
+				}
 			}
 
-			case Constants.OBJ_REF_DELTA: {
-				readFully(pos + p, ib, 0, 20, curs);
-				long ofs = findDeltaBase(ObjectId.fromRaw(ib));
-				return loadDelta(pos, p + 20, sz, ofs, curs);
+			for (; delta != null; delta = delta.next) {
+				pos = delta.selfOffset;
+				ldr = delta.apply(ldr, this, curs);
 			}
+			return ldr;
 
-			default:
-				throw new IOException(MessageFormat.format(
-						JGitText.get().unknownObjectType, type));
-			}
 		} catch (DataFormatException dfe) {
 			CorruptObjectException coe = new CorruptObjectException(
 					MessageFormat.format(
@@ -683,61 +714,75 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 		return ofs;
 	}
 
-	private ObjectLoader loadDelta(long posSelf, int hdrLen, long sz,
-			long posBase, WindowCursor curs) throws IOException,
-			DataFormatException {
-		if (Integer.MAX_VALUE <= sz)
-			return largeDelta(posSelf, hdrLen, posBase, curs);
+	private static class Delta {
+		/** Child that applies onto this object. */
+		final Delta next;
 
-		byte[] base;
-		int type;
+		/** Offset of the delta object. */
+		final long selfOffset;
 
-		DeltaBaseCache.Entry e = DeltaBaseCache.get(this, posBase);
-		if (e != null) {
-			base = e.data;
-			type = e.type;
-		} else {
-			ObjectLoader p = load(curs, posBase);
+		/** Size of the inflated delta stream. */
+		final long deltaSize;
+
+		/** Total size of the delta's pack entry header (including base). */
+		final int hdrLen;
+
+		/** Offset of the base object this delta applies onto. */
+		final long baseOffset;
+
+		Delta(Delta next, long ofs, long sz, int hdrLen, long baseOffset) {
+			this.next = next;
+			this.selfOffset = ofs;
+			this.deltaSize = sz;
+			this.hdrLen = hdrLen;
+			this.baseOffset = baseOffset;
+		}
+
+		ObjectLoader apply(ObjectLoader ldr, PackFile pack, WindowCursor wc)
+				throws IOException, DataFormatException {
+			if (Integer.MAX_VALUE <= deltaSize || ldr.isLarge())
+				return large(pack, wc);
+
+			final byte[] base;
 			try {
-				base = p.getCachedBytes(curs.getStreamFileThreshold());
+				base = ldr.getCachedBytes(wc.getStreamFileThreshold());
 			} catch (LargeObjectException tooBig) {
-				return largeDelta(posSelf, hdrLen, posBase, curs);
+				return large(pack, wc);
 			}
-			type = p.getType();
-			DeltaBaseCache.store(this, posBase, base, type);
+
+			final byte[] delta;
+			try {
+				delta = new byte[(int) deltaSize];
+			} catch (OutOfMemoryError noMemory) {
+				return large(pack, wc);
+			}
+
+			final int type = ldr.getType();
+			pack.decompress(selfOffset + hdrLen, wc, delta, 0, delta.length);
+
+			final long sz = BinaryDelta.getResultSize(delta);
+			if (Integer.MAX_VALUE <= sz)
+				return large(pack, wc);
+
+			final byte[] result;
+			try {
+				result = new byte[(int) sz];
+			} catch (OutOfMemoryError tooBig) {
+				return large(pack, wc);
+			}
+
+			BinaryDelta.apply(base, delta, result);
+
+			if (next == null && !(ldr instanceof DeltaBaseCache.Entry))
+				DeltaBaseCache.store(pack, baseOffset, base, type);
+
+			return new ObjectLoader.SmallObject(type, result);
 		}
 
-		final byte[] delta;
-		try {
-			delta = new byte[(int) sz];
-		} catch (OutOfMemoryError tooBig) {
-			return largeDelta(posSelf, hdrLen, posBase, curs);
+		private ObjectLoader large(PackFile pack, WindowCursor wc) {
+			return new LargePackedDeltaObject(selfOffset, baseOffset, hdrLen,
+					pack, wc.db);
 		}
-
-		decompress(posSelf + hdrLen, curs, delta, 0, delta.length);
-		sz = BinaryDelta.getResultSize(delta);
-		if (Integer.MAX_VALUE <= sz)
-			return largeDelta(posSelf, hdrLen, posBase, curs);
-
-		final byte[] result;
-		try {
-			result = new byte[(int) sz];
-		} catch (OutOfMemoryError tooBig) {
-			return largeDelta(posSelf, hdrLen, posBase, curs);
-		}
-
-		BinaryDelta.apply(base, delta, result);
-		return new ObjectLoader.SmallObject(type, result);
-	}
-
-	private LargePackedWholeObject largeWhole(final WindowCursor curs,
-			final long pos, final int type, long sz, int p) {
-		return new LargePackedWholeObject(type, sz, pos, p, this, curs.db);
-	}
-
-	private LargePackedDeltaObject largeDelta(long posObj, int hdrLen,
-			long posBase, WindowCursor wc) {
-		return new LargePackedDeltaObject(posObj, posBase, hdrLen, this, wc.db);
 	}
 
 	byte[] getDeltaHeader(WindowCursor wc, long pos)
