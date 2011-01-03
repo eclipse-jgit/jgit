@@ -44,6 +44,7 @@
 package org.eclipse.jgit.notes;
 
 import java.io.IOException;
+import java.util.Iterator;
 
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.CommitBuilder;
@@ -419,6 +420,83 @@ public class NoteMapTest extends RepositoryTestCase {
 		assertEquals("empty tree", empty, n.getTree());
 	}
 
+	public void testIteratorEmptyMap() {
+		Iterator<Note> it = NoteMap.newEmptyMap().iterator();
+		assertFalse(it.hasNext());
+	}
+
+	public void testIteratorFlatTree() throws Exception {
+		RevBlob a = tr.blob("a");
+		RevBlob b = tr.blob("b");
+		RevBlob data1 = tr.blob("data1");
+		RevBlob data2 = tr.blob("data2");
+		RevBlob nonNote = tr.blob("non note");
+
+		RevCommit r = tr.commit() //
+				.add(a.name(), data1) //
+				.add(b.name(), data2) //
+				.add("nonNote", nonNote) //
+				.create();
+		tr.parseBody(r);
+
+		Iterator it = NoteMap.read(reader, r).iterator();
+		assertEquals(2, count(it));
+	}
+
+	public void testIteratorFanoutTree2_38() throws Exception {
+		RevBlob a = tr.blob("a");
+		RevBlob b = tr.blob("b");
+		RevBlob data1 = tr.blob("data1");
+		RevBlob data2 = tr.blob("data2");
+		RevBlob nonNote = tr.blob("non note");
+
+		RevCommit r = tr.commit() //
+				.add(fanout(2, a.name()), data1) //
+				.add(fanout(2, b.name()), data2) //
+				.add("nonNote", nonNote) //
+				.create();
+		tr.parseBody(r);
+
+		Iterator it = NoteMap.read(reader, r).iterator();
+		assertEquals(2, count(it));
+	}
+
+	public void testIteratorFanoutTree2_2_36() throws Exception {
+		RevBlob a = tr.blob("a");
+		RevBlob b = tr.blob("b");
+		RevBlob data1 = tr.blob("data1");
+		RevBlob data2 = tr.blob("data2");
+		RevBlob nonNote = tr.blob("non note");
+
+		RevCommit r = tr.commit() //
+				.add(fanout(4, a.name()), data1) //
+				.add(fanout(4, b.name()), data2) //
+				.add("nonNote", nonNote) //
+				.create();
+		tr.parseBody(r);
+
+		Iterator it = NoteMap.read(reader, r).iterator();
+		assertEquals(2, count(it));
+	}
+
+	public void testIteratorFullyFannedOut() throws Exception {
+		RevBlob a = tr.blob("a");
+		RevBlob b = tr.blob("b");
+		RevBlob data1 = tr.blob("data1");
+		RevBlob data2 = tr.blob("data2");
+		RevBlob nonNote = tr.blob("non note");
+
+		RevCommit r = tr.commit() //
+				.add(fanout(38, a.name()), data1) //
+				.add(fanout(38, b.name()), data2) //
+				.add("nonNote", nonNote) //
+				.create();
+		tr.parseBody(r);
+
+		Iterator it = NoteMap.read(reader, r).iterator();
+		assertEquals(2, count(it));
+	}
+
 	private RevCommit commitNoteMap(NoteMap map) throws IOException {
 		tr.tick(600);
 
@@ -443,5 +521,14 @@ public class NoteMapTest extends RepositoryTestCase {
 			r.append(name.substring(i));
 		}
 		return r.toString();
+	}
+
+	private static int count(Iterator it) {
+		int c = 0;
+		while (it.hasNext()) {
+			c++;
+			it.next();
+		}
+		return c;
 	}
 }
