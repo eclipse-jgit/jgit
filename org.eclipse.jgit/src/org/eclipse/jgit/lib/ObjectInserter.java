@@ -177,6 +177,16 @@ public abstract class ObjectInserter {
 	}
 
 	/**
+	 * Compute the ObjectId for the given tree without inserting it.
+	 *
+	 * @param formatter
+	 * @return the computed ObjectId
+	 */
+	public ObjectId idFor(TreeFormatter formatter) {
+		return formatter.computeId(this);
+	}
+
+	/**
 	 * Insert a single tree into the store, returning its unique name.
 	 *
 	 * @param formatter

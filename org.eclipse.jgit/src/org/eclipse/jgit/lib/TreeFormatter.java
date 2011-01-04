@@ -290,6 +290,25 @@ public class TreeFormatter {
 	}
 
 	/**
+	 * Compute the ObjectId for this tree
+	 *
+	 * @param ins
+	 * @return ObjectId for this tree
+	 */
+	public ObjectId computeId(ObjectInserter ins) {
+		if (buf != null)
+			return ins.idFor(OBJ_TREE, buf, 0, ptr);
+
+		final long len = overflowBuffer.length();
+		try {
+			return ins.idFor(OBJ_TREE, len, overflowBuffer.openInputStream());
+		} catch (IOException e) {
+			// this should never happen
+			throw new RuntimeException(e);
+		}
+	}
+
+	/**
 	 * Copy this formatter's buffer into a byte array.
 	 *
 	 * This method is not efficient, as it needs to create a copy of the
