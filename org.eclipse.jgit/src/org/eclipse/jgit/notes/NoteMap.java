@@ -157,6 +157,23 @@ public class NoteMap implements Iterable<Note> {
 		return map;
 	}
 
+	/**
+	 * Construct a new note map from an existing note bucket.
+	 *
+	 * @param root
+	 *            the root bucket of this note map
+	 * @param reader
+	 *            reader to scan the note branch with. This reader may be
+	 *            retained by the NoteMap for the life of the map in order to
+	 *            support lazy loading of entries.
+	 * @return the note map built from the note bucket
+	 */
+	static NoteMap newMap(InMemoryNoteBucket root, ObjectReader reader) {
+		NoteMap map = new NoteMap(reader);
+		map.root = root;
+		return map;
+	}
+
 	/** Borrowed reader to access the repository. */
 	private final ObjectReader reader;
 
@@ -336,6 +353,11 @@ public class NoteMap implements Iterable<Note> {
 	 */
 	public ObjectId writeTree(ObjectInserter inserter) throws IOException {
 		return root.writeTree(inserter);
+	}
+
+	/** @return the root note bucket */
+	InMemoryNoteBucket getRoot() {
+		return root;
 	}
 
 	private void load(ObjectId rootTree) throws MissingObjectException,
