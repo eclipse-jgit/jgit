@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010, Google Inc.
+ * Copyright (C) 2010, Sasa Zivkov <sasa.zivkov@sap.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -44,33 +44,44 @@
 package org.eclipse.jgit.notes;
 
 import java.io.IOException;
-import java.util.Iterator;
 
-import org.eclipse.jgit.lib.AnyObjectId;
-import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
 
 /**
- * A tree that stores note objects.
- *
- * @see FanoutBucket
- * @see LeafBucket
+ * Three-way note merge operation.
+ * <p>
+ * This operation takes three versions of a note: base, ours and theirs,
+ * performs the three-way merge and returns the merge result.
  */
-abstract class NoteBucket {
-	abstract ObjectId get(AnyObjectId objId, ObjectReader reader)
-			throws IOException;
+public interface NoteMerger {
 
-	abstract Iterator<Note> iterator(AnyObjectId objId, ObjectReader reader)
-			throws IOException;
-
-	abstract int estimateSize(AnyObjectId noteOn, ObjectReader or)
-			throws IOException;
-
-	abstract InMemoryNoteBucket set(AnyObjectId noteOn, AnyObjectId noteData,
-			ObjectReader reader) throws IOException;
-
-	abstract ObjectId writeTree(ObjectInserter inserter) throws IOException;
-
-	abstract ObjectId getTreeId();
+	/**
+	 * Merges the conflicting note changes.
+	 * <p>
+	 * base, ours and their are all notes on the same object.
+	 * 
+	 * @param base
+	 *            version of the Note
+	 * @param ours
+	 *            version of the Note
+	 * @param their
+	 *            version of the Note
+	 * @param reader
+	 *            the object reader that must be used to read Git objects
+	 * @param inserter
+	 *            the object inserter that must be used to insert Git objects
+	 * @return the merge result
+	 * @throws NotesMergeConflictException
+	 *             in case there was a merge conflict which this note merger
+	 *             couldn't resolve
+	 * @throws IOException
+	 *             in case the reader or the inserter would throw an IOException
+	 *             the implementor will most likely want to propagate it as it
+	 *             can't do much to recover from it
+	 */
+	Note merge(Note base, Note ours, Note their, ObjectReader reader,
+			ObjectInserter inserter) throws NotesMergeConflictException,
+			IOException;
 }
+
