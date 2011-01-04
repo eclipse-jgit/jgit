@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010, Google Inc.
+ * Copyright (C) 2010, Sasa Zivkov <sasa.zivkov@sap.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -43,37 +43,45 @@
 
 package org.eclipse.jgit.notes;
 
-import org.eclipse.jgit.lib.AnyObjectId;
-import org.eclipse.jgit.lib.ObjectId;
+import java.io.IOException;
 
-/** In-memory representation of a single note attached to one object. */
-public class Note extends ObjectId {
-	private ObjectId data;
+import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.ObjectReader;
+
+/**
+ * Three-way note merge operation.
+ * <p>
+ * This operation takes three versions of a note: base, ours and theirs,
+ * performs the three-way merge and returns the merge result.
+ */
+public interface NoteMerger {
 
 	/**
-	 * A Git note about the object referenced by {@code noteOn}.
-	 *
-	 * @param noteOn
-	 *            the object that has a note attached to it.
-	 * @param noteData
-	 *            the actual note data contained in this note
+	 * Merges the conflicting note changes.
+	 * <p>
+	 * base, ours and their are all notes on the same object.
+	 * 
+	 * @param base
+	 *            version of the Note
+	 * @param ours
+	 *            version of the Note
+	 * @param their
+	 *            version of the Note
+	 * @param reader
+	 *            the object reader that must be used to read Git objects
+	 * @param inserter
+	 *            the object inserter that must be used to insert Git objects
+	 * @return the merge result
+	 * @throws NotesMergeConflictException
+	 *             in case there was a merge conflict which this note merger
+	 *             couldn't resolve
+	 * @throws IOException
+	 *             in case the reader or the inserter would throw an IOException
+	 *             the implementor will most likely want to propagate it as it
+	 *             can't do much to recover from it
 	 */
-	Note(AnyObjectId noteOn, ObjectId noteData) {
-		super(noteOn);
-		data = noteData;
-	}
-
-	/** @return the note content */
-	public ObjectId getData() {
-		return data;
-	}
-
-	void setData(ObjectId newData) {
-		data = newData;
-	}
-
-	@Override
-	public String toString() {
-		return "Note[" + name() + " -> " + data.name() + "]";
-	}
+	Note merge(Note base, Note ours, Note their, ObjectReader reader,
+			ObjectInserter inserter) throws NotesMergeConflictException,
+			IOException;
 }
+

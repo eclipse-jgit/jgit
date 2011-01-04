@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010, Google Inc.
+ * Copyright (C) 2010, Sasa Zivkov <sasa.zivkov@sap.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -43,37 +43,64 @@
 
 package org.eclipse.jgit.notes;
 
-import org.eclipse.jgit.lib.AnyObjectId;
-import org.eclipse.jgit.lib.ObjectId;
+import java.io.IOException;
+import java.text.MessageFormat;
 
-/** In-memory representation of a single note attached to one object. */
-public class Note extends ObjectId {
-	private ObjectId data;
+import org.eclipse.jgit.JGitText;
+
+/**
+ * This exception will be thrown from the {@link NoteMerger} when a conflict on
+ * Notes content is found during merge.
+ */
+public class NotesMergeConflictException extends IOException {
+	private static final long serialVersionUID = 1L;
 
 	/**
-	 * A Git note about the object referenced by {@code noteOn}.
+	 * Construct a NotesMergeConflictException for the specified base, ours and
+	 * theirs note versions.
 	 *
-	 * @param noteOn
-	 *            the object that has a note attached to it.
-	 * @param noteData
-	 *            the actual note data contained in this note
+	 * @param base
+	 *            note version
+	 * @param ours
+	 *            note version
+	 * @param theirs
+	 *            note version
 	 */
-	Note(AnyObjectId noteOn, ObjectId noteData) {
-		super(noteOn);
-		data = noteData;
+	public NotesMergeConflictException(Note base, Note ours, Note theirs) {
+		super(MessageFormat.format(JGitText.get().mergeConflictOnNotes,
+				noteOn(base, ours, theirs), noteData(base), noteData(ours),
+				noteData(theirs)));
 	}
 
-	/** @return the note content */
-	public ObjectId getData() {
-		return data;
+	/**
+	 * Constructs a NotesMergeConflictException for the specified base, ours and
+	 * theirs versions of the root note tree.
+	 *
+	 * @param base
+	 *            version of the root note tree
+	 * @param ours
+	 *            version of the root note tree
+	 * @param theirs
+	 *            version of the root note tree
+	 */
+	public NotesMergeConflictException(NonNoteEntry base, NonNoteEntry ours,
+			NonNoteEntry theirs) {
+		super(MessageFormat.format(
+				JGitText.get().mergeConflictOnNonNoteEntries, base.name(),
+				ours.name(), theirs.name()));
 	}
 
-	void setData(ObjectId newData) {
-		data = newData;
+	private static String noteOn(Note base, Note ours, Note theirs) {
+		if (base != null)
+			return base.name();
+		if (ours != null)
+			return ours.name();
+		return theirs.name();
 	}
 
-	@Override
-	public String toString() {
-		return "Note[" + name() + " -> " + data.name() + "]";
+	private static String noteData(Note n) {
+		if (n != null)
+			return n.getData().name();
+		return "";
 	}
 }
