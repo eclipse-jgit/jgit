@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL2X///tc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/notes/Note.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-01-04T18:58:11Z",
+      "side": 1,
+      "message": "We probably should go ahead and make the constructor public.",
+      "revId": "9b0639f9843f457ee9de43504b2499a673cd0e77",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2X///tg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/notes/Note.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-01-04T18:58:11Z",
+      "side": 1,
+      "message": "We also need to make this public.  Otherwise the client of the Iterator\u003cNote\u003e cannot see the blob that is attached to the note.",
+      "revId": "9b0639f9843f457ee9de43504b2499a673cd0e77",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
