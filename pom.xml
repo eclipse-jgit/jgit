@@ -130,7 +130,7 @@
     <maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
     <bundle-manifest>${project.build.directory}/META-INF/MANIFEST.MF</bundle-manifest>
 
-    <jsch-version>0.1.41</jsch-version>
+    <jsch-version>0.1.44-1</jsch-version>
     <junit-version>4.5</junit-version>
     <args4j-version>2.0.12</args4j-version>
     <servlet-api-version>2.5</servlet-api-version>
@@ -375,4 +375,5 @@
     <module>org.eclipse.jgit.test</module>
     <module>org.eclipse.jgit.http.test</module>
   </modules>
+
 </project>
