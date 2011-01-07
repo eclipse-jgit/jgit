@@ -242,11 +242,21 @@ public class IgnoreMatcherTest {
 
 		//Test matches for name-only, applies to file name or folder name
 		pattern = "src";
+		assertMatched(pattern, "/src");
+		assertMatched(pattern, "/src/");
 		assertMatched(pattern, "/src/a.c");
 		assertMatched(pattern, "/src/new/a.c");
 		assertMatched(pattern, "/new/src/a.c");
 		assertMatched(pattern, "/file/src");
+
+		//Test matches for name-only, applies only to folder names
+		pattern = "src/";
 		assertMatched(pattern, "/src/");
+		assertMatched(pattern, "/src/a.c");
+		assertMatched(pattern, "/src/new/a.c");
+		assertMatched(pattern, "/new/src/a.c");
+		assertNotMatched(pattern, "/src");
+		assertNotMatched(pattern, "/file/src");
 
 		//Test matches for name-only, applies to file name or folder name
 		//With a small wildcard
