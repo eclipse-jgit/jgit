@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL2X///+8\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2010-12-28T11:32:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL2H///5c\u003d",
+      "revId": "95296f12a56fbd69bee1e1479c32a8a59329ed4b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL2H///5Y\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/notes/DefaultNoteMergerTest.java",
         "patchSetId": 4
