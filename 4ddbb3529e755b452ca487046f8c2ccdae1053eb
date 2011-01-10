@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL2X///to\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2011-01-05T06:38:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL2X///7Y\u003d",
+      "revId": "4ddbb3529e755b452ca487046f8c2ccdae1053eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL2X///6g\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/notes/DefaultNoteMerger.java",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2010-12-29T21:19:56Z",
       "side": 1,
       "message": "Might as well make this public, so developers can explicitly use this if they want.",
+      "revId": "4ddbb3529e755b452ca487046f8c2ccdae1053eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2X///uw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/notes/DefaultNoteMerger.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2011-01-05T06:38:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL2X///6g\u003d",
       "revId": "4ddbb3529e755b452ca487046f8c2ccdae1053eb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -88,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL2X///u0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/notes/DefaultNoteMerger.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2011-01-05T06:38:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL2X///6Y\u003d",
+      "revId": "4ddbb3529e755b452ca487046f8c2ccdae1053eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL2X///60\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/notes/NoteBucket.java",
         "patchSetId": 5
@@ -140,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL2X///u8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/notes/NoteMap.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2011-01-05T06:38:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL2X///7E\u003d",
+      "revId": "4ddbb3529e755b452ca487046f8c2ccdae1053eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL2X///7U\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/notes/NoteMap.java",
         "patchSetId": 5
@@ -151,6 +223,24 @@
       "writtenOn": "2010-12-29T21:19:56Z",
       "side": 1,
       "message": "Style-nit: Unnecessary blank line.",
+      "revId": "4ddbb3529e755b452ca487046f8c2ccdae1053eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2X///uo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/notes/NoteMap.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2011-01-05T06:38:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL2X///7U\u003d",
       "revId": "4ddbb3529e755b452ca487046f8c2ccdae1053eb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -174,6 +264,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL2X///vA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/notes/NoteMap.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2011-01-05T06:38:08Z",
+      "side": 1,
+      "message": "Should root \u003d\u003d null be supported? I checked the NoteParser and in no case root will be null.",
+      "parentUuid": "AAAL2X///68\u003d",
+      "revId": "4ddbb3529e755b452ca487046f8c2ccdae1053eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL2X///7A\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/notes/NoteMap.java",
         "patchSetId": 5
@@ -191,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL2X///uk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/notes/NoteMap.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2011-01-05T06:38:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL2X///7A\u003d",
+      "revId": "4ddbb3529e755b452ca487046f8c2ccdae1053eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL2X///7I\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/notes/NoteMap.java",
         "patchSetId": 5
@@ -202,6 +328,24 @@
       "writtenOn": "2010-12-29T21:19:56Z",
       "side": 1,
       "message": "Do we use this method?  I think its a left-over from one of your prior iterations.",
+      "revId": "4ddbb3529e755b452ca487046f8c2ccdae1053eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2X///ug\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/notes/NoteMap.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2011-01-05T06:38:08Z",
+      "side": 1,
+      "message": "No, we don\u0027t use it any more. Removed.",
+      "parentUuid": "AAAL2X///7I\u003d",
       "revId": "4ddbb3529e755b452ca487046f8c2ccdae1053eb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -254,6 +398,24 @@
       "writtenOn": "2010-12-29T21:19:56Z",
       "side": 1,
       "message": "This shouldn\u0027t be public, the type it returns isn\u0027t public.",
+      "revId": "4ddbb3529e755b452ca487046f8c2ccdae1053eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2X///uY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/notes/NoteMap.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2011-01-05T06:38:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL2X///7Q\u003d",
       "revId": "4ddbb3529e755b452ca487046f8c2ccdae1053eb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -347,6 +509,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL2X///uE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/notes/NoteMapMerger.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2011-01-05T06:38:08Z",
+      "side": 1,
+      "message": "Right, we don\u0027t need to writeTree here.\nActually, removing this method call revealed a bug in the addIfNotNull method below which caused the NoteMapMergerTest.testCollapseFanoutAfterMerge to fail with a \"Missing tree ...\". When the child parameter in the addIfNotNull is an instance of InMemoryNoteBucket then we should have added it to the fanout bucket using the other setBucket method:\n\n void setBucket(int cell, InMemoryNoteBucket bucket)\n\nAdding it using the child.getTreeId() causes the estimateSize method to fail because it finds a LazyNoteBucket in a cell for which the tree object doesn\u0027t exist in the Git object database.",
+      "parentUuid": "AAAL2X///6U\u003d",
+      "revId": "4ddbb3529e755b452ca487046f8c2ccdae1053eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL2X///6M\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/notes/NoteMapMerger.java",
         "patchSetId": 5
@@ -358,6 +538,24 @@
       "writtenOn": "2010-12-29T21:19:56Z",
       "side": 1,
       "message": "We should make the MergeStrategy configurable, defaulting to MergeStrategy.RESOLVE.",
+      "revId": "4ddbb3529e755b452ca487046f8c2ccdae1053eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2X///t4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/notes/NoteMapMerger.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2011-01-05T06:38:08Z",
+      "side": 1,
+      "message": "OK, made it configurable. However, this complicated the implementation of this method a bit as I had to distinguish the case where the configured MergeStrategy is an instanceof ThreeWayMergeStrategy and where it is not. I don\u0027t know if it was possible to do the implementation by using only the base MergeStrategy interface.",
+      "parentUuid": "AAAL2X///6M\u003d",
       "revId": "4ddbb3529e755b452ca487046f8c2ccdae1053eb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -381,6 +579,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL2X///t8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/notes/NoteMapMerger.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2011-01-05T06:38:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL2X///6I\u003d",
+      "revId": "4ddbb3529e755b452ca487046f8c2ccdae1053eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL2X///6k\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/notes/NoteMerger.java",
         "patchSetId": 5
@@ -392,6 +608,24 @@
       "writtenOn": "2010-12-29T21:19:56Z",
       "side": 1,
       "message": "You need to also modify the Note class to make it public and allow implementations of this interface from outside of this package.",
+      "revId": "4ddbb3529e755b452ca487046f8c2ccdae1053eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2X///t0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/notes/NoteMerger.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2011-01-05T06:38:08Z",
+      "side": 1,
+      "message": "Made the Note class public but didn\u0027t expose the constructor and the setData method as I wasn\u0027t sure if this was really necessary. So, for now Note instances are read-only outside of this package.",
+      "parentUuid": "AAAL2X///6k\u003d",
       "revId": "4ddbb3529e755b452ca487046f8c2ccdae1053eb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
