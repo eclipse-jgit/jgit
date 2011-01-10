@@ -1,0 +1,162 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL2X///pg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/PackFile.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-01-06T17:48:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL2X///rM\u003d",
+      "revId": "194269d5b530f95b30e6d2395fe6f058809be0ad",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2X///vM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/PackFile.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 617,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-01-03T10:38:42Z",
+      "side": 1,
+      "message": "I hate the fact that load() is now 140 lines of code, its too long to read in a single screen without scrolling, but I can\u0027t find a clean way to break the search loop away from the delta application loop while also avoiding an unnecessary ObjectLoader allocation once the base is found.  I\u0027d rather take the slightly longer method over the additional object allocation.",
+      "revId": "194269d5b530f95b30e6d2395fe6f058809be0ad",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2X///vI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/PackFile.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 623,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-01-03T10:38:42Z",
+      "side": 1,
+      "message": "Its unfortunate we have to initialize type at all.  The code flow should ensure this value is overwritten before it is ever read.",
+      "revId": "194269d5b530f95b30e6d2395fe6f058809be0ad",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2X///vQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/PackFile.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 643,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-01-03T10:38:42Z",
+      "side": 1,
+      "message": "I realized not long after I pushed the prior version that I can simplify some of the conditions around whole objects, and reduce a few unnecessary compares as we move out of the whole object case into applying the delta chain to produce the result.  Hence, patch set 4.",
+      "revId": "194269d5b530f95b30e6d2395fe6f058809be0ad",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2X///vU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/PackFile.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 712,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-01-03T10:38:42Z",
+      "side": 1,
+      "message": "Eclipse 3.6.1\u0027s JDT thinks \"delta\" can be null even though its impossible here, so clearly the code flow isn\u0027t the simplest.  But it is faster than the prior iterations.",
+      "revId": "194269d5b530f95b30e6d2395fe6f058809be0ad",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2X///qE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/PackFile.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 726,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-01-06T17:28:35Z",
+      "side": 1,
+      "message": "What Robin said.  If decompress returns null, we caught an OutOfMemoryError above.  That means the allocation for the array failed.  But we need to do another allocation (hopefully smaller!) to create the large delta object loader.  data (our base object) is however allocated and held by a local variable.\n\nThe Java standard doesn\u0027t define what happens here.  An implementation may leave the data variable live until after the delta.large() call returns its value.  That means the GC can\u0027t reclaim that space.  But its dead.  Explicitly nulling it out helps to ensure its really dead.\n\nIf the compiler can deduce that the variable is dead and discard the local from the live set, it should also be able to deduce that the assignment to null is unnecessary, and drop that instruction.  So this shouldn\u0027t hurt a smart compiler, and helps a simpler one.",
+      "parentUuid": "AAAL2X///qM\u003d",
+      "revId": "194269d5b530f95b30e6d2395fe6f058809be0ad",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2X///pc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/PackFile.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 726,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-01-06T17:48:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL2X///qw\u003d",
+      "revId": "194269d5b530f95b30e6d2395fe6f058809be0ad",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2X///qA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/PackFile.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 734,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-01-06T17:28:35Z",
+      "side": 1,
+      "message": "I didn\u0027t want to use BinaryDelta.apply(data,cmds) here because I didn\u0027t want an OOM caused by a failed allocation for an IllegalArgumentException inside of BinaryDelta.apply() to be trapped and treated the same as an OOM caused by trying to allocate a byte array that is too large for our current heap.\n\nCatching OOM is usually considered to be VERY BAD.  If your heap is really out of memory, your whole VM is about to fall over for most Java applications.  I know that\u0027s true for Eclipse.  :-)\n\nThus I\u0027ve been very careful to only trap OOM on a very small number of byte array allocations, where the size of the array might be larger than the maximum heap, and that will trigger an OOM, but its not really an OutOfMemoryError, because there is still plenty of heap to go around.  E.g. consider the case of streamFileThreshold being set to 2047m, an object of 640m in size, and a max heap of 256m.  Even if I have 200m free in the heap, I cannot allocate that 640m object as a byte array, and the resulting OOM from that alloc isn\u0027t really an OOM.  The heap is still fine.\n\nBut an OOM when we are about to throw IllegalArgumentException, well, that\u0027s really bad.  If we cannot perform the allocation for an exception that we want to throw up the stack, we\u0027re toast.  Our heap is already out of space and there\u0027s no way we\u0027re going to be able to recover.  We shouldn\u0027t be trapping that exception.",
+      "parentUuid": "AAAL2X///qU\u003d",
+      "revId": "194269d5b530f95b30e6d2395fe6f058809be0ad",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2X///pY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/PackFile.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 738,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-01-06T17:48:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL2X///qs\u003d",
+      "revId": "194269d5b530f95b30e6d2395fe6f058809be0ad",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
