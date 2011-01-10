@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAL2X///rM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/PackFile.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-01-05T23:00:13Z",
+      "side": 1,
+      "message": "A small comment on this logic might enlighten, since you are\nnot just ignoring the exception,",
+      "revId": "194269d5b530f95b30e6d2395fe6f058809be0ad",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL2X///pg\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/PackFile.java",
         "patchSetId": 4
@@ -88,6 +105,41 @@
     },
     {
       "key": {
+        "uuid": "AAAL2X///qw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/PackFile.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 726,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-01-05T23:00:13Z",
+      "side": 1,
+      "message": "Comment the reason for this inline",
+      "revId": "194269d5b530f95b30e6d2395fe6f058809be0ad",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2X///qM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/PackFile.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 726,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-01-06T06:40:43Z",
+      "side": 1,
+      "message": "Ideally the compiler will figure that out and effectively remove the local variables, but I think they typically retain data until delta.large() returns, which may cause more memory to be used.",
+      "parentUuid": "AAAL2X///uQ\u003d",
+      "revId": "194269d5b530f95b30e6d2395fe6f058809be0ad",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL2X///qE\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/PackFile.java",
         "patchSetId": 4
@@ -136,6 +188,23 @@
       "side": 1,
       "message": "I didn\u0027t want to use BinaryDelta.apply(data,cmds) here because I didn\u0027t want an OOM caused by a failed allocation for an IllegalArgumentException inside of BinaryDelta.apply() to be trapped and treated the same as an OOM caused by trying to allocate a byte array that is too large for our current heap.\n\nCatching OOM is usually considered to be VERY BAD.  If your heap is really out of memory, your whole VM is about to fall over for most Java applications.  I know that\u0027s true for Eclipse.  :-)\n\nThus I\u0027ve been very careful to only trap OOM on a very small number of byte array allocations, where the size of the array might be larger than the maximum heap, and that will trigger an OOM, but its not really an OutOfMemoryError, because there is still plenty of heap to go around.  E.g. consider the case of streamFileThreshold being set to 2047m, an object of 640m in size, and a max heap of 256m.  Even if I have 200m free in the heap, I cannot allocate that 640m object as a byte array, and the resulting OOM from that alloc isn\u0027t really an OOM.  The heap is still fine.\n\nBut an OOM when we are about to throw IllegalArgumentException, well, that\u0027s really bad.  If we cannot perform the allocation for an exception that we want to throw up the stack, we\u0027re toast.  Our heap is already out of space and there\u0027s no way we\u0027re going to be able to recover.  We shouldn\u0027t be trapping that exception.",
       "parentUuid": "AAAL2X///qU\u003d",
+      "revId": "194269d5b530f95b30e6d2395fe6f058809be0ad",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2X///qs\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/PackFile.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 738,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-01-05T23:00:13Z",
+      "side": 1,
+      "message": "Comment the reason for this inline",
       "revId": "194269d5b530f95b30e6d2395fe6f058809be0ad",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
