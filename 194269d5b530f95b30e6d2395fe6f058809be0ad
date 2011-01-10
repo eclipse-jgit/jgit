@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL2X///qk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/PackFile.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 617,
+      "author": {
+        "id": 102
+      },
+      "writtenOn": "2011-01-05T23:39:37Z",
+      "side": 1,
+      "message": "I\u0027ve upload a patch set which ties to decrease the size of the load() method (mostly by breaking it into smaller methods), and removes a couple of lines I think are unnecessary.",
+      "parentUuid": "AAAL2X///vM\u003d",
+      "revId": "194269d5b530f95b30e6d2395fe6f058809be0ad",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL2X///vI\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/PackFile.java",
         "patchSetId": 4
@@ -122,6 +140,23 @@
     },
     {
       "key": {
+        "uuid": "AAAL2X///uQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/PackFile.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 726,
+      "author": {
+        "id": 102
+      },
+      "writtenOn": "2011-01-05T23:39:37Z",
+      "side": 1,
+      "message": "As we\u0027re about to leave method scope, it can\u0027t be necessary to set the method-scoped variable \u0027data\u0027 to null",
+      "revId": "194269d5b530f95b30e6d2395fe6f058809be0ad",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL2X///qM\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/PackFile.java",
         "patchSetId": 4
@@ -170,6 +205,23 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "AAAL2X///qw\u003d",
+      "revId": "194269d5b530f95b30e6d2395fe6f058809be0ad",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2X///qU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/PackFile.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 734,
+      "author": {
+        "id": 102
+      },
+      "writtenOn": "2011-01-05T23:50:27Z",
+      "side": 1,
+      "message": "It\u0027s possible to avoid a couple of lines of boilerplate around declaring the byte[] array \u0027result\u0027 - compare with the equivalent code in patch set 5, where it just uses the BinaryDelta.apply(data, cmds) method, and has the same effect regarding the OOM check",
       "revId": "194269d5b530f95b30e6d2395fe6f058809be0ad",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
