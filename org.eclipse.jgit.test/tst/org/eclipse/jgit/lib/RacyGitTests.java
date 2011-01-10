@@ -61,19 +61,19 @@ public class RacyGitTests extends RepositoryTestCase {
 		File lastFile = null;
 		for (int i = 0; i < 10; i++) {
 			lastFile = new File(db.getWorkTree(), "0." + i);
-			lastFile.createNewFile();
+			assertTrue(lastFile.createNewFile());
 			if (i == 5)
 				fsTick(lastFile);
 		}
 		modTimes.add(fsTick(lastFile));
 		for (int i = 0; i < 10; i++) {
 			lastFile = new File(db.getWorkTree(), "1." + i);
-			lastFile.createNewFile();
+			assertTrue(lastFile.createNewFile());
 		}
 		modTimes.add(fsTick(lastFile));
 		for (int i = 0; i < 10; i++) {
 			lastFile = new File(db.getWorkTree(), "2." + i);
-			lastFile.createNewFile();
+			assertTrue(lastFile.createNewFile());
 			if (i % 4 == 0)
 				fsTick(lastFile);
 		}
