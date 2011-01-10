@@ -58,6 +58,7 @@ import static org.junit.Assert.fail;
 
 import java.text.MessageFormat;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Set;
 
@@ -386,13 +387,25 @@ public class ConfigTest {
 
 	@Test
 	public void test009_readNamesInSection() throws ConfigInvalidException {
-		String configString = "[core]\n" + "repositoryformatversion = 0\n"
-				+ "filemode = false\n" + "logallrefupdates = true\n";
+		String configString = "[core]\n" + "repositoryFormatVersion = 0\n"
+				+ "filemode = false\n" + "logAllRefUpdates = true\n";
 		final Config c = parse(configString);
 		Set<String> names = c.getNames("core");
 		assertEquals("Core section size", 3, names.size());
 		assertTrue("Core section should contain \"filemode\"", names
 				.contains("filemode"));
+
+		assertTrue("Core section should contain \"repositoryFormatVersion\"",
+				names.contains("repositoryFormatVersion"));
+
+		assertTrue("Core section should contain \"repositoryformatversion\"",
+				names.contains("repositoryformatversion"));
+
+		Iterator<String> itr = names.iterator();
+		assertEquals("repositoryFormatVersion", itr.next());
+		assertEquals("filemode", itr.next());
+		assertEquals("logAllRefUpdates", itr.next());
+		assertFalse(itr.hasNext());
 	}
 
 	@Test

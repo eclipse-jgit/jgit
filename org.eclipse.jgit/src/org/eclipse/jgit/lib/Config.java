@@ -52,9 +52,12 @@
 package org.eclipse.jgit.lib;
 
 import java.text.MessageFormat;
+import java.util.AbstractSet;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -1327,39 +1330,71 @@ public class Config {
 		}
 
 		public Set<String> parse(Config cfg) {
-			final Set<String> result = new HashSet<String>();
+			final Map<String, String> m = new LinkedHashMap<String, String>();
 			while (cfg != null) {
 				for (final Entry e : cfg.state.get().entryList) {
-					if (e.name != null
-							&& StringUtils.equalsIgnoreCase(e.section, section)) {
-						if (subsection == null && e.subsection == null)
-							result.add(StringUtils.toLowerCase(e.name));
-						else if (e.subsection != null
-								&& e.subsection.equals(subsection))
-							result.add(StringUtils.toLowerCase(e.name));
-
+					if (e.name == null)
+						continue;
+					if (!StringUtils.equalsIgnoreCase(section, e.section))
+						continue;
+					if ((subsection == null && e.subsection == null)
+							|| (subsection != null && subsection
+									.equals(e.subsection))) {
+						String lc = StringUtils.toLowerCase(e.name);
+						if (!m.containsKey(lc))
+							m.put(lc, e.name);
 					}
 				}
 				cfg = cfg.baseConfig;
 			}
-			return Collections.unmodifiableSet(result);
+			return new CaseFoldingSet(m);
 		}
 	}
 
 	private static class SectionNames implements SectionParser<Set<String>> {
 		public Set<String> parse(Config cfg) {
-			final Set<String> result = new HashSet<String>();
+			final Map<String, String> m = new LinkedHashMap<String, String>();
 			while (cfg != null) {
 				for (final Entry e : cfg.state.get().entryList) {
-					if (e.section != null)
-						result.add(StringUtils.toLowerCase(e.section));
+					if (e.section != null) {
+						String lc = StringUtils.toLowerCase(e.section);
+						if (!m.containsKey(lc))
+							m.put(lc, e.section);
+					}
 				}
 				cfg = cfg.baseConfig;
 			}
-			return Collections.unmodifiableSet(result);
+			return new CaseFoldingSet(m);
 		}
 	}
 
+	private static class CaseFoldingSet extends AbstractSet<String> {
+		private final Map<String, String> names;
+
+		CaseFoldingSet(Map<String, String> names) {
+			this.names = Collections.unmodifiableMap(names);
+		}
+
+		@Override
+		public boolean contains(Object needle) {
+			if (!(needle instanceof String))
+				return false;
+
+			String n = (String) needle;
+			return names.containsKey(n)
+					|| names.containsKey(StringUtils.toLowerCase(n));
+		}
+
+		@Override
+		public Iterator<String> iterator() {
+			return names.values().iterator();
+		}
+
+		@Override
+		public int size() {
+			return names.size();
+		}
+	}
 
 	private static class State {
 		final List<Entry> entryList;
