@@ -1,0 +1,344 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL2X///7Y\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-29T21:19:56Z",
+      "side": 1,
+      "message": "s/than/that/",
+      "revId": "4ddbb3529e755b452ca487046f8c2ccdae1053eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2X///6g\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/notes/DefaultNoteMerger.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-29T21:19:56Z",
+      "side": 1,
+      "message": "Might as well make this public, so developers can explicitly use this if they want.",
+      "revId": "4ddbb3529e755b452ca487046f8c2ccdae1053eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2X///6o\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/notes/DefaultNoteMerger.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-29T21:19:56Z",
+      "side": 1,
+      "message": "Style-nit: Curly braces are unnecessary here.",
+      "revId": "4ddbb3529e755b452ca487046f8c2ccdae1053eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2X///6Y\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/notes/DefaultNoteMerger.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-29T21:19:56Z",
+      "side": 1,
+      "message": "If the NoteMapMerger is using the same reader/inserter pair you don\u0027t need to flush here.  Just flush once in the NoteMapMerger.  This allows some level of buffering in the ObjectInserter implementation.",
+      "revId": "4ddbb3529e755b452ca487046f8c2ccdae1053eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2X///60\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/notes/NoteBucket.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-29T21:19:56Z",
+      "side": 1,
+      "message": "This was done.",
+      "revId": "4ddbb3529e755b452ca487046f8c2ccdae1053eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2X///7E\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/notes/NoteMap.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-29T21:19:56Z",
+      "side": 1,
+      "message": "This can probably go in an earlier commit along with a new unit test to verify iterator() works as expected.  Then you can rely on it to verify the result of a merge in the merge unit tests.",
+      "revId": "4ddbb3529e755b452ca487046f8c2ccdae1053eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2X///7U\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/notes/NoteMap.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-29T21:19:56Z",
+      "side": 1,
+      "message": "Style-nit: Unnecessary blank line.",
+      "revId": "4ddbb3529e755b452ca487046f8c2ccdae1053eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2X///68\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/notes/NoteMap.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-29T21:19:56Z",
+      "side": 1,
+      "message": "This inner type isn\u0027t necessary, is it?\n\nWhy can\u0027t the method be:\n\n  if (root !\u003d null)\n    return root.iterator(new MutableObjectId(), reader);\n  else:\n    return Collections.\u003cNote\u003eemptyList().iterator();",
+      "revId": "4ddbb3529e755b452ca487046f8c2ccdae1053eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2X///7A\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/notes/NoteMap.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-29T21:19:56Z",
+      "side": 1,
+      "message": "If the itr is null, return false.  Else next() throws NPE.",
+      "revId": "4ddbb3529e755b452ca487046f8c2ccdae1053eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2X///7I\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/notes/NoteMap.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-29T21:19:56Z",
+      "side": 1,
+      "message": "Do we use this method?  I think its a left-over from one of your prior iterations.",
+      "revId": "4ddbb3529e755b452ca487046f8c2ccdae1053eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2X///7M\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/notes/NoteMap.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-29T21:19:56Z",
+      "side": 1,
+      "message": "Style-nit: You can fit this all on one line:\n\n  /** @return the root note bucket */",
+      "revId": "4ddbb3529e755b452ca487046f8c2ccdae1053eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2X///7Q\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/notes/NoteMap.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-29T21:19:56Z",
+      "side": 1,
+      "message": "This shouldn\u0027t be public, the type it returns isn\u0027t public.",
+      "revId": "4ddbb3529e755b452ca487046f8c2ccdae1053eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2X///6c\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/notes/NoteMapMerger.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-29T21:19:56Z",
+      "side": 1,
+      "message": "This class and the NoteMerger should really use the same reader and inserter.  Please try harder to make sure they are identical objects.\n\n(The reason is, the reader may need to know that the inserter has created something.)",
+      "revId": "4ddbb3529e755b452ca487046f8c2ccdae1053eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2X///6E\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/notes/NoteMapMerger.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-29T21:19:56Z",
+      "side": 1,
+      "message": "Wrap all of this method body in a try finally:\n\n  try {\n    ... current code ...\n  } finally {\n    reader.release();\n    inserter.release();\n  }\n\nThat way the caller doesn\u0027t have to release our resources via another method call.",
+      "revId": "4ddbb3529e755b452ca487046f8c2ccdae1053eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2X///6U\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/notes/NoteMapMerger.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-29T21:19:56Z",
+      "side": 1,
+      "message": "I don\u0027t know if we need this call anymore.  As I understand how the code works, this temporary fanout bucket isn\u0027t needed as a tree anywhere, so we shouldn\u0027t have to write it.",
+      "revId": "4ddbb3529e755b452ca487046f8c2ccdae1053eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2X///6M\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/notes/NoteMapMerger.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-29T21:19:56Z",
+      "side": 1,
+      "message": "We should make the MergeStrategy configurable, defaulting to MergeStrategy.RESOLVE.",
+      "revId": "4ddbb3529e755b452ca487046f8c2ccdae1053eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2X///6I\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/notes/NoteMapMerger.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-29T21:19:56Z",
+      "side": 1,
+      "message": "I don\u0027t think we want the release here.  So we can drop the try/finally block.",
+      "revId": "4ddbb3529e755b452ca487046f8c2ccdae1053eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2X///6k\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/notes/NoteMerger.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-29T21:19:56Z",
+      "side": 1,
+      "message": "You need to also modify the Note class to make it public and allow implementations of this interface from outside of this package.",
+      "revId": "4ddbb3529e755b452ca487046f8c2ccdae1053eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2X///6w\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/notes/NotesMergeConflictException.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-29T21:19:56Z",
+      "side": 1,
+      "message": "These names must all be the same... the notes are on the same value.\n\nI think you need 4 strings:  the getName() from the first non-null base/ours/theirs as this is the name of the object the note is on, and then the getData().getName() from each non-null base, ours, theirs as that is the name of the blob content for the note.\n\nSomething like:\n\n  private static String noteOn(Note base, Note ours, Note theirs) {\n    if (base !\u003d null)\n      return base.name();\n    if (ours !\u003d null)\n      return ours.name();\n    return theirs.name();\n  }\n\n  private static String noteData(Note n) {\n    if (n !\u003d null)\n      return n.getData().name();\n    return \"\";\n  }\n\n  public NotesMergeConflictException(Note base, Note ours, Note theirs) {\n    super(MessageFormat.format(JGitText.get().mergeConflictOnNotes(),\n      noteOn(base, ours, theirs),\n      noteData(base), noteData(ours), noteData(theirs)));",
+      "revId": "4ddbb3529e755b452ca487046f8c2ccdae1053eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2X///6s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/notes/NotesMergeConflictException.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-29T21:19:56Z",
+      "side": 1,
+      "message": "You probably want to use the name field from the NonNoteEntry rather than rely on the toString().",
+      "revId": "4ddbb3529e755b452ca487046f8c2ccdae1053eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
