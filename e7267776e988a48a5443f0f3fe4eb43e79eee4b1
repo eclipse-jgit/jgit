@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL2X///oY\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/nls/NLSTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-01-07T16:27:11Z",
+      "side": 1,
+      "message": "These threads are still running after the test ends.  We should shutdown the pool and wait for them to terminate before leaving the test method.",
+      "revId": "e7267776e988a48a5443f0f3fe4eb43e79eee4b1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
