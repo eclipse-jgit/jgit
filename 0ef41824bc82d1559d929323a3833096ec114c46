@@ -89,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL2X///sw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/notes/NoteMapMerger.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2011-01-05T06:47:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL2X///tQ\u003d",
+      "revId": "0ef41824bc82d1559d929323a3833096ec114c46",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL2X///tU\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/notes/NotesMergeConflictException.java",
         "patchSetId": 6
@@ -100,6 +118,24 @@
       "writtenOn": "2011-01-04T19:17:45Z",
       "side": 1,
       "message": "Any of base, ours, theirs could be null if that NonNoteEntry doesn\u0027t exist... causing the conflict to NPE.\n\nYou need something similar to noteOn here:\n\n  private static String name(NonNoteEntry e) {\n    return e !\u003d null ? e.name() : \"\";\n  }",
+      "revId": "0ef41824bc82d1559d929323a3833096ec114c46",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2X///so\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/notes/NotesMergeConflictException.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2011-01-05T06:47:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL2X///tU\u003d",
       "revId": "0ef41824bc82d1559d929323a3833096ec114c46",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
