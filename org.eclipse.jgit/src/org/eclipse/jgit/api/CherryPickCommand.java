@@ -114,6 +114,8 @@ public class CherryPickCommand extends GitCommand<RevCommit> {
 						JGitText.get().commitOnRepoWithoutHEADCurrentlyNotSupported);
 			RevCommit headCommit = revWalk.parseCommit(headRef.getObjectId());
 
+			newHead = headCommit;
+
 			// loop through all refs to be cherry-picked
 			for (Ref src : commits) {
 				// get the commit to be cherry-picked
@@ -137,6 +139,9 @@ public class CherryPickCommand extends GitCommand<RevCommit> {
 				merger.setBase(srcParent.getTree());
 
 				if (merger.merge(headCommit, srcCommit)) {
+					if (AnyObjectId.equals(headCommit.getTree().getId(), merger
+							.getResultTreeId()))
+						continue;
 					DirCacheCheckout dco = new DirCacheCheckout(repo,
 							headCommit.getTree(), repo.lockDirCache(),
 							merger.getResultTreeId());
