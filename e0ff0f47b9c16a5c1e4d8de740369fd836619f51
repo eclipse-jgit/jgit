@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL2X///p4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/PackFile.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 660,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-01-06T17:40:59Z",
+      "side": 1,
+      "message": "I dislike this approach because on delta cases (which are insanely common, most objects are deltas) we need to perform two compares to determine the type of delta.\n\nDuplicating the code under both branches meant yea, its duplicated instructions, but at least we only had one branch to carry out instead of two.",
+      "revId": "e0ff0f47b9c16a5c1e4d8de740369fd836619f51",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2X///p0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/PackFile.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 687,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-01-06T17:40:59Z",
+      "side": 1,
+      "message": "I don\u0027t like this because the entire delta chain *and* the root base object are held for the entire chain being applied.  There is now way to clear those variables out until after the entire chain is applied.\n\nThe delta chain frames aren\u0027t very big, so the fact that they cannot be discarded as the deltas are applied is probably not a big deal.\n\nBut the root base... that\u0027s probably large, and we should be able to discard it as soon as we have patched the delta onto it.  \n\nThere is no assurance that the runtime will discard delta and data from this method frame as being non-live when the applyDeltas method is invoked.  Because of that we need to assume the runtime is doing the simple thing, keeping these live until after applyDeltas returns, in which case the root base is still live... and we need to clear it ourselves when its dead.\n\nThe only way I can think to do that is to keep it all in one method like I did in patch set 4.  Or allocate a new little helper object that holds these variables in it, and gets passed into applyDeltas by reference, so the variables are in the heap rather than on the stack.\n\nI\u0027d like to avoid an allocation for the somewhat common case of a delta that gets a hit for its base in the DeltaBaseCache, so that means the longer load method like I had in patch set 4.",
+      "revId": "e0ff0f47b9c16a5c1e4d8de740369fd836619f51",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2X///pw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/PackFile.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 701,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-01-06T17:40:59Z",
+      "side": 1,
+      "message": "Style-nit: No point in assigning to the argument when we are just going to return this as the result.",
+      "revId": "e0ff0f47b9c16a5c1e4d8de740369fd836619f51",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2X///po\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/PackFile.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 720,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-01-06T17:40:59Z",
+      "side": 1,
+      "message": "Style-nit: Trailing whitespace.",
+      "revId": "e0ff0f47b9c16a5c1e4d8de740369fd836619f51",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2X///ps\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/PackFile.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 743,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-01-06T17:40:59Z",
+      "side": 1,
+      "message": "This is catching an OOM incurred while trying to allocate an IllegalArgumentException if the base doesn\u0027t match the command stream.  That\u0027s a really serious error that I don\u0027t want caught (see my comments on patch set 4).",
+      "revId": "e0ff0f47b9c16a5c1e4d8de740369fd836619f51",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
