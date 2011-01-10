@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL2X////A\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2010-12-28T11:32:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL2H///5g\u003d",
+      "revId": "95296f12a56fbd69bee1e1479c32a8a59329ed4b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL2H///5c\u003d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -53,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL2X////g\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/notes/DefaultNoteMergerTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2010-12-28T11:32:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL2H///5Y\u003d",
+      "revId": "95296f12a56fbd69bee1e1479c32a8a59329ed4b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL2H///3Y\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/notes/DefaultNoteMergerTest.java",
         "patchSetId": 4
@@ -64,6 +100,24 @@
       "writtenOn": "2010-12-23T12:34:27Z",
       "side": 1,
       "message": "what\u0027s the difference compared to testEditEdit() ?",
+      "revId": "95296f12a56fbd69bee1e1479c32a8a59329ed4b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2X////c\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/notes/DefaultNoteMergerTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2010-12-28T11:32:43Z",
+      "side": 1,
+      "message": "copy/paste error ;-)\nthe baseNote should be null in case of add.",
+      "parentUuid": "AAAL2H///3Y\u003d",
       "revId": "95296f12a56fbd69bee1e1479c32a8a59329ed4b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -87,6 +141,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL2X////Y\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/notes/NoteMapMergerTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2010-12-28T11:32:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL2H///5U\u003d",
+      "revId": "95296f12a56fbd69bee1e1479c32a8a59329ed4b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL2H///5Q\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/notes/DefaultNoteMerger.java",
         "patchSetId": 4
@@ -98,6 +170,24 @@
       "writtenOn": "2010-12-23T12:34:27Z",
       "side": 1,
       "message": "missing license header",
+      "revId": "95296f12a56fbd69bee1e1479c32a8a59329ed4b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2X////U\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/notes/DefaultNoteMerger.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2010-12-28T11:32:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL2H///5Q\u003d",
       "revId": "95296f12a56fbd69bee1e1479c32a8a59329ed4b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -121,6 +211,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL2X////M\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/notes/DefaultNoteMerger.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2010-12-28T11:32:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL2H///3c\u003d",
+      "revId": "95296f12a56fbd69bee1e1479c32a8a59329ed4b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL2H///3g\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/notes/DefaultNoteMerger.java",
         "patchSetId": 4
@@ -132,6 +240,24 @@
       "writtenOn": "2010-12-23T12:34:27Z",
       "side": 1,
       "message": "maybe add /**{@inheritDoc} */ here to make the interface documentation also visible here",
+      "revId": "95296f12a56fbd69bee1e1479c32a8a59329ed4b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2X////Q\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/notes/DefaultNoteMerger.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2010-12-28T11:32:43Z",
+      "side": 1,
+      "message": "I haven\u0027t found the @inheritDoc used anywhere in JGit and wouldn\u0027t make an exception here.",
+      "parentUuid": "AAAL2H///3g\u003d",
       "revId": "95296f12a56fbd69bee1e1479c32a8a59329ed4b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -173,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL2X////I\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/notes/NoteMapMerger.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2010-12-28T11:32:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL2H///3U\u003d",
+      "revId": "95296f12a56fbd69bee1e1479c32a8a59329ed4b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL2H///5M\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/notes/NotesMergeConflictException.java",
         "patchSetId": 4
@@ -184,6 +328,24 @@
       "writtenOn": "2010-12-23T12:34:27Z",
       "side": 1,
       "message": "missing license header",
+      "revId": "95296f12a56fbd69bee1e1479c32a8a59329ed4b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2X////E\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/notes/NotesMergeConflictException.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2010-12-28T11:32:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL2H///5M\u003d",
       "revId": "95296f12a56fbd69bee1e1479c32a8a59329ed4b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
