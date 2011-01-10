@@ -116,7 +116,7 @@ public class FileResolverTest extends LocalDiskRepositoryTestCase {
 			fail("did not honor export-all flag");
 		}
 
-		export.createNewFile();
+		assertTrue(export.createNewFile());
 		assertTrue("has git-daemon-export-ok", export.exists());
 		resolver = new FileResolver(base, false /* require flag */);
 		try {
