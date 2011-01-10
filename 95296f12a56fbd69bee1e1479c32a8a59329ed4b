@@ -1,0 +1,22 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL2X///7g\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/notes/DefaultNoteMerger.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-29T20:48:54Z",
+      "side": 1,
+      "message": "Right.  We don\u0027t use @inheritDoc anywhere.  Lets not start.",
+      "parentUuid": "AAAL2X////Q\u003d",
+      "revId": "95296f12a56fbd69bee1e1479c32a8a59329ed4b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
