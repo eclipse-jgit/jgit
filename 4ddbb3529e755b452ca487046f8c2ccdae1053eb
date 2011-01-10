@@ -53,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL2X///u4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/notes/DefaultNoteMerger.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2011-01-05T06:38:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL2X///6o\u003d",
+      "revId": "4ddbb3529e755b452ca487046f8c2ccdae1053eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL2X///6Y\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/notes/DefaultNoteMerger.java",
         "patchSetId": 5
@@ -81,6 +99,24 @@
       "writtenOn": "2010-12-29T21:19:56Z",
       "side": 1,
       "message": "This was done.",
+      "revId": "4ddbb3529e755b452ca487046f8c2ccdae1053eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2X///us\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/notes/NoteBucket.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2011-01-05T06:38:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL2X///60\u003d",
       "revId": "4ddbb3529e755b452ca487046f8c2ccdae1053eb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -189,6 +225,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL2X///uc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/notes/NoteMap.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2011-01-05T06:38:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL2X///7M\u003d",
+      "revId": "4ddbb3529e755b452ca487046f8c2ccdae1053eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL2X///7Q\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/notes/NoteMap.java",
         "patchSetId": 5
@@ -223,6 +277,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL2X///uI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/notes/NoteMapMerger.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2011-01-05T06:38:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL2X///6c\u003d",
+      "revId": "4ddbb3529e755b452ca487046f8c2ccdae1053eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL2X///6E\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/notes/NoteMapMerger.java",
         "patchSetId": 5
@@ -234,6 +306,24 @@
       "writtenOn": "2010-12-29T21:19:56Z",
       "side": 1,
       "message": "Wrap all of this method body in a try finally:\n\n  try {\n    ... current code ...\n  } finally {\n    reader.release();\n    inserter.release();\n  }\n\nThat way the caller doesn\u0027t have to release our resources via another method call.",
+      "revId": "4ddbb3529e755b452ca487046f8c2ccdae1053eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2X///uA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/notes/NoteMapMerger.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2011-01-05T06:38:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL2X///6E\u003d",
       "revId": "4ddbb3529e755b452ca487046f8c2ccdae1053eb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -325,6 +415,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL2X///tw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/notes/NotesMergeConflictException.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2011-01-05T06:38:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL2X///6w\u003d",
+      "revId": "4ddbb3529e755b452ca487046f8c2ccdae1053eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL2X///6s\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/notes/NotesMergeConflictException.java",
         "patchSetId": 5
@@ -336,6 +444,24 @@
       "writtenOn": "2010-12-29T21:19:56Z",
       "side": 1,
       "message": "You probably want to use the name field from the NonNoteEntry rather than rely on the toString().",
+      "revId": "4ddbb3529e755b452ca487046f8c2ccdae1053eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2X///ts\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/notes/NotesMergeConflictException.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2011-01-05T06:38:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL2X///6s\u003d",
       "revId": "4ddbb3529e755b452ca487046f8c2ccdae1053eb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
