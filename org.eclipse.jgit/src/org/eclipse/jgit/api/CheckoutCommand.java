@@ -147,7 +147,7 @@ public class CheckoutCommand extends GitCommand<Ref> {
 				ref = null;
 			RefUpdate refUpdate = repo.updateRef(Constants.HEAD, ref == null);
 			refUpdate.setForceUpdate(force);
-			refUpdate.setRefLogMessage(refLogMessage + "to "
+			refUpdate.setRefLogMessage(refLogMessage + " to "
 					+ newCommit.getName(), false);
 			Result updateResult;
 			if (ref != null)
