@@ -571,6 +571,34 @@ public abstract class ReadTreeTest extends RepositoryTestCase {
 		writeTrashFile("foo", "foo");
 		go();
 
+		// test that we don't overwrite untracked files when there is a HEAD
+		recursiveDelete(new File(trash, "foo"));
+		setupCase(mk("other"), mkmap("other", "other", "foo", "foo"),
+				mk("other"));
+		writeTrashFile("foo", "bar");
+		try {
+			checkout();
+			fail("didn't get the expected exception");
+		} catch (CheckoutConflictException e) {
+			assertConflict("foo");
+			assertWorkDir(mkmap("foo", "bar", "other", "other"));
+			assertIndex(mk("other"));
+		}
+
+		// test that we don't overwrite untracked files when there is no HEAD
+		recursiveDelete(new File(trash, "other"));
+		recursiveDelete(new File(trash, "foo"));
+		setupCase(null, mk("foo"), null);
+		writeTrashFile("foo", "bar");
+		try {
+			checkout();
+			fail("didn't get the expected exception");
+		} catch (CheckoutConflictException e) {
+			assertConflict("foo");
+			assertWorkDir(mkmap("foo", "bar"));
+			assertIndex(mkmap());
+		}
+
 		// TODO: Why should we expect conflicts here?
 		// H and M are emtpy and according to rule #5 of
 		// the carry-over rules a dirty index is no reason
@@ -581,6 +609,7 @@ public abstract class ReadTreeTest extends RepositoryTestCase {
 		// assertConflict("foo");
 
 		recursiveDelete(new File(trash, "foo"));
+		recursiveDelete(new File(trash, "other"));
 		setupCase(null, mk("foo"), null);
 		writeTrashFile("foo/bar/baz", "");
 		writeTrashFile("foo/blahblah", "");

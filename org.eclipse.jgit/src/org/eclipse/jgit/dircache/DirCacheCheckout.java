@@ -300,15 +300,21 @@ public class DirCacheCheckout {
 	 * @param m the tree to merge
 	 * @param i the index
 	 * @param f the working tree
+	 * @throws IOException
 	 */
 	void processEntry(CanonicalTreeParser m, DirCacheBuildIterator i,
-			WorkingTreeIterator f) {
+			WorkingTreeIterator f) throws IOException {
 		if (m != null) {
 			// There is an entry in the merge commit. Means: we want to update
 			// what's currently in the index and working-tree to that one
 			if (i == null) {
 				// The index entry is missing
-				update(m.getEntryPathString(), m.getEntryObjectId(),
+				if (f != null && !FileMode.TREE.equals(f.getEntryFileMode())
+						&& !f.isEntryIgnored()) {
+					// don't overwrite an untracked and not ignored file
+					conflicts.add(walk.getPathString());
+				} else
+					update(m.getEntryPathString(), m.getEntryObjectId(),
 						m.getEntryFileMode());
 			} else if (f == null || !m.idEqual(i)) {
 				// The working tree file is missing or the merge content differs
@@ -344,6 +350,13 @@ public class DirCacheCheckout {
 						// conflicts set
 						remove(i.getEntryPathString());
 						conflicts.remove(i.getEntryPathString());
+					} else {
+						// We are about to remove an untracked file. Check that
+						// it is ignored - otherwise that's an conflict
+						if (!f.isEntryIgnored())
+							conflicts.add(walk.getPathString());
+						else
+							remove(f.getEntryPathString());
 					}
 				}
 			} else {
@@ -626,6 +639,16 @@ public class DirCacheCheckout {
 		}
 
 		if (i == null) {
+			// make sure not to overwrite untracked files
+			if (f != null) {
+				// a dirty worktree: the index is empty but we have a
+				// workingtree-file
+				if (mId == null || !mId.equals(f.getEntryObjectId())) {
+					conflict(name, null, h, m);
+					return;
+				}
+			}
+
 			/**
 			 * <pre>
 			 * 		    I (index)                H        M        Result
