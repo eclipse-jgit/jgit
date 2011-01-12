@@ -54,7 +54,6 @@ import static org.junit.Assert.fail;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -706,17 +705,6 @@ public abstract class ReadTreeTest extends RepositoryTestCase {
 			assertTrue(getConflicts().equals(Arrays.asList("foo")));
 			assertTrue(new File(trash, "foo").isFile());
 		}
-	}
-
-	/**
-	 * The interface these tests need from a class implementing a checkout
-	 */
-	interface Checkout {
-		HashMap<String, ObjectId> updated();
-		ArrayList<String> conflicts();
-		ArrayList<String> removed();
-		void prescanTwoTrees() throws IOException;
-		void checkout() throws IOException;
 	}
 
 	public void assertWorkDir(HashMap<String, String> i)
