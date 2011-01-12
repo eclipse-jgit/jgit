@@ -49,6 +49,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.HashMap;
 
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.lib.Constants;
@@ -100,7 +101,8 @@ public class ListBranchCommand extends GitCommand<List<Ref>> {
 			} else if (listMode == ListMode.REMOTE) {
 				refList = repo.getRefDatabase().getRefs(Constants.R_REMOTES);
 			} else {
-				refList = repo.getRefDatabase().getRefs(Constants.R_HEADS);
+				refList = new HashMap<String,Ref>(repo.getRefDatabase().getRefs(
+						Constants.R_HEADS));
 				refList.putAll(repo.getRefDatabase().getRefs(
 						Constants.R_REMOTES));
 			}
