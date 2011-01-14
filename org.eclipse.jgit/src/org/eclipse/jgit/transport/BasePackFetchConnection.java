@@ -61,6 +61,7 @@ import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.MutableObjectId;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Config.SectionParser;
@@ -635,17 +636,21 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 	}
 
 	private void receivePack(final ProgressMonitor monitor) throws IOException {
-		final IndexPack ip;
-
 		InputStream input = in;
 		if (sideband)
 			input = new SideBandInputStream(input, monitor, getMessageWriter());
 
-		ip = IndexPack.create(local, input);
-		ip.setFixThin(thinPack);
-		ip.setObjectChecking(transport.isCheckFetchedObjects());
-		ip.index(monitor);
-		packLock = ip.renameAndOpenPack(lockMessage);
+		ObjectInserter ins = local.newObjectInserter();
+		try {
+			PackParser parser = ins.newPackParser(input);
+			parser.setAllowThin(thinPack);
+			parser.setObjectChecking(transport.isCheckFetchedObjects());
+			parser.setLockMessage(lockMessage);
+			packLock = parser.parse(monitor);
+			ins.flush();
+		} finally {
+			ins.release();
+		}
 	}
 
 	private static class CancelledException extends Exception {

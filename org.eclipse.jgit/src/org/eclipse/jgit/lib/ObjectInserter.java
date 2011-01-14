@@ -52,6 +52,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.security.MessageDigest;
 
+import org.eclipse.jgit.transport.PackParser;
+
 /**
  * Inserts objects into an existing {@code ObjectDatabase}.
  * <p>
@@ -70,6 +72,11 @@ public abstract class ObjectInserter {
 		@Override
 		public ObjectId insert(int objectType, long length, InputStream in)
 				throws IOException {
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public PackParser newPackParser(InputStream in) throws IOException {
 			throw new UnsupportedOperationException();
 		}
 
@@ -281,6 +288,19 @@ public abstract class ObjectInserter {
 	 */
 	public abstract ObjectId insert(int objectType, long length, InputStream in)
 			throws IOException;
+
+	/**
+	 * Initialize a parser to read from a pack formatted stream.
+	 *
+	 * @param in
+	 *            the input stream. The stream is not closed by the parser, and
+	 *            must instead be closed by the caller once parsing is complete.
+	 * @return the pack parser.
+	 * @throws IOException
+	 *             the parser instance, which can be configured and then used to
+	 *             parse objects into the ObjectDatabase.
+	 */
+	public abstract PackParser newPackParser(InputStream in) throws IOException;
 
 	/**
 	 * Make all inserted objects visible.

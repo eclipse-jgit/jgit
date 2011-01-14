@@ -67,6 +67,7 @@ import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -536,12 +537,22 @@ public class ReceivePackRefFilterTest extends LocalDiskRepositoryTestCase {
 		buf.write(md.digest());
 	}
 
+	private ObjectInserter inserter;
+
+	@After
+	public void release() {
+		if (inserter != null)
+			inserter.release();
+	}
+
 	private void openPack(TemporaryBuffer.Heap buf) throws IOException {
+		if (inserter == null)
+			inserter = src.newObjectInserter();
+
 		final byte[] raw = buf.toByteArray();
-		IndexPack ip = IndexPack.create(src, new ByteArrayInputStream(raw));
-		ip.setFixThin(true);
-		ip.index(PM);
-		ip.renameAndOpenPack();
+		PackParser p = inserter.newPackParser(new ByteArrayInputStream(raw));
+		p.setAllowThin(true);
+		p.parse(PM);
 	}
 
 	private static PacketLineIn asPacketLineIn(TemporaryBuffer.Heap buf)
