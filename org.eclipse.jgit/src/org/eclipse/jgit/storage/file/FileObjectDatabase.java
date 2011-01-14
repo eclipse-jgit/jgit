@@ -56,6 +56,7 @@ import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.storage.pack.ObjectToPack;
 import org.eclipse.jgit.storage.pack.PackWriter;
+import org.eclipse.jgit.util.FS;
 
 abstract class FileObjectDatabase extends ObjectDatabase {
 	static enum InsertLooseObjectResult {
@@ -131,6 +132,8 @@ abstract class FileObjectDatabase extends ObjectDatabase {
 			throws IOException;
 
 	abstract Config getConfig();
+
+	abstract FS getFS();
 
 	/**
 	 * Open an object from this database.
@@ -277,6 +280,8 @@ abstract class FileObjectDatabase extends ObjectDatabase {
 
 	abstract InsertLooseObjectResult insertUnpackedObject(File tmp,
 			ObjectId id, boolean createDuplicate) throws IOException;
+
+	abstract PackFile openPack(File pack, File idx) throws IOException;
 
 	abstract FileObjectDatabase newCachedFileObjectDatabase();
 

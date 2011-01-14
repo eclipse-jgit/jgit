@@ -70,15 +70,16 @@ import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.PackProtocolException;
 import org.eclipse.jgit.errors.UnpackException;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.Config.SectionParser;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdSubclassMap;
+import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.lib.Config.SectionParser;
 import org.eclipse.jgit.revwalk.ObjectWalk;
 import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -161,7 +162,7 @@ public class ReceivePack {
 
 	private Writer msgs;
 
-	private IndexPack ip;
+	private PackParser parser;
 
 	/** The refs we advertised as existing at the start of the connection. */
 	private Map<String, Ref> refs;
@@ -630,7 +631,7 @@ public class ReceivePack {
 					receivePack();
 					if (needCheckConnectivity())
 						checkConnectivity();
-					ip = null;
+					parser = null;
 					unpackError = null;
 				} catch (IOException err) {
 					unpackError = err;
@@ -779,17 +780,23 @@ public class ReceivePack {
 		if (timeoutIn != null)
 			timeoutIn.setTimeout(10 * timeout * 1000);
 
-		ip = IndexPack.create(db, rawIn);
-		ip.setFixThin(true);
-		ip.setNeedNewObjectIds(checkReferencedIsReachable);
-		ip.setNeedBaseObjectIds(checkReferencedIsReachable);
-		ip.setObjectChecking(isCheckReceivedObjects());
-		ip.index(NullProgressMonitor.INSTANCE);
+		ObjectInserter ins = db.newObjectInserter();
+		try {
+			String lockMsg = "jgit receive-pack";
+			if (getRefLogIdent() != null)
+				lockMsg += " from " + getRefLogIdent().toExternalString();
 
-		String lockMsg = "jgit receive-pack";
-		if (getRefLogIdent() != null)
-			lockMsg += " from " + getRefLogIdent().toExternalString();
-		packLock = ip.renameAndOpenPack(lockMsg);
+			parser = ins.newPackParser(rawIn);
+			parser.setAllowThin(true);
+			parser.setNeedNewObjectIds(checkReferencedIsReachable);
+			parser.setNeedBaseObjectIds(checkReferencedIsReachable);
+			parser.setObjectChecking(isCheckReceivedObjects());
+			parser.setLockMessage(lockMsg);
+			packLock = parser.parse(NullProgressMonitor.INSTANCE);
+			ins.flush();
+		} finally {
+			ins.release();
+		}
 
 		if (timeoutIn != null)
 			timeoutIn.setTimeout(timeout * 1000);
@@ -805,10 +812,10 @@ public class ReceivePack {
 		ObjectIdSubclassMap<ObjectId> providedObjects = null;
 
 		if (checkReferencedIsReachable) {
-			baseObjects = ip.getBaseObjectIds();
-			providedObjects = ip.getNewObjectIds();
+			baseObjects = parser.getBaseObjectIds();
+			providedObjects = parser.getNewObjectIds();
 		}
-		ip = null;
+		parser = null;
 
 		final ObjectWalk ow = new ObjectWalk(db);
 		ow.setRetainBody(false);

@@ -45,12 +45,12 @@
 package org.eclipse.jgit.pgm;
 
 import java.io.BufferedInputStream;
-import java.io.File;
 
-import org.kohsuke.args4j.Argument;
-import org.kohsuke.args4j.Option;
-import org.eclipse.jgit.lib.CoreConfig;
+import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.TextProgressMonitor;
+import org.eclipse.jgit.storage.file.ObjectDirectoryPackParser;
+import org.eclipse.jgit.transport.PackParser;
+import org.kohsuke.args4j.Option;
 
 class IndexPack extends TextBuiltin {
 	@Option(name = "--fix-thin", usage = "usage_fixAThinPackToBeComplete")
@@ -59,20 +59,21 @@ class IndexPack extends TextBuiltin {
 	@Option(name = "--index-version", usage = "usage_indexFileFormatToCreate")
 	private int indexVersion = -1;
 
-	@Argument(index = 0, required = true, metaVar = "metaVar_base")
-	private File base;
-
 	@Override
 	protected void run() throws Exception {
-		if (indexVersion == -1)
-			indexVersion = db.getConfig().get(CoreConfig.KEY)
-					.getPackIndexVersion();
-		final BufferedInputStream in;
-		final org.eclipse.jgit.transport.IndexPack ip;
-		in = new BufferedInputStream(System.in);
-		ip = new org.eclipse.jgit.transport.IndexPack(db, in, base);
-		ip.setFixThin(fixThin);
-		ip.setIndexVersion(indexVersion);
-		ip.index(new TextProgressMonitor());
+		BufferedInputStream in = new BufferedInputStream(System.in);
+		ObjectInserter inserter = db.newObjectInserter();
+		try {
+			PackParser p = inserter.newPackParser(in);
+			p.setAllowThin(fixThin);
+			if (indexVersion != -1 && p instanceof ObjectDirectoryPackParser) {
+				ObjectDirectoryPackParser imp = (ObjectDirectoryPackParser) p;
+				imp.setIndexVersion(indexVersion);
+			}
+			p.parse(new TextProgressMonitor());
+			inserter.flush();
+		} finally {
+			inserter.release();
+		}
 	}
 }
