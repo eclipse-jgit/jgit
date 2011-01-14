@@ -71,7 +71,7 @@ import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectStream;
 import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.storage.pack.DeltaEncoder;
-import org.eclipse.jgit.transport.IndexPack;
+import org.eclipse.jgit.transport.PackParser;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.NB;
 import org.eclipse.jgit.util.TemporaryBuffer;
@@ -212,11 +212,9 @@ public class PackFileTest extends LocalDiskRepositoryTestCase {
 		deflate(pack, delta3);
 
 		digest(pack);
-		final byte[] raw = pack.toByteArray();
-		IndexPack ip = IndexPack.create(repo, new ByteArrayInputStream(raw));
-		ip.setFixThin(true);
-		ip.index(NullProgressMonitor.INSTANCE);
-		ip.renameAndOpenPack();
+		PackParser ip = index(pack.toByteArray());
+		ip.setAllowThin(true);
+		ip.parse(NullProgressMonitor.INSTANCE);
 
 		assertTrue("has blob", wc.has(id3));
 
@@ -273,11 +271,9 @@ public class PackFileTest extends LocalDiskRepositoryTestCase {
 		deflate(pack, delta3);
 
 		digest(pack);
-		final byte[] raw = pack.toByteArray();
-		IndexPack ip = IndexPack.create(repo, new ByteArrayInputStream(raw));
-		ip.setFixThin(true);
-		ip.index(NullProgressMonitor.INSTANCE);
-		ip.renameAndOpenPack();
+		PackParser ip = index(pack.toByteArray());
+		ip.setAllowThin(true);
+		ip.parse(NullProgressMonitor.INSTANCE);
 
 		assertTrue("has blob", wc.has(id3));
 
@@ -363,5 +359,19 @@ public class PackFileTest extends LocalDiskRepositoryTestCase {
 		MessageDigest md = Constants.newMessageDigest();
 		md.update(buf.toByteArray());
 		buf.write(md.digest());
+	}
+
+	private ObjectInserter inserter;
+
+	@After
+	public void release() {
+		if (inserter != null)
+			inserter.release();
+	}
+
+	private PackParser index(byte[] raw) throws IOException {
+		if (inserter == null)
+			inserter = repo.newObjectInserter();
+		return inserter.newPackParser(new ByteArrayInputStream(raw));
 	}
 }

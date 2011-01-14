@@ -856,17 +856,16 @@ class WalkFetchConnection extends BaseFetchConnection {
 		}
 
 		void downloadPack(final ProgressMonitor monitor) throws IOException {
-			final WalkRemoteObjectDatabase.FileStream s;
-			final IndexPack ip;
-
-			s = connection.open("pack/" + packName);
-			ip = IndexPack.create(local, s.in);
-			ip.setFixThin(false);
-			ip.setObjectChecker(objCheck);
-			ip.index(monitor);
-			final PackLock keep = ip.renameAndOpenPack(lockMessage);
-			if (keep != null)
-				packLocks.add(keep);
+			String name = "pack/" + packName;
+			WalkRemoteObjectDatabase.FileStream s = connection.open(name);
+			PackParser parser = inserter.newPackParser(s.in);
+			parser.setAllowThin(false);
+			parser.setObjectChecker(objCheck);
+			parser.setLockMessage(lockMessage);
+			PackLock lock = parser.parse(monitor);
+			if (lock != null)
+				packLocks.add(lock);
+			inserter.flush();
 		}
 	}
 }

@@ -44,7 +44,7 @@
 package org.eclipse.jgit.transport;
 
 /**
- * Simple Map<long,Object> helper for {@link IndexPack}.
+ * Simple Map<long,Object> helper for {@link PackParser}.
  *
  * @param <V>
  *            type of the value instance.
