@@ -1,0 +1,39 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL1X////w\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-11T01:13:14Z",
+      "side": 1,
+      "message": "What does this note mean?  Are you just trying to keep people from using this method rather than our LockFile class?",
+      "revId": "263ab09612bbbf663241e17ec8ed8737696dc0e5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2X///2U\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-30T20:20:34Z",
+      "side": 1,
+      "message": "OK.  Given what this method exists for, I can agree with leaving the note in place since its just echoed from the system Javadoc.\n\nI do love the differences in summary though, the Javadoc starts out saying its atomic, but then later implies it might not actually be atomic since it cannot be made to work reliably.  Cute.  :-)",
+      "parentUuid": "AAAL1X///+c\u003d",
+      "revId": "263ab09612bbbf663241e17ec8ed8737696dc0e5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
