@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL1X///+c\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-12-12T00:20:41Z",
+      "side": 1,
+      "message": "I am just citing the javadoc of java.io.File.createNewFile() since we use that to implement this method. I thought that I shouldn\u0027t hide this note since we don\u0027t change this property of the implementation by wrapping it.",
+      "parentUuid": "AAAL1X////w\u003d",
+      "revId": "263ab09612bbbf663241e17ec8ed8737696dc0e5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL2X///2U\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
         "patchSetId": 1
