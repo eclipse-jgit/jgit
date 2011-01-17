@@ -107,7 +107,7 @@ public class DirCacheCheckout {
 	private ArrayList<String> toBeDeleted = new ArrayList<String>();
 
 	/**
-	 * @return a list of updated pathes and objectIds
+	 * @return a list of updated paths and objectIds
 	 */
 	public Map<String, ObjectId> getUpdated() {
 		return updated;

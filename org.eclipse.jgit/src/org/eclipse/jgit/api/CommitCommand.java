@@ -112,7 +112,7 @@ public class CommitCommand extends GitCommand<RevCommit> {
 	 * @throws NoMessageException
 	 *             when called without specifying a commit message
 	 * @throws UnmergedPathException
-	 *             when the current index contained unmerged pathes (conflicts)
+	 *             when the current index contained unmerged paths (conflicts)
 	 * @throws WrongRepositoryStateException
 	 *             when repository is not in the right state for committing
 	 * @throws JGitInternalException

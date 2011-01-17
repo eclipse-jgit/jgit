@@ -182,7 +182,7 @@ public class MergeCommand extends GitCommand<MergeResult> {
 					noProblems = merger.merge(headCommit, srcCommit);
 					lowLevelResults = resolveMerger
 							.getMergeResults();
-					failingPaths = resolveMerger.getFailingPathes();
+					failingPaths = resolveMerger.getFailingPaths();
 				} else
 					noProblems = merger.merge(headCommit, srcCommit);
 
