@@ -53,6 +53,8 @@ import java.util.Set;
 
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheIterator;
+import org.eclipse.jgit.errors.IncorrectObjectTypeException;
+import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.AbstractTreeIterator;
@@ -78,6 +80,52 @@ import org.eclipse.jgit.treewalk.filter.TreeFilter;
  * </ul>
  */
 public class IndexDiff {
+
+	private final class ProgressReportingFilter extends TreeFilter {
+		private int worked;
+
+		private final ProgressMonitor monitor;
+
+		private int count = 0;
+
+		private boolean cancelled;
+
+		private int stepSize;
+
+		private ProgressReportingFilter(ProgressMonitor monitor, int total) {
+			this.worked = total;
+			this.monitor = monitor;
+			stepSize = total / 100;
+			if (stepSize == 0)
+				stepSize = Integer.MAX_VALUE;
+		}
+
+		@Override
+		public boolean shouldBeRecursive() {
+			return false;
+		}
+
+		@Override
+		public boolean include(TreeWalk walker)
+				throws MissingObjectException,
+				IncorrectObjectTypeException, IOException {
+			count++;
+			if (count % stepSize == 0) {
+				if (worked-- > 0)
+					monitor.update(stepSize);
+				if (monitor.isCancelled())
+					cancelled = true;
+			}
+			return !cancelled;
+		}
+
+		@Override
+		public TreeFilter clone() {
+			throw new IllegalStateException(
+					"Do not clone this kind of filter: "
+							+ getClass().getName());
+		}
+	}
 
 	private final static int TREE = 0;
 
@@ -162,12 +210,34 @@ public class IndexDiff {
 	}
 
 	/**
-	 * Run the diff operation. Until this is called, all lists will be empty
+	 * Run the diff operation. Until this is called, all lists will be empty.
+	 * Use {@link #diff(ProgressMonitor, String)} if a progress monitor is
+	 * required.
 	 *
 	 * @return if anything is different between index, tree, and workdir
 	 * @throws IOException
 	 */
 	public boolean diff() throws IOException {
+		return diff(NullProgressMonitor.INSTANCE, "");
+	}
+
+	/**
+	 * Run the diff operation. Until this is called, all lists will be empty.
+	 * <p>
+	 * The operation may be aborted by the progress monitor. In that event it
+	 * will report what was found before the cancel operation was detected.
+	 * Callers should ignore the result if monitor.isCancelled() is true. If a
+	 * progress monitor is not needed, callers should use {@link #diff()}
+	 * instead.
+	 *
+	 * @param monitor
+	 * @param title
+	 *
+	 * @return if anything is different between index, tree, and workdir
+	 * @throws IOException
+	 */
+	public boolean diff(final ProgressMonitor monitor, final String title)
+			throws IOException {
 		dirCache = repository.readDirCache();
 
 		TreeWalk treeWalk = new TreeWalk(repository);
@@ -182,6 +252,9 @@ public class IndexDiff {
 		Collection<TreeFilter> filters = new ArrayList<TreeFilter>(4);
 		if (filter != null)
 			filters.add(filter);
+		final int total = dirCache.getEntryCount();
+		monitor.beginTask(title, total);
+		filters.add(new ProgressReportingFilter(monitor, total));
 		filters.add(new SkipWorkTreeFilter(INDEX));
 		filters.add(new IndexDiffFilter(INDEX, WORKDIR));
 		treeWalk.setFilter(AndTreeFilter.create(filters));
@@ -233,6 +306,9 @@ public class IndexDiff {
 				}
 			}
 		}
+
+		// consume the remaining work
+		monitor.endTask();
 
 		if (added.isEmpty() && changed.isEmpty() && removed.isEmpty()
 				&& missing.isEmpty() && modified.isEmpty()
