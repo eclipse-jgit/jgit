@@ -63,6 +63,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.dircache.DirCache;
+import org.eclipse.jgit.dircache.UnmodifiableDirCache;
 import org.eclipse.jgit.errors.AmbiguousObjectException;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
@@ -117,6 +118,8 @@ public abstract class Repository {
 	/** If not bare, the index file caching the working file states. */
 	private final File indexFile;
 
+	private volatile UnmodifiableDirCache readOnlyDirCache;
+
 	/**
 	 * Initialize a new repository instance.
 	 *
@@ -133,6 +136,20 @@ public abstract class Repository {
 	/** @return listeners observing only events on this repository. */
 	public ListenerList getListenerList() {
 		return myListeners;
+	}
+
+	/**
+	 * @return an immutable DirCache instance. A new instance is created if the
+	 *         current instance is outdated
+	 * @throws NoWorkTreeException
+	 * @throws CorruptObjectException
+	 * @throws IOException
+	 */
+	public UnmodifiableDirCache getDirCache() throws NoWorkTreeException,
+			CorruptObjectException, IOException {
+		if (readOnlyDirCache == null || readOnlyDirCache.isOutdated())
+			readOnlyDirCache = new UnmodifiableDirCache(getIndexFile(), getFS());
+		return readOnlyDirCache;
 	}
 
 	/**
