@@ -227,7 +227,7 @@ public class ObjectId extends AnyObjectId implements Serializable {
 	 *            the string to read from. Must be 40 characters long.
 	 * @return the converted object id.
 	 */
-	public static final ObjectId fromString(final String str) {
+	public static ObjectId fromString(final String str) {
 		if (str.length() != Constants.OBJECT_ID_STRING_LENGTH)
 			throw new IllegalArgumentException("Invalid id: " + str);
 		return fromHexString(Constants.encodeASCII(str), 0);
