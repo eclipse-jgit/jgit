@@ -231,7 +231,7 @@ public final class PackOutputStream extends OutputStream {
 	}
 
 	/** @return total number of bytes written since stream start. */
-	long length() {
+	public long length() {
 		return count;
 	}
 
