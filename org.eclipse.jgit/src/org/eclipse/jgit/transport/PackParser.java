@@ -130,6 +130,8 @@ public abstract class PackParser {
 
 	private boolean allowThin;
 
+	private boolean checkObjectCollisions;
+
 	private boolean needBaseObjectIds;
 
 	private long objectCount;
@@ -192,6 +194,7 @@ public abstract class PackParser {
 		objectDigest = Constants.newMessageDigest();
 		tempObjectId = new MutableObjectId();
 		packDigest = Constants.newMessageDigest();
+		checkObjectCollisions = true;
 	}
 
 	/** @return true if a thin pack (missing base objects) is permitted. */
@@ -210,6 +213,35 @@ public abstract class PackParser {
 	 */
 	public void setAllowThin(final boolean allow) {
 		allowThin = allow;
+	}
+
+	/** @return if true received objects are verified to prevent collisions. */
+	public boolean isCheckObjectCollisions() {
+		return checkObjectCollisions;
+	}
+
+	/**
+	 * Enable checking for collisions with existing objects.
+	 * <p>
+	 * By default PackParser looks for each received object in the repository.
+	 * If the object already exists, the existing object is compared
+	 * byte-for-byte with the newly received copy to ensure they are identical.
+	 * The receive is aborted with an exception if any byte differs. This check
+	 * is necessary to prevent an evil attacker from supplying a replacement
+	 * object into this repository in the event that a discovery enabling SHA-1
+	 * collisions is made.
+	 * <p>
+	 * This check may be very costly to perform, and some repositories may have
+	 * other ways to segregate newly received object data. The check is enabled
+	 * by default, but can be explicitly disabled if the implementation can
+	 * provide the same guarantee, or is willing to accept the risks associated
+	 * with bypassing the check.
+	 *
+	 * @param check
+	 *            true to enable collision checking (strongly encouraged).
+	 */
+	public void setCheckObjectCollisions(boolean check) {
+		checkObjectCollisions = check;
 	}
 
 	/**
@@ -830,7 +862,8 @@ public abstract class PackParser {
 			}
 			inf.close();
 			tempObjectId.fromRaw(objectDigest.digest(), 0);
-			checkContentLater = readCurs.has(tempObjectId);
+			checkContentLater = isCheckObjectCollisions()
+					&& readCurs.has(tempObjectId);
 
 		} else {
 			final byte[] data = inflateAndReturn(Source.INPUT, sz);
@@ -859,17 +892,19 @@ public abstract class PackParser {
 			}
 		}
 
-		try {
-			final ObjectLoader ldr = readCurs.open(id, type);
-			final byte[] existingData = ldr.getCachedBytes(data.length);
-			if (!Arrays.equals(data, existingData)) {
-				throw new IOException(MessageFormat.format(
-						JGitText.get().collisionOn, id.name()));
+		if (isCheckObjectCollisions()) {
+			try {
+				final ObjectLoader ldr = readCurs.open(id, type);
+				final byte[] existingData = ldr.getCachedBytes(data.length);
+				if (!Arrays.equals(data, existingData)) {
+					throw new IOException(MessageFormat.format(
+							JGitText.get().collisionOn, id.name()));
+				}
+			} catch (MissingObjectException notLocal) {
+				// This is OK, we don't have a copy of the object locally
+				// but the API throws when we try to read it as usually its
+				// an error to read something that doesn't exist.
 			}
-		} catch (MissingObjectException notLocal) {
-			// This is OK, we don't have a copy of the object locally
-			// but the API throws when we try to read it as usually its
-			// an error to read something that doesn't exist.
 		}
 	}
 
