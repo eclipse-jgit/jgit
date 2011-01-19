@@ -741,6 +741,8 @@ public abstract class PackParser {
 					JGitText.get().unsupportedPackVersion, vers));
 		objectCount = NB.decodeUInt32(buf, p + 8);
 		use(hdrln);
+
+		onPackHeader(objectCount);
 	}
 
 	private void readPackFooter() throws IOException {
@@ -1115,6 +1117,16 @@ public abstract class PackParser {
 	 */
 	protected abstract void onObjectData(Source src, byte[] raw, int pos,
 			int len) throws IOException;
+
+	/**
+	 * Provide the implementation with the original stream's pack header.
+	 *
+	 * @param objCnt
+	 *            number of objects expected in the stream.
+	 * @throws IOException
+	 *             the implementation refuses to work with this many objects.
+	 */
+	protected abstract void onPackHeader(long objCnt) throws IOException;
 
 	/**
 	 * Provide the implementation with the original stream's pack footer.

@@ -201,6 +201,11 @@ public class ObjectDirectoryPackParser extends PackParser {
 	}
 
 	@Override
+	protected void onPackHeader(long objectCount) throws IOException {
+		// Ignored, the count is not required.
+	}
+
+	@Override
 	protected void onBeginWholeObject(long streamPosition, int type,
 			long inflatedSize) throws IOException {
 		crc.reset();
