@@ -132,8 +132,8 @@ public class SubtreeSplitter {
 	 * If used for the toRewrite on splitSubtrees, all mainline commits will be
 	 * rewritten.
 	 */
-	public static final Set<RevCommit> REWRITE_ALL = Collections
-			.unmodifiableSet(new HashSet<RevCommit>());
+	public static final Set<ObjectId> REWRITE_ALL = Collections
+			.unmodifiableSet(new HashSet<ObjectId>());
 
 	private Repository db;
 
@@ -166,9 +166,9 @@ public class SubtreeSplitter {
 	 *            A list of commits that may be rewritten.
 	 * @throws IOException
 	 */
-	public void splitSubtrees(RevCommit start,
-			List<PathBasedContext> pathContexts,
-			Set<RevCommit> toRewrite) throws IOException {
+	public void splitSubtrees(ObjectId start,
+			List<PathBasedContext> pathContexts, Set<ObjectId> toRewrite)
+			throws IOException {
 
 		Config conf = loadSubtreeConfig(db, start);
 		subtreeContexts = new ArrayList<SubtreeContext>();
@@ -211,13 +211,13 @@ public class SubtreeSplitter {
 	}
 
 	ArrayList<RevCommit> splitSubtrees(ObjectInserter inserter,
-			RevCommit startCommit, SubtreeRevFilter filter)
+			ObjectId startCommit, SubtreeRevFilter filter)
 			throws MissingObjectException, IncorrectObjectTypeException,
 			IOException {
 
 		// Set up the walker
 		revWalk.reset();
-		revWalk.markStart(startCommit);
+		revWalk.markStart(revWalk.parseCommit(startCommit));
 		filter.setSplitters(subtreeContexts);
 		revWalk.setRevFilter(filter);
 		revWalk.sort(RevSort.TOPO);
@@ -319,7 +319,7 @@ public class SubtreeSplitter {
 	}
 
 	Map<ObjectId, RevCommit> rewriteMainlineCommits(ObjectInserter inserter,
-			List<RevCommit> mainlineList, Set<RevCommit> toRewrite,
+			List<RevCommit> mainlineList, Set<ObjectId> toRewrite,
 			SubtreeRevFilter filter) throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
 
