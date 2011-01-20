@@ -62,6 +62,10 @@
     JUnit tests for the core library.
   </description>
 
+  <properties>
+    <jni_dir>${basedir}/../libjgit_native/target</jni_dir>
+  </properties>
+
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
@@ -107,6 +111,25 @@
     </dependency>
   </dependencies>
 
+  <profiles>
+    <profile>
+      <id>jgit.native</id>
+      <activation>
+        <property>
+          <name>!jgit.native.skip</name>
+        </property>
+      </activation>
+      <dependencies>
+        <dependency>
+          <groupId>org.eclipse.jgit</groupId>
+          <artifactId>libjgit_native</artifactId>
+          <version>${project.version}</version>
+          <type>${jni_package}</type>
+        </dependency>
+      </dependencies>
+    </profile>
+  </profiles>
+
   <build>
     <testSourceDirectory>tst/</testSourceDirectory>
 
@@ -120,7 +143,7 @@
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
-          <argLine>-Xmx256m -Dfile.encoding=UTF-8</argLine>
+          <argLine>-Xmx256m -Dfile.encoding=UTF-8 -Djava.library.path=${java.library.path}${path.separator}${jni_dir}</argLine>
         </configuration>
       </plugin>
     </plugins>
