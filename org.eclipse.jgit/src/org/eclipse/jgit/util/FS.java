@@ -53,6 +53,14 @@ import java.security.PrivilegedAction;
 import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import org.eclipse.jgit.util.fs.AccessDeniedException;
+import org.eclipse.jgit.util.fs.FileAccess;
+import org.eclipse.jgit.util.fs.FileAccessJava;
+import org.eclipse.jgit.util.fs.FileAccessNative;
+import org.eclipse.jgit.util.fs.FileInfo;
+import org.eclipse.jgit.util.fs.NoSuchFileException;
+import org.eclipse.jgit.util.fs.NotDirectoryException;
+
 /** Abstraction to support various file system operations not in Java. */
 public abstract class FS {
 	/** The auto-detected implementation selected for this operating system and JRE. */
@@ -106,11 +114,16 @@ public abstract class FS {
 
 	private volatile Holder<File> gitPrefix;
 
+	private final FileAccess access;
+
 	/**
 	 * Constructs a file system abstraction.
 	 */
 	protected FS() {
-		// Do nothing by default.
+		if (NativeLibrary.isLoaded())
+			access = new FileAccessNative();
+		else
+			access = new FileAccessJava(this);
 	}
 
 	/**
@@ -120,6 +133,7 @@ public abstract class FS {
 	 *            the source FS to copy from.
 	 */
 	protected FS(FS src) {
+		this();
 		userHome = src.userHome;
 		gitPrefix = src.gitPrefix;
 	}
@@ -168,6 +182,25 @@ public abstract class FS {
 	 * @return true if the change succeeded; false otherwise.
 	 */
 	public abstract boolean setExecute(File f, boolean canExec);
+
+	/**
+	 * Obtain information about the named file.
+	 *
+	 * @param file
+	 *            the file information shall be retrieved for.
+	 * @return information about the named file.
+	 * @throws NoSuchFileException
+	 *             A component of path does not name an existing file or path is
+	 *             an empty string.
+	 * @throws AccessDeniedException
+	 *             A component of the path prefix denies search permission.
+	 * @throws NotDirectoryException
+	 *             A component of the path prefix is not a directory.
+	 */
+	public FileInfo stat(File file) throws AccessDeniedException,
+			NoSuchFileException, NotDirectoryException {
+		return access.lstat(file);
+	}
 
 	/**
 	 * Resolve this file to its actual path name that the JRE can use.
