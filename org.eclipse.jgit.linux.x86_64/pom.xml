@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-   Copyright (C) 2009, Google Inc.
-   Copyright (C) 2008, Imran M Yousuf <imyousuf@smartitengineering.com>
-   Copyright (C) 2008, Jonas Fonseca <fonseca@diku.dk>
+   Copyright (C) 2013, Matthias Sohn <matthias.sohn@sap.com>
    and other copyright owners as documented in the project's IP log.
 
    This program and the accompanying materials are made available
@@ -55,97 +53,53 @@
     <version>2.4.0-SNAPSHOT</version>
   </parent>
 
-  <artifactId>org.eclipse.jgit.test</artifactId>
-  <name>JGit - Core Tests</name>
+  <artifactId>org.eclipse.jgit.linux.x86_64</artifactId>
+  <name>JGit - optional native fragment for Linux x86_64</name>
 
   <description>
-    JUnit tests for the core library.
+    Optional native functions for Linux x86_64
   </description>
 
   <properties>
-    <jni_dir>${basedir}/../libjgit_native/target</jni_dir>
+    <translate-qualifier/>
   </properties>
 
-  <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <scope>test</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.hamcrest</groupId>
-      <artifactId>hamcrest-library</artifactId>
-      <scope>test</scope>
-      <version>[1.1.0,2.0.0)</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.eclipse.jgit</groupId>
-      <artifactId>org.eclipse.jgit</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.eclipse.jgit</groupId>
-      <artifactId>org.eclipse.jgit.junit</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.eclipse.jgit</groupId>
-      <artifactId>org.eclipse.jgit.ui</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.eclipse.jgit</groupId>
-      <artifactId>org.eclipse.jgit.console</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.eclipse.jgit</groupId>
-      <artifactId>org.eclipse.jgit.pgm</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-  </dependencies>
-
-  <profiles>
-    <profile>
-      <id>jgit.native</id>
-      <activation>
-        <property>
-          <name>!jgit.native.skip</name>
-        </property>
-      </activation>
-      <dependencies>
-        <dependency>
-          <groupId>org.eclipse.jgit</groupId>
-          <artifactId>libjgit_native</artifactId>
-          <version>${project.version}</version>
-          <type>${jni_package}</type>
-        </dependency>
-      </dependencies>
-    </profile>
-  </profiles>
-
   <build>
-    <testSourceDirectory>tst/</testSourceDirectory>
+    <sourceDirectory>src/</sourceDirectory>
 
-    <testResources>
-      <testResource>
-        <directory>tst-rsrc/</directory>
-      </testResource>
-    </testResources>
+    <resources>
+      <resource>
+        <directory>.</directory>
+        <includes>
+          <include>plugin.properties</include>
+          <include>about.html</include>
+          <include>libjgit_native.so</include>
+        </includes>
+      </resource>
+      <resource>
+        <directory>resources/</directory>
+      </resource>
+    </resources>
 
     <plugins>
       <plugin>
-        <artifactId>maven-surefire-plugin</artifactId>
+        <artifactId>maven-jar-plugin</artifactId>
         <configuration>
-          <argLine>-Xmx256m -Dfile.encoding=UTF-8 -Djava.library.path=${java.library.path}${path.separator}${jni_dir}</argLine>
+          <archive>
+            <manifestFile>${bundle-manifest}</manifestFile>
+          </archive>
         </configuration>
       </plugin>
+
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.6</source>
+          <target>1.6</target>
+          <encoding>UTF-8</encoding>
+        </configuration>
+      </plugin>
+
     </plugins>
   </build>
 </project>
