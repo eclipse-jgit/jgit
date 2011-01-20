@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %plugin_name
+Fragment-Host: org.eclipse.jgit;bundle-version="[2.4.0,2.5.0)"
+Bundle-SymbolicName: org.eclipse.jgit.mac.x86_64;singleton:=true
+Bundle-NativeCode: libjgit_native.jnilib;osname=macosx;processor=x86_64
+Bundle-Vendor: %provider_name
+Bundle-Version: 2.4.0.qualifier
