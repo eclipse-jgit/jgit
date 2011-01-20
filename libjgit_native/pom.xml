@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   Copyright (C) 2010, Google Inc.
+   and other copyright owners as documented in the project's IP log.
+
+   This program and the accompanying materials are made available
+   under the terms of the Eclipse Distribution License v1.0 which
+   accompanies this distribution, is reproduced below, and is
+   available at http://www.eclipse.org/org/documents/edl-v10.php
+
+   All rights reserved.
+
+   Redistribution and use in source and binary forms, with or
+   without modification, are permitted provided that the following
+   conditions are met:
+
+   - Redistributions of source code must retain the above copyright
+     notice, this list of conditions and the following disclaimer.
+
+   - Redistributions in binary form must reproduce the above
+     copyright notice, this list of conditions and the following
+     disclaimer in the documentation and/or other materials provided
+     with the distribution.
+
+   - Neither the name of the Eclipse Foundation, Inc. nor the
+     names of its contributors may be used to endorse or promote
+     products derived from this software without specific prior
+     written permission.
+
+   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND
+   CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
+   INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+   OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+   ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+   CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+   SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+   NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+   LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+   CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+   STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+   ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.eclipse.jgit</groupId>
+    <artifactId>org.eclipse.jgit-parent</artifactId>
+    <version>2.4.0-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>libjgit_native</artifactId>
+  <name>JGit - Native</name>
+  <packaging>${jni_package}</packaging>
+
+  <description>
+    Native support library
+  </description>
+
+  <properties>
+    <os_name>${os.name}</os_name>
+    <os_arch>${os.arch}</os_arch>
+
+    <macos_ver>10.5</macos_ver>
+    <macos_sdk>MacOSX${macos_ver}.sdk</macos_sdk>
+    <macos_jni>/Developer/SDKs/${macos_sdk}/System/Library/Frameworks/JavaVM.framework/Headers</macos_jni>
+
+    <jni_inc>${java.home}/../include</jni_inc>
+    <jni_os>${os_name}</jni_os>
+
+    <cc_fPIC>-fPIC</cc_fPIC>
+    <cc_abi />
+    <cc_NO_NSEC />
+    <cc_USE_ST_TIMESPEC />
+
+    <ld_shared>-shared</ld_shared>
+  </properties>
+
+  <profiles>
+  <!-- Mac OS X -->
+    <profile>
+      <id>macosx</id>
+      <activation>
+        <os>
+          <family>mac</family>
+        </os>
+      </activation>
+      <properties>
+        <os_name>macosx</os_name>
+        <jni_inc>${macos_jni}</jni_inc>
+
+        <cc_USE_ST_TIMESPEC>-DUSE_ST_TIMESPEC</cc_USE_ST_TIMESPEC>
+      </properties>
+    </profile>
+
+    <profile>
+      <id>macosx_i386</id>
+      <activation>
+        <os>
+          <family>mac</family>
+          <arch>i386</arch>
+        </os>
+      </activation>
+      <properties>
+        <cc_abi>-m32</cc_abi>
+        <os_arch>x86</os_arch>
+      </properties>
+    </profile>
+
+    <profile>
+      <id>macosx_x86_64</id>
+      <activation>
+        <os>
+          <family>mac</family>
+          <arch>x86_64</arch>
+        </os>
+      </activation>
+      <properties>
+        <cc_abi>-m64</cc_abi>
+      </properties>
+    </profile>
+
+  <!-- Linux -->
+    <profile>
+      <id>linux</id>
+      <activation>
+        <os>
+          <family>unix</family>
+          <name>linux</name>
+        </os>
+      </activation>
+      <properties>
+        <os_name>linux</os_name>
+      </properties>
+    </profile>
+
+    <profile>
+      <id>linux_i386</id>
+      <activation>
+        <os>
+          <name>linux</name>
+          <arch>i386</arch>
+        </os>
+      </activation>
+      <properties>
+        <cc_abi>-m32</cc_abi>
+        <os_arch>x86</os_arch>
+      </properties>
+    </profile>
+
+    <profile>
+      <id>linux_amd64</id>
+      <activation>
+        <os>
+          <name>linux</name>
+          <arch>amd64</arch>
+        </os>
+      </activation>
+      <properties>
+        <cc_abi>-m64</cc_abi>
+        <os_arch>x86_64</os_arch>
+      </properties>
+    </profile>
+
+  <!-- Microsoft Windows -->
+    <profile>
+      <id>win32</id>
+      <activation>
+        <os>
+          <family>windows</family>
+        </os>
+      </activation>
+      <properties>
+        <os_name>win32</os_name>
+        <ld_shared>/INCREMENTAL:NO /DLL user32.lib kernel32.lib</ld_shared>
+      </properties>
+    </profile>
+  </profiles>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.eclipse.jgit</groupId>
+      <artifactId>org.eclipse.jgit</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>native-maven-plugin</artifactId>
+        <extensions>true</extensions>
+        <configuration>
+          <javahOS>${jni_os}</javahOS>
+
+          <javahClassNames>
+            <javahClassNames>org.eclipse.jgit.util.fs.FileAccessNative</javahClassNames>
+          </javahClassNames>
+
+          <jdkIncludePath>${jni_inc}</jdkIncludePath>
+
+          <sources>
+            <source>
+              <directory>src</directory>
+              <includes>
+                <include>*.c</include>
+              </includes>
+            </source>
+          </sources>
+
+          <compilerStartOptions>
+            <compilerStartOption>${cc_fPIC} ${cc_abi}</compilerStartOption>
+            <compilerStartOption>${cc_USE_ST_TIMESPEC}</compilerStartOption>
+          </compilerStartOptions>
+
+          <linkerStartOptions>
+            <linkerStartOption>${ld_shared} ${cc_abi}</linkerStartOption>
+          </linkerStartOptions>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>copy_jnilib</id>
+            <phase>compile</phase>
+            <configuration>
+              <tasks>
+                <copy
+                  file="${basedir}/target/libjgit_native.${jni_package}"
+                  todir="${basedir}/../org.eclipse.jgit.${os_name}.${os_arch}"
+                  overwrite="true" />
+              </tasks>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>
