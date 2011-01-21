@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL2X///h8\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-01-10T15:46:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL2X///jY\u003d",
+      "revId": "426fdf54cd2d91d05b693cee3f23062613454f9d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL2X///jM\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL2X///h4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 544,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-01-10T15:46:09Z",
+      "side": 1,
+      "message": "right, calling it DIFFER_BY_METADATA sounds more consistent. I\u0027ll do that",
+      "parentUuid": "AAAL2X///jM\u003d",
+      "revId": "426fdf54cd2d91d05b693cee3f23062613454f9d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL2X///jQ\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2011-01-10T01:25:32Z",
       "side": 1,
       "message": "This should be an IllegalStateException or some other sort of RuntimeException.  If there is a new value added to the enum, we should fail rather than returning true.",
+      "revId": "426fdf54cd2d91d05b693cee3f23062613454f9d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2X///g0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 646,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-01-10T15:46:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL2X///jQ\u003d",
       "revId": "426fdf54cd2d91d05b693cee3f23062613454f9d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
