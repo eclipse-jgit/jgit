@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL2n///yA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/IndexDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-01-17T21:33:12Z",
+      "side": 1,
+      "message": "Isn\u0027t this condition always true?  You set worked \u003d total above, but then subtract from it only 100 times.  If we have 1000 files in the DirCache, at the \"end\" of the iteration worked is still 900.",
+      "revId": "c0c0c660f1d316c69329ec0f3736819517a62a8c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2n///x8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/IndexDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-01-17T21:33:12Z",
+      "side": 1,
+      "message": "If this.filter is a PathFilter (which is usually what type it is when its non-null) we won\u0027t iterate the entire repository.  Instead we\u0027ll skip over large chunks of it based on what the PathFilter says is relevant.  Is it OK in those cases for the progress monitor to be inaccurate?\n\nIts ugly, but we might be able to do better by peeking at the DirCacheIterator\u0027s state.  It has an index that tells us how far into the DirCache we currently are... which is exactly what the progress should be.  When this.filter is a PathFilter and we skip over an entire subdirectory that isn\u0027t relevant, DirCacheIterator\u0027s state reflects the number of paths that were skipped over and thus would give us a more accurate progress update.  But doing so requires poking DirCacheIterator\u0027s API, and I\u0027m not sure we want to expose internal state like that.",
+      "revId": "c0c0c660f1d316c69329ec0f3736819517a62a8c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2n///x4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/IndexDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-01-17T21:33:12Z",
+      "side": 1,
+      "message": "Is this an issue for EGit when the TreeWalk stops without visting every node?  I seem to remember some problem with the Eclipse ProgressMonitor stuff where ending the current task without working 100% of the units within that task confused it.  Am I mistaken, or have we worked around that in the EGit wrapper that adapts Eclipse ProgressMonitor to JGit ProgressMonitor?",
+      "revId": "c0c0c660f1d316c69329ec0f3736819517a62a8c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
