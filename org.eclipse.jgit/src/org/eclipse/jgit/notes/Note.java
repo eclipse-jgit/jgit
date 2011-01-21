@@ -58,7 +58,7 @@ public class Note extends ObjectId {
 	 * @param noteData
 	 *            the actual note data contained in this note
 	 */
-	Note(AnyObjectId noteOn, ObjectId noteData) {
+	public Note(AnyObjectId noteOn, ObjectId noteData) {
 		super(noteOn);
 		data = noteData;
 	}

@@ -110,9 +110,10 @@ class FanoutBucket extends InMemoryNoteBucket {
 	}
 
 	@Override
-	ObjectId get(AnyObjectId objId, ObjectReader or) throws IOException {
+	Note getNote(AnyObjectId objId, ObjectReader or) throws IOException {
 		NoteBucket b = table[cell(objId)];
-		return b != null ? b.get(objId, or) : null;
+		return b != null ? b.getNote(objId, or) : null;
+
 	}
 
 	NoteBucket getBucket(int cell) {
@@ -337,8 +338,8 @@ class FanoutBucket extends InMemoryNoteBucket {
 		}
 
 		@Override
-		ObjectId get(AnyObjectId objId, ObjectReader or) throws IOException {
-			return load(objId, or).get(objId, or);
+		Note getNote(AnyObjectId objId, ObjectReader or) throws IOException {
+			return load(objId, or).getNote(objId, or);
 		}
 
 		@Override
