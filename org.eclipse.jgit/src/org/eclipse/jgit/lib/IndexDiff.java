@@ -53,6 +53,9 @@ import java.util.Set;
 
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheIterator;
+import org.eclipse.jgit.errors.IncorrectObjectTypeException;
+import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.errors.StopWalkException;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.AbstractTreeIterator;
@@ -78,6 +81,51 @@ import org.eclipse.jgit.treewalk.filter.TreeFilter;
  * </ul>
  */
 public class IndexDiff {
+
+	private final class ProgressReportingFilter extends TreeFilter {
+
+		private final ProgressMonitor monitor;
+
+		private int count = 0;
+
+		private int stepSize;
+
+		private final int total;
+
+		private ProgressReportingFilter(ProgressMonitor monitor, int total) {
+			this.monitor = monitor;
+			this.total = total;
+			stepSize = total / 100;
+			if (stepSize == 0)
+				stepSize = 1000;
+		}
+
+		@Override
+		public boolean shouldBeRecursive() {
+			return false;
+		}
+
+		@Override
+		public boolean include(TreeWalk walker)
+				throws MissingObjectException,
+				IncorrectObjectTypeException, IOException {
+			count++;
+			if (count % stepSize == 0) {
+				if (count <= total)
+					monitor.update(stepSize);
+				if (monitor.isCancelled())
+					throw StopWalkException.INSTANCE;
+			}
+			return true;
+		}
+
+		@Override
+		public TreeFilter clone() {
+			throw new IllegalStateException(
+					"Do not clone this kind of filter: "
+							+ getClass().getName());
+		}
+	}
 
 	private final static int TREE = 0;
 
@@ -162,12 +210,41 @@ public class IndexDiff {
 	}
 
 	/**
-	 * Run the diff operation. Until this is called, all lists will be empty
+	 * Run the diff operation. Until this is called, all lists will be empty.
+	 * Use {@link #diff(ProgressMonitor, int, int, String)} if a progress
+	 * monitor is required.
 	 *
 	 * @return if anything is different between index, tree, and workdir
 	 * @throws IOException
 	 */
 	public boolean diff() throws IOException {
+		return diff(null, 0, 0, "");
+	}
+
+	/**
+	 * Run the diff operation. Until this is called, all lists will be empty.
+	 * <p>
+	 * The operation may be aborted by the progress monitor. In that event it
+	 * will report what was found before the cancel operation was detected.
+	 * Callers should ignore the result if monitor.isCancelled() is true. If a
+	 * progress monitor is not needed, callers should use {@link #diff()}
+	 * instead. Progress reporting is crude and approximate and only intended
+	 * for informing the user.
+	 * 
+	 * @param monitor
+	 *            for reporting progress, may be null
+	 * @param estWorkTreeSize
+	 *            number or estimated files in the working tree
+	 * @param estIndexSize
+	 *            number of estimated entries in the cache
+	 * @param title
+	 * 
+	 * @return if anything is different between index, tree, and workdir
+	 * @throws IOException
+	 */
+	public boolean diff(final ProgressMonitor monitor, int estWorkTreeSize,
+			int estIndexSize, final String title)
+			throws IOException {
 		dirCache = repository.readDirCache();
 
 		TreeWalk treeWalk = new TreeWalk(repository);
@@ -180,6 +257,18 @@ public class IndexDiff {
 		treeWalk.addTree(new DirCacheIterator(dirCache));
 		treeWalk.addTree(initialWorkingTreeIterator);
 		Collection<TreeFilter> filters = new ArrayList<TreeFilter>(4);
+
+		if (monitor != null) {
+			// Get the maximum size of the work tree and index
+			// and add some (quite arbitrary)
+			if (estIndexSize == 0)
+				estIndexSize = dirCache.getEntryCount();
+			int total = Math.max(estIndexSize * 10 / 9,
+					estWorkTreeSize * 10 / 9);
+			monitor.beginTask(title, total);
+			filters.add(new ProgressReportingFilter(monitor, total));
+		}
+
 		if (filter != null)
 			filters.add(filter);
 		filters.add(new SkipWorkTreeFilter(INDEX));
@@ -233,6 +322,10 @@ public class IndexDiff {
 				}
 			}
 		}
+
+		// consume the remaining work
+		if (monitor != null)
+			monitor.endTask();
 
 		if (added.isEmpty() && changed.isEmpty() && removed.isEmpty()
 				&& missing.isEmpty() && modified.isEmpty()
