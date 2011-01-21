@@ -210,6 +210,19 @@ public class NoteMap implements Iterable<Note> {
 	}
 
 	/**
+	 * Lookup a note for a specific ObjectId.
+	 *
+	 * @param id
+	 *            the object to look for.
+	 * @return the note for the given object id, or null if no note exists.
+	 * @throws IOException
+	 *             a portion of the note space is not accessible.
+	 */
+	public Note getNote(AnyObjectId id) throws IOException {
+		return root.getNote(id, reader);
+	}
+
+	/**
 	 * Determine if a note exists for the specified ObjectId.
 	 *
 	 * @param id

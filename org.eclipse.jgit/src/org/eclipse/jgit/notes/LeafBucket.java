@@ -107,6 +107,12 @@ class LeafBucket extends InMemoryNoteBucket {
 		return 0 <= idx ? notes[idx].getData() : null;
 	}
 
+	@Override
+	Note getNote(AnyObjectId objId, ObjectReader or) throws IOException {
+		int idx = search(objId);
+		return 0 <= idx ? notes[idx] : null;
+	}
+
 	Note get(int index) {
 		return notes[index];
 	}

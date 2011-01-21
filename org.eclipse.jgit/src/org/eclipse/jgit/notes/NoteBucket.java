@@ -61,6 +61,9 @@ abstract class NoteBucket {
 	abstract ObjectId get(AnyObjectId objId, ObjectReader reader)
 			throws IOException;
 
+	abstract Note getNote(AnyObjectId objId, ObjectReader reader)
+			throws IOException;
+
 	abstract Iterator<Note> iterator(AnyObjectId objId, ObjectReader reader)
 			throws IOException;
 
