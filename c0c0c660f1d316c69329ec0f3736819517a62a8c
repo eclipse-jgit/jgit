@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL2n///vc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/IndexDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-01-18T07:50:26Z",
+      "side": 1,
+      "message": "I guess I could investigate more. Will include be called for every entry,\ni.e. also the different stages. We can assume this filter is the first\none?\n\nThis is a leftover from my first cut, where I decided to ignore the presense of unmerged entries. The worked counter is a way of cutting\nof progress once we reach \"100 per cent\".",
+      "parentUuid": "AAAL2n///yA\u003d",
+      "revId": "c0c0c660f1d316c69329ec0f3736819517a62a8c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL2n///x8\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/IndexDiff.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2011-01-17T21:33:12Z",
       "side": 1,
       "message": "If this.filter is a PathFilter (which is usually what type it is when its non-null) we won\u0027t iterate the entire repository.  Instead we\u0027ll skip over large chunks of it based on what the PathFilter says is relevant.  Is it OK in those cases for the progress monitor to be inaccurate?\n\nIts ugly, but we might be able to do better by peeking at the DirCacheIterator\u0027s state.  It has an index that tells us how far into the DirCache we currently are... which is exactly what the progress should be.  When this.filter is a PathFilter and we skip over an entire subdirectory that isn\u0027t relevant, DirCacheIterator\u0027s state reflects the number of paths that were skipped over and thus would give us a more accurate progress update.  But doing so requires poking DirCacheIterator\u0027s API, and I\u0027m not sure we want to expose internal state like that.",
+      "revId": "c0c0c660f1d316c69329ec0f3736819517a62a8c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2n///vY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/IndexDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-01-18T07:50:26Z",
+      "side": 1,
+      "message": "I was looking at that index, but wasn\u0027t convinced it was meant for public consumption. \n\nCan\u0027t I just move the progress filter to be first filter in order to fix the first problem. I don\u0027t think we have to 100% accurate, the main idea is to let the user feel good.",
+      "parentUuid": "AAAL2n///x8\u003d",
       "revId": "c0c0c660f1d316c69329ec0f3736819517a62a8c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
