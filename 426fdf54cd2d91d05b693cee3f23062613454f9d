@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL2X///jY\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-01-10T01:25:32Z",
+      "side": 1,
+      "message": "Style-nit: Please capitalize the beginning of the short summary.",
+      "revId": "426fdf54cd2d91d05b693cee3f23062613454f9d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2X///jM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 544,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-01-10T01:25:32Z",
+      "side": 1,
+      "message": "If I read the code below right, this NOT_EQUAL never occurs due to modification timestamp, so we probably shouldn\u0027t mention it here.\n\nI wonder if we should call this DIFFER_BY_METADATA, to match DIFFER_BY_TIMESTAMP below.",
+      "revId": "426fdf54cd2d91d05b693cee3f23062613454f9d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2X///jQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 646,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-01-10T01:25:32Z",
+      "side": 1,
+      "message": "This should be an IllegalStateException or some other sort of RuntimeException.  If there is a new value added to the enum, we should fail rather than returning true.",
+      "revId": "426fdf54cd2d91d05b693cee3f23062613454f9d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
