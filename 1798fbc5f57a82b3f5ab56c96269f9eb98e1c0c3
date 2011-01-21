@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAL2n///lM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 648,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-01-20T20:29:37Z",
+      "side": 1,
+      "message": "Isn\u0027t translating internal programmer errors a bit extreme?",
+      "revId": "1798fbc5f57a82b3f5ab56c96269f9eb98e1c0c3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL2n///k0\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
         "patchSetId": 2
