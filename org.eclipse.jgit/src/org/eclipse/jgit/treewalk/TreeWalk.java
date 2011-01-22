@@ -189,6 +189,122 @@ public class TreeWalk {
 		return forPath(db, path, new ObjectId[] { tree });
 	}
 
+	/**
+	 * Find the ObjectId of a given subpath
+	 *
+	 * @param tree
+	 *            the tree to search.
+	 * @param path
+	 *            the path to search for.
+	 * @param or
+	 *            the reader the walker will obtain tree data from.
+	 * @return If the path exists in the tree, the {@link ObjectId}.
+	 *         <code>null</code> otherwise.
+	 * @throws MissingObjectException
+	 * @throws CorruptObjectException
+	 * @throws IOException
+	 */
+	public static ObjectId findObject(AnyObjectId tree, String path,
+			ObjectReader or)
+			throws MissingObjectException, CorruptObjectException, IOException {
+		TreeWalk tw = new TreeWalk(or);
+		tw.addTree(tree);
+
+		PathTokenizer tokenizer = tw.new PathTokenizer(
+				path.getBytes(Constants.CHARSET));
+
+		if (!tokenizer.findNextToken()) {
+			return null;
+		}
+
+		while (true) {
+
+			// Is there another tree walk entry?
+			if (!tw.next()) {
+				return null;
+			}
+
+			if (tokenizer.compareCurrentToken()) {
+
+				if (!tokenizer.findNextToken()) {
+					return tw.getObjectId(0);
+				} else {
+					try {
+						tw.enterSubtree();
+					} catch (IncorrectObjectTypeException e) {
+						// Wasn't a dir
+						return null;
+					}
+				}
+			}
+
+		}
+
+	}
+
+	private class PathTokenizer {
+
+		private byte[] bytes;
+
+		int pos;
+
+		int end;
+
+		boolean hasCurrent;
+
+		private PathTokenizer(byte[] byteArray) {
+			this.bytes = byteArray;
+		}
+
+		private boolean findNextToken() {
+
+			int totalLen = bytes.length;
+
+			for (pos = end; pos < totalLen && bytes[pos] == '/'; pos++) {
+				// find the start of the next token, starting at the end of the
+				// previous token.
+			}
+
+			// return null if the end of the string has been reached.
+			if (pos == totalLen) {
+				return hasCurrent = false;
+			}
+
+			for (end = pos + 1; end < totalLen && bytes[end] != '/'; end++) {
+				// find the end of the current token.
+			}
+
+			return hasCurrent = true;
+		}
+
+		private boolean compareCurrentToken() {
+
+			byte[] arr2 = currentHead.path;
+			int off2 = currentHead.pathOffset;
+			int end2 = currentHead.pathLen;
+
+			if (!hasCurrent) {
+				throw new IllegalStateException("No current token");
+			}
+
+			// are they the same length?
+			if (end - pos != end2 - off2) {
+				return false;
+			}
+
+			// compare the contents
+			int len = end - pos;
+			for (int curPos = 0; curPos < len; curPos++) {
+				if (bytes[pos + curPos] != arr2[off2 + curPos]) {
+					return false;
+				}
+			}
+
+			return true;
+		}
+
+	}
+
 	private final ObjectReader reader;
 
 	private final MutableObjectId idBuffer = new MutableObjectId();
