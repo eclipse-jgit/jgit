@@ -116,4 +116,14 @@ public class PathFilter extends TreeFilter {
 	public String toString() {
 		return "PATH(\"" + pathStr + "\")";
 	}
+
+	/**
+	 * @param walker
+	 *            The walk to check against.
+	 * @return <code>true</code> if the path length of this filter matches the
+	 *         path length of the tree, <code>false</code> otherwise.
+	 */
+	public boolean isDone(final TreeWalk walker) {
+		return pathRaw.length == walker.getRawPath().length;
+	}
 }
