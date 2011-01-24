@@ -66,6 +66,9 @@ import java.net.MalformedURLException;
 import java.net.Proxy;
 import java.net.ProxySelector;
 import java.net.URL;
+import java.net.URLConnection;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -74,6 +77,11 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
+
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 
 import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.NoRemoteRepositoryException;
@@ -163,6 +171,8 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 
 	private boolean useSmartHttp = true;
 
+	private boolean sslVerify = true;
+
 	private HttpAuthMethod authMethod = HttpAuthMethod.NONE;
 
 	TransportHttp(final Repository local, final URIish uri)
@@ -178,6 +188,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 			throw new NotSupportedException(MessageFormat.format(JGitText.get().invalidURL, uri), e);
 		}
 		http = local.getConfig().get(HTTP_KEY);
+		sslVerify = local.getConfig().getBoolean("http", "sslVerify", true);
 		proxySelector = ProxySelector.getDefault();
 	}
 
@@ -401,6 +412,11 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 	final HttpURLConnection httpOpen(String method, URL u) throws IOException {
 		final Proxy proxy = HttpSupport.proxyFor(proxySelector, u);
 		HttpURLConnection conn = (HttpURLConnection) u.openConnection(proxy);
+
+		if (!sslVerify && "https".equals(u.getProtocol())) {
+			allowSelfSignedCertificate(conn);
+		}
+
 		conn.setRequestMethod(method);
 		conn.setUseCaches(false);
 		conn.setRequestProperty(HDR_ACCEPT_ENCODING, ENCODING_GZIP);
@@ -410,6 +426,21 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		conn.setReadTimeout(getTimeout() * 1000);
 		authMethod.configureRequest(conn);
 		return conn;
+	}
+
+	private void allowSelfSignedCertificate(URLConnection conn)
+			throws IOException {
+		final TrustManager[] trustAllCerts = new TrustManager[] { new DummyX509TrustManager() };
+		try {
+			SSLContext ctx = SSLContext.getInstance("SSL");
+			ctx.init(null, trustAllCerts, null);
+			final HttpsURLConnection sslConn = (HttpsURLConnection) conn;
+			sslConn.setSSLSocketFactory(ctx.getSocketFactory());
+		} catch (KeyManagementException e) {
+			throw new IOException(e);
+		} catch (NoSuchAlgorithmException e) {
+			throw new IOException(e);
+		}
 	}
 
 	final InputStream openInputStream(HttpURLConnection conn)
@@ -777,6 +808,23 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 				execute();
 				return 0;
 			}
+		}
+	}
+
+	private class DummyX509TrustManager implements X509TrustManager {
+
+		public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+			return null;
+		}
+
+		public void checkClientTrusted(
+				java.security.cert.X509Certificate[] certs, String authType) {
+			// no check
+		}
+
+		public void checkServerTrusted(
+				java.security.cert.X509Certificate[] certs, String authType) {
+			//no check
 		}
 	}
 }
