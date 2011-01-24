@@ -59,6 +59,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -200,6 +201,9 @@ public abstract class Repository {
 
 	/** @return the reference database which stores the reference namespace. */
 	public abstract RefDatabase getRefDatabase();
+
+	/** @return the grafts database which store the grafted parents */
+	public abstract GraftsDatabase getGraftsDatabase();
 
 	/**
 	 * @return the configuration of this repository
@@ -1366,5 +1370,31 @@ public abstract class Repository {
 		} else {
 			FileUtils.delete(headsFile, FileUtils.SKIP_MISSING);
 		}
+	}
+
+	/**
+	 * @return the mapping of grafts for this repository FIXME: How about grafts
+	 *         in alternative repositories
+	 * @throws IOException
+	 */
+	public Map<AnyObjectId, List<ObjectId>> getGrafts() throws IOException {
+		return getGraftsDatabase().getGrafts();
+	}
+
+	/**
+	 * @return replacement mappings
+	 * @throws IOException
+	 */
+	public Map<AnyObjectId, ObjectId> getReplacements() throws IOException {
+		Map<String, Ref> replaceRefs = getRefDatabase().getRefs(
+				Constants.R_REPLACE);
+		Map<AnyObjectId, ObjectId> replacements = new HashMap<AnyObjectId, ObjectId>(
+				replaceRefs.size());
+		for (Entry<String, Ref> e : replaceRefs.entrySet()) {
+			replacements.put(ObjectId.fromString(e.getKey().substring(
+					Constants.R_REPLACE.length() + 1)), e.getValue()
+					.getObjectId());
+		}
+		return replacements;
 	}
 }
