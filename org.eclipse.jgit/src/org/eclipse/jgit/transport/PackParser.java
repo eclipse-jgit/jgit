@@ -102,6 +102,37 @@ public abstract class PackParser {
 		DATABASE;
 	}
 
+	/**
+	 * Peek at the pack stream header to observe the object count.
+	 *
+	 * @param in
+	 *            the stream to peek at. The stream must support marks, and be
+	 *            able to reset back at least 64 bytes.
+	 * @return the number of objects in the stream.
+	 * @throws IOException
+	 *             if the stream header cannot be read.
+	 */
+	public static long peekObjectCount(InputStream in) throws IOException {
+		final int hdrLen = Constants.PACK_SIGNATURE.length + 4 + 4;
+		in.mark(hdrLen);
+
+		byte[] hdr = new byte[hdrLen];
+		IO.readFully(in, hdr, 0, hdrLen);
+
+		for (int k = 0; k < Constants.PACK_SIGNATURE.length; k++)
+			if (hdr[k] != Constants.PACK_SIGNATURE[k])
+				throw new IOException(JGitText.get().notAPACKFile);
+
+		long vers = NB.decodeUInt32(hdr, 4);
+		if (vers != 2 && vers != 3)
+			throw new IOException(MessageFormat.format(
+					JGitText.get().unsupportedPackVersion, vers));
+
+		long objectCount = NB.decodeUInt32(hdr, 8);
+		in.reset();
+		return objectCount;
+	}
+
 	/** Object database used for loading existing objects. */
 	private final ObjectDatabase objectDatabase;
 
@@ -497,23 +528,31 @@ public abstract class PackParser {
 		visit.nextChild = children;
 
 		ObjectTypeAndSize info = openDatabase(oe, new ObjectTypeAndSize());
-		switch (info.type) {
-		case Constants.OBJ_COMMIT:
-		case Constants.OBJ_TREE:
-		case Constants.OBJ_BLOB:
-		case Constants.OBJ_TAG:
-			visit.data = inflateAndReturn(Source.DATABASE, info.size);
-			visit.id = oe;
-			break;
-		default:
-			throw new IOException(MessageFormat.format(
-					JGitText.get().unknownObjectType, info.type));
-		}
+		if (info != null) {
+			switch (info.type) {
+			case Constants.OBJ_COMMIT:
+			case Constants.OBJ_TREE:
+			case Constants.OBJ_BLOB:
+			case Constants.OBJ_TAG:
+				visit.data = inflateAndReturn(Source.DATABASE, info.size);
+				visit.id = oe;
+				break;
+			default:
+				throw new IOException(MessageFormat.format(
+						JGitText.get().unknownObjectType, info.type));
+			}
 
-		if (!checkCRC(oe.getCRC())) {
-			throw new IOException(MessageFormat.format(
-					JGitText.get().corruptionDetectedReReadingAt, oe
-							.getOffset()));
+			if (!checkCRC(oe.getCRC())) {
+				throw new IOException(MessageFormat.format(
+						JGitText.get().corruptionDetectedReReadingAt,
+						oe.getOffset()));
+			}
+		} else {
+			ObjectLoader ldr = reader().open(oe);
+			info = new ObjectTypeAndSize();
+			info.type = ldr.getType();
+			visit.data = ldr.getCachedBytes(Integer.MAX_VALUE);
+			visit.id = oe;
 		}
 
 		resolveDeltas(visit.next(), info.type, info);
@@ -549,6 +588,7 @@ public abstract class PackParser {
 			tempObjectId.fromRaw(objectDigest.digest(), 0);
 
 			verifySafeObject(tempObjectId, type, visit.data);
+			onResolvedDelta(tempObjectId, type, visit.data);
 
 			PackedObjectInfo oe;
 			oe = newInfo(tempObjectId, visit.delta, visit.parent.id);
@@ -1027,6 +1067,11 @@ public abstract class PackParser {
 		return tempBuffer;
 	}
 
+	/** @return reader to read from the object database. */
+	protected ObjectReader reader() {
+		return readCurs;
+	}
+
 	/**
 	 * Construct a PackedObjectInfo instance for this parser.
 	 *
@@ -1115,6 +1160,15 @@ public abstract class PackParser {
 	 */
 	protected abstract void onObjectData(Source src, byte[] raw, int pos,
 			int len) throws IOException;
+
+	/**
+	 * @param raw
+	 * @param pos
+	 * @param len
+	 * @throws IOException
+	 */
+	protected abstract void onInflatedData(byte[] raw, int pos, int len)
+			throws IOException;
 
 	/**
 	 * Provide the implementation with the original stream's pack footer.
@@ -1253,9 +1307,9 @@ public abstract class PackParser {
 			long inflatedSize) throws IOException;
 
 	/**
-	 * Event notifying the the current object.
+	 * Event notifying end of the current object.
 	 *
-	 *@param info
+	 * @param info
 	 *            object information.
 	 * @throws IOException
 	 *             the object cannot be recorded.
@@ -1301,9 +1355,9 @@ public abstract class PackParser {
 			AnyObjectId baseId, long inflatedSize) throws IOException;
 
 	/**
-	 * Event notifying the the current object.
+	 * Event notifying end of the current delta object.
 	 *
-	 *@return object information that must be populated with at least the
+	 * @return object information that must be populated with at least the
 	 *         offset.
 	 * @throws IOException
 	 *             the object cannot be recorded.
@@ -1311,6 +1365,21 @@ public abstract class PackParser {
 	protected UnresolvedDelta onEndDelta() throws IOException {
 		return new UnresolvedDelta();
 	}
+
+	/**
+	 * Event notifying a previous delta has been resolved.
+	 *
+	 * @param objectId
+	 *            name of the delta.
+	 * @param type
+	 *            type of the delta.
+	 * @param data
+	 *            the delta's resolved data.
+	 * @throws IOException
+	 *             the object cannot be recorded.
+	 */
+	protected abstract void onResolvedDelta(AnyObjectId objectId, int type,
+			byte[] data) throws IOException;
 
 	/** Type and size information about an object in the database buffer. */
 	public static class ObjectTypeAndSize {
@@ -1475,6 +1544,7 @@ public abstract class PackParser {
 				final int r = read(skipBuffer, 0, cnt);
 				if (r <= 0)
 					break;
+				onInflatedData(skipBuffer, 0, r);
 				n += r;
 			}
 			return n;
@@ -1483,7 +1553,11 @@ public abstract class PackParser {
 		@Override
 		public int read() throws IOException {
 			int n = read(skipBuffer, 0, 1);
-			return n == 1 ? skipBuffer[0] & 0xff : -1;
+			if (n == 1) {
+				onInflatedData(skipBuffer, 0, 1);
+				return skipBuffer[0] & 0xff;
+			}
+			return -1;
 		}
 
 		@Override
@@ -1513,6 +1587,8 @@ public abstract class PackParser {
 					}
 				}
 				actualSize += n;
+				if (0 < n)
+					onInflatedData(dst, pos, n);
 				return 0 < n ? n : -1;
 			} catch (DataFormatException dfe) {
 				throw new CorruptObjectException(MessageFormat.format(JGitText

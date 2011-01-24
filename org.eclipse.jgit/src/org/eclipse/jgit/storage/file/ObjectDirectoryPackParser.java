@@ -231,6 +231,11 @@ public class ObjectDirectoryPackParser extends PackParser {
 	}
 
 	@Override
+	protected void onResolvedDelta(AnyObjectId objectId, int type, byte[] data) {
+		// Do nothing,
+	}
+
+	@Override
 	protected void onObjectHeader(Source src, byte[] raw, int pos, int len)
 			throws IOException {
 		crc.update(raw, pos, len);
@@ -240,6 +245,12 @@ public class ObjectDirectoryPackParser extends PackParser {
 	protected void onObjectData(Source src, byte[] raw, int pos, int len)
 			throws IOException {
 		crc.update(raw, pos, len);
+	}
+
+	@Override
+	protected void onInflatedData(byte[] raw, int pos, int len)
+			throws IOException {
+		// Do nothing with the inflated content.
 	}
 
 	@Override

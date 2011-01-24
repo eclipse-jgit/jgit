@@ -59,8 +59,11 @@ public class TransferConfig {
 
 	private final boolean fsckObjects;
 
+	private final long unpackLimit;
+
 	private TransferConfig(final Config rc) {
 		fsckObjects = rc.getBoolean("receive", "fsckobjects", false);
+		unpackLimit = rc.getLong("transfer", "unpacklimit", 100);
 	}
 
 	/**
@@ -68,5 +71,10 @@ public class TransferConfig {
 	 */
 	public boolean isFsckObjects() {
 		return fsckObjects;
+	}
+
+	/** @return threshold above which packs are stored as-is. */
+	public long getUnpackLimit() {
+		return unpackLimit;
 	}
 }
