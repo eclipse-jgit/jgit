@@ -43,7 +43,7 @@
 
 package org.eclipse.jgit.revwalk;
 
-import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertEquals;
 
 import java.util.Date;
 
@@ -138,6 +138,14 @@ public abstract class RevWalkTestCase extends RepositoryTestCase {
 	}
 
 	protected void assertCommit(final RevCommit exp, final RevCommit act) {
-		assertSame(exp, act);
+		assertEquals(exp, act);
+	}
+
+	protected void assertFlag(int flag, final RevCommit act) {
+		assertEquals(flag, act.flags & flag);
+	}
+
+	protected void assertNotFlag(int flag, final RevCommit act) {
+		assertEquals(0, act.flags & flag);
 	}
 }

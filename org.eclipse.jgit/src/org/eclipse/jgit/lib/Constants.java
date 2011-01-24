@@ -255,6 +255,9 @@ public final class Constants {
 	/** Standard stash ref */
 	public static final String R_STASH = R_REFS + STASH;
 
+	/** Standard replace ref */
+	public static final String R_REPLACE = R_REFS + "replace";
+
 	/** Logs folder name */
 	public static final String LOGS = "logs";
 
