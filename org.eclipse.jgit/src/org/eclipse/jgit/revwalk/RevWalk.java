@@ -51,6 +51,7 @@ import java.util.Collection;
 import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.CorruptObjectException;
@@ -158,8 +159,13 @@ public class RevWalk implements Iterable<RevCommit> {
 	 */
 	static final int TOPO_DELAY = 1 << 5;
 
+	/**
+	 * Set on commits whose parents have been replace with grafts
+	 */
+	static final int GRAFTED = 1 << 6;
+
 	/** Number of flag bits we keep internal for our own use. See above flags. */
-	static final int RESERVED_FLAGS = 6;
+	static final int RESERVED_FLAGS = 7;
 
 	private static final int APP_FLAGS = -1 & ~((1 << RESERVED_FLAGS) - 1);
 
@@ -192,6 +198,10 @@ public class RevWalk implements Iterable<RevCommit> {
 
 	private boolean retainBody;
 
+	private Map<AnyObjectId, List<AnyObjectId>> grafts;
+
+	private final boolean useGrafts;
+
 	/**
 	 * Create a new revision walker for a given repository.
 	 *
@@ -201,7 +211,7 @@ public class RevWalk implements Iterable<RevCommit> {
 	 *            released by the caller.
 	 */
 	public RevWalk(final Repository repo) {
-		this(repo, repo.newObjectReader());
+		this(repo, repo.newObjectReader(), true);
 	}
 
 	/**
@@ -213,12 +223,14 @@ public class RevWalk implements Iterable<RevCommit> {
 	 *            required.
 	 */
 	public RevWalk(ObjectReader or) {
-		this(null, or);
+		this(null, or, false);
 	}
 
-	private RevWalk(final Repository repo, final ObjectReader or) {
+	private RevWalk(final Repository repo, final ObjectReader or,
+			final boolean useGrafts) {
 		repository = repo;
 		reader = or;
+		this.useGrafts = useGrafts;
 		idBuffer = new MutableObjectId();
 		objects = new ObjectIdSubclassMap<RevObject>();
 		roots = new ArrayList<RevCommit>();
@@ -228,6 +240,7 @@ public class RevWalk implements Iterable<RevCommit> {
 		filter = RevFilter.ALL;
 		treeFilter = TreeFilter.ALL;
 		retainBody = true;
+		assert !useGrafts || repo != null;
 	}
 
 	/** @return the reader this walker is using to load objects. */
@@ -276,6 +289,8 @@ public class RevWalk implements Iterable<RevCommit> {
 	 */
 	public void markStart(final RevCommit c) throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
+		if (useGrafts)
+			setGrafts(repository.getGrafts());
 		if ((c.flags & SEEN) != 0)
 			return;
 		if ((c.flags & PARSED) == 0)
@@ -1288,4 +1303,26 @@ public class RevWalk implements Iterable<RevCommit> {
 		if (carry != 0)
 			RevCommit.carryFlags(c, carry);
 	}
+
+	/**
+	 * Tell the RevWalk to replace parents during walk.
+	 * <p>
+	 * A graft is a surgical replacement of the parents with an arbitrary
+	 * different list.
+	 * <p>
+	 *
+	 * @param grafts
+	 *            Map from commit to replacement parents
+	 */
+	public void setGrafts(Map<AnyObjectId, List<AnyObjectId>> grafts) {
+		this.grafts = grafts;
+	}
+
+	/**
+	 * @return the mapping from child id to alternative parents
+	 */
+	public Map<AnyObjectId, List<AnyObjectId>> getGrafts() {
+		return grafts;
+	}
+
 }

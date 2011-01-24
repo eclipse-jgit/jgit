@@ -203,6 +203,9 @@ public abstract class Repository {
 	/** @return the reference database which stores the reference namespace. */
 	public abstract RefDatabase getRefDatabase();
 
+	/** @return the grafts database which store the grafted parents */
+	public abstract GraftsDatabase getGraftsDatabase();
+
 	/**
 	 * @return the configuration of this repository
 	 */
@@ -1255,5 +1258,14 @@ public abstract class Repository {
 		} else {
 			FileUtils.delete(mergeHeadFile);
 		}
+	}
+
+	/**
+	 * @return the mapping of grafts for this repository FIXME: How about grafts
+	 *         in alternative repositories
+	 * @throws IOException
+	 */
+	public Map<AnyObjectId, List<AnyObjectId>> getGrafts() throws IOException {
+		return getGraftsDatabase().getGrafts();
 	}
 }
