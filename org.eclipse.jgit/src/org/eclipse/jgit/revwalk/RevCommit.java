@@ -49,12 +49,14 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.MutableObjectId;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -152,6 +154,26 @@ public class RevCommit extends RevObject {
 		tree = walk.lookupTree(idBuffer);
 
 		int ptr = 46;
+		if (parents == null) {
+			Map<AnyObjectId, List<ObjectId>> grafts = walk.getGrafts();
+			if (grafts != null && grafts.size() > 0) {
+				List<ObjectId> graftedParents = grafts.get(getId());
+				if (graftedParents != null) {
+					if (graftedParents.size() == 0)
+						parents = NO_PARENTS;
+					else {
+						RevCommit[] pList = new RevCommit[graftedParents.size()];
+						for (int i = 0; i < pList.length; ++i) {
+							RevCommit parent = walk.lookupCommit(graftedParents
+									.get(i));
+							pList[i] = parent;
+							parent.flags |= RevWalk.GRAFTED;
+						}
+						parents = pList;
+					}
+				}
+			}
+		}
 		if (parents == null) {
 			RevCommit[] pList = new RevCommit[1];
 			int nParents = 0;
