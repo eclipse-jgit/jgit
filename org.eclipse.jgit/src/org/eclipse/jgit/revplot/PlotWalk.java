@@ -108,11 +108,11 @@ public class PlotWalk extends RevWalk {
 			IncorrectObjectTypeException, IOException {
 		PlotCommit<?> pc = (PlotCommit) super.next();
 		if (pc != null)
-			pc.refs = getTags(pc);
+			pc.refs = getRefs(pc);
 		return pc;
 	}
 
-	private Ref[] getTags(final AnyObjectId commitId) {
+	private Ref[] getRefs(final AnyObjectId commitId) {
 		Collection<Ref> list = reverseRefMap.get(commitId);
 		Ref[] tags;
 		if (list == null)
