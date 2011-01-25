@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAL2n///gQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/notes/NoteBucket.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 2
+      },
+      "writtenOn": "2011-01-21T16:29:49Z",
+      "side": 1,
+      "message": "Looks ok... but given that we have get(...)... shouldn\u0027t we just use getNote(...) now and drop the generic get(...)?",
+      "revId": "1d5c4beb5fc612478e59cb9d9ed0e1f8ccc5ce19",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL2n///ao\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/notes/NoteBucket.java",
         "patchSetId": 1
