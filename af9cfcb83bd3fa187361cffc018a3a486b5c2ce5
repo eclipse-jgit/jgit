@@ -1,0 +1,22 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL2n///dA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PackParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 899,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-01-22T23:19:44Z",
+      "side": 1,
+      "message": "Yes, but we already have the incoming data fully loaded into a byte[].  So there are only two reasons the existing data won\u0027t also fit into a byte[]:  the JVM heap is full and we get OutOfMemoryError during allocation, that turns into a LargeObjectException and the receive aborts.  The other is the incoming object doesn\u0027t match lengths and is way shorter, again we either get LargeObjectException from getCachedBytes or Arrays.equals would fail fast when the array lengths aren\u0027t the same.  So I\u0027m not too worried about the object-not-fitting case here.\n\nActually, PackParser just cannot handle objects that are deltas and don\u0027t fit into memory.  It can do large whole objects, but that\u0027s a different code path which streams both sides during checking for collisions.\n\nWe cannot rely on the compressed data validation to determine if they are the same or not.  Yes, if they had the same exact compressed stream they have the same content, but our local copy might be loose, so its compressed content differs.  Or our local copy might be compressed with a different compression level than what we are receiving, or even just a different version of libz which may have generated a slight difference.  Or our local copy is a delta against something else, so its compressed content is very different.  So I think we would all too often see the compressed validation fail, but then the inflated validation pass.  Which makes the compressed validation somewhat worthless.\n\nThis entire \"lets check what we already have\" rule exists because readers cannot prefer the existing content.  In my DHT storage implementation I\u0027m making it explicit which content copy came before another copy, which makes it simple for a reader to prefer the already existing content.  Thus I don\u0027t need to compare the contents, the reader would automatically ignore the new copy and prefer the older one we already had.  Later garbage collection can remove the newer copy.",
+      "parentUuid": "AAAL2n///fI\u003d",
+      "revId": "af9cfcb83bd3fa187361cffc018a3a486b5c2ce5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
