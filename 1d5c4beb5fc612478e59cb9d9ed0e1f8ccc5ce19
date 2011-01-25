@@ -36,6 +36,42 @@
     },
     {
       "key": {
+        "uuid": "AAAL2n///ZQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/notes/NoteBucket.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2011-01-25T07:42:11Z",
+      "side": 1,
+      "message": "Done.\nThe delta for this class is smaller but the delta for LeafBucketTest is larger because it now must to use getNote().getData() instead of the get() method above.",
+      "parentUuid": "AAAL2n///ao\u003d",
+      "revId": "1d5c4beb5fc612478e59cb9d9ed0e1f8ccc5ce19",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2n///ZU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/notes/NoteBucket.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2011-01-25T07:42:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL2n///gQ\u003d",
+      "revId": "1d5c4beb5fc612478e59cb9d9ed0e1f8ccc5ce19",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL2n///ak\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/notes/NoteMap.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2011-01-23T21:22:28Z",
       "side": 1,
       "message": "Lets leave this get() however as its part of the public NoteMap API and some callers may prefer this variant.",
+      "revId": "1d5c4beb5fc612478e59cb9d9ed0e1f8ccc5ce19",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2n///ZY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/notes/NoteMap.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2011-01-25T07:42:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL2n///ak\u003d",
       "revId": "1d5c4beb5fc612478e59cb9d9ed0e1f8ccc5ce19",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
