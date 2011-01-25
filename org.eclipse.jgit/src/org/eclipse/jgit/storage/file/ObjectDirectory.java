@@ -468,8 +468,6 @@ public class ObjectDirectory extends FileObjectDatabase {
 			return InsertLooseObjectResult.EXISTS_PACKED;
 		}
 
-		tmp.setReadOnly();
-
 		final File dst = fileFor(id);
 		if (dst.exists()) {
 			// We want to be extra careful and avoid replacing an object
@@ -480,6 +478,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 			return InsertLooseObjectResult.EXISTS_LOOSE;
 		}
 		if (tmp.renameTo(dst)) {
+			tmp.setReadOnly();
 			unpackedObjectCache.add(id);
 			return InsertLooseObjectResult.INSERTED;
 		}
