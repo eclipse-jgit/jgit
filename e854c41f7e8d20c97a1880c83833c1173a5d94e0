@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL2n///cw\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-01-22T23:52:32Z",
+      "side": 1,
+      "message": "s/Parsing/Parse/",
+      "revId": "e854c41f7e8d20c97a1880c83833c1173a5d94e0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2n///cs\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-01-22T23:52:32Z",
+      "side": 1,
+      "message": "I would reword this as:\n\n  RevFilter.include()\u0027s documentation promises the RevCommit\u0027s\n  body is parsed before include is invoked.  This wasn\u0027t always\n  true if the commit was parsed once, had its body discarded,\n  the RevWalk was reset() and started a new traversal.",
+      "revId": "e854c41f7e8d20c97a1880c83833c1173a5d94e0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2n///c0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/PendingGenerator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-01-22T23:52:32Z",
+      "side": 1,
+      "message": "Blargh.  The RevFilter docs say we have the body parsed, but yes, after a reset() it might be gone.\n\nWe should have a unit test for this breakage, so we don\u0027t regress on it.",
+      "revId": "e854c41f7e8d20c97a1880c83833c1173a5d94e0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
