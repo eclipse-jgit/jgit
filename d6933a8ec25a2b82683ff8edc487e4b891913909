@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAL2n///bY\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkResetTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-01-23T15:39:58Z",
+      "side": 1,
+      "message": "license header is missing",
+      "revId": "d6933a8ec25a2b82683ff8edc487e4b891913909",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2n///bU\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkResetTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-01-23T15:39:58Z",
+      "side": 1,
+      "message": "Test that it does the right thing, not just that it does not crash",
+      "revId": "d6933a8ec25a2b82683ff8edc487e4b891913909",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL2n///aw\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkResetTest.java",
         "patchSetId": 2
