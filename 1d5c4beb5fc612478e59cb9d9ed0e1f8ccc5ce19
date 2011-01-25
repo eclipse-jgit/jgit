@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL2n///ao\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/notes/NoteBucket.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-01-23T21:22:28Z",
+      "side": 1,
+      "message": "My thoughts exactly Chris.  Lets drop get(...) at the same time and just replace it with getNote().  The delta may actually be smaller because we aren\u0027t duplicating the method bodies.",
+      "revId": "1d5c4beb5fc612478e59cb9d9ed0e1f8ccc5ce19",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2n///ak\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/notes/NoteMap.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-01-23T21:22:28Z",
+      "side": 1,
+      "message": "Lets leave this get() however as its part of the public NoteMap API and some callers may prefer this variant.",
+      "revId": "1d5c4beb5fc612478e59cb9d9ed0e1f8ccc5ce19",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
