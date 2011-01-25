@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAL2n///fI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PackParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 899,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-01-22T10:49:09Z",
+      "side": 1,
+      "message": "Not quite related to this patch per-se, but this check would not work for very large objects since the JVM would be able to load everything into an array.\nSecond, I think the compressed data would usually also be identical so we could check the compressed data first and only decompress and check the real data if that fails.",
+      "revId": "af9cfcb83bd3fa187361cffc018a3a486b5c2ce5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL2n///dA\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PackParser.java",
         "patchSetId": 1
