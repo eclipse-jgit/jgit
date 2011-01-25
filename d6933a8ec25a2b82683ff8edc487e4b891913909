@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL2n///bA\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkResetTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 114
+      },
+      "writtenOn": "2011-01-23T19:26:16Z",
+      "side": 1,
+      "message": "The RevFilter above asserts if a commit without a parsed body is ever parsed to include().  RevWalk.next() doesn\u0027t state any requirement that the it returns a parsed commit.  However, I can go ahead and another check here as well to make sure that next() also provides a commit with a parsed body.",
+      "parentUuid": "AAAL2n///bU\u003d",
+      "revId": "d6933a8ec25a2b82683ff8edc487e4b891913909",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL2n///aw\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkResetTest.java",
         "patchSetId": 2
@@ -47,6 +65,24 @@
       "writtenOn": "2011-01-23T21:16:35Z",
       "side": 1,
       "message": "What Robin means is, you need to test that the filter include ran:\n\n  final AtomicBoolean filterRan \u003d new AtomicBoolean();\n  RevFilter testFilter \u003d ... \n    assertNotNull(cmit.getRawBuffer());\n    filterRan.set(true);\n\n\n  filterRan.set(false);\n  ... do the walk ...\n  assertTrue(\"filter ran\", filterRan.get());\n\nThis way the test fails if include() did not get invoked.\n\nAlso, I think you need to dispose of the commit in the first while loop, otherwise the test will still pass without your bug fix.",
+      "revId": "d6933a8ec25a2b82683ff8edc487e4b891913909",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2n///Yo\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkResetTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 114
+      },
+      "writtenOn": "2011-01-24T16:40:32Z",
+      "side": 1,
+      "message": "Ah, that makes sense.\n\nThe problem I was running into was actually that PendingGenerator was disposing of commits marked as uninteresting.  Marking \u0027b\u0027 as uninteresting above and uncommenting my change to parse the commits would cause the test case to fail.\n\nIt would probably be good to also test explicitly disposing of commits as well.",
+      "parentUuid": "AAAL2n///aw\u003d",
       "revId": "d6933a8ec25a2b82683ff8edc487e4b891913909",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
