@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL2n///Qs\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-01-26T08:08:14Z",
+      "side": 1,
+      "message": "\"rename the temp file ... and then rename it\" - there is a typo here, or? Shouldn\u0027t it be called: rename the temp file ... and the set it readonly?",
+      "revId": "64f095d5bdb264378864948116574986925e10d5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
