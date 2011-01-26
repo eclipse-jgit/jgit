@@ -131,7 +131,6 @@ public class MergeCommand extends GitCommand<MergeResult> {
 
 			// Check for FAST_FORWARD, ALREADY_UP_TO_DATE
 			revWalk = new RevWalk(repo);
-			RevCommit headCommit = revWalk.lookupCommit(head.getObjectId());
 
 			// we know for now there is only one commit
 			Ref ref = commits.get(0);
@@ -144,6 +143,30 @@ public class MergeCommand extends GitCommand<MergeResult> {
 				objectId = ref.getObjectId();
 
 			RevCommit srcCommit = revWalk.lookupCommit(objectId);
+
+			ObjectId headId = head.getObjectId();
+			if (headId == null) {
+				revWalk.parseHeaders(srcCommit);
+				DirCacheCheckout dco = new DirCacheCheckout(repo,
+						repo.lockDirCache(), srcCommit.getTree());
+				dco.setFailOnConflict(true);
+				dco.checkout();
+				RefUpdate refUpdate = repo
+						.updateRef(head.getTarget().getName());
+				refUpdate.setNewObjectId(objectId);
+				refUpdate.setExpectedOldObjectId(null);
+				refUpdate.setRefLogMessage("initial pull", false);
+				if (refUpdate.update() != Result.NEW)
+					throw new NoHeadException(
+							JGitText.get().commitOnRepoWithoutHEADCurrentlyNotSupported);
+				setCallable(false);
+				return new MergeResult(srcCommit, srcCommit, new ObjectId[] {
+						null, srcCommit }, MergeStatus.FAST_FORWARD,
+						mergeStrategy, null, null);
+			}
+
+			RevCommit headCommit = revWalk.lookupCommit(headId);
+
 			if (revWalk.isMergedInto(srcCommit, headCommit)) {
 				setCallable(false);
 				return new MergeResult(headCommit, srcCommit, new ObjectId[] {
@@ -159,7 +182,7 @@ public class MergeCommand extends GitCommand<MergeResult> {
 				dco.setFailOnConflict(true);
 				dco.checkout();
 
-				updateHead(refLogMessage, srcCommit, head.getObjectId());
+				updateHead(refLogMessage, srcCommit, headId);
 				setCallable(false);
 				return new MergeResult(srcCommit, srcCommit, new ObjectId[] {
 						headCommit, srcCommit }, MergeStatus.FAST_FORWARD,
