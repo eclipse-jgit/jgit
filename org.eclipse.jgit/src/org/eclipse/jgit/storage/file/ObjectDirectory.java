@@ -482,7 +482,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 			return InsertLooseObjectResult.EXISTS_LOOSE;
 		}
 		if (tmp.renameTo(dst)) {
-			tmp.setReadOnly();
+			dst.setReadOnly();
 			unpackedObjectCache.add(id);
 			return InsertLooseObjectResult.INSERTED;
 		}
@@ -493,6 +493,7 @@ public class ObjectDirectory extends FileObjectDatabase {
 		//
 		dst.getParentFile().mkdir();
 		if (tmp.renameTo(dst)) {
+			dst.setReadOnly();
 			unpackedObjectCache.add(id);
 			return InsertLooseObjectResult.INSERTED;
 		}
