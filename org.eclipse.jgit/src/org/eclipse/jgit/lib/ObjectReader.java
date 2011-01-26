@@ -46,11 +46,14 @@ package org.eclipse.jgit.lib;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.revwalk.ObjectListIterator;
 import org.eclipse.jgit.revwalk.ObjectWalk;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -425,6 +428,35 @@ public abstract class ObjectReader {
 	/** Advice from that a walk is over. */
 	public void walkAdviceEnd() {
 		// Do nothing by default, most readers don't want or need advice.
+	}
+
+	/**
+	 * Obtain the available pre-computed object reachability lists.
+	 * <p>
+	 * The lists are indexed by commit ObjectId, so the returned set contains
+	 * the commit ObjectIds naming each set.
+	 *
+	 * @return set of commit ObjectIds that identify lists.
+	 */
+	public Set<ObjectId> getAvailableObjectLists() {
+		return Collections.emptySet();
+	}
+
+	/**
+	 * Open a pre-computed object list for reading.
+	 *
+	 * @param listName
+	 *            a commit ObjectId previously returned by
+	 *            {@link #getAvailableObjectLists()}.
+	 * @param walker
+	 *            the revision pool to use when looking up objects.
+	 * @return the list iterator.
+	 * @throws IOException
+	 *             the reader cannot load the precomputed list.
+	 */
+	public ObjectListIterator openObjectList(AnyObjectId listName,
+			ObjectWalk walker) throws IOException {
+		throw new UnsupportedOperationException();
 	}
 
 	/**
