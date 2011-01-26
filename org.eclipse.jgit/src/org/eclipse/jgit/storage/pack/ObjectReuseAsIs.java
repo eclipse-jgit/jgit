@@ -44,6 +44,7 @@
 package org.eclipse.jgit.storage.pack;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.StoredObjectRepresentationNotAvailableException;
@@ -135,12 +136,13 @@ public interface ObjectReuseAsIs {
 	 *            the stream to write each object to.
 	 * @param list
 	 *            the list of objects to write. Objects should be written in
-	 *            approximately this order.
+	 *            approximately this order. Implementors may resort the list
+	 *            elements in-place during writing if desired.
 	 * @throws IOException
 	 *             the stream cannot be written to, or one or more required
 	 *             objects cannot be accessed from the object database.
 	 */
-	public void writeObjects(PackOutputStream out, Iterable<ObjectToPack> list)
+	public void writeObjects(PackOutputStream out, List<ObjectToPack> list)
 			throws IOException;
 
 	/**
