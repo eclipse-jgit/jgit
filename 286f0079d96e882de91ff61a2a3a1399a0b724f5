@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL2n///L0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/FetchCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 2
+      },
+      "writtenOn": "2011-01-26T18:57:18Z",
+      "side": 1,
+      "message": "Can you add something like \"Sets the specification of annotated tag behavior during fetch\"",
+      "revId": "286f0079d96e882de91ff61a2a3a1399a0b724f5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
