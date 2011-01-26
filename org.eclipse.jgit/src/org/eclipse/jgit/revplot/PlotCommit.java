@@ -145,6 +145,29 @@ public class PlotCommit<L extends PlotLane> extends RevCommit {
 	}
 
 	/**
+	 * Get the number of refs for this commit.
+	 *
+	 * @return number of refs; always a positive value but can be 0.
+	 */
+	public final int getRefCount() {
+		return refs.length;
+	}
+
+	/**
+	 * Get the nth Ref from this commit's ref list.
+	 *
+	 * @param nth
+	 *            ref index to obtain. Must be in the range 0 through
+	 *            {@link #getRefCount()}-1.
+	 * @return the specified ref.
+	 * @throws ArrayIndexOutOfBoundsException
+	 *             an invalid ref index was specified.
+	 */
+	public final Ref getRef(final int nth) {
+		return refs[nth];
+	}
+
+	/**
 	 * Obtain the lane this commit has been plotted into.
 	 *
 	 * @return the assigned lane for this commit.
