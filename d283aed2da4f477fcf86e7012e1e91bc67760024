@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL2n///RI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-01-26T00:19:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL2n///W8\u003d",
+      "revId": "d283aed2da4f477fcf86e7012e1e91bc67760024",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL2n///Ww\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2011-01-25T00:15:17Z",
       "side": 1,
       "message": "I think disableSslVerify is a better name for this method.",
+      "revId": "d283aed2da4f477fcf86e7012e1e91bc67760024",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2n///RE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-01-26T00:19:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL2n///Ww\u003d",
       "revId": "d283aed2da4f477fcf86e7012e1e91bc67760024",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL2n///RA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 814,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-01-26T00:19:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL2n///W4\u003d",
+      "revId": "d283aed2da4f477fcf86e7012e1e91bc67760024",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL2n///W0\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2011-01-25T00:15:17Z",
       "side": 1,
       "message": "Style-nit: We prefer to import these names and use the short class name instead.",
+      "revId": "d283aed2da4f477fcf86e7012e1e91bc67760024",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2n///Q8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 816,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-01-26T00:19:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL2n///W0\u003d",
       "revId": "d283aed2da4f477fcf86e7012e1e91bc67760024",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
