@@ -128,11 +128,14 @@ public class DirCacheCheckoutTest extends ReadTreeTest {
 		RevCommit topic = git.commit().setMessage("topic-1").call();
 		assertIndex(mkmap("f", "f()\nside", "G/i", "i()"));
 
+		writeTrashFile("untracked", "untracked");
+
 		resetHard(master);
 		assertIndex(mkmap("f", "f()\nmaster", "D/g", "g()\ng2()", "E/h", "h()"));
 		resetHard(topic);
 		assertIndex(mkmap("f", "f()\nside", "G/i", "i()"));
-		assertWorkDir(mkmap("f", "f()\nside", "G/i", "i()"));
+		assertWorkDir(mkmap("f", "f()\nside", "G/i", "i()", "untracked",
+				"untracked"));
 
 		assertEquals(MergeStatus.CONFLICTING, git.merge().include(master)
 				.call().getMergeStatus());
@@ -143,7 +146,7 @@ public class DirCacheCheckoutTest extends ReadTreeTest {
 		resetHard(master);
 		assertIndex(mkmap("f", "f()\nmaster", "D/g", "g()\ng2()", "E/h", "h()"));
 		assertWorkDir(mkmap("f", "f()\nmaster", "D/g", "g()\ng2()", "E/h",
-				"h()"));
+				"h()", "untracked", "untracked"));
 	}
 
 	private DirCacheCheckout resetHard(RevCommit commit)

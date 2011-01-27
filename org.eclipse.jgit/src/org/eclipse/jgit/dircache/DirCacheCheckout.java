@@ -351,12 +351,8 @@ public class DirCacheCheckout {
 						remove(i.getEntryPathString());
 						conflicts.remove(i.getEntryPathString());
 					} else {
-						// We are about to remove an untracked file. Check that
-						// it is ignored - otherwise that's an conflict
-						if (!f.isEntryIgnored())
-							conflicts.add(walk.getPathString());
-						else
-							remove(f.getEntryPathString());
+						// untracked file, neither contained in tree to merge
+						// nor in index
 					}
 				}
 			} else {
