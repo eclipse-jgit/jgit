@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL2n///Gk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/FetchCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-01-27T16:49:01Z",
+      "side": 1,
+      "message": "This should have been caught on the first review when the method was added.  Our API package has the general convention of always returning \"this\" from a setter method.  We shouldn\u0027t have added a void set method in the first place.\n\nBut I\u0027m glad it was fixed!",
+      "revId": "414e0cd329a4ade6b98c7df9d832ab272090325a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
