@@ -1,0 +1,22 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL1X///+k\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-12-11T23:59:19Z",
+      "side": 1,
+      "message": "ok, understood that you want to avoid the extra stats, hence now checking return value in a different way here\n\nmkdirs() fails if the directory is already existing so this will not fail the subsequent createNewFile() call.",
+      "parentUuid": "AAAL1X////c\u003d",
+      "revId": "782fa4d2ff1b9a7c4ada54cc2f194a92b2ceb7bf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
