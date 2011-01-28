@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAL1X////c\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-12-11T08:39:25Z",
+      "side": 1,
+      "message": "I am not completely sure about that. I intentionally didn\u0027t checked the return code from mkdirs. If mkdirs fails and a directory is not created then the subsequent createNewFile will fail. Therefore I\u0027ll detect an error situation and don\u0027t want to spend extra stats() to check for file-existance and file-type which is done in FileUtils.",
+      "revId": "782fa4d2ff1b9a7c4ada54cc2f194a92b2ceb7bf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL1X///+k\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
         "patchSetId": 2
