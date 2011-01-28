@@ -63,8 +63,10 @@ import java.util.Map;
 import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.api.RebaseResult.Status;
 import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.api.errors.InvalidRefNameException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.api.errors.NoHeadException;
+import org.eclipse.jgit.api.errors.RefAlreadyExistsException;
 import org.eclipse.jgit.api.errors.RefNotFoundException;
 import org.eclipse.jgit.api.errors.UnmergedPathsException;
 import org.eclipse.jgit.api.errors.WrongRepositoryStateException;
@@ -189,6 +191,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 	public RebaseResult call() throws NoHeadException, RefNotFoundException,
 			JGitInternalException, GitAPIException {
 		RevCommit newHead = null;
+		boolean lastStepWasForward = false;
 		checkCallable();
 		checkParameters();
 		try {
@@ -237,11 +240,14 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 				monitor.beginTask(MessageFormat.format(
 						JGitText.get().applyingCommit, commitToPick
 								.getShortMessage()), ProgressMonitor.UNKNOWN);
-				// TODO if the first parent of commitToPick is the current HEAD,
-				// we should fast-forward instead of cherry-pick to avoid
+				// if the first parent of commitToPick is the current HEAD,
+				// we do a fast-forward instead of cherry-pick to avoid
 				// unnecessary object rewriting
-				newHead = new Git(repo).cherryPick().include(commitToPick)
-						.call();
+				newHead = tryFastForward(commitToPick);
+				lastStepWasForward = newHead != null;
+				if (!lastStepWasForward)
+					newHead = new Git(repo).cherryPick().include(commitToPick)
+							.call();
 				monitor.endTask();
 				if (newHead == null) {
 					return stop(commitToPick);
@@ -274,6 +280,8 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 					}
 				}
 				FileUtils.delete(rebaseDir, FileUtils.RECURSIVE);
+				if (lastStepWasForward)
+					return new RebaseResult(Status.FAST_FORWARD);
 				return new RebaseResult(Status.OK);
 			}
 			return new RebaseResult(Status.UP_TO_DATE);
@@ -496,11 +504,28 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		RevCommit headCommit = walk.lookupCommit(headId);
 		monitor.beginTask(JGitText.get().obtainingCommitsForCherryPick,
 				ProgressMonitor.UNKNOWN);
+
 		LogCommand cmd = new Git(repo).log().addRange(upstreamCommit,
 				headCommit);
 		Iterable<RevCommit> commitsToUse = cmd.call();
 		for (RevCommit commit : commitsToUse) {
 			cherryPickList.add(commit);
+		}
+
+		// if the upstream commit is in a direct line to the current head,
+		// the log command will not report any commits; in this case,
+		// we create the cherry-pick list ourselves
+		if (cherryPickList.isEmpty()) {
+			Iterable<RevCommit> parents = new Git(repo).log().add(
+					upstreamCommit).call();
+			for (RevCommit parent : parents) {
+				if (parent.equals(headCommit))
+					break;
+				if (parent.getParentCount() != 1)
+					throw new JGitInternalException(
+							JGitText.get().canOnlyCherryPickCommitsWithOneParent);
+				cherryPickList.add(parent);
+			}
 		}
 
 		// nothing to do: return with UP_TO_DATE_RESULT
@@ -546,6 +571,75 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		checkoutCommit(upstreamCommit);
 		monitor.endTask();
 		return null;
+	}
+
+	/**
+	 * checks if we can fast-forward and returns the new head if it is possible
+	 *
+	 * @param newCommit
+	 * @return the new head, or null
+	 * @throws RefNotFoundException
+	 * @throws IOException
+	 */
+	public RevCommit tryFastForward(RevCommit newCommit)
+			throws RefNotFoundException, IOException {
+		Ref head = repo.getRef(Constants.HEAD);
+		if (head == null || head.getObjectId() == null)
+			throw new RefNotFoundException(MessageFormat.format(
+					JGitText.get().refNotResolved, Constants.HEAD));
+
+		ObjectId headId = head.getObjectId();
+		if (headId == null)
+			throw new RefNotFoundException(MessageFormat.format(
+					JGitText.get().refNotResolved, Constants.HEAD));
+		RevCommit headCommit = walk.lookupCommit(headId);
+		if (walk.isMergedInto(newCommit, headCommit))
+			return newCommit;
+
+		String headName;
+		if (head.isSymbolic())
+			headName = head.getTarget().getName();
+		else
+			headName = "detached HEAD";
+		return tryFastForward(headName, headCommit, newCommit);
+	}
+
+	private RevCommit tryFastForward(String headName, RevCommit oldCommit,
+			RevCommit newCommit) throws IOException, JGitInternalException {
+		boolean tryRebase = false;
+		for (RevCommit parentCommit : newCommit.getParents())
+			if (parentCommit.equals(oldCommit))
+				tryRebase = true;
+		if (!tryRebase)
+			return null;
+
+		CheckoutCommand co = new CheckoutCommand(repo);
+		try {
+			co.setName(newCommit.name()).call();
+			if (headName.startsWith(Constants.R_HEADS)) {
+				RefUpdate rup = repo.updateRef(headName);
+				rup.setExpectedOldObjectId(oldCommit);
+				rup.setNewObjectId(newCommit);
+				rup.setRefLogMessage("Fast-foward from " + oldCommit.name()
+						+ " to " + newCommit.name(), false);
+				Result res = rup.update(walk);
+				switch (res) {
+				case FAST_FORWARD:
+				case NO_CHANGE:
+				case FORCED:
+					break;
+				default:
+					throw new IOException("Could not fast-forward");
+				}
+			}
+			return newCommit;
+		} catch (RefAlreadyExistsException e) {
+			throw new JGitInternalException(e.getMessage(), e);
+		} catch (RefNotFoundException e) {
+			throw new JGitInternalException(e.getMessage(), e);
+		} catch (InvalidRefNameException e) {
+			throw new JGitInternalException(e.getMessage(), e);
+		}
 	}
 
 	private void checkParameters() throws WrongRepositoryStateException {
