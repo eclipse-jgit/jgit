@@ -1,0 +1,94 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL2n///KQ\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/AddCommandTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-01-26T23:38:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL2n///4o\u003d",
+      "revId": "9c8dbca3a33b1bcef44bca6268792d8ff6d143a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2n///J8\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/AddCommandTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-01-26T23:38:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL2n///4U\u003d",
+      "revId": "9c8dbca3a33b1bcef44bca6268792d8ff6d143a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2n///Jg\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/FileTreeIteratorTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-01-26T23:38:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL2n///38\u003d",
+      "revId": "9c8dbca3a33b1bcef44bca6268792d8ff6d143a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2n///JU\u003d",
+        "filename": "org.eclipse.jgit/findBugs/FindBugsExcludeFilter.xml",
+        "patchSetId": 6
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-01-26T23:38:06Z",
+      "side": 1,
+      "message": "since findbugs still complains about the ignored return value in DirCacheCheckout line 386, I think since the compiler deletes the empty block just containing a comment",
+      "parentUuid": "AAAL2n///30\u003d",
+      "revId": "9c8dbca3a33b1bcef44bca6268792d8ff6d143a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2n///KU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-01-26T23:38:06Z",
+      "side": 1,
+      "message": "see Chris\u0027 comment on patchset 2",
+      "parentUuid": "AAAL2n///4s\u003d",
+      "revId": "9c8dbca3a33b1bcef44bca6268792d8ff6d143a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
