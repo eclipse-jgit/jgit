@@ -114,12 +114,12 @@ public class ObjectIdSubclassMap<V extends ObjectId> implements Iterable<V> {
 	 * <p>
 	 * An existing mapping for <b>must not</b> be in this map. Callers must
 	 * first call {@link #get(AnyObjectId)} to verify there is no current
-	 * mapping prior to adding a new mapping.
+	 * mapping prior to adding a new mapping, or use
+	 * {@link #addIfAbsent(ObjectId)}.
 	 *
 	 * @param newValue
 	 *            the object to store.
-	 * @param
-	 *            <Q>
+	 * @param <Q>
 	 *            type of instance to store.
 	 */
 	public <Q extends V> void add(final Q newValue) {
@@ -127,6 +127,47 @@ public class ObjectIdSubclassMap<V extends ObjectId> implements Iterable<V> {
 			grow();
 		insert(newValue);
 		size++;
+	}
+
+	/**
+	 * Store an object for future lookup.
+	 * <p>
+	 * Stores {@code newValue}, but only if there is not already an object for
+	 * the same object name. Callers can tell if the value is new by checking
+	 * the return value with reference equality:
+	 *
+	 * <pre>
+	 * V obj = ...;
+	 * boolean wasNew = map.addIfAbsent(obj) == obj;
+	 * </pre>
+	 *
+	 * @param newValue
+	 *            the object to store.
+	 * @return {@code newValue} if stored, or the prior value already stored and
+	 *         that would have been returned had the caller used
+	 *         {@code get(newValue)} first.
+	 * @param <Q>
+	 *            type of instance to store.
+	 */
+	public <Q extends V> V addIfAbsent(final Q newValue) {
+		int i = index(newValue);
+		V obj;
+
+		while ((obj = obj_hash[i]) != null) {
+			if (AnyObjectId.equals(obj, newValue))
+				return obj;
+			if (++i == obj_hash.length)
+				i = 0;
+		}
+
+		if (obj_hash.length - 1 <= size * 2) {
+			grow();
+			insert(newValue);
+		} else {
+			obj_hash[i] = newValue;
+		}
+		size++;
+		return newValue;
 	}
 
 	/**

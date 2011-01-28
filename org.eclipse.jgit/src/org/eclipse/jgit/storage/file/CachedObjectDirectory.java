@@ -228,8 +228,7 @@ class CachedObjectDirectory extends FileObjectDatabase {
 		switch (result) {
 		case INSERTED:
 		case EXISTS_LOOSE:
-			if (!unpackedObjects.contains(objectId))
-				unpackedObjects.add(objectId);
+			unpackedObjects.addIfAbsent(objectId);
 			break;
 
 		case EXISTS_PACKED:
