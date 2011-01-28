@@ -438,9 +438,9 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 			final HttpsURLConnection sslConn = (HttpsURLConnection) conn;
 			sslConn.setSSLSocketFactory(ctx.getSocketFactory());
 		} catch (KeyManagementException e) {
-			throw new IOException(e);
+			throw new IOException(e.getMessage());
 		} catch (NoSuchAlgorithmException e) {
-			throw new IOException(e);
+			throw new IOException(e.getMessage());
 		}
 	}
 
