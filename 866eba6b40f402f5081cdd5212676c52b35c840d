@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL2n///74\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/AddCommandTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-01-14T07:35:33Z",
+      "side": 1,
+      "message": "Swap this and the next commit and use the new FileUtils.createNewFile API instead. With assert it looks like this is part of the test, rather than setup.\nThis comment applies to all similar lines.",
+      "revId": "866eba6b40f402f5081cdd5212676c52b35c840d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
