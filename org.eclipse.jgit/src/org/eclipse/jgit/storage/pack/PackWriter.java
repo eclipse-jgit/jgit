@@ -86,7 +86,6 @@ import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.ThreadSafeProgressMonitor;
 import org.eclipse.jgit.revwalk.AsyncRevObjectQueue;
-import org.eclipse.jgit.revwalk.ObjectListIterator;
 import org.eclipse.jgit.revwalk.ObjectWalk;
 import org.eclipse.jgit.revwalk.RevFlag;
 import org.eclipse.jgit.revwalk.RevObject;
@@ -377,8 +376,9 @@ public class PackWriter {
 			throws IOException {
 		if (countingMonitor == null)
 			countingMonitor = NullProgressMonitor.INSTANCE;
-		findObjectsToPack(countingMonitor, interestingObjects,
+		ObjectWalk walker = setUpWalker(interestingObjects,
 				uninterestingObjects);
+		findObjectsToPack(countingMonitor, walker);
 	}
 
 	/**
@@ -972,14 +972,11 @@ public class PackWriter {
 		out.write(packcsum);
 	}
 
-	private void findObjectsToPack(final ProgressMonitor countingMonitor,
+	private ObjectWalk setUpWalker(
 			final Collection<? extends ObjectId> interestingObjects,
 			final Collection<? extends ObjectId> uninterestingObjects)
 			throws MissingObjectException, IOException,
 			IncorrectObjectTypeException {
-		countingMonitor.beginTask(JGitText.get().countingObjects,
-				ProgressMonitor.UNKNOWN);
-
 		List<ObjectId> all = new ArrayList<ObjectId>(interestingObjects.size());
 		for (ObjectId id : interestingObjects)
 			all.add(id.copy());
@@ -994,18 +991,13 @@ public class PackWriter {
 			not = Collections.emptySet();
 
 		final ObjectWalk walker = new ObjectWalk(reader);
-		final RevFlag hasObjectList = walker.newFlag("hasObjectList");
-
 		walker.setRetainBody(false);
-		if (not.isEmpty()) {
+		if (not.isEmpty())
 			walker.sort(RevSort.COMMIT_TIME_DESC);
-			for (ObjectId listName : reader.getAvailableObjectLists())
-				walker.lookupCommit(listName).add(hasObjectList);
-		} else {
+		else
 			walker.sort(RevSort.TOPO);
-			if (thin)
-				walker.sort(RevSort.BOUNDARY, true);
-		}
+		if (thin && !not.isEmpty())
+			walker.sort(RevSort.BOUNDARY, true);
 
 		AsyncRevObjectQueue q = walker.parseAny(all, true);
 		try {
@@ -1028,91 +1020,25 @@ public class PackWriter {
 		} finally {
 			q.release();
 		}
-
-		RevObject listName = null;
-		RevObject o;
-
-		while ((o = walker.next()) != null) {
-			if (o.has(hasObjectList)) {
-				listName = o;
-				break;
-			}
-			addResultOrBase(o, 0);
-			countingMonitor.update(1);
-		}
-		if (listName != null) {
-			addByObjectList(listName, countingMonitor, walker,
-					interestingObjects);
-		} else {
-			while ((o = walker.nextObject()) != null) {
-				addResultOrBase(o, walker.getPathHashCode());
-				countingMonitor.update(1);
-			}
-		}
-		countingMonitor.endTask();
+		return walker;
 	}
 
-	private void addByObjectList(RevObject listName,
-			final ProgressMonitor countingMonitor, final ObjectWalk walker,
-			final Collection<? extends ObjectId> interestingObjects)
-			throws MissingObjectException, IncorrectObjectTypeException,
-			IOException {
-		int restartedProgress = objectsMap.size();
-
-		for (List<ObjectToPack> list : objectsLists)
-			list.clear();
-		objectsMap.clear();
-
-		walker.reset();
-		walker.markUninteresting(listName);
-
-		for (ObjectId id : interestingObjects)
-			walker.markStart(walker.lookupOrNull(id));
-
-		RevFlag added = walker.newFlag("added");
+	private void findObjectsToPack(final ProgressMonitor countingMonitor,
+			final ObjectWalk walker) throws MissingObjectException,
+			IncorrectObjectTypeException,			IOException {
+		countingMonitor.beginTask(JGitText.get().countingObjects,
+				ProgressMonitor.UNKNOWN);
 		RevObject o;
+
 		while ((o = walker.next()) != null) {
-			addResult(o, 0);
-			o.add(added);
-			if (restartedProgress != 0)
-				restartedProgress--;
-			else
-				countingMonitor.update(1);
+			addObject(o, 0);
+			countingMonitor.update(1);
 		}
 		while ((o = walker.nextObject()) != null) {
-			addResult(o, walker.getPathHashCode());
-			o.add(added);
-			if (restartedProgress != 0)
-				restartedProgress--;
-			else
-				countingMonitor.update(1);
+			addObject(o, walker.getPathHashCode());
+			countingMonitor.update(1);
 		}
-
-		ObjectListIterator itr = reader.openObjectList(listName, walker);
-		try {
-			while ((o = itr.next()) != null) {
-				if (o.has(added))
-					continue;
-				addResult(o, 0);
-				o.add(added);
-				if (restartedProgress != 0)
-					restartedProgress--;
-				else
-					countingMonitor.update(1);
-			}
-			while ((o = itr.nextObject()) != null) {
-				if (o.has(added))
-					continue;
-				addResult(o, itr.getPathHashCode());
-				o.add(added);
-				if (restartedProgress != 0)
-					restartedProgress--;
-				else
-					countingMonitor.update(1);
-			}
-		} finally {
-			itr.release();
-		}
+		countingMonitor.endTask();
 	}
 
 	/**
@@ -1129,10 +1055,10 @@ public class PackWriter {
 	 */
 	public void addObject(final RevObject object)
 			throws IncorrectObjectTypeException {
-		addResultOrBase(object, 0);
+		addObject(object, 0);
 	}
 
-	private void addResultOrBase(final RevObject object, final int pathHashCode)
+	private void addObject(final RevObject object, final int pathHashCode)
 			throws IncorrectObjectTypeException {
 		if (object.has(RevFlag.UNINTERESTING)) {
 			switch (object.getType()) {
@@ -1145,13 +1071,9 @@ public class PackWriter {
 				thin = true;
 				break;
 			}
-		} else {
-			addResult(object, pathHashCode);
+			return;
 		}
-	}
 
-	private void addResult(final RevObject object, final int pathHashCode)
-			throws IncorrectObjectTypeException {
 		final ObjectToPack otp;
 		if (reuseSupport != null)
 			otp = reuseSupport.newObjectToPack(object);
