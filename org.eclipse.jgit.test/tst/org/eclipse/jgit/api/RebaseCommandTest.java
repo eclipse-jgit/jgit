@@ -132,7 +132,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		// create a topic branch
 		createBranch(first, "refs/heads/topic");
 		// create file2 on master
-		writeTrashFile("file2", "file2");
+		File file2 = writeTrashFile("file2", "file2");
 		git.add().addFilepattern("file2").call();
 		git.commit().setMessage("Add file2").call();
 		assertTrue(new File(db.getWorkTree(), "file2").exists());
@@ -141,7 +141,38 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		assertFalse(new File(db.getWorkTree(), "file2").exists());
 
 		RebaseResult res = git.rebase().setUpstream("refs/heads/master").call();
-		assertEquals(Status.UP_TO_DATE, res.getStatus());
+		assertTrue(new File(db.getWorkTree(), "file2").exists());
+		checkFile(file2, "file2");
+		assertEquals(Status.FAST_FORWARD, res.getStatus());
+	}
+
+	@Test
+	public void testFastForwardWithMultipleCommits() throws Exception {
+		// create file1 on master
+		writeTrashFile(FILE1, FILE1);
+		git.add().addFilepattern(FILE1).call();
+		RevCommit first = git.commit().setMessage("Add file1").call();
+
+		assertTrue(new File(db.getWorkTree(), FILE1).exists());
+		// create a topic branch
+		createBranch(first, "refs/heads/topic");
+		// create file2 on master
+		File file2 = writeTrashFile("file2", "file2");
+		git.add().addFilepattern("file2").call();
+		git.commit().setMessage("Add file2").call();
+		assertTrue(new File(db.getWorkTree(), "file2").exists());
+		// write a second commit
+		writeTrashFile("file2", "file2 new content");
+		git.add().addFilepattern("file2").call();
+		git.commit().setMessage("Change content of file2").call();
+
+		checkoutBranch("refs/heads/topic");
+		assertFalse(new File(db.getWorkTree(), "file2").exists());
+
+		RebaseResult res = git.rebase().setUpstream("refs/heads/master").call();
+		assertTrue(new File(db.getWorkTree(), "file2").exists());
+		checkFile(file2, "file2 new content");
+		assertEquals(Status.FAST_FORWARD, res.getStatus());
 	}
 
 	@Test
