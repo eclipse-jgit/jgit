@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAL2n///4o\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/AddCommandTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-01-15T14:05:23Z",
+      "side": 1,
+      "message": "Use FileUtils.mkdirs",
+      "revId": "9c8dbca3a33b1bcef44bca6268792d8ff6d143a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL2n///KQ\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/AddCommandTest.java",
         "patchSetId": 6
@@ -14,6 +31,23 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "AAAL2n///4o\u003d",
+      "revId": "9c8dbca3a33b1bcef44bca6268792d8ff6d143a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2n///4k\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/AddCommandTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-01-15T14:05:23Z",
+      "side": 1,
+      "message": "Use FileUtils.mkdirs",
       "revId": "9c8dbca3a33b1bcef44bca6268792d8ff6d143a4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -38,6 +72,23 @@
     },
     {
       "key": {
+        "uuid": "AAAL2n///4g\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/AddCommandTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-01-15T14:05:23Z",
+      "side": 1,
+      "message": "Use FileUtils.mkdirs",
+      "revId": "9c8dbca3a33b1bcef44bca6268792d8ff6d143a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL2n///KI\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/AddCommandTest.java",
         "patchSetId": 6
@@ -50,6 +101,23 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "AAAL2n///4g\u003d",
+      "revId": "9c8dbca3a33b1bcef44bca6268792d8ff6d143a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2n///4c\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/AddCommandTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-01-15T14:05:23Z",
+      "side": 1,
+      "message": "Use FileUtils.mkdirs",
       "revId": "9c8dbca3a33b1bcef44bca6268792d8ff6d143a4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -74,6 +142,23 @@
     },
     {
       "key": {
+        "uuid": "AAAL2n///4Y\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/AddCommandTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-01-15T14:05:23Z",
+      "side": 1,
+      "message": "Use FileUtils.mkdirs",
+      "revId": "9c8dbca3a33b1bcef44bca6268792d8ff6d143a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL2n///KA\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/AddCommandTest.java",
         "patchSetId": 6
@@ -86,6 +171,23 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "AAAL2n///4Y\u003d",
+      "revId": "9c8dbca3a33b1bcef44bca6268792d8ff6d143a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2n///4U\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/AddCommandTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-01-15T14:05:23Z",
+      "side": 1,
+      "message": "Use FileUtils.mkdirs",
       "revId": "9c8dbca3a33b1bcef44bca6268792d8ff6d143a4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -110,6 +212,23 @@
     },
     {
       "key": {
+        "uuid": "AAAL2n///4Q\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/storage/file/FileRepositoryBuilderTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-01-15T14:05:23Z",
+      "side": 1,
+      "message": "Use FileUtils.mkdirs",
+      "revId": "9c8dbca3a33b1bcef44bca6268792d8ff6d143a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL2n///J4\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/storage/file/FileRepositoryBuilderTest.java",
         "patchSetId": 6
@@ -122,6 +241,23 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "AAAL2n///4Q\u003d",
+      "revId": "9c8dbca3a33b1bcef44bca6268792d8ff6d143a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2n///4M\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/storage/file/T0003_BasicTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-01-15T14:05:23Z",
+      "side": 1,
+      "message": "Use FileUtils.mkdirs",
       "revId": "9c8dbca3a33b1bcef44bca6268792d8ff6d143a4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -146,6 +282,23 @@
     },
     {
       "key": {
+        "uuid": "AAAL2n///4I\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/storage/file/T0003_BasicTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-01-15T14:05:23Z",
+      "side": 1,
+      "message": "Use FileUtils.mkdirs",
+      "revId": "9c8dbca3a33b1bcef44bca6268792d8ff6d143a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL2n///Js\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/storage/file/T0003_BasicTest.java",
         "patchSetId": 6
@@ -158,6 +311,23 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "AAAL2n///4I\u003d",
+      "revId": "9c8dbca3a33b1bcef44bca6268792d8ff6d143a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2n///4E\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/OpenSshConfigTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-01-15T14:05:23Z",
+      "side": 1,
+      "message": "Use FileUtils.mkdirs",
       "revId": "9c8dbca3a33b1bcef44bca6268792d8ff6d143a4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -182,6 +352,23 @@
     },
     {
       "key": {
+        "uuid": "AAAL2n///4A\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/OpenSshConfigTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-01-15T14:05:23Z",
+      "side": 1,
+      "message": "Use FileUtils.mkdirs",
+      "revId": "9c8dbca3a33b1bcef44bca6268792d8ff6d143a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL2n///Jk\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/OpenSshConfigTest.java",
         "patchSetId": 6
@@ -194,6 +381,23 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "AAAL2n///4A\u003d",
+      "revId": "9c8dbca3a33b1bcef44bca6268792d8ff6d143a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2n///38\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/FileTreeIteratorTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-01-15T14:05:23Z",
+      "side": 1,
+      "message": "Use FileUtils.mkdirs",
       "revId": "9c8dbca3a33b1bcef44bca6268792d8ff6d143a4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -218,6 +422,23 @@
     },
     {
       "key": {
+        "uuid": "AAAL2n///34\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/FileTreeIteratorTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-01-15T14:05:23Z",
+      "side": 1,
+      "message": "unnecessary due to mkDir",
+      "revId": "9c8dbca3a33b1bcef44bca6268792d8ff6d143a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL2n///Jc\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/FileTreeIteratorTest.java",
         "patchSetId": 6
@@ -230,6 +451,23 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "AAAL2n///34\u003d",
+      "revId": "9c8dbca3a33b1bcef44bca6268792d8ff6d143a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2n///4w\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/FileUtilTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-01-15T14:05:23Z",
+      "side": 1,
+      "message": "how did the previous version work? \n\nUse FileUtils.mkdirs",
       "revId": "9c8dbca3a33b1bcef44bca6268792d8ff6d143a4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -254,6 +492,23 @@
     },
     {
       "key": {
+        "uuid": "AAAL2n///30\u003d",
+        "filename": "org.eclipse.jgit/findBugs/FindBugsExcludeFilter.xml",
+        "patchSetId": 6
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-01-15T14:05:23Z",
+      "side": 1,
+      "message": "Why?",
+      "revId": "9c8dbca3a33b1bcef44bca6268792d8ff6d143a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL2n///JU\u003d",
         "filename": "org.eclipse.jgit/findBugs/FindBugsExcludeFilter.xml",
         "patchSetId": 6
@@ -266,6 +521,23 @@
       "side": 1,
       "message": "since findbugs still complains about the ignored return value in DirCacheCheckout line 386, I think since the compiler deletes the empty block just containing a comment",
       "parentUuid": "AAAL2n///30\u003d",
+      "revId": "9c8dbca3a33b1bcef44bca6268792d8ff6d143a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2n///4s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-01-15T14:05:23Z",
+      "side": 1,
+      "message": "Why not FileUtils.mkdirs?",
       "revId": "9c8dbca3a33b1bcef44bca6268792d8ff6d143a4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
