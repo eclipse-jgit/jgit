@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL2n///BI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PullCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 2
+      },
+      "writtenOn": "2011-01-28T17:36:29Z",
+      "side": 1,
+      "message": "Can you return \u0027this\u0027 like the other setters?",
+      "revId": "d9713a4849c772e030fca23dd64b993264f28366",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
