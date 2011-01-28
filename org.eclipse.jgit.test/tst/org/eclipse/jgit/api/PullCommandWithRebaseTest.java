@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010, Mathias Kinzler <mathias.kinzler@sap.com>
+ * Copyright (C) 2011, Mathias Kinzler <mathias.kinzler@sap.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -54,7 +54,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import org.eclipse.jgit.api.CreateBranchCommand.SetupUpstreamMode;
-import org.eclipse.jgit.api.MergeResult.MergeStatus;
+import org.eclipse.jgit.api.RebaseResult.Status;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.RepositoryState;
 import org.eclipse.jgit.lib.RepositoryTestCase;
@@ -66,7 +66,7 @@ import org.eclipse.jgit.transport.URIish;
 import org.junit.Before;
 import org.junit.Test;
 
-public class PullCommandTest extends RepositoryTestCase {
+public class PullCommandWithRebaseTest extends RepositoryTestCase {
 	/** Second Test repository */
 	protected FileRepository dbTarget;
 
@@ -83,8 +83,7 @@ public class PullCommandTest extends RepositoryTestCase {
 		PullResult res = target.pull().call();
 		// nothing to update since we don't have different data yet
 		assertTrue(res.getFetchResult().getTrackingRefUpdates().isEmpty());
-		assertTrue(res.getMergeResult().getMergeStatus().equals(
-				MergeStatus.ALREADY_UP_TO_DATE));
+		assertEquals(Status.UP_TO_DATE, res.getRebaseResult().getStatus());
 
 		assertFileContentsEqual(targetFile, "Hello world");
 
@@ -96,15 +95,13 @@ public class PullCommandTest extends RepositoryTestCase {
 		res = target.pull().call();
 
 		assertFalse(res.getFetchResult().getTrackingRefUpdates().isEmpty());
-		assertEquals(res.getMergeResult().getMergeStatus(),
-				MergeStatus.FAST_FORWARD);
+		assertEquals(Status.FAST_FORWARD, res.getRebaseResult().getStatus());
 		assertFileContentsEqual(targetFile, "Another change");
 		assertEquals(RepositoryState.SAFE, target.getRepository()
 				.getRepositoryState());
 
 		res = target.pull().call();
-		assertEquals(res.getMergeResult().getMergeStatus(),
-				MergeStatus.ALREADY_UP_TO_DATE);
+		assertEquals(Status.UP_TO_DATE, res.getRebaseResult().getStatus());
 	}
 
 	@Test
@@ -112,8 +109,7 @@ public class PullCommandTest extends RepositoryTestCase {
 		PullResult res = target.pull().call();
 		// nothing to update since we don't have different data yet
 		assertTrue(res.getFetchResult().getTrackingRefUpdates().isEmpty());
-		assertTrue(res.getMergeResult().getMergeStatus().equals(
-				MergeStatus.ALREADY_UP_TO_DATE));
+		assertTrue(res.getRebaseResult().getStatus().equals(Status.UP_TO_DATE));
 
 		assertFileContentsEqual(targetFile, "Hello world");
 
@@ -129,32 +125,30 @@ public class PullCommandTest extends RepositoryTestCase {
 
 		res = target.pull().call();
 
-		String sourceChangeString = "Source change\n>>>>>>> branch 'refs/heads/master' of "
-				+ target.getRepository().getConfig().getString("remote",
-						"origin", "url");
-
 		assertFalse(res.getFetchResult().getTrackingRefUpdates().isEmpty());
-		assertEquals(res.getMergeResult().getMergeStatus(),
-				MergeStatus.CONFLICTING);
-		String result = "<<<<<<< HEAD\nTarget change\n=======\n"
-				+ sourceChangeString + "\n";
+		assertTrue(res.getRebaseResult().getStatus().equals(Status.STOPPED));
+		String result = "<<<<<<< OURS\nSource change\n=======\nTarget change\n>>>>>>> THEIRS\n";
 		assertFileContentsEqual(targetFile, result);
-		assertEquals(RepositoryState.MERGING, target.getRepository()
-				.getRepositoryState());
+		assertEquals(RepositoryState.REBASING_INTERACTIVE, target
+				.getRepository().getRepositoryState());
 	}
 
 	@Test
 	public void testPullLocalConflict() throws Exception {
 		target.branchCreate().setName("basedOnMaster").setStartPoint(
-				"refs/heads/master").setUpstreamMode(SetupUpstreamMode.TRACK)
+				"refs/heads/master").setUpstreamMode(SetupUpstreamMode.NOTRACK)
 				.call();
+		StoredConfig config = target.getRepository().getConfig();
+		config.setString("branch", "basedOnMaster", "remote", ".");
+		config.setString("branch", "basedOnMaster", "rebase",
+				"refs/heads/master");
+		config.save();
 		target.getRepository().updateRef(Constants.HEAD).link(
 				"refs/heads/basedOnMaster");
 		PullResult res = target.pull().call();
 		// nothing to update since we don't have different data yet
 		assertNull(res.getFetchResult());
-		assertTrue(res.getMergeResult().getMergeStatus().equals(
-				MergeStatus.ALREADY_UP_TO_DATE));
+		assertEquals(Status.UP_TO_DATE, res.getRebaseResult().getStatus());
 
 		assertFileContentsEqual(targetFile, "Hello world");
 
@@ -174,16 +168,12 @@ public class PullCommandTest extends RepositoryTestCase {
 
 		res = target.pull().call();
 
-		String sourceChangeString = "Master change\n>>>>>>> branch 'refs/heads/master' of local repository";
-
 		assertNull(res.getFetchResult());
-		assertEquals(res.getMergeResult().getMergeStatus(),
-				MergeStatus.CONFLICTING);
-		String result = "<<<<<<< HEAD\nSlave change\n=======\n"
-				+ sourceChangeString + "\n";
+		assertEquals(Status.STOPPED, res.getRebaseResult().getStatus());
+		String result = "<<<<<<< OURS\nMaster change\n=======\nSlave change\n>>>>>>> THEIRS\n";
 		assertFileContentsEqual(targetFile, result);
-		assertEquals(RepositoryState.MERGING, target.getRepository()
-				.getRepositoryState());
+		assertEquals(RepositoryState.REBASING_INTERACTIVE, target
+				.getRepository().getRepositoryState());
 	}
 
 	@Override
@@ -219,6 +209,14 @@ public class PullCommandTest extends RepositoryTestCase {
 		targetFile = new File(dbTarget.getWorkTree(), "SomeFile.txt");
 		// make sure we have the same content
 		target.pull().call();
+		target.checkout().setStartPoint("refs/remotes/origin/master").setName(
+				"master").call();
+
+		targetConfig.setString("branch", "master", "rebase",
+				"refs/remotes/origin/master");
+		targetConfig.unset("branch", "master", "merge");
+		targetConfig.save();
+
 		assertFileContentsEqual(targetFile, "Hello world");
 	}
 
