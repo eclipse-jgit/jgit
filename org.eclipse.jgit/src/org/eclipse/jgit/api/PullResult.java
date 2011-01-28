@@ -52,6 +52,8 @@ public class PullResult {
 
 	private final MergeResult mergeResult;
 
+	private final RebaseResult rebaseResult;
+
 	private final String fetchedFrom;
 
 	PullResult(FetchResult fetchResult, String fetchedFrom,
@@ -59,6 +61,15 @@ public class PullResult {
 		this.fetchResult = fetchResult;
 		this.fetchedFrom = fetchedFrom;
 		this.mergeResult = mergeResult;
+		this.rebaseResult = null;
+	}
+
+	PullResult(FetchResult fetchResult, String fetchedFrom,
+			RebaseResult rebaseResult) {
+		this.fetchResult = fetchResult;
+		this.fetchedFrom = fetchedFrom;
+		this.mergeResult = null;
+		this.rebaseResult = rebaseResult;
 	}
 
 	/**
@@ -73,6 +84,13 @@ public class PullResult {
 	 */
 	public MergeResult getMergeResult() {
 		return this.mergeResult;
+	}
+
+	/**
+	 * @return the rebase result, or <code>null</code>
+	 */
+	public RebaseResult getRebaseResult() {
+		return this.rebaseResult;
 	}
 
 	/**
@@ -93,8 +111,10 @@ public class PullResult {
 		sb.append("\n");
 		if (mergeResult != null)
 			sb.append(mergeResult.toString());
+		else if (rebaseResult != null)
+			sb.append(rebaseResult.toString());
 		else
-			sb.append("No merge result");
+			sb.append("No update result");
 		return sb.toString();
 	}
 }
