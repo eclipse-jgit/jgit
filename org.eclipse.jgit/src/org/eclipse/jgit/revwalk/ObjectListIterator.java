@@ -45,7 +45,7 @@ package org.eclipse.jgit.revwalk;
 
 import java.io.IOException;
 
-import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.storage.pack.ObjectToPack;
 import org.eclipse.jgit.storage.pack.PackWriter;
 
 /**
@@ -73,58 +73,21 @@ import org.eclipse.jgit.storage.pack.PackWriter;
  * for them, or should not have been given the objects.
  */
 public abstract class ObjectListIterator {
-	private final ObjectWalk walk;
-
-	/**
-	 * Initialize the list iterator.
-	 *
-	 * @param walk
-	 *            the revision pool the iterator will use when allocating the
-	 *            returned objects.
-	 */
-	protected ObjectListIterator(ObjectWalk walk) {
-		this.walk = walk;
-	}
-
-	/**
-	 * Lookup an object from the revision pool.
-	 *
-	 * @param id
-	 *            the object to allocate.
-	 * @param type
-	 *            the type of the object. The type must be accurate, as it is
-	 *            used to allocate the proper RevObject instance.
-	 * @return the object.
-	 */
-	protected RevObject lookupAny(AnyObjectId id, int type) {
-		return walk.lookupAny(id, type);
-	}
-
-	/**
-	 * Pop the next most recent commit.
-	 * <p>
-	 * Commits should be returned in descending commit time order, or in
-	 * topological order. Either ordering is acceptable for a list to use.
-	 *
-	 * @return next most recent commit; null if traversal is over.
-	 * @throws IOException
-	 *             the list cannot be read.
-	 */
-	public abstract RevCommit next() throws IOException;
-
 	/**
 	 * Pop the next most recent object.
 	 * <p>
-	 * Only RevTree and RevBlob may be returned from this method, as these are
-	 * the only non-commit types reachable from a RevCommit. Lists may return
-	 * the objects clustered by type, or clustered by order of first-discovery
-	 * when walking from the most recent to the oldest commit.
+	 * Commits should be returned in descending commit time order, or in
+	 * topological order. Either ordering is acceptable for a list to use.
+	 * <p>
+	 * Lists may return commit, tree and blob objects clustered by type, or
+	 * clustered by order of first-discovery when walking from the most recent
+	 * to the oldest commit.
 	 *
 	 * @return the next object. Null at the end of the list.
 	 * @throws IOException
 	 *             the list cannot be read.
 	 */
-	public abstract RevObject nextObject() throws IOException;
+	public abstract ObjectToPack nextObjectToPack() throws IOException;
 
 	/**
 	 * Get the current object's path hash code.
