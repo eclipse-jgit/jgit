@@ -1,0 +1,22 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL2X///f8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-01-10T23:28:15Z",
+      "side": 1,
+      "message": "this is not causing bug 333903 but this method call can be dropped (see change I219f864f2ed8d68051d7b5955d0659964fa27274)",
+      "parentUuid": "AAAL2X///yw\u003d",
+      "revId": "0c36591d2e7a42d5c39c12f4897ffb4b652aa953",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
