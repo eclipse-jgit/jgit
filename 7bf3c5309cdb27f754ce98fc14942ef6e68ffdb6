@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL1X////o\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-11T01:14:35Z",
+      "side": 1,
+      "message": "This should fail (by throwing) if the file already exists.\n\nI think based on the comment above on line 384 (\"create/overwrite\") that we might be here for files that already exist, resulting in an IOException.  The old code ignored the failure, but the new code would crash when it needs to continue.",
+      "revId": "7bf3c5309cdb27f754ce98fc14942ef6e68ffdb6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
