@@ -1,0 +1,40 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL2n///D4\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/filter/IndexDiffFilterTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 541,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-01-28T00:14:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL2n///Ec\u003d",
+      "revId": "89c5f2687155cb5393917296968677af0be4d7b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2n///Dw\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/filter/IndexDiffFilterTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 558,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-01-28T00:14:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL2n///EU\u003d",
+      "revId": "89c5f2687155cb5393917296968677af0be4d7b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
