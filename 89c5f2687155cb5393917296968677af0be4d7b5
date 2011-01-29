@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAL2n///Eg\u003d",
+        "filename": "org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/FileResolverTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-01-27T23:14:35Z",
+      "side": 1,
+      "message": "One of these lines is one too many. Replace both with one call to FileUtils.createNewFile",
+      "revId": "89c5f2687155cb5393917296968677af0be4d7b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL2n///D8\u003d",
         "filename": "org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/FileResolverTest.java",
         "patchSetId": 7
@@ -14,6 +31,23 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "AAAL2n///Eg\u003d",
+      "revId": "89c5f2687155cb5393917296968677af0be4d7b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2n///Ec\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/filter/IndexDiffFilterTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 541,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-01-27T23:14:35Z",
+      "side": 1,
+      "message": "Replace both asserts with one FileUtils.mkDirs",
       "revId": "89c5f2687155cb5393917296968677af0be4d7b5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -38,6 +72,23 @@
     },
     {
       "key": {
+        "uuid": "AAAL2n///EY\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/filter/IndexDiffFilterTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 552,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-01-27T23:14:35Z",
+      "side": 1,
+      "message": "Replace both asserts with one FileUtils.mkDirs",
+      "revId": "89c5f2687155cb5393917296968677af0be4d7b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL2n///D0\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/filter/IndexDiffFilterTest.java",
         "patchSetId": 7
@@ -50,6 +101,23 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "AAAL2n///EY\u003d",
+      "revId": "89c5f2687155cb5393917296968677af0be4d7b5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2n///EU\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/filter/IndexDiffFilterTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 558,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-01-27T23:14:35Z",
+      "side": 1,
+      "message": "Replace both asserts with one FileUtils.mkDirs",
       "revId": "89c5f2687155cb5393917296968677af0be4d7b5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
