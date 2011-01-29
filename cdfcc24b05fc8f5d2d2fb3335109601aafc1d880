@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL1X///9g\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/FileUtilTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-12-12T22:37:53Z",
+      "side": 1,
+      "message": "In general I think we should use another pattern here, i.e. use a file utility that throws an exception on error. We are not really testing that createNewFile works here, but since there is another pattern already in place, it\u0027s better to move it to a separate commit, OR fix the mkdirs asserts too.",
+      "revId": "cdfcc24b05fc8f5d2d2fb3335109601aafc1d880",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL1X///9k\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-12-12T22:37:53Z",
+      "side": 1,
+      "message": "Not exactly related to this patch, but why are we creating a file this way\nand THEN a checkout?",
+      "revId": "cdfcc24b05fc8f5d2d2fb3335109601aafc1d880",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
