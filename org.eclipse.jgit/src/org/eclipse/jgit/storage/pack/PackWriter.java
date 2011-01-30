@@ -539,6 +539,7 @@ public class PackWriter {
 		cnt = findObjectsNeedingDelta(list, cnt, Constants.OBJ_BLOB);
 		if (cnt == 0)
 			return;
+		int nonEdgeCnt = cnt;
 
 		// Queue up any edge objects that we might delta against.  We won't
 		// be sending these as we assume the other side has them, but we need
@@ -636,12 +637,15 @@ public class PackWriter {
 
 		// Above we stored the objects we cannot delta onto the end.
 		// Remove them from the list so we don't waste time on them.
-		while (0 < cnt && list[cnt - 1].isDoNotDelta())
+		while (0 < cnt && list[cnt - 1].isDoNotDelta()) {
+			if (!list[cnt - 1].isEdge())
+				nonEdgeCnt--;
 			cnt--;
+		}
 		if (cnt == 0)
 			return;
 
-		monitor.beginTask(JGitText.get().compressingObjects, cnt);
+		monitor.beginTask(JGitText.get().compressingObjects, nonEdgeCnt);
 		searchForDeltas(monitor, list, cnt);
 		monitor.endTask();
 	}
