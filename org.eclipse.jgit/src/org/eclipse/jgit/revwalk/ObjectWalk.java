@@ -45,6 +45,8 @@ package org.eclipse.jgit.revwalk;
 
 import java.io.IOException;
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.CorruptObjectException;
@@ -85,6 +87,8 @@ public class ObjectWalk extends RevWalk {
 
 	private CanonicalTreeParser treeWalk;
 
+	private List<RevObject> rootObjects;
+
 	private BlockObjQueue pendingObjects;
 
 	private RevTree currentTree;
@@ -115,6 +119,7 @@ public class ObjectWalk extends RevWalk {
 	 */
 	public ObjectWalk(ObjectReader or) {
 		super(or);
+		rootObjects = new ArrayList<RevObject>();
 		pendingObjects = new BlockObjQueue();
 		treeWalk = new CanonicalTreeParser();
 	}
@@ -425,6 +430,11 @@ public class ObjectWalk extends RevWalk {
 	@Override
 	protected void reset(final int retainFlags) {
 		super.reset(retainFlags);
+
+		for (RevObject obj : rootObjects)
+			obj.flags &= ~IN_PENDING;
+
+		rootObjects = new ArrayList<RevObject>();
 		pendingObjects = new BlockObjQueue();
 		treeWalk = new CanonicalTreeParser();
 		currentTree = null;
@@ -436,6 +446,7 @@ public class ObjectWalk extends RevWalk {
 	private void addObject(final RevObject o) {
 		if ((o.flags & IN_PENDING) == 0) {
 			o.flags |= IN_PENDING;
+			rootObjects.add(o);
 			pendingObjects.add(o);
 		}
 	}
