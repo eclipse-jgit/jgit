@@ -55,10 +55,8 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
@@ -376,9 +374,8 @@ public class PackWriter {
 			throws IOException {
 		if (countingMonitor == null)
 			countingMonitor = NullProgressMonitor.INSTANCE;
-		ObjectWalk walker = setUpWalker(interestingObjects,
+		findObjectsToPack(countingMonitor, interestingObjects,
 				uninterestingObjects);
-		findObjectsToPack(countingMonitor, walker);
 	}
 
 	/**
@@ -976,32 +973,30 @@ public class PackWriter {
 		out.write(packcsum);
 	}
 
-	private ObjectWalk setUpWalker(
-			final Collection<? extends ObjectId> interestingObjects,
-			final Collection<? extends ObjectId> uninterestingObjects)
+	private void findObjectsToPack(final ProgressMonitor countingMonitor,
+			final Collection<? extends ObjectId> want,
+			Collection<? extends ObjectId> have)
 			throws MissingObjectException, IOException,
 			IncorrectObjectTypeException {
-		List<ObjectId> all = new ArrayList<ObjectId>(interestingObjects.size());
-		for (ObjectId id : interestingObjects)
-			all.add(id.copy());
+		countingMonitor.beginTask(JGitText.get().countingObjects,
+				ProgressMonitor.UNKNOWN);
 
-		final Set<ObjectId> not;
-		if (uninterestingObjects != null && !uninterestingObjects.isEmpty()) {
-			not = new HashSet<ObjectId>();
-			for (ObjectId id : uninterestingObjects)
-				not.add(id.copy());
-			all.addAll(not);
-		} else
-			not = Collections.emptySet();
+		if (have == null)
+			have = Collections.emptySet();
+
+		List<ObjectId> all = new ArrayList<ObjectId>(want.size() + have.size());
+		all.addAll(want);
+		all.addAll(have);
 
 		final ObjectWalk walker = new ObjectWalk(reader);
 		walker.setRetainBody(false);
-		if (not.isEmpty())
+		if (have.isEmpty())
 			walker.sort(RevSort.COMMIT_TIME_DESC);
-		else
+		else {
 			walker.sort(RevSort.TOPO);
-		if (thin && !not.isEmpty())
-			walker.sort(RevSort.BOUNDARY, true);
+			if (thin)
+				walker.sort(RevSort.BOUNDARY, true);
+		}
 
 		AsyncRevObjectQueue q = walker.parseAny(all, true);
 		try {
@@ -1010,13 +1005,13 @@ public class PackWriter {
 					RevObject o = q.next();
 					if (o == null)
 						break;
-					if (not.contains(o.copy()))
+					if (have.contains(o))
 						walker.markUninteresting(o);
 					else
 						walker.markStart(o);
 				} catch (MissingObjectException e) {
 					if (ignoreMissingUninteresting
-							&& not.contains(e.getObjectId()))
+							&& have.contains(e.getObjectId()))
 						continue;
 					throw e;
 				}
@@ -1024,14 +1019,7 @@ public class PackWriter {
 		} finally {
 			q.release();
 		}
-		return walker;
-	}
 
-	private void findObjectsToPack(final ProgressMonitor countingMonitor,
-			final ObjectWalk walker) throws MissingObjectException,
-			IncorrectObjectTypeException,			IOException {
-		countingMonitor.beginTask(JGitText.get().countingObjects,
-				ProgressMonitor.UNKNOWN);
 		RevObject o;
 
 		while ((o = walker.next()) != null) {
