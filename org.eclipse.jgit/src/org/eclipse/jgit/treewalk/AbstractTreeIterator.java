@@ -310,29 +310,47 @@ public abstract class AbstractTreeIterator {
 	}
 
 	int pathCompare(final AbstractTreeIterator p, final int pMode) {
-		final byte[] a = path;
-		final byte[] b = p.path;
-		final int aLen = pathLen;
-		final int bLen = p.pathLen;
-		int cPos;
-
 		// Its common when we are a subtree for both parents to match;
 		// when this happens everything in path[0..cPos] is known to
 		// be equal and does not require evaluation again.
 		//
-		cPos = alreadyMatch(this, p);
+		int cPos = alreadyMatch(this, p);
+		return pathCompare(p.path, cPos, p.pathLen, pMode, cPos);
+	}
 
-		for (; cPos < aLen && cPos < bLen; cPos++) {
-			final int cmp = (a[cPos] & 0xff) - (b[cPos] & 0xff);
+	/**
+	 * Compare the path of this current entry to a raw buffer.
+	 *
+	 * @param buf
+	 *            the raw path buffer.
+	 * @param pos
+	 *            position to start reading the raw buffer.
+	 * @param end
+	 *            one past the end of the raw buffer (length is end - pos).
+	 * @param mode
+	 *            the mode of the path.
+	 * @return -1 if this entry sorts first; 0 if the entries are equal; 1 if
+	 *         p's entry sorts first.
+	 */
+	public int pathCompare(byte[] buf, int pos, int end, int mode) {
+		return pathCompare(buf, pos, end, mode, 0);
+	}
+
+	private int pathCompare(byte[] b, int bPos, int bEnd, int bMode, int aPos) {
+		final byte[] a = path;
+		final int aEnd = pathLen;
+
+		for (; aPos < aEnd && bPos < bEnd; aPos++, bPos++) {
+			final int cmp = (a[aPos] & 0xff) - (b[bPos] & 0xff);
 			if (cmp != 0)
 				return cmp;
 		}
 
-		if (cPos < aLen)
-			return (a[cPos] & 0xff) - lastPathChar(pMode);
-		if (cPos < bLen)
-			return lastPathChar(mode) - (b[cPos] & 0xff);
-		return lastPathChar(mode) - lastPathChar(pMode);
+		if (aPos < aEnd)
+			return (a[aPos] & 0xff) - lastPathChar(bMode);
+		if (bPos < bEnd)
+			return lastPathChar(mode) - (b[bPos] & 0xff);
+		return lastPathChar(mode) - lastPathChar(bMode);
 	}
 
 	private static int alreadyMatch(AbstractTreeIterator a,
@@ -404,6 +422,16 @@ public abstract class AbstractTreeIterator {
 	/** @return path of the current entry, as a string. */
 	public String getEntryPathString() {
 		return TreeWalk.pathOf(this);
+	}
+
+	/** @return the internal buffer holding the current path. */
+	public byte[] getEntryPathBuffer() {
+		return path;
+	}
+
+	/** @return length of the path in {@link #getEntryPathBuffer()}. */
+	public int getEntryPathLength() {
+		return pathLen;
 	}
 
 	/**
