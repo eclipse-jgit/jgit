@@ -77,6 +77,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdSubclassMap;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
@@ -161,6 +162,8 @@ public class ReceivePack {
 	private PacketLineOut pckOut;
 
 	private Writer msgs;
+
+	private SideBandOutputStream msgOut;
 
 	private PackParser parser;
 
@@ -758,9 +761,9 @@ public class ReceivePack {
 			OutputStream out = rawOut;
 
 			rawOut = new SideBandOutputStream(CH_DATA, MAX_BUF, out);
+			msgOut = new SideBandOutputStream(CH_PROGRESS, MAX_BUF, out);
 			pckOut = new PacketLineOut(rawOut);
-			msgs = new OutputStreamWriter(new SideBandOutputStream(CH_PROGRESS,
-					MAX_BUF, out), Constants.CHARSET);
+			msgs = new OutputStreamWriter(msgOut, Constants.CHARSET);
 		}
 	}
 
@@ -780,6 +783,11 @@ public class ReceivePack {
 		if (timeoutIn != null)
 			timeoutIn.setTimeout(10 * timeout * 1000);
 
+		ProgressMonitor receiving = NullProgressMonitor.INSTANCE;
+		ProgressMonitor resolving = NullProgressMonitor.INSTANCE;
+		if (sideBand)
+			resolving = new SideBandProgressMonitor(msgOut);
+
 		ObjectInserter ins = db.newObjectInserter();
 		try {
 			String lockMsg = "jgit receive-pack";
@@ -792,7 +800,7 @@ public class ReceivePack {
 			parser.setNeedBaseObjectIds(checkReferencedIsReachable);
 			parser.setObjectChecking(isCheckReceivedObjects());
 			parser.setLockMessage(lockMsg);
-			packLock = parser.parse(NullProgressMonitor.INSTANCE);
+			packLock = parser.parse(receiving, resolving);
 			ins.flush();
 		} finally {
 			ins.release();
