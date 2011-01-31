@@ -85,6 +85,8 @@ public class ObjectWalk extends RevWalk {
 	 */
 	private static final int IN_PENDING = RevWalk.REWRITE;
 
+	private static final byte[] EMPTY_PATH = {};
+
 	private CanonicalTreeParser treeWalk;
 
 	private List<RevObject> rootObjects;
@@ -238,10 +240,8 @@ public class ObjectWalk extends RevWalk {
 				return null;
 			if ((r.flags & UNINTERESTING) != 0) {
 				markTreeUninteresting(r.getTree());
-				if (hasRevSort(RevSort.BOUNDARY)) {
-					pendingObjects.add(r.getTree());
+				if (hasRevSort(RevSort.BOUNDARY))
 					return r;
-				}
 				continue;
 			}
 			if (firstCommit == null)
@@ -414,6 +414,16 @@ public class ObjectWalk extends RevWalk {
 	 */
 	public int getPathHashCode() {
 		return last != null ? treeWalk.getEntryPathHashCode() : 0;
+	}
+
+	/** @return the internal buffer holding the current path. */
+	public byte[] getPathBuffer() {
+		return last != null ? treeWalk.getEntryPathBuffer() : EMPTY_PATH;
+	}
+
+	/** @return length of the path in {@link #getPathBuffer()}. */
+	public int getPathLength() {
+		return last != null ? treeWalk.getEntryPathLength() : 0;
 	}
 
 	@Override
