@@ -47,6 +47,7 @@ import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 import static org.eclipse.jgit.lib.Constants.OBJ_TREE;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Set;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
@@ -73,7 +74,9 @@ class BaseSearch {
 
 	private final ObjectId[] baseTrees;
 
-	private final ObjectIdSubclassMap<ObjectToPack> edgeObjects;
+	private final ObjectIdSubclassMap<ObjectToPack> objectsMap;
+
+	private final List<ObjectToPack> edgeObjects;
 
 	private final IntSet alreadyProcessed;
 
@@ -84,10 +87,12 @@ class BaseSearch {
 	private final MutableObjectId idBuf;
 
 	BaseSearch(ProgressMonitor countingMonitor, Set<RevTree> bases,
-			ObjectIdSubclassMap<ObjectToPack> edges, ObjectReader or) {
+			ObjectIdSubclassMap<ObjectToPack> objects,
+			List<ObjectToPack> edges, ObjectReader or) {
 		progress = countingMonitor;
 		reader = or;
 		baseTrees = bases.toArray(new ObjectId[bases.size()]);
+		objectsMap = objects;
 		edgeObjects = edges;
 
 		alreadyProcessed = new IntSet();
@@ -175,8 +180,10 @@ class BaseSearch {
 		obj.setEdge();
 		obj.setPathHash(pathHash);
 
-		if (edgeObjects.addIfAbsent(obj) == obj)
+		if (objectsMap.addIfAbsent(obj) == obj) {
+			edgeObjects.add(obj);
 			progress.update(1);
+		}
 	}
 
 	private byte[] readTree(AnyObjectId id) throws MissingObjectException,

@@ -1,7 +1,5 @@
 /*
- * Copyright (C) 2008-2009, Google Inc.
- * Copyright (C) 2007, Robin Rosenberg <robin.rosenberg@dewire.com>
- * Copyright (C) 2006-2008, Shawn O. Pearce <spearce@spearce.org>
+ * Copyright (C) 2011, Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -43,54 +41,47 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.eclipse.jgit.storage.file;
+package org.eclipse.jgit.storage.pack;
 
 import java.io.IOException;
-import java.util.zip.CRC32;
-import java.util.zip.DataFormatException;
-import java.util.zip.Inflater;
+import java.util.Set;
 
-import org.eclipse.jgit.storage.pack.PackOutputStream;
+import org.eclipse.jgit.lib.ObjectId;
 
-/**
- * A {@link ByteWindow} with an underlying byte array for storage.
- */
-final class ByteArrayWindow extends ByteWindow {
-	private final byte[] array;
+/** Describes a pack file {@link ObjectReuseAsIs} can append onto a stream. */
+public abstract class CachedPack {
+	/**
+	 * Objects that start this pack.
+	 * <p>
+	 * All objects reachable from the tips are contained within this pack. If
+	 * {@link PackWriter} is going to include everything reachable from all of
+	 * these objects, this cached pack is eligible to be appended directly onto
+	 * the output pack stream.
+	 *
+	 * @return the tip objects that describe this pack.
+	 */
+	public abstract Set<ObjectId> getTips();
 
-	ByteArrayWindow(final PackFile pack, final long o, final byte[] b) {
-		super(pack, o, b.length);
-		array = b;
-	}
+	/**
+	 * Get the number of objects in this pack.
+	 *
+	 * @return the total object count for the pack.
+	 * @throws IOException
+	 *             if the object count cannot be read.
+	 */
+	public abstract long getObjectCount() throws IOException;
 
-	@Override
-	protected int copy(final int p, final byte[] b, final int o, int n) {
-		n = Math.min(array.length - p, n);
-		System.arraycopy(array, p, b, o, n);
-		return n;
-	}
-
-	@Override
-	protected int setInput(final int pos, final Inflater inf)
-			throws DataFormatException {
-		int n = array.length - pos;
-		inf.setInput(array, pos, n);
-		return n;
-	}
-
-	void crc32(CRC32 out, long pos, int cnt) {
-		out.update(array, (int) (pos - start), cnt);
-	}
-
-	@Override
-	void write(PackOutputStream out, long pos, int cnt) throws IOException {
-		out.write(array, (int) (pos - start), cnt);
-	}
-
-	void check(Inflater inf, byte[] tmp, long pos, int cnt)
-			throws DataFormatException {
-		inf.setInput(array, (int) (pos - start), cnt);
-		while (inf.inflate(tmp, 0, tmp.length) > 0)
-			continue;
-	}
+	/**
+	 * Determine if the pack contains the requested objects.
+	 *
+	 * @param <T>
+	 *            any type of ObjectId to search for.
+	 * @param toFind
+	 *            the objects to search for.
+	 * @return the objects contained in the pack.
+	 * @throws IOException
+	 *             the pack cannot be accessed
+	 */
+	public abstract <T extends ObjectId> Set<ObjectId> hasObject(
+			Iterable<T> toFind) throws IOException;
 }

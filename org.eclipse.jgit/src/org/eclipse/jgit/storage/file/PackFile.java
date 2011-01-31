@@ -175,6 +175,16 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 		return packFile;
 	}
 
+	/** @return name extracted from {@code pack-*.pack} pattern. */
+	public String getPackName() {
+		String name = getPackFile().getName();
+		if (name.startsWith("pack-"))
+			name = name.substring("pack-".length());
+		if (name.endsWith(".pack"))
+			name = name.substring(0, name.length() - ".pack".length());
+		return name;
+	}
+
 	/**
 	 * Determine if an object is contained within the pack file.
 	 * <p>
@@ -293,6 +303,13 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 		if (curs.inflate(this, position, dstbuf, 0) != sz)
 			throw new EOFException(MessageFormat.format(JGitText.get().shortCompressedStreamAt, position));
 		return dstbuf;
+	}
+
+	void copyPackAsIs(PackOutputStream out, WindowCursor curs)
+			throws IOException {
+		// Pin the first window, this ensures the length is accurate.
+		curs.pin(this, 0);
+		curs.copyPackAsIs(this, out, 12, length - (12 + 20));
 	}
 
 	final void copyAsIs(PackOutputStream out, LocalObjectToPack src,
