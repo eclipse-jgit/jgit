@@ -439,6 +439,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String resultLengthIncorrect;
 	/***/ public String rewinding;
 	/***/ public String searchForReuse;
+	/***/ public String searchForSizes;
 	/***/ public String sequenceTooLargeForDiffAlgorithm;
 	/***/ public String serviceNotPermitted;
 	/***/ public String shortCompressedStreamAt;
