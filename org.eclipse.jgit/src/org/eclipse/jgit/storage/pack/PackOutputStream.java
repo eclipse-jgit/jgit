@@ -135,10 +135,10 @@ public final class PackOutputStream extends OutputStream {
 		out.flush();
 	}
 
-	void writeFileHeader(int version, int objectCount) throws IOException {
+	void writeFileHeader(int version, long objectCount) throws IOException {
 		System.arraycopy(Constants.PACK_SIGNATURE, 0, headerBuffer, 0, 4);
 		NB.encodeInt32(headerBuffer, 4, version);
-		NB.encodeInt32(headerBuffer, 8, objectCount);
+		NB.encodeInt32(headerBuffer, 8, (int) objectCount);
 		write(headerBuffer, 0, 12);
 	}
 

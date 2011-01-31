@@ -44,8 +44,11 @@
 
 package org.eclipse.jgit.storage.file;
 
+import java.io.IOException;
 import java.util.zip.DataFormatException;
 import java.util.zip.Inflater;
+
+import org.eclipse.jgit.storage.pack.PackOutputStream;
 
 /**
  * A window of data currently stored within a cache.
@@ -116,6 +119,9 @@ abstract class ByteWindow {
 	 *         bytes available.
 	 */
 	protected abstract int copy(int pos, byte[] dstbuf, int dstoff, int cnt);
+
+	abstract void write(PackOutputStream out, long pos, int cnt)
+			throws IOException;
 
 	final int setInput(long pos, Inflater inf) throws DataFormatException {
 		return setInput((int) (pos - start), inf);

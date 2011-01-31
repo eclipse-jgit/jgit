@@ -640,6 +640,7 @@ public class UploadPack {
 			cfg = new PackConfig(db);
 		final PackWriter pw = new PackWriter(cfg, walk.getObjectReader());
 		try {
+			pw.setUseCachedPacks(true);
 			pw.setDeltaBaseAsOffset(options.contains(OPTION_OFS_DELTA));
 			pw.setThin(options.contains(OPTION_THIN_PACK));
 			pw.preparePack(pm, wantAll, commonBase);

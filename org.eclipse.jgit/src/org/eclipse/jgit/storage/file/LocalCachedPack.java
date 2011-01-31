@@ -1,7 +1,5 @@
 /*
- * Copyright (C) 2008-2009, Google Inc.
- * Copyright (C) 2007, Robin Rosenberg <robin.rosenberg@dewire.com>
- * Copyright (C) 2006-2008, Shawn O. Pearce <spearce@spearce.org>
+ * Copyright (C) 2011, Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -45,52 +43,84 @@
 
 package org.eclipse.jgit.storage.file;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.zip.CRC32;
-import java.util.zip.DataFormatException;
-import java.util.zip.Inflater;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.storage.pack.CachedPack;
 import org.eclipse.jgit.storage.pack.PackOutputStream;
 
-/**
- * A {@link ByteWindow} with an underlying byte array for storage.
- */
-final class ByteArrayWindow extends ByteWindow {
-	private final byte[] array;
+class LocalCachedPack extends CachedPack {
+	private final ObjectDirectory odb;
 
-	ByteArrayWindow(final PackFile pack, final long o, final byte[] b) {
-		super(pack, o, b.length);
-		array = b;
+	private final Set<ObjectId> tips;
+
+	private final String[] packNames;
+
+	LocalCachedPack(ObjectDirectory odb, Set<ObjectId> tips,
+			List<String> packNames) {
+		this.odb = odb;
+
+		if (tips.size() == 1)
+			this.tips = Collections.singleton(tips.iterator().next());
+		else
+			this.tips = Collections.unmodifiableSet(tips);
+
+		this.packNames = packNames.toArray(new String[packNames.size()]);
 	}
 
 	@Override
-	protected int copy(final int p, final byte[] b, final int o, int n) {
-		n = Math.min(array.length - p, n);
-		System.arraycopy(array, p, b, o, n);
-		return n;
+	public Set<ObjectId> getTips() {
+		return tips;
 	}
 
 	@Override
-	protected int setInput(final int pos, final Inflater inf)
-			throws DataFormatException {
-		int n = array.length - pos;
-		inf.setInput(array, pos, n);
-		return n;
+	public long getObjectCount() throws IOException {
+		long cnt = 0;
+		for (String packName : packNames)
+			cnt += getPackFile(packName).getObjectCount();
+		return cnt;
 	}
 
-	void crc32(CRC32 out, long pos, int cnt) {
-		out.update(array, (int) (pos - start), cnt);
+	void copyAsIs(PackOutputStream out, WindowCursor wc) throws IOException {
+		for (String packName : packNames)
+			getPackFile(packName).copyPackAsIs(out, wc);
 	}
 
 	@Override
-	void write(PackOutputStream out, long pos, int cnt) throws IOException {
-		out.write(array, (int) (pos - start), cnt);
+	public <T extends ObjectId> Set<ObjectId> hasObject(Iterable<T> toFind)
+			throws IOException {
+		PackFile[] packs = new PackFile[packNames.length];
+		for (int i = 0; i < packNames.length; i++)
+			packs[i] = getPackFile(packNames[i]);
+
+		Set<ObjectId> have = new HashSet<ObjectId>();
+		for (ObjectId id : toFind) {
+			for (PackFile pack : packs) {
+				if (pack.hasObject(id)) {
+					have.add(id);
+					break;
+				}
+			}
+		}
+		return have;
 	}
 
-	void check(Inflater inf, byte[] tmp, long pos, int cnt)
-			throws DataFormatException {
-		inf.setInput(array, (int) (pos - start), cnt);
-		while (inf.inflate(tmp, 0, tmp.length) > 0)
-			continue;
+	private PackFile getPackFile(String packName) throws FileNotFoundException {
+		for (PackFile pack : odb.getPacks()) {
+			if (packName.equals(pack.getPackName()))
+				return pack;
+		}
+		throw new FileNotFoundException(getPackFilePath(packName));
+	}
+
+	private String getPackFilePath(String packName) {
+		final File packDir = new File(odb.getDirectory(), "pack");
+		return new File(packDir, "pack-" + packName + ".pack").getPath();
 	}
 }

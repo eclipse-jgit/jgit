@@ -45,6 +45,7 @@ package org.eclipse.jgit.storage.file;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Set;
 
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
@@ -54,6 +55,7 @@ import org.eclipse.jgit.lib.ObjectDatabase;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.storage.pack.CachedPack;
 import org.eclipse.jgit.storage.pack.ObjectToPack;
 import org.eclipse.jgit.storage.pack.PackWriter;
 import org.eclipse.jgit.util.FS;
@@ -257,6 +259,9 @@ abstract class FileObjectDatabase extends ObjectDatabase {
 			ObjectToPack otp, WindowCursor curs) throws IOException;
 
 	abstract File getDirectory();
+
+	abstract Collection<? extends CachedPack> getCachedPacks()
+			throws IOException;
 
 	abstract AlternateHandle[] myAlternates();
 

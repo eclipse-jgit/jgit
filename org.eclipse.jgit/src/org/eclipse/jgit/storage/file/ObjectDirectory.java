@@ -72,10 +72,13 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.RepositoryCache;
 import org.eclipse.jgit.lib.RepositoryCache.FileKey;
+import org.eclipse.jgit.storage.pack.CachedPack;
 import org.eclipse.jgit.storage.pack.ObjectToPack;
 import org.eclipse.jgit.storage.pack.PackWriter;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
+import org.eclipse.jgit.util.IO;
+import org.eclipse.jgit.util.RawParseUtils;
 
 /**
  * Traditional file system based {@link ObjectDatabase}.
@@ -112,7 +115,11 @@ public class ObjectDirectory extends FileObjectDatabase {
 
 	private final File alternatesFile;
 
+	private final File cachedPacksFile;
+
 	private final AtomicReference<PackList> packList;
+
+	private final AtomicReference<CachedPackList> cachedPacks;
 
 	private final FS fs;
 
@@ -142,7 +149,9 @@ public class ObjectDirectory extends FileObjectDatabase {
 		infoDirectory = new File(objects, "info");
 		packDirectory = new File(objects, "pack");
 		alternatesFile = new File(infoDirectory, "alternates");
+		cachedPacksFile = new File(infoDirectory, "cached-packs");
 		packList = new AtomicReference<PackList>(NO_PACKS);
+		cachedPacks = new AtomicReference<CachedPackList>();
 		unpackedObjectCache = new UnpackedObjectCache();
 		this.fs = fs;
 
@@ -224,6 +233,63 @@ public class ObjectDirectory extends FileObjectDatabase {
 			list = scanPacks(list);
 		PackFile[] packs = list.packs;
 		return Collections.unmodifiableCollection(Arrays.asList(packs));
+	}
+
+	@Override
+	Collection<? extends CachedPack> getCachedPacks() throws IOException {
+		CachedPackList list = cachedPacks.get();
+		if (list == null || list.snapshot.isModified(cachedPacksFile))
+			list = scanCachedPacks(list);
+		return list.packs;
+	}
+
+	private CachedPackList scanCachedPacks(CachedPackList old)
+			throws IOException {
+		FileSnapshot s = FileSnapshot.save(cachedPacksFile);
+		byte[] buf;
+		try {
+			buf = IO.readFully(cachedPacksFile);
+		} catch (FileNotFoundException e) {
+			buf = new byte[0];
+		}
+
+		if (old != null && old.snapshot.equals(s)
+				&& Arrays.equals(old.raw, buf)) {
+			old.snapshot.setClean(s);
+			return old;
+		}
+
+		ArrayList<LocalCachedPack> list = new ArrayList<LocalCachedPack>(4);
+		Set<ObjectId> tips = new HashSet<ObjectId>();
+		int ptr = 0;
+		while (ptr < buf.length) {
+			if (buf[ptr] == '#' || buf[ptr] == '\n') {
+				ptr = RawParseUtils.nextLF(buf, ptr);
+				continue;
+			}
+
+			if (buf[ptr] == '+') {
+				tips.add(ObjectId.fromString(buf, ptr + 2));
+				ptr = RawParseUtils.nextLF(buf, ptr + 2);
+				continue;
+			}
+
+			List<String> names = new ArrayList<String>(4);
+			while (ptr < buf.length && buf[ptr] == 'P') {
+				int end = RawParseUtils.nextLF(buf, ptr);
+				if (buf[end - 1] == '\n')
+					end--;
+				names.add(RawParseUtils.decode(buf, ptr + 2, end));
+				ptr = RawParseUtils.nextLF(buf, end);
+			}
+
+			if (!tips.isEmpty() && !names.isEmpty()) {
+				list.add(new LocalCachedPack(this, tips, names));
+				tips = new HashSet<ObjectId>();
+			}
+		}
+		list.trimToSize();
+		return new CachedPackList(s, Collections.unmodifiableList(list), buf);
 	}
 
 	/**
@@ -757,6 +823,20 @@ public class ObjectDirectory extends FileObjectDatabase {
 		PackList(final FileSnapshot monitor, final PackFile[] packs) {
 			this.snapshot = monitor;
 			this.packs = packs;
+		}
+	}
+
+	private static class CachedPackList {
+		final FileSnapshot snapshot;
+
+		final Collection<LocalCachedPack> packs;
+
+		final byte[] raw;
+
+		CachedPackList(FileSnapshot sn, List<LocalCachedPack> list, byte[] buf) {
+			snapshot = sn;
+			packs = list;
+			raw = buf;
 		}
 	}
 
