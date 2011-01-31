@@ -259,6 +259,7 @@ public abstract class BasePackPushConnection extends BasePackConnection implemen
 					newObjects.add(r.getNewObjectId());
 			}
 
+			writer.setUseCachedPacks(true);
 			writer.setThin(thinPack);
 			writer.setDeltaBaseAsOffset(capableOfsDelta);
 			writer.preparePack(monitor, newObjects, remoteObjects);

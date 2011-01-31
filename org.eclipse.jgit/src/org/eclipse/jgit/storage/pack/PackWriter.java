@@ -56,9 +56,11 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
@@ -90,6 +92,7 @@ import org.eclipse.jgit.revwalk.AsyncRevObjectQueue;
 import org.eclipse.jgit.revwalk.ObjectWalk;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
+import org.eclipse.jgit.revwalk.RevFlagSet;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevSort;
 import org.eclipse.jgit.revwalk.RevTree;
@@ -145,7 +148,9 @@ public class PackWriter {
 	private final ObjectIdSubclassMap<ObjectToPack> objectsMap = new ObjectIdSubclassMap<ObjectToPack>();
 
 	// edge objects for thin packs
-	private final ObjectIdSubclassMap<ObjectToPack> edgeObjects = new ObjectIdSubclassMap<ObjectToPack>();
+	private List<ObjectToPack> edgeObjects = new ArrayList<ObjectToPack>();
+
+	private List<CachedPack> cachedPacks = new ArrayList<CachedPack>(2);
 
 	private Deflater myDeflater;
 
@@ -167,6 +172,8 @@ public class PackWriter {
 	private boolean reuseDeltas;
 
 	private boolean thin;
+
+	private boolean useCachedPacks;
 
 	private boolean ignoreMissingUninteresting = true;
 
@@ -281,6 +288,24 @@ public class PackWriter {
 		thin = packthin;
 	}
 
+	/** @return true to reuse cached packs. If true index creation isn't available. */
+	public boolean isUseCachedPacks() {
+		return useCachedPacks;
+	}
+
+	/**
+	 * @param useCached
+	 *            if set to true and a cached pack is present, it will be
+	 *            appended onto the end of a thin-pack, reducing the amount of
+	 *            working set space and CPU used by PackWriter. Enabling this
+	 *            feature prevents PackWriter from creating an index for the
+	 *            newly created pack, so its only suitable for writing to a
+	 *            network client, where the client will make the index.
+	 */
+	public void setUseCachedPacks(boolean useCached) {
+		useCachedPacks = useCached;
+	}
+
 	/**
 	 * @return true to ignore objects that are uninteresting and also not found
 	 *         on local disk; false to throw a {@link MissingObjectException}
@@ -308,8 +333,8 @@ public class PackWriter {
 	 *
 	 * @return number of objects in pack.
 	 */
-	public int getObjectsNumber() {
-		return objectsMap.size();
+	public long getObjectsNumber() {
+		return stats.totalObjects;
 	}
 
 	/**
@@ -323,26 +348,15 @@ public class PackWriter {
 	 * a caller side. Iterator must return each id of object to write exactly
 	 * once.
 	 * </p>
-	 * <p>
-	 * When iterator returns object that has {@link RevFlag#UNINTERESTING} flag,
-	 * this object won't be included in an output pack. Instead, it is recorded
-	 * as edge-object (known to remote repository) for thin-pack. In such a case
-	 * writer may pack objects with delta base object not within set of objects
-	 * to pack, but belonging to party repository - those marked with
-	 * {@link RevFlag#UNINTERESTING} flag. This type of pack is used only for
-	 * transport.
-	 * </p>
 	 *
 	 * @param objectsSource
 	 *            iterator of object to store in a pack; order of objects within
 	 *            each type is important, ordering by type is not needed;
 	 *            allowed types for objects are {@link Constants#OBJ_COMMIT},
 	 *            {@link Constants#OBJ_TREE}, {@link Constants#OBJ_BLOB} and
-	 *            {@link Constants#OBJ_TAG}; objects returned by iterator may
-	 *            be later reused by caller as object id and type are internally
-	 *            copied in each iteration; if object returned by iterator has
-	 *            {@link RevFlag#UNINTERESTING} flag set, it won't be included
-	 *            in a pack, but is considered as edge-object for thin-pack.
+	 *            {@link Constants#OBJ_TAG}; objects returned by iterator may be
+	 *            later reused by caller as object id and type are internally
+	 *            copied in each iteration.
 	 * @throws IOException
 	 *             when some I/O problem occur during reading objects.
 	 */
@@ -392,9 +406,21 @@ public class PackWriter {
 	 * @param id
 	 *            the object to test the existence of.
 	 * @return true if the object will appear in the output pack file.
+	 * @throws IOException
+	 *             a cached pack cannot be examined.
 	 */
-	public boolean willInclude(final AnyObjectId id) {
-		return get(id) != null;
+	public boolean willInclude(final AnyObjectId id) throws IOException {
+		ObjectToPack obj = objectsMap.get(id);
+		if (obj != null && !obj.isEdge())
+			return true;
+
+		Set<ObjectId> toFind = Collections.singleton(id.toObjectId());
+		for (CachedPack pack : cachedPacks) {
+			if (pack.hasObject(toFind).contains(id))
+				return true;
+		}
+
+		return false;
 	}
 
 	/**
@@ -405,7 +431,8 @@ public class PackWriter {
 	 * @return the object we are packing, or null.
 	 */
 	public ObjectToPack get(AnyObjectId id) {
-		return objectsMap.get(id);
+		ObjectToPack obj = objectsMap.get(id);
+		return obj != null && !obj.isEdge() ? obj : null;
 	}
 
 	/**
@@ -439,6 +466,9 @@ public class PackWriter {
 	 *             the index data could not be written to the supplied stream.
 	 */
 	public void writeIndex(final OutputStream indexStream) throws IOException {
+		if (!cachedPacks.isEmpty())
+			throw new IOException(JGitText.get().cachedPacksPreventsIndexCreation);
+
 		final List<ObjectToPack> list = sortByName();
 		final PackIndexWriter iw;
 		int indexVersion = config.getIndexVersion();
@@ -451,7 +481,10 @@ public class PackWriter {
 
 	private List<ObjectToPack> sortByName() {
 		if (sortedByName == null) {
-			sortedByName = new ArrayList<ObjectToPack>(objectsMap.size());
+			int cnt = 0;
+			for (List<ObjectToPack> list : objectsLists)
+				cnt += list.size();
+			sortedByName = new ArrayList<ObjectToPack>(cnt);
 			for (List<ObjectToPack> list : objectsLists) {
 				for (ObjectToPack otp : list)
 					sortedByName.add(otp);
@@ -501,12 +534,21 @@ public class PackWriter {
 		final PackOutputStream out = new PackOutputStream(writeMonitor,
 				packStream, this);
 
-		int objCnt = getObjectsNumber();
+		long objCnt = 0;
+		for (List<ObjectToPack> list : objectsLists)
+			objCnt += list.size();
+		for (CachedPack pack : cachedPacks)
+			objCnt += pack.getObjectCount();
 		stats.totalObjects = objCnt;
-		writeMonitor.beginTask(JGitText.get().writingObjects, objCnt);
+
+		writeMonitor.beginTask(JGitText.get().writingObjects, (int) objCnt);
 		out.writeFileHeader(PACK_VERSION_GENERATED, objCnt);
 		out.flush();
 		writeObjects(out);
+		for (CachedPack pack : cachedPacks) {
+			stats.reusedObjects += pack.getObjectCount();
+			reuseSupport.copyPackAsIs(out, pack);
+		}
 		writeChecksum(out);
 
 		reader.release();
@@ -532,7 +574,10 @@ public class PackWriter {
 	}
 
 	private void searchForReuse(ProgressMonitor monitor) throws IOException {
-		monitor.beginTask(JGitText.get().searchForReuse, getObjectsNumber());
+		int cnt = 0;
+		for (List<ObjectToPack> list : objectsLists)
+			cnt += list.size();
+		monitor.beginTask(JGitText.get().searchForReuse, cnt);
 		for (List<ObjectToPack> list : objectsLists)
 			reuseSupport.selectObjectRepresentation(this, monitor, list);
 		monitor.endTask();
@@ -591,8 +636,8 @@ public class PackWriter {
 							continue;
 						}
 
-						otp = edgeObjects.get(notFound.getObjectId());
-						if (otp != null) {
+						otp = objectsMap.get(notFound.getObjectId());
+						if (otp != null && otp.isEdge()) {
 							otp.setDoNotDelta(true);
 							continue;
 						}
@@ -601,11 +646,8 @@ public class PackWriter {
 				}
 
 				ObjectToPack otp = sizeQueue.getCurrent();
-				if (otp == null) {
+				if (otp == null)
 					otp = objectsMap.get(sizeQueue.getObjectId());
-					if (otp == null)
-						otp = edgeObjects.get(sizeQueue.getObjectId());
-				}
 
 				long sz = sizeQueue.getSize();
 				if (limit <= sz || Integer.MAX_VALUE <= sz)
@@ -1014,15 +1056,37 @@ public class PackWriter {
 		all.addAll(want);
 		all.addAll(have);
 
+		final Map<ObjectId, CachedPack> tipToPack = new HashMap<ObjectId, CachedPack>();
 		final ObjectWalk walker = new ObjectWalk(reader);
+		final RevFlag inCachedPack = walker.newFlag("inCachedPack");
+		final RevFlag include = walker.newFlag("include");
+
+		final RevFlagSet keepOnRestart = new RevFlagSet();
+		keepOnRestart.add(inCachedPack);
+
 		walker.setRetainBody(false);
-		if (have.isEmpty())
+		walker.carry(include);
+
+		int haveEst = have.size();
+		if (have.isEmpty()) {
 			walker.sort(RevSort.COMMIT_TIME_DESC);
-		else {
+			if (useCachedPacks && reuseSupport != null) {
+				for (CachedPack pack : reuseSupport.getCachedPacks()) {
+					for (ObjectId id : pack.getTips()) {
+						tipToPack.put(id, pack);
+						all.add(id);
+					}
+				}
+				haveEst += tipToPack.size();
+			}
+		} else {
 			walker.sort(RevSort.TOPO);
 			if (thin)
 				walker.sort(RevSort.BOUNDARY, true);
 		}
+
+		List<RevObject> wantObjs = new ArrayList<RevObject>(want.size());
+		List<RevObject> haveObjs = new ArrayList<RevObject>(haveEst);
 
 		AsyncRevObjectQueue q = walker.parseAny(all, true);
 		try {
@@ -1031,10 +1095,18 @@ public class PackWriter {
 					RevObject o = q.next();
 					if (o == null)
 						break;
-					if (have.contains(o))
+
+					if (tipToPack.containsKey(o))
+						o.add(inCachedPack);
+
+					if (have.contains(o)) {
+						haveObjs.add(o);
 						walker.markUninteresting(o);
-					else
+					} else if (want.contains(o)) {
+						o.add(include);
+						wantObjs.add(o);
 						walker.markStart(o);
+					}
 				} catch (MissingObjectException e) {
 					if (ignoreMissingUninteresting
 							&& have.contains(e.getObjectId()))
@@ -1046,21 +1118,45 @@ public class PackWriter {
 			q.release();
 		}
 
+		int typesToPrune = 0;
 		final int maxBases = config.getDeltaSearchWindowSize();
 		Set<RevTree> baseTrees = new HashSet<RevTree>();
 		RevObject o;
 		while ((o = walker.next()) != null) {
+			if (o.has(inCachedPack)) {
+				CachedPack pack = tipToPack.get(o);
+				if (includesAllTips(pack, include, walker)) {
+					useCachedPack(walker, keepOnRestart, //
+							wantObjs, haveObjs, pack);
+
+					countingMonitor.endTask();
+					countingMonitor.beginTask(JGitText.get().countingObjects,
+							ProgressMonitor.UNKNOWN);
+					continue;
+				}
+			}
+
 			if (o.has(RevFlag.UNINTERESTING)) {
 				if (baseTrees.size() <= maxBases)
 					baseTrees.add(((RevCommit) o).getTree());
 				continue;
 			}
+
 			addObject(o, 0);
 			countingMonitor.update(1);
 		}
 
+		for (CachedPack p : cachedPacks) {
+			for (ObjectId d : p.hasObject(objectsLists[Constants.OBJ_COMMIT])) {
+				if (baseTrees.size() <= maxBases)
+					baseTrees.add(walker.lookupCommit(d).getTree());
+				objectsMap.get(d).setEdge();
+				typesToPrune |= 1 << Constants.OBJ_COMMIT;
+			}
+		}
+
 		BaseSearch bases = new BaseSearch(countingMonitor, baseTrees, //
-				edgeObjects, reader);
+				objectsMap, edgeObjects, reader);
 		while ((o = walker.nextObject()) != null) {
 			if (o.has(RevFlag.UNINTERESTING))
 				continue;
@@ -1073,7 +1169,85 @@ public class PackWriter {
 			addObject(o, pathHash);
 			countingMonitor.update(1);
 		}
+
+		for (CachedPack p : cachedPacks) {
+			for (ObjectId d : p.hasObject(objectsLists[Constants.OBJ_TREE])) {
+				objectsMap.get(d).setEdge();
+				typesToPrune |= 1 << Constants.OBJ_TREE;
+			}
+			for (ObjectId d : p.hasObject(objectsLists[Constants.OBJ_BLOB])) {
+				objectsMap.get(d).setEdge();
+				typesToPrune |= 1 << Constants.OBJ_BLOB;
+			}
+			for (ObjectId d : p.hasObject(objectsLists[Constants.OBJ_TAG])) {
+				objectsMap.get(d).setEdge();
+				typesToPrune |= 1 << Constants.OBJ_TAG;
+			}
+		}
+
+		if (typesToPrune != 0) {
+			pruneObjectList(typesToPrune, Constants.OBJ_COMMIT);
+			pruneObjectList(typesToPrune, Constants.OBJ_TREE);
+			pruneObjectList(typesToPrune, Constants.OBJ_BLOB);
+			pruneObjectList(typesToPrune, Constants.OBJ_TAG);
+		}
+
+		for (CachedPack pack : cachedPacks)
+			countingMonitor.update((int) pack.getObjectCount());
 		countingMonitor.endTask();
+	}
+
+	private void pruneObjectList(int typesToPrune, int typeCode) {
+		if ((typesToPrune & (1 << typeCode)) == 0)
+			return;
+
+		final List<ObjectToPack> list = objectsLists[typeCode];
+		final int size = list.size();
+		int src = 0;
+		int dst = 0;
+
+		for (; src < size; src++) {
+			ObjectToPack obj = list.get(src);
+			if (obj.isEdge())
+				continue;
+			if (dst != src)
+				list.set(dst, obj);
+			dst++;
+		}
+
+		while (dst < list.size())
+			list.remove(dst);
+	}
+
+	private void useCachedPack(ObjectWalk walker, RevFlagSet keepOnRestart,
+			List<RevObject> wantObj, List<RevObject> baseObj, CachedPack pack)
+			throws MissingObjectException, IncorrectObjectTypeException,
+			IOException {
+		cachedPacks.add(pack);
+		for (ObjectId id : pack.getTips())
+			baseObj.add(walker.lookupOrNull(id));
+
+		objectsMap.clear();
+		objectsLists[Constants.OBJ_COMMIT] = new ArrayList<ObjectToPack>();
+
+		setThin(true);
+		walker.resetRetain(keepOnRestart);
+		walker.sort(RevSort.TOPO);
+		walker.sort(RevSort.BOUNDARY, true);
+
+		for (RevObject id : wantObj)
+			walker.markStart(id);
+		for (RevObject id : baseObj)
+			walker.markUninteresting(id);
+	}
+
+	private static boolean includesAllTips(CachedPack pack, RevFlag include,
+			ObjectWalk walker) {
+		for (ObjectId id : pack.getTips()) {
+			if (!walker.lookupOrNull(id).has(include))
+				return false;
+		}
+		return true;
 	}
 
 	/**
@@ -1090,20 +1264,6 @@ public class PackWriter {
 	 */
 	public void addObject(final RevObject object)
 			throws IncorrectObjectTypeException {
-		if (object.has(RevFlag.UNINTERESTING)) {
-			switch (object.getType()) {
-			case Constants.OBJ_TREE:
-			case Constants.OBJ_BLOB:
-				ObjectToPack otp = new ObjectToPack(object);
-				otp.setPathHash(0);
-				otp.setEdge();
-				edgeObjects.addIfAbsent(otp);
-				thin = true;
-				break;
-			}
-			return;
-		}
-
 		addObject(object, 0);
 	}
 
@@ -1162,11 +1322,11 @@ public class PackWriter {
 		if (nFmt == PACK_DELTA && reuseDeltas) {
 			ObjectId baseId = next.getDeltaBase();
 			ObjectToPack ptr = objectsMap.get(baseId);
-			if (ptr != null) {
+			if (ptr != null && !ptr.isEdge()) {
 				otp.setDeltaBase(ptr);
 				otp.setReuseAsIs();
 				otp.setWeight(nWeight);
-			} else if (thin && edgeObjects.contains(baseId)) {
+			} else if (thin && ptr != null && ptr.isEdge()) {
 				otp.setDeltaBase(baseId);
 				otp.setReuseAsIs();
 				otp.setWeight(nWeight);
