@@ -557,7 +557,7 @@ public class PackWriter {
 		// search code to discover the missing object and skip over it, or
 		// abort with an exception if we actually had to have it.
 		//
-		monitor.beginTask(JGitText.get().compressingObjects, cnt);
+		monitor.beginTask(JGitText.get().searchForSizes, cnt);
 		AsyncObjectSizeQueue<ObjectToPack> sizeQueue = reader.getObjectSize(
 				Arrays.<ObjectToPack> asList(list).subList(0, cnt), false);
 		try {
