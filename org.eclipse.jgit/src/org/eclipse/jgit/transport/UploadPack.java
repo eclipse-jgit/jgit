@@ -57,6 +57,7 @@ import java.util.Set;
 import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.PackProtocolException;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ProgressMonitor;
@@ -618,6 +619,7 @@ public class UploadPack {
 
 		ProgressMonitor pm = NullProgressMonitor.INSTANCE;
 		OutputStream packOut = rawOut;
+		SideBandOutputStream msgOut = null;
 
 		if (sideband) {
 			int bufsz = SideBandOutputStream.SMALL_BUF;
@@ -626,9 +628,11 @@ public class UploadPack {
 
 			packOut = new SideBandOutputStream(SideBandOutputStream.CH_DATA,
 					bufsz, rawOut);
-			if (!options.contains(OPTION_NO_PROGRESS))
-				pm = new SideBandProgressMonitor(new SideBandOutputStream(
-						SideBandOutputStream.CH_PROGRESS, bufsz, rawOut));
+			if (!options.contains(OPTION_NO_PROGRESS)) {
+				msgOut = new SideBandOutputStream(
+						SideBandOutputStream.CH_PROGRESS, bufsz, rawOut);
+				pm = new SideBandProgressMonitor(msgOut);
+			}
 		}
 
 		PackConfig cfg = packConfig;
@@ -654,11 +658,19 @@ public class UploadPack {
 						pw.addObject(t);
 				}
 			}
+
 			pw.writePack(pm, NullProgressMonitor.INSTANCE, packOut);
+			packOut.flush();
+
+			if (msgOut != null) {
+				String msg = pw.getStatistics().getMessage() + '\n';
+				msgOut.write(Constants.encode(msg));
+				msgOut.flush();
+			}
+
 		} finally {
 			pw.release();
 		}
-		packOut.flush();
 
 		if (sideband)
 			pckOut.end();
