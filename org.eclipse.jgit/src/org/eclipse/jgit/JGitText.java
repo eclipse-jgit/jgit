@@ -389,6 +389,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String packfileCorruptionDetected;
 	/***/ public String packfileIsTruncated;
 	/***/ public String packingCancelledDuringObjectsWriting;
+	/***/ public String packWriterStatistics;
 	/***/ public String pathIsNotInWorkingDir;
 	/***/ public String peeledLineBeforeRef;
 	/***/ public String peerDidNotSupplyACompleteObjectGraph;
