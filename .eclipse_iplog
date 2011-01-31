@@ -5,7 +5,7 @@
 	skipCommit = 1a6964c8274c50f0253db75f010d78ef0e739343
 
 [review]
-	url = http://egit.eclipse.org/r/
+	url = http://egit.eclipse.org/r/r/
 
 [CQ "3454"]
 	description = args4j Version: 2.0.12
