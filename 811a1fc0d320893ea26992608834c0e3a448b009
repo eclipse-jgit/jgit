@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL2n//+5k\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Git.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-01-31T22:31:52Z",
+      "side": 1,
+      "message": "style nit: trailing whitespace",
+      "revId": "811a1fc0d320893ea26992608834c0e3a448b009",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2n//+5c\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Git.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-01-31T22:31:52Z",
+      "side": 1,
+      "message": "Shawn mentioned he would prefer \"clone()\" instead of \"cloneRepository()\" ...",
+      "revId": "811a1fc0d320893ea26992608834c0e3a448b009",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2n//+5g\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Git.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-01-31T22:31:52Z",
+      "side": 1,
+      "message": "style nit: trailing whitespace",
+      "revId": "811a1fc0d320893ea26992608834c0e3a448b009",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
