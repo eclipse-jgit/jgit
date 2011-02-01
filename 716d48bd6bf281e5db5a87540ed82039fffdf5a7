@@ -70,6 +70,23 @@
     },
     {
       "key": {
+        "uuid": "AAAL2n//+5o\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CloneCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-01-31T22:54:37Z",
+      "side": 1,
+      "message": "better call this setRemote ?",
+      "revId": "716d48bd6bf281e5db5a87540ed82039fffdf5a7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL0n///Rs\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Git.java",
         "patchSetId": 1
