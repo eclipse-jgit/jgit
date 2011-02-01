@@ -50,6 +50,7 @@ import java.util.Arrays;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdRef;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.SymbolicRef;
 import org.eclipse.jgit.lib.Ref.Storage;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.SampleDataRepositoryTestCase;
@@ -165,5 +166,14 @@ public class MergeMessageFormatterTest extends SampleDataRepositoryTestCase {
 		Ref b = db.getRef("refs/heads/b");
 		String message = formatter.format(Arrays.asList(a), b);
 		assertEquals("Merge branch 'a' into b", message);
+	}
+
+	@Test
+	public void testIntoSymbolicRefHeadPointingToMaster() throws IOException {
+		Ref a = db.getRef("refs/heads/a");
+		Ref master = db.getRef("refs/heads/master");
+		SymbolicRef head = new SymbolicRef("HEAD", master);
+		String message = formatter.format(Arrays.asList(a), head);
+		assertEquals("Merge branch 'a'", message);
 	}
 }
