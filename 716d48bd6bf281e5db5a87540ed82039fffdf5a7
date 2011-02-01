@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL0n///Rg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CloneCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-07T00:08:17Z",
+      "side": 1,
+      "message": "This shouldn\u0027t be necessary as its inherited from the configuration.",
+      "revId": "716d48bd6bf281e5db5a87540ed82039fffdf5a7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0n///Rc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CloneCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-07T00:08:17Z",
+      "side": 1,
+      "message": "Don\u0027t we also have to somehow set the upstream branch?\n\nClone works by looking for the advertised remote branch whose SHA-1 is the same as the advertised remote\u0027s HEAD branch.  The first such branch with the same SHA-1 is used as the name for the local branch, rather than assuming the default of \"master\".\n\nIf no branches exist in the remote, then yes, we assume master.  Otherwise its based on what HEAD was also named.",
+      "revId": "716d48bd6bf281e5db5a87540ed82039fffdf5a7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0n///Ro\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CloneCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-07T00:08:17Z",
+      "side": 1,
+      "message": "Why is this String and not URIish?",
+      "revId": "716d48bd6bf281e5db5a87540ed82039fffdf5a7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0n///Rk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CloneCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-07T00:08:17Z",
+      "side": 1,
+      "message": "This is the name of the remote.  By default its \"origin\", but could be something else like \"eclipse\" or \"gerrit\".",
+      "revId": "716d48bd6bf281e5db5a87540ed82039fffdf5a7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0n///Rs\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Git.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-07T00:08:17Z",
+      "side": 1,
+      "message": "Style-nits:  \"public static\".\n\nStatic methods should go before the class constructor.\n\nWhy cloneRepository()?  Why not clone()?",
+      "revId": "716d48bd6bf281e5db5a87540ed82039fffdf5a7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
