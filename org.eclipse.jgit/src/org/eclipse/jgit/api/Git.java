@@ -322,6 +322,19 @@ public class Git {
 	}
 
 	/**
+	 * Returns a command object to execute a {@code reset} command
+	 *
+	 * @see <a
+	 *      href="http://www.kernel.org/pub/software/scm/git/docs/git-reset.html"
+	 *      >Git documentation about reset</a>
+	 * @return a {@link ResetCommand} used to collect all optional parameters
+	 *         and to finally execute the {@code reset} command
+	 */
+	public ResetCommand reset() {
+		return new ResetCommand(repo);
+	}
+
+	/**
 	 * @return the git repository this class is interacting with
 	 */
 	public Repository getRepository() {
