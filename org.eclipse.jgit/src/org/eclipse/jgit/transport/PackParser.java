@@ -406,10 +406,33 @@ public abstract class PackParser {
 	 * @throws IOException
 	 *             the stream is malformed, or contains corrupt objects.
 	 */
-	public PackLock parse(ProgressMonitor progress) throws IOException {
-		if (progress == null)
-			progress = NullProgressMonitor.INSTANCE;
-		progress.start(2 /* tasks */);
+	public final PackLock parse(ProgressMonitor progress) throws IOException {
+		return parse(progress, progress);
+	}
+
+	/**
+	 * Parse the pack stream.
+	 *
+	 * @param receiving
+	 *            receives progress feedback during the initial receiving
+	 *            objects phase. If null, {@link NullProgressMonitor} will be
+	 *            used.
+	 * @param resolving
+	 *            receives progress feedback during the resolving objects phase.
+	 * @return the pack lock, if one was requested by setting
+	 *         {@link #setLockMessage(String)}.
+	 * @throws IOException
+	 *             the stream is malformed, or contains corrupt objects.
+	 */
+	public PackLock parse(ProgressMonitor receiving, ProgressMonitor resolving)
+			throws IOException {
+		if (receiving == null)
+			receiving = NullProgressMonitor.INSTANCE;
+		if (resolving == null)
+			resolving = NullProgressMonitor.INSTANCE;
+
+		if (receiving == resolving)
+			receiving.start(2 /* tasks */);
 		try {
 			readPackHeader();
 
@@ -418,21 +441,25 @@ public abstract class PackParser {
 			baseByPos = new LongMap<UnresolvedDelta>();
 			deferredCheckBlobs = new ArrayList<PackedObjectInfo>();
 
-			progress.beginTask(JGitText.get().receivingObjects,
+			receiving.beginTask(JGitText.get().receivingObjects,
 					(int) objectCount);
-			for (int done = 0; done < objectCount; done++) {
-				indexOneObject();
-				progress.update(1);
-				if (progress.isCancelled())
-					throw new IOException(JGitText.get().downloadCancelled);
+			try {
+				for (int done = 0; done < objectCount; done++) {
+					indexOneObject();
+					receiving.update(1);
+					if (receiving.isCancelled())
+						throw new IOException(JGitText.get().downloadCancelled);
+				}
+				readPackFooter();
+				endInput();
+			} finally {
+				receiving.endTask();
 			}
-			readPackFooter();
-			endInput();
+
 			if (!deferredCheckBlobs.isEmpty())
 				doDeferredCheckBlobs();
-			progress.endTask();
 			if (deltaCount > 0) {
-				resolveDeltas(progress);
+				resolveDeltas(resolving);
 				if (entryCount < objectCount) {
 					if (!isAllowThin()) {
 						throw new IOException(MessageFormat.format(JGitText
@@ -440,7 +467,7 @@ public abstract class PackParser {
 								(objectCount - entryCount)));
 					}
 
-					resolveDeltasWithExternalBases(progress);
+					resolveDeltasWithExternalBases(resolving);
 
 					if (entryCount < objectCount) {
 						throw new IOException(MessageFormat.format(JGitText
@@ -467,8 +494,6 @@ public abstract class PackParser {
 				inflater = null;
 				objectDatabase.close();
 			}
-
-			progress.endTask();
 		}
 		return null; // By default there is no locking.
 	}
