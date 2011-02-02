@@ -139,7 +139,8 @@ public class PushCommand extends GitCommand<Iterable<PushResult>> {
 				if (receivePack != null)
 					transport.setOptionReceivePack(receivePack);
 				transport.setDryRun(dryRun);
-				transport.setCredentialsProvider(credentialsProvider);
+				if (credentialsProvider != null)
+					transport.setCredentialsProvider(credentialsProvider);
 
 				final Collection<RemoteRefUpdate> toPush = transport
 						.findRemoteRefUpdatesFor(refSpecs);
