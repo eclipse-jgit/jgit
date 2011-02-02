@@ -151,8 +151,8 @@ public class UploadPack {
 	/** null if {@link #commonBase} should be examined again. */
 	private Boolean okToGiveUp;
 
-	/** Marked on objects we sent in our advertisement list. */
-	private final RevFlag ADVERTISED;
+	/** Objects we sent in our advertisement list, clients can ask for these. */
+	private Set<ObjectId> advertised;
 
 	/** Marked on objects the client has asked us to give them. */
 	private final RevFlag WANT;
@@ -181,7 +181,6 @@ public class UploadPack {
 		walk = new RevWalk(db);
 		walk.setRetainBody(false);
 
-		ADVERTISED = walk.newFlag("ADVERTISED");
 		WANT = walk.newFlag("WANT");
 		PEER_HAS = walk.newFlag("PEER_HAS");
 		COMMON = walk.newFlag("COMMON");
@@ -189,7 +188,6 @@ public class UploadPack {
 		walk.carry(PEER_HAS);
 
 		SAVE = new RevFlagSet();
-		SAVE.add(ADVERTISED);
 		SAVE.add(WANT);
 		SAVE.add(PEER_HAS);
 		refFilter = RefFilter.DEFAULT;
@@ -327,13 +325,11 @@ public class UploadPack {
 		if (biDirectionalPipe)
 			sendAdvertisedRefs(new PacketLineOutRefAdvertiser(pckOut));
 		else {
+			advertised = new HashSet<ObjectId>();
 			refs = refFilter.filter(db.getAllRefs());
-			for (Ref r : refs.values()) {
-				try {
-					walk.parseAny(r.getObjectId()).add(ADVERTISED);
-				} catch (IOException e) {
-					// Skip missing/corrupt objects
-				}
+			for (Ref ref : refs.values()) {
+				if (ref.getObjectId() != null)
+					advertised.add(ref.getObjectId());
 			}
 		}
 
@@ -361,7 +357,7 @@ public class UploadPack {
 	 *             the formatter failed to write an advertisement.
 	 */
 	public void sendAdvertisedRefs(final RefAdvertiser adv) throws IOException {
-		adv.init(walk, ADVERTISED);
+		adv.init(db);
 		adv.advertiseCapability(OPTION_INCLUDE_TAG);
 		adv.advertiseCapability(OPTION_MULTI_ACK_DETAILED);
 		adv.advertiseCapability(OPTION_MULTI_ACK);
@@ -372,7 +368,7 @@ public class UploadPack {
 		adv.advertiseCapability(OPTION_NO_PROGRESS);
 		adv.setDerefTags(true);
 		refs = refFilter.filter(db.getAllRefs());
-		adv.send(refs);
+		advertised = adv.send(refs);
 		adv.end();
 	}
 
@@ -425,7 +421,7 @@ public class UploadPack {
 				if (o.has(WANT)) {
 					// Already processed, the client repeated itself.
 
-				} else if (o.has(ADVERTISED)) {
+				} else if (advertised.contains(o)) {
 					o.add(WANT);
 					wantAll.add(o);
 

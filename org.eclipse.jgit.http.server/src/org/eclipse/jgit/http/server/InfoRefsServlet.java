@@ -56,8 +56,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.revwalk.RevFlag;
-import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.RefAdvertiser;
 import org.eclipse.jgit.util.HttpSupport;
 
@@ -73,36 +71,28 @@ class InfoRefsServlet extends HttpServlet {
 		rsp.setCharacterEncoding(Constants.CHARACTER_ENCODING);
 
 		final Repository db = getRepository(req);
-		final RevWalk walk = new RevWalk(db);
-		try {
-			final RevFlag ADVERTISED = walk.newFlag("ADVERTISED");
+		final OutputStreamWriter out = new OutputStreamWriter(
+				new SmartOutputStream(req, rsp), Constants.CHARSET);
+		final RefAdvertiser adv = new RefAdvertiser() {
+			@Override
+			protected void writeOne(final CharSequence line) throws IOException {
+				// Whoever decided that info/refs should use a different
+				// delimiter than the native git:// protocol shouldn't
+				// be allowed to design this sort of stuff. :-(
+				out.append(line.toString().replace(' ', '\t'));
+			}
 
-			final OutputStreamWriter out = new OutputStreamWriter(
-					new SmartOutputStream(req, rsp), Constants.CHARSET);
-			final RefAdvertiser adv = new RefAdvertiser() {
-				@Override
-				protected void writeOne(final CharSequence line)
-						throws IOException {
-					// Whoever decided that info/refs should use a different
-					// delimiter than the native git:// protocol shouldn't
-					// be allowed to design this sort of stuff. :-(
-					out.append(line.toString().replace(' ', '\t'));
-				}
+			@Override
+			protected void end() {
+				// No end marker required for info/refs format.
+			}
+		};
+		adv.init(db);
+		adv.setDerefTags(true);
 
-				@Override
-				protected void end() {
-					// No end marker required for info/refs format.
-				}
-			};
-			adv.init(walk, ADVERTISED);
-			adv.setDerefTags(true);
-
-			Map<String, Ref> refs = db.getAllRefs();
-			refs.remove(Constants.HEAD);
-			adv.send(refs);
-			out.close();
-		} finally {
-			walk.release();
-		}
+		Map<String, Ref> refs = db.getAllRefs();
+		refs.remove(Constants.HEAD);
+		adv.send(refs);
+		out.close();
 	}
 }
