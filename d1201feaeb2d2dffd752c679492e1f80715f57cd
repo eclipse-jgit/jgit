@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL13///3w\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 645,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-12-20T00:00:12Z",
+      "side": 1,
+      "message": "why?",
+      "parentUuid": "AAAL1n///7I\u003d",
+      "revId": "d1201feaeb2d2dffd752c679492e1f80715f57cd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL13///zY\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
         "patchSetId": 3
