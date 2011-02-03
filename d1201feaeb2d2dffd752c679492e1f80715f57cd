@@ -35,6 +35,24 @@
       "revId": "d1201feaeb2d2dffd752c679492e1f80715f57cd",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2X///yo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 645,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-12-31T15:36:31Z",
+      "side": 1,
+      "message": "One source of the problem is that WorkingTreeIterator.isModified() is \ndoing much. Why should we ever want a content comparison in the idBuffer() method? If we detect by metadata comparison that we cannot reuse the index-entry id we want to simply compute the content-id() on the file-content (and don\u0027t compare it with the content of the index entry).\nI suggest that we introduce a new comparison method on WorkingTreeIterator which compares only the metadata of the entry and a index entry. That method will be reused in the isModified() method and will be called from idBuffer(). \n\nAll this will remove the infinite recursion problem. I\u0027ll post such a proposal and rebase this change on it.",
+      "parentUuid": "AAAL13///zY\u003d",
+      "revId": "d1201feaeb2d2dffd752c679492e1f80715f57cd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
