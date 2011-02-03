@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAL2n///6I\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-01-14T15:24:32Z",
+      "side": 1,
+      "message": "Should we not return the buffer if compareMetadata returns EQUAL?\n\nWhat I also see is that we never update the index, like git status/diff does. When should that take place?",
+      "revId": "c3c0913c6e2620d1458835dad6c906dd1c10bc1d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL2n///5g\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
         "patchSetId": 5
@@ -14,6 +31,24 @@
       "side": 1,
       "message": "ouch, how did this came in. Regarding when to return the idBuffer you are of course right ... - I\u0027ll propose a fix for that now.\n\nRegarding the index update: When the index is updated is currently not in the scope of this change. We are never under the hood updating the index. Do you know when \u0027git status/diff\u0027 update the index? I could imagine that it definitely make sense to correct the smudged status of index entries when during a walk get real info about whether a file is dirty or not.",
       "parentUuid": "AAAL2n///6I\u003d",
+      "revId": "c3c0913c6e2620d1458835dad6c906dd1c10bc1d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2n///5E\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-01-15T20:28:48Z",
+      "side": 1,
+      "message": "git status updates the index stat data if it has to read the content to determine if there is a change or not. The same goes for git diff. The result is that the next time git can figure out there is no change just by looking at the stat data. If your do not update the index, you have to\nread the content again. It can be a separate change though since it\nmay require more care with how the dircache instance is handled.",
+      "parentUuid": "AAAL2n///5g\u003d",
       "revId": "c3c0913c6e2620d1458835dad6c906dd1c10bc1d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
