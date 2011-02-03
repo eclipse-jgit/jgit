@@ -49,6 +49,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -142,6 +143,9 @@ public class UploadPack {
 
 	/** Capabilities requested by the client. */
 	private final Set<String> options = new HashSet<String>();
+
+	/** Raw ObjectIds the client has asked for, before validating them. */
+	private final Set<ObjectId> wantIds = new HashSet<ObjectId>();
 
 	/** Objects the client wants to obtain. */
 	private final List<RevObject> wantAll = new ArrayList<RevObject>();
@@ -335,7 +339,7 @@ public class UploadPack {
 		}
 
 		recvWants();
-		if (wantAll.isEmpty())
+		if (wantIds.isEmpty())
 			return;
 
 		if (options.contains(OPTION_MULTI_ACK_DETAILED))
@@ -374,7 +378,6 @@ public class UploadPack {
 	}
 
 	private void recvWants() throws IOException {
-		HashSet<ObjectId> wantIds = new HashSet<ObjectId>();
 		boolean isFirst = true;
 		for (;;) {
 			String line;
@@ -402,46 +405,6 @@ public class UploadPack {
 
 			wantIds.add(ObjectId.fromString(line.substring(5)));
 			isFirst = false;
-		}
-
-		if (wantIds.isEmpty())
-			return;
-
-		AsyncRevObjectQueue q = walk.parseAny(wantIds, true);
-		try {
-			for (;;) {
-				RevObject o;
-				try {
-					o = q.next();
-				} catch (IOException error) {
-					throw new PackProtocolException(MessageFormat.format(
-							JGitText.get().notValid, error.getMessage()), error);
-				}
-				if (o == null)
-					break;
-				if (o.has(WANT)) {
-					// Already processed, the client repeated itself.
-
-				} else if (advertised.contains(o)) {
-					o.add(WANT);
-					wantAll.add(o);
-
-					if (o instanceof RevTag) {
-						o = walk.peel(o);
-						if (o instanceof RevCommit) {
-							if (!o.has(WANT)) {
-								o.add(WANT);
-								wantAll.add(o);
-							}
-						}
-					}
-				} else {
-					throw new PackProtocolException(MessageFormat.format(
-							JGitText.get().notValid, o.name()));
-				}
-			}
-		} finally {
-			q.release();
 		}
 	}
 
@@ -489,19 +452,64 @@ public class UploadPack {
 		if (peerHas.isEmpty())
 			return last;
 
-		// If both sides have the same object; let the client know.
-		//
-		AsyncRevObjectQueue q = walk.parseAny(peerHas, false);
+		List<ObjectId> toParse = peerHas;
+		HashSet<ObjectId> peerHasSet = null;
+		boolean needMissing = false;
+
+		if (wantAll.isEmpty() && !wantIds.isEmpty()) {
+			// We have not yet parsed the want list. Parse it now.
+			peerHasSet = new HashSet<ObjectId>(peerHas);
+			int cnt = wantIds.size() + peerHasSet.size();
+			toParse = new ArrayList<ObjectId>(cnt);
+			toParse.addAll(wantIds);
+			toParse.addAll(peerHasSet);
+			needMissing = true;
+		}
+
+		AsyncRevObjectQueue q = walk.parseAny(toParse, needMissing);
 		try {
 			for (;;) {
 				RevObject obj;
 				try {
 					obj = q.next();
 				} catch (MissingObjectException notFound) {
+					if (wantIds.contains(notFound.getObjectId())) {
+						throw new PackProtocolException(
+								MessageFormat.format(JGitText.get().notValid,
+										notFound.getMessage()), notFound);
+					}
 					continue;
 				}
 				if (obj == null)
 					break;
+
+				// If the object is still found in wantIds, the want
+				// list wasn't parsed earlier, and was done in this batch.
+				//
+				if (wantIds.remove(obj)) {
+					if (!advertised.contains(obj)) {
+						throw new PackProtocolException(MessageFormat.format(
+								JGitText.get().notValid, obj.name()));
+					}
+
+					if (!obj.has(WANT)) {
+						obj.add(WANT);
+						wantAll.add(obj);
+					}
+
+					if (obj instanceof RevTag) {
+						RevObject target = walk.peel(obj);
+						if (target instanceof RevCommit) {
+							if (!target.has(WANT)) {
+								target.add(WANT);
+								wantAll.add(target);
+							}
+						}
+					}
+
+					if (!peerHasSet.contains(obj))
+						continue;
+				}
 
 				last = obj;
 				if (obj.has(PEER_HAS))
@@ -512,6 +520,8 @@ public class UploadPack {
 					((RevCommit) obj).carry(PEER_HAS);
 				addCommonBase(obj);
 
+				// If both sides have the same object; let the client know.
+				//
 				switch (multiAck) {
 				case OFF:
 					if (commonBase.size() == 1)
@@ -631,6 +641,10 @@ public class UploadPack {
 			}
 		}
 
+		Collection<? extends ObjectId> want = wantAll;
+		if (want.isEmpty())
+			want = wantIds;
+
 		PackConfig cfg = packConfig;
 		if (cfg == null)
 			cfg = new PackConfig(db);
@@ -639,7 +653,7 @@ public class UploadPack {
 			pw.setUseCachedPacks(true);
 			pw.setDeltaBaseAsOffset(options.contains(OPTION_OFS_DELTA));
 			pw.setThin(options.contains(OPTION_THIN_PACK));
-			pw.preparePack(pm, wantAll, commonBase);
+			pw.preparePack(pm, want, commonBase);
 			if (options.contains(OPTION_INCLUDE_TAG)) {
 				for (final Ref r : refs.values()) {
 					final RevObject o;
