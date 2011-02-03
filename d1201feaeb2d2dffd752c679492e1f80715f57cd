@@ -1,0 +1,40 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL13///zc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-20T16:34:56Z",
+      "side": 1,
+      "message": "Adding the iterator to the state object isn\u0027t worthwhile.  The state object is shared across all levels of the directory structure, while the iterator changes with each enter/exit of a subdirectory.  Thus holding onto the per-directory iterator within the shared state isn\u0027t useful.\n\nBesides, state.walk.getTree(state.dirCacheTree) isn\u0027t actually that expensive.  Aside from the field references above (which should JIT out pretty easily since they are package visible fields) the getTree() method is just an array access, two field accesses, and a reference compare.  Its not that expensive.",
+      "parentUuid": "AAAL1n///7M\u003d",
+      "revId": "d1201feaeb2d2dffd752c679492e1f80715f57cd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL13///zY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 645,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-20T16:34:56Z",
+      "side": 1,
+      "message": "I think Philipp is right.  We have a problem here.  This method is called from isModified() when a content compare is needed because the file entry is stat dirty.  But its recursing back into isModified() via getEntryObjectId().\n\nA quick scan of the code suggests we may infinite loop here until we blow the stack due to too many levels of recursion.  Even if we address the issue of avoiding the infinite recursion, once we are here we kind of know we need to scan the working tree file and should avoid the DirCacheEntry.",
+      "parentUuid": "AAAL13///3w\u003d",
+      "revId": "d1201feaeb2d2dffd752c679492e1f80715f57cd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
