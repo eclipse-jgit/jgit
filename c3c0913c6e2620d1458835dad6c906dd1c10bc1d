@@ -1,0 +1,22 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL2n///5g\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-01-14T16:21:54Z",
+      "side": 1,
+      "message": "ouch, how did this came in. Regarding when to return the idBuffer you are of course right ... - I\u0027ll propose a fix for that now.\n\nRegarding the index update: When the index is updated is currently not in the scope of this change. We are never under the hood updating the index. Do you know when \u0027git status/diff\u0027 update the index? I could imagine that it definitely make sense to correct the smudged status of index entries when during a walk get real info about whether a file is dirty or not.",
+      "parentUuid": "AAAL2n///6I\u003d",
+      "revId": "c3c0913c6e2620d1458835dad6c906dd1c10bc1d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
