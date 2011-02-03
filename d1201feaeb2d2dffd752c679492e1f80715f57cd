@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAL1n///7M\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 100
+      },
+      "writtenOn": "2010-12-15T11:36:31Z",
+      "side": 1,
+      "message": "Maybe the iterator could also be added to the state object once it has been retrieved from the TreeWalk.",
+      "revId": "d1201feaeb2d2dffd752c679492e1f80715f57cd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL13///zc\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
         "patchSetId": 3
@@ -14,6 +31,23 @@
       "side": 1,
       "message": "Adding the iterator to the state object isn\u0027t worthwhile.  The state object is shared across all levels of the directory structure, while the iterator changes with each enter/exit of a subdirectory.  Thus holding onto the per-directory iterator within the shared state isn\u0027t useful.\n\nBesides, state.walk.getTree(state.dirCacheTree) isn\u0027t actually that expensive.  Aside from the field references above (which should JIT out pretty easily since they are package visible fields) the getTree() method is just an array access, two field accesses, and a reference compare.  Its not that expensive.",
       "parentUuid": "AAAL1n///7M\u003d",
+      "revId": "d1201feaeb2d2dffd752c679492e1f80715f57cd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL1n///7I\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 645,
+      "author": {
+        "id": 100
+      },
+      "writtenOn": "2010-12-15T11:36:31Z",
+      "side": 1,
+      "message": "I think this is a place where reusing the cached ID is not expected (what getEntryObjectId does). Maybe a flag is required to force reading from the filesystem.",
       "revId": "d1201feaeb2d2dffd752c679492e1f80715f57cd",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
