@@ -55,6 +55,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
+import java.util.Map;
 
 import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.NotSupportedException;
@@ -146,22 +147,22 @@ class TransportLocal extends Transport implements PackTransport {
 	protected Process spawn(final String cmd)
 			throws TransportException {
 		try {
-			final String[] args;
+			String[] args = { "." };
+			ProcessBuilder proc = local.getFS().runInShell(cmd, args);
+			proc.directory(remoteGitDir);
 
-			if (cmd.startsWith("git-")) {
-				args = new String[] { "git", cmd.substring(4), PWD };
-			} else {
-				final int gitspace = cmd.indexOf("git ");
-				if (gitspace >= 0) {
-					final String git = cmd.substring(0, gitspace + 3);
-					final String subcmd = cmd.substring(gitspace + 4);
-					args = new String[] { git, subcmd, PWD };
-				} else {
-					args = new String[] { cmd, PWD };
-				}
-			}
+			// Remove the same variables CGit does.
+			Map<String, String> env = proc.environment();
+			env.remove("GIT_ALTERNATE_OBJECT_DIRECTORIES");
+			env.remove("GIT_CONFIG");
+			env.remove("GIT_CONFIG_PARAMETERS");
+			env.remove("GIT_DIR");
+			env.remove("GIT_WORK_TREE");
+			env.remove("GIT_GRAFT_FILE");
+			env.remove("GIT_INDEX_FILE");
+			env.remove("GIT_NO_REPLACE_OBJECTS");
 
-			return Runtime.getRuntime().exec(args, null, remoteGitDir);
+			return proc.start();
 		} catch (IOException err) {
 			throw new TransportException(uri, err.getMessage(), err);
 		}
