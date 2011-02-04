@@ -42,3 +42,21 @@
 	license = Apache License, 2.0, New BSD license, MIT license
 	use = unmodified source & binary
 	state = approved
+
+[CQ "4563"]
+	description = hector Version: 0.7.0-18
+	license = MIT license
+	use = unmodified source & binary
+	state = approved
+
+[CQ "4728"]
+	description = jsch Version: 0.1.44
+	license = New BSD license
+	use = unmodified source & binary
+	state = approved
+
+[CQ "4794"]
+	description = hector Version: 0.7.0-22 (*Including Changed Commit one file)
+	license = MIT License
+	use = unmodified source & binary
+	state = approved
