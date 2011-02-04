@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL2n//+pU\u003d",
+        "filename": ".eclipse_iplog",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-02-04T15:06:24Z",
+      "side": 1,
+      "message": "Drop this CQ.  We don\u0027t need it yet.",
+      "revId": "9e11bf96b75e5154bd928043206eb8b07acb66d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2n//+pM\u003d",
+        "filename": ".eclipse_iplog",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-02-04T15:06:24Z",
+      "side": 1,
+      "message": "Our pom is still using 0.1.41.  I\u0027d like to rev the pom at the same time as we declare this dependency.  Maybe defer until 0.12 cycle?",
+      "revId": "9e11bf96b75e5154bd928043206eb8b07acb66d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2n//+pQ\u003d",
+        "filename": ".eclipse_iplog",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-02-04T15:06:24Z",
+      "side": 1,
+      "message": "Drop this CQ, we don\u0027t need it yet.",
+      "revId": "9e11bf96b75e5154bd928043206eb8b07acb66d1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
