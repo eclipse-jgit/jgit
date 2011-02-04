@@ -255,4 +255,18 @@ public abstract class FS {
 
 	/** @return the $prefix directory C Git would use. */
 	public abstract File gitPrefix();
+
+	/**
+	 * Initialize a ProcesssBuilder to run a command using the system shell.
+	 * 
+	 * @param cmd
+	 *            command to execute. This string should originate from the
+	 *            end-user, and thus is platform specific.
+	 * @param args
+	 *            arguments to pass to command. These should be protected from
+	 *            shell evaluation.
+	 * @return a partially completed process builder. Caller should finish
+	 *         populating directory, environment, and then start the process.
+	 */
+	public abstract ProcessBuilder runInShell(String cmd, String[] args);
 }

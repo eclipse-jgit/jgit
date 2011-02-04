@@ -48,6 +48,9 @@ import java.io.File;
 import java.nio.charset.Charset;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 class FS_Win32 extends FS {
 	static boolean detect() {
@@ -113,5 +116,17 @@ class FS_Win32 extends FS {
 			return new File(homeShare);
 
 		return super.userHomeImpl();
+	}
+
+	@Override
+	public ProcessBuilder runInShell(String cmd, String[] args) {
+		List<String> argv = new ArrayList<String>(3 + args.length);
+		argv.add("cmd.exe");
+		argv.add("/c");
+		argv.add(cmd);
+		argv.addAll(Arrays.asList(args));
+		ProcessBuilder proc = new ProcessBuilder();
+		proc.command(argv);
+		return proc;
 	}
 }

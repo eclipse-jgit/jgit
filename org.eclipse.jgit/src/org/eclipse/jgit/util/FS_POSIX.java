@@ -46,6 +46,9 @@ import java.io.File;
 import java.nio.charset.Charset;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 abstract class FS_POSIX extends FS {
 	@Override
@@ -67,6 +70,19 @@ abstract class FS_POSIX extends FS {
 		}
 
 		return null;
+	}
+
+	@Override
+	public ProcessBuilder runInShell(String cmd, String[] args) {
+		List<String> argv = new ArrayList<String>(4 + args.length);
+		argv.add("sh");
+		argv.add("-c");
+		argv.add(cmd + " \"$@\"");
+		argv.add(cmd);
+		argv.addAll(Arrays.asList(args));
+		ProcessBuilder proc = new ProcessBuilder();
+		proc.command(argv);
+		return proc;
 	}
 
 	private static boolean isMacOS() {
