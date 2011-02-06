@@ -1181,7 +1181,6 @@ public class RevWalk implements Iterable<RevCommit> {
 			}
 		}
 
-		reader.release();
 		roots.clear();
 		queue = new DateRevQueue();
 		pending = new StartGenerator(this);
