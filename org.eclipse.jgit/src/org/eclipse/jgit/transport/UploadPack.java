@@ -71,6 +71,7 @@ import org.eclipse.jgit.revwalk.RevFlagSet;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevTag;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.revwalk.filter.CommitTimeRevFilter;
 import org.eclipse.jgit.storage.pack.PackConfig;
 import org.eclipse.jgit.storage.pack.PackWriter;
 import org.eclipse.jgit.transport.BasePackFetchConnection.MultiAck;
@@ -152,6 +153,9 @@ public class UploadPack {
 
 	/** Objects on both sides, these don't have to be sent. */
 	private final List<RevObject> commonBase = new ArrayList<RevObject>();
+
+	/** Commit time of the oldest common commit, in seconds. */
+	private int oldestTime;
 
 	/** null if {@link #commonBase} should be examined again. */
 	private Boolean okToGiveUp;
@@ -517,6 +521,13 @@ public class UploadPack {
 				}
 
 				last = obj;
+
+				if (obj instanceof RevCommit) {
+					RevCommit c = (RevCommit) obj;
+					if (oldestTime == 0 || c.getCommitTime() < oldestTime)
+						oldestTime = c.getCommitTime();
+				}
+
 				if (obj.has(PEER_HAS))
 					continue;
 
@@ -606,6 +617,8 @@ public class UploadPack {
 
 		walk.resetRetain(SAVE);
 		walk.markStart((RevCommit) want);
+		if (oldestTime != 0)
+			walk.setRevFilter(CommitTimeRevFilter.after(oldestTime * 1000L));
 		for (;;) {
 			final RevCommit c = walk.next();
 			if (c == null)
