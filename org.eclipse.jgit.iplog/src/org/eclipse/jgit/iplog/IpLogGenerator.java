@@ -552,9 +552,16 @@ public class IpLogGenerator {
 		required(r, "description", cq.getDescription());
 		optional(r, "license", cq.getLicense());
 		optional(r, "use", cq.getUse());
-		optional(r, "state", cq.getState());
+		optional(r, "state", mapCQState(cq.getState()));
 		optional(r, "comments", cq.getComments());
 		return r;
+	}
+
+	private String mapCQState(String state) {
+		// "approved" CQs shall be listed as "active" in the iplog
+		if (state.equals("approved"))
+			return "active";
+		return state;
 	}
 
 	private Element createCommitter(Committer who) {
