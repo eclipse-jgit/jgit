@@ -499,6 +499,9 @@ public class UploadPack {
 						wantAll.add(obj);
 					}
 
+					if (!(obj instanceof RevCommit))
+						obj.add(SATISFIED);
+
 					if (obj instanceof RevTag) {
 						RevObject target = walk.peel(obj);
 						if (target instanceof RevCommit) {
@@ -600,11 +603,6 @@ public class UploadPack {
 	private boolean wantSatisfied(final RevObject want) throws IOException {
 		if (want.has(SATISFIED))
 			return true;
-
-		if (!(want instanceof RevCommit)) {
-			want.add(SATISFIED);
-			return true;
-		}
 
 		walk.resetRetain(SAVE);
 		walk.markStart((RevCommit) want);
