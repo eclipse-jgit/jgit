@@ -170,7 +170,7 @@ public class RevWalk implements Iterable<RevCommit> {
 
 	final MutableObjectId idBuffer;
 
-	private final ObjectIdSubclassMap<RevObject> objects;
+	private ObjectIdSubclassMap<RevObject> objects;
 
 	private int freeFlags = APP_FLAGS;
 
@@ -1270,6 +1270,26 @@ public class RevWalk implements Iterable<RevCommit> {
 
 	private boolean isNotStarted() {
 		return pending instanceof StartGenerator;
+	}
+
+	/**
+	 * Create and return an {@link ObjectWalk} using the same objects.
+	 * <p>
+	 * Prior to using this method, the caller must reset this RevWalk to clean
+	 * any flags that were used during the last traversal.
+	 * <p>
+	 * The returned ObjectWalk uses the same ObjectReader, internal object pool,
+	 * and free RevFlags. Once the ObjectWalk is created, this RevWalk should
+	 * not be used anymore.
+	 *
+	 * @return a new walk, using the exact same object pool.
+	 */
+	public ObjectWalk toObjectWalkWithSameObjects() {
+		ObjectWalk ow = new ObjectWalk(reader);
+		RevWalk rw = ow;
+		rw.objects = objects;
+		rw.freeFlags = freeFlags;
+		return ow;
 	}
 
 	/**
