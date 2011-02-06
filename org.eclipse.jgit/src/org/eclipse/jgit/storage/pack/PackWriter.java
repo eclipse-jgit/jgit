@@ -575,14 +575,22 @@ public class PackWriter {
 		stats.totalObjects = objCnt;
 
 		writeMonitor.beginTask(JGitText.get().writingObjects, (int) objCnt);
+		long writeStart = System.currentTimeMillis();
+		long headerStart = out.length();
 		out.writeFileHeader(PACK_VERSION_GENERATED, objCnt);
 		out.flush();
 		writeObjects(out);
+		if (!edgeObjects.isEmpty() || !cachedPacks.isEmpty())
+			stats.thinPackBytes = out.length() - headerStart;
 		for (CachedPack pack : cachedPacks) {
 			stats.reusedObjects += pack.getObjectCount();
 			reuseSupport.copyPackAsIs(out, pack);
 		}
 		writeChecksum(out);
+		out.flush();
+		stats.timeWriting = System.currentTimeMillis() - writeStart;
+		stats.totalBytes = out.length();
+		stats.reusedPacks = Collections.unmodifiableList(cachedPacks);
 
 		reader.release();
 		writeMonitor.endTask();
@@ -739,9 +747,16 @@ public class PackWriter {
 		if (cnt == 0)
 			return;
 
+		final long searchStart = System.currentTimeMillis();
 		monitor.beginTask(JGitText.get().compressingObjects, nonEdgeCnt);
 		searchForDeltas(monitor, list, cnt);
 		monitor.endTask();
+		stats.deltaSearchNonEdgeObjects = nonEdgeCnt;
+		stats.timeCompressing = System.currentTimeMillis() - searchStart;
+
+		for (int i = 0; i < cnt; i++)
+			if (!list[i].isEdge() && list[i].isDeltaRepresentation())
+				stats.deltasFound++;
 	}
 
 	private int findObjectsNeedingDelta(ObjectToPack[] list, int cnt, int type) {
@@ -1079,11 +1094,15 @@ public class PackWriter {
 			Collection<? extends ObjectId> have)
 			throws MissingObjectException, IOException,
 			IncorrectObjectTypeException {
+		final long countingStart = System.currentTimeMillis();
 		countingMonitor.beginTask(JGitText.get().countingObjects,
 				ProgressMonitor.UNKNOWN);
 
 		if (have == null)
 			have = Collections.emptySet();
+
+		stats.interestingObjects = Collections.unmodifiableSet(new HashSet(want));
+		stats.uninterestingObjects = Collections.unmodifiableSet(new HashSet(have));
 
 		List<ObjectId> all = new ArrayList<ObjectId>(want.size() + have.size());
 		all.addAll(want);
@@ -1227,6 +1246,7 @@ public class PackWriter {
 		for (CachedPack pack : cachedPacks)
 			countingMonitor.update((int) pack.getObjectCount());
 		countingMonitor.endTask();
+		stats.timeCounting = System.currentTimeMillis() - countingStart;
 	}
 
 	private void pruneObjectList(int typesToPrune, int typeCode) {
@@ -1380,6 +1400,16 @@ public class PackWriter {
 
 	/** Summary of how PackWriter created the pack. */
 	public static class Statistics {
+		Set<ObjectId> interestingObjects;
+
+		Set<ObjectId> uninterestingObjects;
+
+		Collection<CachedPack> reusedPacks;
+
+		int deltaSearchNonEdgeObjects;
+
+		int deltasFound;
+
 		long totalObjects;
 
 		long totalDeltas;
@@ -1387,6 +1417,150 @@ public class PackWriter {
 		long reusedObjects;
 
 		long reusedDeltas;
+
+		long totalBytes;
+
+		long thinPackBytes;
+
+		long timeCounting;
+
+		long timeCompressing;
+
+		long timeWriting;
+
+		/**
+		 * @return unmodifiable collection of objects to be included in the
+		 *         pack. May be null if the pack was hand-crafted in a unit
+		 *         test.
+		 */
+		public Set<ObjectId> getInterestingObjects() {
+			return interestingObjects;
+		}
+
+		/**
+		 * @return unmodifiable collection of objects that should be excluded
+		 *         from the pack, as the peer that will receive the pack already
+		 *         has these objects.
+		 */
+		public Set<ObjectId> getUninterestingObjects() {
+			return uninterestingObjects;
+		}
+
+		/**
+		 * @return unmodifiable collection of the cached packs that were reused
+		 *         in the output, if any were selected for reuse.
+		 */
+		public Collection<CachedPack> getReusedPacks() {
+			return reusedPacks;
+		}
+
+		/**
+		 * @return number of objects in the output pack that went through the
+		 *         delta search process in order to find a potential delta base.
+		 */
+		public int getDeltaSearchNonEdgeObjects() {
+			return deltaSearchNonEdgeObjects;
+		}
+
+		/**
+		 * @return number of objects in the output pack that went through delta
+		 *         base search and found a suitable base. This is a subset of
+		 *         {@link #getDeltaSearchNonEdgeObjects()}.
+		 */
+		public int getDeltasFound() {
+			return deltasFound;
+		}
+
+		/**
+		 * @return total number of objects output. This total includes the value
+		 *         of {@link #getTotalDeltas()}.
+		 */
+		public long getTotalObjects() {
+			return totalObjects;
+		}
+
+		/**
+		 * @return total number of deltas output. This may be lower than the
+		 *         actual number of deltas if a cached pack was reused.
+		 */
+		public long getTotalDeltas() {
+			return totalDeltas;
+		}
+
+		/**
+		 * @return number of objects whose existing representation was reused in
+		 *         the output. This count includes {@link #getReusedDeltas()}.
+		 */
+		public long getReusedObjects() {
+			return reusedObjects;
+		}
+
+		/**
+		 * @return number of deltas whose existing representation was reused in
+		 *         the output, as their base object was also output or was
+		 *         assumed present for a thin pack. This may be lower than the
+		 *         actual number of reused deltas if a cached pack was reused.
+		 */
+		public long getReusedDeltas() {
+			return reusedDeltas;
+		}
+
+		/**
+		 * @return total number of bytes written. This size includes the pack
+		 *         header, trailer, thin pack, and reused cached pack(s).
+		 */
+		public long getTotalBytes() {
+			return totalBytes;
+		}
+
+		/**
+		 * @return size of the thin pack in bytes, if a thin pack was generated.
+		 *         A thin pack is created when the client already has objects
+		 *         and some deltas are created against those objects, or if a
+		 *         cached pack is being used and some deltas will reference
+		 *         objects in the cached pack. This size does not include the
+		 *         pack header or trailer.
+		 */
+		public long getThinPackBytes() {
+			return thinPackBytes;
+		}
+
+		/**
+		 * @return time in milliseconds spent enumerating the objects that need
+		 *         to be included in the output. This time includes any restarts
+		 *         that occur when a cached pack is selected for reuse.
+		 */
+		public long getTimeCounting() {
+			return timeCounting;
+		}
+
+		/**
+		 * @return time in milliseconds spent on delta compression. This is
+		 *         observed wall-clock time and does not accurately track CPU
+		 *         time used when multiple threads were used to perform the
+		 *         delta compression.
+		 */
+		public long getTimeCompressing() {
+			return timeCompressing;
+		}
+
+		/**
+		 * @return time in milliseconds spent writing the pack output, from
+		 *         start of header until end of trailer. The transfer speed can
+		 *         be approximated by dividing {@link #getTotalBytes()} by this
+		 *         value.
+		 */
+		public long getTimeWriting() {
+			return timeWriting;
+		}
+
+		/**
+		 * @return get the average output speed in terms of bytes-per-second.
+		 *         {@code getTotalBytes() / (getTimeWriting() / 1000.0)}.
+		 */
+		public double getTransferRate() {
+			return getTotalBytes() / (getTimeWriting() / 1000.0);
+		}
 
 		/** @return formatted message string for display to clients. */
 		public String getMessage() {
