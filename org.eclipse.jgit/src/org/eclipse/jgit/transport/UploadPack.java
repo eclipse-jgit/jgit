@@ -415,6 +415,8 @@ public class UploadPack {
 	}
 
 	private boolean negotiate() throws IOException {
+		okToGiveUp = Boolean.FALSE;
+
 		ObjectId last = ObjectId.zeroId();
 		List<ObjectId> peerHas = new ArrayList<ObjectId>(64);
 		for (;;) {
