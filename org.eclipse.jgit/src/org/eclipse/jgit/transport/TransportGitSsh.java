@@ -115,44 +115,15 @@ public class TransportGitSsh extends SshTransport implements PackTransport {
 		return new JschConnection();
 	}
 
-	private static void sqMinimal(final StringBuilder cmd, final String val) {
-		if (val.matches("^[a-zA-Z0-9._/-]*$")) {
-			// If the string matches only generally safe characters
-			// that the shell is not going to evaluate specially we
-			// should leave the string unquoted. Not all systems
-			// actually run a shell and over-quoting confuses them
-			// when it comes to the command name.
-			//
-			cmd.append(val);
-		} else {
-			sq(cmd, val);
-		}
-	}
-
-	private static void sqAlways(final StringBuilder cmd, final String val) {
-		sq(cmd, val);
-	}
-
-	private static void sq(final StringBuilder cmd, final String val) {
-		if (val.length() > 0)
-			cmd.append(QuotedString.BOURNE.quote(val));
-	}
-
 	String commandFor(final String exe) {
 		String path = uri.getPath();
 		if (uri.getScheme() != null && uri.getPath().startsWith("/~"))
 			path = (uri.getPath().substring(1));
 
 		final StringBuilder cmd = new StringBuilder();
-		final int gitspace = exe.indexOf("git ");
-		if (gitspace >= 0) {
-			sqMinimal(cmd, exe.substring(0, gitspace + 3));
-			cmd.append(' ');
-			sqMinimal(cmd, exe.substring(gitspace + 4));
-		} else
-			sqMinimal(cmd, exe);
+		cmd.append(exe);
 		cmd.append(' ');
-		sqAlways(cmd, path);
+		cmd.append(QuotedString.BOURNE.quote(path));
 		return cmd.toString();
 	}
 
@@ -178,7 +149,7 @@ public class TransportGitSsh extends SshTransport implements PackTransport {
 
 		final StringBuilder pfx = new StringBuilder();
 		pfx.append("fatal: ");
-		sqAlways(pfx, path);
+		pfx.append(QuotedString.BOURNE.quote(path));
 		pfx.append(": ");
 		if (why.startsWith(pfx.toString()))
 			why = why.substring(pfx.length());
