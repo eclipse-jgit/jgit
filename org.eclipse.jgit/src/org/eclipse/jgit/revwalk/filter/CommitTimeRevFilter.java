@@ -63,7 +63,18 @@ public abstract class CommitTimeRevFilter extends RevFilter {
 	 * @return a new filter to select commits on or before <code>ts</code>.
 	 */
 	public static final RevFilter before(final Date ts) {
-		return new Before(ts.getTime());
+		return before(ts.getTime());
+	}
+
+	/**
+	 * Create a new filter to select commits before a given date/time.
+	 *
+	 * @param ts
+	 *            the point in time to cut on, in milliseconds
+	 * @return a new filter to select commits on or before <code>ts</code>.
+	 */
+	public static final RevFilter before(final long ts) {
+		return new Before(ts);
 	}
 
 	/**
@@ -74,7 +85,18 @@ public abstract class CommitTimeRevFilter extends RevFilter {
 	 * @return a new filter to select commits on or after <code>ts</code>.
 	 */
 	public static final RevFilter after(final Date ts) {
-		return new After(ts.getTime());
+		return after(ts.getTime());
+	}
+
+	/**
+	 * Create a new filter to select commits after a given date/time.
+	 *
+	 * @param ts
+	 *            the point in time to cut on, in milliseconds.
+	 * @return a new filter to select commits on or after <code>ts</code>.
+	 */
+	public static final RevFilter after(final long ts) {
+		return new After(ts);
 	}
 
 	/**
@@ -86,7 +108,19 @@ public abstract class CommitTimeRevFilter extends RevFilter {
 	 * @return a new filter to select commits between the given date/times.
 	 */
 	public static final RevFilter between(final Date since, final Date until) {
-		return new Between(since.getTime(), until.getTime());
+		return between(since.getTime(), until.getTime());
+	}
+
+	/**
+	 * Create a new filter to select commits after or equal a given date/time <code>since</code>
+	 * and before or equal a given date/time <code>until</code>.
+	 *
+	 * @param since the point in time to cut on, in milliseconds.
+	 * @param until the point in time to cut off, in millisconds.
+	 * @return a new filter to select commits between the given date/times.
+	 */
+	public static final RevFilter between(final long since, final long until) {
+		return new Between(since, until);
 	}
 
 	final int when;
