@@ -49,19 +49,18 @@ import static org.eclipse.jgit.lib.Constants.R_REMOTES;
 import static org.eclipse.jgit.lib.Constants.R_TAGS;
 
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.text.MessageFormat;
 import java.util.ResourceBundle;
 
-import org.kohsuke.args4j.CmdLineException;
-import org.kohsuke.args4j.Option;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.pgm.opt.CmdLineParser;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.kohsuke.args4j.CmdLineException;
+import org.kohsuke.args4j.Option;
 
 /**
  * Abstract command which can be invoked from the command line.
@@ -87,7 +86,7 @@ public abstract class TextBuiltin {
 	protected Repository db;
 
 	/** Directory supplied via --git-dir command line option. */
-	protected File gitdir;
+	protected String gitdir;
 
 	/** RevWalk used during command line parsing, if it was required. */
 	protected RevWalk argWalk;
@@ -101,9 +100,19 @@ public abstract class TextBuiltin {
 		return true;
 	}
 
-	void init(final Repository repo, final File gd) {
+	/**
+	 * Initialize the command to work with a repository.
+	 *
+	 * @param repository
+	 *            the opened repository that the command should work on.
+	 * @param gitDir
+	 *            value of the {@code --git-dir} command line option, if
+	 *            {@code repository} is null.
+	 */
+	protected void init(final Repository repository, final String gitDir) {
 		try {
-			final String outputEncoding = repo != null ? repo.getConfig()
+			final String outputEncoding = repository != null ? repository
+					.getConfig()
 					.getString("i18n", null, "logOutputEncoding") : null;
 			if (outputEncoding != null)
 				out = new PrintWriter(new BufferedWriter(
@@ -115,12 +124,12 @@ public abstract class TextBuiltin {
 			throw die(CLIText.get().cannotCreateOutputStream);
 		}
 
-		if (repo != null) {
-			db = repo;
-			gitdir = repo.getDirectory();
+		if (repository != null && repository.getDirectory() != null) {
+			db = repository;
+			gitdir = repository.getDirectory().getAbsolutePath();
 		} else {
-			db = null;
-			gitdir = gd;
+			db = repository;
+			gitdir = gitDir;
 		}
 	}
 

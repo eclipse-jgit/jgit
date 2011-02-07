@@ -186,7 +186,7 @@ public class Main {
 		if (cmd.requiresRepository())
 			cmd.init(openGitDir(gitdir), null);
 		else
-			cmd.init(null, gitdir != null ? new File(gitdir) : null);
+			cmd.init(null, gitdir);
 		try {
 			cmd.execute(arguments.toArray(new String[arguments.size()]));
 		} finally {
