@@ -41,39 +41,16 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.eclipse.jgit.http.server.resolver;
+package org.eclipse.jgit.transport.resolver;
 
-import javax.servlet.http.HttpServletRequest;
+import org.eclipse.jgit.JGitText;
 
-import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.transport.UploadPack;
+/** Indicates the request service is not enabled on a repository. */
+public class ServiceNotEnabledException extends Exception {
+	private static final long serialVersionUID = 1L;
 
-/** Create and configure {@link UploadPack} service instance. */
-public interface UploadPackFactory {
-	/** A factory disabling the UploadPack service for all repositories. */
-	public static final UploadPackFactory DISABLED = new UploadPackFactory() {
-		public UploadPack create(HttpServletRequest req, Repository db)
-				throws ServiceNotEnabledException {
-			throw new ServiceNotEnabledException();
-		}
-	};
-
-	/**
-	 * Create and configure a new UploadPack instance for a repository.
-	 *
-	 * @param req
-	 *            current HTTP request, in case information from the request may
-	 *            help configure the UploadPack instance.
-	 * @param db
-	 *            the repository the upload would read from.
-	 * @return the newly configured UploadPack instance, must not be null.
-	 * @throws ServiceNotEnabledException
-	 *             this factory refuses to create the instance because it is not
-	 *             allowed on the target repository, by any user.
-	 * @throws ServiceNotAuthorizedException
-	 *             this factory refuses to create the instance for this HTTP
-	 *             request and repository, such as due to a permission error.
-	 */
-	UploadPack create(HttpServletRequest req, Repository db)
-			throws ServiceNotEnabledException, ServiceNotAuthorizedException;
+	/** Indicates the request service is not available. */
+	public ServiceNotEnabledException() {
+		super(JGitText.get().serviceNotEnabledNoName);
+	}
 }

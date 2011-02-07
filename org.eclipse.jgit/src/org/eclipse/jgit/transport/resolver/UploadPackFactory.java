@@ -41,37 +41,42 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.eclipse.jgit.http.server.resolver;
+package org.eclipse.jgit.transport.resolver;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.transport.UploadPack;
 
-/** Locate a Git {@link Repository} by name from the URL. */
-public interface RepositoryResolver {
+/**
+ * Create and configure {@link UploadPack} service instance.
+ *
+ * @param <C>
+ *            the connection type
+ */
+public interface UploadPackFactory<C> {
+	/** A factory disabling the UploadPack service for all repositories. */
+	public static final UploadPackFactory<?> DISABLED = new UploadPackFactory<Object>() {
+		public UploadPack create(Object req, Repository db)
+				throws ServiceNotEnabledException {
+			throw new ServiceNotEnabledException();
+		}
+	};
+
 	/**
-	 * Locate and open a reference to a {@link Repository}.
-	 * <p>
-	 * The caller is responsible for closing the returned Repository.
+	 * Create and configure a new UploadPack instance for a repository.
 	 *
 	 * @param req
-	 *            the current HTTP request, may be used to inspect session state
-	 *            including cookies or user authentication.
-	 * @param name
-	 *            name of the repository, as parsed out of the URL.
-	 * @return the opened repository instance, never null.
-	 * @throws RepositoryNotFoundException
-	 *             the repository does not exist or the name is incorrectly
-	 *             formatted as a repository name.
-	 * @throws ServiceNotAuthorizedException
-	 *             the repository exists, but HTTP access is not allowed for the
-	 *             current user.
+	 *            current request, in case information from the request may help
+	 *            configure the UploadPack instance.
+	 * @param db
+	 *            the repository the upload would read from.
+	 * @return the newly configured UploadPack instance, must not be null.
 	 * @throws ServiceNotEnabledException
-	 *             the repository exists, but HTTP access is not allowed on the
-	 *             target repository, by any user.
+	 *             this factory refuses to create the instance because it is not
+	 *             allowed on the target repository, by any user.
+	 * @throws ServiceNotAuthorizedException
+	 *             this factory refuses to create the instance for this HTTP
+	 *             request and repository, such as due to a permission error.
 	 */
-	Repository open(HttpServletRequest req, String name)
-			throws RepositoryNotFoundException, ServiceNotAuthorizedException,
-			ServiceNotEnabledException;
+	UploadPack create(C req, Repository db) throws ServiceNotEnabledException,
+			ServiceNotAuthorizedException;
 }
