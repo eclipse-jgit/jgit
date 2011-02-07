@@ -58,11 +58,11 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.eclipse.jgit.http.server.resolver.ServiceNotAuthorizedException;
-import org.eclipse.jgit.http.server.resolver.ServiceNotEnabledException;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.PacketLineOut;
 import org.eclipse.jgit.transport.RefAdvertiser.PacketLineOutRefAdvertiser;
+import org.eclipse.jgit.transport.resolver.ServiceNotAuthorizedException;
+import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
 
 /** Filter in front of {@link InfoRefsServlet} to catch smart service requests. */
 abstract class SmartServiceInfoRefs implements Filter {

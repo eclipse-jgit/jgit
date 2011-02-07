@@ -59,9 +59,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.eclipse.jgit.http.server.resolver.AsIsFileService;
-import org.eclipse.jgit.http.server.resolver.ServiceNotAuthorizedException;
-import org.eclipse.jgit.http.server.resolver.ServiceNotEnabledException;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.transport.resolver.ServiceNotAuthorizedException;
+import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
 
 class AsIsFileFilter implements Filter {
 	private final AsIsFileService asIs;

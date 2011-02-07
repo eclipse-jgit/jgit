@@ -63,10 +63,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
-import org.eclipse.jgit.http.server.resolver.RepositoryResolver;
-import org.eclipse.jgit.http.server.resolver.ServiceNotAuthorizedException;
-import org.eclipse.jgit.http.server.resolver.ServiceNotEnabledException;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.transport.resolver.RepositoryResolver;
+import org.eclipse.jgit.transport.resolver.ServiceNotAuthorizedException;
+import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
 
 /**
  * Opens a repository named by the path info through {@link RepositoryResolver}.
