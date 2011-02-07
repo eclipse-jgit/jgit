@@ -54,7 +54,9 @@ import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.storage.file.WindowCache;
 import org.eclipse.jgit.storage.file.WindowCacheConfig;
 import org.eclipse.jgit.storage.pack.PackConfig;
+import org.eclipse.jgit.transport.DaemonClient;
 import org.eclipse.jgit.transport.DaemonService;
+import org.eclipse.jgit.transport.resolver.FileResolver;
 import org.eclipse.jgit.util.FS;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
@@ -123,13 +125,19 @@ class Daemon extends TextBuiltin {
 		if (1 < threads)
 			packConfig.setExecutor(Executors.newFixedThreadPool(threads));
 
-		final org.eclipse.jgit.transport.Daemon d;
+		final FileResolver<DaemonClient> resolver = new FileResolver<DaemonClient>();
+		for (final File f : directory) {
+			out.println(MessageFormat.format(CLIText.get().exporting, f.getAbsolutePath()));
+			resolver.exportDirectory(f);
+		}
+		resolver.setExportAll(exportAll);
 
+		final org.eclipse.jgit.transport.Daemon d;
 		d = new org.eclipse.jgit.transport.Daemon(
 				host != null ? new InetSocketAddress(host, port)
 						: new InetSocketAddress(port));
-		d.setExportAll(exportAll);
 		d.setPackConfig(packConfig);
+		d.setRepositoryResolver(resolver);
 		if (0 <= timeout)
 			d.setTimeout(timeout);
 
@@ -143,10 +151,6 @@ class Daemon extends TextBuiltin {
 		for (final String n : forbidOverride)
 			service(d, n).setOverridable(false);
 
-		for (final File f : directory) {
-			out.println(MessageFormat.format(CLIText.get().exporting, f.getAbsolutePath()));
-			d.exportDirectory(f);
-		}
 		d.start();
 		out.println(MessageFormat.format(CLIText.get().listeningOn, d.getAddress()));
 	}
