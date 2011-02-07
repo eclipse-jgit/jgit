@@ -43,28 +43,26 @@
 
 package org.eclipse.jgit.transport;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InterruptedIOException;
+import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketAddress;
-import java.util.Collection;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.eclipse.jgit.JGitText;
-import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.lib.RepositoryCache;
-import org.eclipse.jgit.lib.RepositoryCache.FileKey;
 import org.eclipse.jgit.storage.pack.PackConfig;
-import org.eclipse.jgit.util.FS;
+import org.eclipse.jgit.transport.resolver.ReceivePackFactory;
+import org.eclipse.jgit.transport.resolver.RepositoryResolver;
+import org.eclipse.jgit.transport.resolver.ServiceNotAuthorizedException;
+import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
+import org.eclipse.jgit.transport.resolver.UploadPackFactory;
 
 /** Basic daemon for the anonymous <code>git://</code> transport protocol. */
 public class Daemon {
@@ -79,12 +77,6 @@ public class Daemon {
 
 	private final ThreadGroup processors;
 
-	private volatile boolean exportAll;
-
-	private Map<String, Repository> exports;
-
-	private Collection<File> exportBase;
-
 	private boolean run;
 
 	private Thread acceptThread;
@@ -92,6 +84,12 @@ public class Daemon {
 	private int timeout;
 
 	private PackConfig packConfig;
+
+	private volatile RepositoryResolver<DaemonClient> repositoryResolver;
+
+	private volatile UploadPackFactory<DaemonClient> uploadPackFactory;
+
+	private volatile ReceivePackFactory<DaemonClient> receivePackFactory;
 
 	/** Configure a daemon to listen on any available network port. */
 	public Daemon() {
@@ -107,9 +105,39 @@ public class Daemon {
 	 */
 	public Daemon(final InetSocketAddress addr) {
 		myAddress = addr;
-		exports = new ConcurrentHashMap<String, Repository>();
-		exportBase = new CopyOnWriteArrayList<File>();
 		processors = new ThreadGroup("Git-Daemon");
+
+		repositoryResolver = (RepositoryResolver<DaemonClient>) RepositoryResolver.NONE;
+
+		uploadPackFactory = new UploadPackFactory<DaemonClient>() {
+			public UploadPack create(DaemonClient req, Repository db)
+					throws ServiceNotEnabledException,
+					ServiceNotAuthorizedException {
+				UploadPack up = new UploadPack(db);
+				up.setTimeout(getTimeout());
+				up.setPackConfig(getPackConfig());
+				return up;
+			}
+		};
+
+		receivePackFactory = new ReceivePackFactory<DaemonClient>() {
+			public ReceivePack create(DaemonClient req, Repository db)
+					throws ServiceNotEnabledException,
+					ServiceNotAuthorizedException {
+				ReceivePack rp = new ReceivePack(db);
+
+				InetAddress peer = req.getRemoteAddress();
+				String host = peer.getCanonicalHostName();
+				if (host == null)
+					host = peer.getHostAddress();
+				String name = "anonymous";
+				String email = name + "@" + host;
+				rp.setRefLogIdent(new PersonIdent(name, email));
+				rp.setTimeout(getTimeout());
+
+				return rp;
+			}
+		};
 
 		services = new DaemonService[] {
 				new DaemonService("upload-pack", "uploadpack") {
@@ -119,12 +147,13 @@ public class Daemon {
 
 					@Override
 					protected void execute(final DaemonClient dc,
-							final Repository db) throws IOException {
-						final UploadPack rp = new UploadPack(db);
-						final InputStream in = dc.getInputStream();
-						rp.setTimeout(Daemon.this.getTimeout());
-						rp.setPackConfig(Daemon.this.packConfig);
-						rp.upload(in, dc.getOutputStream(), null);
+							final Repository db) throws IOException,
+							ServiceNotEnabledException,
+							ServiceNotAuthorizedException {
+						UploadPack up = uploadPackFactory.create(dc, db);
+						InputStream in = dc.getInputStream();
+						OutputStream out = dc.getOutputStream();
+						up.upload(in, out, null);
 					}
 				}, new DaemonService("receive-pack", "receivepack") {
 					{
@@ -133,18 +162,13 @@ public class Daemon {
 
 					@Override
 					protected void execute(final DaemonClient dc,
-							final Repository db) throws IOException {
-						final InetAddress peer = dc.getRemoteAddress();
-						String host = peer.getCanonicalHostName();
-						if (host == null)
-							host = peer.getHostAddress();
-						final ReceivePack rp = new ReceivePack(db);
-						final InputStream in = dc.getInputStream();
-						final String name = "anonymous";
-						final String email = name + "@" + host;
-						rp.setRefLogIdent(new PersonIdent(name, email));
-						rp.setTimeout(Daemon.this.getTimeout());
-						rp.receive(in, dc.getOutputStream(), null);
+							final Repository db) throws IOException,
+							ServiceNotEnabledException,
+							ServiceNotAuthorizedException {
+						ReceivePack rp = receivePackFactory.create(dc, db);
+						InputStream in = dc.getInputStream();
+						OutputStream out = dc.getOutputStream();
+						rp.receive(in, out, null);
 					}
 				} };
 	}
@@ -173,62 +197,6 @@ public class Daemon {
 		return null;
 	}
 
-	/**
-	 * @return false if <code>git-daemon-export-ok</code> is required to export
-	 *         a repository; true if <code>git-daemon-export-ok</code> is
-	 *         ignored.
-	 * @see #setExportAll(boolean)
-	 */
-	public boolean isExportAll() {
-		return exportAll;
-	}
-
-	/**
-	 * Set whether or not to export all repositories.
-	 * <p>
-	 * If false (the default), repositories must have a
-	 * <code>git-daemon-export-ok</code> file to be accessed through this
-	 * daemon.
-	 * <p>
-	 * If true, all repositories are available through the daemon, whether or
-	 * not <code>git-daemon-export-ok</code> exists.
-	 *
-	 * @param export
-	 */
-	public void setExportAll(final boolean export) {
-		exportAll = export;
-	}
-
-	/**
-	 * Add a single repository to the set that is exported by this daemon.
-	 * <p>
-	 * The existence (or lack-thereof) of <code>git-daemon-export-ok</code> is
-	 * ignored by this method. The repository is always published.
-	 *
-	 * @param name
-	 *            name the repository will be published under.
-	 * @param db
-	 *            the repository instance.
-	 */
-	public void exportRepository(String name, final Repository db) {
-		if (!name.endsWith(Constants.DOT_GIT_EXT))
-			name = name + Constants.DOT_GIT_EXT;
-		exports.put(name, db);
-		RepositoryCache.register(db);
-	}
-
-	/**
-	 * Recursively export all Git repositories within a directory.
-	 *
-	 * @param dir
-	 *            the directory to export. This directory must not itself be a
-	 *            git repository, but any directory below it which has a file
-	 *            named <code>git-daemon-export-ok</code> will be published.
-	 */
-	public void exportDirectory(final File dir) {
-		exportBase.add(dir);
-	}
-
 	/** @return timeout (in seconds) before aborting an IO operation. */
 	public int getTimeout() {
 		return timeout;
@@ -246,6 +214,11 @@ public class Daemon {
 		timeout = seconds;
 	}
 
+	/** @return configuration controlling packing, may be null. */
+	public PackConfig getPackConfig() {
+		return packConfig;
+	}
+
 	/**
 	 * Set the configuration used by the pack generator.
 	 *
@@ -255,6 +228,44 @@ public class Daemon {
 	 */
 	public void setPackConfig(PackConfig pc) {
 		this.packConfig = pc;
+	}
+
+	/**
+	 * Set the resolver used to locate a repository by name.
+	 *
+	 * @param resolver
+	 *            the resolver instance.
+	 */
+	public void setRepositoryResolver(RepositoryResolver<DaemonClient> resolver) {
+		repositoryResolver = resolver;
+	}
+
+	/**
+	 * Set the factory to construct and configure per-request UploadPack.
+	 *
+	 * @param factory
+	 *            the factory. If null upload-pack is disabled.
+	 */
+	@SuppressWarnings("unchecked")
+	public void setUploadPackFactory(UploadPackFactory<DaemonClient> factory) {
+		if (factory != null)
+			uploadPackFactory = factory;
+		else
+			uploadPackFactory = (UploadPackFactory<DaemonClient>) UploadPackFactory.DISABLED;
+	}
+
+	/**
+	 * Set the factory to construct and configure per-request ReceivePack.
+	 *
+	 * @param factory
+	 *            the factory. If null receive-pack is disabled.
+	 */
+	@SuppressWarnings("unchecked")
+	public void setReceivePackFactory(ReceivePackFactory<DaemonClient> factory) {
+		if (factory != null)
+			receivePackFactory = factory;
+		else
+			receivePackFactory = (ReceivePackFactory<DaemonClient>) ReceivePackFactory.DISABLED;
 	}
 
 	/**
@@ -325,6 +336,12 @@ public class Daemon {
 			public void run() {
 				try {
 					dc.execute(s);
+				} catch (RepositoryNotFoundException e) {
+					// Ignored. Client cannot use this repository.
+				} catch (ServiceNotEnabledException e) {
+					// Ignored. Client cannot use this repository.
+				} catch (ServiceNotAuthorizedException e) {
+					// Ignored. Client cannot use this repository.
 				} catch (IOException e) {
 					// Ignore unexpected IO exceptions from clients
 					e.printStackTrace();
@@ -352,7 +369,7 @@ public class Daemon {
 		return null;
 	}
 
-	Repository openRepository(String name) {
+	Repository openRepository(DaemonClient client, String name) {
 		// Assume any attempt to use \ was by a Windows client
 		// and correct to the more typical / used in Git URIs.
 		//
@@ -363,48 +380,20 @@ public class Daemon {
 		if (!name.startsWith("/"))
 			return null;
 
-		// Forbid Windows UNC paths as they might escape the base
-		//
-		if (name.startsWith("//"))
-			return null;
-
-		// Forbid funny paths which contain an up-reference, they
-		// might be trying to escape and read /../etc/password.
-		//
-		if (name.contains("/../"))
-			return null;
-		name = name.substring(1);
-
-		Repository db;
-		db = exports.get(name.endsWith(Constants.DOT_GIT_EXT) ? name : name
-				+ Constants.DOT_GIT_EXT);
-		if (db != null) {
-			db.incrementOpen();
-			return db;
-		}
-
-		for (final File baseDir : exportBase) {
-			final File gitdir = FileKey.resolve(new File(baseDir, name), FS.DETECTED);
-			if (gitdir != null && canExport(gitdir))
-				return openRepository(gitdir);
-		}
-		return null;
-	}
-
-	private static Repository openRepository(final File gitdir) {
 		try {
-			return RepositoryCache.open(FileKey.exact(gitdir, FS.DETECTED));
-		} catch (IOException err) {
+			return repositoryResolver.open(client, name.substring(1));
+		} catch (RepositoryNotFoundException e) {
+			// null signals it "wasn't found", which is all that is suitable
+			// for the remote client to know.
+			return null;
+		} catch (ServiceNotAuthorizedException e) {
+			// null signals it "wasn't found", which is all that is suitable
+			// for the remote client to know.
+			return null;
+		} catch (ServiceNotEnabledException e) {
 			// null signals it "wasn't found", which is all that is suitable
 			// for the remote client to know.
 			return null;
 		}
-	}
-
-	private boolean canExport(final File d) {
-		if (isExportAll()) {
-			return true;
-		}
-		return new File(d, "git-daemon-export-ok").exists();
 	}
 }
