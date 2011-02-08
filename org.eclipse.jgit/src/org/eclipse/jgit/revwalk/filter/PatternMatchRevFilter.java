@@ -131,6 +131,11 @@ public abstract class PatternMatchRevFilter extends RevFilter {
 		return compiledPattern.reset(text(cmit)).matches();
 	}
 
+	@Override
+	public boolean requiresCommitBody() {
+		return true;
+	}
+
 	/**
 	 * Obtain the raw text to match against.
 	 *

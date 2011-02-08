@@ -230,6 +230,11 @@ class RewriteTreeFilter extends RevFilter {
 		return false;
 	}
 
+	@Override
+	public boolean requiresCommitBody() {
+		return false;
+	}
+
 	private void updateFollowFilter(ObjectId[] trees)
 			throws MissingObjectException, IncorrectObjectTypeException,
 			CorruptObjectException, IOException {

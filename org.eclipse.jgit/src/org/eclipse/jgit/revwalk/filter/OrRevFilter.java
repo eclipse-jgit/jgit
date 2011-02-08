@@ -118,9 +118,13 @@ public abstract class OrRevFilter extends RevFilter {
 
 		private final RevFilter b;
 
+		private final boolean requiresCommitBody;
+
 		Binary(final RevFilter one, final RevFilter two) {
 			a = one;
 			b = two;
+			requiresCommitBody = a.requiresCommitBody()
+					|| b.requiresCommitBody();
 		}
 
 		@Override
@@ -128,6 +132,11 @@ public abstract class OrRevFilter extends RevFilter {
 				throws MissingObjectException, IncorrectObjectTypeException,
 				IOException {
 			return a.include(walker, c) || b.include(walker, c);
+		}
+
+		@Override
+		public boolean requiresCommitBody() {
+			return requiresCommitBody;
 		}
 
 		@Override
@@ -144,8 +153,15 @@ public abstract class OrRevFilter extends RevFilter {
 	private static class List extends OrRevFilter {
 		private final RevFilter[] subfilters;
 
+		private final boolean requiresCommitBody;
+
 		List(final RevFilter[] list) {
 			subfilters = list;
+
+			boolean rcb = false;
+			for (RevFilter filter : subfilters)
+				rcb |= filter.requiresCommitBody();
+			requiresCommitBody = rcb;
 		}
 
 		@Override
@@ -157,6 +173,11 @@ public abstract class OrRevFilter extends RevFilter {
 					return true;
 			}
 			return false;
+		}
+
+		@Override
+		public boolean requiresCommitBody() {
+			return requiresCommitBody;
 		}
 
 		@Override
