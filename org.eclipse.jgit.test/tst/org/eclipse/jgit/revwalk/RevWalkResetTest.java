@@ -81,6 +81,10 @@ public class RevWalkResetTest extends RevWalkTestCase {
 				return this;
 			}
 
+			@Override
+			public boolean requiresCommitBody() {
+				return true;
+			}
 		};
 
 		// Do an initial run through the walk

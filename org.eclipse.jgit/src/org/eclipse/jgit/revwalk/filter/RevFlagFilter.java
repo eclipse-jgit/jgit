@@ -144,6 +144,11 @@ public abstract class RevFlagFilter extends RevFilter {
 				IOException {
 			return c.hasAll(flags);
 		}
+
+		@Override
+		public boolean requiresCommitBody() {
+			return false;
+		}
 	}
 
 	private static class HasAny extends RevFlagFilter {
@@ -156,6 +161,11 @@ public abstract class RevFlagFilter extends RevFilter {
 				throws MissingObjectException, IncorrectObjectTypeException,
 				IOException {
 			return c.hasAny(flags);
+		}
+
+		@Override
+		public boolean requiresCommitBody() {
+			return false;
 		}
 	}
 }

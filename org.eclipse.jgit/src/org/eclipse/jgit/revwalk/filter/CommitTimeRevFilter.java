@@ -134,6 +134,11 @@ public abstract class CommitTimeRevFilter extends RevFilter {
 		return this;
 	}
 
+	@Override
+	public boolean requiresCommitBody() {
+		return false;
+	}
+
 	private static class Before extends CommitTimeRevFilter {
 		Before(final long ts) {
 			super(ts);

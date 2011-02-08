@@ -312,5 +312,10 @@ public class RevWalkFilterTest extends RevWalkTestCase {
 				IncorrectObjectTypeException, IOException {
 			return true;
 		}
+
+		@Override
+		public boolean requiresCommitBody() {
+			return false;
+		}
 	}
 }
