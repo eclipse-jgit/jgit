@@ -69,7 +69,7 @@ import org.eclipse.jgit.transport.URIish;
 
 /**
  * Clone a repository into a new working directory
- * 
+ *
  * @see <a href="http://www.kernel.org/pub/software/scm/git/docs/git-clone.html"
  *      >Git documentation about Clone</a>
  */
@@ -136,6 +136,10 @@ public class CloneCommand implements Callable<Git> {
 
 		config.addFetchRefSpec(refSpec);
 		config.update(repo.getConfig());
+
+		repo.getConfig().setString("branch", branch, "remote", remote); //$NON-NLS-1$ //$NON-NLS-2$
+		repo.getConfig().setString("branch", branch, "merge", branch); //$NON-NLS-1$ //$NON-NLS-2$
+
 		repo.getConfig().save();
 
 		// run the fetch command
