@@ -166,15 +166,12 @@ public class PullCommand extends GitCommand<PullResult> {
 		// get the configured remote for the currently checked out branch
 		// stored in configuration key branch.<branch name>.remote
 		Config repoConfig = repo.getConfig();
-		final String remote = repoConfig.getString(
+		String remote = repoConfig.getString(
 				ConfigConstants.CONFIG_BRANCH_SECTION, branchName,
 				ConfigConstants.CONFIG_KEY_REMOTE);
-		if (remote == null) {
-			String missingKey = ConfigConstants.CONFIG_BRANCH_SECTION + DOT
-					+ branchName + DOT + ConfigConstants.CONFIG_KEY_REMOTE;
-			throw new InvalidConfigurationException(MessageFormat.format(
-					JGitText.get().missingConfigurationForKey, missingKey));
-		}
+		if (remote == null)
+			// fall back to default remote
+			remote = Constants.DEFAULT_REMOTE_NAME;
 
 		// get the name of the branch in the remote repository
 		// stored in configuration key branch.<branch name>.merge
