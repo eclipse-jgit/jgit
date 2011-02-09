@@ -312,6 +312,16 @@ public class DirCache {
 		}
 	}
 
+	/**
+	 * @return true if the memory state differs from the index file
+	 * @throws IOException
+	 */
+	public boolean isOutdated() throws IOException {
+		if (liveFile == null || !liveFile.exists())
+			return false;
+		return liveFile.lastModified() != lastModified;
+	}
+
 	/** Empty this index, removing all entries. */
 	public void clear() {
 		lastModified = 0;
