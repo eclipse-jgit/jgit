@@ -299,8 +299,10 @@ public class RefDirectory extends RefDatabase {
 				// A broken symbolic reference, we have to drop it from the
 				// collections the client is about to receive. Should be a
 				// rare occurrence so pay a copy penalty.
-				loose = loose.remove(idx);
 				symbolic.remove(idx);
+				final int toRemove = loose.find(ref.getName());
+				if (0 <= toRemove)
+					loose = loose.remove(toRemove);
 			}
 		}
 
