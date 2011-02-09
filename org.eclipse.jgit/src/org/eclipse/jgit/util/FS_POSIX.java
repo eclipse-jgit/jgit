@@ -66,7 +66,12 @@ abstract class FS_POSIX extends FS {
 			String w = readPipe(userHome(), //
 					new String[] { "bash", "--login", "-c", "which git" }, //
 					Charset.defaultCharset().name());
-			return new File(w).getParentFile().getParentFile();
+			if (w == null || w.length() == 0)
+				return null;
+			File parentFile = new File(w).getParentFile();
+			if (parentFile == null)
+				return null;
+			return parentFile.getParentFile();
 		}
 
 		return null;
