@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL23///2s\u003d",
+        "filename": "org.eclipse.jgit.console/META-INF/MANIFEST.MF",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-02-12T02:03:54Z",
+      "side": 1,
+      "message": "Are we expecting to do a 0.11.3 release?\n\nUsually I merge the 0.11.1 unqualified version into master, and then update versions to be 0.12.0.qualifier.  If we need to go back and do changes to stable-0.11 we would create the 0.11.2.qualifier at that time.",
+      "revId": "88e4db2414632550aaaa91376950e99505e16972",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
