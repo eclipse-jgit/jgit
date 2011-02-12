@@ -16,6 +16,24 @@
       "revId": "88e4db2414632550aaaa91376950e99505e16972",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL23///2c\u003d",
+        "filename": "org.eclipse.jgit.console/META-INF/MANIFEST.MF",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-02-12T02:12:36Z",
+      "side": 1,
+      "message": "no I don\u0027t expect that, if you want I can skip this (did the same way last time)",
+      "parentUuid": "AAAL23///2s\u003d",
+      "revId": "88e4db2414632550aaaa91376950e99505e16972",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
