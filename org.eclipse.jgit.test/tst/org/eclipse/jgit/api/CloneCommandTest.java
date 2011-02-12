@@ -110,6 +110,17 @@ public class CloneCommandTest extends RepositoryTestCase {
 		}
 	}
 
+	@Test
+	public void shouldCloneToABareRepository() throws Exception {
+		File directory = createTempDirectory("testCloneRepositoryWithBranch.git");
+		CloneCommand command = Git.cloneRepository();
+		command.setBranch("refs/heads/test");
+		command.setDirectory(directory);
+		command.setURI("file://" + git.getRepository().getWorkTree().getPath());
+		command.setBare(true);
+		assertNotNull(command.call());
+	}
+
 	public static File createTempDirectory(String name) throws IOException {
 		final File temp;
 		temp = File.createTempFile(name, Long.toString(System.nanoTime()));
