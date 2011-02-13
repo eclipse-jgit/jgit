@@ -586,7 +586,7 @@ public class UploadPack {
 
 		try {
 			for (RevObject obj : wantAll) {
-				if (wantSatisfied(obj))
+				if (!wantSatisfied(obj))
 					return false;
 			}
 			return true;
