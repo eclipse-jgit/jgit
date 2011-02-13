@@ -63,6 +63,7 @@ import java.util.List;
 
 import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.RepositoryCache.FileKey;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.storage.file.FileRepository;
@@ -101,6 +102,9 @@ public class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R extends Re
 
 	/** True only if the caller wants to force bare behavior. */
 	private boolean bare;
+
+	/** True if the caller requires the repository to exist. */
+	private boolean mustExist;
 
 	/** Configuration file of target repository, lazily loaded if required. */
 	private Config config;
@@ -245,6 +249,24 @@ public class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R extends Re
 	/** @return true if this repository was forced bare by {@link #setBare()}. */
 	public boolean isBare() {
 		return bare;
+	}
+
+	/**
+	 * Require the repository to exist before it can be opened.
+	 *
+	 * @param mustExist
+	 *            true if it must exist; false if it can be missing and created
+	 *            after being built.
+	 * @return {@code this} (for chaining calls).
+	 */
+	public B setMustExist(boolean mustExist) {
+		this.mustExist = mustExist;
+		return self();
+	}
+
+	/** @return true if the repository must exist before being opened. */
+	public boolean isMustExist() {
+		return mustExist;
 	}
 
 	/**
@@ -504,7 +526,10 @@ public class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R extends Re
 	 */
 	@SuppressWarnings("unchecked")
 	public R build() throws IOException {
-		return (R) new FileRepository(setup());
+		R repo = (R) new FileRepository(setup());
+		if (isMustExist() && !repo.getObjectDatabase().exists())
+			throw new RepositoryNotFoundException(getGitDir());
+		return repo;
 	}
 
 	/** Require either {@code gitDir} or {@code workTree} to be set. */
