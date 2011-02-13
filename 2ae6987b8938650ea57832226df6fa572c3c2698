@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL23///7Y\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CloneCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 46
+      },
+      "writtenOn": "2011-02-08T14:24:03Z",
+      "side": 1,
+      "message": "Use ConfigConstants for \"branch\" \"merge\", and \"remote\"",
+      "revId": "2ae6987b8938650ea57832226df6fa572c3c2698",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
