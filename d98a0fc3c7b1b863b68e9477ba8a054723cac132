@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL23///7A\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CloneCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 46
+      },
+      "writtenOn": "2011-02-08T17:17:40Z",
+      "side": 1,
+      "message": "These NON-NLS markers are pointless now...",
+      "revId": "d98a0fc3c7b1b863b68e9477ba8a054723cac132",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
