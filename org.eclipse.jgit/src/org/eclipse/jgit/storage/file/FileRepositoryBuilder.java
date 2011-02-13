@@ -46,6 +46,7 @@ package org.eclipse.jgit.storage.file;
 import java.io.File;
 import java.io.IOException;
 
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.BaseRepositoryBuilder;
 
 /**
@@ -85,6 +86,9 @@ public class FileRepositoryBuilder extends
 	 */
 	@Override
 	public FileRepository build() throws IOException {
-		return new FileRepository(setup());
+		FileRepository repo = new FileRepository(setup());
+		if (isMustExist() && !repo.getObjectDatabase().exists())
+			throw new RepositoryNotFoundException(getGitDir());
+		return repo;
 	}
 }
