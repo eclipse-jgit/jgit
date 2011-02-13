@@ -195,6 +195,8 @@ public class UploadPack {
 		SAVE = new RevFlagSet();
 		SAVE.add(WANT);
 		SAVE.add(PEER_HAS);
+		SAVE.add(COMMON);
+		SAVE.add(SATISFIED);
 		refFilter = RefFilter.DEFAULT;
 	}
 
