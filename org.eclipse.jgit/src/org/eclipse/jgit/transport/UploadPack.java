@@ -218,6 +218,11 @@ public class UploadPack {
 		return walk;
 	}
 
+	/** @return all refs which were advertised to the client. */
+	public final Map<String, Ref> getAdvertisedRefs() {
+		return refs;
+	}
+
 	/** @return timeout (in seconds) before aborting an IO operation. */
 	public int getTimeout() {
 		return timeout;
