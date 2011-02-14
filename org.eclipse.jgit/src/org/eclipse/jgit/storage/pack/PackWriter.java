@@ -381,6 +381,38 @@ public class PackWriter {
 	 *
 	 * @param countingMonitor
 	 *            progress during object enumeration.
+	 * @param want
+	 *            collection of objects to be marked as interesting (start
+	 *            points of graph traversal).
+	 * @param have
+	 *            collection of objects to be marked as uninteresting (end
+	 *            points of graph traversal).
+	 * @throws IOException
+	 *             when some I/O problem occur during reading objects.
+	 */
+	public void preparePack(ProgressMonitor countingMonitor,
+			final Collection<? extends ObjectId> want,
+			final Collection<? extends ObjectId> have) throws IOException {
+		ObjectWalk ow = new ObjectWalk(reader);
+		preparePack(countingMonitor, ow, want, have);
+	}
+
+	/**
+	 * Prepare the list of objects to be written to the pack stream.
+	 * <p>
+	 * Basing on these 2 sets, another set of objects to put in a pack file is
+	 * created: this set consists of all objects reachable (ancestors) from
+	 * interesting objects, except uninteresting objects and their ancestors.
+	 * This method uses class {@link ObjectWalk} extensively to find out that
+	 * appropriate set of output objects and their optimal order in output pack.
+	 * Order is consistent with general git in-pack rules: sort by object type,
+	 * recency, path and delta-base first.
+	 * </p>
+	 *
+	 * @param countingMonitor
+	 *            progress during object enumeration.
+	 * @param walk
+	 *            ObjectWalk to perform enumeration.
 	 * @param interestingObjects
 	 *            collection of objects to be marked as interesting (start
 	 *            points of graph traversal).
@@ -391,12 +423,13 @@ public class PackWriter {
 	 *             when some I/O problem occur during reading objects.
 	 */
 	public void preparePack(ProgressMonitor countingMonitor,
+			final ObjectWalk walk,
 			final Collection<? extends ObjectId> interestingObjects,
 			final Collection<? extends ObjectId> uninterestingObjects)
 			throws IOException {
 		if (countingMonitor == null)
 			countingMonitor = NullProgressMonitor.INSTANCE;
-		findObjectsToPack(countingMonitor, interestingObjects,
+		findObjectsToPack(countingMonitor, walk, interestingObjects,
 				uninterestingObjects);
 	}
 
@@ -1042,7 +1075,7 @@ public class PackWriter {
 	}
 
 	private void findObjectsToPack(final ProgressMonitor countingMonitor,
-			final Collection<? extends ObjectId> want,
+			final ObjectWalk walker, final Collection<? extends ObjectId> want,
 			Collection<? extends ObjectId> have)
 			throws MissingObjectException, IOException,
 			IncorrectObjectTypeException {
@@ -1057,7 +1090,6 @@ public class PackWriter {
 		all.addAll(have);
 
 		final Map<ObjectId, CachedPack> tipToPack = new HashMap<ObjectId, CachedPack>();
-		final ObjectWalk walker = new ObjectWalk(reader);
 		final RevFlag inCachedPack = walker.newFlag("inCachedPack");
 		final RevFlag include = walker.newFlag("include");
 
