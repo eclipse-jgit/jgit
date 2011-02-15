@@ -1,0 +1,39 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL23///1o\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/RefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-02-12T02:53:23Z",
+      "side": 1,
+      "message": "I think this implies ref cannot be null at this point.  Which might be correct, so I wonder if we shouldn\u0027t drop the \"ref !\u003d null\" test above just so the code isn\u0027t reading like we are risking an NPE here.\n\n(I\u0027m pretty sure that symbolic.get() won\u0027t return null, and that resolve() also won\u0027t return null, and thus that the ref !\u003d null test above is wrong.)",
+      "revId": "1f85890fe718f38ef4b62ebe711f0668267873a2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL23///sw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/RefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-02-15T14:32:24Z",
+      "side": 1,
+      "message": "I think it only returns null when the symbolic reference requires too many traversals to resolve (and we start to suspect we are in a loop). This isn\u0027t very common, but it can happen.",
+      "parentUuid": "AAAL23///tU\u003d",
+      "revId": "1f85890fe718f38ef4b62ebe711f0668267873a2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
