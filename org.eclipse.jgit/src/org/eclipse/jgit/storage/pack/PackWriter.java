@@ -588,6 +588,7 @@ public class PackWriter {
 
 		for (CachedPack pack : cachedPacks) {
 			stats.reusedObjects += pack.getObjectCount();
+			stats.reusedDeltas += pack.getDeltaCount();
 			reuseSupport.copyPackAsIs(out, pack);
 		}
 		writeChecksum(out);

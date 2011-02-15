@@ -72,6 +72,27 @@ public abstract class CachedPack {
 	public abstract long getObjectCount() throws IOException;
 
 	/**
+	 * Get the number of delta objects stored in this pack.
+	 * <p>
+	 * This is an optional method, not every cached pack storage system knows
+	 * the precise number of deltas stored within the pack. This number must be
+	 * smaller than {@link #getObjectCount()} as deltas are not supposed to span
+	 * across pack files.
+	 * <p>
+	 * This method must be fast, if the only way to determine delta counts is to
+	 * scan the pack file's contents one object at a time, implementors should
+	 * return 0 and avoid the high cost of the scan.
+	 *
+	 * @return the number of deltas; 0 if the number is not known or there are
+	 *         no deltas.
+	 * @throws IOException
+	 *             if the delta count cannot be read.
+	 */
+	public long getDeltaCount() throws IOException {
+		return 0;
+	}
+
+	/**
 	 * Determine if the pack contains the requested objects.
 	 *
 	 * @param <T>
