@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL23///tU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/RefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2011-02-15T08:38:02Z",
+      "side": 1,
+      "message": "Actually, there are a couple of conditions where resolve may return null, so I\u0027m wondering now why this solution worked at all for me :(",
+      "parentUuid": "AAAL23///1o\u003d",
+      "revId": "1f85890fe718f38ef4b62ebe711f0668267873a2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL23///sw\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/RefDirectory.java",
         "patchSetId": 1
