@@ -191,8 +191,23 @@ public final class ServletUtils {
 	}
 
 	static boolean acceptsGzipEncoding(final HttpServletRequest req) {
-		final String accepts = req.getHeader(HDR_ACCEPT_ENCODING);
-		return accepts != null && 0 <= accepts.indexOf(ENCODING_GZIP);
+		return acceptsGzipEncoding(req.getHeader(HDR_ACCEPT_ENCODING));
+	}
+
+	static boolean acceptsGzipEncoding(String accepts) {
+		if (accepts == null)
+			return false;
+
+		int b = 0;
+		while (b < accepts.length()) {
+			int comma = accepts.indexOf(',', b);
+			int e = 0 <= comma ? comma : accepts.length();
+			String term = accepts.substring(b, e).trim();
+			if (term.equals(ENCODING_GZIP))
+				return true;
+			b = e + 1;
+		}
+		return false;
 	}
 
 	private static byte[] compress(final byte[] raw) throws IOException {
