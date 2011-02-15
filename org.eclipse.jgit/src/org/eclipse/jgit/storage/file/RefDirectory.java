@@ -290,17 +290,19 @@ public class RefDirectory extends RefDatabase {
 
 		RefList.Builder<Ref> symbolic = scan.symbolic;
 		for (int idx = 0; idx < symbolic.size();) {
-			Ref ref = symbolic.get(idx);
-			ref = resolve(ref, 0, prefix, loose, packed);
-			if (ref != null && ref.getObjectId() != null) {
-				symbolic.set(idx, ref);
+			final Ref symbolicRef = symbolic.get(idx);
+			final Ref resolvedRef = resolve(symbolicRef, 0, prefix, loose, packed);
+			if (resolvedRef != null && resolvedRef.getObjectId() != null) {
+				symbolic.set(idx, resolvedRef);
 				idx++;
 			} else {
 				// A broken symbolic reference, we have to drop it from the
 				// collections the client is about to receive. Should be a
 				// rare occurrence so pay a copy penalty.
-				loose = loose.remove(idx);
 				symbolic.remove(idx);
+				final int toRemove = loose.find(symbolicRef.getName());
+				if (0 <= toRemove)
+					loose = loose.remove(toRemove);
 			}
 		}
 
