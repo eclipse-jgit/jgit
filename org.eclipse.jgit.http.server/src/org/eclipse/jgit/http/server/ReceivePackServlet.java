@@ -112,7 +112,12 @@ class ReceivePackServlet extends HttpServlet {
 			rp.setBiDirectionalPipe(false);
 			rsp.setContentType(RSP_TYPE);
 
-			final SmartOutputStream out = new SmartOutputStream(req, rsp);
+			final SmartOutputStream out = new SmartOutputStream(req, rsp) {
+				@Override
+				public void flush() throws IOException {
+					doFlush();
+				}
+			};
 			rp.receive(getInputStream(req), out, null);
 			out.close();
 
