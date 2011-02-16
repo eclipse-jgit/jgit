@@ -138,7 +138,7 @@ public class PullCommand extends GitCommand<PullResult> {
 	 */
 	public PullResult call() throws WrongRepositoryStateException,
 			InvalidConfigurationException, DetachedHeadException,
-			InvalidRemoteException, CanceledException {
+			InvalidRemoteException, CanceledException, RefNotFoundException {
 		checkCallable();
 
 		monitor.beginTask(JGitText.get().pullTaskName, 2);
@@ -248,6 +248,9 @@ public class PullCommand extends GitCommand<PullResult> {
 		} else {
 			try {
 				commitToMerge = repo.resolve(remoteBranchName);
+				if (commitToMerge == null)
+					throw new RefNotFoundException(MessageFormat.format(
+							JGitText.get().refNotResolved, remoteBranchName));
 			} catch (IOException e) {
 				throw new JGitInternalException(
 						JGitText.get().exceptionCaughtDuringExecutionOfPullCommand,
