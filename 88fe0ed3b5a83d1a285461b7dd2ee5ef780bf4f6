@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL23///jY\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Reset.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-02-17T17:59:20Z",
+      "side": 1,
+      "message": "Style-nit: Space after if",
+      "revId": "88fe0ed3b5a83d1a285461b7dd2ee5ef780bf4f6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL23///jU\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Reset.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-02-17T17:59:20Z",
+      "side": 1,
+      "message": "These options are exclusive. If more than one is given, its an error. Maybe instead write:\n\n  ResetType mode \u003d null;\n\n  if (soft)\n    mode \u003d selectMode(mode, ResetType.SOFT);\n  if (hard)\n    mode \u003d selectMode(mode, ResetType.HARD);\n  ...\n\n  private static ResetType selectMode(ResetType mode, ResetType want) {\n    if (mode !\u003d null)\n      throw die(\"....\");\n    return want;\n  }",
+      "revId": "88fe0ed3b5a83d1a285461b7dd2ee5ef780bf4f6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
