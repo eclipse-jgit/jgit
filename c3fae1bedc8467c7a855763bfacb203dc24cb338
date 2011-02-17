@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL23///lU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ResetCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-02-16T23:57:27Z",
+      "side": 1,
+      "message": "explain that as well like you did for KEEP",
+      "revId": "c3fae1bedc8467c7a855763bfacb203dc24cb338",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL23///lQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ResetCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-02-16T23:57:27Z",
+      "side": 1,
+      "message": "what is this catch good for if you immediately rethrow ?",
+      "revId": "c3fae1bedc8467c7a855763bfacb203dc24cb338",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL23///lM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ResetCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-02-16T23:57:27Z",
+      "side": 1,
+      "message": "unused try catch block",
+      "revId": "c3fae1bedc8467c7a855763bfacb203dc24cb338",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
