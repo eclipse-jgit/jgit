@@ -72,6 +72,23 @@
     },
     {
       "key": {
+        "uuid": "AAAL2n//+z8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/TreeWalk.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-02-01T21:09:58Z",
+      "side": 1,
+      "message": "Style-nit: With two \"lines\" in the then block, wrap it in curly braces.",
+      "revId": "e428ffc41f118ee68965b36f583f814a728b82f4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL2n//+z4\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/TreeWalk.java",
         "patchSetId": 4
