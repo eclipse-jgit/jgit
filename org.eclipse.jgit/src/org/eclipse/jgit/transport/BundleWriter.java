@@ -181,8 +181,11 @@ public class BundleWriter {
 	public void writeBundle(ProgressMonitor monitor, OutputStream os)
 			throws IOException {
 		PackConfig pc = packConfig;
-		if (pc == null)
+		if (packConfig != null)
+			pc = packConfig.clone();
+		else
 			pc = new PackConfig(db);
+		pc.setDeltaBaseAsOffset(true);
 		PackWriter packWriter = new PackWriter(pc, db.newObjectReader());
 		try {
 			final HashSet<ObjectId> inc = new HashSet<ObjectId>();

@@ -59,7 +59,7 @@ import org.eclipse.jgit.storage.file.PackIndexWriter;
  * is safe to share the same configuration instance between multiple concurrent
  * threads executing different PackWriters.
  */
-public class PackConfig {
+public class PackConfig implements Cloneable {
 	/**
 	 * Default value of deltas reuse option: {@value}
 	 *
@@ -589,6 +589,14 @@ public class PackConfig {
 	 */
 	public void setIndexVersion(final int version) {
 		indexVersion = version;
+	}
+
+	public PackConfig clone() {
+		try {
+			return (PackConfig) super.clone();
+		} catch (CloneNotSupportedException cannotClone) {
+			throw new RuntimeException(cannotClone);
+		}
 	}
 
 	/**
