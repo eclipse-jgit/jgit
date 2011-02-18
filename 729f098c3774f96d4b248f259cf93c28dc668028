@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL23///is\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/ForPathTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 114
+      },
+      "writtenOn": "2011-02-17T19:50:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL23///i4\u003d",
+      "revId": "729f098c3774f96d4b248f259cf93c28dc668028",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL23///i0\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/ForPathTest.java",
         "patchSetId": 5
@@ -53,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL23///iY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/TreeWalk.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 114
+      },
+      "writtenOn": "2011-02-17T19:50:03Z",
+      "side": 1,
+      "message": "Done\n\nbleh, you\u0027re right.  Didn\u0027t think about this too much when I wrote it...",
+      "parentUuid": "AAAL23///i8\u003d",
+      "revId": "729f098c3774f96d4b248f259cf93c28dc668028",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL23///jA\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/PathFilter.java",
         "patchSetId": 5
@@ -70,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL23///io\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/PathFilter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 114
+      },
+      "writtenOn": "2011-02-17T19:50:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL23///jA\u003d",
+      "revId": "729f098c3774f96d4b248f259cf93c28dc668028",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL23///jE\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/PathFilter.java",
         "patchSetId": 5
@@ -81,6 +135,24 @@
       "writtenOn": "2011-02-17T19:15:35Z",
       "side": 1,
       "message": "I would rather not generate a copy of the path right here just to test the length of it. We should expose a method on the TreeWalk that exports the path length.",
+      "revId": "729f098c3774f96d4b248f259cf93c28dc668028",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL23///ik\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/PathFilter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 114
+      },
+      "writtenOn": "2011-02-17T19:50:03Z",
+      "side": 1,
+      "message": "Done\n\nThanks for pointing that out, I didn\u0027t realize that was happening.",
+      "parentUuid": "AAAL23///jE\u003d",
       "revId": "729f098c3774f96d4b248f259cf93c28dc668028",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
