@@ -54,6 +54,23 @@
     },
     {
       "key": {
+        "uuid": "AAAL2n//+uE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/TreeWalk.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 114
+      },
+      "writtenOn": "2011-02-03T15:03:01Z",
+      "side": 1,
+      "message": "Also, with the implementation above, paths like \"/foo/bar\" or \"//foo///bar\" wouldn\u0027t work even if a path such as \"foo/bar\" exists.\n\nI don\u0027t think it would be too hard to fix, but is the expectation for jgit API users to handle cleaning up their inputs for methods like these?  Or should we try to be forgiving here?",
+      "revId": "e428ffc41f118ee68965b36f583f814a728b82f4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL2n//+s4\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/TreeWalk.java",
         "patchSetId": 4
@@ -84,6 +101,24 @@
       "side": 1,
       "message": "Paths like /foo/bar and //foo//bar shouldn\u0027t be handed to this function.  Callers cannot expect TreeWalk to handle foo//bar as foo/bar; foo//bar is bar within a subdirectory of no name, within foo.  Likewise with leading slashes.",
       "parentUuid": "AAAL2n//+uE\u003d",
+      "revId": "e428ffc41f118ee68965b36f583f814a728b82f4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL23///q0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/TreeWalk.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 114
+      },
+      "writtenOn": "2011-02-15T21:05:40Z",
+      "side": 1,
+      "message": "Done.\n\nThanks for the tip.  It did indeed make the code much cleaner.",
+      "parentUuid": "AAAL2n//+s4\u003d",
       "revId": "e428ffc41f118ee68965b36f583f814a728b82f4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
