@@ -190,6 +190,7 @@ public class BundleWriter {
 			inc.addAll(include.values());
 			for (final RevCommit r : assume)
 				exc.add(r.getId());
+			packWriter.setDeltaBaseAsOffset(true);
 			packWriter.setThin(exc.size() > 0);
 			packWriter.preparePack(monitor, inc, exc);
 
