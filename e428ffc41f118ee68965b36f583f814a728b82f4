@@ -1,0 +1,159 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL2n//+zw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/TreeWalk.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-02-01T21:09:58Z",
+      "side": 1,
+      "message": "This entire method is pretty complex for what it does.  I think if you rebase this onto current master you can take advantage of the changes I made to AbstractTreeIterator recently:\n\n  \n  private static int nextSlash(byte[] pathBuf, int ptr, int end) {\n    while (ptr \u003c end \u0026\u0026 pathBuf[ptr] !\u003d \u0027/\u0027)\n      ptr++;\n    return ptr;\n  }\n\n  public static TreeWalk forPath(final ObjectReader reader, final String path,\n\t\t\tfinal AnyObjectId... trees) throws MissingObjectException,\n\t\t\tIncorrectObjectTypeException, CorruptObjectException, IOException {\n    byte[] pathBuf \u003d Constants.encode(path);\n\n    TreeWalk tw \u003d new TreeWalk(reader);\n    tw.reset(trees);\n\n    int ptr \u003d 0;\n    int end \u003d nextSlash(pathBuf, ptr, pathBuf.length);\n    int mode \u003d end \u003c path.length\n      ? FileMode.TREE.getBits()\n      : -1;\n\n    while (tw.next()) {\n      int cmp \u003d tw.currentHead.pathCompare(pathBuf, ptr, end, mode);\n      if (cmp \u003c 0)\n        continue;\n      if (cmp \u003e 0)\n        return null;\n      if (end \u003d\u003d path.length)\n        return tw;\n\n      ptr \u003d end + 1;\n      end \u003d nextSlash(pathBuf, ptr, pathBuf.length);\n      mode \u003d  mode \u003d end \u003c pathBuf.length\n        ? FileMode.TREE.getBits()\n        : -1; \n      tw.enterSubtree();\n    }\n\n    return null;\n  }\n\nAnd you\u0027ll need to make a tiny change to AbstractTreeIterator.pathCompare.  On line 353 before the mode of both entries is considered insert:\n\n    if (bMode \u003d\u003d -1)\n      return 0;\n    return lastPathChar(mode) - lastPathChar(bMode);\n\nBasically lets fix forPath() instead of adding a new special method.",
+      "revId": "e428ffc41f118ee68965b36f583f814a728b82f4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2n//+s4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/TreeWalk.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-02-03T16:41:52Z",
+      "side": 1,
+      "message": "I propose replacing the existing method with the new one.\n\nBut it occurred to me after I wrote the comment above that we might be able to replace the method with a smaller variant using the PathFilter code.  The existing PathFilter can mostly do the same thing; add it to the TreeWalk.  setRecursive(false).  Then when tw.isSubtree() is true and the PathFilter is not done, enter the subtree.  The \"path filter is not done\" part is new, we would need to add that to the PathFilter class to let it see if the TreeWalk\u0027s current length is equal to the PathFilter\u0027s path length.  If the lengths are the same, we know this is the target.  If TreeWalk\u0027s current path is shorter, we know we need to dive into the subtree.\n\nThat may be a much cleaner solution because its less code, and we aren\u0027t going through this mess of parsing the path ourselves.",
+      "parentUuid": "AAAL2n//+uU\u003d",
+      "revId": "e428ffc41f118ee68965b36f583f814a728b82f4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2n//+s0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/TreeWalk.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-02-03T16:41:52Z",
+      "side": 1,
+      "message": "Paths like /foo/bar and //foo//bar shouldn\u0027t be handed to this function.  Callers cannot expect TreeWalk to handle foo//bar as foo/bar; foo//bar is bar within a subdirectory of no name, within foo.  Likewise with leading slashes.",
+      "parentUuid": "AAAL2n//+uE\u003d",
+      "revId": "e428ffc41f118ee68965b36f583f814a728b82f4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2n//+zs\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/TreeWalk.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-02-01T21:09:58Z",
+      "side": 1,
+      "message": "This is a Java 6 method, we stick to Java 5 API in JGit.",
+      "revId": "e428ffc41f118ee68965b36f583f814a728b82f4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2n//+z4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/TreeWalk.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-02-01T21:09:58Z",
+      "side": 1,
+      "message": "This case occurs if path \u003d\u003d null || path.length() \u003d\u003d 0.  For anything else, you should have a next token.  So rework the logic:\n\n  if (path \u003d\u003d null || path.length() \u003d\u003d 0)\n    return tree.toObjectId();\n\n  TreeWalk tw \u003d new TreeWalk(or);\n  tw.addTree(tree);\n  ...",
+      "revId": "e428ffc41f118ee68965b36f583f814a728b82f4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2n//+0A\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/TreeWalk.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-02-01T21:09:58Z",
+      "side": 1,
+      "message": "Style-nit: Unnecessary blank line.",
+      "revId": "e428ffc41f118ee68965b36f583f814a728b82f4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2n//+0I\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/TreeWalk.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-02-01T21:09:58Z",
+      "side": 1,
+      "message": "Style-nit: Unnecessary blank line.",
+      "revId": "e428ffc41f118ee68965b36f583f814a728b82f4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2n//+0E\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/TreeWalk.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-02-01T21:09:58Z",
+      "side": 1,
+      "message": "Style-nit: Unnecessary blank line.",
+      "revId": "e428ffc41f118ee68965b36f583f814a728b82f4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2n//+z0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/TreeWalk.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-02-01T21:09:58Z",
+      "side": 1,
+      "message": "Style-nit: Unnecessary blank line.",
+      "revId": "e428ffc41f118ee68965b36f583f814a728b82f4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
