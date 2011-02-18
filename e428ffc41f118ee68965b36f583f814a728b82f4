@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL2n//+uU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/TreeWalk.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 114
+      },
+      "writtenOn": "2011-02-03T14:34:00Z",
+      "side": 1,
+      "message": "There is already a method with the same name and signature in TreeWalk as what you have above.  Are you suggesting that this new method replace that existing one?  Or should a different name or signature be used for this new method?",
+      "parentUuid": "AAAL2n//+zw\u003d",
+      "revId": "e428ffc41f118ee68965b36f583f814a728b82f4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL2n//+s4\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/TreeWalk.java",
         "patchSetId": 4
