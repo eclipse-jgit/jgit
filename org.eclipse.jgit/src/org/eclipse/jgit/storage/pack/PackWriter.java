@@ -1106,8 +1106,8 @@ public class PackWriter {
 		if (have == null)
 			have = Collections.emptySet();
 
-		stats.interestingObjects = Collections.unmodifiableSet(new HashSet(want));
-		stats.uninterestingObjects = Collections.unmodifiableSet(new HashSet(have));
+		stats.interestingObjects = Collections.unmodifiableSet(new HashSet<ObjectId>(want));
+		stats.uninterestingObjects = Collections.unmodifiableSet(new HashSet<ObjectId>(have));
 
 		List<ObjectId> all = new ArrayList<ObjectId>(want.size() + have.size());
 		all.addAll(want);
