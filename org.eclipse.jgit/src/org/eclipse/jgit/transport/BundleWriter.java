@@ -88,6 +88,8 @@ public class BundleWriter {
 
 	private final Set<RevCommit> assume;
 
+	private final Set<ObjectId> tagTargets;
+
 	private PackConfig packConfig;
 
 	/**
@@ -100,6 +102,7 @@ public class BundleWriter {
 		db = repo;
 		include = new TreeMap<String, ObjectId>();
 		assume = new HashSet<RevCommit>();
+		tagTargets = new HashSet<ObjectId>();
 	}
 
 	/**
@@ -143,6 +146,13 @@ public class BundleWriter {
 	 */
 	public void include(final Ref r) {
 		include(r.getName(), r.getObjectId());
+
+		if (r.getPeeledObjectId() != null)
+			tagTargets.add(r.getPeeledObjectId());
+
+		else if (r.getObjectId() != null
+				&& r.getName().startsWith(Constants.R_HEADS))
+			tagTargets.add(r.getObjectId());
 	}
 
 	/**
@@ -192,6 +202,8 @@ public class BundleWriter {
 				exc.add(r.getId());
 			packWriter.setDeltaBaseAsOffset(true);
 			packWriter.setThin(exc.size() > 0);
+			if (exc.size() == 0)
+				packWriter.setTagTargets(tagTargets);
 			packWriter.preparePack(monitor, inc, exc);
 
 			final Writer w = new OutputStreamWriter(os, Constants.CHARSET);

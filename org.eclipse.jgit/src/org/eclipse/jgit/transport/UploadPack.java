@@ -695,6 +695,19 @@ public class UploadPack {
 			pw.setDeltaBaseAsOffset(options.contains(OPTION_OFS_DELTA));
 			pw.setThin(options.contains(OPTION_THIN_PACK));
 
+			if (commonBase.isEmpty()) {
+				Set<ObjectId> tagTargets = new HashSet<ObjectId>();
+				for (Ref ref : refs.values()) {
+					if (ref.getPeeledObjectId() != null)
+						tagTargets.add(ref.getPeeledObjectId());
+					else if (ref.getObjectId() == null)
+						continue;
+					else if (ref.getName().startsWith(Constants.R_HEADS))
+						tagTargets.add(ref.getObjectId());
+				}
+				pw.setTagTargets(tagTargets);
+			}
+
 			RevWalk rw = walk;
 			if (wantAll.isEmpty()) {
 				pw.preparePack(pm, wantIds, commonBase);
