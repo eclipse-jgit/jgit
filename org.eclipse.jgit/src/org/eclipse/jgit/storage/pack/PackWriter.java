@@ -59,6 +59,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -1130,12 +1131,30 @@ public class PackWriter {
 		if (have.isEmpty()) {
 			walker.sort(RevSort.COMMIT_TIME_DESC);
 			if (useCachedPacks && reuseSupport != null) {
+				Set<ObjectId> need = new HashSet<ObjectId>(want);
+				List<CachedPack> shortCircuit = new LinkedList<CachedPack>();
+
 				for (CachedPack pack : reuseSupport.getCachedPacks()) {
+					if (need.containsAll(pack.getTips())) {
+						need.removeAll(pack.getTips());
+						shortCircuit.add(pack);
+					}
+
 					for (ObjectId id : pack.getTips()) {
 						tipToPack.put(id, pack);
 						all.add(id);
 					}
 				}
+
+				if (need.isEmpty() && !shortCircuit.isEmpty()) {
+					cachedPacks.addAll(shortCircuit);
+					for (CachedPack pack : shortCircuit)
+						countingMonitor.update((int) pack.getObjectCount());
+					countingMonitor.endTask();
+					stats.timeCounting = System.currentTimeMillis() - countingStart;
+					return;
+				}
+
 				haveEst += tipToPack.size();
 			}
 		} else {
