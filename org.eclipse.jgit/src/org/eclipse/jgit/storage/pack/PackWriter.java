@@ -96,6 +96,7 @@ import org.eclipse.jgit.revwalk.RevFlag;
 import org.eclipse.jgit.revwalk.RevFlagSet;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevSort;
+import org.eclipse.jgit.revwalk.RevTag;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.storage.file.PackIndexWriter;
 import org.eclipse.jgit.util.TemporaryBuffer;
@@ -1165,6 +1166,7 @@ public class PackWriter {
 
 		List<RevObject> wantObjs = new ArrayList<RevObject>(want.size());
 		List<RevObject> haveObjs = new ArrayList<RevObject>(haveEst);
+		List<RevTag> wantTags = new ArrayList<RevTag>(want.size());
 
 		AsyncRevObjectQueue q = walker.parseAny(all, true);
 		try {
@@ -1179,11 +1181,11 @@ public class PackWriter {
 
 					if (have.contains(o)) {
 						haveObjs.add(o);
-						walker.markUninteresting(o);
 					} else if (want.contains(o)) {
 						o.add(include);
 						wantObjs.add(o);
-						walker.markStart(o);
+						if (o instanceof RevTag)
+							wantTags.add((RevTag) o);
 					}
 				} catch (MissingObjectException e) {
 					if (ignoreMissingUninteresting
@@ -1195,6 +1197,25 @@ public class PackWriter {
 		} finally {
 			q.release();
 		}
+
+		if (!wantTags.isEmpty()) {
+			all = new ArrayList<ObjectId>(wantTags.size());
+			for (RevTag tag : wantTags)
+				all.add(tag.getObject());
+			q = walker.parseAny(all, true);
+			try {
+				while (q.next() != null) {
+					// Just need to pop the queue item to parse the object.
+				}
+			} finally {
+				q.release();
+			}
+		}
+
+		for (RevObject obj : wantObjs)
+			walker.markStart(obj);
+		for (RevObject obj : haveObjs)
+			walker.markUninteresting(obj);
 
 		int typesToPrune = 0;
 		final int maxBases = config.getDeltaSearchWindowSize();
