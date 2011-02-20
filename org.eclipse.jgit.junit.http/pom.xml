@@ -50,7 +50,7 @@
   <parent>
     <groupId>org.eclipse.jgit</groupId>
     <artifactId>org.eclipse.jgit-parent</artifactId>
-    <version>0.11.2-SNAPSHOT</version>
+    <version>0.11.3</version>
   </parent>
 
   <artifactId>org.eclipse.jgit.junit.http</artifactId>
