@@ -240,6 +240,12 @@ public final class Constants {
 	/** Prefix for tag refs */
 	public static final String R_TAGS = "refs/tags/";
 
+	/** Prefix for notes refs */
+	public static final String R_NOTES = "refs/notes/";
+
+	/** Standard notes ref */
+	public static final String R_NOTES_COMMITS = R_NOTES + "commits";
+
 	/** Prefix for any ref */
 	public static final String R_REFS = "refs/";
 
