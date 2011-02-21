@@ -150,7 +150,7 @@ public class PlotCommit<L extends PlotLane> extends RevCommit {
 	 * @return number of refs; always a positive value but can be 0.
 	 */
 	public final int getRefCount() {
-		return refs.length;
+		return refs == null ? 0 : refs.length;
 	}
 
 	/**
