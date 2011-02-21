@@ -50,20 +50,27 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.TimeZone;
 
 import org.eclipse.jgit.diff.DiffFormatter;
+import org.eclipse.jgit.diff.RawText;
 import org.eclipse.jgit.diff.RawTextComparator;
 import org.eclipse.jgit.diff.RenameDetector;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -80,8 +87,24 @@ class Log extends RevWalkTextBuiltin {
 
 	private Map<AnyObjectId, Set<Ref>> allRefsByPeeledObjectId;
 
+	private Map<String, NoteMap> noteMaps;
+
+	private ObjectReader reader;
+
+	private RevWalk revWalk;
+
 	@Option(name="--decorate", usage="usage_showRefNamesMatchingCommits")
 	private boolean decorate;
+
+	@Option(name = "--no-standard-notes", usage = "usage_noShowStandardNotes")
+	private boolean noStandardNotes;
+
+	private List<String> additionalNoteRefs = new ArrayList<String>();
+
+	@Option(name = "--show-notes", usage = "usage_showNotes", metaVar = "metaVar_ref")
+	void addAdditionalNoteRef(String notesRef) {
+		additionalNoteRefs.add(notesRef);
+	}
 
 	// BEGIN -- Options shared with Diff
 	@Option(name = "-p", usage = "usage_showPatch")
@@ -154,6 +177,7 @@ class Log extends RevWalkTextBuiltin {
 
 	// END -- Options shared with Diff
 
+
 	Log() {
 		fmt = new SimpleDateFormat("EEE MMM dd HH:mm:ss yyyy ZZZZZ", Locale.US);
 	}
@@ -178,10 +202,40 @@ class Log extends RevWalkTextBuiltin {
 				rd.setRenameLimit(renameLimit.intValue());
 			}
 
+			if (!noStandardNotes || additionalNoteRefs != null) {
+				reader = db.newObjectReader();
+				revWalk = new RevWalk(db);
+				noteMaps = new LinkedHashMap<String, NoteMap>();
+				if (!noStandardNotes) {
+					noteMaps.put(Constants.R_NOTES_COMMITS,
+							getNoteMap(Constants.R_NOTES_COMMITS));
+				}
+				if (additionalNoteRefs != null) {
+					for (String notesRef : additionalNoteRefs) {
+						if (!notesRef.startsWith(Constants.R_NOTES)) {
+							notesRef = Constants.R_NOTES + notesRef;
+						}
+						noteMaps.put(notesRef, getNoteMap(notesRef));
+					}
+				}
+			}
+
 			super.run();
 		} finally {
 			diffFmt.release();
+			if (reader != null)
+				reader.release();
+			if (revWalk != null)
+				revWalk.release();
 		}
+	}
+
+	private NoteMap getNoteMap(String notesRef) throws IOException {
+		Ref notes = db.getRef(notesRef);
+		if (notes == null)
+			return null;
+		RevCommit notesCommit = revWalk.parseCommit(notes.getObjectId());
+		return NoteMap.read(reader, notesCommit);
 	}
 
 	@Override
@@ -219,9 +273,75 @@ class Log extends RevWalkTextBuiltin {
 		}
 
 		out.println();
+		if (showNotes(c))
+			out.println();
+
 		if (c.getParentCount() == 1 && (showNameAndStatusOnly || showPatch))
 			showDiff(c);
 		out.flush();
+	}
+
+	/**
+	 * @param c
+	 * @return <code>true</code> if at least one note was printed,
+	 *         <code>false</code> otherwise
+	 * @throws IOException
+	 */
+	private boolean showNotes(RevCommit c) throws IOException {
+		if (noteMaps == null)
+			return false;
+
+		boolean printEmptyLine = false;
+		boolean atLeastOnePrinted = false;
+		for (Map.Entry<String, NoteMap> e : noteMaps.entrySet()) {
+			String label = null;
+			String notesRef = e.getKey();
+			if (! notesRef.equals(Constants.R_NOTES_COMMITS)) {
+				if (notesRef.startsWith(Constants.R_NOTES))
+					label = notesRef.substring(Constants.R_NOTES.length());
+				else
+					label = notesRef;
+			}
+			boolean printedNote = showNotes(c, e.getValue(), label,
+					printEmptyLine);
+			atLeastOnePrinted = atLeastOnePrinted || printedNote;
+			printEmptyLine = printedNote;
+		}
+		return atLeastOnePrinted;
+	}
+
+	/**
+	 * @param c
+	 * @param map
+	 * @param label
+	 * @param emptyLine
+	 * @return <code>true</code> if note was printed, <code>false</code>
+	 *         otherwise
+	 * @throws IOException
+	 */
+	private boolean showNotes(RevCommit c, NoteMap map, String label,
+			boolean emptyLine)
+			throws IOException {
+		ObjectId blobId = map.get(c);
+		if (blobId == null)
+			return false;
+		if (emptyLine)
+			out.println();
+		out.print("Notes");
+		if (label != null) {
+			out.print(" (");
+			out.print(label);
+			out.print(")");
+		}
+		out.println(":");
+		RawText rawText = new RawText(reader.open(blobId).getBytes());
+		String s = rawText.getString(0, rawText.size(), false);
+		final String[] lines = s.split("\n");
+		for (final String l : lines) {
+			out.print("    ");
+			out.println(l);
+		}
+		return true;
 	}
 
 	private void showDiff(RevCommit c) throws IOException {
