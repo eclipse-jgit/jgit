@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL23///cE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revplot/PlotCommit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-02-21T17:51:15Z",
+      "side": 1,
+      "message": "Instead of a null test here, we should have a NO_REFS empty array constant and initialize refs in the constructor to it. Then we don\u0027t need to worry about null here, or in getRef().",
+      "revId": "ad156bcef1e4be27a76039c181162626ea494102",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
