@@ -10,10 +10,12 @@ Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Import-Package: org.eclipse.jgit.lib;version="[0.12.0,0.13.0)",
  org.eclipse.jgit.errors;version="[0.12.0,0.13.0)",
  org.eclipse.jgit.storage.dht;version="[0.12.0,0.13.0)",
+ org.eclipse.jgit.storage.dht.spi.jdbc;version="[0.12.0,0.13.0)",
  org.eclipse.jgit.storage.dht.spi.memory;version="[0.12.0,0.13.0)",
  org.eclipse.jgit.storage.file;version="[0.12.0,0.13.0)",
  org.eclipse.jgit.storage.pack;version="[0.12.0,0.13.0)",
  org.eclipse.jgit.transport;version="[0.12.0,0.13.0)",
  org.eclipse.jgit.util;version="[0.12.0,0.13.0)",
+ org.h2;version="[1.1.117,2.0.0)",
  org.junit;version="[4.0.0,5.0.0)",
  org.hamcrest.core;version="[1.1.0,2.0.0)"
