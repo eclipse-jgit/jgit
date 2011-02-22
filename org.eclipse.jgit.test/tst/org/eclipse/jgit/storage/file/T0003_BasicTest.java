@@ -89,6 +89,7 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 	@Test
 	public void test001_Initalize() {
 		final File gitdir = new File(trash, Constants.DOT_GIT);
+		final File hooks = new File(gitdir, "hooks");
 		final File objects = new File(gitdir, "objects");
 		final File objects_pack = new File(objects, "pack");
 		final File objects_info = new File(objects, "info");
@@ -98,6 +99,7 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 		final File HEAD = new File(gitdir, "HEAD");
 
 		assertTrue("Exists " + trash, trash.isDirectory());
+		assertTrue("Exists " + hooks, hooks.isDirectory());
 		assertTrue("Exists " + objects, objects.isDirectory());
 		assertTrue("Exists " + objects_pack, objects_pack.isDirectory());
 		assertTrue("Exists " + objects_info, objects_info.isDirectory());
