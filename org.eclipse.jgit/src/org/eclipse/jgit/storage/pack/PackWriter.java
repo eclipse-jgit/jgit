@@ -645,10 +645,12 @@ public class PackWriter {
 		int cnt = 0;
 		for (List<ObjectToPack> list : objectsLists)
 			cnt += list.size();
+		long start = System.currentTimeMillis();
 		monitor.beginTask(JGitText.get().searchForReuse, cnt);
 		for (List<ObjectToPack> list : objectsLists)
 			reuseSupport.selectObjectRepresentation(this, monitor, list);
 		monitor.endTask();
+		stats.timeSearchingForReuse = System.currentTimeMillis() - start;
 	}
 
 	private void searchForDeltas(ProgressMonitor monitor)
@@ -685,6 +687,7 @@ public class PackWriter {
 		// search code to discover the missing object and skip over it, or
 		// abort with an exception if we actually had to have it.
 		//
+		final long sizingStart = System.currentTimeMillis();
 		monitor.beginTask(JGitText.get().searchForSizes, cnt);
 		AsyncObjectSizeQueue<ObjectToPack> sizeQueue = reader.getObjectSize(
 				Arrays.<ObjectToPack> asList(list).subList(0, cnt), false);
@@ -731,6 +734,7 @@ public class PackWriter {
 			sizeQueue.release();
 		}
 		monitor.endTask();
+		stats.timeSearchingForSizes = System.currentTimeMillis() - sizingStart;
 
 		// Sort the objects by path hash so like files are near each other,
 		// and then by size descending so that bigger files are first. This
@@ -1531,6 +1535,10 @@ public class PackWriter {
 
 		long timeCounting;
 
+		long timeSearchingForReuse;
+
+		long timeSearchingForSizes;
+
 		long timeCompressing;
 
 		long timeWriting;
@@ -1639,6 +1647,25 @@ public class PackWriter {
 		 */
 		public long getTimeCounting() {
 			return timeCounting;
+		}
+
+		/**
+		 * @return time in milliseconds spent matching existing representations
+		 *         against objects that will be transmitted, or that the client
+		 *         can be assumed to already have.
+		 */
+		public long getTimeSearchingForReuse() {
+			return timeSearchingForReuse;
+		}
+
+		/**
+		 * @return time in milliseconds spent finding the sizes of all objects
+		 *         that will enter the delta compression search window. The
+		 *         sizes need to be known to better match similar objects
+		 *         together and improve delta compression ratios.
+		 */
+		public long getTimeSearchingForSizes() {
+			return timeSearchingForSizes;
 		}
 
 		/**
