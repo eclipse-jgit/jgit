@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL23///QI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 900,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-02-23T18:46:14Z",
+      "side": 0,
+      "message": "This is probably wrong. On Cygwin with git-new-workdir info is a symlink. So this should be using repository.getFS().resolve(repository.getDirectory(), \"info/exclude\"). I must have missed this earlier. :-(",
+      "revId": "561549d766d3d3010b62d5ae44e4937a2092b863",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}

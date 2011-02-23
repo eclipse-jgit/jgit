@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL23///QU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 902,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-02-23T18:46:14Z",
+      "side": 1,
+      "message": "FWIW, getString() requires an O(N) search to locate the relevant key. We usually work around this by using the SectionParser stuff, like CoreConfig. Those objects are cached inside of a HashMap, which reduces their lookup cost to be closer to O(1).\n\nFortunately this code only ones once per WorkingTreeIterator, but EGit might be creating many WTIs over the period of several minutes each time it needs to update decorations.\n\nAlthough we probably still pay a higher cost to read the file than we do to look for the key in an O(N) search, so there might be a bigger savings from caching the file contents.\n\nIts probably not worth creating a new SectionParser for this, but it might be OK to put this into the existing CoreConfig one.",
+      "revId": "ff47cd72ccb2ea5a0b3c1d60c628a673b55ecc68",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL23///QQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 907,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-02-23T18:46:14Z",
+      "side": 1,
+      "message": "This should be using:\n\n  excludesFile \u003d repository.getFS().resolve(\n    repository.getFS().userHome(),\n    p.substring(2));\n\nOn Cygwin the user might have pointed us to ~/.my-ignores which is a symlink to someplace else.",
+      "revId": "ff47cd72ccb2ea5a0b3c1d60c628a673b55ecc68",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL23///QM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 910,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-02-23T18:46:14Z",
+      "side": 1,
+      "message": "We might also want to use repository.getFS().resolve() here.",
+      "revId": "ff47cd72ccb2ea5a0b3c1d60c628a673b55ecc68",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
