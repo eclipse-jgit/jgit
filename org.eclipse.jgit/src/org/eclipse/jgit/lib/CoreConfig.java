@@ -80,10 +80,14 @@ public class CoreConfig {
 
 	private final boolean logAllRefUpdates;
 
+	private final String excludesfile;
+
 	private CoreConfig(final Config rc) {
 		compression = rc.getInt("core", "compression", DEFAULT_COMPRESSION);
 		packIndexVersion = rc.getInt("pack", "indexversion", 2);
 		logAllRefUpdates = rc.getBoolean("core", "logallrefupdates", true);
+		excludesfile = rc.getString(ConfigConstants.CONFIG_CORE_SECTION, null,
+				ConfigConstants.CONFIG_KEY_EXCLUDESFILE);
 	}
 
 	/**
@@ -105,5 +109,12 @@ public class CoreConfig {
 	 */
 	public boolean isLogAllRefUpdates() {
 		return logAllRefUpdates;
+	}
+
+	/**
+	 * @return path of excludesfile
+	 */
+	public String getExcludesFile() {
+		return excludesfile;
 	}
 }

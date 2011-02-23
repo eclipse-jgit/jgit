@@ -48,6 +48,7 @@ package org.eclipse.jgit.treewalk;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
@@ -69,8 +70,10 @@ import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.ignore.IgnoreNode;
 import org.eclipse.jgit.ignore.IgnoreRule;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.CoreConfig;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.io.EolCanonicalizingInputStream;
 
@@ -897,7 +900,27 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 				r = new IgnoreNode();
 			}
 
-			File exclude = new File(repository.getDirectory(), "info/exclude");
+			FS fs = repository.getFS();
+			String path = repository.getConfig().get(CoreConfig.KEY)
+					.getExcludesFile();
+			if (path != null) {
+				File excludesfile;
+				if (path.startsWith("~/"))
+					excludesfile = fs.resolve(fs.userHome(), path.substring(2));
+				else
+					excludesfile = fs.resolve(null, path);
+				loadRulesFromFile(r, excludesfile);
+			}
+
+			File exclude = fs
+					.resolve(repository.getDirectory(), "info/exclude");
+			loadRulesFromFile(r, exclude);
+
+			return r.getRules().isEmpty() ? null : r;
+		}
+
+		private void loadRulesFromFile(IgnoreNode r, File exclude)
+				throws FileNotFoundException, IOException {
 			if (exclude.exists()) {
 				FileInputStream in = new FileInputStream(exclude);
 				try {
@@ -906,8 +929,6 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 					in.close();
 				}
 			}
-
-			return r.getRules().isEmpty() ? null : r;
 		}
 	}
 
