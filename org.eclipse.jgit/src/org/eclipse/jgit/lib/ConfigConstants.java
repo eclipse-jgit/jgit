@@ -72,6 +72,9 @@ public class ConfigConstants {
 	/** The "bare" key */
 	public static final String CONFIG_KEY_BARE = "bare";
 
+	/** The "excludesfile" key */
+	public static final String CONFIG_KEY_EXCLUDESFILE = "excludesfile";
+
 	/** The "filemode" key */
 	public static final String CONFIG_KEY_FILEMODE = "filemode";
 
