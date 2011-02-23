@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL23///jg\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-02-17T17:56:26Z",
+      "side": 1,
+      "message": "I wonder if the better solution is to create a ConnectionFactory class within TransportGitSsh and use a setConnectionFactory method. Then callers can still use Transport.open() to get a Transport instance, and if it is an SSH type set the factory, and if its not, leave it alone. This frees callers from needing to parse the URIish on their own and determine the protocol that JGit will use.\n\nIt might be a few more lines of code to add the factory, but the extra level of indirection might be useful.\n\nA different approach would be to start removing the JSch information from TransportGitSsh and make a slightly more generic RemoteCommandConnection (by extracting TransportGitSsh.Connection into a new top level class), and rename TransportGitSsh to TransportGitRemoteCommand. Then we can hide all of the JSch stuff inside of a JSchRemoteCommandConnection and start to free JGit from only supporting JSch. (I\u0027d like to also support MINA SSHD client as it looks to be a more solid implementation.)",
+      "revId": "57eea6beb2ce412050ac8b24cced4756d81c92b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL23///jk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportGitSsh.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-02-17T17:56:26Z",
+      "side": 1,
+      "message": "Empty Javadoc to get around API documenting is pointless. We require documentation for a reason, so implementors know what they need to implement the abstraction, or callers know how to use it.",
+      "revId": "57eea6beb2ce412050ac8b24cced4756d81c92b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
