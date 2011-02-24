@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL23///Q4\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Log.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-02-23T17:58:23Z",
+      "side": 1,
+      "message": "Why are we using a new RevWalk and a new ObjectReader here? The base class has both already. Can we reuse those instead?",
+      "revId": "5f3d577e5a1e8f23a2b6ea6a2bf24516806e01b8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL23///Q8\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Log.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-02-23T17:58:23Z",
+      "side": 1,
+      "message": "Do you mean\n\n  !additionalNoteRefs.isEmpty()\n\nHere? Its always not null, so the last part is always true.",
+      "revId": "5f3d577e5a1e8f23a2b6ea6a2bf24516806e01b8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL23///Q0\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Log.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-02-23T17:58:23Z",
+      "side": 1,
+      "message": "Since getNoteMap() can return null, does it make sense to put a null NoteMap in the noteMaps? Or should we omit that entry?\n\nIf we are going to put it, maybe its better to have getNoteMap() return an empty NoteMap instead of null, so we don\u0027t need to worry about null pointer checks.",
+      "revId": "5f3d577e5a1e8f23a2b6ea6a2bf24516806e01b8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL23///Qs\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Log.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-02-23T17:58:23Z",
+      "side": 1,
+      "message": "Style-nit:\n\n  atLeastOnePrinted |\u003d printedNode\n\nis shorter.",
+      "revId": "5f3d577e5a1e8f23a2b6ea6a2bf24516806e01b8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL23///Qw\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Log.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-02-23T17:58:23Z",
+      "side": 1,
+      "message": "This NPEs if the note ref doesn\u0027t exist because getNoteMap() returned null. Either change getNoteMap() to return an empty NoteMap, or don\u0027t put the null NoteMap into the noteMaps collection.",
+      "revId": "5f3d577e5a1e8f23a2b6ea6a2bf24516806e01b8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL23///Qo\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Log.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-02-23T17:58:23Z",
+      "side": 1,
+      "message": "Why are you using RawText? The only reason to use it here is to have it split the lines up into strings for you... but then you go and convert the entire file to a string and split that manually.\n\nEither use RawText to obtain the string lines one at a time (and thus rely on its LF splitting logic), or pass the whole blob through RawParseUtils.decode():\n\n  String s \u003d RawParseUtils.decode(reader\n    .open(blobId)\n    .getBytes(Integer.MAX_VALUE));",
+      "revId": "5f3d577e5a1e8f23a2b6ea6a2bf24516806e01b8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
