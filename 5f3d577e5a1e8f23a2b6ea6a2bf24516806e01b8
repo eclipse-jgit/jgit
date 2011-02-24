@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL23///QA\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Log.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2011-02-24T10:26:38Z",
+      "side": 1,
+      "message": "Right we should reuse them. The RevWalk I found but I can\u0027t find an ObjectReader in the base class(es)",
+      "parentUuid": "AAAL23///Q4\u003d",
+      "revId": "5f3d577e5a1e8f23a2b6ea6a2bf24516806e01b8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL23///Q8\u003d",
         "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Log.java",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2011-02-23T17:58:23Z",
       "side": 1,
       "message": "Do you mean\n\n  !additionalNoteRefs.isEmpty()\n\nHere? Its always not null, so the last part is always true.",
+      "revId": "5f3d577e5a1e8f23a2b6ea6a2bf24516806e01b8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL23///P8\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Log.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2011-02-24T10:26:38Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "AAAL23///Q8\u003d",
       "revId": "5f3d577e5a1e8f23a2b6ea6a2bf24516806e01b8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL23///P4\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Log.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2011-02-24T10:26:38Z",
+      "side": 1,
+      "message": "if getNoteMap() returns null we should not put it into the noteMaps. Done",
+      "parentUuid": "AAAL23///Q0\u003d",
+      "revId": "5f3d577e5a1e8f23a2b6ea6a2bf24516806e01b8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL23///Qs\u003d",
         "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Log.java",
         "patchSetId": 3
@@ -64,6 +118,24 @@
       "writtenOn": "2011-02-23T17:58:23Z",
       "side": 1,
       "message": "Style-nit:\n\n  atLeastOnePrinted |\u003d printedNode\n\nis shorter.",
+      "revId": "5f3d577e5a1e8f23a2b6ea6a2bf24516806e01b8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL23///P0\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Log.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2011-02-24T10:26:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL23///Qs\u003d",
       "revId": "5f3d577e5a1e8f23a2b6ea6a2bf24516806e01b8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL23///Og\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Log.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2011-02-24T10:26:38Z",
+      "side": 1,
+      "message": "Done. Will not put nulls into noteMaps",
+      "parentUuid": "AAAL23///Qw\u003d",
+      "revId": "5f3d577e5a1e8f23a2b6ea6a2bf24516806e01b8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL23///Qo\u003d",
         "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Log.java",
         "patchSetId": 3
@@ -98,6 +188,24 @@
       "writtenOn": "2011-02-23T17:58:23Z",
       "side": 1,
       "message": "Why are you using RawText? The only reason to use it here is to have it split the lines up into strings for you... but then you go and convert the entire file to a string and split that manually.\n\nEither use RawText to obtain the string lines one at a time (and thus rely on its LF splitting logic), or pass the whole blob through RawParseUtils.decode():\n\n  String s \u003d RawParseUtils.decode(reader\n    .open(blobId)\n    .getBytes(Integer.MAX_VALUE));",
+      "revId": "5f3d577e5a1e8f23a2b6ea6a2bf24516806e01b8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL23///Oc\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Log.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2011-02-24T10:26:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL23///Qo\u003d",
       "revId": "5f3d577e5a1e8f23a2b6ea6a2bf24516806e01b8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
