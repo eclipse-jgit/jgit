@@ -93,13 +93,19 @@ import org.eclipse.jgit.util.io.StreamCopyThread;
 class TransportLocal extends Transport implements PackTransport {
 	private static final String PWD = ".";
 
-	static boolean canHandle(final URIish uri, FS fs) {
+	static boolean canHandle(final URIish uri, FS fs)
+			throws NotSupportedException {
 		if (uri.getHost() != null || uri.getPort() > 0 || uri.getUser() != null
 				|| uri.getPass() != null || uri.getPath() == null)
 			return false;
 
-		if ("file".equals(uri.getScheme()) || uri.getScheme() == null)
-			return fs.resolve(new File(PWD), uri.getPath()).isDirectory();
+		if ("file".equals(uri.getScheme()) || uri.getScheme() == null) {
+			if (fs.resolve(new File(PWD), uri.getPath()).isDirectory()) {
+				return true;
+			} else {
+				throw new NotSupportedException(uri.getPath() + " does not exist");
+			}
+		}
 		return false;
 	}
 
