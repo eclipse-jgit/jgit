@@ -328,6 +328,7 @@ public class UnpackedObject {
 			if (n < 0)
 				break;
 			avail += n;
+			off += n;
 			cnt -= n;
 		}
 		return avail;
