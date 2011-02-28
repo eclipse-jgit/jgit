@@ -16,6 +16,24 @@
       "revId": "4171d0bffed1236e71cc348ec0e22ae161e31b24",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL3H///5Q\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 808,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-02-28T15:04:45Z",
+      "side": 1,
+      "message": "oops, yes you are right, my first guess was plain wrong",
+      "parentUuid": "AAAL3H///5Y\u003d",
+      "revId": "4171d0bffed1236e71cc348ec0e22ae161e31b24",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
