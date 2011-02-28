@@ -175,6 +175,8 @@ public class PackWriter {
 
 	private boolean reuseDeltas;
 
+	private boolean reuseDeltaCommits;
+
 	private boolean thin;
 
 	private boolean useCachedPacks;
@@ -273,6 +275,27 @@ public class PackWriter {
 	 */
 	public void setDeltaBaseAsOffset(boolean deltaBaseAsOffset) {
 		this.deltaBaseAsOffset = deltaBaseAsOffset;
+	}
+
+	/**
+	 * Check if the writer will reuse commits that are already stored as deltas.
+	 *
+	 * @return true if the writer would reuse commits stored as deltas, assuming
+	 *         delta reuse is already enabled.
+	 */
+	public boolean isReuseDeltaCommits() {
+		return reuseDeltaCommits;
+	}
+
+	/**
+	 * Set the writer to reuse existing delta versions of commits.
+	 *
+	 * @param reuse
+	 *            if true, the writer will reuse any commits stored as deltas.
+	 *            By default the writer does not reuse delta commits.
+	 */
+	public void setReuseDeltaCommits(boolean reuse) {
+		reuseDeltaCommits = reuse;
 	}
 
 	/** @return true if this writer is producing a thin pack. */
@@ -1482,7 +1505,7 @@ public class PackWriter {
 		} else
 			nWeight = next.getWeight();
 
-		if (nFmt == PACK_DELTA && reuseDeltas) {
+		if (nFmt == PACK_DELTA && reuseDeltas && reuseDeltaFor(otp)) {
 			ObjectId baseId = next.getDeltaBase();
 			ObjectToPack ptr = objectsMap.get(baseId);
 			if (ptr != null && !ptr.isEdge()) {
@@ -1507,6 +1530,21 @@ public class PackWriter {
 		}
 
 		otp.select(next);
+	}
+
+	private boolean reuseDeltaFor(ObjectToPack otp) {
+		switch (otp.getType()) {
+		case Constants.OBJ_COMMIT:
+			return reuseDeltaCommits;
+		case Constants.OBJ_TREE:
+			return true;
+		case Constants.OBJ_BLOB:
+			return true;
+		case Constants.OBJ_TAG:
+			return false;
+		default:
+			return true;
+		}
 	}
 
 	/** Summary of how PackWriter created the pack. */
