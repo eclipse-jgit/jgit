@@ -805,7 +805,7 @@ public class DirCacheCheckout {
 		}
 		for (String r : removed) {
 			File file = new File(repo.getWorkTree(), r);
-			if (!file.delete())
+			if ((file != null) && !file.delete())
 				throw new CheckoutConflictException(
 						MessageFormat.format(JGitText.get().cannotDeleteFile,
 								file.getAbsolutePath()));
