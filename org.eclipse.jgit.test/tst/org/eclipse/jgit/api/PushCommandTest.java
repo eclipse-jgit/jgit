@@ -51,8 +51,10 @@ import java.net.URISyntaxException;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.lib.ConfigConstants;
+import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.lib.RepositoryTestCase;
+import org.eclipse.jgit.lib.SampleDataRepositoryTestCase;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevTag;
@@ -61,7 +63,7 @@ import org.eclipse.jgit.transport.RemoteConfig;
 import org.eclipse.jgit.transport.URIish;
 import org.junit.Test;
 
-public class PushCommandTest extends RepositoryTestCase {
+public class PushCommandTest extends SampleDataRepositoryTestCase {
 
 	@Test
 	public void testPush() throws JGitInternalException, IOException,
@@ -97,6 +99,42 @@ public class PushCommandTest extends RepositoryTestCase {
 		assertEquals(commit.getId(),
 				db2.resolve(commit.getId().getName() + "^{commit}"));
 		assertEquals(tag.getId(), db2.resolve(tag.getId().getName()));
+	}
+
+	@Test
+	public void testTrackingUpdate() throws Exception {
+		Repository db2 = createBareRepository();
+
+		String remote = "origin";
+		String branch = "refs/heads/master";
+		String trackingBranch = "refs/remotes/" + remote + "/master";
+
+		RefUpdate trackingBranchRefUpdate = db.updateRef(trackingBranch);
+		trackingBranchRefUpdate.setNewObjectId(db.resolve(branch));
+		trackingBranchRefUpdate.update();
+
+		final StoredConfig config = db.getConfig();
+		RemoteConfig remoteConfig = new RemoteConfig(config, remote);
+		URIish uri = new URIish(db2.getDirectory().toURI().toURL());
+		remoteConfig.addURI(uri);
+		remoteConfig.addFetchRefSpec(new RefSpec("+refs/heads/*:refs/remotes/"
+				+ remote + "/*"));
+		remoteConfig.update(config);
+
+		config.setString(ConfigConstants.CONFIG_BRANCH_SECTION, "master",
+				ConfigConstants.CONFIG_KEY_REMOTE, remote);
+		config.setString(ConfigConstants.CONFIG_BRANCH_SECTION, "master",
+				ConfigConstants.CONFIG_KEY_MERGE, branch);
+		config.save();
+
+		Git git = new Git(db);
+		RevCommit commit = git.commit().setMessage("Commit to push").call();
+
+		RefSpec spec = new RefSpec(branch + ":" + branch);
+		git.push().setRemote(remote).setRefSpecs(spec).call();
+
+		assertEquals(commit.getId(), db2.resolve(branch));
+		assertEquals(commit.getId(), db.resolve(trackingBranch));
 	}
 
 }
