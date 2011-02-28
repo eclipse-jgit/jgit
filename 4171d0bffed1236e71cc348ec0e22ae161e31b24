@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL3H///5Y\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 808,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-02-28T14:58:08Z",
+      "side": 1,
+      "message": "This is always true.\n\nYou just allocated a new File. new never returns null.",
+      "revId": "4171d0bffed1236e71cc348ec0e22ae161e31b24",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
