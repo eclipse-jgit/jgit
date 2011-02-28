@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2010, Chris Aniszczyk <caniszczyk@gmail.com>
+ * Copyright (C) 2011, Matthias Sohn <matthias.sohn@sap.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -61,8 +62,13 @@ import org.eclipse.jgit.api.errors.RefNotFoundException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryTestCase;
+import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.transport.RefSpec;
+import org.eclipse.jgit.transport.RemoteConfig;
+import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.util.FileUtils;
 import org.junit.Before;
 import org.junit.Test;
@@ -201,6 +207,34 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 			assertNull(result);
 			assertEquals(initialCommit.name(), git.getRepository()
 					.getFullBranch());
+		} catch (Exception e) {
+			fail(e.getMessage());
+		}
+	}
+
+	@Test
+	public void testCheckoutRemoteTrackingWithoutLocalBranch() {
+		try {
+			// create second repository
+			Repository db2 = createWorkRepository();
+			Git git2 = new Git(db2);
+
+			// setup the second repository to fetch from the first repository
+			final StoredConfig config = db2.getConfig();
+			RemoteConfig remoteConfig = new RemoteConfig(config, "origin");
+			URIish uri = new URIish(db.getDirectory().toURI().toURL());
+			remoteConfig.addURI(uri);
+			remoteConfig.update(config);
+			config.save();
+
+			// fetch from first repository
+			RefSpec spec = new RefSpec("+refs/heads/*:refs/remotes/origin/*");
+			git2.fetch().setRemote("origin").setRefSpecs(spec).call();
+			// checkout remote tracking branch in second repository
+			// (no local branches exist yet in second repository)
+			git2.checkout().setName("remotes/origin/test").call();
+			assertEquals("[Test.txt, mode:100644, content:Some change]",
+					indexState(db2, CONTENT));
 		} catch (Exception e) {
 			fail(e.getMessage());
 		}

@@ -167,20 +167,24 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 	 * 'stage' is only presented when the stage is different from 0. All
 	 * reported time stamps are mapped to strings like "t0", "t1", ... "tn". The
 	 * smallest reported time-stamp will be called "t0". This allows to write
-	 * assertions against the string although the concrete value of the
-	 * time stamps is unknown.
+	 * assertions against the string although the concrete value of the time
+	 * stamps is unknown.
+	 *
+	 * @param repo
+	 *            the repository the index state should be determined for
 	 *
 	 * @param includedOptions
 	 *            a bitmask constructed out of the constants {@link #MOD_TIME},
-	 *            {@link #SMUDGE}, {@link #LENGTH}, {@link #CONTENT_ID} and {@link #CONTENT}
-	 *            controlling which info is present in the resulting string.
+	 *            {@link #SMUDGE}, {@link #LENGTH}, {@link #CONTENT_ID} and
+	 *            {@link #CONTENT} controlling which info is present in the
+	 *            resulting string.
 	 * @return a string encoding the index state
 	 * @throws IllegalStateException
 	 * @throws IOException
 	 */
-	public String indexState(int includedOptions)
+	public String indexState(Repository repo, int includedOptions)
 			throws IllegalStateException, IOException {
-		DirCache dc = db.readDirCache();
+		DirCache dc = repo.readDirCache();
 		StringBuilder sb = new StringBuilder();
 		TreeSet<Long> timeStamps = null;
 
@@ -221,6 +225,46 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 			sb.append("]");
 		}
 		return sb.toString();
+	}
+
+	/**
+	 * Represent the state of the index in one String. This representation is
+	 * useful when writing tests which do assertions on the state of the index.
+	 * By default information about path, mode, stage (if different from 0) is
+	 * included. A bitmask controls which additional info about
+	 * modificationTimes, smudge state and length is included.
+	 * <p>
+	 * The format of the returned string is described with this BNF:
+	 *
+	 * <pre>
+	 * result = ( "[" path mode stage? time? smudge? length? sha1? content? "]" )* .
+	 * mode = ", mode:" number .
+	 * stage = ", stage:" number .
+	 * time = ", time:t" timestamp-index .
+	 * smudge = "" | ", smudged" .
+	 * length = ", length:" number .
+	 * sha1 = ", sha1:" hex-sha1 .
+	 * content = ", content:" blob-data .
+	 * </pre>
+	 *
+	 * 'stage' is only presented when the stage is different from 0. All
+	 * reported time stamps are mapped to strings like "t0", "t1", ... "tn". The
+	 * smallest reported time-stamp will be called "t0". This allows to write
+	 * assertions against the string although the concrete value of the time
+	 * stamps is unknown.
+	 *
+	 * @param includedOptions
+	 *            a bitmask constructed out of the constants {@link #MOD_TIME},
+	 *            {@link #SMUDGE}, {@link #LENGTH}, {@link #CONTENT_ID} and
+	 *            {@link #CONTENT} controlling which info is present in the
+	 *            resulting string.
+	 * @return a string encoding the index state
+	 * @throws IllegalStateException
+	 * @throws IOException
+	 */
+	public String indexState(int includedOptions)
+			throws IllegalStateException, IOException {
+		return indexState(db, includedOptions);
 	}
 
 	/**

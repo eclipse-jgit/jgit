@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2010, Chris Aniszczyk <caniszczyk@gmail.com>
+ * Copyright (C) 2011, Matthias Sohn <matthias.sohn@sap.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -54,13 +55,15 @@ import org.eclipse.jgit.api.errors.RefNotFoundException;
 import org.eclipse.jgit.dircache.DirCacheCheckout;
 import org.eclipse.jgit.errors.AmbiguousObjectException;
 import org.eclipse.jgit.errors.CheckoutConflictException;
+import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RefUpdate.Result;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
 
 /**
@@ -119,21 +122,22 @@ public class CheckoutCommand extends GitCommand<Ref> {
 				command.call();
 			}
 
-			RevWalk revWalk = new RevWalk(repo);
 			Ref headRef = repo.getRef(Constants.HEAD);
-			RevCommit headCommit = revWalk.parseCommit(headRef.getObjectId());
 			String refLogMessage = "checkout: moving from "
 					+ headRef.getTarget().getName();
 			ObjectId branch = repo.resolve(name);
-
 			if (branch == null)
 				throw new RefNotFoundException(MessageFormat.format(JGitText
 						.get().refNotResolved, name));
 
+			RevWalk revWalk = new RevWalk(repo);
+			AnyObjectId headId = headRef.getObjectId();
+			RevCommit headCommit = headId == null ? null : revWalk
+					.parseCommit(headId);
 			RevCommit newCommit = revWalk.parseCommit(branch);
-
-			DirCacheCheckout dco = new DirCacheCheckout(repo, headCommit
-					.getTree(), repo.lockDirCache(), newCommit.getTree());
+			RevTree headTree = headCommit == null ? null : headCommit.getTree();
+			DirCacheCheckout dco = new DirCacheCheckout(repo, headTree,
+					repo.lockDirCache(), newCommit.getTree());
 			dco.setFailOnConflict(true);
 			try {
 				dco.checkout();
