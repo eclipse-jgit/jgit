@@ -43,6 +43,7 @@
 package org.eclipse.jgit.api;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
 import java.io.IOException;
@@ -51,13 +52,16 @@ import java.net.URISyntaxException;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryTestCase;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevTag;
+import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteConfig;
+import org.eclipse.jgit.transport.TrackingRefUpdate;
 import org.eclipse.jgit.transport.URIish;
 import org.junit.Test;
 
@@ -97,6 +101,55 @@ public class PushCommandTest extends RepositoryTestCase {
 		assertEquals(commit.getId(),
 				db2.resolve(commit.getId().getName() + "^{commit}"));
 		assertEquals(tag.getId(), db2.resolve(tag.getId().getName()));
+	}
+
+	@Test
+	public void testTrackingUpdate() throws Exception {
+		Repository db2 = createBareRepository();
+
+		String remote = "origin";
+		String branch = "refs/heads/master";
+		String trackingBranch = "refs/remotes/" + remote + "/master";
+
+		Git git = new Git(db);
+
+		RevCommit commit1 = git.commit().setMessage("Initial commit")
+				.call();
+
+		RefUpdate branchRefUpdate = db.updateRef(branch);
+		branchRefUpdate.setNewObjectId(commit1.getId());
+		branchRefUpdate.update();
+
+		RefUpdate trackingBranchRefUpdate = db.updateRef(trackingBranch);
+		trackingBranchRefUpdate.setNewObjectId(commit1.getId());
+		trackingBranchRefUpdate.update();
+
+		final StoredConfig config = db.getConfig();
+		RemoteConfig remoteConfig = new RemoteConfig(config, remote);
+		URIish uri = new URIish(db2.getDirectory().toURI().toURL());
+		remoteConfig.addURI(uri);
+		remoteConfig.addFetchRefSpec(new RefSpec("+refs/heads/*:refs/remotes/"
+				+ remote + "/*"));
+		remoteConfig.update(config);
+		config.save();
+
+
+		RevCommit commit2 = git.commit().setMessage("Commit to push").call();
+
+		RefSpec spec = new RefSpec(branch + ":" + branch);
+		Iterable<PushResult> resultIterable = git.push().setRemote(remote)
+				.setRefSpecs(spec).call();
+
+		PushResult result = resultIterable.iterator().next();
+		TrackingRefUpdate trackingRefUpdate = result
+				.getTrackingRefUpdate(trackingBranch);
+
+		assertNotNull(trackingRefUpdate);
+		assertEquals(trackingBranch, trackingRefUpdate.getLocalName());
+		assertEquals(branch, trackingRefUpdate.getRemoteName());
+		assertEquals(commit2.getId(), trackingRefUpdate.getNewObjectId());
+		assertEquals(commit2.getId(), db.resolve(trackingBranch));
+		assertEquals(commit2.getId(), db2.resolve(branch));
 	}
 
 }
