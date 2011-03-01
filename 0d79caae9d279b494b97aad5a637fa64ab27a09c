@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL3H///+E\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Log.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-02-25T15:06:59Z",
+      "side": 1,
+      "message": "This now runs twice, once in run() and again in run.super() if there are also notes involved. I wonder if we shouldn\u0027t move this to be part of run() but before we invoke super.run()? It should be about the same time within the program, as super.run() calls createWalk() fairly early.",
+      "revId": "0d79caae9d279b494b97aad5a637fa64ab27a09c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL3H///+A\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Log.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-02-25T15:06:59Z",
+      "side": 1,
+      "message": "If the user passed --objects, super.createWalk() does not set argWalk. You should modify it to also set argWalk \u003d the ObjectWalk it created and returned so we don\u0027t get an NPE here.\n\n(Yes, I know, --objects isn\u0027t compatible with this usage, but we shouldn\u0027t NPE over it.)",
+      "revId": "0d79caae9d279b494b97aad5a637fa64ab27a09c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL3H///98\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Log.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-02-25T15:06:59Z",
+      "side": 1,
+      "message": "You should still pass Integer.MAX_VALUE here to getBytes(). This is needed to allow opening a note that is large, like 12 MiB worth of text. These shouldn\u0027t happen, but if they do we should still make a good effort at displaying it.\n\nWhen the note is bigger than the default or the size passed here, we throw LargeObjectException. Maybe you want to trap it here and display a warning that the note is too big to display?\n\nAnd you might as well use getCachedBytes() too to avoid copying.",
+      "revId": "0d79caae9d279b494b97aad5a637fa64ab27a09c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
