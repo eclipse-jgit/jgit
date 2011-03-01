@@ -44,99 +44,103 @@
 
 package org.eclipse.jgit.lib;
 
-/**
- * A simple progress reporter printing on stderr
- */
-public class TextProgressMonitor implements ProgressMonitor {
-	private boolean output;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.Writer;
 
-	private long taskBeganAt;
+/** A simple progress reporter printing on a stream. */
+public class TextProgressMonitor extends BatchingProgressMonitor {
+	private final Writer out;
 
-	private String msg;
-
-	private int lastWorked;
-
-	private int totalWork;
+	private boolean write;
 
 	/** Initialize a new progress monitor. */
 	public TextProgressMonitor() {
-		taskBeganAt = System.currentTimeMillis();
+		this(new PrintWriter(System.err));
 	}
 
-	public void start(final int totalTasks) {
-		// Ignore the number of tasks.
-		taskBeganAt = System.currentTimeMillis();
+	/**
+	 * Initialize a new progress monitor.
+	 *
+	 * @param out
+	 *            the stream to receive messages on.
+	 */
+	public TextProgressMonitor(Writer out) {
+		this.out = out;
+		this.write = true;
 	}
 
-	public void beginTask(final String title, final int total) {
-		endTask();
-		msg = title;
-		lastWorked = 0;
-		totalWork = total;
+	@Override
+	protected void onUpdate(String taskName, int workCurr) {
+		StringBuilder s = new StringBuilder();
+		format(s, taskName, workCurr);
+		send(s);
 	}
 
-	public void update(final int completed) {
-		if (msg == null)
-			return;
+	@Override
+	protected void onEndTask(String taskName, int workCurr) {
+		StringBuilder s = new StringBuilder();
+		format(s, taskName, workCurr);
+		s.append("\n");
+		send(s);
+	}
 
-		final int cmp = lastWorked + completed;
-		if (!output && System.currentTimeMillis() - taskBeganAt < 500)
-			return;
-		if (totalWork == UNKNOWN) {
-			display(cmp);
-			System.err.flush();
-		} else {
-			if ((cmp * 100 / totalWork) != (lastWorked * 100) / totalWork) {
-				display(cmp);
-				System.err.flush();
+	private void format(StringBuilder s, String taskName, int workCurr) {
+		s.append("\r");
+		s.append(taskName);
+		s.append(": ");
+		while (s.length() < 25)
+			s.append(' ');
+		s.append(workCurr);
+	}
+
+	@Override
+	protected void onUpdate(String taskName, int cmp, int totalWork, int pcnt) {
+		StringBuilder s = new StringBuilder();
+		format(s, taskName, cmp, totalWork, pcnt);
+		send(s);
+	}
+
+	@Override
+	protected void onEndTask(String taskName, int cmp, int totalWork, int pcnt) {
+		StringBuilder s = new StringBuilder();
+		format(s, taskName, cmp, totalWork, pcnt);
+		s.append("\n");
+		send(s);
+	}
+
+	private void format(StringBuilder s, String taskName, int cmp,
+			int totalWork, int pcnt) {
+		s.append("\r");
+		s.append(taskName);
+		s.append(": ");
+		while (s.length() < 25)
+			s.append(' ');
+
+		String endStr = String.valueOf(totalWork);
+		String curStr = String.valueOf(cmp);
+		while (curStr.length() < endStr.length())
+			curStr = " " + curStr;
+		if (pcnt < 100)
+			s.append(' ');
+		if (pcnt < 10)
+			s.append(' ');
+		s.append(pcnt);
+		s.append("% (");
+		s.append(curStr);
+		s.append("/");
+		s.append(endStr);
+		s.append(")");
+	}
+
+	private void send(StringBuilder s) {
+		if (write) {
+			try {
+				out.write(s.toString());
+				out.flush();
+			} catch (IOException err) {
+				write = false;
 			}
 		}
-		lastWorked = cmp;
-		output = true;
-	}
-
-	private void display(final int cmp) {
-		final StringBuilder m = new StringBuilder();
-		m.append('\r');
-		m.append(msg);
-		m.append(": ");
-		while (m.length() < 25)
-			m.append(' ');
-
-		if (totalWork == UNKNOWN) {
-			m.append(cmp);
-		} else {
-			final String twstr = String.valueOf(totalWork);
-			String cmpstr = String.valueOf(cmp);
-			while (cmpstr.length() < twstr.length())
-				cmpstr = " " + cmpstr;
-			final int pcnt = (cmp * 100 / totalWork);
-			if (pcnt < 100)
-				m.append(' ');
-			if (pcnt < 10)
-				m.append(' ');
-			m.append(pcnt);
-			m.append("% (");
-			m.append(cmpstr);
-			m.append("/");
-			m.append(twstr);
-			m.append(")");
-		}
-
-		System.err.print(m);
-	}
-
-	public boolean isCancelled() {
-		return false;
-	}
-
-	public void endTask() {
-		if (output) {
-			if (totalWork != UNKNOWN)
-				display(totalWork);
-			System.err.println();
-		}
-		output = false;
-		msg = null;
 	}
 }

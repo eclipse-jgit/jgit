@@ -43,110 +43,85 @@
 
 package org.eclipse.jgit.transport;
 
+import java.io.IOException;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
 
+import org.eclipse.jgit.lib.BatchingProgressMonitor;
 import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.ProgressMonitor;
 
 /** Write progress messages out to the sideband channel. */
-class SideBandProgressMonitor implements ProgressMonitor {
-	private PrintWriter out;
+class SideBandProgressMonitor extends BatchingProgressMonitor {
+	private final OutputStream out;
 
-	private boolean output;
-
-	private long taskBeganAt;
-
-	private long lastOutput;
-
-	private String msg;
-
-	private int lastWorked;
-
-	private int totalWork;
+	private boolean write;
 
 	SideBandProgressMonitor(final OutputStream os) {
-		out = new PrintWriter(new OutputStreamWriter(os, Constants.CHARSET));
+		out = os;
+		write = true;
 	}
 
-	public void start(final int totalTasks) {
-		// Ignore the number of tasks.
-		taskBeganAt = System.currentTimeMillis();
-		lastOutput = taskBeganAt;
+	@Override
+	protected void onUpdate(String taskName, int workCurr) {
+		StringBuilder s = new StringBuilder();
+		format(s, taskName, workCurr);
+		s.append("   \r");
+		send(s);
 	}
 
-	public void beginTask(final String title, final int total) {
-		endTask();
-		msg = title;
-		lastWorked = 0;
-		totalWork = total;
+	@Override
+	protected void onEndTask(String taskName, int workCurr) {
+		StringBuilder s = new StringBuilder();
+		format(s, taskName, workCurr);
+		s.append(", done\n");
+		send(s);
 	}
 
-	public void update(final int completed) {
-		if (msg == null)
-			return;
+	private void format(StringBuilder s, String taskName, int workCurr) {
+		s.append(taskName);
+		s.append(": ");
+		s.append(workCurr);
+	}
 
-		final int cmp = lastWorked + completed;
-		final long now = System.currentTimeMillis();
-		if (!output && now - taskBeganAt < 500)
-			return;
-		if (totalWork == UNKNOWN) {
-			if (now - lastOutput >= 500) {
-				display(cmp, null);
-				lastOutput = now;
+	@Override
+	protected void onUpdate(String taskName, int cmp, int totalWork, int pcnt) {
+		StringBuilder s = new StringBuilder();
+		format(s, taskName, cmp, totalWork, pcnt);
+		s.append("   \r");
+		send(s);
+	}
+
+	@Override
+	protected void onEndTask(String taskName, int cmp, int totalWork, int pcnt) {
+		StringBuilder s = new StringBuilder();
+		format(s, taskName, cmp, totalWork, pcnt);
+		s.append("\n");
+		send(s);
+	}
+
+	private void format(StringBuilder s, String taskName, int cmp,
+			int totalWork, int pcnt) {
+		s.append(taskName);
+		s.append(": ");
+		if (pcnt < 100)
+			s.append(' ');
+		if (pcnt < 10)
+			s.append(' ');
+		s.append(pcnt);
+		s.append("% (");
+		s.append(cmp);
+		s.append("/");
+		s.append(totalWork);
+		s.append(")");
+	}
+
+	private void send(StringBuilder s) {
+		if (write) {
+			try {
+				out.write(Constants.encode(s.toString()));
+				out.flush();
+			} catch (IOException err) {
+				write = false;
 			}
-		} else {
-			if ((cmp * 100 / totalWork) != (lastWorked * 100) / totalWork
-					|| now - lastOutput >= 500) {
-				display(cmp, null);
-				lastOutput = now;
-			}
 		}
-		lastWorked = cmp;
-		output = true;
-	}
-
-	private void display(final int cmp, final String eol) {
-		final StringBuilder m = new StringBuilder();
-		m.append(msg);
-		m.append(": ");
-
-		if (totalWork == UNKNOWN) {
-			m.append(cmp);
-		} else {
-			final int pcnt = (cmp * 100 / totalWork);
-			if (pcnt < 100)
-				m.append(' ');
-			if (pcnt < 10)
-				m.append(' ');
-			m.append(pcnt);
-			m.append("% (");
-			m.append(cmp);
-			m.append("/");
-			m.append(totalWork);
-			m.append(")");
-		}
-		if (eol != null)
-			m.append(eol);
-		else
-			m.append("   \r");
-		out.print(m);
-		out.flush();
-	}
-
-	public boolean isCancelled() {
-		return false;
-	}
-
-	public void endTask() {
-		if (output) {
-			if (totalWork == UNKNOWN)
-				display(lastWorked, ", done\n");
-			else
-				display(totalWork, "\n");
-		}
-		output = false;
-		msg = null;
 	}
 }
