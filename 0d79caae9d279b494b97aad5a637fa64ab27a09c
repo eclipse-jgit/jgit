@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL3H///5I\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Log.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2011-03-01T08:30:44Z",
+      "side": 1,
+      "message": "I assume you meant only the \"if\" block?\nWhen the if(decorate) ... is moved to run() then createWalk does nothing more than calling the super.createWalk and can be removed from here. Don\u0027t know if I understood you correctly.",
+      "parentUuid": "AAAL3H///+E\u003d",
+      "revId": "0d79caae9d279b494b97aad5a637fa64ab27a09c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL3H///+A\u003d",
         "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Log.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2011-02-25T15:06:59Z",
       "side": 1,
       "message": "If the user passed --objects, super.createWalk() does not set argWalk. You should modify it to also set argWalk \u003d the ObjectWalk it created and returned so we don\u0027t get an NPE here.\n\n(Yes, I know, --objects isn\u0027t compatible with this usage, but we shouldn\u0027t NPE over it.)",
+      "revId": "0d79caae9d279b494b97aad5a637fa64ab27a09c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL3H///5E\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Log.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2011-03-01T08:30:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL3H///+A\u003d",
       "revId": "0d79caae9d279b494b97aad5a637fa64ab27a09c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
