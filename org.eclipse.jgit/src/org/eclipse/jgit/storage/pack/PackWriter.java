@@ -977,14 +977,17 @@ public class PackWriter {
 	}
 
 	private void writeObjects(PackOutputStream out) throws IOException {
+		for (List<ObjectToPack> list : objectsLists)
+				writeObjects(out, list);
+	}
+
+	private void writeObjects(PackOutputStream out, List<ObjectToPack> list)
+			throws IOException {
 		if (reuseSupport != null) {
-			for (List<ObjectToPack> list : objectsLists)
-				reuseSupport.writeObjects(out, list);
+			reuseSupport.writeObjects(out, list);
 		} else {
-			for (List<ObjectToPack> list : objectsLists) {
-				for (ObjectToPack otp : list)
-					out.writeObject(otp);
-			}
+			for (ObjectToPack otp : list)
+				out.writeObject(otp);
 		}
 	}
 
