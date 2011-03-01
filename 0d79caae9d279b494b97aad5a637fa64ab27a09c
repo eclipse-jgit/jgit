@@ -86,6 +86,24 @@
       "revId": "0d79caae9d279b494b97aad5a637fa64ab27a09c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL3H///3k\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Log.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2011-03-01T08:31:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL3H///98\u003d",
+      "revId": "0d79caae9d279b494b97aad5a637fa64ab27a09c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
