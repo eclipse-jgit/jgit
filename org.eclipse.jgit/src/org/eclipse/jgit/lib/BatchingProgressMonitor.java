@@ -64,13 +64,16 @@ public abstract class BatchingProgressMonitor implements ProgressMonitor {
 		int threads = 1;
 		alarmQueue = new ScheduledThreadPoolExecutor(threads,
 				new ThreadFactory() {
+					private final ThreadFactory baseFactory = Executors
+							.defaultThreadFactory();
+
 					public Thread newThread(Runnable taskBody) {
-						Thread thr = new Thread("JGit-AlarmQueue");
+						Thread thr = baseFactory.newThread(taskBody);
+						thr.setName("JGit-AlarmQueue");
 						thr.setDaemon(true);
 						return thr;
 					}
 				});
-		alarmQueue.allowCoreThreadTimeOut(false);
 		alarmQueue.setMaximumPoolSize(alarmQueue.getCorePoolSize());
 		alarmQueue.setContinueExistingPeriodicTasksAfterShutdownPolicy(false);
 		alarmQueue.setExecuteExistingDelayedTasksAfterShutdownPolicy(false);
