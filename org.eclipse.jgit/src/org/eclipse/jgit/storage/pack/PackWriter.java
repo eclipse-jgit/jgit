@@ -977,8 +977,10 @@ public class PackWriter {
 	}
 
 	private void writeObjects(PackOutputStream out) throws IOException {
-		for (List<ObjectToPack> list : objectsLists)
-				writeObjects(out, list);
+		writeObjects(out, objectsLists[Constants.OBJ_COMMIT]);
+		writeObjects(out, objectsLists[Constants.OBJ_TAG]);
+		writeObjects(out, objectsLists[Constants.OBJ_TREE]);
+		writeObjects(out, objectsLists[Constants.OBJ_BLOB]);
 	}
 
 	private void writeObjects(PackOutputStream out, List<ObjectToPack> list)
