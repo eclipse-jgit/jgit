@@ -792,9 +792,9 @@ public class PackWriter {
 
 	private int findObjectsNeedingDelta(ObjectToPack[] list, int cnt, int type) {
 		for (ObjectToPack otp : objectsLists[type]) {
-			if (otp.isDoNotDelta()) // delta is disabled for this path
+			if (otp.isReuseAsIs()) // already reusing a representation
 				continue;
-			if (otp.isDeltaRepresentation()) // already reusing a delta
+			if (otp.isDoNotDelta()) // delta is disabled for this path
 				continue;
 			otp.setWeight(0);
 			list[cnt++] = otp;
