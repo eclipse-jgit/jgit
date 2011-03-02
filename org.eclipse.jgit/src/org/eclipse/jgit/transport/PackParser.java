@@ -578,6 +578,7 @@ public abstract class PackParser {
 			PackedObjectInfo oe;
 			oe = newInfo(tempObjectId, visit.delta, visit.parent.id);
 			oe.setOffset(visit.delta.position);
+			onInflatedObjectData(oe, type, visit.data);
 			addObjectAndTrack(oe);
 			visit.id = oe;
 
@@ -766,6 +767,8 @@ public abstract class PackParser {
 					JGitText.get().unsupportedPackVersion, vers));
 		objectCount = NB.decodeUInt32(buf, p + 8);
 		use(hdrln);
+
+		onPackHeader(objectCount);
 	}
 
 	private void readPackFooter() throws IOException {
@@ -873,6 +876,7 @@ public abstract class PackParser {
 		objectDigest.update(Constants.encodeASCII(sz));
 		objectDigest.update((byte) 0);
 
+		final byte[] data;
 		boolean checkContentLater = false;
 		if (type == Constants.OBJ_BLOB) {
 			byte[] readBuffer = buffer();
@@ -889,9 +893,10 @@ public abstract class PackParser {
 			tempObjectId.fromRaw(objectDigest.digest(), 0);
 			checkContentLater = isCheckObjectCollisions()
 					&& readCurs.has(tempObjectId);
+			data = null;
 
 		} else {
-			final byte[] data = inflateAndReturn(Source.INPUT, sz);
+			data = inflateAndReturn(Source.INPUT, sz);
 			objectDigest.update(data);
 			tempObjectId.fromRaw(objectDigest.digest(), 0);
 			verifySafeObject(tempObjectId, type, data);
@@ -900,6 +905,8 @@ public abstract class PackParser {
 		PackedObjectInfo obj = newInfo(tempObjectId, null, null);
 		obj.setOffset(pos);
 		onEndWholeObject(obj);
+		if (data != null)
+			onInflatedObjectData(obj, type, data);
 		addObjectAndTrack(obj);
 		if (checkContentLater)
 			deferredCheckBlobs.add(obj);
@@ -1140,6 +1147,31 @@ public abstract class PackParser {
 	 */
 	protected abstract void onObjectData(Source src, byte[] raw, int pos,
 			int len) throws IOException;
+
+	/**
+	 * Invoked for commits, trees, tags, and small blobs.
+	 *
+	 * @param obj
+	 *            the object info, populated.
+	 * @param typeCode
+	 *            the type of the object.
+	 * @param data
+	 *            inflated data for the object.
+	 * @throws IOException
+	 *             the object cannot be archived.
+	 */
+	protected abstract void onInflatedObjectData(PackedObjectInfo obj,
+			int typeCode, byte[] data) throws IOException;
+
+	/**
+	 * Provide the implementation with the original stream's pack header.
+	 *
+	 * @param objCnt
+	 *            number of objects expected in the stream.
+	 * @throws IOException
+	 *             the implementation refuses to work with this many objects.
+	 */
+	protected abstract void onPackHeader(long objCnt) throws IOException;
 
 	/**
 	 * Provide the implementation with the original stream's pack footer.
