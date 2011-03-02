@@ -313,14 +313,13 @@ public class WindowCache {
 				return pack.mmap(offset, windowSize);
 			return pack.read(offset, windowSize);
 		} catch (IOException e) {
-			close(pack);
 			throw e;
 		} catch (RuntimeException e) {
-			close(pack);
 			throw e;
 		} catch (Error e) {
-			close(pack);
 			throw e;
+		} finally {
+			close(pack);
 		}
 	}
 
