@@ -405,6 +405,7 @@
 
   <modules>
     <module>org.eclipse.jgit</module>
+    <module>org.eclipse.jgit.storage.dht</module>
     <module>org.eclipse.jgit.ui</module>
     <module>org.eclipse.jgit.http.server</module>
     <module>org.eclipse.jgit.iplog</module>
@@ -414,6 +415,7 @@
 
     <module>org.eclipse.jgit.test</module>
     <module>org.eclipse.jgit.http.test</module>
+    <module>org.eclipse.jgit.storage.dht.test</module>
   </modules>
 
 </project>
