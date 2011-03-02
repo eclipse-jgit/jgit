@@ -177,6 +177,8 @@ public class PackWriter {
 
 	private boolean reuseDeltaCommits;
 
+	private boolean reuseValidate;
+
 	private boolean thin;
 
 	private boolean useCachedPacks;
@@ -245,6 +247,7 @@ public class PackWriter {
 
 		deltaBaseAsOffset = config.isDeltaBaseAsOffset();
 		reuseDeltas = config.isReuseDeltas();
+		reuseValidate = true; // be paranoid by default
 		stats = new Statistics();
 	}
 
@@ -296,6 +299,29 @@ public class PackWriter {
 	 */
 	public void setReuseDeltaCommits(boolean reuse) {
 		reuseDeltaCommits = reuse;
+	}
+
+	/**
+	 * Check if the writer validates objects before copying them.
+	 *
+	 * @return true if validation is enabled; false if the reader will handle
+	 *         object validation as a side-effect of it consuming the output.
+	 */
+	public boolean isReuseValidatingObjects() {
+		return reuseValidate;
+	}
+
+	/**
+	 * Enable (or disable) object validation during packing.
+	 *
+	 * @param validate
+	 *            if true the pack writer will validate an object before it is
+	 *            put into the output. This additional validation work may be
+	 *            necessary to avoid propagating corruption from one local pack
+	 *            file to another local pack file.
+	 */
+	public void setReuseValidatingObjects(boolean validate) {
+		reuseValidate = validate;
 	}
 
 	/** @return true if this writer is producing a thin pack. */
@@ -1006,7 +1032,7 @@ public class PackWriter {
 
 		while (otp.isReuseAsIs()) {
 			try {
-				reuseSupport.copyObjectAsIs(out, otp);
+				reuseSupport.copyObjectAsIs(out, otp, reuseValidate);
 				out.endObject();
 				otp.setCRC(out.getCRC32());
 				stats.reusedObjects++;

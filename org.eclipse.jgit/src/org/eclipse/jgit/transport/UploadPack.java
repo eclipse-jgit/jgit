@@ -695,6 +695,7 @@ public class UploadPack {
 			pw.setReuseDeltaCommits(true);
 			pw.setDeltaBaseAsOffset(options.contains(OPTION_OFS_DELTA));
 			pw.setThin(options.contains(OPTION_THIN_PACK));
+			pw.setReuseValidatingObjects(false);
 
 			if (commonBase.isEmpty()) {
 				Set<ObjectId> tagTargets = new HashSet<ObjectId>();

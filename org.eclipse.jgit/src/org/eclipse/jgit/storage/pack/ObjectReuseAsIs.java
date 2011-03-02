@@ -130,8 +130,9 @@ public interface ObjectReuseAsIs {
 	 * reduce data locality for the reader, slowing down data access.
 	 *
 	 * Invoking {@link PackOutputStream#writeObject(ObjectToPack)} will cause
-	 * {@link #copyObjectAsIs(PackOutputStream, ObjectToPack)} to be invoked
-	 * recursively on {@code this} if the current object is scheduled for reuse.
+	 * {@link #copyObjectAsIs(PackOutputStream, ObjectToPack, boolean)} to be
+	 * invoked recursively on {@code this} if the current object is scheduled
+	 * for reuse.
 	 *
 	 * @param out
 	 *            the stream to write each object to.
@@ -160,7 +161,11 @@ public interface ObjectReuseAsIs {
 	 *
 	 * <pre>
 	 * MyToPack mtp = (MyToPack) otp;
-	 * byte[] raw = validate(mtp); // throw SORNAE here, if at all
+	 * byte[] raw;
+	 * if (validate)
+	 * 	 raw = validate(mtp); // throw SORNAE here, if at all
+	 * else
+	 * 	 raw = readFast(mtp);
 	 * out.writeHeader(mtp, mtp.inflatedSize);
 	 * out.write(raw);
 	 * </pre>
@@ -169,6 +174,11 @@ public interface ObjectReuseAsIs {
 	 *            stream the object should be written to.
 	 * @param otp
 	 *            the object's saved representation information.
+	 * @param validate
+	 *            if true the representation must be validated and not be
+	 *            corrupt before being reused. If false, validation may be
+	 *            skipped as it will be performed elsewhere in the processing
+	 *            pipeline.
 	 * @throws StoredObjectRepresentationNotAvailableException
 	 *             the previously selected representation is no longer
 	 *             available. If thrown before {@code out.writeHeader} the pack
@@ -179,8 +189,9 @@ public interface ObjectReuseAsIs {
 	 *             the stream's write method threw an exception. Packing will
 	 *             abort.
 	 */
-	public void copyObjectAsIs(PackOutputStream out, ObjectToPack otp)
-			throws IOException, StoredObjectRepresentationNotAvailableException;
+	public void copyObjectAsIs(PackOutputStream out, ObjectToPack otp,
+			boolean validate) throws IOException,
+			StoredObjectRepresentationNotAvailableException;
 
 	/**
 	 * Obtain the available cached packs.
