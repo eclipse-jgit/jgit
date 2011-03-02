@@ -1,0 +1,89 @@
+JGit Storage on DHT
+-------------------
+
+This implementation still has some pending issues:
+
+* DhtInserter must skip existing objects
+
+  DirCache writes all trees to the ObjectInserter, letting the
+  inserter figure out which trees we already have, and which are new.
+  DhtInserter should buffer trees into a chunk, then before writing
+  the chunk to the DHT do a batch lookup to find the existing
+  ObjectInfo (if any).  If any exist, the chunk should be compacted to
+  eliminate these objects, and if there is room in the chunk for more
+  objects, it should go back to the DhtInserter to be filled further
+  before flushing.
+
+  This implies the DhtInserter needs to work on multiple chunks at
+  once, and may need to combine chunks together when there is more
+  than one partial chunk.
+
+* DhtPackParser must check for collisions
+
+  Because ChunkCache blindly assumes any copy of an object is an OK
+  copy of an object, DhtPackParser needs to validate all new objects
+  at the end of its importing phase, before it links the objects into
+  the ObjectIndexTable.  Most objects won't already exist, but some
+  may, and those that do must either be removed from their chunk, or
+  have their content byte-for-byte validated.
+
+  Removal from a chunk just means deleting it from the chunk's local
+  index, and not writing it to the global ObjectIndexTable.  This
+  creates a hole in the chunk which is wasted space, and that isn't
+  very useful.  Fortunately objects that fit fully within one chunk
+  may be easy to inflate and double check, as they are small.  Objects
+  that are big span multiple chunks, and the new chunks can simply be
+  deleted from the ChunkTable, leaving the original chunks.
+
+  Deltas can be checked quickly by inflating the delta and checking
+  only the insertion point text, comparing that to the existing data
+  in the repository.  Unfortunately the repository is likely to use a
+  different delta representation, which means at least one of them
+  will need to be fully inflated to check the delta against.
+
+* DhtPackParser should handle small-huge-small-huge
+
+  Multiple chunks need to be open at once, in case we get a bad
+  pattern of small-object, huge-object, small-object, huge-object.  In
+  this case the small-objects should be put together into the same
+  chunk, to prevent having too many tiny chunks.  This is tricky to do
+  with OFS_DELTA.  A long OFS_DELTA requires all prior chunks to be
+  closed out so we know their lengths.
+
+* RepresentationSelector performance bad on Cassandra
+
+  The 1.8 million batch lookups done for linux-2.6 kills Cassandra, it
+  cannot handle this read load.
+
+* READ_REPAIR isn't fully accurate
+
+  There are a lot of places where the generic DHT code should be
+  helping to validate the local replica is consistent, and where it is
+  not, help the underlying storage system to heal the local replica by
+  reading from a remote replica and putting it back to the local one.
+  Most of this should be handled in the DHT SPI layer, but the generic
+  DHT code should be giving better hints during get() method calls.
+
+* LOCAL / WORLD writes
+
+  Many writes should be done locally first, before they replicate to
+  the other replicas, as they might be backed out on an abort.
+
+  Likewise some writes must take place across sufficient replicas to
+  ensure the write is not lost... and this may include ensuring that
+  earlier local-only writes have actually been committed to all
+  replicas.  This committing to replicas might be happening in the
+  background automatically after the local write (e.g. Cassandra will
+  start to send writes made by one node to other nodes, but doesn't
+  promise they finish).  But parts of the code may need to force this
+  replication to complete before the higher level git operation ends.
+
+* Forks/alternates
+
+  Forking is common, but we should avoid duplicating content into the
+  fork if the base repository has it.  This requires some sort of
+  change to the key structure so that chunks are owned by an object
+  pool, and the object pool owns the repositories that use it.  GC
+  proceeds at the object pool level, rather than the repository level,
+  but might want to take some of the reference namespace into account
+  to avoid placing forked less-common content near primary content.

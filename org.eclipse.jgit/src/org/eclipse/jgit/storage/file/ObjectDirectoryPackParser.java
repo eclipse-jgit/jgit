@@ -202,6 +202,11 @@ public class ObjectDirectoryPackParser extends PackParser {
 	}
 
 	@Override
+	protected void onPackHeader(long objectCount) throws IOException {
+		// Ignored, the count is not required.
+	}
+
+	@Override
 	protected void onBeginWholeObject(long streamPosition, int type,
 			long inflatedSize) throws IOException {
 		crc.reset();
@@ -229,6 +234,12 @@ public class ObjectDirectoryPackParser extends PackParser {
 		UnresolvedDelta delta = new UnresolvedDelta();
 		delta.setCRC((int) crc.getValue());
 		return delta;
+	}
+
+	@Override
+	protected void onInflatedObjectData(PackedObjectInfo obj, int typeCode,
+			byte[] data) throws IOException {
+		// ObjectDirectory ignores this event.
 	}
 
 	@Override
