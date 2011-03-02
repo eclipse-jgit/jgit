@@ -87,9 +87,10 @@ class LocalCachedPack extends CachedPack {
 		return cnt;
 	}
 
-	void copyAsIs(PackOutputStream out, WindowCursor wc) throws IOException {
+	void copyAsIs(PackOutputStream out, boolean validate, WindowCursor wc)
+			throws IOException {
 		for (String packName : packNames)
-			getPackFile(packName).copyPackAsIs(out, wc);
+			getPackFile(packName).copyPackAsIs(out, validate, wc);
 	}
 
 	@Override

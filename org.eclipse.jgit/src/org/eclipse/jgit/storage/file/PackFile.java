@@ -305,11 +305,11 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 		return dstbuf;
 	}
 
-	void copyPackAsIs(PackOutputStream out, WindowCursor curs)
+	void copyPackAsIs(PackOutputStream out, boolean validate, WindowCursor curs)
 			throws IOException {
 		// Pin the first window, this ensures the length is accurate.
 		curs.pin(this, 0);
-		curs.copyPackAsIs(this, out, 12, length - (12 + 20));
+		curs.copyPackAsIs(this, length, validate, out);
 	}
 
 	final void copyAsIs(PackOutputStream out, LocalObjectToPack src,
@@ -462,7 +462,7 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 			// and we have it pinned.  Write this out without copying.
 			//
 			out.writeHeader(src, inflatedLength);
-			quickCopy.write(out, dataOffset, (int) dataLength);
+			quickCopy.write(out, dataOffset, (int) dataLength, null);
 
 		} else if (dataLength <= buf.length) {
 			// Tiny optimization: Lots of objects are very small deltas or
@@ -497,6 +497,10 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 
 	boolean invalid() {
 		return invalid;
+	}
+
+	void setInvalid() {
+		invalid = true;
 	}
 
 	private void readFully(final long position, final byte[] dstbuf,

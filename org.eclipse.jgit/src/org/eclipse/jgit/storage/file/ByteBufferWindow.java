@@ -47,6 +47,7 @@ package org.eclipse.jgit.storage.file;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.security.MessageDigest;
 import java.util.zip.DataFormatException;
 import java.util.zip.Inflater;
 
@@ -75,7 +76,8 @@ final class ByteBufferWindow extends ByteWindow {
 	}
 
 	@Override
-	void write(PackOutputStream out, long pos, int cnt) throws IOException {
+	void write(PackOutputStream out, long pos, int cnt, MessageDigest digest)
+			throws IOException {
 		final ByteBuffer s = buffer.slice();
 		s.position((int) (pos - start));
 
@@ -84,6 +86,8 @@ final class ByteBufferWindow extends ByteWindow {
 			int n = Math.min(cnt, buf.length);
 			s.get(buf, 0, n);
 			out.write(buf, 0, n);
+			if (digest != null)
+				digest.update(buf, 0, n);
 			cnt -= n;
 		}
 	}
