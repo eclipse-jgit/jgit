@@ -48,6 +48,7 @@ import java.text.MessageFormat;
 
 import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 
@@ -185,14 +186,117 @@ public class RemoteRefUpdate {
 			final String remoteName, final boolean forceUpdate,
 			final String localName, final ObjectId expectedOldObjectId)
 			throws IOException {
+		this(localDb, srcRef, srcRef != null ? localDb.resolve(srcRef)
+				: ObjectId.zeroId(), remoteName, forceUpdate, localName,
+				expectedOldObjectId);
+	}
+
+	/**
+	 * Construct remote ref update request by providing an update specification.
+	 * Object is created with default {@link Status#NOT_ATTEMPTED} status and no
+	 * message.
+	 *
+	 * @param localDb
+	 *            local repository to push from.
+	 * @param srcRef
+	 *            source revision. Use null to delete.
+	 * @param remoteName
+	 *            full name of a remote ref to update, e.g. "refs/heads/master"
+	 *            (no wildcard, no short name).
+	 * @param forceUpdate
+	 *            true when caller want remote ref to be updated regardless
+	 *            whether it is fast-forward update (old object is ancestor of
+	 *            new object).
+	 * @param localName
+	 *            optional full name of a local stored tracking branch, to
+	 *            update after push, e.g. "refs/remotes/zawir/dirty" (no
+	 *            wildcard, no short name); null if no local tracking branch
+	 *            should be updated.
+	 * @param expectedOldObjectId
+	 *            optional object id that caller is expecting, requiring to be
+	 *            advertised by remote side before update; update will take
+	 *            place ONLY if remote side advertise exactly this expected id;
+	 *            null if caller doesn't care what object id remote side
+	 *            advertise. Use {@link ObjectId#zeroId()} when expecting no
+	 *            remote ref with this name.
+	 * @throws IOException
+	 *             when I/O error occurred during creating
+	 *             {@link TrackingRefUpdate} for local tracking branch or srcRef
+	 *             can't be resolved to any object.
+	 * @throws IllegalArgumentException
+	 *             if some required parameter was null
+	 */
+	public RemoteRefUpdate(final Repository localDb, final Ref srcRef,
+			final String remoteName, final boolean forceUpdate,
+			final String localName, final ObjectId expectedOldObjectId)
+			throws IOException {
+		this(localDb, srcRef != null ? srcRef.getName() : null,
+				srcRef != null ? srcRef.getObjectId() : null, remoteName,
+				forceUpdate, localName, expectedOldObjectId);
+	}
+
+	/**
+	 * Construct remote ref update request by providing an update specification.
+	 * Object is created with default {@link Status#NOT_ATTEMPTED} status and no
+	 * message.
+	 *
+	 * @param localDb
+	 *            local repository to push from.
+	 * @param srcRef
+	 *            source revision to label srcId with. If null srcId.name() will
+	 *            be used instead.
+	 * @param srcId
+	 *            The new object that the caller wants remote ref to be after
+	 *            update. Use null or {@link ObjectId#zeroId()} for delete
+	 *            request.
+	 * @param remoteName
+	 *            full name of a remote ref to update, e.g. "refs/heads/master"
+	 *            (no wildcard, no short name).
+	 * @param forceUpdate
+	 *            true when caller want remote ref to be updated regardless
+	 *            whether it is fast-forward update (old object is ancestor of
+	 *            new object).
+	 * @param localName
+	 *            optional full name of a local stored tracking branch, to
+	 *            update after push, e.g. "refs/remotes/zawir/dirty" (no
+	 *            wildcard, no short name); null if no local tracking branch
+	 *            should be updated.
+	 * @param expectedOldObjectId
+	 *            optional object id that caller is expecting, requiring to be
+	 *            advertised by remote side before update; update will take
+	 *            place ONLY if remote side advertise exactly this expected id;
+	 *            null if caller doesn't care what object id remote side
+	 *            advertise. Use {@link ObjectId#zeroId()} when expecting no
+	 *            remote ref with this name.
+	 * @throws IOException
+	 *             when I/O error occurred during creating
+	 *             {@link TrackingRefUpdate} for local tracking branch or srcRef
+	 *             can't be resolved to any object.
+	 * @throws IllegalArgumentException
+	 *             if some required parameter was null
+	 */
+	public RemoteRefUpdate(final Repository localDb, final String srcRef,
+			final ObjectId srcId, final String remoteName,
+			final boolean forceUpdate, final String localName,
+			final ObjectId expectedOldObjectId) throws IOException {
 		if (remoteName == null)
 			throw new IllegalArgumentException(JGitText.get().remoteNameCantBeNull);
-		this.srcRef = srcRef;
-		this.newObjectId = (srcRef == null ? ObjectId.zeroId() : localDb
-				.resolve(srcRef));
-		if (newObjectId == null)
+		if (srcId == null && srcRef != null)
 			throw new IOException(MessageFormat.format(
 					JGitText.get().sourceRefDoesntResolveToAnyObject, srcRef));
+
+		if (srcRef != null)
+			this.srcRef = srcRef;
+		else if (srcId != null && !srcId.equals(ObjectId.zeroId()))
+			this.srcRef = srcId.name();
+		else
+			this.srcRef = null;
+
+		if (srcId != null)
+			this.newObjectId = srcId;
+		else
+			this.newObjectId = ObjectId.zeroId();
+
 		this.remoteName = remoteName;
 		this.forceUpdate = forceUpdate;
 		if (localName != null && localDb != null)
