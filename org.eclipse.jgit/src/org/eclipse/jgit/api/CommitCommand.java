@@ -44,6 +44,7 @@ package org.eclipse.jgit.api;
 
 import java.io.IOException;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -55,6 +56,10 @@ import org.eclipse.jgit.api.errors.NoHeadException;
 import org.eclipse.jgit.api.errors.NoMessageException;
 import org.eclipse.jgit.api.errors.WrongRepositoryStateException;
 import org.eclipse.jgit.dircache.DirCache;
+import org.eclipse.jgit.dircache.DirCacheBuilder;
+import org.eclipse.jgit.dircache.DirCacheEditor;
+import org.eclipse.jgit.dircache.DirCacheEditor.DeletePath;
+import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.errors.UnmergedPathException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Constants;
@@ -86,6 +91,8 @@ public class CommitCommand extends GitCommand<RevCommit> {
 	private String message;
 
 	private boolean all;
+
+	private List<String> only = new ArrayList<String>();
 
 	/**
 	 * parents this commit should have. The current HEAD will be in this list
@@ -160,6 +167,35 @@ public class CommitCommand extends GitCommand<RevCommit> {
 			// lock the index
 			DirCache index = repo.lockDirCache();
 			try {
+				if (only != null && !only.isEmpty()) {
+					// get editor for DirCache
+					DirCacheEditor editor = index.editor();
+
+					// get second, in-core DirCache and corresponding builder
+					DirCache onlyIndex = DirCache.newInCore();
+					DirCacheBuilder builder = onlyIndex.builder();
+
+					for (String s : only) {
+						DirCacheEntry entry = index.getEntry(s);
+						if (entry == null)
+							throw new JGitInternalException(
+									MessageFormat.format(
+											JGitText.get().entryNotFoundByPath,
+											s));
+						// delete entry from DirCache
+						editor.add(new DeletePath(entry));
+						// add entry to second, in-core DirCache
+						builder.add(entry);
+					}
+					// write DirCache and release lock
+					editor.commit();
+					// finish second, in-core DirCache
+					builder.finish();
+
+					// use second, in-core DirCache for updating
+					index = onlyIndex;
+				}
+
 				ObjectInserter odi = repo.newObjectInserter();
 				try {
 					// Write the index as tree to the object database. This may
@@ -387,4 +423,18 @@ public class CommitCommand extends GitCommand<RevCommit> {
 		return this;
 	}
 
+	/**
+	 * Commit dedicated path only
+	 *
+	 * This method can be called several times to add multiple paths.
+	 *
+	 * @param only
+	 *            path to commit
+	 * @return {@code this}
+	 */
+	public CommitCommand setOnly(String only) {
+		checkCallable();
+		this.only.add(only);
+		return this;
+	}
 }

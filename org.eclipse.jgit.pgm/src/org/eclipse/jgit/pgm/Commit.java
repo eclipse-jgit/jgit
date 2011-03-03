@@ -37,6 +37,9 @@
  */
 package org.eclipse.jgit.pgm;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.jgit.api.CommitCommand;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.ConcurrentRefUpdateException;
@@ -60,6 +63,9 @@ class Commit extends TextBuiltin {
 	@Option(name = "--message", aliases = { "-m" }, metaVar="metaVar_message", usage="usage_CommitMessage", required=true)
 	private String message;
 
+	@Option(name = "--only", aliases = { "-o" }, metaVar = "metaVar_only", usage = "usage_CommitOnly")
+	private List<String> only = new ArrayList<String>();
+
 	@Override
 	protected void run() throws NoHeadException, NoMessageException,
 			ConcurrentRefUpdateException, JGitInternalException, Exception {
@@ -68,6 +74,9 @@ class Commit extends TextBuiltin {
 			commitCmd.setAuthor(RawParseUtils.parsePersonIdent(author));
 		if (message != null)
 			commitCmd.setMessage(message);
+		if (only != null && !only.isEmpty())
+			for (String s : only)
+				commitCmd.setOnly(s);
 		Ref head = db.getRef(Constants.HEAD);
 		RevCommit commit = commitCmd.call();
 
