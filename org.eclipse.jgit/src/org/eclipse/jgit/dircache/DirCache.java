@@ -66,6 +66,7 @@ import org.eclipse.jgit.errors.UnmergedPathException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.storage.file.FileSnapshot;
 import org.eclipse.jgit.storage.file.LockFile;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.IO;
@@ -205,9 +206,6 @@ public class DirCache {
 	/** Location of the current version of the index file. */
 	private final File liveFile;
 
-	/** Modification time of the file at the last read/write we did. */
-	private long lastModified;
-
 	/** Individual file index entries, sorted by path name. */
 	private DirCacheEntry[] sortedEntries;
 
@@ -222,6 +220,9 @@ public class DirCache {
 
 	/** file system abstraction **/
 	private final FS fs;
+
+	/** Keep track of whether the index has changed or not */
+	private FileSnapshot snapshot;
 
 	/**
 	 * Create a new in-core index representation.
@@ -290,7 +291,7 @@ public class DirCache {
 			throw new IOException(JGitText.get().dirCacheDoesNotHaveABackingFile);
 		if (!liveFile.exists())
 			clear();
-		else if (liveFile.lastModified() != lastModified) {
+		else if (snapshot == null || snapshot.isModified(liveFile)) {
 			try {
 				final FileInputStream inStream = new FileInputStream(liveFile);
 				try {
@@ -309,6 +310,7 @@ public class DirCache {
 				//
 				clear();
 			}
+			snapshot = FileSnapshot.save(liveFile);
 		}
 	}
 
@@ -319,12 +321,12 @@ public class DirCache {
 	public boolean isOutdated() throws IOException {
 		if (liveFile == null || !liveFile.exists())
 			return false;
-		return liveFile.lastModified() != lastModified;
+		return snapshot.isModified(liveFile);
 	}
 
 	/** Empty this index, removing all entries. */
 	public void clear() {
-		lastModified = 0;
+		snapshot = null;
 		sortedEntries = NO_ENTRIES;
 		entryCnt = 0;
 		tree = null;
@@ -361,7 +363,7 @@ public class DirCache {
 		final MutableInteger infoAt = new MutableInteger();
 		for (int i = 0; i < entryCnt; i++)
 			sortedEntries[i] = new DirCacheEntry(infos, infoAt, in, md);
-		lastModified = liveFile.lastModified();
+		snapshot = FileSnapshot.save(liveFile);
 
 		// After the file entries are index extensions, and then a footer.
 		//
@@ -516,14 +518,14 @@ public class DirCache {
 
 		// Write the individual file entries.
 		//
-		if (lastModified <= 0) {
+		if (snapshot == null) {
 			// Write a new index, as no entries require smudging.
 			//
 			for (int i = 0; i < entryCnt; i++)
 				sortedEntries[i].write(dos);
 		} else {
-			final int smudge_s = (int) (lastModified / 1000);
-			final int smudge_ns = ((int) (lastModified % 1000)) * 1000000;
+			final int smudge_s = (int) (snapshot.lastModified() / 1000);
+			final int smudge_ns = ((int) (snapshot.lastModified() % 1000)) * 1000000;
 			for (int i = 0; i < entryCnt; i++) {
 				final DirCacheEntry e = sortedEntries[i];
 				if (e.mightBeRacilyClean(smudge_s, smudge_ns))
@@ -564,7 +566,7 @@ public class DirCache {
 		myLock = null;
 		if (!tmp.commit())
 			return false;
-		lastModified = tmp.getCommitLastModified();
+		snapshot = tmp.getCommitSnapshot();
 		return true;
 	}
 

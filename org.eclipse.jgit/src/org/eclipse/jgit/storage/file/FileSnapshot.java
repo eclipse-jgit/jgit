@@ -102,7 +102,10 @@ public class FileSnapshot {
 		this.cannotBeRacilyClean = notRacyClean(read);
 	}
 
-	long lastModified() {
+	/**
+	 * @return time of last snapshot update
+	 */
+	public long lastModified() {
 		return lastModified;
 	}
 
