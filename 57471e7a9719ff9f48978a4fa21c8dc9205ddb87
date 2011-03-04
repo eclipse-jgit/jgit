@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL2H///50\u003d",
+        "filename": "org.eclipse.jgit.junit.http/src/org/eclipse/jgit/junit/http/AppServer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-22T23:49:22Z",
+      "side": 1,
+      "message": "So Jetty 7.2 dropped the setConstraintMapping(ConstraintMapping[]) method signature?\n\nShouldn\u0027t they be calling that Jetty 8 since they removed a public method?",
+      "revId": "57471e7a9719ff9f48978a4fa21c8dc9205ddb87",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
