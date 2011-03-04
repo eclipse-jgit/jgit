@@ -126,7 +126,7 @@ public class TransportGitSsh extends SshTransport implements PackTransport {
 		return cmd.toString();
 	}
 
-	void checkExecFailure(final int status, final String exe, final String why)
+	void checkExecFailure(int status, String exe, String why)
 			throws TransportException {
 		if (status == 127) {
 			IOException cause = null;
@@ -137,8 +137,8 @@ public class TransportGitSsh extends SshTransport implements PackTransport {
 		}
 	}
 
-	NoRemoteRepositoryException cleanNotFound(
-			final NoRemoteRepositoryException nf, String why) {
+	NoRemoteRepositoryException cleanNotFound(NoRemoteRepositoryException nf,
+			String why) {
 		if (why == null || why.length() == 0)
 			return nf;
 
@@ -163,10 +163,10 @@ public class TransportGitSsh extends SshTransport implements PackTransport {
 	private class ExtSession implements RemoteSession {
 		public Process exec(String command, int timeout)
 				throws TransportException {
-			final String ssh = SystemReader.getInstance().getenv("GIT_SSH");
-			final boolean putty = ssh.toLowerCase().contains("plink");
+			String ssh = SystemReader.getInstance().getenv("GIT_SSH");
+			boolean putty = ssh.toLowerCase().contains("plink");
 
-			final List<String> args = new ArrayList<String>();
+			List<String> args = new ArrayList<String>();
 			args.add(ssh);
 			if (putty && !ssh.toLowerCase().contains("tortoiseplink"))
 				args.add("-batch");
@@ -180,7 +180,7 @@ public class TransportGitSsh extends SshTransport implements PackTransport {
 				args.add(getURI().getHost());
 			args.add(command);
 
-			final ProcessBuilder pb = new ProcessBuilder();
+			ProcessBuilder pb = new ProcessBuilder();
 			pb.command(args);
 
 			if (local.getDirectory() != null)
@@ -189,7 +189,7 @@ public class TransportGitSsh extends SshTransport implements PackTransport {
 
 			try {
 				return pb.start();
-			} catch (final IOException err) {
+			} catch (IOException err) {
 				throw new TransportException(err.getMessage(), err);
 			}
 		}
@@ -218,10 +218,10 @@ public class TransportGitSsh extends SshTransport implements PackTransport {
 
 				init(process.getInputStream(), process.getOutputStream());
 
-			} catch (final TransportException err) {
+			} catch (TransportException err) {
 				close();
 				throw err;
-			} catch (final IOException err) {
+			} catch (IOException err) {
 				close();
 				throw new TransportException(uri,
 						JGitText.get().remoteHungUpUnexpectedly, err);
@@ -229,7 +229,7 @@ public class TransportGitSsh extends SshTransport implements PackTransport {
 
 			try {
 				readAdvertisedRefs();
-			} catch (final NoRemoteRepositoryException notFound) {
+			} catch (NoRemoteRepositoryException notFound) {
 				final String msgs = getMessages();
 				checkExecFailure(process.exitValue(), getOptionUploadPack(),
 						msgs);
@@ -244,7 +244,7 @@ public class TransportGitSsh extends SshTransport implements PackTransport {
 			if (errorThread != null) {
 				try {
 					errorThread.halt();
-				} catch (final InterruptedException e) {
+				} catch (InterruptedException e) {
 					// Stop waiting and return anyway.
 				} finally {
 					errorThread = null;
@@ -275,10 +275,10 @@ public class TransportGitSsh extends SshTransport implements PackTransport {
 
 				init(process.getInputStream(), process.getOutputStream());
 
-			} catch (final TransportException err) {
+			} catch (TransportException err) {
 				close();
 				throw err;
-			} catch (final IOException err) {
+			} catch (IOException err) {
 				close();
 				throw new TransportException(uri,
 						JGitText.get().remoteHungUpUnexpectedly, err);
@@ -286,7 +286,7 @@ public class TransportGitSsh extends SshTransport implements PackTransport {
 
 			try {
 				readAdvertisedRefs();
-			} catch (final NoRemoteRepositoryException notFound) {
+			} catch (NoRemoteRepositoryException notFound) {
 				final String msgs = getMessages();
 				checkExecFailure(process.exitValue(), getOptionReceivePack(),
 						msgs);
@@ -301,7 +301,7 @@ public class TransportGitSsh extends SshTransport implements PackTransport {
 			if (errorThread != null) {
 				try {
 					errorThread.halt();
-				} catch (final InterruptedException e) {
+				} catch (InterruptedException e) {
 					// Stop waiting and return anyway.
 				} finally {
 					errorThread = null;

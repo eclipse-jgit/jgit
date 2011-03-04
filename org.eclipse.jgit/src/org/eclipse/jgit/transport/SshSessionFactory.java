@@ -104,7 +104,7 @@ public abstract class SshSessionFactory {
 	 *            the file system abstraction which will be necessary to perform
 	 *            certain file system operations.
 	 * @param tms
-	 *            Timeout value, in seconds.
+	 *            Timeout value, in milliseconds.
 	 * @return a session that can contact the remote host.
 	 * @throws TransportException
 	 */
@@ -114,7 +114,6 @@ public abstract class SshSessionFactory {
 
 	/**
 	 * Close (or recycle) a session to a host.
-	 * 
 	 * @param sock
 	 *            a session previously obtained from this factory's
 	 *            {@link #getSession(URIish, CredentialsProvider, FS, int)}
