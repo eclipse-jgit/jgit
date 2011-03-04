@@ -82,7 +82,7 @@ import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
  * attribute when the request is complete.
  */
 public class RepositoryFilter implements Filter {
-	private final RepositoryResolver resolver;
+	private final RepositoryResolver<HttpServletRequest> resolver;
 
 	private ServletContext context;
 
@@ -94,7 +94,7 @@ public class RepositoryFilter implements Filter {
 	 *            component to the actual {@link Repository} instance for the
 	 *            current web request.
 	 */
-	public RepositoryFilter(final RepositoryResolver resolver) {
+	public RepositoryFilter(final RepositoryResolver<HttpServletRequest> resolver) {
 		this.resolver = resolver;
 	}
 
