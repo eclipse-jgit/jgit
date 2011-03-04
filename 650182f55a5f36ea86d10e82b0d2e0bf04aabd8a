@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL3H///xE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/WindowCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-03-02T18:00:35Z",
+      "side": 1,
+      "message": "NO.\n\nWe ONLY want the pack closed when an exception goes up the call stack. If the read method was good and returns successfully, the pack should stay open.",
+      "revId": "650182f55a5f36ea86d10e82b0d2e0bf04aabd8a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
