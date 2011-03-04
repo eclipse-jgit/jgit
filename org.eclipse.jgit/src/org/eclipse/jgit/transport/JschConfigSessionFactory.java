@@ -130,7 +130,7 @@ public abstract class JschConfigSessionFactory extends SshSessionFactory {
 
 			return new JschSession(session, uri);
 
-		} catch (final JSchException je) {
+		} catch (JSchException je) {
 			final Throwable c = je.getCause();
 			if (c instanceof UnknownHostException)
 				throw new TransportException(uri, JGitText.get().unknownHost);
@@ -142,8 +142,8 @@ public abstract class JschConfigSessionFactory extends SshSessionFactory {
 	}
 
 	/**
-	 * Create a new JSch session for the requested address.
-	 *
+	 * Create a new remote session for the requested address.
+	 * 
 	 * @param hc
 	 *            host configuration
 	 * @param user
@@ -168,7 +168,6 @@ public abstract class JschConfigSessionFactory extends SshSessionFactory {
 	/**
 	 * Provide additional configuration for the session based on the host
 	 * information. This method could be used to supply {@link UserInfo}.
-	 *
 	 * @param hc
 	 *            host configuration
 	 * @param session
@@ -178,7 +177,7 @@ public abstract class JschConfigSessionFactory extends SshSessionFactory {
 
 	/**
 	 * Obtain the JSch used to create new sessions.
-	 *
+	 * 
 	 * @param hc
 	 *            host configuration
 	 * @param fs
@@ -192,15 +191,13 @@ public abstract class JschConfigSessionFactory extends SshSessionFactory {
 			throws JSchException {
 		if (defaultJSch == null) {
 			defaultJSch = createDefaultJSch(fs);
-			for (final Object name : defaultJSch.getIdentityNames()) {
+			for (Object name : defaultJSch.getIdentityNames())
 				byIdentityFile.put((String) name, defaultJSch);
-			}
 		}
 
 		final File identityFile = hc.getIdentityFile();
-		if (identityFile == null) {
+		if (identityFile == null)
 			return defaultJSch;
-		}
 
 		final String identityKey = identityFile.getAbsolutePath();
 		JSch jsch = byIdentityFile.get(identityKey);
@@ -240,9 +237,9 @@ public abstract class JschConfigSessionFactory extends SshSessionFactory {
 			} finally {
 				in.close();
 			}
-		} catch (final FileNotFoundException none) {
+		} catch (FileNotFoundException none) {
 			// Oh well. They don't have a known hosts in home.
-		} catch (final IOException err) {
+		} catch (IOException err) {
 			// Oh well. They don't have a known hosts in home.
 		}
 	}
@@ -263,7 +260,7 @@ public abstract class JschConfigSessionFactory extends SshSessionFactory {
 		if (priv.isFile()) {
 			try {
 				sch.addIdentity(priv.getAbsolutePath());
-			} catch (final JSchException e) {
+			} catch (JSchException e) {
 				// Instead, pretend the key doesn't exist.
 			}
 		}
