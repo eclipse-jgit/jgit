@@ -577,24 +577,6 @@ public abstract class Repository {
 							revstr);
 				i = m - 1;
 				break;
-			case '-':
-				if (i + 4 < rev.length && rev[i + 1] == 'g'
-						&& isHex(rev[i + 2]) && isHex(rev[i + 3])) {
-					// Possibly output from git describe?
-					// Resolve longest valid abbreviation.
-					int cnt = 2;
-					while (i + 2 + cnt < rev.length && isHex(rev[i + 2 + cnt]))
-						cnt++;
-					String s = new String(rev, i + 2, cnt);
-					if (AbbreviatedObjectId.isId(s)) {
-						ObjectId id = resolveAbbreviation(s);
-						if (id != null) {
-							ref = rw.parseAny(id);
-							i += 1 + s.length();
-						}
-					}
-				}
-				break;
 			case ':': {
 				RevTree tree;
 				if (ref == null) {
@@ -637,6 +619,14 @@ public abstract class Repository {
 				|| ('A' <= c && c <= 'F');
 	}
 
+	private static boolean isAllHex(String str, int ptr) {
+		while (ptr < str.length()) {
+			if (!isHex(str.charAt(ptr++)))
+				return false;
+		}
+		return true;
+	}
+
 	private RevObject parseSimple(RevWalk rw, String revstr) throws IOException {
 		ObjectId id = resolveSimple(revstr);
 		return id != null ? rw.parseAny(id) : null;
@@ -652,6 +642,17 @@ public abstract class Repository {
 
 		if (AbbreviatedObjectId.isId(revstr))
 			return resolveAbbreviation(revstr);
+
+		int dashg = revstr.indexOf("-g");
+		if (4 < revstr.length() && 0 <= dashg
+				&& isHex(revstr.charAt(dashg + 2))
+				&& isHex(revstr.charAt(dashg + 3))
+				&& isAllHex(revstr, dashg + 4)) {
+			// Possibly output from git describe?
+			String s = revstr.substring(dashg + 2);
+			if (AbbreviatedObjectId.isId(s))
+				return resolveAbbreviation(s);
+		}
 
 		return null;
 	}

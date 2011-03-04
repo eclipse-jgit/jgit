@@ -48,6 +48,7 @@ package org.eclipse.jgit.lib;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.fail;
 
 import java.io.IOException;
@@ -179,6 +180,24 @@ public class RepositoryResolveTest extends SampleDataRepositoryTestCase {
 
 		assertEquals(db.resolve("b^1"), db.resolve("B-6-g7f82283^1"));
 		assertEquals(db.resolve("b~2"), db.resolve("B-6-g7f82283~2"));
+	}
+
+	@Test
+	public void testParseNonGitDescribe() throws IOException {
+		ObjectId id = id("49322bb17d3acc9146f98c97d078513228bbf3c0");
+		RefUpdate ru = db.updateRef("refs/heads/foo-g032c");
+		ru.setNewObjectId(id);
+		assertSame(RefUpdate.Result.NEW, ru.update());
+
+		assertEquals(id, db.resolve("refs/heads/foo-g032c"));
+		assertEquals(id, db.resolve("foo-g032c"));
+
+		ru = db.updateRef("refs/heads/foo-g032c-dev");
+		ru.setNewObjectId(id);
+		assertSame(RefUpdate.Result.NEW, ru.update());
+
+		assertEquals(id, db.resolve("refs/heads/foo-g032c-dev"));
+		assertEquals(id, db.resolve("foo-g032c-dev"));
 	}
 
 	@Test
