@@ -68,6 +68,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String URLNotFound;
 	/***/ public String aNewObjectIdIsRequired;
 	/***/ public String abbreviationLengthMustBeNonNegative;
+	/***/ public String abnormalMergeFailure;
 	/***/ public String abortingRebase;
 	/***/ public String abortingRebaseFailed;
 	/***/ public String advertisementCameBefore;

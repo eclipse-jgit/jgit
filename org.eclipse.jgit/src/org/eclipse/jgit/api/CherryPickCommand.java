@@ -48,9 +48,10 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.jgit.JGitText;
+import org.eclipse.jgit.api.errors.AbnormalMergeFailureException;
 import org.eclipse.jgit.api.errors.GitAPIException;
-import org.eclipse.jgit.api.errors.MultipleParentsNotAllowedException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
+import org.eclipse.jgit.api.errors.MultipleParentsNotAllowedException;
 import org.eclipse.jgit.api.errors.NoHeadException;
 import org.eclipse.jgit.dircache.DirCacheCheckout;
 import org.eclipse.jgit.lib.AnyObjectId;
@@ -95,7 +96,7 @@ public class CherryPickCommand extends GitCommand<RevCommit> {
 	 * invocation of the command. Don't call this method twice on an instance.
 	 *
 	 * @return on success the {@link RevCommit} pointed to by the new HEAD is
-	 *         returned. If a failure occurred during cherry-pick
+	 *         returned. If a conflict occurred during cherry-pick
 	 *         <code>null</code> is returned. The list of successfully
 	 *         cherry-picked {@link Ref}'s can be obtained by calling
 	 *         {@link #getCherryPickedRefs()}
@@ -152,6 +153,11 @@ public class CherryPickCommand extends GitCommand<RevCommit> {
 							.setAuthor(srcCommit.getAuthorIdent()).call();
 					cherryPickedRefs.add(src);
 				} else {
+					if (merger.failedAbnormally())
+						throw new AbnormalMergeFailureException(
+								merger.getFailingPaths());
+
+					// merge conflicts
 					return null;
 				}
 			}
