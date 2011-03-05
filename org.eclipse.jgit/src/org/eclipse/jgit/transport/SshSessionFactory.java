@@ -44,10 +44,8 @@
 
 package org.eclipse.jgit.transport;
 
+import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.util.FS;
-
-import com.jcraft.jsch.JSchException;
-import com.jcraft.jsch.Session;
 
 /**
  * Creates and destroys SSH connections to a remote system.
@@ -56,9 +54,9 @@ import com.jcraft.jsch.Session;
  * communicating with the end-user as well as reading their personal SSH
  * configuration settings, such as known hosts and private keys.
  * <p>
- * A {@link Session} must be returned to the factory that created it. Callers
- * are encouraged to retain the SshSessionFactory for the duration of the period
- * they are using the Session.
+ * A {@link RemoteSession} must be returned to the factory that created it.
+ * Callers are encouraged to retain the SshSessionFactory for the duration of
+ * the period they are using the Session.
  */
 public abstract class SshSessionFactory {
 	private static SshSessionFactory INSTANCE = new DefaultSshSessionFactory();
@@ -68,7 +66,7 @@ public abstract class SshSessionFactory {
 	 * <p>
 	 * A factory is always available. By default the factory will read from the
 	 * user's <code>$HOME/.ssh</code> and assume OpenSSH compatibility.
-	 *
+	 * 
 	 * @return factory the current factory for this JVM.
 	 */
 	public static SshSessionFactory getInstance() {
@@ -98,42 +96,32 @@ public abstract class SshSessionFactory {
 	 * The caller must connect the session by invoking <code>connect()</code>
 	 * if it has not already been connected.
 	 *
-	 * @param user
-	 *            username to authenticate as. If null a reasonable default must
-	 *            be selected by the implementation. This may be
-	 *            <code>System.getProperty("user.name")</code>.
-	 * @param pass
-	 *            optional user account password or passphrase. If not null a
-	 *            UserInfo that supplies this value to the SSH library will be
-	 *            configured.
-	 * @param host
-	 *            hostname (or IP address) to connect to. Must not be null.
-	 * @param port
-	 *            port number the server is listening for connections on. May be <=
-	 *            0 to indicate the IANA registered port of 22 should be used.
+	 * @param uri
+	 *            URI information about the remote host
 	 * @param credentialsProvider
 	 *            provider to support authentication, may be null.
 	 * @param fs
 	 *            the file system abstraction which will be necessary to
 	 *            perform certain file system operations.
+	 * @param tms
+	 *            Timeout value, in milliseconds.
 	 * @return a session that can contact the remote host.
-	 * @throws JSchException
+	 * @throws TransportException
 	 *             the session could not be created.
 	 */
-	public abstract Session getSession(String user, String pass, String host,
-			int port, CredentialsProvider credentialsProvider, FS fs)
-			throws JSchException;
+	public abstract RemoteSession getSession(URIish uri,
+			CredentialsProvider credentialsProvider, FS fs, int tms)
+			throws TransportException;
 
 	/**
 	 * Close (or recycle) a session to a host.
 	 *
 	 * @param session
 	 *            a session previously obtained from this factory's
-	 *            {@link #getSession(String,String, String, int, CredentialsProvider, FS)}
+	 *            {@link #getSession(URIish, CredentialsProvider, FS, int)}
 	 *            method.
 	 */
-	public void releaseSession(final Session session) {
-		if (session.isConnected())
-			session.disconnect();
+	public void releaseSession(final RemoteSession session) {
+		session.disconnect();
 	}
 }

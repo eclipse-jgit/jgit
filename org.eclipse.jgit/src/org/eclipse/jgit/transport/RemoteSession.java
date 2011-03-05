@@ -1,6 +1,8 @@
 /*
  * Copyright (C) 2009, Constantine Plotnikov <constantine.plotnikov@gmail.com>
- * Copyright (C) 2009, Google Inc.
+ * Copyright (C) 2008-2009, Google Inc.
+ * Copyright (C) 2009, Google, Inc.
+ * Copyright (C) 2009, JetBrains s.r.o.
  * Copyright (C) 2008, Robin Rosenberg <robin.rosenberg@dewire.com>
  * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org>
  * and other copyright owners as documented in the project's IP log.
@@ -46,20 +48,39 @@
 
 package org.eclipse.jgit.transport;
 
-import com.jcraft.jsch.Session;
+import java.io.IOException;
 
 /**
- * Loads known hosts and private keys from <code>$HOME/.ssh</code>.
+ * Create a remote "session" for executing remote commands.
  * <p>
- * This is the default implementation used by JGit and provides most of the
- * compatibility necessary to match OpenSSH, a popular implementation of SSH
- * used by C Git.
- * <p>
- * If user interactivity is required by SSH (e.g. to obtain a password), the
- * connection will immediately fail.
+ * Clients should subclass RemoteSession to create an alternate way for JGit to
+ * execute remote commands. (The client application may already have this
+ * functionality available.) Note that this class is just a factory for creating
+ * remote processes. If the application already has a persistent connection to
+ * the remote machine, RemoteSession may do nothing more than return a new
+ * RemoteProcess when exec is called.
  */
-class DefaultSshSessionFactory extends JschConfigSessionFactory {
-	protected void configure(final OpenSshConfig.Host hc, final Session session) {
-		// No additional configuration required.
-	}
+public interface RemoteSession {
+	/**
+	 * Generate a new remote process to execute the given command. This function
+	 * should also start execution and may need to create the streams prior to
+	 * execution.
+	 * @param commandName
+	 *            command to execute
+	 * @param timeout
+	 *            timeout value, in seconds, for command execution
+	 * @return a new remote process
+	 * @throws IOException
+	 *             may be thrown in several cases. For example, on problems
+	 *             opening input or output streams or on problems connecting or
+	 *             communicating with the remote host. For the latter two cases,
+	 *             a TransportException may be thrown (a subclass of
+	 *             IOException).
+	 */
+	public Process exec(String commandName, int timeout) throws IOException;
+
+	/**
+	 * Disconnect the remote session
+	 */
+	public void disconnect();
 }
