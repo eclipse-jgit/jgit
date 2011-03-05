@@ -52,9 +52,13 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.ConnectException;
+import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.jgit.JGitText;
+import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.util.FS;
 
 import com.jcraft.jsch.JSch;
@@ -74,7 +78,7 @@ import com.jcraft.jsch.UserInfo;
  * {@link #configure(org.eclipse.jgit.transport.OpenSshConfig.Host, Session)}
  * to supply appropriate {@link UserInfo} to the session.
  */
-public abstract class SshConfigSessionFactory extends SshSessionFactory {
+public abstract class JschConfigSessionFactory extends SshSessionFactory {
 	private final Map<String, JSch> byIdentityFile = new HashMap<String, JSch>();
 
 	private JSch defaultJSch;
@@ -82,42 +86,63 @@ public abstract class SshConfigSessionFactory extends SshSessionFactory {
 	private OpenSshConfig config;
 
 	@Override
-	public synchronized Session getSession(String user, String pass,
-			String host, int port, CredentialsProvider credentialsProvider,
-			FS fs) throws JSchException {
-		if (config == null)
-			config = OpenSshConfig.get(fs);
+	public synchronized RemoteSession getSession(URIish uri,
+			CredentialsProvider credentialsProvider, FS fs, int tms)
+			throws TransportException {
 
-		final OpenSshConfig.Host hc = config.lookup(host);
-		host = hc.getHostName();
-		if (port <= 0)
-			port = hc.getPort();
-		if (user == null)
-			user = hc.getUser();
+		String user = uri.getUser();
+		final String pass = uri.getPass();
+		String host = uri.getHost();
+		int port = uri.getPort();
 
-		final Session session = createSession(hc, user, host, port, fs);
-		if (pass != null)
-			session.setPassword(pass);
-		final String strictHostKeyCheckingPolicy = hc
-				.getStrictHostKeyChecking();
-		if (strictHostKeyCheckingPolicy != null)
-			session.setConfig("StrictHostKeyChecking",
-					strictHostKeyCheckingPolicy);
-		final String pauth = hc.getPreferredAuthentications();
-		if (pauth != null)
-			session.setConfig("PreferredAuthentications", pauth);
-		if (credentialsProvider != null
+		try {
+			if (config == null)
+				config = OpenSshConfig.get(fs);
+
+			final OpenSshConfig.Host hc = config.lookup(host);
+			host = hc.getHostName();
+			if (port <= 0)
+				port = hc.getPort();
+			if (user == null)
+				user = hc.getUser();
+
+			final Session session = createSession(hc, user, host, port, fs);
+			if (pass != null)
+				session.setPassword(pass);
+			final String strictHostKeyCheckingPolicy = hc
+					.getStrictHostKeyChecking();
+			if (strictHostKeyCheckingPolicy != null)
+				session.setConfig("StrictHostKeyChecking",
+						strictHostKeyCheckingPolicy);
+			final String pauth = hc.getPreferredAuthentications();
+			if (pauth != null)
+				session.setConfig("PreferredAuthentications", pauth);
+			if (credentialsProvider != null
 				&& (!hc.isBatchMode() || !credentialsProvider.isInteractive())) {
-			session.setUserInfo(new CredentialsProviderUserInfo(session,
-					credentialsProvider));
+				session.setUserInfo(new CredentialsProviderUserInfo(session,
+						credentialsProvider));
+			}
+			configure(hc, session);
+
+			if (!session.isConnected())
+				session.connect(tms);
+
+			return new JschSession(session, uri);
+
+		} catch (JSchException je) {
+			final Throwable c = je.getCause();
+			if (c instanceof UnknownHostException)
+				throw new TransportException(uri, JGitText.get().unknownHost);
+			if (c instanceof ConnectException)
+				throw new TransportException(uri, c.getMessage());
+			throw new TransportException(uri, je.getMessage(), je);
 		}
-		configure(hc, session);
-		return session;
+
 	}
 
 	/**
-	 * Create a new JSch session for the requested address.
-	 *
+	 * Create a new remote session for the requested address.
+	 * 
 	 * @param hc
 	 *            host configuration
 	 * @param user
@@ -165,15 +190,13 @@ public abstract class SshConfigSessionFactory extends SshSessionFactory {
 	protected JSch getJSch(final OpenSshConfig.Host hc, FS fs) throws JSchException {
 		if (defaultJSch == null) {
 			defaultJSch = createDefaultJSch(fs);
-			for (Object name : defaultJSch.getIdentityNames()) {
+			for (Object name : defaultJSch.getIdentityNames())
 				byIdentityFile.put((String) name, defaultJSch);
-			}
 		}
 
 		final File identityFile = hc.getIdentityFile();
-		if (identityFile == null) {
+		if (identityFile == null)
 			return defaultJSch;
-		}
 
 		final String identityKey = identityFile.getAbsolutePath();
 		JSch jsch = byIdentityFile.get(identityKey);
