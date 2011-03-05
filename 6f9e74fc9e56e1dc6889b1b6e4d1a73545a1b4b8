@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL3H///nk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/JschConfigSessionFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-03-04T22:32:37Z",
+      "side": 1,
+      "message": "style nit: trailing whitespace",
+      "revId": "6f9e74fc9e56e1dc6889b1b6e4d1a73545a1b4b8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL3H///ng\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/JschConfigSessionFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-03-04T22:32:37Z",
+      "side": 1,
+      "message": "style nit: trailing whitespace",
+      "revId": "6f9e74fc9e56e1dc6889b1b6e4d1a73545a1b4b8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
