@@ -49,20 +49,16 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Iterator;
 
 import org.eclipse.jgit.api.MergeResult.MergeStatus;
 import org.eclipse.jgit.api.errors.InvalidMergeHeadsException;
-import org.eclipse.jgit.dircache.DirCacheCheckout;
 import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.RepositoryState;
 import org.eclipse.jgit.lib.RepositoryTestCase;
 import org.eclipse.jgit.merge.MergeStrategy;
+import org.eclipse.jgit.merge.ResolveMerger.MergeFailureReason;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.Test;
 
 public class MergeCommandTest extends RepositoryTestCase {
@@ -634,24 +630,58 @@ public class MergeCommandTest extends RepositoryTestCase {
 		assertEquals(RepositoryState.MERGING, db.getRepositoryState());
 	}
 
-	private void createBranch(ObjectId objectId, String branchName) throws IOException {
-		RefUpdate updateRef = db.updateRef(branchName);
-		updateRef.setNewObjectId(objectId);
-		updateRef.update();
-	}
+	@Test
+	public void testMergeDirtyIndex() throws Exception {
+		Git git = new Git(db);
 
-	private void checkoutBranch(String branchName) throws IllegalStateException, IOException {
-		RevWalk walk = new RevWalk(db);
-		RevCommit head = walk.parseCommit(db.resolve(Constants.HEAD));
-		RevCommit branch = walk.parseCommit(db.resolve(branchName));
-		DirCacheCheckout dco = new DirCacheCheckout(db,
-				head.getTree().getId(), db.lockDirCache(),
-				branch.getTree().getId());
-		dco.setFailOnConflict(true);
-		dco.checkout();
-		walk.release();
-		// update the HEAD
-		RefUpdate refUpdate = db.updateRef(Constants.HEAD);
-		refUpdate.link(branchName);
+		// create, add and commit file a and b
+		File a = writeTrashFile("a", "a");
+		writeTrashFile("b", "b");
+		git.add().addFilepattern("a").addFilepattern("b").call();
+		RevCommit firstMasterCommit = git.commit().setMessage("first master")
+				.call();
+
+		// create and checkout side branch
+		createBranch(firstMasterCommit, "refs/heads/side");
+		checkoutBranch("refs/heads/side");
+		// create, add and commit file c
+		writeTrashFile("c", "c");
+		git.add().addFilepattern("c").call();
+		git.commit().setMessage("side").call();
+
+		// checkout master branch
+		checkoutBranch("refs/heads/master");
+		// modify, add and commit file b
+		writeTrashFile("b", "b_");
+		git.add().addFilepattern("b").call();
+		RevCommit secondMasterCommit = git.commit().setMessage("second master")
+				.call();
+
+		// checkout side branch
+		checkoutBranch("refs/heads/side");
+		// modify and add file a
+		write(a, "a_");
+		git.add().addFilepattern("a").call();
+		// do not commit
+
+		// get current index state
+		String indexState = indexState(MOD_TIME | SMUDGE | LENGTH | CONTENT_ID
+				| CONTENT | ASSUME_UNCHANGED);
+
+		// merge
+		MergeResult result = git.merge().include(secondMasterCommit.getId())
+				.setStrategy(MergeStrategy.RESOLVE).call();
+
+		assertEquals(MergeStatus.FAILED, result.getMergeStatus());
+		// staged file a causes DIRTY_INDEX
+		assertEquals(1, result.getFailingPaths().size());
+		assertEquals(MergeFailureReason.DIRTY_INDEX, result.getFailingPaths()
+				.get("a"));
+		assertEquals("a_", read(a));
+		// index shall be unchanged
+		assertEquals(indexState, indexState(MOD_TIME | SMUDGE | LENGTH
+				| CONTENT_ID | CONTENT | ASSUME_UNCHANGED));
+		assertEquals(null, result.getConflicts());
+		assertEquals(RepositoryState.SAFE, db.getRepositoryState());
 	}
 }

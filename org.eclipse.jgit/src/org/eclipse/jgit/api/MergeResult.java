@@ -53,6 +53,7 @@ import org.eclipse.jgit.merge.MergeChunk;
 import org.eclipse.jgit.merge.MergeChunk.ConflictState;
 import org.eclipse.jgit.merge.MergeStrategy;
 import org.eclipse.jgit.merge.ResolveMerger;
+import org.eclipse.jgit.merge.ResolveMerger.MergeFailureReason;
 
 /**
  * Encapsulates the result of a {@link MergeCommand}.
@@ -116,6 +117,8 @@ public class MergeResult {
 
 	private MergeStrategy mergeStrategy;
 
+	private Map<String, MergeFailureReason> failingPaths;
+
 	/**
 	 * @param newHead
 	 *            the object the head points at after the merge
@@ -127,10 +130,11 @@ public class MergeResult {
 	 *            all the commits which have been merged together
 	 * @param mergeStatus
 	 *            the status the merge resulted in
+	 * @param lowLevelResults
+	 *            merge results as returned by
+	 *            {@link ResolveMerger#getMergeResults()}
 	 * @param mergeStrategy
 	 *            the used {@link MergeStrategy}
-	 * @param lowLevelResults
-	 *            merge results as returned by {@link ResolveMerger#getMergeResults()}
 	 */
 	public MergeResult(ObjectId newHead, ObjectId base,
 			ObjectId[] mergedCommits, MergeStatus mergeStatus,
@@ -162,12 +166,44 @@ public class MergeResult {
 			MergeStrategy mergeStrategy,
 			Map<String, org.eclipse.jgit.merge.MergeResult<?>> lowLevelResults,
 			String description) {
+		this(newHead, base, mergedCommits, mergeStatus, mergeStrategy,
+				lowLevelResults, null, null);
+	}
+
+	/**
+	 * @param newHead
+	 *            the object the head points at after the merge
+	 * @param base
+	 *            the common base which was used to produce a content-merge. May
+	 *            be <code>null</code> if the merge-result was produced without
+	 *            computing a common base
+	 * @param mergedCommits
+	 *            all the commits which have been merged together
+	 * @param mergeStatus
+	 *            the status the merge resulted in
+	 * @param mergeStrategy
+	 *            the used {@link MergeStrategy}
+	 * @param lowLevelResults
+	 *            merge results as returned by
+	 *            {@link ResolveMerger#getMergeResults()}
+	 * @param failingPaths
+	 *            list of paths causing this merge to fail abnormally as
+	 *            returned by {@link ResolveMerger#getFailingPaths()}
+	 * @param description
+	 *            a user friendly description of the merge result
+	 */
+	public MergeResult(ObjectId newHead, ObjectId base,
+			ObjectId[] mergedCommits, MergeStatus mergeStatus,
+			MergeStrategy mergeStrategy,
+			Map<String, org.eclipse.jgit.merge.MergeResult<?>> lowLevelResults,
+			Map<String, MergeFailureReason> failingPaths, String description) {
 		this.newHead = newHead;
 		this.mergedCommits = mergedCommits;
 		this.base = base;
 		this.mergeStatus = mergeStatus;
 		this.mergeStrategy = mergeStrategy;
 		this.description = description;
+		this.failingPaths = failingPaths;
 		if (lowLevelResults != null)
 			for (Map.Entry<String, org.eclipse.jgit.merge.MergeResult<?>> result : lowLevelResults
 					.entrySet())
@@ -245,6 +281,8 @@ public class MergeResult {
 	 * @param lowLevelResult
 	 */
 	public void addConflict(String path, org.eclipse.jgit.merge.MergeResult<?> lowLevelResult) {
+		if (!lowLevelResult.containsConflicts())
+			return;
 		if (conflicts == null)
 			conflicts = new HashMap<String, int[][]>();
 		int nrOfConflicts = 0;
@@ -311,9 +349,20 @@ public class MergeResult {
 	 * 	}
 	 * }</pre>
 	 *
-	 * @return the conflicts or <code>null</code> if no conflict occured
+	 * @return the conflicts or <code>null</code> if no conflict occurred
 	 */
 	public Map<String, int[][]> getConflicts() {
 		return conflicts;
+	}
+
+	/**
+	 * Returns a list of paths causing this merge to fail abnormally as returned
+	 * by {@link ResolveMerger#getFailingPaths()}
+	 *
+	 * @return the list of paths causing this merge to fail abnormally or
+	 *         <code>null</code> if no abnormal failure occurred
+	 */
+	public Map<String, MergeFailureReason> getFailingPaths() {
+		return failingPaths;
 	}
 }

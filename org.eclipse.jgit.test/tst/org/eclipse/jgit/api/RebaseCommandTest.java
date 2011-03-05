@@ -84,28 +84,6 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		this.git = new Git(db);
 	}
 
-	private void createBranch(ObjectId objectId, String branchName)
-			throws IOException {
-		RefUpdate updateRef = db.updateRef(branchName);
-		updateRef.setNewObjectId(objectId);
-		updateRef.update();
-	}
-
-	private void checkoutBranch(String branchName)
-			throws IllegalStateException, IOException {
-		RevWalk walk = new RevWalk(db);
-		RevCommit head = walk.parseCommit(db.resolve(Constants.HEAD));
-		RevCommit branch = walk.parseCommit(db.resolve(branchName));
-		DirCacheCheckout dco = new DirCacheCheckout(db, head.getTree().getId(),
-				db.lockDirCache(), branch.getTree().getId());
-		dco.setFailOnConflict(true);
-		dco.checkout();
-		walk.release();
-		// update the HEAD
-		RefUpdate refUpdate = db.updateRef(Constants.HEAD);
-		refUpdate.link(branchName);
-	}
-
 	private void checkoutCommit(RevCommit commit) throws IllegalStateException,
 			IOException {
 		RevWalk walk = new RevWalk(db);

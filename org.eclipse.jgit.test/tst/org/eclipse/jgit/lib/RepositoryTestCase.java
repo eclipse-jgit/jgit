@@ -60,8 +60,11 @@ import java.util.TreeSet;
 
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
+import org.eclipse.jgit.dircache.DirCacheCheckout;
 import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.storage.file.FileRepository;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.util.FileUtils;
@@ -373,5 +376,27 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 		} finally {
 			FileUtils.delete(tmp);
 		}
+	}
+
+	protected void createBranch(ObjectId objectId, String branchName)
+			throws IOException {
+		RefUpdate updateRef = db.updateRef(branchName);
+		updateRef.setNewObjectId(objectId);
+		updateRef.update();
+	}
+
+	protected void checkoutBranch(String branchName)
+			throws IllegalStateException, IOException {
+		RevWalk walk = new RevWalk(db);
+		RevCommit head = walk.parseCommit(db.resolve(Constants.HEAD));
+		RevCommit branch = walk.parseCommit(db.resolve(branchName));
+		DirCacheCheckout dco = new DirCacheCheckout(db, head.getTree().getId(),
+				db.lockDirCache(), branch.getTree().getId());
+		dco.setFailOnConflict(true);
+		dco.checkout();
+		walk.release();
+		// update the HEAD
+		RefUpdate refUpdate = db.updateRef(Constants.HEAD);
+		refUpdate.link(branchName);
 	}
 }
