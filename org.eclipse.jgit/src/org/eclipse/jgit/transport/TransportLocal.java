@@ -55,6 +55,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
+import java.text.MessageFormat;
 import java.util.Map;
 
 import org.eclipse.jgit.JGitText;
@@ -103,7 +104,8 @@ class TransportLocal extends Transport implements PackTransport {
 			if (fs.resolve(new File(PWD), uri.getPath()).isDirectory()) {
 				return true;
 			} else {
-				throw new NotSupportedException(uri.getPath() + " does not exist");
+				throw new NotSupportedException(MessageFormat.format(
+						JGitText.get().cannotFindRepository, uri.getPath()));
 			}
 		}
 		return false;

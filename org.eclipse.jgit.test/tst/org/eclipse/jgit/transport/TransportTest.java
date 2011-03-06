@@ -220,7 +220,7 @@ public class TransportTest extends SampleDataRepositoryTestCase {
 		try {
 			Transport.open(db, path);
 		} catch (Exception e) {
-			assertTrue(e.getMessage().equals(path + " does not exist"));
+			assertEquals("Cannot find repository at " + path, e.getMessage());
 		}
 	}
 }
