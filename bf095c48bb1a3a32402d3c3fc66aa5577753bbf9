@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL13///48\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/T0002_Tree.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-12-18T15:33:48Z",
+      "side": 0,
+      "message": "How is this related to TreeVisitor?",
+      "revId": "bf095c48bb1a3a32402d3c3fc66aa5577753bbf9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL13///44\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/T0002_Tree.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-12-18T15:33:48Z",
+      "side": 0,
+      "message": "How is this related to TreeVisitor?",
+      "revId": "bf095c48bb1a3a32402d3c3fc66aa5577753bbf9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL13///40\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-12-18T15:33:48Z",
+      "side": 0,
+      "message": "Relation to commit message?",
+      "revId": "bf095c48bb1a3a32402d3c3fc66aa5577753bbf9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL13///4w\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Tree.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-12-18T15:33:48Z",
+      "side": 0,
+      "message": "Relation to commit message?",
+      "revId": "bf095c48bb1a3a32402d3c3fc66aa5577753bbf9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL13///4o\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Tree.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-12-18T15:33:48Z",
+      "side": 0,
+      "message": "How is this related to treevisitor?",
+      "revId": "bf095c48bb1a3a32402d3c3fc66aa5577753bbf9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}

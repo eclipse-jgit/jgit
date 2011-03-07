@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL13///4s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Tree.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-12-18T15:33:48Z",
+      "side": 1,
+      "message": "How is this related to treevisitor?",
+      "revId": "2fbf21a94ef52352319788f0997fc34dbd9d60de",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
