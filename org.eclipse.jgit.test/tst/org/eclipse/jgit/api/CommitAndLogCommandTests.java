@@ -67,6 +67,7 @@ import org.eclipse.jgit.lib.RepositoryTestCase;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.util.FileUtils;
+import org.junit.Test;
 
 public class CommitAndLogCommandTests extends RepositoryTestCase {
 	public void testSomeCommits() throws NoHeadException, NoMessageException,
@@ -230,5 +231,22 @@ public class CommitAndLogCommandTests extends RepositoryTestCase {
 			l--;
 		}
 		assertEquals(l, -1);
+	}
+
+	@Test
+	public void testCommitAmend() throws NoHeadException, NoMessageException,
+			UnmergedPathException, ConcurrentRefUpdateException,
+			JGitInternalException, WrongRepositoryStateException {
+		Git git = new Git(db);
+		git.commit().setMessage("first comit").call(); // typo
+		git.commit().setAmending(true).setMessage("first commit").call();
+
+		Iterable<RevCommit> commits = git.log().call();
+		int c = 0;
+		for (RevCommit commit : commits) {
+			assertEquals("first commit", commit.getFullMessage());
+			c++;
+		}
+		assertEquals(1, c);
 	}
 }
