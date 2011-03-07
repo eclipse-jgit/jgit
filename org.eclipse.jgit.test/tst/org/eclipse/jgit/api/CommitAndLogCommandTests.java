@@ -238,4 +238,21 @@ public class CommitAndLogCommandTests extends RepositoryTestCase {
 		}
 		assertEquals(l, -1);
 	}
+
+	@Test
+	public void testCommitAmend() throws NoHeadException, NoMessageException,
+			UnmergedPathException, ConcurrentRefUpdateException,
+			JGitInternalException, WrongRepositoryStateException {
+		Git git = new Git(db);
+		git.commit().setMessage("first comit").call(); // typo
+		git.commit().setAmend(true).setMessage("first commit").call();
+
+		Iterable<RevCommit> commits = git.log().call();
+		int c = 0;
+		for (RevCommit commit : commits) {
+			assertEquals("first commit", commit.getFullMessage());
+			c++;
+		}
+		assertEquals(1, c);
+	}
 }
