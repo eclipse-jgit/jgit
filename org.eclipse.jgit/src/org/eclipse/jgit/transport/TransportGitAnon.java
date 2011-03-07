@@ -55,8 +55,12 @@ import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Collections;
+import java.util.EnumSet;
+import java.util.Set;
 
 import org.eclipse.jgit.JGitText;
+import org.eclipse.jgit.errors.NotSupportedException;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.lib.Repository;
 
@@ -70,9 +74,33 @@ import org.eclipse.jgit.lib.Repository;
 class TransportGitAnon extends TcpTransport implements PackTransport {
 	static final int GIT_PORT = Daemon.DEFAULT_PORT;
 
-	static boolean canHandle(final URIish uri) {
-		return "git".equals(uri.getScheme());
-	}
+	static final TransportProtocol PROTO_GIT = new TransportProtocol() {
+		public String getName() {
+			return JGitText.get().transportProtoGitAnon;
+		}
+
+		public Set<String> getSchemes() {
+			return Collections.singleton("git"); //$NON-NLS-1$
+		}
+
+		public Set<URIishField> getRequiredFields() {
+			return Collections.unmodifiableSet(EnumSet.of(URIishField.HOST,
+					URIishField.PATH));
+		}
+
+		public Set<URIishField> getOptionalFields() {
+			return Collections.unmodifiableSet(EnumSet.of(URIishField.PORT));
+		}
+
+		public int getDefaultPort() {
+			return GIT_PORT;
+		}
+
+		public Transport open(Repository local, URIish uri, String remoteName)
+				throws NotSupportedException {
+			return new TransportGitAnon(local, uri);
+		}
+	};
 
 	TransportGitAnon(final Repository local, final URIish uri) {
 		super(local, uri);

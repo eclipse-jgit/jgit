@@ -50,32 +50,67 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.NotSupportedException;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.util.FS;
 
 class TransportBundleFile extends Transport implements TransportBundle {
-	static boolean canHandle(final URIish uri, FS fs) {
-		if (uri.getHost() != null || uri.getPort() > 0 || uri.getUser() != null
-				|| uri.getPass() != null || uri.getPath() == null)
-			return false;
+	static final TransportProtocol PROTO_BUNDLE = new TransportProtocol() {
+		private final String[] schemeNames = { "bundle", "file" }; //$NON-NLS-1$ //$NON-NLS-2$
 
-		if ("file".equals(uri.getScheme()) || uri.getScheme() == null) {
-			final File f = fs.resolve(new File("."), uri.getPath());
-			return f.isFile() || f.getName().endsWith(".bundle");
+		private final Set<String> schemeSet = Collections
+				.unmodifiableSet(new LinkedHashSet<String>(Arrays
+						.asList(schemeNames)));
+
+		@Override
+		public String getName() {
+			return JGitText.get().transportProtoBundleFile;
 		}
 
-		return false;
-	}
+		public Set<String> getSchemes() {
+			return schemeSet;
+		}
+
+		@Override
+		public boolean canHandle(Repository local, URIish uri, String remoteName) {
+			if (uri.getPath() == null
+					|| uri.getPort() > 0
+					|| uri.getUser() != null
+					|| uri.getPass() != null
+					|| uri.getHost() != null
+					|| (uri.getScheme() != null && !getSchemes().contains(uri.getScheme())))
+				return false;
+			return true;
+		}
+
+		@Override
+		public Transport open(Repository local, URIish uri, String remoteName)
+				throws NotSupportedException, TransportException {
+			if ("bundle".equals(uri.getScheme())) {
+				File path = local.getFS().resolve(new File("."), uri.getPath());
+				return new TransportBundleFile(local, uri, path);
+			}
+
+			// This is an ambiguous reference, it could be a bundle file
+			// or it could be a Git repository. Allow TransportLocal to
+			// resolve the path and figure out which type it is by testing
+			// the target.
+			//
+			return TransportLocal.PROTO_LOCAL.open(local, uri, remoteName);
+		}
+	};
 
 	private final File bundle;
 
-	TransportBundleFile(final Repository local, final URIish uri) {
+	TransportBundleFile(Repository local, URIish uri, File bundlePath) {
 		super(local, uri);
-		bundle = local.getFS().resolve(new File("."), uri.getPath()).getAbsoluteFile();
+		bundle = bundlePath;
 	}
 
 	@Override

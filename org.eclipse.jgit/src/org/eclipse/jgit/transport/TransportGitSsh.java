@@ -53,10 +53,16 @@ import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.EnumSet;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.NoRemoteRepositoryException;
+import org.eclipse.jgit.errors.NotSupportedException;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
@@ -80,20 +86,52 @@ import com.jcraft.jsch.JSchException;
  * enumeration, save file modification and hook execution.
  */
 public class TransportGitSsh extends SshTransport implements PackTransport {
-	static boolean canHandle(final URIish uri) {
-		if (!uri.isRemote())
-			return false;
-		final String scheme = uri.getScheme();
-		if ("ssh".equals(scheme))
-			return true;
-		if ("ssh+git".equals(scheme))
-			return true;
-		if ("git+ssh".equals(scheme))
-			return true;
-		if (scheme == null && uri.getHost() != null && uri.getPath() != null)
-			return true;
-		return false;
-	}
+	static final TransportProtocol PROTO_SSH = new TransportProtocol() {
+		private final String[] schemeNames = { "ssh", "ssh+git", "git+ssh" }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+
+		private final Set<String> schemeSet = Collections
+				.unmodifiableSet(new LinkedHashSet<String>(Arrays
+						.asList(schemeNames)));
+
+		public String getName() {
+			return JGitText.get().transportProtoSSH;
+		}
+
+		public Set<String> getSchemes() {
+			return schemeSet;
+		}
+
+		public Set<URIishField> getRequiredFields() {
+			return Collections.unmodifiableSet(EnumSet.of(URIishField.HOST,
+					URIishField.PATH));
+		}
+
+		public Set<URIishField> getOptionalFields() {
+			return Collections.unmodifiableSet(EnumSet.of(URIishField.USER,
+					URIishField.PASS, URIishField.PORT));
+		}
+
+		public int getDefaultPort() {
+			return 22;
+		}
+
+		@Override
+		public boolean canHandle(Repository local, URIish uri, String remoteName) {
+			if (uri.getScheme() == null) {
+				// scp-style URI "host:path" does not have scheme.
+				return uri.getHost() != null
+					&& uri.getPath() != null
+					&& uri.getHost().length() != 0
+					&& uri.getPath().length() != 0;
+			}
+			return super.canHandle(local, uri, remoteName);
+		}
+
+		public Transport open(Repository local, URIish uri, String remoteName)
+				throws NotSupportedException {
+			return new TransportGitSsh(local, uri);
+		}
+	};
 
 	TransportGitSsh(final Repository local, final URIish uri) {
 		super(local, uri);

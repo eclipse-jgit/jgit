@@ -549,6 +549,6 @@ public class URIishTest {
 	public void testMissingPort() throws URISyntaxException {
 		final String incorrectSshUrl = "ssh://some-host:/path/to/repository.git";
 		URIish u = new URIish(incorrectSshUrl);
-		assertFalse(TransportGitSsh.canHandle(u));
+		assertFalse(TransportGitSsh.PROTO_SSH.canHandle(null, u, null));
 	}
 }
