@@ -103,15 +103,6 @@ public class FileTreeEntry extends TreeEntry {
 		return getRepository().open(getId(), Constants.OBJ_BLOB);
 	}
 
-	public void accept(final TreeVisitor tv, final int flags)
-			throws IOException {
-		if ((MODIFIED_ONLY & flags) == MODIFIED_ONLY && !isModified()) {
-			return;
-		}
-
-		tv.visitFile(this);
-	}
-
 	public String toString() {
 		final StringBuilder r = new StringBuilder();
 		r.append(ObjectId.toString(getId()));
