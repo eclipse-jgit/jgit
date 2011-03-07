@@ -71,7 +71,7 @@ public class SimpleMergeTest extends SampleDataRepositoryTestCase {
 		Merger ourMerger = MergeStrategy.OURS.newMerger(db);
 		boolean merge = ourMerger.merge(new ObjectId[] { db.resolve("a"), db.resolve("c") });
 		assertTrue(merge);
-		assertEquals(db.mapTree("a").getId(), ourMerger.getResultTreeId());
+		assertEquals(db.resolve("a^{tree}"), ourMerger.getResultTreeId());
 	}
 
 	@Test
@@ -79,7 +79,7 @@ public class SimpleMergeTest extends SampleDataRepositoryTestCase {
 		Merger ourMerger = MergeStrategy.THEIRS.newMerger(db);
 		boolean merge = ourMerger.merge(new ObjectId[] { db.resolve("a"), db.resolve("c") });
 		assertTrue(merge);
-		assertEquals(db.mapTree("c").getId(), ourMerger.getResultTreeId());
+		assertEquals(db.resolve("c^{tree}"), ourMerger.getResultTreeId());
 	}
 
 	@Test
@@ -103,7 +103,7 @@ public class SimpleMergeTest extends SampleDataRepositoryTestCase {
 		Merger ourMerger = MergeStrategy.SIMPLE_TWO_WAY_IN_CORE.newMerger(db);
 		boolean merge = ourMerger.merge(new ObjectId[] { db.resolve("a^0^0^0"), db.resolve("a^0^0^1") });
 		assertTrue(merge);
-		assertEquals(db.mapTree("a^0^0").getId(), ourMerger.getResultTreeId());
+		assertEquals(db.resolve("a^0^0^{tree}"), ourMerger.getResultTreeId());
 	}
 
 	@Test

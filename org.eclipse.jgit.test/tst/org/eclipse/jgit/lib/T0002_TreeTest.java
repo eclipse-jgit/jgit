@@ -303,9 +303,14 @@ public class T0002_TreeTest extends SampleDataRepositoryTestCase {
 
 	@Test
 	public void test009_SymlinkAndGitlink() throws IOException {
-		final Tree symlinkTree = db.mapTree("symlink");
+		final Tree symlinkTree = mapTree("symlink");
 		assertTrue("Symlink entry exists", symlinkTree.existsBlob("symlink.txt"));
-		final Tree gitlinkTree = db.mapTree("gitlink");
+		final Tree gitlinkTree = mapTree("gitlink");
 		assertTrue("Gitlink entry exists", gitlinkTree.existsBlob("submodule"));
+	}
+
+	private Tree mapTree(String name) throws IOException {
+		ObjectId id = db.resolve(name + "^{tree}");
+		return new Tree(db, id, db.open(id).getCachedBytes());
 	}
 }
