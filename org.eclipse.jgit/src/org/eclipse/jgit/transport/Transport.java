@@ -46,17 +46,25 @@
 
 package org.eclipse.jgit.transport;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.lang.ref.WeakReference;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Vector;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.eclipse.jgit.JGitText;
@@ -104,6 +112,85 @@ public abstract class Transport {
 		register(TransportHttp.PROTO_FTP);
 		register(TransportHttp.PROTO_HTTP);
 		register(TransportGitSsh.PROTO_SSH);
+
+		registerByService();
+	}
+
+	private static void registerByService() {
+		ClassLoader ldr = Thread.currentThread().getContextClassLoader();
+		if (ldr == null)
+			ldr = Transport.class.getClassLoader();
+		Enumeration<URL> catalogs = catalogs(ldr);
+		while (catalogs.hasMoreElements())
+			scan(ldr, catalogs.nextElement());
+	}
+
+	private static Enumeration<URL> catalogs(ClassLoader ldr) {
+		try {
+			String prefix = "META-INF/services/";
+			String name = prefix + Transport.class.getName();
+			return ldr.getResources(name);
+		} catch (IOException err) {
+			return new Vector<URL>().elements();
+		}
+	}
+
+	private static void scan(ClassLoader ldr, URL url) {
+		BufferedReader br;
+		try {
+			InputStream urlIn = url.openStream();
+			br = new BufferedReader(new InputStreamReader(urlIn, "UTF-8"));
+		} catch (IOException err) {
+			// If we cannot read from the service list, go to the next.
+			//
+			return;
+		}
+
+		try {
+			String line;
+			while ((line = br.readLine()) != null) {
+				if (line.length() > 0 && !line.startsWith("#"))
+					load(ldr, line);
+			}
+		} catch (IOException err) {
+			// If we failed during a read, ignore the error.
+			//
+		} finally {
+			try {
+				br.close();
+			} catch (IOException e) {
+				// Ignore the close error; we are only reading.
+			}
+		}
+	}
+
+	private static void load(ClassLoader ldr, String cn) {
+		Class<?> clazz;
+		try {
+			clazz = Class.forName(cn, false, ldr);
+		} catch (ClassNotFoundException notBuiltin) {
+			// Doesn't exist, even though the service entry is present.
+			//
+			return;
+		}
+
+		for (Field f : clazz.getDeclaredFields()) {
+			if ((f.getModifiers() & Modifier.STATIC) == Modifier.STATIC
+					&& TransportProtocol.class.isAssignableFrom(f.getType())) {
+				TransportProtocol proto;
+				try {
+					proto = (TransportProtocol) f.get(null);
+				} catch (IllegalArgumentException e) {
+					// If we cannot access the field, don't.
+					continue;
+				} catch (IllegalAccessException e) {
+					// If we cannot access the field, don't.
+					continue;
+				}
+				if (proto != null)
+					register(proto);
+			}
+		}
 	}
 
 	/**
