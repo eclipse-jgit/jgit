@@ -50,6 +50,7 @@ import java.util.List;
 import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.api.errors.InvalidRemoteException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
+import org.eclipse.jgit.errors.NoRemoteRepositoryException;
 import org.eclipse.jgit.errors.NotSupportedException;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.lib.Constants;
@@ -121,27 +122,29 @@ public class FetchCommand extends GitCommand<FetchResult> {
 
 		try {
 			Transport transport = Transport.open(repo, remote);
-			transport.setCheckFetchedObjects(checkFetchedObjects);
-			transport.setRemoveDeletedRefs(removeDeletedRefs);
-			transport.setTimeout(timeout);
-			transport.setDryRun(dryRun);
-			if (tagOption != null)
-				transport.setTagOpt(tagOption);
-			transport.setFetchThin(thin);
-			if (credentialsProvider != null)
-				transport.setCredentialsProvider(credentialsProvider);
-
 			try {
+				transport.setCheckFetchedObjects(checkFetchedObjects);
+				transport.setRemoveDeletedRefs(removeDeletedRefs);
+				transport.setTimeout(timeout);
+				transport.setDryRun(dryRun);
+				if (tagOption != null)
+					transport.setTagOpt(tagOption);
+				transport.setFetchThin(thin);
+				if (credentialsProvider != null)
+					transport.setCredentialsProvider(credentialsProvider);
+
 				FetchResult result = transport.fetch(monitor, refSpecs);
 				return result;
-
-			} catch (TransportException e) {
-				throw new JGitInternalException(
-						JGitText.get().exceptionCaughtDuringExecutionOfFetchCommand,
-						e);
 			} finally {
 				transport.close();
 			}
+		} catch (NoRemoteRepositoryException e) {
+			throw new InvalidRemoteException(MessageFormat.format(
+					JGitText.get().invalidRemote, remote), e);
+		} catch (TransportException e) {
+			throw new JGitInternalException(
+					JGitText.get().exceptionCaughtDuringExecutionOfFetchCommand,
+					e);
 		} catch (URISyntaxException e) {
 			throw new InvalidRemoteException(MessageFormat.format(
 					JGitText.get().invalidRemote, remote));

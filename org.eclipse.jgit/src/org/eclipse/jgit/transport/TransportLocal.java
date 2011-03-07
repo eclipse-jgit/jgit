@@ -55,15 +55,17 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
+import java.util.Collections;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.jgit.JGitText;
+import org.eclipse.jgit.errors.NoRemoteRepositoryException;
 import org.eclipse.jgit.errors.NotSupportedException;
 import org.eclipse.jgit.errors.TransportException;
-import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.RepositoryCache;
 import org.eclipse.jgit.storage.file.FileRepository;
-import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.io.MessageWriter;
 import org.eclipse.jgit.util.io.StreamCopyThread;
 
@@ -91,27 +93,50 @@ import org.eclipse.jgit.util.io.StreamCopyThread;
  * system pipe to transfer data.
  */
 class TransportLocal extends Transport implements PackTransport {
-	private static final String PWD = ".";
+	static final TransportProtocol PROTO_LOCAL = new TransportProtocol() {
+		@Override
+		public String getName() {
+			return JGitText.get().transportProtoLocal;
+		}
 
-	static boolean canHandle(final URIish uri, FS fs) {
-		if (uri.getHost() != null || uri.getPort() > 0 || uri.getUser() != null
-				|| uri.getPass() != null || uri.getPath() == null)
-			return false;
+		public Set<String> getSchemes() {
+			return Collections.singleton("file"); //$NON-NLS-1$
+		}
 
-		if ("file".equals(uri.getScheme()) || uri.getScheme() == null)
-			return fs.resolve(new File(PWD), uri.getPath()).isDirectory();
-		return false;
-	}
+		@Override
+		public boolean canHandle(Repository local, URIish uri, String remoteName) {
+			if (uri.getPath() == null
+					|| uri.getPort() > 0
+					|| uri.getUser() != null
+					|| uri.getPass() != null
+					|| uri.getHost() != null
+					|| (uri.getScheme() != null && !getSchemes().contains(uri.getScheme())))
+				return false;
+			return true;
+		}
+
+		@Override
+		public Transport open(Repository local, URIish uri, String remoteName)
+				throws NoRemoteRepositoryException {
+			// If the reference is to a local file, C Git behavior says
+			// assume this is a bundle, since repositories are directories.
+			//
+			File path = local.getFS().resolve(new File("."), uri.getPath());
+			if (path.isFile())
+				return new TransportBundleFile(local, uri, path);
+
+			File gitDir = RepositoryCache.FileKey.resolve(path, local.getFS());
+			if (gitDir == null)
+				throw new NoRemoteRepositoryException(uri, JGitText.get().notFound);
+			return new TransportLocal(local, uri, gitDir);
+		}
+	};
 
 	private final File remoteGitDir;
 
-	TransportLocal(final Repository local, final URIish uri) {
+	TransportLocal(Repository local, URIish uri, File gitDir) {
 		super(local, uri);
-
-		File d = local.getFS().resolve(new File(PWD), uri.getPath()).getAbsoluteFile();
-		if (new File(d, Constants.DOT_GIT).isDirectory())
-			d = new File(d, Constants.DOT_GIT);
-		remoteGitDir = d;
+		remoteGitDir = gitDir;
 	}
 
 	UploadPack createUploadPack(final Repository dst) {

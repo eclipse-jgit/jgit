@@ -51,20 +51,24 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 
+import org.eclipse.jgit.JGitText;
+import org.eclipse.jgit.errors.NotSupportedException;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdRef;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.Ref.Storage;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.SymbolicRef;
-import org.eclipse.jgit.lib.Ref.Storage;
 
 import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.ChannelSftp;
@@ -93,9 +97,34 @@ import com.jcraft.jsch.SftpException;
  * @see WalkFetchConnection
  */
 public class TransportSftp extends SshTransport implements WalkTransport {
-	static boolean canHandle(final URIish uri) {
-		return uri.isRemote() && "sftp".equals(uri.getScheme());
-	}
+	static final TransportProtocol PROTO_SFTP = new TransportProtocol() {
+		public String getName() {
+			return JGitText.get().transportProtoSFTP;
+		}
+
+		public Set<String> getSchemes() {
+			return Collections.singleton("sftp"); //$NON-NLS-1$
+		}
+
+		public Set<URIishField> getRequiredFields() {
+			return Collections.unmodifiableSet(EnumSet.of(URIishField.HOST,
+					URIishField.PATH));
+		}
+
+		public Set<URIishField> getOptionalFields() {
+			return Collections.unmodifiableSet(EnumSet.of(URIishField.USER,
+					URIishField.PASS, URIishField.PORT));
+		}
+
+		public int getDefaultPort() {
+			return 22;
+		}
+
+		public Transport open(Repository local, URIish uri, String remoteName)
+				throws NotSupportedException {
+			return new TransportSftp(local, uri);
+		}
+	};
 
 	TransportSftp(final Repository local, final URIish uri) {
 		super(local, uri);

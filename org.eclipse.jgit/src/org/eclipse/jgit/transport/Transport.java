@@ -47,6 +47,7 @@
 package org.eclipse.jgit.transport;
 
 import java.io.IOException;
+import java.lang.ref.WeakReference;
 import java.net.URISyntaxException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -56,6 +57,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.NotSupportedException;
@@ -66,7 +68,6 @@ import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.storage.pack.PackConfig;
-import org.eclipse.jgit.util.FS;
 
 /**
  * Connects two Git repositories together and copies objects between them.
@@ -90,6 +91,79 @@ public abstract class Transport {
 		PUSH;
 	}
 
+	private static final List<WeakReference<TransportProtocol>> protocols =
+		new CopyOnWriteArrayList<WeakReference<TransportProtocol>>();
+
+	static {
+		// Registration goes backwards in order of priority.
+		register(TransportLocal.PROTO_LOCAL);
+		register(TransportBundleFile.PROTO_BUNDLE);
+		register(TransportAmazonS3.PROTO_S3);
+		register(TransportGitAnon.PROTO_GIT);
+		register(TransportSftp.PROTO_SFTP);
+		register(TransportHttp.PROTO_FTP);
+		register(TransportHttp.PROTO_HTTP);
+		register(TransportGitSsh.PROTO_SSH);
+	}
+
+	/**
+	 * Register a TransportProtocol instance for use during open.
+	 * <p>
+	 * Protocol definitions are held by WeakReference, allowing them to be
+	 * garbage collected when the calling application drops all strongly held
+	 * references to the TransportProtocol. Therefore applications should use a
+	 * singleton pattern as described in {@link TransportProtocol}'s class
+	 * documentation to ensure their protocol does not get disabled by garbage
+	 * collection earlier than expected.
+	 * <p>
+	 * The new protocol is registered in front of all earlier protocols, giving
+	 * it higher priority than the built-in protocol definitions.
+	 *
+	 * @param proto
+	 *            the protocol definition. Must not be null.
+	 */
+	public static void register(TransportProtocol proto) {
+		protocols.add(0, new WeakReference<TransportProtocol>(proto));
+	}
+
+	/**
+	 * Unregister a TransportProtocol instance.
+	 * <p>
+	 * Unregistering a protocol usually isn't necessary, as protocols are held
+	 * by weak references and will automatically clear when they are garbage
+	 * collected by the JVM. Matching is handled by reference equality, so the
+	 * exact reference given to {@link #register(TransportProtocol)} must be
+	 * used.
+	 *
+	 * @param proto
+	 *            the exact object previously given to register.
+	 */
+	public static void unregister(TransportProtocol proto) {
+		for (WeakReference<TransportProtocol> ref : protocols) {
+			TransportProtocol refProto = ref.get();
+			if (refProto == null || refProto == proto)
+				protocols.remove(ref);
+		}
+	}
+
+	/**
+	 * Obtain a copy of the registered protocols.
+	 *
+	 * @return an immutable copy of the currently registered protocols.
+	 */
+	public static List<TransportProtocol> getTransportProtocols() {
+		int cnt = protocols.size();
+		List<TransportProtocol> res = new ArrayList<TransportProtocol>(cnt);
+		for (WeakReference<TransportProtocol> ref : protocols) {
+			TransportProtocol proto = ref.get();
+			if (proto != null)
+				res.add(proto);
+			else
+				protocols.remove(ref);
+		}
+		return Collections.unmodifiableList(res);
+	}
+
 	/**
 	 * Open a new transport instance to connect two repositories.
 	 * <p>
@@ -107,9 +181,12 @@ public abstract class Transport {
 	 *             file and is not a well-formed URL.
 	 * @throws NotSupportedException
 	 *             the protocol specified is not supported.
+	 * @throws TransportException
+	 *             the transport cannot open this URI.
 	 */
 	public static Transport open(final Repository local, final String remote)
-			throws NotSupportedException, URISyntaxException {
+			throws NotSupportedException, URISyntaxException,
+			TransportException {
 		return open(local, remote, Operation.FETCH);
 	}
 
@@ -131,13 +208,15 @@ public abstract class Transport {
 	 *             file and is not a well-formed URL.
 	 * @throws NotSupportedException
 	 *             the protocol specified is not supported.
+	 * @throws TransportException
+	 *             the transport cannot open this URI.
 	 */
 	public static Transport open(final Repository local, final String remote,
 			final Operation op) throws NotSupportedException,
-			URISyntaxException {
+			URISyntaxException, TransportException {
 		final RemoteConfig cfg = new RemoteConfig(local.getConfig(), remote);
 		if (doesNotExist(cfg))
-			return open(local, new URIish(remote));
+			return open(local, new URIish(remote), null);
 		return open(local, cfg, op);
 	}
 
@@ -158,10 +237,12 @@ public abstract class Transport {
 	 *             file and is not a well-formed URL.
 	 * @throws NotSupportedException
 	 *             the protocol specified is not supported.
+	 * @throws TransportException
+	 *             the transport cannot open this URI.
 	 */
 	public static List<Transport> openAll(final Repository local,
 			final String remote) throws NotSupportedException,
-			URISyntaxException {
+			URISyntaxException, TransportException {
 		return openAll(local, remote, Operation.FETCH);
 	}
 
@@ -183,14 +264,17 @@ public abstract class Transport {
 	 *             file and is not a well-formed URL.
 	 * @throws NotSupportedException
 	 *             the protocol specified is not supported.
+	 * @throws TransportException
+	 *             the transport cannot open this URI.
 	 */
 	public static List<Transport> openAll(final Repository local,
 			final String remote, final Operation op)
-			throws NotSupportedException, URISyntaxException {
+			throws NotSupportedException, URISyntaxException,
+			TransportException {
 		final RemoteConfig cfg = new RemoteConfig(local.getConfig(), remote);
 		if (doesNotExist(cfg)) {
 			final ArrayList<Transport> transports = new ArrayList<Transport>(1);
-			transports.add(open(local, new URIish(remote)));
+			transports.add(open(local, new URIish(remote), null));
 			return transports;
 		}
 		return openAll(local, cfg, op);
@@ -210,12 +294,14 @@ public abstract class Transport {
 	 *         in remote configuration, only the first is chosen.
 	 * @throws NotSupportedException
 	 *             the protocol specified is not supported.
+	 * @throws TransportException
+	 *             the transport cannot open this URI.
 	 * @throws IllegalArgumentException
 	 *             if provided remote configuration doesn't have any URI
 	 *             associated.
 	 */
 	public static Transport open(final Repository local, final RemoteConfig cfg)
-			throws NotSupportedException {
+			throws NotSupportedException, TransportException {
 		return open(local, cfg, Operation.FETCH);
 	}
 
@@ -234,18 +320,20 @@ public abstract class Transport {
 	 *         in remote configuration, only the first is chosen.
 	 * @throws NotSupportedException
 	 *             the protocol specified is not supported.
+	 * @throws TransportException
+	 *             the transport cannot open this URI.
 	 * @throws IllegalArgumentException
 	 *             if provided remote configuration doesn't have any URI
 	 *             associated.
 	 */
 	public static Transport open(final Repository local,
 			final RemoteConfig cfg, final Operation op)
-			throws NotSupportedException {
+			throws NotSupportedException, TransportException {
 		final List<URIish> uris = getURIs(cfg, op);
 		if (uris.isEmpty())
 			throw new IllegalArgumentException(MessageFormat.format(
 					JGitText.get().remoteConfigHasNoURIAssociated, cfg.getName()));
-		final Transport tn = open(local, uris.get(0));
+		final Transport tn = open(local, uris.get(0), cfg.getName());
 		tn.applyConfig(cfg);
 		return tn;
 	}
@@ -264,9 +352,12 @@ public abstract class Transport {
 	 *         configuration.
 	 * @throws NotSupportedException
 	 *             the protocol specified is not supported.
+	 * @throws TransportException
+	 *             the transport cannot open this URI.
 	 */
 	public static List<Transport> openAll(final Repository local,
-			final RemoteConfig cfg) throws NotSupportedException {
+			final RemoteConfig cfg) throws NotSupportedException,
+			TransportException {
 		return openAll(local, cfg, Operation.FETCH);
 	}
 
@@ -285,14 +376,16 @@ public abstract class Transport {
 	 *         configuration.
 	 * @throws NotSupportedException
 	 *             the protocol specified is not supported.
+	 * @throws TransportException
+	 *             the transport cannot open this URI.
 	 */
 	public static List<Transport> openAll(final Repository local,
 			final RemoteConfig cfg, final Operation op)
-			throws NotSupportedException {
+			throws NotSupportedException, TransportException {
 		final List<URIish> uris = getURIs(cfg, op);
 		final List<Transport> transports = new ArrayList<Transport>(uris.size());
 		for (final URIish uri : uris) {
-			final Transport tn = open(local, uri);
+			final Transport tn = open(local, uri, cfg.getName());
 			tn.applyConfig(cfg);
 			transports.add(tn);
 		}
@@ -320,37 +413,21 @@ public abstract class Transport {
 	}
 
 	/**
-	 * Determines whether the transport can handle the given URIish.
+	 * Open a new transport instance to connect two repositories.
 	 *
-	 * @param remote
+	 * @param local
+	 *            existing local repository.
+	 * @param uri
 	 *            location of the remote repository.
-	 * @param fs
-	 *            type of filesystem the local repository is stored on.
-	 * @return true if the protocol is supported.
+	 * @return the new transport instance. Never null.
+	 * @throws NotSupportedException
+	 *             the protocol specified is not supported.
+	 * @throws TransportException
+	 *             the transport cannot open this URI.
 	 */
-	public static boolean canHandleProtocol(final URIish remote, final FS fs) {
-		if (TransportGitSsh.canHandle(remote))
-			return true;
-
-		else if (TransportHttp.canHandle(remote))
-			return true;
-
-		else if (TransportSftp.canHandle(remote))
-			return true;
-
-		else if (TransportGitAnon.canHandle(remote))
-			return true;
-
-		else if (TransportAmazonS3.canHandle(remote))
-			return true;
-
-		else if (TransportBundleFile.canHandle(remote, fs))
-			return true;
-
-		else if (TransportLocal.canHandle(remote, fs))
-			return true;
-
-		return false;
+	public static Transport open(final Repository local, final URIish uri)
+			throws NotSupportedException, TransportException {
+		return open(local, uri, null);
 	}
 
 	/**
@@ -358,36 +435,31 @@ public abstract class Transport {
 	 *
 	 * @param local
 	 *            existing local repository.
-	 * @param remote
+	 * @param uri
 	 *            location of the remote repository.
+	 * @param remoteName
+	 *            name of the remote, if the remote as configured in
+	 *            {@code local}; otherwise null.
 	 * @return the new transport instance. Never null.
 	 * @throws NotSupportedException
 	 *             the protocol specified is not supported.
+	 * @throws TransportException
+	 *             the transport cannot open this URI.
 	 */
-	public static Transport open(final Repository local, final URIish remote)
-			throws NotSupportedException {
-		if (TransportGitSsh.canHandle(remote))
-			return new TransportGitSsh(local, remote);
+	public static Transport open(Repository local, URIish uri, String remoteName)
+			throws NotSupportedException, TransportException {
+		for (WeakReference<TransportProtocol> ref : protocols) {
+			TransportProtocol proto = ref.get();
+			if (proto == null) {
+				protocols.remove(ref);
+				continue;
+			}
 
-		else if (TransportHttp.canHandle(remote))
-			return new TransportHttp(local, remote);
+			if (proto.canHandle(local, uri, remoteName))
+				return proto.open(local, uri, remoteName);
+		}
 
-		else if (TransportSftp.canHandle(remote))
-			return new TransportSftp(local, remote);
-
-		else if (TransportGitAnon.canHandle(remote))
-			return new TransportGitAnon(local, remote);
-
-		else if (TransportAmazonS3.canHandle(remote))
-			return new TransportAmazonS3(local, remote);
-
-		else if (TransportBundleFile.canHandle(remote, local.getFS()))
-			return new TransportBundleFile(local, remote);
-
-		else if (TransportLocal.canHandle(remote, local.getFS()))
-			return new TransportLocal(local, remote);
-
-		throw new NotSupportedException(MessageFormat.format(JGitText.get().URINotSupported, remote));
+		throw new NotSupportedException(MessageFormat.format(JGitText.get().URINotSupported, uri));
 	}
 
 	/**

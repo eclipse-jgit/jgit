@@ -477,6 +477,14 @@ public class JGitText extends TranslationBundle {
 	/***/ public String transportExceptionInvalid;
 	/***/ public String transportExceptionMissingAssumed;
 	/***/ public String transportExceptionReadRef;
+	/***/ public String transportProtoAmazonS3;
+	/***/ public String transportProtoBundleFile;
+	/***/ public String transportProtoFTP;
+	/***/ public String transportProtoGitAnon;
+	/***/ public String transportProtoHTTP;
+	/***/ public String transportProtoLocal;
+	/***/ public String transportProtoSFTP;
+	/***/ public String transportProtoSSH;
 	/***/ public String treeEntryAlreadyExists;
 	/***/ public String treeIteratorDoesNotSupportRemove;
 	/***/ public String truncatedHunkLinesMissingForAncestor;

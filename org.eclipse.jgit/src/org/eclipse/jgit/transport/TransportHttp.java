@@ -72,7 +72,11 @@ import java.security.NoSuchAlgorithmException;
 import java.security.cert.X509Certificate;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.EnumSet;
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
@@ -130,12 +134,69 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 
 	private static final String userAgent = computeUserAgent();
 
-	static boolean canHandle(final URIish uri) {
-		if (!uri.isRemote())
-			return false;
-		final String s = uri.getScheme();
-		return "http".equals(s) || "https".equals(s) || "ftp".equals(s); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-	}
+	static final TransportProtocol PROTO_HTTP = new TransportProtocol() {
+		private final String[] schemeNames = { "http", "https" }; //$NON-NLS-1$ //$NON-NLS-2$
+
+		private final Set<String> schemeSet = Collections
+				.unmodifiableSet(new LinkedHashSet<String>(Arrays
+						.asList(schemeNames)));
+
+		public String getName() {
+			return JGitText.get().transportProtoHTTP;
+		}
+
+		public Set<String> getSchemes() {
+			return schemeSet;
+		}
+
+		public Set<URIishField> getRequiredFields() {
+			return Collections.unmodifiableSet(EnumSet.of(URIishField.HOST,
+					URIishField.PATH));
+		}
+
+		public Set<URIishField> getOptionalFields() {
+			return Collections.unmodifiableSet(EnumSet.of(URIishField.USER,
+					URIishField.PASS, URIishField.PORT));
+		}
+
+		public int getDefaultPort() {
+			return 80;
+		}
+
+		public Transport open(Repository local, URIish uri, String remoteName)
+				throws NotSupportedException {
+			return new TransportHttp(local, uri);
+		}
+	};
+
+	static final TransportProtocol PROTO_FTP = new TransportProtocol() {
+		public String getName() {
+			return JGitText.get().transportProtoFTP;
+		}
+
+		public Set<String> getSchemes() {
+			return Collections.singleton("ftp"); //$NON-NLS-1$
+		}
+
+		public Set<URIishField> getRequiredFields() {
+			return Collections.unmodifiableSet(EnumSet.of(URIishField.HOST,
+					URIishField.PATH));
+		}
+
+		public Set<URIishField> getOptionalFields() {
+			return Collections.unmodifiableSet(EnumSet.of(URIishField.USER,
+					URIishField.PASS, URIishField.PORT));
+		}
+
+		public int getDefaultPort() {
+			return 21;
+		}
+
+		public Transport open(Repository local, URIish uri, String remoteName)
+				throws NotSupportedException {
+			return new TransportHttp(local, uri);
+		}
+	};
 
 	private static String computeUserAgent() {
 		String version;

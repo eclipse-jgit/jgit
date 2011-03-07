@@ -143,7 +143,7 @@ public class ReceivePackRefFilterTest extends LocalDiskRepositoryTestCase {
 	@Test
 	public void testFilterHidesPrivate() throws Exception {
 		Map<String, Ref> refs;
-		TransportLocal t = new TransportLocal(src, uriOf(dst)) {
+		TransportLocal t = new TransportLocal(src, uriOf(dst), dst.getDirectory()) {
 			@Override
 			ReceivePack createReceivePack(final Repository db) {
 				db.close();
@@ -206,7 +206,7 @@ public class ReceivePackRefFilterTest extends LocalDiskRepositoryTestCase {
 
 		// Push this new content to the remote, doing strict validation.
 		//
-		TransportLocal t = new TransportLocal(src, uriOf(dst)) {
+		TransportLocal t = new TransportLocal(src, uriOf(dst), dst.getDirectory()) {
 			@Override
 			ReceivePack createReceivePack(final Repository db) {
 				db.close();
