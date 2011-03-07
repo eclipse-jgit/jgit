@@ -58,8 +58,10 @@ import org.eclipse.jgit.lib.Repository;
  * static class members, for example:
  *
  * <pre>
+ * package com.example.my_transport;
+ *
  * class MyTransport extends Transport {
- * 	static final TransportProtocol PROTO = new TransportProtocol() {
+ * 	public static final TransportProtocol PROTO = new TransportProtocol() {
  * 		public String getName() {
  * 			return &quot;My Protocol&quot;;
  * 		}
@@ -67,12 +69,22 @@ import org.eclipse.jgit.lib.Repository;
  * }
  * </pre>
  *
+ * <p>
  * Applications may register additional protocols for use by JGit by calling
  * {@link Transport#register(TransportProtocol)}. Because that API holds onto
  * the protocol object by a WeakReference, applications must ensure their own
  * ClassLoader retains the TransportProtocol for the life of the application.
  * Using a static singleton pattern as above will ensure the protocol is valid
  * so long as the ClassLoader that defines it remains valid.
+ * <p>
+ * Applications may automatically register additional protocols by filling in
+ * the names of their TransportProtocol defining classes using the services file
+ * {@code META-INF/services/org.eclipse.jgit.transport.Transport}. For each
+ * class name listed in the services file, any static fields of type
+ * {@code TransportProtocol} will be automatically registered. For the above
+ * example the string {@code com.example.my_transport.MyTransport} should be
+ * listed in the file, as that is the name of the class that defines the static
+ * PROTO singleton.
  */
 public abstract class TransportProtocol {
 	/** Fields within a {@link URIish} that a transport uses. */
