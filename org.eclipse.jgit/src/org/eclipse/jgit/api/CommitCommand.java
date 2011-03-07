@@ -87,6 +87,8 @@ public class CommitCommand extends GitCommand<RevCommit> {
 
 	private boolean all;
 
+	private boolean amending;
+
 	/**
 	 * parents this commit should have. The current HEAD will be in this list
 	 * and also all commits mentioned in .git/MERGE_HEAD
@@ -155,7 +157,15 @@ public class CommitCommand extends GitCommand<RevCommit> {
 			// determine the current HEAD and the commit it is referring to
 			ObjectId headId = repo.resolve(Constants.HEAD + "^{commit}");
 			if (headId != null)
-				parents.add(0, headId);
+				if (amending) {
+					RevCommit previousCommit = new RevWalk(repo)
+							.parseCommit(headId);
+					RevCommit[] p = previousCommit.getParents();
+					for (int i = 0; i < p.length; i++)
+						parents.add(0, p[i].getId());
+				} else {
+					parents.add(0, headId);
+				}
 
 			// lock the index
 			DirCache index = repo.lockDirCache();
@@ -187,9 +197,10 @@ public class CommitCommand extends GitCommand<RevCommit> {
 								+ revCommit.getShortMessage(), false);
 
 						ru.setExpectedOldObjectId(headId);
-						Result rc = ru.update();
+						Result rc = ru.forceUpdate();
 						switch (rc) {
 						case NEW:
+						case FORCED:
 						case FAST_FORWARD: {
 							setCallable(false);
 							if (state == RepositoryState.MERGING_RESOLVED) {
@@ -384,6 +395,15 @@ public class CommitCommand extends GitCommand<RevCommit> {
 	 */
 	public CommitCommand setAll(boolean all) {
 		this.all = all;
+		return this;
+	}
+
+	/**
+	 * @param amending
+	 * @return {@code this}
+	 */
+	public CommitCommand setAmending(boolean amending) {
+		this.amending = amending;
 		return this;
 	}
 
