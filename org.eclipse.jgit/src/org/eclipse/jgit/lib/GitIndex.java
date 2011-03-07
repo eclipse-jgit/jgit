@@ -1006,7 +1006,7 @@ public class GitIndex {
 					current = trees.peek();
 			}
 			inserter.flush();
-			return current.getTreeId();
+			return current.getId();
 		} finally {
 			inserter.release();
 		}

@@ -65,7 +65,7 @@ import org.eclipse.jgit.util.RawParseUtils;
  * information from its getter methods.
  */
 @Deprecated
-public class Tree extends TreeEntry implements Treeish {
+public class Tree extends TreeEntry {
 	private static final TreeEntry[] EMPTY_TREE = {};
 
 	/**
@@ -233,14 +233,6 @@ public class Tree extends TreeEntry implements Treeish {
 
 	public Repository getRepository() {
 		return db;
-	}
-
-	public final ObjectId getTreeId() {
-		return getId();
-	}
-
-	public final Tree getTree() {
-		return this;
 	}
 
 	/**
