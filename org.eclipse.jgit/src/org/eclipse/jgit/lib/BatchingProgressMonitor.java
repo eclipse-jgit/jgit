@@ -74,7 +74,6 @@ public abstract class BatchingProgressMonitor implements ProgressMonitor {
 						return thr;
 					}
 				});
-		alarmQueue.setMaximumPoolSize(alarmQueue.getCorePoolSize());
 		alarmQueue.setContinueExistingPeriodicTasksAfterShutdownPolicy(false);
 		alarmQueue.setExecuteExistingDelayedTasksAfterShutdownPolicy(false);
 		alarmQueue.prestartAllCoreThreads();
