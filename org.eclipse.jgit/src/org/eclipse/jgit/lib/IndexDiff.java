@@ -82,7 +82,7 @@ import org.eclipse.jgit.treewalk.filter.TreeFilter;
  */
 public class IndexDiff {
 
-	private final class ProgressReportingFilter extends TreeFilter {
+	private static final class ProgressReportingFilter extends TreeFilter {
 
 		private final ProgressMonitor monitor;
 
