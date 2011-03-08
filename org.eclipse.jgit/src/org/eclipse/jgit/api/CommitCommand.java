@@ -44,8 +44,10 @@ package org.eclipse.jgit.api;
 
 import java.io.IOException;
 import java.text.MessageFormat;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.api.errors.ConcurrentRefUpdateException;
@@ -55,6 +57,10 @@ import org.eclipse.jgit.api.errors.NoHeadException;
 import org.eclipse.jgit.api.errors.NoMessageException;
 import org.eclipse.jgit.api.errors.WrongRepositoryStateException;
 import org.eclipse.jgit.dircache.DirCache;
+import org.eclipse.jgit.dircache.DirCacheBuildIterator;
+import org.eclipse.jgit.dircache.DirCacheBuilder;
+import org.eclipse.jgit.dircache.DirCacheEntry;
+import org.eclipse.jgit.dircache.DirCacheIterator;
 import org.eclipse.jgit.errors.UnmergedPathException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Constants;
@@ -68,6 +74,8 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryState;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.treewalk.CanonicalTreeParser;
+import org.eclipse.jgit.treewalk.TreeWalk;
 
 /**
  * A class used to execute a {@code Commit} command. It has setters for all
@@ -86,6 +94,8 @@ public class CommitCommand extends GitCommand<RevCommit> {
 	private String message;
 
 	private boolean all;
+
+	private Set<String> only = new HashSet<String>();
 
 	private boolean amend;
 
@@ -170,6 +180,79 @@ public class CommitCommand extends GitCommand<RevCommit> {
 			// lock the index
 			DirCache index = repo.lockDirCache();
 			try {
+				if (only != null && !only.isEmpty()) {
+					DirCache inCoreIndex = DirCache.newInCore();
+					DirCacheBuilder dcBuilder = inCoreIndex.builder();
+
+					TreeWalk treeWalk = new TreeWalk(repo);
+					treeWalk.addTree(new DirCacheIterator(index));
+					if (headId != null)
+						treeWalk.addTree(new RevWalk(repo).parseTree(headId));
+					treeWalk.addTree(new DirCacheBuildIterator(dcBuilder));
+					treeWalk.setRecursive(true);
+
+					while (treeWalk.next()) {
+						final String pathString = treeWalk.getPathString();
+						if (only.contains(pathString)) {
+							// path has been specified, thus we copy the
+							// DirCacheEntry
+							DirCacheIterator dcTree = treeWalk.getTree(0,
+									DirCacheIterator.class);
+							if (dcTree != null) {
+								DirCacheEntry dirCacheEntry = dcTree
+										.getDirCacheEntry();
+								if (dirCacheEntry != null)
+									dcBuilder.add(dirCacheEntry);
+								// else: should not happen as TreeWalk is
+								// recursive
+							}
+							// else: if no DirCacheEntry exists, it has been
+							// removed (git rm); thus nothing is added to the
+							// DirCacheBuilder
+
+							// remove the processed path
+							only.remove(pathString);
+						} else {
+							if (headId != null) {
+								CanonicalTreeParser hTree = treeWalk.getTree(1,
+										CanonicalTreeParser.class);
+								if (hTree != null) {
+									// create a new DirCacheEntry with data
+									// retrieved from HEAD
+									DirCacheEntry dirCacheEntry = new DirCacheEntry(
+											pathString);
+									dirCacheEntry.setObjectId(hTree
+											.getEntryObjectId());
+									dirCacheEntry.setFileMode(hTree
+											.getEntryFileMode());
+									dcBuilder.add(dirCacheEntry);
+								}
+								// else: if no entry in HEAD exists, we are
+								// dealing with a file initially added to the
+								// DirCache; thus nothing is added to the
+								// DirCacheBuilder
+							}
+							// else: this is the first commit; we just add what
+							// is specified, but cannot copy any existing
+							// entries
+						}
+					}
+
+					// there must be no paths left at this point, otherwise an
+					// untracked or unknown path has been specified
+					if (!only.isEmpty())
+						throw new JGitInternalException(MessageFormat.format(
+								JGitText.get().entryNotFoundByPath, only
+										.iterator().next()));
+
+					// finish in-core DirCache
+					dcBuilder.finish();
+
+					// use in-core DirCache for updating
+					index.unlock();
+					index = inCoreIndex;
+				}
+
 				ObjectInserter odi = repo.newObjectInserter();
 				try {
 					// Write the index as tree to the object database. This may
@@ -411,4 +494,19 @@ public class CommitCommand extends GitCommand<RevCommit> {
 		return this;
 	}
 
+	/**
+	 * Commit dedicated path only
+	 *
+	 * This method can be called several times to add multiple paths. No
+	 * wildcards are supported, i.e. every file must be set individually.
+	 *
+	 * @param only
+	 *            path to commit
+	 * @return {@code this}
+	 */
+	public CommitCommand setOnly(String only) {
+		checkCallable();
+		this.only.add(only);
+		return this;
+	}
 }

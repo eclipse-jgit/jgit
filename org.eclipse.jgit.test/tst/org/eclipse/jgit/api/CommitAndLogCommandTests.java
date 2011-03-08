@@ -43,6 +43,8 @@
 package org.eclipse.jgit.api;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -63,6 +65,7 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RefUpdate;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryTestCase;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.treewalk.TreeWalk;
@@ -254,5 +257,128 @@ public class CommitAndLogCommandTests extends RepositoryTestCase {
 			c++;
 		}
 		assertEquals(1, c);
+	}
+
+	public void testOnlyOption() throws Exception {
+		// write files b, c, d, f, g and h
+		writeTrashFile("b.txt", "contentB");
+		final File c = writeTrashFile("c.txt", "contentC");
+		writeTrashFile("d.txt", "contentD");
+		writeTrashFile("f.txt", "contentF");
+		final File g = writeTrashFile("g.txt", "contentG");
+		writeTrashFile("h.txt", "contentH");
+
+		final Git git = new Git(db);
+
+		// add everything
+		git.add().addFilepattern(".").call();
+
+		// commit everything
+		git.commit().setMessage("first commit").call();
+
+		// write and add files a and e
+		writeTrashFile("a.txt", "contentA");
+		writeTrashFile("e.txt", "contentE");
+		git.add().addFilepattern("a.txt").addFilepattern("e.txt").call();
+
+		// remove files b and f
+		git.rm().addFilepattern("b.txt").addFilepattern("f.txt").call();
+
+		// modify and add files c and g
+		write(c, "modified contentC");
+		write(g, "modified contentG");
+		git.add().addFilepattern("c.txt").addFilepattern("g.txt").call();
+
+		// do nothing with files d and h
+
+		// index shall contain all staged files
+		final String indexState = indexState(CONTENT);
+		assertEquals("[a.txt, mode:100644, content:contentA]"
+				+ "[c.txt, mode:100644, content:modified contentC]"
+				+ "[d.txt, mode:100644, content:contentD]"
+				+ "[e.txt, mode:100644, content:contentE]"
+				+ "[g.txt, mode:100644, content:modified contentG]"
+				+ "[h.txt, mode:100644, content:contentH]", indexState);
+
+		// commit -o
+		RevCommit commit = git.commit().setOnly("d.txt").setOnly("c.txt")
+				.setOnly("b.txt").setOnly("a.txt").setMessage("second commit")
+				.call();
+
+		// commit shall contain files a, c and d from commit -o command and f, g
+		// and h from HEAD
+		checkCommit(git.getRepository(), commit, "a.txt", "c.txt", "d.txt",
+				"f.txt", "g.txt", "h.txt");
+
+		// index shall not be modified
+		assertEquals(indexState, indexState(CONTENT));
+
+		// 'normal' commit
+		commit = git.commit().setMessage("third commit").call();
+
+		// commit shall contain all staged files
+		checkCommit(git.getRepository(), commit, "a.txt", "c.txt", "d.txt",
+				"e.txt", "g.txt", "h.txt");
+
+		// index shall not be modified
+		assertEquals(indexState, indexState(CONTENT));
+	}
+
+	private void checkCommit(final Repository repo, final RevCommit commit,
+			final String... files) throws Exception {
+		TreeWalk walk = new TreeWalk(repo);
+		walk.addTree(commit.getTree());
+		for (final String f : files) {
+			assertTrue(walk.next());
+			assertEquals(f, walk.getNameString());
+		}
+		assertFalse(walk.next());
+	}
+
+	@Test
+	@SuppressWarnings("null")
+	public void testOnlyOptionWithUntrackedFile() throws Exception {
+		// write file a
+		writeTrashFile("a.txt", "contentA");
+
+		final Git git = new Git(db);
+
+		// add everything
+		git.add().addFilepattern("a.txt").call();
+
+		// write file b
+		writeTrashFile("b.txt", "contentB");
+
+		JGitInternalException error = null;
+		try {
+			// commit -o b.txt (untracked)
+			git.commit().setOnly("b.txt").setMessage("first commit").call();
+		} catch (JGitInternalException e) {
+			error = e;
+		}
+		assertNotNull(error);
+		assertTrue(error.getMessage().contains("b.txt"));
+	}
+
+	@Test
+	@SuppressWarnings("null")
+	public void testOnlyOptionWithNotExistingFile() throws Exception {
+		// write file a
+		writeTrashFile("a.txt", "contentA");
+
+		final Git git = new Git(db);
+
+		// add everything
+		git.add().addFilepattern(".").call();
+
+		JGitInternalException error = null;
+		try {
+			// commit -o b.txt (not existing)
+			git.commit().setOnly("b.txt").setMessage("first commit").call();
+		} catch (JGitInternalException e) {
+			error = e;
+		}
+		assertNotNull(error);
+		assertTrue(error.getMessage().contains("b.txt"));
 	}
 }
