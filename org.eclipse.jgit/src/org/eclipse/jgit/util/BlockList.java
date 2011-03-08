@@ -111,6 +111,33 @@ public class BlockList<T> extends AbstractList<T> {
 		return size;
 	}
 
+	/**
+	 * Modify the size of this list.
+	 * <p>
+	 * If the current size is smaller than {@code newSize}, null values will be
+	 * added to pad the end of the list. If the current size is larger, values
+	 * on the end of the list will be discarded to reach {@code newSize}.
+	 *
+	 * @param newSize
+	 *            the new size.
+	 */
+	public void setSize(int newSize) {
+		if (size < newSize) {
+			do {
+				add(null);
+			} while (size < newSize);
+
+		} else if (newSize < size) {
+			if (newSize == 0) {
+				clear();
+				return;
+			}
+			do {
+				remove(size - 1);
+			} while (newSize < size);
+		}
+	}
+
 	@Override
 	public void clear() {
 		for (T[] block : directory) {

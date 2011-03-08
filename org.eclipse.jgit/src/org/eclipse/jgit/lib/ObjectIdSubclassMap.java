@@ -45,8 +45,12 @@
 
 package org.eclipse.jgit.lib;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+
+import org.eclipse.jgit.util.BlockList;
 
 /**
  * Fast, efficient map specifically for {@link ObjectId} subclasses.
@@ -54,28 +58,61 @@ import java.util.NoSuchElementException;
  * This map provides an efficient translation from any ObjectId instance to a
  * cached subclass of ObjectId that has the same value.
  * <p>
- * Raw value equality is tested when comparing two ObjectIds (or subclasses),
- * not reference equality and not <code>.equals(Object)</code> equality. This
- * allows subclasses to override <code>equals</code> to supply their own
- * extended semantics.
+ * The current implementation is based on extendible hashing, from Ronald Fagin,
+ * Jurg Nievergelt, Nicholas Pippenger, and H. Raymond Strong. 1979. <a
+ * href="http://doi.acm.org/10.1145/320083.320092">Extendible hashing—a fast
+ * access method for dynamic files</a>. ACM Trans. Database Syst. 4, 3
+ * (September 1979), 315-344. DOI=10.1145/320083.320092
  *
  * @param <V>
  *            type of subclass of ObjectId that will be stored in the map.
  */
 public class ObjectIdSubclassMap<V extends ObjectId> implements Iterable<V> {
-	private int size;
+	private final ArrayList<Block<V>> freeList;
 
-	private V[] obj_hash;
+	private final BlockList<Block<V>> dirTable;
+
+	private int dirBits;
+
+	private int dirShift;
+
+	private int size;
 
 	/** Create an empty map. */
 	public ObjectIdSubclassMap() {
-		obj_hash = createArray(32);
+		freeList = new ArrayList<Block<V>>(2);
+		dirTable = new BlockList<Block<V>>();
+		init();
 	}
 
 	/** Remove all entries from this map. */
 	public void clear() {
+		freeList.add(dirTable.remove(dirTable.size() - 1));
+		freeList.add(dirTable.remove(dirTable.size() - 1));
+
+		dirTable.clear();
+		init();
 		size = 0;
-		obj_hash = createArray(32);
+	}
+
+	private void init() {
+		dirTable.add(newBlock(1));
+		dirTable.add(newBlock(1));
+		dirBits = 1;
+		dirShift = 32 - dirBits;
+	}
+
+	private Block<V> newBlock(int newDepth) {
+		if (freeList.isEmpty())
+			return new Block<V>(newDepth);
+
+		Block<V> b = freeList.remove(freeList.size() - 1);
+		b.reset(newDepth);
+		return b;
+	}
+
+	private int hash(AnyObjectId toFind) {
+		return toFind.w1 >>> dirShift;
 	}
 
 	/**
@@ -86,16 +123,7 @@ public class ObjectIdSubclassMap<V extends ObjectId> implements Iterable<V> {
 	 * @return the instance mapped to toFind, or null if no mapping exists.
 	 */
 	public V get(final AnyObjectId toFind) {
-		int i = index(toFind);
-		V obj;
-
-		while ((obj = obj_hash[i]) != null) {
-			if (AnyObjectId.equals(obj, toFind))
-				return obj;
-			if (++i == obj_hash.length)
-				i = 0;
-		}
-		return null;
+		return dirTable.get(hash(toFind)).get(toFind);
 	}
 
 	/**
@@ -123,10 +151,7 @@ public class ObjectIdSubclassMap<V extends ObjectId> implements Iterable<V> {
 	 *            type of instance to store.
 	 */
 	public <Q extends V> void add(final Q newValue) {
-		if (obj_hash.length - 1 <= size * 2)
-			grow();
-		insert(newValue);
-		size++;
+		addIfAbsent(newValue);
 	}
 
 	/**
@@ -150,24 +175,68 @@ public class ObjectIdSubclassMap<V extends ObjectId> implements Iterable<V> {
 	 *            type of instance to store.
 	 */
 	public <Q extends V> V addIfAbsent(final Q newValue) {
-		int i = index(newValue);
-		V obj;
+		for (;;) {
+			final Block<V> b = dirTable.get(hash(newValue));
+			final V old = b.addIfAbsent(newValue);
+			if (old == newValue) {
+				size++;
+				return newValue;
+			}
 
-		while ((obj = obj_hash[i]) != null) {
-			if (AnyObjectId.equals(obj, newValue))
-				return obj;
-			if (++i == obj_hash.length)
-				i = 0;
-		}
+			if (old != null)
+				return old;
 
-		if (obj_hash.length - 1 <= size * 2) {
-			grow();
-			insert(newValue);
-		} else {
-			obj_hash[i] = newValue;
+			// At this point the block has returned null to say its full.
+			// The block needs to be split in order to make this addition.
+
+			final int bDepth = b.depth;
+			if (bDepth == dirBits) {
+				// If the block depth is the same as the directory bits,
+				// the directory should be doubled in size. A rewrite is
+				// necessary to keep blocks in consecutive slots.
+				//
+				final int cnt = dirTable.size();
+				dirTable.setSize(cnt << 1);
+				for (int i = cnt - 1; 0 <= i; i--) {
+					Block<V> o = dirTable.get(i);
+					dirTable.set(i << 1, o);
+					dirTable.set((i << 1) | 1, o);
+				}
+				dirShift = 32 - ++dirBits;
+			}
+
+			Block<V> b0 = newBlock(bDepth + 1);
+			Block<V> b1 = newBlock(bDepth + 1);
+
+			final int nMask = 1 << (32 - b0.depth);
+			for (int i = 0; i < Block.SIZE; i++) {
+				V obj = b.members[i];
+				if (obj == null)
+					continue;
+				if ((obj.w1 & nMask) == 0)
+					b0.appendExisting(obj);
+				else
+					b1.appendExisting(obj);
+			}
+
+			// All uses of b are consecutive. Replace the
+			// first half with b0, second half with b1.
+			//
+			int useCnt = (1 << (dirBits - bDepth)) >> 1;
+			int i = hash(newValue);
+			while (0 < i && dirTable.get(i - 1) == b)
+				i--;
+			for (int n = 0; n < useCnt; n++) {
+				if (dirTable.set(i++, b0) != b)
+					throw new IllegalStateException();
+			}
+			for (int n = 0; n < useCnt; n++) {
+				if (dirTable.set(i++, b1) != b)
+					throw new IllegalStateException();
+			}
+
+			freeList.add(b);
 		}
-		size++;
-		return newValue;
 	}
 
 	/**
@@ -186,21 +255,40 @@ public class ObjectIdSubclassMap<V extends ObjectId> implements Iterable<V> {
 		return new Iterator<V>() {
 			private int found;
 
-			private int i;
+			private int dirIdx;
+
+			private int blkIdx;
+
+			private Block<V> block = dirTable.get(dirIdx);
 
 			public boolean hasNext() {
 				return found < size;
 			}
 
 			public V next() {
-				while (i < obj_hash.length) {
-					final V v = obj_hash[i++];
-					if (v != null) {
+				if (found == size)
+					throw new NoSuchElementException();
+
+				for (;;) {
+					if (blkIdx == Block.SIZE) {
+						// Blocks can be repeated in consecutive slots
+						// when the directory doubled and the block has
+						// not been split yet.
+						//
+						int useCnt = (1 << (dirBits - block.depth));
+						if (dirTable.size() <= dirIdx + useCnt)
+							throw new NoSuchElementException();
+						dirIdx += useCnt;
+						block = dirTable.get(dirIdx);
+						blkIdx = 0;
+					}
+
+					V obj = block.members[blkIdx++];
+					if (obj != null) {
 						found++;
-						return v;
+						return obj;
 					}
 				}
-				throw new NoSuchElementException();
 			}
 
 			public void remove() {
@@ -209,33 +297,77 @@ public class ObjectIdSubclassMap<V extends ObjectId> implements Iterable<V> {
 		};
 	}
 
-	private final int index(final AnyObjectId id) {
-		return (id.w1 >>> 1) % obj_hash.length;
-	}
+	private static class Block<V extends ObjectId> {
+		private static final int BITS = 6;
 
-	private void insert(final V newValue) {
-		int j = index(newValue);
-		while (obj_hash[j] != null) {
-			if (++j >= obj_hash.length)
-				j = 0;
+		static final int SIZE = 1 << BITS;
+
+		static final int CHAIN_LENGTH = 8;
+
+		final V[] members;
+
+		int depth;
+
+		Block(int blockDepth) {
+			members = Block.<V> createArray(SIZE);
+			depth = blockDepth;
 		}
-		obj_hash[j] = newValue;
-	}
 
-	private void grow() {
-		final V[] old_hash = obj_hash;
-		final int old_hash_size = obj_hash.length;
-
-		obj_hash = createArray(2 * old_hash_size);
-		for (int i = 0; i < old_hash_size; i++) {
-			final V obj = old_hash[i];
-			if (obj != null)
-				insert(obj);
+		void reset(int blockDepth) {
+			depth = blockDepth;
+			Arrays.fill(members, null);
 		}
-	}
 
-	@SuppressWarnings("unchecked")
-	private final V[] createArray(final int sz) {
-		return (V[]) new ObjectId[sz];
+		V addIfAbsent(V newValue) {
+			int h = hash(newValue);
+			int n = CHAIN_LENGTH;
+			V obj;
+			while ((obj = members[h]) != null) {
+				if (AnyObjectId.equals(obj, newValue))
+					return obj;
+				if (++h == SIZE)
+					h = 0;
+				if (--n == 0)
+					return null;
+			}
+			members[h] = newValue;
+			return newValue;
+		}
+
+		void appendExisting(V newValue) {
+			int h = hash(newValue);
+			int n = CHAIN_LENGTH;
+			while (members[h] != null) {
+				if (++h == SIZE)
+					h = 0;
+				if (--n == 0)
+					throw new IllegalStateException("chain length exceeded");
+			}
+			members[h] = newValue;
+		}
+
+		V get(AnyObjectId toFind) {
+			int h = hash(toFind);
+			int n = CHAIN_LENGTH;
+			V obj;
+			while ((obj = members[h]) != null) {
+				if (AnyObjectId.equals(obj, toFind))
+					return obj;
+				if (++h == SIZE)
+					h = 0;
+				if (--n == 0)
+					return null;
+			}
+			return null;
+		}
+
+		private static int hash(AnyObjectId objId) {
+			return objId.w3 >>> (32 - BITS);
+		}
+
+		@SuppressWarnings("unchecked")
+		private static final <V> V[] createArray(int sz) {
+			return (V[]) new ObjectId[sz];
+		}
 	}
 }
