@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAL3H///kg\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/TransportTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-03-07T09:19:50Z",
+      "side": 1,
+      "message": "doesn\u0027t compile with eclipse and our standard warning/error settings. This method is not throwing any IOException (we are catching it).",
+      "revId": "9d6ba79b666294e933d0141c5f6abe6ef8972012",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL3H///ik\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/TransportTest.java",
         "patchSetId": 1
@@ -13,6 +30,57 @@
       "writtenOn": "2011-03-07T18:30:48Z",
       "side": 1,
       "message": "This catch should be more targeted. We expect a TransportException here, don\u0027t we? So catch that, and let everything else be thrown to the caller. If any other type is thrown the test will fail.",
+      "revId": "9d6ba79b666294e933d0141c5f6abe6ef8972012",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL3H///ks\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Transport.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-03-07T09:19:50Z",
+      "side": 1,
+      "message": "that doesn\u0027t compile with our checked in eclipse settings because you\nhaven\u0027t documented this exception in the javadoc. Just look at your change in eclipse and use our checked-in warning/error levels.\n\nAnother thing: I was wondering why you don\u0027t break our builds by introducing a new unchecked exception. I found out: it\u0027s because this method is not used in egit/jgit.",
+      "revId": "9d6ba79b666294e933d0141c5f6abe6ef8972012",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL3H///kw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportLocal.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-03-07T09:19:50Z",
+      "side": 1,
+      "message": "Style-nit: we don\u0027t use curly braces for one-line blocks. Maybe something like this...\n\nif (\"file\".equals(uri.getScheme()) || uri.getScheme() \u003d\u003d null) {\n  if (!fs.resolve(new File(PWD), uri.getPath()).isDirectory())\n    throw new NotSupportedException(uri.getPath() + \" does not exist\");\n  return true;\n}",
+      "revId": "9d6ba79b666294e933d0141c5f6abe6ef8972012",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL3H///kk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportLocal.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-03-07T09:19:50Z",
+      "side": 1,
+      "message": "Not so sure whether NotSupportedException is correct here. On the other hand: that\u0027s our only chance to report this error without breaking API.",
       "revId": "9d6ba79b666294e933d0141c5f6abe6ef8972012",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
