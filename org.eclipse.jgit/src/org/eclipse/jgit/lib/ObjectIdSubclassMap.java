@@ -65,17 +65,17 @@ import java.util.NoSuchElementException;
 public class ObjectIdSubclassMap<V extends ObjectId> implements Iterable<V> {
 	private int size;
 
-	private V[] obj_hash;
+	private V[] table;
 
 	/** Create an empty map. */
 	public ObjectIdSubclassMap() {
-		obj_hash = createArray(32);
+		table = createArray(32);
 	}
 
 	/** Remove all entries from this map. */
 	public void clear() {
 		size = 0;
-		obj_hash = createArray(32);
+		table = createArray(32);
 	}
 
 	/**
@@ -89,10 +89,10 @@ public class ObjectIdSubclassMap<V extends ObjectId> implements Iterable<V> {
 		int i = index(toFind);
 		V obj;
 
-		while ((obj = obj_hash[i]) != null) {
+		while ((obj = table[i]) != null) {
 			if (AnyObjectId.equals(obj, toFind))
 				return obj;
-			if (++i == obj_hash.length)
+			if (++i == table.length)
 				i = 0;
 		}
 		return null;
@@ -123,7 +123,7 @@ public class ObjectIdSubclassMap<V extends ObjectId> implements Iterable<V> {
 	 *            type of instance to store.
 	 */
 	public <Q extends V> void add(final Q newValue) {
-		if (obj_hash.length - 1 <= size * 2)
+		if (table.length - 1 <= size * 2)
 			grow();
 		insert(newValue);
 		size++;
@@ -153,18 +153,18 @@ public class ObjectIdSubclassMap<V extends ObjectId> implements Iterable<V> {
 		int i = index(newValue);
 		V obj;
 
-		while ((obj = obj_hash[i]) != null) {
+		while ((obj = table[i]) != null) {
 			if (AnyObjectId.equals(obj, newValue))
 				return obj;
-			if (++i == obj_hash.length)
+			if (++i == table.length)
 				i = 0;
 		}
 
-		if (obj_hash.length - 1 <= size * 2) {
+		if (table.length - 1 <= size * 2) {
 			grow();
 			insert(newValue);
 		} else {
-			obj_hash[i] = newValue;
+			table[i] = newValue;
 		}
 		size++;
 		return newValue;
@@ -193,8 +193,8 @@ public class ObjectIdSubclassMap<V extends ObjectId> implements Iterable<V> {
 			}
 
 			public V next() {
-				while (i < obj_hash.length) {
-					final V v = obj_hash[i++];
+				while (i < table.length) {
+					final V v = table[i++];
 					if (v != null) {
 						found++;
 						return v;
@@ -210,25 +210,25 @@ public class ObjectIdSubclassMap<V extends ObjectId> implements Iterable<V> {
 	}
 
 	private final int index(final AnyObjectId id) {
-		return (id.w1 >>> 1) % obj_hash.length;
+		return (id.w1 >>> 1) % table.length;
 	}
 
 	private void insert(final V newValue) {
 		int j = index(newValue);
-		while (obj_hash[j] != null) {
-			if (++j >= obj_hash.length)
+		while (table[j] != null) {
+			if (++j >= table.length)
 				j = 0;
 		}
-		obj_hash[j] = newValue;
+		table[j] = newValue;
 	}
 
 	private void grow() {
-		final V[] old_hash = obj_hash;
-		final int old_hash_size = obj_hash.length;
+		final V[] oldTable = table;
+		final int oldSize = table.length;
 
-		obj_hash = createArray(2 * old_hash_size);
-		for (int i = 0; i < old_hash_size; i++) {
-			final V obj = old_hash[i];
+		table = createArray(2 * oldSize);
+		for (int i = 0; i < oldSize; i++) {
+			final V obj = oldTable[i];
 			if (obj != null)
 				insert(obj);
 		}
