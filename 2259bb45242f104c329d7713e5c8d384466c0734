@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL3H///6I\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/TransportTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-02-28T03:00:37Z",
+      "side": 1,
+      "message": "What if this path actually exists on the user\u0027s workstation?",
+      "revId": "2259bb45242f104c329d7713e5c8d384466c0734",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL3H///6M\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportLocal.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-02-28T03:00:37Z",
+      "side": 1,
+      "message": "This message should be translated using MessageFormat and JGitText.",
+      "revId": "2259bb45242f104c329d7713e5c8d384466c0734",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
