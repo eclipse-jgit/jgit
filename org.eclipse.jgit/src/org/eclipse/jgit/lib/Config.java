@@ -55,9 +55,9 @@ import java.text.MessageFormat;
 import java.util.AbstractSet;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -1277,7 +1277,7 @@ public class Config {
 		}
 
 		public Set<String> parse(Config cfg) {
-			final Set<String> result = new HashSet<String>();
+			final Set<String> result = new LinkedHashSet<String>();
 			while (cfg != null) {
 				for (final Entry e : cfg.state.get().entryList) {
 					if (e.subsection != null && e.name == null
