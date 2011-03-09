@@ -67,6 +67,8 @@ public class ObjectIdSubclassMap<V extends ObjectId> implements Iterable<V> {
 
 	private int size;
 
+	private int grow;
+
 	private int mask;
 
 	private V[] table;
@@ -127,10 +129,9 @@ public class ObjectIdSubclassMap<V extends ObjectId> implements Iterable<V> {
 	 *            type of instance to store.
 	 */
 	public <Q extends V> void add(final Q newValue) {
-		if (table.length - 1 <= size * 2)
+		if (++size == grow)
 			grow();
 		insert(newValue);
-		size++;
 	}
 
 	/**
@@ -164,13 +165,12 @@ public class ObjectIdSubclassMap<V extends ObjectId> implements Iterable<V> {
 				i = 0;
 		}
 
-		if (table.length - 1 <= size * 2) {
+		if (++size == grow) {
 			grow();
 			insert(newValue);
 		} else {
 			table[i] = newValue;
 		}
-		size++;
 		return newValue;
 	}
 
@@ -239,6 +239,7 @@ public class ObjectIdSubclassMap<V extends ObjectId> implements Iterable<V> {
 	}
 
 	private void initTable(int sz) {
+		grow = sz >> 1;
 		mask = sz - 1;
 		table = createArray(sz);
 	}
