@@ -92,7 +92,7 @@ public class ObjectIdSubclassMap<V extends ObjectId> implements Iterable<V> {
 	 * @return the instance mapped to toFind, or null if no mapping exists.
 	 */
 	public V get(final AnyObjectId toFind) {
-		int i = index(toFind);
+		int i = toFind.w1 & mask;
 		V obj;
 
 		while ((obj = table[i]) != null) {
@@ -155,7 +155,7 @@ public class ObjectIdSubclassMap<V extends ObjectId> implements Iterable<V> {
 	 *            type of instance to store.
 	 */
 	public <Q extends V> V addIfAbsent(final Q newValue) {
-		int i = index(newValue);
+		int i = newValue.w1 & mask;
 		V obj;
 
 		while ((obj = table[i]) != null) {
@@ -213,12 +213,8 @@ public class ObjectIdSubclassMap<V extends ObjectId> implements Iterable<V> {
 		};
 	}
 
-	private final int index(final AnyObjectId id) {
-		return id.w1 & mask;
-	}
-
 	private void insert(final V newValue) {
-		int j = index(newValue);
+		int j = newValue.w1 & mask;
 		while (table[j] != null) {
 			if (++j >= table.length)
 				j = 0;
