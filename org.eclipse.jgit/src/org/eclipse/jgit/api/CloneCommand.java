@@ -84,7 +84,7 @@ public class CloneCommand implements Callable<Git> {
 
 	private String remote = Constants.DEFAULT_REMOTE_NAME;
 
-	private String branch = Constants.HEAD;
+	private String branch = Constants.R_HEADS + Constants.MASTER;
 
 	private ProgressMonitor monitor = NullProgressMonitor.INSTANCE;
 
@@ -138,10 +138,11 @@ public class CloneCommand implements Callable<Git> {
 		config.addFetchRefSpec(refSpec);
 		config.update(repo.getConfig());
 
+		String branchName = branch.substring(Constants.R_HEADS.length());
 		repo.getConfig().setString(ConfigConstants.CONFIG_BRANCH_SECTION,
-				branch, ConfigConstants.CONFIG_KEY_REMOTE, remote);
+				branchName, ConfigConstants.CONFIG_KEY_REMOTE, remote);
 		repo.getConfig().setString(ConfigConstants.CONFIG_BRANCH_SECTION,
-				branch, ConfigConstants.CONFIG_KEY_MERGE, branch);
+				branchName, ConfigConstants.CONFIG_KEY_MERGE, branch);
 
 		repo.getConfig().save();
 

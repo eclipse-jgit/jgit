@@ -44,11 +44,13 @@ package org.eclipse.jgit.api;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.IOException;
 
+import org.eclipse.jgit.api.MergeResult.MergeStatus;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.RepositoryTestCase;
@@ -87,6 +89,11 @@ public class CloneCommandTest extends RepositoryTestCase {
 					+ git.getRepository().getWorkTree().getPath());
 			Git git2 = command.call();
 			assertNotNull(git2);
+
+			PullResult res = git2.pull().call();
+			assertTrue(res.getFetchResult().getTrackingRefUpdates().isEmpty());
+			assertTrue(res.getMergeResult().getMergeStatus()
+					.equals(MergeStatus.ALREADY_UP_TO_DATE));
 		} catch (Exception e) {
 			fail(e.getMessage());
 		}
