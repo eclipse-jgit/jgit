@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAL3H///ik\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/TransportTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-03-07T18:30:48Z",
+      "side": 1,
+      "message": "This catch should be more targeted. We expect a TransportException here, don\u0027t we? So catch that, and let everything else be thrown to the caller. If any other type is thrown the test will fail.",
+      "revId": "9d6ba79b666294e933d0141c5f6abe6ef8972012",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL3H///ig\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportLocal.java",
         "patchSetId": 1
