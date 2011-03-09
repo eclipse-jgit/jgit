@@ -1,0 +1,22 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL3H///iw\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/TransportTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-03-07T18:20:28Z",
+      "side": 1,
+      "message": "Don\u0027t use java.io.tmpdir in unit tests. We should be focusing on the trash directory, as its not in tmpdir and gets cleaned up by the unit test framework we inherit from in our base class.\n\nThis should be a unique name that doesn\u0027t exist:\n\n  File notHere \u003d new File(trash, \"not-a-git.git\");\n\ntrash is a java.io.File inherited down which tells us the temporary directory everything is within. Within that, we create a repository called \"test????_???\". Otherwise the trash directory is empty. So we should never see \"not-a-git.git\" be present within it.",
+      "parentUuid": "AAAL3H///k0\u003d",
+      "revId": "16f66d8c7a4c582f6aadba0465faba8f65dc38ee",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
