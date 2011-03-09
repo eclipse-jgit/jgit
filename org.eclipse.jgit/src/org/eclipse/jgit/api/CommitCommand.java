@@ -193,8 +193,9 @@ public class CommitCommand extends GitCommand<RevCommit> {
 						RevCommit revCommit = revWalk.parseCommit(commitId);
 						RefUpdate ru = repo.updateRef(Constants.HEAD);
 						ru.setNewObjectId(commitId);
-						ru.setRefLogMessage("commit : "
-								+ revCommit.getShortMessage(), false);
+						String prefix = amend ? "commit (amend): " : "commit: ";
+						ru.setRefLogMessage(
+								prefix + revCommit.getShortMessage(), false);
 
 						ru.setExpectedOldObjectId(headId);
 						Result rc = ru.forceUpdate();
