@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAL3H///k0\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/TransportTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-03-07T09:32:33Z",
+      "side": 1,
+      "message": "Do you fear that /path/to/non-existing/repository.git by chance does really exist? If we want to create a pathName which does not exist there should be easier ways then to create a repo and then delete it again. Maybe something like\n\nString path \u003d new File(\n  System.getProperty(\"java.io.tmpdir\"),\n  \"TransportTest\" +\n    Long.toString(System.currentTimeMillis())\n  ).getAbsolutePath();",
+      "revId": "16f66d8c7a4c582f6aadba0465faba8f65dc38ee",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL3H///iw\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/TransportTest.java",
         "patchSetId": 1
