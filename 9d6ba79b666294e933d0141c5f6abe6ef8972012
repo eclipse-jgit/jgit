@@ -1,0 +1,22 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL3H///ig\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportLocal.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-03-07T18:30:48Z",
+      "side": 1,
+      "message": "Throwing NotSupportedException is probably the only thing we can do right now.\n\nFor quite a while now I have wanted to rebuild the way this API works. I want to introduce a TransportType interface that implements canHandle(URIish,FS), and has open(Repository,URIish) to construct the Transport instance. Then we can get rid of the static list of canHandle invocations inside of Transport and instead walk through a list of registered TransportTypes.\n\nEGit\u0027s dialog can use that list of TransportType to enumerate what connections are available, rather than hard-coding them all.\n\n\"Plugins\" to JGit could register their own TransportType instances, allowing us to support other means of transport (e.g. rsync://) that we don\u0027t support today because it requires use of software the Eclipse Foundation won\u0027t let us redistribute as part of the core JGit library. But if users supply their own plugins from external sources, there is no reason they shouldn\u0027t be able to register and \"Just Work\".\n\nBecause I can\u0027t think of what else is really critical for me to do today, I might try to sketch this out and post a change for discussion.",
+      "parentUuid": "AAAL3H///kk\u003d",
+      "revId": "9d6ba79b666294e933d0141c5f6abe6ef8972012",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
