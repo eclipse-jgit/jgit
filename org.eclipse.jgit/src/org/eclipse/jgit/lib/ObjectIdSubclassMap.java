@@ -63,19 +63,23 @@ import java.util.NoSuchElementException;
  *            type of subclass of ObjectId that will be stored in the map.
  */
 public class ObjectIdSubclassMap<V extends ObjectId> implements Iterable<V> {
+	private static final int INITIAL_TABLE_SIZE = 32;
+
 	private int size;
+
+	private int mask;
 
 	private V[] table;
 
 	/** Create an empty map. */
 	public ObjectIdSubclassMap() {
-		table = createArray(32);
+		initTable(INITIAL_TABLE_SIZE);
 	}
 
 	/** Remove all entries from this map. */
 	public void clear() {
 		size = 0;
-		table = createArray(32);
+		initTable(INITIAL_TABLE_SIZE);
 	}
 
 	/**
@@ -210,7 +214,7 @@ public class ObjectIdSubclassMap<V extends ObjectId> implements Iterable<V> {
 	}
 
 	private final int index(final AnyObjectId id) {
-		return (id.w1 >>> 1) % table.length;
+		return id.w1 & mask;
 	}
 
 	private void insert(final V newValue) {
@@ -226,12 +230,17 @@ public class ObjectIdSubclassMap<V extends ObjectId> implements Iterable<V> {
 		final V[] oldTable = table;
 		final int oldSize = table.length;
 
-		table = createArray(2 * oldSize);
+		initTable(oldSize << 1);
 		for (int i = 0; i < oldSize; i++) {
 			final V obj = oldTable[i];
 			if (obj != null)
 				insert(obj);
 		}
+	}
+
+	private void initTable(int sz) {
+		mask = sz - 1;
+		table = createArray(sz);
 	}
 
 	@SuppressWarnings("unchecked")
