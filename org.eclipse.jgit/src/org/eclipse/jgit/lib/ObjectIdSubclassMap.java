@@ -93,12 +93,14 @@ public class ObjectIdSubclassMap<V extends ObjectId> implements Iterable<V> {
 	 */
 	public V get(final AnyObjectId toFind) {
 		int i = toFind.w1 & mask;
+		final V[] tbl = table;
+		final int end = tbl.length;
 		V obj;
 
-		while ((obj = table[i]) != null) {
+		while ((obj = tbl[i]) != null) {
 			if (AnyObjectId.equals(obj, toFind))
 				return obj;
-			if (++i == table.length)
+			if (++i == end)
 				i = 0;
 		}
 		return null;
@@ -156,12 +158,14 @@ public class ObjectIdSubclassMap<V extends ObjectId> implements Iterable<V> {
 	 */
 	public <Q extends V> V addIfAbsent(final Q newValue) {
 		int i = newValue.w1 & mask;
+		final V[] tbl = table;
+		final int end = tbl.length;
 		V obj;
 
-		while ((obj = table[i]) != null) {
+		while ((obj = tbl[i]) != null) {
 			if (AnyObjectId.equals(obj, newValue))
 				return obj;
-			if (++i == table.length)
+			if (++i == end)
 				i = 0;
 		}
 
@@ -169,7 +173,7 @@ public class ObjectIdSubclassMap<V extends ObjectId> implements Iterable<V> {
 			grow();
 			insert(newValue);
 		} else {
-			table[i] = newValue;
+			tbl[i] = newValue;
 		}
 		return newValue;
 	}
@@ -215,11 +219,13 @@ public class ObjectIdSubclassMap<V extends ObjectId> implements Iterable<V> {
 
 	private void insert(final V newValue) {
 		int j = newValue.w1 & mask;
-		while (table[j] != null) {
-			if (++j >= table.length)
+		final V[] tbl = table;
+		final int end = tbl.length;
+		while (tbl[j] != null) {
+			if (++j == end)
 				j = 0;
 		}
-		table[j] = newValue;
+		tbl[j] = newValue;
 	}
 
 	private void grow() {
