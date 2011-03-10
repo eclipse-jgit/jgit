@@ -83,7 +83,7 @@ import org.eclipse.jgit.lib.AsyncObjectSizeQueue;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.ObjectIdSubclassMap;
+import org.eclipse.jgit.lib.ObjectIdOwnerMap;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.ProgressMonitor;
@@ -148,7 +148,7 @@ public class PackWriter {
 		objectsLists[Constants.OBJ_TAG] = new BlockList<ObjectToPack>();
 	}
 
-	private final ObjectIdSubclassMap<ObjectToPack> objectsMap = new ObjectIdSubclassMap<ObjectToPack>();
+	private final ObjectIdOwnerMap<ObjectToPack> objectsMap = new ObjectIdOwnerMap<ObjectToPack>();
 
 	// edge objects for thin packs
 	private List<ObjectToPack> edgeObjects = new BlockList<ObjectToPack>();

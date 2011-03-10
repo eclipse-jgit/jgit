@@ -63,7 +63,7 @@ import org.eclipse.jgit.lib.AsyncObjectLoaderQueue;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.MutableObjectId;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.ObjectIdSubclassMap;
+import org.eclipse.jgit.lib.ObjectIdOwnerMap;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
@@ -170,7 +170,7 @@ public class RevWalk implements Iterable<RevCommit> {
 
 	final MutableObjectId idBuffer;
 
-	private ObjectIdSubclassMap<RevObject> objects;
+	private ObjectIdOwnerMap<RevObject> objects;
 
 	private int freeFlags = APP_FLAGS;
 
@@ -220,7 +220,7 @@ public class RevWalk implements Iterable<RevCommit> {
 		repository = repo;
 		reader = or;
 		idBuffer = new MutableObjectId();
-		objects = new ObjectIdSubclassMap<RevObject>();
+		objects = new ObjectIdOwnerMap<RevObject>();
 		roots = new ArrayList<RevCommit>();
 		queue = new DateRevQueue();
 		pending = new StartGenerator(this);

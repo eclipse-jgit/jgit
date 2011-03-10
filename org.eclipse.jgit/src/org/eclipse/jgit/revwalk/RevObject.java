@@ -50,9 +50,10 @@ import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectIdOwnerMap;
 
 /** Base object type accessed during revision walking. */
-public abstract class RevObject extends ObjectId {
+public abstract class RevObject extends ObjectIdOwnerMap.Entry {
 	static final int PARSED = 1;
 
 	int flags;
