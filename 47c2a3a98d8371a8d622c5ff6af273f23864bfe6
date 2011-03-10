@@ -1,0 +1,22 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL3H///ao\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectIdSubclassMap.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-03-10T17:37:40Z",
+      "side": 1,
+      "message": "Correct. I\u0027m avoiding a check here for the size being a power of 2 because the class is only 250 lines of code, including copyright notices and documentation. If you are changing the size such that initTable gets called with a non-power of 2, and you can\u0027t read this much code, well... :-\\\n\nAs it is this class has some strange restrictions, like callers of the class *MUST* ensure they use add() *ONLY* if contains() would return false for the object. Otherwise its unpredictable what happens when there are duplicate mappings for an ObjectId.",
+      "parentUuid": "AAAL3H///cU\u003d",
+      "revId": "47c2a3a98d8371a8d622c5ff6af273f23864bfe6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
