@@ -1,0 +1,39 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL3H///cc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectIdSubclassMap.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-03-10T09:49:19Z",
+      "side": 1,
+      "message": "means: the array grows when it is filled to 50%, correct? Have you tried out to grow later and with more increase?",
+      "revId": "da548dfd2b8ef9842cbb0c7da7183f50d93018a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL3H///b4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectIdSubclassMap.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-03-10T10:05:30Z",
+      "side": 1,
+      "message": "forget this comment. I missed the discussion about load factors and optimizations on http://dev.eclipse.org/mhonarc/lists/jgit-dev/msg00980.html",
+      "parentUuid": "AAAL3H///cc\u003d",
+      "revId": "da548dfd2b8ef9842cbb0c7da7183f50d93018a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
