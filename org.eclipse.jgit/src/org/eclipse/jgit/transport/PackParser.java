@@ -68,6 +68,7 @@ import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectChecker;
 import org.eclipse.jgit.lib.ObjectDatabase;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectIdOwnerMap;
 import org.eclipse.jgit.lib.ObjectIdSubclassMap;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectLoader;
@@ -152,7 +153,7 @@ public abstract class PackParser {
 
 	private int entryCount;
 
-	private ObjectIdSubclassMap<DeltaChain> baseById;
+	private ObjectIdOwnerMap<DeltaChain> baseById;
 
 	/**
 	 * Objects referenced by their name from deltas, that aren't in this pack.
@@ -438,7 +439,7 @@ public abstract class PackParser {
 			readPackHeader();
 
 			entries = new PackedObjectInfo[(int) objectCount];
-			baseById = new ObjectIdSubclassMap<DeltaChain>();
+			baseById = new ObjectIdOwnerMap<DeltaChain>();
 			baseByPos = new LongMap<UnresolvedDelta>();
 			deferredCheckBlobs = new BlockList<PackedObjectInfo>();
 
@@ -1369,7 +1370,7 @@ public abstract class PackParser {
 		return inflater;
 	}
 
-	private static class DeltaChain extends ObjectId {
+	private static class DeltaChain extends ObjectIdOwnerMap.Entry {
 		UnresolvedDelta head;
 
 		DeltaChain(final AnyObjectId id) {

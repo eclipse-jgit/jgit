@@ -55,7 +55,7 @@ import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectDatabase;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.ObjectIdSubclassMap;
+import org.eclipse.jgit.lib.ObjectIdOwnerMap;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.storage.pack.CachedPack;
 import org.eclipse.jgit.storage.pack.ObjectToPack;
@@ -73,7 +73,7 @@ class CachedObjectDirectory extends FileObjectDatabase {
 	 * The set that contains unpacked objects identifiers, it is created when
 	 * the cached instance is created.
 	 */
-	private final ObjectIdSubclassMap<ObjectId> unpackedObjects = new ObjectIdSubclassMap<ObjectId>();
+	private final ObjectIdOwnerMap<UnpackedObjectId> unpackedObjects = new ObjectIdOwnerMap<UnpackedObjectId>();
 
 	private final ObjectDirectory wrapped;
 
@@ -102,7 +102,8 @@ class CachedObjectDirectory extends FileObjectDatabase {
 				if (e.length() != Constants.OBJECT_ID_STRING_LENGTH - 2)
 					continue;
 				try {
-					unpackedObjects.add(ObjectId.fromString(d + e));
+					ObjectId id = ObjectId.fromString(d + e);
+					unpackedObjects.add(new UnpackedObjectId(id));
 				} catch (IllegalArgumentException notAnObject) {
 					// ignoring the file that does not represent loose object
 				}
@@ -235,7 +236,7 @@ class CachedObjectDirectory extends FileObjectDatabase {
 		switch (result) {
 		case INSERTED:
 		case EXISTS_LOOSE:
-			unpackedObjects.addIfAbsent(objectId);
+			unpackedObjects.addIfAbsent(new UnpackedObjectId(objectId));
 			break;
 
 		case EXISTS_PACKED:
@@ -254,5 +255,11 @@ class CachedObjectDirectory extends FileObjectDatabase {
 	void selectObjectRepresentation(PackWriter packer, ObjectToPack otp,
 			WindowCursor curs) throws IOException {
 		wrapped.selectObjectRepresentation(packer, otp, curs);
+	}
+
+	private static class UnpackedObjectId extends ObjectIdOwnerMap.Entry {
+		UnpackedObjectId(AnyObjectId id) {
+			super(id);
+		}
 	}
 }

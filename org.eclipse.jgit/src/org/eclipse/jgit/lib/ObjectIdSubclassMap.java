@@ -54,10 +54,8 @@ import java.util.NoSuchElementException;
  * This map provides an efficient translation from any ObjectId instance to a
  * cached subclass of ObjectId that has the same value.
  * <p>
- * Raw value equality is tested when comparing two ObjectIds (or subclasses),
- * not reference equality and not <code>.equals(Object)</code> equality. This
- * allows subclasses to override <code>equals</code> to supply their own
- * extended semantics.
+ * If object instances are stored in only one map, {@link ObjectIdOwnerMap} is a
+ * more efficient implementation.
  *
  * @param <V>
  *            type of subclass of ObjectId that will be stored in the map.
