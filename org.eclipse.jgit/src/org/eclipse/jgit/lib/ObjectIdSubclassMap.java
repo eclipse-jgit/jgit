@@ -92,16 +92,15 @@ public class ObjectIdSubclassMap<V extends ObjectId> implements Iterable<V> {
 	 * @return the instance mapped to toFind, or null if no mapping exists.
 	 */
 	public V get(final AnyObjectId toFind) {
-		int i = toFind.w1 & mask;
+		final int msk = mask;
+		int i = toFind.w1 & msk;
 		final V[] tbl = table;
-		final int end = tbl.length;
 		V obj;
 
 		while ((obj = tbl[i]) != null) {
 			if (AnyObjectId.equals(obj, toFind))
 				return obj;
-			if (++i == end)
-				i = 0;
+			i = (i + 1) & msk;
 		}
 		return null;
 	}
@@ -157,16 +156,15 @@ public class ObjectIdSubclassMap<V extends ObjectId> implements Iterable<V> {
 	 *            type of instance to store.
 	 */
 	public <Q extends V> V addIfAbsent(final Q newValue) {
-		int i = newValue.w1 & mask;
+		final int msk = mask;
+		int i = newValue.w1 & msk;
 		final V[] tbl = table;
-		final int end = tbl.length;
 		V obj;
 
 		while ((obj = tbl[i]) != null) {
 			if (AnyObjectId.equals(obj, newValue))
 				return obj;
-			if (++i == end)
-				i = 0;
+			i = (i + 1) & msk;
 		}
 
 		if (++size == grow) {
@@ -218,13 +216,11 @@ public class ObjectIdSubclassMap<V extends ObjectId> implements Iterable<V> {
 	}
 
 	private void insert(final V newValue) {
-		int j = newValue.w1 & mask;
+		final int msk = mask;
+		int j = newValue.w1 & msk;
 		final V[] tbl = table;
-		final int end = tbl.length;
-		while (tbl[j] != null) {
-			if (++j == end)
-				j = 0;
-		}
+		while (tbl[j] != null)
+			j = (j + 1) & msk;
 		tbl[j] = newValue;
 	}
 
