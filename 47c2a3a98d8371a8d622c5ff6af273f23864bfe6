@@ -2,6 +2,24 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAL3H///as\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectIdSubclassMap.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-03-10T17:37:40Z",
+      "side": 1,
+      "message": "The old code uses \u003e\u003e\u003e 1 because -1 % 32 is negative. So if the high bit was set we would get a negative array index, and that doesn\u0027t work in Java. :-)\n\nDoing \u003e\u003e\u003e 1 to \"clear\" the high bit and force the value positive is faster than any other means of making the value positive, especially when you know w1 is coming from SHA-1 and all of the bits are about equally as good for our hash code.\n\nThe old code used % rather than \u0026 because I think the table used to use a prime number for its length, rather than a power of 2. But we have since changed to using a power of 2, so \u0026 is faster.\n\nAnd yes, all of the bits are about equally as good coming from w1, and the newer code is 1 fewer instructions and the remaining instruction is faster to execute for most processors.",
+      "parentUuid": "AAAL3H///cY\u003d",
+      "revId": "47c2a3a98d8371a8d622c5ff6af273f23864bfe6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL3H///ao\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectIdSubclassMap.java",
         "patchSetId": 1
