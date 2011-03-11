@@ -37,6 +37,9 @@
  */
 package org.eclipse.jgit.pgm;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.jgit.api.CommitCommand;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.ConcurrentRefUpdateException;
@@ -47,6 +50,7 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.util.RawParseUtils;
+import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 
 @Command(common = true, usage = "usage_recordChangesToRepository")
@@ -54,11 +58,17 @@ class Commit extends TextBuiltin {
 	// I don't support setting the committer, because also the native git
 	// command doesn't allow this.
 
-	@Option(name = "--author", metaVar="metaVar_author", usage = "usage_CommitAuthor")
+	@Option(name = "--author", metaVar = "metaVar_author", usage = "usage_CommitAuthor")
 	private String author;
 
-	@Option(name = "--message", aliases = { "-m" }, metaVar="metaVar_message", usage="usage_CommitMessage", required=true)
+	@Option(name = "--message", aliases = { "-m" }, metaVar = "metaVar_message", usage = "usage_CommitMessage", required = true)
 	private String message;
+
+	@Option(name = "--only", aliases = { "-o" }, usage = "usage_CommitOnly")
+	private boolean only;
+
+	@Argument(metaVar = "metaVar_commitPaths", usage = "usage_CommitPaths")
+	private List<String> paths = new ArrayList<String>();
 
 	@Override
 	protected void run() throws NoHeadException, NoMessageException,
@@ -68,6 +78,11 @@ class Commit extends TextBuiltin {
 			commitCmd.setAuthor(RawParseUtils.parsePersonIdent(author));
 		if (message != null)
 			commitCmd.setMessage(message);
+		if (only && paths.isEmpty())
+			throw die(CLIText.get().pathsRequired);
+		if (!paths.isEmpty())
+			for (String p : paths)
+				commitCmd.setOnly(p);
 		Ref head = db.getRef(Constants.HEAD);
 		RevCommit commit = commitCmd.call();
 
