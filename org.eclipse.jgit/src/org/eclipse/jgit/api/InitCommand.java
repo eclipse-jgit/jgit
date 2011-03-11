@@ -83,7 +83,7 @@ public class InitCommand implements Callable<Git> {
 			} else if (builder.getGitDir() == null) {
 				File d = new File(".");
 				if (!bare)
-					d = new File(d, Constants.DOT_GIT);
+					d = new File(d, Constants.DOT_GIT).getCanonicalFile();
 				builder.setGitDir(d);
 			}
 			Repository repository = builder.build();
