@@ -71,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL3H///gU\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CommitAndLogCommandTests.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 100
+      },
+      "writtenOn": "2011-03-08T22:40:25Z",
+      "side": 1,
+      "message": "Okay, I\u0027ve removed the unnecessary code.",
+      "parentUuid": "AAAL3H///lg\u003d",
+      "revId": "df717dc3257e77c7fad209a492879943e019e91b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL3H///lQ\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CommitAndLogCommandTests.java",
         "patchSetId": 1
