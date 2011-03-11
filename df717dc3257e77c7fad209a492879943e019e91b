@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAL3H///vc\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Commit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 100
+      },
+      "writtenOn": "2011-03-03T16:15:53Z",
+      "side": 1,
+      "message": "Native Git allows to omit the option when paths are specified.",
+      "revId": "df717dc3257e77c7fad209a492879943e019e91b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL3H///l0\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CommitAndLogCommandTests.java",
         "patchSetId": 1
@@ -13,6 +30,24 @@
       "writtenOn": "2011-03-06T22:53:30Z",
       "side": 1,
       "message": "you can replace all this lines by writeTrashFile(\"a\"). Also true for all the other writes to files. The tests are much easier to read this way.",
+      "revId": "df717dc3257e77c7fad209a492879943e019e91b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL3H///gY\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CommitAndLogCommandTests.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 100
+      },
+      "writtenOn": "2011-03-08T22:40:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL3H///l0\u003d",
       "revId": "df717dc3257e77c7fad209a492879943e019e91b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -47,6 +82,24 @@
       "writtenOn": "2011-03-06T22:53:30Z",
       "side": 1,
       "message": "Really?? Where is b.txt? A \"commit -o b.txt\" should not remove b.txt from the index, or? The index should always contain all files which should be in the next commit - not only those files which should be modified by the next commit. If we would commit in this state then the next commit would only contain a .txt, and  b.txt would not be under version control anymore. A git log would tell that the last commit has deleted b.txt\n\nI would expect an index containing a.txt and b.txt. I wouldn\u0027t even expect that a commit -o changes the index substantially.\n\nTry it out with native git:\ngit init\necho a\u003ea\necho b\u003eb\ngit add .\ngit ls-files --stage\ngit commit -o b -m only_b\ngit ls-files --stage\ngit commit -m both\ngit ls-files --stage\ngit log -p",
+      "revId": "df717dc3257e77c7fad209a492879943e019e91b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL3H///gQ\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CommitAndLogCommandTests.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 100
+      },
+      "writtenOn": "2011-03-08T22:40:25Z",
+      "side": 1,
+      "message": "Yes, you are absolutely right. I will add this to the test, i.e. first do a commit -o and then perform a \u0027normal\u0027 commit.",
+      "parentUuid": "AAAL3H///lQ\u003d",
       "revId": "df717dc3257e77c7fad209a492879943e019e91b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
