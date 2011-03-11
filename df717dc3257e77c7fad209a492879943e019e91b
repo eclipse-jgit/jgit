@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL3X///+g\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Commit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 100
+      },
+      "writtenOn": "2011-03-11T13:34:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL3H///vc\u003d",
+      "revId": "df717dc3257e77c7fad209a492879943e019e91b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL3H///l0\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CommitAndLogCommandTests.java",
         "patchSetId": 1
@@ -141,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL3H///fU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 100
+      },
+      "writtenOn": "2011-03-08T22:40:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL3H///lM\u003d",
+      "revId": "df717dc3257e77c7fad209a492879943e019e91b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL3H///lI\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
         "patchSetId": 1
@@ -152,6 +188,24 @@
       "writtenOn": "2011-03-06T22:53:30Z",
       "side": 1,
       "message": "We should at least mention whether we support any wildcards/special syntax here.",
+      "revId": "df717dc3257e77c7fad209a492879943e019e91b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL3H///gM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 100
+      },
+      "writtenOn": "2011-03-08T22:40:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL3H///lI\u003d",
       "revId": "df717dc3257e77c7fad209a492879943e019e91b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
