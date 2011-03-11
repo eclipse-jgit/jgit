@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL3X///+o\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CommitAndLogCommandTests.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 100
+      },
+      "writtenOn": "2011-03-11T13:34:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL3H///eM\u003d",
+      "revId": "f78b5aaeceb56c505afe43740dfa3fe42bd414e4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL3H///eQ\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
         "patchSetId": 2
