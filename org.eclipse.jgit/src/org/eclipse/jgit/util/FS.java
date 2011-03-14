@@ -53,7 +53,16 @@ import java.security.PrivilegedAction;
 /** Abstraction to support various file system operations not in Java. */
 public abstract class FS {
 	/** The auto-detected implementation selected for this operating system and JRE. */
-	public static final FS DETECTED;
+	public static final FS DETECTED = detect();
+
+	/**
+	 * Auto-detect the appropriate file system abstraction.
+	 *
+	 * @return detected file system abstraction
+	 */
+	public static FS detect() {
+		return detect(null);
+	}
 
 	/**
 	 * Auto-detect the appropriate file system abstraction, taking into account
@@ -77,22 +86,17 @@ public abstract class FS {
 	 * @return detected file system abstraction
 	 */
 	public static FS detect(Boolean cygwinUsed) {
-		if (FS_Win32.detect()) {
-			boolean useCygwin = (cygwinUsed == null && FS_Win32_Cygwin.detect())
-					|| Boolean.TRUE.equals(cygwinUsed);
-
-			if (useCygwin)
+		if (FS_Win32.isWin32()) {
+			if (cygwinUsed == null)
+				cygwinUsed = Boolean.valueOf(FS_Win32_Cygwin.isCygwin());
+			if (cygwinUsed.booleanValue())
 				return new FS_Win32_Cygwin();
 			else
 				return new FS_Win32();
-		} else if (FS_POSIX_Java6.detect())
+		} else if (FS_POSIX_Java6.hasExecute())
 			return new FS_POSIX_Java6();
 		else
 			return new FS_POSIX_Java5();
-	}
-
-	static {
-		DETECTED = detect(null);
 	}
 
 	private final File userHome;

@@ -53,7 +53,7 @@ import java.util.List;
 class FS_Win32_Cygwin extends FS_Win32 {
 	private static String cygpath;
 
-	static boolean detect() {
+	static boolean isCygwin() {
 		final String path = AccessController
 				.doPrivileged(new PrivilegedAction<String>() {
 					public String run() {

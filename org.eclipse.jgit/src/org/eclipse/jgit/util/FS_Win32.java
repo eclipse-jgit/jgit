@@ -53,7 +53,7 @@ import java.util.Arrays;
 import java.util.List;
 
 class FS_Win32 extends FS {
-	static boolean detect() {
+	static boolean isWin32() {
 		final String osDotName = AccessController
 				.doPrivileged(new PrivilegedAction<String>() {
 					public String run() {
