@@ -542,8 +542,8 @@ public abstract class Transport {
 				continue;
 			}
 
-			if (proto.canHandle(local, uri, remoteName))
-				return proto.open(local, uri, remoteName);
+			if (proto.canHandle(uri, local, remoteName))
+				return proto.open(uri, local, remoteName);
 		}
 
 		throw new NotSupportedException(MessageFormat.format(JGitText.get().URINotSupported, uri));

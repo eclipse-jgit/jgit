@@ -118,7 +118,7 @@ public class TransportAmazonS3 extends HttpTransport implements WalkTransport {
 			return Collections.unmodifiableSet(EnumSet.of(URIishField.PASS));
 		}
 
-		public Transport open(Repository local, URIish uri, String remoteName)
+		public Transport open(URIish uri, Repository local, String remoteName)
 				throws NotSupportedException {
 			return new TransportAmazonS3(local, uri);
 		}
