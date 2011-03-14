@@ -148,7 +148,7 @@ public abstract class AbstractPlotRenderer<TLane extends PlotLane, TColor> {
 			drawCommitDot(dotX, dotY, dotSize, dotSize);
 
 		int textx = Math.max(maxCenter + LANE_WIDTH / 2, dotX + dotSize) + 8;
-		int n = commit.refs == null ? 0 : commit.refs.length;
+		int n = commit.refs.length;
 		for (int i = 0; i < n; ++i) {
 			textx += drawLabel(textx + dotSize, h/2, commit.refs[i]);
 		}
