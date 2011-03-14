@@ -101,6 +101,8 @@ public abstract class FS {
 
 	private final File userHome;
 
+	private volatile Holder<File> gitPrefix;
+
 	/**
 	 * Constructs a file system abstraction.
 	 */
@@ -258,7 +260,29 @@ public abstract class FS {
 	}
 
 	/** @return the $prefix directory C Git would use. */
-	public abstract File gitPrefix();
+	public File gitPrefix() {
+		Holder<File> p = gitPrefix;
+		if (p == null) {
+			p = new Holder<File>(discoverGitPrefix());
+			gitPrefix = p;
+		}
+		return p.value;
+	}
+
+	/** @return the $prefix directory C Git would use. */
+	protected abstract File discoverGitPrefix();
+
+	/**
+	 * Set the $prefix directory C Git uses.
+	 *
+	 * @param path
+	 *            the directory. Null if C Git is not installed.
+	 * @return {@code this}
+	 */
+	public FS setGitPrefix(File path) {
+		gitPrefix = new Holder<File>(path);
+		return this;
+	}
 
 	/**
 	 * Initialize a ProcesssBuilder to run a command using the system shell.
@@ -273,4 +297,12 @@ public abstract class FS {
 	 *         populating directory, environment, and then start the process.
 	 */
 	public abstract ProcessBuilder runInShell(String cmd, String[] args);
+
+	private static class Holder<V> {
+		final V value;
+
+		Holder(V value) {
+			this.value = value;
+		}
+	}
 }
