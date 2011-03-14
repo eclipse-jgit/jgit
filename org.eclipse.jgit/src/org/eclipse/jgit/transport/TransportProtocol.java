@@ -138,17 +138,11 @@ public abstract class TransportProtocol {
 	 * {@link #getOptionalFields()}, returning true only if all of the fields
 	 * match the specification.
 	 *
-	 * @param local
-	 *            the local repository that will communicate with the other Git
-	 *            repository.
 	 * @param uri
 	 *            address of the Git repository; never null.
-	 * @param remoteName
-	 *            name of the remote, if the remote as configured in
-	 *            {@code local}; otherwise null.
 	 * @return true if this protocol can handle this URI; false otherwise.
 	 */
-	public boolean canHandle(Repository local, URIish uri, String remoteName) {
+	public boolean canHandle(URIish uri) {
 		if (!getSchemes().isEmpty() && !getSchemes().contains(uri.getScheme()))
 			return false;
 
