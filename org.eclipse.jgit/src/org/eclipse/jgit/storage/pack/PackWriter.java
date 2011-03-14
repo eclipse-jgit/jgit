@@ -402,8 +402,18 @@ public class PackWriter {
 	 * Returns objects number in a pack file that was created by this writer.
 	 *
 	 * @return number of objects in pack.
+	 * @throws IOException
+	 *             a cached pack cannot supply its object count.
 	 */
-	public long getObjectsNumber() {
+	public long getObjectsNumber() throws IOException {
+		if (stats.totalObjects == 0) {
+			long objCnt = 0;
+			for (List<ObjectToPack> list : objectsLists)
+				objCnt += list.size();
+			for (CachedPack pack : cachedPacks)
+				objCnt += pack.getObjectCount();
+			return objCnt;
+		}
 		return stats.totalObjects;
 	}
 
@@ -635,13 +645,8 @@ public class PackWriter {
 		final PackOutputStream out = new PackOutputStream(writeMonitor,
 				packStream, this);
 
-		long objCnt = 0;
-		for (List<ObjectToPack> list : objectsLists)
-			objCnt += list.size();
-		for (CachedPack pack : cachedPacks)
-			objCnt += pack.getObjectCount();
+		long objCnt = getObjectsNumber();
 		stats.totalObjects = objCnt;
-
 		writeMonitor.beginTask(JGitText.get().writingObjects, (int) objCnt);
 		long writeStart = System.currentTimeMillis();
 
