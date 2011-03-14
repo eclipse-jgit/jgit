@@ -78,7 +78,7 @@ public class PushCommand extends GitCommand<Iterable<PushResult>> {
 
 	private String remote = Constants.DEFAULT_REMOTE_NAME;
 
-	private List<RefSpec> refSpecs;
+	private final List<RefSpec> refSpecs;
 
 	private ProgressMonitor monitor = NullProgressMonitor.INSTANCE;
 
@@ -124,10 +124,8 @@ public class PushCommand extends GitCommand<Iterable<PushResult>> {
 
 		try {
 			if (force) {
-				final List<RefSpec> orig = new ArrayList<RefSpec>(refSpecs);
-				refSpecs.clear();
-				for (final RefSpec spec : orig)
-					refSpecs.add(spec.setForceUpdate(true));
+				for (int i = 0; i < refSpecs.size(); i++)
+					refSpecs.set(i, refSpecs.get(i).setForceUpdate(true));
 			}
 
 			final List<Transport> transports;
