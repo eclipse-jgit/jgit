@@ -318,6 +318,45 @@ public class PushCommand extends GitCommand<Iterable<PushResult>> {
 	}
 
 	/**
+	 * Add a reference to push.
+	 *
+	 * @param ref
+	 *            the source reference. The remote name will match.
+	 * @return {@code this}.
+	 */
+	public PushCommand add(Ref ref) {
+		refSpecs.add(new RefSpec(ref.getLeaf().getName()));
+		return this;
+	}
+
+	/**
+	 * Add a reference to push.
+	 *
+	 * @param nameOrSpec
+	 *            any reference name, or a reference specification.
+	 * @return {@code this}.
+	 * @throws JGitInternalException
+	 *             the reference name cannot be resolved.
+	 */
+	public PushCommand add(String nameOrSpec) throws JGitInternalException {
+		if (0 <= nameOrSpec.indexOf(':')) {
+			refSpecs.add(new RefSpec(nameOrSpec));
+		} else {
+			Ref src;
+			try {
+				src = repo.getRef(nameOrSpec);
+			} catch (IOException e) {
+				throw new JGitInternalException(
+						JGitText.get().exceptionCaughtDuringExecutionOfPushCommand,
+						e);
+			}
+			if (src != null)
+				add(src);
+		}
+		return this;
+	}
+
+	/**
 	 * @return the dry run preference for the push operation
 	 */
 	public boolean isDryRun() {
