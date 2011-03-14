@@ -58,6 +58,7 @@ import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ProgressMonitor;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.PushResult;
@@ -123,6 +124,12 @@ public class PushCommand extends GitCommand<Iterable<PushResult>> {
 		ArrayList<PushResult> pushResults = new ArrayList<PushResult>(3);
 
 		try {
+			if (refSpecs.isEmpty()) {
+				Ref head = repo.getRef(Constants.HEAD);
+				if (head != null && head.isSymbolic())
+					refSpecs.add(new RefSpec(head.getLeaf().getName()));
+			}
+
 			if (force) {
 				for (int i = 0; i < refSpecs.size(); i++)
 					refSpecs.set(i, refSpecs.get(i).setForceUpdate(true));
