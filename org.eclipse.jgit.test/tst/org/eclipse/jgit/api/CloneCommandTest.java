@@ -49,17 +49,25 @@ import static org.junit.Assert.fail;
 import java.io.File;
 import java.io.IOException;
 
+import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.RefUpdate;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryTestCase;
+import org.eclipse.jgit.revwalk.RevBlob;
 import org.junit.Test;
 
 public class CloneCommandTest extends RepositoryTestCase {
 
 	private Git git;
 
+	private TestRepository<Repository> tr;
+
 	public void setUp() throws Exception {
 		super.setUp();
+		tr = new TestRepository<Repository>(db);
+
 		git = new Git(db);
 		// commit something
 		writeTrashFile("Test.txt", "Hello world");
@@ -75,6 +83,8 @@ public class CloneCommandTest extends RepositoryTestCase {
 		writeTrashFile("Test.txt", "Some change");
 		git.add().addFilepattern("Test.txt").call();
 		git.commit().setMessage("Second commit").call();
+		RevBlob blob = tr.blob("blob-not-in-master-branch");
+		git.tag().setName("tag-for-blob").setObjectId(blob).call();
 	}
 
 	@Test
@@ -87,6 +97,8 @@ public class CloneCommandTest extends RepositoryTestCase {
 					+ git.getRepository().getWorkTree().getPath());
 			Git git2 = command.call();
 			assertNotNull(git2);
+			ObjectId id = git2.getRepository().resolve("tag-for-blob");
+			assertNotNull(id);
 		} catch (Exception e) {
 			fail(e.getMessage());
 		}
