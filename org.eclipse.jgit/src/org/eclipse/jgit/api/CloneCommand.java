@@ -66,6 +66,7 @@ import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.FetchResult;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteConfig;
+import org.eclipse.jgit.transport.TagOpt;
 import org.eclipse.jgit.transport.URIish;
 
 /**
@@ -149,6 +150,7 @@ public class CloneCommand implements Callable<Git> {
 		FetchCommand command = new FetchCommand(repo);
 		command.setRemote(remote);
 		command.setProgressMonitor(monitor);
+		command.setTagOpt(TagOpt.FETCH_TAGS);
 		if (credentialsProvider != null)
 			command.setCredentialsProvider(credentialsProvider);
 		return command.call();

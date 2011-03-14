@@ -69,6 +69,7 @@ import org.eclipse.jgit.storage.file.FileRepository;
 import org.eclipse.jgit.transport.FetchResult;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteConfig;
+import org.eclipse.jgit.transport.TagOpt;
 import org.eclipse.jgit.transport.Transport;
 import org.eclipse.jgit.transport.URIish;
 import org.kohsuke.args4j.Argument;
@@ -143,6 +144,7 @@ class Clone extends AbstractFetchCommand {
 		final Transport tn = Transport.open(db, remoteName);
 		final FetchResult r;
 		try {
+			tn.setTagOpt(TagOpt.FETCH_TAGS);
 			r = tn.fetch(new TextProgressMonitor(), null);
 		} finally {
 			tn.close();
