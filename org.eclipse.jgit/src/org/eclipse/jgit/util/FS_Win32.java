@@ -64,6 +64,18 @@ class FS_Win32 extends FS {
 				&& StringUtils.toLowerCase(osDotName).indexOf("windows") != -1;
 	}
 
+	FS_Win32() {
+		super();
+	}
+
+	FS_Win32(FS src) {
+		super(src);
+	}
+
+	public FS newInstance() {
+		return new FS_Win32(this);
+	}
+
 	public boolean supportsExecute() {
 		return false;
 	}

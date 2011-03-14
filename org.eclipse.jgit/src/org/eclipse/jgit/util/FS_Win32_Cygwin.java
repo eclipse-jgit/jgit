@@ -68,6 +68,18 @@ class FS_Win32_Cygwin extends FS_Win32 {
 		return cygpath != null;
 	}
 
+	FS_Win32_Cygwin() {
+		super();
+	}
+
+	FS_Win32_Cygwin(FS src) {
+		super(src);
+	}
+
+	public FS newInstance() {
+		return new FS_Win32_Cygwin(this);
+	}
+
 	public File resolve(final File dir, final String pn) {
 		String w = readPipe(dir, //
 				new String[] { cygpath, "--windows", "--absolute", pn }, //
