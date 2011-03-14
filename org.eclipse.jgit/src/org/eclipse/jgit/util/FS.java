@@ -99,7 +99,7 @@ public abstract class FS {
 			return new FS_POSIX_Java5();
 	}
 
-	private final File userHome;
+	private volatile Holder<File> userHome;
 
 	private volatile Holder<File> gitPrefix;
 
@@ -107,7 +107,7 @@ public abstract class FS {
 	 * Constructs a file system abstraction.
 	 */
 	protected FS() {
-		this.userHome = userHomeImpl();
+		// Do nothing by default.
 	}
 
 	/**
@@ -182,7 +182,25 @@ public abstract class FS {
 	 * @return the user's home directory; null if the user does not have one.
 	 */
 	public File userHome() {
-		return userHome;
+		Holder<File> p = userHome;
+		if (p == null) {
+			p = new Holder<File>(userHomeImpl());
+			userHome = p;
+		}
+		return p.value;
+	}
+
+	/**
+	 * Set the user's home directory location.
+	 *
+	 * @param path
+	 *            the location of the user's preferences; null if there is no
+	 *            home directory for the current user.
+	 * @return {@code this}.
+	 */
+	public FS setUserHome(File path) {
+		userHome = new Holder<File>(path);
+		return this;
 	}
 
 	/**
