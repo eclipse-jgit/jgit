@@ -96,7 +96,7 @@ class TransportGitAnon extends TcpTransport implements PackTransport {
 			return GIT_PORT;
 		}
 
-		public Transport open(Repository local, URIish uri, String remoteName)
+		public Transport open(URIish uri, Repository local, String remoteName)
 				throws NotSupportedException {
 			return new TransportGitAnon(local, uri);
 		}

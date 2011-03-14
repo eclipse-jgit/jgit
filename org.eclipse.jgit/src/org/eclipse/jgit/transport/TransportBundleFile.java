@@ -78,7 +78,7 @@ class TransportBundleFile extends Transport implements TransportBundle {
 		}
 
 		@Override
-		public boolean canHandle(Repository local, URIish uri, String remoteName) {
+		public boolean canHandle(URIish uri, Repository local, String remoteName) {
 			if (uri.getPath() == null
 					|| uri.getPort() > 0
 					|| uri.getUser() != null
@@ -90,7 +90,7 @@ class TransportBundleFile extends Transport implements TransportBundle {
 		}
 
 		@Override
-		public Transport open(Repository local, URIish uri, String remoteName)
+		public Transport open(URIish uri, Repository local, String remoteName)
 				throws NotSupportedException, TransportException {
 			if ("bundle".equals(uri.getScheme())) {
 				File path = local.getFS().resolve(new File("."), uri.getPath());
@@ -102,7 +102,7 @@ class TransportBundleFile extends Transport implements TransportBundle {
 			// resolve the path and figure out which type it is by testing
 			// the target.
 			//
-			return TransportLocal.PROTO_LOCAL.open(local, uri, remoteName);
+			return TransportLocal.PROTO_LOCAL.open(uri, local, remoteName);
 		}
 	};
 

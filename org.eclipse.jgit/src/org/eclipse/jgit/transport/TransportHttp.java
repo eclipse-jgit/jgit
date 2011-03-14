@@ -163,7 +163,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 			return 80;
 		}
 
-		public Transport open(Repository local, URIish uri, String remoteName)
+		public Transport open(URIish uri, Repository local, String remoteName)
 				throws NotSupportedException {
 			return new TransportHttp(local, uri);
 		}
@@ -192,7 +192,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 			return 21;
 		}
 
-		public Transport open(Repository local, URIish uri, String remoteName)
+		public Transport open(URIish uri, Repository local, String remoteName)
 				throws NotSupportedException {
 			return new TransportHttp(local, uri);
 		}
