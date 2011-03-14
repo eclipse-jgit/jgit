@@ -133,7 +133,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 		assertEquals(false, writer.isDeltaBaseAsOffset());
 		assertEquals(true, config.isReuseDeltas());
 		assertEquals(true, config.isReuseObjects());
-		assertEquals(0, writer.getObjectsNumber());
+		assertEquals(0, writer.getObjectCount());
 	}
 
 	/**
@@ -164,7 +164,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 	public void testWriteEmptyPack1() throws IOException {
 		createVerifyOpenPack(EMPTY_LIST_OBJECT, EMPTY_LIST_OBJECT, false, false);
 
-		assertEquals(0, writer.getObjectsNumber());
+		assertEquals(0, writer.getObjectCount());
 		assertEquals(0, pack.getObjectCount());
 		assertEquals("da39a3ee5e6b4b0d3255bfef95601890afd80709", writer
 				.computeName().name());
@@ -180,7 +180,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 	public void testWriteEmptyPack2() throws IOException {
 		createVerifyOpenPack(EMPTY_LIST_REVS);
 
-		assertEquals(0, writer.getObjectsNumber());
+		assertEquals(0, writer.getObjectCount());
 		assertEquals(0, pack.getObjectCount());
 	}
 
@@ -323,7 +323,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 
 		createVerifyOpenPack(Arrays.asList(forcedOrderRevs));
 
-		assertEquals(forcedOrder.length, writer.getObjectsNumber());
+		assertEquals(forcedOrder.length, writer.getObjectCount());
 		verifyObjectsOrder(forcedOrder);
 		assertEquals("ed3f96b8327c7c66b0f8f70056129f0769323d86", writer
 				.computeName().name());
@@ -466,7 +466,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 				ObjectId.fromString("5b6e7c66c276e7610d4a73c70ec1a1f7c1003259"),
 				ObjectId.fromString("6ff87c4664981e4397625791c8ea3bbb5f2279a3") };
 
-		assertEquals(expectedOrder.length, writer.getObjectsNumber());
+		assertEquals(expectedOrder.length, writer.getObjectCount());
 		verifyObjectsOrder(expectedOrder);
 		assertEquals("34be9032ac282b11fa9babdc2b2a93ca996c9c2f", writer
 				.computeName().name());
@@ -495,7 +495,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 			expectedOrder[4] = expectedOrder[5];
 			expectedOrder[5] = temp;
 		}
-		assertEquals(expectedOrder.length, writer.getObjectsNumber());
+		assertEquals(expectedOrder.length, writer.getObjectCount());
 		verifyObjectsOrder(expectedOrder);
 		assertEquals("ed3f96b8327c7c66b0f8f70056129f0769323d86", writer
 				.computeName().name());
@@ -514,7 +514,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 				ObjectId.fromString("82c6b885ff600be425b4ea96dee75dca255b69e7"),
 				ObjectId.fromString("aabf2ffaec9b497f0950352b3e582d73035c2035"),
 				ObjectId.fromString("5b6e7c66c276e7610d4a73c70ec1a1f7c1003259") };
-		assertEquals(writtenObjects.length, writer.getObjectsNumber());
+		assertEquals(writtenObjects.length, writer.getObjectCount());
 		ObjectId expectedObjects[];
 		if (thin) {
 			expectedObjects = new ObjectId[4];
@@ -550,7 +550,7 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 		NullProgressMonitor m = NullProgressMonitor.INSTANCE;
 		writer = new PackWriter(config, db.newObjectReader());
 		writer.preparePack(objectSource.iterator());
-		assertEquals(objectSource.size(), writer.getObjectsNumber());
+		assertEquals(objectSource.size(), writer.getObjectCount());
 		writer.writePack(m, m, os);
 		writer.release();
 		verifyOpenPack(false);

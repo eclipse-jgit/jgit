@@ -405,7 +405,7 @@ public class PackWriter {
 	 * @throws IOException
 	 *             a cached pack cannot supply its object count.
 	 */
-	public long getObjectsNumber() throws IOException {
+	public long getObjectCount() throws IOException {
 		if (stats.totalObjects == 0) {
 			long objCnt = 0;
 			for (List<ObjectToPack> list : objectsLists)
@@ -645,7 +645,7 @@ public class PackWriter {
 		final PackOutputStream out = new PackOutputStream(writeMonitor,
 				packStream, this);
 
-		long objCnt = getObjectsNumber();
+		long objCnt = getObjectCount();
 		stats.totalObjects = objCnt;
 		writeMonitor.beginTask(JGitText.get().writingObjects, (int) objCnt);
 		long writeStart = System.currentTimeMillis();

@@ -230,7 +230,7 @@ class WalkPushConnection extends BaseConnection implements PushConnection {
 			// be an empty pack, as the remote has all objects it
 			// needs to complete this change.
 			//
-			if (writer.getObjectsNumber() == 0)
+			if (writer.getObjectCount() == 0)
 				return;
 
 			packNames = new LinkedHashMap<String, String>();
