@@ -298,6 +298,26 @@ public class PushCommand extends GitCommand<Iterable<PushResult>> {
 	}
 
 	/**
+	 * Push all branches under refs/heads/*.
+	 *
+	 * @return {code this}
+	 */
+	public PushCommand setPushAll() {
+		refSpecs.add(Transport.REFSPEC_PUSH_ALL);
+		return this;
+	}
+
+	/**
+	 * Push all tags under refs/tags/*.
+	 *
+	 * @return {code this}
+	 */
+	public PushCommand setPushTags() {
+		refSpecs.add(Transport.REFSPEC_TAGS);
+		return this;
+	}
+
+	/**
 	 * @return the dry run preference for the push operation
 	 */
 	public boolean isDryRun() {
