@@ -591,9 +591,11 @@ public class UploadPack {
 		// create a pack at this point, let the client know so it stops
 		// telling us about its history.
 		//
+		boolean didOkToGiveUp = false;
 		for (int i = peerHas.size() - 1; i >= 0; i--) {
 			ObjectId id = peerHas.get(i);
 			if (walk.lookupOrNull(id) == null) {
+				didOkToGiveUp = true;
 				if (okToGiveUp()) {
 					switch (multiAck) {
 					case OFF:
@@ -608,6 +610,11 @@ public class UploadPack {
 				}
 				break;
 			}
+		}
+
+		if (multiAck == MultiAck.DETAILED && !didOkToGiveUp && okToGiveUp()) {
+			ObjectId id = peerHas.get(peerHas.size() - 1);
+			pckOut.writeString("ACK " + id.name() + " ready\n");
 		}
 
 		peerHas.clear();
