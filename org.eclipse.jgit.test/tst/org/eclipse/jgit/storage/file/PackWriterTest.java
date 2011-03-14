@@ -125,9 +125,11 @@ public class PackWriterTest extends SampleDataRepositoryTestCase {
 
 	/**
 	 * Test constructor for exceptions, default settings, initialization.
+	 *
+	 * @throws IOException
 	 */
 	@Test
-	public void testContructor() {
+	public void testContructor() throws IOException {
 		writer = new PackWriter(config, db.newObjectReader());
 		assertEquals(false, writer.isDeltaBaseAsOffset());
 		assertEquals(true, config.isReuseDeltas());
