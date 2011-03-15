@@ -69,7 +69,8 @@ class Init extends TextBuiltin {
 	protected void run() throws Exception {
 		InitCommand command = Git.init();
 		command.setBare(bare);
-		command.setDirectory(new File(gitdir));
+		if (gitdir != null)
+			command.setDirectory(new File(gitdir));
 		Repository repository = command.call().getRepository();
 		out.println(MessageFormat.format(
 				CLIText.get().initializedEmptyGitRepositoryIn, repository
