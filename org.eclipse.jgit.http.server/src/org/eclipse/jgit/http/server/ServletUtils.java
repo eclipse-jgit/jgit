@@ -71,6 +71,9 @@ public final class ServletUtils {
 	/** Request attribute which stores the {@link Repository} instance. */
 	public static final String ATTRIBUTE_REPOSITORY = "org.eclipse.jgit.Repository";
 
+	/** Request attribute storing either UploadPack or ReceivePack. */
+	public static final String ATTRIBUTE_HANDLER = "org.eclipse.jgit.transport.UploadPackOrReceivePack";
+
 	/**
 	 * Get the selected repository from the request.
 	 *
