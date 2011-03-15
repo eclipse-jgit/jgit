@@ -45,7 +45,10 @@ package org.eclipse.jgit.http.server;
 
 import java.io.File;
 import java.text.MessageFormat;
+import java.util.LinkedList;
+import java.util.List;
 
+import javax.servlet.Filter;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -55,9 +58,9 @@ import org.eclipse.jgit.http.server.glue.ErrorServlet;
 import org.eclipse.jgit.http.server.glue.MetaServlet;
 import org.eclipse.jgit.http.server.glue.RegexGroupFilter;
 import org.eclipse.jgit.http.server.glue.ServletBinder;
+import org.eclipse.jgit.http.server.resolver.AsIsFileService;
 import org.eclipse.jgit.http.server.resolver.DefaultReceivePackFactory;
 import org.eclipse.jgit.http.server.resolver.DefaultUploadPackFactory;
-import org.eclipse.jgit.http.server.resolver.AsIsFileService;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.transport.ReceivePack;
 import org.eclipse.jgit.transport.UploadPack;
@@ -114,6 +117,10 @@ public class GitServlet extends MetaServlet {
 
 	private ReceivePackFactory<HttpServletRequest> receivePackFactory = new DefaultReceivePackFactory();
 
+	private final List<Filter> uploadPackFilters = new LinkedList<Filter>();
+
+	private final List<Filter> receivePackFilters = new LinkedList<Filter>();
+
 	/**
 	 * New servlet that will load its base directory from {@code web.xml}.
 	 * <p>
@@ -161,6 +168,17 @@ public class GitServlet extends MetaServlet {
 	}
 
 	/**
+	 * @param filter
+	 *            filter to apply before any of the UploadPack operations. The
+	 *            UploadPack instance is available in the request attribute
+	 *            {@link ServletUtils#ATTRIBUTE_HANDLER}.
+	 */
+	public void addUploadPackFilter(Filter filter) {
+		assertNotInitialized();
+		uploadPackFilters.add(filter);
+	}
+
+	/**
 	 * @param f
 	 *            the factory to construct and configure a {@link ReceivePack}
 	 *            session when a push is requested by a client.
@@ -169,6 +187,17 @@ public class GitServlet extends MetaServlet {
 	public void setReceivePackFactory(ReceivePackFactory<HttpServletRequest> f) {
 		assertNotInitialized();
 		this.receivePackFactory = f != null ? f : (ReceivePackFactory<HttpServletRequest>)ReceivePackFactory.DISABLED;
+	}
+
+	/**
+	 * @param filter
+	 *            filter to apply before any of the ReceivePack operations. The
+	 *            ReceivePack instance is available in the request attribute
+	 *            {@link ServletUtils#ATTRIBUTE_HANDLER}.
+	 */
+	public void addReceivePackFilter(Filter filter) {
+		assertNotInitialized();
+		receivePackFilters.add(filter);
 	}
 
 	private void assertNotInitialized() {
@@ -189,23 +218,29 @@ public class GitServlet extends MetaServlet {
 		initialized = true;
 
 		if (uploadPackFactory != UploadPackFactory.DISABLED) {
-			serve("*/git-upload-pack")//
-					.with(new UploadPackServlet(uploadPackFactory));
+			ServletBinder b = serve("*/git-upload-pack");
+			b = b.through(new UploadPackServlet.Factory(uploadPackFactory));
+			for (Filter f : uploadPackFilters)
+				b = b.through(f);
+			b.with(new UploadPackServlet());
 		}
 
 		if (receivePackFactory != ReceivePackFactory.DISABLED) {
-			serve("*/git-receive-pack")//
-					.with(new ReceivePackServlet(receivePackFactory));
+			ServletBinder b = serve("*/git-receive-pack");
+			b = b.through(new ReceivePackServlet.Factory(receivePackFactory));
+			for (Filter f : receivePackFilters)
+				b = b.through(f);
+			b.with(new ReceivePackServlet());
 		}
 
 		ServletBinder refs = serve("*/" + Constants.INFO_REFS);
 		if (uploadPackFactory != UploadPackFactory.DISABLED) {
-			refs = refs.through(//
-					new UploadPackServlet.InfoRefs(uploadPackFactory));
+			refs = refs.through(new UploadPackServlet.InfoRefs(
+					uploadPackFactory, uploadPackFilters));
 		}
 		if (receivePackFactory != ReceivePackFactory.DISABLED) {
-			refs = refs.through(//
-					new ReceivePackServlet.InfoRefs(receivePackFactory));
+			refs = refs.through(new ReceivePackServlet.InfoRefs(
+					receivePackFactory, receivePackFilters));
 		}
 		if (asIs != AsIsFileService.DISABLED) {
 			refs = refs.through(new IsLocalFilter());
