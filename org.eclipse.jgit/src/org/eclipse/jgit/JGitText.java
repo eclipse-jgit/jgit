@@ -240,8 +240,8 @@ public class JGitText extends TranslationBundle {
 	/***/ public String exceptionCaughtDuringExecutionOfRevertCommand;
 	/***/ public String exceptionCaughtDuringExecutionOfRmCommand;
 	/***/ public String exceptionCaughtDuringExecutionOfTagCommand;
-	/***/ public String exceptionOccuredDuringAddingOfOptionToALogCommand;
-	/***/ public String exceptionOccuredDuringReadingOfGIT_DIR;
+	/***/ public String exceptionOccurredDuringAddingOfOptionToALogCommand;
+	/***/ public String exceptionOccurredDuringReadingOfGIT_DIR;
 	/***/ public String expectedACKNAKFoundEOF;
 	/***/ public String expectedACKNAKGot;
 	/***/ public String expectedBooleanStringValue;

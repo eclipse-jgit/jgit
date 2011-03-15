@@ -351,7 +351,7 @@ public class ResolveMerger extends ThreeWayMerger {
 	 *            the file in the working tree
 	 * @return <code>false</code> if the merge will fail because the index entry
 	 *         didn't match ours or the working-dir file was dirty and a
-	 *         conflict occured
+	 *         conflict occurred
 	 * @throws MissingObjectException
 	 * @throws IncorrectObjectTypeException
 	 * @throws CorruptObjectException
@@ -507,7 +507,7 @@ public class ResolveMerger extends ThreeWayMerger {
 		}
 
 		if (result.containsConflicts()) {
-			// a conflict occured, the file will contain conflict markers
+			// a conflict occurred, the file will contain conflict markers
 			// the index will be populated with the three stages and only the
 			// workdir (if used) contains the halfways merged content
 			add(tw.getRawPath(), base, DirCacheEntry.STAGE_1);
@@ -516,7 +516,7 @@ public class ResolveMerger extends ThreeWayMerger {
 			mergeResults.put(tw.getPathString(), result);
 			return false;
 		} else {
-			// no conflict occured, the file will contain fully merged content.
+			// no conflict occurred, the file will contain fully merged content.
 			// the index will be populated with the new merged version
 			DirCacheEntry dce = new DirCacheEntry(tw.getPathString());
 			dce.setFileMode(tw.getFileMode(0));

@@ -441,7 +441,7 @@ public class CommitCommand extends GitCommand<RevCommit> {
 				parents = repo.readMergeHeads();
 			} catch (IOException e) {
 				throw new JGitInternalException(MessageFormat.format(
-						JGitText.get().exceptionOccuredDuringReadingOfGIT_DIR,
+						JGitText.get().exceptionOccurredDuringReadingOfGIT_DIR,
 						Constants.MERGE_HEAD, e), e);
 			}
 			if (message == null) {
@@ -449,7 +449,7 @@ public class CommitCommand extends GitCommand<RevCommit> {
 					message = repo.readMergeCommitMsg();
 				} catch (IOException e) {
 					throw new JGitInternalException(MessageFormat.format(
-							JGitText.get().exceptionOccuredDuringReadingOfGIT_DIR,
+							JGitText.get().exceptionOccurredDuringReadingOfGIT_DIR,
 							Constants.MERGE_MSG, e), e);
 				}
 			}

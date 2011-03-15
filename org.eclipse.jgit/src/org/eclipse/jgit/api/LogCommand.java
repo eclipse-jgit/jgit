@@ -219,7 +219,7 @@ public class LogCommand extends GitCommand<Iterable<RevCommit>> {
 			throw e;
 		} catch (IOException e) {
 			throw new JGitInternalException(MessageFormat.format(
-					JGitText.get().exceptionOccuredDuringAddingOfOptionToALogCommand
+					JGitText.get().exceptionOccurredDuringAddingOfOptionToALogCommand
 					, start), e);
 		}
 	}
