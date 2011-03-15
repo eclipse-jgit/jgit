@@ -74,6 +74,19 @@ class FS_POSIX_Java6 extends FS_POSIX {
 		}
 	}
 
+	FS_POSIX_Java6() {
+		super();
+	}
+
+	FS_POSIX_Java6(FS src) {
+		super(src);
+	}
+
+	@Override
+	public FS newInstance() {
+		return new FS_POSIX_Java6(this);
+	}
+
 	public boolean supportsExecute() {
 		return true;
 	}

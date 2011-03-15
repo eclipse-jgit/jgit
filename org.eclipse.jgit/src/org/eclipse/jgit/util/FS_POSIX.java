@@ -77,6 +77,14 @@ abstract class FS_POSIX extends FS {
 		return null;
 	}
 
+	FS_POSIX() {
+		super();
+	}
+
+	FS_POSIX(FS src) {
+		super(src);
+	}
+
 	@Override
 	public ProcessBuilder runInShell(String cmd, String[] args) {
 		List<String> argv = new ArrayList<String>(4 + args.length);

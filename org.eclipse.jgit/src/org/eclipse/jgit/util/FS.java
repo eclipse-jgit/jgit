@@ -111,6 +111,20 @@ public abstract class FS {
 	}
 
 	/**
+	 * Initialize this FS using another's current settings.
+	 *
+	 * @param src
+	 *            the source FS to copy from.
+	 */
+	protected FS(FS src) {
+		userHome = src.userHome;
+		gitPrefix = src.gitPrefix;
+	}
+
+	/** @return a new instance of the same type of FS. */
+	public abstract FS newInstance();
+
+	/**
 	 * Does this operating system and JRE support the execute flag on files?
 	 *
 	 * @return true if this implementation can provide reasonably accurate
