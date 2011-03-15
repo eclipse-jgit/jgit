@@ -841,7 +841,7 @@ public class RefDirectory extends RefDatabase {
 
 		final byte[] buf;
 		try {
-			buf = IO.readFully(path, 4096);
+			buf = IO.readFully(path);
 		} catch (FileNotFoundException noFile) {
 			return null; // doesn't exist; not a reference.
 		}
