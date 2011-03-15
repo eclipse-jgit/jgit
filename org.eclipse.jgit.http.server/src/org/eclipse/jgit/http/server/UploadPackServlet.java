@@ -47,18 +47,26 @@ import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
 import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 import static javax.servlet.http.HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE;
+import static org.eclipse.jgit.http.server.ServletUtils.ATTRIBUTE_HANDLER;
 import static org.eclipse.jgit.http.server.ServletUtils.getInputStream;
 import static org.eclipse.jgit.http.server.ServletUtils.getRepository;
 
 import java.io.IOException;
+import java.util.List;
 
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.transport.UploadPack;
 import org.eclipse.jgit.transport.RefAdvertiser.PacketLineOutRefAdvertiser;
+import org.eclipse.jgit.transport.UploadPack;
 import org.eclipse.jgit.transport.resolver.ServiceNotAuthorizedException;
 import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
 import org.eclipse.jgit.transport.resolver.UploadPackFactory;
@@ -72,18 +80,27 @@ class UploadPackServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	static class InfoRefs extends SmartServiceInfoRefs {
-		private final UploadPackFactory uploadPackFactory;
+		private final UploadPackFactory<HttpServletRequest> uploadPackFactory;
 
-		InfoRefs(final UploadPackFactory uploadPackFactory) {
-			super("git-upload-pack");
+		InfoRefs(UploadPackFactory<HttpServletRequest> uploadPackFactory,
+				List<Filter> filters) {
+			super("git-upload-pack", filters);
 			this.uploadPackFactory = uploadPackFactory;
 		}
 
 		@Override
-		protected void advertise(HttpServletRequest req, Repository db,
+		protected void begin(HttpServletRequest req, Repository db)
+				throws IOException, ServiceNotEnabledException,
+				ServiceNotAuthorizedException {
+			UploadPack up = uploadPackFactory.create(req, db);
+			req.setAttribute(ATTRIBUTE_HANDLER, up);
+		}
+
+		@Override
+		protected void advertise(HttpServletRequest req,
 				PacketLineOutRefAdvertiser pck) throws IOException,
 				ServiceNotEnabledException, ServiceNotAuthorizedException {
-			UploadPack up = uploadPackFactory.create(req, db);
+			UploadPack up = (UploadPack) req.getAttribute(ATTRIBUTE_HANDLER);
 			try {
 				up.sendAdvertisedRefs(pck);
 			} finally {
@@ -92,10 +109,44 @@ class UploadPackServlet extends HttpServlet {
 		}
 	}
 
-	private final UploadPackFactory uploadPackFactory;
+	static class Factory implements Filter {
+		private final UploadPackFactory<HttpServletRequest> uploadPackFactory;
 
-	UploadPackServlet(final UploadPackFactory uploadPackFactory) {
-		this.uploadPackFactory = uploadPackFactory;
+		Factory(UploadPackFactory<HttpServletRequest> uploadPackFactory) {
+			this.uploadPackFactory = uploadPackFactory;
+		}
+
+		public void doFilter(ServletRequest request, ServletResponse response,
+				FilterChain chain) throws IOException, ServletException {
+			HttpServletRequest req = (HttpServletRequest) request;
+			HttpServletResponse rsp = (HttpServletResponse) response;
+			UploadPack rp;
+			try {
+				rp = uploadPackFactory.create(req, getRepository(req));
+			} catch (ServiceNotAuthorizedException e) {
+				rsp.sendError(SC_UNAUTHORIZED);
+				return;
+
+			} catch (ServiceNotEnabledException e) {
+				rsp.sendError(SC_FORBIDDEN);
+				return;
+			}
+
+			try {
+				req.setAttribute(ATTRIBUTE_HANDLER, rp);
+				chain.doFilter(req, rsp);
+			} finally {
+				req.removeAttribute(ATTRIBUTE_HANDLER);
+			}
+		}
+
+		public void init(FilterConfig filterConfig) throws ServletException {
+			// Nothing.
+		}
+
+		public void destroy() {
+			// Nothing.
+		}
 	}
 
 	@Override
@@ -106,9 +157,8 @@ class UploadPackServlet extends HttpServlet {
 			return;
 		}
 
-		final Repository db = getRepository(req);
+		UploadPack up = (UploadPack) req.getAttribute(ATTRIBUTE_HANDLER);
 		try {
-			final UploadPack up = uploadPackFactory.create(req, db);
 			up.setBiDirectionalPipe(false);
 			rsp.setContentType(RSP_TYPE);
 
@@ -120,16 +170,6 @@ class UploadPackServlet extends HttpServlet {
 			};
 			up.upload(getInputStream(req), out, null);
 			out.close();
-
-		} catch (ServiceNotAuthorizedException e) {
-			rsp.reset();
-			rsp.sendError(SC_UNAUTHORIZED);
-			return;
-
-		} catch (ServiceNotEnabledException e) {
-			rsp.reset();
-			rsp.sendError(SC_FORBIDDEN);
-			return;
 
 		} catch (IOException e) {
 			getServletContext().log(HttpServerText.get().internalErrorDuringUploadPack, e);
