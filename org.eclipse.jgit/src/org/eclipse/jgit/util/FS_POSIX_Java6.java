@@ -59,7 +59,7 @@ class FS_POSIX_Java6 extends FS_POSIX {
 		setExecute = needMethod(File.class, "setExecutable", Boolean.TYPE);
 	}
 
-	static boolean detect() {
+	static boolean hasExecute() {
 		return canExecute != null && setExecute != null;
 	}
 
