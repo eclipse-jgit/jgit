@@ -138,17 +138,40 @@ public abstract class TransportProtocol {
 	 * {@link #getOptionalFields()}, returning true only if all of the fields
 	 * match the specification.
 	 *
-	 * @param local
-	 *            the local repository that will communicate with the other Git
-	 *            repository.
 	 * @param uri
 	 *            address of the Git repository; never null.
+	 * @return true if this protocol can handle this URI; false otherwise.
+	 */
+	public boolean canHandle(URIish uri) {
+		return canHandle(uri, null, null);
+	}
+
+	/**
+	 * Determine if this protocol can handle a particular URI.
+	 * <p>
+	 * Implementations should try to avoid looking at the local filesystem, but
+	 * may look at implementation specific configuration options in the remote
+	 * block of {@code local.getConfig()} using {@code remoteName} if the name
+	 * is non-null.
+	 * <p>
+	 * The default implementation of this method matches the scheme against
+	 * {@link #getSchemes()}, required fields against
+	 * {@link #getRequiredFields()}, and optional fields against
+	 * {@link #getOptionalFields()}, returning true only if all of the fields
+	 * match the specification.
+	 *
+	 * @param uri
+	 *            address of the Git repository; never null.
+	 * @param local
+	 *            the local repository that will communicate with the other Git
+	 *            repository. May be null if the caller is only asking about a
+	 *            specific URI and does not have a local Repository.
 	 * @param remoteName
 	 *            name of the remote, if the remote as configured in
 	 *            {@code local}; otherwise null.
 	 * @return true if this protocol can handle this URI; false otherwise.
 	 */
-	public boolean canHandle(Repository local, URIish uri, String remoteName) {
+	public boolean canHandle(URIish uri, Repository local, String remoteName) {
 		if (!getSchemes().isEmpty() && !getSchemes().contains(uri.getScheme()))
 			return false;
 
@@ -213,11 +236,11 @@ public abstract class TransportProtocol {
 	 * within {@code local.getConfig()} using the remote block named by the
 	 * {@code remoteName}, if the name is non-null.
 	 *
+	 * @param uri
+	 *            address of the Git repository.
 	 * @param local
 	 *            the local repository that will communicate with the other Git
 	 *            repository.
-	 * @param uri
-	 *            address of the Git repository.
 	 * @param remoteName
 	 *            name of the remote, if the remote as configured in
 	 *            {@code local}; otherwise null.
@@ -227,7 +250,7 @@ public abstract class TransportProtocol {
 	 * @throws TransportException
 	 *             the transport cannot open this URI.
 	 */
-	public abstract Transport open(Repository local, URIish uri,
+	public abstract Transport open(URIish uri, Repository local,
 			String remoteName)
 			throws NotSupportedException, TransportException;
 }

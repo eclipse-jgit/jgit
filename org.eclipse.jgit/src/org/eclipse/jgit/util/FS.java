@@ -53,7 +53,16 @@ import java.security.PrivilegedAction;
 /** Abstraction to support various file system operations not in Java. */
 public abstract class FS {
 	/** The auto-detected implementation selected for this operating system and JRE. */
-	public static final FS DETECTED;
+	public static final FS DETECTED = detect();
+
+	/**
+	 * Auto-detect the appropriate file system abstraction.
+	 *
+	 * @return detected file system abstraction
+	 */
+	public static FS detect() {
+		return detect(null);
+	}
 
 	/**
 	 * Auto-detect the appropriate file system abstraction, taking into account
@@ -77,32 +86,43 @@ public abstract class FS {
 	 * @return detected file system abstraction
 	 */
 	public static FS detect(Boolean cygwinUsed) {
-		if (FS_Win32.detect()) {
-			boolean useCygwin = (cygwinUsed == null && FS_Win32_Cygwin.detect())
-					|| Boolean.TRUE.equals(cygwinUsed);
-
-			if (useCygwin)
+		if (FS_Win32.isWin32()) {
+			if (cygwinUsed == null)
+				cygwinUsed = Boolean.valueOf(FS_Win32_Cygwin.isCygwin());
+			if (cygwinUsed.booleanValue())
 				return new FS_Win32_Cygwin();
 			else
 				return new FS_Win32();
-		} else if (FS_POSIX_Java6.detect())
+		} else if (FS_POSIX_Java6.hasExecute())
 			return new FS_POSIX_Java6();
 		else
 			return new FS_POSIX_Java5();
 	}
 
-	static {
-		DETECTED = detect(null);
-	}
+	private volatile Holder<File> userHome;
 
-	private final File userHome;
+	private volatile Holder<File> gitPrefix;
 
 	/**
 	 * Constructs a file system abstraction.
 	 */
 	protected FS() {
-		this.userHome = userHomeImpl();
+		// Do nothing by default.
 	}
+
+	/**
+	 * Initialize this FS using another's current settings.
+	 *
+	 * @param src
+	 *            the source FS to copy from.
+	 */
+	protected FS(FS src) {
+		userHome = src.userHome;
+		gitPrefix = src.gitPrefix;
+	}
+
+	/** @return a new instance of the same type of FS. */
+	public abstract FS newInstance();
 
 	/**
 	 * Does this operating system and JRE support the execute flag on files?
@@ -176,7 +196,25 @@ public abstract class FS {
 	 * @return the user's home directory; null if the user does not have one.
 	 */
 	public File userHome() {
-		return userHome;
+		Holder<File> p = userHome;
+		if (p == null) {
+			p = new Holder<File>(userHomeImpl());
+			userHome = p;
+		}
+		return p.value;
+	}
+
+	/**
+	 * Set the user's home directory location.
+	 *
+	 * @param path
+	 *            the location of the user's preferences; null if there is no
+	 *            home directory for the current user.
+	 * @return {@code this}.
+	 */
+	public FS setUserHome(File path) {
+		userHome = new Holder<File>(path);
+		return this;
 	}
 
 	/**
@@ -254,7 +292,29 @@ public abstract class FS {
 	}
 
 	/** @return the $prefix directory C Git would use. */
-	public abstract File gitPrefix();
+	public File gitPrefix() {
+		Holder<File> p = gitPrefix;
+		if (p == null) {
+			p = new Holder<File>(discoverGitPrefix());
+			gitPrefix = p;
+		}
+		return p.value;
+	}
+
+	/** @return the $prefix directory C Git would use. */
+	protected abstract File discoverGitPrefix();
+
+	/**
+	 * Set the $prefix directory C Git uses.
+	 *
+	 * @param path
+	 *            the directory. Null if C Git is not installed.
+	 * @return {@code this}
+	 */
+	public FS setGitPrefix(File path) {
+		gitPrefix = new Holder<File>(path);
+		return this;
+	}
 
 	/**
 	 * Initialize a ProcesssBuilder to run a command using the system shell.
@@ -269,4 +329,12 @@ public abstract class FS {
 	 *         populating directory, environment, and then start the process.
 	 */
 	public abstract ProcessBuilder runInShell(String cmd, String[] args);
+
+	private static class Holder<V> {
+		final V value;
+
+		Holder(V value) {
+			this.value = value;
+		}
+	}
 }

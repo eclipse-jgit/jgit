@@ -52,7 +52,7 @@ import java.util.List;
 
 abstract class FS_POSIX extends FS {
 	@Override
-	public File gitPrefix() {
+	protected File discoverGitPrefix() {
 		String path = SystemReader.getInstance().getenv("PATH");
 		File gitExe = searchPath(path, "git");
 		if (gitExe != null)
@@ -75,6 +75,14 @@ abstract class FS_POSIX extends FS {
 		}
 
 		return null;
+	}
+
+	FS_POSIX() {
+		super();
+	}
+
+	FS_POSIX(FS src) {
+		super(src);
 	}
 
 	@Override

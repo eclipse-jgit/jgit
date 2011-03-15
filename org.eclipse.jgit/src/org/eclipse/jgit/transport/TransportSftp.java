@@ -120,7 +120,7 @@ public class TransportSftp extends SshTransport implements WalkTransport {
 			return 22;
 		}
 
-		public Transport open(Repository local, URIish uri, String remoteName)
+		public Transport open(URIish uri, Repository local, String remoteName)
 				throws NotSupportedException {
 			return new TransportSftp(local, uri);
 		}
