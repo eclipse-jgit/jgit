@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL3n///48\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/InitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-03-15T15:33:49Z",
+      "side": 1,
+      "message": "I\u0027m not convinced the canonical path is really the correct path to construct with. Its going to resolve symlinks, which on some systems may wind up with a nasty \"internal\" path pointing to the NFS server that contains your home directory, rather than say your home directory.",
+      "revId": "8e1b581d39a8e1eadfb8f2ab7590546ec89c9abe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
