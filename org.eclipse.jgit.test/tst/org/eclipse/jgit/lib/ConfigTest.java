@@ -146,6 +146,12 @@ public class ConfigTest {
 		// no values defined nowhere
 		authorName = localConfig.get(UserConfig.KEY).getAuthorName();
 		authorEmail = localConfig.get(UserConfig.KEY).getAuthorEmail();
+		assertEquals(null, authorName);
+		assertEquals(null, authorEmail);
+
+		// default returning unknown
+		authorName = UserConfig.getDefaultUserName();
+		authorEmail = UserConfig.getDefaultEmail();
 		assertEquals(Constants.UNKNOWN_USER_DEFAULT, authorName);
 		assertEquals(Constants.UNKNOWN_USER_DEFAULT + "@" + hostname, authorEmail);
 
@@ -153,10 +159,14 @@ public class ConfigTest {
 		mockSystemReader.setProperty(Constants.OS_USER_NAME_KEY, "os user name");
 		localConfig.uncache(UserConfig.KEY);
 		authorName = localConfig.get(UserConfig.KEY).getAuthorName();
+		if (authorName == null)
+			authorName = UserConfig.getDefaultUserName();
 		assertEquals("os user name", authorName);
 
 		if (hostname != null && hostname.length() != 0) {
 			authorEmail = localConfig.get(UserConfig.KEY).getAuthorEmail();
+			if (authorEmail == null)
+				authorEmail = UserConfig.getDefaultEmail();
 			assertEquals("os user name@" + hostname, authorEmail);
 		}
 
