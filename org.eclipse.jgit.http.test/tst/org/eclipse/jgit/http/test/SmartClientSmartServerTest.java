@@ -292,8 +292,6 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 				.getRequestHeader(HDR_CONTENT_LENGTH));
 		assertNull("not chunked", service
 				.getRequestHeader(HDR_TRANSFER_ENCODING));
-		assertNull("no compression (too small)", service
-				.getRequestHeader(HDR_CONTENT_ENCODING));
 
 		assertEquals(200, service.getStatus());
 		assertEquals("application/x-git-upload-pack-result", service
@@ -301,7 +299,70 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 	}
 
 	@Test
-	public void testFetchUpdateExisting() throws Exception {
+	public void testFetch_FewLocalCommits() throws Exception {
+		// Bootstrap by doing the clone.
+		//
+		TestRepository dst = createTestRepository();
+		Transport t = Transport.open(dst.getRepository(), remoteURI);
+		try {
+			t.fetch(NullProgressMonitor.INSTANCE, mirror(master));
+		} finally {
+			t.close();
+		}
+		assertEquals(B, dst.getRepository().getRef(master).getObjectId());
+		List<AccessEvent> cloneRequests = getRequests();
+
+		// Only create a few new commits.
+		TestRepository.BranchBuilder b = dst.branch(master);
+		for (int i = 0; i < 4; i++)
+			b.commit().tick(3600 /* 1 hour */).message("c" + i).create();
+
+		// Create a new commit on the remote.
+		//
+		b = new TestRepository(remoteRepository).branch(master);
+		RevCommit Z = b.commit().message("Z").create();
+
+		// Now incrementally update.
+		//
+		t = Transport.open(dst.getRepository(), remoteURI);
+		try {
+			t.fetch(NullProgressMonitor.INSTANCE, mirror(master));
+		} finally {
+			t.close();
+		}
+		assertEquals(Z, dst.getRepository().getRef(master).getObjectId());
+
+		List<AccessEvent> requests = getRequests();
+		requests.removeAll(cloneRequests);
+		assertEquals(2, requests.size());
+
+		AccessEvent info = requests.get(0);
+		assertEquals("GET", info.getMethod());
+		assertEquals(join(remoteURI, "info/refs"), info.getPath());
+		assertEquals(1, info.getParameters().size());
+		assertEquals("git-upload-pack", info.getParameter("service"));
+		assertEquals(200, info.getStatus());
+		assertEquals("application/x-git-upload-pack-advertisement",
+				info.getResponseHeader(HDR_CONTENT_TYPE));
+
+		// We should have needed one request to perform the fetch.
+		//
+		AccessEvent service = requests.get(1);
+		assertEquals("POST", service.getMethod());
+		assertEquals(join(remoteURI, "git-upload-pack"), service.getPath());
+		assertEquals(0, service.getParameters().size());
+		assertNotNull("has content-length",
+				service.getRequestHeader(HDR_CONTENT_LENGTH));
+		assertNull("not chunked",
+				service.getRequestHeader(HDR_TRANSFER_ENCODING));
+
+		assertEquals(200, service.getStatus());
+		assertEquals("application/x-git-upload-pack-result",
+				service.getResponseHeader(HDR_CONTENT_TYPE));
+	}
+
+	@Test
+	public void testFetch_TooManyLocalCommits() throws Exception {
 		// Bootstrap by doing the clone.
 		//
 		TestRepository dst = createTestRepository();
