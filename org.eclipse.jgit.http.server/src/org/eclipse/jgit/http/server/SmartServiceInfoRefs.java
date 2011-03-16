@@ -44,6 +44,7 @@
 package org.eclipse.jgit.http.server;
 
 import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
+import static javax.servlet.http.HttpServletResponse.SC_SERVICE_UNAVAILABLE;
 import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 import static org.eclipse.jgit.http.server.ServletUtils.ATTRIBUTE_HANDLER;
 import static org.eclipse.jgit.http.server.ServletUtils.getRepository;
@@ -63,6 +64,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.PacketLineOut;
 import org.eclipse.jgit.transport.RefAdvertiser.PacketLineOutRefAdvertiser;
+import org.eclipse.jgit.transport.UploadPackMayNotContinueException;
 import org.eclipse.jgit.transport.resolver.ServiceNotAuthorizedException;
 import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
 
@@ -119,10 +121,10 @@ abstract class SmartServiceInfoRefs implements Filter {
 			throws IOException {
 		final HttpServletRequest req = (HttpServletRequest) request;
 		final HttpServletResponse rsp = (HttpServletResponse) response;
+		final SmartOutputStream buf = new SmartOutputStream(req, rsp);
 		try {
 			rsp.setContentType("application/x-" + svc + "-advertisement");
 
-			final SmartOutputStream buf = new SmartOutputStream(req, rsp);
 			final PacketLineOut out = new PacketLineOut(buf);
 			out.writeString("# service=" + svc + "\n");
 			out.end();
@@ -133,6 +135,12 @@ abstract class SmartServiceInfoRefs implements Filter {
 
 		} catch (ServiceNotEnabledException e) {
 			rsp.sendError(SC_FORBIDDEN);
+
+		} catch (UploadPackMayNotContinueException e) {
+			if (e.isOutput())
+				buf.close();
+			else
+				rsp.sendError(SC_SERVICE_UNAVAILABLE);
 		}
 	}
 
