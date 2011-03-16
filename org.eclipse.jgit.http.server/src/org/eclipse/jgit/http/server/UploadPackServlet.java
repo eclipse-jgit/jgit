@@ -45,6 +45,7 @@ package org.eclipse.jgit.http.server;
 
 import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
 import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
+import static javax.servlet.http.HttpServletResponse.SC_SERVICE_UNAVAILABLE;
 import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 import static javax.servlet.http.HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE;
 import static org.eclipse.jgit.http.server.ServletUtils.ATTRIBUTE_HANDLER;
@@ -67,6 +68,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.RefAdvertiser.PacketLineOutRefAdvertiser;
 import org.eclipse.jgit.transport.UploadPack;
+import org.eclipse.jgit.transport.UploadPackMayNotContinueException;
 import org.eclipse.jgit.transport.resolver.ServiceNotAuthorizedException;
 import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
 import org.eclipse.jgit.transport.resolver.UploadPackFactory;
@@ -170,6 +172,11 @@ class UploadPackServlet extends HttpServlet {
 			};
 			up.upload(getInputStream(req), out, null);
 			out.close();
+
+		} catch (UploadPackMayNotContinueException e) {
+			if (!e.isOutput())
+				rsp.sendError(SC_SERVICE_UNAVAILABLE);
+			return;
 
 		} catch (IOException e) {
 			getServletContext().log(HttpServerText.get().internalErrorDuringUploadPack, e);
