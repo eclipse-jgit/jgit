@@ -57,6 +57,7 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.RepositoryState;
 import org.eclipse.jgit.lib.RepositoryTestCase;
 import org.eclipse.jgit.merge.MergeStrategy;
+import org.eclipse.jgit.merge.ResolveMerger.MergeFailureReason;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Test;
 
@@ -652,7 +653,8 @@ public class MergeCommandTest extends RepositoryTestCase {
 		MergeResult result = git.merge().include(sideCommit.getId())
 				.setStrategy(MergeStrategy.RESOLVE).call();
 
-		checkMergeFailedResult(result, indexState);
+		checkMergeFailedResult(result, MergeFailureReason.DIRTY_INDEX,
+				indexState);
 	}
 
 	@Test
@@ -675,7 +677,8 @@ public class MergeCommandTest extends RepositoryTestCase {
 		MergeResult result = git.merge().include(sideCommit.getId())
 				.setStrategy(MergeStrategy.RESOLVE).call();
 
-		checkMergeFailedResult(result, indexState);
+		checkMergeFailedResult(result, MergeFailureReason.DIRTY_INDEX,
+				indexState);
 	}
 
 	@Test
@@ -697,7 +700,8 @@ public class MergeCommandTest extends RepositoryTestCase {
 		MergeResult result = git.merge().include(sideCommit.getId())
 				.setStrategy(MergeStrategy.RESOLVE).call();
 
-		checkMergeFailedResult(result, indexState);
+		checkMergeFailedResult(result, MergeFailureReason.DIRTY_WORKTREE,
+				indexState);
 	}
 
 	@Test
@@ -719,7 +723,8 @@ public class MergeCommandTest extends RepositoryTestCase {
 		MergeResult result = git.merge().include(sideCommit.getId())
 				.setStrategy(MergeStrategy.RESOLVE).call();
 
-		checkMergeFailedResult(result, indexState);
+		checkMergeFailedResult(result, MergeFailureReason.DIRTY_WORKTREE,
+				indexState);
 	}
 
 	private RevCommit createAddAndCommitFileA(final Git git) throws Exception {
@@ -753,8 +758,11 @@ public class MergeCommandTest extends RepositoryTestCase {
 	}
 
 	private void checkMergeFailedResult(final MergeResult result,
+			final MergeFailureReason reason,
 			final String indexState) throws Exception {
 		assertEquals(MergeStatus.FAILED, result.getMergeStatus());
+		assertEquals(1, result.getFailingPaths().size());
+		assertEquals(reason, result.getFailingPaths().get("a"));
 		assertEquals("a(modified)", read(new File(db.getWorkTree(), "a")));
 		assertFalse(new File(db.getWorkTree(), "b").exists());
 		assertEquals("c", read(new File(db.getWorkTree(), "c")));

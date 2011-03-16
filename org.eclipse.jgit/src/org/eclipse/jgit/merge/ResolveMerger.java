@@ -639,6 +639,17 @@ public class ResolveMerger extends ThreeWayMerger {
 	}
 
 	/**
+	 * Returns whether this merge failed abnormally (i.e. not because of a
+	 * conflict)
+	 *
+	 * @return <code>true</code> if an abnormal failure occurred,
+	 *         <code>false</code> otherwise
+	 */
+	public boolean failedAbnormally() {
+		return failingPaths.size() > 0;
+	}
+
+	/**
 	 * Sets the DirCache which shall be used by this merger. If the DirCache is
 	 * not set explicitly this merger will implicitly get and lock a default
 	 * DirCache. If the DirCache is explicitly set the caller is responsible to
