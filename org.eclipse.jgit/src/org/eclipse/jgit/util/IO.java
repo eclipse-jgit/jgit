@@ -45,6 +45,7 @@
 
 package org.eclipse.jgit.util;
 
+import java.io.ByteArrayOutputStream;
 import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
@@ -75,6 +76,42 @@ public class IO {
 	public static final byte[] readFully(final File path)
 			throws FileNotFoundException, IOException {
 		return IO.readFully(path, Integer.MAX_VALUE);
+	}
+
+	/**
+	 * Read at most limit bytes from the local file into memory as a byte array.
+	 *
+	 * @param path
+	 *            location of the file to read.
+	 * @param limit
+	 *            maximum number of bytes to read, if the file is larger than
+	 *            only the first limit number of bytes are returned
+	 * @return complete contents of the requested local file.
+	 * @throws FileNotFoundException
+	 *             the file does not exist.
+	 * @throws IOException
+	 *             the file exists, but its contents cannot be read.
+	 */
+	public static final byte[] readSome(final File path, final int limit)
+			throws FileNotFoundException, IOException {
+		final FileInputStream in = new FileInputStream(path);
+		try {
+			ByteArrayOutputStream result = new ByteArrayOutputStream(limit);
+			final byte[] buf = new byte[1024];
+			int read = in.read(buf);
+			while (read > 0) {
+				result.write(buf, 0, read);
+				read = in.read(buf);
+			}
+
+			return result.toByteArray();
+		} finally {
+			try {
+				in.close();
+			} catch (IOException ignored) {
+				// ignore any close errors, this was a read only stream
+			}
+		}
 	}
 
 	/**
