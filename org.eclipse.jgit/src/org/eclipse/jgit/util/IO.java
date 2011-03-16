@@ -78,8 +78,44 @@ public class IO {
 	}
 
 	/**
+	 * Read at most limit bytes from the local file into memory as a byte array.
+	 * 
+	 * @param path
+	 *            location of the file to read.
+	 * @param limit
+	 *            maximum number of bytes to read, if the file is larger than
+	 *            only the first limit number of bytes are returned
+	 * @return complete contents of the requested local file.
+	 * @throws FileNotFoundException
+	 *             the file does not exist.
+	 * @throws IOException
+	 *             the file exists, but its contents cannot be read.
+	 */
+	public static final byte[] readSome(final File path, final int limit)
+			throws FileNotFoundException, IOException {
+		final FileInputStream in = new FileInputStream(path);
+		try {
+			final byte[] buf = new byte[limit];
+			int read = in.read(buf);
+			if (read == buf.length) {
+				return buf;
+			}
+			byte[] result = new byte[read];
+			System.arraycopy(buf, 0, result, 0, read);
+
+			return result;
+		} finally {
+			try {
+				in.close();
+			} catch (IOException ignored) {
+				// ignore any close errors, this was a read only stream
+			}
+		}
+	}
+
+	/**
 	 * Read an entire local file into memory as a byte array.
-	 *
+	 * 
 	 * @param path
 	 *            location of the file to read.
 	 * @param max
