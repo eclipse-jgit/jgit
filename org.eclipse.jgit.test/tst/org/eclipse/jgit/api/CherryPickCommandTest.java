@@ -51,12 +51,8 @@ import java.util.Iterator;
 
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
-import org.eclipse.jgit.dircache.DirCacheCheckout;
-import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.RepositoryTestCase;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.Test;
 
 /**
@@ -103,20 +99,4 @@ public class CherryPickCommandTest extends RepositoryTestCase {
 		assertEquals("create a", history.next().getFullMessage());
 		assertFalse(history.hasNext());
 	}
-
-	private void checkoutBranch(String branchName)
-			throws IllegalStateException, IOException {
-		RevWalk walk = new RevWalk(db);
-		RevCommit head = walk.parseCommit(db.resolve(Constants.HEAD));
-		RevCommit branch = walk.parseCommit(db.resolve(branchName));
-		DirCacheCheckout dco = new DirCacheCheckout(db, head.getTree().getId(),
-				db.lockDirCache(), branch.getTree().getId());
-		dco.setFailOnConflict(true);
-		dco.checkout();
-		walk.release();
-		// update the HEAD
-		RefUpdate refUpdate = db.updateRef(Constants.HEAD);
-		refUpdate.link(branchName);
-	}
-
 }
