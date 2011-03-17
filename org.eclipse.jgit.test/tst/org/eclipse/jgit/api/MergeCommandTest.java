@@ -411,6 +411,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 		assertEquals("1\nb(side)\n3\n", read(new File(db.getWorkTree(), "b")));
 		assertEquals("1\nc(main)\n3\n", read(new File(db.getWorkTree(),
 				"c/c/c")));
+		assertEquals("--- dirty ---", read(new File(db.getWorkTree(), "d")));
 
 		assertEquals(null, result.getConflicts());
 
@@ -468,6 +469,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 		assertFalse(new File(db.getWorkTree(), "b").exists());
 		assertEquals("1\nc(main)\n3\n",
 				read(new File(db.getWorkTree(), "c/c/c")));
+		assertEquals("1\nd\n3\n", read(new File(db.getWorkTree(), "d")));
 
 		// Do the opposite, be on a branch where we have deleted a file and
 		// merge in a old commit where this file was not deleted
@@ -482,6 +484,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 		assertFalse(new File(db.getWorkTree(), "b").exists());
 		assertEquals("1\nc(main)\n3\n",
 				read(new File(db.getWorkTree(), "c/c/c")));
+		assertEquals("1\nd\n3\n", read(new File(db.getWorkTree(), "d")));
 	}
 
 	@Test
@@ -554,6 +557,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 		assertFalse(new File(db.getWorkTree(), "b").exists());
 		assertEquals("1\nc(main)\n3\n",
 				read(new File(db.getWorkTree(), "c/c/c")));
+		assertEquals("1\nd\n3\n", read(new File(db.getWorkTree(), "d")));
 	}
 
 	@Test
