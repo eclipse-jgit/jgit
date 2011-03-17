@@ -228,8 +228,7 @@ public class T0007_GitIndexTest extends LocalDiskRepositoryTestCase {
 		assertEquals("c696abc3ab8e091c665f49d00eb8919690b3aec3", id.name());
 		GitIndex index2 = new GitIndex(db);
 
-		index2.readTree(db.mapTree(ObjectId.fromString(
-				"c696abc3ab8e091c665f49d00eb8919690b3aec3")));
+		index2.readTree(mapTree("c696abc3ab8e091c665f49d00eb8919690b3aec3"));
 		Entry[] members = index2.getMembers();
 		assertEquals(3, members.length);
 		assertEquals("a.b", members[0].getName());
@@ -272,8 +271,7 @@ public class T0007_GitIndexTest extends LocalDiskRepositoryTestCase {
 		assertEquals("ba78e065e2c261d4f7b8f42107588051e87e18e9", id.name());
 		GitIndex index2 = new GitIndex(db);
 
-		index2.readTree(db.mapTree(ObjectId.fromString(
-				"ba78e065e2c261d4f7b8f42107588051e87e18e9")));
+		index2.readTree(mapTree("ba78e065e2c261d4f7b8f42107588051e87e18e9"));
 		Entry[] members = index2.getMembers();
 		assertEquals(6, members.length);
 		assertEquals("a.b", members[0].getName());
@@ -341,8 +339,7 @@ public class T0007_GitIndexTest extends LocalDiskRepositoryTestCase {
 		GitIndex index2 = new GitIndex(db);
 		assertEquals(0, index2.getMembers().length);
 
-		index2.readTree(db.mapTree(ObjectId.fromString(
-				"c696abc3ab8e091c665f49d00eb8919690b3aec3")));
+		index2.readTree(mapTree("c696abc3ab8e091c665f49d00eb8919690b3aec3"));
 
 		index2.checkout(trash);
 		assertEquals("data:a/b", read(aslashb));
@@ -375,7 +372,7 @@ public class T0007_GitIndexTest extends LocalDiskRepositoryTestCase {
 			index.filemode = Boolean.TRUE; // TODO: we need a way to set this using config
 			index.add(trash, execFile);
 			index.add(trash, nonexecFile);
-			Tree tree = db.mapTree(index.writeTree());
+			Tree tree = mapTree(index.writeTree().name());
 			assertEquals(FileMode.EXECUTABLE_FILE, tree.findBlobMember(execFile.getName()).getMode());
 			assertEquals(FileMode.REGULAR_FILE, tree.findBlobMember(nonexecFile.getName()).getMode());
 
@@ -431,7 +428,7 @@ public class T0007_GitIndexTest extends LocalDiskRepositoryTestCase {
 			index.filemode = Boolean.FALSE; // TODO: we need a way to set this using config
 			index.add(trash, execFile);
 			index.add(trash, nonexecFile);
-			Tree tree = db.mapTree(index.writeTree());
+			Tree tree = mapTree(index.writeTree().name());
 			assertEquals(FileMode.REGULAR_FILE, tree.findBlobMember(execFile.getName()).getMode());
 			assertEquals(FileMode.REGULAR_FILE, tree.findBlobMember(nonexecFile.getName()).getMode());
 
@@ -475,5 +472,10 @@ public class T0007_GitIndexTest extends LocalDiskRepositoryTestCase {
 		final File path = new File(trash, name);
 		write(path, body);
 		return path;
+	}
+
+	private Tree mapTree(String name) throws IOException {
+		ObjectId id = db.resolve(name + "^{tree}");
+		return new Tree(db, id, db.open(id).getCachedBytes());
 	}
 }
