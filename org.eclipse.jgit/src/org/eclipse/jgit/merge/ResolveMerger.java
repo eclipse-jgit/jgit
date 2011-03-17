@@ -394,6 +394,10 @@ public class ResolveMerger extends ThreeWayMerger {
 			// Either OURS was not changed compared to base, or OURS and BASE
 			// are MISSING. All changes (change can also be an addition or
 			// deletion) must be in THEIRS. THEIRS is chosen.
+
+			// Check worktree before checking out THEIRS
+			if (isWorktreeDirty())
+				return false;
 			if (nonTree(modeT)) {
 				DirCacheEntry e = add(tw.getRawPath(), theirs,
 						DirCacheEntry.STAGE_0);
