@@ -363,7 +363,6 @@ public class JGitText extends TranslationBundle {
 	/***/ public String notAuthorized;
 	/***/ public String notAValidPack;
 	/***/ public String notFound;
-	/***/ public String notValid;
 	/***/ public String nothingToFetch;
 	/***/ public String nothingToPush;
 	/***/ public String notMergedExceptionMessage;
@@ -526,6 +525,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String uriNotFound;
 	/***/ public String userConfigFileInvalid;
 	/***/ public String walkFailure;
+	/***/ public String wantNotValid;
 	/***/ public String windowSizeMustBeLesserThanLimit;
 	/***/ public String windowSizeMustBePowerOf2;
 	/***/ public String writeTimedOut;
