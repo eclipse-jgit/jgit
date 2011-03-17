@@ -101,6 +101,8 @@ class PacketLineIn {
 			else if (arg.equals(" ready"))
 				return AckNackResult.ACK_READY;
 		}
+		if (line.startsWith("ERR "))
+			throw new PackProtocolException(line.substring(4));
 		throw new PackProtocolException(MessageFormat.format(JGitText.get().expectedACKNAKGot, line));
 	}
 
