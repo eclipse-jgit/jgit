@@ -16,6 +16,24 @@
       "revId": "38fb104091aec3c56df98d4914045e9d4dfae2a6",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL3n///zA\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/ConfigTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-03-16T15:27:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL3n///2M\u003d",
+      "revId": "38fb104091aec3c56df98d4914045e9d4dfae2a6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
