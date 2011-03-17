@@ -1,6 +1,7 @@
 /*
  * Copyright (C) 2009, Google Inc.
  * Copyright (C) 2009, Yann Simon <yann.simon.fr@gmail.com>
+ * Copyright (C) 2011, Matthias Sohn <matthias.sohn@sap.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -56,20 +57,44 @@ public class UserConfig {
 		}
 	};
 
-	private final String authorName;
+	private String authorName;
 
-	private final String authorEmail;
+	private String authorEmail;
 
-	private final String committerName;
+	private String committerName;
 
-	private final String committerEmail;
+	private String committerEmail;
+
+	private boolean isAuthorNameImplicit;
+
+	private boolean isAuthorEmailImplicit;
+
+	private boolean isCommitterNameImplicit;
+
+	private boolean isCommitterEmailImplicit;
 
 	private UserConfig(final Config rc) {
 		authorName = getNameInternal(rc, Constants.GIT_AUTHOR_NAME_KEY);
+		if (authorName == null) {
+			authorName = getDefaultUserName();
+			isAuthorNameImplicit = true;
+		}
 		authorEmail = getEmailInternal(rc, Constants.GIT_AUTHOR_EMAIL_KEY);
+		if (authorEmail == null) {
+			authorEmail = getDefaultEmail();
+			isAuthorEmailImplicit = true;
+		}
 
 		committerName = getNameInternal(rc, Constants.GIT_COMMITTER_NAME_KEY);
+		if (committerName == null) {
+			committerName = getDefaultUserName();
+			isCommitterNameImplicit = true;
+		}
 		committerEmail = getEmailInternal(rc, Constants.GIT_COMMITTER_EMAIL_KEY);
+		if (committerEmail == null) {
+			committerEmail = getDefaultEmail();
+			isCommitterEmailImplicit = true;
+		}
 	}
 
 	/**
@@ -110,6 +135,42 @@ public class UserConfig {
 		return committerEmail;
 	}
 
+	/**
+	 * @return true if the author name was not explicitly configured but
+	 *         constructed from information the system has about the logged on
+	 *         user
+	 */
+	public boolean isAuthorNameImplicit() {
+		return isAuthorNameImplicit;
+	}
+
+	/**
+	 * @return true if the author email was not explicitly configured but
+	 *         constructed from information the system has about the logged on
+	 *         user
+	 */
+	public boolean isAuthorEmailImplicit() {
+		return isAuthorEmailImplicit;
+	}
+
+	/**
+	 * @return true if the committer name was not explicitly configured but
+	 *         constructed from information the system has about the logged on
+	 *         user
+	 */
+	public boolean isCommitterNameImplicit() {
+		return isCommitterNameImplicit;
+	}
+
+	/**
+	 * @return true if the author email was not explicitly configured but
+	 *         constructed from information the system has about the logged on
+	 *         user
+	 */
+	public boolean isCommitterEmailImplicit() {
+		return isCommitterEmailImplicit;
+	}
+
 	private static String getNameInternal(Config rc, String envKey) {
 		// try to get the user name from the local and global configurations.
 		String username = rc.getString("user", null, "name");
@@ -118,13 +179,19 @@ public class UserConfig {
 			// try to get the user name for the system property GIT_XXX_NAME
 			username = system().getenv(envKey);
 		}
-		if (username == null) {
-			// get the system user name
-			username = system().getProperty(Constants.OS_USER_NAME_KEY);
-		}
-		if (username == null) {
+
+		return username;
+	}
+
+	/**
+	 * @return try to get user name of the logged on user from the operating
+	 *         system
+	 */
+	private static String getDefaultUserName() {
+		// get the system user name
+		String username = system().getProperty(Constants.OS_USER_NAME_KEY);
+		if (username == null)
 			username = Constants.UNKNOWN_USER_DEFAULT;
-		}
 		return username;
 	}
 
@@ -137,16 +204,17 @@ public class UserConfig {
 			email = system().getenv(envKey);
 		}
 
-		if (email == null) {
-			// try to construct an email
-			String username = system().getProperty(Constants.OS_USER_NAME_KEY);
-			if (username == null){
-				username = Constants.UNKNOWN_USER_DEFAULT;
-			}
-			email = username + "@" + system().getHostname();
-		}
-
 		return email;
+	}
+
+	/**
+	 * @return try to construct email for logged on user using system
+	 *         information
+	 */
+	private static String getDefaultEmail() {
+		// try to construct an email
+		String username = getDefaultUserName();
+		return username + "@" + system().getHostname();
 	}
 
 	private static SystemReader system() {
