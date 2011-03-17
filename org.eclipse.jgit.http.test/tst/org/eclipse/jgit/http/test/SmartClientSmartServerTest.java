@@ -55,6 +55,7 @@ import static org.junit.Assert.fail;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URISyntaxException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -73,6 +74,7 @@ import org.eclipse.jetty.servlet.FilterMapping;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jgit.JGitText;
+import org.eclipse.jgit.errors.RemoteRepositoryException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.http.server.GitServlet;
@@ -221,6 +223,36 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 		assertEquals("application/x-git-upload-pack-advertisement", info
 				.getResponseHeader(HDR_CONTENT_TYPE));
 		assertEquals("gzip", info.getResponseHeader(HDR_CONTENT_ENCODING));
+	}
+
+	@Test
+	public void testListRemote_BadName() throws IOException, URISyntaxException {
+		Repository dst = createBareRepository();
+		URIish uri = new URIish(this.remoteURI.toString() + ".invalid");
+		Transport t = Transport.open(dst, uri);
+		try {
+			try {
+				t.openFetch();
+				fail("fetch connection opened");
+			} catch (RemoteRepositoryException notFound) {
+				assertEquals(uri + ": Git repository not found",
+						notFound.getMessage());
+			}
+		} finally {
+			t.close();
+		}
+
+		List<AccessEvent> requests = getRequests();
+		assertEquals(1, requests.size());
+
+		AccessEvent info = requests.get(0);
+		assertEquals("GET", info.getMethod());
+		assertEquals(join(uri, "info/refs"), info.getPath());
+		assertEquals(1, info.getParameters().size());
+		assertEquals("git-upload-pack", info.getParameter("service"));
+		assertEquals(200, info.getStatus());
+		assertEquals("application/x-git-upload-pack-advertisement",
+				info.getResponseHeader(HDR_CONTENT_TYPE));
 	}
 
 	@Test
