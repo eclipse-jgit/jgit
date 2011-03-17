@@ -79,6 +79,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.treewalk.TreeWalk;
+import org.eclipse.jgit.util.ChangeIdUtil;
 
 /**
  * A class used to execute a {@code Commit} command. It has setters for all
@@ -103,6 +104,8 @@ public class CommitCommand extends GitCommand<RevCommit> {
 	private boolean[] onlyProcessed;
 
 	private boolean amend;
+
+	private boolean insertChangeId;
 
 	/**
 	 * parents this commit should have. The current HEAD will be in this list
@@ -195,6 +198,9 @@ public class CommitCommand extends GitCommand<RevCommit> {
 					// (unresolved conflicts)
 					ObjectId indexTreeId = index.writeTree(odi);
 
+					if (insertChangeId)
+						insertChangeId(indexTreeId);
+
 					// Create a Commit object, populate it and write it
 					CommitBuilder commit = new CommitBuilder();
 					commit.setCommitter(committer);
@@ -258,6 +264,19 @@ public class CommitCommand extends GitCommand<RevCommit> {
 			throw new JGitInternalException(
 					JGitText.get().exceptionCaughtDuringExecutionOfCommitCommand, e);
 		}
+	}
+
+	private void insertChangeId(ObjectId treeId) throws IOException {
+		ObjectId firstParentId = null;
+		if (!parents.isEmpty())
+			firstParentId = parents.get(0);
+		ObjectId changeId = ChangeIdUtil.computeChangeId(treeId, firstParentId,
+				author, committer, message);
+		message = ChangeIdUtil.insertId(message, changeId);
+		if (changeId != null)
+			message = message.replaceAll("\nChange-Id: I"
+					+ ObjectId.zeroId().getName() + "\n", "\nChange-Id: I"
+					+ changeId.getName() + "\n");
 	}
 
 	private DirCache createTemporaryIndex(ObjectId headId, DirCache index)
@@ -620,4 +639,21 @@ public class CommitCommand extends GitCommand<RevCommit> {
 			this.only.add(o);
 		return this;
 	}
+
+	/**
+	 * If set to true a change id will be inserted into the commit message
+	 *
+	 * An existing change id is not replaced. An initial change id (I000...)
+	 * will be replaced by the change id.
+	 *
+	 * @param insertChangeId
+	 *
+	 * @return {@code this}
+	 */
+	public CommitCommand setInsertChangeId(boolean insertChangeId) {
+		checkCallable();
+		this.insertChangeId = insertChangeId;
+		return this;
+	}
+
 }
