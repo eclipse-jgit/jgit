@@ -393,6 +393,10 @@ public class ResolveMerger extends ThreeWayMerger {
 		if (modeB == modeO && tw.idEqual(T_BASE, T_OURS)) {
 			// OURS was not changed compared to BASE. All changes must be in
 			// THEIRS. THEIRS is chosen.
+
+			// Check worktree before checking out THEIRS
+			if (isWorktreeDirty())
+				return false;
 			if (nonTree(modeT)) {
 				DirCacheEntry e = add(tw.getRawPath(), theirs,
 						DirCacheEntry.STAGE_0);
