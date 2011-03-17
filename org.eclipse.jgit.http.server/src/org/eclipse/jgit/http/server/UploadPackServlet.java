@@ -77,7 +77,7 @@ import org.eclipse.jgit.transport.resolver.UploadPackFactory;
 class UploadPackServlet extends HttpServlet {
 	private static final String REQ_TYPE = "application/x-git-upload-pack-request";
 
-	private static final String RSP_TYPE = "application/x-git-upload-pack-result";
+	static final String RSP_TYPE = "application/x-git-upload-pack-result";
 
 	private static final long serialVersionUID = 1L;
 
@@ -130,7 +130,7 @@ class UploadPackServlet extends HttpServlet {
 				return;
 
 			} catch (ServiceNotEnabledException e) {
-				rsp.sendError(SC_FORBIDDEN);
+				RepositoryFilter.sendError(SC_FORBIDDEN, req, rsp);
 				return;
 			}
 
