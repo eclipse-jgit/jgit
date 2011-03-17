@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL3n///nk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/LogCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-03-17T19:41:22Z",
+      "side": 1,
+      "message": "Strictly speaking, the -- is to break options away from non-option arguments. Saying its the same as -- \u003cpath\u003e is a little weird then.",
+      "revId": "360cb164d876b43deae44c24897a2a320ed7ce7b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL3n///no\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/LogCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-03-17T19:41:22Z",
+      "side": 1,
+      "message": "Style-nit: Trailing space.",
+      "revId": "360cb164d876b43deae44c24897a2a320ed7ce7b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL3n///ng\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/LogCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-03-17T19:41:22Z",
+      "side": 1,
+      "message": "Please document that the path is relative to the top level of the repository, and must either name a file or a directory exactly (it doesn\u0027t support regex, wildcards, etc.)",
+      "revId": "360cb164d876b43deae44c24897a2a320ed7ce7b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
