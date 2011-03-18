@@ -59,10 +59,10 @@ import java.util.Map;
 
 import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.diff.DiffAlgorithm;
+import org.eclipse.jgit.diff.DiffAlgorithm.SupportedAlgorithm;
 import org.eclipse.jgit.diff.RawText;
 import org.eclipse.jgit.diff.RawTextComparator;
 import org.eclipse.jgit.diff.Sequence;
-import org.eclipse.jgit.diff.DiffAlgorithm.SupportedAlgorithm;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuildIterator;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
@@ -364,42 +364,42 @@ public class ResolveMerger extends ThreeWayMerger {
 			CorruptObjectException, IOException {
 		enterSubtree = true;
 		final int modeO = tw.getRawMode(T_OURS);
-		final int modeI = tw.getRawMode(T_INDEX);
-
-		// Each index entry has to match ours, means: it has to be clean
-		if (nonTree(modeI)
-				&& !(tw.idEqual(T_INDEX, T_OURS) && modeO == modeI)) {
-			failingPaths.put(tw.getPathString(), MergeFailureReason.DIRTY_INDEX);
-			return false;
-		}
-
 		final int modeT = tw.getRawMode(T_THEIRS);
+		final int modeB = tw.getRawMode(T_BASE);
+
+		if (modeO == 0 && modeT == 0 && modeB == 0)
+			// File is either untracked or new, staged but uncommitted
+			return true;
+
+		if (isIndexDirty())
+			return false;
+
 		if (nonTree(modeO) && modeO == modeT && tw.idEqual(T_OURS, T_THEIRS)) {
-			// ours and theirs are equal: it doesn'nt matter
-			// which one we choose. OURS is choosen here.
+			// OURS and THEIRS are equal: it doesn't matter which one we choose.
+			// OURS is chosen.
 			add(tw.getRawPath(), ours, DirCacheEntry.STAGE_0);
 			// no checkout needed!
 			return true;
 		}
 
-		final int modeB = tw.getRawMode(T_BASE);
 		if (nonTree(modeO) && modeB == modeT && tw.idEqual(T_BASE, T_THEIRS)) {
-			// THEIRS was not changed compared to base. All changes must be in
-			// OURS. Choose OURS.
+			// THEIRS was not changed compared to BASE. All changes must be in
+			// OURS. OURS is chosen.
 			add(tw.getRawPath(), ours, DirCacheEntry.STAGE_0);
+			// no checkout needed!
 			return true;
 		}
 
 		if (modeB == modeO && tw.idEqual(T_BASE, T_OURS)) {
-			// OURS was not changed compared to base. All changes must be in
-			// THEIRS. Choose THEIRS.
+			// OURS was not changed compared to BASE. All changes must be in
+			// THEIRS. THEIRS is chosen.
 			if (nonTree(modeT)) {
 				DirCacheEntry e = add(tw.getRawPath(), theirs,
 						DirCacheEntry.STAGE_0);
 				if (e != null)
 					toBeCheckedOut.put(tw.getPathString(), e);
 				return true;
-			} else if ((modeT == 0) && (modeB != 0)) {
+			} else if (modeT == 0 && modeB != 0) {
 				// we want THEIRS ... but THEIRS contains the deletion of the
 				// file
 				toBeCheckedOut.put(tw.getPathString(), null);
@@ -441,24 +441,44 @@ public class ResolveMerger extends ThreeWayMerger {
 		}
 
 		if (nonTree(modeO) && nonTree(modeT)) {
-			if (!inCore) {
-				// We are going to update the worktree. Make sure the worktree
-				// is not modified
-				if (work != null
-						&& (!nonTree(work.getEntryRawMode()) || work
-								.isModified(index.getDirCacheEntry(), true))) {
-					failingPaths.put(tw.getPathString(),
-							MergeFailureReason.DIRTY_WORKTREE);
-					return false;
-				}
-			}
-
+			// Check worktree before modifying files
+			if (isWorktreeDirty())
+				return false;
 			if (!contentMerge(base, ours, theirs)) {
 				unmergedPaths.add(tw.getPathString());
 			}
 			modifiedFiles.add(tw.getPathString());
 		}
 		return true;
+	}
+
+	private boolean isIndexDirty() {
+		final int modeI = tw.getRawMode(T_INDEX);
+		final int modeO = tw.getRawMode(T_OURS);
+
+		// Index entry has to match ours to be considered clean
+		final boolean isDirty = nonTree(modeI)
+				&& !(tw.idEqual(T_INDEX, T_OURS) && modeO == modeI);
+		if (isDirty)
+			failingPaths
+					.put(tw.getPathString(), MergeFailureReason.DIRTY_INDEX);
+		return isDirty;
+	}
+
+	private boolean isWorktreeDirty() {
+		if (inCore)
+			return false;
+
+		final int modeF = tw.getRawMode(T_FILE);
+		final int modeO = tw.getRawMode(T_OURS);
+
+		// Worktree entry has to match ours to be considered clean
+		final boolean isDirty = nonTree(modeF)
+				&& !(tw.idEqual(T_FILE, T_OURS) && modeO == modeF);
+		if (isDirty)
+			failingPaths.put(tw.getPathString(),
+					MergeFailureReason.DIRTY_WORKTREE);
+		return isDirty;
 	}
 
 	private boolean contentMerge(CanonicalTreeParser base,
