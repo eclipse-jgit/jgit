@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL3n///xU\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-03-16T23:06:16Z",
+      "side": 1,
+      "message": "This commit message led me in the wrong direction because the merge was failing when merge wanted to modify a dirty file. What you wanted to do is to a the same test for the checkout-from-theirs case.",
+      "revId": "accd57ae9a29e6a89200f2a41729effcec3cbaed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL3n///xc\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/MergeCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 739,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-03-16T23:06:16Z",
+      "side": 1,
+      "message": "Maybe that\u0027s only my personal taste but I think that these kind of methods make the test code harder to read then before. The method name is already very long and it still doesn\u0027t explain everything you do (\"modifiying file a\" - took me some time to understand the test case because I overlooked this method touches a). I prefer to have longer test-methods using utility methods with smaller scope then this long utility methods. How about modify(path) (creating-or-modifiying a file), checkout(branch) (creating (if not already there) and switching to a branch), and commit() (adding everything before).",
+      "revId": "accd57ae9a29e6a89200f2a41729effcec3cbaed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL3n///xY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-03-16T23:06:16Z",
+      "side": 1,
+      "message": "Do I guess right that this if-statement is the where the real fix is? All the other modifications in this file are cleanups/refactorings/style nits, right? At least all youre new tests succeed if I only add add a test for a dirty-worktree file in case of a checkout from theirs.",
+      "revId": "accd57ae9a29e6a89200f2a41729effcec3cbaed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
