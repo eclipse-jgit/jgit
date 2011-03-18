@@ -47,13 +47,14 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.storage.pack.CachedPack;
+import org.eclipse.jgit.storage.pack.ObjectToPack;
 import org.eclipse.jgit.storage.pack.PackOutputStream;
+import org.eclipse.jgit.storage.pack.StoredObjectRepresentation;
 
 class LocalCachedPack extends CachedPack {
 	private final ObjectDirectory odb;
@@ -61,6 +62,8 @@ class LocalCachedPack extends CachedPack {
 	private final Set<ObjectId> tips;
 
 	private final String[] packNames;
+
+	private PackFile[] packs;
 
 	LocalCachedPack(ObjectDirectory odb, Set<ObjectId> tips,
 			List<String> packNames) {
@@ -82,34 +85,39 @@ class LocalCachedPack extends CachedPack {
 	@Override
 	public long getObjectCount() throws IOException {
 		long cnt = 0;
-		for (String packName : packNames)
-			cnt += getPackFile(packName).getObjectCount();
+		for (PackFile pack : getPacks())
+			cnt += pack.getObjectCount();
 		return cnt;
 	}
 
 	void copyAsIs(PackOutputStream out, boolean validate, WindowCursor wc)
 			throws IOException {
-		for (String packName : packNames)
-			getPackFile(packName).copyPackAsIs(out, validate, wc);
+		for (PackFile pack : getPacks())
+			pack.copyPackAsIs(out, validate, wc);
 	}
 
 	@Override
-	public <T extends ObjectId> Set<ObjectId> hasObject(Iterable<T> toFind)
-			throws IOException {
-		PackFile[] packs = new PackFile[packNames.length];
-		for (int i = 0; i < packNames.length; i++)
-			packs[i] = getPackFile(packNames[i]);
-
-		Set<ObjectId> have = new HashSet<ObjectId>();
-		for (ObjectId id : toFind) {
-			for (PackFile pack : packs) {
-				if (pack.hasObject(id)) {
-					have.add(id);
-					break;
-				}
+	public boolean hasObject(ObjectToPack obj, StoredObjectRepresentation rep) {
+		try {
+			LocalObjectRepresentation local = (LocalObjectRepresentation) rep;
+			for (PackFile pack : getPacks()) {
+				if (local.pack == pack)
+					return true;
 			}
+			return false;
+		} catch (FileNotFoundException packGone) {
+			return false;
 		}
-		return have;
+	}
+
+	private PackFile[] getPacks() throws FileNotFoundException {
+		if (packs == null) {
+			PackFile[] p = new PackFile[packNames.length];
+			for (int i = 0; i < packNames.length; i++)
+				p[i] = getPackFile(packNames[i]);
+			packs = p;
+		}
+		return packs;
 	}
 
 	private PackFile getPackFile(String packName) throws FileNotFoundException {

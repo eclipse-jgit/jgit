@@ -93,16 +93,27 @@ public abstract class CachedPack {
 	}
 
 	/**
-	 * Determine if the pack contains the requested objects.
+	 * Determine if this pack contains the object representation given.
+	 * <p>
+	 * PackWriter uses this method during the finding sources phase to prune
+	 * away any objects from the leading thin-pack that already appear within
+	 * this pack and should not be sent twice.
+	 * <p>
+	 * Implementors are strongly encouraged to rely on looking at {@code rep}
+	 * only and using its internal state to decide if this object is within this
+	 * pack. Implementors should ensure a representation from this cached pack
+	 * is tested as part of
+	 * {@link ObjectReuseAsIs#selectObjectRepresentation(PackWriter, org.eclipse.jgit.lib.ProgressMonitor, Iterable)}
+	 * , ensuring this method would eventually return true if the object would
+	 * be included by this cached pack.
 	 *
-	 * @param <T>
-	 *            any type of ObjectId to search for.
-	 * @param toFind
-	 *            the objects to search for.
-	 * @return the objects contained in the pack.
-	 * @throws IOException
-	 *             the pack cannot be accessed
+	 * @param obj
+	 *            the object being packed. Can be used as an ObjectId.
+	 * @param rep
+	 *            representation from the {@link ObjectReuseAsIs} instance that
+	 *            originally supplied this CachedPack.
+	 * @return true if this pack contains this object.
 	 */
-	public abstract <T extends ObjectId> Set<ObjectId> hasObject(
-			Iterable<T> toFind) throws IOException;
+	public abstract boolean hasObject(ObjectToPack obj,
+			StoredObjectRepresentation rep);
 }
