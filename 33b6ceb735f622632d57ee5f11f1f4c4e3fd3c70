@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL3n///kI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 100
+      },
+      "writtenOn": "2011-03-18T12:37:02Z",
+      "side": 1,
+      "message": "Yes, this was handled correctly before. But when debugging such a case, we dived into the pick-from-theirs handling which seemed a little bit confusing to me.\r\n\r\nBut you are right, the comment is wrong and I have changed it.",
+      "parentUuid": "AAAL3n///kU\u003d",
+      "revId": "33b6ceb735f622632d57ee5f11f1f4c4e3fd3c70",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL3n///kY\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2011-03-18T12:16:31Z",
       "side": 1,
       "message": "OURS is always unchanged regarding BASE and we always take what we find in THEIRS --- without any exception. If we find something in THEIRS we copy and if we don\u0027t find we don\u0027t copy.\nOnly one case get\u0027s additional treatment: if THEIRS contains a deletion we trigger an explicit working tree cleanup.\n\nFrom that point of view I liked the old comments more then this new one.",
+      "revId": "33b6ceb735f622632d57ee5f11f1f4c4e3fd3c70",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL3n///j4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 396,
+      "author": {
+        "id": 100
+      },
+      "writtenOn": "2011-03-18T12:37:02Z",
+      "side": 1,
+      "message": "Okay, I have changed it back. It\u0027s clear to me now - whereas it wasn\u0027t in the beginning...",
+      "parentUuid": "AAAL3n///kY\u003d",
       "revId": "33b6ceb735f622632d57ee5f11f1f4c4e3fd3c70",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
