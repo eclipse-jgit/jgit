@@ -81,13 +81,19 @@ public interface ObjectReuseAsIs {
 
 	/**
 	 * Select the best object representation for a packer.
-	 *
+	 * <p>
 	 * Implementations should iterate through all available representations of
 	 * an object, and pass them in turn to the PackWriter though
 	 * {@link PackWriter#select(ObjectToPack, StoredObjectRepresentation)} so
 	 * the writer can select the most suitable representation to reuse into the
 	 * output stream.
-	 *
+	 * <p>
+	 * If the implementation returns CachedPack from {@link #getCachedPacks()},
+	 * it must consider the representation of any object that is stored in any
+	 * of the offered CachedPacks. PackWriter relies on this behavior to prune
+	 * duplicate objects out of the pack stream when it selects a CachedPack and
+	 * the object was also reached through the thin-pack enumeration.
+	 * <p>
 	 * The implementation may choose to consider multiple objects at once on
 	 * concurrent threads, but must evaluate all representations of an object
 	 * within the same thread.
