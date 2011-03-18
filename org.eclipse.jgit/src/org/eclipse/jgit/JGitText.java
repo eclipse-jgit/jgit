@@ -274,7 +274,6 @@ public class JGitText extends TranslationBundle {
 	/***/ public String inMemoryBufferLimitExceeded;
 	/***/ public String incorrectHashFor;
 	/***/ public String incorrectOBJECT_ID_LENGTH;
-	/***/ public String incorrectObjectType_COMMITnorTREEnorBLOBnorTAG;
 	/***/ public String indexFileIsInUse;
 	/***/ public String indexFileIsTooLargeForJgit;
 	/***/ public String indexSignatureIsInvalid;
