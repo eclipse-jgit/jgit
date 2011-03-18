@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL3n///uY\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 100
+      },
+      "writtenOn": "2011-03-17T09:59:59Z",
+      "side": 1,
+      "message": "Yes, that\u0027s correct. I have changed the message now so that it only refers to the fixed scenario.",
+      "parentUuid": "AAAL3n///xU\u003d",
+      "revId": "accd57ae9a29e6a89200f2a41729effcec3cbaed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL3n///xc\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/MergeCommandTest.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL3n///uQ\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/MergeCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 739,
+      "author": {
+        "id": 100
+      },
+      "writtenOn": "2011-03-17T09:59:59Z",
+      "side": 1,
+      "message": "Okay, I understand your concern. From my point of view writing tests becomes easier if you have more powerful utility methods. When you only have to change a parameter to create a new test, it becomes possible to increase the total number of tests significantly. Also refactoring tests is easier, I think. But reviewing these tests then becomes harder, that is true. So I have inlined most of these helper methods again and tried to come up with a compromise.",
+      "parentUuid": "AAAL3n///xc\u003d",
+      "revId": "accd57ae9a29e6a89200f2a41729effcec3cbaed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL3n///xY\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2011-03-16T23:06:16Z",
       "side": 1,
       "message": "Do I guess right that this if-statement is the where the real fix is? All the other modifications in this file are cleanups/refactorings/style nits, right? At least all youre new tests succeed if I only add add a test for a dirty-worktree file in case of a checkout from theirs.",
+      "revId": "accd57ae9a29e6a89200f2a41729effcec3cbaed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL3n///uM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 100
+      },
+      "writtenOn": "2011-03-17T09:59:59Z",
+      "side": 1,
+      "message": "Yes, this is the fix. Sorry for all the confusing stuff... I put the refactorings into a separate commit now.",
+      "parentUuid": "AAAL3n///xY\u003d",
       "revId": "accd57ae9a29e6a89200f2a41729effcec3cbaed",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
