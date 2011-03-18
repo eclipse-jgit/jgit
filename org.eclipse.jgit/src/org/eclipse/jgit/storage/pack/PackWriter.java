@@ -722,10 +722,30 @@ public class PackWriter {
 
 		long start = System.currentTimeMillis();
 		monitor.beginTask(JGitText.get().searchForReuse, cnt);
-		searchForReuse(monitor, objectsLists[Constants.OBJ_COMMIT]);
-		searchForReuse(monitor, objectsLists[Constants.OBJ_TREE]);
-		searchForReuse(monitor, objectsLists[Constants.OBJ_BLOB]);
-		searchForReuse(monitor, objectsLists[Constants.OBJ_TAG]);
+
+		if (cnt <= 4096) {
+			// For small object counts, do everything as one list.
+			BlockList<ObjectToPack> tmp = new BlockList<ObjectToPack>(cnt);
+			tmp.addAll(objectsLists[Constants.OBJ_COMMIT]);
+			tmp.addAll(objectsLists[Constants.OBJ_TREE]);
+			tmp.addAll(objectsLists[Constants.OBJ_BLOB]);
+			tmp.addAll(objectsLists[Constants.OBJ_TAG]);
+			searchForReuse(monitor, tmp);
+			if (pruneCurrentObjectList) {
+				// If the list was pruned, we need to re-prune the main lists.
+				pruneEdgesFromObjectList(objectsLists[Constants.OBJ_COMMIT]);
+				pruneEdgesFromObjectList(objectsLists[Constants.OBJ_TREE]);
+				pruneEdgesFromObjectList(objectsLists[Constants.OBJ_BLOB]);
+				pruneEdgesFromObjectList(objectsLists[Constants.OBJ_TAG]);
+			}
+
+		} else {
+			searchForReuse(monitor, objectsLists[Constants.OBJ_COMMIT]);
+			searchForReuse(monitor, objectsLists[Constants.OBJ_TREE]);
+			searchForReuse(monitor, objectsLists[Constants.OBJ_BLOB]);
+			searchForReuse(monitor, objectsLists[Constants.OBJ_TAG]);
+		}
+
 		monitor.endTask();
 		stats.timeSearchingForReuse = System.currentTimeMillis() - start;
 	}
