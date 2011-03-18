@@ -282,6 +282,24 @@ public class BlockListTest {
 	}
 
 	@Test
+	public void testAddAllFromOtherList() {
+		BlockList<Integer> src = new BlockList<Integer>(4);
+		int cnt = BlockList.BLOCK_SIZE * 2;
+
+		for (int i = 0; i < cnt; i++)
+			src.add(Integer.valueOf(42 + i));
+		src.add(Integer.valueOf(1));
+
+		BlockList<Integer> dst = new BlockList<Integer>(4);
+		dst.add(Integer.valueOf(255));
+		dst.addAll(src);
+		assertEquals(cnt + 2, dst.size());
+		for (int i = 0; i < cnt; i++)
+			assertEquals(Integer.valueOf(42 + i), dst.get(i + 1));
+		assertEquals(Integer.valueOf(1), dst.get(dst.size() - 1));
+	}
+
+	@Test
 	public void testFastIterator() {
 		BlockList<Integer> list = new BlockList<Integer>(4);
 		int cnt = BlockList.BLOCK_SIZE * 3;
