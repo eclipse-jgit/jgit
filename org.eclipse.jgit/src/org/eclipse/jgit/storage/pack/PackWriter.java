@@ -1085,17 +1085,35 @@ public class PackWriter {
 	}
 
 	void writeObject(PackOutputStream out, ObjectToPack otp) throws IOException {
-		if (otp.isWritten())
-			return; // We shouldn't be here.
+		if (!otp.isWritten())
+			writeObjectImpl(out, otp);
+	}
 
+	private void writeObjectImpl(PackOutputStream out, ObjectToPack otp)
+			throws IOException {
+		if (otp.wantWrite()) {
+			// A cycle exists in this delta chain. This should only occur if a
+			// selected object representation disappeared during writing
+			// (for example due to a concurrent repack) and a different base
+			// was chosen, forcing a cycle. Select something other than a
+			// delta, and write this object.
+			//
+			reuseDeltas = false;
+			otp.clearDeltaBase();
+			otp.clearReuseAsIs();
+			reuseSupport.selectObjectRepresentation(this,
+					NullProgressMonitor.INSTANCE,
+					Collections.singleton(otp));
+		}
 		otp.markWantWrite();
-		if (otp.isDeltaRepresentation())
-			writeBaseFirst(out, otp);
-
-		out.resetCRC32();
-		otp.setOffset(out.length());
 
 		while (otp.isReuseAsIs()) {
+			writeBase(out, otp.getDeltaBase());
+			if (otp.isWritten())
+				return; // Delta chain cycle caused this to write already.
+
+			out.resetCRC32();
+			otp.setOffset(out.length());
 			try {
 				reuseSupport.copyObjectAsIs(out, otp, reuseValidate);
 				out.endObject();
@@ -1108,7 +1126,12 @@ public class PackWriter {
 				return;
 			} catch (StoredObjectRepresentationNotAvailableException gone) {
 				if (otp.getOffset() == out.length()) {
-					redoSearchForReuse(otp);
+					otp.setOffset(0);
+					otp.clearDeltaBase();
+					otp.clearReuseAsIs();
+					reuseSupport.selectObjectRepresentation(this,
+							NullProgressMonitor.INSTANCE,
+							Collections.singleton(otp));
 					continue;
 				} else {
 					// Object writing already started, we cannot recover.
@@ -1131,39 +1154,10 @@ public class PackWriter {
 		otp.setCRC(out.getCRC32());
 	}
 
-	private void writeBaseFirst(PackOutputStream out, final ObjectToPack otp)
+	private void writeBase(PackOutputStream out, ObjectToPack baseInPack)
 			throws IOException {
-		ObjectToPack baseInPack = otp.getDeltaBase();
-		if (baseInPack != null) {
-			if (!baseInPack.isWritten()) {
-				if (baseInPack.wantWrite()) {
-					// There is a cycle. Our caller is trying to write the
-					// object we want as a base, and called us. Turn off
-					// delta reuse so we can find another form.
-					//
-					reuseDeltas = false;
-					redoSearchForReuse(otp);
-					reuseDeltas = true;
-				} else {
-					writeObject(out, baseInPack);
-				}
-			}
-		} else if (!thin) {
-			// This should never occur, the base isn't in the pack and
-			// the pack isn't allowed to reference base outside objects.
-			// Write the object as a whole form, even if that is slow.
-			//
-			otp.clearDeltaBase();
-			otp.clearReuseAsIs();
-		}
-	}
-
-	private void redoSearchForReuse(final ObjectToPack otp) throws IOException,
-			MissingObjectException {
-		otp.clearDeltaBase();
-		otp.clearReuseAsIs();
-		reuseSupport.selectObjectRepresentation(this,
-				NullProgressMonitor.INSTANCE, Collections.singleton(otp));
+		if (baseInPack != null && !baseInPack.isWritten())
+			writeObjectImpl(out, baseInPack);
 	}
 
 	private void writeWholeObjectDeflate(PackOutputStream out,
@@ -1171,6 +1165,8 @@ public class PackWriter {
 		final Deflater deflater = deflater();
 		final ObjectLoader ldr = reader.open(otp, otp.getType());
 
+		out.resetCRC32();
+		otp.setOffset(out.length());
 		out.writeHeader(otp, ldr.getSize());
 
 		deflater.reset();
@@ -1181,6 +1177,11 @@ public class PackWriter {
 
 	private void writeDeltaObjectDeflate(PackOutputStream out,
 			final ObjectToPack otp) throws IOException {
+		writeBase(out, otp.getDeltaBase());
+
+		out.resetCRC32();
+		otp.setOffset(out.length());
+
 		DeltaCache.Ref ref = otp.popCachedDelta();
 		if (ref != null) {
 			byte[] zbuf = ref.get();
@@ -1551,38 +1552,28 @@ public class PackWriter {
 			}
 		}
 
-		int nWeight;
-		if (otp.isReuseAsIs()) {
-			// We've already chosen to reuse a packed form, if next
-			// cannot beat that break out early.
-			//
-			if (PACK_WHOLE < nFmt)
-				return; // next isn't packed
-			else if (PACK_DELTA < nFmt && otp.isDeltaRepresentation())
-				return; // next isn't a delta, but we are
-
-			nWeight = next.getWeight();
-			if (otp.getWeight() <= nWeight)
-				return; // next would be bigger
-		} else
-			nWeight = next.getWeight();
-
 		if (nFmt == PACK_DELTA && reuseDeltas && reuseDeltaFor(otp)) {
 			ObjectId baseId = next.getDeltaBase();
 			ObjectToPack ptr = objectsMap.get(baseId);
 			if (ptr != null && !ptr.isEdge()) {
 				otp.setDeltaBase(ptr);
 				otp.setReuseAsIs();
-				otp.setWeight(nWeight);
 			} else if (thin && ptr != null && ptr.isEdge()) {
 				otp.setDeltaBase(baseId);
 				otp.setReuseAsIs();
-				otp.setWeight(nWeight);
 			} else {
 				otp.clearDeltaBase();
 				otp.clearReuseAsIs();
 			}
 		} else if (nFmt == PACK_WHOLE && config.isReuseObjects()) {
+			int nWeight = next.getWeight();
+			if (otp.isReuseAsIs() && !otp.isDeltaRepresentation()) {
+				// We've chosen another PACK_WHOLE format for this object,
+				// choose the one that has the smaller compressed size.
+				//
+				if (otp.getWeight() <= nWeight)
+					return;
+			}
 			otp.clearDeltaBase();
 			otp.setReuseAsIs();
 			otp.setWeight(nWeight);
