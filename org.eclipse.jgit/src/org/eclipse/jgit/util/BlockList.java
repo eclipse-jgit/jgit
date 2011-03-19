@@ -141,6 +141,52 @@ public class BlockList<T> extends AbstractList<T> {
 		return old;
 	}
 
+	/**
+	 * Quickly append all elements of another BlockList.
+	 *
+	 * @param src
+	 *            the list to copy elements from.
+	 */
+	public void addAll(BlockList<T> src) {
+		if (src.size == 0)
+			return;
+
+		int srcDirIdx = 0;
+		for (; srcDirIdx < src.tailDirIdx; srcDirIdx++)
+			addAll(src.directory[srcDirIdx], 0, BLOCK_SIZE);
+		if (src.tailBlkIdx != 0)
+			addAll(src.tailBlock, 0, src.tailBlkIdx);
+	}
+
+	/**
+	 * Quickly append all elements from an array.
+	 *
+	 * @param src
+	 *            the source array.
+	 * @param srcIdx
+	 *            first index to copy.
+	 * @param srcCnt
+	 *            number of elements to copy.
+	 */
+	public void addAll(T[] src, int srcIdx, int srcCnt) {
+		while (0 < srcCnt) {
+			int i = tailBlkIdx;
+			int n = Math.min(srcCnt, BLOCK_SIZE - i);
+			if (n == 0) {
+				// Our tail is full, expand by one.
+				add(src[srcIdx++]);
+				srcCnt--;
+				continue;
+			}
+
+			System.arraycopy(src, srcIdx, tailBlock, i, n);
+			tailBlkIdx += n;
+			size += n;
+			srcIdx += n;
+			srcCnt -= n;
+		}
+	}
+
 	@Override
 	public boolean add(T element) {
 		int i = tailBlkIdx;
