@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL3H///mo\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/MergeCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 669,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-03-06T23:04:16Z",
+      "side": 1,
+      "message": "I would be careful with including the smudge state. It could be \nplatform dependent whether we are hitting smudged situations or not. If you don\u0027t want to test it then leave it out.",
+      "revId": "1051b67621574b0903a7a2d24b4d3126367f6188",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL3H///mk\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/MergeCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 685,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-03-06T23:04:16Z",
+      "side": 1,
+      "message": "We could add a test for the other case. A merge with staged content for a file which is not touched by the merge should suceed.\n\nWhats about a test for dirty working trees?",
+      "revId": "1051b67621574b0903a7a2d24b4d3126367f6188",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL3H///mw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 617,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-03-06T23:04:16Z",
+      "side": 1,
+      "message": "Maybe one sentence or comment in brackets about what could cause such situations would be good",
+      "revId": "1051b67621574b0903a7a2d24b4d3126367f6188",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
