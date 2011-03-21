@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL3n///0g\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/MergeCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 669,
+      "author": {
+        "id": 100
+      },
+      "writtenOn": "2011-03-16T11:55:42Z",
+      "side": 1,
+      "message": "Removed SMUDGE.",
+      "parentUuid": "AAAL3H///mo\u003d",
+      "revId": "1051b67621574b0903a7a2d24b4d3126367f6188",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL3H///mk\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/MergeCommandTest.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL3n///0c\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/MergeCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 685,
+      "author": {
+        "id": 100
+      },
+      "writtenOn": "2011-03-16T11:55:42Z",
+      "side": 1,
+      "message": "Added test for dirty worktree.",
+      "parentUuid": "AAAL3H///mk\u003d",
+      "revId": "1051b67621574b0903a7a2d24b4d3126367f6188",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL3H///mw\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2011-03-06T23:04:16Z",
       "side": 1,
       "message": "Maybe one sentence or comment in brackets about what could cause such situations would be good",
+      "revId": "1051b67621574b0903a7a2d24b4d3126367f6188",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL3n///0Q\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 617,
+      "author": {
+        "id": 100
+      },
+      "writtenOn": "2011-03-16T11:55:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL3H///mw\u003d",
       "revId": "1051b67621574b0903a7a2d24b4d3126367f6188",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false

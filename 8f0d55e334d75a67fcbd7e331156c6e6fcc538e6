@@ -16,6 +16,24 @@
       "revId": "8f0d55e334d75a67fcbd7e331156c6e6fcc538e6",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL3n///0Y\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/RebaseCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 100
+      },
+      "writtenOn": "2011-03-16T11:55:42Z",
+      "side": 0,
+      "message": "Refactoring has been moved to separate change.",
+      "parentUuid": "AAAL3H///ms\u003d",
+      "revId": "8f0d55e334d75a67fcbd7e331156c6e6fcc538e6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
