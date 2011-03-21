@@ -57,6 +57,7 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.RepositoryState;
 import org.eclipse.jgit.lib.RepositoryTestCase;
 import org.eclipse.jgit.merge.MergeStrategy;
+import org.eclipse.jgit.merge.ResolveMerger.MergeFailureReason;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Test;
 
@@ -664,7 +665,8 @@ public class MergeCommandTest extends RepositoryTestCase {
 		MergeResult result = git.merge().include(sideCommit.getId())
 				.setStrategy(MergeStrategy.RESOLVE).call();
 
-		checkMergeFailedResult(result, indexState, fileA);
+		checkMergeFailedResult(result, MergeFailureReason.DIRTY_INDEX,
+				indexState, fileA);
 	}
 
 	@Test
@@ -701,7 +703,8 @@ public class MergeCommandTest extends RepositoryTestCase {
 		MergeResult result = git.merge().include(sideCommit.getId())
 				.setStrategy(MergeStrategy.RESOLVE).call();
 
-		checkMergeFailedResult(result, indexState, fileA);
+		checkMergeFailedResult(result, MergeFailureReason.DIRTY_INDEX,
+				indexState, fileA);
 	}
 
 	@Test
@@ -735,7 +738,8 @@ public class MergeCommandTest extends RepositoryTestCase {
 		MergeResult result = git.merge().include(sideCommit.getId())
 				.setStrategy(MergeStrategy.RESOLVE).call();
 
-		checkMergeFailedResult(result, indexState, fileA);
+		checkMergeFailedResult(result, MergeFailureReason.DIRTY_WORKTREE,
+				indexState, fileA);
 	}
 
 	@Test
@@ -771,7 +775,8 @@ public class MergeCommandTest extends RepositoryTestCase {
 		MergeResult result = git.merge().include(sideCommit.getId())
 				.setStrategy(MergeStrategy.RESOLVE).call();
 
-		checkMergeFailedResult(result, indexState, fileA);
+		checkMergeFailedResult(result, MergeFailureReason.DIRTY_WORKTREE,
+				indexState, fileA);
 	}
 
 	private RevCommit addAllAndCommit(final Git git) throws Exception {
@@ -780,8 +785,10 @@ public class MergeCommandTest extends RepositoryTestCase {
 	}
 
 	private void checkMergeFailedResult(final MergeResult result,
+			final MergeFailureReason reason,
 			final String indexState, final File fileA) throws Exception {
 		assertEquals(MergeStatus.FAILED, result.getMergeStatus());
+		assertEquals(reason, result.getFailingPaths().get("a"));
 		assertEquals("a(modified)", read(fileA));
 		assertFalse(new File(db.getWorkTree(), "b").exists());
 		assertEquals("c", read(new File(db.getWorkTree(), "c")));
