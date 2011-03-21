@@ -88,18 +88,13 @@ public class ReflogReader {
 						JGitText.get().rawLogMessageDoesNotParseAsLogEntry);
 			}
 			who = RawParseUtils.parsePersonIdentOnly(raw, pos);
-			int p0 = RawParseUtils.next(raw, pos, '\t'); // personident has no
-															// \t
-			if (p0 == -1) {
-				throw new IllegalArgumentException(
-						JGitText.get().rawLogMessageDoesNotParseAsLogEntry);
+			int p0 = RawParseUtils.next(raw, pos, '\t');
+			if (p0 >= raw.length)
+				comment = ""; // personident has no \t, no comment present
+			else {
+				int p1 = RawParseUtils.nextLF(raw, p0);
+				comment = p1 > p0 ? RawParseUtils.decode(raw, p0, p1 - 1) : "";
 			}
-			int p1 = RawParseUtils.nextLF(raw, p0);
-			if (p1 == -1) {
-				throw new IllegalArgumentException(
-						JGitText.get().rawLogMessageDoesNotParseAsLogEntry);
-			}
-			comment = RawParseUtils.decode(raw, p0, p1 - 1);
 		}
 
 		/**
