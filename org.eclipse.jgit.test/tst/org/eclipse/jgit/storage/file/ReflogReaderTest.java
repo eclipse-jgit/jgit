@@ -83,6 +83,9 @@ public class ReflogReaderTest extends SampleDataRepositoryTestCase {
 	static byte[] headLine = "3333333333333333333333333333333333333333 3e7549db262d1e836d9bf0af7e22355468f1717c A U Thor <thor@committer.au> 1243028201 -0100\tbranch: change to HEAD\n"
 			.getBytes();
 
+	static byte[] oneLineWithoutComment = "da85355dfc525c9f6f3927b876f379f46ccf826e 3e7549db262d1e836d9bf0af7e22355468f1717c A O Thor Too <authortoo@wri.tr> 1243028200 +0200\n"
+			.getBytes();
+
 	@Test
 	public void testReadOneLine() throws Exception {
 		setupReflog("logs/refs/heads/master", oneLine);
@@ -182,6 +185,25 @@ public class ReflogReaderTest extends SampleDataRepositoryTestCase {
 				.getLastEntry().getComment());
 		assertEquals("branch: change to HEAD", db.getReflogReader("HEAD")
 				.getLastEntry().getComment());
+	}
+
+	@Test
+	public void testReadLineWithMissingComment() throws Exception {
+		setupReflog("logs/refs/heads/master", oneLineWithoutComment);
+		final ReflogReader reader = db.getReflogReader("master");
+		Entry e = reader.getLastEntry();
+		assertEquals(ObjectId
+				.fromString("da85355dfc525c9f6f3927b876f379f46ccf826e"), e
+				.getOldId());
+		assertEquals(ObjectId
+				.fromString("3e7549db262d1e836d9bf0af7e22355468f1717c"), e
+				.getNewId());
+		assertEquals("A O Thor Too", e.getWho().getName());
+		assertEquals("authortoo@wri.tr", e.getWho().getEmailAddress());
+		assertEquals(120, e.getWho().getTimeZoneOffset());
+		assertEquals("2009-05-22T23:36:40", iso(e.getWho()));
+		assertEquals("",
+				e.getComment());
 	}
 
 	@Test
