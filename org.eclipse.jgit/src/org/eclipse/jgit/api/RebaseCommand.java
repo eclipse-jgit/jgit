@@ -84,8 +84,8 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RefUpdate.Result;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
@@ -251,7 +251,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 					// we should skip this step in order to avoid confusing
 					// pseudo-changed
 					newHead = new Git(repo).cherryPick().include(commitToPick)
-							.call();
+							.call().getNewHead();
 				monitor.endTask();
 				if (newHead == null) {
 					return stop(commitToPick);

@@ -49,8 +49,8 @@ import java.util.List;
 
 import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.api.errors.GitAPIException;
-import org.eclipse.jgit.api.errors.MultipleParentsNotAllowedException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
+import org.eclipse.jgit.api.errors.MultipleParentsNotAllowedException;
 import org.eclipse.jgit.api.errors.NoHeadException;
 import org.eclipse.jgit.dircache.DirCacheCheckout;
 import org.eclipse.jgit.lib.AnyObjectId;
@@ -76,10 +76,8 @@ import org.eclipse.jgit.treewalk.FileTreeIterator;
  *      href="http://www.kernel.org/pub/software/scm/git/docs/git-cherry-pick.html"
  *      >Git documentation about cherry-pick</a>
  */
-public class CherryPickCommand extends GitCommand<RevCommit> {
+public class CherryPickCommand extends GitCommand<CherryPickResult> {
 	private List<Ref> commits = new LinkedList<Ref>();
-
-	private List<Ref> cherryPickedRefs = new LinkedList<Ref>();
 
 	/**
 	 * @param repo
@@ -94,14 +92,11 @@ public class CherryPickCommand extends GitCommand<RevCommit> {
 	 * this class. Each instance of this class should only be used for one
 	 * invocation of the command. Don't call this method twice on an instance.
 	 *
-	 * @return on success the {@link RevCommit} pointed to by the new HEAD is
-	 *         returned. If a failure occurred during cherry-pick
-	 *         <code>null</code> is returned. The list of successfully
-	 *         cherry-picked {@link Ref}'s can be obtained by calling
-	 *         {@link #getCherryPickedRefs()}
+	 * @return the result of the cherry-pick
 	 */
-	public RevCommit call() throws GitAPIException {
+	public CherryPickResult call() throws GitAPIException {
 		RevCommit newHead = null;
+		List<Ref> cherryPickedRefs = new LinkedList<Ref>();
 		checkCallable();
 
 		RevWalk revWalk = new RevWalk(repo);
@@ -152,7 +147,11 @@ public class CherryPickCommand extends GitCommand<RevCommit> {
 							.setAuthor(srcCommit.getAuthorIdent()).call();
 					cherryPickedRefs.add(src);
 				} else {
-					return null;
+					if (merger.failedAbnormally())
+						return new CherryPickResult(merger.getFailingPaths());
+
+					// merge conflicts
+					return CherryPickResult.CONFLICT;
 				}
 			}
 		} catch (IOException e) {
@@ -163,7 +162,7 @@ public class CherryPickCommand extends GitCommand<RevCommit> {
 		} finally {
 			revWalk.release();
 		}
-		return newHead;
+		return new CherryPickResult(newHead, cherryPickedRefs);
 	}
 
 	/**
@@ -197,14 +196,5 @@ public class CherryPickCommand extends GitCommand<RevCommit> {
 	public CherryPickCommand include(String name, AnyObjectId commit) {
 		return include(new ObjectIdRef.Unpeeled(Storage.LOOSE, name,
 				commit.copy()));
-	}
-
-	/**
-	 * @return the list of successfully cherry-picked {@link Ref}'s. Never
-	 *         <code>null</code> but maybe an empty list if no commit was
-	 *         successfully cherry-picked
-	 */
-	public List<Ref> getCherryPickedRefs() {
-		return cherryPickedRefs;
 	}
 }
