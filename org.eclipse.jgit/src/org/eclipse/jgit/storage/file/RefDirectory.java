@@ -212,6 +212,12 @@ public class RefDirectory extends RefDatabase {
 	}
 
 	@Override
+	public void refresh() {
+		super.refresh();
+		rescan();
+	}
+
+	@Override
 	public boolean isNameConflicting(String name) throws IOException {
 		RefList<Ref> packed = getPackedRefs();
 		RefList<LooseRef> loose = getLooseRefs();

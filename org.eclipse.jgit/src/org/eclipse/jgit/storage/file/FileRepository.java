@@ -377,6 +377,7 @@ public class FileRepository extends Repository {
 	 * @throws IOException
 	 */
 	public void scanForRepoChanges() throws IOException {
+		refs.refresh();
 		getAllRefs(); // This will look for changes to refs
 		if (!isBare())
 			getIndex(); // This will detect changes in the index
