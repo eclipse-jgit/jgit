@@ -335,6 +335,19 @@ public class Git {
 	}
 
 	/**
+	 * Returns a command object to execute a {@code status} command
+	 *
+	 * @see <a
+	 *      href="http://www.kernel.org/pub/software/scm/git/docs/git-status.html"
+	 *      >Git documentation about status</a>
+	 * @return a {@link StatusCommand} used to collect all optional parameters
+	 *         and to finally execute the {@code status} command
+	 */
+	public StatusCommand status() {
+		return new StatusCommand(repo);
+	}
+
+	/**
 	 * @return the git repository this class is interacting with
 	 */
 	public Repository getRepository() {
