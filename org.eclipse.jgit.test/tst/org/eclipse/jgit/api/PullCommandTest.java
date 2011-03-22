@@ -56,9 +56,12 @@ import java.io.IOException;
 import org.eclipse.jgit.api.CreateBranchCommand.SetupUpstreamMode;
 import org.eclipse.jgit.api.MergeResult.MergeStatus;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.RepositoryState;
 import org.eclipse.jgit.lib.RepositoryTestCase;
 import org.eclipse.jgit.lib.StoredConfig;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.storage.file.FileRepository;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteConfig;
@@ -108,6 +111,37 @@ public class PullCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
+	public void testPullMerge() throws Exception {
+		PullResult res = target.pull().call();
+		// nothing to update since we don't have different data yet
+		assertTrue(res.getFetchResult().getTrackingRefUpdates().isEmpty());
+		assertTrue(res.getMergeResult().getMergeStatus()
+				.equals(MergeStatus.ALREADY_UP_TO_DATE));
+
+		writeToFile(sourceFile, "Source change");
+		source.add().addFilepattern("SomeFile.txt");
+		RevCommit sourceCommit = source.commit()
+				.setMessage("Source change in remote").call();
+
+		File targetFile2 = new File(dbTarget.getWorkTree(), "OtherFile.txt");
+		writeToFile(targetFile2, "Unconflicting change");
+		target.add().addFilepattern("OtherFile.txt").call();
+		RevCommit targetCommit = target.commit()
+				.setMessage("Unconflicting change in local").call();
+
+		res = target.pull().call();
+
+		MergeResult mergeResult = res.getMergeResult();
+		ObjectId[] mergedCommits = mergeResult.getMergedCommits();
+		assertEquals(targetCommit.getId(), mergedCommits[0]);
+		assertEquals(sourceCommit.getId(), mergedCommits[1]);
+		RevCommit mergeCommit = new RevWalk(dbTarget).parseCommit(mergeResult
+				.getNewHead());
+		String message = "Merge branch 'master' of " + db.getWorkTree();
+		assertEquals(message, mergeCommit.getShortMessage());
+	}
+
+	@Test
 	public void testPullConflict() throws Exception {
 		PullResult res = target.pull().call();
 		// nothing to update since we don't have different data yet
@@ -129,7 +163,7 @@ public class PullCommandTest extends RepositoryTestCase {
 
 		res = target.pull().call();
 
-		String sourceChangeString = "Source change\n>>>>>>> branch 'refs/heads/master' of "
+		String sourceChangeString = "Source change\n>>>>>>> branch 'master' of "
 				+ target.getRepository().getConfig().getString("remote",
 						"origin", "url");
 
@@ -174,7 +208,7 @@ public class PullCommandTest extends RepositoryTestCase {
 
 		res = target.pull().call();
 
-		String sourceChangeString = "Master change\n>>>>>>> branch 'refs/heads/master' of local repository";
+		String sourceChangeString = "Master change\n>>>>>>> branch 'master' of local repository";
 
 		assertNull(res.getFetchResult());
 		assertEquals(res.getMergeResult().getMergeStatus(),
