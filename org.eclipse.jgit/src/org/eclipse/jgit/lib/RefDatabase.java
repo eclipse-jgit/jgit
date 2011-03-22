@@ -209,4 +209,15 @@ public abstract class RefDatabase {
 	 *             the reference space or object space cannot be accessed.
 	 */
 	public abstract Ref peel(Ref ref) throws IOException;
+
+	/**
+	 * Triggers a refresh of all internal data structures.
+	 * <p>
+	 * In case the RefDatabase implementation has internal caches this method
+	 * will trigger that all these caches are cleared.
+	 * <p>
+	 * Implementors should overwrite this method if they use any kind of caches.
+	 */
+	public void refresh() {
+	}
 }
