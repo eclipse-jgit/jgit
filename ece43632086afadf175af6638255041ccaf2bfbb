@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL23///PY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RemoteCommandConnection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-02-23T21:51:31Z",
+      "side": 1,
+      "message": "Style-nit: Unnecessary blank line in docs.",
+      "revId": "ece43632086afadf175af6638255041ccaf2bfbb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL23///PQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RemoteCommandConnection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-02-23T21:51:31Z",
+      "side": 1,
+      "message": "Please document this constructor properly since its public and API users are expected to subclass this type.",
+      "revId": "ece43632086afadf175af6638255041ccaf2bfbb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL23///Pc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportGitSsh.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 477,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-02-23T21:51:31Z",
+      "side": 1,
+      "message": "Style-nit: This should be above the package and private code, but below the constructor.",
+      "revId": "ece43632086afadf175af6638255041ccaf2bfbb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
