@@ -206,6 +206,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL23///N0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RemoteCommandConnectionFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 122
+      },
+      "writtenOn": "2011-02-24T00:07:53Z",
+      "side": 1,
+      "message": "We think that the information about the SSH session SshTransport.sock should be stored in the transport as it is currently and should not be moved. Because if it would be stored in the connection instead, it couldn\u0027t be shared between different connections. Since the (Jsch)connection needs to open a channel (using sock.openChannel) we need access to SshTransport.sock.\n\nSince the reason for this constructor argument is the access to SshTransport.sock, the argument could be of type SshTransport instead of TransportGitSsh. Would this be better? \n\n(Of course in the long run SshTransport.sock should not be Jsch specific but this wouldn\u0027t change that the connection needs access to the session)",
+      "parentUuid": "AAAL23///Os\u003d",
+      "revId": "ece43632086afadf175af6638255041ccaf2bfbb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL23///Nc\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RemoteCommandConnectionFactory.java",
         "patchSetId": 1
