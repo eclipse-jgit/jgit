@@ -49,9 +49,12 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
 
+import org.eclipse.jgit.api.CherryPickResult.CherryPickStatus;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
+import org.eclipse.jgit.lib.RepositoryState;
 import org.eclipse.jgit.lib.RepositoryTestCase;
+import org.eclipse.jgit.merge.ResolveMerger.MergeFailureReason;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Test;
 
@@ -98,5 +101,75 @@ public class CherryPickCommandTest extends RepositoryTestCase {
 		assertEquals("enhanced a", history.next().getFullMessage());
 		assertEquals("create a", history.next().getFullMessage());
 		assertFalse(history.hasNext());
+	}
+
+	@Test
+	public void testCherryPickDirtyIndex() throws Exception {
+		Git git = new Git(db);
+		RevCommit sideCommit = prepareCherryPick(git);
+
+		// modify and add file a
+		writeTrashFile("a", "a(modified)");
+		git.add().addFilepattern("a").call();
+		// do not commit
+
+		doCherryPickAndCheckResult(git, sideCommit,
+				MergeFailureReason.DIRTY_INDEX);
+	}
+
+	@Test
+	public void testCherryPickDirtyWorktree() throws Exception {
+		Git git = new Git(db);
+		RevCommit sideCommit = prepareCherryPick(git);
+
+		// modify file a
+		writeTrashFile("a", "a(modified)");
+		// do not add and commit
+
+		doCherryPickAndCheckResult(git, sideCommit,
+				MergeFailureReason.DIRTY_WORKTREE);
+	}
+
+	private RevCommit prepareCherryPick(final Git git) throws Exception {
+		// create, add and commit file a
+		writeTrashFile("a", "a");
+		git.add().addFilepattern("a").call();
+		RevCommit firstMasterCommit = git.commit().setMessage("first master")
+				.call();
+
+		// create and checkout side branch
+		createBranch(firstMasterCommit, "refs/heads/side");
+		checkoutBranch("refs/heads/side");
+		// modify, add and commit file a
+		writeTrashFile("a", "a(side)");
+		git.add().addFilepattern("a").call();
+		RevCommit sideCommit = git.commit().setMessage("side").call();
+
+		// checkout master branch
+		checkoutBranch("refs/heads/master");
+		// modify, add and commit file a
+		writeTrashFile("a", "a(master)");
+		git.add().addFilepattern("a").call();
+		git.commit().setMessage("second master").call();
+		return sideCommit;
+	}
+
+	private void doCherryPickAndCheckResult(final Git git,
+			final RevCommit sideCommit, final MergeFailureReason reason)
+			throws Exception {
+		// get current index state
+		String indexState = indexState(CONTENT);
+
+		// cherry-pick
+		CherryPickResult result = git.cherryPick().include(sideCommit.getId())
+				.call();
+		assertEquals(CherryPickStatus.FAILED, result.getStatus());
+		// staged file a causes DIRTY_INDEX
+		assertEquals(1, result.getFailingPaths().size());
+		assertEquals(reason, result.getFailingPaths().get("a"));
+		assertEquals("a(modified)", read(new File(db.getWorkTree(), "a")));
+		// index shall be unchanged
+		assertEquals(indexState, indexState(CONTENT));
+		assertEquals(RepositoryState.SAFE, db.getRepositoryState());
 	}
 }
