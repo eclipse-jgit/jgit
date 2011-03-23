@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "AAAL23///PU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RemoteCommandConnection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-02-23T21:51:31Z",
+      "side": 1,
+      "message": "Style-nit: Fields do not start with \"f\". This probably should also be private.",
+      "revId": "ece43632086afadf175af6638255041ccaf2bfbb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL23///PQ\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RemoteCommandConnection.java",
         "patchSetId": 1
@@ -30,6 +47,280 @@
       "writtenOn": "2011-02-23T21:51:31Z",
       "side": 1,
       "message": "Please document this constructor properly since its public and API users are expected to subclass this type.",
+      "revId": "ece43632086afadf175af6638255041ccaf2bfbb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL23///O0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RemoteCommandConnection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-02-23T21:51:31Z",
+      "side": 1,
+      "message": "Why do we even need the transport object here? It doesn\u0027t appear to be needed or used.",
+      "revId": "ece43632086afadf175af6638255041ccaf2bfbb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL23///O4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RemoteCommandConnection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-02-23T21:51:31Z",
+      "side": 1,
+      "message": "Document in exec and connect that exec is called, then connect. It doesn\u0027t make sense that this is the behavior, but it is.",
+      "revId": "ece43632086afadf175af6638255041ccaf2bfbb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL23///PM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RemoteCommandConnection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-02-23T21:51:31Z",
+      "side": 1,
+      "message": "Style-nit: Trailing white space.",
+      "revId": "ece43632086afadf175af6638255041ccaf2bfbb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL23///PI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RemoteCommandConnection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-02-23T21:51:31Z",
+      "side": 1,
+      "message": "Javadoc.",
+      "revId": "ece43632086afadf175af6638255041ccaf2bfbb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL23///PE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RemoteCommandConnection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-02-23T21:51:31Z",
+      "side": 1,
+      "message": "Javadoc.",
+      "revId": "ece43632086afadf175af6638255041ccaf2bfbb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL23///PA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RemoteCommandConnection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-02-23T21:51:31Z",
+      "side": 1,
+      "message": "Javadoc.",
+      "revId": "ece43632086afadf175af6638255041ccaf2bfbb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL23///O8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RemoteCommandConnection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-02-23T21:51:31Z",
+      "side": 1,
+      "message": "What are the values? Note that today we assume 0 means success and non-zero positive is failure, because that matches up with POSIX exit status values.",
+      "revId": "ece43632086afadf175af6638255041ccaf2bfbb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL23///Ow\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RemoteCommandConnectionFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-02-23T21:51:31Z",
+      "side": 1,
+      "message": "We would prefer newConnection() as the method name since a new object is being created.",
+      "revId": "ece43632086afadf175af6638255041ccaf2bfbb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL23///Os\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RemoteCommandConnectionFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-02-23T21:51:31Z",
+      "side": 1,
+      "message": "Why the TransportGitSsh? Why not the URIish instead and then this can decide how to setup the connection given the remote host/port its going to?",
+      "revId": "ece43632086afadf175af6638255041ccaf2bfbb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL23///Nc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RemoteCommandConnectionFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-02-24T00:24:16Z",
+      "side": 1,
+      "message": "Isn\u0027t the JSch session protected access and thus not visible unless you subclass TransportSsh?\n\nI\u0027m not sure how passing the transport in the constructor is helping you here.\n\nMaybe we just need to wrap the session into a RemoteSession type, put that into TransportSsh, and have the RemoteSession be the RemoteCommandConnection factory?\n\nFor the TransportSftp case, we\u0027ll just have to require that the RemoteSession be an instanceof JSchRemoteSession so it can downcast and pull out the JSch session handle.",
+      "parentUuid": "AAAL23///N0\u003d",
+      "revId": "ece43632086afadf175af6638255041ccaf2bfbb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL3H////4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RemoteCommandConnectionFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-02-24T14:57:20Z",
+      "side": 1,
+      "message": "Yes, please, then we have something to continue to review and discuss. Thanks.",
+      "parentUuid": "AAAL23///NU\u003d",
+      "revId": "ece43632086afadf175af6638255041ccaf2bfbb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL23///Pw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportGitSsh.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-02-23T21:51:31Z",
+      "side": 1,
+      "message": "Style-nit: Instance fields should go below static methods, but before the construtor. We don\u0027t explicitly initialize to null. We don\u0027t prefix instance fields with \"f\".",
+      "revId": "ece43632086afadf175af6638255041ccaf2bfbb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL23///Ps\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportGitSsh.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-02-23T21:51:31Z",
+      "side": 1,
+      "message": "I would prefer something a bit more verbose like:\n\n  /** @return a new connection to the remote system. */\n\nBut this is private, we don\u0027t usually javadoc private methods.",
+      "revId": "ece43632086afadf175af6638255041ccaf2bfbb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL23///Po\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportGitSsh.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-02-23T21:51:31Z",
+      "side": 1,
+      "message": "Style-nit: The class is private, so the constructor can be package (default) access rather than public.",
+      "revId": "ece43632086afadf175af6638255041ccaf2bfbb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL23///Pk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportGitSsh.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-02-23T21:51:31Z",
+      "side": 1,
+      "message": "Style-nit: trailing whitespace.",
+      "revId": "ece43632086afadf175af6638255041ccaf2bfbb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL23///Pg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportGitSsh.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-02-23T21:51:31Z",
+      "side": 1,
+      "message": "Document this parameter. Can it be null? If so what happens?",
       "revId": "ece43632086afadf175af6638255041ccaf2bfbb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
