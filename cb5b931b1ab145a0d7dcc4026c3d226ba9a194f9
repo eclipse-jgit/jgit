@@ -172,6 +172,23 @@
     },
     {
       "key": {
+        "uuid": "AAAL3H///uw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/JschSession.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-03-04T00:04:21Z",
+      "side": 1,
+      "message": "missing license header",
+      "revId": "cb5b931b1ab145a0d7dcc4026c3d226ba9a194f9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL3H///uM\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/JschSession.java",
         "patchSetId": 2
@@ -183,6 +200,40 @@
       "writtenOn": "2011-03-04T00:49:10Z",
       "side": 1,
       "message": "Since the constructor is public, and the class is well documented, should we just make the class public?",
+      "revId": "cb5b931b1ab145a0d7dcc4026c3d226ba9a194f9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL3H///us\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/JschSession.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-03-04T00:04:21Z",
+      "side": 1,
+      "message": "style nit: trailing whitespace (more below)",
+      "revId": "cb5b931b1ab145a0d7dcc4026c3d226ba9a194f9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL3H///uo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/JschSession.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-03-04T00:04:21Z",
+      "side": 1,
+      "message": "style nit: we don\u0027t use curly braces around single line blocks",
       "revId": "cb5b931b1ab145a0d7dcc4026c3d226ba9a194f9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -268,6 +319,57 @@
       "writtenOn": "2011-03-04T00:49:10Z",
       "side": 1,
       "message": "I guess there really isn\u0027t a better way to implement waitFor(). *sigh* At least this has a short timeout.",
+      "revId": "cb5b931b1ab145a0d7dcc4026c3d226ba9a194f9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL3H///uk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RemoteSession.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-03-04T00:04:21Z",
+      "side": 1,
+      "message": "missing license header",
+      "revId": "cb5b931b1ab145a0d7dcc4026c3d226ba9a194f9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL3H///ug\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SshSessionFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-03-04T00:04:21Z",
+      "side": 1,
+      "message": "trailing whitespace",
+      "revId": "cb5b931b1ab145a0d7dcc4026c3d226ba9a194f9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL3H///uc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SshSessionFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-03-04T00:04:21Z",
+      "side": 1,
+      "message": "trailing whitespace",
       "revId": "cb5b931b1ab145a0d7dcc4026c3d226ba9a194f9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
