@@ -1,0 +1,497 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL3H///tQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/JschConfigSessionFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-03-04T00:49:10Z",
+      "side": 1,
+      "message": "Style-nit: Please revert this reflow of the javadoc.",
+      "revId": "cb5b931b1ab145a0d7dcc4026c3d226ba9a194f9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL3H///t0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/JschConfigSessionFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-03-04T00:49:10Z",
+      "side": 1,
+      "message": "Style-nit: Can you try pulling this back up onto the prior line so the block more closely matches the old version?",
+      "revId": "cb5b931b1ab145a0d7dcc4026c3d226ba9a194f9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL3H///tU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/JschConfigSessionFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-03-04T00:49:10Z",
+      "side": 1,
+      "message": "Style-nit: Please revert this reflow of the javadoc.",
+      "revId": "cb5b931b1ab145a0d7dcc4026c3d226ba9a194f9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL3H///tc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/JschConfigSessionFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-03-04T00:49:10Z",
+      "side": 1,
+      "message": "Style-nit: Please revert this reflow of the javadoc.",
+      "revId": "cb5b931b1ab145a0d7dcc4026c3d226ba9a194f9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL3H///tY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/JschConfigSessionFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-03-04T00:49:10Z",
+      "side": 1,
+      "message": "Style-nit: Please revert this reflow of method declaration.",
+      "revId": "cb5b931b1ab145a0d7dcc4026c3d226ba9a194f9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL3H///tw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/JschConfigSessionFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-03-04T00:49:10Z",
+      "side": 1,
+      "message": "Style-nit: There was no reason to add final here.",
+      "revId": "cb5b931b1ab145a0d7dcc4026c3d226ba9a194f9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL3H///tg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/JschConfigSessionFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-03-04T00:49:10Z",
+      "side": 1,
+      "message": "Style-nit: Please revert this reflow of the javadoc.",
+      "revId": "cb5b931b1ab145a0d7dcc4026c3d226ba9a194f9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL3H///ts\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/JschConfigSessionFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-03-04T00:49:10Z",
+      "side": 1,
+      "message": "Style-nit: No reason to add final.",
+      "revId": "cb5b931b1ab145a0d7dcc4026c3d226ba9a194f9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL3H///to\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/JschConfigSessionFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-03-04T00:49:10Z",
+      "side": 1,
+      "message": "Style-nit: No reason to add final.",
+      "revId": "cb5b931b1ab145a0d7dcc4026c3d226ba9a194f9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL3H///tk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/JschConfigSessionFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-03-04T00:49:10Z",
+      "side": 1,
+      "message": "Style-nit: No reason to add final.",
+      "revId": "cb5b931b1ab145a0d7dcc4026c3d226ba9a194f9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL3H///uM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/JschSession.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-03-04T00:49:10Z",
+      "side": 1,
+      "message": "Since the constructor is public, and the class is well documented, should we just make the class public?",
+      "revId": "cb5b931b1ab145a0d7dcc4026c3d226ba9a194f9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL3H///uE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/JschSession.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-03-04T00:49:10Z",
+      "side": 1,
+      "message": "Style-nit: Trailing space.",
+      "revId": "cb5b931b1ab145a0d7dcc4026c3d226ba9a194f9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL3H///uI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/JschSession.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-03-04T00:49:10Z",
+      "side": 1,
+      "message": "Style-nit: Trailing space.",
+      "revId": "cb5b931b1ab145a0d7dcc4026c3d226ba9a194f9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL3H///uA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/JschSession.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-03-04T00:49:10Z",
+      "side": 1,
+      "message": "Please reflow this comment text. Its badly mangled.\n\nMaybe consider pulling from 105 through 145 into a method called setupStreams(). This would remove at least one level of indentation (as the try is in the constructor now) and might make it easier to deal with the deeper nesting inside of the else block for the timeout setup.",
+      "revId": "cb5b931b1ab145a0d7dcc4026c3d226ba9a194f9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL3H///t8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/JschSession.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-03-04T00:49:10Z",
+      "side": 1,
+      "message": "Style-nit: No curly braces on single statements.",
+      "revId": "cb5b931b1ab145a0d7dcc4026c3d226ba9a194f9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL3H///t4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/JschSession.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-03-04T00:49:10Z",
+      "side": 1,
+      "message": "I guess there really isn\u0027t a better way to implement waitFor(). *sigh* At least this has a short timeout.",
+      "revId": "cb5b931b1ab145a0d7dcc4026c3d226ba9a194f9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL3H///tM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SshSessionFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-03-04T00:49:10Z",
+      "side": 1,
+      "message": "Why seconds? More typical is for timeouts to be in milliseconds. Or to pass both a long and a TimeUnit.",
+      "revId": "cb5b931b1ab145a0d7dcc4026c3d226ba9a194f9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL3H///tI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SshTransport.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-03-04T00:49:10Z",
+      "side": 1,
+      "message": "Style-nit: Revert this reflow.",
+      "revId": "cb5b931b1ab145a0d7dcc4026c3d226ba9a194f9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL3H///tE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SshTransport.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-03-04T00:49:10Z",
+      "side": 1,
+      "message": "Style-nit: Revert this reflow.",
+      "revId": "cb5b931b1ab145a0d7dcc4026c3d226ba9a194f9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL3H///tA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SshTransport.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-03-04T00:49:10Z",
+      "side": 1,
+      "message": "Style-nit: Trailing whitespace.",
+      "revId": "cb5b931b1ab145a0d7dcc4026c3d226ba9a194f9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL3H///s8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SshTransport.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-03-04T00:49:10Z",
+      "side": 1,
+      "message": "Here the timeout is in milliseconds, but the API Javadoc suggested seconds. That\u0027s why I wanted to clarify it.",
+      "revId": "cb5b931b1ab145a0d7dcc4026c3d226ba9a194f9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL3H///s4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportGitSsh.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-03-04T00:49:10Z",
+      "side": 1,
+      "message": "Style-nit: Remove the added final keywords.",
+      "revId": "cb5b931b1ab145a0d7dcc4026c3d226ba9a194f9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL3H///s0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportGitSsh.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-03-04T00:49:10Z",
+      "side": 1,
+      "message": "Style-nit: Remove the added final keyword, and undo the reflow.",
+      "revId": "cb5b931b1ab145a0d7dcc4026c3d226ba9a194f9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL3H///sw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportGitSsh.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-03-04T00:49:10Z",
+      "side": 1,
+      "message": "Style-nit; Remove the added final keywords.",
+      "revId": "cb5b931b1ab145a0d7dcc4026c3d226ba9a194f9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL3H///ss\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportGitSsh.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-03-04T00:49:10Z",
+      "side": 1,
+      "message": "Style-nit: Remove the added final keyword.",
+      "revId": "cb5b931b1ab145a0d7dcc4026c3d226ba9a194f9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL3H///so\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportGitSsh.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-03-04T00:49:10Z",
+      "side": 1,
+      "message": "Style-nit: Remove the added final keyword.",
+      "revId": "cb5b931b1ab145a0d7dcc4026c3d226ba9a194f9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL3H///sk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportGitSsh.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-03-04T00:49:10Z",
+      "side": 1,
+      "message": "Style-nit: Remove the added final keyword.",
+      "revId": "cb5b931b1ab145a0d7dcc4026c3d226ba9a194f9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL3H///sg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportGitSsh.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-03-04T00:49:10Z",
+      "side": 1,
+      "message": "Style-nit: Remove the added final keyword.",
+      "revId": "cb5b931b1ab145a0d7dcc4026c3d226ba9a194f9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL3H///sc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportGitSsh.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-03-04T00:49:10Z",
+      "side": 1,
+      "message": "Style-nit: Remove the added final keyword.",
+      "revId": "cb5b931b1ab145a0d7dcc4026c3d226ba9a194f9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
