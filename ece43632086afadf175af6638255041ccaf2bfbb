@@ -224,6 +224,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL23///NU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RemoteCommandConnectionFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 122
+      },
+      "writtenOn": "2011-02-24T05:34:45Z",
+      "side": 1,
+      "message": "Yes it is protected we overlooked that. \n\nI like your idea to return RemoteSession, but one more problem is the call to initSession in JscConnection.exec. Thus I suggest:\n- to rename initSession into getSession\n- make it public\n- make it return RemoteSession \n- pass to getConnection the SshTransport\n\nThis way a remote connection can call getSession and getSession can (as initSession does now) correctly call the SessionFactory. \n\nInstead of passing SshTransport we could also just pass an Interface SessionStorage which has just the getSession method and is implemented by SshTransport.\n\nShould we upload a new patch with this suggested getSession method (and your other comments addressed)?",
+      "parentUuid": "AAAL23///Nc\u003d",
+      "revId": "ece43632086afadf175af6638255041ccaf2bfbb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL3H////4\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/RemoteCommandConnectionFactory.java",
         "patchSetId": 1
