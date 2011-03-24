@@ -199,7 +199,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 			switch (operation) {
 			case ABORT:
 				try {
-					return abort();
+					return abort(new RebaseResult(Status.ABORTED));
 				} catch (IOException ioe) {
 					throw new JGitInternalException(ioe.getMessage(), ioe);
 				}
@@ -217,12 +217,12 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 			}
 
 			if (monitor.isCancelled())
-				return abort();
+				return abort(new RebaseResult(Status.ABORTED));
 
-			if (this.operation == Operation.CONTINUE)
+			if (operation == Operation.CONTINUE)
 				newHead = continueRebase();
 
-			if (this.operation == Operation.SKIP)
+			if (operation == Operation.SKIP)
 				newHead = checkoutCurrentHead();
 
 			ObjectReader or = repo.newObjectReader();
@@ -238,23 +238,37 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 						.parseCommit(ids.iterator().next());
 				if (monitor.isCancelled())
 					return new RebaseResult(commitToPick);
-				monitor.beginTask(MessageFormat.format(
-						JGitText.get().applyingCommit, commitToPick
-								.getShortMessage()), ProgressMonitor.UNKNOWN);
-				// if the first parent of commitToPick is the current HEAD,
-				// we do a fast-forward instead of cherry-pick to avoid
-				// unnecessary object rewriting
-				newHead = tryFastForward(commitToPick);
-				lastStepWasForward = newHead != null;
-				if (!lastStepWasForward)
-					// TODO if the content of this commit is already merged here
-					// we should skip this step in order to avoid confusing
-					// pseudo-changed
-					newHead = new Git(repo).cherryPick().include(commitToPick)
-							.call().getNewHead();
-				monitor.endTask();
-				if (newHead == null) {
-					return stop(commitToPick);
+				try {
+					monitor.beginTask(MessageFormat.format(
+							JGitText.get().applyingCommit,
+							commitToPick.getShortMessage()),
+							ProgressMonitor.UNKNOWN);
+					// if the first parent of commitToPick is the current HEAD,
+					// we do a fast-forward instead of cherry-pick to avoid
+					// unnecessary object rewriting
+					newHead = tryFastForward(commitToPick);
+					lastStepWasForward = newHead != null;
+					if (!lastStepWasForward) {
+						// TODO if the content of this commit is already merged
+						// here we should skip this step in order to avoid
+						// confusing pseudo-changed
+						CherryPickResult cherryPickResult = new Git(repo)
+								.cherryPick().include(commitToPick).call();
+						switch (cherryPickResult.getStatus()) {
+						case FAILED:
+							if (operation == Operation.BEGIN)
+								return abort(new RebaseResult(
+										cherryPickResult.getFailingPaths()));
+							else
+								return stop(commitToPick);
+						case CONFLICTING:
+							return stop(commitToPick);
+						case OK:
+							newHead = cherryPickResult.getNewHead();
+						}
+					}
+				} finally {
+					monitor.endTask();
 				}
 			}
 			if (newHead != null) {
@@ -685,17 +699,23 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		}
 	}
 
-	private RebaseResult abort() throws IOException {
+	private RebaseResult abort(RebaseResult result) throws IOException {
 		try {
 			String commitId = readFile(repo.getDirectory(), Constants.ORIG_HEAD);
 			monitor.beginTask(MessageFormat.format(
 					JGitText.get().abortingRebase, commitId),
 					ProgressMonitor.UNKNOWN);
 
+			DirCacheCheckout dco;
 			RevCommit commit = walk.parseCommit(repo.resolve(commitId));
-			// no head in order to reset --hard
-			DirCacheCheckout dco = new DirCacheCheckout(repo, repo
-					.lockDirCache(), commit.getTree());
+			if (result.getStatus().equals(Status.FAILED)) {
+				RevCommit head = walk.parseCommit(repo.resolve(Constants.HEAD));
+				dco = new DirCacheCheckout(repo, head.getTree(),
+						repo.lockDirCache(), commit.getTree());
+			} else {
+				dco = new DirCacheCheckout(repo, repo.lockDirCache(),
+						commit.getTree());
+			}
 			dco.setFailOnConflict(false);
 			dco.checkout();
 			walk.release();
@@ -724,7 +744,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 			}
 			// cleanup the files
 			FileUtils.delete(rebaseDir, FileUtils.RECURSIVE);
-			return new RebaseResult(Status.ABORTED);
+			return result;
 
 		} finally {
 			monitor.endTask();
