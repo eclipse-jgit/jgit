@@ -16,6 +16,24 @@
       "revId": "05d73ed1dd5f4013edac59349fa6d1a0db0fdef2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL3n///z0\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 100
+      },
+      "writtenOn": "2011-03-16T14:21:59Z",
+      "side": 1,
+      "message": "You are right. But to be even more consistent with the other commands, I have now introduced a CherryPickResult class.",
+      "parentUuid": "AAAL3H///k8\u003d",
+      "revId": "05d73ed1dd5f4013edac59349fa6d1a0db0fdef2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
