@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL3n///Z8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CherryPickResult.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 46
+      },
+      "writtenOn": "2011-03-21T14:18:58Z",
+      "side": 1,
+      "message": "I personally would like to see this final, as it is set in the constructor.",
+      "revId": "34cc0bc7b90934a8414261cf036887dce7386b21",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL3n///Z4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CherryPickResult.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 46
+      },
+      "writtenOn": "2011-03-21T14:18:58Z",
+      "side": 1,
+      "message": "See above.",
+      "revId": "34cc0bc7b90934a8414261cf036887dce7386b21",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL3n///Z0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CherryPickResult.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 46
+      },
+      "writtenOn": "2011-03-21T14:18:58Z",
+      "side": 1,
+      "message": "See above.",
+      "revId": "34cc0bc7b90934a8414261cf036887dce7386b21",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL3n///Zw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CherryPickResult.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 46
+      },
+      "writtenOn": "2011-03-21T14:18:58Z",
+      "side": 1,
+      "message": "See above.",
+      "revId": "34cc0bc7b90934a8414261cf036887dce7386b21",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
