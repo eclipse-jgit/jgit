@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL3H///k8\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-03-06T23:08:35Z",
+      "side": 1,
+      "message": "Why do we introduce that on the CherryPickCommand. It\u0027s an \nAbnormalMergeFailure ... so why don\u0027t we let MergeCommand throw\nit. A cherry-pick will in the end also call mergeCommand and will\ntherefore also benefit from this new exceptions",
+      "revId": "05d73ed1dd5f4013edac59349fa6d1a0db0fdef2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
