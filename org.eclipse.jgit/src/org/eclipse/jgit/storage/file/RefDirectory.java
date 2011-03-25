@@ -491,15 +491,22 @@ public class RefDirectory extends RefDatabase {
 
 	public RefDirectoryUpdate newUpdate(String name, boolean detach)
 			throws IOException {
+		boolean detachingSymbolicLink = false;
 		final RefList<Ref> packed = getPackedRefs();
 		Ref ref = readRef(name, packed);
 		if (ref != null)
 			ref = resolve(ref, 0, null, null, packed);
 		if (ref == null)
 			ref = new ObjectIdRef.Unpeeled(NEW, name, null);
-		else if (detach && ref.isSymbolic())
-			ref = new ObjectIdRef.Unpeeled(LOOSE, name, ref.getObjectId());
-		return new RefDirectoryUpdate(this, ref);
+		else {
+			detachingSymbolicLink = detach && ref.isSymbolic();
+			if (detachingSymbolicLink)
+				ref = new ObjectIdRef.Unpeeled(LOOSE, name, ref.getObjectId());
+		}
+		RefDirectoryUpdate refDirUpdate = new RefDirectoryUpdate(this, ref);
+		if (detachingSymbolicLink)
+			refDirUpdate.setDetachingSymbolicRef();
+		return refDirUpdate;
 	}
 
 	@Override
