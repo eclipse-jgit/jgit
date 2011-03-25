@@ -290,7 +290,8 @@ public class TransportGitSsh extends SshTransport implements PackTransport {
 			}
 
 			super.close();
-			process.destroy();
+			if (process != null)
+				process.destroy();
 		}
 	}
 
@@ -347,7 +348,8 @@ public class TransportGitSsh extends SshTransport implements PackTransport {
 			}
 
 			super.close();
-			process.destroy();
+			if (process != null)
+				process.destroy();
 		}
 	}
 }
