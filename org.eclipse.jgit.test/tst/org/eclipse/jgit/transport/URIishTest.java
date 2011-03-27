@@ -90,8 +90,8 @@ public class URIishTest {
 		URIish u = new URIish(str);
 		assertNull(u.getScheme());
 		assertFalse(u.isRemote());
-		assertEquals("D:/m y", u.getPath());
-		assertEquals("D:/m y", u.toString());
+		assertEquals("D:\\m y", u.getPath());
+		assertEquals("D:\\m y", u.toString());
 		assertEquals(u, new URIish(str));
 	}
 
@@ -112,8 +112,8 @@ public class URIishTest {
 		URIish u = new URIish(str);
 		assertNull(u.getScheme());
 		assertFalse(u.isRemote());
-		assertEquals("//some/place", u.getPath());
-		assertEquals("//some/place", u.toString());
+		assertEquals("\\\\some\\place", u.getPath());
+		assertEquals("\\\\some\\place", u.toString());
 		assertEquals(u, new URIish(str));
 	}
 
