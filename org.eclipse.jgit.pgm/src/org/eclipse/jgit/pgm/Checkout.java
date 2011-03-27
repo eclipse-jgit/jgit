@@ -54,7 +54,7 @@ class Checkout extends TextBuiltin {
 	@Option(name = "-b", usage = "usage_createBranchAndCheckout")
 	private boolean createBranch = false;
 
-	@Option(name = "---force", aliases = { "-f" }, usage = "usage_forceCheckout")
+	@Option(name = "--force", aliases = { "-f" }, usage = "usage_forceCheckout")
 	private boolean force = false;
 
 	@Argument(required = true, metaVar = "metaVar_name", usage = "usage_checkout")
