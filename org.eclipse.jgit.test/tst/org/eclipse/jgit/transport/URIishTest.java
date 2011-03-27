@@ -55,6 +55,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class URIishTest {
@@ -315,8 +316,8 @@ public class URIishTest {
 		assertEquals(u, new URIish(str));
 	}
 
-	/* Resolving ~user is beyond standard Java API and need more support
 	@Test
+	@Ignore("Resolving ~user is beyond standard Java API and need more support")
 	public void testFileWithUserHome() throws Exception {
 		final String str = "~some/p ath";
 		URIish u = new URIish(str);
@@ -331,7 +332,6 @@ public class URIishTest {
 		assertEquals(u.setPass(null).toPrivateString(), u.toString());
 		assertEquals(u, new URIish(str));
 	}
-	*/
 
 	@Test
 	public void testFileWithNoneUserHomeWithTilde() throws Exception {
