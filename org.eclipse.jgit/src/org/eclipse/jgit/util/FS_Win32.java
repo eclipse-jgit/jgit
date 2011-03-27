@@ -106,8 +106,12 @@ class FS_Win32 extends FS {
 		String w = readPipe(userHome(), //
 				new String[] { "bash", "--login", "-c", "which git" }, //
 				Charset.defaultCharset().name());
-		if (w != null)
-			return new File(w).getParentFile().getParentFile();
+		if (w != null) {
+			// The path may be in cygwin/msys notation so resolve it right away
+			gitExe = resolve(null, w);
+			if (gitExe != null)
+				return gitExe.getParentFile().getParentFile();
+		}
 		return null;
 	}
 

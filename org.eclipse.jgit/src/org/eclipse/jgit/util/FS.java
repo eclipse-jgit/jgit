@@ -286,7 +286,9 @@ public abstract class FS {
 				}
 			}
 		} catch (IOException e) {
-			// ignore
+			if (SystemReader.getInstance().getProperty("jgit.fs.debug") != null)
+				System.err.println(e);
+			// Ignore error (but report)
 		}
 		return null;
 	}
@@ -295,7 +297,12 @@ public abstract class FS {
 	public File gitPrefix() {
 		Holder<File> p = gitPrefix;
 		if (p == null) {
-			p = new Holder<File>(discoverGitPrefix());
+			String overrideGitPrefix = SystemReader.getInstance().getProperty(
+					"jgit.gitprefix");
+			if (overrideGitPrefix != null)
+				p = new Holder<File>(new File(overrideGitPrefix));
+			else
+				p = new Holder<File>(discoverGitPrefix());
 			gitPrefix = p;
 		}
 		return p.value;
