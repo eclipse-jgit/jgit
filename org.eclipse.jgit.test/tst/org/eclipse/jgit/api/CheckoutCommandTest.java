@@ -47,6 +47,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -238,5 +239,21 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 		} catch (Exception e) {
 			fail(e.getMessage());
 		}
+	}
+
+	@Test
+	public void testDetachedHeadOnCheckout() throws JGitInternalException,
+			RefAlreadyExistsException, RefNotFoundException,
+			InvalidRefNameException, IOException {
+		CheckoutCommand co = git.checkout();
+		co.setName("master").call();
+
+		String commitId = db.getRef(Constants.MASTER).getObjectId().name();
+		co = git.checkout();
+		co.setName(commitId).call();
+
+		Ref head = db.getRef(Constants.HEAD);
+		assertFalse(head.isSymbolic());
+		assertSame(head, head.getTarget());
 	}
 }
