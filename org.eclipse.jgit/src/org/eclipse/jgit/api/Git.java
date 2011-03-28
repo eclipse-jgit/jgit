@@ -43,7 +43,11 @@
  */
 package org.eclipse.jgit.api;
 
+import java.io.File;
+import java.io.IOException;
+
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.storage.file.FileRepository;
 
 /**
  * Offers a "GitPorcelain"-like API to interact with a git repository.
@@ -118,6 +122,19 @@ public class Git {
 		if (repo == null)
 			throw new NullPointerException();
 		this.repo = repo;
+	}
+
+	/**
+	 * Constructs a new {@link Git} object which can interact with the specified
+	 * git repository at the specified location. All command classes returned by
+	 * methods of this class will always interact with this git repository.
+	 *
+	 * @param gitDir
+	 *            the .git folder of an already exisiting local git repo
+	 * @throws IOException
+	 */
+	public Git(File gitDir) throws IOException {
+		repo = new FileRepository(gitDir);
 	}
 
 	/**
