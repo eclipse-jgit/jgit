@@ -1,0 +1,39 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL33///7o\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Git.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-03-28T14:15:42Z",
+      "side": 1,
+      "message": "Is the .git folder always the easiest path to give here? I would expect applications to want to pass something like new File(\".\") and have us automatically get the repository for the current working directory. Which starts to imply using a FileRepositoryBuilder here rather than assuming the argument is exactly the $GIT_DIR.",
+      "revId": "b0ea47b4d1f12edbfde7a90ab329bc1877bbcf2c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL33///yw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Git.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-03-29T14:04:40Z",
+      "side": 1,
+      "message": "Using Git.init().setDirectory().call() to obtain a Git instance from a File is awkward at best.\n\nI think we should do:\n\n  public static Git open(File path) {\n    return Git.init().setDirectory(path).call();\n  }\n\n  public static Git wrap(Repository repo) {\n    return new Git(repo);\n  }\n\nin this class.",
+      "parentUuid": "AAAL33///zo\u003d",
+      "revId": "b0ea47b4d1f12edbfde7a90ab329bc1877bbcf2c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
