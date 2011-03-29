@@ -52,6 +52,24 @@
       "revId": "b0ea47b4d1f12edbfde7a90ab329bc1877bbcf2c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL33///yo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Git.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-03-29T14:35:48Z",
+      "side": 1,
+      "message": "I also like open() and wrap() because they express nicely the side-effects (you would not expect any git repo creation in this case). I like them as static methods (and not as commands) because there is no real equivalent for such op\u0027s in native git command line.\n\nBut when you really want to create a new git repo in an empty dir on the filesystem I think going through git.init()... is quite consistent - that\u0027s what I would do with native git. Therefore I personally would like to add a check to open() to make sure the repo does not yet exist.\n\nI\u0027ll suggest something like that in a new change",
+      "parentUuid": "AAAL33///yw\u003d",
+      "revId": "b0ea47b4d1f12edbfde7a90ab329bc1877bbcf2c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
