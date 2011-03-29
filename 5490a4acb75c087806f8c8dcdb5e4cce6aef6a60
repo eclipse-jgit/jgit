@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAL3n//+dk\u003d",
+        "filename": "org.eclipse.jgit.pgm/resources/org/eclipse/jgit/pgm/CLIText.properties",
+        "patchSetId": 6
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2011-03-25T14:13:07Z",
+      "side": 1,
+      "message": "don\u0027t you need a {0} placeholder in for the file name?",
+      "revId": "5490a4acb75c087806f8c8dcdb5e4cce6aef6a60",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL3n//+dU\u003d",
         "filename": "org.eclipse.jgit.pgm/resources/org/eclipse/jgit/pgm/CLIText.properties",
         "patchSetId": 6
@@ -14,6 +31,23 @@
       "side": 1,
       "message": "no, I don\u0027t. Thats a string who is printed on his own line. In the next lines we\u0027ll print the pathes of the files which we don\u0027t want to overwrite.",
       "parentUuid": "AAAL3n//+dk\u003d",
+      "revId": "5490a4acb75c087806f8c8dcdb5e4cce6aef6a60",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL3n//+dg\u003d",
+        "filename": "org.eclipse.jgit.pgm/resources/org/eclipse/jgit/pgm/CLIText.properties",
+        "patchSetId": 6
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2011-03-25T14:13:07Z",
+      "side": 1,
+      "message": "don\u0027t you need a {0} placeholder in for the file name?",
       "revId": "5490a4acb75c087806f8c8dcdb5e4cce6aef6a60",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
