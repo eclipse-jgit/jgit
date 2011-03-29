@@ -348,6 +348,19 @@ public class Git {
 	}
 
 	/**
+	 * Returns a command object to execute a {@code notes} command
+	 * 
+	 * @see <a
+	 *      href="http://www.kernel.org/pub/software/scm/git/docs/git-notes.html"
+	 *      >Git documentation about notes</a>
+	 * @return a {@link NotesCommand} used to collect all optional parameters
+	 *         and to finally execute the {@code notes} command
+	 */
+	public NotesCommand notes() {
+		return new NotesCommand(repo);
+	}
+
+	/**
 	 * @return the git repository this class is interacting with
 	 */
 	public Repository getRepository() {
