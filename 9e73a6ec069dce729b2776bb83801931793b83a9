@@ -33,6 +33,42 @@
       "revId": "9e73a6ec069dce729b2776bb83801931793b83a9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAGH////8\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Merge.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-03-10T15:26:29Z",
+      "side": 1,
+      "message": "No, our checked-in code formatter does it like that. And you can see\nwhy he would do so if you set your tab width in the gerrit UI to \u00274\u0027. By breaking the line after the \u0027.\u0027 he manages to stay in our maximum line length",
+      "parentUuid": "AAAAF3///8Q\u003d",
+      "revId": "9e73a6ec069dce729b2776bb83801931793b83a9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAGH////4\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Merge.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2010-03-10T15:26:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAAF3///8M\u003d",
+      "revId": "9e73a6ec069dce729b2776bb83801931793b83a9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
