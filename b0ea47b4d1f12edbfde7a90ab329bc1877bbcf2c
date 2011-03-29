@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL33///zo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Git.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-03-29T10:59:17Z",
+      "side": 1,
+      "message": "Hmmm, you are right. The logic which you miss is already there in Git.init().setDirectory(...).call().\nBut then: why do I need this constructor if InitCommand does everything? I will abandon this one.",
+      "parentUuid": "AAAL33///7o\u003d",
+      "revId": "b0ea47b4d1f12edbfde7a90ab329bc1877bbcf2c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL33///yw\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Git.java",
         "patchSetId": 1
