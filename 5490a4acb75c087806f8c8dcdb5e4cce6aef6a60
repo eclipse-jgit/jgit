@@ -2,6 +2,24 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAL3n//+dU\u003d",
+        "filename": "org.eclipse.jgit.pgm/resources/org/eclipse/jgit/pgm/CLIText.properties",
+        "patchSetId": 6
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-03-25T15:26:46Z",
+      "side": 1,
+      "message": "no, I don\u0027t. Thats a string who is printed on his own line. In the next lines we\u0027ll print the pathes of the files which we don\u0027t want to overwrite.",
+      "parentUuid": "AAAL3n//+dk\u003d",
+      "revId": "5490a4acb75c087806f8c8dcdb5e4cce6aef6a60",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL3n//+dY\u003d",
         "filename": "org.eclipse.jgit.pgm/resources/org/eclipse/jgit/pgm/CLIText.properties",
         "patchSetId": 6
