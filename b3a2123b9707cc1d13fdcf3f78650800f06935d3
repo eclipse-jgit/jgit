@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAFn////4\u003d",
+        "filename": "org.eclipse.jgit.pgm/META-INF/MANIFEST.MF",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-03-10T15:26:29Z",
+      "side": 1,
+      "message": "why not range up to next version which might be incompatible ?\nversion\u003d\"[0.6.0,0.7.0)\"",
+      "revId": "b3a2123b9707cc1d13fdcf3f78650800f06935d3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAFn////w\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Merge.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-03-10T15:26:29Z",
+      "side": 1,
+      "message": "I think this clean index precondition should be explicitly checked before merge is started.",
+      "revId": "b3a2123b9707cc1d13fdcf3f78650800f06935d3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAFn////s\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Merge.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-03-10T15:26:29Z",
+      "side": 1,
+      "message": "I would prefer lower case strategy names using \"-\" instead of \"_\" this is easier to type and read and native git does it similarly.\n\nours, theirs, simple-two-way-in-core\n\nsimple-two-way-in-core sounds weird as a strategy name.\n\nI think the semantics of these strategies should be also shortly described.",
+      "revId": "b3a2123b9707cc1d13fdcf3f78650800f06935d3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAFn////0\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Merge.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-03-10T15:26:29Z",
+      "side": 1,
+      "message": "could we use the strategy names in lower case and rather use \"-\" instead of \"_\" that\u0027s easier to type and I think native git does it similarily:\n\nours, theirs, simple-two-way-in-core\n\nsimple-two-way-in-core sounds weird as a strategy name.\n\nI think the semantics of these strategies should be also described shortly.",
+      "revId": "b3a2123b9707cc1d13fdcf3f78650800f06935d3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
