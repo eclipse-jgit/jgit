@@ -187,8 +187,8 @@ public class MergeResult {
 	 *            merge results as returned by
 	 *            {@link ResolveMerger#getMergeResults()}
 	 * @param failingPaths
-	 *            list of paths causing this merge to fail abnormally as
-	 *            returned by {@link ResolveMerger#getFailingPaths()}
+	 *            list of paths causing this merge to fail as returned by
+	 *            {@link ResolveMerger#getFailingPaths()}
 	 * @param description
 	 *            a user friendly description of the merge result
 	 */
@@ -356,11 +356,11 @@ public class MergeResult {
 	}
 
 	/**
-	 * Returns a list of paths causing this merge to fail abnormally as returned
-	 * by {@link ResolveMerger#getFailingPaths()}
+	 * Returns a list of paths causing this merge to fail as returned by
+	 * {@link ResolveMerger#getFailingPaths()}
 	 *
-	 * @return the list of paths causing this merge to fail abnormally or
-	 *         <code>null</code> if no abnormal failure occurred
+	 * @return the list of paths causing this merge to fail or <code>null</code>
+	 *         if no failure occurred
 	 */
 	public Map<String, MergeFailureReason> getFailingPaths() {
 		return failingPaths;

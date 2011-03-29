@@ -103,7 +103,7 @@ public class CherryPickResult {
 
 	/**
 	 * @param failingPaths
-	 *            list of paths causing this cherry-pick to fail abnormally (see
+	 *            list of paths causing this cherry-pick to fail (see
 	 *            {@link ResolveMerger#getFailingPaths()} for details)
 	 */
 	public CherryPickResult(Map<String, MergeFailureReason> failingPaths) {
@@ -153,8 +153,8 @@ public class CherryPickResult {
 	}
 
 	/**
-	 * @return the list of paths causing this cherry-pick to fail abnormally
-	 *         (see {@link ResolveMerger#getFailingPaths()} for details),
+	 * @return the list of paths causing this cherry-pick to fail (see
+	 *         {@link ResolveMerger#getFailingPaths()} for details),
 	 *         <code>null</code> if {@link #getStatus} is not
 	 *         {@link CherryPickStatus#FAILED}
 	 */
