@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAF3///8M\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Merge.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-03-10T15:26:29Z",
+      "side": 1,
+      "message": "style nit: we don\u0027t use braces for single line blocks",
+      "revId": "9e73a6ec069dce729b2776bb83801931793b83a9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAF3///8Q\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Merge.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-03-10T15:26:29Z",
+      "side": 1,
+      "message": "you probably unintentionally hit \"return\" here -\u003e unnecessary whitespace",
+      "revId": "9e73a6ec069dce729b2776bb83801931793b83a9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
