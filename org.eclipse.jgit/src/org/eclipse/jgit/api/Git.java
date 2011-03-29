@@ -394,6 +394,42 @@ public class Git {
 	}
 
 	/**
+	 * Returns a command to add notes to an object
+	 *
+	 * @return a {@link AddNotesCommand}
+	 */
+	public AddNotesCommand notesAdd() {
+		return new AddNotesCommand(repo);
+	}
+
+	/**
+	 * Returns a command to remove notes on an object
+	 *
+	 * @return a {@link RemoveNotesCommand}
+	 */
+	public RemoveNotesCommand notesRemove() {
+		return new RemoveNotesCommand(repo);
+	}
+
+	/**
+	 * Returns a command to list all notes
+	 *
+	 * @return a {@link ListNotesCommand}
+	 */
+	public ListNotesCommand notesList() {
+		return new ListNotesCommand(repo);
+	}
+
+	/**
+	 * Returns a command to show notes on an object
+	 *
+	 * @return a {@link ShowNotesCommand}
+	 */
+	public ShowNotesCommand notesShow() {
+		return new ShowNotesCommand(repo);
+	}
+
+	/**
 	 * @return the git repository this class is interacting with
 	 */
 	public Repository getRepository() {
