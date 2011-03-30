@@ -490,7 +490,11 @@ public class LockFile {
 
 		if (haveLck) {
 			haveLck = false;
-			lck.delete();
+			try {
+				FileUtils.delete(lck, FileUtils.RETRY);
+			} catch (IOException e) {
+				// couldn't delete the file even after retry.
+			}
 		}
 	}
 
