@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL2n///qE\u003d",
+        "filename": "pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 15
+      },
+      "writtenOn": "2011-01-19T13:11:19Z",
+      "side": 1,
+      "message": "If anything, we should be using the jsch repo from http://jsch.sourceforge.net/maven2/ . It\u0027s worth noting that there is a discussion on jsch-users regarding deploying the latest version on maven central.",
+      "revId": "b73deb9261f0bbf373cceb587de84d57e9b6460c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
