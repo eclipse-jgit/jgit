@@ -1,0 +1,40 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL2H///9w\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/storage/file/RefDirectoryTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1005,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-21T00:12:45Z",
+      "side": 1,
+      "message": "Yea, I wasn\u0027t thinking and just dropped it into the test.  :-(",
+      "parentUuid": "AAAL2H////Y\u003d",
+      "revId": "ef513f5c03bafd3c3973e8753ab7784c012469ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL33///+4\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/storage/file/RefDirectoryTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1005,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-03-27T21:00:01Z",
+      "side": 1,
+      "message": "Yes, I think that is why I have a -1 on this patch. Robin\u0027s remark above is correct we should use java.lang.System here and not SystemReader.",
+      "parentUuid": "AAAL3n//+1I\u003d",
+      "revId": "ef513f5c03bafd3c3973e8753ab7784c012469ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
