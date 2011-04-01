@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL33////Y\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-03-27T20:45:14Z",
+      "side": 1,
+      "message": "Typo on the name? Shouldn\u0027t this be overrideGitPrefix?\n\nShould we use SystemReader.getInstance().getProperty() rather than System.getProperty()?",
+      "revId": "ba957eeba7ba49178d394700fd59e944fde0c71d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
