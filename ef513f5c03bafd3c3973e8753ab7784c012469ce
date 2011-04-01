@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL3n//+1I\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/storage/file/RefDirectoryTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1005,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-03-22T22:55:55Z",
+      "side": 1,
+      "message": "shouldn\u0027t you use a simple System.currrentTimeMillis() instead of the SystemReader?",
+      "parentUuid": "AAAL2H///9w\u003d",
+      "revId": "ef513f5c03bafd3c3973e8753ab7784c012469ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL33///+4\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/storage/file/RefDirectoryTest.java",
         "patchSetId": 3
