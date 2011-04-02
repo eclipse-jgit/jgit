@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAL33///hk\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-03-30T23:26:11Z",
+      "side": 1,
+      "message": "better: ... we sometimes face the problem that the file .git/index.lock can\u0027t be deleted ...",
+      "revId": "9efbcaec64fd7949d665f36ba343c19c1066dc24",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL33///Zg\u003d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -13,6 +30,93 @@
       "writtenOn": "2011-03-31T22:08:33Z",
       "side": 1,
       "message": "Why does this file fail to delete on Windows? The calling thread is the only one that should be touching the .lock file. So what is causing the deletion to fail?",
+      "revId": "9efbcaec64fd7949d665f36ba343c19c1066dc24",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL33///Y0\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-03-31T22:51:06Z",
+      "side": 1,
+      "message": "see bug 335959, it seems that there is a good chance that an antivirus scanner would jump on the .lock file shortly after creation and cause the deletion to fail",
+      "parentUuid": "AAAL33///Zg\u003d",
+      "revId": "9efbcaec64fd7949d665f36ba343c19c1066dc24",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL33///UY\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-04-01T15:35:05Z",
+      "side": 1,
+      "message": "I heard from another user that also Google desktop search sometimes interferes here",
+      "parentUuid": "AAAL33///Y0\u003d",
+      "revId": "9efbcaec64fd7949d665f36ba343c19c1066dc24",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL33///hY\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-03-30T23:26:11Z",
+      "side": 1,
+      "message": "s/This change proposes to use/Instead use/",
+      "revId": "9efbcaec64fd7949d665f36ba343c19c1066dc24",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL33///Yw\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-03-31T22:51:06Z",
+      "side": 1,
+      "message": "Bug: 335959 should be mentioned here",
+      "revId": "9efbcaec64fd7949d665f36ba343c19c1066dc24",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL33///hs\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/LockFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 496,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-03-30T23:23:24Z",
+      "side": 1,
+      "message": "I think we should not hide this exception, if deleting the lock file fails, the next operation which needs the same lock will fail, hence I think we should rather fail early. I think it would also make sense to throw a checked exception to make the change in behavior explicit to all using applications though it\u0027s an API change then.",
       "revId": "9efbcaec64fd7949d665f36ba343c19c1066dc24",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
