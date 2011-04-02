@@ -124,7 +124,7 @@ public class CherryPickResult {
 	 * A <code>CherryPickResult</code> with status
 	 * {@link CherryPickStatus#CONFLICTING}
 	 */
-	public static CherryPickResult CONFLICT = new CherryPickResult(
+	public static final CherryPickResult CONFLICT = new CherryPickResult(
 			CherryPickStatus.CONFLICTING);
 
 	/**
