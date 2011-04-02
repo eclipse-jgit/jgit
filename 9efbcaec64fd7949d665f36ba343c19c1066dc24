@@ -72,6 +72,42 @@
     },
     {
       "key": {
+        "uuid": "AAAL33///PE\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-04-02T00:43:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL33///hk\u003d",
+      "revId": "9efbcaec64fd7949d665f36ba343c19c1066dc24",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL33///O4\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-04-02T00:43:41Z",
+      "side": 1,
+      "message": "There is one case inside SAP where I still investigate and where the process holding the file-handle is not from outside but from eclipse. \nMaybe some resource monitor, decorator, .... Investigations are not yet over - I\u0027ll keep you up to date.",
+      "parentUuid": "AAAL33///Zg\u003d",
+      "revId": "9efbcaec64fd7949d665f36ba343c19c1066dc24",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL33///hY\u003d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -83,6 +119,24 @@
       "writtenOn": "2011-03-30T23:26:11Z",
       "side": 1,
       "message": "s/This change proposes to use/Instead use/",
+      "revId": "9efbcaec64fd7949d665f36ba343c19c1066dc24",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL33///O0\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-04-02T00:43:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL33///hY\u003d",
       "revId": "9efbcaec64fd7949d665f36ba343c19c1066dc24",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -106,6 +160,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL33///Os\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-04-02T00:43:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL33///Yw\u003d",
+      "revId": "9efbcaec64fd7949d665f36ba343c19c1066dc24",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL33///hs\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/LockFile.java",
         "patchSetId": 1
@@ -117,6 +189,24 @@
       "writtenOn": "2011-03-30T23:23:24Z",
       "side": 1,
       "message": "I think we should not hide this exception, if deleting the lock file fails, the next operation which needs the same lock will fail, hence I think we should rather fail early. I think it would also make sense to throw a checked exception to make the change in behavior explicit to all using applications though it\u0027s an API change then.",
+      "revId": "9efbcaec64fd7949d665f36ba343c19c1066dc24",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL33///Oo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/LockFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 496,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-04-02T00:43:41Z",
+      "side": 1,
+      "message": "I tried it out - but doing this API modification causes so many modifications already in JGit that it is worth his own proposal.",
+      "parentUuid": "AAAL33///hs\u003d",
       "revId": "9efbcaec64fd7949d665f36ba343c19c1066dc24",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
