@@ -166,6 +166,9 @@ public class ReceivePack {
 	/** The refs we advertised as existing at the start of the connection. */
 	private Map<String, Ref> refs;
 
+	/** All SHA-1s shown to the client, which can be possible edges. */
+	private Set<ObjectId> advertisedHaves;
+
 	/** Capabilities requested by the client. */
 	private Set<String> enabledCapablities;
 
@@ -208,6 +211,7 @@ public class ReceivePack {
 		refFilter = RefFilter.DEFAULT;
 		preReceive = PreReceiveHook.NULL;
 		postReceive = PostReceiveHook.NULL;
+		advertisedHaves = new HashSet<ObjectId>();
 	}
 
 	private static class ReceiveConfig {
@@ -251,7 +255,26 @@ public class ReceivePack {
 
 	/** @return all refs which were advertised to the client. */
 	public final Map<String, Ref> getAdvertisedRefs() {
+		if (refs == null) {
+			refs = refFilter.filter(db.getAllRefs());
+
+			Ref head = refs.get(Constants.HEAD);
+			if (head != null && head.isSymbolic())
+				refs.remove(Constants.HEAD);
+
+			for (Ref ref : refs.values()) {
+				if (ref.getObjectId() != null)
+					advertisedHaves.add(ref.getObjectId());
+			}
+			advertisedHaves.addAll(db.getAdditionalHaves());
+		}
 		return refs;
+	}
+
+	/** @return the set of objects advertised as present in this repository. */
+	public final Set<ObjectId> getAdvertisedObjects() {
+		getAdvertisedRefs();
+		return advertisedHaves;
 	}
 
 	/**
@@ -629,7 +652,7 @@ public class ReceivePack {
 			sendAdvertisedRefs(new PacketLineOutRefAdvertiser(pckOut));
 			pckOut.flush();
 		} else
-			refs = refFilter.filter(db.getAllRefs());
+			getAdvertisedRefs();
 		if (advertiseError != null)
 			return;
 		recvCommands();
@@ -707,12 +730,9 @@ public class ReceivePack {
 		adv.advertiseCapability(CAPABILITY_REPORT_STATUS);
 		if (allowOfsDelta)
 			adv.advertiseCapability(CAPABILITY_OFS_DELTA);
-		refs = refFilter.filter(db.getAllRefs());
-		final Ref head = refs.remove(Constants.HEAD);
-		adv.send(refs);
-		if (head != null && !head.isSymbolic())
-			adv.advertiseHave(head.getObjectId());
-		adv.includeAdditionalHaves(db);
+		adv.send(getAdvertisedRefs());
+		for (ObjectId obj : advertisedHaves)
+			adv.advertiseHave(obj);
 		if (adv.isEmpty())
 			adv.advertiseId(ObjectId.zeroId(), "capabilities^{}");
 		adv.end();
@@ -847,8 +867,8 @@ public class ReceivePack {
 				continue;
 			ow.markStart(ow.parseAny(cmd.getNewId()));
 		}
-		for (final Ref ref : refs.values()) {
-			RevObject o = ow.parseAny(ref.getObjectId());
+		for (final ObjectId have : advertisedHaves) {
+			RevObject o = ow.parseAny(have);
 			ow.markUninteresting(o);
 
 			if (checkReferencedIsReachable && !baseObjects.isEmpty()) {
