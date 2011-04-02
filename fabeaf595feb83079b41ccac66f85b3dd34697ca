@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL33///ZY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Git.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-03-31T22:21:25Z",
+      "side": 1,
+      "message": "I wonder if the File argument here shouldn\u0027t be a little bit more flexible and try to guess what the caller wanted.\n\nIf the caller passes us the working directory and there is a .git within it, should we use the .git/ subdirectory instead of failing?\n\nI think we should for this simple API. Most users of this API are going to try that first and get annoyed that they have to test for the .git/ subdirectory themselves.\n\nIf the caller needs precise control over how to find the .git/ directory, or wants the scan-up rules, they can use a RepositoryBuilder and wrap(). But those are more expert uses of the API.",
+      "revId": "fabeaf595feb83079b41ccac66f85b3dd34697ca",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
