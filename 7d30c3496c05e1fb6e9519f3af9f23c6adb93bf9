@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL3n//+70\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-03-22T15:08:48Z",
+      "side": 1,
+      "message": "Sorry, I just overlooked your proposal. I think your proposal using FileSnapshot would solve my specific problem of instable EGit tests much better. I\u0027ll review your proposal. We could even abandon this change then, but if I understood you correctly you still need a refresh() method for DHT use cases. For that I would leave this one open.",
+      "parentUuid": "AAAL3n//+8c\u003d",
+      "revId": "7d30c3496c05e1fb6e9519f3af9f23c6adb93bf9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL3n//+8Q\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL3n//+7s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-03-22T15:08:48Z",
+      "side": 1,
+      "message": "+1\nTherefore I leave this proposal open and don\u0027t just abandon it in favour of your FileSnapshot solution (which would solve my specific problem)",
+      "parentUuid": "AAAL3n//+8Q\u003d",
+      "revId": "7d30c3496c05e1fb6e9519f3af9f23c6adb93bf9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL3n//+8U\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/FileRepository.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2011-03-22T14:11:50Z",
       "side": 1,
       "message": "This shouldn\u0027t be necessary anymore.\n\nRefDirectory.refresh() should trigger an event listener if one or more refs was detected to be modified, which means we can drop the getAllRefs() call here.",
+      "revId": "7d30c3496c05e1fb6e9519f3af9f23c6adb93bf9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL3n//+7w\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/FileRepository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-03-22T15:08:48Z",
+      "side": 1,
+      "message": "If your FileSnapshot solution is in we don\u0027t need a modification in this file anymore, right?",
+      "parentUuid": "AAAL3n//+8U\u003d",
       "revId": "7d30c3496c05e1fb6e9519f3af9f23c6adb93bf9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
