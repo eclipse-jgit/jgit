@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL33///Zg\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-03-31T22:08:33Z",
+      "side": 1,
+      "message": "Why does this file fail to delete on Windows? The calling thread is the only one that should be touching the .lock file. So what is causing the deletion to fail?",
+      "revId": "9efbcaec64fd7949d665f36ba343c19c1066dc24",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
