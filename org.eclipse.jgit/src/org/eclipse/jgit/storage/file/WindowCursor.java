@@ -83,10 +83,18 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 
 	private ByteWindow window;
 
+	private DeltaBaseCache baseCache;
+
 	final FileObjectDatabase db;
 
 	WindowCursor(FileObjectDatabase db) {
 		this.db = db;
+	}
+
+	DeltaBaseCache getDeltaBaseCache() {
+		if (baseCache == null)
+			baseCache = new DeltaBaseCache();
+		return baseCache;
 	}
 
 	@Override
@@ -334,6 +342,7 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 	/** Release the current window cursor. */
 	public void release() {
 		window = null;
+		baseCache = null;
 		try {
 			InflaterCache.release(inf);
 		} finally {
