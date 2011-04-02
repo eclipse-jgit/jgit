@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL3n//+8c\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-03-22T14:08:25Z",
+      "side": 1,
+      "message": "Have we tried fixing this?\n\nIdeally RefDatabase would consider refs \"racily clean\" if they were modified too close to the last scan and be scanned again, similar to what we have done with the \"racily clean\" files in the DirCache.\n\nIs the problem that my change I1556b7e7ea21c31ff76bca930269e0cc7d55cd26 (\"RefDirectory: Use FileSnapshot for loose refs\") is still outstanding?",
+      "revId": "7d30c3496c05e1fb6e9519f3af9f23c6adb93bf9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL3n//+8Q\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-03-22T14:11:50Z",
+      "side": 1,
+      "message": "As much as I hate the idea that we might need this for the local system case, this may actually make a lot of sense for the DHT implementation. Right now the DHT code caches the refs on the first access, and then never looks at the backing database again. Its expected that the caller would close and re-open the Repository object before needing a refreshed set of references. This works OK in a server environment, where the Repository is only needed for a short time period for the current request. But is less than ideal for an IDE or GUI application.\n\nSo as much as I dislike needing this, I\u0027m actually pretty inclined to +2 the introduction of this method to the API.",
+      "revId": "7d30c3496c05e1fb6e9519f3af9f23c6adb93bf9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL3n//+8U\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/FileRepository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-03-22T14:11:50Z",
+      "side": 1,
+      "message": "This shouldn\u0027t be necessary anymore.\n\nRefDirectory.refresh() should trigger an event listener if one or more refs was detected to be modified, which means we can drop the getAllRefs() call here.",
+      "revId": "7d30c3496c05e1fb6e9519f3af9f23c6adb93bf9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL33///+w\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/FileRepository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-03-27T21:02:42Z",
+      "side": 1,
+      "message": "Correct. The getAllRefs() should still trigger the listener to be fired, which is what this method exists for.",
+      "parentUuid": "AAAL3n//+7w\u003d",
+      "revId": "7d30c3496c05e1fb6e9519f3af9f23c6adb93bf9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
