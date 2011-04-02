@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL33///To\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-01T19:28:29Z",
+      "side": 1,
+      "message": "This is a bit too vague, lots of JGit reads files. I would rephrase the subject as:\n\n  Support reading first SHA-1 from large FETCH_HEAD files",
+      "revId": "11029b9b443f22019bf80bd3dd942b48b531bc11",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL33///Tw\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-01T19:28:29Z",
+      "side": 1,
+      "message": "Please fix this line, it shouldn\u0027t say Change-Id twice.",
+      "revId": "11029b9b443f22019bf80bd3dd942b48b531bc11",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL33///Ts\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-01T19:28:29Z",
+      "side": 1,
+      "message": "What is this line? Is it missing a Signed-off-by that you meant to put here, or something else?",
+      "revId": "11029b9b443f22019bf80bd3dd942b48b531bc11",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL33///T0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/IO.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-01T19:28:29Z",
+      "side": 1,
+      "message": "This isn\u0027t always the complete contents. If the contents exceeds the limit, then only the limit is returned.",
+      "revId": "11029b9b443f22019bf80bd3dd942b48b531bc11",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL33///T4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/IO.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-01T19:28:29Z",
+      "side": 1,
+      "message": "I think its unnecessary to allocate a ByteArrayOutputStream here. Instead you can write the method as:\n\n  FileInputStream in \u003d new FileInputStream(path);\n  try {\n    byte[] buf \u003d new byte[limit];\n    int cnt \u003d 0;\n    for (;;) {\n      int n \u003d in.read(buf, cnt, buf.length - cnt);\n      if (n \u003c\u003d 0)\n        break;\n      cnt +\u003d n;\n    }\n    if (cnt \u003d\u003d buf.length)\n      return buf;\n    byte[] res \u003d new byte[cnt];\n    System.arraycopy(buf, 0, res, 0, cnt);\n    return res;\n  } finally {\n    try {\n      in.close();\n    } catch (IOException ignored) {\n    }\n  }",
+      "revId": "11029b9b443f22019bf80bd3dd942b48b531bc11",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
