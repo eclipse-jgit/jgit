@@ -133,7 +133,6 @@ public abstract class RefAdvertiser {
 	 * <ul>
 	 * <li>{@link #send(Map)}
 	 * <li>{@link #advertiseHave(AnyObjectId)}
-	 * <li>{@link #includeAdditionalHaves(Repository)}
 	 * </ul>
 	 *
 	 * @param name
@@ -203,20 +202,6 @@ public abstract class RefAdvertiser {
 	 */
 	public void advertiseHave(AnyObjectId id) throws IOException {
 		advertiseAnyOnce(id, ".have");
-	}
-
-	/**
-	 * Include references of alternate repositories as {@code .have} lines.
-	 *
-	 * @param src
-	 *            repository to get the additional reachable objects from.
-	 * @throws IOException
-	 *             the underlying output stream failed to write out an
-	 *             advertisement record.
-	 */
-	public void includeAdditionalHaves(Repository src) throws IOException {
-		for (ObjectId id : src.getAdditionalHaves())
-			advertiseHave(id);
 	}
 
 	/** @return true if no advertisements have been sent yet. */
