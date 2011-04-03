@@ -44,14 +44,17 @@ package org.eclipse.jgit.api;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
 
 import org.eclipse.jgit.api.CherryPickResult.CherryPickStatus;
+import org.eclipse.jgit.api.ResetCommand.ResetType;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.RepositoryState;
 import org.eclipse.jgit.lib.RepositoryTestCase;
 import org.eclipse.jgit.merge.ResolveMerger.MergeFailureReason;
@@ -128,6 +131,55 @@ public class CherryPickCommandTest extends RepositoryTestCase {
 
 		doCherryPickAndCheckResult(git, sideCommit,
 				MergeFailureReason.DIRTY_WORKTREE);
+	}
+
+	@Test
+	public void testCherryPickConflictResolution() throws Exception {
+		Git git = new Git(db);
+		RevCommit sideCommit = prepareCherryPick(git);
+
+		CherryPickResult result = git.cherryPick().include(sideCommit.getId())
+				.call();
+
+		assertEquals(CherryPickStatus.CONFLICTING, result.getStatus());
+		assertTrue(new File(db.getDirectory(), Constants.MERGE_MSG).exists());
+		assertEquals("side\n\nConflicts:\n\ta\n", db.readMergeCommitMsg());
+		assertTrue(new File(db.getDirectory(), Constants.CHERRY_PICK_HEAD)
+				.exists());
+		assertEquals(sideCommit.getId(), db.readCherryPickHead());
+		assertEquals(RepositoryState.CHERRY_PICKING, db.getRepositoryState());
+
+		// Resolve
+		writeTrashFile("a", "a");
+		git.add().addFilepattern("a").call();
+
+		assertEquals(RepositoryState.CHERRY_PICKING_RESOLVED,
+				db.getRepositoryState());
+
+		git.commit().setOnly("a").setMessage("resolve").call();
+
+		assertEquals(RepositoryState.SAFE, db.getRepositoryState());
+	}
+
+	@Test
+	public void testCherryPickConflictReset() throws Exception {
+		Git git = new Git(db);
+
+		RevCommit sideCommit = prepareCherryPick(git);
+
+		CherryPickResult result = git.cherryPick().include(sideCommit.getId())
+				.call();
+
+		assertEquals(CherryPickStatus.CONFLICTING, result.getStatus());
+		assertEquals(RepositoryState.CHERRY_PICKING, db.getRepositoryState());
+		assertTrue(new File(db.getDirectory(), Constants.CHERRY_PICK_HEAD)
+				.exists());
+
+		git.reset().setMode(ResetType.MIXED).setRef("HEAD").call();
+
+		assertEquals(RepositoryState.SAFE, db.getRepositoryState());
+		assertFalse(new File(db.getDirectory(), Constants.CHERRY_PICK_HEAD)
+				.exists());
 	}
 
 	private RevCommit prepareCherryPick(final Git git) throws Exception {
