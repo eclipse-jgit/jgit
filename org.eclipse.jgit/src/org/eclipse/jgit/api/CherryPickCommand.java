@@ -60,6 +60,7 @@ import org.eclipse.jgit.lib.ObjectIdRef;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Ref.Storage;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.merge.MergeMessageFormatter;
 import org.eclipse.jgit.merge.MergeStrategy;
 import org.eclipse.jgit.merge.ResolveMerger;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -150,7 +151,15 @@ public class CherryPickCommand extends GitCommand<CherryPickResult> {
 					if (merger.failed())
 						return new CherryPickResult(merger.getFailingPaths());
 
-					// merge conflicts
+					// there are merge conflicts
+
+					String message = new MergeMessageFormatter()
+							.formatWithConflicts(srcCommit.getFullMessage(),
+									merger.getUnmergedPaths());
+
+					repo.writeCherryPickHead(srcCommit.getId());
+					repo.writeMergeCommitMsg(message);
+
 					return CherryPickResult.CONFLICT;
 				}
 			}

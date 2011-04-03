@@ -922,7 +922,7 @@ public abstract class Repository {
 			return RepositoryState.REBASING_MERGE;
 
 		// Both versions
-		if (new File(getDirectory(), "MERGE_HEAD").exists()) {
+		if (new File(getDirectory(), Constants.MERGE_HEAD).exists()) {
 			// we are merging - now check whether we have unmerged paths
 			try {
 				if (!readDirCache().hasUnmergedPaths()) {
@@ -940,6 +940,20 @@ public abstract class Repository {
 
 		if (new File(getDirectory(), "BISECT_LOG").exists())
 			return RepositoryState.BISECTING;
+
+		if (new File(getDirectory(), Constants.CHERRY_PICK_HEAD).exists()) {
+			try {
+				if (!readDirCache().hasUnmergedPaths()) {
+					// no unmerged paths
+					return RepositoryState.CHERRY_PICKING_RESOLVED;
+				}
+			} catch (IOException e) {
+				// fall through to CHERRY_PICKING
+				e.printStackTrace();
+			}
+
+			return RepositoryState.CHERRY_PICKING;
+		}
 
 		return RepositoryState.SAFE;
 	}
@@ -1190,6 +1204,62 @@ public abstract class Repository {
 			}
 		} else {
 			FileUtils.delete(mergeHeadFile);
+		}
+	}
+
+	/**
+	 * Return the information stored in the file $GIT_DIR/CHERRY_PICK_HEAD.
+	 *
+	 * @return object id from CHERRY_PICK_HEAD file or {@code null} if this file
+	 *         doesn't exist. Also if the file exists but is empty {@code null}
+	 *         will be returned
+	 * @throws IOException
+	 * @throws NoWorkTreeException
+	 *             if this is bare, which implies it has no working directory.
+	 *             See {@link #isBare()}.
+	 */
+	public ObjectId readCherryPickHead() throws IOException,
+			NoWorkTreeException {
+		if (isBare() || getDirectory() == null)
+			throw new NoWorkTreeException();
+
+		File mergeHeadFile = new File(getDirectory(),
+				Constants.CHERRY_PICK_HEAD);
+		byte[] raw;
+		try {
+			raw = IO.readFully(mergeHeadFile);
+		} catch (FileNotFoundException notFound) {
+			return null;
+		}
+
+		if (raw.length == 0)
+			return null;
+
+		return ObjectId.fromString(raw, 0);
+	}
+
+	/**
+	 * Write cherry pick commit into $GIT_DIR/CHERRY_PICK_HEAD. This is used in
+	 * case of conflicts to store the cherry which was tried to be picked.
+	 *
+	 * @param head
+	 *            an object id of the cherry commit or <code>null</code> to
+	 *            delete the file
+	 * @throws IOException
+	 */
+	public void writeCherryPickHead(ObjectId head) throws IOException {
+		File cherryPickHeadFile = new File(gitDir, Constants.CHERRY_PICK_HEAD);
+		if (head != null) {
+			BufferedOutputStream bos = new BufferedOutputStream(
+					new FileOutputStream(cherryPickHeadFile));
+			try {
+				head.copyTo(bos);
+				bos.write('\n');
+			} finally {
+				bos.close();
+			}
+		} else {
+			FileUtils.delete(cherryPickHeadFile, FileUtils.SKIP_MISSING);
 		}
 	}
 }
