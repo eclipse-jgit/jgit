@@ -123,6 +123,29 @@ public class MergeMessageFormatter {
 		return sb.toString();
 	}
 
+	/**
+	 * Add section with conflicting paths to merge message.
+	 *
+	 * @param message
+	 *            the original merge message
+	 * @param conflictingPaths
+	 *            the paths with conflicts
+	 * @return merge message with conflicting paths added
+	 */
+	public String addConflictsSection(String message,
+			List<String> conflictingPaths) {
+		StringBuilder sb = new StringBuilder(message);
+		if (!message.endsWith("\n"))
+			sb.append("\n");
+		sb.append("\n");
+		sb.append("Conflicts:");
+		for (String conflictingPath : conflictingPaths) {
+			sb.append("\n\t");
+			sb.append(conflictingPath);
+		}
+		return sb.toString();
+	}
+
 	private static String joinNames(List<String> names, String singular,
 			String plural) {
 		if (names.size() == 1)

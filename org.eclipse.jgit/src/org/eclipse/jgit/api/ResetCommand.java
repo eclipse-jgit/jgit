@@ -134,6 +134,10 @@ public class ResetCommand extends GitCommand<Ref> {
 					|| repo.getRepositoryState().equals(
 							RepositoryState.MERGING_RESOLVED))
 				merging = true;
+			final boolean cherryPicking = repo.getRepositoryState().equals(
+					RepositoryState.CHERRY_PICKING)
+					|| repo.getRepositoryState().equals(
+							RepositoryState.CHERRY_PICKING_RESOLVED);
 
 			// resolve the ref to a commit
 			final ObjectId commitId;
@@ -183,8 +187,12 @@ public class ResetCommand extends GitCommand<Ref> {
 
 			}
 
-			if (mode != ResetType.SOFT && merging)
-				resetMerge();
+			if (mode != ResetType.SOFT) {
+				if (merging)
+					resetMerge();
+				else if (cherryPicking)
+					resetCherryPick();
+			}
 
 			setCallable(false);
 			r = ru.getRef();
@@ -252,6 +260,11 @@ public class ResetCommand extends GitCommand<Ref> {
 
 	private void resetMerge() throws IOException {
 		repo.writeMergeHeads(null);
+		repo.writeMergeCommitMsg(null);
+	}
+
+	private void resetCherryPick() throws IOException {
+		repo.writeCherryPickHead(null);
 		repo.writeMergeCommitMsg(null);
 	}
 

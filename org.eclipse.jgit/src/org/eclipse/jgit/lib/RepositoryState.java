@@ -93,6 +93,26 @@ public enum RepositoryState {
 		public String getDescription() { return JGitText.get().repositoryState_merged; }
 	},
 
+	/** An unfinished cherry-pick. Must resolve or reset before continuing normally
+	 */
+	CHERRY_PICKING {
+		public boolean canCheckout() { return false; }
+		public boolean canResetHead() { return true; }
+		public boolean canCommit() { return false; }
+		public String getDescription() { return JGitText.get().repositoryState_conflicts; }
+	},
+
+	/**
+	 * A cherry-pick where all conflicts have been resolved. The index does not
+	 * contain any unmerged paths.
+	 */
+	CHERRY_PICKING_RESOLVED {
+		public boolean canCheckout() { return true; }
+		public boolean canResetHead() { return true; }
+		public boolean canCommit() { return true; }
+		public String getDescription() { return JGitText.get().repositoryState_merged; }
+	},
+
 	/**
 	 * An unfinished rebase or am. Must resolve, skip or abort before normal work can take place
 	 */

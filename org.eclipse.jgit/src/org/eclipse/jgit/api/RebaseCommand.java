@@ -372,6 +372,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 			commit.setAuthor(parseAuthor());
 			return commit.call();
 		}
+
 		return null;
 	}
 
@@ -399,6 +400,9 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 				Constants.CHARACTER_ENCODING));
 		createFile(rebaseDir, STOPPED_SHA, repo.newObjectReader().abbreviate(
 				commitToPick).name());
+		// Remove cherry pick state file created by CherryPickCommand, it's not
+		// needed for rebase
+		repo.writeCherryPickHead(null);
 		return new RebaseResult(commitToPick);
 	}
 
@@ -744,6 +748,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 			}
 			// cleanup the files
 			FileUtils.delete(rebaseDir, FileUtils.RECURSIVE);
+			repo.writeCherryPickHead(null);
 			return result;
 
 		} finally {

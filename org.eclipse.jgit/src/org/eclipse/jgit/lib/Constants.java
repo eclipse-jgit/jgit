@@ -536,6 +536,9 @@ public final class Constants {
 	/** name of the file containing the IDs of the parents of a merge commit */
 	public static final String MERGE_HEAD = "MERGE_HEAD";
 
+	/** name of the file containing the ID of a cherry pick commit in case of conflicts */
+	public static final String CHERRY_PICK_HEAD = "CHERRY_PICK_HEAD";
+
 	/**
 	 * name of the ref ORIG_HEAD used by certain commands to store the original
 	 * value of HEAD
