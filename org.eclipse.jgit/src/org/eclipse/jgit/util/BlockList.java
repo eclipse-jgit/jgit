@@ -303,7 +303,7 @@ public class BlockList<T> extends AbstractList<T> {
 	private class MyIterator implements Iterator<T> {
 		private int index;
 
-		private int dirIdx;
+		private int dirIdx = 0;
 
 		private int blkIdx;
 
