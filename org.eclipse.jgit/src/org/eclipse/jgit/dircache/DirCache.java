@@ -321,7 +321,7 @@ public class DirCache {
 	public boolean isOutdated() throws IOException {
 		if (liveFile == null || !liveFile.exists())
 			return false;
-		return snapshot != null && snapshot.isModified(liveFile);
+		return snapshot == null || snapshot.isModified(liveFile);
 	}
 
 	/** Empty this index, removing all entries. */
