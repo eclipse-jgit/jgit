@@ -307,7 +307,7 @@ public class BlockList<T> extends AbstractList<T> {
 
 		private int blkIdx;
 
-		private T[] block = directory[dirIdx];
+		private T[] block = directory[0];
 
 		public boolean hasNext() {
 			return index < size;
