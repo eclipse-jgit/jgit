@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL33///K8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/BlockList.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-03T23:55:18Z",
+      "side": 1,
+      "message": "I agree with Robin, change this to\n\n  private T[] block \u003d directory[0];",
+      "revId": "b3c4b326cdfed936029b180e73f62943639e93b1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
