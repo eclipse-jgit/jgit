@@ -16,6 +16,24 @@
       "revId": "b3c4b326cdfed936029b180e73f62943639e93b1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL33///Kk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/BlockList.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-04-04T00:21:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL33///K8\u003d",
+      "revId": "b3c4b326cdfed936029b180e73f62943639e93b1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
