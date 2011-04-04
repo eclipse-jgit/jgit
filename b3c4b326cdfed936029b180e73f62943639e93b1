@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAL33///Lg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/BlockList.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-04-03T23:04:13Z",
+      "side": 1,
+      "message": "I did not understand that comment at first. It\u0027s not that findbugs do not like implicitly initialized fields, its\u0027 only when they are used in the initializer, that it complains.\n\nI\u0027d rather do this: private T[] block \u003d directory[0]; \nand drop the dirIdx \u003d 0 change",
+      "revId": "b3c4b326cdfed936029b180e73f62943639e93b1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL33///K8\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/BlockList.java",
         "patchSetId": 1
