@@ -139,11 +139,6 @@ public class CloneCommand implements Callable<Git> {
 		config.addFetchRefSpec(refSpec);
 		config.update(repo.getConfig());
 
-		repo.getConfig().setString(ConfigConstants.CONFIG_BRANCH_SECTION,
-				branch, ConfigConstants.CONFIG_KEY_REMOTE, remote);
-		repo.getConfig().setString(ConfigConstants.CONFIG_BRANCH_SECTION,
-				branch, ConfigConstants.CONFIG_KEY_MERGE, branch);
-
 		repo.getConfig().save();
 
 		// run the fetch command
@@ -160,15 +155,22 @@ public class CloneCommand implements Callable<Git> {
 			throws JGitInternalException,
 			MissingObjectException, IncorrectObjectTypeException, IOException {
 
-		if (branch.startsWith(Constants.R_HEADS)) {
-			final RefUpdate head = repo.updateRef(Constants.HEAD);
-			head.disableRefLog();
-			head.link(branch);
+		Ref head = result.getAdvertisedRef(branch);
+		if (branch.equals(Constants.HEAD)) {
+			Ref foundBranch = findBranchToCheckout(result);
+			if (foundBranch != null)
+				head = foundBranch;
 		}
 
-		final Ref head = result.getAdvertisedRef(branch);
 		if (head == null || head.getObjectId() == null)
 			return; // throw exception?
+
+		if (head.getName().startsWith(Constants.R_HEADS)) {
+			final RefUpdate newHead = repo.updateRef(Constants.HEAD);
+			newHead.disableRefLog();
+			newHead.link(head.getName());
+			addMergeConfig(repo, head);
+		}
 
 		final RevCommit commit = parseCommit(repo, head);
 
@@ -183,6 +185,32 @@ public class CloneCommand implements Callable<Git> {
 					commit.getTree());
 			co.checkout();
 		}
+	}
+
+	private Ref findBranchToCheckout(FetchResult result) {
+		Ref foundBranch = null;
+		final Ref idHEAD = result.getAdvertisedRef(Constants.HEAD);
+		for (final Ref r : result.getAdvertisedRefs()) {
+			final String n = r.getName();
+			if (!n.startsWith(Constants.R_HEADS))
+				continue;
+			if (idHEAD == null)
+				continue;
+			if (r.getObjectId().equals(idHEAD.getObjectId())) {
+				foundBranch = r;
+				break;
+			}
+		}
+		return foundBranch;
+	}
+
+	private void addMergeConfig(Repository repo, Ref head) throws IOException {
+		String branchName = Repository.shortenRefName(head.getName());
+		repo.getConfig().setString(ConfigConstants.CONFIG_BRANCH_SECTION,
+				branchName, ConfigConstants.CONFIG_KEY_REMOTE, remote);
+		repo.getConfig().setString(ConfigConstants.CONFIG_BRANCH_SECTION,
+				branchName, ConfigConstants.CONFIG_KEY_MERGE, head.getName());
+		repo.getConfig().save();
 	}
 
 	private RevCommit parseCommit(final Repository repo, final Ref ref)

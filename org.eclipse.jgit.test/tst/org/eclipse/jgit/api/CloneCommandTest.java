@@ -50,6 +50,7 @@ import java.io.File;
 import java.io.IOException;
 
 import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.RefUpdate;
@@ -99,6 +100,20 @@ public class CloneCommandTest extends RepositoryTestCase {
 			assertNotNull(git2);
 			ObjectId id = git2.getRepository().resolve("tag-for-blob");
 			assertNotNull(id);
+			assertEquals(git2.getRepository().getFullBranch(),
+					"refs/heads/test");
+			assertEquals(
+					"origin",
+					git2.getRepository()
+							.getConfig()
+							.getString(ConfigConstants.CONFIG_BRANCH_SECTION,
+									"test", ConfigConstants.CONFIG_KEY_REMOTE));
+			assertEquals(
+					"refs/heads/test",
+					git2.getRepository()
+							.getConfig()
+							.getString(ConfigConstants.CONFIG_BRANCH_SECTION,
+									"test", ConfigConstants.CONFIG_KEY_MERGE));
 		} catch (Exception e) {
 			fail(e.getMessage());
 		}
@@ -109,14 +124,14 @@ public class CloneCommandTest extends RepositoryTestCase {
 		try {
 			File directory = createTempDirectory("testCloneRepositoryWithBranch");
 			CloneCommand command = Git.cloneRepository();
-			command.setBranch("refs/heads/test");
+			command.setBranch("refs/heads/master");
 			command.setDirectory(directory);
 			command.setURI("file://"
 					+ git.getRepository().getWorkTree().getPath());
 			Git git2 = command.call();
 			assertNotNull(git2);
 			assertEquals(git2.getRepository().getFullBranch(),
-					"refs/heads/test");
+					"refs/heads/master");
 		} catch (Exception e) {
 			fail(e.getMessage());
 		}
