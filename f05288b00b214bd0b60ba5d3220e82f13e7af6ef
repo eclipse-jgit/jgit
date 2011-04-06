@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL3n///2E\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/RefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 844,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-03-15T23:50:17Z",
+      "side": 1,
+      "message": "FETCH_HEAD contains more than one ref, so we should treat it separatelt and not let it go through this path.",
+      "parentUuid": "AAAL3n///3s\u003d",
+      "revId": "f05288b00b214bd0b60ba5d3220e82f13e7af6ef",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL3n///18\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/RefDirectory.java",
         "patchSetId": 1
