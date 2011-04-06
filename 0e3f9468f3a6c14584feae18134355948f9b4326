@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL4H///5k\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1221,
+      "author": {
+        "id": 2
+      },
+      "writtenOn": "2011-04-06T18:35:21Z",
+      "side": 1,
+      "message": "similar to readMergeHeads, probably can simplify the two methods in the future...",
+      "revId": "0e3f9468f3a6c14584feae18134355948f9b4326",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL4H///5o\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1250,
+      "author": {
+        "id": 2
+      },
+      "writtenOn": "2011-04-06T18:35:21Z",
+      "side": 1,
+      "message": "looks similar to writeMergeHEADs, we could probably combine the two methods",
+      "revId": "0e3f9468f3a6c14584feae18134355948f9b4326",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
