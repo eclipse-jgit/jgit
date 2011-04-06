@@ -48,7 +48,9 @@ import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Collections;
 
+import org.eclipse.jgit.api.ListBranchCommand.ListMode;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
@@ -114,6 +116,8 @@ public class CloneCommandTest extends RepositoryTestCase {
 							.getConfig()
 							.getString(ConfigConstants.CONFIG_BRANCH_SECTION,
 									"test", ConfigConstants.CONFIG_KEY_MERGE));
+			assertEquals(2, git2.branchList().setListMode(ListMode.REMOTE)
+					.call().size());
 		} catch (Exception e) {
 			fail(e.getMessage());
 		}
@@ -132,6 +136,28 @@ public class CloneCommandTest extends RepositoryTestCase {
 			assertNotNull(git2);
 			assertEquals(git2.getRepository().getFullBranch(),
 					"refs/heads/master");
+		} catch (Exception e) {
+			fail(e.getMessage());
+		}
+	}
+
+	@Test
+	public void testCloneRepositoryOnlyOneBranch() {
+		try {
+			File directory = createTempDirectory("testCloneRepositoryWithBranch");
+			CloneCommand command = Git.cloneRepository();
+			command.setBranch("refs/heads/master");
+			command.setBranchesToClone(Collections
+					.singletonList("refs/heads/master"));
+			command.setDirectory(directory);
+			command.setURI("file://"
+					+ git.getRepository().getWorkTree().getPath());
+			Git git2 = command.call();
+			assertNotNull(git2);
+			assertEquals(git2.getRepository().getFullBranch(),
+					"refs/heads/master");
+			assertEquals(1, git2.branchList().setListMode(ListMode.REMOTE)
+					.call().size());
 		} catch (Exception e) {
 			fail(e.getMessage());
 		}
