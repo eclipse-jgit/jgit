@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL33///Is\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CherryPickCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-04T17:31:42Z",
+      "side": 1,
+      "message": "Message should end in \\n.",
+      "revId": "ef6c2d42a2d23ed769104f4f03507cde28d24951",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL33///Iw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-04T17:31:42Z",
+      "side": 1,
+      "message": "Style-nit: Unnecessary introduction of a blank line.",
+      "revId": "ef6c2d42a2d23ed769104f4f03507cde28d24951",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL33///I0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ResetCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-04T17:31:42Z",
+      "side": 1,
+      "message": "Asking for the state is expensive due to the number of file stat calls involved. Do this once before line 133 and save the result into a local variable so that all three of these references reuse the same computed value.\n\nIt may be worth using a switch statement here instead of if.",
+      "revId": "ef6c2d42a2d23ed769104f4f03507cde28d24951",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL33///JA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1238,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-04T17:31:42Z",
+      "side": 1,
+      "message": "Style-nit: There is no good reason for this local variable \"head\".",
+      "revId": "ef6c2d42a2d23ed769104f4f03507cde28d24951",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL33///I8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeMessageFormatter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-04T17:31:42Z",
+      "side": 1,
+      "message": "I don\u0027t like then name \"add\" here. Perhaps instead call this formatWithConflicts()?\n\nSince this is being introduced, it should also be added to MergeCommand so that conflicted merges include the Conflicts section (because I don\u0027t think they do today).",
+      "revId": "ef6c2d42a2d23ed769104f4f03507cde28d24951",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL33///I4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeMessageFormatter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-04T17:31:42Z",
+      "side": 1,
+      "message": "The resulting message should end with an LF. So I think you instead want:\n\n  sb.append(\"Conflicts:\\n\");\n  for (String conflictingPath : conflictingPaths)\n    sb.append(\u0027\\t\u0027).append(conflictingPath).append(\u0027\\n\u0027);",
+      "revId": "ef6c2d42a2d23ed769104f4f03507cde28d24951",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
