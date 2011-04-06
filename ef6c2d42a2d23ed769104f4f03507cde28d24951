@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL4H////8\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CherryPickCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2011-04-05T16:54:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL33///Is\u003d",
+      "revId": "ef6c2d42a2d23ed769104f4f03507cde28d24951",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL33///Iw\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2011-04-04T17:31:42Z",
       "side": 1,
       "message": "Style-nit: Unnecessary introduction of a blank line.",
+      "revId": "ef6c2d42a2d23ed769104f4f03507cde28d24951",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL4H////4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2011-04-05T16:54:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL33///Iw\u003d",
       "revId": "ef6c2d42a2d23ed769104f4f03507cde28d24951",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL4H////0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ResetCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2011-04-05T16:54:39Z",
+      "side": 1,
+      "message": "Switch statements are so ugly in Java, I left it.",
+      "parentUuid": "AAAL33///I0\u003d",
+      "revId": "ef6c2d42a2d23ed769104f4f03507cde28d24951",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL33///JA\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2011-04-04T17:31:42Z",
       "side": 1,
       "message": "Style-nit: There is no good reason for this local variable \"head\".",
+      "revId": "ef6c2d42a2d23ed769104f4f03507cde28d24951",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL4H////w\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1238,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2011-04-05T16:54:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL33///JA\u003d",
       "revId": "ef6c2d42a2d23ed769104f4f03507cde28d24951",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL4H////s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeMessageFormatter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2011-04-05T16:54:39Z",
+      "side": 1,
+      "message": "Renamed to formatWithConflicts.\n\nI was going to add it to MergeCommand in a separate change.",
+      "parentUuid": "AAAL33///I8\u003d",
+      "revId": "ef6c2d42a2d23ed769104f4f03507cde28d24951",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL33///I4\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeMessageFormatter.java",
         "patchSetId": 1
@@ -98,6 +188,24 @@
       "writtenOn": "2011-04-04T17:31:42Z",
       "side": 1,
       "message": "The resulting message should end with an LF. So I think you instead want:\n\n  sb.append(\"Conflicts:\\n\");\n  for (String conflictingPath : conflictingPaths)\n    sb.append(\u0027\\t\u0027).append(conflictingPath).append(\u0027\\n\u0027);",
+      "revId": "ef6c2d42a2d23ed769104f4f03507cde28d24951",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL4H////o\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/MergeMessageFormatter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2011-04-05T16:54:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL33///I4\u003d",
       "revId": "ef6c2d42a2d23ed769104f4f03507cde28d24951",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
