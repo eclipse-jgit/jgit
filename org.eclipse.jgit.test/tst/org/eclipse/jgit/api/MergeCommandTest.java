@@ -54,6 +54,7 @@ import java.util.Iterator;
 import org.eclipse.jgit.api.MergeResult.MergeStatus;
 import org.eclipse.jgit.api.errors.InvalidMergeHeadsException;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RepositoryState;
 import org.eclipse.jgit.lib.RepositoryTestCase;
 import org.eclipse.jgit.merge.MergeStrategy;
@@ -202,6 +203,37 @@ public class MergeCommandTest extends RepositoryTestCase {
 		assertEquals(3, result.getConflicts().get("a")[0].length);
 
 		assertEquals(RepositoryState.MERGING, db.getRepositoryState());
+	}
+
+	@Test
+	public void testMergeMessage() throws Exception {
+		Git git = new Git(db);
+
+		writeTrashFile("a", "1\na\n3\n");
+		git.add().addFilepattern("a").call();
+		RevCommit initialCommit = git.commit().setMessage("initial").call();
+
+		createBranch(initialCommit, "refs/heads/side");
+		checkoutBranch("refs/heads/side");
+
+		writeTrashFile("a", "1\na(side)\n3\n");
+		git.add().addFilepattern("a").call();
+		git.commit().setMessage("side").call();
+
+		checkoutBranch("refs/heads/master");
+
+		writeTrashFile("a", "1\na(main)\n3\n");
+		git.add().addFilepattern("a").call();
+		git.commit().setMessage("main").call();
+
+		Ref sideBranch = db.getRef("side");
+
+		git.merge().include(sideBranch)
+				.setStrategy(MergeStrategy.RESOLVE).call();
+
+		assertEquals("Merge branch 'side'\n\nConflicts:\n\ta\n",
+				db.readMergeCommitMsg());
+
 	}
 
 	@Test
