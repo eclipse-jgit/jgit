@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL4H///48\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1223,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-06T19:33:44Z",
+      "side": 1,
+      "message": "Our style would prefer:\n\n  List\u003cObjectId\u003e heads \u003d head !\u003d null ? Collections.singletonList(head) : null;\n\nThat also removes the need to import java.util.Arrays here.",
+      "revId": "8e90bd26da654e5a38d3193c096f8d15320471d4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL4H///44\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1234,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-06T19:33:44Z",
+      "side": 1,
+      "message": "Given how short the method is, maybe this is even shorter:\n\n File file \u003d new File(getDirectory(), filename);\n try {\n    byte[] raw \u003d IO.readFully(file);\n    return 0 \u003c raw.length ? raw : null;\n  } catch (FileNotFoundException notFound) {\n    return null;\n  }\n\nOn something this tiny, it isn\u0027t really worth trying to hoist the if outside of the try/catch.",
+      "revId": "8e90bd26da654e5a38d3193c096f8d15320471d4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
