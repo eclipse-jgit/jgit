@@ -1,0 +1,56 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL3n///3o\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-03-15T17:18:00Z",
+      "side": 1,
+      "message": "You mean the FETCH_HEAD file?",
+      "revId": "f05288b00b214bd0b60ba5d3220e82f13e7af6ef",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL3n///3s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/RefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 844,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-03-15T17:18:00Z",
+      "side": 1,
+      "message": "Instead of dropping the 4k limit, I would rather introduce a new IO.readSome(path, limit) method that allows us to read the first 4k and return when either the whole file or the limit is reached.",
+      "revId": "f05288b00b214bd0b60ba5d3220e82f13e7af6ef",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL3n///18\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/RefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 844,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-03-16T00:08:47Z",
+      "side": 1,
+      "message": "No, that\u0027s not true. Its common practice to try and use the first ref in FETCH_HEAD as though it were a normal ref. So we should support reading it here, we just need to only read the first 40 bytes of it. :-)\n\nThe main reason we have the too large error is to fail out fast if we read a symbolic reference that has an insane name within it. If the name exceeds the reasonable length we support here, the ref name might be truncated and fail to be read correctly. But we have a limit here to prevent reading some massive binary file that was accidentally placed into the refs/ directory, sucking all of that into the JVM as a byte[] would be painful.\n\nMy proposed IO.readSome(path, limit) would need an additional check here, if isSymRef(buf, n) is true and n.length \u003d\u003d limit then we need to abort and refuse to process this ref, as its a potentially truncated symbolic reference.",
+      "parentUuid": "AAAL3n///2E\u003d",
+      "revId": "f05288b00b214bd0b60ba5d3220e82f13e7af6ef",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
