@@ -651,7 +651,11 @@ public final class RawParseUtils {
 		if (enc < 0)
 			return Constants.CHARSET;
 		final int lf = nextLF(b, enc);
-		return Charset.forName(decode(Constants.CHARSET, b, enc, lf - 1));
+		String decoded = decode(Constants.CHARSET, b, enc, lf - 1);
+		if ("latin-1".equals(decoded)) {
+			return Charset.forName("ISO-8859-1");
+		}
+		return Charset.forName(decoded);
 	}
 
 	/**
