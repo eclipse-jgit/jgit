@@ -54,7 +54,11 @@ import java.nio.charset.CharacterCodingException;
 import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
 import java.nio.charset.CodingErrorAction;
+import java.nio.charset.IllegalCharsetNameException;
+import java.nio.charset.UnsupportedCharsetException;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -66,6 +70,13 @@ public final class RawParseUtils {
 	private static final byte[] digits16;
 
 	private static final byte[] footerLineKeyChars;
+
+	private static final Map<String, Charset> encodingAliases;
+	static {
+		encodingAliases = new HashMap<String, Charset>();
+		encodingAliases.put("latin-1", Charset.forName("ISO-8859-1"));
+		encodingAliases.put("latin1", Charset.forName("ISO-8859-1"));
+	}
 
 	static {
 		digits10 = new byte['9' + 1];
@@ -651,7 +662,22 @@ public final class RawParseUtils {
 		if (enc < 0)
 			return Constants.CHARSET;
 		final int lf = nextLF(b, enc);
-		return Charset.forName(decode(Constants.CHARSET, b, enc, lf - 1));
+		String decoded = decode(Constants.CHARSET, b, enc, lf - 1);
+		try {
+			return Charset.forName(decoded);
+		} catch (IllegalCharsetNameException badName) {
+			Charset aliased = encodingAliases.get(StringUtils
+					.toLowerCase(decoded));
+			if (aliased != null)
+				return aliased;
+			throw badName;
+		} catch (UnsupportedCharsetException badName) {
+			Charset aliased = encodingAliases.get(StringUtils
+					.toLowerCase(decoded));
+			if (aliased != null)
+				return aliased;
+			throw badName;
+		}
 	}
 
 	/**
