@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL4H///rI\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/RawParseUtilsTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-11T00:25:17Z",
+      "side": 1,
+      "message": "Please don\u0027t import *, instead import the methods used",
+      "revId": "a3ff236374c24176fe1eedaef35fa36033575c0a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL4H///rE\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/RawParseUtilsTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-11T00:25:17Z",
+      "side": 1,
+      "message": "Please assert the Charset is the ISO-8859-1 charset.",
+      "revId": "a3ff236374c24176fe1eedaef35fa36033575c0a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL4H///rM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RawParseUtils.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 655,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-11T00:25:17Z",
+      "side": 1,
+      "message": "I suspect we will need other translations here. Lets instead set up a map that we can easily add other entries into:\n\n  private static final Map\u003cString, Charset\u003e encodingAliases;\n\n  static {\n    encodingAliases \u003d new HashMap\u003cString, String\u003e();\n    encodingAliases.put(\"latin-1\", Charset.forName(\"ISO-8859-1\"));\n  }\n\n  String decoded \u003d decode(...);\n  try {\n    return Charset.forName(decoded);\n  } catch (IllegalCharsetNameException badName) {\n    Charset aliased \u003d encodingAliases.get(StringUtils.toLowerCase(decoded));\n    if (aliased !\u003d null)\n      return aliased;\n    throw badName;\n  } catch (UnsupportedCharsetException badName) {\n    Charset aliased \u003d encodingAliases.get(StringUtils.toLowerCase(decoded));\n    if (aliased !\u003d null)\n      return aliased;\n    throw badName;\n  }",
+      "revId": "a3ff236374c24176fe1eedaef35fa36033575c0a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
