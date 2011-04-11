@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL4H///o4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/AddNotesCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 2
+      },
+      "writtenOn": "2011-04-11T02:23:44Z",
+      "side": 1,
+      "message": "I\u0027ll rename it to AddNote for now.",
+      "parentUuid": "AAAL4H///pk\u003d",
+      "revId": "320d55a35b2f7652e9feb9b7425719c4d7de6fee",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL4H///ps\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/AddNotesCommand.java",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2011-04-11T00:49:41Z",
       "side": 1,
       "message": "This early flush is unnecessary, see commitNoteMap().",
+      "revId": "320d55a35b2f7652e9feb9b7425719c4d7de6fee",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL4H///o8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/AddNotesCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 2
+      },
+      "writtenOn": "2011-04-11T02:23:44Z",
+      "side": 1,
+      "message": "ok",
+      "parentUuid": "AAAL4H///ps\u003d",
       "revId": "320d55a35b2f7652e9feb9b7425719c4d7de6fee",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL4H///pA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/AddNotesCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 2
+      },
+      "writtenOn": "2011-04-11T02:23:44Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "AAAL4H///qA\u003d",
+      "revId": "320d55a35b2f7652e9feb9b7425719c4d7de6fee",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL4H///p4\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/AddNotesCommand.java",
         "patchSetId": 4
@@ -64,6 +118,24 @@
       "writtenOn": "2011-04-11T00:49:41Z",
       "side": 1,
       "message": "Please document somewhere that if the object already has a note, the existing note is *replaced*.",
+      "revId": "320d55a35b2f7652e9feb9b7425719c4d7de6fee",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL4H///pE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/AddNotesCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 2
+      },
+      "writtenOn": "2011-04-11T02:23:44Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "AAAL4H///p4\u003d",
       "revId": "320d55a35b2f7652e9feb9b7425719c4d7de6fee",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -157,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL4H///pU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/AddNotesCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 2
+      },
+      "writtenOn": "2011-04-11T02:23:44Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "AAAL4H///qo\u003d",
+      "revId": "320d55a35b2f7652e9feb9b7425719c4d7de6fee",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL4H///qk\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/AddNotesCommand.java",
         "patchSetId": 4
@@ -168,6 +258,24 @@
       "writtenOn": "2011-04-11T00:49:41Z",
       "side": 1,
       "message": "Pass the RevWalk you have in call().",
+      "revId": "320d55a35b2f7652e9feb9b7425719c4d7de6fee",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL4H///pI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/AddNotesCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 2
+      },
+      "writtenOn": "2011-04-11T02:23:44Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "AAAL4H///qk\u003d",
       "revId": "320d55a35b2f7652e9feb9b7425719c4d7de6fee",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
