@@ -1,0 +1,378 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL4H///pk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/AddNotesCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-11T00:49:41Z",
+      "side": 1,
+      "message": "This is called AddNotes, but it only adds one note. Should we support multiple notes at once in a batch, or should we rename the class to AddNote?",
+      "revId": "320d55a35b2f7652e9feb9b7425719c4d7de6fee",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL4H///ps\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/AddNotesCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-11T00:49:41Z",
+      "side": 1,
+      "message": "This early flush is unnecessary, see commitNoteMap().",
+      "revId": "320d55a35b2f7652e9feb9b7425719c4d7de6fee",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL4H///qA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/AddNotesCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-11T00:49:41Z",
+      "side": 1,
+      "message": "The local variable \"note\" is unnecessary.",
+      "revId": "320d55a35b2f7652e9feb9b7425719c4d7de6fee",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL4H///p4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/AddNotesCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-11T00:49:41Z",
+      "side": 1,
+      "message": "Please document somewhere that if the object already has a note, the existing note is *replaced*.",
+      "revId": "320d55a35b2f7652e9feb9b7425719c4d7de6fee",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL4H///qs\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/AddNotesCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-11T00:49:41Z",
+      "side": 1,
+      "message": "Use builder.setCommitter(builder.getAuthor()) to ensure the timestamp is identical.",
+      "revId": "320d55a35b2f7652e9feb9b7425719c4d7de6fee",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL4H///qw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/AddNotesCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-11T00:49:41Z",
+      "side": 1,
+      "message": "You need an inserter.flush() after here.",
+      "revId": "320d55a35b2f7652e9feb9b7425719c4d7de6fee",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL4H///qo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/AddNotesCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-11T00:49:41Z",
+      "side": 1,
+      "message": "Missing:\n\n  if (notesCommit !\u003d null)\n    refUpdate.setExpectedOldObjectId(notesCommit);\n  else\n    refUpdate.setExpectedOldObjectId(ObjectId.zeroId());",
+      "revId": "320d55a35b2f7652e9feb9b7425719c4d7de6fee",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL4H///qk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/AddNotesCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-11T00:49:41Z",
+      "side": 1,
+      "message": "Pass the RevWalk you have in call().",
+      "revId": "320d55a35b2f7652e9feb9b7425719c4d7de6fee",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL4H///qc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ListNotesCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-11T00:49:41Z",
+      "side": 1,
+      "message": "Unnecessary.",
+      "revId": "320d55a35b2f7652e9feb9b7425719c4d7de6fee",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL4H///qg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ListNotesCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-11T00:49:41Z",
+      "side": 1,
+      "message": "Unnecessary.",
+      "revId": "320d55a35b2f7652e9feb9b7425719c4d7de6fee",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL4H///qY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ListNotesCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-11T00:49:41Z",
+      "side": 1,
+      "message": "Unnecessary.",
+      "revId": "320d55a35b2f7652e9feb9b7425719c4d7de6fee",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL4H///pg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RemoveNotesCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-11T00:49:41Z",
+      "side": 1,
+      "message": "Same remark about single note operation, but plural name.",
+      "revId": "320d55a35b2f7652e9feb9b7425719c4d7de6fee",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL4H///pw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RemoveNotesCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-11T00:49:41Z",
+      "side": 1,
+      "message": "This flush is unnecessary this early, see commitNoteMap().",
+      "revId": "320d55a35b2f7652e9feb9b7425719c4d7de6fee",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL4H///p0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RemoveNotesCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-11T00:49:41Z",
+      "side": 1,
+      "message": "The local variable \"note\" is unnecessary.",
+      "revId": "320d55a35b2f7652e9feb9b7425719c4d7de6fee",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL4H///p8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RemoveNotesCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-11T00:49:41Z",
+      "side": 1,
+      "message": "Style-nit: Trailing space.",
+      "revId": "320d55a35b2f7652e9feb9b7425719c4d7de6fee",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL4H///po\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RemoveNotesCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-11T00:49:41Z",
+      "side": 1,
+      "message": "See my comments in AddNotesCommand.commitNoteMap() as the code is identical here.",
+      "revId": "320d55a35b2f7652e9feb9b7425719c4d7de6fee",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL4H///qU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ShowNotesCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-11T00:49:41Z",
+      "side": 1,
+      "message": "Style-nit: Trailing space.",
+      "revId": "320d55a35b2f7652e9feb9b7425719c4d7de6fee",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL4H///pc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ShowNotesCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-11T00:49:41Z",
+      "side": 1,
+      "message": "Same remark about single note operation, but plural name.",
+      "revId": "320d55a35b2f7652e9feb9b7425719c4d7de6fee",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL4H///qQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ShowNotesCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-11T00:49:41Z",
+      "side": 1,
+      "message": "Unnecessary.",
+      "revId": "320d55a35b2f7652e9feb9b7425719c4d7de6fee",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL4H///qI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ShowNotesCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-11T00:49:41Z",
+      "side": 1,
+      "message": "Unnecessary.",
+      "revId": "320d55a35b2f7652e9feb9b7425719c4d7de6fee",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL4H///qE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ShowNotesCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-11T00:49:41Z",
+      "side": 1,
+      "message": "The local variable \"note\" is unnecessary.",
+      "revId": "320d55a35b2f7652e9feb9b7425719c4d7de6fee",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL4H///qM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ShowNotesCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-11T00:49:41Z",
+      "side": 1,
+      "message": "Unnecessary.",
+      "revId": "320d55a35b2f7652e9feb9b7425719c4d7de6fee",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
