@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL4H///m0\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/RawParseUtilsTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-11T15:08:58Z",
+      "side": 1,
+      "message": "I know this is handy, but I wonder if we should catch the exception and assert the message contains \"xyz\".",
+      "revId": "154767cd216f0671291ca6f7ad31d6394e24f453",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL4H///nA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RawParseUtils.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-11T15:08:58Z",
+      "side": 1,
+      "message": "Style-nit: Insert a blank line after a field declaration.",
+      "revId": "154767cd216f0671291ca6f7ad31d6394e24f453",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL4H///m8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RawParseUtils.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-11T15:08:58Z",
+      "side": 1,
+      "message": "Style-nit: Combine this static block with the block that follows it.",
+      "revId": "154767cd216f0671291ca6f7ad31d6394e24f453",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL4H///nE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RawParseUtils.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-11T15:08:58Z",
+      "side": 1,
+      "message": "This alias should be known by the JRE, and thus shouldn\u0027t be necessary in our map.",
+      "revId": "154767cd216f0671291ca6f7ad31d6394e24f453",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL4H///m4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RawParseUtils.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 669,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-11T15:08:58Z",
+      "side": 1,
+      "message": "Given how this is line wrapping, lets pull the lookup into a private method:\n\n  private static Charset charsetForAlias(String name) {\n    return encodingAliases.get(StringUtils.toLowerCase(name));\n  }\n\nand declare that helper method right below this parseEncoding method.",
+      "revId": "154767cd216f0671291ca6f7ad31d6394e24f453",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
