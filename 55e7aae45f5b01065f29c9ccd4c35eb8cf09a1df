@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL4H///mQ\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/RawParseUtilsTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-11T16:50:32Z",
+      "side": 1,
+      "message": "Don\u0027t rely on the JRE platform encoding here. Use a specific encoding, like Constants.encodeASCII(). This also applies to the other getBytes calls below.",
+      "revId": "55e7aae45f5b01065f29c9ccd4c35eb8cf09a1df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL4H///mM\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/RawParseUtilsTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-11T16:50:32Z",
+      "side": 1,
+      "message": "This is always true. You cannot throw the null object.",
+      "revId": "55e7aae45f5b01065f29c9ccd4c35eb8cf09a1df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL4H///mY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RawParseUtils.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-11T16:50:32Z",
+      "side": 1,
+      "message": "Style-nit: These two sections are distinct, there should be a blank line between initializing encodingAliases and initializing digits10.",
+      "revId": "55e7aae45f5b01065f29c9ccd4c35eb8cf09a1df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
