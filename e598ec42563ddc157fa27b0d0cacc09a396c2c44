@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL33///ZQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Git.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-03-31T22:27:16Z",
+      "side": 1,
+      "message": "Style-nit: trailing space.",
+      "revId": "e598ec42563ddc157fa27b0d0cacc09a396c2c44",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL33///ZM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/NotesCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-03-31T22:27:16Z",
+      "side": 1,
+      "message": "These should each be their own GitCommand class, with factory methods on Git like noteList(), noteShow(), noteEdit(). That matches with the branch \"command\".",
+      "revId": "e598ec42563ddc157fa27b0d0cacc09a396c2c44",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL33///ZI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/NotesCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-03-31T22:27:16Z",
+      "side": 1,
+      "message": "This should be a settable option.",
+      "revId": "e598ec42563ddc157fa27b0d0cacc09a396c2c44",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL33///ZA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/NotesCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-03-31T22:27:16Z",
+      "side": 1,
+      "message": "Don\u0027t look this up again, you must use the same commit that the map was read from.",
+      "revId": "e598ec42563ddc157fa27b0d0cacc09a396c2c44",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL33///ZE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/NotesCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-03-31T22:27:16Z",
+      "side": 1,
+      "message": "The inserter has to flush before this method is called.\n\nBut why are we doing a force update here? This should be setting the expected old object id and doing a normal fast-forward update.",
+      "revId": "e598ec42563ddc157fa27b0d0cacc09a396c2c44",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
