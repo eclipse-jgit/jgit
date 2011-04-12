@@ -42,3 +42,75 @@
 	license = Apache License, 2.0, New BSD license, MIT license
 	use = unmodified source & binary
 	state = approved
+
+[CQ "4564"]
+	description = cassandra Version: 0.7.0-beta2
+	license = Apache License, 2.0
+	use = unmodified source & binary
+	state = approved
+
+[CQ "4728"]
+	description = jsch Version: 0.1.44
+	license = New BSD license
+	use = unmodified source & binary
+	state = approved
+
+[CQ "4794"]
+	description = hector Version: 0.7.0-22 (*Including Changed Commit one file)
+	license = MIT License
+	use = unmodified source & binary
+	state = approved
+
+[CQ "4871"]
+	description = Apache Cassandra Version: 0.7.0 (PB 4816)
+	license = Apache License, 2.0
+	use = unmodified source & binary
+	state = approved
+
+[CQ "4872"]
+	description = High Scale Lib Version: 1.1.2 (PB Orbit CQ4821)
+	license = Public Domain
+	use = unmodified source & binary
+	state = approved
+
+[CQ "4873"]
+	description = Apache Thrift Java Library Version: 0.5 (PB 4818)
+	license = Apache License, 2.0
+	use = unmodified source & binary
+	state = approved
+
+[CQ "4876"]
+	description = Protocol Buffers Version: 2.4.0a
+	license = New BSD license
+	use = unmodified source & binary
+	state = approved
+
+[CQ "4893"]
+	description = Apache Zookeeper Version: 3.3.2
+	license = Apache License, 2.0
+	use = unmodified source & binary
+	state = approved
+
+[CQ "4895"]
+	description = Google Guava Version: r08
+	license = Apache License, 2.0
+	use = unmodified source & binary
+	state = approved
+
+[CQ "4896"]
+	description = Apache Commons Logging Jar Version: 1.1.1 (PB Orbit CQ1907)
+	license = Apache License, 2.0
+	use = unmodified source & binary
+	state = approved
+
+[CQ "4897"]
+	description = log4j Version: 1.2.16 *Subset*
+	license = Apache License, 2.0
+	use = unmodified source & binary
+	state = approved
+
+[CQ "4894"]
+	description = hbase Version: 0.90.0
+	license = Apache License, 2.0
+	use = unmodified source & binary
+	state = workswith
