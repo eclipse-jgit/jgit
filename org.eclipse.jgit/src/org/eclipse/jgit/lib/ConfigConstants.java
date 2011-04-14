@@ -63,6 +63,9 @@ public class ConfigConstants {
 	/** The "user" section */
 	public static final String CONFIG_USER_SECTION = "user";
 
+	/** The "gerrit" section */
+	public static final String CONFIG_GERRIT_SECTION = "gerrit";
+
 	/** The "algorithm" key */
 	public static final String CONFIG_KEY_ALGORITHM = "algorithm";
 
@@ -127,4 +130,7 @@ public class ConfigConstants {
 
 	/** The "local" key (used to configure {@link #CONFIG_KEY_AUTOSETUPREBASE} */
 	public static final String CONFIG_KEY_LOCAL = "local";
+
+	/** The "createchangeid" key */
+	public static final String CONFIG_KEY_CREATECHANGEID = "createchangeid";
 }
