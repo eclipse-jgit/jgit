@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL4H///K8\u003d",
+        "filename": "org.eclipse.jgit/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-18T14:08:53Z",
+      "side": 1,
+      "message": "Style-nit: Use spaces for indent.",
+      "revId": "8241d025bcc807c173065baabb4018c48e133593",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL4H///LA\u003d",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-18T14:08:53Z",
+      "side": 1,
+      "message": "Style-nit: Use spaces for indent.",
+      "revId": "8241d025bcc807c173065baabb4018c48e133593",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
