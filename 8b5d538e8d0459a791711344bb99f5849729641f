@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL4H///Ks\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/IndexDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-18T14:14:43Z",
+      "side": 1,
+      "message": "Please add \u003cli\u003econflicted files\u003c/li\u003e",
+      "revId": "8b5d538e8d0459a791711344bb99f5849729641f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL4H///Ko\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/IndexDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-18T14:14:43Z",
+      "side": 1,
+      "message": "Unit test?",
+      "revId": "8b5d538e8d0459a791711344bb99f5849729641f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
