@@ -168,8 +168,8 @@ public class PullCommandTest extends RepositoryTestCase {
 						"origin", "url");
 
 		assertFalse(res.getFetchResult().getTrackingRefUpdates().isEmpty());
-		assertEquals(res.getMergeResult().getMergeStatus(),
-				MergeStatus.CONFLICTING);
+		assertEquals(MergeStatus.CONFLICTING, res.getMergeResult()
+				.getMergeStatus());
 		String result = "<<<<<<< HEAD\nTarget change\n=======\n"
 				+ sourceChangeString + "\n";
 		assertFileContentsEqual(targetFile, result);
@@ -211,11 +211,85 @@ public class PullCommandTest extends RepositoryTestCase {
 		String sourceChangeString = "Master change\n>>>>>>> branch 'master' of local repository";
 
 		assertNull(res.getFetchResult());
-		assertEquals(res.getMergeResult().getMergeStatus(),
-				MergeStatus.CONFLICTING);
+		assertEquals(MergeStatus.CONFLICTING, res.getMergeResult()
+				.getMergeStatus());
 		String result = "<<<<<<< HEAD\nSlave change\n=======\n"
 				+ sourceChangeString + "\n";
 		assertFileContentsEqual(targetFile, result);
+		assertEquals(RepositoryState.MERGING, target.getRepository()
+				.getRepositoryState());
+	}
+
+	@Test
+	public void testPullDeletedChange() throws Exception {
+		PullResult res = target.pull().call();
+		// nothing to update since we don't have different data yet
+		assertTrue(res.getFetchResult().getTrackingRefUpdates().isEmpty());
+		assertTrue(res.getMergeResult().getMergeStatus()
+				.equals(MergeStatus.ALREADY_UP_TO_DATE));
+
+		assertFileContentsEqual(targetFile, "Hello world");
+
+		// delete the source file
+		targetFile.delete();
+		source.rm().addFilepattern(targetFile.getName()).call();
+		source.commit().setMessage("Source deleted in remote").call();
+
+		// change the target file
+		writeToFile(targetFile, "Target change");
+		target.add().addFilepattern(targetFile.getName()).call();
+		target.commit().setMessage("Target change in local").call();
+
+		res = target.pull().call();
+
+		// String sourceChangeString =
+		// "Source change\n>>>>>>> branch 'master' of "
+		// + target.getRepository().getConfig().getString("remote",
+		// "origin", "url");
+
+		assertFalse(res.getFetchResult().getTrackingRefUpdates().isEmpty());
+		assertEquals(MergeStatus.CONFLICTING, res.getMergeResult()
+				.getMergeStatus());
+		// String result = "<<<<<<< HEAD\nTarget change\n=======\n"
+		// + sourceChangeString + "\n";
+		// assertFileContentsEqual(targetFile, result);
+		assertEquals(RepositoryState.MERGING, target.getRepository()
+				.getRepositoryState());
+	}
+
+	@Test
+	public void testPullChangedDeletion() throws Exception {
+		PullResult res = target.pull().call();
+		// nothing to update since we don't have different data yet
+		assertTrue(res.getFetchResult().getTrackingRefUpdates().isEmpty());
+		assertTrue(res.getMergeResult().getMergeStatus()
+				.equals(MergeStatus.ALREADY_UP_TO_DATE));
+
+		assertFileContentsEqual(targetFile, "Hello world");
+
+		// change the source file
+		writeToFile(targetFile, "Source change");
+		source.add().addFilepattern(targetFile.getName()).call();
+		source.commit().setMessage("Source change in remote").call();
+
+		// delete the target file
+		targetFile.delete();
+		target.rm().addFilepattern(targetFile.getName()).call();
+		target.commit().setMessage("Target deleted in local").call();
+
+		res = target.pull().call();
+
+		// String sourceChangeString =
+		// "Source change\n>>>>>>> branch 'master' of "
+		// + target.getRepository().getConfig().getString("remote",
+		// "origin", "url");
+
+		assertFalse(res.getFetchResult().getTrackingRefUpdates().isEmpty());
+		assertEquals(MergeStatus.CONFLICTING, res.getMergeResult()
+				.getMergeStatus());
+		// String result = "<<<<<<< HEAD\nTarget change\n=======\n"
+		// + sourceChangeString + "\n";
+		// assertFileContentsEqual(targetFile, result);
 		assertEquals(RepositoryState.MERGING, target.getRepository()
 				.getRepositoryState());
 	}
