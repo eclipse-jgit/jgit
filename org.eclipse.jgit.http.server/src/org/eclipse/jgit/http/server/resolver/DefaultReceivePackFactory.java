@@ -43,12 +43,16 @@
 
 package org.eclipse.jgit.http.server.resolver;
 
+import java.security.cert.X509Certificate;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.Config.SectionParser;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.lib.Config.SectionParser;
 import org.eclipse.jgit.transport.ReceivePack;
 import org.eclipse.jgit.transport.resolver.ReceivePackFactory;
 import org.eclipse.jgit.transport.resolver.ServiceNotAuthorizedException;
@@ -101,6 +105,18 @@ public class DefaultReceivePackFactory implements
 
 		if (user != null && !"".equals(user))
 			return createFor(req, db, user);
+
+		X509Certificate[] certs = (X509Certificate[]) req
+				.getAttribute("javax.servlet.request.X509Certificate");
+		if (certs != null && certs.length > 0) {
+			String name = certs[0].getSubjectDN().getName();
+			Matcher m = Pattern.compile("CN=([^,]*),.*").matcher(name);
+			if (m.matches()) {
+				user = m.group(1);
+				return createFor(req, db, user);
+			}
+		}
+
 		throw new ServiceNotAuthorizedException();
 	}
 

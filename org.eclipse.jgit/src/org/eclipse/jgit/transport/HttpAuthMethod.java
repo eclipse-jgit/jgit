@@ -58,6 +58,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Random;
 
+import javax.net.ssl.HttpsURLConnection;
+
 import org.eclipse.jgit.util.Base64;
 
 /**
@@ -79,8 +81,11 @@ abstract class HttpAuthMethod {
 	 */
 	static HttpAuthMethod scanResponse(HttpURLConnection conn) {
 		String hdr = conn.getHeaderField(HDR_WWW_AUTHENTICATE);
-		if (hdr == null || hdr.length() == 0)
+		if (hdr == null || hdr.length() == 0) {
+			if (conn instanceof HttpsURLConnection)
+				return new SSL();
 			return NONE;
+		}
 
 		int sp = hdr.indexOf(' ');
 		if (sp < 0)
@@ -376,6 +381,14 @@ abstract class HttpAuthMethod {
 				p.put(name, value);
 			}
 			return p;
+		}
+	}
+
+	/** TODO - SSL with client certificate */
+	private static class SSL extends None {
+		@Override
+		boolean authorize(URIish uri, CredentialsProvider credentialsProvider) {
+			return true;
 		}
 	}
 }

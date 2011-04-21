@@ -44,6 +44,7 @@
 package org.eclipse.jgit.junit.http;
 
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
@@ -61,11 +62,13 @@ import org.eclipse.jetty.security.ConstraintMapping;
 import org.eclipse.jetty.security.ConstraintSecurityHandler;
 import org.eclipse.jetty.security.MappedLoginService;
 import org.eclipse.jetty.security.authentication.BasicAuthenticator;
+import org.eclipse.jetty.security.authentication.ClientCertAuthenticator;
 import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.UserIdentity;
 import org.eclipse.jetty.server.handler.ContextHandlerCollection;
 import org.eclipse.jetty.server.nio.SelectChannelConnector;
+import org.eclipse.jetty.server.ssl.SslSelectChannelConnector;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
 import org.eclipse.jgit.transport.URIish;
@@ -96,7 +99,9 @@ public class AppServer {
 
 	private final Server server;
 
-	private final Connector connector;
+	private final SelectChannelConnector connector;
+
+	private SslSelectChannelConnector sslConnector;
 
 	private final ContextHandlerCollection contexts;
 
@@ -138,6 +143,32 @@ public class AppServer {
 	}
 
 	/**
+	 * Create an SSL connector
+	 * <p>
+	 * This method should be invoked before the server is started.
+	 *
+	 * @param ksPath
+	 *            full path of the key store (and trust store)
+	 * @param ksPassword
+	 *            password to access the key store (and trust store)
+	 */
+	public void addSslConnector(final String ksPath, final String ksPassword) {
+		assertNotYetSetUp();
+		sslConnector = new SslSelectChannelConnector();
+		sslConnector.setHost(connector.getHost());
+		sslConnector.setPort(8443);
+		sslConnector.setKeystore(ksPath);
+		sslConnector.setPassword(ksPassword);
+		sslConnector.setKeyPassword(ksPassword);
+		sslConnector.setTruststore(ksPath);
+		sslConnector.setTrustPassword(ksPassword);
+		sslConnector.setWantClientAuth(false);
+		sslConnector.setNeedClientAuth(true);
+
+		server.addConnector(sslConnector);
+	}
+
+	/**
 	 * Create a new servlet context within the server.
 	 * <p>
 	 * This method should be invoked before the server is started, once for each
@@ -166,7 +197,16 @@ public class AppServer {
 		return ctx;
 	}
 
+	public ServletContextHandler authClientCert(ServletContextHandler ctx) {
+		assertNotNull(sslConnector);
+		assertNotYetSetUp();
+		auth(ctx, new ClientCertAuthenticator());
+		return ctx;
+	}
+
 	private void auth(ServletContextHandler ctx, Authenticator authType) {
+		final boolean clientCertAuth = authType instanceof ClientCertAuthenticator;
+
 		final String role = "can-access";
 
 		MappedLoginService users = new MappedLoginService() {
@@ -183,7 +223,8 @@ public class AppServer {
 
 		ConstraintMapping cm = new ConstraintMapping();
 		cm.setConstraint(new Constraint());
-		cm.getConstraint().setAuthenticate(true);
+		if (!clientCertAuth)
+			cm.getConstraint().setAuthenticate(true);
 		cm.getConstraint().setDataConstraint(Constraint.DC_NONE);
 		cm.getConstraint().setRoles(new String[] { role });
 		cm.setPathSpec("/*");
@@ -196,7 +237,11 @@ public class AppServer {
 		sec.setConstraintMappings(new ConstraintMapping[] { cm });
 		sec.setHandler(ctx);
 
-		contexts.removeHandler(ctx);
+		if (clientCertAuth)
+			ctx.setSecurityHandler(sec);
+
+		if (!clientCertAuth)
+			contexts.removeHandler(ctx);
 		contexts.addHandler(sec);
 	}
 
@@ -233,11 +278,32 @@ public class AppServer {
 	 * @return URI to reference this server's root context.
 	 */
 	public URI getURI() {
+		return getURI(false);
+	}
+
+	/**
+	 * Get the URI to reference this server.
+	 * <p>
+	 * The returned URI includes the proper host name and port number, but does
+	 * not contain a path.
+	 *
+	 * @param ssl
+	 *            whether this is an SSL connection or not
+	 * @return URI to reference this server's root context.
+	 */
+	public URI getURI(boolean ssl) {
 		assertAlreadySetUp();
-		String host = connector.getHost();
+		String host;
+		if (ssl) {
+			assertNotNull(sslConnector);
+			host = sslConnector.getHost();
+		} else {
+			host = connector.getHost();
+		}
 		if (host.contains(":") && !host.startsWith("["))
 			host = "[" + host + "]";
-		final String uri = "http://" + host + ":" + getPort();
+		final String uri = (ssl ? "https" : "http") + "://" + host + ":"
+				+ getPort(ssl);
 		try {
 			return new URI(uri);
 		} catch (URISyntaxException e) {
@@ -247,8 +313,22 @@ public class AppServer {
 
 	/** @return the local port number the server is listening on. */
 	public int getPort() {
+		return getPort(false);
+	}
+
+	/**
+	 * @param ssl
+	 *            whether this is an SSL connection or not
+	 * @return the local port number the server is listening on.
+	 */
+	public int getPort(boolean ssl) {
 		assertAlreadySetUp();
-		return ((SelectChannelConnector) connector).getLocalPort();
+		if (ssl) {
+			assertNotNull(sslConnector);
+			return sslConnector.getLocalPort();
+		} else {
+			return connector.getLocalPort();
+		}
 	}
 
 	/** @return all requests since the server was started. */

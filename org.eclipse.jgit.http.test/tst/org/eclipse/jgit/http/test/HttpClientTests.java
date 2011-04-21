@@ -53,6 +53,7 @@ import static org.junit.Assert.fail;
 import java.io.File;
 import java.net.URI;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -68,20 +69,26 @@ import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.junit.http.AccessEvent;
 import org.eclipse.jgit.junit.http.AppServer;
 import org.eclipse.jgit.junit.http.HttpTestCase;
+import org.eclipse.jgit.junit.http.KeyStoreHelper;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.storage.file.FileRepository;
 import org.eclipse.jgit.transport.FetchConnection;
+import org.eclipse.jgit.transport.PushConnection;
 import org.eclipse.jgit.transport.Transport;
 import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 import org.eclipse.jgit.transport.resolver.RepositoryResolver;
 import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class HttpClientTests extends HttpTestCase {
@@ -91,31 +98,71 @@ public class HttpClientTests extends HttpTestCase {
 
 	private URIish dumbAuthBasicURI;
 
+	private URIish dumbAuthClientCertURI;
+
 	private URIish smartAuthNoneURI;
 
 	private URIish smartAuthBasicURI;
 
+	private URIish smartAuthClientCertURI;
+
+	private static String pathToServerKeyStore = null;
+
+	private static String serverKeyStorePassword = null;
+
+	private static String pathToSslCAInfo = null;
+
+	private static String pathToSslKey = null;
+
+	private static String sslKeyPassword = null;
+
+	@BeforeClass
+	public static void setUpClass() throws Exception {
+		// Create the keys, certificates etc.
+		pathToServerKeyStore = KeyStoreHelper.pathToServerKeyStore();
+		serverKeyStorePassword = KeyStoreHelper.serverKeyStorePassword();
+
+		pathToSslCAInfo = KeyStoreHelper.pathToSslCAInfo();
+		pathToSslKey = KeyStoreHelper.pathToSslKeyPKCS12();
+		sslKeyPassword = KeyStoreHelper.sslKeyPassword();
+	}
+
+	@AfterClass
+	public static void tearDownClass() throws Exception {
+		// Remove the keys, certificates etc.
+		KeyStoreHelper.cleanUp();
+	}
+
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
+
+		// We need an SSL connection
+		server.addSslConnector(pathToServerKeyStore, serverKeyStorePassword);
 
 		remoteRepository = createTestRepository();
 		remoteRepository.update(master, remoteRepository.commit().create());
 
 		ServletContextHandler dNone = dumb("/dnone");
 		ServletContextHandler dBasic = server.authBasic(dumb("/dbasic"));
+		ServletContextHandler dClientCert = server
+				.authClientCert(dumb("/dclientcert"));
 
 		ServletContextHandler sNone = smart("/snone");
 		ServletContextHandler sBasic = server.authBasic(smart("/sbasic"));
+		ServletContextHandler sClientCert = server
+				.authClientCert(smart("/sclientcert"));
 
 		server.setUp();
 
 		final String srcName = nameOf(remoteRepository.getRepository());
 		dumbAuthNoneURI = toURIish(dNone, srcName);
 		dumbAuthBasicURI = toURIish(dBasic, srcName);
+		dumbAuthClientCertURI = toURIish(dClientCert, srcName);
 
 		smartAuthNoneURI = toURIish(sNone, srcName);
 		smartAuthBasicURI = toURIish(sBasic, srcName);
+		smartAuthClientCertURI = toURIish(sClientCert, srcName);
 	}
 
 	private ServletContextHandler dumb(final String path) {
@@ -311,7 +358,7 @@ public class HttpClientTests extends HttpTestCase {
 	}
 
 	@Test
-	public void testListRemote_Dumb_Auth() throws Exception {
+	public void testListRemote_Dumb_BasicAuth() throws Exception {
 		Repository dst = createBareRepository();
 		Transport t = Transport.open(dst, dumbAuthBasicURI);
 		t.setCredentialsProvider(new UsernamePasswordCredentialsProvider(
@@ -331,6 +378,103 @@ public class HttpClientTests extends HttpTestCase {
 			String exp = dumbAuthBasicURI + ": "
 					+ JGitText.get().notAuthorized;
 			assertEquals(exp, err.getMessage());
+		} finally {
+			t.close();
+		}
+	}
+
+	@Test
+	public void testListRemote_Dumb_ClientCertAuth() throws Exception {
+		Repository dst = createBareRepository();
+		StoredConfig config = dst.getConfig();
+		config.setBoolean("http", null, "sslVerify", true);
+		config.setString("http", null, "sslCAInfo", pathToSslCAInfo);
+		config.setString("http", null, "sslKey", pathToSslKey);
+		config.save();
+		Transport t = Transport.open(dst, dumbAuthClientCertURI);
+		t.setCredentialsProvider(new UsernamePasswordCredentialsProvider(
+				AppServer.username, AppServer.password, "client"));
+		try {
+			FetchConnection c = t.openFetch();
+			try {
+				Ref head = c.getRef(Constants.HEAD);
+				assertNotNull(head);
+				assertTrue(head
+						.getObjectId()
+						.equals(ObjectId
+								.fromString("c58a4bec12cbf30cc1894f5ce8cf604bd6bad596")));
+			} finally {
+				c.close();
+			}
+		} finally {
+			t.close();
+		}
+
+		config = dst.getConfig();
+		config.setBoolean("http", null, "sslVerify", false);
+		config.setString("http", null, "sslKey", pathToSslKey);
+		config.setString("http", null, "sslKeyPassword", sslKeyPassword);
+		config.save();
+		t = Transport.open(dst, dumbAuthClientCertURI);
+		t.setCredentialsProvider(new UsernamePasswordCredentialsProvider(
+				AppServer.username, AppServer.password, "client"));
+		try {
+			FetchConnection c = t.openFetch();
+			try {
+				Ref head = c.getRef(Constants.HEAD);
+				assertNotNull(head);
+				assertTrue(head
+						.getObjectId()
+						.equals(ObjectId
+								.fromString("c58a4bec12cbf30cc1894f5ce8cf604bd6bad596")));
+			} finally {
+				c.close();
+			}
+		} finally {
+			t.close();
+		}
+	}
+
+	@Test
+	public void testListRemote_Smart_PushWithClientCertAuth() throws Exception {
+		Repository dst = createBareRepository();
+		StoredConfig config = dst.getConfig();
+		config.setBoolean("http", null, "sslVerify", true);
+		config.setString("http", null, "sslCAInfo", pathToSslCAInfo);
+		config.setString("http", null, "sslKey", pathToSslKey);
+		config.save();
+		Transport t = Transport.open(dst, smartAuthClientCertURI);
+		t.setCredentialsProvider(new UsernamePasswordCredentialsProvider(
+				AppServer.username, AppServer.password, sslKeyPassword));
+		try {
+			PushConnection c = t.openPush();
+			try {
+				Map<String, Ref> refs = c.getRefsMap();
+				assertNotNull(refs);
+				assertTrue(refs.containsKey("refs/heads/master"));
+			} finally {
+				c.close();
+			}
+		} finally {
+			t.close();
+		}
+
+		config = dst.getConfig();
+		config.setBoolean("http", null, "sslVerify", false);
+		config.setString("http", null, "sslKey", pathToSslKey);
+		config.save();
+		t = Transport.open(dst, smartAuthClientCertURI);
+		t.setCredentialsProvider(new UsernamePasswordCredentialsProvider(
+				AppServer.username, AppServer.password, sslKeyPassword));
+		try {
+			PushConnection c = t.openPush();
+			try {
+				Map<String, Ref> refs = c.getRefsMap();
+				assertNotNull(refs);
+				assertTrue(refs.containsKey("refs/heads/master"));
+			} finally {
+				c.close();
+			}
 		} finally {
 			t.close();
 		}
