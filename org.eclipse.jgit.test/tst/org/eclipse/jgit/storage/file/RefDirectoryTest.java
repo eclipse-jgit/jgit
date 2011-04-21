@@ -456,6 +456,19 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 	}
 
 	@Test
+	public void testGetRefs_LooseSortedCorrectly() throws IOException {
+		Map<String, Ref> refs;
+
+		writeLooseRef("refs/heads/project1/A", A);
+		writeLooseRef("refs/heads/project1-B", B);
+
+		refs = refdir.getRefs(RefDatabase.ALL);
+		assertEquals(2, refs.size());
+		assertEquals(A, refs.get("refs/heads/project1/A").getObjectId());
+		assertEquals(B, refs.get("refs/heads/project1-B").getObjectId());
+	}
+
+	@Test
 	public void testGetRefs_TagsOnly_AllPacked() throws IOException {
 		Map<String, Ref> tags;
 		Ref a;
