@@ -55,6 +55,8 @@ public class UsernamePasswordCredentialsProvider extends CredentialsProvider {
 
 	private char[] password;
 
+	private char[] certPassword;
+
 	/**
 	 * Initialize the provider with a single username and password.
 	 *
@@ -76,6 +78,34 @@ public class UsernamePasswordCredentialsProvider extends CredentialsProvider {
 		this.password = password;
 	}
 
+	/**
+	 * Initialize the provider with a username, password and passwords for the
+	 * personal certificate/key.
+	 *
+	 * @param username
+	 * @param password
+	 * @param certPassword
+	 */
+	public UsernamePasswordCredentialsProvider(String username,
+			String password, String certPassword) {
+		this(username, (password == null) ? null : password.toCharArray(),
+				(certPassword == null) ? null : certPassword.toCharArray());
+	}
+
+	/**
+	 * Initialize the provider with a single username and password.
+	 *
+	 * @param username
+	 * @param password
+	 * @param certPassword
+	 */
+	public UsernamePasswordCredentialsProvider(String username,
+			char[] password, char[] certPassword) {
+		this.username = username;
+		this.password = password;
+		this.certPassword = certPassword;
+	}
+
 	@Override
 	public boolean isInteractive() {
 		return false;
@@ -88,6 +118,9 @@ public class UsernamePasswordCredentialsProvider extends CredentialsProvider {
 				continue;
 
 			else if (i instanceof CredentialItem.Password)
+				continue;
+
+			else if (i instanceof CredentialItem.CertPassword)
 				continue;
 
 			else
@@ -106,6 +139,9 @@ public class UsernamePasswordCredentialsProvider extends CredentialsProvider {
 			else if (i instanceof CredentialItem.Password)
 				((CredentialItem.Password) i).setValue(password);
 
+			else if (i instanceof CredentialItem.CertPassword)
+				((CredentialItem.CertPassword) i).setValue(certPassword);
+
 			else
 				throw new UnsupportedCredentialItem(uri, i.getPromptText());
 		}
@@ -119,6 +155,10 @@ public class UsernamePasswordCredentialsProvider extends CredentialsProvider {
 		if (password != null) {
 			Arrays.fill(password, (char) 0);
 			password = null;
+		}
+		if (certPassword != null) {
+			Arrays.fill(certPassword, (char) 0);
+			certPassword = null;
 		}
 	}
 }
