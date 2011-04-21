@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org>
+ * Copyright (C) 2008, 2011 Shawn O. Pearce <spearce@spearce.org>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -262,28 +262,50 @@ public abstract class FS {
 	 * @param encoding
 	 * @return the one-line output of the command
 	 */
-	protected static String readPipe(File dir, String[] command, String encoding) {
+	protected static String readPipe(final File dir, final String[] command,
+			final String encoding) {
 		try {
-			final Process p = Runtime.getRuntime().exec(command, null, dir);
-			final BufferedReader lineRead = new BufferedReader(
-					new InputStreamReader(p.getInputStream(), encoding));
-			String r = null;
-			try {
-				r = lineRead.readLine();
-			} finally {
-				p.getOutputStream().close();
-				p.getErrorStream().close();
-				lineRead.close();
-			}
+			final IOException[] readException = new IOException[1];
+			final String[] r = new String[1];
 
-			for (;;) {
-				try {
-					if (p.waitFor() == 0 && r != null && r.length() > 0)
-						return r;
-					break;
-				} catch (InterruptedException ie) {
-					// Stop bothering me, I have a zombie to reap.
+			/*
+			 * Use a separate Thread so we don't wait forever for a result (a
+			 * stalled pipe in the UI would be bad)
+			 */
+			final Thread piper = new Thread() {
+				public void run() {
+					Process p = null;
+					try {
+						p = Runtime.getRuntime().exec(command, null, dir);
+						BufferedReader lineReader = new BufferedReader(
+								new InputStreamReader(p.getInputStream(),
+										encoding));
+						try {
+							r[0] = lineReader.readLine();
+						} finally {
+							p.getOutputStream().close();
+							p.getErrorStream().close();
+							lineReader.close();
+						}
+					} catch (IOException e) {
+						readException[0] = e;
+					}
 				}
+			};
+
+			piper.start();
+			try {
+				// arbitrary choice to only wait up to 10s
+				piper.join(10000);
+				if (r[0] != null && r[0].length() > 0) {
+					return r[0];
+				}
+
+			} catch (InterruptedException e) {
+				System.err.println("interrupted executing " + command[0]);
+			}
+			if (readException[0] != null) {
+				throw readException[0];
 			}
 		} catch (IOException e) {
 			if (SystemReader.getInstance().getProperty("jgit.fs.debug") != null)
