@@ -22,6 +22,7 @@ Import-Package: org.eclipse.jgit;version="[0.12.0,0.13.0)",
  org.eclipse.jgit.iplog;version="[0.12.0,0.13.0)",
  org.eclipse.jgit.junit;version="[0.12.0,0.13.0)",
  org.eclipse.jgit.lib;version="[0.12.0,0.13.0)",
+ org.eclipse.jgit.lines;version="[0.12.0,0.13.0)",
  org.eclipse.jgit.merge;version="[0.12.0,0.13.0)",
  org.eclipse.jgit.nls;version="[0.12.0,0.13.0)",
  org.eclipse.jgit.notes;version="[0.12.0,0.13.0)",
@@ -37,7 +38,7 @@ Import-Package: org.eclipse.jgit;version="[0.12.0,0.13.0)",
  org.eclipse.jgit.treewalk.filter;version="[0.12.0,0.13.0)",
  org.eclipse.jgit.util;version="[0.12.0,0.13.0)",
  org.eclipse.jgit.util.io;version="[0.12.0,0.13.0)",
- org.junit;version="[4.0.0,5.0.0)",
- org.hamcrest.core;version="[1.1.0,2.0.0)"
+ org.hamcrest.core;version="[1.1.0,2.0.0)",
+ org.junit;version="[4.0.0,5.0.0)"
 Require-Bundle: com.jcraft.jsch;bundle-version="[0.1.37,0.2.0)"
  
