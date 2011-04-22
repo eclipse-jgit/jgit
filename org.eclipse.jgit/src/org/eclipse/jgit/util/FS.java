@@ -50,6 +50,9 @@ import java.io.InputStreamReader;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 
+import org.eclipse.jgit.util.io.InterruptTimer;
+import org.eclipse.jgit.util.io.TimeoutInputStream;
+
 /** Abstraction to support various file system operations not in Java. */
 public abstract class FS {
 	/** The auto-detected implementation selected for this operating system and JRE. */
@@ -262,50 +265,24 @@ public abstract class FS {
 	 * @param encoding
 	 * @return the one-line output of the command
 	 */
-	protected static String readPipe(final File dir, final String[] command,
-			final String encoding) {
+	protected static String readPipe(File dir, String[] command, String encoding) {
 		try {
-			final IOException[] readException = new IOException[1];
-			final String[] r = new String[1];
-
-			/*
-			 * Use a separate Thread so we don't wait forever for a result (a
-			 * stalled pipe in the UI would be bad)
-			 */
-			final Thread piper = new Thread() {
-				public void run() {
-					Process p = null;
-					try {
-						p = Runtime.getRuntime().exec(command, null, dir);
-						BufferedReader lineReader = new BufferedReader(
-								new InputStreamReader(p.getInputStream(),
-										encoding));
-						try {
-							r[0] = lineReader.readLine();
-						} finally {
-							p.getOutputStream().close();
-							p.getErrorStream().close();
-							lineReader.close();
-						}
-					} catch (IOException e) {
-						readException[0] = e;
-					}
-				}
-			};
-
-			piper.start();
+			InterruptTimer timer = new InterruptTimer("FS.readPipe");
+			Process p = null;
 			try {
-				// arbitrary choice to only wait up to 10s
-				piper.join(10000);
-				if (r[0] != null && r[0].length() > 0) {
-					return r[0];
-				}
-
-			} catch (InterruptedException e) {
-				System.err.println("interrupted executing " + command[0]);
-			}
-			if (readException[0] != null) {
-				throw readException[0];
+				p = Runtime.getRuntime().exec(command, null, dir);
+				TimeoutInputStream in = new TimeoutInputStream(
+						p.getInputStream(), timer);
+				in.setTimeout(10000);
+				BufferedReader lineRead = new BufferedReader(
+						new InputStreamReader(in, encoding));
+				String r = lineRead.readLine();
+				if (r != null && r.length() > 0)
+					return r;
+			} finally {
+				timer.terminate();
+				p.getOutputStream().close();
+				p.getErrorStream().close();
 			}
 		} catch (IOException e) {
 			if (SystemReader.getInstance().getProperty("jgit.fs.debug") != null)
