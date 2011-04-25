@@ -1,0 +1,53 @@
+<project name="test-git-ant-tasks" default="all">
+
+	<path id="jgit.classpath">
+		<pathelement path="target/classes" />
+		<pathelement path="../org.eclipse.jgit/target/org.eclipse.jgit-0.12.0-SNAPSHOT.jar" />
+		<pathelement path="${user.home}/.m2/repository/com/jcraft/jsch/0.1.44-1/jsch-0.1.44-1.jar" />
+	</path>
+
+	<taskdef classname="org.eclipse.jgit.ant.tasks.GitCloneTask" classpathref="jgit.classpath" name="git-clone" />
+	<taskdef classname="org.eclipse.jgit.ant.tasks.GitInitTask" classpathref="jgit.classpath" name="git-init" />
+	<taskdef classname="org.eclipse.jgit.ant.tasks.GitCheckoutTask" classpathref="jgit.classpath" name="git-checkout" />
+
+	<target name="clean" unless="noclean">
+		<delete dir="tmp" />
+	</target>
+
+	<target name="init">
+		<mkdir dir="tmp" />
+	</target>
+
+	<target name="clone-repo">
+		<git-clone uri="git://github.com/ketan/SWTBot.git" dest="tmp/clone/repo" />
+    <!-- failing, see http://egit.eclipse.org/r/#change,2491 -->
+		<git-clone uri="git://github.com/ketan/SWTBot.git" dest="tmp/clone/repo.git" bare="true"/>
+	</target>
+
+	<target name="init-repo">
+		<git-init dest="tmp/init/empty-repo" />
+		<git-init dest="tmp/init/empty-repo.git" bare="true" />
+	</target>
+
+	<target name="checkout-repo">
+		<git-checkout src="tmp/clone/repo" branch="origin/master" />
+		<git-checkout src="tmp/clone/repo" branch="origin/recorder-spike" />
+		<exec dir="tmp/clone/repo" command="git branch -D new_branch" />
+		<git-checkout src="tmp/clone/repo" branch="new_branch" createbranch="true" force="true" />
+	</target>
+	
+	<target name="push-repo">
+		<delete dir="tmp/push/repo" verbose="false"/>
+		<git-clone uri="file://${basedir}/tmp/clone/repo" dest="tmp/push/repo" />
+		<exec dir="tmp/clone/repo" command="date" output="tmp/clone/repo/tmpfile"/>
+		<exec dir="tmp/clone/repo" command="git add tmpfile"/>
+		<exec dir="tmp/clone/repo" command="git commit -m 'some tempfile'"/>
+    <!--
+    Work in progress
+    <git-push />
+    -->
+	</target>
+
+	<target name="all" depends="clean, init, init-repo, clone-repo, checkout-repo, push-repo" />
+
+</project>
