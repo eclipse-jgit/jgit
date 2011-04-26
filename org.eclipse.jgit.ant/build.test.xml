@@ -18,8 +18,8 @@
 
 	<target name="clone-repo">
 		<git-clone uri="git://github.com/ketan/SWTBot.git" dest="tmp/clone/repo" />
-    <!-- failing, see http://egit.eclipse.org/r/#change,2491 -->
-		<git-clone uri="git://github.com/ketan/SWTBot.git" dest="tmp/clone/repo.git" bare="true"/>
+		<!-- failing, see http://egit.eclipse.org/r/#change,2491 -->
+		<git-clone uri="git://github.com/ketan/SWTBot.git" dest="tmp/clone/repo.git" bare="true" />
 	</target>
 
 	<target name="init-repo">
@@ -33,17 +33,23 @@
 		<exec dir="tmp/clone/repo" command="git branch -D new_branch" />
 		<git-checkout src="tmp/clone/repo" branch="new_branch" createbranch="true" force="true" />
 	</target>
-	
+
 	<target name="push-repo">
-		<delete dir="tmp/push/repo" verbose="false"/>
+		<delete dir="tmp/push/repo" verbose="false" />
+
 		<git-clone uri="file://${basedir}/tmp/clone/repo" dest="tmp/push/repo" />
-		<exec dir="tmp/clone/repo" command="date" output="tmp/clone/repo/tmpfile"/>
-		<exec dir="tmp/clone/repo" command="git add tmpfile"/>
-		<exec dir="tmp/clone/repo" command="git commit -m 'some tempfile'"/>
-    <!--
-    Work in progress
-    <git-push />
-    -->
+
+		<exec dir="tmp/push/repo" executable="date" output="tmp/push/repo/tmpfile" />
+
+		<exec dir="tmp/push/repo" executable="git">
+			<arg line="add tmpfile" />
+		</exec>
+
+		<exec dir="tmp/push/repo" executable="git">
+			<arg line="commit -m 'some tempfile'" />
+		</exec>
+
+		<git-push src="tmp/push/repo" />
 	</target>
 
 	<target name="all" depends="clean, init, init-repo, clone-repo, checkout-repo, push-repo" />
