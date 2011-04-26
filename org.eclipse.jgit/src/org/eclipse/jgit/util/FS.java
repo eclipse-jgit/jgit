@@ -46,9 +46,11 @@ package org.eclipse.jgit.util;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
+import java.util.Arrays;
 
 /** Abstraction to support various file system operations not in Java. */
 public abstract class FS {
@@ -263,30 +265,69 @@ public abstract class FS {
 	 * @return the one-line output of the command
 	 */
 	protected static String readPipe(File dir, String[] command, String encoding) {
+		final boolean debug = SystemReader.getInstance().getProperty(
+				"jgit.fs.debug") != null;
 		try {
+			if (debug)
+				System.out.println("readpipe " + Arrays.asList(command) + ","
+						+ dir);
 			final Process p = Runtime.getRuntime().exec(command, null, dir);
 			final BufferedReader lineRead = new BufferedReader(
 					new InputStreamReader(p.getInputStream(), encoding));
+			p.getOutputStream().close();
+			Thread gobbler = new Thread() {
+				public void run() {
+					InputStream is = p.getErrorStream();
+					try {
+						int ch;
+						if (debug)
+							while ((ch = is.read()) != -1)
+								System.err.print((char) ch);
+						else
+							while (is.read() != -1) {
+								// ignore
+							}
+					} catch (IOException e) {
+						e.printStackTrace(System.err);
+					}
+					try {
+						is.close();
+					} catch (IOException e) {
+						e.printStackTrace(System.err);
+						// can't do anything sensible
+					}
+				}
+			};
+			gobbler.start();
 			String r = null;
 			try {
 				r = lineRead.readLine();
+				if (debug)
+					System.err.println("readpipe returned '" + r + "'");
+				String l;
+				while ((l = lineRead.readLine()) != null) {
+					if (debug)
+						System.err.println(l);
+				}
 			} finally {
-				p.getOutputStream().close();
 				p.getErrorStream().close();
 				lineRead.close();
 			}
 
 			for (;;) {
 				try {
-					if (p.waitFor() == 0 && r != null && r.length() > 0)
+					int rc = p.waitFor();
+					if (rc == 0 && r != null && r.length() > 0)
 						return r;
+					if (debug)
+						System.err.println("readpipe rc=" + rc);
 					break;
 				} catch (InterruptedException ie) {
 					// Stop bothering me, I have a zombie to reap.
 				}
 			}
 		} catch (IOException e) {
-			if (SystemReader.getInstance().getProperty("jgit.fs.debug") != null)
+			if (debug)
 				System.err.println(e);
 			// Ignore error (but report)
 		}
