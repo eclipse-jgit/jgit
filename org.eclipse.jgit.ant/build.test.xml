@@ -6,9 +6,7 @@
 		<pathelement path="${user.home}/.m2/repository/com/jcraft/jsch/0.1.44-1/jsch-0.1.44-1.jar" />
 	</path>
 
-	<taskdef classname="org.eclipse.jgit.ant.tasks.GitCloneTask" classpathref="jgit.classpath" name="git-clone" />
-	<taskdef classname="org.eclipse.jgit.ant.tasks.GitInitTask" classpathref="jgit.classpath" name="git-init" />
-	<taskdef classname="org.eclipse.jgit.ant.tasks.GitCheckoutTask" classpathref="jgit.classpath" name="git-checkout" />
+	<taskdef classpathref="jgit.classpath" resource="org/eclipse/jgit/ant/ant-tasks.properties" />
 
 	<target name="clean" unless="noclean">
 		<delete dir="tmp" />
