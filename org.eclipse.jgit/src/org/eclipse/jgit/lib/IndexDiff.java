@@ -286,6 +286,15 @@ public class IndexDiff {
 			WorkingTreeIterator workingTreeIterator = treeWalk.getTree(WORKDIR,
 					WorkingTreeIterator.class);
 
+			if (dirCacheIterator != null) {
+				final DirCacheEntry dirCacheEntry = dirCacheIterator
+						.getDirCacheEntry();
+				if (dirCacheEntry != null && dirCacheEntry.getStage() > 0) {
+					conflicts.add(treeWalk.getPathString());
+					continue;
+				}
+			}
+
 			if (treeIterator != null) {
 				if (dirCacheIterator != null) {
 					if (!treeIterator.idEqual(dirCacheIterator)
@@ -323,12 +332,6 @@ public class IndexDiff {
 						// in index, in workdir, content differs => modified
 						modified.add(treeWalk.getPathString());
 					}
-				}
-
-				final DirCacheEntry dirCacheEntry = dirCacheIterator
-						.getDirCacheEntry();
-				if (dirCacheEntry != null && dirCacheEntry.getStage() > 0) {
-					conflicts.add(treeWalk.getPathString());
 				}
 			}
 		}

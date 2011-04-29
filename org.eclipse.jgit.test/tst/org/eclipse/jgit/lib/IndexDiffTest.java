@@ -176,13 +176,88 @@ public class IndexDiffTest extends RepositoryTestCase {
 		IndexDiff diff = new IndexDiff(db, Constants.HEAD, iterator);
 		diff.diff();
 
-		assertEquals("[a, b]",
+		assertEquals("[b]",
 				new TreeSet<String>(diff.getChanged()).toString());
-		assertEquals("[a]", diff.getAdded().toString());
+		assertEquals("[]", diff.getAdded().toString());
 		assertEquals("[]", diff.getRemoved().toString());
-		assertEquals("[a]", diff.getMissing().toString());
-		assertEquals("[a]", diff.getModified().toString());
+		assertEquals("[]", diff.getMissing().toString());
+		assertEquals("[]", diff.getModified().toString());
 		assertEquals("[a]", diff.getConflicting().toString());
+	}
+
+	@Test
+	public void testConflictingDeletedAndModified() throws Exception {
+		Git git = new Git(db);
+
+		writeTrashFile("a", "1\na\n3\n");
+		writeTrashFile("b", "1\nb\n3\n");
+		git.add().addFilepattern("a").addFilepattern("b").call();
+		RevCommit initialCommit = git.commit().setMessage("initial").call();
+
+		// create side branch and delete "a"
+		createBranch(initialCommit, "refs/heads/side");
+		checkoutBranch("refs/heads/side");
+		git.rm().addFilepattern("a").call();
+		RevCommit secondCommit = git.commit().setMessage("side").call();
+
+		// update a on master to generate conflict
+		checkoutBranch("refs/heads/master");
+		writeTrashFile("a", "1\na(main)\n3\n");
+		git.add().addFilepattern("a").call();
+		git.commit().setMessage("main").call();
+
+		// merge side with master
+		MergeResult result = git.merge().include(secondCommit.getId())
+				.setStrategy(MergeStrategy.RESOLVE).call();
+		assertEquals(MergeStatus.CONFLICTING, result.getMergeStatus());
+
+		FileTreeIterator iterator = new FileTreeIterator(db);
+		IndexDiff diff = new IndexDiff(db, Constants.HEAD, iterator);
+		diff.diff();
+
+		assertEquals("[]", new TreeSet<String>(diff.getChanged()).toString());
+		assertEquals("[]", diff.getAdded().toString());
+		assertEquals("[]", diff.getRemoved().toString());
+		assertEquals("[]", diff.getMissing().toString());
+		assertEquals("[]", diff.getModified().toString());
+		assertEquals("[a]", diff.getConflicting().toString());
+	}
+
+	@Test
+	public void testConflictingFromMultipleCreations() throws Exception {
+		Git git = new Git(db);
+
+		writeTrashFile("a", "1\na\n3\n");
+		git.add().addFilepattern("a").call();
+		RevCommit initialCommit = git.commit().setMessage("initial").call();
+
+		createBranch(initialCommit, "refs/heads/side");
+		checkoutBranch("refs/heads/side");
+
+		writeTrashFile("b", "1\nb(side)\n3\n");
+		git.add().addFilepattern("b").call();
+		RevCommit secondCommit = git.commit().setMessage("side").call();
+
+		checkoutBranch("refs/heads/master");
+
+		writeTrashFile("b", "1\nb(main)\n3\n");
+		git.add().addFilepattern("b").call();
+		git.commit().setMessage("main").call();
+
+		MergeResult result = git.merge().include(secondCommit.getId())
+				.setStrategy(MergeStrategy.RESOLVE).call();
+		assertEquals(MergeStatus.CONFLICTING, result.getMergeStatus());
+
+		FileTreeIterator iterator = new FileTreeIterator(db);
+		IndexDiff diff = new IndexDiff(db, Constants.HEAD, iterator);
+		diff.diff();
+
+		assertEquals("[]", new TreeSet<String>(diff.getChanged()).toString());
+		assertEquals("[]", diff.getAdded().toString());
+		assertEquals("[]", diff.getRemoved().toString());
+		assertEquals("[]", diff.getMissing().toString());
+		assertEquals("[]", diff.getModified().toString());
+		assertEquals("[b]", diff.getConflicting().toString());
 	}
 
 	@Test
