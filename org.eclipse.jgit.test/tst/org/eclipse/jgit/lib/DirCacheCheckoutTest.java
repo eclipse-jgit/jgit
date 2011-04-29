@@ -138,7 +138,7 @@ public class DirCacheCheckoutTest extends ReadTreeTest {
 		assertEquals(MergeStatus.CONFLICTING, git.merge().include(master)
 				.call().getMergeStatus());
 		assertEquals(
-				"[E/h, mode:100644][G/i, mode:100644][f, mode:100644, stage:1][f, mode:100644, stage:2][f, mode:100644, stage:3]",
+				"[D/g, mode:100644, stage:1][D/g, mode:100644, stage:3][E/h, mode:100644][G/i, mode:100644][f, mode:100644, stage:1][f, mode:100644, stage:2][f, mode:100644, stage:3]",
 				indexState(0));
 
 		resetHard(master);

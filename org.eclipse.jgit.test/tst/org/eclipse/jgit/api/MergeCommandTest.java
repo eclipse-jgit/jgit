@@ -588,6 +588,69 @@ public class MergeCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
+	public void testDeletionOnMasterConflict() throws Exception {
+		Git git = new Git(db);
+
+		writeTrashFile("a", "1\na\n3\n");
+		writeTrashFile("b", "1\nb\n3\n");
+		git.add().addFilepattern("a").addFilepattern("b").call();
+		RevCommit initialCommit = git.commit().setMessage("initial").call();
+
+		// create side branch and modify "a"
+		createBranch(initialCommit, "refs/heads/side");
+		checkoutBranch("refs/heads/side");
+		writeTrashFile("a", "1\na(side)\n3\n");
+		git.add().addFilepattern("a").call();
+		RevCommit secondCommit = git.commit().setMessage("side").call();
+
+		// delete a on master to generate conflict
+		checkoutBranch("refs/heads/master");
+		git.rm().addFilepattern("a").call();
+		git.commit().setMessage("main").call();
+
+		// merge side with master
+		MergeResult result = git.merge().include(secondCommit.getId())
+				.setStrategy(MergeStrategy.RESOLVE).call();
+		assertEquals(MergeStatus.CONFLICTING, result.getMergeStatus());
+
+		// result should be 'a' conflicting with workspace content from side
+		assertTrue(new File(db.getWorkTree(), "a").exists());
+		assertEquals("1\na(side)\n3\n", read(new File(db.getWorkTree(), "a")));
+		assertEquals("1\nb\n3\n", read(new File(db.getWorkTree(), "b")));
+	}
+
+	@Test
+	public void testDeletionOnSideConflict() throws Exception {
+		Git git = new Git(db);
+
+		writeTrashFile("a", "1\na\n3\n");
+		writeTrashFile("b", "1\nb\n3\n");
+		git.add().addFilepattern("a").addFilepattern("b").call();
+		RevCommit initialCommit = git.commit().setMessage("initial").call();
+
+		// create side branch and delete "a"
+		createBranch(initialCommit, "refs/heads/side");
+		checkoutBranch("refs/heads/side");
+		git.rm().addFilepattern("a").call();
+		RevCommit secondCommit = git.commit().setMessage("side").call();
+
+		// update a on master to generate conflict
+		checkoutBranch("refs/heads/master");
+		writeTrashFile("a", "1\na(main)\n3\n");
+		git.add().addFilepattern("a").call();
+		git.commit().setMessage("main").call();
+
+		// merge side with master
+		MergeResult result = git.merge().include(secondCommit.getId())
+				.setStrategy(MergeStrategy.RESOLVE).call();
+		assertEquals(MergeStatus.CONFLICTING, result.getMergeStatus());
+
+		assertTrue(new File(db.getWorkTree(), "a").exists());
+		assertEquals("1\na(main)\n3\n", read(new File(db.getWorkTree(), "a")));
+		assertEquals("1\nb\n3\n", read(new File(db.getWorkTree(), "b")));
+	}
+
+	@Test
 	public void testMergeFailingWithDirtyWorkingTree() throws Exception {
 		Git git = new Git(db);
 
