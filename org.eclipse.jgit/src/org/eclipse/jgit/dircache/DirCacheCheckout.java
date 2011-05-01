@@ -418,6 +418,10 @@ public class DirCacheCheckout {
 				// ignore
 			}
 			DirCacheEntry entry = dc.getEntry(path);
+			// submodules are handled with separate operations
+			if (FileMode.GITLINK.equals(entry.getRawMode()))
+				continue;
+
 			checkoutEntry(repo, file, entry);
 		}
 
