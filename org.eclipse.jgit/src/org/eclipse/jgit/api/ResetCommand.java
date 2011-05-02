@@ -162,8 +162,7 @@ public class ResetCommand extends GitCommand<Ref> {
 			ru.setNewObjectId(commitId);
 
 			String refName = Repository.shortenRefName(ref);
-			String message = "reset --" //$NON-NLS-1$
-					+ mode.toString().toLowerCase() + " " + refName; //$NON-NLS-1$
+			String message = refName + ": updating " + Constants.HEAD; //$NON-NLS-1$
 			ru.setRefLogMessage(message, false);
 			if (ru.forceUpdate() == RefUpdate.Result.LOCK_FAILURE)
 				throw new JGitInternalException(MessageFormat.format(
