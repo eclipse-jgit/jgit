@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn///yg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CheckoutCommand.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2011-05-03T13:53:01Z",
+      "side": 1,
+      "message": "The following lines of code have the purpose to transfer folder paths to the list of contained files, right? \n\nIt took some time for me to figure that out, so maybe it would be useful to extract a method here.",
+      "revId": "ad8d3f780f96c3b1179fa27d3bdc9e26b1648dd4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///ys\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CheckoutCommand.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2011-05-03T13:53:01Z",
+      "side": 1,
+      "message": "Use treeWalk.setRecursive(true); instead of the if/else statement below",
+      "revId": "ad8d3f780f96c3b1179fa27d3bdc9e26b1648dd4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
