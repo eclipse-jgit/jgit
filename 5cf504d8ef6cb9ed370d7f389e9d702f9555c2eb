@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn///yw\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/PathCheckoutCommandTest.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2011-05-03T13:55:12Z",
+      "side": 1,
+      "message": "This does not work on windows. You must always use \"/\" for paths in jgit.",
+      "revId": "5cf504d8ef6cb9ed370d7f389e9d702f9555c2eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///yo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CheckoutCommand.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2011-05-03T13:55:12Z",
+      "side": 1,
+      "message": "Better: treeWalk.setRecursive(true); (see above)",
+      "revId": "5cf504d8ef6cb9ed370d7f389e9d702f9555c2eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///yk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CheckoutCommand.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2011-05-03T13:55:12Z",
+      "side": 1,
+      "message": "Better: startWalk.setRecursive(true); (see above)",
+      "revId": "5cf504d8ef6cb9ed370d7f389e9d702f9555c2eb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
