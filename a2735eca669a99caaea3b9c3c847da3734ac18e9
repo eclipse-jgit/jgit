@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIX///vw\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/PathCheckoutCommandTest.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2011-04-28T12:28:24Z",
+      "side": 1,
+      "message": "You may add tow more tests for the case that there are changes in the index:\n\n\t@Test\n\tpublic void testUpdateWorkingDirectoryFromIndex() throws Exception {\n\t\tCheckoutCommand co \u003d git.checkout();\n\t\tFile written \u003d writeTrashFile(\"Test.txt\", \"3a\");\n\t\tgit.add().addFilepattern(\"Test.txt\").call();\n\t\twritten \u003d writeTrashFile(\"Test.txt\", \"\");\n\t\tassertEquals(\"\", read(written));\n\t\tco.addPath(\"Test.txt\").call();\n\t\tassertEquals(\"3a\", read(written));\n\t\tassertEquals(\"c\", read(new File(db.getWorkTree(), \"Test2.txt\")));\n\t}\n\n\t@Test\n\tpublic void testUpdateWorkingDirectoryFromHeadWithIndexChange()\n\t\t\tthrows Exception {\n\t\tCheckoutCommand co \u003d git.checkout();\n\t\tFile written \u003d writeTrashFile(\"Test.txt\", \"3a\");\n\t\tgit.add().addFilepattern(\"Test.txt\").call();\n\t\twritten \u003d writeTrashFile(\"Test.txt\", \"\");\n\t\tassertEquals(\"\", read(written));\n\t\tco.addPath(\"Test.txt\").setStartPoint(\"HEAD\").call();\n\t\tassertEquals(\"3\", read(written));\n\t\tassertEquals(\"c\", read(new File(db.getWorkTree(), \"Test2.txt\")));\n\t}",
+      "revId": "a2735eca669a99caaea3b9c3c847da3734ac18e9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIX///v0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CheckoutCommand.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2011-04-28T12:28:24Z",
+      "side": 1,
+      "message": "In all the other commands call() is the first method after the constructor. Please stick to that pattern.",
+      "revId": "a2735eca669a99caaea3b9c3c847da3734ac18e9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
