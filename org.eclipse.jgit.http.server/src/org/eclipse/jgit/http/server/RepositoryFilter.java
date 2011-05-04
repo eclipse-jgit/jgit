@@ -154,10 +154,8 @@ public class RepositoryFilter implements Filter {
 	static void sendError(int statusCode, HttpServletRequest req,
 			HttpServletResponse rsp) throws IOException {
 		String svc = req.getParameter("service");
-		String accept = req.getHeader(HDR_ACCEPT);
 
-		if (svc != null && svc.startsWith("git-") && accept != null
-				&& accept.contains("application/x-" + svc + "-advertisement")) {
+		if (req.getRequestURI().endsWith("/info/refs") && isService(svc)) {
 			// Smart HTTP service request, use an ERR response.
 			rsp.setContentType("application/x-" + svc + "-advertisement");
 
@@ -170,6 +168,7 @@ public class RepositoryFilter implements Filter {
 			return;
 		}
 
+		String accept = req.getHeader(HDR_ACCEPT);
 		if (accept != null && accept.contains(UploadPackServlet.RSP_TYPE)) {
 			// An upload-pack wants ACK or NAK, return ERR
 			// and the client will print this instead.
@@ -186,6 +185,10 @@ public class RepositoryFilter implements Filter {
 		// of a result for the user, but its better than nothing.
 		//
 		rsp.sendError(statusCode);
+	}
+
+	private static boolean isService(String svc) {
+		return "git-upload-pack".equals(svc) || "git-receive-pack".equals(svc);
 	}
 
 	private static String translate(int statusCode) {
