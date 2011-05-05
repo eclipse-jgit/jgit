@@ -50,6 +50,7 @@ import java.util.zip.InflaterInputStream;
 
 import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.generated.storage.dht.proto.GitStore.ChunkMeta;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectStream;
 
@@ -102,7 +103,7 @@ class LargeNonDeltaObject extends ObjectLoader {
 		if (pc != null)
 			firstChunk = null;
 		else
-			pc = ctx.getChunk(meta.getFragmentKey(0));
+			pc = ctx.getChunk(ChunkKey.fromString(meta.getFragment(0)));
 
 		InputStream in = new ChunkInputStream(meta, ctx, pos, pc);
 		in = new BufferedInputStream(new InflaterInputStream(in), 8192);
@@ -138,7 +139,8 @@ class LargeNonDeltaObject extends ObjectLoader {
 				if (fragment == meta.getFragmentCount())
 					return -1;
 
-				pc = ctx.getChunk(meta.getFragmentKey(++fragment));
+				pc = ctx.getChunk(ChunkKey.fromString(
+						meta.getFragment(++fragment)));
 				ptr = 0;
 				n = pc.read(ptr, dstbuf, dstptr, dstlen);
 				if (n == 0)

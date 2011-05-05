@@ -52,10 +52,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.zip.Deflater;
 
+import org.eclipse.jgit.generated.storage.dht.proto.GitStore;
+import org.eclipse.jgit.generated.storage.dht.proto.GitStore.ChunkMeta;
+import org.eclipse.jgit.generated.storage.dht.proto.GitStore.ChunkMeta.BaseChunk;
+import org.eclipse.jgit.generated.storage.dht.proto.GitStore.ObjectInfo.ObjectType;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.storage.dht.ChunkMeta.BaseChunk;
 import org.eclipse.jgit.storage.dht.spi.Database;
 import org.eclipse.jgit.storage.dht.spi.WriteBuffer;
 import org.eclipse.jgit.transport.PackedObjectInfo;
@@ -75,8 +78,6 @@ class ChunkFormatter {
 
 	private final byte[] varIntBuf;
 
-	private final ChunkInfo info;
-
 	private final int maxObjects;
 
 	private Map<ChunkKey, BaseChunkInfo> baseChunks;
@@ -95,25 +96,35 @@ class ChunkFormatter {
 
 	private PackChunk.Members builder;
 
+	private GitStore.ChunkInfo.Source source;
+
+	private boolean fragment;
+
+	private int objectType;
+
+	private int objectsTotal, objectsWhole, objectsRefDelta, objectsOfsDelta;
+
+	private ChunkInfo chunkInfo;
+
 	ChunkFormatter(RepositoryKey repo, DhtInserterOptions options) {
 		this.repo = repo;
 		this.options = options;
 		this.varIntBuf = new byte[32];
-		this.info = new ChunkInfo();
 		this.chunkData = new byte[options.getChunkSize()];
 		this.maxObjects = options.getMaxObjectCount();
+		this.objectType = -1;
 	}
 
-	void setSource(ChunkInfo.Source src) {
-		info.source = src;
+	void setSource(GitStore.ChunkInfo.Source src) {
+		source = src;
 	}
 
 	void setObjectType(int type) {
-		info.objectType = type;
+		objectType = type;
 	}
 
 	void setFragment() {
-		info.fragment = true;
+		fragment = true;
 	}
 
 	ChunkKey getChunkKey() {
@@ -121,7 +132,7 @@ class ChunkFormatter {
 	}
 
 	ChunkInfo getChunkInfo() {
-		return info;
+		return chunkInfo;
 	}
 
 	ChunkMeta getChunkMeta() {
@@ -150,37 +161,58 @@ class ChunkFormatter {
 		ptr += 4;
 
 		md.update(chunkData, 0, ptr);
-		info.chunkKey = ChunkKey.create(repo, ObjectId.fromRaw(md.digest()));
-		info.chunkSize = chunkData.length;
+		ChunkKey key = ChunkKey.create(repo, ObjectId.fromRaw(md.digest()));
+
+		GitStore.ChunkInfo.Builder info = GitStore.ChunkInfo.newBuilder();
+		info.setSource(source);
+		info.setObjectType(GitStore.ChunkInfo.ObjectType.valueOf(objectType));
+		if (fragment)
+			info.setIsFragment(true);
+		info.setChunkSize(chunkData.length);
+
+		GitStore.ChunkInfo.ObjectCounts.Builder cnts = info.getObjectCountsBuilder();
+		cnts.setTotal(objectsTotal);
+		if (objectsWhole > 0)
+			cnts.setWhole(objectsWhole);
+		if (objectsRefDelta > 0)
+			cnts.setRefDelta(objectsRefDelta);
+		if (objectsOfsDelta > 0)
+			cnts.setOfsDelta(objectsOfsDelta);
 
 		builder = new PackChunk.Members();
-		builder.setChunkKey(info.chunkKey);
+		builder.setChunkKey(key);
 		builder.setChunkData(chunkData);
 
-		ChunkMeta meta = new ChunkMeta(info.chunkKey);
 		if (baseChunks != null) {
-			meta.baseChunks = new ArrayList<BaseChunk>(baseChunks.size());
+			List<BaseChunk> list = new ArrayList<BaseChunk>(baseChunks.size());
 			for (BaseChunkInfo b : baseChunks.values()) {
-				if (0 < b.useCount)
-					meta.baseChunks.add(new BaseChunk(b.relativeStart, b.key));
+				if (0 < b.useCount) {
+					BaseChunk.Builder c = BaseChunk.newBuilder();
+					c.setRelativeStart(b.relativeStart);
+					c.setChunkKey(b.key.asString());
+					list.add(c.build());
+				}
 			}
-			Collections.sort(meta.baseChunks, new Comparator<BaseChunk>() {
+			Collections.sort(list, new Comparator<BaseChunk>() {
 				public int compare(BaseChunk a, BaseChunk b) {
-					return Long.signum(a.relativeStart - b.relativeStart);
+					return Long.signum(a.getRelativeStart()
+							- b.getRelativeStart());
 				}
 			});
-		}
-		if (!meta.isEmpty()) {
+			ChunkMeta.Builder b = ChunkMeta.newBuilder();
+			b.addAllBaseChunk(list);
+			ChunkMeta meta = b.build();
 			builder.setMeta(meta);
-			info.metaSize = meta.asBytes().length;
+			info.setMetaSize(meta.getSerializedSize());
 		}
 
 		if (objectList != null && !objectList.isEmpty()) {
 			byte[] index = ChunkIndex.create(objectList);
 			builder.setChunkIndex(index);
-			info.indexSize = index.length;
+			info.setIndexSize(index.length);
 		}
 
+		chunkInfo = new ChunkInfo(key, info.build());
 		return getChunkKey();
 	}
 
@@ -198,7 +230,7 @@ class ChunkFormatter {
 	void safePut(Database db, WriteBuffer dbWriteBuffer) throws DhtException {
 		WriteBuffer chunkBuf = db.newWriteBuffer();
 
-		db.repository().put(repo, info, chunkBuf);
+		db.repository().put(repo, getChunkInfo(), chunkBuf);
 		chunkBuf.flush();
 
 		db.chunk().put(builder, chunkBuf);
@@ -208,7 +240,7 @@ class ChunkFormatter {
 	}
 
 	void unsafePut(Database db, WriteBuffer dbWriteBuffer) throws DhtException {
-		db.repository().put(repo, info, dbWriteBuffer);
+		db.repository().put(repo, getChunkInfo(), dbWriteBuffer);
 		db.chunk().put(builder, dbWriteBuffer);
 		linkObjects(db, dbWriteBuffer);
 	}
@@ -225,11 +257,11 @@ class ChunkFormatter {
 
 	boolean whole(Deflater def, int type, byte[] data, int off, final int size,
 			ObjectId objId) {
-		if (free() < 10 || maxObjects <= info.objectsTotal)
+		if (free() < 10 || maxObjects <= objectsTotal)
 			return false;
 
 		header(type, size);
-		info.objectsWhole++;
+		objectsWhole++;
 		currentObjectType = type;
 
 		int endOfHeader = ptr;
@@ -257,20 +289,20 @@ class ChunkFormatter {
 		final int packedSize = ptr - endOfHeader;
 		objectList.add(new StoredObject(objId, type, mark, packedSize, size));
 
-		if (info.objectType < 0)
-			info.objectType = type;
-		else if (info.objectType != type)
-			info.objectType = ChunkInfo.OBJ_MIXED;
+		if (objectType < 0)
+			objectType = type;
+		else if (objectType != type)
+			objectType = ChunkInfo.OBJ_MIXED;
 
 		return true;
 	}
 
 	boolean whole(int type, long inflatedSize) {
-		if (free() < 10 || maxObjects <= info.objectsTotal)
+		if (free() < 10 || maxObjects <= objectsTotal)
 			return false;
 
 		header(type, inflatedSize);
-		info.objectsWhole++;
+		objectsWhole++;
 		currentObjectType = type;
 		return true;
 	}
@@ -278,11 +310,11 @@ class ChunkFormatter {
 	boolean ofsDelta(long inflatedSize, long negativeOffset) {
 		final int ofsPtr = encodeVarInt(negativeOffset);
 		final int ofsLen = varIntBuf.length - ofsPtr;
-		if (free() < 10 + ofsLen || maxObjects <= info.objectsTotal)
+		if (free() < 10 + ofsLen || maxObjects <= objectsTotal)
 			return false;
 
 		header(Constants.OBJ_OFS_DELTA, inflatedSize);
-		info.objectsOfsDelta++;
+		objectsOfsDelta++;
 		currentObjectType = Constants.OBJ_OFS_DELTA;
 		currentObjectBase = null;
 
@@ -294,11 +326,11 @@ class ChunkFormatter {
 	}
 
 	boolean refDelta(long inflatedSize, AnyObjectId baseId) {
-		if (free() < 30 || maxObjects <= info.objectsTotal)
+		if (free() < 30 || maxObjects <= objectsTotal)
 			return false;
 
 		header(Constants.OBJ_REF_DELTA, inflatedSize);
-		info.objectsRefDelta++;
+		objectsRefDelta++;
 		currentObjectType = Constants.OBJ_REF_DELTA;
 
 		baseId.copyRawTo(chunkData, ptr);
@@ -345,7 +377,7 @@ class ChunkFormatter {
 	}
 
 	int getObjectCount() {
-		return info.objectsTotal;
+		return objectsTotal;
 	}
 
 	int position() {
@@ -374,32 +406,32 @@ class ChunkFormatter {
 	}
 
 	void adjustObjectCount(int delta, int type) {
-		info.objectsTotal += delta;
+		objectsTotal += delta;
 
 		switch (type) {
 		case Constants.OBJ_COMMIT:
 		case Constants.OBJ_TREE:
 		case Constants.OBJ_BLOB:
 		case Constants.OBJ_TAG:
-			info.objectsWhole += delta;
+			objectsWhole += delta;
 			break;
 
 		case Constants.OBJ_OFS_DELTA:
-			info.objectsOfsDelta += delta;
+			objectsOfsDelta += delta;
 			if (currentObjectBase != null && --currentObjectBase.useCount == 0)
 				baseChunks.remove(currentObjectBase.key);
 			currentObjectBase = null;
 			break;
 
 		case Constants.OBJ_REF_DELTA:
-			info.objectsRefDelta += delta;
+			objectsRefDelta += delta;
 			break;
 		}
 	}
 
 	private void header(int type, long inflatedSize) {
 		mark = ptr;
-		info.objectsTotal++;
+		objectsTotal++;
 
 		long nextLength = inflatedSize >>> 4;
 		chunkData[ptr++] = (byte) ((nextLength > 0 ? 0x80 : 0x00) | (type << 4) | (inflatedSize & 0x0F));
@@ -454,8 +486,12 @@ class ChunkFormatter {
 		}
 
 		ObjectInfo link(ChunkKey key) {
-			final int ptr = (int) getOffset();
-			return new ObjectInfo(key, -1, type, ptr, packed, inflated, null, false);
+			GitStore.ObjectInfo.Builder b = GitStore.ObjectInfo.newBuilder();
+			b.setObjectType(ObjectType.valueOf(type));
+			b.setOffset((int) getOffset());
+			b.setPackedSize(packed);
+			b.setInflatedSize(inflated);
+			return new ObjectInfo(key, b.build());
 		}
 	}
 }

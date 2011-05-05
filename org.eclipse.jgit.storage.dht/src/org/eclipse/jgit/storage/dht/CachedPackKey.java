@@ -47,6 +47,7 @@ import static org.eclipse.jgit.util.RawParseUtils.decode;
 
 import java.text.MessageFormat;
 
+import org.eclipse.jgit.generated.storage.dht.proto.GitStore.CachedPackInfo;
 import org.eclipse.jgit.lib.ObjectId;
 
 /** Unique identifier of a {@link CachedPackInfo} in the DHT. */
@@ -59,18 +60,6 @@ public final class CachedPackKey implements RowKey {
 	 */
 	public static CachedPackKey fromBytes(byte[] key) {
 		return fromBytes(key, 0, key.length);
-	}
-
-	/**
-	 * @param d
-	 *            decoder to read key from current field from.
-	 * @return the key
-	 */
-	public static CachedPackKey fromBytes(TinyProtobuf.Decoder d) {
-		int len = d.bytesLength();
-		int ptr = d.bytesOffset();
-		byte[] buf = d.bytesArray();
-		return fromBytes(buf, ptr, len);
 	}
 
 	/**
@@ -97,6 +86,16 @@ public final class CachedPackKey implements RowKey {
 		int d = key.indexOf('.');
 		ObjectId name = ObjectId.fromString(key.substring(0, d));
 		ObjectId vers = ObjectId.fromString(key.substring(d + 1));
+		return new CachedPackKey(name, vers);
+	}
+
+	/**
+	 * @param info
+	 * @return the key
+	 */
+	public static CachedPackKey fromInfo(CachedPackInfo info) {
+		ObjectId name = ObjectId.fromString(info.getName());
+		ObjectId vers = ObjectId.fromString(info.getVersion());
 		return new CachedPackKey(name, vers);
 	}
 

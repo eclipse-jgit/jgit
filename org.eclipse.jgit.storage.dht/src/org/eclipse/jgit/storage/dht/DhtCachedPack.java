@@ -45,12 +45,16 @@ package org.eclipse.jgit.storage.dht;
 
 import java.io.IOException;
 import java.text.MessageFormat;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.jgit.generated.storage.dht.proto.GitStore.CachedPackInfo;
+import org.eclipse.jgit.generated.storage.dht.proto.GitStore.CachedPackInfo.ChunkList;
+import org.eclipse.jgit.generated.storage.dht.proto.GitStore.ChunkMeta;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.storage.pack.CachedPack;
 import org.eclipse.jgit.storage.pack.ObjectToPack;
@@ -61,7 +65,11 @@ import org.eclipse.jgit.storage.pack.StoredObjectRepresentation;
 public class DhtCachedPack extends CachedPack {
 	private final CachedPackInfo info;
 
-	private Set<ChunkKey> chunkKeySet;
+	private Set<ObjectId> tips;
+
+	private Set<ChunkKey> keySet;
+
+	private ChunkKey[] keyList;
 
 	DhtCachedPack(CachedPackInfo info) {
 		this.info = info;
@@ -69,7 +77,13 @@ public class DhtCachedPack extends CachedPack {
 
 	@Override
 	public Set<ObjectId> getTips() {
-		return Collections.unmodifiableSet(info.tips);
+		if (tips == null) {
+			tips = new HashSet<ObjectId>();
+			for (String idString : info.getTipList().getObjectNameList())
+				tips.add(ObjectId.fromString(idString));
+			tips = Collections.unmodifiableSet(tips);
+		}
+		return tips;
 	}
 
 	@Override
@@ -90,23 +104,37 @@ public class DhtCachedPack extends CachedPack {
 	@Override
 	public boolean hasObject(ObjectToPack obj, StoredObjectRepresentation rep) {
 		DhtObjectRepresentation objrep = (DhtObjectRepresentation) rep;
-		if (chunkKeySet == null)
-			chunkKeySet = new HashSet<ChunkKey>(info.chunks);
-		return chunkKeySet.contains(objrep.getChunkKey());
+		if (keySet == null)
+			init();
+		return keySet.contains(objrep.getChunkKey());
+	}
+
+	private void init() {
+		ChunkList chunkList = info.getChunkList();
+		int cnt = chunkList.getChunkKeyCount();
+		keySet = new HashSet<ChunkKey>();
+		keyList = new ChunkKey[cnt];
+		for (int i = 0; i < cnt; i++) {
+			ChunkKey key = ChunkKey.fromString(chunkList.getChunkKey(i));
+			keySet.add(key);
+			keyList[i] = key;
+		}
 	}
 
 	void copyAsIs(PackOutputStream out, boolean validate, DhtReader ctx)
 			throws IOException {
+		if (keyList == null)
+			init();
 		Prefetcher p = new Prefetcher(ctx, 0);
-		p.push(info.chunks);
-		copyPack(out, ctx, p, validate);
+		p.push(Arrays.asList(keyList));
+		copyPack(out, p, validate);
 	}
 
-	private void copyPack(PackOutputStream out, DhtReader ctx,
-			Prefetcher prefetcher, boolean validate) throws DhtException,
-			DhtMissingChunkException, IOException {
-		Map<ChunkKey, Long> startsAt = new HashMap<ChunkKey, Long>();
-		for (ChunkKey key : info.chunks) {
+	private void copyPack(PackOutputStream out, Prefetcher prefetcher,
+			boolean validate) throws DhtException, DhtMissingChunkException,
+			IOException {
+		Map<String, Long> startsAt = new HashMap<String, Long>();
+		for (ChunkKey key : keyList) {
 			PackChunk chunk = prefetcher.get(key);
 
 			// The prefetcher should always produce the chunk for us, if not
@@ -122,29 +150,34 @@ public class DhtCachedPack extends CachedPack {
 			// incorrectly created and would confuse the client.
 			//
 			long position = out.length();
-			if (chunk.getMeta() != null && chunk.getMeta().baseChunks != null) {
-				for (ChunkMeta.BaseChunk base : chunk.getMeta().baseChunks) {
+			ChunkMeta meta = chunk.getMeta();
+			if (meta != null && meta.getBaseChunkCount() != 0) {
+				for (ChunkMeta.BaseChunk base : meta.getBaseChunkList()) {
 					Long act = startsAt.get(base.getChunkKey());
 					long exp = position - base.getRelativeStart();
 
 					if (act == null) {
 						throw new DhtException(MessageFormat.format(DhtText
-								.get().wrongChunkPositionInCachedPack, info
-								.getRowKey(), base.getChunkKey(),
-								"[not written]", key, exp));
+								.get().wrongChunkPositionInCachedPack,
+								rowKey(), base.getChunkKey(),
+								"[not written]", key, Long.valueOf(exp)));
 					}
 
 					if (act.longValue() != exp) {
 						throw new DhtException(MessageFormat.format(DhtText
-								.get().wrongChunkPositionInCachedPack, info
-								.getRowKey(), base.getChunkKey(), //
-								act, key, exp));
+								.get().wrongChunkPositionInCachedPack,
+								rowKey(), base.getChunkKey(),
+								act, key, Long.valueOf(exp)));
 					}
 				}
 			}
 
-			startsAt.put(key, Long.valueOf(position));
+			startsAt.put(key.asString(), Long.valueOf(position));
 			chunk.copyEntireChunkAsIs(out, null, validate);
 		}
+	}
+
+	private String rowKey() {
+		return info.getName() + "." + info.getVersion();
 	}
 }

@@ -55,7 +55,6 @@ import java.util.Map;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.AsyncOperation;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.storage.dht.RefData.IdWithChunk;
 import org.eclipse.jgit.storage.dht.spi.Context;
 import org.eclipse.jgit.storage.dht.spi.Database;
 
@@ -119,8 +118,8 @@ class QueueObjectLookup<T extends ObjectId> implements AsyncOperation {
 		RecentInfoCache infoCache = reader.getRecentInfoCache();
 		List<T> missing = null;
 		for (T obj : objects) {
-			if (needChunkOnly && obj instanceof IdWithChunk) {
-				push(obj, ((IdWithChunk) obj).getChunkKey());
+			if (needChunkOnly && obj instanceof RefDataUtil.IdWithChunk) {
+				push(obj, ((RefDataUtil.IdWithChunk) obj).getChunkKey());
 				continue;
 			}
 
