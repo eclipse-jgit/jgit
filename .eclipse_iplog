@@ -114,3 +114,9 @@
 	license = Apache License, 2.0
 	use = unmodified source & binary
 	state = workswith
+
+[CQ "5111"]
+	description = Apache Ant Version: 1.8.2 (PB Orbit CQ4726)
+	license = Apache License, 2.0
+	use = unmodified source & binary
+	state = approved
