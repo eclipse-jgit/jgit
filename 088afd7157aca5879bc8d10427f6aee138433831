@@ -1,0 +1,130 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn///h4\u003d",
+        "filename": "org.eclipse.jgit.storage.dht.test/tst/org/eclipse/jgit/storage/dht/TimeoutTest.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-05T17:05:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL4H///c8\u003d",
+      "revId": "088afd7157aca5879bc8d10427f6aee138433831",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///h0\u003d",
+        "filename": "org.eclipse.jgit.storage.dht/README",
+        "patchSetId": 21
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-05T17:05:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL4H///cU\u003d",
+      "revId": "088afd7157aca5879bc8d10427f6aee138433831",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///ho\u003d",
+        "filename": "org.eclipse.jgit.storage.dht/src/org/eclipse/jgit/storage/dht/Timeout.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-05T17:05:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL4H///cw\u003d",
+      "revId": "088afd7157aca5879bc8d10427f6aee138433831",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///hk\u003d",
+        "filename": "org.eclipse.jgit.storage.dht/src/org/eclipse/jgit/storage/dht/Timeout.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-05T17:05:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL4H///c4\u003d",
+      "revId": "088afd7157aca5879bc8d10427f6aee138433831",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///hg\u003d",
+        "filename": "org.eclipse.jgit.storage.dht/src/org/eclipse/jgit/storage/dht/Timeout.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-05T17:05:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL4H///cs\u003d",
+      "revId": "088afd7157aca5879bc8d10427f6aee138433831",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///hc\u003d",
+        "filename": "org.eclipse.jgit.storage.dht/src/org/eclipse/jgit/storage/dht/Timeout.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-05T17:05:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL4H///c0\u003d",
+      "revId": "088afd7157aca5879bc8d10427f6aee138433831",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///hY\u003d",
+        "filename": "org.eclipse.jgit.storage.dht/src/org/eclipse/jgit/storage/dht/Timeout.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-05T17:05:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL4H///co\u003d",
+      "revId": "088afd7157aca5879bc8d10427f6aee138433831",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
