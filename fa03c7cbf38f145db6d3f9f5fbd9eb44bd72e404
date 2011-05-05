@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn///8w\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-04-29T19:57:50Z",
+      "side": 1,
+      "message": "this depends on CQ 5111 hence a corresponding footer should be added",
+      "revId": "fa03c7cbf38f145db6d3f9f5fbd9eb44bd72e404",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///80\u003d",
+        "filename": "org.eclipse.jgit.ant/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-04-29T19:57:50Z",
+      "side": 1,
+      "message": "trailing whitespace",
+      "revId": "fa03c7cbf38f145db6d3f9f5fbd9eb44bd72e404",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
