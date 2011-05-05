@@ -485,6 +485,16 @@ public class URIishTest {
 	}
 
 	@Test
+	public void testGetWindowsPathHumanishName()
+			throws IllegalArgumentException,
+			URISyntaxException {
+		String humanishName = new URIish("file:///C" + File.separator + "a"
+				+ File.separator + "b" + File.separator + "c.git/")
+				.getHumanishName();
+		assertEquals("c", humanishName);
+	}
+
+	@Test
 	public void testUserPasswordAndPort() throws URISyntaxException {
 		String str = "http://user:secret@host.xy:80/some/path";
 		URIish u = new URIish(str);
