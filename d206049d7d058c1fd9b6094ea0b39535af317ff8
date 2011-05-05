@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn///kU\u003d",
+        "filename": "org.eclipse.jgit.storage.dht.test/tst/org/eclipse/jgit/storage/dht/LargeNonDeltaObjectTest.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-05-05T14:25:39Z",
+      "side": 1,
+      "message": "typo: s/through/though/",
+      "revId": "d206049d7d058c1fd9b6094ea0b39535af317ff8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
