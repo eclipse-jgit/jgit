@@ -38,6 +38,42 @@
     },
     {
       "key": {
+        "uuid": "AABOIn///hw\u003d",
+        "filename": "org.eclipse.jgit.storage.dht/src/org/eclipse/jgit/storage/dht/ChunkIndex.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-05T17:05:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL4H///Yo\u003d",
+      "revId": "088afd7157aca5879bc8d10427f6aee138433831",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///hs\u003d",
+        "filename": "org.eclipse.jgit.storage.dht/src/org/eclipse/jgit/storage/dht/ChunkMeta.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-05T17:05:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL4H///Yk\u003d",
+      "revId": "088afd7157aca5879bc8d10427f6aee138433831",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn///ho\u003d",
         "filename": "org.eclipse.jgit.storage.dht/src/org/eclipse/jgit/storage/dht/Timeout.java",
         "patchSetId": 21
