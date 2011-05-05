@@ -195,10 +195,6 @@ public class DhtReader extends ObjectReader implements ObjectReuseAsIs {
 		if (repository.getRefDatabase().findChunk(objId) != null)
 			return true;
 
-		// TODO(spearce) This is expensive. Is it worthwhile?
-		if (ChunkCache.get().find(repo, objId) != null)
-			return true;
-
 		return !find(objId).isEmpty();
 	}
 
@@ -210,7 +206,7 @@ public class DhtReader extends ObjectReader implements ObjectReuseAsIs {
 		if (ldr != null)
 			return ldr;
 
-		ChunkAndOffset p = getChunk(objId, typeHint, true, false);
+		ChunkAndOffset p = getChunk(objId, typeHint, false);
 		ldr = PackChunk.read(p.chunk, p.offset, this, typeHint);
 		recentChunk(p.chunk);
 		return ldr;
@@ -274,19 +270,12 @@ public class DhtReader extends ObjectReader implements ObjectReuseAsIs {
 		recentChunks.put(chunk);
 	}
 
-	ChunkAndOffset getChunk(AnyObjectId objId, int typeHint, boolean recent)
-			throws DhtException, MissingObjectException {
-		return getChunk(objId, typeHint, true /* load */, recent);
+	ChunkAndOffset getChunkGently(AnyObjectId objId) {
+		return recentChunks.find(repo, objId);
 	}
 
-	ChunkAndOffset getChunkGently(AnyObjectId objId, int typeHint)
+	ChunkAndOffset getChunk(AnyObjectId objId, int typeHint, boolean checkRecent)
 			throws DhtException, MissingObjectException {
-		return getChunk(objId, typeHint, false /* no load */, true /* recent */);
-	}
-
-	private ChunkAndOffset getChunk(AnyObjectId objId, int typeHint,
-			boolean loadIfRequired, boolean checkRecent) throws DhtException,
-			MissingObjectException {
 		if (checkRecent) {
 			ChunkAndOffset r = recentChunks.find(repo, objId);
 			if (r != null)
@@ -298,38 +287,21 @@ public class DhtReader extends ObjectReader implements ObjectReuseAsIs {
 			key = ((RefData.IdWithChunk) objId).getChunkKey();
 		else
 			key = repository.getRefDatabase().findChunk(objId);
+
 		if (key != null) {
-			PackChunk chunk = ChunkCache.get().get(key);
-			if (chunk != null) {
+			PackChunk chunk = load(key);
+			if (chunk != null && chunk.hasIndex()) {
 				int pos = chunk.findOffset(repo, objId);
 				if (0 <= pos)
 					return new ChunkAndOffset(chunk, pos);
-			}
-
-			if (loadIfRequired) {
-				chunk = load(key);
-				if (chunk != null && chunk.hasIndex()) {
-					int pos = chunk.findOffset(repo, objId);
-					if (0 <= pos) {
-						chunk = ChunkCache.get().put(chunk);
-						return new ChunkAndOffset(chunk, pos);
-					}
-				}
 			}
 
 			// The hint above is stale. Fall through and do a
 			// more exhaustive lookup to find the object.
 		}
 
-		ChunkAndOffset r = ChunkCache.get().find(repo, objId);
-		if (r != null)
-			return r;
-
-		if (!loadIfRequired)
-			return null;
-
 		if (prefetcher != null) {
-			r = prefetcher.find(repo, objId);
+			ChunkAndOffset r = prefetcher.find(repo, objId);
 			if (r != null)
 				return r;
 		}
@@ -352,8 +324,6 @@ public class DhtReader extends ObjectReader implements ObjectReuseAsIs {
 					continue;
 			}
 
-			if (chunk.hasIndex())
-				chunk = ChunkCache.get().put(chunk);
 			return new ChunkAndOffset(chunk, link.getOffset());
 		}
 
@@ -369,10 +339,6 @@ public class DhtReader extends ObjectReader implements ObjectReuseAsIs {
 			return key;
 
 		ChunkAndOffset r = recentChunks.find(repo, objId);
-		if (r != null)
-			return r.chunk.getChunkKey();
-
-		r = ChunkCache.get().find(repo, objId);
 		if (r != null)
 			return r.chunk.getChunkKey();
 
@@ -394,16 +360,9 @@ public class DhtReader extends ObjectReader implements ObjectReuseAsIs {
 		if (chunk != null)
 			return chunk;
 
-		chunk = ChunkCache.get().get(key);
+		chunk = load(key);
 		if (chunk != null)
 			return chunk;
-
-		chunk = load(key);
-		if (chunk != null) {
-			if (chunk.hasIndex())
-				return ChunkCache.get().put(chunk);
-			return chunk;
-		}
 
 		throw new DhtMissingChunkException(key);
 	}
@@ -440,7 +399,6 @@ public class DhtReader extends ObjectReader implements ObjectReuseAsIs {
 	public void writeObjects(PackOutputStream out, List<ObjectToPack> objects)
 			throws IOException {
 		prefetcher = new Prefetcher(this, 0);
-		prefetcher.setCacheLoadedChunks(false);
 		try {
 			List itr = objects;
 			new ObjectWriter(this, prefetcher).plan(itr);
@@ -677,13 +635,6 @@ public class DhtReader extends ObjectReader implements ObjectReuseAsIs {
 			 * or not).
 			 */
 			public int cntPrefetcher_Load;
-
-			/**
-			 * Number of times the prefetcher obtained from {@link ChunkCache}.
-			 * Incremented when the prefetcher recovered the chunk from the
-			 * local JVM chunk cache and thus avoided reading the database.
-			 */
-			public int cntPrefetcher_ChunkCacheHit;
 
 			/**
 			 * Number of times the prefetcher ordering was wrong. Incremented if

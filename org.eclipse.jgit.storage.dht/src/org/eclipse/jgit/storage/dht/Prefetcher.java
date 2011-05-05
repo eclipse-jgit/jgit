@@ -91,8 +91,6 @@ class Prefetcher implements StreamingCallback<Collection<PackChunk.Members>> {
 
 	private final int lowWaterMark;
 
-	private boolean cacheLoadedChunks;
-
 	private boolean first = true;
 
 	private boolean automaticallyPushHints = true;
@@ -120,19 +118,13 @@ class Prefetcher implements StreamingCallback<Collection<PackChunk.Members>> {
 		if (lwm <= 0)
 			lwm = (highWaterMark / averageChunkSize) / 2;
 		lowWaterMark = lwm * averageChunkSize;
-		cacheLoadedChunks = true;
 	}
 
 	boolean isType(int type) {
 		return objectType == type;
 	}
 
-	synchronized void setCacheLoadedChunks(boolean cacheLoadedChunks) {
-		this.cacheLoadedChunks = cacheLoadedChunks;
-	}
-
-	void push(DhtReader ctx, Collection<RevCommit> roots) throws DhtException,
-			MissingObjectException {
+	void push(DhtReader ctx, Collection<RevCommit> roots) {
 		// Approximate walk by using hints from the most recent commit.
 		// Since the commits were recently parsed by the reader, we can
 		// ask the reader for their chunk locations and most likely get
@@ -143,7 +135,7 @@ class Prefetcher implements StreamingCallback<Collection<PackChunk.Members>> {
 
 		for (RevCommit cmit : roots) {
 			if (time < cmit.getCommitTime()) {
-				ChunkAndOffset p = ctx.getChunkGently(cmit, cmit.getType());
+				ChunkAndOffset p = ctx.getChunkGently(cmit);
 				if (p != null && p.chunk.getMeta() != null) {
 					time = cmit.getCommitTime();
 					chunk = p.chunk;
@@ -254,8 +246,7 @@ class Prefetcher implements StreamingCallback<Collection<PackChunk.Members>> {
 		}
 	}
 
-	synchronized ChunkAndOffset find(
-			@SuppressWarnings("hiding") RepositoryKey repo, AnyObjectId objId) {
+	synchronized ChunkAndOffset find(RepositoryKey repo, AnyObjectId objId) {
 		for (PackChunk c : ready.values()) {
 			int p = c.findOffset(repo, objId);
 			if (0 <= p)
@@ -341,9 +332,6 @@ class Prefetcher implements StreamingCallback<Collection<PackChunk.Members>> {
 	private PackChunk useReadyChunk(ChunkKey key) {
 		PackChunk chunk = ready.remove(key);
 
-		if (cacheLoadedChunks)
-			chunk = ChunkCache.get().put(chunk);
-
 		status.put(chunk.getChunkKey(), Status.DONE);
 		bytesReady -= chunk.getTotalSize();
 
@@ -366,26 +354,19 @@ class Prefetcher implements StreamingCallback<Collection<PackChunk.Members>> {
 		// set's iterator order to load in the order we want data.
 		//
 		LinkedHashSet<ChunkKey> toLoad = new LinkedHashSet<ChunkKey>();
-		ChunkCache cache = ChunkCache.get();
 
 		while (bytesReady + bytesLoading < highWaterMark && !queue.isEmpty()) {
 			ChunkKey key = queue.removeFirst();
-			PackChunk chunk = cache.get(key);
 
-			if (chunk != null) {
-				stats.access(key).cntPrefetcher_ChunkCacheHit++;
-				chunkIsReady(chunk);
-			} else {
-				stats.access(key).cntPrefetcher_Load++;
-				toLoad.add(key);
-				status.put(key, Status.LOADING);
-				bytesLoading += averageChunkSize;
+			stats.access(key).cntPrefetcher_Load++;
+			toLoad.add(key);
+			status.put(key, Status.LOADING);
+			bytesLoading += averageChunkSize;
 
-				// For the first chunk, start immediately to reduce the
-				// startup latency associated with additional chunks.
-				if (first)
-					break;
-			}
+			// For the first chunk, start immediately to reduce the
+			// startup latency associated with additional chunks.
+			if (first)
+				break;
 		}
 
 		if (!toLoad.isEmpty() && error == null)
