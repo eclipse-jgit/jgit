@@ -59,8 +59,7 @@ import org.eclipse.jgit.lib.ObjectReader;
 /**
  * Locates objects in large batches, then opens them clustered by chunk.
  * <p>
- * To simplify the implementation this method does not consult the local
- * {@link ChunkCache} for objects. Instead it performs lookups for the
+ * To simplify the implementation this method performs lookups for the
  * {@link ObjectInfo} in large batches, clusters those by ChunkKey, and loads
  * the chunks with a {@link Prefetcher}.
  * <p>
@@ -69,7 +68,7 @@ import org.eclipse.jgit.lib.ObjectReader;
  * accessed. This is necessary to improve access locality and prevent thrashing
  * of the local ChunkCache. It also causes {@link MissingObjectException} to be
  * thrown at the start of traversal, until the lookup queue is exhausted.
- *
+ * 
  * @param <T>
  *            type of object to associate with the loader.
  */
