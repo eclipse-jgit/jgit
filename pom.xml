@@ -405,12 +405,13 @@
 
   <modules>
     <module>org.eclipse.jgit</module>
+    <module>org.eclipse.jgit.ant</module>
     <module>org.eclipse.jgit.ui</module>
     <module>org.eclipse.jgit.http.server</module>
     <module>org.eclipse.jgit.iplog</module>
     <module>org.eclipse.jgit.pgm</module>
     <module>org.eclipse.jgit.junit</module>
-	<module>org.eclipse.jgit.junit.http</module>
+    <module>org.eclipse.jgit.junit.http</module>
 
     <module>org.eclipse.jgit.test</module>
     <module>org.eclipse.jgit.http.test</module>
