@@ -169,6 +169,15 @@ public class MergeMessageFormatterTest extends SampleDataRepositoryTestCase {
 	}
 
 	@Test
+	public void testIntoHeadOtherThanMaster() throws IOException {
+		Ref a = db.getRef("refs/heads/a");
+		Ref b = db.getRef("refs/heads/b");
+		SymbolicRef head = new SymbolicRef("HEAD", b);
+		String message = formatter.format(Arrays.asList(a), head);
+		assertEquals("Merge branch 'a' into b", message);
+	}
+
+	@Test
 	public void testIntoSymbolicRefHeadPointingToMaster() throws IOException {
 		Ref a = db.getRef("refs/heads/a");
 		Ref master = db.getRef("refs/heads/master");
