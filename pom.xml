@@ -152,7 +152,7 @@
       <plugins>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
-	  <artifactId>maven-jar-plugin</artifactId>
+          <artifactId>maven-jar-plugin</artifactId>
           <version>2.3</version>
           <configuration>
             <archive>
@@ -279,7 +279,7 @@
             <id>translate-qualifier</id>
             <phase>generate-resources</phase>
             <configuration>
-	          <tasks unless="${translate-qualifier}">
+              <tasks unless="${translate-qualifier}">
                 <copy file="META-INF/MANIFEST.MF" tofile="${bundle-manifest}" overwrite="true"/>
                 <replace file="${bundle-manifest}">
                   <replacefilter token=".qualifier" value=".${maven.build.timestamp}"/>
