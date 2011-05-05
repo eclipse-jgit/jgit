@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAL4H///c8\u003d",
+        "filename": "org.eclipse.jgit.storage.dht.test/tst/org/eclipse/jgit/storage/dht/TimeoutTest.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-04-13T14:47:45Z",
+      "side": 1,
+      "message": "TimeUnit.MINUTES isn\u0027t available in Java 5",
+      "revId": "088afd7157aca5879bc8d10427f6aee138433831",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn///h4\u003d",
         "filename": "org.eclipse.jgit.storage.dht.test/tst/org/eclipse/jgit/storage/dht/TimeoutTest.java",
         "patchSetId": 21
@@ -14,6 +31,23 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "AAAL4H///c8\u003d",
+      "revId": "088afd7157aca5879bc8d10427f6aee138433831",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL4H///cU\u003d",
+        "filename": "org.eclipse.jgit.storage.dht/README",
+        "patchSetId": 21
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-04-13T14:47:45Z",
+      "side": 1,
+      "message": "typo: s/happing/happening/",
       "revId": "088afd7157aca5879bc8d10427f6aee138433831",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -38,6 +72,23 @@
     },
     {
       "key": {
+        "uuid": "AAAL4H///Yo\u003d",
+        "filename": "org.eclipse.jgit.storage.dht/src/org/eclipse/jgit/storage/dht/ChunkIndex.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-04-14T14:16:40Z",
+      "side": 1,
+      "message": "should this method be named \"encodeUInt24\" to be consistently named with the next method ?",
+      "revId": "088afd7157aca5879bc8d10427f6aee138433831",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn///hw\u003d",
         "filename": "org.eclipse.jgit.storage.dht/src/org/eclipse/jgit/storage/dht/ChunkIndex.java",
         "patchSetId": 21
@@ -56,6 +107,23 @@
     },
     {
       "key": {
+        "uuid": "AAAL4H///Yk\u003d",
+        "filename": "org.eclipse.jgit.storage.dht/src/org/eclipse/jgit/storage/dht/ChunkMeta.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-04-14T14:16:40Z",
+      "side": 1,
+      "message": "nit: redundant period at the end of this text",
+      "revId": "088afd7157aca5879bc8d10427f6aee138433831",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn///hs\u003d",
         "filename": "org.eclipse.jgit.storage.dht/src/org/eclipse/jgit/storage/dht/ChunkMeta.java",
         "patchSetId": 21
@@ -68,6 +136,23 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "AAAL4H///Yk\u003d",
+      "revId": "088afd7157aca5879bc8d10427f6aee138433831",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL4H///cw\u003d",
+        "filename": "org.eclipse.jgit.storage.dht/src/org/eclipse/jgit/storage/dht/Timeout.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-04-13T14:47:45Z",
+      "side": 1,
+      "message": "TimeUnit.MINUTES isn\u0027t available in Java 5",
       "revId": "088afd7157aca5879bc8d10427f6aee138433831",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -191,6 +276,23 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "AAAL4H///c0\u003d",
+      "revId": "088afd7157aca5879bc8d10427f6aee138433831",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL4H///co\u003d",
+        "filename": "org.eclipse.jgit.storage.dht/src/org/eclipse/jgit/storage/dht/Timeout.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-04-13T14:47:45Z",
+      "side": 1,
+      "message": "TimeUnit.MINUTES isn\u0027t available in Java 5",
       "revId": "088afd7157aca5879bc8d10427f6aee138433831",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
