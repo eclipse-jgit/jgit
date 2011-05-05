@@ -62,10 +62,14 @@ import java.util.Map;
 
 import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.api.RebaseResult.Status;
+import org.eclipse.jgit.api.errors.CheckoutConflictException;
+import org.eclipse.jgit.api.errors.ConcurrentRefUpdateException;
 import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.api.errors.InvalidMergeHeadsException;
 import org.eclipse.jgit.api.errors.InvalidRefNameException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.api.errors.NoHeadException;
+import org.eclipse.jgit.api.errors.NoMessageException;
 import org.eclipse.jgit.api.errors.RefAlreadyExistsException;
 import org.eclipse.jgit.api.errors.RefNotFoundException;
 import org.eclipse.jgit.api.errors.UnmergedPathsException;
@@ -537,21 +541,32 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		// the log command will not report any commits; in this case,
 		// we create the cherry-pick list ourselves
 		if (cherryPickList.isEmpty()) {
-			Iterable<RevCommit> parents = new Git(repo).log().add(
-					upstreamCommit).call();
-			for (RevCommit parent : parents) {
-				if (parent.equals(headCommit))
-					break;
-				if (parent.getParentCount() != 1)
-					throw new JGitInternalException(
-							JGitText.get().canOnlyCherryPickCommitsWithOneParent);
-				cherryPickList.add(parent);
-			}
+			MergeCommand merge = new Git(repo).merge().include(upstreamCommit);
+			try {
+				MergeResult call = merge.call();
+				switch (call.getMergeStatus()) {
+				case FAST_FORWARD:
+					return new RebaseResult(Status.FAST_FORWARD);
+				case ALREADY_UP_TO_DATE:
+					return new RebaseResult(Status.UP_TO_DATE);
+				default:
+					throw new JGitInternalException("Unexpected merge result: "
+							+ call.getMergeStatus().toString());
+				}
+			 } catch (NoHeadException e) {
+				throw new JGitInternalException(e.getMessage(), e);
+			 } catch (ConcurrentRefUpdateException e) {
+				throw new JGitInternalException(e.getMessage(), e);
+			 } catch (CheckoutConflictException e) {
+				throw new JGitInternalException(e.getMessage(), e);
+			 } catch (InvalidMergeHeadsException e) {
+				throw new JGitInternalException(e.getMessage(), e);
+			 } catch (WrongRepositoryStateException e) {
+				throw new JGitInternalException(e.getMessage(), e);
+			 } catch (NoMessageException e) {
+				throw new JGitInternalException(e.getMessage(), e);
+			 }
 		}
-
-		// nothing to do: return with UP_TO_DATE_RESULT
-		if (cherryPickList.isEmpty())
-			return RebaseResult.UP_TO_DATE_RESULT;
 
 		Collections.reverse(cherryPickList);
 		// create the folder for the meta information
