@@ -92,6 +92,23 @@
     },
     {
       "key": {
+        "uuid": "AAAL4H///c4\u003d",
+        "filename": "org.eclipse.jgit.storage.dht/src/org/eclipse/jgit/storage/dht/Timeout.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-04-13T14:47:45Z",
+      "side": 1,
+      "message": "TimeUnit.HOURS isn\u0027t available in Java 5",
+      "revId": "088afd7157aca5879bc8d10427f6aee138433831",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn///hk\u003d",
         "filename": "org.eclipse.jgit.storage.dht/src/org/eclipse/jgit/storage/dht/Timeout.java",
         "patchSetId": 21
@@ -110,6 +127,23 @@
     },
     {
       "key": {
+        "uuid": "AAAL4H///cs\u003d",
+        "filename": "org.eclipse.jgit.storage.dht/src/org/eclipse/jgit/storage/dht/Timeout.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-04-13T14:47:45Z",
+      "side": 1,
+      "message": "TimeUnit.MINUTES isn\u0027t available in Java 5",
+      "revId": "088afd7157aca5879bc8d10427f6aee138433831",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn///hg\u003d",
         "filename": "org.eclipse.jgit.storage.dht/src/org/eclipse/jgit/storage/dht/Timeout.java",
         "patchSetId": 21
@@ -122,6 +156,23 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "AAAL4H///cs\u003d",
+      "revId": "088afd7157aca5879bc8d10427f6aee138433831",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL4H///c0\u003d",
+        "filename": "org.eclipse.jgit.storage.dht/src/org/eclipse/jgit/storage/dht/Timeout.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-04-13T14:47:45Z",
+      "side": 1,
+      "message": "TimeUnit.HOURS isn\u0027t available in Java 5",
       "revId": "088afd7157aca5879bc8d10427f6aee138433831",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
