@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn///qI\u003d",
+        "filename": "org.eclipse.jgit.ant/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-05-04T12:37:24Z",
+      "side": 1,
+      "message": "style nit: trailing whitespace",
+      "revId": "05b9aaab302569066f96813a6b3074c3d9bbb04c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///qQ\u003d",
+        "filename": "org.eclipse.jgit.ant/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-05-04T12:37:24Z",
+      "side": 1,
+      "message": "needs to be updated to 1.0.0-SNAPSHOT",
+      "revId": "05b9aaab302569066f96813a6b3074c3d9bbb04c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///qM\u003d",
+        "filename": "org.eclipse.jgit.ant/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-05-04T12:37:24Z",
+      "side": 1,
+      "message": "style nit: trailing whitespace",
+      "revId": "05b9aaab302569066f96813a6b3074c3d9bbb04c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
