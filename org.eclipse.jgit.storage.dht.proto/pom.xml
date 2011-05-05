@@ -53,11 +53,11 @@
     <version>1.0.0-SNAPSHOT</version>
   </parent>
 
-  <artifactId>org.eclipse.jgit.storage.dht</artifactId>
-  <name>JGit - DHT Storage</name>
+  <artifactId>org.eclipse.jgit.storage.dht.proto</artifactId>
+  <name>JGit - DHT Storage Protocol Buffer Messages</name>
 
   <description>
-    Git repository storage on a distributed hashtable
+    Compiled protocol buffer messages for DHT storage
   </description>
 
   <properties>
@@ -66,15 +66,8 @@
 
   <dependencies>
     <dependency>
-      <groupId>org.eclipse.jgit</groupId>
-      <artifactId>org.eclipse.jgit</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.eclipse.jgit</groupId>
-      <artifactId>org.eclipse.jgit.storage.dht.proto</artifactId>
-      <version>${project.version}</version>
+      <groupId>com.google.protobuf</groupId>
+      <artifactId>protobuf-java</artifactId>
     </dependency>
   </dependencies>
 
@@ -122,40 +115,6 @@
           </archive>
         </configuration>
       </plugin>
-         <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>findbugs-maven-plugin</artifactId>
-            <configuration>
-               <findbugsXmlOutput>true</findbugsXmlOutput>
-               <failOnError>false</failOnError>
-            </configuration>
-            <executions>
-               <execution>
-                  <goals>
-                     <goal>check</goal>
-                  </goals>
-               </execution>
-            </executions>
-         </plugin>
-
-         <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-pmd-plugin</artifactId>
-            <configuration>
-               <sourceEncoding>utf-8</sourceEncoding>
-               <minimumTokens>100</minimumTokens>
-               <targetJdk>1.5</targetJdk>
-               <format>xml</format>
-               <failOnViolation>false</failOnViolation>
-            </configuration>
-            <executions>
-               <execution>
-                  <goals>
-                     <goal>cpd-check</goal>
-                  </goals>
-               </execution>
-            </executions>
-         </plugin>
     </plugins>
   </build>
 </project>
