@@ -83,7 +83,7 @@ public abstract class TextBuiltin {
 	protected PrintWriter out;
 
 	/** Git repository the command was invoked within. */
-	protected Repository db;
+	public Repository db;
 
 	/** Directory supplied via --git-dir command line option. */
 	protected String gitdir;
