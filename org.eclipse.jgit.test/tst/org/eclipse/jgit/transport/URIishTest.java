@@ -485,6 +485,17 @@ public class URIishTest {
 	}
 
 	@Test
+	public void testGetWindowsPathHumanishName()
+			throws IllegalArgumentException,
+			URISyntaxException {
+		if (File.separatorChar == '\\') {
+			String humanishName = new URIish("file:///C\\a\\b\\c.git/")
+					.getHumanishName();
+			assertEquals("c", humanishName);
+		}
+	}
+
+	@Test
 	public void testUserPasswordAndPort() throws URISyntaxException {
 		String str = "http://user:secret@host.xy:80/some/path";
 		URIish u = new URIish(str);
