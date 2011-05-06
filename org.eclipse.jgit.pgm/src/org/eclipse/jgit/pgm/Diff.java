@@ -72,9 +72,16 @@ import org.eclipse.jgit.treewalk.filter.TreeFilter;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 
+/**
+ *
+ */
 @Command(common = true, usage = "usage_ShowDiffs")
+public
 class Diff extends TextBuiltin {
-	private final DiffFormatter diffFmt = new DiffFormatter( //
+	/**
+	 *
+	 */
+	public DiffFormatter diffFmt = new DiffFormatter( //
 			new BufferedOutputStream(System.out));
 
 	@Argument(index = 0, metaVar = "metaVar_treeish")
@@ -86,8 +93,11 @@ class Diff extends TextBuiltin {
 	@Option(name = "--cached", usage = "usage_cached")
 	private boolean cached;
 
+	/**
+	 *
+	 */
 	@Option(name = "--", metaVar = "metaVar_paths", multiValued = true, handler = PathTreeFilterHandler.class)
-	private TreeFilter pathFilter = TreeFilter.ALL;
+	public TreeFilter pathFilter = TreeFilter.ALL;
 
 	// BEGIN -- Options shared with Log
 	@Option(name = "-p", usage = "usage_showPatch")
@@ -166,7 +176,7 @@ class Diff extends TextBuiltin {
 	// END -- Options shared with Log
 
 	@Override
-	protected void run() throws Exception {
+	public void run() throws Exception {
 		diffFmt.setRepository(db);
 		try {
 			if (cached) {
