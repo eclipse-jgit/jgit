@@ -102,7 +102,7 @@ public abstract class TextBuiltin {
 
 	/**
 	 * Initialize the command to work with a repository.
-	 *
+	 * 
 	 * @param repository
 	 *            the opened repository that the command should work on.
 	 * @param gitDir
@@ -112,8 +112,8 @@ public abstract class TextBuiltin {
 	protected void init(final Repository repository, final String gitDir) {
 		try {
 			final String outputEncoding = repository != null ? repository
-					.getConfig()
-					.getString("i18n", null, "logOutputEncoding") : null;
+					.getConfig().getString("i18n", null, "logOutputEncoding")
+					: null;
 			if (outputEncoding != null)
 				out = new PrintWriter(new BufferedWriter(
 						new OutputStreamWriter(System.out, outputEncoding)));
@@ -135,7 +135,7 @@ public abstract class TextBuiltin {
 
 	/**
 	 * Parse arguments and run this command.
-	 *
+	 * 
 	 * @param args
 	 *            command line arguments passed after the command name.
 	 * @throws Exception
@@ -154,7 +154,7 @@ public abstract class TextBuiltin {
 	 * This method should only be invoked by {@link #execute(String[])}, prior
 	 * to calling {@link #run()}. The default implementation parses all
 	 * arguments into this object's instance fields.
-	 *
+	 * 
 	 * @param args
 	 *            the arguments supplied on the command line, if any.
 	 */
@@ -164,7 +164,8 @@ public abstract class TextBuiltin {
 			clp.parseArgument(args);
 		} catch (CmdLineException err) {
 			if (!help) {
-				System.err.println(MessageFormat.format(CLIText.get().fatalError, err.getMessage()));
+				System.err.println(MessageFormat.format(
+						CLIText.get().fatalError, err.getMessage()));
 				System.exit(1);
 			}
 		}
@@ -178,7 +179,7 @@ public abstract class TextBuiltin {
 
 	/**
 	 * Print the usage line
-	 *
+	 * 
 	 * @param clp
 	 */
 	public void printUsageAndExit(final CmdLineParser clp) {
@@ -187,7 +188,7 @@ public abstract class TextBuiltin {
 
 	/**
 	 * Print an error message and the usage line
-	 *
+	 * 
 	 * @param message
 	 * @param clp
 	 */
@@ -208,8 +209,8 @@ public abstract class TextBuiltin {
 	}
 
 	/**
-	 * @return the resource bundle that will be passed to args4j for purpose
-	 *         of string localization
+	 * @return the resource bundle that will be passed to args4j for purpose of
+	 *         string localization
 	 */
 	protected ResourceBundle getResourceBundle() {
 		return CLIText.get().resourceBundle();
@@ -219,7 +220,7 @@ public abstract class TextBuiltin {
 	 * Perform the actions of this command.
 	 * <p>
 	 * This method should only be invoked by {@link #execute(String[])}.
-	 *
+	 * 
 	 * @throws Exception
 	 *             an error occurred while processing the command. The main
 	 *             framework will catch the exception and print a message on
