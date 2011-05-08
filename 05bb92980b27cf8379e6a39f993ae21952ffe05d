@@ -1,0 +1,39 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn///YY\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/URIishTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 491,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-06T14:03:19Z",
+      "side": 1,
+      "message": "No. This test will pass on Linux or Mac OS X even if getHumanishName() has been broken.\n\nRemove the conditional and always check the function.",
+      "revId": "05bb92980b27cf8379e6a39f993ae21952ffe05d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///V0\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/URIishTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 491,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-06T15:07:01Z",
+      "side": 1,
+      "message": "Hmm. The test would fail on Mac OS X or Linux because the separatorChar there is \u0027/\u0027 and it wouldn\u0027t split correctly on \u0027\\\u0027.\n\nMy point is, the larger the test coverage is on all platforms, the less likely we are to see a regression in any particular platform specific section. For that matter, the less platform specific sections of code we have, the better.\n\nI would prefer being able to also run this test on Mac OS X or Linux and have it correctly test the \\ splitting behavior. That means moving the selection of File.separatorChar inside getHumanishName() over to our SystemReader class, and using the MockSystemReader to set it to \u0027\\\u0027 specifically in this test function. That is perhaps too ugly for something this simple.",
+      "parentUuid": "AABOIn///XE\u003d",
+      "revId": "05bb92980b27cf8379e6a39f993ae21952ffe05d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
