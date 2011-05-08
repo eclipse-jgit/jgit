@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn///XE\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/URIishTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 491,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2011-05-06T14:46:58Z",
+      "side": 1,
+      "message": "But why should a path like file:///C\\a\\b\\c.git/ occur on Linux or Mac OS\nX? I thought that this test is only relevant on Windows, and the\nmethod getHumanishName() needs not to take into accout \\ on Linux\nor Mac OS X. \n\nFor the method getHumanishName() there are many other tests\nrunning on all platforms.",
+      "parentUuid": "AABOIn///YY\u003d",
+      "revId": "05bb92980b27cf8379e6a39f993ae21952ffe05d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn///V0\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/URIishTest.java",
         "patchSetId": 6
