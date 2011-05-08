@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AABOIn///pY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 555,
+      "author": {
+        "id": 44
+      },
+      "writtenOn": "2011-05-04T13:52:31Z",
+      "side": 1,
+      "message": "Should we check for Windows platform before replacing \"\\\" with \"/\"? \"\\\" can be part of file and folder names on UNIX.",
+      "revId": "00552dffe73616ae118fde101d9ef31a6a5c6646",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn///k8\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
         "patchSetId": 2
