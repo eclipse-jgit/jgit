@@ -52,6 +52,24 @@
       "revId": "05bb92980b27cf8379e6a39f993ae21952ffe05d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///RE\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/URIishTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 491,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-05-08T17:16:50Z",
+      "side": 1,
+      "message": "You could also treat \\ as a separator on all platforms. We do that in the rest of this class. Then let someone (else) \"fix\" whole class (that will be messy...). \n\n[Deity of your choice] forbid anyone thinks \\ is a good character in a name of anything on Linux.",
+      "parentUuid": "AABOIn///V0\u003d",
+      "revId": "05bb92980b27cf8379e6a39f993ae21952ffe05d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
