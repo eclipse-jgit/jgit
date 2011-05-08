@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn///gk\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/URIishTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 491,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-05T17:41:26Z",
+      "side": 1,
+      "message": "No. This is now a platform specific test. On Mac OS X and Linux we cannot test that this works correctly for Windows paths.\n\nPlease use \\\\ literally in the test string.",
+      "revId": "80490301bdd9383284082f3a9186b6cd65139031",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///go\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 558,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-05T17:41:26Z",
+      "side": 1,
+      "message": "Use separatorChar?",
+      "revId": "80490301bdd9383284082f3a9186b6cd65139031",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///gs\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 559,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-05T17:41:26Z",
+      "side": 1,
+      "message": "Style-nit: Unnecessary braces",
+      "revId": "80490301bdd9383284082f3a9186b6cd65139031",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
