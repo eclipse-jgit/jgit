@@ -1,0 +1,40 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn///Mk\u003d",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/JGitText.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 489,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-05-09T12:40:19Z",
+      "side": 1,
+      "message": "it\u0027s the template used to build the \"x years, y months\" format, if x or y are 1 we have to use singular, as other languages may require a different order of arguments I have chosen this nested approach",
+      "parentUuid": "AABOIn///M8\u003d",
+      "revId": "57d677e07463668717fa66e6e017ee9bf4d17af8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///MY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RelativeDateFormatter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-05-09T12:40:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn///Ms\u003d",
+      "revId": "57d677e07463668717fa66e6e017ee9bf4d17af8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
