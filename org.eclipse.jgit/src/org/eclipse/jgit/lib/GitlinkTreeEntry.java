@@ -58,7 +58,6 @@ package org.eclipse.jgit.lib;
  */
 @Deprecated
 public class GitlinkTreeEntry extends TreeEntry {
-	private static final long serialVersionUID = 1L;
 
 	/**
 	 * Construct a {@link GitlinkTreeEntry} with the specified name and SHA-1 in
