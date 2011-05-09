@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AABOIn///M8\u003d",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/JGitText.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 489,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-05-09T09:28:26Z",
+      "side": 1,
+      "message": "a text which doesn\u0027t contain \"year\" or \"month\" but called \"yearsMonthsAgo\"? Strange, or?",
+      "revId": "57d677e07463668717fa66e6e017ee9bf4d17af8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn///Mk\u003d",
         "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/JGitText.properties",
         "patchSetId": 2
@@ -14,6 +31,23 @@
       "side": 1,
       "message": "it\u0027s the template used to build the \"x years, y months\" format, if x or y are 1 we have to use singular, as other languages may require a different order of arguments I have chosen this nested approach",
       "parentUuid": "AABOIn///M8\u003d",
+      "revId": "57d677e07463668717fa66e6e017ee9bf4d17af8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///Ms\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RelativeDateFormatter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-05-09T09:28:26Z",
+      "side": 1,
+      "message": "That strategy of converting age incrementally from seconds to minutes, from minutes to days and so leads to very nice to read \u0026 understand code ... but in the end it\u0027s much slower than\n\n// convert to seconds\nlong age \u003d (System.currentTimeMillis() - when.getTime()) / 1000;\n\nif (age \u003c 90)\n...\nelse if (age \u003c 90*60...)\n..",
       "revId": "57d677e07463668717fa66e6e017ee9bf4d17af8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
