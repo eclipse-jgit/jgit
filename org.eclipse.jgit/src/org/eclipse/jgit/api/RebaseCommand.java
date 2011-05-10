@@ -272,39 +272,45 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 				}
 			}
 			if (newHead != null) {
-				// point the previous head (if any) to the new commit
 				String headName = readFile(rebaseDir, HEAD_NAME);
-				if (headName.startsWith(Constants.R_REFS)) {
-					RefUpdate rup = repo.updateRef(headName);
-					rup.setNewObjectId(newHead);
-					Result res = rup.forceUpdate();
-					switch (res) {
-					case FAST_FORWARD:
-					case FORCED:
-					case NO_CHANGE:
-						break;
-					default:
-						throw new JGitInternalException("Updating HEAD failed");
-					}
-					rup = repo.updateRef(Constants.HEAD);
-					res = rup.link(headName);
-					switch (res) {
-					case FAST_FORWARD:
-					case FORCED:
-					case NO_CHANGE:
-						break;
-					default:
-						throw new JGitInternalException("Updating HEAD failed");
-					}
-				}
+				updatePreviousHead(headName, newHead);
 				FileUtils.delete(rebaseDir, FileUtils.RECURSIVE);
 				if (lastStepWasForward)
 					return new RebaseResult(Status.FAST_FORWARD);
 				return new RebaseResult(Status.OK);
 			}
-			return new RebaseResult(Status.UP_TO_DATE);
+			return new RebaseResult(Status.FAST_FORWARD);
 		} catch (IOException ioe) {
 			throw new JGitInternalException(ioe.getMessage(), ioe);
+		}
+	}
+
+	private void updatePreviousHead(String headName, RevCommit newHead)
+			throws IOException {
+		// point the previous head (if any) to the new commit
+
+		if (headName.startsWith(Constants.R_REFS)) {
+			RefUpdate rup = repo.updateRef(headName);
+			rup.setNewObjectId(newHead);
+			Result res = rup.forceUpdate();
+			switch (res) {
+			case FAST_FORWARD:
+			case FORCED:
+			case NO_CHANGE:
+				break;
+			default:
+				throw new JGitInternalException("Updating HEAD failed");
+			}
+			rup = repo.updateRef(Constants.HEAD);
+			res = rup.link(headName);
+			switch (res) {
+			case FAST_FORWARD:
+			case FORCED:
+			case NO_CHANGE:
+				break;
+			default:
+				throw new JGitInternalException("Updating HEAD failed");
+			}
 		}
 	}
 
@@ -533,64 +539,60 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 			cherryPickList.add(commit);
 		}
 
-		// if the upstream commit is in a direct line to the current head,
-		// the log command will not report any commits; in this case,
-		// we create the cherry-pick list ourselves
-		if (cherryPickList.isEmpty()) {
-			Iterable<RevCommit> parents = new Git(repo).log().add(
-					upstreamCommit).call();
-			for (RevCommit parent : parents) {
-				if (parent.equals(headCommit))
-					break;
-				if (parent.getParentCount() != 1)
-					throw new JGitInternalException(
-							JGitText.get().canOnlyCherryPickCommitsWithOneParent);
-				cherryPickList.add(parent);
+		if (!cherryPickList.isEmpty()) {
+			Collections.reverse(cherryPickList);
+			// create the folder for the meta information
+			FileUtils.mkdir(rebaseDir);
+
+			createFile(repo.getDirectory(), Constants.ORIG_HEAD, headId.name());
+			createFile(rebaseDir, REBASE_HEAD, headId.name());
+			createFile(rebaseDir, HEAD_NAME, headName);
+			createFile(rebaseDir, ONTO, upstreamCommit.name());
+			createFile(rebaseDir, INTERACTIVE, "");
+			BufferedWriter fw = new BufferedWriter(new OutputStreamWriter(
+					new FileOutputStream(new File(rebaseDir, GIT_REBASE_TODO)),
+					Constants.CHARACTER_ENCODING));
+			fw.write("# Created by EGit: rebasing " + upstreamCommit.name()
+					+ " onto " + headId.name());
+			fw.newLine();
+			try {
+				StringBuilder sb = new StringBuilder();
+				ObjectReader reader = walk.getObjectReader();
+				for (RevCommit commit : cherryPickList) {
+					sb.setLength(0);
+					sb.append(Action.PICK.toToken());
+					sb.append(" ");
+					sb.append(reader.abbreviate(commit).name());
+					sb.append(" ");
+					sb.append(commit.getShortMessage());
+					fw.write(sb.toString());
+					fw.newLine();
+				}
+			} finally {
+				fw.close();
 			}
-		}
-
-		// nothing to do: return with UP_TO_DATE_RESULT
-		if (cherryPickList.isEmpty())
-			return RebaseResult.UP_TO_DATE_RESULT;
-
-		Collections.reverse(cherryPickList);
-		// create the folder for the meta information
-		FileUtils.mkdir(rebaseDir);
-
-		createFile(repo.getDirectory(), Constants.ORIG_HEAD, headId.name());
-		createFile(rebaseDir, REBASE_HEAD, headId.name());
-		createFile(rebaseDir, HEAD_NAME, headName);
-		createFile(rebaseDir, ONTO, upstreamCommit.name());
-		createFile(rebaseDir, INTERACTIVE, "");
-		BufferedWriter fw = new BufferedWriter(new OutputStreamWriter(
-				new FileOutputStream(new File(rebaseDir, GIT_REBASE_TODO)),
-				Constants.CHARACTER_ENCODING));
-		fw.write("# Created by EGit: rebasing " + upstreamCommit.name()
-				+ " onto " + headId.name());
-		fw.newLine();
-		try {
-			StringBuilder sb = new StringBuilder();
-			ObjectReader reader = walk.getObjectReader();
-			for (RevCommit commit : cherryPickList) {
-				sb.setLength(0);
-				sb.append(Action.PICK.toToken());
-				sb.append(" ");
-				sb.append(reader.abbreviate(commit).name());
-				sb.append(" ");
-				sb.append(commit.getShortMessage());
-				fw.write(sb.toString());
-				fw.newLine();
-			}
-		} finally {
-			fw.close();
 		}
 
 		monitor.endTask();
+
+		// if the upstream commit is in a direct line to the current head,
+		// the log command will not report any commits; if we are already
+		// at the upstream commit just exit
+		if (cherryPickList.isEmpty() && headId.equals(upstreamCommit.getId()))
+			return RebaseResult.UP_TO_DATE_RESULT;
+
 		// we rewind to the upstream commit
 		monitor.beginTask(MessageFormat.format(JGitText.get().rewinding,
 				upstreamCommit.getShortMessage()), ProgressMonitor.UNKNOWN);
 		checkoutCommit(upstreamCommit);
 		monitor.endTask();
+
+		// nothing to rebse, its a fast-foward
+		if (cherryPickList.isEmpty()) {
+			updatePreviousHead(headName, upstreamCommit);
+			return new RebaseResult(RebaseResult.Status.FAST_FORWARD);
+		}
+
 		return null;
 	}
 
