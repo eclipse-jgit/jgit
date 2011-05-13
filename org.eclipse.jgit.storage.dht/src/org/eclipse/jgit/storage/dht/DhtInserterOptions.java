@@ -49,6 +49,7 @@ import static org.eclipse.jgit.lib.Constants.OBJECT_ID_LENGTH;
 import java.security.SecureRandom;
 import java.util.zip.Deflater;
 
+import org.eclipse.jgit.generated.storage.dht.proto.GitStore.ChunkMeta;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.CoreConfig;
 import org.eclipse.jgit.storage.dht.spi.WriteBuffer;

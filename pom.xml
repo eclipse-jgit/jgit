@@ -135,6 +135,7 @@
     <args4j-version>2.0.12</args4j-version>
     <servlet-api-version>2.5</servlet-api-version>
     <jetty-version>7.1.6.v20100715</jetty-version>
+    <protobuf-version>2.4.0a</protobuf-version>
   </properties>
 
   <build>
@@ -348,6 +349,12 @@
         <artifactId>jetty-servlet</artifactId>
         <version>${jetty-version}</version>
       </dependency>
+
+      <dependency>
+        <groupId>com.google.protobuf</groupId>
+        <artifactId>protobuf-java</artifactId>
+        <version>${protobuf-version}</version>
+      </dependency>
     </dependencies>
   </dependencyManagement>
 
@@ -392,6 +399,7 @@
 
   <modules>
     <module>org.eclipse.jgit</module>
+	<module>org.eclipse.jgit.generated.storage.dht.proto</module>
     <module>org.eclipse.jgit.storage.dht</module>
     <module>org.eclipse.jgit.ant</module>
     <module>org.eclipse.jgit.ui</module>

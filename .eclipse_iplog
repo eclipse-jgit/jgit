@@ -120,3 +120,9 @@
 	license = Apache License, 2.0
 	use = unmodified source & binary
 	state = approved
+
+[CQ "5135"]
+	description = Protocol Buffers Version: 2.4.0a (ATO CQ4876)
+	license = New BSD license
+	use = unmodified source & binary
+	state = approved

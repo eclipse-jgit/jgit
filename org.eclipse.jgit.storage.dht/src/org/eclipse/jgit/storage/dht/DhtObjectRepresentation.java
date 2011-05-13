@@ -76,7 +76,7 @@ final class DhtObjectRepresentation extends StoredObjectRepresentation {
 
 	@Override
 	public int getFormat() {
-		if (info.getDeltaBase() != null)
+		if (info.isDelta())
 			return PACK_DELTA;
 		return PACK_WHOLE;
 	}
