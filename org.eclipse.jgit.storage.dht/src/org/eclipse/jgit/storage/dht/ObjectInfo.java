@@ -43,13 +43,12 @@
 
 package org.eclipse.jgit.storage.dht;
 
-import java.text.MessageFormat;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
-import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.generated.storage.dht.proto.GitStore;
 import org.eclipse.jgit.lib.ObjectId;
 
 /** Connects an object to the chunk it is stored in. */
@@ -71,106 +70,40 @@ public class ObjectInfo {
 		Collections.sort(toSort, BY_TIME);
 	}
 
+	private final ChunkKey chunk;
+
+	private final long time;
+
+	private final GitStore.ObjectInfo data;
+
 	/**
-	 * Parse an ObjectInfo from the storage system.
+	 * Wrap an ObjectInfo from the storage system.
 	 *
 	 * @param chunkKey
 	 *            the chunk the object points to.
 	 * @param data
 	 *            the data of the ObjectInfo.
-	 * @param time
-	 *            timestamp of the ObjectInfo. If the implementation does not
-	 *            store timestamp data, supply a negative value.
-	 * @return the object's information.
 	 */
-	public static ObjectInfo fromBytes(ChunkKey chunkKey, byte[] data, long time) {
-		return fromBytes(chunkKey, TinyProtobuf.decode(data), time);
+	public ObjectInfo(ChunkKey chunkKey, GitStore.ObjectInfo data) {
+		this.chunk = chunkKey;
+		this.time = 0;
+		this.data = data;
 	}
 
 	/**
-	 * Parse an ObjectInfo from the storage system.
+	 * Wrap an ObjectInfo from the storage system.
 	 *
 	 * @param chunkKey
 	 *            the chunk the object points to.
-	 * @param d
-	 *            the data of the ObjectInfo.
 	 * @param time
-	 *            timestamp of the ObjectInfo. If the implementation does not
-	 *            store timestamp data, supply a negative value.
-	 * @return the object's information.
+	 *            timestamp of the ObjectInfo.
+	 * @param data
+	 *            the data of the ObjectInfo.
 	 */
-	public static ObjectInfo fromBytes(ChunkKey chunkKey,
-			TinyProtobuf.Decoder d, long time) {
-		int typeCode = -1;
-		int offset = -1;
-		long packedSize = -1;
-		long inflatedSize = -1;
-		ObjectId deltaBase = null;
-		boolean fragmented = false;
-
-		PARSE: for (;;) {
-			switch (d.next()) {
-			case 0:
-				break PARSE;
-			case 1:
-				typeCode = d.int32();
-				continue;
-			case 2:
-				offset = d.int32();
-				continue;
-			case 3:
-				packedSize = d.int64();
-				continue;
-			case 4:
-				inflatedSize = d.int64();
-				continue;
-			case 5:
-				deltaBase = d.bytesObjectId();
-				continue;
-			case 6:
-				fragmented = d.bool();
-				continue;
-			default:
-				d.skip();
-				continue;
-			}
-		}
-
-		if (typeCode < 0 || offset < 0 || packedSize < 0 || inflatedSize < 0)
-			throw new IllegalArgumentException(MessageFormat.format(
-					DhtText.get().invalidObjectInfo, chunkKey));
-
-		return new ObjectInfo(chunkKey, time, typeCode, offset, //
-				packedSize, inflatedSize, deltaBase, fragmented);
-	}
-
-	private final ChunkKey chunk;
-
-	private final long time;
-
-	private final int typeCode;
-
-	private final int offset;
-
-	private final long packedSize;
-
-	private final long inflatedSize;
-
-	private final ObjectId deltaBase;
-
-	private final boolean fragmented;
-
-	ObjectInfo(ChunkKey chunk, long time, int typeCode, int offset,
-			long packedSize, long inflatedSize, ObjectId base,
-			boolean fragmented) {
-		this.chunk = chunk;
+	public ObjectInfo(ChunkKey chunkKey, long time, GitStore.ObjectInfo data) {
+		this.chunk = chunkKey;
 		this.time = time < 0 ? 0 : time;
-		this.typeCode = typeCode;
-		this.offset = offset;
-		this.packedSize = packedSize;
-		this.inflatedSize = inflatedSize;
-		this.deltaBase = base;
-		this.fragmented = fragmented;
+		this.data = data;
 	}
 
 	/** @return the chunk this link points to. */
@@ -183,54 +116,43 @@ public class ObjectInfo {
 		return time;
 	}
 
+	/** @return GitStore.ObjectInfo to embed in the database. */
+	public GitStore.ObjectInfo getData() {
+		return data;
+	}
+
 	/** @return type of the object, in OBJ_* constants. */
 	public int getType() {
-		return typeCode;
+		return data.getObjectType().getNumber();
 	}
 
 	/** @return size of the object when fully inflated. */
 	public long getSize() {
-		return inflatedSize;
+		return data.getInflatedSize();
 	}
 
 	/** @return true if the object storage uses delta compression. */
 	public boolean isDelta() {
-		return getDeltaBase() != null;
+		return data.hasDeltaBase();
 	}
 
 	/** @return true if the object has been fragmented across chunks. */
 	public boolean isFragmented() {
-		return fragmented;
+		return data.getIsFragmented();
 	}
 
 	int getOffset() {
-		return offset;
+		return data.getOffset();
 	}
 
 	long getPackedSize() {
-		return packedSize;
+		return data.getPackedSize();
 	}
 
 	ObjectId getDeltaBase() {
-		return deltaBase;
-	}
-
-	/**
-	 * Convert this ObjectInfo into a byte array for storage.
-	 *
-	 * @return the ObjectInfo data, encoded as a byte array. This does not
-	 *         include the ChunkKey, callers must store that separately.
-	 */
-	public byte[] asBytes() {
-		TinyProtobuf.Encoder e = TinyProtobuf.encode(256);
-		e.int32(1, typeCode);
-		e.int32(2, offset);
-		e.int64(3, packedSize);
-		e.int64(4, inflatedSize);
-		e.bytes(5, deltaBase);
-		if (fragmented)
-			e.bool(6, fragmented);
-		return e.asByteArray();
+		if (data.hasDeltaBase())
+			return ObjectId.fromRaw(data.getDeltaBase().toByteArray(), 0);
+		return null;
 	}
 
 	@Override
@@ -238,18 +160,10 @@ public class ObjectInfo {
 		StringBuilder b = new StringBuilder();
 		b.append("ObjectInfo:");
 		b.append(chunk);
-		b.append(" [");
 		if (0 < time)
-			b.append(" time=").append(new Date(time));
-		b.append(" type=").append(Constants.typeString(typeCode));
-		b.append(" offset=").append(offset);
-		b.append(" packedSize=").append(packedSize);
-		b.append(" inflatedSize=").append(inflatedSize);
-		if (deltaBase != null)
-			b.append(" deltaBase=").append(deltaBase.name());
-		if (fragmented)
-			b.append(" fragmented");
-		b.append(" ]");
+			b.append(" @ ").append(new Date(time));
+		b.append("\n");
+		b.append(data.toString());
 		return b.toString();
 	}
 }

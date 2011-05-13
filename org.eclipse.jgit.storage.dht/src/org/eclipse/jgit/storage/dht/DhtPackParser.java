@@ -67,10 +67,13 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
-import java.util.Set;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.concurrent.TimeoutException;
 
+import org.eclipse.jgit.generated.storage.dht.proto.GitStore;
+import org.eclipse.jgit.generated.storage.dht.proto.GitStore.CachedPackInfo;
+import org.eclipse.jgit.generated.storage.dht.proto.GitStore.ChunkMeta;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.MutableObjectId;
@@ -85,6 +88,8 @@ import org.eclipse.jgit.transport.PackParser;
 import org.eclipse.jgit.transport.PackedObjectInfo;
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
 import org.eclipse.jgit.util.LongList;
+
+import com.google.protobuf.ByteString;
 
 /** Parses the pack stream into chunks, and indexes the chunks for lookup. */
 public class DhtPackParser extends PackParser {
@@ -112,7 +117,7 @@ public class DhtPackParser extends PackParser {
 	private Edges[] openEdges;
 
 	/** Prior chunks that were written, keyed by object type code. */
-	private List<ChunkInfo>[] infoByOrder;
+	private List<ChunkKey>[] chunkByOrder;
 
 	/** Information on chunks already written out. */
 	private Map<ChunkKey, ChunkInfo> infoByKey;
@@ -199,7 +204,7 @@ public class DhtPackParser extends PackParser {
 		dbWriteBuffer = db.newWriteBuffer();
 		openChunks = new ChunkFormatter[5];
 		openEdges = new Edges[5];
-		infoByOrder = newListArray(5);
+		chunkByOrder = newListArray(5);
 		infoByKey = new HashMap<ChunkKey, ChunkInfo>();
 		dirtyMeta = new HashMap<ChunkKey, ChunkMeta>();
 		chunkMeta = new HashMap<ChunkKey, ChunkMeta>();
@@ -306,7 +311,7 @@ public class DhtPackParser extends PackParser {
 			if (!success)
 				rollback();
 
-			infoByOrder = null;
+			chunkByOrder = null;
 			objectListByName = null;
 			objectListByChunk = null;
 			linkIterators = null;
@@ -332,54 +337,74 @@ public class DhtPackParser extends PackParser {
 	}
 
 	private void putCachedPack() throws DhtException {
-		CachedPackInfo info = new CachedPackInfo();
+		CachedPackInfo.Builder info = CachedPackInfo.newBuilder();
 
 		for (DhtInfo obj : objectMap) {
 			if (!obj.isInPack())
 				return;
 
 			if (!obj.isReferenced())
-				info.tips.add(obj.copy());
+				info.getTipListBuilder().addObjectName(obj.name());
 		}
 
 		MessageDigest version = Constants.newMessageDigest();
-		addChunkList(info, version, infoByOrder[OBJ_TAG]);
-		addChunkList(info, version, infoByOrder[OBJ_COMMIT]);
-		addChunkList(info, version, infoByOrder[OBJ_TREE]);
-		addChunkList(info, version, infoByOrder[OBJ_BLOB]);
+		addChunkList(info, version, chunkByOrder[OBJ_TAG]);
+		addChunkList(info, version, chunkByOrder[OBJ_COMMIT]);
+		addChunkList(info, version, chunkByOrder[OBJ_TREE]);
+		addChunkList(info, version, chunkByOrder[OBJ_BLOB]);
 
-		info.name = computePackName();
-		info.version = ObjectId.fromRaw(version.digest());
+		info.setName(computePackName().name());
+		info.setVersion(ObjectId.fromRaw(version.digest()).name());
 
-		cachedPackKey = info.getRowKey();
-		for (List<ChunkInfo> list : infoByOrder) {
+		cachedPackKey = CachedPackKey.fromInfo(info.build());
+		for (List<ChunkKey> list : chunkByOrder) {
 			if (list == null)
 				continue;
-			for (ChunkInfo c : list) {
-				c.cachedPack = cachedPackKey;
-				if (c.isFragment())
-					db.repository().put(repo, info, dbWriteBuffer);
+			for (ChunkKey key : list) {
+				ChunkInfo oldInfo = infoByKey.get(key);
+				GitStore.ChunkInfo.Builder b =
+					GitStore.ChunkInfo.newBuilder(oldInfo.getData());
+				b.setCachedPackKey(cachedPackKey.asString());
+				ChunkInfo newInfo = new ChunkInfo(key, b.build());
+				infoByKey.put(key, newInfo);
+
+				// A fragment was already put, and has to be re-put.
+				// Non-fragments will put later and do not put now.
+				if (newInfo.getData().getIsFragment())
+					db.repository().put(repo, newInfo, dbWriteBuffer);
 			}
 		}
 
-		db.repository().put(repo, info, dbWriteBuffer);
+		db.repository().put(repo, info.build(), dbWriteBuffer);
 	}
 
-	private void addChunkList(CachedPackInfo info, MessageDigest version,
-			List<ChunkInfo> list) {
+	private void addChunkList(CachedPackInfo.Builder info,
+			MessageDigest version, List<ChunkKey> list) {
 		if (list == null)
 			return;
+
+		long bytesTotal = info.getBytesTotal();
+		long objectsTotal = info.getObjectsTotal();
+		long objectsDelta = info.getObjectsDelta();
+
 		byte[] buf = new byte[Constants.OBJECT_ID_LENGTH];
-		for (ChunkInfo c : list) {
-			int len = c.chunkSize - ChunkFormatter.TRAILER_SIZE;
-			info.bytesTotal += len;
-			info.objectsTotal += c.objectsTotal;
-			info.objectsDelta += c.objectsOfsDelta;
-			info.objectsDelta += c.objectsRefDelta;
-			info.chunks.add(c.getChunkKey());
-			c.getChunkKey().getChunkHash().copyRawTo(buf, 0);
+		for (ChunkKey key : list) {
+			ChunkInfo chunkInfo = infoByKey.get(key);
+			GitStore.ChunkInfo c = chunkInfo.getData();
+			int len = c.getChunkSize() - ChunkFormatter.TRAILER_SIZE;
+			bytesTotal += len;
+			objectsTotal += c.getObjectCounts().getTotal();
+			objectsDelta += c.getObjectCounts().getOfsDelta();
+			objectsDelta += c.getObjectCounts().getRefDelta();
+			info.getChunkListBuilder().addChunkKey(
+					chunkInfo.getChunkKey().asString());
+			chunkInfo.getChunkKey().getChunkHash().copyRawTo(buf, 0);
 			version.update(buf);
 		}
+
+		info.setBytesTotal(bytesTotal);
+		info.setObjectsTotal(objectsTotal);
+		info.setObjectsDelta(objectsDelta);
 	}
 
 	private ObjectId computePackName() {
@@ -420,10 +445,10 @@ public class DhtPackParser extends PackParser {
 				}
 			}
 
-			deleteChunks(infoByOrder[OBJ_COMMIT]);
-			deleteChunks(infoByOrder[OBJ_TREE]);
-			deleteChunks(infoByOrder[OBJ_BLOB]);
-			deleteChunks(infoByOrder[OBJ_TAG]);
+			deleteChunks(chunkByOrder[OBJ_COMMIT]);
+			deleteChunks(chunkByOrder[OBJ_TREE]);
+			deleteChunks(chunkByOrder[OBJ_BLOB]);
+			deleteChunks(chunkByOrder[OBJ_TAG]);
 
 			dbWriteBuffer.flush();
 		} catch (Throwable err) {
@@ -431,10 +456,9 @@ public class DhtPackParser extends PackParser {
 		}
 	}
 
-	private void deleteChunks(List<ChunkInfo> list) throws DhtException {
+	private void deleteChunks(List<ChunkKey> list) throws DhtException {
 		if (list != null) {
-			for (ChunkInfo info : list) {
-				ChunkKey key = info.getChunkKey();
+			for (ChunkKey key : list) {
 				db.chunk().remove(key, dbWriteBuffer);
 				db.repository().remove(repo, key, dbWriteBuffer);
 			}
@@ -605,60 +629,77 @@ public class DhtPackParser extends PackParser {
 
 	private void putChunkIndex(List<DhtInfo> objectList, ChunkKey key, int type)
 			throws DhtException {
-		ChunkInfo info = infoByKey.get(key);
-		info.objectsTotal = objectList.size();
-		info.objectType = type;
+		ChunkInfo oldInfo = infoByKey.get(key);
+		GitStore.ChunkInfo.Builder info
+			= GitStore.ChunkInfo.newBuilder(oldInfo.getData());
 
 		PackChunk.Members builder = new PackChunk.Members();
 		builder.setChunkKey(key);
 
 		byte[] index = ChunkIndex.create(objectList);
-		info.indexSize = index.length;
+		info.setIndexSize(index.length);
 		builder.setChunkIndex(index);
 
 		ChunkMeta meta = dirtyMeta.remove(key);
 		if (meta == null)
 			meta = chunkMeta.get(key);
-		if (meta == null)
-			meta = new ChunkMeta(key);
 
 		switch (type) {
 		case OBJ_COMMIT: {
 			Edges edges = chunkEdges.get(key);
-			if (edges != null) {
-				List<ChunkKey> e = edges.commitEdges;
-				List<ChunkKey> s = sequentialHint(key, OBJ_COMMIT);
-				meta.commitPrefetch = new ChunkMeta.PrefetchHint(e, s);
+			List<ChunkKey> e = edges != null ? edges.commitEdges : null;
+			List<ChunkKey> s = sequentialHint(key, OBJ_COMMIT);
+			if (e == null)
+				e = Collections.emptyList();
+			if (s == null)
+				s = Collections.emptyList();
+			if (!e.isEmpty() || !s.isEmpty()) {
+				ChunkMeta.Builder m = edit(meta);
+				ChunkMeta.PrefetchHint.Builder h = m.getCommitPrefetchBuilder();
+				for (ChunkKey k : e)
+					h.addEdge(k.asString());
+				for (ChunkKey k : s)
+					h.addSequential(k.asString());
+				meta = m.build();
 			}
 			break;
 		}
 		case OBJ_TREE: {
 			List<ChunkKey> s = sequentialHint(key, OBJ_TREE);
-			meta.treePrefetch = new ChunkMeta.PrefetchHint(null, s);
+			if (s == null)
+				s = Collections.emptyList();
+			if (!s.isEmpty()) {
+				ChunkMeta.Builder m = edit(meta);
+				ChunkMeta.PrefetchHint.Builder h = m.getTreePrefetchBuilder();
+				for (ChunkKey k : s)
+					h.addSequential(k.asString());
+				meta = m.build();
+			}
 			break;
 		}
 		}
 
-		if (meta.isEmpty()) {
-			info.metaSize = 0;
-		} else {
-			info.metaSize = meta.asBytes().length;
+		if (meta != null) {
+			info.setMetaSize(meta.getSerializedSize());
 			builder.setMeta(meta);
 		}
 
-		db.repository().put(repo, info, dbWriteBuffer);
+		ChunkInfo newInfo = new ChunkInfo(key, info.build());
+		infoByKey.put(key, newInfo);
+		db.repository().put(repo, newInfo, dbWriteBuffer);
 		db.chunk().put(builder, dbWriteBuffer);
 	}
 
+	private static ChunkMeta.Builder edit(ChunkMeta meta) {
+		if (meta != null)
+			return ChunkMeta.newBuilder(meta);
+		return ChunkMeta.newBuilder();
+	}
+
 	private List<ChunkKey> sequentialHint(ChunkKey key, int typeCode) {
-		List<ChunkInfo> infoList = infoByOrder[typeCode];
-		if (infoList == null)
+		List<ChunkKey> all = chunkByOrder[typeCode];
+		if (all == null)
 			return null;
-
-		List<ChunkKey> all = new ArrayList<ChunkKey>(infoList.size());
-		for (ChunkInfo info : infoList)
-			all.add(info.getChunkKey());
-
 		int idx = all.indexOf(key);
 		if (0 <= idx) {
 			int max = options.getPrefetchDepth();
@@ -669,10 +710,10 @@ public class DhtPackParser extends PackParser {
 	}
 
 	private void putDirtyMeta() throws DhtException {
-		for (ChunkMeta meta : dirtyMeta.values()) {
+		for (Map.Entry<ChunkKey, ChunkMeta> meta : dirtyMeta.entrySet()) {
 			PackChunk.Members builder = new PackChunk.Members();
-			builder.setChunkKey(meta.getChunkKey());
-			builder.setMeta(meta);
+			builder.setChunkKey(meta.getKey());
+			builder.setMeta(meta.getValue());
 			db.chunk().put(builder, dbWriteBuffer);
 		}
 	}
@@ -892,15 +933,15 @@ public class DhtPackParser extends PackParser {
 
 	private boolean longOfsDelta(ChunkFormatter w, long infSize, long basePtr) {
 		final int type = typeOf(basePtr);
-		final List<ChunkInfo> infoList = infoByOrder[type];
+		final List<ChunkKey> infoList = chunkByOrder[type];
 		final int baseIdx = chunkIdx(basePtr);
-		final ChunkInfo baseInfo = infoList.get(baseIdx);
+		final ChunkInfo baseInfo = infoByKey.get(infoList.get(baseIdx));
 
 		// Go backwards to the start of the base's chunk.
 		long relativeChunkStart = 0;
 		for (int i = infoList.size() - 1; baseIdx <= i; i--) {
-			ChunkInfo info = infoList.get(i);
-			int packSize = info.chunkSize - ChunkFormatter.TRAILER_SIZE;
+			GitStore.ChunkInfo info = infoByKey.get(infoList.get(i)).getData();
+			int packSize = info.getChunkSize() - ChunkFormatter.TRAILER_SIZE;
 			relativeChunkStart += packSize;
 		}
 
@@ -940,14 +981,24 @@ public class DhtPackParser extends PackParser {
 		if (lastKey != null)
 			currFragments.add(lastKey);
 
+		ChunkMeta.Builder protoBuilder = ChunkMeta.newBuilder();
+		for (ChunkKey key : currFragments)
+			protoBuilder.addFragment(key.asString());
+		ChunkMeta protoMeta = protoBuilder.build();
+
 		for (ChunkKey key : currFragments) {
-			ChunkMeta meta = chunkMeta.get(key);
-			if (meta == null) {
-				meta = new ChunkMeta(key);
+			ChunkMeta oldMeta = chunkMeta.get(key);
+			if (oldMeta != null) {
+				ChunkMeta.Builder newMeta = ChunkMeta.newBuilder(oldMeta);
+				newMeta.clearFragment();
+				newMeta.mergeFrom(protoMeta);
+				ChunkMeta meta = newMeta.build();
+				dirtyMeta.put(key, meta);
 				chunkMeta.put(key, meta);
+			} else {
+				dirtyMeta.put(key, protoMeta);
+				chunkMeta.put(key, protoMeta);
 			}
-			meta.fragments = currFragments;
-			dirtyMeta.put(key, meta);
 		}
 		currFragments = null;
 	}
@@ -1093,7 +1144,7 @@ public class DhtPackParser extends PackParser {
 		if (meta == null)
 			return 0;
 
-		ChunkKey next = meta.getNextFragment(dbChunk.getChunkKey());
+		ChunkKey next = ChunkMetaUtil.getNextFragment(meta, dbChunk.getChunkKey());
 		if (next == null)
 			return 0;
 
@@ -1200,7 +1251,7 @@ public class DhtPackParser extends PackParser {
 		ChunkFormatter w = openChunks[typeCode];
 		if (w == null) {
 			w = new ChunkFormatter(repo, options);
-			w.setSource(ChunkInfo.Source.RECEIVE);
+			w.setSource(GitStore.ChunkInfo.Source.RECEIVE);
 			w.setObjectType(typeCode);
 			openChunks[typeCode] = w;
 		}
@@ -1221,9 +1272,9 @@ public class DhtPackParser extends PackParser {
 		ChunkKey key = w.end(chunkKeyDigest);
 		ChunkInfo info = w.getChunkInfo();
 
-		if (infoByOrder[typeCode] == null)
-			infoByOrder[typeCode] = new ArrayList<ChunkInfo>();
-		infoByOrder[typeCode].add(info);
+		if (chunkByOrder[typeCode] == null)
+			chunkByOrder[typeCode] = new ArrayList<ChunkKey>();
+		chunkByOrder[typeCode].add(key);
 		infoByKey.put(key, info);
 
 		if (w.getChunkMeta() != null)
@@ -1260,7 +1311,7 @@ public class DhtPackParser extends PackParser {
 	}
 
 	private long makeObjectPointer(ChunkFormatter w, int typeCode) {
-		List<ChunkInfo> list = infoByOrder[typeCode];
+		List<ChunkKey> list = chunkByOrder[typeCode];
 		int idx = list == null ? 0 : list.size();
 		int ptr = w.position();
 		return (((long) typeCode) << 61) | (((long) idx) << 32) | ptr;
@@ -1279,14 +1330,14 @@ public class DhtPackParser extends PackParser {
 	}
 
 	private boolean isInCurrentChunk(long objectPtr) {
-		List<ChunkInfo> list = infoByOrder[typeOf(objectPtr)];
+		List<ChunkKey> list = chunkByOrder[typeOf(objectPtr)];
 		if (list == null)
 			return chunkIdx(objectPtr) == 0;
 		return chunkIdx(objectPtr) == list.size();
 	}
 
 	private ChunkKey chunkOf(long objectPtr) throws DhtException {
-		List<ChunkInfo> list = infoByOrder[typeOf(objectPtr)];
+		List<ChunkKey> list = chunkByOrder[typeOf(objectPtr)];
 		int idx = chunkIdx(objectPtr);
 		if (list == null || list.size() <= idx) {
 			throw new DhtException(MessageFormat.format(
@@ -1295,7 +1346,7 @@ public class DhtPackParser extends PackParser {
 					Integer.valueOf(idx), //
 					Integer.valueOf(offsetOf(objectPtr))));
 		}
-		return list.get(idx).getChunkKey();
+		return list.get(idx);
 	}
 
 	private static DhtException panicCannotInsert() {
@@ -1349,8 +1400,19 @@ public class DhtPackParser extends PackParser {
 		}
 
 		ObjectInfo info(ChunkKey chunkKey) {
-			return new ObjectInfo(chunkKey, -1, getType(), offsetOf(chunkPtr),
-					packedSize, inflatedSize, base, isFragmented());
+			GitStore.ObjectInfo.Builder b = GitStore.ObjectInfo.newBuilder();
+			b.setObjectType(GitStore.ObjectInfo.ObjectType.valueOf(getType()));
+			b.setOffset(offsetOf(chunkPtr));
+			b.setPackedSize(packedSize);
+			b.setInflatedSize(inflatedSize);
+			if (base != null) {
+				byte[] t = new byte[Constants.OBJECT_ID_LENGTH];
+				base.copyRawTo(t, 0);
+				b.setDeltaBase(ByteString.copyFrom(t));
+			}
+			if (isFragmented())
+				b.setIsFragmented(true);
+			return new ObjectInfo(chunkKey, b.build());
 		}
 	}
 

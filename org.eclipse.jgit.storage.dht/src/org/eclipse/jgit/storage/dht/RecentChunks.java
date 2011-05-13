@@ -48,7 +48,7 @@ import java.io.IOException;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.storage.dht.DhtReader.ChunkAndOffset;
-import org.eclipse.jgit.storage.dht.RefData.IdWithChunk;
+import org.eclipse.jgit.storage.dht.RefDataUtil.IdWithChunk;
 
 final class RecentChunks {
 	private final DhtReader reader;

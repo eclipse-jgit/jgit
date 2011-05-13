@@ -70,6 +70,12 @@
       <artifactId>org.eclipse.jgit</artifactId>
       <version>${project.version}</version>
     </dependency>
+
+    <dependency>
+      <groupId>org.eclipse.jgit</groupId>
+      <artifactId>org.eclipse.jgit.generated.storage.dht.proto</artifactId>
+      <version>${project.version}</version>
+    </dependency>
   </dependencies>
 
   <build>

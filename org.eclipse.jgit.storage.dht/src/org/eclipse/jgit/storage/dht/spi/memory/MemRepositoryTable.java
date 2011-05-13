@@ -43,21 +43,25 @@
 
 package org.eclipse.jgit.storage.dht.spi.memory;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.eclipse.jgit.storage.dht.CachedPackInfo;
+import org.eclipse.jgit.generated.storage.dht.proto.GitStore.CachedPackInfo;
 import org.eclipse.jgit.storage.dht.CachedPackKey;
 import org.eclipse.jgit.storage.dht.ChunkInfo;
 import org.eclipse.jgit.storage.dht.ChunkKey;
 import org.eclipse.jgit.storage.dht.DhtException;
+import org.eclipse.jgit.storage.dht.DhtText;
 import org.eclipse.jgit.storage.dht.RepositoryKey;
 import org.eclipse.jgit.storage.dht.spi.RepositoryTable;
 import org.eclipse.jgit.storage.dht.spi.WriteBuffer;
 import org.eclipse.jgit.storage.dht.spi.util.ColumnMatcher;
+
+import com.google.protobuf.InvalidProtocolBufferException;
 
 final class MemRepositoryTable implements RepositoryTable {
 	private final AtomicInteger nextId = new AtomicInteger();
@@ -76,7 +80,7 @@ final class MemRepositoryTable implements RepositoryTable {
 			throws DhtException {
 		table.put(repo.asBytes(),
 				colChunkInfo.append(info.getChunkKey().asBytes()),
-				info.asBytes());
+				info.getData().toByteArray());
 	}
 
 	public void remove(RepositoryKey repo, ChunkKey chunk, WriteBuffer buffer)
@@ -87,16 +91,24 @@ final class MemRepositoryTable implements RepositoryTable {
 	public Collection<CachedPackInfo> getCachedPacks(RepositoryKey repo)
 			throws DhtException, TimeoutException {
 		List<CachedPackInfo> out = new ArrayList<CachedPackInfo>(4);
-		for (MemTable.Cell cell : table.scanFamily(repo.asBytes(), colCachedPack))
-			out.add(CachedPackInfo.fromBytes(cell.getValue()));
+		for (MemTable.Cell cell : table.scanFamily(repo.asBytes(), colCachedPack)) {
+			try {
+				out.add(CachedPackInfo.parseFrom(cell.getValue()));
+			} catch (InvalidProtocolBufferException e) {
+				throw new DhtException(MessageFormat.format(
+						DhtText.get().invalidCachedPackInfo, repo,
+						CachedPackKey.fromBytes(cell.getName())), e);
+			}
+		}
 		return out;
 	}
 
 	public void put(RepositoryKey repo, CachedPackInfo info, WriteBuffer buffer)
 			throws DhtException {
+		CachedPackKey key = CachedPackKey.fromInfo(info);
 		table.put(repo.asBytes(),
-				colCachedPack.append(info.getRowKey().asBytes()),
-				info.asBytes());
+				colCachedPack.append(key.asBytes()),
+				info.toByteArray());
 	}
 
 	public void remove(RepositoryKey repo, CachedPackKey key, WriteBuffer buffer)

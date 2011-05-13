@@ -59,6 +59,7 @@ import java.util.Set;
 import java.util.concurrent.TimeoutException;
 
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.generated.storage.dht.proto.GitStore.ChunkMeta;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevTree;
@@ -218,12 +219,19 @@ class Prefetcher implements StreamingCallback<Collection<PackChunk.Members>> {
 
 		if (hint != null) {
 			synchronized (this) {
-				if (followEdgeHints && !hint.getEdge().isEmpty())
-					push(hint.getEdge());
+				if (followEdgeHints && 0 < hint.getEdgeCount())
+					push(hint.getEdgeList());
 				else
-					push(hint.getSequential());
+					push(hint.getSequentialList());
 			}
 		}
+	}
+
+	private void push(List<String> list) {
+		List<ChunkKey> keys = new ArrayList<ChunkKey>(list.size());
+		for (String keyString : list)
+			keys.add(ChunkKey.fromString(keyString));
+		push(keys);
 	}
 
 	void push(Iterable<ChunkKey> list) {
