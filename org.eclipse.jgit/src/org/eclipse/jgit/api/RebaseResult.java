@@ -85,6 +85,9 @@ public class RebaseResult {
 	static final RebaseResult UP_TO_DATE_RESULT = new RebaseResult(
 			Status.UP_TO_DATE);
 
+	static final RebaseResult FAST_FORWARD_RESULT = new RebaseResult(
+			Status.FAST_FORWARD);
+
 	private final Status mySatus;
 
 	private final RevCommit currentCommit;
