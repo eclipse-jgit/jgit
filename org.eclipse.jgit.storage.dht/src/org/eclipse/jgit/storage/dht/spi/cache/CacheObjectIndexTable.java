@@ -44,7 +44,9 @@
 package org.eclipse.jgit.storage.dht.spi.cache;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -52,6 +54,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
 
+import org.eclipse.jgit.generated.storage.dht.proto.GitCache.CachedObjectIndex;
 import org.eclipse.jgit.storage.dht.AsyncCallback;
 import org.eclipse.jgit.storage.dht.ChunkKey;
 import org.eclipse.jgit.storage.dht.DhtException;
@@ -59,11 +62,12 @@ import org.eclipse.jgit.storage.dht.ObjectIndexKey;
 import org.eclipse.jgit.storage.dht.ObjectInfo;
 import org.eclipse.jgit.storage.dht.StreamingCallback;
 import org.eclipse.jgit.storage.dht.Sync;
-import org.eclipse.jgit.storage.dht.TinyProtobuf;
 import org.eclipse.jgit.storage.dht.spi.Context;
 import org.eclipse.jgit.storage.dht.spi.ObjectIndexTable;
 import org.eclipse.jgit.storage.dht.spi.WriteBuffer;
 import org.eclipse.jgit.storage.dht.spi.cache.CacheService.Change;
+
+import com.google.protobuf.InvalidProtocolBufferException;
 
 /** Cache wrapper around ObjectIndexTable. */
 public class CacheObjectIndexTable implements ObjectIndexTable {
@@ -125,58 +129,6 @@ public class CacheObjectIndexTable implements ObjectIndexTable {
 		buf.remove(ns.key(objId));
 	}
 
-	private static byte[] encode(Collection<ObjectInfo> list) {
-		TinyProtobuf.Encoder e = TinyProtobuf.encode(128);
-		for (ObjectInfo info : list) {
-			TinyProtobuf.Encoder m = TinyProtobuf.encode(128);
-			m.bytes(1, info.getChunkKey().asBytes());
-			m.bytes(2, info.asBytes());
-			m.fixed64(3, info.getTime());
-			e.message(1, m);
-		}
-		return e.asByteArray();
-	}
-
-	private static ObjectInfo decodeItem(TinyProtobuf.Decoder m) {
-		ChunkKey key = null;
-		TinyProtobuf.Decoder data = null;
-		long time = -1;
-
-		for (;;) {
-			switch (m.next()) {
-			case 0:
-				return ObjectInfo.fromBytes(key, data, time);
-			case 1:
-				key = ChunkKey.fromBytes(m);
-				continue;
-			case 2:
-				data = m.message();
-				continue;
-			case 3:
-				time = m.fixed64();
-				continue;
-			default:
-				m.skip();
-			}
-		}
-	}
-
-	private static Collection<ObjectInfo> decode(byte[] raw) {
-		List<ObjectInfo> res = new ArrayList<ObjectInfo>(1);
-		TinyProtobuf.Decoder d = TinyProtobuf.decode(raw);
-		for (;;) {
-			switch (d.next()) {
-			case 0:
-				return res;
-			case 1:
-				res.add(decodeItem(d.message()));
-				continue;
-			default:
-				d.skip();
-			}
-		}
-	}
-
 	private class LoaderFromCache implements
 			StreamingCallback<Map<CacheKey, byte[]>> {
 		private final Object lock = new Object();
@@ -217,7 +169,15 @@ public class CacheObjectIndexTable implements ObjectIndexTable {
 
 			for (Map.Entry<CacheKey, byte[]> e : result.entrySet()) {
 				ObjectIndexKey objKey;
-				Collection<ObjectInfo> list = decode(e.getValue());
+				Collection<ObjectInfo> list;
+				try {
+					list = decode(e.getValue());
+				} catch (InvalidProtocolBufferException badCell) {
+					client.modify(
+							Collections.singleton(Change.remove(e.getKey())),
+							Sync.<Void> none());
+					continue;
+				}
 				objKey = ObjectIndexKey.fromBytes(e.getKey().getBytes());
 
 				if (tmp != null)
@@ -236,6 +196,21 @@ public class CacheObjectIndexTable implements ObjectIndexTable {
 					remaining.removeAll(tmp.keySet());
 				}
 			}
+		}
+
+		private Collection<ObjectInfo> decode(byte[] value)
+				throws InvalidProtocolBufferException {
+			CachedObjectIndex cacheEntry = CachedObjectIndex.parseFrom(value);
+			int sz = cacheEntry.getItemCount();
+			ObjectInfo[] r = new ObjectInfo[sz];
+			for (int i = 0; i < sz; i++) {
+				CachedObjectIndex.Item item = cacheEntry.getItem(i);
+				r[i] = new ObjectInfo(
+						ChunkKey.fromString(item.getChunkKey()),
+						item.getTime(),
+						item.getObjectInfo());
+			}
+			return Arrays.asList(r);
 		}
 
 		public void onSuccess(Map<CacheKey, byte[]> result) {
@@ -304,6 +279,19 @@ public class CacheObjectIndexTable implements ObjectIndexTable {
 					}
 
 					client.modify(ops, Sync.<Void> none());
+				}
+
+				private byte[] encode(List<ObjectInfo> items) {
+					CachedObjectIndex.Builder b;
+					b = CachedObjectIndex.newBuilder();
+					for (ObjectInfo info : items) {
+						CachedObjectIndex.Item.Builder i = b.addItemBuilder();
+						i.setChunkKey(info.getChunkKey().asString());
+						i.setObjectInfo(info.getData());
+						if (0 < info.getTime())
+							i.setTime(info.getTime());
+					}
+					return b.build().toByteArray();
 				}
 			});
 		}
