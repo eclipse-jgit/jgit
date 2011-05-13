@@ -103,6 +103,37 @@ public final class MergeAlgorithm {
 		sequences.add(ours);
 		sequences.add(theirs);
 		MergeResult<S> result = new MergeResult<S>(sequences);
+
+		if (ours.size() == 0) {
+			if (theirs.size() != 0) {
+				EditList theirsEdits = diffAlg.diff(cmp, base, theirs);
+				if (!theirsEdits.isEmpty()) {
+					// we deleted, they modified -> Let their complete content
+					// conflict with empty text
+					result.add(1, 0, 0, ConflictState.FIRST_CONFLICTING_RANGE);
+					result.add(2, 0, theirs.size(),
+							ConflictState.NEXT_CONFLICTING_RANGE);
+				} else
+					// we deleted, they didn't modify -> Let our deletion win
+					result.add(1, 0, 0, ConflictState.NO_CONFLICT);
+			} else
+				// we and they deleted -> return a single chunk of nothing
+				result.add(1, 0, 0, ConflictState.NO_CONFLICT);
+			return result;
+		} else if (theirs.size() == 0) {
+			EditList oursEdits = diffAlg.diff(cmp, base, ours);
+			if (!oursEdits.isEmpty()) {
+				// we modified, they deleted -> Let our complete content
+				// conflict with empty text
+				result.add(1, 0, ours.size(),
+						ConflictState.FIRST_CONFLICTING_RANGE);
+				result.add(2, 0, 0, ConflictState.NEXT_CONFLICTING_RANGE);
+			} else
+				// they deleted, we didn't modify -> Let their deletion win
+				result.add(2, 0, 0, ConflictState.NO_CONFLICT);
+			return result;
+		}
+
 		EditList oursEdits = diffAlg.diff(cmp, base, ours);
 		Iterator<Edit> baseToOurs = oursEdits.iterator();
 		EditList theirsEdits = diffAlg.diff(cmp, base, theirs);
