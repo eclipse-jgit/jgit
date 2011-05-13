@@ -149,7 +149,7 @@ public class RevertCommand extends GitCommand<RevCommit> {
 					String newMessage = "Revert \""
 							+ srcCommit.getShortMessage() + "\"" + "\n\n"
 							+ "This reverts commit "
-							+ srcCommit.getId().getName() + "\n";
+							+ srcCommit.getId().getName() + ".\n";
 					newHead = new Git(getRepository()).commit().setMessage(
 							newMessage).call();
 					revertedRefs.add(src);
