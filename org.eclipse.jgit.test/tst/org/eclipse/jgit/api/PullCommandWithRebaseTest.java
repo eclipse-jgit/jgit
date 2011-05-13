@@ -54,11 +54,14 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import org.eclipse.jgit.api.CreateBranchCommand.SetupUpstreamMode;
+import org.eclipse.jgit.api.MergeResult.MergeStatus;
 import org.eclipse.jgit.api.RebaseResult.Status;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.RepositoryState;
 import org.eclipse.jgit.lib.RepositoryTestCase;
 import org.eclipse.jgit.lib.StoredConfig;
+import org.eclipse.jgit.merge.MergeStrategy;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.storage.file.FileRepository;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteConfig;
@@ -102,6 +105,42 @@ public class PullCommandWithRebaseTest extends RepositoryTestCase {
 
 		res = target.pull().call();
 		assertEquals(Status.UP_TO_DATE, res.getRebaseResult().getStatus());
+	}
+
+	@Test
+	public void testPullFastForwardWithBranchInSource() throws Exception {
+		PullResult res = target.pull().call();
+		// nothing to update since we don't have different data yet
+		assertTrue(res.getFetchResult().getTrackingRefUpdates().isEmpty());
+		assertEquals(Status.UP_TO_DATE, res.getRebaseResult().getStatus());
+
+		assertFileContentsEqual(targetFile, "Hello world");
+
+		// change the source file
+		writeToFile(sourceFile, "Another change\n\n\n\nFoo");
+		source.add().addFilepattern("SomeFile.txt").call();
+		RevCommit initialCommit = source.commit()
+				.setMessage("Some change in remote").call();
+
+		// modify the source file in a branch
+		createBranch(initialCommit, "refs/heads/side");
+		checkoutBranch("refs/heads/side");
+		writeToFile(sourceFile, "Another change\n\n\n\nBoo");
+		source.add().addFilepattern("SomeFile.txt").call();
+		RevCommit sideCommit = source.commit()
+				.setMessage("Some change in remote").call();
+
+		// modify the source file on master
+		checkoutBranch("refs/heads/master");
+		writeToFile(sourceFile, "More change\n\n\n\nFoo");
+		source.add().addFilepattern("SomeFile.txt").call();
+		source.commit().setMessage("Some change in remote").call();
+
+		// merge side into master
+		MergeResult result = source.merge().include(sideCommit.getId())
+				.setStrategy(MergeStrategy.RESOLVE).call();
+		assertEquals(MergeStatus.MERGED, result.getMergeStatus());
+
 	}
 
 	@Test

@@ -272,39 +272,45 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 				}
 			}
 			if (newHead != null) {
-				// point the previous head (if any) to the new commit
 				String headName = readFile(rebaseDir, HEAD_NAME);
-				if (headName.startsWith(Constants.R_REFS)) {
-					RefUpdate rup = repo.updateRef(headName);
-					rup.setNewObjectId(newHead);
-					Result res = rup.forceUpdate();
-					switch (res) {
-					case FAST_FORWARD:
-					case FORCED:
-					case NO_CHANGE:
-						break;
-					default:
-						throw new JGitInternalException("Updating HEAD failed");
-					}
-					rup = repo.updateRef(Constants.HEAD);
-					res = rup.link(headName);
-					switch (res) {
-					case FAST_FORWARD:
-					case FORCED:
-					case NO_CHANGE:
-						break;
-					default:
-						throw new JGitInternalException("Updating HEAD failed");
-					}
-				}
+				updateHead(headName, newHead);
 				FileUtils.delete(rebaseDir, FileUtils.RECURSIVE);
 				if (lastStepWasForward)
 					return new RebaseResult(Status.FAST_FORWARD);
 				return new RebaseResult(Status.OK);
 			}
-			return new RebaseResult(Status.UP_TO_DATE);
+			return new RebaseResult(Status.FAST_FORWARD);
 		} catch (IOException ioe) {
 			throw new JGitInternalException(ioe.getMessage(), ioe);
+		}
+	}
+
+	private void updateHead(String headName, RevCommit newHead)
+			throws IOException {
+		// point the previous head (if any) to the new commit
+
+		if (headName.startsWith(Constants.R_REFS)) {
+			RefUpdate rup = repo.updateRef(headName);
+			rup.setNewObjectId(newHead);
+			Result res = rup.forceUpdate();
+			switch (res) {
+			case FAST_FORWARD:
+			case FORCED:
+			case NO_CHANGE:
+				break;
+			default:
+				throw new JGitInternalException("Updating HEAD failed");
+			}
+			rup = repo.updateRef(Constants.HEAD);
+			res = rup.link(headName);
+			switch (res) {
+			case FAST_FORWARD:
+			case FORCED:
+			case NO_CHANGE:
+				break;
+			default:
+				throw new JGitInternalException("Updating HEAD failed");
+			}
 		}
 	}
 
@@ -523,6 +529,23 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 			throw new RefNotFoundException(MessageFormat.format(
 					JGitText.get().refNotResolved, Constants.HEAD));
 		RevCommit headCommit = walk.lookupCommit(headId);
+
+		// head and upstream are the same, nothing to do
+		if (headId.equals(upstreamCommit.getId()))
+			return RebaseResult.UP_TO_DATE_RESULT;
+
+		// head is already merged into upstream, fast-foward
+		if (walk.isMergedInto(headCommit, upstreamCommit)) {
+			monitor.beginTask(MessageFormat.format(
+					JGitText.get().resettingHead,
+					upstreamCommit.getShortMessage()), ProgressMonitor.UNKNOWN);
+			checkoutCommit(upstreamCommit);
+			monitor.endTask();
+
+			updateHead(headName, upstreamCommit);
+			return new RebaseResult(RebaseResult.Status.FAST_FORWARD);
+		}
+
 		monitor.beginTask(JGitText.get().obtainingCommitsForCherryPick,
 				ProgressMonitor.UNKNOWN);
 
@@ -530,28 +553,11 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 				headCommit);
 		Iterable<RevCommit> commitsToUse = cmd.call();
 		for (RevCommit commit : commitsToUse) {
+			if (commit.getParentCount() != 1)
+				throw new JGitInternalException(
+						JGitText.get().canOnlyCherryPickCommitsWithOneParent);
 			cherryPickList.add(commit);
 		}
-
-		// if the upstream commit is in a direct line to the current head,
-		// the log command will not report any commits; in this case,
-		// we create the cherry-pick list ourselves
-		if (cherryPickList.isEmpty()) {
-			Iterable<RevCommit> parents = new Git(repo).log().add(
-					upstreamCommit).call();
-			for (RevCommit parent : parents) {
-				if (parent.equals(headCommit))
-					break;
-				if (parent.getParentCount() != 1)
-					throw new JGitInternalException(
-							JGitText.get().canOnlyCherryPickCommitsWithOneParent);
-				cherryPickList.add(parent);
-			}
-		}
-
-		// nothing to do: return with UP_TO_DATE_RESULT
-		if (cherryPickList.isEmpty())
-			return RebaseResult.UP_TO_DATE_RESULT;
 
 		Collections.reverse(cherryPickList);
 		// create the folder for the meta information
@@ -586,11 +592,13 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		}
 
 		monitor.endTask();
+
 		// we rewind to the upstream commit
 		monitor.beginTask(MessageFormat.format(JGitText.get().rewinding,
 				upstreamCommit.getShortMessage()), ProgressMonitor.UNKNOWN);
 		checkoutCommit(upstreamCommit);
 		monitor.endTask();
+
 		return null;
 	}
 
