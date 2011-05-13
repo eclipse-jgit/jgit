@@ -11,6 +11,10 @@ public final class GitStore {
   public interface RefDataOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
+    // required uint32 sequence = 5 [default = 0];
+    boolean hasSequence();
+    int getSequence();
+
     // optional string symref = 1;
     boolean hasSymref();
     String getSymref();
@@ -575,11 +579,21 @@ public final class GitStore {
     }
 
     private int bitField0_;
+    // required uint32 sequence = 5 [default = 0];
+    public static final int SEQUENCE_FIELD_NUMBER = 5;
+    private int sequence_;
+    public boolean hasSequence() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    public int getSequence() {
+      return sequence_;
+    }
+
     // optional string symref = 1;
     public static final int SYMREF_FIELD_NUMBER = 1;
     private Object symref_;
     public boolean hasSymref() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
+      return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     public String getSymref() {
       Object ref = symref_;
@@ -611,7 +625,7 @@ public final class GitStore {
     public static final int TARGET_FIELD_NUMBER = 2;
     private org.eclipse.jgit.generated.storage.dht.proto.GitStore.RefData.Id target_;
     public boolean hasTarget() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
+      return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     public org.eclipse.jgit.generated.storage.dht.proto.GitStore.RefData.Id getTarget() {
       return target_;
@@ -624,7 +638,7 @@ public final class GitStore {
     public static final int IS_PEELED_FIELD_NUMBER = 3;
     private boolean isPeeled_;
     public boolean hasIsPeeled() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
+      return ((bitField0_ & 0x00000008) == 0x00000008);
     }
     public boolean getIsPeeled() {
       return isPeeled_;
@@ -634,7 +648,7 @@ public final class GitStore {
     public static final int PEELED_FIELD_NUMBER = 4;
     private org.eclipse.jgit.generated.storage.dht.proto.GitStore.RefData.Id peeled_;
     public boolean hasPeeled() {
-      return ((bitField0_ & 0x00000008) == 0x00000008);
+      return ((bitField0_ & 0x00000010) == 0x00000010);
     }
     public org.eclipse.jgit.generated.storage.dht.proto.GitStore.RefData.Id getPeeled() {
       return peeled_;
@@ -644,6 +658,7 @@ public final class GitStore {
     }
 
     private void initFields() {
+      sequence_ = 0;
       symref_ = "";
       target_ = org.eclipse.jgit.generated.storage.dht.proto.GitStore.RefData.Id.getDefaultInstance();
       isPeeled_ = false;
@@ -654,6 +669,10 @@ public final class GitStore {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
 
+      if (!hasSequence()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
       if (hasTarget()) {
         if (!getTarget().isInitialized()) {
           memoizedIsInitialized = 0;
@@ -673,17 +692,20 @@ public final class GitStore {
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       getSerializedSize();
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeBytes(1, getSymrefBytes());
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeMessage(2, target_);
       }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
         output.writeBool(3, isPeeled_);
       }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
         output.writeMessage(4, peeled_);
+      }
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeUInt32(5, sequence_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -694,21 +716,25 @@ public final class GitStore {
       if (size != -1) return size;
 
       size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(1, getSymrefBytes());
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(2, target_);
       }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(3, isPeeled_);
       }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(4, peeled_);
+      }
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(5, sequence_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -731,6 +757,11 @@ public final class GitStore {
       org.eclipse.jgit.generated.storage.dht.proto.GitStore.RefData other = (org.eclipse.jgit.generated.storage.dht.proto.GitStore.RefData) obj;
 
       boolean result = true;
+      result = result && (hasSequence() == other.hasSequence());
+      if (hasSequence()) {
+        result = result && (getSequence()
+            == other.getSequence());
+      }
       result = result && (hasSymref() == other.hasSymref());
       if (hasSymref()) {
         result = result && getSymref()
@@ -760,6 +791,10 @@ public final class GitStore {
     public int hashCode() {
       int hash = 41;
       hash = (19 * hash) + getDescriptorForType().hashCode();
+      if (hasSequence()) {
+        hash = (37 * hash) + SEQUENCE_FIELD_NUMBER;
+        hash = (53 * hash) + getSequence();
+      }
       if (hasSymref()) {
         hash = (37 * hash) + SYMREF_FIELD_NUMBER;
         hash = (53 * hash) + getSymref().hashCode();
@@ -894,22 +929,24 @@ public final class GitStore {
 
       public Builder clear() {
         super.clear();
-        symref_ = "";
+        sequence_ = 0;
         bitField0_ = (bitField0_ & ~0x00000001);
+        symref_ = "";
+        bitField0_ = (bitField0_ & ~0x00000002);
         if (targetBuilder_ == null) {
           target_ = org.eclipse.jgit.generated.storage.dht.proto.GitStore.RefData.Id.getDefaultInstance();
         } else {
           targetBuilder_.clear();
         }
-        bitField0_ = (bitField0_ & ~0x00000002);
-        isPeeled_ = false;
         bitField0_ = (bitField0_ & ~0x00000004);
+        isPeeled_ = false;
+        bitField0_ = (bitField0_ & ~0x00000008);
         if (peeledBuilder_ == null) {
           peeled_ = org.eclipse.jgit.generated.storage.dht.proto.GitStore.RefData.Id.getDefaultInstance();
         } else {
           peeledBuilder_.clear();
         }
-        bitField0_ = (bitField0_ & ~0x00000008);
+        bitField0_ = (bitField0_ & ~0x00000010);
         return this;
       }
 
@@ -951,21 +988,25 @@ public final class GitStore {
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
-        result.symref_ = symref_;
+        result.sequence_ = sequence_;
         if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
+        }
+        result.symref_ = symref_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
         }
         if (targetBuilder_ == null) {
           result.target_ = target_;
         } else {
           result.target_ = targetBuilder_.build();
         }
-        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
-          to_bitField0_ |= 0x00000004;
-        }
-        result.isPeeled_ = isPeeled_;
         if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
           to_bitField0_ |= 0x00000008;
+        }
+        result.isPeeled_ = isPeeled_;
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000010;
         }
         if (peeledBuilder_ == null) {
           result.peeled_ = peeled_;
@@ -988,6 +1029,9 @@ public final class GitStore {
 
       public Builder mergeFrom(org.eclipse.jgit.generated.storage.dht.proto.GitStore.RefData other) {
         if (other == org.eclipse.jgit.generated.storage.dht.proto.GitStore.RefData.getDefaultInstance()) return this;
+        if (other.hasSequence()) {
+          setSequence(other.getSequence());
+        }
         if (other.hasSymref()) {
           setSymref(other.getSymref());
         }
@@ -1005,6 +1049,10 @@ public final class GitStore {
       }
 
       public final boolean isInitialized() {
+        if (!hasSequence()) {
+
+          return false;
+        }
         if (hasTarget()) {
           if (!getTarget().isInitialized()) {
 
@@ -1044,7 +1092,7 @@ public final class GitStore {
               break;
             }
             case 10: {
-              bitField0_ |= 0x00000001;
+              bitField0_ |= 0x00000002;
               symref_ = input.readBytes();
               break;
             }
@@ -1058,7 +1106,7 @@ public final class GitStore {
               break;
             }
             case 24: {
-              bitField0_ |= 0x00000004;
+              bitField0_ |= 0x00000008;
               isPeeled_ = input.readBool();
               break;
             }
@@ -1071,16 +1119,42 @@ public final class GitStore {
               setPeeled(subBuilder.buildPartial());
               break;
             }
+            case 40: {
+              bitField0_ |= 0x00000001;
+              sequence_ = input.readUInt32();
+              break;
+            }
           }
         }
       }
 
       private int bitField0_;
 
+      // required uint32 sequence = 5 [default = 0];
+      private int sequence_ ;
+      public boolean hasSequence() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      public int getSequence() {
+        return sequence_;
+      }
+      public Builder setSequence(int value) {
+        bitField0_ |= 0x00000001;
+        sequence_ = value;
+        onChanged();
+        return this;
+      }
+      public Builder clearSequence() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        sequence_ = 0;
+        onChanged();
+        return this;
+      }
+
       // optional string symref = 1;
       private Object symref_ = "";
       public boolean hasSymref() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
+        return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       public String getSymref() {
         Object ref = symref_;
@@ -1096,19 +1170,19 @@ public final class GitStore {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000001;
+  bitField0_ |= 0x00000002;
         symref_ = value;
         onChanged();
         return this;
       }
       public Builder clearSymref() {
-        bitField0_ = (bitField0_ & ~0x00000001);
+        bitField0_ = (bitField0_ & ~0x00000002);
         symref_ = getDefaultInstance().getSymref();
         onChanged();
         return this;
       }
       void setSymref(com.google.protobuf.ByteString value) {
-        bitField0_ |= 0x00000001;
+        bitField0_ |= 0x00000002;
         symref_ = value;
         onChanged();
       }
@@ -1118,7 +1192,7 @@ public final class GitStore {
       private com.google.protobuf.SingleFieldBuilder<
           org.eclipse.jgit.generated.storage.dht.proto.GitStore.RefData.Id, org.eclipse.jgit.generated.storage.dht.proto.GitStore.RefData.Id.Builder, org.eclipse.jgit.generated.storage.dht.proto.GitStore.RefData.IdOrBuilder> targetBuilder_;
       public boolean hasTarget() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
+        return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       public org.eclipse.jgit.generated.storage.dht.proto.GitStore.RefData.Id getTarget() {
         if (targetBuilder_ == null) {
@@ -1137,7 +1211,7 @@ public final class GitStore {
         } else {
           targetBuilder_.setMessage(value);
         }
-        bitField0_ |= 0x00000002;
+        bitField0_ |= 0x00000004;
         return this;
       }
       public Builder setTarget(
@@ -1148,12 +1222,12 @@ public final class GitStore {
         } else {
           targetBuilder_.setMessage(builderForValue.build());
         }
-        bitField0_ |= 0x00000002;
+        bitField0_ |= 0x00000004;
         return this;
       }
       public Builder mergeTarget(org.eclipse.jgit.generated.storage.dht.proto.GitStore.RefData.Id value) {
         if (targetBuilder_ == null) {
-          if (((bitField0_ & 0x00000002) == 0x00000002) &&
+          if (((bitField0_ & 0x00000004) == 0x00000004) &&
               target_ != org.eclipse.jgit.generated.storage.dht.proto.GitStore.RefData.Id.getDefaultInstance()) {
             target_ =
               org.eclipse.jgit.generated.storage.dht.proto.GitStore.RefData.Id.newBuilder(target_).mergeFrom(value).buildPartial();
@@ -1164,7 +1238,7 @@ public final class GitStore {
         } else {
           targetBuilder_.mergeFrom(value);
         }
-        bitField0_ |= 0x00000002;
+        bitField0_ |= 0x00000004;
         return this;
       }
       public Builder clearTarget() {
@@ -1174,11 +1248,11 @@ public final class GitStore {
         } else {
           targetBuilder_.clear();
         }
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
       public org.eclipse.jgit.generated.storage.dht.proto.GitStore.RefData.Id.Builder getTargetBuilder() {
-        bitField0_ |= 0x00000002;
+        bitField0_ |= 0x00000004;
         onChanged();
         return getTargetFieldBuilder().getBuilder();
       }
@@ -1206,19 +1280,19 @@ public final class GitStore {
       // optional bool is_peeled = 3;
       private boolean isPeeled_ ;
       public boolean hasIsPeeled() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
+        return ((bitField0_ & 0x00000008) == 0x00000008);
       }
       public boolean getIsPeeled() {
         return isPeeled_;
       }
       public Builder setIsPeeled(boolean value) {
-        bitField0_ |= 0x00000004;
+        bitField0_ |= 0x00000008;
         isPeeled_ = value;
         onChanged();
         return this;
       }
       public Builder clearIsPeeled() {
-        bitField0_ = (bitField0_ & ~0x00000004);
+        bitField0_ = (bitField0_ & ~0x00000008);
         isPeeled_ = false;
         onChanged();
         return this;
@@ -1229,7 +1303,7 @@ public final class GitStore {
       private com.google.protobuf.SingleFieldBuilder<
           org.eclipse.jgit.generated.storage.dht.proto.GitStore.RefData.Id, org.eclipse.jgit.generated.storage.dht.proto.GitStore.RefData.Id.Builder, org.eclipse.jgit.generated.storage.dht.proto.GitStore.RefData.IdOrBuilder> peeledBuilder_;
       public boolean hasPeeled() {
-        return ((bitField0_ & 0x00000008) == 0x00000008);
+        return ((bitField0_ & 0x00000010) == 0x00000010);
       }
       public org.eclipse.jgit.generated.storage.dht.proto.GitStore.RefData.Id getPeeled() {
         if (peeledBuilder_ == null) {
@@ -1248,7 +1322,7 @@ public final class GitStore {
         } else {
           peeledBuilder_.setMessage(value);
         }
-        bitField0_ |= 0x00000008;
+        bitField0_ |= 0x00000010;
         return this;
       }
       public Builder setPeeled(
@@ -1259,12 +1333,12 @@ public final class GitStore {
         } else {
           peeledBuilder_.setMessage(builderForValue.build());
         }
-        bitField0_ |= 0x00000008;
+        bitField0_ |= 0x00000010;
         return this;
       }
       public Builder mergePeeled(org.eclipse.jgit.generated.storage.dht.proto.GitStore.RefData.Id value) {
         if (peeledBuilder_ == null) {
-          if (((bitField0_ & 0x00000008) == 0x00000008) &&
+          if (((bitField0_ & 0x00000010) == 0x00000010) &&
               peeled_ != org.eclipse.jgit.generated.storage.dht.proto.GitStore.RefData.Id.getDefaultInstance()) {
             peeled_ =
               org.eclipse.jgit.generated.storage.dht.proto.GitStore.RefData.Id.newBuilder(peeled_).mergeFrom(value).buildPartial();
@@ -1275,7 +1349,7 @@ public final class GitStore {
         } else {
           peeledBuilder_.mergeFrom(value);
         }
-        bitField0_ |= 0x00000008;
+        bitField0_ |= 0x00000010;
         return this;
       }
       public Builder clearPeeled() {
@@ -1285,11 +1359,11 @@ public final class GitStore {
         } else {
           peeledBuilder_.clear();
         }
-        bitField0_ = (bitField0_ & ~0x00000008);
+        bitField0_ = (bitField0_ & ~0x00000010);
         return this;
       }
       public org.eclipse.jgit.generated.storage.dht.proto.GitStore.RefData.Id.Builder getPeeledBuilder() {
-        bitField0_ |= 0x00000008;
+        bitField0_ |= 0x00000010;
         onChanged();
         return getPeeledFieldBuilder().getBuilder();
       }
@@ -7811,51 +7885,51 @@ public final class GitStore {
   static {
     java.lang.String[] descriptorData = {
       "\n,org/eclipse/jgit/storage/dht/git_store" +
-      ".proto\022\034org.eclipse.jgit.storage.dht\"\316\001\n" +
-      "\007RefData\022\016\n\006symref\030\001 \001(\t\0228\n\006target\030\002 \001(\013" +
-      "2(.org.eclipse.jgit.storage.dht.RefData." +
-      "Id\022\021\n\tis_peeled\030\003 \001(\010\0228\n\006peeled\030\004 \001(\0132(." +
-      "org.eclipse.jgit.storage.dht.RefData.Id\032" +
-      ",\n\002Id\022\023\n\013object_name\030\001 \002(\t\022\021\n\tchunk_key\030" +
-      "\002 \001(\t\"\364\001\n\nObjectInfo\022H\n\013object_type\030\001 \001(" +
-      "\01623.org.eclipse.jgit.storage.dht.ObjectI" +
-      "nfo.ObjectType\022\016\n\006offset\030\002 \002(\005\022\023\n\013packed",
-      "_size\030\003 \002(\003\022\025\n\rinflated_size\030\004 \002(\003\022\022\n\nde" +
-      "lta_base\030\005 \001(\014\022\025\n\ris_fragmented\030\006 \001(\010\"5\n" +
-      "\nObjectType\022\n\n\006COMMIT\020\001\022\010\n\004TREE\020\002\022\010\n\004BLO" +
-      "B\020\003\022\007\n\003TAG\020\004\"\217\004\n\tChunkInfo\022>\n\006source\030\001 \001" +
-      "(\0162..org.eclipse.jgit.storage.dht.ChunkI" +
-      "nfo.Source\022G\n\013object_type\030\002 \001(\01622.org.ec" +
-      "lipse.jgit.storage.dht.ChunkInfo.ObjectT" +
-      "ype\022\023\n\013is_fragment\030\003 \001(\010\022\027\n\017cached_pack_" +
-      "key\030\004 \001(\t\022K\n\robject_counts\030\005 \001(\01324.org.e" +
-      "clipse.jgit.storage.dht.ChunkInfo.Object",
-      "Counts\022\022\n\nchunk_size\030\006 \001(\005\022\022\n\nindex_size" +
-      "\030\007 \001(\005\022\021\n\tmeta_size\030\010 \001(\005\032R\n\014ObjectCount" +
-      "s\022\r\n\005total\030\001 \001(\005\022\r\n\005whole\030\002 \001(\005\022\021\n\tofs_d" +
-      "elta\030\003 \001(\005\022\021\n\tref_delta\030\004 \001(\005\"-\n\006Source\022" +
-      "\013\n\007RECEIVE\020\001\022\n\n\006INSERT\020\002\022\n\n\006REPACK\020\003\"@\n\n" +
-      "ObjectType\022\t\n\005MIXED\020\000\022\n\n\006COMMIT\020\001\022\010\n\004TRE" +
-      "E\020\002\022\010\n\004BLOB\020\003\022\007\n\003TAG\020\004\"\352\002\n\tChunkMeta\022E\n\n" +
-      "base_chunk\030\001 \003(\01321.org.eclipse.jgit.stor" +
-      "age.dht.ChunkMeta.BaseChunk\022\020\n\010fragment\030" +
-      "\002 \003(\t\022M\n\017commit_prefetch\0303 \001(\01324.org.ecl",
-      "ipse.jgit.storage.dht.ChunkMeta.Prefetch" +
-      "Hint\022K\n\rtree_prefetch\0304 \001(\01324.org.eclips" +
-      "e.jgit.storage.dht.ChunkMeta.PrefetchHin" +
-      "t\0326\n\tBaseChunk\022\026\n\016relative_start\030\001 \002(\003\022\021" +
-      "\n\tchunk_key\030\002 \002(\t\0320\n\014PrefetchHint\022\014\n\004edg" +
-      "e\030\001 \003(\t\022\022\n\nsequential\030\002 \003(\t\"\322\002\n\016CachedPa" +
-      "ckInfo\022\014\n\004name\030\001 \002(\t\022\017\n\007version\030\002 \002(\t\022\025\n" +
-      "\robjects_total\030\003 \002(\003\022\025\n\robjects_delta\030\004 " +
-      "\001(\003\022\023\n\013bytes_total\030\005 \001(\003\022L\n\010tip_list\030\006 \002" +
-      "(\0132:.org.eclipse.jgit.storage.dht.Cached",
-      "PackInfo.TipObjectList\022J\n\nchunk_list\030\007 \002" +
-      "(\01326.org.eclipse.jgit.storage.dht.Cached" +
-      "PackInfo.ChunkList\032$\n\rTipObjectList\022\023\n\013o" +
-      "bject_name\030\001 \003(\t\032\036\n\tChunkList\022\021\n\tchunk_k" +
-      "ey\030\001 \003(\tB1\n,org.eclipse.jgit.generated.s" +
-      "torage.dht.proto\240\001\001"
+      ".proto\022\034org.eclipse.jgit.storage.dht\"\343\001\n" +
+      "\007RefData\022\023\n\010sequence\030\005 \002(\r:\0010\022\016\n\006symref\030" +
+      "\001 \001(\t\0228\n\006target\030\002 \001(\0132(.org.eclipse.jgit" +
+      ".storage.dht.RefData.Id\022\021\n\tis_peeled\030\003 \001" +
+      "(\010\0228\n\006peeled\030\004 \001(\0132(.org.eclipse.jgit.st" +
+      "orage.dht.RefData.Id\032,\n\002Id\022\023\n\013object_nam" +
+      "e\030\001 \002(\t\022\021\n\tchunk_key\030\002 \001(\t\"\364\001\n\nObjectInf" +
+      "o\022H\n\013object_type\030\001 \001(\01623.org.eclipse.jgi" +
+      "t.storage.dht.ObjectInfo.ObjectType\022\016\n\006o",
+      "ffset\030\002 \002(\005\022\023\n\013packed_size\030\003 \002(\003\022\025\n\rinfl" +
+      "ated_size\030\004 \002(\003\022\022\n\ndelta_base\030\005 \001(\014\022\025\n\ri" +
+      "s_fragmented\030\006 \001(\010\"5\n\nObjectType\022\n\n\006COMM" +
+      "IT\020\001\022\010\n\004TREE\020\002\022\010\n\004BLOB\020\003\022\007\n\003TAG\020\004\"\217\004\n\tCh" +
+      "unkInfo\022>\n\006source\030\001 \001(\0162..org.eclipse.jg" +
+      "it.storage.dht.ChunkInfo.Source\022G\n\013objec" +
+      "t_type\030\002 \001(\01622.org.eclipse.jgit.storage." +
+      "dht.ChunkInfo.ObjectType\022\023\n\013is_fragment\030" +
+      "\003 \001(\010\022\027\n\017cached_pack_key\030\004 \001(\t\022K\n\robject" +
+      "_counts\030\005 \001(\01324.org.eclipse.jgit.storage",
+      ".dht.ChunkInfo.ObjectCounts\022\022\n\nchunk_siz" +
+      "e\030\006 \001(\005\022\022\n\nindex_size\030\007 \001(\005\022\021\n\tmeta_size" +
+      "\030\010 \001(\005\032R\n\014ObjectCounts\022\r\n\005total\030\001 \001(\005\022\r\n" +
+      "\005whole\030\002 \001(\005\022\021\n\tofs_delta\030\003 \001(\005\022\021\n\tref_d" +
+      "elta\030\004 \001(\005\"-\n\006Source\022\013\n\007RECEIVE\020\001\022\n\n\006INS" +
+      "ERT\020\002\022\n\n\006REPACK\020\003\"@\n\nObjectType\022\t\n\005MIXED" +
+      "\020\000\022\n\n\006COMMIT\020\001\022\010\n\004TREE\020\002\022\010\n\004BLOB\020\003\022\007\n\003TA" +
+      "G\020\004\"\352\002\n\tChunkMeta\022E\n\nbase_chunk\030\001 \003(\01321." +
+      "org.eclipse.jgit.storage.dht.ChunkMeta.B" +
+      "aseChunk\022\020\n\010fragment\030\002 \003(\t\022M\n\017commit_pre",
+      "fetch\0303 \001(\01324.org.eclipse.jgit.storage.d" +
+      "ht.ChunkMeta.PrefetchHint\022K\n\rtree_prefet" +
+      "ch\0304 \001(\01324.org.eclipse.jgit.storage.dht." +
+      "ChunkMeta.PrefetchHint\0326\n\tBaseChunk\022\026\n\016r" +
+      "elative_start\030\001 \002(\003\022\021\n\tchunk_key\030\002 \002(\t\0320" +
+      "\n\014PrefetchHint\022\014\n\004edge\030\001 \003(\t\022\022\n\nsequenti" +
+      "al\030\002 \003(\t\"\322\002\n\016CachedPackInfo\022\014\n\004name\030\001 \002(" +
+      "\t\022\017\n\007version\030\002 \002(\t\022\025\n\robjects_total\030\003 \002(" +
+      "\003\022\025\n\robjects_delta\030\004 \001(\003\022\023\n\013bytes_total\030" +
+      "\005 \001(\003\022L\n\010tip_list\030\006 \002(\0132:.org.eclipse.jg",
+      "it.storage.dht.CachedPackInfo.TipObjectL" +
+      "ist\022J\n\nchunk_list\030\007 \002(\01326.org.eclipse.jg" +
+      "it.storage.dht.CachedPackInfo.ChunkList\032" +
+      "$\n\rTipObjectList\022\023\n\013object_name\030\001 \003(\t\032\036\n" +
+      "\tChunkList\022\021\n\tchunk_key\030\001 \003(\tB1\n,org.ecl" +
+      "ipse.jgit.generated.storage.dht.proto\240\001\001"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -7867,7 +7941,7 @@ public final class GitStore {
           internal_static_org_eclipse_jgit_storage_dht_RefData_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_org_eclipse_jgit_storage_dht_RefData_descriptor,
-              new java.lang.String[] { "Symref", "Target", "IsPeeled", "Peeled", },
+              new java.lang.String[] { "Sequence", "Symref", "Target", "IsPeeled", "Peeled", },
               org.eclipse.jgit.generated.storage.dht.proto.GitStore.RefData.class,
               org.eclipse.jgit.generated.storage.dht.proto.GitStore.RefData.Builder.class);
           internal_static_org_eclipse_jgit_storage_dht_RefData_Id_descriptor =
