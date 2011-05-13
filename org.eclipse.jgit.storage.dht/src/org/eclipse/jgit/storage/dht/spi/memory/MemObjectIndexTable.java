@@ -43,21 +43,26 @@
 
 package org.eclipse.jgit.storage.dht.spi.memory;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.jgit.generated.storage.dht.proto.GitStore;
 import org.eclipse.jgit.storage.dht.AsyncCallback;
 import org.eclipse.jgit.storage.dht.ChunkKey;
 import org.eclipse.jgit.storage.dht.DhtException;
+import org.eclipse.jgit.storage.dht.DhtText;
 import org.eclipse.jgit.storage.dht.ObjectIndexKey;
 import org.eclipse.jgit.storage.dht.ObjectInfo;
 import org.eclipse.jgit.storage.dht.spi.Context;
 import org.eclipse.jgit.storage.dht.spi.ObjectIndexTable;
 import org.eclipse.jgit.storage.dht.spi.WriteBuffer;
 import org.eclipse.jgit.storage.dht.spi.util.ColumnMatcher;
+
+import com.google.protobuf.InvalidProtocolBufferException;
 
 final class MemObjectIndexTable implements ObjectIndexTable {
 	private final MemTable table = new MemTable();
@@ -70,17 +75,25 @@ final class MemObjectIndexTable implements ObjectIndexTable {
 
 		for (ObjectIndexKey objId : objects) {
 			for (MemTable.Cell cell : table.scanFamily(objId.asBytes(), colInfo)) {
-				Collection<ObjectInfo> info = out.get(objId);
-				if (info == null) {
-					info = new ArrayList<ObjectInfo>(4);
-					out.put(objId, info);
+				Collection<ObjectInfo> chunks = out.get(objId);
+				ChunkKey chunkKey;
+				if (chunks == null) {
+					chunks = new ArrayList<ObjectInfo>(4);
+					out.put(objId, chunks);
 				}
 
-				ChunkKey chunk = ChunkKey.fromBytes(
-						colInfo.suffix(cell.getName()));
-				byte[] value = cell.getValue();
-				long time = cell.getTimestamp();
-				info.add(ObjectInfo.fromBytes(chunk, value, time));
+				chunkKey = ChunkKey.fromBytes(colInfo.suffix(cell.getName()));
+				try {
+					chunks.add(new ObjectInfo(
+							chunkKey,
+							cell.getTimestamp(),
+							GitStore.ObjectInfo.parseFrom(cell.getValue())));
+				} catch (InvalidProtocolBufferException badCell) {
+					callback.onFailure(new DhtException(MessageFormat.format(
+							DhtText.get().invalidObjectInfo, objId, chunkKey),
+							badCell));
+					return;
+				}
 			}
 		}
 
@@ -91,7 +104,7 @@ final class MemObjectIndexTable implements ObjectIndexTable {
 			throws DhtException {
 		ChunkKey chunk = info.getChunkKey();
 		table.put(objId.asBytes(), colInfo.append(chunk.asBytes()),
-				info.asBytes());
+				info.getData().toByteArray());
 	}
 
 	public void remove(ObjectIndexKey objId, ChunkKey chunk, WriteBuffer buffer)

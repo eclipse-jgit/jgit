@@ -46,8 +46,8 @@ package org.eclipse.jgit.storage.dht.spi.cache;
 import java.util.Map;
 import java.util.concurrent.TimeoutException;
 
+import org.eclipse.jgit.generated.storage.dht.proto.GitStore.RefData;
 import org.eclipse.jgit.storage.dht.DhtException;
-import org.eclipse.jgit.storage.dht.RefData;
 import org.eclipse.jgit.storage.dht.RefKey;
 import org.eclipse.jgit.storage.dht.RepositoryKey;
 import org.eclipse.jgit.storage.dht.spi.Context;

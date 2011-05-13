@@ -46,23 +46,23 @@ package org.eclipse.jgit.storage.dht.spi.cache;
 import static java.util.Collections.emptyMap;
 import static java.util.Collections.singleton;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeoutException;
 
-import org.eclipse.jgit.storage.dht.CachedPackInfo;
+import org.eclipse.jgit.generated.storage.dht.proto.GitCache.CachedPackInfoList;
+import org.eclipse.jgit.generated.storage.dht.proto.GitStore.CachedPackInfo;
 import org.eclipse.jgit.storage.dht.CachedPackKey;
 import org.eclipse.jgit.storage.dht.ChunkInfo;
 import org.eclipse.jgit.storage.dht.ChunkKey;
 import org.eclipse.jgit.storage.dht.DhtException;
 import org.eclipse.jgit.storage.dht.RepositoryKey;
 import org.eclipse.jgit.storage.dht.Sync;
-import org.eclipse.jgit.storage.dht.TinyProtobuf;
 import org.eclipse.jgit.storage.dht.spi.RepositoryTable;
 import org.eclipse.jgit.storage.dht.spi.WriteBuffer;
 import org.eclipse.jgit.storage.dht.spi.cache.CacheService.Change;
+
+import com.google.protobuf.InvalidProtocolBufferException;
 
 /** Cache wrapper around RepositoryTable. */
 public class CacheRepositoryTable implements RepositoryTable {
@@ -126,26 +126,20 @@ public class CacheRepositoryTable implements RepositoryTable {
 
 		byte[] data = result.get(memKey);
 		if (data != null) {
-			List<CachedPackInfo> r = new ArrayList<CachedPackInfo>();
-			TinyProtobuf.Decoder d = TinyProtobuf.decode(data);
-			for (;;) {
-				switch (d.next()) {
-				case 0:
-					return r;
-				case 1:
-					r.add(CachedPackInfo.fromBytes(d.message()));
-					continue;
-				default:
-					d.skip();
-				}
+			try {
+				return CachedPackInfoList.parseFrom(data).getPackList();
+			} catch (InvalidProtocolBufferException e) {
+				// Invalidate the cache entry and fall through.
+				client.modify(singleton(Change.remove(memKey)), none);
 			}
 		}
 
 		Collection<CachedPackInfo> r = db.getCachedPacks(repo);
-		TinyProtobuf.Encoder e = TinyProtobuf.encode(1024);
-		for (CachedPackInfo info : r)
-			e.bytes(1, info.asBytes());
-		client.modify(singleton(Change.put(memKey, e.asByteArray())), none);
+		CachedPackInfoList.Builder list = CachedPackInfoList.newBuilder();
+		list.addAllPack(r);
+		client.modify(
+				singleton(Change.put(memKey, list.build().toByteArray())),
+				none);
 		return r;
 	}
 
