@@ -43,17 +43,22 @@
 
 package org.eclipse.jgit.storage.dht.spi.memory;
 
+import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeoutException;
 
+import org.eclipse.jgit.generated.storage.dht.proto.GitStore.RefData;
 import org.eclipse.jgit.storage.dht.DhtException;
-import org.eclipse.jgit.storage.dht.RefData;
+import org.eclipse.jgit.storage.dht.DhtText;
+import org.eclipse.jgit.storage.dht.RefDataUtil;
 import org.eclipse.jgit.storage.dht.RefKey;
 import org.eclipse.jgit.storage.dht.RepositoryKey;
 import org.eclipse.jgit.storage.dht.spi.Context;
 import org.eclipse.jgit.storage.dht.spi.RefTable;
 import org.eclipse.jgit.storage.dht.spi.util.ColumnMatcher;
+
+import com.google.protobuf.InvalidProtocolBufferException;
 
 final class MemRefTable implements RefTable {
 	private final MemTable table = new MemTable();
@@ -65,8 +70,12 @@ final class MemRefTable implements RefTable {
 		Map<RefKey, RefData> out = new HashMap<RefKey, RefData>();
 		for (MemTable.Cell cell : table.scanFamily(repository.asBytes(), colRef)) {
 			RefKey ref = RefKey.fromBytes(colRef.suffix(cell.getName()));
-			RefData val = RefData.fromBytes(cell.getValue());
-			out.put(ref, val);
+			try {
+				out.put(ref, RefData.parseFrom(cell.getValue()));
+			} catch (InvalidProtocolBufferException badCell) {
+				throw new DhtException(MessageFormat.format(
+						DhtText.get().invalidRefData, ref), badCell);
+			}
 		}
 		return out;
 	}
@@ -77,8 +86,8 @@ final class MemRefTable implements RefTable {
 		return table.compareAndSet( //
 				repo.asBytes(), //
 				colRef.append(refKey.asBytes()), //
-				oldData != RefData.NONE ? oldData.asBytes() : null, //
-				newData.asBytes());
+				oldData != RefDataUtil.NONE ? oldData.toByteArray() : null, //
+				newData.toByteArray());
 	}
 
 	public boolean compareAndRemove(RefKey refKey, RefData oldData)
@@ -87,7 +96,7 @@ final class MemRefTable implements RefTable {
 		return table.compareAndSet( //
 				repo.asBytes(), //
 				colRef.append(refKey.asBytes()), //
-				oldData != RefData.NONE ? oldData.asBytes() : null, //
+				oldData != RefDataUtil.NONE ? oldData.toByteArray() : null, //
 				null);
 	}
 }

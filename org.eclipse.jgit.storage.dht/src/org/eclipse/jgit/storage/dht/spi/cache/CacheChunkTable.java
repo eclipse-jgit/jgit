@@ -44,28 +44,35 @@
 package org.eclipse.jgit.storage.dht.spi.cache;
 
 import static java.util.Collections.singleton;
+import static java.util.Collections.singletonMap;
 
+import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
 
+import org.eclipse.jgit.generated.storage.dht.proto.GitStore.ChunkMeta;
 import org.eclipse.jgit.storage.dht.AsyncCallback;
 import org.eclipse.jgit.storage.dht.ChunkKey;
-import org.eclipse.jgit.storage.dht.ChunkMeta;
 import org.eclipse.jgit.storage.dht.DhtException;
 import org.eclipse.jgit.storage.dht.PackChunk;
 import org.eclipse.jgit.storage.dht.StreamingCallback;
 import org.eclipse.jgit.storage.dht.Sync;
-import org.eclipse.jgit.storage.dht.TinyProtobuf;
 import org.eclipse.jgit.storage.dht.spi.ChunkTable;
 import org.eclipse.jgit.storage.dht.spi.Context;
 import org.eclipse.jgit.storage.dht.spi.WriteBuffer;
 import org.eclipse.jgit.storage.dht.spi.cache.CacheService.Change;
+
+import com.google.protobuf.CodedInputStream;
+import com.google.protobuf.CodedOutputStream;
+import com.google.protobuf.InvalidProtocolBufferException;
+import com.google.protobuf.WireFormat;
 
 /** Cache wrapper around ChunkTable. */
 public class CacheChunkTable implements ChunkTable {
@@ -105,7 +112,7 @@ public class CacheChunkTable implements ChunkTable {
 	}
 
 	public void getMeta(Context options, Set<ChunkKey> keys,
-			AsyncCallback<Collection<ChunkMeta>> callback) {
+			AsyncCallback<Map<ChunkKey, ChunkMeta>> callback) {
 		List<CacheKey> toFind = new ArrayList<CacheKey>(keys.size());
 		for (ChunkKey k : keys)
 			toFind.add(nsMeta.key(k));
@@ -118,8 +125,10 @@ public class CacheChunkTable implements ChunkTable {
 		db.put(chunk, buf.getWriteBuffer());
 
 		// Only store fragmented meta. This is all callers should ask for.
-		if (chunk.hasMeta() && chunk.getMeta().getFragmentCount() != 0)
-			buf.put(nsMeta.key(chunk.getChunkKey()), chunk.getMeta().asBytes());
+		if (chunk.hasMeta() && chunk.getMeta().getFragmentCount() != 0) {
+			buf.put(nsMeta.key(chunk.getChunkKey()),
+					chunk.getMeta().toByteArray());
+		}
 
 		if (chunk.hasChunkData())
 			buf.put(nsChunk.key(chunk.getChunkKey()), encode(chunk));
@@ -135,57 +144,98 @@ public class CacheChunkTable implements ChunkTable {
 	}
 
 	private static byte[] encode(PackChunk.Members members) {
-		final byte[] meta;
-		if (members.hasMeta())
-			meta = members.getMeta().asBytes();
-		else
-			meta = null;
+		// Its too slow to encode ByteBuffer through the standard code.
+		// Since the message is only 3 fields, do it by hand.
+		ByteBuffer data = members.getChunkDataAsByteBuffer();
+		ByteBuffer index = members.getChunkIndexAsByteBuffer();
+		ChunkMeta meta = members.getMeta();
 
-		ByteBuffer chunkData = members.getChunkDataAsByteBuffer();
-		ByteBuffer chunkIndex = members.getChunkIndexAsByteBuffer();
+		int sz = 0;
+		if (data != null)
+			sz += computeByteBufferSize(1, data);
+		if (index != null)
+			sz += computeByteBufferSize(2, index);
+		if (meta != null)
+			sz += CodedOutputStream.computeMessageSize(3, meta);
 
-		TinyProtobuf.Encoder sizer = TinyProtobuf.size();
-		TinyProtobuf.Encoder e = sizer;
-		do {
-			e.bytes(1, chunkData);
-			e.bytes(2, chunkIndex);
-			e.bytes(3, meta);
-			if (e == sizer)
-				e = TinyProtobuf.encode(e.size());
-			else
-				return e.asByteArray();
-		} while (true);
+		byte[] r = new byte[sz];
+		CodedOutputStream out = CodedOutputStream.newInstance(r);
+		try {
+			if (data != null)
+				writeByteBuffer(out, 1, data);
+			if (index != null)
+				writeByteBuffer(out, 2, index);
+			if (meta != null)
+				out.writeMessage(3, meta);
+		} catch (IOException err) {
+			throw new RuntimeException("Cannot buffer chunk", err);
+		}
+		return r;
+	}
+
+	private static int computeByteBufferSize(int fieldNumber, ByteBuffer data) {
+		int n = data.remaining();
+		return CodedOutputStream.computeTagSize(fieldNumber)
+				+ CodedOutputStream.computeRawVarint32Size(n)
+				+ n;
+	}
+
+	private static void writeByteBuffer(CodedOutputStream out, int fieldNumber,
+			ByteBuffer data) throws IOException {
+		byte[] d = data.array();
+		int p = data.arrayOffset() + data.position();
+		int n = data.remaining();
+		out.writeTag(fieldNumber, WireFormat.WIRETYPE_LENGTH_DELIMITED);
+		out.writeRawVarint32(n);
+		out.writeRawBytes(d, p, n);
 	}
 
 	private static PackChunk.Members decode(ChunkKey key, byte[] raw) {
 		PackChunk.Members members = new PackChunk.Members();
 		members.setChunkKey(key);
 
-		TinyProtobuf.Decoder d = TinyProtobuf.decode(raw);
-		for (;;) {
-			switch (d.next()) {
-			case 0:
-				return members;
-			case 1: {
-				int cnt = d.bytesLength();
-				int ptr = d.bytesOffset();
-				byte[] buf = d.bytesArray();
-				members.setChunkData(buf, ptr, cnt);
-				continue;
+		// Its too slow to convert using the standard code, as copies
+		// are made. Instead find offsets in the stream and use that.
+		CodedInputStream in = CodedInputStream.newInstance(raw);
+		try {
+			int tag = in.readTag();
+			for (;;) {
+				switch (WireFormat.getTagFieldNumber(tag)) {
+				case 0:
+					return members;
+				case 1: {
+					int cnt = in.readRawVarint32();
+					int ptr = in.getTotalBytesRead();
+					members.setChunkData(raw, ptr, cnt);
+					in.skipRawBytes(cnt);
+					tag = in.readTag();
+					if (WireFormat.getTagFieldNumber(tag) != 2)
+						continue;
+				}
+				//$FALL-THROUGH$
+				case 2: {
+					int cnt = in.readRawVarint32();
+					int ptr = in.getTotalBytesRead();
+					members.setChunkIndex(raw, ptr, cnt);
+					in.skipRawBytes(cnt);
+					tag = in.readTag();
+					if (WireFormat.getTagFieldNumber(tag) != 3)
+						continue;
+				}
+				//$FALL-THROUGH$
+				case 3: {
+					int cnt = in.readRawVarint32();
+					int oldLimit = in.pushLimit(cnt);
+					members.setMeta(ChunkMeta.parseFrom(in));
+					in.popLimit(oldLimit);
+					continue;
+				}
+				default:
+					in.skipField(tag);
+				}
 			}
-			case 2: {
-				int cnt = d.bytesLength();
-				int ptr = d.bytesOffset();
-				byte[] buf = d.bytesArray();
-				members.setChunkIndex(buf, ptr, cnt);
-				continue;
-			}
-			case 3:
-				members.setMeta(ChunkMeta.fromBytes(key, d.message()));
-				continue;
-			default:
-				d.skip();
-			}
+		} catch (IOException err) {
+			throw new RuntimeException("Cannot decode chunk", err);
 		}
 	}
 
@@ -329,41 +379,49 @@ public class CacheChunkTable implements ChunkTable {
 
 		private final Set<ChunkKey> remaining;
 
-		private final AsyncCallback<Collection<ChunkMeta>> normalCallback;
+		private final AsyncCallback<Map<ChunkKey, ChunkMeta>> normalCallback;
 
-		private final StreamingCallback<Collection<ChunkMeta>> streamingCallback;
+		private final StreamingCallback<Map<ChunkKey, ChunkMeta>> streamingCallback;
 
-		private final List<ChunkMeta> all;
+		private final Map<ChunkKey, ChunkMeta> all;
 
 		MetaFromCache(Context options, Set<ChunkKey> keys,
-				AsyncCallback<Collection<ChunkMeta>> callback) {
+				AsyncCallback<Map<ChunkKey, ChunkMeta>> callback) {
 			this.options = options;
 			this.remaining = new HashSet<ChunkKey>(keys);
 			this.normalCallback = callback;
 
 			if (callback instanceof StreamingCallback<?>) {
-				streamingCallback = (StreamingCallback<Collection<ChunkMeta>>) callback;
+				streamingCallback = (StreamingCallback<Map<ChunkKey, ChunkMeta>>) callback;
 				all = null;
 			} else {
 				streamingCallback = null;
-				all = new ArrayList<ChunkMeta>(keys.size());
+				all = new HashMap<ChunkKey, ChunkMeta>();
 			}
 		}
 
 		public void onPartialResult(Map<CacheKey, byte[]> result) {
 			for (Map.Entry<CacheKey, byte[]> ent : result.entrySet()) {
 				ChunkKey key = ChunkKey.fromBytes(ent.getKey().getBytes());
-				ChunkMeta meta = ChunkMeta.fromBytes(key, ent.getValue());
+				ChunkMeta meta;
+				try {
+					meta = ChunkMeta.parseFrom(ent.getValue());
+				} catch (InvalidProtocolBufferException e) {
+					// Invalid meta message, remove the cell from cache.
+					client.modify(singleton(Change.remove(ent.getKey())),
+							Sync.<Void> none());
+					continue;
+				}
 
 				if (streamingCallback != null) {
-					streamingCallback.onPartialResult(singleton(meta));
+					streamingCallback.onPartialResult(singletonMap(key, meta));
 
 					synchronized (lock) {
 						remaining.remove(key);
 					}
 				} else {
 					synchronized (lock) {
-						all.add(meta);
+						all.put(key, meta);
 						remaining.remove(key);
 					}
 				}
@@ -391,31 +449,31 @@ public class CacheChunkTable implements ChunkTable {
 	}
 
 	private class MetaFromDatabase implements
-			StreamingCallback<Collection<ChunkMeta>> {
+			StreamingCallback<Map<ChunkKey, ChunkMeta>> {
 		private final Object lock = new Object();
 
-		private final List<ChunkMeta> all;
+		private final Map<ChunkKey, ChunkMeta> all;
 
-		private final AsyncCallback<Collection<ChunkMeta>> normalCallback;
+		private final AsyncCallback<Map<ChunkKey, ChunkMeta>> normalCallback;
 
-		private final StreamingCallback<Collection<ChunkMeta>> streamingCallback;
+		private final StreamingCallback<Map<ChunkKey, ChunkMeta>> streamingCallback;
 
-		MetaFromDatabase(List<ChunkMeta> all,
-				AsyncCallback<Collection<ChunkMeta>> normalCallback,
-				StreamingCallback<Collection<ChunkMeta>> streamingCallback) {
+		MetaFromDatabase(Map<ChunkKey, ChunkMeta> all,
+				AsyncCallback<Map<ChunkKey, ChunkMeta>> normalCallback,
+				StreamingCallback<Map<ChunkKey, ChunkMeta>> streamingCallback) {
 			this.all = all;
 			this.normalCallback = normalCallback;
 			this.streamingCallback = streamingCallback;
 		}
 
-		public void onPartialResult(Collection<ChunkMeta> result) {
-			final List<ChunkMeta> toPutIntoCache = copy(result);
+		public void onPartialResult(Map<ChunkKey, ChunkMeta> result) {
+			final Map<ChunkKey, ChunkMeta> toPutIntoCache = copy(result);
 
 			if (streamingCallback != null)
 				streamingCallback.onPartialResult(result);
 			else {
 				synchronized (lock) {
-					all.addAll(result);
+					all.putAll(result);
 				}
 			}
 
@@ -425,20 +483,22 @@ public class CacheChunkTable implements ChunkTable {
 			//
 			executor.submit(new Runnable() {
 				public void run() {
-					for (ChunkMeta meta : toPutIntoCache) {
-						ChunkKey key = meta.getChunkKey();
-						Change op = Change.put(nsMeta.key(key), meta.asBytes());
+					for (Map.Entry<ChunkKey, ChunkMeta> ent
+							: toPutIntoCache.entrySet()) {
+						ChunkKey key = ent.getKey();
+						Change op = Change.put(nsMeta.key(key),
+								ent.getValue().toByteArray());
 						client.modify(singleton(op), none);
 					}
 				}
 			});
 		}
 
-		private <T> List<T> copy(Collection<T> result) {
-			return new ArrayList<T>(result);
+		private <K, V> Map<K, V> copy(Map<K, V> result) {
+			return new HashMap<K, V>(result);
 		}
 
-		public void onSuccess(Collection<ChunkMeta> result) {
+		public void onSuccess(Map<ChunkKey, ChunkMeta> result) {
 			if (result != null && !result.isEmpty())
 				onPartialResult(result);
 

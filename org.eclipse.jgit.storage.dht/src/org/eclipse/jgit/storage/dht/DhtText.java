@@ -59,9 +59,12 @@ public class DhtText extends TranslationBundle {
 	/***/ public String cycleInDeltaChain;
 	/***/ public String databaseRequired;
 	/***/ public String expectedObjectSizeDuringCopyAsIs;
+	/***/ public String invalidCachedPackInfo;
 	/***/ public String invalidChunkKey;
+	/***/ public String invalidChunkMeta;
 	/***/ public String invalidObjectIndexKey;
 	/***/ public String invalidObjectInfo;
+	/***/ public String invalidRefData;
 	/***/ public String missingChunk;
 	/***/ public String missingLongOffsetBase;
 	/***/ public String nameRequired;
@@ -72,12 +75,6 @@ public class DhtText extends TranslationBundle {
 	/***/ public String objectTypeUnknown;
 	/***/ public String packParserInvalidPointer;
 	/***/ public String packParserRollbackFailed;
-	/***/ public String protobufNegativeValuesNotSupported;
-	/***/ public String protobufNoArray;
-	/***/ public String protobufNotBooleanValue;
-	/***/ public String protobufUnsupportedFieldType;
-	/***/ public String protobufWrongFieldLength;
-	/***/ public String protobufWrongFieldType;
 	/***/ public String recordingObjects;
 	/***/ public String repositoryAlreadyExists;
 	/***/ public String repositoryMustBeBare;

@@ -63,6 +63,7 @@ import java.util.zip.Inflater;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.StoredObjectRepresentationNotAvailableException;
+import org.eclipse.jgit.generated.storage.dht.proto.GitStore.CachedPackInfo;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.AsyncObjectLoaderQueue;
@@ -76,7 +77,6 @@ import org.eclipse.jgit.revwalk.ObjectWalk;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.eclipse.jgit.storage.dht.RefData.IdWithChunk;
 import org.eclipse.jgit.storage.dht.spi.Context;
 import org.eclipse.jgit.storage.dht.spi.Database;
 import org.eclipse.jgit.storage.dht.spi.ObjectIndexTable;
@@ -186,7 +186,7 @@ public class DhtReader extends ObjectReader implements ObjectReuseAsIs {
 
 	@Override
 	public boolean has(AnyObjectId objId, int typeHint) throws IOException {
-		if (objId instanceof RefData.IdWithChunk)
+		if (objId instanceof RefDataUtil.IdWithChunk)
 			return true;
 
 		if (recentChunks.has(repo, objId))
@@ -283,8 +283,8 @@ public class DhtReader extends ObjectReader implements ObjectReuseAsIs {
 		}
 
 		ChunkKey key;
-		if (objId instanceof RefData.IdWithChunk)
-			key = ((RefData.IdWithChunk) objId).getChunkKey();
+		if (objId instanceof RefDataUtil.IdWithChunk)
+			key = ((RefDataUtil.IdWithChunk) objId).getChunkKey();
 		else
 			key = repository.getRefDatabase().findChunk(objId);
 
@@ -331,8 +331,8 @@ public class DhtReader extends ObjectReader implements ObjectReuseAsIs {
 	}
 
 	ChunkKey findChunk(AnyObjectId objId) throws DhtException {
-		if (objId instanceof IdWithChunk)
-			return ((IdWithChunk) objId).getChunkKey();
+		if (objId instanceof RefDataUtil.IdWithChunk)
+			return ((RefDataUtil.IdWithChunk) objId).getChunkKey();
 
 		ChunkKey key = repository.getRefDatabase().findChunk(objId);
 		if (key != null)

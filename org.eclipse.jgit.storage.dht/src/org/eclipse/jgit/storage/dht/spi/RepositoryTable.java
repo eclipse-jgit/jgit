@@ -46,7 +46,7 @@ package org.eclipse.jgit.storage.dht.spi;
 import java.util.Collection;
 import java.util.concurrent.TimeoutException;
 
-import org.eclipse.jgit.storage.dht.CachedPackInfo;
+import org.eclipse.jgit.generated.storage.dht.proto.GitStore.CachedPackInfo;
 import org.eclipse.jgit.storage.dht.CachedPackKey;
 import org.eclipse.jgit.storage.dht.ChunkInfo;
 import org.eclipse.jgit.storage.dht.ChunkKey;

@@ -46,8 +46,9 @@ package org.eclipse.jgit.storage.dht.spi;
 import java.util.Map;
 import java.util.concurrent.TimeoutException;
 
+import org.eclipse.jgit.generated.storage.dht.proto.GitStore.RefData;
 import org.eclipse.jgit.storage.dht.DhtException;
-import org.eclipse.jgit.storage.dht.RefData;
+import org.eclipse.jgit.storage.dht.RefDataUtil;
 import org.eclipse.jgit.storage.dht.RefKey;
 import org.eclipse.jgit.storage.dht.RepositoryKey;
 
@@ -100,8 +101,8 @@ public interface RefTable {
 	 * @param oldData
 	 *            the old data for the reference. The put only occurs if the
 	 *            value is still equal to {@code oldData}. Use
-	 *            {@link RefData#NONE} if the reference should not exist and is
-	 *            being created.
+	 *            {@link RefDataUtil#NONE} if the reference should not exist and
+	 *            is being created.
 	 * @param newData
 	 *            new value to store.
 	 * @return true if the put was successful; false if the current value does
