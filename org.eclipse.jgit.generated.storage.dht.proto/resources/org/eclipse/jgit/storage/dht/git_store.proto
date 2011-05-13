@@ -56,6 +56,11 @@ option java_package = "org.eclipse.jgit.generated.storage.dht.proto";
     // Either symref *OR* target must be populated, but never both.
     //
 message RefData {
+    // Incrementing counter updated each time the RefData changes.
+    // Should always start at 1.
+    //
+  required uint32 sequence = 5 [default = 0];
+
     // An ObjectId with an optional hint about where it can be found.
     //
   message Id {
