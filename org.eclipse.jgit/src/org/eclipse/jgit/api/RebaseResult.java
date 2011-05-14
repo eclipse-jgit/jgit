@@ -82,6 +82,10 @@ public class RebaseResult {
 		FAST_FORWARD;
 	}
 
+	static final RebaseResult OK_RESULT = new RebaseResult(Status.OK);
+
+	static final RebaseResult ABORTED_RESULT = new RebaseResult(Status.ABORTED);
+
 	static final RebaseResult UP_TO_DATE_RESULT = new RebaseResult(
 			Status.UP_TO_DATE);
 
@@ -94,7 +98,7 @@ public class RebaseResult {
 
 	private Map<String, MergeFailureReason> failingPaths;
 
-	RebaseResult(Status status) {
+	private RebaseResult(Status status) {
 		this.mySatus = status;
 		currentCommit = null;
 	}
