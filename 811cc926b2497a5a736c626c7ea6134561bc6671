@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn///Vg\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2011-05-06T15:10:59Z",
+      "side": 1,
+      "message": "The current diff is:\n\" folder\"\nwhen it should be:\n\"- folder\n+ folder change\".",
+      "parentUuid": "AABOIn///Ww\u003d",
+      "revId": "811cc926b2497a5a736c626c7ea6134561bc6671",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn///Ws\u003d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2011-05-06T15:00:18Z",
       "side": 1,
       "message": "Style-nit: Use \"Bug:\" not \"bug:\".  Also, we tend to put this on the line before the Change-Id.",
+      "revId": "811cc926b2497a5a736c626c7ea6134561bc6671",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///Vk\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2011-05-06T15:10:59Z",
+      "side": 1,
+      "message": "Sorry, will fix my commit template. It seems that because I used \"bug\" (lower case) the Changed-Id has been added at wrong position. I didn\u0027t put it there manually.",
+      "parentUuid": "AABOIn///Ws\u003d",
       "revId": "811cc926b2497a5a736c626c7ea6134561bc6671",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
