@@ -1,0 +1,191 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn///Ww\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-06T15:00:18Z",
+      "side": 1,
+      "message": "Please elaborate and describe what the strange result is, and how it should be instead so that it is less strange.\n\nOK, after reading the bug, I wish you had at least echoed the bug report here in the commit message. That would have saved me a lot of time commenting on the pgm.Diff class hacks that are used just to setup the test case.",
+      "revId": "811cc926b2497a5a736c626c7ea6134561bc6671",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///Ws\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-06T15:00:18Z",
+      "side": 1,
+      "message": "Style-nit: Use \"Bug:\" not \"bug:\".  Also, we tend to put this on the line before the Change-Id.",
+      "revId": "811cc926b2497a5a736c626c7ea6134561bc6671",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///W0\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Diff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-06T15:00:18Z",
+      "side": 1,
+      "message": "Please do not add empty Javadoc.\n\nEspecially in a commit whose only description is \"gives strange result\".",
+      "revId": "811cc926b2497a5a736c626c7ea6134561bc6671",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///Wk\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Diff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-06T15:00:18Z",
+      "side": 1,
+      "message": "Do not make this class public.",
+      "revId": "811cc926b2497a5a736c626c7ea6134561bc6671",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///Wo\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Diff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-06T15:00:18Z",
+      "side": 1,
+      "message": "Please do not make this public, nor non-final.",
+      "revId": "811cc926b2497a5a736c626c7ea6134561bc6671",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///Wg\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Diff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-06T15:00:18Z",
+      "side": 1,
+      "message": "Do not add empty Javadoc.",
+      "revId": "811cc926b2497a5a736c626c7ea6134561bc6671",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///Wc\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Diff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-06T15:00:18Z",
+      "side": 1,
+      "message": "Do not make public.",
+      "revId": "811cc926b2497a5a736c626c7ea6134561bc6671",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///WY\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Diff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-06T15:00:18Z",
+      "side": 1,
+      "message": "Do not make public.",
+      "revId": "811cc926b2497a5a736c626c7ea6134561bc6671",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///WU\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/TextBuiltin.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-06T15:00:18Z",
+      "side": 1,
+      "message": "Do not make public.",
+      "revId": "811cc926b2497a5a736c626c7ea6134561bc6671",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///WQ\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/diff/DiffTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-06T15:00:18Z",
+      "side": 1,
+      "message": "Missing copyright header.",
+      "revId": "811cc926b2497a5a736c626c7ea6134561bc6671",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///WM\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/diff/DiffTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-06T15:00:18Z",
+      "side": 1,
+      "message": "This should be using DiffFormatter, not pgm.Diff.",
+      "revId": "811cc926b2497a5a736c626c7ea6134561bc6671",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
