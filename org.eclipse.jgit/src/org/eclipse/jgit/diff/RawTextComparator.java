@@ -318,7 +318,7 @@ public abstract class RawTextComparator extends SequenceComparator<RawText> {
 
 	private static int findForwardLine(IntList lines, int idx, int ptr) {
 		final int end = lines.size() - 2;
-		while (idx < end && lines.get(idx + 2) <= ptr)
+		while (idx < end && lines.get(idx + 2) < ptr)
 			idx++;
 		return idx;
 	}
