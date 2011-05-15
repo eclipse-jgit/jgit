@@ -163,6 +163,32 @@ public class RawTextTest {
 		assertEquals(new Edit(0, 2, 0, 1), e);
 	}
 
+	@Test
+	public void testComparatorReduceCommonStartButLastLineNoEol()
+			throws UnsupportedEncodingException {
+		RawText a;
+		RawText b;
+		Edit e;
+		a = new RawText("start".getBytes("UTF-8"));
+		b = new RawText("start of line".getBytes("UTF-8"));
+		e = new Edit(0, 1, 0, 1);
+		e = RawTextComparator.DEFAULT.reduceCommonStartEnd(a, b, e);
+		assertEquals(new Edit(0, 1, 0, 1), e);
+	}
+
+	@Test
+	public void testComparatorReduceCommonStartButLastLineNoEol_2()
+			throws UnsupportedEncodingException {
+		RawText a;
+		RawText b;
+		Edit e;
+		a = new RawText("start".getBytes("UTF-8"));
+		b = new RawText("start of\nlastline".getBytes("UTF-8"));
+		e = new Edit(0, 1, 0, 2);
+		e = RawTextComparator.DEFAULT.reduceCommonStartEnd(a, b, e);
+		assertEquals(new Edit(0, 1, 0, 2), e);
+	}
+
 	private static RawText t(String text) {
 		StringBuilder r = new StringBuilder();
 		for (int i = 0; i < text.length(); i++) {
