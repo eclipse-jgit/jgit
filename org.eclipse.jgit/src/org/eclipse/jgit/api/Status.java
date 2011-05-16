@@ -119,4 +119,12 @@ public class Status {
 	public Set<String> getUntracked() {
 		return Collections.unmodifiableSet(diff.getUntracked());
 	}
+
+	/**
+	 * @return list of files that are in conflict. (e.g what you get if you
+	 *         modify file that was modified by someone else in the meantime)
+	 */
+	public Set<String> getConflicting() {
+		return Collections.unmodifiableSet(diff.getConflicting());
+	}
 }
