@@ -198,6 +198,25 @@ public class MergeAlgorithmTest {
 
 	}
 
+	/**
+	 * Test situations where (at least) one input value is the empty text
+	 *
+	 * @throws IOException
+	 */
+	@Test
+	public void testEmptyTexts() throws IOException {
+		// test modification against deletion
+		assertEquals(t("<AB=>"), merge("A", "AB", ""));
+		assertEquals(t("<=AB>"), merge("A", "", "AB"));
+
+		// test unmodified against deletion
+		assertEquals(t(""), merge("AB", "AB", ""));
+		assertEquals(t(""), merge("AB", "", "AB"));
+
+		// test deletion against deletion
+		assertEquals(t(""), merge("AB", "", ""));
+	}
+
 	private String merge(String commonBase, String ours, String theirs) throws IOException {
 		MergeResult r = new MergeAlgorithm().merge(RawTextComparator.DEFAULT,
 				T(commonBase), T(ours), T(theirs));
@@ -231,5 +250,4 @@ public class MergeAlgorithmTest {
 	public static RawText T(String text) {
 		return new RawText(Constants.encode(t(text)));
 	}
-
 }
