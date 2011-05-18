@@ -1,0 +1,39 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOI3///zM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 532,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-05-13T14:24:32Z",
+      "side": 1,
+      "message": "You are too fast for me :-) In order to explain what I wanted I was trying out the following lines here:\n\nif (walk.isMergedInto(upstreamCommit, headCommit)) {\n  return RebaseResult.UP_TO_DATE_RESULT;\n} else if (walk.isMergedInto(headCommit, upstreamCommit)) {\n  checkoutCommit(upstreamCommit);\n  updatePreviousHead(headName, upstreamCommit);\n  return new RebaseResult(RebaseResult.Status.FAST_FORWARD);\n}\n\n... just to see that your latest proposal is the nearly the same. I would only change your check for UP_TO_DATE_RESULT to mine. Imagine somebody invokes a rebase of HEAD to HEAD~3. That\u0027s also an up-to-date result",
+      "revId": "425cf1c6e69d04b588dba8cd183d57dbce036312",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOI3///zA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 546,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-05-13T14:24:32Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "AABOI3///zc\u003d",
+      "revId": "425cf1c6e69d04b588dba8cd183d57dbce036312",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
