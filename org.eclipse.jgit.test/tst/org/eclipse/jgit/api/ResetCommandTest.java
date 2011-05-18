@@ -43,6 +43,7 @@
 package org.eclipse.jgit.api;
 
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
@@ -57,6 +58,7 @@ import org.eclipse.jgit.api.errors.NoHeadException;
 import org.eclipse.jgit.api.errors.NoMessageException;
 import org.eclipse.jgit.api.errors.WrongRepositoryStateException;
 import org.eclipse.jgit.dircache.DirCache;
+import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.errors.AmbiguousObjectException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
@@ -65,6 +67,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.util.FileUtils;
+import org.junit.Assert;
 import org.junit.Test;
 
 public class ResetCommandTest extends RepositoryTestCase {
@@ -73,9 +76,13 @@ public class ResetCommandTest extends RepositoryTestCase {
 
 	private RevCommit initialCommit;
 
+	private RevCommit secondCommit;
+
 	private File indexFile;
 
 	private File untrackedFile;
+
+	private DirCacheEntry prestage;
 
 	public void setupRepository() throws IOException, NoFilepatternException,
 			NoHeadException, NoMessageException, ConcurrentRefUpdateException,
@@ -94,7 +101,10 @@ public class ResetCommandTest extends RepositoryTestCase {
 
 		// add file and commit it
 		git.add().addFilepattern("a.txt").call();
-		git.commit().setMessage("adding a.txt").call();
+		secondCommit = git.commit().setMessage("adding a.txt").call();
+
+		prestage = DirCache.read(db.getIndexFile(), db.getFS()).getEntry(
+				indexFile.getName());
 
 		// modify file and add to index
 		writer.print("new content");
@@ -168,6 +178,38 @@ public class ResetCommandTest extends RepositoryTestCase {
 		String fileInIndexPath = indexFile.getAbsolutePath();
 		assertFalse(inHead(fileInIndexPath));
 		assertFalse(inIndex(indexFile.getName()));
+	}
+
+	@Test
+	public void testPathsReset() throws Exception {
+		setupRepository();
+
+		DirCacheEntry preReset = DirCache.read(db.getIndexFile(), db.getFS())
+				.getEntry(indexFile.getName());
+		assertNotNull(preReset);
+
+		git.add().addFilepattern(untrackedFile.getName()).call();
+
+		// 'a.txt' has already been modified in setupRepository
+		// 'notAddedToIndex.txt' has been added to repository
+		git.reset().addFile(indexFile.getName())
+				.addFile(untrackedFile.getName()).call();
+
+		DirCacheEntry postReset = DirCache.read(db.getIndexFile(), db.getFS())
+				.getEntry(indexFile.getName());
+		assertNotNull(postReset);
+		Assert.assertNotSame(preReset.getObjectId(), postReset.getObjectId());
+		Assert.assertEquals(prestage.getObjectId(), postReset.getObjectId());
+
+		// check that HEAD hasn't moved
+		ObjectId head = db.resolve(Constants.HEAD);
+		assertTrue(head.equals(secondCommit));
+		// check if files still exist
+		assertTrue(untrackedFile.exists());
+		assertTrue(indexFile.exists());
+		assertTrue(inHead(indexFile.getName()));
+		assertTrue(inIndex(indexFile.getName()));
+		assertFalse(inIndex(untrackedFile.getName()));
 	}
 
 	/**
