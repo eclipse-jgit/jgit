@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn///Dg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 569,
+      "author": {
+        "id": 214
+      },
+      "writtenOn": "2011-05-10T22:33:08Z",
+      "side": 1,
+      "message": "With that version I get the following test failure.\n\njava.lang.AssertionError: expected:\u003cSAFE\u003e but was:\u003cREBASING_INTERACTIVE\u003e\n\tat org.junit.Assert.fail(Assert.java:91)\n\tat org.junit.Assert.failNotEquals(Assert.java:645)\n\tat org.junit.Assert.assertEquals(Assert.java:126)\n\tat org.junit.Assert.assertEquals(Assert.java:145)\n\tat org.eclipse.jgit.api.PullCommandWithRebaseTest.testPullFastForward(PullCommandWithRebaseTest.java:103)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)\n\tat sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)\n\tat java.lang.reflect.Method.invoke(Method.java:597)\n\tat org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:44)\n\tat org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:15)\n\tat org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:41)\n\tat org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:20)\n\tat org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:28)\n\tat org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:31)\n\tat org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:76)\n\tat org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:50)\n\tat org.junit.runners.ParentRunner$3.run(ParentRunner.java:193)\n\tat org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:52)\n\tat org.junit.runners.ParentRunner.runChildren(ParentRunner.java:191)\n\tat org.junit.runners.ParentRunner.access$000(ParentRunner.java:42)\n\tat org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:184)\n\tat org.junit.runners.ParentRunner.run(ParentRunner.java:236)\n\tat org.eclipse.jdt.internal.junit4.runner.JUnit4TestReference.run(JUnit4TestReference.java:49)\n\tat org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:38)\n\tat org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:467)\n\tat org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:683)\n\tat org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:390)\n\tat org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:197)",
+      "parentUuid": "AABOIn///F8\u003d",
+      "revId": "3eeb71b9e699e4d2e7914c4dc5ff10917b6a5a9b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//++U\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
         "patchSetId": 1
