@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOI3///9U\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 536,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-05-12T21:29:11Z",
+      "side": 0,
+      "message": "I really like this idea to remove this block. Also for me this whole block didn\u0027t make much sense to me.\n\nBut know we have another problem. We cannot cherry-pick merge-commits. If the cherryPickList contains a merge-commit then our only chance for our rebase command to succed is that we can fast-forward in a way that we don\u0027t have to process (cherry-pick) the merge commit anymore.\n\nI would suggest that we simply add one check in the beginning of the initFilesAndRewind() method (before we call the log() command) . Something like:\n\nif (walk.isMergedInto(headCommit, upstreamCommit))\n  updateHead()...\n\nFor the easy case of a simple fast-forward we can skip all this complicated cases of cherry-picking each and every commit, handling merge commits, ...",
+      "revId": "858408f8c34d3e1666da345c1464968c659a313d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
