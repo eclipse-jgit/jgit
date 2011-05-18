@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOI3///uc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseResult.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2011-05-14T13:22:02Z",
+      "side": 1,
+      "message": "Chris already added FAST_FORWARD_RESULT in c22eab4948fbeaa26f6b892b5061bb174496d1ca -\u003e rebase.",
+      "revId": "fe7aa9b23280b98cd9b5af44f1f6b626fd32dea5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
