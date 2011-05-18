@@ -1,0 +1,91 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOI3///9k\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/RebaseCommandTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-05-12T21:29:11Z",
+      "side": 1,
+      "message": "That test here is ok. But please add a copy of this test and this time add here the following lines:\n\n\t\twriteTrashFile(\"file2\", \"more changess\");\n\t\tgit.add().addFilepattern(\"file2\").call();\n\t\tgit.commit().setMessage(\"update file2 on target\")\n\t\t\t\t.call();\n\nThis will remove the possibility to fast-forward. The rebase algorithm now has to cherry-pick every single missing commit. But we cannot cherry-pick merge commits. In my eyes the rebase command know should return with an error that it cannot cherry-pick merge-commits. But it is not doing so.",
+      "revId": "26a0673af3d76e264d4af30ab72fad7aa500d0bd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOI3///y0\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/RebaseCommandTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-05-13T14:24:24Z",
+      "side": 1,
+      "message": "Nearly. If you simply add the lines I suggest you get to a graph similar to the one you say but then we rebase B onto F (and not F onto B).\n\nMy question is more: shouldn\u0027 we check for this problem in the RebaseCommand and don\u0027t even start rebasing when we see this? I most cases I don\u0027t like to check for error conditions when I know the situation is handled already later. \nBut here it could make sense. First: what Rebase does is expensive. Second: the check is cheap. We anyhow have to visit every commit to be cherry-picked during the initialization phase of the rebase command. A simple check whether any of the commits is merge commit in the loop where we build up the cherryPickList is easy to implement.",
+      "parentUuid": "AABOI3///1k\u003d",
+      "revId": "26a0673af3d76e264d4af30ab72fad7aa500d0bd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOI3///9g\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-05-12T21:29:11Z",
+      "side": 1,
+      "message": "I would name this method updateHead(). There is no way to \"update a previous HEAD\", or?",
+      "revId": "26a0673af3d76e264d4af30ab72fad7aa500d0bd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOI3///9Q\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 582,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-05-12T21:29:11Z",
+      "side": 1,
+      "message": "also this check for up-to-date could be done before we do the log() command and before we start handling single commits. Some check in the beginning of this method like our check for fast-forward.",
+      "revId": "26a0673af3d76e264d4af30ab72fad7aa500d0bd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOI3///y8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 582,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-05-13T14:24:24Z",
+      "side": 1,
+      "message": "as I see from your last proposal you don\u0027t have an open question here anymore, right?",
+      "parentUuid": "AABOI3///1Y\u003d",
+      "revId": "26a0673af3d76e264d4af30ab72fad7aa500d0bd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
