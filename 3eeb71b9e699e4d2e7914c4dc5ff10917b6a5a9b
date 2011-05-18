@@ -1,0 +1,39 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn///F8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 569,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2011-05-10T20:01:30Z",
+      "side": 1,
+      "message": "I don\u0027t see why this whole section is even necessary.\n\nTo get the same results (verified it just now), remove the section and change the following check:\n\n                // nothing to do: return with UP_TO_DATE_RESULT\n-               if (cherryPickList.isEmpty())\n+               if (cherryPickList.isEmpty() \u0026\u0026 headId.equals(upstreamCommit.getId()))\n                        return RebaseResult.UP_TO_DATE_RESULT;\n\nAnd in call(), change the last return statement:\n\n                        }\n-                       return new RebaseResult(Status.UP_TO_DATE);\n+                       return new RebaseResult(Status.FAST_FORWARD);",
+      "revId": "3eeb71b9e699e4d2e7914c4dc5ff10917b6a5a9b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//++U\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 569,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2011-05-11T19:55:35Z",
+      "side": 1,
+      "message": "I see (I only ran RebaseCommandTest), the problems are the state files. In this case, a merge is probably the right thing to do (or maybe just a checkout).",
+      "parentUuid": "AABOIn///Dg\u003d",
+      "revId": "3eeb71b9e699e4d2e7914c4dc5ff10917b6a5a9b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
