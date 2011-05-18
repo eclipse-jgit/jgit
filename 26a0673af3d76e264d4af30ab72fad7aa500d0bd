@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOI3///1k\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/RebaseCommandTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 214
+      },
+      "writtenOn": "2011-05-13T11:33:11Z",
+      "side": 1,
+      "message": "Do you mean create\n\nA - B\n  \\\n   C - D - F\n    \\      /\n     E -\n\nAnd then rebase F onto B?\n\nI tried that and it failed as expected;\n\norg.eclipse.jgit.api.errors.MultipleParentsNotAllowedException: Can only cherry-pick commits which have exactly one parent\n\tat org.eclipse.jgit.api.CherryPickCommand.call(CherryPickCommand.java:126)\n\tat org.eclipse.jgit.api.RebaseCommand.call(RebaseCommand.java:256)\n\tat org.eclipse.jgit.api.RebaseCommandTest.testRebaseFailsCantCherryPickMergeCommits(RebaseCommandTest.java:206)",
+      "parentUuid": "AABOI3///9k\u003d",
+      "revId": "26a0673af3d76e264d4af30ab72fad7aa500d0bd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOI3///y0\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/RebaseCommandTest.java",
         "patchSetId": 2
@@ -65,6 +83,24 @@
       "writtenOn": "2011-05-12T21:29:11Z",
       "side": 1,
       "message": "also this check for up-to-date could be done before we do the log() command and before we start handling single commits. Some check in the beginning of this method like our check for fast-forward.",
+      "revId": "26a0673af3d76e264d4af30ab72fad7aa500d0bd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOI3///1Y\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 582,
+      "author": {
+        "id": 214
+      },
+      "writtenOn": "2011-05-13T11:33:11Z",
+      "side": 1,
+      "message": "Done for the first part, not sure what you mean by the second.",
+      "parentUuid": "AABOI3///9Q\u003d",
       "revId": "26a0673af3d76e264d4af30ab72fad7aa500d0bd",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false

@@ -16,6 +16,24 @@
       "revId": "858408f8c34d3e1666da345c1464968c659a313d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOI3///1U\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 536,
+      "author": {
+        "id": 214
+      },
+      "writtenOn": "2011-05-13T11:33:11Z",
+      "side": 0,
+      "message": "So if we take care of the fastfoward and up-to-date cases before the log call then we could check for the merge commits before we start any cherry picking.  E.g.\n\n\t\tfor (RevCommit commit : commitsToUse) {\n\t\t\tif (commit.getParentCount() !\u003d 1)\n\t\t\t\tthrow new JGitInternalException(\n\t\t\t\t\t\tJGitText.get().canOnlyCherryPickCommitsWithOneParent);\n\t\t\tcherryPickList.add(commit);\n\t\t}",
+      "parentUuid": "AABOI3///9U\u003d",
+      "revId": "858408f8c34d3e1666da345c1464968c659a313d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
