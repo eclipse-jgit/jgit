@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "AABOI3///zc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 546,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2011-05-13T13:33:13Z",
+      "side": 1,
+      "message": "We could create a static RebaseResult.FAST_FORWARD_RESULT, just like RebaseResult.UP_TO_DATE_RESULT, and use that.",
+      "revId": "425cf1c6e69d04b588dba8cd183d57dbce036312",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOI3///zA\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
         "patchSetId": 3
