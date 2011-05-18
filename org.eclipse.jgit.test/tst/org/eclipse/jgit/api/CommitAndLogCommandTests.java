@@ -50,7 +50,6 @@ import static org.junit.Assert.fail;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
-
 import org.eclipse.jgit.api.errors.ConcurrentRefUpdateException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.api.errors.NoFilepatternException;
@@ -110,6 +109,60 @@ public class CommitAndLogCommandTests extends RepositoryTestCase {
 		assertEquals(l, -1);
 		ReflogReader reader = db.getReflogReader(Constants.HEAD);
 		assertTrue(reader.getLastEntry().getComment().startsWith("commit:"));
+	}
+
+	@Test
+	public void testLogWithFilter() throws IOException, NoFilepatternException,
+			NoHeadException, NoMessageException, ConcurrentRefUpdateException,
+			JGitInternalException, WrongRepositoryStateException {
+
+		Git git = new Git(db);
+
+		// create first file
+		File file = new File(db.getWorkTree(), "a.txt");
+		FileUtils.createNewFile(file);
+		PrintWriter writer = new PrintWriter(file);
+		writer.print("content1");
+		writer.close();
+
+		// First commit - a.txt file
+		git.add().addFilepattern("a.txt").call();
+		git.commit().setMessage("commit1").setCommitter(committer).call();
+
+		// create second file
+		file = new File(db.getWorkTree(), "b.txt");
+		FileUtils.createNewFile(file);
+		writer = new PrintWriter(file);
+		writer.print("content2");
+		writer.close();
+
+		// Second commit - b.txt file
+		git.add().addFilepattern("b.txt").call();
+		git.commit().setMessage("commit2").setCommitter(committer).call();
+
+		// First log - a.txt filter
+		int count = 0;
+		for (RevCommit c : git.log().addPath("a.txt").call()) {
+			assertEquals("commit1", c.getFullMessage());
+			count++;
+		}
+		assertEquals(1, count);
+
+		// Second log - b.txt filter
+		count = 0;
+		for (RevCommit c : git.log().addPath("b.txt").call()) {
+			assertEquals("commit2", c.getFullMessage());
+			count++;
+		}
+		assertEquals(1, count);
+
+		// Third log - without filter
+		count = 0;
+		for (RevCommit c : git.log().call()) {
+			assertEquals(committer, c.getCommitterIdent());
+			count++;
+		}
+		assertEquals(2, count);
 	}
 
 	// try to do a commit without specifying a message. Should fail!

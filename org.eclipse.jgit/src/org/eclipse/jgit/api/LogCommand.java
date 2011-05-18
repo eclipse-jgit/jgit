@@ -58,8 +58,10 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.treewalk.filter.AndTreeFilter;
 import org.eclipse.jgit.treewalk.filter.PathFilter;
 import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
+import org.eclipse.jgit.treewalk.filter.TreeFilter;
 
 /**
  * A class used to execute a {@code Log} command. It has setters for all
@@ -103,7 +105,8 @@ public class LogCommand extends GitCommand<Iterable<RevCommit>> {
 			JGitInternalException {
 		checkCallable();
 		if (pathFilters.size() > 0)
-			walk.setTreeFilter(PathFilterGroup.create(pathFilters));
+			walk.setTreeFilter(AndTreeFilter.create(
+					PathFilterGroup.create(pathFilters), TreeFilter.ANY_DIFF));
 		if (!startSpecified) {
 			try {
 				ObjectId headId = repo.resolve(Constants.HEAD);
