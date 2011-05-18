@@ -54,6 +54,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import org.eclipse.jgit.api.MergeResult.MergeStatus;
 import org.eclipse.jgit.api.RebaseCommand.Action;
 import org.eclipse.jgit.api.RebaseCommand.Operation;
 import org.eclipse.jgit.api.RebaseResult.Status;
@@ -68,6 +69,7 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.RepositoryState;
 import org.eclipse.jgit.lib.RepositoryTestCase;
+import org.eclipse.jgit.merge.MergeStrategy;
 import org.eclipse.jgit.merge.ResolveMerger.MergeFailureReason;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -153,6 +155,88 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		assertTrue(new File(db.getWorkTree(), "file2").exists());
 		checkFile(file2, "file2 new content");
 		assertEquals(Status.FAST_FORWARD, res.getStatus());
+	}
+
+	@Test
+	public void testRebaseFailsCantCherryPickMergeCommits()
+			throws Exception {
+		/**
+		 * Create the following commits and then attempt to rebase topic onto
+		 * master. This will fail as the cherry-pick list C, D, E an F contains
+		 * a merge commit (F).
+		 * 
+		 * <pre>
+		 * A - B (master)
+		 *   \
+		 *    C - D - F (topic)
+		 *     \      /
+		 *      E  -  (side)
+		 * </pre>
+		 */
+		// create file1 on master
+		writeTrashFile(FILE1, FILE1);
+		git.add().addFilepattern(FILE1).call();
+		RevCommit first = git.commit().setMessage("Add file1").call();
+		assertTrue(new File(db.getWorkTree(), FILE1).exists());
+
+		// create a topic branch
+		createBranch(first, "refs/heads/topic");
+
+		// update FILE1 on master
+		writeTrashFile(FILE1, "blah");
+		git.add().addFilepattern(FILE1).call();
+		git.commit().setMessage("updated file1 on master").call();
+
+		checkoutBranch("refs/heads/topic");
+		writeTrashFile("file3", "more changess");
+		git.add().addFilepattern("file3").call();
+		RevCommit topicCommit = git.commit()
+				.setMessage("update file3 on topic").call();
+
+		// create a branch from the topic commit
+		createBranch(topicCommit, "refs/heads/side");
+
+		// second commit on topic
+		writeTrashFile("file2", "file2");
+		git.add().addFilepattern("file2").call();
+		git.commit().setMessage("Add file2").call();
+		assertTrue(new File(db.getWorkTree(), "file2").exists());
+
+		// switch to side branch and update file2
+		checkoutBranch("refs/heads/side");
+		writeTrashFile("file3", "more change");
+		git.add().addFilepattern("file3").call();
+		RevCommit sideCommit = git.commit().setMessage("update file2 on side")
+				.call();
+
+		// switch back to topic and merge in side
+		checkoutBranch("refs/heads/topic");
+		MergeResult result = git.merge().include(sideCommit.getId())
+				.setStrategy(MergeStrategy.RESOLVE).call();
+		assertEquals(MergeStatus.MERGED, result.getMergeStatus());
+
+		try {
+			RebaseResult rebase = git.rebase().setUpstream("refs/heads/master")
+					.call();
+			fail("MultipleParentsNotAllowedException expected: "
+					+ rebase.getStatus());
+		} catch (JGitInternalException e) {
+			// expected
+		}
+	}
+
+	@Test
+	public void testRebaseParentOntoHeadShouldBeUptoDate() throws Exception {
+		writeTrashFile(FILE1, FILE1);
+		git.add().addFilepattern(FILE1).call();
+		RevCommit parent = git.commit().setMessage("parent comment").call();
+
+		writeTrashFile(FILE1, "another change");
+		git.add().addFilepattern(FILE1).call();
+		git.commit().setMessage("head commit").call();
+
+		RebaseResult result = git.rebase().setUpstream(parent).call();
+		assertEquals(Status.UP_TO_DATE, result.getStatus());
 	}
 
 	@Test
@@ -1242,5 +1326,53 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		} finally {
 			br.close();
 		}
+	}
+
+	@Test
+	public void testFastForwardWithMultipleCommitsOnDifferentBranches()
+			throws Exception {
+		// create file1 on master
+		writeTrashFile(FILE1, FILE1);
+		git.add().addFilepattern(FILE1).call();
+		RevCommit first = git.commit().setMessage("Add file1").call();
+		assertTrue(new File(db.getWorkTree(), FILE1).exists());
+
+		// create a topic branch
+		createBranch(first, "refs/heads/topic");
+
+		// create file2 on master
+		writeTrashFile("file2", "file2");
+		git.add().addFilepattern("file2").call();
+		RevCommit second = git.commit().setMessage("Add file2").call();
+		assertTrue(new File(db.getWorkTree(), "file2").exists());
+
+		// create side branch
+		createBranch(second, "refs/heads/side");
+
+		// update FILE1 on master
+		writeTrashFile(FILE1, "blah");
+		git.add().addFilepattern(FILE1).call();
+		git.commit().setMessage("updated file1 on master")
+				.call();
+
+		// switch to side branch and update file2
+		checkoutBranch("refs/heads/side");
+		writeTrashFile("file2", "more change");
+		git.add().addFilepattern("file2").call();
+		RevCommit fourth = git.commit().setMessage("update file2 on side")
+				.call();
+
+		// switch back to master and merge in side
+		checkoutBranch("refs/heads/master");
+		MergeResult result = git.merge().include(fourth.getId())
+				.setStrategy(MergeStrategy.RESOLVE).call();
+		assertEquals(MergeStatus.MERGED, result.getMergeStatus());
+
+		// switch back to topic branch and rebase it onto master
+		checkoutBranch("refs/heads/topic");
+		RebaseResult res = git.rebase().setUpstream("refs/heads/master").call();
+		assertTrue(new File(db.getWorkTree(), "file2").exists());
+		checkFile(new File(db.getWorkTree(), "file2"), "more change");
+		assertEquals(Status.FAST_FORWARD, res.getStatus());
 	}
 }
