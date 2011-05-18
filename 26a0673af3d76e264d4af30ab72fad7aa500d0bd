@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "AABOI3///1g\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 214
+      },
+      "writtenOn": "2011-05-13T11:33:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOI3///9g\u003d",
+      "revId": "26a0673af3d76e264d4af30ab72fad7aa500d0bd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOI3///9Q\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
         "patchSetId": 2
