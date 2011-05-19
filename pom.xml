@@ -402,6 +402,7 @@
     <module>org.eclipse.jgit.junit.http</module>
 
     <module>org.eclipse.jgit.test</module>
+    <module>org.eclipse.jgit.ant.test</module>
     <module>org.eclipse.jgit.http.test</module>
     <module>org.eclipse.jgit.storage.dht.test</module>
   </modules>
