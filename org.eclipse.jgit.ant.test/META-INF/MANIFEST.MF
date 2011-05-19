@@ -1,0 +1,10 @@
+Bundle-Localization: plugin
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %plugin_name
+Bundle-SymbolicName: org.eclipse.jgit.ant.test
+Bundle-Version: 1.0.0.qualifier
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Import-Package: org.eclipse.jgit.ant.tasks;version="1.0.0",
+ org.junit;version="[4.0.0,5.0.0)"
