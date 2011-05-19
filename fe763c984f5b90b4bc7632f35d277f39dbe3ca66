@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOI3///2k\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 488,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-05-13T08:14:49Z",
+      "side": 1,
+      "message": "I started solving this problem with a very similar aproach. Calling mergeAlgorithm.merge() to produce the merge result. But: why should we do a full-fledged merge which does two complicated diffs (ok - one diff is not so complicated because one text is empty) although we know exactly what the merge result should look like. If OURS is the modified version and THEIRS is deleted then we expect a conflict like that:\n\n\u003e\u003e\u003e\u003e OURS\n\u003ccomplete content of OUR\u0027s\u003e\n\u003d\u003d\u003d\u003d THEIRS\n\u003c\u003c\u003c\u003c\u003c\n\nMy idea is to create such a mergeresult manually which is much faster than calling the merger.\n\nThe more I think about it: Let\u0027s put this optimization into the mergealgorithm itself. I\u0027ll make a proposal for that. Then this code here can stay.",
+      "revId": "fe763c984f5b90b4bc7632f35d277f39dbe3ca66",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
