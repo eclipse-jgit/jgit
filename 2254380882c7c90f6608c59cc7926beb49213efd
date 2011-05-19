@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOI3///RM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ResetCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 2
+      },
+      "writtenOn": "2011-05-18T13:29:31Z",
+      "side": 1,
+      "message": "I\u0027d call this addPath(String path) to mimic what we do elsewhere (e.g., CheckoutCommand)",
+      "revId": "2254380882c7c90f6608c59cc7926beb49213efd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
