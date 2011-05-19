@@ -63,6 +63,26 @@ public class URIishTest {
 	private static final String GIT_SCHEME = "git://";
 
 	@Test
+	public void shouldRaiseErrorOnEmptyURI() throws Exception {
+		try {
+			new URIish("");
+			fail("expecting an exception");
+		} catch (URISyntaxException e) {
+			// expected
+		}
+	}
+
+	@Test
+	public void shouldRaiseErrorOnNullURI() throws Exception {
+		try {
+			new URIish((String) null);
+			fail("expecting an exception");
+		} catch (URISyntaxException e) {
+			// expected
+		}
+	}
+
+	@Test
 	public void testUnixFile() throws Exception {
 		final String str = "/home/m y";
 		URIish u = new URIish(str);
