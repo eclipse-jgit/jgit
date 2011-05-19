@@ -222,4 +222,15 @@ public final class StringUtils {
 	private StringUtils() {
 		// Do not create instances
 	}
+
+	/**
+	 * Test if a string is empty or null.
+	 *
+	 * @param stringValue
+	 *            the string to check
+	 * @return <code>true</code> if the string is <code>null</code> or empty
+	 */
+	public static boolean isEmptyOrNull(String stringValue) {
+		return stringValue == null || stringValue.length() == 0;
+	}
 }
