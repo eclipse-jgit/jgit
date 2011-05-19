@@ -58,6 +58,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 import org.eclipse.jgit.lib.Constants;
@@ -316,6 +317,10 @@ public abstract class LocalDiskRepositoryTestCase {
 				+ Constants.DOT_GIT;
 		File gitdir = new File(trash, gitdirName).getCanonicalFile();
 		return gitdir;
+	}
+
+	protected File createTempFile() throws IOException {
+		return new File(trash, "tmp-" + UUID.randomUUID()).getCanonicalFile();
 	}
 
 	/**
