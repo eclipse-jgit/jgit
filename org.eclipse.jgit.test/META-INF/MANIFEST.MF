@@ -40,4 +40,5 @@ Import-Package: org.eclipse.jgit;version="[1.0.0,1.1.0)",
  org.junit;version="[4.0.0,5.0.0)",
  org.hamcrest.core;version="[1.1.0,2.0.0)"
 Require-Bundle: com.jcraft.jsch;bundle-version="[0.1.37,0.2.0)"
+Export-Package: org.eclipse.jgit.lib
  
