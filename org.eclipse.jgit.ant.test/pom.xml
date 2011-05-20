@@ -78,6 +78,12 @@
       <artifactId>org.eclipse.jgit.junit</artifactId>
       <version>${project.version}</version>
     </dependency>
+    
+   <dependency>
+      <groupId>org.eclipse.jgit</groupId>
+      <artifactId>org.eclipse.jgit.test</artifactId>
+      <version>${project.version}</version>
+    </dependency>    
 
     <dependency>
       <groupId>org.eclipse.jgit</groupId>
