@@ -101,6 +101,22 @@ public class FileSnapshot {
 		return new FileSnapshot(read, modified);
 	}
 
+	/**
+	 * Record a snapshot for a file for which the last modification time is
+	 * already known.
+	 * <p>
+	 * This method should be invoked before the file is accessed.
+	 *
+	 * @param modified
+	 *            the last modification time of the file
+	 *
+	 * @return the snapshot.
+	 */
+	public static FileSnapshot save(long modified) {
+		final long read = System.currentTimeMillis();
+		return new FileSnapshot(read, modified);
+	}
+
 	/** Last observed modification time of the path. */
 	private final long lastModified;
 
