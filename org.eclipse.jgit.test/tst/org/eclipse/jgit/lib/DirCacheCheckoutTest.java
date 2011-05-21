@@ -38,10 +38,13 @@
 package org.eclipse.jgit.lib;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -157,4 +160,25 @@ public class DirCacheCheckoutTest extends ReadTreeTest {
 		assertTrue(dc.checkout());
 		return dc;
 	}
+
+	public void assertIndex(HashMap<String, String> i)
+			throws CorruptObjectException, IOException {
+		String expectedValue;
+		String path;
+		DirCache read = DirCache.read(db.getIndexFile(), db.getFS());
+
+		assertEquals("Index has not the right size.", i.size(),
+				read.getEntryCount());
+		for (int j = 0; j < read.getEntryCount(); j++) {
+			path = read.getEntry(j).getPathString();
+			expectedValue = i.get(path);
+			assertNotNull("found unexpected entry for path " + path
+					+ " in index", expectedValue);
+			assertTrue("unexpected content for path " + path
+					+ " in index. Expected: <" + expectedValue + ">",
+					Arrays.equals(db.open(read.getEntry(j).getObjectId())
+							.getCachedBytes(), i.get(path).getBytes()));
+		}
+	}
+
 }
