@@ -164,7 +164,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		 * Create the following commits and then attempt to rebase topic onto
 		 * master. This will fail as the cherry-pick list C, D, E an F contains
 		 * a merge commit (F).
-		 * 
+		 *
 		 * <pre>
 		 * A - B (master)
 		 *   \
@@ -1053,7 +1053,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 
 		// checkout topic branch / modify file2 and add
 		checkoutBranch("refs/heads/topic");
-		writeTrashFile("file2", "uncommitted file2");
+		File uncommittedFile = writeTrashFile("file2", "uncommitted file2");
 		git.add().addFilepattern("file2").call();
 		// do not commit
 
@@ -1067,6 +1067,9 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		assertNotNull(exception);
 		assertEquals("Checkout conflict with files: \nfile2",
 				exception.getMessage());
+
+		checkFile(uncommittedFile, "uncommitted file2");
+		assertEquals(RepositoryState.SAFE, git.getRepository().getRepositoryState());
 	}
 
 	@Test
@@ -1374,5 +1377,39 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		assertTrue(new File(db.getWorkTree(), "file2").exists());
 		checkFile(new File(db.getWorkTree(), "file2"), "more change");
 		assertEquals(Status.FAST_FORWARD, res.getStatus());
+	}
+
+	@Test
+	public void testRebaseShouldLeaveWorkspaceUntouchedWithUnstagedChangesConflict()
+			throws Exception {
+		writeTrashFile(FILE1, "initial file");
+		git.add().addFilepattern(FILE1).call();
+		RevCommit initial = git.commit().setMessage("initial commit").call();
+		createBranch(initial, "refs/heads/side");
+
+		writeTrashFile(FILE1, "updated file");
+		git.add().addFilepattern(FILE1).call();
+		git.commit().setMessage("updated FILE1 on master").call();
+
+		// switch to side, modify the file
+		checkoutBranch("refs/heads/side");
+		writeTrashFile(FILE1, "side update");
+		git.add().addFilepattern(FILE1).call();
+		git.commit().setMessage("updated FILE1 on side").call();
+
+		File theFile = writeTrashFile(FILE1, "dirty the file");
+
+		// and attempt to rebase
+		try {
+			RebaseResult rebaseResult = git.rebase()
+					.setUpstream("refs/heads/master").call();
+			fail("Checkout with conflict should have occured, not "
+					+ rebaseResult.getStatus());
+		} catch (JGitInternalException e) {
+			checkFile(theFile, "dirty the file");
+		}
+
+		assertEquals(RepositoryState.SAFE, git.getRepository()
+				.getRepositoryState());
 	}
 }
