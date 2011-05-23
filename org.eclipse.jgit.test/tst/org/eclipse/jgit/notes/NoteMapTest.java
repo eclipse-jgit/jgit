@@ -522,6 +522,14 @@ public class NoteMapTest extends RepositoryTestCase {
 		assertEquals(2, count(it));
 	}
 
+	public void testShorteningNoteRefName() throws Exception {
+		String expectedShortName = "review";
+		String noteRefName = Constants.R_NOTES + expectedShortName;
+		assertEquals(expectedShortName, NoteMap.shortenRefName(noteRefName));
+		String nonNoteRefName = Constants.R_HEADS + expectedShortName;
+		assertEquals(nonNoteRefName, NoteMap.shortenRefName(expectedShortName));
+	}
+
 	private RevCommit commitNoteMap(NoteMap map) throws IOException {
 		tr.tick(600);
 

@@ -81,6 +81,19 @@ public class NoteMap implements Iterable<Note> {
 	}
 
 	/**
+	 * Shorten the note ref name by trimming off the {@link Constants#R_NOTES}
+	 * prefix if it exists.
+	 *
+	 * @param noteRefName
+	 * @return a more user friendly note name
+	 */
+	public static String shortenRefName(String noteRefName) {
+		if (noteRefName.startsWith(Constants.R_NOTES))
+			return noteRefName.substring(Constants.R_NOTES.length());
+		return noteRefName;
+	}
+
+	/**
 	 * Load a collection of notes from a branch.
 	 *
 	 * @param reader
