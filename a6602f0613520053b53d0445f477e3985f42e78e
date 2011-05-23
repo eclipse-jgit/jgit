@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOJX///+Y\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/notes/NoteMap.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2011-05-23T18:40:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOJX///+o\u003d",
+      "revId": "a6602f0613520053b53d0445f477e3985f42e78e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOJX///+s\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/notes/NoteMap.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2011-05-23T18:34:12Z",
       "side": 1,
       "message": "Please add a unit test.",
+      "revId": "a6602f0613520053b53d0445f477e3985f42e78e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJX///+U\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/notes/NoteMap.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2011-05-23T18:40:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOJX///+s\u003d",
       "revId": "a6602f0613520053b53d0445f477e3985f42e78e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
