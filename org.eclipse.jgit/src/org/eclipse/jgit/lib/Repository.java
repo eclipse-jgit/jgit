@@ -1077,6 +1077,8 @@ public abstract class Repository {
 			return refName.substring(Constants.R_TAGS.length());
 		if (refName.startsWith(Constants.R_REMOTES))
 			return refName.substring(Constants.R_REMOTES.length());
+		if (refName.startsWith(Constants.R_NOTES))
+			return refName.substring(Constants.R_NOTES.length());
 		return refName;
 	}
 
