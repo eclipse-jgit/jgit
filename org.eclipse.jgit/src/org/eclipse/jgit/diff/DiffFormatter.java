@@ -1061,16 +1061,28 @@ public class DiffFormatter {
 		}
 
 		if (!ent.getOldId().equals(ent.getNewId())) {
-			o.write(encodeASCII("index " //
-					+ format(ent.getOldId()) //
-					+ ".." //
-					+ format(ent.getNewId())));
-			if (oldMode.equals(newMode)) {
-				o.write(' ');
-				newMode.copyTo(o);
-			}
-			o.write('\n');
+			formatIndexLine(o, ent, oldMode, newMode);
 		}
+	}
+
+	/**
+	 * @param o
+	 * @param ent
+	 * @param oldMode
+	 * @param newMode
+	 * @throws IOException
+	 */
+	protected void formatIndexLine(ByteArrayOutputStream o, DiffEntry ent,
+			final FileMode oldMode, final FileMode newMode) throws IOException {
+		o.write(encodeASCII("index " //
+				+ format(ent.getOldId()) //
+				+ ".." //
+				+ format(ent.getNewId())));
+		if (oldMode.equals(newMode)) {
+			o.write(' ');
+			newMode.copyTo(o);
+		}
+		o.write('\n');
 	}
 
 	private void formatOldNewPaths(ByteArrayOutputStream o, DiffEntry ent)
