@@ -98,6 +98,8 @@ public class CloneCommand implements Callable<Git> {
 
 	private boolean cloneAllBranches;
 
+	private boolean noCheckout;
+
 	private Collection<String> branchesToClone;
 
 	/**
@@ -112,7 +114,8 @@ public class CloneCommand implements Callable<Git> {
 			URIish u = new URIish(uri);
 			Repository repository = init(u);
 			FetchResult result = fetch(repository, u);
-			checkout(repository, result);
+			if (!noCheckout)
+				checkout(repository, result);
 			return new Git(repository);
 		} catch (IOException ioe) {
 			throw new JGitInternalException(ioe.getMessage(), ioe);
@@ -140,7 +143,8 @@ public class CloneCommand implements Callable<Git> {
 		RemoteConfig config = new RemoteConfig(repo.getConfig(), remote);
 		config.addURI(u);
 
-		final String dst = Constants.R_REMOTES + config.getName();
+		final String dst = bare ? Constants.R_HEADS : Constants.R_REMOTES
+				+ config.getName();
 		RefSpec refSpec = new RefSpec();
 		refSpec = refSpec.setForceUpdate(true);
 		refSpec = refSpec.setSourceDestination(Constants.R_HEADS + "*", dst + "/*"); //$NON-NLS-1$ //$NON-NLS-2$
@@ -365,6 +369,18 @@ public class CloneCommand implements Callable<Git> {
 	 */
 	public CloneCommand setBranchesToClone(Collection<String> branchesToClone) {
 		this.branchesToClone = branchesToClone;
+		return this;
+	}
+
+	/**
+	 * @param noCheckout
+	 *            if set to <code>true</code> no branch will be checked out
+	 *            after the clone. This enhances performance of the clone
+	 *            command when there is no need for a checked out branch.
+	 * @return {@code this}
+	 */
+	public CloneCommand setNoCheckout(boolean noCheckout) {
+		this.noCheckout = noCheckout;
 		return this;
 	}
 

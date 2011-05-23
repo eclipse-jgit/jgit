@@ -49,12 +49,14 @@ import static org.junit.Assert.fail;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
+import java.util.List;
 
 import org.eclipse.jgit.api.ListBranchCommand.ListMode;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryTestCase;
@@ -136,6 +138,42 @@ public class CloneCommandTest extends RepositoryTestCase {
 			assertNotNull(git2);
 			assertEquals(git2.getRepository().getFullBranch(),
 					"refs/heads/master");
+			assertEquals(
+					"refs/heads/master, refs/remotes/origin/master, refs/remotes/origin/test",
+					allRefNames(git2.branchList().setListMode(ListMode.ALL)
+							.call()));
+
+			// Same thing, but now without checkout
+			directory = createTempDirectory("testCloneRepositoryWithBranch_bare");
+			command = Git.cloneRepository();
+			command.setBranch("refs/heads/master");
+			command.setDirectory(directory);
+			command.setURI("file://"
+					+ git.getRepository().getWorkTree().getPath());
+			command.setNoCheckout(true);
+			git2 = command.call();
+			assertNotNull(git2);
+			assertEquals(git2.getRepository().getFullBranch(),
+					"refs/heads/master");
+			assertEquals(
+					"refs/remotes/origin/master, refs/remotes/origin/test",
+					allRefNames(git2.branchList().setListMode(ListMode.ALL)
+							.call()));
+
+			// Same thing, but now test with bare repo
+			directory = createTempDirectory("testCloneRepositoryWithBranch_bare");
+			command = Git.cloneRepository();
+			command.setBranch("refs/heads/master");
+			command.setDirectory(directory);
+			command.setURI("file://"
+					+ git.getRepository().getWorkTree().getPath());
+			command.setBare(true);
+			git2 = command.call();
+			assertNotNull(git2);
+			assertEquals(git2.getRepository().getFullBranch(),
+					"refs/heads/master");
+			assertEquals("refs/heads/master, refs/heads/test", allRefNames(git2
+					.branchList().setListMode(ListMode.ALL).call()));
 		} catch (Exception e) {
 			fail(e.getMessage());
 		}
@@ -156,11 +194,39 @@ public class CloneCommandTest extends RepositoryTestCase {
 			assertNotNull(git2);
 			assertEquals(git2.getRepository().getFullBranch(),
 					"refs/heads/master");
-			assertEquals(1, git2.branchList().setListMode(ListMode.REMOTE)
-					.call().size());
+			assertEquals("refs/remotes/origin/master",
+					allRefNames(git2.branchList()
+					.setListMode(ListMode.REMOTE).call()));
+
+			// Same thing, but now test with bare repo
+			directory = createTempDirectory("testCloneRepositoryWithBranch_bare");
+			command = Git.cloneRepository();
+			command.setBranch("refs/heads/master");
+			command.setBranchesToClone(Collections
+					.singletonList("refs/heads/master"));
+			command.setDirectory(directory);
+			command.setURI("file://"
+					+ git.getRepository().getWorkTree().getPath());
+			command.setBare(true);
+			git2 = command.call();
+			assertNotNull(git2);
+			assertEquals(git2.getRepository().getFullBranch(),
+					"refs/heads/master");
+			assertEquals("refs/heads/master", allRefNames(git2
+					.branchList().setListMode(ListMode.ALL).call()));
 		} catch (Exception e) {
 			fail(e.getMessage());
 		}
+	}
+
+	public static String allRefNames(List<Ref> refs) {
+		StringBuilder sb = new StringBuilder();
+		for (Ref f : refs) {
+			if (sb.length() > 0)
+				sb.append(", ");
+			sb.append(f.getName());
+		}
+		return sb.toString();
 	}
 
 	public static File createTempDirectory(String name) throws IOException {

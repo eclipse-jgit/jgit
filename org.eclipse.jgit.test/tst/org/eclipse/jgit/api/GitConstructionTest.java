@@ -79,7 +79,7 @@ public class GitConstructionTest extends RepositoryTestCase {
 		assertEquals(1, git.branchList().call().size());
 
 		git = Git.wrap(bareRepo);
-		assertEquals(2, git.branchList().setListMode(ListMode.ALL).call()
+		assertEquals(1, git.branchList().setListMode(ListMode.ALL).call()
 				.size());
 
 		try {
@@ -96,7 +96,7 @@ public class GitConstructionTest extends RepositoryTestCase {
 		assertEquals(1, git.branchList().call().size());
 
 		git = Git.open(bareRepo.getDirectory());
-		assertEquals(2, git.branchList().setListMode(ListMode.ALL).call()
+		assertEquals(1, git.branchList().setListMode(ListMode.ALL).call()
 				.size());
 
 		git = Git.open(db.getWorkTree());
