@@ -1,0 +1,9 @@
+Code-Review+2: Shawn Pearce <spearce@spearce.org>
+IP-Clean+1: Shawn Pearce <spearce@spearce.org>
+Code-Review+1: Chris Aniszczyk <caniszczyk@gmail.com>
+Verified+1: Matthias Sohn <matthias.sohn@sap.com>
+Submitted-by: Matthias Sohn <matthias.sohn@sap.com>
+Submitted-at: Mon, 21 Feb 2011 16:34:24 -0400
+Reviewed-on: http://egit.eclipse.org/r/2544
+Project: jgit
+Branch: refs/heads/stable-0.11

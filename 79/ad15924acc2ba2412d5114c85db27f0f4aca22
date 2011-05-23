@@ -1,0 +1,10 @@
+Change-Id: I79ad15924acc2ba2412d5114c85db27f0f4aca22
+Code-Review+2: Christian Halstrick <christian.halstrick@gmail.com>
+IP-Clean+1: Christian Halstrick <christian.halstrick@gmail.com>
+Verified+1: Christian Halstrick <christian.halstrick@gmail.com>
+Code-Review+1: Philipp Thun <philipp.thun@sap.com>
+Submitted-by: Christian Halstrick <christian.halstrick@gmail.com>
+Submitted-at: Tue, 15 Mar 2011 09:12:05 -0400
+Reviewed-on: http://egit.eclipse.org/r/2719
+Project: jgit
+Branch: refs/heads/master

@@ -1,0 +1,9 @@
+Change-Id: I55b36f82333961b9baa68ba5de36f86d3d763d74
+Code-Review+2: Shawn Pearce <spearce@spearce.org>
+Code-Review+1: Christian Halstrick <christian.halstrick@gmail.com>
+IP-Clean+1: Christian Halstrick <christian.halstrick@gmail.com>
+Submitted-by: Shawn Pearce <spearce@spearce.org>
+Submitted-at: Tue, 02 Feb 2010 10:53:53 -0400
+Reviewed-on: http://egit.eclipse.org/r/254
+Project: jgit
+Branch: refs/heads/master

@@ -1,0 +1,8 @@
+Change-Id: I2b6c555aee869b7ef01c5953a143ca18583af182
+Code-Review+2: Robin Rosenberg <robin.rosenberg@dewire.com>
+IP-Clean+1: Robin Rosenberg <robin.rosenberg@dewire.com>
+Submitted-by: Robin Rosenberg <robin.rosenberg@dewire.com>
+Submitted-at: Mon, 29 Mar 2010 15:16:49 -0400
+Reviewed-on: http://egit.eclipse.org/r/396
+Project: jgit
+Branch: refs/heads/master

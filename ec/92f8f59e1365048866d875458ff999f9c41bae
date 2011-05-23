@@ -1,0 +1,10 @@
+Code-Review+2: Stefan Lay <stefan.lay@sap.com>
+IP-Clean+1: Stefan Lay <stefan.lay@sap.com>
+Verified+1: Stefan Lay <stefan.lay@sap.com>
+Verified+1: Hudson CI
+Code-Review+1: Kevin Sawicki <kevin@github.com>
+Submitted-by: Stefan Lay <stefan.lay@sap.com>
+Submitted-at: Tue, 03 May 2011 11:39:11 -0400
+Reviewed-on: http://egit.eclipse.org/r/3280
+Project: jgit
+Branch: refs/heads/master

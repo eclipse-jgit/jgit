@@ -1,0 +1,10 @@
+Code-Review+2: Robin Rosenberg <robin.rosenberg@dewire.com>
+IP-Clean+1: Robin Rosenberg <robin.rosenberg@dewire.com>
+Verified+1: Robin Rosenberg <robin.rosenberg@dewire.com>
+Verified+1: Hudson CI
+Code-Review+1: Bernard Leach <leachbj@bouncycastle.org>
+Submitted-by: Robin Rosenberg <robin.rosenberg@dewire.com>
+Submitted-at: Tue, 17 May 2011 08:54:18 -0400
+Reviewed-on: http://egit.eclipse.org/r/3410
+Project: jgit
+Branch: refs/heads/master

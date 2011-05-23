@@ -1,0 +1,8 @@
+Change-Id: I2c9862ea088ea7dc15b0beb70fe7485783763fee
+Code-Review+2: Shawn Pearce <spearce@spearce.org>
+IP-Clean+1: Robin Rosenberg <robin.rosenberg@dewire.com>
+Submitted-by: Robin Rosenberg <robin.rosenberg@dewire.com>
+Submitted-at: Thu, 08 Oct 2009 01:58:43 -0400
+Reviewed-on: http://egit.eclipse.org/r/51
+Project: jgit
+Branch: refs/heads/master

@@ -1,0 +1,9 @@
+Change-Id: I065a0a8122be356d1f898321763d3518b504b075
+Code-Review+2: Chris Aniszczyk <caniszczyk@gmail.com>
+IP-Clean+1: Chris Aniszczyk <caniszczyk@gmail.com>
+Verified+1: Chris Aniszczyk <caniszczyk@gmail.com>
+Submitted-by: Chris Aniszczyk <caniszczyk@gmail.com>
+Submitted-at: Fri, 28 Jan 2011 11:32:26 -0400
+Reviewed-on: http://egit.eclipse.org/r/2367
+Project: jgit
+Branch: refs/heads/master

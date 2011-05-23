@@ -1,0 +1,9 @@
+Change-Id: I64155e5c8f5b860fdac442ef94a195789288eaab
+Code-Review+2: Shawn Pearce <spearce@spearce.org>
+Code-Review+2: Chris Aniszczyk <caniszczyk@gmail.com>
+IP-Clean+1: Chris Aniszczyk <caniszczyk@gmail.com>
+Submitted-by: Robin Rosenberg <robin.rosenberg@dewire.com>
+Submitted-at: Sun, 17 Jan 2010 11:30:52 -0400
+Reviewed-on: http://egit.eclipse.org/r/214
+Project: jgit
+Branch: refs/heads/master

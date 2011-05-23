@@ -1,0 +1,8 @@
+Change-Id: I67d8f3a3388ca6c8fba8d794053a75c4dfd2754a
+Code-Review+2: Matthias Sohn <matthias.sohn@sap.com>
+IP-Clean+1: Matthias Sohn <matthias.sohn@sap.com>
+Submitted-by: Matthias Sohn <matthias.sohn@sap.com>
+Submitted-at: Fri, 17 Dec 2010 11:31:44 -0400
+Reviewed-on: http://egit.eclipse.org/r/2148
+Project: jgit
+Branch: refs/heads/master

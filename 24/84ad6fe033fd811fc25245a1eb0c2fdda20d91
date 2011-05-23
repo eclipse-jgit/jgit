@@ -1,0 +1,8 @@
+Change-Id: I589ba533f91910066d56d9f7f1348d2480b43223
+Code-Review+2: Shawn Pearce <spearce@spearce.org>
+IP-Clean+1: Shawn Pearce <spearce@spearce.org>
+Submitted-by: Shawn Pearce <spearce@spearce.org>
+Submitted-at: Fri, 09 Oct 2009 10:39:45 -0400
+Reviewed-on: http://egit.eclipse.org/r/53
+Project: jgit
+Branch: refs/heads/cq-diff

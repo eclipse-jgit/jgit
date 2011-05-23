@@ -1,0 +1,8 @@
+Change-Id: Ic441380f9cf6a294f6353ff35526a367f950004f
+Code-Review+2: Chris Aniszczyk <caniszczyk@gmail.com>
+IP-Clean+1: Chris Aniszczyk <caniszczyk@gmail.com>
+Submitted-by: Chris Aniszczyk <caniszczyk@gmail.com>
+Submitted-at: Tue, 23 Nov 2010 15:09:06 -0400
+Reviewed-on: http://egit.eclipse.org/r/1937
+Project: jgit
+Branch: refs/heads/master

@@ -1,0 +1,9 @@
+Change-Id: Ic22eab4948fbeaa26f6b892b5061bb174496d1ca
+Code-Review+2: Christian Halstrick <christian.halstrick@gmail.com>
+IP-Clean+1: Christian Halstrick <christian.halstrick@gmail.com>
+Verified+1: Hudson CI
+Submitted-by: Christian Halstrick <christian.halstrick@gmail.com>
+Submitted-at: Fri, 13 May 2011 12:08:01 -0400
+Reviewed-on: http://egit.eclipse.org/r/3413
+Project: jgit
+Branch: refs/heads/master

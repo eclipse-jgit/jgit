@@ -1,0 +1,8 @@
+Change-Id: Ic35f98b226a42aee77a08d4f973dc024beb6d26d
+Code-Review+2: Shawn Pearce <spearce@spearce.org>
+IP-Clean+1: Shawn Pearce <spearce@spearce.org>
+Submitted-by: Shawn Pearce <spearce@spearce.org>
+Submitted-at: Fri, 12 Nov 2010 20:17:50 -0400
+Reviewed-on: http://egit.eclipse.org/r/1903
+Project: jgit
+Branch: refs/heads/master

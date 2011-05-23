@@ -1,0 +1,9 @@
+Code-Review+1: Shawn Pearce <spearce@spearce.org>
+IP-Clean+1: Shawn Pearce <spearce@spearce.org>
+Code-Review+2: Stefan Lay <stefan.lay@sap.com>
+IP-Clean+1: Stefan Lay <stefan.lay@sap.com>
+Submitted-by: Stefan Lay <stefan.lay@sap.com>
+Submitted-at: Fri, 17 Sep 2010 09:32:28 -0400
+Reviewed-on: http://egit.eclipse.org/r/1601
+Project: jgit
+Branch: refs/heads/master
