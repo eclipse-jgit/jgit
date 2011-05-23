@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOJX////M\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1081,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-23T18:16:15Z",
+      "side": 1,
+      "message": "I\u0027m slightly worried about doing the shorten here. It may start to come up ambiguous against other branches. We won\u0027t expand a shortened name like \"review\" to \"refs/notes/review\" because RefDatabase doesn\u0027t consider the \"refs/notes/\" namespace as one of the search prefixes.\n\nThis should be a different method, maybe in the NoteMap class?",
+      "revId": "b2aff1e71cd373a3952075ca980511630d4a8985",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
