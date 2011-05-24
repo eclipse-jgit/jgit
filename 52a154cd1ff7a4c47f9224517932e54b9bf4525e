@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOJX///6Y\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffFormatter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1069,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2011-05-24T08:40:32Z",
+      "side": 1,
+      "message": "Done\n\nWhile writing JavaDoc I realized that it is sufficient to pass the DiffEntry as parameter and therefore I removed oldMode and newmode.",
+      "parentUuid": "AABOJH///0g\u003d",
+      "revId": "52a154cd1ff7a4c47f9224517932e54b9bf4525e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOJH///0c\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffFormatter.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2011-05-23T15:08:45Z",
       "side": 1,
       "message": "s/ByteArray//",
+      "revId": "52a154cd1ff7a4c47f9224517932e54b9bf4525e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJX///6U\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffFormatter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1075,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2011-05-24T08:40:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOJH///0c\u003d",
       "revId": "52a154cd1ff7a4c47f9224517932e54b9bf4525e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -81,6 +117,24 @@
       "writtenOn": "2011-05-23T15:08:45Z",
       "side": 1,
       "message": "Style-nit: Unnecessary blank line",
+      "revId": "52a154cd1ff7a4c47f9224517932e54b9bf4525e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJX///6I\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/PatchIdDiffFormatter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2011-05-24T08:40:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOJH///0s\u003d",
       "revId": "52a154cd1ff7a4c47f9224517932e54b9bf4525e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
