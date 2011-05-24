@@ -51,6 +51,7 @@ import java.io.IOException;
 import java.util.Collections;
 
 import org.eclipse.jgit.api.ListBranchCommand.ListMode;
+import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
@@ -158,6 +159,33 @@ public class CloneCommandTest extends RepositoryTestCase {
 					"refs/heads/master");
 			assertEquals(1, git2.branchList().setListMode(ListMode.REMOTE)
 					.call().size());
+		} catch (Exception e) {
+			fail(e.getMessage());
+		}
+	}
+
+	@Test
+	public void testCloneRepositoryWhenDestinationDirectoryExistsAndIsNotEmpty() {
+		try {
+			File directory = createTempDirectory("testCloneRepository");
+			CloneCommand command = Git.cloneRepository();
+			command.setDirectory(directory);
+			command.setURI("file://"
+					+ git.getRepository().getWorkTree().getPath());
+			Git git2 = command.call();
+			assertNotNull(git2);
+			// clone again
+			command = Git.cloneRepository();
+			command.setDirectory(directory);
+			command.setURI("file://"
+					+ git.getRepository().getWorkTree().getPath());
+			try {
+				git2 = command.call();
+				// we shouldn't get here
+				fail("destination directory already exists and is not an empty folder, cloning should fail");
+			} catch (JGitInternalException e) {
+				// TODO: an exception is expected, check details
+			}
 		} catch (Exception e) {
 			fail(e.getMessage());
 		}
