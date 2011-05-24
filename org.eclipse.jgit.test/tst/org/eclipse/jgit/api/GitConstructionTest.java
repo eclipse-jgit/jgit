@@ -71,6 +71,7 @@ public class GitConstructionTest extends RepositoryTestCase {
 				.setURI(db.getDirectory().toURI().toString())
 				.setDirectory(createUniqueTestGitDir(true)).call()
 				.getRepository();
+		addRepoToClose(bareRepo);
 	}
 
 	@Test
