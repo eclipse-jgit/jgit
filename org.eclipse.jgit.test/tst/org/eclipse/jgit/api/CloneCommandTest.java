@@ -101,6 +101,7 @@ public class CloneCommandTest extends RepositoryTestCase {
 			command.setURI("file://"
 					+ git.getRepository().getWorkTree().getPath());
 			Git git2 = command.call();
+			addRepoToClose(git2.getRepository());
 			assertNotNull(git2);
 			ObjectId id = git2.getRepository().resolve("tag-for-blob");
 			assertNotNull(id);
@@ -135,6 +136,8 @@ public class CloneCommandTest extends RepositoryTestCase {
 			command.setURI("file://"
 					+ git.getRepository().getWorkTree().getPath());
 			Git git2 = command.call();
+			addRepoToClose(git2.getRepository());
+
 			assertNotNull(git2);
 			assertEquals(git2.getRepository().getFullBranch(),
 					"refs/heads/master");
@@ -152,6 +155,8 @@ public class CloneCommandTest extends RepositoryTestCase {
 					+ git.getRepository().getWorkTree().getPath());
 			command.setNoCheckout(true);
 			git2 = command.call();
+			addRepoToClose(git2.getRepository());
+
 			assertNotNull(git2);
 			assertEquals(git2.getRepository().getFullBranch(),
 					"refs/heads/master");
@@ -169,6 +174,8 @@ public class CloneCommandTest extends RepositoryTestCase {
 					+ git.getRepository().getWorkTree().getPath());
 			command.setBare(true);
 			git2 = command.call();
+			addRepoToClose(git2.getRepository());
+
 			assertNotNull(git2);
 			assertEquals(git2.getRepository().getFullBranch(),
 					"refs/heads/master");
@@ -191,6 +198,7 @@ public class CloneCommandTest extends RepositoryTestCase {
 			command.setURI("file://"
 					+ git.getRepository().getWorkTree().getPath());
 			Git git2 = command.call();
+			addRepoToClose(git2.getRepository());
 			assertNotNull(git2);
 			assertEquals(git2.getRepository().getFullBranch(),
 					"refs/heads/master");
@@ -209,6 +217,7 @@ public class CloneCommandTest extends RepositoryTestCase {
 					+ git.getRepository().getWorkTree().getPath());
 			command.setBare(true);
 			git2 = command.call();
+			addRepoToClose(git2.getRepository());
 			assertNotNull(git2);
 			assertEquals(git2.getRepository().getFullBranch(),
 					"refs/heads/master");

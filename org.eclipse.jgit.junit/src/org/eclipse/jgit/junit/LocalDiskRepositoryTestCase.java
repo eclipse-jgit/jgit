@@ -303,6 +303,17 @@ public abstract class LocalDiskRepositoryTestCase {
 	}
 
 	/**
+	 * Adds a repository to the list of repositories which is closed at the end
+	 * of the tests
+	 *
+	 * @param r
+	 *            the repository to be closed
+	 */
+	public void addRepoToClose(Repository r) {
+		toClose.add(r);
+	}
+
+	/**
 	 * Creates a new unique directory for a test repository
 	 *
 	 * @param bare
