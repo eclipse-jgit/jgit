@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOI3//+68\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CleanCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-05-20T19:14:04Z",
+      "side": 1,
+      "message": "Why do you push an unresolved conflict for code review ? This can\u0027t compile.",
+      "revId": "2650c77bc4af2d8f401bbcce5384b44ff2a64ba2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOI3//+60\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CleanCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-05-20T19:14:04Z",
+      "side": 1,
+      "message": "What does ret mean in this name ? We prefer readable names ...",
+      "revId": "2650c77bc4af2d8f401bbcce5384b44ff2a64ba2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOI3//+6g\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CleanCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-05-20T19:14:04Z",
+      "side": 1,
+      "message": "why is the constructor protected ?",
+      "revId": "2650c77bc4af2d8f401bbcce5384b44ff2a64ba2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOI3//+6w\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CleanCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-05-20T19:14:04Z",
+      "side": 1,
+      "message": "workingTreeIt will be always null here",
+      "revId": "2650c77bc4af2d8f401bbcce5384b44ff2a64ba2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOI3//+6k\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CleanCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-05-20T19:14:04Z",
+      "side": 1,
+      "message": "what is the purpose of this method ?",
+      "revId": "2650c77bc4af2d8f401bbcce5384b44ff2a64ba2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOI3//+6s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CleanCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-05-20T19:14:04Z",
+      "side": 1,
+      "message": "println doesn\u0027t seem to be appropriate error handling",
+      "revId": "2650c77bc4af2d8f401bbcce5384b44ff2a64ba2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
