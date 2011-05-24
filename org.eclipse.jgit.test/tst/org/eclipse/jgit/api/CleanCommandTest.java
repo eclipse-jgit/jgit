@@ -1,5 +1,4 @@
 /*
- * Copyright (C) 2011, Chris Aniszczyk <zx@redhat.com>
  * Copyright (C) 2011, Abhishek Bhatnagar <abhatnag@redhat.com>
  * and other copyright owners as documented in the project's IP log.
  *
@@ -43,69 +42,75 @@
  */
 package org.eclipse.jgit.api;
 
-import java.io.File;
+import static org.junit.Assert.assertTrue;
+
 import java.io.IOException;
-import java.util.Collections;
 import java.util.Set;
 import java.util.TreeSet;
 
-import org.eclipse.jgit.api.errors.JGitInternalException;
-import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.util.FileUtils;
+import org.eclipse.jgit.errors.NoWorkTreeException;
+import org.eclipse.jgit.lib.RepositoryTestCase;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
- * Remove untracked files from the working tree
- *
- * @see <a
- *      href="http://www.kernel.org/pub/software/scm/git/docs/git-clean.html"
- *      >Git documentation about Clean</a>
+ * Tests for CleanCommand
  */
-public class CleanCommand extends GitCommand<Set<String>> {
+public class CleanCommandTest extends RepositoryTestCase {
+	private Git git;
 
-	private Set<String> paths = Collections.emptySet();
+	@Before
+	public void setUp() throws Exception {
+		super.setUp();
+		git = new Git(db);
 
-	/**
-	 * @param repo
-	 */
-	protected CleanCommand(Repository repo) {
-		super(repo);
+		// create test files
+		writeTrashFile("File1.txt", "Hello world");
+		writeTrashFile("File2.txt", "Delete Me");
+		writeTrashFile("File3.txt", "Delete Me");
+
+		// add and commit first file
+		git.add().addFilepattern("File1.txt").call();
+		git.commit().setMessage("Initial commit").call();
 	}
 
-	/**
-	 * Executes the {@code clean} command with all the options and parameters
-	 * collected by the setter methods of this class. Each instance of this
-	 * class should only be used for one invocation of the command (means: one
-	 * call to {@link #call()})
-	 *
-	 * @return a set of strings representing each file cleaned.
-	 */
-	public Set<String> call() {
-		Set<String> files = new TreeSet<String>();
-		try {
-			StatusCommand command = new StatusCommand(repo);
-			Status status = command.call();
-			for (String file : status.getUntracked()) {
-				if (paths.isEmpty() || paths.contains(file)) {
-					FileUtils.delete(new File(repo.getWorkTree(), file));
-					files.add(file);
-				}
-			}
-		} catch (IOException e) {
-			throw new JGitInternalException(e.getMessage(), e);
-		}
-		return files;
+	@Test
+	public void testClean() throws NoWorkTreeException, IOException {
+		// create status
+		StatusCommand command = git.status();
+		Status status = command.call();
+		Set<String> files = status.getUntracked();
+		assertTrue(files.size() > 0);
+
+		// run clean
+		Set<String> cleanedFiles = git.clean().call();
+
+		status = git.status().call();
+		files = status.getUntracked();
+
+		assertTrue(files.size() == 0);
+		assertTrue(cleanedFiles.contains("File2.txt"));
+		assertTrue(cleanedFiles.contains("File3.txt"));
 	}
 
-	/**
-	 * If paths are set, only these paths are affected by the cleaning.
-	 *
-	 * @param paths
-	 *            the paths to set
-	 * @return {@code this}
-	 */
-	public CleanCommand setPaths(Set<String> paths) {
-		this.paths = paths;
-		return this;
+	@Test
+	public void testCleanWithPaths() throws NoWorkTreeException, IOException {
+		// create status
+		StatusCommand command = git.status();
+		Status status = command.call();
+		Set<String> files = status.getUntracked();
+		assertTrue(files.size() > 0);
+
+		// run clean with setPaths
+		Set<String> paths = new TreeSet<String>();
+		paths.add("File3.txt");
+		Set<String> cleanedFiles = git.clean().setPaths(paths).call();
+
+		status = git.status().call();
+		files = status.getUntracked();
+		assertTrue(files.size() == 1);
+		assertTrue(cleanedFiles.contains("File3.txt"));
+		assertTrue(!cleanedFiles.contains("File2.txt"));
 	}
 
 }
