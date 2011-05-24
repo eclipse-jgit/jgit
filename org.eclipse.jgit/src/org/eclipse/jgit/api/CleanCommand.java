@@ -100,9 +100,10 @@ public class CleanCommand extends GitCommand<Set<String>> {
 	 *
 	 * @param paths
 	 *            the paths to set
+	 * @return {@code this}
 	 */
-	public void setPaths(Set<String> paths) {
+	public CleanCommand setPaths(Set<String> paths) {
 		this.paths = paths;
+		return this;
 	}
-
 }
