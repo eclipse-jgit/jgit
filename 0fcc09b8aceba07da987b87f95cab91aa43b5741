@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOJH///2w\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2011-05-23T09:33:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOJH///+A\u003d",
+      "revId": "0fcc09b8aceba07da987b87f95cab91aa43b5741",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOJH///9w\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/diff/PatchIdDiffFormatterTest.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2011-05-21T01:08:56Z",
       "side": 1,
       "message": "As we just discussed, check if the copyright line is correct.",
+      "revId": "0fcc09b8aceba07da987b87f95cab91aa43b5741",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJH///3g\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/diff/PatchIdDiffFormatterTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2011-05-23T09:33:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOJH///9w\u003d",
       "revId": "0fcc09b8aceba07da987b87f95cab91aa43b5741",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AABOJH///3c\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/diff/PatchIdDiffFormatterTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2011-05-23T09:33:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOJH///9o\u003d",
+      "revId": "0fcc09b8aceba07da987b87f95cab91aa43b5741",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOJH///9k\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/diff/PatchIdDiffFormatterTest.java",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2011-05-21T01:08:56Z",
       "side": 1,
       "message": "I would prefer using \"1ff..441\" and .name() instead of .toString().",
+      "revId": "0fcc09b8aceba07da987b87f95cab91aa43b5741",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJH///3Y\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/diff/PatchIdDiffFormatterTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2011-05-23T09:33:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOJH///9k\u003d",
       "revId": "0fcc09b8aceba07da987b87f95cab91aa43b5741",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AABOJH///3U\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/diff/PatchIdDiffFormatterTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2011-05-23T09:33:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOJH///9g\u003d",
+      "revId": "0fcc09b8aceba07da987b87f95cab91aa43b5741",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOJH///9c\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/diff/PatchIdDiffFormatterTest.java",
         "patchSetId": 1
@@ -98,6 +188,24 @@
       "writtenOn": "2011-05-21T01:08:56Z",
       "side": 1,
       "message": ".name()",
+      "revId": "0fcc09b8aceba07da987b87f95cab91aa43b5741",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJH///3Q\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/diff/PatchIdDiffFormatterTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2011-05-23T09:33:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOJH///9c\u003d",
       "revId": "0fcc09b8aceba07da987b87f95cab91aa43b5741",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "AABOJH///3I\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/PatchIdDiffFormatter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2011-05-23T09:33:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOJH///9s\u003d",
+      "revId": "0fcc09b8aceba07da987b87f95cab91aa43b5741",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOJH///90\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/PatchIdDiffFormatter.java",
         "patchSetId": 1
@@ -132,6 +258,24 @@
       "writtenOn": "2011-05-21T01:08:56Z",
       "side": 1,
       "message": "A quick note to state it sets up the class, e.g.:\n\n  /** Initialize a formatter to compute a patch id. */",
+      "revId": "0fcc09b8aceba07da987b87f95cab91aa43b5741",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJH///3A\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/PatchIdDiffFormatter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2011-05-23T09:33:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOJH///90\u003d",
       "revId": "0fcc09b8aceba07da987b87f95cab91aa43b5741",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "AABOJH///2s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/PatchIdDiffFormatter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2011-05-23T09:33:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOJH///94\u003d",
+      "revId": "0fcc09b8aceba07da987b87f95cab91aa43b5741",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOJH///98\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/PatchIdDiffFormatter.java",
         "patchSetId": 1
@@ -166,6 +328,24 @@
       "writtenOn": "2011-05-21T01:08:56Z",
       "side": 1,
       "message": "Please use java.security.DigestOutputStream instead. It will shave a few lines off the class. :-)",
+      "revId": "0fcc09b8aceba07da987b87f95cab91aa43b5741",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJH///2o\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/PatchIdDiffFormatter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2011-05-23T09:33:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOJH///98\u003d",
       "revId": "0fcc09b8aceba07da987b87f95cab91aa43b5741",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
