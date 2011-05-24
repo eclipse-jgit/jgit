@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOJX///2k\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CleanCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 2
+      },
+      "writtenOn": "2011-05-24T18:56:38Z",
+      "side": 1,
+      "message": "rename to testClean, also add another method: testCleanWithPaths when you call setPaths() on CleanCommand",
+      "revId": "0a836451ceb668f943b1f353dc65420157810b23",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJX///2g\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CleanCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 2
+      },
+      "writtenOn": "2011-05-24T18:56:38Z",
+      "side": 1,
+      "message": "you don\u0027t need this",
+      "revId": "0a836451ceb668f943b1f353dc65420157810b23",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJX///2c\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CleanCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 2
+      },
+      "writtenOn": "2011-05-24T18:56:38Z",
+      "side": 1,
+      "message": "you don\u0027t need this",
+      "revId": "0a836451ceb668f943b1f353dc65420157810b23",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
