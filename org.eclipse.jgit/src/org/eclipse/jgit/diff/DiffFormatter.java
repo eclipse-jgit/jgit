@@ -1061,16 +1061,29 @@ public class DiffFormatter {
 		}
 
 		if (!ent.getOldId().equals(ent.getNewId())) {
-			o.write(encodeASCII("index " //
-					+ format(ent.getOldId()) //
-					+ ".." //
-					+ format(ent.getNewId())));
-			if (oldMode.equals(newMode)) {
-				o.write(' ');
-				newMode.copyTo(o);
-			}
-			o.write('\n');
+			formatIndexLine(o, ent);
 		}
+	}
+
+	/**
+	 * @param o
+	 *            the stream the formatter will write line data to
+	 * @param ent
+	 *            the DiffEntry to create the FileHeader for
+	 * @throws IOException
+	 *             writing to the supplied stream failed.
+	 */
+	protected void formatIndexLine(OutputStream o, DiffEntry ent)
+			throws IOException {
+		o.write(encodeASCII("index " //
+				+ format(ent.getOldId()) //
+				+ ".." //
+				+ format(ent.getNewId())));
+		if (ent.getOldMode().equals(ent.getNewMode())) {
+			o.write(' ');
+			ent.getNewMode().copyTo(o);
+		}
+		o.write('\n');
 	}
 
 	private void formatOldNewPaths(ByteArrayOutputStream o, DiffEntry ent)
