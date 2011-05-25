@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOJH///0U\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/CredentialsProviderUserInfo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-23T15:23:22Z",
+      "side": 1,
+      "message": "We shouldn\u0027t have this case here. The old code was just plain wrong to be using a StringType for the password.\n\nLeave the original else block when that first get returns false.",
+      "revId": "01f4d5d88f6d0d10eaee07dfc6492f60c3a53028",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
