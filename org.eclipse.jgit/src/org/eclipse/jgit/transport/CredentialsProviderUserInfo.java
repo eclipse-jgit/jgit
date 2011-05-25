@@ -105,9 +105,9 @@ public class CredentialsProviderUserInfo implements UserInfo,
 	}
 
 	public boolean promptPassword(String msg) {
-		CredentialItem.StringType v = newPrompt(msg);
-		if (provider.get(uri, v)) {
-			password = v.getValue();
+		CredentialItem.Password p = new CredentialItem.Password(msg);
+		if (provider.get(uri, p)) {
+			password = new String(p.getValue());
 			return true;
 		} else {
 			password = null;
