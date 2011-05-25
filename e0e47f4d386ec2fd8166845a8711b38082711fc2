@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL3n///3g\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/CredentialsProviderUserInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-03-15T17:21:37Z",
+      "side": 1,
+      "message": "This discards the \"msg\" argument we got from JSch. Maybe this class needs a new constructor that allows us to pass in the msg rather than using the default text.",
+      "revId": "e0e47f4d386ec2fd8166845a8711b38082711fc2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
