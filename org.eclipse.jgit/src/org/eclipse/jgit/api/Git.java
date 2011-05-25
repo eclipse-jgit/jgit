@@ -456,6 +456,19 @@ public class Git {
 	}
 
 	/**
+	 * Returns a command object to execute a {@code blame} command
+	 *
+	 * @see <a
+	 *      href="http://www.kernel.org/pub/software/scm/git/docs/git-blame.html"
+	 *      >Git documentation about Blame</a>
+	 * @return a {@link BlameCommand} used to collect all optional parameters
+	 *         and to finally execute the {@code blame} command
+	 */
+	public BlameCommand blame() {
+		return new BlameCommand(repo);
+	}
+
+	/**
 	 * @return the git repository this class is interacting with
 	 */
 	public Repository getRepository() {
