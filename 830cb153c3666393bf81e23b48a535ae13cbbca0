@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOI3///3Y\u003d",
+        "filename": "org.eclipse.jgit.generated.storage.dht.proto/META-INF/MANIFEST.MF",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-13T01:30:05Z",
+      "side": 1,
+      "message": "Chris, this change is ready to be submitted. Its just waiting on getting protobuf added as part of Orbit.\n\nCan you also verify the OSGI linkage above is correct?",
+      "revId": "830cb153c3666393bf81e23b48a535ae13cbbca0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
