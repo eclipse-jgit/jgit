@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOJX///vw\u003d",
+        "filename": "org.eclipse.jgit.generated.storage.dht.proto/META-INF/MANIFEST.MF",
+        "patchSetId": 6
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-25T01:22:24Z",
+      "side": 1,
+      "message": "I need to double check this is actually what is in Orbit.",
+      "revId": "3e469b2d8d94d0b75a34fd4557647686902deef1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
