@@ -55,6 +55,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.jgit.JGitText;
+import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.PackProtocolException;
 import org.eclipse.jgit.lib.Constants;
@@ -756,6 +757,16 @@ public class UploadPack {
 	private void sendPack() throws IOException {
 		final boolean sideband = options.contains(OPTION_SIDE_BAND)
 				|| options.contains(OPTION_SIDE_BAND_64K);
+
+		if (!biDirectionalPipe) {
+			// Ensure the request was fully consumed. Any remaining input must
+			// be a protocol error. If we aren't at EOF the implementation is broken.
+			int eof = rawIn.read();
+			if (0 <= eof)
+				throw new CorruptObjectException(MessageFormat.format(
+						JGitText.get().expectedEOFReceived,
+						"\\x" + Integer.toHexString(eof)));
+		}
 
 		ProgressMonitor pm = NullProgressMonitor.INSTANCE;
 		OutputStream packOut = rawOut;

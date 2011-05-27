@@ -136,6 +136,8 @@ public abstract class PackParser {
 
 	private boolean needBaseObjectIds;
 
+	private boolean checkEofAfterPackFooter;
+
 	private long objectCount;
 
 	private PackedObjectInfo[] entries;
@@ -280,6 +282,21 @@ public abstract class PackParser {
 	 */
 	public void setNeedBaseObjectIds(boolean b) {
 		this.needBaseObjectIds = b;
+	}
+
+	/** @return true if the EOF should be read from the input after the footer. */
+	public boolean isCheckEofAfterPackFooter() {
+		return checkEofAfterPackFooter;
+	}
+
+	/**
+	 * Ensure EOF is read from the input stream after the footer.
+	 *
+	 * @param b
+	 *            true if the EOF should be read; false if it is not checked.
+	 */
+	public void setCheckEofAfterPackFooter(boolean b) {
+		checkEofAfterPackFooter = b;
 	}
 
 	/** @return the new objects that were sent by the user */
@@ -781,6 +798,25 @@ public abstract class PackParser {
 		final byte[] srcHash = new byte[20];
 		System.arraycopy(buf, c, srcHash, 0, 20);
 		use(20);
+
+		// The input stream should be at EOF at this point. We do not support
+		// yielding back any remaining buffered data after the pack footer, so
+		// protocols that embed a pack stream are required to either end their
+		// stream with the pack, or embed the pack with a framing system like
+		// the SideBandInputStream does.
+
+		if (bAvail != 0)
+			throw new CorruptObjectException(MessageFormat.format(
+					JGitText.get().expectedEOFReceived,
+					"\\x" + Integer.toHexString(buf[bOffset] & 0xff)));
+
+		if (isCheckEofAfterPackFooter()) {
+			int eof = in.read();
+			if (0 <= eof)
+				throw new CorruptObjectException(MessageFormat.format(
+						JGitText.get().expectedEOFReceived,
+						"\\x" + Integer.toHexString(eof)));
+		}
 
 		if (!Arrays.equals(actHash, srcHash))
 			throw new CorruptObjectException(
