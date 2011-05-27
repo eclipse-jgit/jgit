@@ -97,6 +97,30 @@ public class CleanCommand extends GitCommand<Set<String>> {
 	}
 
 	/**
+	 * Executes the {@code clean} command with all the options and parameters
+	 * collected by the setter methods of this class. Each instance of this
+	 * class should only be used for one invocation of the command (means: one
+	 * call to {@link #call()})
+	 *
+	 * @return a set of strings representing each file cleaned.
+	 */
+	public Set<String> dryRun() {
+		Set<String> files = new TreeSet<String>();
+		try {
+			StatusCommand command = new StatusCommand(repo);
+			Status status = command.call();
+			for (String file : status.getUntracked()) {
+				if (paths.isEmpty() || paths.contains(file)) {
+					files.add(file);
+				}
+			}
+		} catch (IOException e) {
+			throw new JGitInternalException(e.getMessage(), e);
+		}
+		return files;
+	}
+
+	/**
 	 * If paths are set, only these paths are affected by the cleaning.
 	 *
 	 * @param paths
