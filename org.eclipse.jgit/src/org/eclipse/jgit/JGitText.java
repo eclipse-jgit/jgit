@@ -529,6 +529,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String unsupportedOperationNotAddAtEnd;
 	/***/ public String unsupportedPackIndexVersion;
 	/***/ public String unsupportedPackVersion;
+	/***/ public String updatingReferences;
 	/***/ public String updatingRefFailed;
 	/***/ public String uriNotFound;
 	/***/ public String userConfigFileInvalid;
