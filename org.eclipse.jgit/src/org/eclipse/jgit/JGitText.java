@@ -92,6 +92,8 @@ public class JGitText extends TranslationBundle {
 	/***/ public String base64InputNotProperlyPadded;
 	/***/ public String baseLengthIncorrect;
 	/***/ public String bareRepositoryNoWorkdirAndIndex;
+	/***/ public String blameHasNotBeenStarted;
+	/***/ public String blameHasAlreadyBeenStarted;
 	/***/ public String blobNotFound;
 	/***/ public String blobNotFoundForPath;
 	/***/ public String branchNameInvalid;
