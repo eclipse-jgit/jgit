@@ -283,6 +283,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String indexWriteException;
 	/***/ public String integerValueOutOfRange;
 	/***/ public String internalRevisionError;
+	/***/ public String internalServerError;
 	/***/ public String interruptedWriting;
 	/***/ public String inTheFuture;
 	/***/ public String invalidAdvertisementOf;

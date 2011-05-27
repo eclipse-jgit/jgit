@@ -64,6 +64,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.eclipse.jgit.errors.UnpackException;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.ReceivePack;
 import org.eclipse.jgit.transport.RefAdvertiser.PacketLineOutRefAdvertiser;
@@ -170,9 +171,18 @@ class ReceivePackServlet extends HttpServlet {
 			};
 			rp.receive(getInputStream(req), out, null);
 			out.close();
+		} catch (UnpackException e) {
+			// This should be already reported to the client.
+			getServletContext().log(
+					HttpServerText.get().internalErrorDuringReceivePack,
+					e.getCause());
+
 		} catch (IOException e) {
 			getServletContext().log(HttpServerText.get().internalErrorDuringReceivePack, e);
-			rsp.sendError(SC_INTERNAL_SERVER_ERROR);
+			if (!rsp.isCommitted()) {
+				rsp.reset();
+				rsp.sendError(SC_INTERNAL_SERVER_ERROR);
+			}
 			return;
 		}
 	}
