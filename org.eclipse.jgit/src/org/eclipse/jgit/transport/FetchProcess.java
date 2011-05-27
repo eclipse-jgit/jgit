@@ -57,11 +57,13 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.NotSupportedException;
 import org.eclipse.jgit.errors.TransportException;
+import org.eclipse.jgit.lib.BatchingProgressMonitor;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ProgressMonitor;
@@ -183,10 +185,16 @@ class FetchProcess {
 
 		final RevWalk walk = new RevWalk(transport.local);
 		try {
+			if (monitor instanceof BatchingProgressMonitor) {
+				((BatchingProgressMonitor) monitor).setDelayStart(
+						250, TimeUnit.MILLISECONDS);
+			}
+			monitor.beginTask(JGitText.get().updatingReferences, localUpdates.size());
 			if (transport.isRemoveDeletedRefs())
 				deleteStaleTrackingRefs(result, walk);
 			for (TrackingRefUpdate u : localUpdates) {
 				try {
+					monitor.update(1);
 					u.update(walk);
 					result.add(u);
 				} catch (IOException err) {
@@ -195,6 +203,7 @@ class FetchProcess {
 							u.getLocalName(), err.getMessage()), err);
 				}
 			}
+			monitor.endTask();
 		} finally {
 			walk.release();
 		}
