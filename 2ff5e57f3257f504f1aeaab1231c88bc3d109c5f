@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOJX///cE\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-27T16:41:19Z",
+      "side": 1,
+      "message": "This should be the *last* line of the commit message. Not the first.",
+      "revId": "2ff5e57f3257f504f1aeaab1231c88bc3d109c5f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
