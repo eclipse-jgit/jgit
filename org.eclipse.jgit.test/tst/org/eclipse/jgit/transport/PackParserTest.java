@@ -46,7 +46,9 @@
 
 package org.eclipse.jgit.transport;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -54,8 +56,10 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.MessageDigest;
+import java.text.MessageFormat;
 import java.util.zip.Deflater;
 
+import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Constants;
@@ -69,6 +73,7 @@ import org.eclipse.jgit.storage.file.ObjectDirectoryPackParser;
 import org.eclipse.jgit.storage.file.PackFile;
 import org.eclipse.jgit.util.NB;
 import org.eclipse.jgit.util.TemporaryBuffer;
+import org.eclipse.jgit.util.io.UnionInputStream;
 import org.junit.After;
 import org.junit.Test;
 
@@ -175,6 +180,33 @@ public class PackParserTest extends RepositoryTestCase {
 		PackParser p = index(new ByteArrayInputStream(pack.toByteArray()));
 		p.setAllowThin(false);
 		p.parse(NullProgressMonitor.INSTANCE);
+	}
+
+	@Test
+	public void testPackWithTrailingGarbage() throws Exception {
+		TestRepository d = new TestRepository(db);
+		RevBlob a = d.blob("a");
+
+		TemporaryBuffer.Heap pack = new TemporaryBuffer.Heap(1024);
+		packHeader(pack, 1);
+		pack.write((Constants.OBJ_REF_DELTA) << 4 | 4);
+		a.copyRawTo(pack);
+		deflate(pack, new byte[] { 0x1, 0x1, 0x1, 'b' });
+		digest(pack);
+
+		PackParser p = index(new UnionInputStream(
+				new ByteArrayInputStream(pack.toByteArray()),
+				new ByteArrayInputStream(new byte[] { 0x7e })));
+		p.setAllowThin(true);
+		p.setCheckEofAfterPackFooter(true);
+		try {
+			p.parse(NullProgressMonitor.INSTANCE);
+			fail("Pack with trailing garbage was accepted");
+		} catch (IOException err) {
+			assertEquals(
+					MessageFormat.format(JGitText.get().expectedEOFReceived, "\\x73"),
+					err.getMessage());
+		}
 	}
 
 	private void packHeader(TemporaryBuffer.Heap tinyPack, int cnt)
