@@ -82,6 +82,8 @@ public abstract class AbstractWriteBuffer implements WriteBuffer {
 
 	private final List<Future<?>> running;
 
+	private final Object runningLock;
+
 	private final Semaphore spaceAvailable;
 
 	private int queuedCount;
@@ -102,6 +104,7 @@ public abstract class AbstractWriteBuffer implements WriteBuffer {
 		this.executor = executor;
 		this.bufferSize = bufferSize;
 		this.running = new LinkedList<Future<?>>();
+		this.runningLock = new Object();
 		this.spaceAvailable = new Semaphore(bufferSize);
 	}
 
@@ -189,14 +192,18 @@ public abstract class AbstractWriteBuffer implements WriteBuffer {
 				}
 			}
 
-			checkRunningTasks(true);
+			synchronized (runningLock) {
+				checkRunningTasks(true);
+			}
 		} finally {
 			flushing = false;
 		}
 	}
 
 	public void abort() throws DhtException {
-		checkRunningTasks(true);
+		synchronized (runningLock) {
+			checkRunningTasks(true);
+		}
 	}
 
 	private void acquireSpace(int sz) throws DhtException {
@@ -259,9 +266,11 @@ public abstract class AbstractWriteBuffer implements WriteBuffer {
 			return;
 		}
 
-		if (!flushing)
-			checkRunningTasks(false);
-		running.add(executor.submit(op));
+		synchronized (runningLock) {
+			if (!flushing)
+				checkRunningTasks(false);
+			running.add(executor.submit(op));
+		}
 	}
 
 	/**
@@ -284,8 +293,10 @@ public abstract class AbstractWriteBuffer implements WriteBuffer {
 			int size) throws DhtException {
 		int permits = permitsForSize(size);
 		WrappedCallback<T> op = new WrappedCallback<T>(callback, permits);
-		checkRunningTasks(false);
-		running.add(op);
+		synchronized (runningLock) {
+			checkRunningTasks(false);
+			running.add(op);
+		}
 		return op;
 	}
 
