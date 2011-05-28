@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "AAALyn///CY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameEntry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-12-30T14:09:20Z",
+      "side": 1,
+      "message": "Avoid one multiply:int result \u003d (guilty ? 1231 : 1237);;",
+      "revId": "2eb63e2cdbd0b63dc995bb8b23f89d7156529168",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALyn///Sg\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/CommonChunk.java",
         "patchSetId": 1
@@ -223,6 +240,23 @@
     },
     {
       "key": {
+        "uuid": "AAAL0n///YI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Origin.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-12-30T14:09:20Z",
+      "side": 1,
+      "message": "@return doc doesn\u0027t match the description.\njavadocs need to be fixed up before merging to master",
+      "revId": "2eb63e2cdbd0b63dc995bb8b23f89d7156529168",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALyn///S8\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Origin.java",
         "patchSetId": 1
@@ -234,6 +268,57 @@
       "writtenOn": "2010-09-01T00:17:00Z",
       "side": 1,
       "message": "Try to use getCachedBytes(int).  Assuming you can promise you won\u0027t edit it.  :-)",
+      "revId": "2eb63e2cdbd0b63dc995bb8b23f89d7156529168",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///CU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Origin.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-12-30T14:09:20Z",
+      "side": 1,
+      "message": "just add or xor git object hashCodes into the hash since they are well distributed.",
+      "revId": "2eb63e2cdbd0b63dc995bb8b23f89d7156529168",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///CQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Origin.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-12-30T14:09:20Z",
+      "side": 1,
+      "message": "I think the whole if/else can be handled using just AnyObjectId here",
+      "revId": "2eb63e2cdbd0b63dc995bb8b23f89d7156529168",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///CI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Origin.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2010-12-30T14:09:20Z",
+      "side": 1,
+      "message": "Strange, the \"else\" part is after the whole thing, though I see the general pattern that leads to this it is still quite tricky to read.\n\nif (filename \u003d\u003d null)\n    return other.filename \u003d\u003d null;\nelse\n    return filename.equals(other.filename)",
       "revId": "2eb63e2cdbd0b63dc995bb8b23f89d7156529168",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
