@@ -1,0 +1,514 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALyn///RU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameEntry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-01T00:17:00Z",
+      "side": 1,
+      "message": "Please.  :-)  This shouldn\u0027t have public fields, but it should have public accessors.  Its OK for the fields to be package-access though, we do that in revwalk all of the time.",
+      "revId": "2eb63e2cdbd0b63dc995bb8b23f89d7156529168",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///Sg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/CommonChunk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-01T00:17:00Z",
+      "side": 1,
+      "message": "I wonder if this shouldn\u0027t just extend Edit and be a REPLACE of equal sizes on either side.  Might be too much of an abuse of an existing class.\n\nIf its not going to extend Edit, it should smell just like it.  getBeginA(), getBeginB() rather than getAstart().",
+      "revId": "2eb63e2cdbd0b63dc995bb8b23f89d7156529168",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///SM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/CopyModifiedSearchStrategy.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-01T00:17:00Z",
+      "side": 1,
+      "message": "This score should be configurable.",
+      "revId": "2eb63e2cdbd0b63dc995bb8b23f89d7156529168",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///SI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/CopyModifiedSearchStrategy.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-01T00:17:00Z",
+      "side": 1,
+      "message": "Should be configurable.",
+      "revId": "2eb63e2cdbd0b63dc995bb8b23f89d7156529168",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///So\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/CopyModifiedSearchStrategy.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-01T00:17:00Z",
+      "side": 1,
+      "message": "You shouldn\u0027t cross pools like this.  That BlameWalk object I was talking about in the interface definition clearly needs a RevWalk too, so that classes like this can ensure the parents are parsed under the same revision pool as the source commit.\n\nWe\u0027ve already allocated the objects and setup pointers to the parents, we might as well just parse in-place and keep going rather than trying to create and destroy pools all of the time.",
+      "revId": "2eb63e2cdbd0b63dc995bb8b23f89d7156529168",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///SU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/CopyModifiedSearchStrategy.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-01T00:17:00Z",
+      "side": 1,
+      "message": "The better way to handle this section of code is:\n\n  while (treeWalk.next()) {\n    switch (treeWalk.getRawMode(0) \u0026 FileMode.TYPE_MASK) {\n    case TYPE_MISSING:\n    case TYPE_TREE:\n    case TYPE_GITLINK:\n      continue;\n    }\n\nThat also lets you avoid the isSubtree test above.",
+      "revId": "2eb63e2cdbd0b63dc995bb8b23f89d7156529168",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///Sc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/CopyModifiedSearchStrategy.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-01T00:17:00Z",
+      "side": 1,
+      "message": "This is going to be slow as snot.\n\nWhat you need to do here is use SimilarityIndex from the diff package.  Its not public, so you\u0027ll need to either use RenameDetector, or make SimilarityIndex public.  The latter might be better.\n\nCreate a SimilarityIndex for the current origin.  Then for each path the TreeWalk is providing you, create a SimilarityIndex and score it against the origin\u0027s SimilarityIndex.  If the score is over the threshold then its common enough to consider as a candidate.",
+      "revId": "2eb63e2cdbd0b63dc995bb8b23f89d7156529168",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///SY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/CopyModifiedSearchStrategy.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-01T00:17:00Z",
+      "side": 1,
+      "message": "Ick.  Boxing integers on a custom list type?  Nak.  Boxing is expensive so we try to avoid it in these performance critical sections.",
+      "revId": "2eb63e2cdbd0b63dc995bb8b23f89d7156529168",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///SQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/CopyModifiedSearchStrategy.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-01T00:17:00Z",
+      "side": 1,
+      "message": "Instead of doing this, maybe extend Origin class with a private static inner class here that has an additional score field.  For each path that scores above the threshold, create an instance of this subclass, put the score into it, and push that into a collection.\n\nIf we want a cap on the number of items we keep in the collection (I think here you want the two highest scoring paths yes?) then just use a TreeSet with a custom Comparator that knows how to look at that score field.  If the size of the set after adding the new Origin is larger than the threshold, remove the smallest item from the set.  Usually I hate using JRE collections classes in performance critical code, but here its a TreeSet of just 2-3 items.  Its not that bad.",
+      "revId": "2eb63e2cdbd0b63dc995bb8b23f89d7156529168",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///Sk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/IDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-01T00:17:00Z",
+      "side": 1,
+      "message": "This should obviously be dropped.  If we\u0027re going to keep an abstract diff interface it should be in our diff package, not blame.  :-)",
+      "revId": "2eb63e2cdbd0b63dc995bb8b23f89d7156529168",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///S0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/IOriginSearchStrategy.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-01T00:17:00Z",
+      "side": 1,
+      "message": "Since every Origin should be from the same Repository, and we are blaming a single file at hopefully high speed, we should actually be using a single ObjectReader for things like looking up the scapegoats.\n\nI think we should have a single object that represents the BlameWalk that carries the Repository and ObjectReader around to the various classes that need them.  So for the strategies we should be passing through the BlameWalk and the Origin, and the strategy can use the BlameWalk\u0027s ObjectReader to perform its reading work.",
+      "revId": "2eb63e2cdbd0b63dc995bb8b23f89d7156529168",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///Rw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Origin.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-01T00:17:00Z",
+      "side": 1,
+      "message": "Please call this path.  Elsewhere in the diff package (e.g. DiffEntry) that\u0027s what we call it.  Likewise with TreeWalk.forPath().",
+      "revId": "2eb63e2cdbd0b63dc995bb8b23f89d7156529168",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///TA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Origin.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-01T00:17:00Z",
+      "side": 1,
+      "message": "This needs to use TreeWalk.forPath().  And translating IOException to a RuntimeException is bad.  :-)\n\nBut actually, this should be set in the constructor as a final field.  It appears to be known by anyone who constructs an origin, and its a performance sensitive thing to be able to respond with the ObjectId of the content.  (See OriginWalk findLastSameCommit.)",
+      "revId": "2eb63e2cdbd0b63dc995bb8b23f89d7156529168",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///S8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Origin.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-01T00:17:00Z",
+      "side": 1,
+      "message": "Try to use getCachedBytes(int).  Assuming you can promise you won\u0027t edit it.  :-)",
+      "revId": "2eb63e2cdbd0b63dc995bb8b23f89d7156529168",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///SA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/OriginWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-01T00:17:00Z",
+      "side": 1,
+      "message": "I don\u0027t think we should use a copy here.  We should follow what RevWalk does which is to iterate exactly once, and provide an Iterator API only to provide a brain-dead simple use case.  If you need multiple traversals you should buffer the results yourself.",
+      "revId": "2eb63e2cdbd0b63dc995bb8b23f89d7156529168",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///R8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/OriginWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-01T00:17:00Z",
+      "side": 1,
+      "message": "Instead of implementing Iterator I\u0027d do what we do in RevWalk where next() returns null at end, and the Iterator returned by iterator() buffers by one in order to implement hasNext().",
+      "revId": "2eb63e2cdbd0b63dc995bb8b23f89d7156529168",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///R4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/OriginWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-01T00:17:00Z",
+      "side": 1,
+      "message": "You shouldn\u0027t do this.  You can\u0027t start a RevCommit into a different pool than it was parsed out of.\n\nYou should be using the internal RevWalk of this class.  Just reset it, enqueue the start, and then run.\n\nBut this makes no sense.  Near as I can tell the walk is only used to parse other commits.  Its not actually used for a traversal.  So marking a starting point, or setting its sorting to TOPO is pointless.",
+      "revId": "2eb63e2cdbd0b63dc995bb8b23f89d7156529168",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///R0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/OriginWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-01T00:17:00Z",
+      "side": 1,
+      "message": "Should use TreeWalk.forPath().",
+      "revId": "2eb63e2cdbd0b63dc995bb8b23f89d7156529168",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///Rs\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/OriginWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-01T00:17:00Z",
+      "side": 1,
+      "message": "I get what this method is doing.  Its a short-cut to try and skip through a chain of commits which haven\u0027t modified the file.  But its implementation is obtuse.  I wonder if we can\u0027t just leverage RevWalk to do it for us:\n\n  rw.markStart(origin.commit);\n  rw.setTreeFilter(TreeFilter.ANY_DIFF);\n  RevCommit r \u003d rw.next();\n  rw.reset();\n  return r;\n\nIf that isn\u0027t fast enough to skip through the chain, we should try to fix RevWalk.",
+      "revId": "2eb63e2cdbd0b63dc995bb8b23f89d7156529168",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///Rk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/OriginWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-01T00:17:00Z",
+      "side": 1,
+      "message": "Why do we need to expose this?",
+      "revId": "2eb63e2cdbd0b63dc995bb8b23f89d7156529168",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///Ro\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/OriginWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-01T00:17:00Z",
+      "side": 1,
+      "message": "Why do we need to expose this?",
+      "revId": "2eb63e2cdbd0b63dc995bb8b23f89d7156529168",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///SE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/OriginWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-01T00:17:00Z",
+      "side": 1,
+      "message": "Since this owns a RevWalk, it needs a release() method that can release the contained RevWalk.",
+      "revId": "2eb63e2cdbd0b63dc995bb8b23f89d7156529168",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///TE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Range.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-01T00:17:00Z",
+      "side": 1,
+      "message": "Elsewhere in JGit we often speak of ranges in terms of [start, end) and not [start, start + length).  Its probably a fair amount of code change to modify the semantics here, but I wonder if we shouldn\u0027t anyway.  Our Edit class for example in diff package uses [start, end) semantics.  And that\u0027s what we use in RawParseUtils for pretty much every parse function.  Etc.",
+      "revId": "2eb63e2cdbd0b63dc995bb8b23f89d7156529168",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///Sw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/SameNameOriginSearchStrategy.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-01T00:17:00Z",
+      "side": 1,
+      "message": "This should have an instance singleton that we can use, rather than making callers create their own instance.",
+      "revId": "2eb63e2cdbd0b63dc995bb8b23f89d7156529168",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///S4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/SameNameOriginSearchStrategy.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-01T00:17:00Z",
+      "side": 1,
+      "message": "Should use TreeWalk.forPath().",
+      "revId": "2eb63e2cdbd0b63dc995bb8b23f89d7156529168",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///Rg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Scoreboard.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-01T00:17:00Z",
+      "side": 1,
+      "message": "This might be the main data structure, but its a horrible entry point.  We should make this package-private and wrap it up in a BlameWalk class or something easier to guess upon.  I just read almost every other class in this package wondering where the main driver was.  :-(",
+      "revId": "2eb63e2cdbd0b63dc995bb8b23f89d7156529168",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///Rc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Scoreboard.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-01T00:17:00Z",
+      "side": 1,
+      "message": "If this is true (and I suspect it is) we need to clearly document that the owners of that code are OK with us relicensing to BSD.",
+      "revId": "2eb63e2cdbd0b63dc995bb8b23f89d7156529168",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///RM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Scoreboard.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-01T00:17:00Z",
+      "side": 1,
+      "message": "We should also support taking in a starting and ending line number.  Callers might only need us to blame a particular region.  (Aka the -L flag on the command line.)  If we know the region we should be able to reduce the space we are initially pushing into the queue and terminate sooner.",
+      "revId": "2eb63e2cdbd0b63dc995bb8b23f89d7156529168",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///RQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Scoreboard.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-01T00:17:00Z",
+      "side": 1,
+      "message": "I know this is a tall order, but I want this incremental.\n\nThat is, we should have two public APIs here:\n\n  /**\n   * Fully blame a file and return the list sorted by lines.\n   * This method blocks until all lines have been covered.\n   */\n  List\u003cBlameEntry\u003e getBlame() {\n    List\u003cBlameEntry\u003e r \u003d new ArrayList\u003cBlameEntry\u003e();\n    for (;;) {\n      List\u003cBlameEntry\u003e step \u003d getNextBlame();\n      if (step \u003d\u003d null)\n        break;\n      r.addAll(step);\n    }\n    Collections.sort(r, new Comparator\u003cBlameEntry\u003e(){\n      public int compare(BlameEntry a, BlameEntry b) {\n        return a.range.start - b.range.start;\n      }\n    });\n    return r;\n  }\n\n  /**\n   * Compute the blame for one portion of the file.\n   *\n   * This method returns as soon as one or more regions can be\n   * proven to be the responsibility of a particular origin (commit).\n   * The regions can be any part of the starting file, but will never\n   * overlap with a region previously returned, or that will be in on\n   * a future call.\n   */\n  List\u003cBlameEntry\u003e getNextBlame();\n\nThat way EGit can implement an incremental blame view like git gui does, and users can watch it fill in.  Obviously we\u0027ll run getNextBlame() on a background worker thread, but as soon as a block is ready we can forward it to the UI thread for painting.\n\nSince we have to have a queue anyway to keep track of the regions we have pushed off onto our parent, we can easily return back from getNextBlame() with the regions we couldn\u0027t blame onto the parent and that the current commit needs to take responsibility for.",
+      "revId": "2eb63e2cdbd0b63dc995bb8b23f89d7156529168",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///RY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Scoreboard.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-01T00:17:00Z",
+      "side": 1,
+      "message": "Uh, yea, OK.  So my major problem here is the scoreboard and the OriginWalk are too disconnected from each other.\n\nOriginWalk is doing this nasty linearization of all Origins.  Which then leads to this sort of crap.  Its horrifically confusing.\n\nIMHO, OriginWalk should just be folded outright into this class.  The code should actually get a lot simpler because you stop trying to linearize the different origins.",
+      "revId": "2eb63e2cdbd0b63dc995bb8b23f89d7156529168",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
