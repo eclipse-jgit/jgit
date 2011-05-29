@@ -43,12 +43,12 @@
 
 package org.eclipse.jgit.diff;
 
-import java.util.AbstractList;
 import java.util.ArrayList;
-import java.util.Collection;
 
 /** Specialized list of {@link Edit}s in a document. */
-public class EditList extends AbstractList<Edit> {
+public class EditList extends ArrayList<Edit> {
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 * Construct an edit list containing a single edit.
 	 *
@@ -62,11 +62,9 @@ public class EditList extends AbstractList<Edit> {
 		return res;
 	}
 
-	private final ArrayList<Edit> container;
-
 	/** Create a new, empty edit list. */
 	public EditList() {
-		container = new ArrayList<Edit>();
+		super(16);
 	}
 
 	/**
@@ -77,53 +75,11 @@ public class EditList extends AbstractList<Edit> {
 	 *            added to the list, it will be grown to support them.
 	 */
 	public EditList(int capacity) {
-		container = new ArrayList<Edit>(capacity);
-	}
-
-	@Override
-	public int size() {
-		return container.size();
-	}
-
-	@Override
-	public Edit get(final int index) {
-		return container.get(index);
-	}
-
-	@Override
-	public Edit set(final int index, final Edit element) {
-		return container.set(index, element);
-	}
-
-	@Override
-	public void add(final int index, final Edit element) {
-		container.add(index, element);
-	}
-
-	@Override
-	public boolean addAll(Collection<? extends Edit> c) {
-		return container.addAll(c);
-	}
-
-	@Override
-	public Edit remove(final int index) {
-		return container.remove(index);
-	}
-
-	@Override
-	public int hashCode() {
-		return container.hashCode();
-	}
-
-	@Override
-	public boolean equals(final Object o) {
-		if (o instanceof EditList)
-			return container.equals(((EditList) o).container);
-		return false;
+		super(capacity);
 	}
 
 	@Override
 	public String toString() {
-		return "EditList" + container.toString();
+		return "EditList" + super.toString();
 	}
 }
