@@ -184,7 +184,18 @@ public class DirCacheEditor extends BaseDirCacheEditor {
 		 *            path of the file within the repository.
 		 */
 		public PathEdit(final String entryPath) {
-			path = Constants.encode(entryPath);
+			path = Constants.encode(entryPath, Constants.FILENAME_CHARSET);
+		}
+
+		/**
+		 * Create a new update command by path name.
+		 *
+		 * @param entryPath
+		 *            path of the file within the repository.
+		 */
+		public PathEdit(final byte[] entryPath) {
+			path = new byte[entryPath.length];
+			System.arraycopy(entryPath, 0, path, 0, entryPath.length);
 		}
 
 		/**

@@ -45,7 +45,6 @@ package org.eclipse.jgit.lib;
 
 import static org.eclipse.jgit.lib.Constants.OBJECT_ID_LENGTH;
 import static org.eclipse.jgit.lib.Constants.OBJ_TREE;
-import static org.eclipse.jgit.lib.Constants.encode;
 import static org.eclipse.jgit.lib.FileMode.GITLINK;
 import static org.eclipse.jgit.lib.FileMode.REGULAR_FILE;
 import static org.eclipse.jgit.lib.FileMode.TREE;
@@ -56,6 +55,7 @@ import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevTree;
+import org.eclipse.jgit.treewalk.TreeOptions;
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
 import org.eclipse.jgit.util.TemporaryBuffer;
 
@@ -157,7 +157,7 @@ public class TreeFormatter {
 	 *            the ObjectId to store in this entry.
 	 */
 	public void append(String name, FileMode mode, AnyObjectId id) {
-		append(encode(name), mode, id);
+		append(Constants.encode(name, Constants.FILENAME_CHARSET), mode, id);
 	}
 
 	/**
@@ -337,7 +337,8 @@ public class TreeFormatter {
 	public String toString() {
 		byte[] raw = toByteArray();
 
-		CanonicalTreeParser p = new CanonicalTreeParser();
+		CanonicalTreeParser p = new CanonicalTreeParser(
+				new TreeOptions(Constants.FILENAME_CHARSET));
 		p.reset(raw);
 
 		StringBuilder r = new StringBuilder();

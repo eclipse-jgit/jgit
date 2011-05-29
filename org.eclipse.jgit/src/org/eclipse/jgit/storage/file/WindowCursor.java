@@ -45,6 +45,7 @@
 package org.eclipse.jgit.storage.file;
 
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.text.MessageFormat;
 import java.util.Arrays;
@@ -73,6 +74,7 @@ import org.eclipse.jgit.storage.pack.ObjectReuseAsIs;
 import org.eclipse.jgit.storage.pack.ObjectToPack;
 import org.eclipse.jgit.storage.pack.PackOutputStream;
 import org.eclipse.jgit.storage.pack.PackWriter;
+import org.eclipse.jgit.treewalk.TreeOptions;
 
 /** Active handle to a ByteWindow. */
 final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
@@ -348,5 +350,11 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 		} finally {
 			inf = null;
 		}
+	}
+
+	@Override
+	public Charset getPathEncoding() {
+		// FIXME
+		return new TreeOptions(db.getConfig()).getPathEncoding();
 	}
 }

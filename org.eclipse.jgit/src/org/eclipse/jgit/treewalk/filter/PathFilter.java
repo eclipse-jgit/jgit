@@ -44,6 +44,8 @@
 
 package org.eclipse.jgit.treewalk.filter;
 
+import java.nio.charset.Charset;
+
 import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.treewalk.TreeWalk;
@@ -69,25 +71,27 @@ public class PathFilter extends TreeFilter {
 	 *            the path to filter on. Must not be the empty string. All
 	 *            trailing '/' characters will be trimmed before string's length
 	 *            is checked or is used as part of the constructed filter.
+	 * @param encoding
+	 *            the charset assumed for encoding
 	 * @return a new filter for the requested path.
 	 * @throws IllegalArgumentException
 	 *             the path supplied was the empty string.
 	 */
-	public static PathFilter create(String path) {
+	public static PathFilter create(String path, Charset encoding) {
 		while (path.endsWith("/"))
 			path = path.substring(0, path.length() - 1);
 		if (path.length() == 0)
 			throw new IllegalArgumentException(JGitText.get().emptyPathNotPermitted);
-		return new PathFilter(path);
+		return new PathFilter(path, encoding);
 	}
 
 	final String pathStr;
 
 	final byte[] pathRaw;
 
-	private PathFilter(final String s) {
+	private PathFilter(final String s, Charset encoding) {
 		pathStr = s;
-		pathRaw = Constants.encode(pathStr);
+		pathRaw = Constants.encode(pathStr, encoding);
 	}
 
 	/** @return the path this filter matches. */

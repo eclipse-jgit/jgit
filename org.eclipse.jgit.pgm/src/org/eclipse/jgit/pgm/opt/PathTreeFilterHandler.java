@@ -43,6 +43,7 @@
 
 package org.eclipse.jgit.pgm.opt;
 
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,6 +66,7 @@ import org.eclipse.jgit.treewalk.filter.TreeFilter;
  * meant to be used on an {@link Option} of name "--".
  */
 public class PathTreeFilterHandler extends OptionHandler<TreeFilter> {
+	private final org.eclipse.jgit.pgm.opt.CmdLineParser clp;
 	/**
 	 * Create a new handler for the command name.
 	 * <p>
@@ -77,10 +79,12 @@ public class PathTreeFilterHandler extends OptionHandler<TreeFilter> {
 	public PathTreeFilterHandler(final CmdLineParser parser,
 			final OptionDef option, final Setter<? super TreeFilter> setter) {
 		super(parser, option, setter);
+		clp = (org.eclipse.jgit.pgm.opt.CmdLineParser) parser;
 	}
 
 	@Override
 	public int parseArguments(final Parameters params) throws CmdLineException {
+		Charset pathEncoding = clp.getRepository().getPathEncoding();
 		final List<PathFilter> filters = new ArrayList<PathFilter>();
 		for (int idx = 0;; idx++) {
 			final String path;
@@ -89,7 +93,7 @@ public class PathTreeFilterHandler extends OptionHandler<TreeFilter> {
 			} catch (CmdLineException cle) {
 				break;
 			}
-			filters.add(PathFilter.create(path));
+			filters.add(PathFilter.create(path, pathEncoding));
 		}
 
 		if (filters.size() == 0)

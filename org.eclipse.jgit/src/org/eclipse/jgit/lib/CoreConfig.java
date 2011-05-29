@@ -49,6 +49,8 @@ package org.eclipse.jgit.lib;
 
 import static java.util.zip.Deflater.DEFAULT_COMPRESSION;
 
+import java.nio.charset.Charset;
+
 import org.eclipse.jgit.lib.Config.SectionParser;
 
 /**
@@ -82,12 +84,21 @@ public class CoreConfig {
 
 	private final String excludesfile;
 
+	private final Charset pathencoding;
+
 	private CoreConfig(final Config rc) {
 		compression = rc.getInt("core", "compression", DEFAULT_COMPRESSION);
 		packIndexVersion = rc.getInt("pack", "indexversion", 2);
 		logAllRefUpdates = rc.getBoolean("core", "logallrefupdates", true);
 		excludesfile = rc.getString(ConfigConstants.CONFIG_CORE_SECTION, null,
 				ConfigConstants.CONFIG_KEY_EXCLUDESFILE);
+		String pathencodingStr = rc.getString(
+				ConfigConstants.CONFIG_JGIT_SECTION, null,
+				ConfigConstants.CONFIG_KEY_PATHENCODING);
+		if (pathencodingStr != null)
+			pathencoding = Charset.forName(pathencodingStr);
+		else
+			pathencoding = Constants.FILENAME_CHARSET;
 	}
 
 	/**
@@ -116,5 +127,12 @@ public class CoreConfig {
 	 */
 	public String getExcludesFile() {
 		return excludesfile;
+	}
+
+	/**
+	 * @return the {@link Charset} for encoding file names in the database
+	 */
+	public Charset getPathEncoding() {
+		return pathencoding;
 	}
 }

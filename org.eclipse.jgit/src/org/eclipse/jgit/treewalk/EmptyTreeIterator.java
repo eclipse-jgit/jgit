@@ -49,6 +49,7 @@ import java.io.IOException;
 
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
 
@@ -56,6 +57,7 @@ import org.eclipse.jgit.lib.ObjectReader;
 public class EmptyTreeIterator extends AbstractTreeIterator {
 	/** Create a new iterator with no parent. */
 	public EmptyTreeIterator() {
+		super(new TreeOptions(new Config()));
 		// Create a root empty tree.
 	}
 

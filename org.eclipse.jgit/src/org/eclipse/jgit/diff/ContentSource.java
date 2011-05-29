@@ -206,7 +206,7 @@ public abstract class ContentSource {
 				iterator.reset();
 				tw.reset();
 				tw.addTree(iterator);
-				tw.setFilter(PathFilter.create(path));
+				tw.setFilter(PathFilter.create(path, tw.getPathEncoding()));
 				current = path;
 				if (!tw.next())
 					throw new FileNotFoundException(path);

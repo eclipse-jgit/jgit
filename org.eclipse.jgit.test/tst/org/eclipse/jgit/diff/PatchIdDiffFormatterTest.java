@@ -68,7 +68,7 @@ public class PatchIdDiffFormatterTest extends RepositoryTestCase {
 
 		PatchIdDiffFormatter df = new PatchIdDiffFormatter();
 		df.setRepository(db);
-		df.setPathFilter(PathFilter.create("folder"));
+		df.setPathFilter(PathFilter.create("folder", db.getPathEncoding()));
 		DirCacheIterator oldTree = new DirCacheIterator(db.readDirCache());
 		FileTreeIterator newTree = new FileTreeIterator(db);
 		df.format(oldTree, newTree);
@@ -91,7 +91,7 @@ public class PatchIdDiffFormatterTest extends RepositoryTestCase {
 
 		PatchIdDiffFormatter df = new PatchIdDiffFormatter();
 		df.setRepository(db);
-		df.setPathFilter(PathFilter.create("folder"));
+		df.setPathFilter(PathFilter.create("folder", db.getPathEncoding()));
 		DirCacheIterator oldTree = new DirCacheIterator(db.readDirCache());
 		FileTreeIterator newTree = new FileTreeIterator(db);
 		df.format(oldTree, newTree);
@@ -107,7 +107,7 @@ public class PatchIdDiffFormatterTest extends RepositoryTestCase {
 
 		df = new PatchIdDiffFormatter();
 		df.setRepository(db);
-		df.setPathFilter(PathFilter.create("folder"));
+		df.setPathFilter(PathFilter.create("folder", db.getPathEncoding()));
 		oldTree = new DirCacheIterator(db.readDirCache());
 		newTree = new FileTreeIterator(db);
 		df.format(oldTree, newTree);

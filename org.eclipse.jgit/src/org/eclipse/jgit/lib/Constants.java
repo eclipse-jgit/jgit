@@ -225,8 +225,13 @@ public final class Constants {
 	/** Native character encoding for commit messages, file names... */
 	public static final String CHARACTER_ENCODING = "UTF-8";
 
+	/** Native character encoding for file name in index and tree and refs */
+	public static final String FILENAME_CHARACTER_ENCODING = "UTF-8";
+
 	/** Native character encoding for commit messages, file names... */
 	public static final Charset CHARSET;
+	/** Native character encoding for file and ref name */
+	public static final Charset FILENAME_CHARSET;
 
 	/** Default main branch name */
 	public static final String MASTER = "master";
@@ -504,6 +509,8 @@ public final class Constants {
 	/**
 	 * Convert a string to a byte array in the standard character encoding.
 	 *
+	 * Do not use this for file names.
+	 *
 	 * @param str
 	 *            the string to convert. May contain any Unicode characters.
 	 * @return a byte array representing the requested string, encoded using the
@@ -511,7 +518,25 @@ public final class Constants {
 	 * @see #CHARACTER_ENCODING
 	 */
 	public static byte[] encode(final String str) {
-		final ByteBuffer bb = Constants.CHARSET.encode(str);
+		Charset cs = Constants.CHARSET;
+		return encode(str, cs);
+	}
+
+	/**
+	 * Convert a string to a byte array in the specified character encoding.
+	 *
+	 * Do not use this for file names.
+	 *
+	 * @param str
+	 *            the string to convert. May contain any Unicode characters.
+	 * @param cs
+	 *            encoding to use for the conversion
+	 * @return a byte array representing the requested string in the specified
+	 *         encoding
+	 * @see #CHARACTER_ENCODING
+	 */
+	public static byte[] encode(final String str, Charset cs) {
+		final ByteBuffer bb = cs.encode(str);
 		final int len = bb.limit();
 		if (bb.hasArray() && bb.arrayOffset() == 0) {
 			final byte[] arr = bb.array();
@@ -528,6 +553,7 @@ public final class Constants {
 		if (OBJECT_ID_LENGTH != newMessageDigest().getDigestLength())
 			throw new LinkageError(JGitText.get().incorrectOBJECT_ID_LENGTH);
 		CHARSET = Charset.forName(CHARACTER_ENCODING);
+		FILENAME_CHARSET = Charset.forName(FILENAME_CHARACTER_ENCODING);
 	}
 
 	/** name of the file containing the commit msg for a merge commit */

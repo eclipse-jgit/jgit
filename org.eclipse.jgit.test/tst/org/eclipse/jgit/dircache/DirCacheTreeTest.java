@@ -95,7 +95,7 @@ public class DirCacheTreeTest extends RepositoryTestCase {
 		final String[] paths = { "a.", "a/b", "a/c", "a/d", "a0b" };
 		final DirCacheEntry[] ents = new DirCacheEntry[paths.length];
 		for (int i = 0; i < paths.length; i++) {
-			ents[i] = new DirCacheEntry(paths[i]);
+			ents[i] = new DirCacheEntry(paths[i], dc.getAbstractTreeOptions());
 			ents[i].setFileMode(FileMode.REGULAR_FILE);
 		}
 		final int aFirst = 1;
@@ -133,7 +133,7 @@ public class DirCacheTreeTest extends RepositoryTestCase {
 		final String[] paths = { "a.", "a/b", "a/c/e", "a/c/f", "a/d", "a0b" };
 		final DirCacheEntry[] ents = new DirCacheEntry[paths.length];
 		for (int i = 0; i < paths.length; i++) {
-			ents[i] = new DirCacheEntry(paths[i]);
+			ents[i] = new DirCacheEntry(paths[i], dc.getAbstractTreeOptions());
 			ents[i].setFileMode(FileMode.REGULAR_FILE);
 		}
 		final int aFirst = 1;
@@ -193,7 +193,7 @@ public class DirCacheTreeTest extends RepositoryTestCase {
 		final String[] paths = { A + ".", A + "." + B, A + "/" + B, A + "0" + B };
 		final DirCacheEntry[] ents = new DirCacheEntry[paths.length];
 		for (int i = 0; i < paths.length; i++) {
-			ents[i] = new DirCacheEntry(paths[i]);
+			ents[i] = new DirCacheEntry(paths[i], dc.getAbstractTreeOptions());
 			ents[i].setFileMode(FileMode.REGULAR_FILE);
 		}
 

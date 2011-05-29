@@ -57,6 +57,7 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.treewalk.TreeOptions;
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
 
 /**
@@ -123,7 +124,8 @@ public class ObjectWalk extends RevWalk {
 		super(or);
 		rootObjects = new ArrayList<RevObject>();
 		pendingObjects = new BlockObjQueue();
-		treeWalk = new CanonicalTreeParser();
+		treeWalk = new CanonicalTreeParser(new TreeOptions(
+				or.getPathEncoding()));
 	}
 
 	/**
@@ -430,7 +432,7 @@ public class ObjectWalk extends RevWalk {
 	public void dispose() {
 		super.dispose();
 		pendingObjects = new BlockObjQueue();
-		treeWalk = new CanonicalTreeParser();
+		treeWalk = new CanonicalTreeParser(treeWalk.getTreeOptions());
 		currentTree = null;
 		last = null;
 		firstCommit = null;
@@ -446,7 +448,7 @@ public class ObjectWalk extends RevWalk {
 
 		rootObjects = new ArrayList<RevObject>();
 		pendingObjects = new BlockObjQueue();
-		treeWalk = new CanonicalTreeParser();
+		treeWalk = new CanonicalTreeParser(treeWalk.getTreeOptions());
 		currentTree = null;
 		last = null;
 		firstCommit = null;

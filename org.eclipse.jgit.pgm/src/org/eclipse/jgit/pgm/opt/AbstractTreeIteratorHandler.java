@@ -48,12 +48,6 @@ import java.io.File;
 import java.io.IOException;
 import java.text.MessageFormat;
 
-import org.kohsuke.args4j.CmdLineException;
-import org.kohsuke.args4j.CmdLineParser;
-import org.kohsuke.args4j.OptionDef;
-import org.kohsuke.args4j.spi.OptionHandler;
-import org.kohsuke.args4j.spi.Parameters;
-import org.kohsuke.args4j.spi.Setter;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheIterator;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
@@ -62,10 +56,17 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.pgm.CLIText;
 import org.eclipse.jgit.treewalk.AbstractTreeIterator;
+import org.eclipse.jgit.treewalk.TreeOptions;
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.treewalk.WorkingTreeOptions;
 import org.eclipse.jgit.util.FS;
+import org.kohsuke.args4j.CmdLineException;
+import org.kohsuke.args4j.CmdLineParser;
+import org.kohsuke.args4j.OptionDef;
+import org.kohsuke.args4j.spi.OptionHandler;
+import org.kohsuke.args4j.spi.Parameters;
+import org.kohsuke.args4j.spi.Setter;
 
 /**
  * Custom argument handler {@link AbstractTreeIterator} from string values.
@@ -107,7 +108,8 @@ public class AbstractTreeIteratorHandler extends
 		if (new File(name).isFile()) {
 			final DirCache dirc;
 			try {
-				dirc = DirCache.read(new File(name), FS.DETECTED);
+				dirc = DirCache.read(new File(name), FS.DETECTED,
+						new TreeOptions(clp.getRepository().getConfig()));
 			} catch (IOException e) {
 				throw new CmdLineException(MessageFormat.format(CLIText.get().notAnIndexFile, name), e);
 			}
@@ -124,7 +126,8 @@ public class AbstractTreeIteratorHandler extends
 		if (id == null)
 			throw new CmdLineException(MessageFormat.format(CLIText.get().notATree, name));
 
-		final CanonicalTreeParser p = new CanonicalTreeParser();
+		final CanonicalTreeParser p = new CanonicalTreeParser(
+				new TreeOptions(clp.getRepository().getConfig()));
 		final ObjectReader curs = clp.getRepository().newObjectReader();
 		try {
 			p.reset(curs, clp.getRevWalk().parseTree(id));

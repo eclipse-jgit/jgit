@@ -71,8 +71,13 @@ public class CanonicalTreeParser extends AbstractTreeIterator {
 	/** Offset one past the current entry (first byte of next entry). */
 	private int nextPtr;
 
-	/** Create a new parser. */
-	public CanonicalTreeParser() {
+	/**
+	 * Create a new parser.
+	 *
+	 * @param options
+	 */
+	public CanonicalTreeParser(TreeOptions options) {
+		super(options);
 		reset(EMPTY);
 	}
 
@@ -100,7 +105,7 @@ public class CanonicalTreeParser extends AbstractTreeIterator {
 	public CanonicalTreeParser(final byte[] prefix, final ObjectReader reader,
 			final AnyObjectId treeId) throws IncorrectObjectTypeException,
 			IOException {
-		super(prefix);
+		super(prefix, new TreeOptions(reader.getPathEncoding()));
 		reset(reader, treeId);
 	}
 

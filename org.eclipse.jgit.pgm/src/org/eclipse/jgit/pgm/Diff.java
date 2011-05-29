@@ -66,6 +66,7 @@ import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.TextProgressMonitor;
 import org.eclipse.jgit.pgm.opt.PathTreeFilterHandler;
 import org.eclipse.jgit.treewalk.AbstractTreeIterator;
+import org.eclipse.jgit.treewalk.TreeOptions;
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
@@ -174,7 +175,8 @@ class Diff extends TextBuiltin {
 					ObjectId head = db.resolve(HEAD + "^{tree}");
 					if (head == null)
 						die(MessageFormat.format(CLIText.get().notATree, HEAD));
-					CanonicalTreeParser p = new CanonicalTreeParser();
+					CanonicalTreeParser p = new CanonicalTreeParser(
+							new TreeOptions(db.getConfig()));
 					ObjectReader reader = db.newObjectReader();
 					try {
 						p.reset(reader, head);

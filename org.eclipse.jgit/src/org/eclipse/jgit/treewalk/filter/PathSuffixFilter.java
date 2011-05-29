@@ -44,6 +44,7 @@
 package org.eclipse.jgit.treewalk.filter;
 
 import java.io.IOException;
+import java.nio.charset.Charset;
 
 import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
@@ -63,22 +64,25 @@ public class PathSuffixFilter extends TreeFilter {
 	 *
 	 * @param path
 	 *            the path (suffix) to filter on. Must not be the empty string.
+	 * @param encoding
+	 *            the path encoding
 	 * @return a new filter for the requested path.
 	 * @throws IllegalArgumentException
 	 *             the path supplied was the empty string.
 	 */
-	public static PathSuffixFilter create(String path) {
+	public static PathSuffixFilter create(String path,
+ Charset encoding) {
 		if (path.length() == 0)
 			throw new IllegalArgumentException(JGitText.get().emptyPathNotPermitted);
-		return new PathSuffixFilter(path);
+		return new PathSuffixFilter(path, encoding);
 	}
 
 	final String pathStr;
 	final byte[] pathRaw;
 
-	private PathSuffixFilter(final String s) {
+	private PathSuffixFilter(final String s, Charset encoding) {
 		pathStr = s;
-		pathRaw = Constants.encode(pathStr);
+		pathRaw = Constants.encode(pathStr, encoding);
 	}
 
 	@Override

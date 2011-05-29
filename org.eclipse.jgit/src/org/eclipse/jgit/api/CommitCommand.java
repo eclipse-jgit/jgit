@@ -307,6 +307,8 @@ public class CommitCommand extends GitCommand<RevCommit> {
 
 		while (treeWalk.next()) {
 			String path = treeWalk.getPathString();
+			byte[] pathb = treeWalk.getRawPath();
+			int pathl = treeWalk.getPathLength();
 			// check if current entry's path matches a specified path
 			int pos = lookupOnly(path);
 
@@ -329,7 +331,8 @@ public class CommitCommand extends GitCommand<RevCommit> {
 
 				if (fTree != null) {
 					// create a new DirCacheEntry with data retrieved from disk
-					final DirCacheEntry dcEntry = new DirCacheEntry(path);
+					final DirCacheEntry dcEntry = new DirCacheEntry(pathb,
+							pathl, DirCacheEntry.STAGE_0);
 					long entryLength = fTree.getEntryLength();
 					dcEntry.setLength(entryLength);
 					dcEntry.setLastModified(fTree.getEntryLastModified());
@@ -384,7 +387,8 @@ public class CommitCommand extends GitCommand<RevCommit> {
 				// add entries from HEAD for all other paths
 				if (hTree != null) {
 					// create a new DirCacheEntry with data retrieved from HEAD
-					final DirCacheEntry dcEntry = new DirCacheEntry(path);
+					final DirCacheEntry dcEntry = new DirCacheEntry(pathb,
+							pathl, DirCacheEntry.STAGE_0);
 					dcEntry.setObjectId(hTree.getEntryObjectId());
 					dcEntry.setFileMode(hTree.getEntryFileMode());
 

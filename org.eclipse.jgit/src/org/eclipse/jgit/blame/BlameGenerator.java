@@ -153,7 +153,7 @@ public class BlameGenerator {
 	 */
 	public BlameGenerator(Repository repository, String path) {
 		this.repository = repository;
-		this.resultPath = PathFilter.create(path);
+		this.resultPath = PathFilter.create(path, repository.getPathEncoding());
 
 		idBuf = new MutableObjectId();
 		setFollowFileRenames(true);
@@ -594,12 +594,16 @@ public class BlameGenerator {
 			// A 100% rename without any content change can also
 			// skip directly to the parent.
 			n.sourceCommit = parent;
-			n.sourcePath = PathFilter.create(r.getOldPath());
+			n.sourcePath = PathFilter.create(r.getOldPath(),
+					repository.getPathEncoding());
 			push(n);
 			return false;
 		}
 
-		Candidate next = n.create(parent, PathFilter.create(r.getOldPath()));
+		Candidate next = n
+				.create(parent,
+						PathFilter.create(r.getOldPath(),
+								repository.getPathEncoding()));
 		next.sourceBlob = r.getOldId().toObjectId();
 		next.renameScore = r.getScore();
 		next.loadText(reader);
@@ -686,7 +690,8 @@ public class BlameGenerator {
 					// we choose to follow the one parent over trying to do
 					// possibly both parents.
 					n.sourceCommit = parent;
-					n.sourcePath = PathFilter.create(r.getOldPath());
+					n.sourcePath = PathFilter.create(r.getOldPath(),
+							repository.getPathEncoding());
 					push(n);
 					return false;
 				}
@@ -704,8 +709,9 @@ public class BlameGenerator {
 
 			Candidate p;
 			if (renames != null && renames[pIdx] != null) {
-				p = n.create(parent,
-						PathFilter.create(renames[pIdx].getOldPath()));
+				p = n.create(parent, PathFilter.create(
+						renames[pIdx].getOldPath(),
+						repository.getPathEncoding()));
 				p.renameScore = renames[pIdx].getScore();
 				p.sourceBlob = renames[pIdx].getOldId().toObjectId();
 			} else if (ids != null && ids[pIdx] != null) {

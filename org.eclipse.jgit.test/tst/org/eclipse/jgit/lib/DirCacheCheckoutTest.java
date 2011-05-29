@@ -57,6 +57,7 @@ import org.eclipse.jgit.dircache.DirCacheCheckout;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.NoWorkTreeException;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.treewalk.TreeOptions;
 import org.junit.Test;
 
 public class DirCacheCheckoutTest extends ReadTreeTest {
@@ -165,7 +166,8 @@ public class DirCacheCheckoutTest extends ReadTreeTest {
 			throws CorruptObjectException, IOException {
 		String expectedValue;
 		String path;
-		DirCache read = DirCache.read(db.getIndexFile(), db.getFS());
+		DirCache read = DirCache.read(db.getIndexFile(), db.getFS(),
+				new TreeOptions(db.getConfig()));
 
 		assertEquals("Index has not the right size.", i.size(),
 				read.getEntryCount());

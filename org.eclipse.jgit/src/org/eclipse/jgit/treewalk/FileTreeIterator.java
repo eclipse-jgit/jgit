@@ -102,7 +102,7 @@ public class FileTreeIterator extends WorkingTreeIterator {
 	 *            working tree options to be used
 	 */
 	public FileTreeIterator(final File root, FS fs, WorkingTreeOptions options) {
-		super(options);
+		super(options, new TreeOptions(options.getPathEncoding()));
 		directory = root;
 		this.fs = fs;
 		init(entries());

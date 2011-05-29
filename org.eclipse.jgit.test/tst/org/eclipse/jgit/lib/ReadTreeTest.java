@@ -64,6 +64,7 @@ import org.eclipse.jgit.dircache.DirCacheEditor;
 import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.errors.CheckoutConflictException;
 import org.eclipse.jgit.errors.CorruptObjectException;
+import org.eclipse.jgit.treewalk.TreeOptions;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.junit.Ignore;
@@ -110,7 +111,8 @@ public abstract class ReadTreeTest extends RepositoryTestCase {
 	}
 
 	private void buildIndex(HashMap<String, String> indexEntries) throws IOException {
-		dirCache = new DirCache(db.getIndexFile(), db.getFS());
+		dirCache = new DirCache(db.getIndexFile(), db.getFS(),
+				new TreeOptions(db.getConfig()));
 		if (indexEntries != null) {
 			assertTrue(dirCache.lock());
 			DirCacheEditor editor = dirCache.editor();

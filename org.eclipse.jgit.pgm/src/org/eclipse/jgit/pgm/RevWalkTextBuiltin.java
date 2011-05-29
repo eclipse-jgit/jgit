@@ -118,7 +118,7 @@ abstract class RevWalkTextBuiltin extends TextBuiltin {
 
 	@Option(name = "--follow", metaVar = "metaVar_path")
 	void follow(final String path) {
-		pathFilter = FollowFilter.create(path);
+		pathFilter = FollowFilter.create(path, db.getPathEncoding());
 	}
 
 	@Argument(index = 0, metaVar = "metaVar_commitish")

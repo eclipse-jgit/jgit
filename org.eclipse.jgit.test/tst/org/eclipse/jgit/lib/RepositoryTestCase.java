@@ -67,6 +67,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.storage.file.FileRepository;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
+import org.eclipse.jgit.util.ByteUtil;
 import org.eclipse.jgit.util.FileUtils;
 import org.junit.Before;
 
@@ -295,7 +296,8 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 		while (!treeItr.eof()) {
 			long len = treeItr.getEntryLength();
 
-			dce = new DirCacheEntry(treeItr.getEntryPathString());
+			dce = new DirCacheEntry(ByteUtil.copy(treeItr.getEntryPathBuffer(),
+					0, treeItr.getEntryPathLength()));
 			dce.setFileMode(treeItr.getEntryFileMode());
 			dce.setLastModified(treeItr.getEntryLastModified());
 			dce.setLength((int) len);

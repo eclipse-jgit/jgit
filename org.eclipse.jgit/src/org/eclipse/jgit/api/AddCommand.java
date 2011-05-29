@@ -144,12 +144,15 @@ public class AddCommand extends GitCommand<DirCache> {
 			tw.addTree(workingTreeIterator);
 			tw.setRecursive(true);
 			if (!addAll)
-				tw.setFilter(PathFilterGroup.createFromStrings(filepatterns));
+				tw.setFilter(PathFilterGroup.createFromStrings(filepatterns,
+						tw.getPathEncoding()));
 
 			String lastAddedFile = null;
 
 			while (tw.next()) {
 				String path = tw.getPathString();
+				byte[] pathb = tw.getRawPath();
+				int pathl = tw.getPathLength();
 
 				WorkingTreeIterator f = tw.getTree(1, WorkingTreeIterator.class);
 				if (tw.getTree(0, DirCacheIterator.class) == null &&
@@ -165,7 +168,8 @@ public class AddCommand extends GitCommand<DirCache> {
 						c = tw.getTree(0, DirCacheIterator.class);
 						if (f != null) { // the file exists
 							long sz = f.getEntryLength();
-							DirCacheEntry entry = new DirCacheEntry(path);
+							DirCacheEntry entry = new DirCacheEntry(pathb,
+									pathl, DirCacheEntry.STAGE_0);
 							if (c == null || c.getDirCacheEntry() == null
 									|| !c.getDirCacheEntry().isAssumeValid()) {
 								entry.setLength(sz);
