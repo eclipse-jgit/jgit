@@ -103,6 +103,7 @@ public class DirCacheIterator extends AbstractTreeIterator {
 	 *            the cache to walk. It must be already loaded into memory.
 	 */
 	public DirCacheIterator(final DirCache dc) {
+		super(dc.getAbstractTreeOptions());
 		cache = dc;
 		tree = dc.getCacheTree(true);
 		treeStart = 0;

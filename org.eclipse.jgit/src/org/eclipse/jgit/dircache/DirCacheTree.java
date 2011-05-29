@@ -49,7 +49,7 @@ import static org.eclipse.jgit.lib.TreeFormatter.entrySize;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.nio.ByteBuffer;
+import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.Comparator;
 
@@ -58,6 +58,7 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.TreeFormatter;
+import org.eclipse.jgit.treewalk.TreeOptions;
 import org.eclipse.jgit.util.MutableInteger;
 import org.eclipse.jgit.util.RawParseUtils;
 
@@ -117,16 +118,20 @@ public class DirCacheTree {
 	/** Number of valid children in {@link #children}. */
 	private int childCnt;
 
-	DirCacheTree() {
+	private final TreeOptions options;
+
+	DirCacheTree(TreeOptions options) {
 		encodedName = NO_NAME;
 		children = NO_CHILDREN;
 		childCnt = 0;
 		entrySpan = -1;
+		this.options = options;
 	}
 
 	private DirCacheTree(final DirCacheTree myParent, final byte[] path,
-			final int pathOff, final int pathLen) {
+			final int pathOff, final int pathLen, TreeOptions optioss) {
 		parent = myParent;
+		this.options = optioss;
 		encodedName = new byte[pathLen];
 		System.arraycopy(path, pathOff, encodedName, 0, pathLen);
 		children = NO_CHILDREN;
@@ -135,9 +140,9 @@ public class DirCacheTree {
 	}
 
 	DirCacheTree(final byte[] in, final MutableInteger off,
-			final DirCacheTree myParent) {
+			final DirCacheTree myParent, TreeOptions options) {
 		parent = myParent;
-
+		this.options = options;
 		int ptr = RawParseUtils.next(in, off.value, '\0');
 		final int nameLen = ptr - off.value - 1;
 		if (nameLen > 0) {
@@ -162,7 +167,7 @@ public class DirCacheTree {
 			boolean alreadySorted = true;
 			children = new DirCacheTree[subcnt];
 			for (int i = 0; i < subcnt; i++) {
-				children[i] = new DirCacheTree(in, off, this);
+				children[i] = new DirCacheTree(in, off, this, options);
 
 				// C Git's ordering differs from our own; it prefers to
 				// sort by length first. This sometimes produces a sort
@@ -264,8 +269,25 @@ public class DirCacheTree {
 	 * @return name of the tree. This does not contain any '/' characters.
 	 */
 	public String getNameString() {
-		final ByteBuffer bb = ByteBuffer.wrap(encodedName);
-		return Constants.CHARSET.decode(bb).toString();
+		return RawParseUtils
+				.decode(Constants.FILENAME_CHARSET, encodedName);
+	}
+
+	/**
+	 * Get the tree's name within its parent.
+	 * <p>
+	 * This method is not very efficient and is primarily meant for debugging
+	 * and final output generation. Applications should try to avoid calling it,
+	 * and if invoked do so only once per interesting entry, where the name is
+	 * absolutely required for correct function.
+	 *
+	 * @param encoding
+	 *            The encoding to use
+	 *
+	 * @return name of the tree. This does not contain any '/' characters.
+	 */
+	public String getNameString(Charset encoding) {
+		return RawParseUtils.decode(encoding, encodedName);
 	}
 
 	/**
@@ -472,7 +494,8 @@ public class DirCacheTree {
 
 				// Build a new subtree for this entry.
 				//
-				st = new DirCacheTree(this, currPath, pathOff, p - pathOff);
+				st = new DirCacheTree(this, currPath, pathOff, p - pathOff,
+						options);
 				insertChild(stIdx, st);
 			}
 

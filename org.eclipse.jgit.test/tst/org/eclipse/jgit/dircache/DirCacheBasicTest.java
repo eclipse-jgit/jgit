@@ -53,6 +53,7 @@ import java.io.File;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.RepositoryTestCase;
+import org.eclipse.jgit.treewalk.TreeOptions;
 import org.junit.Test;
 
 public class DirCacheBasicTest extends RepositoryTestCase {
@@ -71,7 +72,8 @@ public class DirCacheBasicTest extends RepositoryTestCase {
 		final File idx = new File(db.getDirectory(), "tmp_index");
 		assertFalse(idx.exists());
 
-		final DirCache dc = DirCache.read(idx, db.getFS());
+		final DirCache dc = DirCache.read(idx, db.getFS(), new TreeOptions(
+				db.getConfig()));
 		assertNotNull(dc);
 		assertEquals(0, dc.getEntryCount());
 	}
@@ -101,7 +103,8 @@ public class DirCacheBasicTest extends RepositoryTestCase {
 		assertFalse(idx.exists());
 		assertFalse(lck.exists());
 
-		final DirCache dc = DirCache.lock(idx, db.getFS());
+		final DirCache dc = DirCache.lock(idx, db.getFS(), new TreeOptions(
+				db.getConfig()));
 		assertNotNull(dc);
 		assertFalse(idx.exists());
 		assertTrue(lck.exists());
@@ -193,7 +196,8 @@ public class DirCacheBasicTest extends RepositoryTestCase {
 		final String[] paths = { "a.", "a.b", "a/b", "a0b" };
 		final DirCacheEntry[] ents = new DirCacheEntry[paths.length];
 		for (int i = 0; i < paths.length; i++) {
-			ents[i] = new DirCacheEntry(paths[i]);
+			ents[i] = new DirCacheEntry(paths[i], new TreeOptions(
+					db.getConfig()));
 			ents[i].setFileMode(FileMode.REGULAR_FILE);
 		}
 

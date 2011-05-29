@@ -75,6 +75,7 @@ import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.IO;
+import org.eclipse.jgit.util.RawParseUtils;
 import org.eclipse.jgit.util.io.EolCanonicalizingInputStream;
 
 /**
@@ -127,9 +128,11 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	 *
 	 * @param options
 	 *            working tree options to be used
+	 * @param treeOptions
 	 */
-	protected WorkingTreeIterator(WorkingTreeOptions options) {
-		super();
+	protected WorkingTreeIterator(WorkingTreeOptions options,
+			TreeOptions treeOptions) {
+		super(treeOptions);
 		state = new IteratorState(options);
 	}
 
@@ -152,7 +155,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	 */
 	protected WorkingTreeIterator(final String prefix,
 			WorkingTreeOptions options) {
-		super(prefix);
+		super(prefix, new TreeOptions(options.getPathEncoding()));
 		state = new IteratorState(options);
 	}
 
@@ -467,7 +470,8 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 			int pOff = pathOffset;
 			if (0 < pOff)
 				pOff--;
-			String p = TreeWalk.pathOf(path, pOff, pLen);
+			String p = RawParseUtils.decode(getTreeOptions().getPathEncoding(),
+					path, pOff, pLen);
 			switch (rules.isIgnored(p, FileMode.TREE.equals(mode))) {
 			case IGNORED:
 				return true;
@@ -953,7 +957,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 
 		IteratorState(WorkingTreeOptions options) {
 			this.options = options;
-			this.nameEncoder = Constants.CHARSET.newEncoder();
+			this.nameEncoder = options.getPathEncoding().newEncoder();
 		}
 
 		void initializeDigestAndReadBuffer() {

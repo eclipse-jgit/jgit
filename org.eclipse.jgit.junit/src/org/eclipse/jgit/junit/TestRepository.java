@@ -43,7 +43,8 @@
 
 package org.eclipse.jgit.junit;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -61,10 +62,10 @@ import java.util.Set;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
 import org.eclipse.jgit.dircache.DirCacheEditor;
-import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.dircache.DirCacheEditor.DeletePath;
 import org.eclipse.jgit.dircache.DirCacheEditor.DeleteTree;
 import org.eclipse.jgit.dircache.DirCacheEditor.PathEdit;
+import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.ObjectWritingException;
@@ -94,6 +95,7 @@ import org.eclipse.jgit.storage.file.ObjectDirectory;
 import org.eclipse.jgit.storage.file.PackFile;
 import org.eclipse.jgit.storage.file.PackIndex.MutableEntry;
 import org.eclipse.jgit.storage.pack.PackWriter;
+import org.eclipse.jgit.treewalk.TreeOptions;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
 import org.eclipse.jgit.util.FileUtils;
@@ -237,7 +239,8 @@ public class TestRepository<R extends Repository> {
 	 */
 	public DirCacheEntry file(final String path, final RevBlob blob)
 			throws Exception {
-		final DirCacheEntry e = new DirCacheEntry(path);
+		final DirCacheEntry e = new DirCacheEntry(path, new TreeOptions(
+				db.getConfig()));
 		e.setFileMode(FileMode.REGULAR_FILE);
 		e.setObjectId(blob);
 		return e;
@@ -281,8 +284,8 @@ public class TestRepository<R extends Repository> {
 	public RevObject get(final RevTree tree, final String path)
 			throws Exception {
 		final TreeWalk tw = new TreeWalk(pool.getObjectReader());
-		tw.setFilter(PathFilterGroup.createFromStrings(Collections
-				.singleton(path)));
+		tw.setFilter(PathFilterGroup.createFromStrings(
+				Collections.singleton(path), tw.getPathEncoding()));
 		tw.reset(tree);
 		while (tw.next()) {
 			if (tw.isSubtree() && !path.equals(tw.getPathString())) {

@@ -269,7 +269,7 @@ public class DiffFormatterTest extends RepositoryTestCase {
 		ByteArrayOutputStream os = new ByteArrayOutputStream();
 		DiffFormatter df = new DiffFormatter(new BufferedOutputStream(os));
 		df.setRepository(db);
-		df.setPathFilter(PathFilter.create("folder"));
+		df.setPathFilter(PathFilter.create("folder", db.getPathEncoding()));
 		DirCacheIterator oldTree = new DirCacheIterator(db.readDirCache());
 		FileTreeIterator newTree = new FileTreeIterator(db);
 		df.format(oldTree, newTree);

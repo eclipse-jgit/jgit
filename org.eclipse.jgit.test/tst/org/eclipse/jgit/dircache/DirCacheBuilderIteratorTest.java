@@ -53,6 +53,7 @@ import java.util.Collections;
 
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.RepositoryTestCase;
+import org.eclipse.jgit.treewalk.TreeOptions;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
 import org.junit.Test;
@@ -66,7 +67,8 @@ public class DirCacheBuilderIteratorTest extends RepositoryTestCase {
 		final String[] paths = { "a.", "a/b", "a/c", "a/d", "a0b" };
 		final DirCacheEntry[] ents = new DirCacheEntry[paths.length];
 		for (int i = 0; i < paths.length; i++) {
-			ents[i] = new DirCacheEntry(paths[i]);
+			ents[i] = new DirCacheEntry(paths[i], new TreeOptions(
+					db.getConfig()));
 			ents[i].setFileMode(mode);
 		}
 		{
@@ -82,7 +84,7 @@ public class DirCacheBuilderIteratorTest extends RepositoryTestCase {
 		tw.addTree(new DirCacheBuildIterator(b));
 		tw.setRecursive(true);
 		tw.setFilter(PathFilterGroup.createFromStrings(Collections
-				.singleton(paths[expIdx])));
+.singleton(paths[expIdx]), tw.getPathEncoding()));
 
 		assertTrue("found " + paths[expIdx], tw.next());
 		final DirCacheIterator c = tw.getTree(0, DirCacheIterator.class);

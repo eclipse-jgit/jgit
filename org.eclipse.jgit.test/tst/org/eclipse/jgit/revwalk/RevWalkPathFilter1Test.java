@@ -56,7 +56,8 @@ import org.junit.Test;
 public class RevWalkPathFilter1Test extends RevWalkTestCase {
 	protected void filter(final String path) {
 		rw.setTreeFilter(AndTreeFilter.create(PathFilterGroup
-				.createFromStrings(Collections.singleton(path)),
+				.createFromStrings(Collections.singleton(path),
+						db.getPathEncoding()),
 				TreeFilter.ANY_DIFF));
 	}
 

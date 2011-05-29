@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011, Google Inc.
+ * Copyright (C) 2011 Robin Rosenberg
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -41,64 +41,22 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.eclipse.jgit.storage.dht;
+package org.eclipse.jgit.util;
 
-import org.eclipse.jgit.lib.ObjectDatabase;
-import org.eclipse.jgit.lib.ObjectInserter;
-import org.eclipse.jgit.lib.ObjectReader;
-import org.eclipse.jgit.storage.dht.spi.Database;
-
-/** ObjectDatabase stored on top of the DHT database. */
-public class DhtObjDatabase extends ObjectDatabase {
-	private final DhtRepository repository;
-
-	private final Database db;
-
-	private final DhtReaderOptions readerOptions;
-
-	private final DhtInserterOptions inserterOptions;
-
-	DhtObjDatabase(DhtRepository repository, DhtRepositoryBuilder builder) {
-		this.repository = repository;
-		this.db = builder.getDatabase();
-		this.readerOptions = builder.getReaderOptions();
-		this.inserterOptions = builder.getInserterOptions();
-	}
-
-	DhtRepository getRepository() {
-		return repository;
-	}
-
-	Database getDatabase() {
-		return db;
-	}
-
-	DhtReaderOptions getReaderOptions() {
-		return readerOptions;
-	}
-
-	DhtInserterOptions getInserterOptions() {
-		return inserterOptions;
-	}
-
-	@Override
-	public boolean exists() {
-		return repository.getRepositoryKey() != null;
-	}
-
-	@Override
-	public void close() {
-		// Do nothing.
-	}
-
-	@Override
-	public ObjectReader newReader() {
-		return new DhtReader(this);
-	}
-
-	@Override
-	public ObjectInserter newInserter() {
-		return new DhtInserter(this);
+/**
+ * Utilities for working with byte arrays
+ */
+public class ByteUtil {
+	/**
+	 * @param array
+	 * @param start
+	 * @param length
+	 * @return a byte array as a copy of the specified range of array
+	 */
+	public static byte[] copy(byte[] array, int start, int length) {
+		byte[] ret = new byte[length];
+		System.arraycopy(array, start, ret, 0, length);
+		return ret;
 	}
 
 }

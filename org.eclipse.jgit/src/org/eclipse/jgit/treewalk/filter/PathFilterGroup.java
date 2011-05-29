@@ -44,6 +44,7 @@
 
 package org.eclipse.jgit.treewalk.filter;
 
+import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
@@ -76,18 +77,20 @@ public class PathFilterGroup {
 	 * Paths may appear in any order within the collection. Sorting may be done
 	 * internally when the group is constructed if doing so will improve path
 	 * matching performance.
-	 *
+	 * 
 	 * @param paths
 	 *            the paths to test against. Must have at least one entry.
+	 * @param encoding
 	 * @return a new filter for the list of paths supplied.
 	 */
-	public static TreeFilter createFromStrings(final Collection<String> paths) {
+	public static TreeFilter createFromStrings(final Collection<String> paths,
+			Charset encoding) {
 		if (paths.isEmpty())
 			throw new IllegalArgumentException(JGitText.get().atLeastOnePathIsRequired);
 		final PathFilter[] p = new PathFilter[paths.size()];
 		int i = 0;
 		for (final String s : paths)
-			p[i++] = PathFilter.create(s);
+			p[i++] = PathFilter.create(s, encoding);
 		return create(p);
 	}
 

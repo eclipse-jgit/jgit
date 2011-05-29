@@ -266,7 +266,8 @@ public class ResetCommand extends GitCommand<Ref> {
 			final TreeWalk tw = new TreeWalk(repo);
 			tw.addTree(new DirCacheIterator(dc));
 			tw.addTree(commit.getTree());
-			tw.setFilter(PathFilterGroup.createFromStrings(filepaths));
+			tw.setFilter(PathFilterGroup.createFromStrings(filepaths,
+					tw.getPathEncoding()));
 
 			while (tw.next()) {
 				final String path = tw.getPathString();

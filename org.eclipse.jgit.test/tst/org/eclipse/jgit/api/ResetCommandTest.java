@@ -66,6 +66,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.RepositoryTestCase;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.treewalk.TreeOptions;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.util.FileUtils;
 import org.junit.Assert;
@@ -104,7 +105,8 @@ public class ResetCommandTest extends RepositoryTestCase {
 		git.add().addFilepattern("a.txt").call();
 		secondCommit = git.commit().setMessage("adding a.txt").call();
 
-		prestage = DirCache.read(db.getIndexFile(), db.getFS()).getEntry(
+		prestage = DirCache.read(db.getIndexFile(), db.getFS(),
+				new TreeOptions(db.getConfig())).getEntry(
 				indexFile.getName());
 
 		// modify file and add to index
@@ -192,7 +194,8 @@ public class ResetCommandTest extends RepositoryTestCase {
 	public void testPathsReset() throws Exception {
 		setupRepository();
 
-		DirCacheEntry preReset = DirCache.read(db.getIndexFile(), db.getFS())
+		DirCacheEntry preReset = DirCache.read(db.getIndexFile(), db.getFS(),
+				new TreeOptions(db.getConfig()))
 				.getEntry(indexFile.getName());
 		assertNotNull(preReset);
 
@@ -203,7 +206,8 @@ public class ResetCommandTest extends RepositoryTestCase {
 		git.reset().addPath(indexFile.getName())
 				.addPath(untrackedFile.getName()).call();
 
-		DirCacheEntry postReset = DirCache.read(db.getIndexFile(), db.getFS())
+		DirCacheEntry postReset = DirCache.read(db.getIndexFile(), db.getFS(),
+				new TreeOptions(db.getConfig()))
 				.getEntry(indexFile.getName());
 		assertNotNull(postReset);
 		Assert.assertNotSame(preReset.getObjectId(), postReset.getObjectId());
@@ -224,7 +228,8 @@ public class ResetCommandTest extends RepositoryTestCase {
 	public void testPathsResetWithRef() throws Exception {
 		setupRepository();
 
-		DirCacheEntry preReset = DirCache.read(db.getIndexFile(), db.getFS())
+		DirCacheEntry preReset = DirCache.read(db.getIndexFile(), db.getFS(),
+				new TreeOptions(db.getConfig()))
 				.getEntry(indexFile.getName());
 		assertNotNull(preReset);
 
@@ -302,7 +307,8 @@ public class ResetCommandTest extends RepositoryTestCase {
 	 * @throws IOException
 	 */
 	private boolean inIndex(String path) throws IOException {
-		DirCache dc = DirCache.read(db.getIndexFile(), db.getFS());
+		DirCache dc = DirCache.read(db.getIndexFile(), db.getFS(),
+				new TreeOptions(db.getConfig()));
 		return dc.getEntry(path) != null;
 	}
 

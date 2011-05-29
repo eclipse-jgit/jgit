@@ -59,6 +59,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RepositoryTestCase;
+import org.eclipse.jgit.treewalk.TreeOptions;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.junit.Test;
 
@@ -211,7 +212,8 @@ public class CherryPickTest extends RepositoryTestCase {
 
 	private DirCacheEntry makeEntry(final String path, final FileMode mode,
 			final String content) throws Exception {
-		final DirCacheEntry ent = new DirCacheEntry(path);
+		final DirCacheEntry ent = new DirCacheEntry(path, new TreeOptions(
+				db.getConfig()));
 		ent.setFileMode(mode);
 		ent.setObjectId(new ObjectInserter.Formatter().idFor(OBJ_BLOB,
 				Constants.encode(content)));

@@ -67,7 +67,8 @@ public class ForPathTest extends RepositoryTestCase {
 
 	private DirCacheEntry makeEntry(final String path, final FileMode mode)
 			throws Exception {
-		final DirCacheEntry ent = new DirCacheEntry(path);
+		final DirCacheEntry ent = new DirCacheEntry(path, new TreeOptions(
+				db.getConfig()));
 		ent.setFileMode(mode);
 		ent.setObjectId(new ObjectInserter.Formatter().idFor(
 				Constants.OBJ_BLOB, Constants.encode(path)));

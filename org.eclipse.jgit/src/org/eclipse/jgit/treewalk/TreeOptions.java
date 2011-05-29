@@ -1,5 +1,7 @@
 /*
- * Copyright (C) 2011, Google Inc.
+ * Copyright (C) 2010, Marc Strapetz <marc.strapetz@syntevo.com>
+ * Copyright (C) 2011, Robin Rosenberg
+ *
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -40,65 +42,49 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+package org.eclipse.jgit.treewalk;
 
-package org.eclipse.jgit.storage.dht;
+import java.nio.charset.Charset;
 
-import org.eclipse.jgit.lib.ObjectDatabase;
-import org.eclipse.jgit.lib.ObjectInserter;
-import org.eclipse.jgit.lib.ObjectReader;
-import org.eclipse.jgit.storage.dht.spi.Database;
+import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.Config.SectionParser;
+import org.eclipse.jgit.lib.ConfigConstants;
+import org.eclipse.jgit.lib.Constants;
 
-/** ObjectDatabase stored on top of the DHT database. */
-public class DhtObjDatabase extends ObjectDatabase {
-	private final DhtRepository repository;
+/** Options used for tree objects */
+public class TreeOptions {
+	/** Key for {@link Config#get(SectionParser)}. */
+	public static final Config.SectionParser<TreeOptions> KEY = new SectionParser<TreeOptions>() {
+		public TreeOptions parse(final Config cfg) {
+			return new TreeOptions(cfg);
+		}
+	};
 
-	private final Database db;
+	private Charset pathEncoding;
 
-	private final DhtReaderOptions readerOptions;
-
-	private final DhtInserterOptions inserterOptions;
-
-	DhtObjDatabase(DhtRepository repository, DhtRepositoryBuilder builder) {
-		this.repository = repository;
-		this.db = builder.getDatabase();
-		this.readerOptions = builder.getReaderOptions();
-		this.inserterOptions = builder.getInserterOptions();
+	/**
+	 * @param encoding
+	 */
+	public TreeOptions(final Charset encoding) {
+		pathEncoding = encoding;
 	}
 
-	DhtRepository getRepository() {
-		return repository;
+	/**
+	 * @param rc
+	 */
+	public TreeOptions(final Config rc) {
+		String encoding = rc.getString(ConfigConstants.CONFIG_JGIT_SECTION,
+				null, ConfigConstants.CONFIG_KEY_PATHENCODING);
+		if (encoding == null)
+			pathEncoding = Constants.FILENAME_CHARSET;
+		else
+			pathEncoding = Charset.forName(encoding);
 	}
 
-	Database getDatabase() {
-		return db;
+	/**
+	 * @return the encoding for storing path names in the index, trees and refs
+	 */
+	public Charset getPathEncoding() {
+		return pathEncoding;
 	}
-
-	DhtReaderOptions getReaderOptions() {
-		return readerOptions;
-	}
-
-	DhtInserterOptions getInserterOptions() {
-		return inserterOptions;
-	}
-
-	@Override
-	public boolean exists() {
-		return repository.getRepositoryKey() != null;
-	}
-
-	@Override
-	public void close() {
-		// Do nothing.
-	}
-
-	@Override
-	public ObjectReader newReader() {
-		return new DhtReader(this);
-	}
-
-	@Override
-	public ObjectInserter newInserter() {
-		return new DhtInserter(this);
-	}
-
 }

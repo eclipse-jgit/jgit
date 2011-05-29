@@ -51,6 +51,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -77,6 +78,7 @@ import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.storage.file.ReflogReader;
+import org.eclipse.jgit.treewalk.TreeOptions;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
@@ -836,7 +838,8 @@ public abstract class Repository {
 	 */
 	public DirCache readDirCache() throws NoWorkTreeException,
 			CorruptObjectException, IOException {
-		return DirCache.read(getIndexFile(), getFS());
+		return DirCache.read(getIndexFile(), getFS(), new TreeOptions(
+				getConfig()));
 	}
 
 	/**
@@ -860,7 +863,8 @@ public abstract class Repository {
 	 */
 	public DirCache lockDirCache() throws NoWorkTreeException,
 			CorruptObjectException, IOException {
-		return DirCache.lock(getIndexFile(), getFS());
+		return DirCache.lock(getIndexFile(), getFS(), new TreeOptions(
+				getConfig()));
 	}
 
 	static byte[] gitInternalSlash(byte[] bytes) {
@@ -1246,4 +1250,20 @@ public abstract class Repository {
 			FileUtils.delete(headsFile, FileUtils.SKIP_MISSING);
 		}
 	}
+
+	/**
+	 * @return the encoding for paths
+	 */
+	public Charset getPathEncoding() {
+		String encoding = getConfig().getString(
+				ConfigConstants.CONFIG_JGIT_SECTION,
+				null, ConfigConstants.CONFIG_KEY_PATHENCODING);
+		Charset pathEncoding;
+		if (encoding == null)
+			pathEncoding = Constants.FILENAME_CHARSET;
+		else
+			pathEncoding = Charset.forName(encoding);
+		return pathEncoding;
+	}
+
 }

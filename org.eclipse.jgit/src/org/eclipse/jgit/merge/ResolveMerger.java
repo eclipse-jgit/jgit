@@ -577,7 +577,8 @@ public class ResolveMerger extends ThreeWayMerger {
 		} else {
 			// no conflict occurred, the file will contain fully merged content.
 			// the index will be populated with the new merged version
-			DirCacheEntry dce = new DirCacheEntry(tw.getPathString());
+			DirCacheEntry dce = new DirCacheEntry(tw.getRawPath(),
+					tw.getPathLength(), DirCacheEntry.STAGE_0);
 			dce.setFileMode(tw.getFileMode(0));
 			dce.setLastModified(of.lastModified());
 			dce.setLength((int) of.length());

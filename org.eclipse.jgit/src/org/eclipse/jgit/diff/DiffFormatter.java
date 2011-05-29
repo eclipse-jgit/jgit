@@ -58,6 +58,7 @@ import static org.eclipse.jgit.lib.FileMode.GITLINK;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.charset.Charset;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -88,6 +89,7 @@ import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.storage.pack.PackConfig;
 import org.eclipse.jgit.treewalk.AbstractTreeIterator;
+import org.eclipse.jgit.treewalk.TreeOptions;
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.WorkingTreeIterator;
@@ -404,8 +406,10 @@ public class DiffFormatter {
 	public List<DiffEntry> scan(RevTree a, RevTree b) throws IOException {
 		assertHaveRepository();
 
-		CanonicalTreeParser aParser = new CanonicalTreeParser();
-		CanonicalTreeParser bParser = new CanonicalTreeParser();
+		CanonicalTreeParser aParser = new CanonicalTreeParser(
+				new TreeOptions(db.getConfig()));
+		CanonicalTreeParser bParser = new CanonicalTreeParser(
+				new TreeOptions(db.getConfig()));
 
 		aParser.reset(reader, a);
 		bParser.reset(reader, b);
@@ -440,9 +444,9 @@ public class DiffFormatter {
 
 		TreeFilter filter = getDiffTreeFilterFor(a, b);
 		if (pathFilter instanceof FollowFilter) {
-			walk.setFilter(AndTreeFilter.create(
-					PathFilter.create(((FollowFilter) pathFilter).getPath()),
-					filter));
+			walk.setFilter(AndTreeFilter.create(PathFilter.create(
+					((FollowFilter) pathFilter).getPath(),
+					walk.getPathEncoding()), filter));
 		} else {
 			walk.setFilter(AndTreeFilter.create(pathFilter, filter));
 		}
@@ -464,7 +468,8 @@ public class DiffFormatter {
 
 			if (renameDetector == null)
 				setDetectRenames(true);
-			files = updateFollowFilter(detectRenames(DiffEntry.scan(walk)));
+			files = updateFollowFilter(detectRenames(DiffEntry.scan(walk)),
+					walk.getPathEncoding());
 
 		} else if (renameDetector != null)
 			files = detectRenames(files);
@@ -510,11 +515,12 @@ public class DiffFormatter {
 		return false;
 	}
 
-	private List<DiffEntry> updateFollowFilter(List<DiffEntry> files) {
+	private List<DiffEntry> updateFollowFilter(List<DiffEntry> files,
+			Charset charset) {
 		String oldPath = ((FollowFilter) pathFilter).getPath();
 		for (DiffEntry ent : files) {
 			if (isRename(ent) && ent.getNewPath().equals(oldPath)) {
-				pathFilter = FollowFilter.create(ent.getOldPath());
+				pathFilter = FollowFilter.create(oldPath, charset);
 				return Collections.singletonList(ent);
 			}
 		}

@@ -61,6 +61,7 @@ import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.revwalk.RevTree;
+import org.eclipse.jgit.treewalk.TreeOptions;
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
 
 class BaseSearch {
@@ -97,7 +98,8 @@ class BaseSearch {
 
 		alreadyProcessed = new IntSet();
 		treeCache = new ObjectIdOwnerMap<TreeWithData>();
-		parser = new CanonicalTreeParser();
+		parser = new CanonicalTreeParser(new TreeOptions(
+				or.getPathEncoding()));
 		idBuf = new MutableObjectId();
 	}
 

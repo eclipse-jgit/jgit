@@ -55,6 +55,7 @@ import java.util.Collections;
 import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.RepositoryTestCase;
+import org.eclipse.jgit.treewalk.TreeOptions;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
 import org.eclipse.jgit.util.FS;
@@ -87,7 +88,7 @@ public class DirCacheIteratorTest extends RepositoryTestCase {
 		final String[] paths = { "a.", "a0b" };
 		final DirCacheEntry[] ents = new DirCacheEntry[paths.length];
 		for (int i = 0; i < paths.length; i++) {
-			ents[i] = new DirCacheEntry(paths[i]);
+			ents[i] = new DirCacheEntry(paths[i], dc.getAbstractTreeOptions());
 			ents[i].setFileMode(FileMode.REGULAR_FILE);
 		}
 
@@ -114,7 +115,7 @@ public class DirCacheIteratorTest extends RepositoryTestCase {
 		final FileMode[] modes = { FileMode.EXECUTABLE_FILE, FileMode.GITLINK };
 		final DirCacheEntry[] ents = new DirCacheEntry[paths.length];
 		for (int i = 0; i < paths.length; i++) {
-			ents[i] = new DirCacheEntry(paths[i]);
+			ents[i] = new DirCacheEntry(paths[i], dc.getAbstractTreeOptions());
 			ents[i].setFileMode(modes[i]);
 		}
 
@@ -146,7 +147,7 @@ public class DirCacheIteratorTest extends RepositoryTestCase {
 		final String[] paths = { "a.", "a/b", "a/c", "a/d", "a0b" };
 		final DirCacheEntry[] ents = new DirCacheEntry[paths.length];
 		for (int i = 0; i < paths.length; i++) {
-			ents[i] = new DirCacheEntry(paths[i]);
+			ents[i] = new DirCacheEntry(paths[i], dc.getAbstractTreeOptions());
 			ents[i].setFileMode(FileMode.REGULAR_FILE);
 		}
 
@@ -191,7 +192,7 @@ public class DirCacheIteratorTest extends RepositoryTestCase {
 		final String[] paths = { "a.", "a/b", "a/c", "a/d", "a0b" };
 		final DirCacheEntry[] ents = new DirCacheEntry[paths.length];
 		for (int i = 0; i < paths.length; i++) {
-			ents[i] = new DirCacheEntry(paths[i]);
+			ents[i] = new DirCacheEntry(paths[i], dc.getAbstractTreeOptions());
 			ents[i].setFileMode(mode);
 		}
 
@@ -226,7 +227,7 @@ public class DirCacheIteratorTest extends RepositoryTestCase {
 		final String[] paths = { "a.", "a/b", "a/c/e", "a/c/f", "a/d", "a0b" };
 		final DirCacheEntry[] ents = new DirCacheEntry[paths.length];
 		for (int i = 0; i < paths.length; i++) {
-			ents[i] = new DirCacheEntry(paths[i]);
+			ents[i] = new DirCacheEntry(paths[i], dc.getAbstractTreeOptions());
 			ents[i].setFileMode(mode);
 		}
 
@@ -260,7 +261,7 @@ public class DirCacheIteratorTest extends RepositoryTestCase {
 		final String[] paths = { "a.", "a/b", "a/c/e", "a/c/f", "a/d", "a0b" };
 		final DirCacheEntry[] ents = new DirCacheEntry[paths.length];
 		for (int i = 0; i < paths.length; i++) {
-			ents[i] = new DirCacheEntry(paths[i]);
+			ents[i] = new DirCacheEntry(paths[i], dc.getAbstractTreeOptions());
 			ents[i].setFileMode(mode);
 		}
 
@@ -273,8 +274,9 @@ public class DirCacheIteratorTest extends RepositoryTestCase {
 		for (int victimIdx = 0; victimIdx < paths.length; victimIdx++) {
 			tw.reset();
 			tw.addTree(new DirCacheIterator(dc));
-			tw.setFilter(PathFilterGroup.createFromStrings(Collections
-					.singleton(paths[victimIdx])));
+			tw.setFilter(PathFilterGroup.createFromStrings(
+					Collections.singleton(paths[victimIdx]),
+					tw.getPathEncoding()));
 			tw.setRecursive(tw.getFilter().shouldBeRecursive());
 			assertTrue(tw.next());
 			final DirCacheIterator c = tw.getTree(0, DirCacheIterator.class);
@@ -293,7 +295,8 @@ public class DirCacheIteratorTest extends RepositoryTestCase {
 		final File path = JGitTestUtil
 				.getTestResourceFile("dircache.testRemovedSubtree");
 
-		final DirCache dc = DirCache.read(path, FS.DETECTED);
+		final DirCache dc = DirCache.read(path, FS.DETECTED,
+				new TreeOptions(db.getConfig()));
 		assertEquals(2, dc.getEntryCount());
 
 		final TreeWalk tw = new TreeWalk(db);

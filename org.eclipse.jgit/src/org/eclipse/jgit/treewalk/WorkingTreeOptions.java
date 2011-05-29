@@ -42,8 +42,12 @@
  */
 package org.eclipse.jgit.treewalk;
 
+import java.nio.charset.Charset;
+
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Config.SectionParser;
+import org.eclipse.jgit.lib.ConfigConstants;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.CoreConfig.AutoCRLF;
 
 /** Options used by the {@link WorkingTreeIterator}. */
@@ -59,9 +63,17 @@ public class WorkingTreeOptions {
 
 	private final AutoCRLF autoCRLF;
 
+	private Charset pathEncoding;
+
 	private WorkingTreeOptions(final Config rc) {
 		fileMode = rc.getBoolean("core", "filemode", true);
 		autoCRLF = rc.getEnum("core", null, "autocrlf", AutoCRLF.FALSE);
+		String encoding = rc.getString(ConfigConstants.CONFIG_JGIT_SECTION,
+				null, ConfigConstants.CONFIG_KEY_PATHENCODING);
+		if (encoding == null)
+			pathEncoding = Constants.FILENAME_CHARSET;
+		else
+			pathEncoding = Charset.forName(encoding);
 	}
 
 	/** @return true if the execute bit on working files should be trusted. */
@@ -72,5 +84,12 @@ public class WorkingTreeOptions {
 	/** @return how automatic CRLF conversion has been configured. */
 	public AutoCRLF getAutoCRLF() {
 		return autoCRLF;
+	}
+
+	/**
+	 * @return the encoding for storing path names in the index, trees and refs
+	 */
+	public Charset getPathEncoding() {
+		return pathEncoding;
 	}
 }
