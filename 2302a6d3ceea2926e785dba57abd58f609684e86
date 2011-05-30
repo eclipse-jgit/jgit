@@ -16,6 +16,92 @@
       "revId": "2302a6d3ceea2926e785dba57abd58f609684e86",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJX///a4\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-27T17:03:17Z",
+      "side": 1,
+      "message": "Oy. It was so similar to my own change that I assumed you had just cherry-picked mine, updated a few things, and pushed it back! I didn\u0027t realize it was actually a different change. I apologize for assuming this was based on my work. FWIW, my change was I1556b7e7ea21c31ff76bca930269e0cc7d55cd26\n\nI think its stupid to revert this. Lets just make a new commit that fixes some of the comments I made in the post-submit review.",
+      "parentUuid": "AABOJX///cY\u003d",
+      "revId": "2302a6d3ceea2926e785dba57abd58f609684e86",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJX///m4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/RefDirectory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 855,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-25T17:10:39Z",
+      "side": 1,
+      "message": "Drop this test and handle it through the FileNotFoundException below. We are unlikely to be here unless the caller received our path from a readdir() result, which means we are very likely to have exists() return true, making exists() pointless.\n\nIf the user application feeds us a file path explicitly (e.g. getRef(\"refs/heads/master\")) we should try the open call first, its again somewhat likely the reference actually exists and we need to read it from disk. If it doesn\u0027t exist, the exception is a bit more expensive than the stat(), but I think its a smaller percentage of requests that are doing getRef() for non-existing names.",
+      "revId": "2302a6d3ceea2926e785dba57abd58f609684e86",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJX///m0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/RefDirectory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 888,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-25T17:10:39Z",
+      "side": 1,
+      "message": "This is somehow wrong. The file may have been modified between the time we read the file above with IO.readSome() and now. We need to be capturing the lastModified() before IO.readSome().\n\nWe already have it, its in the otherSnapshot.",
+      "revId": "2302a6d3ceea2926e785dba57abd58f609684e86",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJX///ms\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/RefDirectory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 909,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-25T17:10:39Z",
+      "side": 1,
+      "message": "Again, wrong, same as above, we need to use otherSnapshot.",
+      "revId": "2302a6d3ceea2926e785dba57abd58f609684e86",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJX///mo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/RefDirectory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1082,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-25T17:10:39Z",
+      "side": 1,
+      "message": "I think all of these constructors should change to take FileSnapshot instead of long mtime.",
+      "revId": "2302a6d3ceea2926e785dba57abd58f609684e86",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
