@@ -90,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "AABOJn///ws\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/RefDirectory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 855,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-05-30T22:30:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOJX///m4\u003d",
+      "revId": "2302a6d3ceea2926e785dba57abd58f609684e86",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOJX///m0\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/RefDirectory.java",
         "patchSetId": 3
@@ -101,6 +119,24 @@
       "writtenOn": "2011-05-25T17:10:39Z",
       "side": 1,
       "message": "This is somehow wrong. The file may have been modified between the time we read the file above with IO.readSome() and now. We need to be capturing the lastModified() before IO.readSome().\n\nWe already have it, its in the otherSnapshot.",
+      "revId": "2302a6d3ceea2926e785dba57abd58f609684e86",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJn///wo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/RefDirectory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 888,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-05-30T22:30:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOJX///m0\u003d",
       "revId": "2302a6d3ceea2926e785dba57abd58f609684e86",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -124,6 +160,24 @@
     },
     {
       "key": {
+        "uuid": "AABOJn///wg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/RefDirectory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 909,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-05-30T22:30:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOJX///ms\u003d",
+      "revId": "2302a6d3ceea2926e785dba57abd58f609684e86",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOJX///mo\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/RefDirectory.java",
         "patchSetId": 3
@@ -135,6 +189,24 @@
       "writtenOn": "2011-05-25T17:10:39Z",
       "side": 1,
       "message": "I think all of these constructors should change to take FileSnapshot instead of long mtime.",
+      "revId": "2302a6d3ceea2926e785dba57abd58f609684e86",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJn///wM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/RefDirectory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1082,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-05-30T22:30:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOJX///mo\u003d",
       "revId": "2302a6d3ceea2926e785dba57abd58f609684e86",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
