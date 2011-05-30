@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOJX///cY\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-05-27T15:54:14Z",
+      "side": 1,
+      "message": "My fault, I overlooked this line. \n\nRegarding: \"RFC change of mine\". Really, I wrote this change completely on my own some days back. Only now I checked your open proposals and saw that you have a similar open change. I would hate if somebody hijacks my open proposals without telling me and therefore it\u0027s important for me to make clear that I haven\u0027t copied your work. The fact my change contains mistakes you wouldn\u0027t do gives some proof, or? \n\nHow to proceed? I have no problems if we just take your proposal and let this one overwrite my change. Or we revert mine before.",
+      "parentUuid": "AABOJX///nA\u003d",
+      "revId": "2302a6d3ceea2926e785dba57abd58f609684e86",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOJX///a4\u003d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
