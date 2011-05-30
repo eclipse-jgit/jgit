@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOJX///nA\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-25T17:02:45Z",
+      "side": 1,
+      "message": "Next time you take an RFC change of mine and drop the RFC from the commit subject... please re-read the commit message to make sure there aren\u0027t statements like this still in the body.  :-)",
+      "revId": "2302a6d3ceea2926e785dba57abd58f609684e86",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
