@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "AABOJn///1M\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-05-30T05:32:17Z",
+      "side": 1,
+      "message": "Great that this is clarified. I have a day off today but will propose a fix for this one this night.",
+      "parentUuid": "AABOJX///a4\u003d",
+      "revId": "2302a6d3ceea2926e785dba57abd58f609684e86",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOJX///m4\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/RefDirectory.java",
         "patchSetId": 3
