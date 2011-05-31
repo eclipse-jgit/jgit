@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOJX///co\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 2
+      },
+      "writtenOn": "2011-05-27T15:44:04Z",
+      "side": 1,
+      "message": "Please draft a proper commit message",
+      "revId": "7b81a7e34a771951e2e7b789b080b2bfb8656e5c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJX///ck\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CleanCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 2
+      },
+      "writtenOn": "2011-05-27T15:44:04Z",
+      "side": 1,
+      "message": "there should be a boolean setter called setDryRun(boolean)\n\nThen we can add a simple boolean logic check in call to see whether or not to do the actual delete.",
+      "revId": "7b81a7e34a771951e2e7b789b080b2bfb8656e5c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
