@@ -1,0 +1,40 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALzH///28\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/LargeDeltaBaseInputStream.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-10-14T20:21:22Z",
+      "side": 1,
+      "message": "No, it isn\u0027t worth enforcing that this be a power of 2.  Its just suggested.  I\u0027m not going to bother with this check.",
+      "parentUuid": "AAALzH///8c\u003d",
+      "revId": "d3cbb25f9c2bc9e6619fe14ae097779c540f8e31",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALzH///24\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/LargeDeltaBaseInputStream.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-10-14T20:21:22Z",
+      "side": 1,
+      "message": "Its impossible for basePath to be on a different file system than tmp.  Above we construct tmp to be a temporary file in the same directory as the file named by basePath.  No system that I know of permits a single directory to have its file contents spread across different file systems such that a rename within that directory would fail.\n\nIts sufficient here to assume that all files in the same directory are part of the same filesystem, and that we can rename safely from a unique temporary file name in that directory to a stable name within the same directory.  If that fails, its either because the stable name already exists (made at the same time by another thread or process perhaps?) OR the filesystem is utter crap and we can\u0027t work with it.  In the former case we\u0027ll just retry to read the file made by the other process, and probably succeed at using it.  In the latter case, well, the filesystem is utter crap.  If I can\u0027t rename a file in the same directory, I can\u0027t provide most of the data safety rules that Git normally provides.  Users should get a better filesystem.",
+      "parentUuid": "AAALzH///8Y\u003d",
+      "revId": "d3cbb25f9c2bc9e6619fe14ae097779c540f8e31",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
