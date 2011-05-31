@@ -19,6 +19,110 @@
     },
     {
       "key": {
+        "uuid": "AABOI3///vM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Line.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-05-14T10:31:40Z",
+      "side": 1,
+      "message": "Both start/end and start/length are common pattern and when you mix them accidentally, people usually find out quickly, that means changing more code, so I don\u0027t understand why you want to to that. It also means slightly more complicated code for the user. \n\nThe [start...end[  pattern leads to the simplest client code.",
+      "parentUuid": "AABOI3///vg\u003d",
+      "revId": "921679f2f2b000298bc09657d9da935239a1dc94",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOI3///wg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/LineComparator.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-05-13T23:11:55Z",
+      "side": 1,
+      "message": "\"containing every line from every revision\"\n\nOnly the lines visible in the last revision are returned.",
+      "revId": "921679f2f2b000298bc09657d9da935239a1dc94",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOI3///vA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/LineComparator.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-05-14T10:31:40Z",
+      "side": 1,
+      "message": "That still does not match what I think it does and what I expect it to do. A few more test cases would possibly clear things up.",
+      "parentUuid": "AABOI3///vY\u003d",
+      "revId": "921679f2f2b000298bc09657d9da935239a1dc94",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOI3///wM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/LineComparator.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-05-13T23:11:55Z",
+      "side": 1,
+      "message": "Using TreeSet may not be the fastest way, but if it\ndrowns in the rest of the code that may not matter much.\n\nUsing another implementation in the future, if we think performance is a a problem may make the use of Set inconvenient, so perhaps a Collection would be less implementation dependent, providing a stable interface.\n\nThe Set interface does not quarantee ordering anyway, and the uniqueness does not be that explicit.",
+      "revId": "921679f2f2b000298bc09657d9da935239a1dc94",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOI3///wc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/LineComparator.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-05-13T23:11:55Z",
+      "side": 1,
+      "message": "Don\u0027t override javadocs this way",
+      "revId": "921679f2f2b000298bc09657d9da935239a1dc94",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOI3///wY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Revision.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-05-13T23:11:55Z",
+      "side": 1,
+      "message": "Equals and hashCode don\u0027t match. this cannot work",
+      "revId": "921679f2f2b000298bc09657d9da935239a1dc94",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOI3///wU\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Revision.java",
         "patchSetId": 15
