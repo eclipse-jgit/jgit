@@ -316,6 +316,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn///Sw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Revision.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2011-05-07T16:51:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIX///3A\u003d",
+      "revId": "b182d67f845ed7ada22f9dc6f9d587b62ee8cf93",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIX///2o\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Revision.java",
         "patchSetId": 8
@@ -517,6 +535,24 @@
       "writtenOn": "2011-05-06T14:18:52Z",
       "side": 1,
       "message": "You don\u0027t need to do this. FollowFilter will always have the current path stored within it. Use getPath() to obtain the path it will use on the next commit.",
+      "revId": "b182d67f845ed7ada22f9dc6f9d587b62ee8cf93",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///Us\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/RevisionBuilder.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2011-05-06T16:33:12Z",
+      "side": 1,
+      "message": "How exactly do I get the new path? It looks like the PathFilter in FollowFilter is final and the path in PathFilter is final so where does it get updated?\n\nIt looks like RewriteTreeFilter creates a new FollowFilter but how can I access it to get the new path?",
+      "parentUuid": "AABOIn///X0\u003d",
       "revId": "b182d67f845ed7ada22f9dc6f9d587b62ee8cf93",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
