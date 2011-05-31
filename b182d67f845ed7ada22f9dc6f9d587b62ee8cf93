@@ -70,6 +70,23 @@
     },
     {
       "key": {
+        "uuid": "AABOIn///X8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/RevisionBuilder.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-06T14:18:52Z",
+      "side": 1,
+      "message": "This is still horrifically inadequate compared to what the C implementation of blame can do.\n\nBut its better than nothing.",
+      "revId": "b182d67f845ed7ada22f9dc6f9d587b62ee8cf93",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn///X4\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/RevisionBuilder.java",
         "patchSetId": 8
@@ -81,6 +98,23 @@
       "writtenOn": "2011-05-06T14:18:52Z",
       "side": 1,
       "message": "I hate this idea. We have to dig back to the very first version of a file in order to display *any* of its blame data. If the project is big enough, this can take several minutes just to compute buildRevisions(). Forget any of the other work you need to do.\n\nThat\u0027s why I wanted to do this incrementally.",
+      "revId": "b182d67f845ed7ada22f9dc6f9d587b62ee8cf93",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///X0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/RevisionBuilder.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-06T14:18:52Z",
+      "side": 1,
+      "message": "You don\u0027t need to do this. FollowFilter will always have the current path stored within it. Use getPath() to obtain the path it will use on the next commit.",
       "revId": "b182d67f845ed7ada22f9dc6f9d587b62ee8cf93",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
