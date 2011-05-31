@@ -1,0 +1,208 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOJX///bk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameGenerator.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-27T16:59:21Z",
+      "side": 1,
+      "message": "Is it really necessary to use List\u003cLine\u003e here?\n\nThe size of the file cannot change. So we could use Line[]. Which is one less object allocation, and removes a metric ton of virtual method dispatching during access.",
+      "revId": "52a7f58f9d2f5aa5628a214f964223403b8f22d0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJX///bc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameGenerator.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-27T16:59:21Z",
+      "side": 1,
+      "message": "This is still not incremental. You are building everything for this one file at once. Which doesn\u0027t give the caller a chance to see if the block you have is sufficient and stop you from processing more history.",
+      "revId": "52a7f58f9d2f5aa5628a214f964223403b8f22d0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJX///bQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameGenerator.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-27T16:59:21Z",
+      "side": 1,
+      "message": "You should be able to stop after all lines are covered in the file, even if the file still has history. So keep track of how many lines still need blame data, and update it each time you run merge.",
+      "revId": "52a7f58f9d2f5aa5628a214f964223403b8f22d0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJX///bM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameGenerator.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-27T16:59:21Z",
+      "side": 1,
+      "message": "Hoist this block out of the loop. Its executed exactly once. There is no reason to be doing the if lastText !\u003d null test on every iteration of the loop, or having to jump over this block of code before it gets executed.\n\nSure, a compiler could do this for you. If it was really smart. But its still damn confusing for a human to read because now I\u0027m looking for \"How does Kevin set lastText \u003d null in the body of the loop to make this block reachable after the first iteration?\" and the answer is... he doesn\u0027t.",
+      "revId": "52a7f58f9d2f5aa5628a214f964223403b8f22d0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJX///bU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameGenerator.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-27T16:59:21Z",
+      "side": 1,
+      "message": "What part of \"do this only if blobWalk is null at the start of a loop\" did you not understand from my comments on patch set 18?\n\nFiles are renamed infrequently. Always looking for rename information on every commit is horrifically slow. Do it only when the file suddenly disappears on you. When the file is gone, either its because its history is over,  or its because the file was renamed. Its only worth doing the rename detection when its gone.",
+      "revId": "52a7f58f9d2f5aa5628a214f964223403b8f22d0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJX///b4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Line.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-27T16:59:21Z",
+      "side": 1,
+      "message": "Why is this constructor public?\n\nIf its to permit copying a Line (so an application can take a \"snapshot\"), we should instead support some sort of copy constructor that takes a Line object, or a cloneLine() method that returns a copied Line object.\n\nOtherwise, I think this should be package-private. Only the BlameGenerator should need to construct a Line object.",
+      "revId": "52a7f58f9d2f5aa5628a214f964223403b8f22d0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJX///b8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Line.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-27T16:59:21Z",
+      "side": 1,
+      "message": "Should be called setCommit().",
+      "revId": "52a7f58f9d2f5aa5628a214f964223403b8f22d0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJX///bY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Line.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-27T16:59:21Z",
+      "side": 1,
+      "message": "Callers need to be able to determine if this line is blamed to this commit, or the line is blamed to one of its ancestors. You don\u0027t have a way to tell them this information, as the Line object doesn\u0027t have it.",
+      "revId": "52a7f58f9d2f5aa5628a214f964223403b8f22d0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJX///b0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Line.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-27T16:59:21Z",
+      "side": 1,
+      "message": "^ shouldn\u0027t always be true here. Some lines will be blamed onto the commit, at which point ^ isn\u0027t the right annotation for it.",
+      "revId": "52a7f58f9d2f5aa5628a214f964223403b8f22d0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJX///bw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Line.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-27T16:59:21Z",
+      "side": 1,
+      "message": "This should have a null check on it... its semi-legal for the author to be missing.",
+      "revId": "52a7f58f9d2f5aa5628a214f964223403b8f22d0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJX///bs\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Line.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-27T16:59:21Z",
+      "side": 1,
+      "message": "Again, null check.",
+      "revId": "52a7f58f9d2f5aa5628a214f964223403b8f22d0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJX///bo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Line.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-27T16:59:21Z",
+      "side": 1,
+      "message": "Style-nit: Unnecessary blank line.",
+      "revId": "52a7f58f9d2f5aa5628a214f964223403b8f22d0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
