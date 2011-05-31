@@ -1,0 +1,192 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOJn////0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameGenerator.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-27T23:20:14Z",
+      "side": 1,
+      "message": "Don\u0027t declare these fields private. Leave them package access. That way we don\u0027t need synthetic accessor methods to use them. Since the Session class is private, the fields are already not-visible.",
+      "revId": "f6470560b0018c0f7bfa96736d7e2d18d7b322ff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJn////w\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameGenerator.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-27T23:20:14Z",
+      "side": 1,
+      "message": "What is the point of the Session object if its declared final? Why not inline these fields into the BlameGenerator and avoid an extra field lookup on each access?",
+      "revId": "f6470560b0018c0f7bfa96736d7e2d18d7b322ff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJn////Y\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameGenerator.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-27T23:20:14Z",
+      "side": 1,
+      "message": "I\u0027m now doubting the need for a Line class. Its overkill on memory usage.\n\nI\u0027m going to just upload a replacement proposal at this point.",
+      "revId": "f6470560b0018c0f7bfa96736d7e2d18d7b322ff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJn////I\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameGenerator.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-27T23:50:49Z",
+      "side": 1,
+      "message": "No. I\u0027m taking this patch set as a starting point and will upload something soon.",
+      "parentUuid": "AABOJn////Q\u003d",
+      "revId": "f6470560b0018c0f7bfa96736d7e2d18d7b322ff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJn////c\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameGenerator.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-27T23:20:14Z",
+      "side": 1,
+      "message": "What does this actually mean?",
+      "revId": "f6470560b0018c0f7bfa96736d7e2d18d7b322ff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJn////g\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameGenerator.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-27T23:20:14Z",
+      "side": 1,
+      "message": "How can line be null? We created a Line object for every line in the \"B\" side earlier during createLines(). Here we have concluded that the line in question at bIndex is common to both files since it occurs before the first edit, or between two edits. Therefore the line *must* exist in \"B\" and cannot be null.",
+      "revId": "f6470560b0018c0f7bfa96736d7e2d18d7b322ff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJn////k\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameGenerator.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-27T23:20:14Z",
+      "side": 1,
+      "message": "Change this method to return true here instead of break, and return false if you fall out of the loop.\n\nThen below in next() you can use the return value of updatePath to know if you should just stop and not even look up the path in the tree again.",
+      "revId": "f6470560b0018c0f7bfa96736d7e2d18d7b322ff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJn////s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameGenerator.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-27T23:20:14Z",
+      "side": 1,
+      "message": "Why null? If the file we are blaming is empty, shouldn\u0027t we return an empty List? Or do you mean \"empty list on empty file, null if file does not exist\"?",
+      "revId": "f6470560b0018c0f7bfa96736d7e2d18d7b322ff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJn////o\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameGenerator.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-27T23:20:14Z",
+      "side": 1,
+      "message": "Move this into the block above:\n\n  if (blob \u003d\u003d null) {\n    updatePath(commit);\n    blob \u003d getBlob(commit);\n    if (blob \u003d\u003d null) {\n      markSessionBound();\n      return false;\n    }\n  }",
+      "revId": "f6470560b0018c0f7bfa96736d7e2d18d7b322ff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJn////8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Line.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-27T23:20:14Z",
+      "side": 1,
+      "message": "s/current complete/current commit/",
+      "revId": "f6470560b0018c0f7bfa96736d7e2d18d7b322ff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJn////4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Line.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-27T23:20:14Z",
+      "side": 1,
+      "message": "!bound || commit.getParentCount() \u003d\u003d 0",
+      "revId": "f6470560b0018c0f7bfa96736d7e2d18d7b322ff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
