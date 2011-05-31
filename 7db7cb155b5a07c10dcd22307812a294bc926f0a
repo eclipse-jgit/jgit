@@ -1,0 +1,514 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOJX///kk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Line.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-25T18:05:51Z",
+      "side": 1,
+      "message": "This generates a lot of garbage, and I\u0027m not sure every consumer of blame wants it.\n\nI would prefer to push this to the application. If they want to track all of the line data from every revision, they should somehow copy our output on each iteration of the main blame loop. Which is yet another reason why I want the blame loop to act like an iterator, so the application can stop and inspect our \"scoreboard\" of lines, and snapshot something if they want to preserve it.\n\nBut if they are just blaming the current file and showing it, they don\u0027t need tracking of lines through everything. And they don\u0027t need the garbage that goes along with this method.",
+      "revId": "7db7cb155b5a07c10dcd22307812a294bc926f0a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJX///mY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Line.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-25T18:05:51Z",
+      "side": 1,
+      "message": "Missing @Override",
+      "revId": "7db7cb155b5a07c10dcd22307812a294bc926f0a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJX///mc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Line.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-25T18:05:51Z",
+      "side": 1,
+      "message": "Missing @Override",
+      "revId": "7db7cb155b5a07c10dcd22307812a294bc926f0a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJX///mg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Line.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-25T18:05:51Z",
+      "side": 1,
+      "message": "Missing @Override",
+      "revId": "7db7cb155b5a07c10dcd22307812a294bc926f0a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJX///mU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Revision.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-25T18:05:51Z",
+      "side": 1,
+      "message": "Please declare this final.",
+      "revId": "7db7cb155b5a07c10dcd22307812a294bc926f0a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJX///mQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Revision.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-25T18:05:51Z",
+      "side": 1,
+      "message": "Style-nit: Unnecessary blank line.",
+      "revId": "7db7cb155b5a07c10dcd22307812a294bc926f0a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJX///mM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Revision.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-25T18:05:51Z",
+      "side": 1,
+      "message": "Looks like this can be final.",
+      "revId": "7db7cb155b5a07c10dcd22307812a294bc926f0a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJX///mI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Revision.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-25T18:05:51Z",
+      "side": 1,
+      "message": "Missing @Override",
+      "revId": "7db7cb155b5a07c10dcd22307812a294bc926f0a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJX///mE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Revision.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-25T18:05:51Z",
+      "side": 1,
+      "message": "Missing @Override",
+      "revId": "7db7cb155b5a07c10dcd22307812a294bc926f0a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJX///l4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Revision.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-25T18:05:51Z",
+      "side": 1,
+      "message": "\"this\" is not necessary.",
+      "revId": "7db7cb155b5a07c10dcd22307812a294bc926f0a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJX///mA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Revision.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-25T18:05:51Z",
+      "side": 1,
+      "message": "Missing @Override",
+      "revId": "7db7cb155b5a07c10dcd22307812a294bc926f0a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJX///l8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Revision.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-25T18:05:51Z",
+      "side": 1,
+      "message": "Style-nit: \"this\" is not necessary.",
+      "revId": "7db7cb155b5a07c10dcd22307812a294bc926f0a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJX///l0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Revision.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-25T18:05:51Z",
+      "side": 1,
+      "message": "Why is it acceptable for line to be null here, but then not increment index?",
+      "revId": "7db7cb155b5a07c10dcd22307812a294bc926f0a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJX///lw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Revision.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-25T18:05:51Z",
+      "side": 1,
+      "message": "\"this\" is not necessary.",
+      "revId": "7db7cb155b5a07c10dcd22307812a294bc926f0a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJX///ls\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Revision.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-25T18:05:51Z",
+      "side": 1,
+      "message": "\"this\" isn\u0027t necessary. And then line wraps badly. And I prefer to put the variable in the middle. That is, rewrite as:\n\n  if (0 \u003c\u003d lineNumber \u0026\u0026 lineNumber \u003c lines.length)\n    return lines[lineNumber];\n  return null;",
+      "revId": "7db7cb155b5a07c10dcd22307812a294bc926f0a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJX///lo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Revision.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-25T18:05:51Z",
+      "side": 1,
+      "message": "\"this\" is not necessary.",
+      "revId": "7db7cb155b5a07c10dcd22307812a294bc926f0a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJX///lg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Revision.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-25T18:05:51Z",
+      "side": 1,
+      "message": "Do not expose this. Callers will think they can use it to get any line at random, but it has no caching and will perform horribly. On a tiny 3 line file it *might* be acceptable. On a typical source file, it will be too slow to complete.",
+      "revId": "7db7cb155b5a07c10dcd22307812a294bc926f0a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJX///lc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Revision.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-25T18:05:51Z",
+      "side": 1,
+      "message": "Same remark as above.",
+      "revId": "7db7cb155b5a07c10dcd22307812a294bc926f0a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJX///lU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Revision.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-25T18:05:51Z",
+      "side": 1,
+      "message": "You can replace all of this with:\n\n  byte[] input \u003d loader.getCachedBytes(Integer.MAX_VALUE);\n\nIt handles reading from a stream into a byte array if its large for you. But throws LargeObjectException if the array cannot be allocated, or if the object size exceeds the array size.",
+      "revId": "7db7cb155b5a07c10dcd22307812a294bc926f0a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJX///lQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/RevisionBuilder.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-25T18:05:51Z",
+      "side": 1,
+      "message": "This should be final.",
+      "revId": "7db7cb155b5a07c10dcd22307812a294bc926f0a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJX///lM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/RevisionBuilder.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-25T18:05:51Z",
+      "side": 1,
+      "message": "Replace this all with:\n\n  byte[] contents \u003d loader.getCachedBytes(Integer.MAX_VALUE);",
+      "revId": "7db7cb155b5a07c10dcd22307812a294bc926f0a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJX///ko\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/RevisionBuilder.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-25T18:05:51Z",
+      "side": 1,
+      "message": "This isn\u0027t really correct. These lines don\u0027t belong to commit. We don\u0027t know where they came from until *after* the next iteration of build() can execute and we can accurately blame them on revision, or they need to carry earlier.\n\nI would build these Line objects with no commit at all at this stage. If no commit is set, it means we don\u0027t yet know the origin of the Line. Later during mergeLines() we assign the commit to a Line if the Line appears in the B range (assuming you invert the diff like I suggest below).",
+      "revId": "7db7cb155b5a07c10dcd22307812a294bc926f0a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJX///k0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/RevisionBuilder.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-25T18:05:51Z",
+      "side": 1,
+      "message": "The names current and previous are confusing here. Can we name them a and b to match what they mean in edits?\n\nOne of these (is it previous?) corresponds to the older revision, aka the \"A\" side of the EditList, and the other matches the newer revision, aka the \"B\" side of the EditList.\n\nIt would be nice if you can make that obvious to the reader. Because I\u0027m confused... and I shouldn\u0027t be.\n\nOr better, reuse the exact same names as you have in the build() loop, since this is only called from that method.",
+      "revId": "7db7cb155b5a07c10dcd22307812a294bc926f0a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJX///lE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/RevisionBuilder.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-25T18:05:51Z",
+      "side": 1,
+      "message": "I find the convention of using a callback function so the caller can tell you when to stop iterating awkward.\n\nI would prefer to have this behave like an iterator that the caller can invoke to get the next Revision built and returned to them, and expose a release() method that the caller can use to clean up your RevWalk. That implies moving the RevWalk and TreeWalk into instance members. But the API then starts to work and behave like RevWalk itself, making it more consistent.",
+      "revId": "7db7cb155b5a07c10dcd22307812a294bc926f0a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJX///lI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/RevisionBuilder.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-25T18:05:51Z",
+      "side": 1,
+      "message": "I would prefer having all of this code inside of the try/finally. Just in case new TreeWalk throws due to OutOfMemoryError, we can at least clean up the revWalk with a release() before the exception pops up the call stack.",
+      "revId": "7db7cb155b5a07c10dcd22307812a294bc926f0a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJX///kw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/RevisionBuilder.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-25T18:05:51Z",
+      "side": 1,
+      "message": "I understand why you call this \"next\", but the way its used is confusing.\n\nThis is the newer revision of the file. But we are walking backwards, so it was the last thing examined.\n\nI think I would have still named it \"lastRevision\" and \"lastText\" since from the perspective of the loop below it was the last thing examined... even though its actually the more recent revision. At least to me, I find code like this easier to read when everything speaks normally about the loop (e.g. last iteration of the loop) and I only need to remember that the loop itself is going through the graph in a particular direction (backwards).",
+      "revId": "7db7cb155b5a07c10dcd22307812a294bc926f0a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJX///lA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/RevisionBuilder.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-25T18:05:51Z",
+      "side": 1,
+      "message": "If blobWalk is null, break the traversal. We can\u0027t continue to dig around the history if the file in question has disappeared.",
+      "revId": "7db7cb155b5a07c10dcd22307812a294bc926f0a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJX///ks\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/RevisionBuilder.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-25T18:05:51Z",
+      "side": 1,
+      "message": "I would invert this diff. Run the algorithm as:\n\n  diffAlgorithm.diff(textComparator, currentText, nextText)\n\nThen we are looking at the diff \"normally\", rather than in reverse. Lines that were added by nextText (aka the prior loop iteration) are shown on the \"B\" side of the difference as additions, the same way you would see that if you ran `git log -p`. This makes it easier to reason about how the difference is being used during mergeLines().",
+      "revId": "7db7cb155b5a07c10dcd22307812a294bc926f0a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJX///k8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/RevisionBuilder.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-25T18:05:51Z",
+      "side": 1,
+      "message": "I hate myself for not exposing the rename data out of RevWalk. It means we have to do it twice here. *sigh*\n\nA cleaner way to do this is to do it after-the-fact. That is, have your code be something like:\n\n  TreeWalk blobWalk \u003d TreeWalk.forPath(reader, currentPath, commit.getTree());\n  if (blobWalk \u003d\u003d null) {\n    if (next \u003d\u003d null)\n      break;  // The file never existed. Abort traversal.\n\n    // Maybe the file was renamed?\n    ... diff next\u0027s tree against commit.getTree()\n    ... see if next\u0027s path was renamed\n    ... if so, update currentPath\n    ... if not, break\n  }\n  ... run blame on this path ...",
+      "revId": "7db7cb155b5a07c10dcd22307812a294bc926f0a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJX///k4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/RevisionBuilder.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-25T18:05:51Z",
+      "side": 1,
+      "message": "We should actually use RENAME or COPY here. If you look at the bottom of FollowFilter we have a tiny method for this:\n\n\tprivate static boolean isRename(DiffEntry ent) {\n\t\treturn ent.getChangeType() \u003d\u003d ChangeType.RENAME\n\t\t\t|| ent.getChangeType() \u003d\u003d ChangeType.COPY;\n\t}",
+      "revId": "7db7cb155b5a07c10dcd22307812a294bc926f0a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
