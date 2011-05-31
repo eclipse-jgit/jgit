@@ -87,4 +87,21 @@ public interface RepositoryIndexTable {
 	 */
 	public void putUnique(RepositoryName name, RepositoryKey key)
 			throws DhtException, TimeoutException;
+
+	/**
+	 * Remove the association of a name to an identifier.
+	 * <p>
+	 * This method must use some sort of transaction system to ensure the name
+	 * is removed only if it currently references {@code key}. This may require
+	 * running some sort of lock management service in parallel to the database.
+	 *
+	 * @param name
+	 *            name of the repository.
+	 * @param key
+	 *            internal key defining the repository.
+	 * @throws DhtException
+	 * @throws TimeoutException
+	 */
+	public void remove(RepositoryName name, RepositoryKey key)
+			throws DhtException, TimeoutException;
 }

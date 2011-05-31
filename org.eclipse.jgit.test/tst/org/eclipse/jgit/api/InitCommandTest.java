@@ -70,6 +70,7 @@ public class InitCommandTest extends RepositoryTestCase {
 			InitCommand command = new InitCommand();
 			command.setDirectory(directory);
 			Repository repository = command.call().getRepository();
+			addRepoToClose(repository);
 			assertNotNull(repository);
 		} catch (Exception e) {
 			fail(e.getMessage());
@@ -84,6 +85,7 @@ public class InitCommandTest extends RepositoryTestCase {
 			command.setDirectory(directory);
 			command.setBare(true);
 			Repository repository = command.call().getRepository();
+			addRepoToClose(repository);
 			assertNotNull(repository);
 			assertTrue(repository.isBare());
 		} catch (Exception e) {
