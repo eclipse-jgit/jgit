@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOI3///vg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Line.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2011-05-14T00:49:51Z",
+      "side": 1,
+      "message": "So would you be okay storing the initial revision number and the age of the line instead? Similar to the LineRange and StyleRange classes.",
+      "parentUuid": "AABOI3///wQ\u003d",
+      "revId": "921679f2f2b000298bc09657d9da935239a1dc94",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOI3///vM\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Line.java",
         "patchSetId": 15
@@ -31,6 +49,24 @@
       "side": 1,
       "message": "Both start/end and start/length are common pattern and when you mix them accidentally, people usually find out quickly, that means changing more code, so I don\u0027t understand why you want to to that. It also means slightly more complicated code for the user. \n\nThe [start...end[  pattern leads to the simplest client code.",
       "parentUuid": "AABOI3///vg\u003d",
+      "revId": "921679f2f2b000298bc09657d9da935239a1dc94",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOI3///k8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Line.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2011-05-15T04:13:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOI3///vM\u003d",
       "revId": "921679f2f2b000298bc09657d9da935239a1dc94",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -54,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "AABOI3///vY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/LineComparator.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2011-05-14T00:53:27Z",
+      "side": 1,
+      "message": "This method return every line in all specified revisions sorted by line number and initial revision it appeared in.",
+      "parentUuid": "AABOI3///wg\u003d",
+      "revId": "921679f2f2b000298bc09657d9da935239a1dc94",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOI3///vA\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/LineComparator.java",
         "patchSetId": 15
@@ -66,6 +120,24 @@
       "side": 1,
       "message": "That still does not match what I think it does and what I expect it to do. A few more test cases would possibly clear things up.",
       "parentUuid": "AABOI3///vY\u003d",
+      "revId": "921679f2f2b000298bc09657d9da935239a1dc94",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOI3///ko\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/LineComparator.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2011-05-15T04:13:30Z",
+      "side": 1,
+      "message": "I removed this class since it needs more discussion and is not required for initial blame support and so it should be moved into another changeset.",
+      "parentUuid": "AABOI3///vA\u003d",
       "revId": "921679f2f2b000298bc09657d9da935239a1dc94",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -134,6 +206,24 @@
       "writtenOn": "2011-05-13T23:11:55Z",
       "side": 1,
       "message": "We should be able to use a non-default encoding here.",
+      "revId": "921679f2f2b000298bc09657d9da935239a1dc94",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOI3///ks\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Revision.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2011-05-15T04:13:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOI3///wU\u003d",
       "revId": "921679f2f2b000298bc09657d9da935239a1dc94",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
