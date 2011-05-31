@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAALzH///8c\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/LargeDeltaBaseInputStream.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2010-10-13T20:20:46Z",
+      "side": 1,
+      "message": "Worth putting a check with an exception if the block size isn\u0027t a power of 2? Probably very JIT friendly.\n\nif(desiredBlockSize \u0026 desiredBlockSize-1 !\u003d 0 )\n  throw new IllegalArgumentException(\"Invalid block size\")",
+      "revId": "d3cbb25f9c2bc9e6619fe14ae097779c540f8e31",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALzH///28\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/LargeDeltaBaseInputStream.java",
         "patchSetId": 3
@@ -14,6 +31,23 @@
       "side": 1,
       "message": "No, it isn\u0027t worth enforcing that this be a power of 2.  Its just suggested.  I\u0027m not going to bother with this check.",
       "parentUuid": "AAALzH///8c\u003d",
+      "revId": "d3cbb25f9c2bc9e6619fe14ae097779c540f8e31",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALzH///8Y\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/LargeDeltaBaseInputStream.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 3
+      },
+      "writtenOn": "2010-10-13T20:20:46Z",
+      "side": 1,
+      "message": "Note that if basePath is on a different filing system (or drive, in Windows, I guess) then the rename operation may fail. We could try a copy if the rename fails. We could read and write the bits to the basePath (or basePath+\"~\" or similar)",
       "revId": "d3cbb25f9c2bc9e6619fe14ae097779c540f8e31",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
