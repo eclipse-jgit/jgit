@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOI3///h4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/LineHistoryCommand.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-05-15T20:03:00Z",
+      "side": 1,
+      "message": "Drop these extra white saces (all comments)",
+      "revId": "e6cdde21c73ac8ece34ab6978c1168dd56e65758",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOI3///h8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Line.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-05-15T20:03:00Z",
+      "side": 1,
+      "message": "nit-pick: startCommit.hashCode can just be xored/added in since it is well distributed",
+      "revId": "e6cdde21c73ac8ece34ab6978c1168dd56e65758",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOI3///iA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/RevisionBuilder.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-05-15T20:03:00Z",
+      "side": 1,
+      "message": "Do we only want to do rename detection for non-merge commits?",
+      "revId": "e6cdde21c73ac8ece34ab6978c1168dd56e65758",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
