@@ -1,0 +1,378 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL4n///8w\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lines/Line.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-22T22:34:49Z",
+      "side": 1,
+      "message": "JGit uses the 3-clause BSD, aka the EDL. Not the EPL.",
+      "revId": "bcfb5854ead3d052163c34788be2aa0071924328",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL4n///8s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lines/Line.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-22T22:34:49Z",
+      "side": 1,
+      "message": "Style-nit: We don\u0027t put @author tags in our Javadoc.",
+      "revId": "bcfb5854ead3d052163c34788be2aa0071924328",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL4n///8o\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lines/Line.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-22T22:34:49Z",
+      "side": 1,
+      "message": "Please don\u0027t store the line content as a String. It uses up a ton of memory. Applications only need the range, they can trade the range for the string data when using a RawText object for the file.",
+      "revId": "bcfb5854ead3d052163c34788be2aa0071924328",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL4n///8k\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lines/Line.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-22T22:34:49Z",
+      "side": 1,
+      "message": "Style-nit: We don\u0027t put these @see javadoc tags in, but we do put @Override on the method.",
+      "revId": "bcfb5854ead3d052163c34788be2aa0071924328",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL4n///8c\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lines/Revision.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-22T22:34:49Z",
+      "side": 1,
+      "message": "Aside from storing the ObjectId, we should have the path of this file. If a file gets renamed and we do move/copy detection we want to know where these lines are coming from.",
+      "revId": "bcfb5854ead3d052163c34788be2aa0071924328",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL4n///8Y\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lines/Revision.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-22T22:34:49Z",
+      "side": 1,
+      "message": "What do we need this for?",
+      "revId": "bcfb5854ead3d052163c34788be2aa0071924328",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL4n///8U\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lines/Revision.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-22T22:34:49Z",
+      "side": 1,
+      "message": "Please don\u0027t use or rely on platform encoding.",
+      "revId": "bcfb5854ead3d052163c34788be2aa0071924328",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL4n///8M\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lines/RevisionBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-22T22:34:49Z",
+      "side": 1,
+      "message": "FWIW, this is called \"blame\" in Git. We should call it blame in JGit too.",
+      "revId": "bcfb5854ead3d052163c34788be2aa0071924328",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL4n///8I\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lines/RevisionBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-22T22:34:49Z",
+      "side": 1,
+      "message": "Style-nit: We don\u0027t initialize to defaults, we rely on implicit initialization for fields.",
+      "revId": "bcfb5854ead3d052163c34788be2aa0071924328",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL4n///8Q\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lines/RevisionBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-22T22:34:49Z",
+      "side": 1,
+      "message": "This construct is unnecessary, please remove it.",
+      "revId": "bcfb5854ead3d052163c34788be2aa0071924328",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL4n///8E\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lines/RevisionBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-22T22:34:49Z",
+      "side": 1,
+      "message": "Path needs to be coming from Revision, because it should be able to change over time due to rename/copy detection.",
+      "revId": "bcfb5854ead3d052163c34788be2aa0071924328",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL4n///78\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lines/RevisionBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-22T22:34:49Z",
+      "side": 1,
+      "message": "You should hang onto an ObjectReader in this class, and make the caller release() you so you can release() your ObjectReader. Then that same ObjectReader can be used for all data access with TreeWalk or RevWalk instances.",
+      "revId": "bcfb5854ead3d052163c34788be2aa0071924328",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL4n///70\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lines/RevisionBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-22T22:34:49Z",
+      "side": 1,
+      "message": "Style-nit: We prefer:\n\n  BufferedReader reader \u003d new BufferedReader(...);\n  try {\n  } finally {\n    reader.close();\n  }\n\nThat way there isn\u0027t a risk of reader staying initialized to null if something is wrong with the code.",
+      "revId": "bcfb5854ead3d052163c34788be2aa0071924328",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL4n///74\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lines/RevisionBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-22T22:34:49Z",
+      "side": 1,
+      "message": "You can\u0027t assume platform encoding.",
+      "revId": "bcfb5854ead3d052163c34788be2aa0071924328",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL4n///7w\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lines/RevisionBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-22T22:34:49Z",
+      "side": 1,
+      "message": "Use RawText instead.",
+      "revId": "bcfb5854ead3d052163c34788be2aa0071924328",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL4n///7o\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lines/RevisionBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-22T22:34:49Z",
+      "side": 1,
+      "message": "If you had just used RawText earlier, you wouldn\u0027t need to do this conversion.",
+      "revId": "bcfb5854ead3d052163c34788be2aa0071924328",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL4n///7s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lines/RevisionBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-22T22:34:49Z",
+      "side": 1,
+      "message": "The DiffAlgorithm should be configurable, but default to HistogramDiff.",
+      "revId": "bcfb5854ead3d052163c34788be2aa0071924328",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL4n///7g\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lines/RevisionBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-22T22:34:49Z",
+      "side": 1,
+      "message": "The RawTextComparator should be configurable, so users can run blame but ignore whitespace differences.",
+      "revId": "bcfb5854ead3d052163c34788be2aa0071924328",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL4n///7Y\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lines/RevisionBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-22T22:34:49Z",
+      "side": 1,
+      "message": "Users should be able to configure which revision you start digging from.",
+      "revId": "bcfb5854ead3d052163c34788be2aa0071924328",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL4n///7c\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lines/RevisionBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-22T22:34:49Z",
+      "side": 1,
+      "message": "Because you have the FollowFilter enabled, the path can change on you during each commit walked. You need to be storing that path in each Revision.",
+      "revId": "bcfb5854ead3d052163c34788be2aa0071924328",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL4n///7U\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lines/RevisionBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-22T22:34:49Z",
+      "side": 1,
+      "message": "This can take a long time. As can the rest of the algorithm. Its better if you can make this incremental, so callers can ask you for some data, display it, then ask for more.\n\nTo see what I mean, run `git gui blame` and watch it fill in for a file. We want to be able to do the same thing in EGit, or other applications that are using blame. Sometimes users are happy to get recent row range results quickly, and they don\u0027t even need to wait for the whole file to finish.",
+      "revId": "bcfb5854ead3d052163c34788be2aa0071924328",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL4n///8g\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lines/RevisionContainer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-22T22:34:49Z",
+      "side": 1,
+      "message": "Is a Set\u003cLine\u003e really necessary here? An ArrayList\u003cLine\u003e that is sorted in-place would be much smaller.",
+      "revId": "bcfb5854ead3d052163c34788be2aa0071924328",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
