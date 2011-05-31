@@ -53,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "AABOJn////Q\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameGenerator.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2011-05-27T23:27:38Z",
+      "side": 1,
+      "message": "Does that mean you won\u0027t want me to incorporate any of your comments and upload further patches?",
+      "parentUuid": "AABOJn////Y\u003d",
+      "revId": "f6470560b0018c0f7bfa96736d7e2d18d7b322ff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOJn////I\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameGenerator.java",
         "patchSetId": 28
