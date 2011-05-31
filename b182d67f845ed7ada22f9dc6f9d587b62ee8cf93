@@ -2,6 +2,210 @@
   "comments": [
     {
       "key": {
+        "uuid": "AABOIX///2k\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/LineHistoryCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-04-27T21:40:21Z",
+      "side": 1,
+      "message": "Drop overriding javadoc",
+      "revId": "b182d67f845ed7ada22f9dc6f9d587b62ee8cf93",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIX///4A\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Line.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-04-27T21:40:21Z",
+      "side": 1,
+      "message": "The dominating convention in Java is that a range includes the start index, but not the end index. Is there a good reason not do it like this here?",
+      "revId": "b182d67f845ed7ada22f9dc6f9d587b62ee8cf93",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIX///4I\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Line.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-04-27T21:40:21Z",
+      "side": 1,
+      "message": "Don\u0027t use javadoc this way. Drop the comment\ncompletely and let Eclipse/Javadoc pick up the inherited comment directly. Applies here and all other places where methods are overridden or implemented.\nAdd an @Override where superclass methods are ovverridden.",
+      "revId": "b182d67f845ed7ada22f9dc6f9d587b62ee8cf93",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIX///3U\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Line.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-04-27T21:40:21Z",
+      "side": 1,
+      "message": "Drop overriding javadoc",
+      "revId": "b182d67f845ed7ada22f9dc6f9d587b62ee8cf93",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIX///4E\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Line.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-04-27T21:40:21Z",
+      "side": 1,
+      "message": "This is quite slow since toString does a lot of work. It\u0027s much faster to combine the hashes of the components directly.",
+      "revId": "b182d67f845ed7ada22f9dc6f9d587b62ee8cf93",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIX///3Q\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Line.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-04-27T21:40:21Z",
+      "side": 1,
+      "message": "Drop overriding javadoc",
+      "revId": "b182d67f845ed7ada22f9dc6f9d587b62ee8cf93",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIX///3I\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Revision.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-04-27T21:40:21Z",
+      "side": 1,
+      "message": "Drop overriding javadoc",
+      "revId": "b182d67f845ed7ada22f9dc6f9d587b62ee8cf93",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIX///3M\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Revision.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-04-27T21:40:21Z",
+      "side": 1,
+      "message": "Very slow way of computing a hash code, but perhaps less important than for Line since we have fewer",
+      "revId": "b182d67f845ed7ada22f9dc6f9d587b62ee8cf93",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIX///3E\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Revision.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-04-27T21:40:21Z",
+      "side": 1,
+      "message": "Drop overriding javadoc",
+      "revId": "b182d67f845ed7ada22f9dc6f9d587b62ee8cf93",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIX///3A\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Revision.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-04-27T21:40:21Z",
+      "side": 1,
+      "message": "Drop overriding javadoc",
+      "revId": "b182d67f845ed7ada22f9dc6f9d587b62ee8cf93",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIX///2o\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Revision.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-04-27T21:40:21Z",
+      "side": 1,
+      "message": "Drop overriding javadoc",
+      "revId": "b182d67f845ed7ada22f9dc6f9d587b62ee8cf93",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIX///20\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Revision.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-04-27T21:40:21Z",
+      "side": 1,
+      "message": "We should have a way to pass the encoding here",
+      "revId": "b182d67f845ed7ada22f9dc6f9d587b62ee8cf93",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn///YI\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/RevisionBuilder.java",
         "patchSetId": 8
@@ -149,6 +353,40 @@
       "writtenOn": "2011-05-06T14:18:52Z",
       "side": 1,
       "message": "I would prefer to set these defaults in the constructor.",
+      "revId": "b182d67f845ed7ada22f9dc6f9d587b62ee8cf93",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIX///2c\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/RevisionContainer.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-04-27T21:40:21Z",
+      "side": 1,
+      "message": "Is there a good reason for abandoning the java convention of 0-based indices and having ranges that include the start index, but not the end index?",
+      "revId": "b182d67f845ed7ada22f9dc6f9d587b62ee8cf93",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIX///2g\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/RevisionContainer.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-04-27T21:40:21Z",
+      "side": 1,
+      "message": "Drop overriding javadoc",
       "revId": "b182d67f845ed7ada22f9dc6f9d587b62ee8cf93",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
