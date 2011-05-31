@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOI3///wQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Line.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-05-13T23:11:55Z",
+      "side": 1,
+      "message": "I think  we will see fewer bugs in callers if the range works like other java ranges, i.e. the upper limit is NOT included in the range.",
+      "revId": "921679f2f2b000298bc09657d9da935239a1dc94",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOI3///wU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Revision.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-05-13T23:11:55Z",
+      "side": 1,
+      "message": "We should be able to use a non-default encoding here.",
+      "revId": "921679f2f2b000298bc09657d9da935239a1dc94",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
