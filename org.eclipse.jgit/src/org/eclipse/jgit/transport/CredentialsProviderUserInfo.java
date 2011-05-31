@@ -94,9 +94,9 @@ public class CredentialsProviderUserInfo implements UserInfo,
 	}
 
 	public boolean promptPassphrase(String msg) {
-		CredentialItem.StringType v = newPrompt(msg);
-		if (provider.get(uri, v)) {
-			passphrase = v.getValue();
+		CredentialItem.Password p = new CredentialItem.Password(msg);
+		if (provider.get(uri, p)) {
+			passphrase = new String(p.getValue());
 			return true;
 		} else {
 			passphrase = null;
@@ -113,10 +113,6 @@ public class CredentialsProviderUserInfo implements UserInfo,
 			password = null;
 			return false;
 		}
-	}
-
-	private CredentialItem.StringType newPrompt(String msg) {
-		return new CredentialItem.StringType(msg, true);
 	}
 
 	public boolean promptYesNo(String msg) {
