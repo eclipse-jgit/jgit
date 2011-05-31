@@ -56,7 +56,7 @@
   <artifactId>org.eclipse.jgit.updatesite</artifactId>
   <packaging>eclipse-update-site</packaging>
 
-  <name>Eclipse JGit Plugin Update Site (Incubation)</name>
+  <name>Eclipse JGit Plugin Update Site</name>
   <!-- see http://issues.sonatype.org/browse/TYCHO-313 -->
   <version>1.0.0-SNAPSHOT</version>
 

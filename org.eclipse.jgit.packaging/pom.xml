@@ -56,7 +56,7 @@
   <version>1.0.0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
-  <name>JGit Tycho Parent (Incubation)</name>
+  <name>JGit Tycho Parent</name>
 
   <properties>
     <tycho-version>0.12.0</tycho-version>

@@ -56,6 +56,6 @@
   <artifactId>org.eclipse.jgit.source.feature</artifactId>
   <packaging>eclipse-feature</packaging>
 
-  <name>JGit Source Feature (Incubation)</name>
+  <name>JGit Source Feature</name>
 
 </project>

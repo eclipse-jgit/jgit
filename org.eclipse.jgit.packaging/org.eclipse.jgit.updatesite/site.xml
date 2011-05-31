@@ -4,17 +4,17 @@
       This is a pure Java implementation of the Git version control system. The native Git version is also required in this version.
    </description>
    <feature url="features/org.eclipse.jgit_0.0.0.qualifier.jar" id="org.eclipse.jgit" version="0.0.0" patch="true">
-      <category name="JGit (Incubation)"/>
+      <category name="JGit"/>
    </feature>
    <feature url="features/org.eclipse.jgit.source_0.0.0.qualifier.jar" id="org.eclipse.jgit.source" version="0.0.0" patch="true">
-      <category name="JGit (Incubation)"/>
+      <category name="JGit"/>
    </feature>
    <feature url="features/org.eclipse.jgit.junit_0.0.0.qualifier.jar" id="org.eclipse.jgit.junit" version="0.0.0" patch="true">
-      <category name="JGit (Incubation)"/>
+      <category name="JGit"/>
    </feature>
-   <category-def name="JGit (Incubation)" label="JGit (Incubation)">
+   <category-def name="JGit" label="JGit">
       <description>
-         JGit (Incubation)
+         JGit
       </description>
    </category-def>
 </site>
