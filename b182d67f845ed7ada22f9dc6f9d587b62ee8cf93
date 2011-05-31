@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn///TE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/LineHistoryCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2011-05-07T16:51:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIX///2k\u003d",
+      "revId": "b182d67f845ed7ada22f9dc6f9d587b62ee8cf93",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIX///4A\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Line.java",
         "patchSetId": 8
@@ -53,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn///TA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Line.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2011-05-07T16:51:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIX///4I\u003d",
+      "revId": "b182d67f845ed7ada22f9dc6f9d587b62ee8cf93",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIX///3U\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Line.java",
         "patchSetId": 8
@@ -64,6 +100,24 @@
       "writtenOn": "2011-04-27T21:40:21Z",
       "side": 1,
       "message": "Drop overriding javadoc",
+      "revId": "b182d67f845ed7ada22f9dc6f9d587b62ee8cf93",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///S8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Line.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2011-05-07T16:51:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIX///3U\u003d",
       "revId": "b182d67f845ed7ada22f9dc6f9d587b62ee8cf93",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -87,6 +141,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn///S0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Line.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2011-05-07T16:51:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIX///4E\u003d",
+      "revId": "b182d67f845ed7ada22f9dc6f9d587b62ee8cf93",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIX///3Q\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Line.java",
         "patchSetId": 8
@@ -98,6 +170,24 @@
       "writtenOn": "2011-04-27T21:40:21Z",
       "side": 1,
       "message": "Drop overriding javadoc",
+      "revId": "b182d67f845ed7ada22f9dc6f9d587b62ee8cf93",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///S4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Line.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2011-05-07T16:51:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIX///3Q\u003d",
       "revId": "b182d67f845ed7ada22f9dc6f9d587b62ee8cf93",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -121,6 +211,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn///Sk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Revision.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2011-05-07T16:51:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIX///3I\u003d",
+      "revId": "b182d67f845ed7ada22f9dc6f9d587b62ee8cf93",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIX///3M\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Revision.java",
         "patchSetId": 8
@@ -138,6 +246,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn///So\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Revision.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2011-05-07T16:51:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIX///3M\u003d",
+      "revId": "b182d67f845ed7ada22f9dc6f9d587b62ee8cf93",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIX///3E\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Revision.java",
         "patchSetId": 8
@@ -149,6 +275,24 @@
       "writtenOn": "2011-04-27T21:40:21Z",
       "side": 1,
       "message": "Drop overriding javadoc",
+      "revId": "b182d67f845ed7ada22f9dc6f9d587b62ee8cf93",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///Ss\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Revision.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2011-05-07T16:51:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIX///3E\u003d",
       "revId": "b182d67f845ed7ada22f9dc6f9d587b62ee8cf93",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -189,6 +333,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn///Sg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Revision.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2011-05-07T16:51:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIX///2o\u003d",
+      "revId": "b182d67f845ed7ada22f9dc6f9d587b62ee8cf93",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIX///20\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Revision.java",
         "patchSetId": 8
@@ -223,6 +385,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn///Sc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/RevisionBuilder.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2011-05-07T16:51:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn///YI\u003d",
+      "revId": "b182d67f845ed7ada22f9dc6f9d587b62ee8cf93",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn///YE\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/RevisionBuilder.java",
         "patchSetId": 8
@@ -234,6 +414,24 @@
       "writtenOn": "2011-05-06T14:18:52Z",
       "side": 1,
       "message": "This should default to the default version.",
+      "revId": "b182d67f845ed7ada22f9dc6f9d587b62ee8cf93",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///SY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/RevisionBuilder.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2011-05-07T16:51:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn///YE\u003d",
       "revId": "b182d67f845ed7ada22f9dc6f9d587b62ee8cf93",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -359,6 +557,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn///SU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/RevisionBuilder.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2011-05-07T16:51:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn///YA\u003d",
+      "revId": "b182d67f845ed7ada22f9dc6f9d587b62ee8cf93",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIX///2c\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/RevisionContainer.java",
         "patchSetId": 8
@@ -376,6 +592,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn///SQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/RevisionContainer.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2011-05-07T16:51:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIX///2c\u003d",
+      "revId": "b182d67f845ed7ada22f9dc6f9d587b62ee8cf93",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIX///2g\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/RevisionContainer.java",
         "patchSetId": 8
@@ -387,6 +621,24 @@
       "writtenOn": "2011-04-27T21:40:21Z",
       "side": 1,
       "message": "Drop overriding javadoc",
+      "revId": "b182d67f845ed7ada22f9dc6f9d587b62ee8cf93",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///SM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/RevisionContainer.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2011-05-07T16:51:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIX///2g\u003d",
       "revId": "b182d67f845ed7ada22f9dc6f9d587b62ee8cf93",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
