@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOJX///Zw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CleanCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 2
+      },
+      "writtenOn": "2011-05-27T18:09:36Z",
+      "side": 1,
+      "message": "-1\n\nhave a boolean attribute dryRun with a corresponding setter\n\nin call(), only delete the file if dryRun is false",
+      "revId": "764da31e11f52a0a61aabc8d375e63513a57b880",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
