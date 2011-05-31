@@ -161,6 +161,24 @@
     },
     {
       "key": {
+        "uuid": "AABOI3///k0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/LineComparator.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2011-05-15T04:13:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOI3///wM\u003d",
+      "revId": "921679f2f2b000298bc09657d9da935239a1dc94",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOI3///wc\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/LineComparator.java",
         "patchSetId": 15
@@ -178,6 +196,24 @@
     },
     {
       "key": {
+        "uuid": "AABOI3///k4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/LineComparator.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2011-05-15T04:13:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOI3///wc\u003d",
+      "revId": "921679f2f2b000298bc09657d9da935239a1dc94",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOI3///wY\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Revision.java",
         "patchSetId": 15
@@ -189,6 +225,24 @@
       "writtenOn": "2011-05-13T23:11:55Z",
       "side": 1,
       "message": "Equals and hashCode don\u0027t match. this cannot work",
+      "revId": "921679f2f2b000298bc09657d9da935239a1dc94",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOI3///kw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Revision.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2011-05-15T04:13:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOI3///wY\u003d",
       "revId": "921679f2f2b000298bc09657d9da935239a1dc94",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
