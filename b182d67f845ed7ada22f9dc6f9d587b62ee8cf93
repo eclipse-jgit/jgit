@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn///YI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/RevisionBuilder.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-06T14:18:52Z",
+      "side": 1,
+      "message": "This should default to HistogramDiff.",
+      "revId": "b182d67f845ed7ada22f9dc6f9d587b62ee8cf93",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///YE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/RevisionBuilder.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-06T14:18:52Z",
+      "side": 1,
+      "message": "This should default to the default version.",
+      "revId": "b182d67f845ed7ada22f9dc6f9d587b62ee8cf93",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///Xs\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/RevisionBuilder.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-06T14:18:52Z",
+      "side": 1,
+      "message": "This crashes with ObjectTooLargeException if the object is more than the streaming threshold.",
+      "revId": "b182d67f845ed7ada22f9dc6f9d587b62ee8cf93",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///Xo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/RevisionBuilder.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-06T14:18:52Z",
+      "side": 1,
+      "message": "This is really expensive to do in Java. Creating an object for each Line, for each revision of that Line?\n\nThere is no way this will scale to blame a 100,000 line source file. But you need to make the code support that use case in Java.",
+      "revId": "b182d67f845ed7ada22f9dc6f9d587b62ee8cf93",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///X4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/RevisionBuilder.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-06T14:18:52Z",
+      "side": 1,
+      "message": "I hate this idea. We have to dig back to the very first version of a file in order to display *any* of its blame data. If the project is big enough, this can take several minutes just to compute buildRevisions(). Forget any of the other work you need to do.\n\nThat\u0027s why I wanted to do this incrementally.",
+      "revId": "b182d67f845ed7ada22f9dc6f9d587b62ee8cf93",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///Xw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/RevisionBuilder.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-06T14:18:52Z",
+      "side": 1,
+      "message": "So at this point, we have a LinkedList of commits from oldest-\u003enewest? Which means you are digging through the blame data from the original file up to the current version.\n\nWhich ignores my point I made earlier. Most users of `git blame` are using it to look at recent history and don\u0027t need data going back to the root. Starting from the root and working forwards to HEAD means the user has to wait for you to compute a bunch of stuff they don\u0027t need right now.",
+      "revId": "b182d67f845ed7ada22f9dc6f9d587b62ee8cf93",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///YA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/RevisionBuilder.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-06T14:18:52Z",
+      "side": 1,
+      "message": "I would prefer to set these defaults in the constructor.",
+      "revId": "b182d67f845ed7ada22f9dc6f9d587b62ee8cf93",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
