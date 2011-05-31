@@ -138,6 +138,24 @@
     },
     {
       "key": {
+        "uuid": "AABOJX///Zk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Line.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2011-05-27T18:29:53Z",
+      "side": 1,
+      "message": "Could you elaborate a little more on this comment?",
+      "parentUuid": "AABOJX///bY\u003d",
+      "revId": "52a7f58f9d2f5aa5628a214f964223403b8f22d0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOJX///b0\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Line.java",
         "patchSetId": 23
@@ -149,6 +167,42 @@
       "writtenOn": "2011-05-27T16:59:21Z",
       "side": 1,
       "message": "^ shouldn\u0027t always be true here. Some lines will be blamed onto the commit, at which point ^ isn\u0027t the right annotation for it.",
+      "revId": "52a7f58f9d2f5aa5628a214f964223403b8f22d0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJX///Zo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Line.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2011-05-27T18:29:53Z",
+      "side": 1,
+      "message": "Could you elaborate a little more on this comment?",
+      "parentUuid": "AABOJX///b0\u003d",
+      "revId": "52a7f58f9d2f5aa5628a214f964223403b8f22d0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJX///Yc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/Line.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2011-05-27T21:50:15Z",
+      "side": 1,
+      "message": "Never mind, I now understand what you mean, apologies.",
+      "parentUuid": "AABOJX///Zo\u003d",
       "revId": "52a7f58f9d2f5aa5628a214f964223403b8f22d0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
