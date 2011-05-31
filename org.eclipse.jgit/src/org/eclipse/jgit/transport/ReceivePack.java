@@ -825,6 +825,7 @@ public class ReceivePack {
 			parser.setAllowThin(true);
 			parser.setNeedNewObjectIds(checkReferencedIsReachable);
 			parser.setNeedBaseObjectIds(checkReferencedIsReachable);
+			parser.setCheckEofAfterPackFooter(!biDirectionalPipe);
 			parser.setObjectChecking(isCheckReceivedObjects());
 			parser.setLockMessage(lockMsg);
 			packLock = parser.parse(receiving, resolving);
