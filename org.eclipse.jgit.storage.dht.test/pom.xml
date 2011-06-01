@@ -50,7 +50,7 @@
   <parent>
     <groupId>org.eclipse.jgit</groupId>
     <artifactId>org.eclipse.jgit-parent</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0.201106011211-rc3</version>
   </parent>
 
   <artifactId>org.eclipse.jgit.storage.dht.test</artifactId>
