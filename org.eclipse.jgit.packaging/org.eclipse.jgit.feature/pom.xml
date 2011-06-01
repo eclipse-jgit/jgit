@@ -56,7 +56,7 @@
   <artifactId>org.eclipse.jgit.feature</artifactId>
   <packaging>eclipse-feature</packaging>
 
-  <name>JGit Feature (Incubation)</name>
+  <name>JGit Feature</name>
 
   <dependencies>
     <dependency>
