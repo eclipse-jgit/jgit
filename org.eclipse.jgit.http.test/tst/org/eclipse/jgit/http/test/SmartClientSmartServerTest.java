@@ -89,6 +89,7 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.storage.file.ReflogEntry;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.storage.file.FileRepository;
 import org.eclipse.jgit.storage.file.ReflogReader;
@@ -558,7 +559,7 @@ public class SmartClientSmartServerTest extends HttpTestCase {
 		final ReflogReader log = remoteRepository.getReflogReader(dstName);
 		assertNotNull("has log for " + dstName);
 
-		final ReflogReader.Entry last = log.getLastEntry();
+		final ReflogEntry last = log.getLastEntry();
 		assertNotNull("has last entry", last);
 		assertEquals(ObjectId.zeroId(), last.getOldId());
 		assertEquals(Q, last.getNewId());

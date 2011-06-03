@@ -1,6 +1,5 @@
 /*
- * Copyright (C) 2009, Robin Rosenberg
- * Copyright (C) 2009, Robin Rosenberg <robin.rosenberg@dewire.com>
+ * Copyright (C) 2011, Chris Aniszczyk <caniszczyk@gmail.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -41,74 +40,51 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+package org.eclipse.jgit.api;
 
-package org.eclipse.jgit.storage.file;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.Collection;
 
-import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.util.IO;
-import org.eclipse.jgit.util.RawParseUtils;
+import org.eclipse.jgit.lib.RepositoryTestCase;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.storage.file.ReflogEntry;
+import org.junit.Before;
+import org.junit.Test;
 
-/**
- * Utility for reading reflog entries
- */
-public class ReflogReader {
-	private File logName;
+public class ReflogCommandTest extends RepositoryTestCase {
 
-	/**
-	 * @param db
-	 * @param refname
-	 */
-	public ReflogReader(Repository db, String refname) {
-		logName = new File(db.getDirectory(), "logs/" + refname);
+	private Git git;
+
+	private RevCommit commit1, commit2;
+
+	private static final String FILE = "test.txt";
+
+	@Override
+	@Before
+	public void setUp() throws Exception {
+		super.setUp();
+
+		git = new Git(db);
+		// commit something
+		writeTrashFile(FILE, "Hello world");
+		git.add().addFilepattern(FILE).call();
+		commit1 = git.commit().setMessage("Initial commit").call();
+		git.rm().addFilepattern(FILE).call();
+		commit2 = git.commit().setMessage("Removed file").call();
+		git.notesAdd().setObjectId(commit1)
+				.setMessage("data").call();
 	}
 
-	/**
-	 * Get the last entry in the reflog
-	 *
-	 * @return the latest reflog entry, or null if no log
-	 * @throws IOException
-	 */
-	public ReflogEntry getLastEntry() throws IOException {
-		List<ReflogEntry> entries = getReverseEntries(1);
-		return entries.size() > 0 ? entries.get(0) : null;
+	@Test
+	public void testReflog() throws Exception {
+		Collection<ReflogEntry> reflog = git.reflog().call();
+		assertTrue(reflog.size() == 2);
+		ReflogEntry[] reflogs = reflog.toArray(new ReflogEntry[reflog.size()]);
+		assertEquals(reflogs[1].getComment(), "commit: Initial commit");
+		assertEquals(reflogs[0].getNewId(), commit2.getId());
+		assertEquals(reflogs[0].getOldId(), commit1.getId());
 	}
 
-	/**
-	 * @return all reflog entries in reverse order
-	 * @throws IOException
-	 */
-	public List<ReflogEntry> getReverseEntries() throws IOException {
-		return getReverseEntries(Integer.MAX_VALUE);
-	}
-
-	/**
-	 * @param max
-	 *            max numer of entries to read
-	 * @return all reflog entries in reverse order
-	 * @throws IOException
-	 */
-	public List<ReflogEntry> getReverseEntries(int max) throws IOException {
-		final byte[] log;
-		try {
-			log = IO.readFully(logName);
-		} catch (FileNotFoundException e) {
-			return Collections.emptyList();
-		}
-
-		int rs = RawParseUtils.prevLF(log, log.length);
-		List<ReflogEntry> ret = new ArrayList<ReflogEntry>();
-		while (rs >= 0 && max-- > 0) {
-			rs = RawParseUtils.prevLF(log, rs);
-			ReflogEntry entry = new ReflogEntry(log, rs < 0 ? 0 : rs + 2);
-			ret.add(entry);
-		}
-		return ret;
-	}
 }

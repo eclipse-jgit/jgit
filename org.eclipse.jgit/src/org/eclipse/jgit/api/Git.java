@@ -469,6 +469,19 @@ public class Git {
 	}
 
 	/**
+	 * Returns a command object to execute a {@code reflog} command
+	 * 
+	 * @see <a
+	 *      href="http://www.kernel.org/pub/software/scm/git/docs/git-reflog.html"
+	 *      >Git documentation about reflog</a>
+	 * @return a {@link ReflogCommand} used to collect all optional parameters
+	 *         and to finally execute the {@code reflog} command
+	 */
+	public ReflogCommand reflog() {
+		return new ReflogCommand(repo);
+	}
+
+	/**
 	 * @return the git repository this class is interacting with
 	 */
 	public Repository getRepository() {

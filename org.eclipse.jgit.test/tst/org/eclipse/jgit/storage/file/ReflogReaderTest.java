@@ -57,7 +57,6 @@ import java.util.List;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.SampleDataRepositoryTestCase;
-import org.eclipse.jgit.storage.file.ReflogReader.Entry;
 import org.junit.Test;
 
 public class ReflogReaderTest extends SampleDataRepositoryTestCase {
@@ -91,7 +90,7 @@ public class ReflogReaderTest extends SampleDataRepositoryTestCase {
 		setupReflog("logs/refs/heads/master", oneLine);
 
 		ReflogReader reader = new ReflogReader(db, "refs/heads/master");
-		Entry e = reader.getLastEntry();
+		ReflogEntry e = reader.getLastEntry();
 		assertEquals(ObjectId
 				.fromString("da85355dfc525c9f6f3927b876f379f46ccf826e"), e
 				.getOldId());
@@ -118,9 +117,9 @@ public class ReflogReaderTest extends SampleDataRepositoryTestCase {
 		setupReflog("logs/refs/heads/master", twoLine);
 
 		ReflogReader reader = new ReflogReader(db, "refs/heads/master");
-		List<Entry> reverseEntries = reader.getReverseEntries();
+		List<ReflogEntry> reverseEntries = reader.getReverseEntries();
 		assertEquals(2, reverseEntries.size());
-		Entry e = reverseEntries.get(0);
+		ReflogEntry e = reverseEntries.get(0);
 		assertEquals(ObjectId
 				.fromString("c6734895958052a9dbc396cff4459dc1a25029ab"), e
 				.getOldId());
@@ -153,9 +152,9 @@ public class ReflogReaderTest extends SampleDataRepositoryTestCase {
 	public void testReadWhileAppendIsInProgress() throws Exception {
 		setupReflog("logs/refs/heads/master", twoLineWithAppendInProgress);
 		ReflogReader reader = new ReflogReader(db, "refs/heads/master");
-		List<Entry> reverseEntries = reader.getReverseEntries();
+		List<ReflogEntry> reverseEntries = reader.getReverseEntries();
 		assertEquals(2, reverseEntries.size());
-		Entry e = reverseEntries.get(0);
+		ReflogEntry e = reverseEntries.get(0);
 		assertEquals(ObjectId
 				.fromString("c6734895958052a9dbc396cff4459dc1a25029ab"), e
 				.getOldId());
@@ -191,7 +190,7 @@ public class ReflogReaderTest extends SampleDataRepositoryTestCase {
 	public void testReadLineWithMissingComment() throws Exception {
 		setupReflog("logs/refs/heads/master", oneLineWithoutComment);
 		final ReflogReader reader = db.getReflogReader("master");
-		Entry e = reader.getLastEntry();
+		ReflogEntry e = reader.getLastEntry();
 		assertEquals(ObjectId
 				.fromString("da85355dfc525c9f6f3927b876f379f46ccf826e"), e
 				.getOldId());

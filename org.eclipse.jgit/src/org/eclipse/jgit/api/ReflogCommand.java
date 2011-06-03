@@ -1,6 +1,5 @@
 /*
- * Copyright (C) 2009, Robin Rosenberg
- * Copyright (C) 2009, Robin Rosenberg <robin.rosenberg@dewire.com>
+ * Copyright (C) 2011, Chris Aniszczyk <caniszczyk@gmail.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -41,74 +40,60 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+package org.eclipse.jgit.api;
 
-package org.eclipse.jgit.storage.file;
-
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.text.MessageFormat;
+import java.util.Collection;
 
+import org.eclipse.jgit.JGitText;
+import org.eclipse.jgit.api.errors.InvalidRemoteException;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.util.IO;
-import org.eclipse.jgit.util.RawParseUtils;
+import org.eclipse.jgit.storage.file.ReflogEntry;
+import org.eclipse.jgit.storage.file.ReflogReader;
 
 /**
- * Utility for reading reflog entries
+ * The reflog command
+ *
+ * @see <a
+ *      href="http://www.kernel.org/pub/software/scm/git/docs/git-reflog.html"
+ *      >Git documentation about reflog</a>
  */
-public class ReflogReader {
-	private File logName;
+public class ReflogCommand extends GitCommand<Collection<ReflogEntry>> {
+
+	private String ref = Constants.R_HEADS + Constants.MASTER;
 
 	/**
-	 * @param db
-	 * @param refname
+	 * @param repo
 	 */
-	public ReflogReader(Repository db, String refname) {
-		logName = new File(db.getDirectory(), "logs/" + refname);
+	public ReflogCommand(Repository repo) {
+		super(repo);
 	}
 
 	/**
-	 * Get the last entry in the reflog
-	 *
-	 * @return the latest reflog entry, or null if no log
-	 * @throws IOException
+	 * The refused for the reflog operation. If no ref is set, the default value
+	 * of refs/heads/master will be used.
+	 * 
+	 * @param ref
+	 * @return {@code this}
 	 */
-	public ReflogEntry getLastEntry() throws IOException {
-		List<ReflogEntry> entries = getReverseEntries(1);
-		return entries.size() > 0 ? entries.get(0) : null;
+	public ReflogCommand setRef(String ref) {
+		checkCallable();
+		this.ref = ref;
+		return this;
 	}
 
-	/**
-	 * @return all reflog entries in reverse order
-	 * @throws IOException
-	 */
-	public List<ReflogEntry> getReverseEntries() throws IOException {
-		return getReverseEntries(Integer.MAX_VALUE);
-	}
+	public Collection<ReflogEntry> call() throws Exception {
+		checkCallable();
 
-	/**
-	 * @param max
-	 *            max numer of entries to read
-	 * @return all reflog entries in reverse order
-	 * @throws IOException
-	 */
-	public List<ReflogEntry> getReverseEntries(int max) throws IOException {
-		final byte[] log;
 		try {
-			log = IO.readFully(logName);
-		} catch (FileNotFoundException e) {
-			return Collections.emptyList();
+			ReflogReader reader = new ReflogReader(repo, ref);
+			return reader.getReverseEntries();
+		} catch (IOException e) {
+			throw new InvalidRemoteException(MessageFormat.format(
+					JGitText.get().cannotRead, ref));
 		}
-
-		int rs = RawParseUtils.prevLF(log, log.length);
-		List<ReflogEntry> ret = new ArrayList<ReflogEntry>();
-		while (rs >= 0 && max-- > 0) {
-			rs = RawParseUtils.prevLF(log, rs);
-			ReflogEntry entry = new ReflogEntry(log, rs < 0 ? 0 : rs + 2);
-			ret.add(entry);
-		}
-		return ret;
 	}
+
 }
