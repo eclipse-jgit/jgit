@@ -152,4 +152,13 @@ public class CLIText extends TranslationBundle {
 	/***/ public String unknownMergeStratey;
 	/***/ public String unsupportedOperation;
 	/***/ public String warningNoCommitGivenOnCommandLine;
+
+	/***/ public String newFile;
+	/***/ public String modified;
+	/***/ public String removed;
+	/***/ public String untracked;
+	/***/ public String toBeCommitted;
+	/***/ public String notStagedForCommit;
+	/***/ public String untrackedFiles;
+	/***/ public String summaryStatus;
 }
