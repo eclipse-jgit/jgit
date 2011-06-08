@@ -55,7 +55,7 @@ import org.eclipse.jgit.lib.ObjectId;
 
 /** Identifies an ObjectId in the DHT. */
 public final class ObjectIndexKey extends ObjectId implements RowKey {
-	private static final int KEYLEN = 52;
+	private static final int KEYLEN = 49;
 
 	/**
 	 * @param repo
@@ -75,8 +75,8 @@ public final class ObjectIndexKey extends ObjectId implements RowKey {
 			throw new IllegalArgumentException(MessageFormat.format(
 					DhtText.get().invalidChunkKey, decode(key)));
 
-		int repo = parse32(key, 3);
-		ObjectId id = ObjectId.fromString(key, 12);
+		int repo = parse32(key, 0);
+		ObjectId id = ObjectId.fromString(key, 9);
 		return new ObjectIndexKey(repo, id);
 	}
 
@@ -106,13 +106,9 @@ public final class ObjectIndexKey extends ObjectId implements RowKey {
 
 	public byte[] asBytes() {
 		byte[] r = new byte[KEYLEN];
-		copyTo(r, 12);
-		format32(r, 3, repo);
-		// bucket is the leading 2 digits of the SHA-1.
-		r[11] = '.';
-		r[2] = '.';
-		r[1] = r[12 + 1];
-		r[0] = r[12 + 0];
+		format32(r, 0, repo);
+		r[8] = '.';
+		copyTo(r, 9);
 		return r;
 	}
 

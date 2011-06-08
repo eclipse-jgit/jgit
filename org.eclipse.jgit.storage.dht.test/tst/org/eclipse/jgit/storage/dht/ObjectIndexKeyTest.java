@@ -58,19 +58,19 @@ public class ObjectIndexKeyTest {
 		ObjectIndexKey key1 = ObjectIndexKey.create(repo, id);
 		assertEquals(repo.asInt(), key1.getRepositoryId());
 		assertEquals(key1, id);
-		assertEquals("3e.41234567.3e64b928d51b3a28e89cfe2a3f0eeae35ef07839",
+		assertEquals("41234567.3e64b928d51b3a28e89cfe2a3f0eeae35ef07839",
 				key1.asString());
 
 		ObjectIndexKey key2 = ObjectIndexKey.fromBytes(key1.asBytes());
 		assertEquals(repo.asInt(), key2.getRepositoryId());
 		assertEquals(key2, id);
-		assertEquals("3e.41234567.3e64b928d51b3a28e89cfe2a3f0eeae35ef07839",
+		assertEquals("41234567.3e64b928d51b3a28e89cfe2a3f0eeae35ef07839",
 				key2.asString());
 
 		ObjectIndexKey key3 = ObjectIndexKey.fromString(key1.asString());
 		assertEquals(repo.asInt(), key3.getRepositoryId());
 		assertEquals(key3, id);
-		assertEquals("3e.41234567.3e64b928d51b3a28e89cfe2a3f0eeae35ef07839",
+		assertEquals("41234567.3e64b928d51b3a28e89cfe2a3f0eeae35ef07839",
 				key3.asString());
 	}
 }

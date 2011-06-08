@@ -43,7 +43,8 @@
 
 package org.eclipse.jgit.storage.dht;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Test;
@@ -59,19 +60,19 @@ public class ChunkKeyTest {
 		ChunkKey key1 = ChunkKey.create(repo1, id);
 		assertEquals(repo1.asInt(), key1.getRepositoryId());
 		assertEquals(id, key1.getChunkHash());
-		assertEquals("3e.41234567.3e64b928d51b3a28e89cfe2a3f0eeae35ef07839",
+		assertEquals("41234567.3e64b928d51b3a28e89cfe2a3f0eeae35ef07839",
 				key1.asString());
 
 		ChunkKey key2 = ChunkKey.fromBytes(key1.asBytes());
 		assertEquals(repo1.asInt(), key2.getRepositoryId());
 		assertEquals(id, key2.getChunkHash());
-		assertEquals("3e.41234567.3e64b928d51b3a28e89cfe2a3f0eeae35ef07839",
+		assertEquals("41234567.3e64b928d51b3a28e89cfe2a3f0eeae35ef07839",
 				key2.asString());
 
 		ChunkKey key3 = ChunkKey.fromString(key1.asString());
 		assertEquals(repo1.asInt(), key3.getRepositoryId());
 		assertEquals(id, key3.getChunkHash());
-		assertEquals("3e.41234567.3e64b928d51b3a28e89cfe2a3f0eeae35ef07839",
+		assertEquals("41234567.3e64b928d51b3a28e89cfe2a3f0eeae35ef07839",
 				key3.asString());
 
 		assertEquals(key1, key2);
