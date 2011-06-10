@@ -44,6 +44,7 @@
 package org.eclipse.jgit.storage.dht;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
@@ -57,6 +58,8 @@ final class RecentChunks {
 
 	private final int maxSize;
 
+	private final HashMap<ChunkKey, Node> byKey;
+
 	private int curSize;
 
 	private Node lruHead;
@@ -67,36 +70,36 @@ final class RecentChunks {
 		this.reader = reader;
 		this.stats = reader.getStatistics();
 		this.maxSize = reader.getOptions().getRecentChunkCacheSize();
+		this.byKey = new HashMap<ChunkKey, Node>();
 	}
 
 	PackChunk get(ChunkKey key) {
-		for (Node n = lruHead; n != null; n = n.next) {
-			if (key.equals(n.chunk.getChunkKey())) {
-				hit(n);
-				stats.recentChunks_Hits++;
-				return n.chunk;
-			}
+		Node n = byKey.get(key);
+		if (n != null) {
+			hit(n);
+			stats.recentChunks_Hits++;
+			return n.chunk;
 		}
 		stats.recentChunks_Miss++;
 		return null;
 	}
 
 	void put(PackChunk chunk) {
-		for (Node n = lruHead; n != null; n = n.next) {
-			if (n.chunk == chunk) {
-				hit(n);
-				return;
-			}
+		Node n = byKey.get(chunk.getChunkKey());
+		if (n != null && n.chunk == chunk) {
+			hit(n);
+			return;
 		}
 
-		Node n;
 		if (curSize < maxSize) {
 			n = new Node();
 			curSize++;
 		} else {
 			n = lruTail;
+			byKey.remove(n.chunk.getChunkKey());
 		}
 		n.chunk = chunk;
+		byKey.put(chunk.getChunkKey(), n);
 		hit(n);
 	}
 
@@ -167,6 +170,7 @@ final class RecentChunks {
 		curSize = 0;
 		lruHead = null;
 		lruTail = null;
+		byKey.clear();
 	}
 
 	private void hit(Node n) {
