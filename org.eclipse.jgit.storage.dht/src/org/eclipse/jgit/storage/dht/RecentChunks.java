@@ -56,11 +56,11 @@ final class RecentChunks {
 
 	private final DhtReader.Statistics stats;
 
-	private final int maxSize;
-
 	private final HashMap<ChunkKey, Node> byKey;
 
-	private int curSize;
+	private int maxBytes;
+
+	private int curBytes;
 
 	private Node lruHead;
 
@@ -69,8 +69,16 @@ final class RecentChunks {
 	RecentChunks(DhtReader reader) {
 		this.reader = reader;
 		this.stats = reader.getStatistics();
-		this.maxSize = reader.getOptions().getRecentChunkCacheSize();
 		this.byKey = new HashMap<ChunkKey, Node>();
+		this.maxBytes = reader.getOptions().getChunkLimit();
+	}
+
+	void setMaxBytes(int newMax) {
+		maxBytes = Math.max(0, newMax);
+		if (0 < maxBytes)
+			prune();
+		else
+			clear();
 	}
 
 	PackChunk get(ChunkKey key) {
@@ -91,16 +99,26 @@ final class RecentChunks {
 			return;
 		}
 
-		if (curSize < maxSize) {
-			n = new Node();
-			curSize++;
-		} else {
-			n = lruTail;
-			byKey.remove(n.chunk.getChunkKey());
-		}
+		curBytes += chunk.getTotalSize();
+		prune();
+
+		n = new Node();
 		n.chunk = chunk;
 		byKey.put(chunk.getChunkKey(), n);
-		hit(n);
+		first(n);
+	}
+
+	private void prune() {
+		while (maxBytes < curBytes) {
+			Node n = lruTail;
+			if (n == null)
+				break;
+
+			PackChunk c = n.chunk;
+			curBytes -= c.getTotalSize();
+			byKey.remove(c.getChunkKey());
+			remove(n);
+		}
 	}
 
 	ObjectLoader open(RepositoryKey repo, AnyObjectId objId, int typeHint)
@@ -167,7 +185,7 @@ final class RecentChunks {
 	}
 
 	void clear() {
-		curSize = 0;
+		curBytes = 0;
 		lruHead = null;
 		lruTail = null;
 		byKey.clear();

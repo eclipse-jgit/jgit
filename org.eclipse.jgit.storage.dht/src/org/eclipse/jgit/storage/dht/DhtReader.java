@@ -156,6 +156,10 @@ public class DhtReader extends ObjectReader implements ObjectReuseAsIs {
 		return recentInfo;
 	}
 
+	RecentChunks getRecentChunks() {
+		return recentChunks;
+	}
+
 	DeltaBaseCache getDeltaBaseCache() {
 		return deltaBaseCache;
 	}
@@ -242,7 +246,7 @@ public class DhtReader extends ObjectReader implements ObjectReuseAsIs {
 		// configured as push might invoke our own methods that may
 		// try to call back into the active prefetcher.
 		//
-		Prefetcher p = new Prefetcher(this, OBJ_COMMIT);
+		Prefetcher p = prefetch(OBJ_COMMIT, readerOptions.getWalkCommitsPrefetchRatio());
 		p.push(this, roots);
 		prefetcher = p;
 	}
@@ -256,7 +260,7 @@ public class DhtReader extends ObjectReader implements ObjectReuseAsIs {
 		// configured as push might invoke our own methods that may
 		// try to call back into the active prefetcher.
 		//
-		Prefetcher p = new Prefetcher(this, OBJ_TREE);
+		Prefetcher p = prefetch(OBJ_TREE, readerOptions.getWalkTreesPrefetchRatio());
 		p.push(this, min.getTree(), max.getTree());
 		prefetcher = p;
 	}
@@ -391,14 +395,22 @@ public class DhtReader extends ObjectReader implements ObjectReuseAsIs {
 		new RepresentationSelector(packer, this, monitor).select(itr);
 	}
 
+	private Prefetcher prefetch(final int type, final int ratio) {
+		int limit = readerOptions.getChunkLimit();
+		int prefetchLimit = (int) (limit * (ratio / 100.0));
+		recentChunks.setMaxBytes(limit - prefetchLimit);
+		return new Prefetcher(this, type, prefetchLimit);
+	}
+
 	private void endPrefetch() {
+		recentChunks.setMaxBytes(getOptions().getChunkLimit());
 		prefetcher = null;
 	}
 
 	@SuppressWarnings("unchecked")
 	public void writeObjects(PackOutputStream out, List<ObjectToPack> objects)
 			throws IOException {
-		prefetcher = new Prefetcher(this, 0);
+		prefetcher = prefetch(0, readerOptions.getWriteObjectsPrefetchRatio());
 		try {
 			List itr = objects;
 			new ObjectWriter(this, prefetcher).plan(itr);
