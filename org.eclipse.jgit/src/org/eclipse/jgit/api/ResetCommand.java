@@ -269,6 +269,10 @@ public class ResetCommand extends GitCommand<Ref> {
 			tw.setFilter(PathFilterGroup.createFromStrings(filepaths));
 
 			while (tw.next()) {
+				if (tw.isSubtree()) {
+					tw.enterSubtree();
+					continue;
+				}
 				final String path = tw.getPathString();
 				// DirCacheIterator dci = tw.getTree(0, DirCacheIterator.class);
 				final CanonicalTreeParser tree = tw.getTree(1,
