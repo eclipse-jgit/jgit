@@ -240,7 +240,7 @@ public class DhtReaderOptions {
 	 * @return {@code this}
 	 */
 	public DhtReaderOptions setRecentChunkCacheSize(int chunkCnt) {
-		recentChunkCacheSize = Math.max(0, chunkCnt);
+		recentChunkCacheSize = Math.max(1, chunkCnt);
 		return this;
 	}
 
