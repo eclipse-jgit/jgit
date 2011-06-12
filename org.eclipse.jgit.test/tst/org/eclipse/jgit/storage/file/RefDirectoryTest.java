@@ -61,6 +61,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 
+import org.eclipse.jgit.events.ListenerHandle;
+import org.eclipse.jgit.events.RefsChangedEvent;
+import org.eclipse.jgit.events.RefsChangedListener;
 import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.AnyObjectId;
@@ -463,6 +466,33 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 		assertEquals(2, refs.size());
 		assertEquals(A, refs.get("refs/heads/project1/A").getObjectId());
 		assertEquals(B, refs.get("refs/heads/project1-B").getObjectId());
+	}
+
+	@Test
+	public void testGetRefs_LooseSorting_Bug_348834() throws IOException {
+		Map<String, Ref> refs;
+
+		writeLooseRef("refs/heads/my/a+b", A);
+		writeLooseRef("refs/heads/my/a/b/c", B);
+
+		final int[] count = new int[1];
+
+		ListenerHandle listener = Repository.getGlobalListenerList()
+				.addRefsChangedListener(new RefsChangedListener() {
+
+					public void onRefsChanged(RefsChangedEvent event) {
+						count[0]++;
+					}
+				});
+
+		refs = refdir.getRefs(RefDatabase.ALL);
+		refs = refdir.getRefs(RefDatabase.ALL);
+		assertEquals(1, count[0]); // Bug 348834 multiple RefsChangedEvents
+		listener.remove();
+		assertEquals(2, refs.size());
+		assertEquals(A, refs.get("refs/heads/my/a+b").getObjectId());
+		assertEquals(B, refs.get("refs/heads/my/a/b/c").getObjectId());
+
 	}
 
 	@Test

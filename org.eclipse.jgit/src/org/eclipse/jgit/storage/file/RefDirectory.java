@@ -71,6 +71,8 @@ import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.text.MessageFormat;
 import java.util.Arrays;
+import java.util.Comparator;
+import java.util.IdentityHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -381,14 +383,34 @@ public class RefDirectory extends RefDatabase {
 		}
 
 		private boolean scanTree(String prefix, File dir) {
+			final Map<String, File> directories = new IdentityHashMap<String, File>();
 			final String[] entries = dir.list(LockFile.FILTER);
 			if (entries == null) // not a directory or an I/O error
 				return false;
 			if (0 < entries.length) {
-				Arrays.sort(entries);
+				for (String f : entries) {
+					File e = new File(dir, f);
+					if (e.isDirectory())
+						directories.put(f, e);
+				}
+				Arrays.sort(entries, new Comparator<String>() {
+					public int compare(String o1, String o2) {
+						File f1 = directories.get(o1);
+						File f2 = directories.get(o2);
+						if (f1 == null && f2 == null)
+							return o1.compareTo(o2);
+						if (f1 != null && f2 != null)
+							return o1.compareTo(o2);
+						String s1 = f1 == null ? o1 : o1 + "/";
+						String s2 = f2 == null ? o2 : o2 + "/";
+						return s1.compareTo(s2);
+					}
+				});
 				for (String name : entries) {
-					File e = new File(dir, name);
-					if (!scanTree(prefix + name + '/', e))
+					File e = directories.get(name);
+					if (e != null)
+						scanTree(prefix + name + "/", e);
+					else
 						scanOne(prefix + name);
 				}
 			}
