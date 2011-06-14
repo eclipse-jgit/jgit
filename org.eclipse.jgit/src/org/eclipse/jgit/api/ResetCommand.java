@@ -54,7 +54,6 @@ import org.eclipse.jgit.dircache.DirCacheBuilder;
 import org.eclipse.jgit.dircache.DirCacheCheckout;
 import org.eclipse.jgit.dircache.DirCacheEditor;
 import org.eclipse.jgit.dircache.DirCacheEntry;
-import org.eclipse.jgit.dircache.DirCacheIterator;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
@@ -63,9 +62,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryState;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.eclipse.jgit.treewalk.CanonicalTreeParser;
 import org.eclipse.jgit.treewalk.TreeWalk;
-import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
 
 /**
  * A class used to execute a {@code Reset} command. It has setters for all
@@ -263,26 +260,19 @@ public class ResetCommand extends GitCommand<Ref> {
 			dc = repo.lockDirCache();
 			edit = dc.editor();
 
-			final TreeWalk tw = new TreeWalk(repo);
-			tw.addTree(new DirCacheIterator(dc));
-			tw.addTree(commit.getTree());
-			tw.setFilter(PathFilterGroup.createFromStrings(filepaths));
-
-			while (tw.next()) {
-				final String path = tw.getPathString();
-				// DirCacheIterator dci = tw.getTree(0, DirCacheIterator.class);
-				final CanonicalTreeParser tree = tw.getTree(1,
-						CanonicalTreeParser.class);
-				if (tree == null)
+			for (String filepath : filepaths) {
+				final TreeWalk tw = TreeWalk.forPath(repo, filepath,
+						commit.getTree());
+				if (tw == null)
 					// file is not in the commit, remove from index
-					edit.add(new DirCacheEditor.DeletePath(path));
+					edit.add(new DirCacheEditor.DeletePath(filepath));
 				else {
-					// revert index to commit
-					edit.add(new DirCacheEditor.PathEdit(path) {
+					edit.add(new DirCacheEditor.PathEdit(filepath) {
 						@Override
 						public void apply(DirCacheEntry ent) {
-							ent.setFileMode(tree.getEntryFileMode());
-							ent.setObjectId(tree.getEntryObjectId());
+							ent.setFileMode(tw.getFileMode(0));
+							ent.setObjectId(tw.getObjectId(0));
+							// for index & working tree compare
 							ent.setLastModified(0);
 						}
 					});
