@@ -717,8 +717,8 @@ public final class RawParseUtils {
 				(emailE >= raw.length - 1 && raw[emailE - 1] != '>'))
 			return null;
 
-		final int nameEnd = emailB - 2 >= 0 && raw[emailB - 2] == ' ' ? emailB - 2
-				: emailB - 1;
+		final int nameEnd = emailB - 2 >= nameB && raw[emailB - 2] == ' ' ?
+				emailB - 2 : emailB - 1;
 		final String name = decode(cs, raw, nameB, nameEnd);
 		final String email = decode(cs, raw, emailB, emailE - 1);
 
