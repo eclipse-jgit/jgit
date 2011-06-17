@@ -170,9 +170,11 @@ public class RevWalk implements Iterable<RevCommit> {
 
 	final MutableObjectId idBuffer;
 
-	private ObjectIdOwnerMap<RevObject> objects;
+	/** The set of objects which have already been parsed */
+	protected ObjectIdOwnerMap<RevObject> objects;
 
-	private int freeFlags = APP_FLAGS;
+	/** Bits which indicate flags that are still available for allocation */
+	protected int freeFlags = APP_FLAGS;
 
 	private int delayFreeFlags;
 
