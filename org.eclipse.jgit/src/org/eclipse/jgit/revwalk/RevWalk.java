@@ -1284,11 +1284,19 @@ public class RevWalk implements Iterable<RevCommit> {
 	 * @return a new walk, using the exact same object pool.
 	 */
 	public ObjectWalk toObjectWalkWithSameObjects() {
-		ObjectWalk ow = new ObjectWalk(reader);
-		RevWalk rw = ow;
+		return toObjectWalkWithSameObjects(new ObjectWalk(reader));
+	}
+
+	/**
+	 * Return an {@link ObjectWalk} using the same objects.
+	 *
+	 * @return a new walk, using the exact same object pool.
+	 */
+	protected <T extends ObjectWalk> T toObjectWalkWithSameObjects(T dst) {
+		RevWalk rw = dst;
 		rw.objects = objects;
 		rw.freeFlags = freeFlags;
-		return ow;
+		return dst;
 	}
 
 	/**

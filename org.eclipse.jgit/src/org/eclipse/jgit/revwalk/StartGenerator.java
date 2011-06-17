@@ -126,49 +126,65 @@ class StartGenerator extends Generator {
 			pending = (DateRevQueue)q;
 		else
 			pending = new DateRevQueue(q);
-		if (tf != TreeFilter.ALL) {
-			rf = AndRevFilter.create(rf, new RewriteTreeFilter(w, tf));
-			pendingOutputType |= HAS_REWRITE | NEEDS_REWRITE;
-		}
+		if (w instanceof DepthRevWalk || w instanceof DepthObjectWalk) {
+			int depth;
+			final RevFlag SHALLOW;
+			final RevFlag BOUNDARY;
+			if (w instanceof DepthRevWalk) {
+				depth = ((DepthRevWalk)w).getDepth();
+				SHALLOW = ((DepthRevWalk)w).SHALLOW;
+				BOUNDARY = null;
+			} else {
+				depth = ((DepthObjectWalk)w).getDepth();
+				SHALLOW = ((DepthObjectWalk)w).SHALLOW;
+				BOUNDARY = ((DepthObjectWalk)w).BOUNDARY;
+			}
+			g = new DepthGenerator(w, depth, SHALLOW, BOUNDARY, pending);
+		} else {
+			if (tf != TreeFilter.ALL) {
+				rf = AndRevFilter.create(rf, new RewriteTreeFilter(w, tf));
+				pendingOutputType |= HAS_REWRITE | NEEDS_REWRITE;
+			}
 
-		walker.queue = q;
-		g = new PendingGenerator(w, pending, rf, pendingOutputType);
+			walker.queue = q;
+			g = new PendingGenerator(w, pending, rf, pendingOutputType);
 
-		if (boundary) {
-			// Because the boundary generator may produce uninteresting
-			// commits we cannot allow the pending generator to dispose
-			// of them early.
-			//
-			((PendingGenerator) g).canDispose = false;
-		}
+			if (boundary) {
+				// Because the boundary generator may produce uninteresting
+				// commits we cannot allow the pending generator to dispose
+				// of them early.
+				//
+				((PendingGenerator) g).canDispose = false;
+			}
 
-		if ((g.outputType() & NEEDS_REWRITE) != 0) {
-			// Correction for an upstream NEEDS_REWRITE is to buffer
-			// fully and then apply a rewrite generator that can
-			// pull through the rewrite chain and produce a dense
-			// output graph.
-			//
-			g = new FIFORevQueue(g);
-			g = new RewriteGenerator(g);
-		}
+			if ((g.outputType() & NEEDS_REWRITE) != 0) {
+				// Correction for an upstream NEEDS_REWRITE is to buffer
+				// fully and then apply a rewrite generator that can
+				// pull through the rewrite chain and produce a dense
+				// output graph.
+				//
+				g = new FIFORevQueue(g);
+				g = new RewriteGenerator(g);
+			}
 
-		if (walker.hasRevSort(RevSort.TOPO)
-				&& (g.outputType() & SORT_TOPO) == 0)
-			g = new TopoSortGenerator(g);
-		if (walker.hasRevSort(RevSort.REVERSE))
-			g = new LIFORevQueue(g);
-		if (boundary)
-			g = new BoundaryGenerator(w, g);
-		else if (uninteresting) {
-			// Try to protect ourselves from uninteresting commits producing
-			// due to clock skew in the commit time stamps. Delay such that
-			// we have a chance at coloring enough of the graph correctly,
-			// and then strip any UNINTERESTING nodes that may have leaked
-			// through early.
-			//
-			if (pending.peek() != null)
-				g = new DelayRevQueue(g);
-			g = new FixUninterestingGenerator(g);
+			if (walker.hasRevSort(RevSort.TOPO)
+					&& (g.outputType() & SORT_TOPO) == 0)
+				g = new TopoSortGenerator(g);
+			if (walker.hasRevSort(RevSort.REVERSE))
+				g = new LIFORevQueue(g);
+			if (boundary)
+				g = new BoundaryGenerator(w, g);
+			else if (uninteresting) {
+				// Try to protect ourselves from uninteresting commits producing
+				// due to clock skew in the commit time stamps. Delay such that
+				// we have a chance at coloring enough of the graph correctly,
+				// and then strip any UNINTERESTING nodes that may have leaked
+				// through early.
+				//
+				if (pending.peek() != null)
+					g = new DelayRevQueue(g);
+				g = new FixUninterestingGenerator(g);
+			}
 		}
 
 		w.pending = g;
