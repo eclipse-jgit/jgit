@@ -43,12 +43,17 @@
 
 package org.eclipse.jgit.pgm.opt;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.IllegalAnnotationError;
+import org.kohsuke.args4j.NamedOptionDef;
 import org.kohsuke.args4j.Option;
+import org.kohsuke.args4j.OptionDef;
+import org.kohsuke.args4j.spi.OptionHandler;
+import org.kohsuke.args4j.spi.Setter;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.pgm.CLIText;
@@ -174,5 +179,36 @@ public class CmdLineParser extends org.kohsuke.args4j.CmdLineParser {
 	 */
 	public RevWalk getRevWalkGently() {
 		return walk;
+	}
+
+	static class MyOptionDef extends OptionDef {
+
+		public MyOptionDef(OptionDef o) {
+			super(o.usage(), o.metaVar(), o.required(), o.handler(), o
+					.isMultiValued());
+		}
+
+		@Override
+		public String toString() {
+			if (metaVar() == null)
+				return "ARG";
+			try {
+				Field field = CLIText.class.getField(metaVar());
+				String ret = field.get(CLIText.get()).toString();
+				return ret;
+			} catch (Exception e) {
+				e.printStackTrace(System.err);
+				return metaVar();
+			}
+		}
+	}
+
+	@Override
+	protected OptionHandler createOptionHandler(OptionDef o, Setter setter) {
+		if (o instanceof NamedOptionDef)
+			return super.createOptionHandler(o, setter);
+		else
+			return super.createOptionHandler(new MyOptionDef(o), setter);
+
 	}
 }
