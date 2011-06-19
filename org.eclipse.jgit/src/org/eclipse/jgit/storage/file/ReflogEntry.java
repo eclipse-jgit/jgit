@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009, Robin Rosenberg
+ * Copyright (C) 2011, Chris Aniszczyk <caniszczyk@gmail.com>
  * Copyright (C) 2009, Robin Rosenberg <robin.rosenberg@dewire.com>
  * and other copyright owners as documented in the project's IP log.
  *
@@ -44,71 +44,77 @@
 
 package org.eclipse.jgit.storage.file;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.util.IO;
+import org.eclipse.jgit.JGitText;
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.util.RawParseUtils;
 
 /**
- * Utility for reading reflog entries
+ * Parsed reflog entry
  */
-public class ReflogReader {
-	private File logName;
+public class ReflogEntry {
+	private ObjectId oldId;
 
-	/**
-	 * @param db
-	 * @param refname
-	 */
-	public ReflogReader(Repository db, String refname) {
-		logName = new File(db.getDirectory(), "logs/" + refname);
-	}
+	private ObjectId newId;
 
-	/**
-	 * Get the last entry in the reflog
-	 *
-	 * @return the latest reflog entry, or null if no log
-	 * @throws IOException
-	 */
-	public ReflogEntry getLastEntry() throws IOException {
-		List<ReflogEntry> entries = getReverseEntries(1);
-		return entries.size() > 0 ? entries.get(0) : null;
-	}
+	private PersonIdent who;
 
-	/**
-	 * @return all reflog entries in reverse order
-	 * @throws IOException
-	 */
-	public List<ReflogEntry> getReverseEntries() throws IOException {
-		return getReverseEntries(Integer.MAX_VALUE);
-	}
+	private String comment;
 
-	/**
-	 * @param max
-	 *            max numer of entries to read
-	 * @return all reflog entries in reverse order
-	 * @throws IOException
-	 */
-	public List<ReflogEntry> getReverseEntries(int max) throws IOException {
-		final byte[] log;
-		try {
-			log = IO.readFully(logName);
-		} catch (FileNotFoundException e) {
-			return Collections.emptyList();
+	ReflogEntry(byte[] raw, int pos) {
+		oldId = ObjectId.fromString(raw, pos);
+		pos += Constants.OBJECT_ID_STRING_LENGTH;
+		if (raw[pos++] != ' ')
+			throw new IllegalArgumentException(
+					JGitText.get().rawLogMessageDoesNotParseAsLogEntry);
+		newId = ObjectId.fromString(raw, pos);
+		pos += Constants.OBJECT_ID_STRING_LENGTH;
+		if (raw[pos++] != ' ') {
+			throw new IllegalArgumentException(
+					JGitText.get().rawLogMessageDoesNotParseAsLogEntry);
 		}
-
-		int rs = RawParseUtils.prevLF(log, log.length);
-		List<ReflogEntry> ret = new ArrayList<ReflogEntry>();
-		while (rs >= 0 && max-- > 0) {
-			rs = RawParseUtils.prevLF(log, rs);
-			ReflogEntry entry = new ReflogEntry(log, rs < 0 ? 0 : rs + 2);
-			ret.add(entry);
+		who = RawParseUtils.parsePersonIdentOnly(raw, pos);
+		int p0 = RawParseUtils.next(raw, pos, '\t');
+		if (p0 >= raw.length)
+			comment = ""; // personident has no \t, no comment present
+		else {
+			int p1 = RawParseUtils.nextLF(raw, p0);
+			comment = p1 > p0 ? RawParseUtils.decode(raw, p0, p1 - 1) : "";
 		}
-		return ret;
+	}
+
+	/**
+	 * @return the commit id before the change
+	 */
+	public ObjectId getOldId() {
+		return oldId;
+	}
+
+	/**
+	 * @return the commit id after the change
+	 */
+	public ObjectId getNewId() {
+		return newId;
+	}
+
+	/**
+	 * @return user performin the change
+	 */
+	public PersonIdent getWho() {
+		return who;
+	}
+
+	/**
+	 * @return textual description of the change
+	 */
+	public String getComment() {
+		return comment;
+	}
+
+	@Override
+	public String toString() {
+		return "Entry[" + oldId.name() + ", " + newId.name() + ", " + getWho() + ", "
+				+ getComment() + "]";
 	}
 }
