@@ -121,14 +121,14 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 		assertNotSame(newid, r.getObjectId());
 		assertSame(ObjectId.class, r.getObjectId().getClass());
 		assertEquals(newid, r.getObjectId());
-		List<org.eclipse.jgit.storage.file.ReflogReader.Entry> reverseEntries1 = db.getReflogReader("refs/heads/abc").getReverseEntries();
-		org.eclipse.jgit.storage.file.ReflogReader.Entry entry1 = reverseEntries1.get(0);
+		List<org.eclipse.jgit.storage.file.ReflogEntry> reverseEntries1 = db.getReflogReader("refs/heads/abc").getReverseEntries();
+		org.eclipse.jgit.storage.file.ReflogEntry entry1 = reverseEntries1.get(0);
 		assertEquals(1, reverseEntries1.size());
 		assertEquals(ObjectId.zeroId(), entry1.getOldId());
 		assertEquals(r.getObjectId(), entry1.getNewId());
 		assertEquals(new PersonIdent(db).toString(),  entry1.getWho().toString());
 		assertEquals("", entry1.getComment());
-		List<org.eclipse.jgit.storage.file.ReflogReader.Entry> reverseEntries2 = db.getReflogReader("HEAD").getReverseEntries();
+		List<org.eclipse.jgit.storage.file.ReflogEntry> reverseEntries2 = db.getReflogReader("HEAD").getReverseEntries();
 		assertEquals(0, reverseEntries2.size());
 	}
 
@@ -334,7 +334,7 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 		// the branch HEAD referred to is left untouched
 		assertEquals(pid, db.resolve("refs/heads/master"));
 		ReflogReader reflogReader = new  ReflogReader(db, "HEAD");
-		org.eclipse.jgit.storage.file.ReflogReader.Entry e = reflogReader.getReverseEntries().get(0);
+		org.eclipse.jgit.storage.file.ReflogEntry e = reflogReader.getReverseEntries().get(0);
 		assertEquals(pid, e.getOldId());
 		assertEquals(ppid, e.getNewId());
 		assertEquals("GIT_COMMITTER_EMAIL", e.getWho().getEmailAddress());
@@ -364,7 +364,7 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 		// the branch HEAD referred to is left untouched
 		assertNull(db.resolve("refs/heads/unborn"));
 		ReflogReader reflogReader = new  ReflogReader(db, "HEAD");
-		org.eclipse.jgit.storage.file.ReflogReader.Entry e = reflogReader.getReverseEntries().get(0);
+		org.eclipse.jgit.storage.file.ReflogEntry e = reflogReader.getReverseEntries().get(0);
 		assertEquals(ObjectId.zeroId(), e.getOldId());
 		assertEquals(ppid, e.getNewId());
 		assertEquals("GIT_COMMITTER_EMAIL", e.getWho().getEmailAddress());
@@ -701,9 +701,9 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 		ObjectId oldHeadId = db.resolve(Constants.HEAD);
 		writeReflog(db, oldfromId, oldfromId, "Just a message",
 				fromName);
-		List<org.eclipse.jgit.storage.file.ReflogReader.Entry> oldFromLog = db
+		List<org.eclipse.jgit.storage.file.ReflogEntry> oldFromLog = db
 				.getReflogReader(fromName).getReverseEntries();
-		List<org.eclipse.jgit.storage.file.ReflogReader.Entry> oldHeadLog = oldHeadId != null ? db
+		List<org.eclipse.jgit.storage.file.ReflogEntry> oldHeadLog = oldHeadId != null ? db
 				.getReflogReader(Constants.HEAD).getReverseEntries() : null;
 
 		assertTrue("internal check, we have a log", new File(db.getDirectory(),
