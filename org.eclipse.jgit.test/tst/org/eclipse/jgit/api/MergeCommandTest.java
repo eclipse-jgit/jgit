@@ -60,6 +60,7 @@ import org.eclipse.jgit.lib.RepositoryTestCase;
 import org.eclipse.jgit.merge.MergeStrategy;
 import org.eclipse.jgit.merge.ResolveMerger.MergeFailureReason;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.util.FileUtils;
 import org.junit.Test;
 
 public class MergeCommandTest extends RepositoryTestCase {
@@ -914,6 +915,46 @@ public class MergeCommandTest extends RepositoryTestCase {
 
 		checkMergeFailedResult(result, MergeFailureReason.DIRTY_WORKTREE,
 				indexState, fileA);
+	}
+
+	@Test
+	public void testMergeRemovingFolders() throws Exception {
+		File folder1 = new File(db.getWorkTree(), "folder1");
+		File folder2 = new File(db.getWorkTree(), "folder2");
+		FileUtils.mkdir(folder1);
+		FileUtils.mkdir(folder2);
+		File file = new File(folder1, "file1.txt");
+		write(file, "folder1--file1.txt");
+		file = new File(folder1, "file2.txt");
+		write(file, "folder1--file2.txt");
+		file = new File(folder2, "file1.txt");
+		write(file, "folder--file1.txt");
+		file = new File(folder2, "file2.txt");
+		write(file, "folder2--file2.txt");
+
+		Git git = new Git(db);
+		git.add().addFilepattern(folder1.getName())
+				.addFilepattern(folder2.getName()).call();
+		RevCommit commit1 = git.commit().setMessage("adding folders").call();
+
+		recursiveDelete(folder1);
+		recursiveDelete(folder2);
+		git.rm().addFilepattern("folder1/file1.txt")
+				.addFilepattern("folder1/file2.txt")
+				.addFilepattern("folder2/file1.txt")
+				.addFilepattern("folder2/file2.txt").call();
+		RevCommit commit2 = git.commit()
+				.setMessage("removing folders on 'branch'").call();
+
+		git.checkout().setName(commit1.name()).call();
+
+		MergeResult result = git.merge().include(commit2.getId())
+				.setStrategy(MergeStrategy.RESOLVE).call();
+		assertEquals(MergeResult.MergeStatus.FAST_FORWARD,
+				result.getMergeStatus());
+		assertEquals(commit2, result.getNewHead());
+		assertFalse(folder1.exists());
+		assertFalse(folder2.exists());
 	}
 
 	private RevCommit addAllAndCommit(final Git git) throws Exception {

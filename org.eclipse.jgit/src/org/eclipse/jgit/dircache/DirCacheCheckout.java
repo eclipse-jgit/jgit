@@ -404,7 +404,7 @@ public class DirCacheCheckout {
 					toBeDeleted.add(r);
 			else {
 				if (!isSamePrefix(r, last))
-					removeEmptyParents(file);
+					removeEmptyParents(new File(repo.getWorkTree(), last));
 				last = r;
 			}
 		}
