@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOKH///T4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Git.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 473,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-06-17T21:36:43Z",
+      "side": 1,
+      "message": "trailing whitespace",
+      "revId": "7244affe97639c91d9e6deab9e98c0ba2d49f921",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOKH///T8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ReflogCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-06-17T21:36:43Z",
+      "side": 1,
+      "message": "ref used ?",
+      "revId": "7244affe97639c91d9e6deab9e98c0ba2d49f921",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOKH///UA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ReflogCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-06-17T21:36:43Z",
+      "side": 1,
+      "message": "nit: trailing whitespace",
+      "revId": "7244affe97639c91d9e6deab9e98c0ba2d49f921",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOKH///UE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/ReflogEntry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-06-17T21:36:43Z",
+      "side": 1,
+      "message": "I think I am the primary author of this code.",
+      "revId": "7244affe97639c91d9e6deab9e98c0ba2d49f921",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
