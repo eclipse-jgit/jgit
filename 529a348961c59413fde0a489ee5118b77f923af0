@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOAH///1k\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-06-24T22:47:31Z",
+      "side": 1,
+      "message": "Given the IP process at Eclipse, we\u0027re already sort of tied anyway...",
+      "revId": "529a348961c59413fde0a489ee5118b77f923af0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
