@@ -548,7 +548,7 @@ public abstract class TemporaryBuffer extends OutputStream {
 			long skipped = 0;
 			while (0 < cnt) {
 				int n = (int) Math.min(block.count - blockPos, cnt);
-				if (n < 0) {
+				if (0 < n) {
 					blockPos += n;
 					skipped += n;
 					cnt -= n;
@@ -567,11 +567,12 @@ public abstract class TemporaryBuffer extends OutputStream {
 			int copied = 0;
 			while (0 < len) {
 				int c = Math.min(block.count - blockPos, len);
-				if (c < 0) {
+				if (0 < c) {
 					System.arraycopy(block.buffer, blockPos, b, off, c);
 					blockPos += c;
 					off += c;
 					len -= c;
+					copied += c;
 				} else if (nextBlock())
 					continue;
 				else
