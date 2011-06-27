@@ -234,6 +234,9 @@ public final class Constants {
 	/** Prefix for branch refs */
 	public static final String R_HEADS = "refs/heads/";
 
+	/** Prefix for stash refs */
+	public static final String R_STASH = "refs/stash/";
+
 	/** Prefix for remotes refs */
 	public static final String R_REMOTES = "refs/remotes/";
 
