@@ -456,8 +456,47 @@ public class Git {
 	}
 
 	/**
-	 * Returns a command object to execute a {@code blame} command
+	 * Returns a command object to execute a {@code stash} command
 	 *
+	 * @see <a
+	 *      href="http://www.kernel.org/pub/software/scm/git/docs/git-stash.html"
+	 *      >Git documentation about Stash</a>
+	 * @return a {@link StashCreateCommand} used to collect all optional
+	 *         parameters and to finally execute the {@code stash} command
+	 */
+	public StashCreateCommand stashCreate() {
+		return new StashCreateCommand(repo);
+	}
+
+	/**
+	 * Returns a command object to execute a {@code stash} command
+	 *
+	 * @see <a
+	 *      href="http://www.kernel.org/pub/software/scm/git/docs/git-stash.html"
+	 *      >Git documentation about Stash</a>
+	 * @return a {@link StashApplyCommand} used to collect all optional
+	 *         parameters and to finally execute the {@code stash} command
+	 */
+	public StashApplyCommand stashApply() {
+		return new StashApplyCommand(repo);
+	}
+
+	/**
+	 * Returns a command object to execute a {@code stash} command
+	 * 
+	 * @see <a
+	 *      href="http://www.kernel.org/pub/software/scm/git/docs/git-stash.html"
+	 *      >Git documentation about Stash</a>
+	 * @return a {@link StashListCommand} used to collect all optional
+	 *         parameters and to finally execute the {@code stash} command
+	 */
+	public StashListCommand stashList() {
+		return new StashListCommand(repo);
+	}
+
+	/**
+	 * Returns a command object to execute a {@code blame} command
+	 * 
 	 * @see <a
 	 *      href="http://www.kernel.org/pub/software/scm/git/docs/git-blame.html"
 	 *      >Git documentation about Blame</a>
