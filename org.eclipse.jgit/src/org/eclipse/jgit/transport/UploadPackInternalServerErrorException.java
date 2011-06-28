@@ -45,7 +45,7 @@ package org.eclipse.jgit.transport;
 
 import java.io.IOException;
 
-/** UploadPack has already reported an error to the client. */
+/** UploadPack has already reported an error to the client.*/ 
 public class UploadPackInternalServerErrorException extends IOException {
 	private static final long serialVersionUID = 1L;
 
@@ -56,6 +56,6 @@ public class UploadPackInternalServerErrorException extends IOException {
 	 *            root cause.
 	 */
 	public UploadPackInternalServerErrorException(Throwable why) {
-		super(why);
+		initCause(why);
 	}
 }
