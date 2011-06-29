@@ -61,7 +61,7 @@ import org.eclipse.jgit.storage.file.PackIndex.MutableEntry;
  * @see PackIndex
  * @see PackFile
  */
-class PackReverseIndex {
+public class PackReverseIndex {
 	/** Index we were created from, and that has our ObjectId data. */
 	private final PackIndex index;
 
@@ -88,7 +88,7 @@ class PackReverseIndex {
 	 * @param packIndex
 	 *            forward index - entries to (reverse) index.
 	 */
-	PackReverseIndex(final PackIndex packIndex) {
+	public PackReverseIndex(final PackIndex packIndex) {
 		index = packIndex;
 
 		final long cnt = index.getObjectCount();
@@ -135,7 +135,7 @@ class PackReverseIndex {
 	 *            start offset of object to find.
 	 * @return object id for this offset, or null if no object was found.
 	 */
-	ObjectId findObject(final long offset) {
+	public ObjectId findObject(final long offset) {
 		if (offset <= Integer.MAX_VALUE) {
 			final int i32 = Arrays.binarySearch(offsets32, (int) offset);
 			if (i32 < 0)
@@ -164,7 +164,7 @@ class PackReverseIndex {
 	 * @throws CorruptObjectException
 	 *             when there is no object with the provided offset.
 	 */
-	long findNextOffset(final long offset, final long maxOffset)
+	public long findNextOffset(final long offset, final long maxOffset)
 			throws CorruptObjectException {
 		if (offset <= Integer.MAX_VALUE) {
 			final int i32 = Arrays.binarySearch(offsets32, (int) offset);
