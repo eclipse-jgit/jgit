@@ -48,11 +48,13 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.MessageFormat;
 import java.util.Iterator;
 import java.util.Set;
 
 import org.eclipse.jgit.JGitText;
+import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.AnyObjectId;
@@ -91,18 +93,7 @@ public abstract class PackIndex implements Iterable<PackIndex.MutableEntry> {
 	public static PackIndex open(final File idxFile) throws IOException {
 		final FileInputStream fd = new FileInputStream(idxFile);
 		try {
-			final byte[] hdr = new byte[8];
-			IO.readFully(fd, hdr, 0, hdr.length);
-			if (isTOC(hdr)) {
-				final int v = NB.decodeInt32(hdr, 4);
-				switch (v) {
-				case 2:
-					return new PackIndexV2(fd);
-				default:
-					throw new IOException(MessageFormat.format(JGitText.get().unsupportedPackIndexVersion, v));
-				}
-			}
-			return new PackIndexV1(fd, hdr);
+			return read(fd);
 		} catch (IOException ioe) {
 			final String path = idxFile.getAbsolutePath();
 			final IOException err;
@@ -116,6 +107,39 @@ public abstract class PackIndex implements Iterable<PackIndex.MutableEntry> {
 				// ignore
 			}
 		}
+	}
+
+	/**
+	 * Read an existing pack index file from a buffered stream.
+	 * <p>
+	 * The format of the file will be automatically detected and a proper access
+	 * implementation for that format will be constructed and returned to the
+	 * caller. The file may or may not be held open by the returned instance.
+	 *
+	 * @param fd
+	 *            stream to read the index file from. The stream must be
+	 *            buffered as some small IOs are performed against the stream.
+	 *            The caller is responsible for closing the stream.
+	 * @return a copy of the index in-memory.
+	 * @throws IOException
+	 *             the stream cannot be read.
+	 * @throws CorruptObjectException
+	 *             the stream does not contain a valid pack index.
+	 */
+	public static PackIndex read(InputStream fd) throws IOException,
+			CorruptObjectException {
+		final byte[] hdr = new byte[8];
+		IO.readFully(fd, hdr, 0, hdr.length);
+		if (isTOC(hdr)) {
+			final int v = NB.decodeInt32(hdr, 4);
+			switch (v) {
+			case 2:
+				return new PackIndexV2(fd);
+			default:
+				throw new IOException(MessageFormat.format(JGitText.get().unsupportedPackIndexVersion, v));
+			}
+		}
+		return new PackIndexV1(fd, hdr);
 	}
 
 	private static boolean isTOC(final byte[] h) {
