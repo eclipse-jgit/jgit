@@ -1,0 +1,9 @@
+Code-Review+2: Shawn Pearce <spearce@spearce.org>
+IP-Clean+1: Shawn Pearce <spearce@spearce.org>
+Code-Review+1: Gunnar Wagenknecht <gunnar@wagenknecht.org>
+Verified+1: Hudson CI
+Submitted-by: Shawn Pearce <spearce@spearce.org>
+Submitted-at: Wed, 29 Jun 2011 09:58:00 -0400
+Reviewed-on: http://egit.eclipse.org/r/3799
+Project: jgit
+Branch: refs/heads/master
