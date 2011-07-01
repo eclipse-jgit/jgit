@@ -66,6 +66,7 @@ import org.eclipse.jgit.errors.CheckoutConflictException;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.RefUpdate.Result;
@@ -266,9 +267,14 @@ public class CheckoutCommand extends GitCommand<Ref> {
 			}
 
 			File workTree = repo.getWorkTree();
-			for (String file : files)
-				DirCacheCheckout.checkoutEntry(repo, new File(workTree, file),
-						dc.getEntry(file));
+			ObjectReader r = repo.getObjectDatabase().newReader();
+			try {
+				for (String file : files)
+					DirCacheCheckout.checkoutEntry(repo, new File(workTree,
+							file), dc.getEntry(file), r);
+			} finally {
+				r.release();
+			}
 		} finally {
 			dc.unlock();
 			revWalk.release();
