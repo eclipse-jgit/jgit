@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOAX///10\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revplot/PlotWalk.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-07-01T14:58:19Z",
+      "side": 1,
+      "message": "Why not just make this Iterable\u003cRef\u003e and allow the caller to specify any refs they want, from any source?\n\nWe can add the method, but I just wonder if it isn\u0027t better to make it slightly more generic at the expense of callers needing to say .getRefDatabase().getAdditionalRefs() on their own.",
+      "revId": "855aed5d33056869ef2742c13d75f3ba10b48a3b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
