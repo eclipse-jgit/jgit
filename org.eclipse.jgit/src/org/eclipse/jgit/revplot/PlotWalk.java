@@ -51,7 +51,9 @@ import static org.eclipse.jgit.lib.Constants.R_TAGS;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -89,6 +91,27 @@ public class PlotWalk extends RevWalk {
 		super(repo);
 		super.sort(RevSort.TOPO, true);
 		reverseRefMap = repo.getAllRefsByPeeledObjectId();
+	}
+
+	/**
+	 * Add additional refs to the walk
+	 *
+	 * @param refs
+	 *            additional refs
+	 *
+	 * @throws IOException
+	 */
+	public void addAdditionalRefs(Iterable<Ref> refs) throws IOException {
+		for (Ref ref : refs) {
+			Set<Ref> set = reverseRefMap.get(ref.getObjectId());
+			if (set == null)
+				set = Collections.singleton(ref);
+			else {
+				set = new HashSet<Ref>(set);
+				set.add(ref);
+			}
+			reverseRefMap.put(ref.getObjectId(), set);
+		}
 	}
 
 	@Override
