@@ -16,6 +16,24 @@
       "revId": "855aed5d33056869ef2742c13d75f3ba10b48a3b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOAX///0o\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revplot/PlotWalk.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2011-07-01T15:39:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOAX///10\u003d",
+      "revId": "855aed5d33056869ef2742c13d75f3ba10b48a3b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
