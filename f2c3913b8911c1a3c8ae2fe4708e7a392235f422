@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOAX////4\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-06-28T23:55:19Z",
+      "side": 1,
+      "message": "Style nit: start commit message header with uppercase first character\n\ns/fix/Fix/",
+      "revId": "f2c3913b8911c1a3c8ae2fe4708e7a392235f422",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOAX////8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPackInternalServerErrorException.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-06-28T23:55:19Z",
+      "side": 1,
+      "message": "style nit: trailing whitespace",
+      "revId": "f2c3913b8911c1a3c8ae2fe4708e7a392235f422",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
