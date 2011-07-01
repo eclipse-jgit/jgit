@@ -56,6 +56,7 @@ public class UploadPackInternalServerErrorException extends IOException {
 	 *            root cause.
 	 */
 	public UploadPackInternalServerErrorException(Throwable why) {
-		super(why);
+		super(why.toString());
+	    initCause(why);
 	}
 }
