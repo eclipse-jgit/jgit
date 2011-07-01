@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOAX///4M\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPackInternalServerErrorException.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-07-01T10:46:45Z",
+      "side": 1,
+      "message": "what if why is null ?",
+      "revId": "248cf5fd1c0e531e2ca3aaa19f46cc56874dbf83",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
