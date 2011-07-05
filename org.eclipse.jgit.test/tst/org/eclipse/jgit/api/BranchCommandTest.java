@@ -60,12 +60,14 @@ import org.eclipse.jgit.api.errors.NotMergedException;
 import org.eclipse.jgit.api.errors.RefAlreadyExistsException;
 import org.eclipse.jgit.api.errors.RefNotFoundException;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryTestCase;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevTag;
 import org.eclipse.jgit.transport.FetchResult;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteConfig;
@@ -245,6 +247,28 @@ public class BranchCommandTest extends RepositoryTestCase {
 		git.branchCreate().setName("NewForce").setStartPoint("master")
 				.setForce(true).call();
 		assertEquals(newBranch.getTarget().getObjectId(), initialCommit.getId());
+	}
+
+	@Test
+	public void testCreateFromLightweightTag() throws Exception {
+		RefUpdate rup = db.updateRef("refs/tags/V10");
+		rup.setNewObjectId(initialCommit);
+		rup.setExpectedOldObjectId(ObjectId.zeroId());
+		rup.update();
+
+		Ref branch = git.branchCreate().setName("FromLightweightTag")
+				.setStartPoint("refs/tags/V10").call();
+		assertEquals(initialCommit.getId(), branch.getObjectId());
+
+	}
+
+	@Test
+	public void testCreateFromAnnotatetdTag() throws Exception {
+		RevTag tag = git.tag().setName("V10").setObjectId(secondCommit).call();
+		Ref branch = git.branchCreate().setName("FromAnnotatedTag")
+				.setStartPoint("refs/tags/V10").call();
+		assertFalse(tag.getId().equals(branch.getObjectId()));
+		assertEquals(secondCommit.getId(), branch.getObjectId());
 	}
 
 	@Test

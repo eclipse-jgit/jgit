@@ -123,6 +123,7 @@ public class CreateBranchCommand extends GitCommand<Ref> {
 			RefNotFoundException, InvalidRefNameException {
 		checkCallable();
 		processOptions();
+		RevWalk revWalk = new RevWalk(repo);
 		try {
 			Ref refToCheck = repo.getRef(name);
 			boolean exists = refToCheck != null
@@ -148,7 +149,7 @@ public class CreateBranchCommand extends GitCommand<Ref> {
 				if (startCommit != null)
 					baseCommit = startCommit.getShortMessage();
 				else {
-					RevCommit commit = new RevWalk(repo).parseCommit(repo
+					RevCommit commit = revWalk.parseCommit(repo
 							.resolve(startPoint));
 					baseCommit = commit.getShortMessage();
 				}
@@ -167,6 +168,7 @@ public class CreateBranchCommand extends GitCommand<Ref> {
 				else
 					refLogMessage = "branch: Created from branch " + baseBranch;
 			} else {
+				startAt = revWalk.peel(revWalk.parseAny(startAt));
 				if (exists)
 					refLogMessage = "branch: Reset start-point to tag "
 							+ startPointFullName;
@@ -268,6 +270,8 @@ public class CreateBranchCommand extends GitCommand<Ref> {
 			return result;
 		} catch (IOException ioe) {
 			throw new JGitInternalException(ioe.getMessage(), ioe);
+		} finally {
+			revWalk.release();
 		}
 	}
 
