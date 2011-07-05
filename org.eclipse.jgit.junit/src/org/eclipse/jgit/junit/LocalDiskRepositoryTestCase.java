@@ -314,27 +314,6 @@ public abstract class LocalDiskRepositoryTestCase {
 	}
 
 	/**
-	 * Creates a new unique directory for a test repository
-	 *
-	 * @param bare
-	 *            true for a bare repository; false for a repository with a
-	 *            working directory
-	 * @return a unique directory for a test repository
-	 * @throws IOException
-	 */
-	protected File createUniqueTestGitDir(boolean bare) throws IOException {
-		String uniqueId = System.currentTimeMillis() + "_" + (testCount++);
-		String gitdirName = "test" + uniqueId + (bare ? "" : "/")
-				+ Constants.DOT_GIT;
-		File gitdir = new File(trash, gitdirName).getCanonicalFile();
-		return gitdir;
-	}
-
-	protected File createTempFile() throws IOException {
-		return new File(trash, "tmp-" + UUID.randomUUID()).getCanonicalFile();
-	}
-
-	/**
 	 * Run a hook script in the repository, returning the exit status.
 	 *
 	 * @param db
@@ -460,4 +439,48 @@ public abstract class LocalDiskRepositoryTestCase {
 	private String testId() {
 		return getClass().getName() + "." + testCount;
 	}
+
+
+	private String createUniqueTestFolderPrexif() {
+		return "test" + (System.currentTimeMillis() + "_" + (testCount++));
+	}
+
+	/**
+	 * Creates a unique directory for a test
+	 *
+	 * @param name
+	 *            a subdirectory
+	 * @return a unique directory for a test
+	 * @throws IOException
+	 */
+	protected File createTempDirectory(String name) throws IOException {
+		String gitdirName = createUniqueTestFolderPrexif();
+		File parent = new File(trash, gitdirName);
+		File directory = new File(parent, name);
+		return directory.getCanonicalFile();
+	}
+
+	/**
+	 * Creates a new unique directory for a test repository
+	 *
+	 * @param bare
+	 *            true for a bare repository; false for a repository with a
+	 *            working directory
+	 * @return a unique directory for a test repository
+	 * @throws IOException
+	 */
+	protected File createUniqueTestGitDir(boolean bare) throws IOException {
+		String gitdirName = createUniqueTestFolderPrexif();
+		if (!bare) {
+			gitdirName += "/";
+		}
+		gitdirName += Constants.DOT_GIT;
+		File gitdir = new File(trash, gitdirName);
+		return gitdir.getCanonicalFile();
+	}
+
+	protected File createTempFile() throws IOException {
+		return new File(trash, "tmp-" + UUID.randomUUID()).getCanonicalFile();
+	}
+
 }
