@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOAX///pw\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2011-07-05T11:10:22Z",
+      "side": 1,
+      "message": "Please state what\u0027s in here, e.g. \"Now JGit throws...\"",
+      "revId": "2ceadf3f0976b0b4c38975a2c15ef1489acbf493",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOAX///p8\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CloneCommandTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2011-07-05T11:10:22Z",
+      "side": 1,
+      "message": "Please just throw the Exception.",
+      "revId": "2ceadf3f0976b0b4c38975a2c15ef1489acbf493",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOAX///p4\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/InitCommandTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2011-07-05T11:10:22Z",
+      "side": 1,
+      "message": "Please just throw the Exception.",
+      "revId": "2ceadf3f0976b0b4c38975a2c15ef1489acbf493",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOAX///p0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CloneCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2011-07-05T11:10:22Z",
+      "side": 1,
+      "message": "you could add an else statement here - the check is not necessary if the directory was newly created",
+      "revId": "2ceadf3f0976b0b4c38975a2c15ef1489acbf493",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
