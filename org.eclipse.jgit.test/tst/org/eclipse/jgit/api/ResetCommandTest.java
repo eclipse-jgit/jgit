@@ -93,6 +93,16 @@ public class ResetCommandTest extends RepositoryTestCase {
 		git = new Git(db);
 		initialCommit = git.commit().setMessage("initial commit").call();
 
+		// create nested file
+		File dir = new File(db.getWorkTree(), "dir");
+		FileUtils.mkdir(dir);
+		File nestedFile = new File(dir, "b.txt");
+		FileUtils.createNewFile(nestedFile);
+
+		PrintWriter nesterFileWriter = new PrintWriter(nestedFile);
+		nesterFileWriter.print("content");
+		nesterFileWriter.flush();
+
 		// create file
 		indexFile = new File(db.getWorkTree(), "a.txt");
 		FileUtils.createNewFile(indexFile);
@@ -101,8 +111,9 @@ public class ResetCommandTest extends RepositoryTestCase {
 		writer.flush();
 
 		// add file and commit it
-		git.add().addFilepattern("a.txt").call();
-		secondCommit = git.commit().setMessage("adding a.txt").call();
+		git.add().addFilepattern("dir").addFilepattern("a.txt").call();
+		secondCommit = git.commit().setMessage("adding a.txt and dir/b.txt")
+				.call();
 
 		prestage = DirCache.read(db.getIndexFile(), db.getFS()).getEntry(
 				indexFile.getName());
@@ -110,7 +121,9 @@ public class ResetCommandTest extends RepositoryTestCase {
 		// modify file and add to index
 		writer.print("new content");
 		writer.close();
-		git.add().addFilepattern("a.txt").call();
+		nesterFileWriter.print("new content");
+		nesterFileWriter.close();
+		git.add().addFilepattern("a.txt").addFilepattern("dir").call();
 
 		// create a file not added to the index
 		untrackedFile = new File(db.getWorkTree(),
@@ -218,6 +231,33 @@ public class ResetCommandTest extends RepositoryTestCase {
 		assertTrue(inHead(indexFile.getName()));
 		assertTrue(inIndex(indexFile.getName()));
 		assertFalse(inIndex(untrackedFile.getName()));
+	}
+
+	@Test
+	public void testPathsResetOnDirs() throws Exception {
+		setupRepository();
+
+		DirCacheEntry preReset = DirCache.read(db.getIndexFile(), db.getFS())
+				.getEntry("dir/b.txt");
+		assertNotNull(preReset);
+
+		git.add().addFilepattern(untrackedFile.getName()).call();
+
+		// 'dir/b.txt' has already been modified in setupRepository
+		git.reset().addPath("dir").call();
+
+		DirCacheEntry postReset = DirCache.read(db.getIndexFile(), db.getFS())
+				.getEntry("dir/b.txt");
+		assertNotNull(postReset);
+		Assert.assertNotSame(preReset.getObjectId(), postReset.getObjectId());
+
+		// check that HEAD hasn't moved
+		ObjectId head = db.resolve(Constants.HEAD);
+		assertTrue(head.equals(secondCommit));
+		// check if files still exist
+		assertTrue(untrackedFile.exists());
+		assertTrue(inHead("dir/b.txt"));
+		assertTrue(inIndex("dir/b.txt"));
 	}
 
 	@Test
