@@ -125,6 +125,11 @@ public class PushCommand extends GitCommand<Iterable<PushResult>> {
 
 		try {
 			if (refSpecs.isEmpty()) {
+				RemoteConfig config = new RemoteConfig(repo.getConfig(),
+						getRemote());
+				refSpecs.addAll(config.getPushRefSpecs());
+			}
+			if (refSpecs.isEmpty()) {
 				Ref head = repo.getRef(Constants.HEAD);
 				if (head != null && head.isSymbolic())
 					refSpecs.add(new RefSpec(head.getLeaf().getName()));
