@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOAX///1o\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-07-01T15:01:24Z",
+      "side": 1,
+      "message": "This is *NOT* what the change does.\n\nWe don\u0027t have a way to do the default update-only-if-existing-on-remote-side logic inside of JGit. The Transport code doesn\u0027t have a mode to do this matching, and the matching needs to happen only after the advertisement has been received from the remote side.\n\nThe change you made to push refs/heads/*:refs/heads/* would cause JGit to also create any local branch that is not yet on the remote. That is different than the behavior you describe, as the push creates new branches... :-(\n\nI agree that fixing the code to use the remote\u0027s configuration is good, but getting that \"default only if matching\" rule is going to take more work in the transport package itself.",
+      "revId": "684ac29209f0304452072d7f4ad7f6793e122295",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOAX///1s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PushCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-07-01T15:01:24Z",
+      "side": 1,
+      "message": "Why is adding refs/heads/*:refs/heads/* conditional on HEAD being a symbolic reference?",
+      "revId": "684ac29209f0304452072d7f4ad7f6793e122295",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
