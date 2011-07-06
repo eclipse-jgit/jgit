@@ -217,29 +217,23 @@ public abstract class LocalDiskRepositoryTestCase {
 	private static boolean recursiveDelete(final String testName,
 			final File dir, boolean silent, boolean failOnError) {
 		assert !(silent && failOnError);
-		if (!dir.exists()) {
+		if (!dir.exists())
 			return silent;
-		}
 		final File[] ls = dir.listFiles();
-		if (ls != null) {
+		if (ls != null)
 			for (int k = 0; k < ls.length; k++) {
 				final File e = ls[k];
-				if (e.isDirectory()) {
+				if (e.isDirectory())
 					silent = recursiveDelete(testName, e, silent, failOnError);
-				} else {
-					if (!e.delete()) {
-						if (!silent) {
-							reportDeleteFailure(testName, failOnError, e);
-						}
-						silent = !failOnError;
-					}
+				else if (!e.delete()) {
+					if (!silent)
+						reportDeleteFailure(testName, failOnError, e);
+					silent = !failOnError;
 				}
 			}
-		}
 		if (!dir.delete()) {
-			if (!silent) {
+			if (!silent)
 				reportDeleteFailure(testName, failOnError, dir);
-			}
 			silent = !failOnError;
 		}
 		return silent;
@@ -447,9 +441,8 @@ public abstract class LocalDiskRepositoryTestCase {
 	private static String[] toEnvArray(final Map<String, String> env) {
 		final String[] envp = new String[env.size()];
 		int i = 0;
-		for (Map.Entry<String, String> e : env.entrySet()) {
+		for (Map.Entry<String, String> e : env.entrySet())
 			envp[i++] = e.getKey() + "=" + e.getValue();
-		}
 		return envp;
 	}
 
