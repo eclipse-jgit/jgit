@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOAX///ok\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/PushCommandTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-07-05T15:20:33Z",
+      "side": 1,
+      "message": "Now we still have a Push command which potentially creates new branches on the remote although there is no explicit refspec. Local branch names are taken to create branches on the remote repo although the user has not explicitly requested that.\n\nIs this really what we want? Native git also doesn\u0027t do that and when I look at the bad names which I give to my local branches I can guess why. It should be an explicit operation to publish my local branch names.\n\nSince this behaviour is not introduced or touched by this change (but strangely it\u0027s tested here) I suggest to accept this change and to create a bug for the old behaviour.",
+      "revId": "e2815f0121332a9df3fa35ca6e4c8d28239ea8c4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
