@@ -16,6 +16,24 @@
       "revId": "e150b387999eb2e107ea6f976fe171c2d8bae812",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOAX///fw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CloneCommand.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 247
+      },
+      "writtenOn": "2011-07-06T21:07:42Z",
+      "side": 1,
+      "message": "Done - fixed in patch set 7",
+      "parentUuid": "AABOAX///gM\u003d",
+      "revId": "e150b387999eb2e107ea6f976fe171c2d8bae812",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
