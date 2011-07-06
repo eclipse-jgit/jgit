@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOAX///1Q\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2011-07-01T15:29:16Z",
+      "side": 1,
+      "message": "Ah, I hadn\u0027t tested that.\n\nI first tried the default refSpec \":\", but that did not work. I had then added the refSpec refs/heads/*:refs/heads/* which is the current fallback in EGit. Do you think that that is problematic there, too?\n\nSo I would just like to add the lookup to the remote config with this change and leave the other issue to another change.",
+      "parentUuid": "AABOAX///1o\u003d",
+      "revId": "684ac29209f0304452072d7f4ad7f6793e122295",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOAX///1s\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PushCommand.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2011-07-01T15:01:24Z",
       "side": 1,
       "message": "Why is adding refs/heads/*:refs/heads/* conditional on HEAD being a symbolic reference?",
+      "revId": "684ac29209f0304452072d7f4ad7f6793e122295",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOAX///1M\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PushCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2011-07-01T15:29:16Z",
+      "side": 1,
+      "message": "That\u0027s nonsense.\n\nI will undo this change.",
+      "parentUuid": "AABOAX///1s\u003d",
       "revId": "684ac29209f0304452072d7f4ad7f6793e122295",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
