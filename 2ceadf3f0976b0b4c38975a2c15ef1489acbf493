@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOAX///pA\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 247
+      },
+      "writtenOn": "2011-07-05T14:43:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOAX///pw\u003d",
+      "revId": "2ceadf3f0976b0b4c38975a2c15ef1489acbf493",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOAX///p8\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CloneCommandTest.java",
         "patchSetId": 3
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AABOAX///o4\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CloneCommandTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 247
+      },
+      "writtenOn": "2011-07-05T14:43:37Z",
+      "side": 1,
+      "message": "Done. Did this uniformly on the other test methods as well.",
+      "parentUuid": "AABOAX///p8\u003d",
+      "revId": "2ceadf3f0976b0b4c38975a2c15ef1489acbf493",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOAX///p4\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/InitCommandTest.java",
         "patchSetId": 3
@@ -47,6 +83,24 @@
       "writtenOn": "2011-07-05T11:10:22Z",
       "side": 1,
       "message": "Please just throw the Exception.",
+      "revId": "2ceadf3f0976b0b4c38975a2c15ef1489acbf493",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOAX///o8\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/InitCommandTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 247
+      },
+      "writtenOn": "2011-07-05T14:43:37Z",
+      "side": 1,
+      "message": "Done. Did this uniformly on the other test methods as well.",
+      "parentUuid": "AABOAX///p4\u003d",
       "revId": "2ceadf3f0976b0b4c38975a2c15ef1489acbf493",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
