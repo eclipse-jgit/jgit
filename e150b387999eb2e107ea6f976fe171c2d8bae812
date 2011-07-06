@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOAX///gM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CloneCommand.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2011-07-06T17:54:14Z",
+      "side": 1,
+      "message": "I don\u0027t think these curlies are needed",
+      "revId": "e150b387999eb2e107ea6f976fe171c2d8bae812",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
