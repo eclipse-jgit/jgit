@@ -16,6 +16,24 @@
       "revId": "1d366d252b87a6d8f69985b8e59e179bc2c0e76f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOAX///xA\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/PushCommandTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2011-07-04T11:21:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOAX///0Y\u003d",
+      "revId": "1d366d252b87a6d8f69985b8e59e179bc2c0e76f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
