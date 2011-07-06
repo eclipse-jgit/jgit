@@ -44,6 +44,8 @@ package org.eclipse.jgit.api;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.IOException;
@@ -51,6 +53,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.jgit.api.ListBranchCommand.ListMode;
+import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
@@ -207,6 +210,30 @@ public class CloneCommandTest extends RepositoryTestCase {
 			sb.append(f.getName());
 		}
 		return sb.toString();
+	}
+
+	@Test
+	public void testCloneRepositoryWhenDestinationDirectoryExistsAndIsNotEmpty()
+			throws IOException {
+		String dirName = "testCloneTargetDirectoryNotEmpty";
+		File directory = createTempDirectory(dirName);
+		CloneCommand command = Git.cloneRepository();
+		command.setDirectory(directory);
+		command.setURI("file://" + git.getRepository().getWorkTree().getPath());
+		Git git2 = command.call();
+		assertNotNull(git2);
+		// clone again
+		command = Git.cloneRepository();
+		command.setDirectory(directory);
+		command.setURI("file://" + git.getRepository().getWorkTree().getPath());
+		try {
+			git2 = command.call();
+			// we shouldn't get here
+			fail("destination directory already exists and is not an empty folder, cloning should fail");
+		} catch (JGitInternalException e) {
+			assertTrue(e.getMessage().contains("not an empty directory"));
+			assertTrue(e.getMessage().contains(dirName));
+		}
 	}
 
 	public static File createTempDirectory(String name) throws IOException {
