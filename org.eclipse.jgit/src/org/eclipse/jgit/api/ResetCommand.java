@@ -267,13 +267,14 @@ public class ResetCommand extends GitCommand<Ref> {
 			tw.addTree(new DirCacheIterator(dc));
 			tw.addTree(commit.getTree());
 			tw.setFilter(PathFilterGroup.createFromStrings(filepaths));
+			tw.setRecursive(true);
 
 			while (tw.next()) {
 				final String path = tw.getPathString();
-				// DirCacheIterator dci = tw.getTree(0, DirCacheIterator.class);
-				final CanonicalTreeParser tree = tw.getTree(1,
-						CanonicalTreeParser.class);
-				if (tree == null)
+				final DirCacheIterator dci = tw.getTree(0,
+						DirCacheIterator.class);
+
+				if (tw.getTree(1, CanonicalTreeParser.class) == null)
 					// file is not in the commit, remove from index
 					edit.add(new DirCacheEditor.DeletePath(path));
 				else {
@@ -281,8 +282,8 @@ public class ResetCommand extends GitCommand<Ref> {
 					edit.add(new DirCacheEditor.PathEdit(path) {
 						@Override
 						public void apply(DirCacheEntry ent) {
-							ent.setFileMode(tree.getEntryFileMode());
-							ent.setObjectId(tree.getEntryObjectId());
+							ent.setFileMode(dci.getEntryFileMode());
+							ent.setObjectId(dci.getEntryObjectId());
 							ent.setLastModified(0);
 						}
 					});
