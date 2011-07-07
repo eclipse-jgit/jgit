@@ -307,6 +307,26 @@ public abstract class LocalDiskRepositoryTestCase {
 		toClose.add(r);
 	}
 
+	private String createUniqueTestFolderPrefix() {
+		return "test" + (System.currentTimeMillis() + "_" + (testCount++));
+	}
+
+	/**
+	 * Creates a unique directory for a test
+	 *
+	 * @param name
+	 *            a subdirectory
+	 * @return a unique directory for a test
+	 * @throws IOException
+	 */
+	protected File createTempDirectory(String name) throws IOException {
+		String gitdirName = createUniqueTestFolderPrefix();
+		File parent = new File(trash, gitdirName);
+		File directory = new File(parent, name);
+		FileUtils.mkdirs(directory);
+		return directory.getCanonicalFile();
+	}
+
 	/**
 	 * Creates a new unique directory for a test repository
 	 *
@@ -317,11 +337,12 @@ public abstract class LocalDiskRepositoryTestCase {
 	 * @throws IOException
 	 */
 	protected File createUniqueTestGitDir(boolean bare) throws IOException {
-		String uniqueId = System.currentTimeMillis() + "_" + (testCount++);
-		String gitdirName = "test" + uniqueId + (bare ? "" : "/")
-				+ Constants.DOT_GIT;
-		File gitdir = new File(trash, gitdirName).getCanonicalFile();
-		return gitdir;
+		String gitdirName = createUniqueTestFolderPrefix();
+		if (!bare)
+			gitdirName += "/";
+		gitdirName += Constants.DOT_GIT;
+		File gitdir = new File(trash, gitdirName);
+		return gitdir.getCanonicalFile();
 	}
 
 	protected File createTempFile() throws IOException {
@@ -453,4 +474,5 @@ public abstract class LocalDiskRepositoryTestCase {
 	private String testId() {
 		return getClass().getName() + "." + testCount;
 	}
+
 }
