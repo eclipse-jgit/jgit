@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOAX///Xw\u003d",
+        "filename": "org.eclipse.jgit.junit/src/org/eclipse/jgit/junit/LocalDiskRepositoryTestCase.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 464,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-07-07T09:05:02Z",
+      "side": 1,
+      "message": "why did you move these 2 methods ?",
+      "revId": "96117e50ffe89813f8bbc624cf88555c275f300a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
