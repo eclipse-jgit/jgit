@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOAX///qM\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CloneCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2011-07-05T08:57:40Z",
+      "side": 1,
+      "message": "The method you call is meant to create a folder containing the data of a repository. But here you just want to create a folder.\n\nYou could split the method createUniqueTestGitDir into two parts: \n- one which creates a folder\n- one which creates a git dir and which calls the other",
+      "revId": "f5726fd6698e693f6782356fa6d4538c210013f6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
