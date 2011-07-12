@@ -114,6 +114,7 @@ class Merge extends TextBuiltin {
 		case MERGED:
 			out.println(MessageFormat.format(CLIText.get().mergeMadeBy,
 					mergeStrategy.getName()));
+			break;
 		case NOT_SUPPORTED:
 			out.println(MessageFormat.format(
 					CLIText.get().unsupportedOperation, result.toString()));
