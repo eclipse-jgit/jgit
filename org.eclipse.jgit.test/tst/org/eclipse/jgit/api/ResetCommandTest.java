@@ -46,6 +46,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.IOException;
@@ -286,6 +287,45 @@ public class ResetCommandTest extends RepositoryTestCase {
 		assertTrue(inHead(indexFile.getName()));
 		assertFalse(inIndex(indexFile.getName()));
 		assertFalse(inIndex(untrackedFile.getName()));
+	}
+
+	@Test
+	public void testFolderPathsResetWithRef() throws Exception {
+		setupRepository();
+
+		File folder = new File(db.getWorkTree(), "folder");
+		FileUtils.mkdirs(folder);
+
+		File folderFile = new File(folder, "f.txt");
+		FileUtils.createNewFile(folderFile);
+		PrintWriter writer = new PrintWriter(folderFile);
+		writer.print("i'm in folder");
+		writer.flush();
+		writer.close();
+
+		git.add().addFilepattern(folder.getName() + "/" + folderFile.getName())
+				.call();
+
+		git.commit().setMessage("adding folder").call();
+
+		writer = new PrintWriter(folderFile);
+		writer.print("i'm modified in folder");
+		writer.flush();
+		writer.close();
+
+		git.add().addFilepattern(folder.getName() + "/" + folderFile.getName())
+				.call();
+
+		try {
+			// "git reset HEAD -- folder/f.txt"
+			git.reset().setRef(Constants.HEAD)
+					.addPath(folder.getName() + "/" + folderFile.getName())
+					.call();
+		} catch (Exception e) {
+			fail(e.getMessage());
+		}
+
+		// TODO: add checks
 	}
 
 	private void assertReflog(ObjectId prevHead, ObjectId head)
