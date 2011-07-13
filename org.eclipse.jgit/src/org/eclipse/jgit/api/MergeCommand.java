@@ -71,9 +71,9 @@ import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.merge.MergeMessageFormatter;
 import org.eclipse.jgit.merge.MergeStrategy;
+import org.eclipse.jgit.merge.Merger;
 import org.eclipse.jgit.merge.ResolveMerger;
 import org.eclipse.jgit.merge.ResolveMerger.MergeFailureReason;
-import org.eclipse.jgit.merge.ThreeWayMerger;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
@@ -193,8 +193,7 @@ public class MergeCommand extends GitCommand<MergeResult> {
 						commits, head);
 				repo.writeMergeCommitMsg(mergeMessage);
 				repo.writeMergeHeads(Arrays.asList(ref.getObjectId()));
-				ThreeWayMerger merger = (ThreeWayMerger) mergeStrategy
-						.newMerger(repo);
+				Merger merger = mergeStrategy.newMerger(repo);
 				boolean noProblems;
 				Map<String, org.eclipse.jgit.merge.MergeResult<?>> lowLevelResults = null;
 				Map<String, MergeFailureReason> failingPaths = null;

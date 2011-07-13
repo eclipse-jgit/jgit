@@ -55,7 +55,6 @@ import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.merge.MergeStrategy;
 import org.eclipse.jgit.merge.Merger;
-import org.eclipse.jgit.merge.ThreeWayMergeStrategy;
 import org.eclipse.jgit.merge.ThreeWayMerger;
 import org.eclipse.jgit.treewalk.AbstractTreeIterator;
 import org.eclipse.jgit.treewalk.TreeWalk;
@@ -323,23 +322,13 @@ public class NoteMapMerger {
 		ObjectId theirsId = write(theirsList);
 		inserter.flush();
 
-		ObjectId resultTreeId;
-		if (nonNotesMergeStrategy instanceof ThreeWayMergeStrategy) {
-			ThreeWayMerger m = ((ThreeWayMergeStrategy) nonNotesMergeStrategy)
-					.newMerger(db, true);
-			m.setBase(baseId);
-			if (!m.merge(oursId, theirsId))
-				throw new NotesMergeConflictException(baseList, oursList,
-						theirsList);
-
-			resultTreeId = m.getResultTreeId();
-		} else {
-			Merger m = nonNotesMergeStrategy.newMerger(db, true);
-			if (!m.merge(new AnyObjectId[] { oursId, theirsId }))
-				throw new NotesMergeConflictException(baseList, oursList,
-						theirsList);
-			resultTreeId = m.getResultTreeId();
-		}
+		Merger m = nonNotesMergeStrategy.newMerger(db, true);
+		if (m instanceof ThreeWayMerger)
+			((ThreeWayMerger) m).setBase(baseId);
+		if (!m.merge(oursId, theirsId))
+			throw new NotesMergeConflictException(baseList, oursList,
+					theirsList);
+		ObjectId resultTreeId = m.getResultTreeId();
 		AbbreviatedObjectId none = AbbreviatedObjectId.fromString("");
 		return NoteParser.parse(none, resultTreeId, reader).nonNotes;
 	}
