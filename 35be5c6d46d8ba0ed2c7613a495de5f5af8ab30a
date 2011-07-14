@@ -16,6 +16,24 @@
       "revId": "35be5c6d46d8ba0ed2c7613a495de5f5af8ab30a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOAX///E0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2011-07-14T09:04:06Z",
+      "side": 1,
+      "message": "No worries. I\u0027m glad I could help.",
+      "parentUuid": "AABOAX///E8\u003d",
+      "revId": "35be5c6d46d8ba0ed2c7613a495de5f5af8ab30a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
