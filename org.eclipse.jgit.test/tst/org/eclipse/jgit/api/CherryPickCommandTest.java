@@ -54,11 +54,16 @@ import org.eclipse.jgit.api.CherryPickResult.CherryPickStatus;
 import org.eclipse.jgit.api.ResetCommand.ResetType;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
+import org.eclipse.jgit.diff.RawText;
+import org.eclipse.jgit.diff.RawTextComparator;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.RepositoryState;
 import org.eclipse.jgit.lib.RepositoryTestCase;
+import org.eclipse.jgit.merge.ContentMerger;
+import org.eclipse.jgit.merge.MergeResult;
 import org.eclipse.jgit.merge.ResolveMerger.MergeFailureReason;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.treewalk.CanonicalTreeParser;
 import org.junit.Test;
 
 /**
@@ -170,6 +175,36 @@ public class CherryPickCommandTest extends RepositoryTestCase {
 		CherryPickResult result = git.cherryPick().include(sideCommit.getId())
 				.call();
 
+		assertEquals(CherryPickStatus.CONFLICTING, result.getStatus());
+		assertEquals(RepositoryState.CHERRY_PICKING, db.getRepositoryState());
+		assertTrue(new File(db.getDirectory(), Constants.CHERRY_PICK_HEAD)
+				.exists());
+
+		git.reset().setMode(ResetType.MIXED).setRef("HEAD").call();
+
+		assertEquals(RepositoryState.SAFE, db.getRepositoryState());
+		assertFalse(new File(db.getDirectory(), Constants.CHERRY_PICK_HEAD)
+				.exists());
+	}
+
+	@Test
+	public void testCherryPickCustomMerger() throws Exception {
+		Git git = new Git(db);
+
+		RevCommit sideCommit = prepareCherryPick(git);
+		final boolean gotCalled[] = new boolean[1];
+		CherryPickResult result = git.cherryPick().include(sideCommit.getId())
+				.mergeWith(new ContentMerger(db) {
+
+					@Override
+					public MergeResult<RawText> merge(RawTextComparator cmp,
+							CanonicalTreeParser base, CanonicalTreeParser ours,
+							CanonicalTreeParser theirs) throws IOException {
+						gotCalled[0] = true;
+						return null;
+					}
+				}).call();
+		assertTrue(gotCalled[0]);
 		assertEquals(CherryPickStatus.CONFLICTING, result.getStatus());
 		assertEquals(RepositoryState.CHERRY_PICKING, db.getRepositoryState());
 		assertTrue(new File(db.getDirectory(), Constants.CHERRY_PICK_HEAD)
