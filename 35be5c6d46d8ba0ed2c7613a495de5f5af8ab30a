@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOAX///E8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-07-14T06:22:05Z",
+      "side": 1,
+      "message": "Thanks Thomasz. That was a amazing bug: \n\n- Our unit tests covered every line here\n- we had succesfull unit tests which covered the functionality of deleting empty dir\u0027s (they worked because of the removedEmptyParents() call outside the loop)\n- the code went through multiple reviews\n\n... and still this bug managed to be undetected. Good job.",
+      "revId": "35be5c6d46d8ba0ed2c7613a495de5f5af8ab30a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
