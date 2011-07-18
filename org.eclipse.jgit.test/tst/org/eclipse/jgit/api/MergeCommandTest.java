@@ -73,30 +73,33 @@ public class MergeCommandTest extends RepositoryTestCase {
 	public static @DataPoints
 	MergeStrategy[] mergeStrategies = MergeStrategy.get();
 
-	@Test
-	public void testMergeInItself() throws Exception {
+	@Theory
+	public void testMergeInItself(MergeStrategy mergeStrategy) throws Exception {
 		Git git = new Git(db);
 		git.commit().setMessage("initial commit").call();
 
-		MergeResult result = git.merge().include(db.getRef(Constants.HEAD)).call();
+		MergeResult result = git.merge().setStrategy(mergeStrategy)
+				.include(db.getRef(Constants.HEAD)).call();
 		assertEquals(MergeResult.MergeStatus.ALREADY_UP_TO_DATE, result.getMergeStatus());
 	}
 
-	@Test
-	public void testAlreadyUpToDate() throws Exception {
+	@Theory
+	public void testAlreadyUpToDate(MergeStrategy mergeStrategy)
+			throws Exception {
 		Git git = new Git(db);
 		RevCommit first = git.commit().setMessage("initial commit").call();
 		createBranch(first, "refs/heads/branch1");
 
 		RevCommit second = git.commit().setMessage("second commit").call();
-		MergeResult result = git.merge().include(db.getRef("refs/heads/branch1")).call();
+		MergeResult result = git.merge().setStrategy(mergeStrategy)
+				.include(db.getRef("refs/heads/branch1")).call();
 		assertEquals(MergeResult.MergeStatus.ALREADY_UP_TO_DATE, result.getMergeStatus());
 		assertEquals(second, result.getNewHead());
 
 	}
 
-	@Test
-	public void testFastForward() throws Exception {
+	@Theory
+	public void testFastForward(MergeStrategy mergeStrategy) throws Exception {
 		Git git = new Git(db);
 		RevCommit first = git.commit().setMessage("initial commit").call();
 		createBranch(first, "refs/heads/branch1");
@@ -105,14 +108,16 @@ public class MergeCommandTest extends RepositoryTestCase {
 
 		checkoutBranch("refs/heads/branch1");
 
-		MergeResult result = git.merge().include(db.getRef(Constants.MASTER)).call();
+		MergeResult result = git.merge().setStrategy(mergeStrategy)
+				.include(db.getRef(Constants.MASTER)).call();
 
 		assertEquals(MergeResult.MergeStatus.FAST_FORWARD, result.getMergeStatus());
 		assertEquals(second, result.getNewHead());
 	}
 
-	@Test
-	public void testFastForwardWithFiles() throws Exception {
+	@Theory
+	public void testFastForwardWithFiles(MergeStrategy mergeStrategy)
+			throws Exception {
 		Git git = new Git(db);
 
 		writeTrashFile("file1", "file1");
@@ -130,7 +135,8 @@ public class MergeCommandTest extends RepositoryTestCase {
 		checkoutBranch("refs/heads/branch1");
 		assertFalse(new File(db.getWorkTree(), "file2").exists());
 
-		MergeResult result = git.merge().include(db.getRef(Constants.MASTER)).call();
+		MergeResult result = git.merge().setStrategy(mergeStrategy)
+				.include(db.getRef(Constants.MASTER)).call();
 
 		assertTrue(new File(db.getWorkTree(), "file1").exists());
 		assertTrue(new File(db.getWorkTree(), "file2").exists());
@@ -138,8 +144,8 @@ public class MergeCommandTest extends RepositoryTestCase {
 		assertEquals(second, result.getNewHead());
 	}
 
-	@Test
-	public void testMultipleHeads() throws Exception {
+	@Theory
+	public void testMultipleHeads(MergeStrategy mergeStrategy) throws Exception {
 		Git git = new Git(db);
 
 		writeTrashFile("file1", "file1");
@@ -160,6 +166,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 		assertFalse(new File(db.getWorkTree(), "file3").exists());
 
 		MergeCommand merge = git.merge();
+		merge.setStrategy(mergeStrategy);
 		merge.include(second.getId());
 		merge.include(db.getRef(Constants.MASTER));
 		try {
