@@ -134,7 +134,7 @@ public abstract class Merger {
 	 *             one or more sources could not be read, or outputs could not
 	 *             be written to the Repository.
 	 */
-	public boolean merge(final AnyObjectId[] tips) throws IOException {
+	public boolean merge(final AnyObjectId... tips) throws IOException {
 		sourceObjects = new RevObject[tips.length];
 		for (int i = 0; i < tips.length; i++)
 			sourceObjects[i] = walk.parseAny(tips[i]);
