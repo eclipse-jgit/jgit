@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOJH///08\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Git.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-05-23T14:12:55Z",
+      "side": 1,
+      "message": "please remove the trailing blank",
+      "revId": "8e0908f523c5f22a0896ceb0c4cc5dd90cd50d9b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJH///1A\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ListTagCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-05-23T14:12:55Z",
+      "side": 1,
+      "message": "Branches? This command will return tags.",
+      "revId": "8e0908f523c5f22a0896ceb0c4cc5dd90cd50d9b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJH///04\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ListTagCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-05-23T14:12:55Z",
+      "side": 1,
+      "message": "I think we need some unit tests. Please check what happens on repos without any tags, that the sort order is as expected, ... . That\u0027s our official API and it should not contain code not covered by tests.",
+      "revId": "8e0908f523c5f22a0896ceb0c4cc5dd90cd50d9b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
