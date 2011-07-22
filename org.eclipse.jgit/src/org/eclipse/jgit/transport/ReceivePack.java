@@ -1020,7 +1020,9 @@ public class ReceivePack {
 
 			if (!cmd.getRefName().startsWith(Constants.R_REFS)
 					|| !Repository.isValidRefName(cmd.getRefName())) {
-				cmd.setResult(Result.REJECTED_OTHER_REASON, JGitText.get().funnyRefname);
+				cmd.setResult(Result.REJECTED_OTHER_REASON, MessageFormat
+						.format(JGitText.get().rejectedOtherReason,
+								cmd.getMessage()));
 			}
 		}
 	}

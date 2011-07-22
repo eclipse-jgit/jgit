@@ -48,6 +48,7 @@ import static org.eclipse.jgit.transport.WalkRemoteObjectDatabase.ROOT_DIR;
 import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashMap;
@@ -149,7 +150,8 @@ class WalkPushConnection extends BaseConnection implements PushConnection {
 			final String n = u.getRemoteName();
 			if (!n.startsWith("refs/") || !Repository.isValidRefName(n)) {
 				u.setStatus(Status.REJECTED_OTHER_REASON);
-				u.setMessage(JGitText.get().funnyRefname);
+				u.setMessage(MessageFormat.format(
+						JGitText.get().rejectedOtherReason, u.getMessage()));
 				continue;
 			}
 
