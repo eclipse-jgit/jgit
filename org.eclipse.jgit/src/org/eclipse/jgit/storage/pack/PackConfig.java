@@ -190,6 +190,29 @@ public class PackConfig {
 	}
 
 	/**
+	 * Copy an existing configuration to a new instance.
+	 *
+	 * @param cfg
+	 *            the source configuration to copy from.
+	 */
+	public PackConfig(PackConfig cfg) {
+		this.compressionLevel = cfg.compressionLevel;
+		this.reuseDeltas = cfg.reuseDeltas;
+		this.reuseObjects = cfg.reuseObjects;
+		this.deltaBaseAsOffset = cfg.deltaBaseAsOffset;
+		this.deltaCompress = cfg.deltaCompress;
+		this.maxDeltaDepth = cfg.maxDeltaDepth;
+		this.deltaSearchWindowSize = cfg.deltaSearchWindowSize;
+		this.deltaSearchMemoryLimit = cfg.deltaSearchMemoryLimit;
+		this.deltaCacheSize = cfg.deltaCacheSize;
+		this.deltaCacheLimit = cfg.deltaCacheLimit;
+		this.bigFileThreshold = cfg.bigFileThreshold;
+		this.threads = cfg.threads;
+		this.executor = cfg.executor;
+		this.indexVersion = cfg.indexVersion;
+	}
+
+	/**
 	 * Check whether to reuse deltas existing in repository.
 	 *
 	 * Default setting: {@value #DEFAULT_REUSE_DELTAS}
