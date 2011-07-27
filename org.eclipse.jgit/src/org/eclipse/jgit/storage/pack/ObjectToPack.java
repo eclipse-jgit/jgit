@@ -81,6 +81,12 @@ public class ObjectToPack extends PackedObjectInfo {
 	/** Other object being packed that this will delta against. */
 	private ObjectId deltaBase;
 
+	/** If this is a delta base, first child using it. */
+	ObjectToPack deltaChild;
+
+	/** If this is a delta, next child in {@link #deltaBase}'s child list. */
+	ObjectToPack deltaNext;
+
 	/**
 	 * Bit field, from bit 0 to bit 31:
 	 * <ul>
@@ -163,6 +169,15 @@ public class ObjectToPack extends PackedObjectInfo {
 		this.deltaBase = deltaBase;
 	}
 
+	void setDeltaBase(ObjectToPack base) {
+		if (deltaBase instanceof ObjectToPack)
+			clearDeltaBase();
+
+		deltaBase = base;
+		deltaNext = base.deltaChild;
+		base.deltaChild = this;
+	}
+
 	void setCachedDelta(DeltaCache.Ref data){
 		cachedDelta = data;
 	}
@@ -175,6 +190,25 @@ public class ObjectToPack extends PackedObjectInfo {
 	}
 
 	void clearDeltaBase() {
+		if (deltaBase instanceof ObjectToPack) {
+			ObjectToPack base = (ObjectToPack) deltaBase;
+			ObjectToPack child = base.deltaChild;
+			if (child == this) {
+				base.deltaChild = deltaNext;
+			} else {
+				ObjectToPack n = child.deltaNext;
+				while (n != null) {
+					if (n == this) {
+						child.deltaNext = deltaNext;
+						break;
+					}
+					child = n;
+					n = n.deltaNext;
+				}
+			}
+			deltaNext = null;
+		}
+
 		this.deltaBase = null;
 
 		if (cachedDelta != null) {
