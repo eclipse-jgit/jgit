@@ -45,6 +45,7 @@ package org.eclipse.jgit.api;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -53,6 +54,7 @@ import java.util.Iterator;
 
 import org.eclipse.jgit.api.MergeResult.MergeStatus;
 import org.eclipse.jgit.api.errors.InvalidMergeHeadsException;
+import org.eclipse.jgit.junit.MockContentMerger;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RepositoryState;
@@ -262,6 +264,40 @@ public class MergeCommandTest extends RepositoryTestCase {
 		assertEquals(3, result.getConflicts().get("a")[0].length);
 
 		assertEquals(RepositoryState.MERGING, db.getRepositoryState());
+	}
+
+	@Test
+	public void testCustomContentMerge() throws Exception {
+		Git git = new Git(db);
+
+		writeTrashFile("a", "1(master)");
+		git.add().addFilepattern("a").call();
+		RevCommit initialCommit = git.commit().setMessage("initial").call();
+
+		createBranch(initialCommit, "refs/heads/side");
+		checkoutBranch("refs/heads/side");
+
+		writeTrashFile("a", "a(side)");
+		git.add().addFilepattern("a").call();
+		RevCommit secondCommit = git.commit().setMessage("side").call();
+
+		checkoutBranch("refs/heads/master");
+		writeTrashFile("a", "2(master)");
+		git.add().addFilepattern("a").call();
+		git.commit().setMessage("side").call();
+
+		MergeResult result = git.merge().include(secondCommit.getId())
+				.setStrategy(MergeStrategy.RESOLVE)
+				.mergeWith(new MockContentMerger(git.getRepository()))
+				.call();
+		assertEquals(MergeStatus.MERGED, result.getMergeStatus());
+		// pattern base:ours:theirs
+		assertEquals("custom merge - 1(master):2(master):a(side)\n",
+				read(new File(db.getWorkTree(), "a")));
+
+		assertNull(result.getConflicts());
+
+		assertEquals(RepositoryState.SAFE, db.getRepositoryState());
 	}
 
 	@Test

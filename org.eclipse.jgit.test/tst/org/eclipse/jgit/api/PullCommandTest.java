@@ -55,6 +55,7 @@ import java.io.IOException;
 
 import org.eclipse.jgit.api.CreateBranchCommand.SetupUpstreamMode;
 import org.eclipse.jgit.api.MergeResult.MergeStatus;
+import org.eclipse.jgit.junit.MockContentMerger;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.RepositoryState;
@@ -174,6 +175,39 @@ public class PullCommandTest extends RepositoryTestCase {
 				+ sourceChangeString + "\n";
 		assertFileContentsEqual(targetFile, result);
 		assertEquals(RepositoryState.MERGING, target.getRepository()
+				.getRepositoryState());
+	}
+
+	@Test
+	public void testPullWithContentMerger() throws Exception {
+		PullResult res = target.pull().call();
+		// nothing to update since we don't have different data yet
+		assertTrue(res.getFetchResult().getTrackingRefUpdates().isEmpty());
+		assertTrue(res.getMergeResult().getMergeStatus()
+				.equals(MergeStatus.ALREADY_UP_TO_DATE));
+
+		assertFileContentsEqual(targetFile, "Hello world");
+
+		// change the source file
+		writeToFile(sourceFile, "Source change");
+		source.add().addFilepattern("SomeFile.txt").call();
+		source.commit().setMessage("Source change in remote").call();
+
+		// change the target file
+		writeToFile(targetFile, "Target change");
+		target.add().addFilepattern("SomeFile.txt").call();
+		target.commit().setMessage("Target change in local").call();
+
+		MockContentMerger contentMerger = new MockContentMerger(
+				target.getRepository());
+		res = target.pull().mergeWith(contentMerger).call();
+
+		assertFalse(res.getFetchResult().getTrackingRefUpdates().isEmpty());
+		assertEquals(res.getMergeResult().getMergeStatus(), MergeStatus.MERGED);
+		// pattern base:ours:theirs
+		String result = "custom merge - Hello world:Target change:Source change\n";
+		assertFileContentsEqual(targetFile, result);
+		assertEquals(RepositoryState.SAFE, target.getRepository()
 				.getRepositoryState());
 	}
 

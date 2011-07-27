@@ -69,6 +69,7 @@ import org.eclipse.jgit.lib.Ref.Storage;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.merge.ContentMerger;
 import org.eclipse.jgit.merge.MergeMessageFormatter;
 import org.eclipse.jgit.merge.MergeStrategy;
 import org.eclipse.jgit.merge.Merger;
@@ -92,6 +93,8 @@ public class MergeCommand extends GitCommand<MergeResult> {
 	private MergeStrategy mergeStrategy = MergeStrategy.RESOLVE;
 
 	private List<Ref> commits = new LinkedList<Ref>();
+
+	private ContentMerger contentMerger;
 
 	/**
 	 * @param repo
@@ -203,6 +206,7 @@ public class MergeCommand extends GitCommand<MergeResult> {
 					resolveMerger.setCommitNames(new String[] {
 							"BASE", "HEAD", ref.getName() });
 					resolveMerger.setWorkingTreeIterator(new FileTreeIterator(repo));
+					resolveMerger.setContentMerger(contentMerger);
 					noProblems = merger.merge(headCommit, srcCommit);
 					lowLevelResults = resolveMerger
 							.getMergeResults();
@@ -326,5 +330,18 @@ public class MergeCommand extends GitCommand<MergeResult> {
 	public MergeCommand include(String name, AnyObjectId commit) {
 		return include(new ObjectIdRef.Unpeeled(Storage.LOOSE, name,
 				commit.copy()));
+	}
+
+	/**
+	 * Defines which {@link ContentMerger} is used for merging file contents
+	 * during the merge.
+	 * 
+	 * @param newMerger
+	 * @return {@code this}
+	 */
+	public MergeCommand mergeWith(ContentMerger newMerger) {
+		checkCallable();
+		this.contentMerger = newMerger;
+		return this;
 	}
 }
