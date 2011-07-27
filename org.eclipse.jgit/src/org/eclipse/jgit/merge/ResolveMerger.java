@@ -1,6 +1,7 @@
 /*
  * Copyright (C) 2010, Christian Halstrick <christian.halstrick@sap.com>,
  * Copyright (C) 2010, Matthias Sohn <matthias.sohn@sap.com>
+ * Copyright (C) 2011, Benjamin Muskalla <benjamin.muskalla@taskop.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -58,8 +59,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.jgit.JGitText;
-import org.eclipse.jgit.diff.DiffAlgorithm;
-import org.eclipse.jgit.diff.DiffAlgorithm.SupportedAlgorithm;
 import org.eclipse.jgit.diff.RawText;
 import org.eclipse.jgit.diff.RawTextComparator;
 import org.eclipse.jgit.diff.Sequence;
@@ -73,7 +72,6 @@ import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.IndexWriteException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.NoWorkTreeException;
-import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
@@ -140,7 +138,7 @@ public class ResolveMerger extends ThreeWayMerger {
 
 	private WorkingTreeIterator workingTreeIterator;
 
-	private MergeAlgorithm mergeAlgorithm;
+	private ContentMerger contentMerger;
 
 	/**
 	 * @param local
@@ -148,11 +146,6 @@ public class ResolveMerger extends ThreeWayMerger {
 	 */
 	protected ResolveMerger(Repository local, boolean inCore) {
 		super(local);
-		SupportedAlgorithm diffAlg = local.getConfig().getEnum(
-				ConfigConstants.CONFIG_DIFF_SECTION, null,
-				ConfigConstants.CONFIG_KEY_ALGORITHM,
-				SupportedAlgorithm.HISTOGRAM);
-		mergeAlgorithm = new MergeAlgorithm(DiffAlgorithm.getAlgorithm(diffAlg));
 		commitNames = new String[] { "BASE", "OURS", "THEIRS" };
 		oi = getObjectInserter();
 		this.inCore = inCore;
@@ -476,15 +469,8 @@ public class ResolveMerger extends ThreeWayMerger {
 				unmergedPaths.add(tw.getPathString());
 
 				// generate a MergeResult for the deleted file
-				RawText baseText = base == null ? RawText.EMPTY_TEXT
-						: getRawText(base.getEntryObjectId(), db);
-				RawText ourText = ours == null ? RawText.EMPTY_TEXT
-						: getRawText(ours.getEntryObjectId(), db);
-				RawText theirsText = theirs == null ? RawText.EMPTY_TEXT
-						: getRawText(theirs.getEntryObjectId(), db);
-				MergeResult<RawText> result = mergeAlgorithm.merge(
-						RawTextComparator.DEFAULT, baseText, ourText,
-						theirsText);
+				MergeResult<RawText> result = mergeContent(ours, theirs, base);
+
 				mergeResults.put(tw.getPathString(), result);
 			}
 		}
@@ -525,14 +511,8 @@ public class ResolveMerger extends ThreeWayMerger {
 			throws FileNotFoundException, IllegalStateException, IOException {
 		MergeFormatter fmt = new MergeFormatter();
 
-		RawText baseText = base == null ? RawText.EMPTY_TEXT : getRawText(
-				base.getEntryObjectId(), db);
-
 		// do the merge
-		MergeResult<RawText> result = mergeAlgorithm.merge(
-				RawTextComparator.DEFAULT, baseText,
-				getRawText(ours.getEntryObjectId(), db),
-				getRawText(theirs.getEntryObjectId(), db));
+		MergeResult<RawText> result = mergeContent(ours, theirs, base);
 
 		File of = null;
 		FileOutputStream fos;
@@ -595,7 +575,48 @@ public class ResolveMerger extends ThreeWayMerger {
 		}
 	}
 
-	private static RawText getRawText(ObjectId id, Repository db)
+	/**
+	 * Merges the contents of files in a three-way manner.
+	 *
+	 * @param ours
+	 * @param theirs
+	 * @param base
+	 * @return result
+	 * @throws IOException
+	 */
+	private MergeResult<RawText> mergeContent(CanonicalTreeParser ours,
+			CanonicalTreeParser theirs, CanonicalTreeParser base)
+			throws IOException {
+		MergeResult<RawText> mergeResult = null;
+		if (contentMerger != null) {
+			mergeResult = contentMerger.merge(RawTextComparator.DEFAULT, base,
+					ours, theirs);
+		}
+
+		if(mergeResult == null) {
+			ContentMerger defaultMerger = ContentMerger.getDefaultContentMerger(db);
+			mergeResult = defaultMerger.merge(RawTextComparator.DEFAULT, base,
+					ours, theirs);
+		}
+		return mergeResult;
+	}
+
+	/**
+	 * Sets the merger that is responsible to merge the file contents.
+	 *
+	 * @param contentMerger
+	 */
+	public void setContentMerger(ContentMerger contentMerger) {
+		this.contentMerger = contentMerger;
+	}
+
+	/**
+	 * @param id
+	 * @param db
+	 * @return result
+	 * @throws IOException
+	 */
+	protected static RawText getRawText(ObjectId id, Repository db)
 			throws IOException {
 		if (id.equals(ObjectId.zeroId()))
 			return new RawText(new byte[] {});

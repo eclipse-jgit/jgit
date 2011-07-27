@@ -60,6 +60,7 @@ import org.eclipse.jgit.lib.ObjectIdRef;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Ref.Storage;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.merge.ContentMerger;
 import org.eclipse.jgit.merge.MergeMessageFormatter;
 import org.eclipse.jgit.merge.MergeStrategy;
 import org.eclipse.jgit.merge.ResolveMerger;
@@ -79,6 +80,8 @@ import org.eclipse.jgit.treewalk.FileTreeIterator;
  */
 public class CherryPickCommand extends GitCommand<CherryPickResult> {
 	private List<Ref> commits = new LinkedList<Ref>();
+
+	private ContentMerger contentMerger;
 
 	/**
 	 * @param repo
@@ -133,6 +136,7 @@ public class CherryPickCommand extends GitCommand<CherryPickResult> {
 						.newMerger(repo);
 				merger.setWorkingTreeIterator(new FileTreeIterator(repo));
 				merger.setBase(srcParent.getTree());
+				merger.setContentMerger(contentMerger);
 
 				if (merger.merge(headCommit, srcCommit)) {
 					if (AnyObjectId.equals(headCommit.getTree().getId(), merger
@@ -205,5 +209,18 @@ public class CherryPickCommand extends GitCommand<CherryPickResult> {
 	public CherryPickCommand include(String name, AnyObjectId commit) {
 		return include(new ObjectIdRef.Unpeeled(Storage.LOOSE, name,
 				commit.copy()));
+	}
+
+	/**
+	 * Defines which {@link ContentMerger} is used for merging file contents
+	 * during cherry-pick.
+	 *
+	 * @param newMerger
+	 * @return {@code this}
+	 */
+	public CherryPickCommand mergeWith(ContentMerger newMerger) {
+		checkCallable();
+		this.contentMerger = newMerger;
+		return this;
 	}
 }

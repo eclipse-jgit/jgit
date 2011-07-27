@@ -54,6 +54,7 @@ import org.eclipse.jgit.api.CherryPickResult.CherryPickStatus;
 import org.eclipse.jgit.api.ResetCommand.ResetType;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
+import org.eclipse.jgit.junit.MockContentMerger;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.RepositoryState;
 import org.eclipse.jgit.lib.RepositoryTestCase;
@@ -65,6 +66,7 @@ import org.junit.Test;
  * Test cherry-pick command
  */
 public class CherryPickCommandTest extends RepositoryTestCase {
+
 	@Test
 	public void testCherryPick() throws IOException, JGitInternalException,
 			GitAPIException {
@@ -180,6 +182,20 @@ public class CherryPickCommandTest extends RepositoryTestCase {
 		assertEquals(RepositoryState.SAFE, db.getRepositoryState());
 		assertFalse(new File(db.getDirectory(), Constants.CHERRY_PICK_HEAD)
 				.exists());
+	}
+
+	@Test
+	public void testCherryPickCustomMerger() throws Exception {
+		Git git = new Git(db);
+
+		RevCommit sideCommit = prepareCherryPick(git);
+		CherryPickResult result = git.cherryPick().include(sideCommit.getId())
+				.mergeWith(new MockContentMerger(db)).call();
+		// pattern base:ours:theirs
+		assertEquals("custom merge - a:a(master):a(side)\n",
+				read(new File(db.getWorkTree(), "a")));
+		assertEquals(CherryPickStatus.OK, result.getStatus());
+		assertEquals(RepositoryState.SAFE, db.getRepositoryState());
 	}
 
 	private RevCommit prepareCherryPick(final Git git) throws Exception {
