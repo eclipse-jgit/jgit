@@ -54,6 +54,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.zip.DataFormatException;
 import java.util.zip.Inflater;
 
@@ -61,6 +62,7 @@ import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.BatchingProgressMonitor;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.InflaterCache;
 import org.eclipse.jgit.lib.MutableObjectId;
@@ -478,6 +480,11 @@ public abstract class PackParser {
 			if (!deferredCheckBlobs.isEmpty())
 				doDeferredCheckBlobs();
 			if (deltaCount > 0) {
+				if (resolving instanceof BatchingProgressMonitor) {
+					((BatchingProgressMonitor) resolving).setDelayStart(
+							1000,
+							TimeUnit.MILLISECONDS);
+				}
 				resolving.beginTask(JGitText.get().resolvingDeltas, deltaCount);
 				resolveDeltas(resolving);
 				if (entryCount < objectCount) {
