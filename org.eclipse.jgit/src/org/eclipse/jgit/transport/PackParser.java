@@ -478,6 +478,7 @@ public abstract class PackParser {
 			if (!deferredCheckBlobs.isEmpty())
 				doDeferredCheckBlobs();
 			if (deltaCount > 0) {
+				resolving.beginTask(JGitText.get().resolvingDeltas, deltaCount);
 				resolveDeltas(resolving);
 				if (entryCount < objectCount) {
 					if (!isAllowThin()) {
@@ -494,6 +495,7 @@ public abstract class PackParser {
 								(objectCount - entryCount)));
 					}
 				}
+				resolving.endTask();
 			}
 
 			packDigest = null;
@@ -519,20 +521,17 @@ public abstract class PackParser {
 
 	private void resolveDeltas(final ProgressMonitor progress)
 			throws IOException {
-		progress.beginTask(JGitText.get().resolvingDeltas, deltaCount);
 		final int last = entryCount;
 		for (int i = 0; i < last; i++) {
-			final int before = entryCount;
-			resolveDeltas(entries[i]);
-			progress.update(entryCount - before);
+			resolveDeltas(entries[i], progress);
 			if (progress.isCancelled())
 				throw new IOException(
 						JGitText.get().downloadCancelledDuringIndexing);
 		}
-		progress.endTask();
 	}
 
-	private void resolveDeltas(final PackedObjectInfo oe) throws IOException {
+	private void resolveDeltas(final PackedObjectInfo oe,
+			ProgressMonitor progress) throws IOException {
 		UnresolvedDelta children = firstChildOf(oe);
 		if (children == null)
 			return;
@@ -560,12 +559,14 @@ public abstract class PackParser {
 							.getOffset()));
 		}
 
-		resolveDeltas(visit.next(), info.type, info);
+		resolveDeltas(visit.next(), info.type, info, progress);
 	}
 
 	private void resolveDeltas(DeltaVisit visit, final int type,
-			ObjectTypeAndSize info) throws IOException {
+			ObjectTypeAndSize info, ProgressMonitor progress)
+			throws IOException {
 		do {
+			progress.update(1);
 			info = openDatabase(visit.delta, info);
 			switch (info.type) {
 			case Constants.OBJ_OFS_DELTA:
@@ -750,7 +751,8 @@ public abstract class PackParser {
 				entries[entryCount++] = oe;
 
 			visit.nextChild = firstChildOf(oe);
-			resolveDeltas(visit.next(), typeCode, new ObjectTypeAndSize());
+			resolveDeltas(visit.next(), typeCode,
+					new ObjectTypeAndSize(), progress);
 
 			if (progress.isCancelled())
 				throw new IOException(
