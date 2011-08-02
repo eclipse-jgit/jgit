@@ -238,19 +238,23 @@ public class ResolveMerger extends ThreeWayMerger {
 	}
 
 	private void checkout() throws NoWorkTreeException, IOException {
-		for (Map.Entry<String, DirCacheEntry> entry : toBeCheckedOut.entrySet()) {
-			File f = new File(db.getWorkTree(), entry.getKey());
-			if (entry.getValue() != null) {
-				createDir(f.getParentFile());
-				DirCacheCheckout.checkoutEntry(db,
-						f,
-						entry.getValue());
-			} else {
-				if (!f.delete())
-					failingPaths.put(entry.getKey(),
-							MergeFailureReason.COULD_NOT_DELETE);
+		ObjectReader r = db.getObjectDatabase().newReader();
+		try {
+			for (Map.Entry<String, DirCacheEntry> entry : toBeCheckedOut
+					.entrySet()) {
+				File f = new File(db.getWorkTree(), entry.getKey());
+				if (entry.getValue() != null) {
+					createDir(f.getParentFile());
+					DirCacheCheckout.checkoutEntry(db, f, entry.getValue(), r);
+				} else {
+					if (!f.delete())
+						failingPaths.put(entry.getKey(),
+								MergeFailureReason.COULD_NOT_DELETE);
+				}
+				modifiedFiles.add(entry.getKey());
 			}
-			modifiedFiles.add(entry.getKey());
+		} finally {
+			r.release();
 		}
 	}
 
