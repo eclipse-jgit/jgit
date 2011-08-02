@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOAX///2U\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 900,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-07-01T14:20:15Z",
+      "side": 1,
+      "message": "This form should be public. Callers should always have their own ObjectReader, not be expecting them to be created/destroyed on the fly per file. As you have seen, per-file is not efficient.",
+      "revId": "e945cf9ff646e7e04713c5d70c2e1bf37d53dfb3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
