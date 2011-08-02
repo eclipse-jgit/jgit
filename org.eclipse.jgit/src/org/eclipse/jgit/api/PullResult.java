@@ -101,6 +101,18 @@ public class PullResult {
 		return this.fetchedFrom;
 	}
 
+	/**
+	 * @return whether the pull was successful
+	 */
+	public boolean isSuccessful() {
+		if (mergeResult != null) {
+			return mergeResult.getMergeStatus().isSuccessful();
+		} else if (rebaseResult != null) {
+			return rebaseResult.getStatus().isSuccessful();
+		}
+		return true;
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();

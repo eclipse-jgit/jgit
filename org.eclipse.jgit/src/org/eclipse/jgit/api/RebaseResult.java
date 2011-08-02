@@ -59,27 +59,62 @@ public class RebaseResult {
 		/**
 		 * Rebase was successful, HEAD points to the new commit
 		 */
-		OK,
+		OK {
+			@Override
+			public boolean isSuccessful() {
+				return true;
+			}
+		},
 		/**
 		 * Aborted; the original HEAD was restored
 		 */
-		ABORTED,
+		ABORTED {
+			@Override
+			public boolean isSuccessful() {
+				return false;
+			}
+		},
 		/**
 		 * Stopped due to a conflict; must either abort or resolve or skip
 		 */
-		STOPPED,
+		STOPPED {
+			@Override
+			public boolean isSuccessful() {
+				return false;
+			}
+		},
 		/**
 		 * Failed; the original HEAD was restored
 		 */
-		FAILED,
+		FAILED {
+			@Override
+			public boolean isSuccessful() {
+				return false;
+			}
+		},
 		/**
 		 * Already up-to-date
 		 */
-		UP_TO_DATE,
+		UP_TO_DATE {
+			@Override
+			public boolean isSuccessful() {
+				return true;
+			}
+		},
 		/**
 		 * Fast-forward, HEAD points to the new commit
 		 */
-		FAST_FORWARD;
+		FAST_FORWARD {
+			@Override
+			public boolean isSuccessful() {
+				return true;
+			}
+		};
+
+		/**
+		 * @return whether the status indicates a successful result
+		 */
+		public abstract boolean isSuccessful();
 	}
 
 	static final RebaseResult OK_RESULT = new RebaseResult(Status.OK);

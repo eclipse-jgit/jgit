@@ -70,11 +70,21 @@ public class MergeResult {
 			public String toString() {
 				return "Fast-forward";
 			}
+
+			@Override
+			public boolean isSuccessful() {
+				return true;
+			}
 		},
 		/** */
 		ALREADY_UP_TO_DATE {
 			public String toString() {
 				return "Already-up-to-date";
+			}
+
+			@Override
+			public boolean isSuccessful() {
+				return true;
 			}
 		},
 		/** */
@@ -82,11 +92,21 @@ public class MergeResult {
 			public String toString() {
 				return "Failed";
 			}
+
+			@Override
+			public boolean isSuccessful() {
+				return false;
+			}
 		},
 		/** */
 		MERGED {
 			public String toString() {
 				return "Merged";
+			}
+
+			@Override
+			public boolean isSuccessful() {
+				return true;
 			}
 		},
 		/** */
@@ -94,13 +114,28 @@ public class MergeResult {
 			public String toString() {
 				return "Conflicting";
 			}
+
+			@Override
+			public boolean isSuccessful() {
+				return false;
+			}
 		},
 		/** */
 		NOT_SUPPORTED {
 			public String toString() {
 				return "Not-yet-supported";
 			}
-		}
+
+			@Override
+			public boolean isSuccessful() {
+				return false;
+			}
+		};
+
+		/**
+		 * @return whether the status indicates a successful result
+		 */
+		public abstract boolean isSuccessful();
 	}
 
 	private ObjectId[] mergedCommits;
