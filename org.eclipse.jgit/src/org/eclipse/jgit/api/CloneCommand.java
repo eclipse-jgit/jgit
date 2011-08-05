@@ -141,8 +141,7 @@ public class CloneCommand implements Callable<Git> {
 	}
 
 	private FetchResult fetch(Repository repo, URIish u)
-			throws URISyntaxException,
-			JGitInternalException,
+			throws URISyntaxException, JGitInternalException,
 			InvalidRemoteException, IOException {
 		// create the remote config and save it
 		RemoteConfig config = new RemoteConfig(repo.getConfig(), remote);
@@ -152,7 +151,8 @@ public class CloneCommand implements Callable<Git> {
 				+ config.getName();
 		RefSpec refSpec = new RefSpec();
 		refSpec = refSpec.setForceUpdate(true);
-		refSpec = refSpec.setSourceDestination(Constants.R_HEADS + "*", dst + "/*"); //$NON-NLS-1$ //$NON-NLS-2$
+		refSpec = refSpec.setSourceDestination(
+				Constants.R_HEADS + "*", dst + "/*"); //$NON-NLS-1$ //$NON-NLS-2$
 
 		config.addFetchRefSpec(refSpec);
 		config.update(repo.getConfig());
@@ -181,8 +181,7 @@ public class CloneCommand implements Callable<Git> {
 		List<RefSpec> specs = new ArrayList<RefSpec>();
 		if (cloneAllBranches)
 			specs.add(wcrs);
-		else if (branchesToClone != null
-				&& branchesToClone.size() > 0) {
+		else if (branchesToClone != null && branchesToClone.size() > 0) {
 			for (final String selectedRef : branchesToClone)
 				if (wcrs.matchSource(selectedRef))
 					specs.add(wcrs.expandFromSource(selectedRef));
@@ -191,8 +190,8 @@ public class CloneCommand implements Callable<Git> {
 	}
 
 	private void checkout(Repository repo, FetchResult result)
-			throws JGitInternalException,
-			MissingObjectException, IncorrectObjectTypeException, IOException {
+			throws JGitInternalException, MissingObjectException,
+			IncorrectObjectTypeException, IOException {
 
 		Ref head = result.getAdvertisedRef(branch);
 		if (branch.equals(Constants.HEAD)) {
@@ -301,8 +300,13 @@ public class CloneCommand implements Callable<Git> {
 	}
 
 	/**
+	 * The remote name used to keep track of the upstream repository for the
+	 * clone operation. If no remote name is set, the default value of
+	 * <code>Constants.DEFAULT_REMOTE_NAME</code> will be used.
+	 *
+	 * @see Constants#DEFAULT_REMOTE_NAME
 	 * @param remote
-	 *            the branch to keep track of in the origin repository
+	 *            name that keeps track of the upstream repository
 	 * @return this instance
 	 */
 	public CloneCommand setRemote(String remote) {
