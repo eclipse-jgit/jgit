@@ -301,8 +301,13 @@ public class CloneCommand implements Callable<Git> {
 	}
 
 	/**
+	 * The remote name used to keep track of the upstream repository for the
+	 * clone operation. If no remote name is set, the default value of
+	 * <code>Constants.DEFAULT_REMOTE_NAME</code> will be used.
+	 *
+	 * @see Constants#DEFAULT_REMOTE_NAME
 	 * @param remote
-	 *            the branch to keep track of in the origin repository
+	 *            name that keeps track of the upstream repository
 	 * @return this instance
 	 */
 	public CloneCommand setRemote(String remote) {
