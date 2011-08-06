@@ -98,7 +98,7 @@ class PackIndexWriterV2 extends PackIndexWriter {
 	private void writeOffset64() throws IOException {
 		for (final PackedObjectInfo oe : entries) {
 			final long o = oe.getOffset();
-			if (o > Integer.MAX_VALUE) {
+			if (o >= Integer.MAX_VALUE) {
 				NB.encodeInt64(tmp, 0, o);
 				out.write(tmp, 0, 8);
 			}
