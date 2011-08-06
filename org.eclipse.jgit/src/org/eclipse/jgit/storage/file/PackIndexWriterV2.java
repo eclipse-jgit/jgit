@@ -56,6 +56,9 @@ import org.eclipse.jgit.util.NB;
  * @see PackIndexV2
  */
 class PackIndexWriterV2 extends PackIndexWriter {
+	private static final int MAX_OFFSET_32 = 0x7fffffff;
+	private static final int IS_OFFSET_64 = 0x80000000;
+
 	PackIndexWriterV2(final OutputStream dst) {
 		super(dst);
 	}
@@ -87,10 +90,10 @@ class PackIndexWriterV2 extends PackIndexWriter {
 		int o64 = 0;
 		for (final PackedObjectInfo oe : entries) {
 			final long o = oe.getOffset();
-			if (o < Integer.MAX_VALUE)
+			if (o <= MAX_OFFSET_32)
 				NB.encodeInt32(tmp, 0, (int) o);
 			else
-				NB.encodeInt32(tmp, 0, (1 << 31) | o64++);
+				NB.encodeInt32(tmp, 0, IS_OFFSET_64 | o64++);
 			out.write(tmp, 0, 4);
 		}
 	}
@@ -98,7 +101,7 @@ class PackIndexWriterV2 extends PackIndexWriter {
 	private void writeOffset64() throws IOException {
 		for (final PackedObjectInfo oe : entries) {
 			final long o = oe.getOffset();
-			if (o > Integer.MAX_VALUE) {
+			if (MAX_OFFSET_32 < o) {
 				NB.encodeInt64(tmp, 0, o);
 				out.write(tmp, 0, 8);
 			}
