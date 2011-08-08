@@ -43,6 +43,10 @@
 
 package org.eclipse.jgit.revwalk;
 
+import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
+import static org.eclipse.jgit.lib.Constants.OBJ_COMMIT;
+import static org.eclipse.jgit.lib.Constants.OBJ_TREE;
+
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -51,13 +55,12 @@ import java.util.List;
 import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
+import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.AnyObjectId;
-import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.treewalk.CanonicalTreeParser;
+import org.eclipse.jgit.util.RawParseUtils;
 
 /**
  * Specialized subclass of RevWalk to include trees, blobs and tags.
@@ -76,6 +79,13 @@ import org.eclipse.jgit.treewalk.CanonicalTreeParser;
  * commits that are returned first.
  */
 public class ObjectWalk extends RevWalk {
+	private static final int ID_SZ = 20;
+	private static final int TYPE_SHIFT = 12;
+	private static final int TYPE_TREE = 0040000 >>> TYPE_SHIFT;
+	private static final int TYPE_SYMLINK = 0120000 >>> TYPE_SHIFT;
+	private static final int TYPE_FILE = 0100000 >>> TYPE_SHIFT;
+	private static final int TYPE_GITLINK = 0160000 >>> TYPE_SHIFT;
+
 	/**
 	 * Indicates a non-RevCommit is in {@link #pendingObjects}.
 	 * <p>
@@ -85,21 +95,23 @@ public class ObjectWalk extends RevWalk {
 	 */
 	private static final int IN_PENDING = RevWalk.REWRITE;
 
-	private static final byte[] EMPTY_PATH = {};
-
-	private CanonicalTreeParser treeWalk;
-
 	private List<RevObject> rootObjects;
 
 	private BlockObjQueue pendingObjects;
 
-	private RevTree currentTree;
-
-	private RevObject last;
-
 	private RevCommit firstCommit;
 
 	private RevCommit lastCommit;
+
+	private TreeVisit freeVisit;
+
+	private TreeVisit currVisit;
+
+	private byte[] pathBuf;
+
+	private int pathLen;
+
+	private boolean boundary;
 
 	/**
 	 * Create a new revision and object walker for a given repository.
@@ -123,7 +135,7 @@ public class ObjectWalk extends RevWalk {
 		super(or);
 		rootObjects = new ArrayList<RevObject>();
 		pendingObjects = new BlockObjQueue();
-		treeWalk = new CanonicalTreeParser();
+		pathBuf = new byte[256];
 	}
 
 	/**
@@ -213,7 +225,7 @@ public class ObjectWalk extends RevWalk {
 			IncorrectObjectTypeException, IOException {
 		while (o instanceof RevTag) {
 			o.flags |= UNINTERESTING;
-			if (hasRevSort(RevSort.BOUNDARY))
+			if (boundary)
 				addObject(o);
 			o = ((RevTag) o).getObject();
 			parseHeaders(o);
@@ -226,9 +238,20 @@ public class ObjectWalk extends RevWalk {
 		else
 			o.flags |= UNINTERESTING;
 
-		if (o.getType() != Constants.OBJ_COMMIT && hasRevSort(RevSort.BOUNDARY)) {
+		if (o.getType() != OBJ_COMMIT && boundary)
 			addObject(o);
-		}
+	}
+
+	@Override
+	public void sort(RevSort s) {
+		super.sort(s);
+		boundary = hasRevSort(RevSort.BOUNDARY);
+	}
+
+	@Override
+	public void sort(RevSort s, boolean use) {
+		super.sort(s, use);
+		boundary = hasRevSort(RevSort.BOUNDARY);
 	}
 
 	@Override
@@ -236,11 +259,14 @@ public class ObjectWalk extends RevWalk {
 			IncorrectObjectTypeException, IOException {
 		for (;;) {
 			final RevCommit r = super.next();
-			if (r == null)
+			if (r == null) {
+				if (firstCommit != null)
+					reader.walkAdviceBeginTrees(this, firstCommit, lastCommit);
 				return null;
+			}
 			if ((r.flags & UNINTERESTING) != 0) {
 				markTreeUninteresting(r.getTree());
-				if (hasRevSort(RevSort.BOUNDARY))
+				if (boundary)
 					return r;
 				continue;
 			}
@@ -268,85 +294,180 @@ public class ObjectWalk extends RevWalk {
 	 */
 	public RevObject nextObject() throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
-		if (last != null)
-			treeWalk = last instanceof RevTree ? enter(last) : treeWalk.next();
+		pathLen = 0;
 
-		while (!treeWalk.eof()) {
-			final FileMode mode = treeWalk.getEntryFileMode();
-			switch (mode.getObjectType()) {
-			case Constants.OBJ_BLOB: {
-				treeWalk.getEntryObjectId(idBuffer);
-				final RevBlob o = lookupBlob(idBuffer);
-				if ((o.flags & SEEN) != 0)
-					break;
-				o.flags |= SEEN;
-				if (shouldSkipObject(o))
-					break;
-				last = o;
-				return o;
-			}
-			case Constants.OBJ_TREE: {
-				treeWalk.getEntryObjectId(idBuffer);
-				final RevTree o = lookupTree(idBuffer);
-				if ((o.flags & SEEN) != 0)
-					break;
-				o.flags |= SEEN;
-				if (shouldSkipObject(o))
-					break;
-				last = o;
-				return o;
-			}
-			default:
-				if (FileMode.GITLINK.equals(mode))
-					break;
-				treeWalk.getEntryObjectId(idBuffer);
-				throw new CorruptObjectException(MessageFormat.format(JGitText.get().corruptObjectInvalidMode3
-						, mode , idBuffer.name() , treeWalk.getEntryPathString() , currentTree.name()));
+		TreeVisit tv = currVisit;
+		while (tv != null) {
+			byte[] buf = tv.buf;
+			for (int ptr = tv.ptr; ptr < buf.length;) {
+				int startPtr = ptr;
+				ptr = findObjectId(buf, ptr);
+				idBuffer.fromRaw(buf, ptr);
+				ptr += ID_SZ;
+
+				RevObject obj = objects.get(idBuffer);
+				if (obj != null && (obj.flags & SEEN) != 0)
+					continue;
+
+				int mode = parseMode(buf, startPtr, ptr, tv);
+				int flags;
+				switch (mode >>> TYPE_SHIFT) {
+				case TYPE_FILE:
+				case TYPE_SYMLINK:
+					if (obj == null) {
+						obj = new RevBlob(idBuffer);
+						obj.flags = SEEN;
+						objects.add(obj);
+						return obj;
+					}
+					if (!(obj instanceof RevBlob))
+						throw new IncorrectObjectTypeException(obj, OBJ_BLOB);
+					obj.flags = flags = obj.flags | SEEN;
+					if ((flags & UNINTERESTING) == 0)
+						return obj;
+					if (boundary)
+						return obj;
+					continue;
+
+				case TYPE_TREE:
+					if (obj == null) {
+						obj = new RevTree(idBuffer);
+						obj.flags = SEEN;
+						objects.add(obj);
+						return enterTree(obj);
+					}
+					if (!(obj instanceof RevTree))
+						throw new IncorrectObjectTypeException(obj, OBJ_TREE);
+					obj.flags = flags = obj.flags | SEEN;
+					if ((flags & UNINTERESTING) == 0)
+						return enterTree(obj);
+					if (boundary)
+						return enterTree(obj);
+					continue;
+
+				case TYPE_GITLINK:
+					continue;
+
+				default:
+					throw new CorruptObjectException(MessageFormat.format(
+							JGitText.get().corruptObjectInvalidMode3,
+							String.format("%o", mode), idBuffer.name(),
+							RawParseUtils.decode(buf, tv.namePtr, tv.nameEnd),
+							tv.obj));
+				}
 			}
 
-			treeWalk = treeWalk.next();
+			currVisit = tv.parent;
+			releaseTreeVisit(tv);
+			tv = currVisit;
 		}
 
-		if (firstCommit != null) {
-			reader.walkAdviceBeginTrees(this, firstCommit, lastCommit);
-			firstCommit = null;
-			lastCommit = null;
-		}
-
-		last = null;
 		for (;;) {
-			final RevObject o = pendingObjects.next();
+			RevObject o = pendingObjects.next();
 			if (o == null) {
 				reader.walkAdviceEnd();
 				return null;
 			}
-			if ((o.flags & SEEN) != 0)
+			int flags = o.flags;
+			if ((flags & SEEN) != 0)
 				continue;
-			o.flags |= SEEN;
-			if (shouldSkipObject(o))
-				continue;
-			if (o instanceof RevTree) {
-				currentTree = (RevTree) o;
-				treeWalk = treeWalk.resetRoot(reader, currentTree);
+			flags |= SEEN;
+			o.flags = flags;
+			if ((flags & UNINTERESTING) == 0 | boundary) {
+				if (o instanceof RevTree) {
+					tv = newTreeVisit(o);
+					tv.parent = null;
+					currVisit = tv;
+				}
+				return o;
 			}
-			return o;
 		}
 	}
 
-	private CanonicalTreeParser enter(RevObject tree) throws IOException {
-		CanonicalTreeParser p = treeWalk.createSubtreeIterator0(reader, tree);
-		if (p.eof()) {
-			// We can't tolerate the subtree being an empty tree, as
-			// that will break us out early before we visit all names.
-			// If it is, advance to the parent's next record.
-			//
-			return treeWalk.next();
-		}
-		return p;
+	private RevObject enterTree(RevObject obj) throws MissingObjectException,
+			IncorrectObjectTypeException, IOException {
+		TreeVisit tv = newTreeVisit(obj);
+		tv.parent = currVisit;
+		currVisit = tv;
+		return obj;
 	}
 
-	private final boolean shouldSkipObject(final RevObject o) {
-		return (o.flags & UNINTERESTING) != 0 && !hasRevSort(RevSort.BOUNDARY);
+	private static int findObjectId(byte[] buf, int ptr) {
+		// Skip over the mode and name until the NUL before the ObjectId
+		// can be located. Skip the NUL as the function returns.
+		for (;;) {
+			if (buf[++ptr] == 0) return ++ptr;
+			if (buf[++ptr] == 0) return ++ptr;
+			if (buf[++ptr] == 0) return ++ptr;
+			if (buf[++ptr] == 0) return ++ptr;
+
+			if (buf[++ptr] == 0) return ++ptr;
+			if (buf[++ptr] == 0) return ++ptr;
+			if (buf[++ptr] == 0) return ++ptr;
+			if (buf[++ptr] == 0) return ++ptr;
+
+			if (buf[++ptr] == 0) return ++ptr;
+			if (buf[++ptr] == 0) return ++ptr;
+			if (buf[++ptr] == 0) return ++ptr;
+			if (buf[++ptr] == 0) return ++ptr;
+
+			if (buf[++ptr] == 0) return ++ptr;
+			if (buf[++ptr] == 0) return ++ptr;
+			if (buf[++ptr] == 0) return ++ptr;
+			if (buf[++ptr] == 0) return ++ptr;
+		}
+	}
+
+	private static int parseMode(byte[] buf, int startPtr, int recEndPtr, TreeVisit tv) {
+		int mode = buf[startPtr] - '0';
+		for (;;) {
+			byte c = buf[++startPtr];
+			if (' ' == c)
+				break;
+			mode <<= 3;
+			mode += c - '0';
+
+			c = buf[++startPtr];
+			if (' ' == c)
+				break;
+			mode <<= 3;
+			mode += c - '0';
+
+			c = buf[++startPtr];
+			if (' ' == c)
+				break;
+			mode <<= 3;
+			mode += c - '0';
+
+			c = buf[++startPtr];
+			if (' ' == c)
+				break;
+			mode <<= 3;
+			mode += c - '0';
+
+			c = buf[++startPtr];
+			if (' ' == c)
+				break;
+			mode <<= 3;
+			mode += c - '0';
+
+			c = buf[++startPtr];
+			if (' ' == c)
+				break;
+			mode <<= 3;
+			mode += c - '0';
+
+			c = buf[++startPtr];
+			if (' ' == c)
+				break;
+			mode <<= 3;
+			mode += c - '0';
+		}
+
+		tv.ptr = recEndPtr;
+		tv.namePtr = startPtr + 1;
+		tv.nameEnd = recEndPtr - (ID_SZ + 1);
+		return mode;
 	}
 
 	/**
@@ -383,7 +504,7 @@ public class ObjectWalk extends RevWalk {
 			if (o == null)
 				break;
 			if (o instanceof RevBlob && !reader.has(o))
-				throw new MissingObjectException(o, Constants.TYPE_BLOB);
+				throw new MissingObjectException(o, OBJ_BLOB);
 		}
 	}
 
@@ -401,7 +522,12 @@ public class ObjectWalk extends RevWalk {
 	 *         has no path, such as for annotated tags or root level trees.
 	 */
 	public String getPathString() {
-		return last != null ? treeWalk.getEntryPathString() : null;
+		if (pathLen == 0) {
+			pathLen = updatePathBuf(currVisit);
+			if (pathLen == 0)
+				return null;
+		}
+		return RawParseUtils.decode(pathBuf, 0, pathLen);
 	}
 
 	/**
@@ -413,28 +539,104 @@ public class ObjectWalk extends RevWalk {
 	 * @return path hash code; any integer may be returned.
 	 */
 	public int getPathHashCode() {
-		return last != null ? treeWalk.getEntryPathHashCode() : 0;
+		TreeVisit tv = currVisit;
+		if (tv == null)
+			return 0;
+
+		int nameEnd = tv.nameEnd;
+		if (nameEnd == 0) {
+			// When nameEnd == 0 the subtree is itself the current path
+			// being visited. The name hash must be obtained from its
+			// parent tree. If there is no parent, this is a root tree with
+			// a hash code of 0.
+			tv = tv.parent;
+			if (tv == null)
+				return 0;
+			nameEnd = tv.nameEnd;
+		}
+
+		byte[] buf;
+		int ptr;
+
+		if (16 <= (nameEnd - tv.namePtr)) {
+			buf = tv.buf;
+			ptr = nameEnd - 16;
+		} else {
+			nameEnd = pathLen;
+			if (nameEnd == 0) {
+				nameEnd = updatePathBuf(currVisit);
+				pathLen = nameEnd;
+			}
+			buf = pathBuf;
+			ptr = Math.max(0, nameEnd - 16);
+		}
+
+		int hash = 0;
+		for (; ptr < nameEnd; ptr++) {
+			byte c = buf[ptr];
+			if (c != ' ')
+				hash = (hash >>> 2) + (c << 24);
+		}
+		return hash;
 	}
 
 	/** @return the internal buffer holding the current path. */
 	public byte[] getPathBuffer() {
-		return last != null ? treeWalk.getEntryPathBuffer() : EMPTY_PATH;
+		if (pathLen == 0)
+			pathLen = updatePathBuf(currVisit);
+		return pathBuf;
 	}
 
 	/** @return length of the path in {@link #getPathBuffer()}. */
 	public int getPathLength() {
-		return last != null ? treeWalk.getEntryPathLength() : 0;
+		if (pathLen == 0)
+			pathLen = updatePathBuf(currVisit);
+		return pathLen;
+	}
+
+	private int updatePathBuf(TreeVisit tv) {
+		if (tv == null)
+			return 0;
+
+		// If nameEnd == 0 this tree has not yet contributed an entry.
+		// Update only for the parent, which if null will be empty.
+		int nameEnd = tv.nameEnd;
+		if (nameEnd == 0)
+			return updatePathBuf(tv.parent);
+
+		int ptr = tv.pathLen;
+		if (ptr == 0) {
+			ptr = updatePathBuf(tv.parent);
+			if (ptr == pathBuf.length)
+				growPathBuf(ptr);
+			if (ptr != 0)
+				pathBuf[ptr++] = '/';
+			tv.pathLen = ptr;
+		}
+
+		int namePtr = tv.namePtr;
+		int nameLen = nameEnd - namePtr;
+		int end = ptr + nameLen;
+		while (pathBuf.length < end)
+			growPathBuf(ptr);
+		System.arraycopy(tv.buf, namePtr, pathBuf, ptr, nameLen);
+		return end;
+	}
+
+	private void growPathBuf(int ptr) {
+		byte[] newBuf = new byte[pathBuf.length << 1];
+		System.arraycopy(pathBuf, 0, newBuf, 0, ptr);
+		pathBuf = newBuf;
 	}
 
 	@Override
 	public void dispose() {
 		super.dispose();
 		pendingObjects = new BlockObjQueue();
-		treeWalk = new CanonicalTreeParser();
-		currentTree = null;
-		last = null;
 		firstCommit = null;
 		lastCommit = null;
+		currVisit = null;
+		freeVisit = null;
 	}
 
 	@Override
@@ -446,11 +648,10 @@ public class ObjectWalk extends RevWalk {
 
 		rootObjects = new ArrayList<RevObject>();
 		pendingObjects = new BlockObjQueue();
-		treeWalk = new CanonicalTreeParser();
-		currentTree = null;
-		last = null;
 		firstCommit = null;
 		lastCommit = null;
+		currVisit = null;
+		freeVisit = null;
 	}
 
 	private void addObject(final RevObject o) {
@@ -468,36 +669,90 @@ public class ObjectWalk extends RevWalk {
 			return;
 		tree.flags |= UNINTERESTING;
 
-		treeWalk = treeWalk.resetRoot(reader, tree);
-		while (!treeWalk.eof()) {
-			final FileMode mode = treeWalk.getEntryFileMode();
-			final int sType = mode.getObjectType();
+		byte[] raw = reader.open(tree, OBJ_TREE).getCachedBytes();
+		for (int ptr = 0; ptr < raw.length;) {
+			byte c = raw[ptr];
+			int mode = c - '0';
+			for (;;) {
+				c = raw[++ptr];
+				if (' ' == c)
+					break;
+				mode <<= 3;
+				mode += c - '0';
+			}
+			while (raw[++ptr] != 0) {
+				// Skip entry name.
+			}
+			ptr++; // Skip NUL after entry name.
 
-			switch (sType) {
-			case Constants.OBJ_BLOB: {
-				treeWalk.getEntryObjectId(idBuffer);
+			switch (mode >>> TYPE_SHIFT) {
+			case TYPE_FILE:
+			case TYPE_SYMLINK:
+				idBuffer.fromRaw(raw, ptr);
 				lookupBlob(idBuffer).flags |= UNINTERESTING;
 				break;
-			}
-			case Constants.OBJ_TREE: {
-				treeWalk.getEntryObjectId(idBuffer);
-				final RevTree t = lookupTree(idBuffer);
-				if ((t.flags & UNINTERESTING) == 0) {
-					t.flags |= UNINTERESTING;
-					treeWalk = treeWalk.createSubtreeIterator0(reader, t);
-					continue;
-				}
-				break;
-			}
-			default:
-				if (FileMode.GITLINK.equals(mode))
-					break;
-				treeWalk.getEntryObjectId(idBuffer);
-				throw new CorruptObjectException(MessageFormat.format(JGitText.get().corruptObjectInvalidMode3
-						, mode , idBuffer.name() , treeWalk.getEntryPathString() , tree));
-			}
 
-			treeWalk = treeWalk.next();
+			case TYPE_TREE:
+				idBuffer.fromRaw(raw, ptr);
+				markTreeUninteresting(lookupTree(idBuffer));
+				break;
+
+			case TYPE_GITLINK:
+				break;
+
+			default:
+				idBuffer.fromRaw(raw, ptr);
+				throw new CorruptObjectException(MessageFormat.format(JGitText
+						.get().corruptObjectInvalidMode3, String.format("%o",
+						mode), idBuffer.name(), "", tree));
+			}
+			ptr += ID_SZ;
 		}
+	}
+
+	private TreeVisit newTreeVisit(RevObject obj) throws LargeObjectException,
+			MissingObjectException, IncorrectObjectTypeException, IOException {
+		TreeVisit tv = freeVisit;
+		if (tv != null) {
+			freeVisit = tv.parent;
+			tv.ptr = 0;
+			tv.namePtr = 0;
+			tv.nameEnd = 0;
+			tv.pathLen = 0;
+		} else {
+			tv = new TreeVisit();
+		}
+		tv.obj = obj;
+		tv.buf = reader.open(obj, OBJ_TREE).getCachedBytes();
+		return tv;
+	}
+
+	private void releaseTreeVisit(TreeVisit tv) {
+		tv.buf = null;
+		tv.parent = freeVisit;
+		freeVisit = tv;
+	}
+
+	private static class TreeVisit {
+		/** Parent tree visit that entered this tree, null if root tree. */
+		TreeVisit parent;
+
+		/** The RevTree currently being iterated through. */
+		RevObject obj;
+
+		/** Canonical encoding of the tree named by {@link #obj}. */
+		byte[] buf;
+
+		/** Index of next entry to parse in {@link #buf}. */
+		int ptr;
+
+		/** Start of the current name entry in {@link #buf}. */
+		int namePtr;
+
+		/** One past end of name, {@code nameEnd - namePtr} is the length. */
+		int nameEnd;
+
+		/** Number of bytes in the path leading up to this tree. */
+		int pathLen;
 	}
 }
