@@ -1437,20 +1437,29 @@ public class PackWriter {
 		}
 		commits = null;
 
-		BaseSearch bases = new BaseSearch(countingMonitor, baseTrees, //
-				objectsMap, edgeObjects, reader);
-		RevObject o;
-		while ((o = walker.nextObject()) != null) {
-			if (o.has(RevFlag.UNINTERESTING))
-				continue;
+		if (thin && !baseTrees.isEmpty()) {
+			BaseSearch bases = new BaseSearch(countingMonitor, baseTrees, //
+					objectsMap, edgeObjects, reader);
+			RevObject o;
+			while ((o = walker.nextObject()) != null) {
+				if (o.has(RevFlag.UNINTERESTING))
+					continue;
 
-			int pathHash = walker.getPathHashCode();
-			byte[] pathBuf = walker.getPathBuffer();
-			int pathLen = walker.getPathLength();
-
-			bases.addBase(o.getType(), pathBuf, pathLen, pathHash);
-			addObject(o, pathHash);
-			countingMonitor.update(1);
+				int pathHash = walker.getPathHashCode();
+				byte[] pathBuf = walker.getPathBuffer();
+				int pathLen = walker.getPathLength();
+				bases.addBase(o.getType(), pathBuf, pathLen, pathHash);
+				addObject(o, pathHash);
+				countingMonitor.update(1);
+			}
+		} else {
+			RevObject o;
+			while ((o = walker.nextObject()) != null) {
+				if (o.has(RevFlag.UNINTERESTING))
+					continue;
+				addObject(o, walker.getPathHashCode());
+				countingMonitor.update(1);
+			}
 		}
 
 		for (CachedPack pack : cachedPacks)
