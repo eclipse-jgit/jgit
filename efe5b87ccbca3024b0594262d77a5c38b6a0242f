@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "AABOAn///ws\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-08-07T13:46:04Z",
+      "side": 1,
+      "message": "Sure about the -1 here?",
+      "revId": "efe5b87ccbca3024b0594262d77a5c38b6a0242f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOAn///w0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/PackIndexWriterV2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-08-07T13:44:42Z",
+      "side": 1,
+      "message": "nit-pick:\nWouldn\u0027t it be better to change the writeOffset32 instead?\nIt looks funny when an offset of 0x7FFFFFFF requires a\n64-bit offset in JGit, but not in C Git.",
+      "revId": "efe5b87ccbca3024b0594262d77a5c38b6a0242f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOAn///wg\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/PackIndexWriterV2.java",
         "patchSetId": 1
