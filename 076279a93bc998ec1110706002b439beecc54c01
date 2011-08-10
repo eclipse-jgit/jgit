@@ -16,6 +16,24 @@
       "revId": "076279a93bc998ec1110706002b439beecc54c01",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOAX//+rc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/RefDirectory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-07-22T09:52:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOAH///1s\u003d",
+      "revId": "076279a93bc998ec1110706002b439beecc54c01",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
