@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOAn///sA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/PackIndexWriterV2.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-08-08T21:39:12Z",
+      "side": 1,
+      "message": "I think this needs to be a POSITIVE integer, make it a long.",
+      "revId": "08e109d5e336da0e0091502890e3c5dc4039ef8d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
