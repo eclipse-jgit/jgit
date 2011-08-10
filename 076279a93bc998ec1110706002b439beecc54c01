@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOAH///1s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/RefDirectory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-06-24T22:41:07Z",
+      "side": 1,
+      "message": "Instead of all of these HashMap operations, why not:\n\n  for (int i \u003d 0; i \u003c entries.length) {\n    if (new File(dir, entries[i])).isDirectory())\n      entries[i] +\u003d \"/\";\n  }\n  Arrays.sort(entries);\n\nIts fewer object allocations. We don\u0027t have the hash operations. We can still use the natural comparator for Arrays.sort().\n\nAnd below in the scanTree routine, we already need name + \"/\" for a directory anyway. And we can decide to enter scanTree or scanOne using the suffix:\n\n  for (String name : entries) {\n    if (name.charAt(name.length() - 1) \u003d\u003d \u0027/\u0027)\n      scanTree(prefix + name, new File(dir, name);\n    else\n      scanOne(prefix + name);\n  }",
+      "revId": "076279a93bc998ec1110706002b439beecc54c01",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
