@@ -1,0 +1,22 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOAn///wg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/PackIndexWriterV2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-08-07T19:18:12Z",
+      "side": 1,
+      "message": "Ohh. I see what you are saying. Yes, I have this code wrong. I\u0027ll send a replacement patch in a minute.",
+      "parentUuid": "AABOAn///w0\u003d",
+      "revId": "efe5b87ccbca3024b0594262d77a5c38b6a0242f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
