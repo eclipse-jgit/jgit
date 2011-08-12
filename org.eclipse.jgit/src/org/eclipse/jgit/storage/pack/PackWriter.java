@@ -91,6 +91,7 @@ import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.ThreadSafeProgressMonitor;
 import org.eclipse.jgit.revwalk.AsyncRevObjectQueue;
+import org.eclipse.jgit.revwalk.DepthWalk;
 import org.eclipse.jgit.revwalk.ObjectWalk;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
@@ -99,6 +100,7 @@ import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevSort;
 import org.eclipse.jgit.revwalk.RevTag;
 import org.eclipse.jgit.revwalk.RevTree;
+import org.eclipse.jgit.storage.file.PackIndex;
 import org.eclipse.jgit.storage.file.PackIndexWriter;
 import org.eclipse.jgit.util.BlockList;
 import org.eclipse.jgit.util.TemporaryBuffer;
@@ -157,6 +159,10 @@ public class PackWriter {
 
 	private Set<ObjectId> tagTargets = Collections.emptySet();
 
+	private PackIndex[] excludeInPacks;
+
+	private PackIndex excludeInPackLast;
+
 	private Deflater myDeflater;
 
 	private final ObjectReader reader;
@@ -189,6 +195,12 @@ public class PackWriter {
 	private boolean ignoreMissingUninteresting = true;
 
 	private boolean pruneCurrentObjectList;
+
+	private boolean shallowPack;
+
+	private int depth;
+
+	private Collection<? extends ObjectId> unshallowObjects;
 
 	/**
 	 * Create writer for specified repository.
@@ -403,6 +415,22 @@ public class PackWriter {
 	}
 
 	/**
+	 * Configure this pack for a shallow clone.
+	 *
+	 * @param depth
+	 *            maximum depth to traverse the commit graph
+	 * @param unshallow
+	 *            objects which used to be shallow on the client, but are being
+	 *            extended as part of this fetch
+	 */
+	public void setShallowPack(int depth,
+			Collection<? extends ObjectId> unshallow) {
+		this.shallowPack = true;
+		this.depth = depth;
+		this.unshallowObjects = unshallow;
+	}
+
+	/**
 	 * Returns objects number in a pack file that was created by this writer.
 	 *
 	 * @return number of objects in pack.
@@ -423,6 +451,25 @@ public class PackWriter {
 			return objCnt;
 		}
 		return stats.totalObjects;
+	}
+
+	/**
+	 * Add a pack index whose contents should be excluded from the result.
+	 *
+	 * @param idx
+	 *            objects in this index will not be in the output pack.
+	 */
+	public void excludeObjects(PackIndex idx) {
+		if (excludeInPacks == null) {
+			excludeInPacks = new PackIndex[] { idx };
+			excludeInPackLast = idx;
+		} else {
+			int cnt = excludeInPacks.length;
+			PackIndex[] newList = new PackIndex[cnt + 1];
+			System.arraycopy(excludeInPacks, 0, newList, 0, cnt);
+			newList[cnt] = idx;
+			excludeInPacks = newList;
+		}
 	}
 
 	/**
@@ -514,7 +561,7 @@ public class PackWriter {
 	 */
 	@Deprecated
 	public void preparePack(ProgressMonitor countingMonitor,
-			final ObjectWalk walk,
+			ObjectWalk walk,
 			final Collection<? extends ObjectId> interestingObjects,
 			final Collection<? extends ObjectId> uninterestingObjects)
 			throws IOException {
@@ -561,7 +608,11 @@ public class PackWriter {
 	public void preparePack(ProgressMonitor countingMonitor,
 			Set<? extends ObjectId> want,
 			Set<? extends ObjectId> have) throws IOException {
-		ObjectWalk ow = new ObjectWalk(reader);
+		ObjectWalk ow;
+		if (shallowPack)
+			ow = new DepthWalk.ObjectWalk(reader, depth);
+		else
+			ow = new ObjectWalk(reader);
 		preparePack(countingMonitor, ow, want, have);
 	}
 
@@ -591,12 +642,14 @@ public class PackWriter {
 	 *             when some I/O problem occur during reading objects.
 	 */
 	public void preparePack(ProgressMonitor countingMonitor,
-			final ObjectWalk walk,
+			ObjectWalk walk,
 			final Set<? extends ObjectId> interestingObjects,
 			final Set<? extends ObjectId> uninterestingObjects)
 			throws IOException {
 		if (countingMonitor == null)
 			countingMonitor = NullProgressMonitor.INSTANCE;
+		if (shallowPack && !(walk instanceof DepthWalk.ObjectWalk))
+			walk = new DepthWalk.ObjectWalk(reader, depth);
 		findObjectsToPack(countingMonitor, walk, interestingObjects,
 				uninterestingObjects);
 	}
@@ -720,6 +773,9 @@ public class PackWriter {
 			compressMonitor = NullProgressMonitor.INSTANCE;
 		if (writeMonitor == null)
 			writeMonitor = NullProgressMonitor.INSTANCE;
+
+		excludeInPacks = null;
+		excludeInPackLast = null;
 
 		boolean needSearchForReuse = reuseSupport != null && (
 				   reuseDeltas
@@ -1416,9 +1472,9 @@ public class PackWriter {
 					if (tipToPack.containsKey(o))
 						o.add(inCachedPack);
 
-					if (have.contains(o)) {
+					if (have.contains(o))
 						haveObjs.add(o);
-					} else if (want.contains(o)) {
+					if (want.contains(o)) {
 						o.add(include);
 						wantObjs.add(o);
 						if (o instanceof RevTag)
@@ -1449,8 +1505,18 @@ public class PackWriter {
 			}
 		}
 
-		for (RevObject obj : wantObjs)
-			walker.markStart(obj);
+		if (walker instanceof DepthWalk.ObjectWalk) {
+			DepthWalk.ObjectWalk depthWalk = (DepthWalk.ObjectWalk) walker;
+			for (RevObject obj : wantObjs)
+				depthWalk.markRoot(obj);
+			if (unshallowObjects != null) {
+				for (ObjectId id : unshallowObjects)
+					depthWalk.markUnshallow(walker.parseAny(id));
+			}
+		} else {
+			for (RevObject obj : wantObjs)
+				walker.markStart(obj);
+		}
 		for (RevObject obj : haveObjs)
 			walker.markUninteresting(obj);
 
@@ -1459,6 +1525,8 @@ public class PackWriter {
 		BlockList<RevCommit> commits = new BlockList<RevCommit>();
 		RevCommit c;
 		while ((c = walker.next()) != null) {
+			if (exclude(c))
+				continue;
 			if (c.has(inCachedPack)) {
 				CachedPack pack = tipToPack.get(c);
 				if (includesAllTips(pack, include, walker)) {
@@ -1483,36 +1551,42 @@ public class PackWriter {
 			countingMonitor.update(1);
 		}
 
-		int commitCnt = 0;
-		boolean putTagTargets = false;
-		for (RevCommit cmit : commits) {
-			if (!cmit.has(added)) {
-				cmit.add(added);
+		if (shallowPack) {
+			for (RevCommit cmit : commits) {
 				addObject(cmit, 0);
-				commitCnt++;
 			}
-
-			for (int i = 0; i < cmit.getParentCount(); i++) {
-				RevCommit p = cmit.getParent(i);
-				if (!p.has(added) && !p.has(RevFlag.UNINTERESTING)) {
-					p.add(added);
-					addObject(p, 0);
+		} else {
+			int commitCnt = 0;
+			boolean putTagTargets = false;
+			for (RevCommit cmit : commits) {
+				if (!cmit.has(added)) {
+					cmit.add(added);
+					addObject(cmit, 0);
 					commitCnt++;
 				}
-			}
 
-			if (!putTagTargets && 4096 < commitCnt) {
-				for (ObjectId id : tagTargets) {
-					RevObject obj = walker.lookupOrNull(id);
-					if (obj instanceof RevCommit
-							&& obj.has(include)
-							&& !obj.has(RevFlag.UNINTERESTING)
-							&& !obj.has(added)) {
-						obj.add(added);
-						addObject(obj, 0);
+				for (int i = 0; i < cmit.getParentCount(); i++) {
+					RevCommit p = cmit.getParent(i);
+					if (!p.has(added) && !p.has(RevFlag.UNINTERESTING)) {
+						p.add(added);
+						addObject(p, 0);
+						commitCnt++;
 					}
 				}
-				putTagTargets = true;
+
+				if (!putTagTargets && 4096 < commitCnt) {
+					for (ObjectId id : tagTargets) {
+						RevObject obj = walker.lookupOrNull(id);
+						if (obj instanceof RevCommit
+								&& obj.has(include)
+								&& !obj.has(RevFlag.UNINTERESTING)
+								&& !obj.has(added)) {
+							obj.add(added);
+							addObject(obj, 0);
+						}
+					}
+					putTagTargets = true;
+				}
 			}
 		}
 		commits = null;
@@ -1523,6 +1597,8 @@ public class PackWriter {
 			RevObject o;
 			while ((o = walker.nextObject()) != null) {
 				if (o.has(RevFlag.UNINTERESTING))
+					continue;
+				if (exclude(o))
 					continue;
 
 				int pathHash = walker.getPathHashCode();
@@ -1536,6 +1612,8 @@ public class PackWriter {
 			RevObject o;
 			while ((o = walker.nextObject()) != null) {
 				if (o.has(RevFlag.UNINTERESTING))
+					continue;
+				if (exclude(o))
 					continue;
 				addObject(o, walker.getPathHashCode());
 				countingMonitor.update(1);
@@ -1608,7 +1686,8 @@ public class PackWriter {
 	 */
 	public void addObject(final RevObject object)
 			throws IncorrectObjectTypeException {
-		addObject(object, 0);
+		if (!exclude(object))
+			addObject(object, 0);
 	}
 
 	private void addObject(final RevObject object, final int pathHashCode) {
@@ -1620,6 +1699,20 @@ public class PackWriter {
 		otp.setPathHash(pathHashCode);
 		objectsLists[object.getType()].add(otp);
 		objectsMap.add(otp);
+	}
+
+	private boolean exclude(AnyObjectId objectId) {
+		if (excludeInPacks == null)
+			return false;
+		if (excludeInPackLast.hasObject(objectId))
+			return true;
+		for (PackIndex idx : excludeInPacks) {
+			if (idx.hasObject(objectId)) {
+				excludeInPackLast = idx;
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
