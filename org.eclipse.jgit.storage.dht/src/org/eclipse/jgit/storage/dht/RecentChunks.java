@@ -44,6 +44,7 @@
 package org.eclipse.jgit.storage.dht;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
@@ -55,9 +56,11 @@ final class RecentChunks {
 
 	private final DhtReader.Statistics stats;
 
-	private final int maxSize;
+	private final HashMap<ChunkKey, Node> byKey;
 
-	private int curSize;
+	private int maxBytes;
+
+	private int curBytes;
 
 	private Node lruHead;
 
@@ -66,38 +69,56 @@ final class RecentChunks {
 	RecentChunks(DhtReader reader) {
 		this.reader = reader;
 		this.stats = reader.getStatistics();
-		this.maxSize = reader.getOptions().getRecentChunkCacheSize();
+		this.byKey = new HashMap<ChunkKey, Node>();
+		this.maxBytes = reader.getOptions().getChunkLimit();
+	}
+
+	void setMaxBytes(int newMax) {
+		maxBytes = Math.max(0, newMax);
+		if (0 < maxBytes)
+			prune();
+		else
+			clear();
 	}
 
 	PackChunk get(ChunkKey key) {
-		for (Node n = lruHead; n != null; n = n.next) {
-			if (key.equals(n.chunk.getChunkKey())) {
-				hit(n);
-				stats.recentChunks_Hits++;
-				return n.chunk;
-			}
+		Node n = byKey.get(key);
+		if (n != null) {
+			hit(n);
+			stats.recentChunks_Hits++;
+			return n.chunk;
 		}
 		stats.recentChunks_Miss++;
 		return null;
 	}
 
 	void put(PackChunk chunk) {
-		for (Node n = lruHead; n != null; n = n.next) {
-			if (n.chunk == chunk) {
-				hit(n);
-				return;
-			}
+		Node n = byKey.get(chunk.getChunkKey());
+		if (n != null && n.chunk == chunk) {
+			hit(n);
+			return;
 		}
 
-		Node n;
-		if (curSize < maxSize) {
-			n = new Node();
-			curSize++;
-		} else {
-			n = lruTail;
-		}
+		curBytes += chunk.getTotalSize();
+		prune();
+
+		n = new Node();
 		n.chunk = chunk;
-		hit(n);
+		byKey.put(chunk.getChunkKey(), n);
+		first(n);
+	}
+
+	private void prune() {
+		while (maxBytes < curBytes) {
+			Node n = lruTail;
+			if (n == null)
+				break;
+
+			PackChunk c = n.chunk;
+			curBytes -= c.getTotalSize();
+			byKey.remove(c.getChunkKey());
+			remove(n);
+		}
 	}
 
 	ObjectLoader open(RepositoryKey repo, AnyObjectId objId, int typeHint)
@@ -164,9 +185,10 @@ final class RecentChunks {
 	}
 
 	void clear() {
-		curSize = 0;
+		curBytes = 0;
 		lruHead = null;
 		lruTail = null;
+		byKey.clear();
 	}
 
 	private void hit(Node n) {

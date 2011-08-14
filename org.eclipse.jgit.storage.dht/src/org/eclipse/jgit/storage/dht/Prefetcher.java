@@ -104,7 +104,7 @@ class Prefetcher implements StreamingCallback<Collection<PackChunk.Members>> {
 
 	private DhtException error;
 
-	Prefetcher(DhtReader reader, int objectType) {
+	Prefetcher(DhtReader reader, int objectType, int prefetchLimitInBytes) {
 		this.db = reader.getDatabase();
 		this.stats = reader.getStatistics();
 		this.objectType = objectType;
@@ -113,7 +113,7 @@ class Prefetcher implements StreamingCallback<Collection<PackChunk.Members>> {
 		this.queue = new LinkedList<ChunkKey>();
 		this.followEdgeHints = reader.getOptions().isPrefetchFollowEdgeHints();
 		this.averageChunkSize = reader.getInserterOptions().getChunkSize();
-		this.highWaterMark = reader.getOptions().getPrefetchLimit();
+		this.highWaterMark = prefetchLimitInBytes;
 
 		int lwm = (highWaterMark / averageChunkSize) - 4;
 		if (lwm <= 0)

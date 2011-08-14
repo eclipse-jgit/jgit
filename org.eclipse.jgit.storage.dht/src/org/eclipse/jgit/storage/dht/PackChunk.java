@@ -291,7 +291,7 @@ public final class PackChunk {
 	}
 
 	int findOffset(RepositoryKey repo, AnyObjectId objId) {
-		if (key.getRepositoryId() == repo.asInt())
+		if (key.getRepositoryId() == repo.asInt() && index != null)
 			return index.findOffset(objId);
 		return -1;
 	}

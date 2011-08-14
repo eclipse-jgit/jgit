@@ -57,7 +57,15 @@ public class DhtReaderOptions {
 
 	private boolean prefetchFollowEdgeHints;
 
-	private int prefetchLimit;
+	private int chunkLimit;
+
+	private int openQueuePrefetchRatio;
+
+	private int walkCommitsPrefetchRatio;
+
+	private int walkTreesPrefetchRatio;
+
+	private int writeObjectsPrefetchRatio;
 
 	private int objectIndexConcurrentBatches;
 
@@ -69,15 +77,18 @@ public class DhtReaderOptions {
 
 	private int recentInfoCacheSize;
 
-	private int recentChunkCacheSize;
-
 	private boolean trackFirstChunkLoad;
 
 	/** Create a default reader configuration. */
 	public DhtReaderOptions() {
 		setTimeout(Timeout.seconds(5));
 		setPrefetchFollowEdgeHints(true);
-		setPrefetchLimit(5 * MiB);
+
+		setChunkLimit(5 * MiB);
+		setOpenQueuePrefetchRatio(20 /* percent */);
+		setWalkCommitsPrefetchRatio(20 /* percent */);
+		setWalkTreesPrefetchRatio(20 /* percent */);
+		setWriteObjectsPrefetchRatio(90 /* percent */);
 
 		setObjectIndexConcurrentBatches(2);
 		setObjectIndexBatchSize(512);
@@ -86,7 +97,6 @@ public class DhtReaderOptions {
 		setDeltaBaseCacheLimit(10 * MiB);
 
 		setRecentInfoCacheSize(4096);
-		setRecentChunkCacheSize(4);
 	}
 
 	/** @return default timeout to wait on long operations before aborting. */
@@ -125,19 +135,83 @@ public class DhtReaderOptions {
 		return this;
 	}
 
-	/** @return number of bytes to load during prefetching. */
-	public int getPrefetchLimit() {
-		return prefetchLimit;
+	/** @return number of bytes to hold within a DhtReader. */
+	public int getChunkLimit() {
+		return chunkLimit;
 	}
 
 	/**
-	 * Set the number of bytes the prefetcher should hold onto.
+	 * Set the number of bytes hold within a DhtReader.
 	 *
 	 * @param maxBytes
 	 * @return {@code this}
 	 */
-	public DhtReaderOptions setPrefetchLimit(int maxBytes) {
-		prefetchLimit = Math.max(1024, maxBytes);
+	public DhtReaderOptions setChunkLimit(int maxBytes) {
+		chunkLimit = Math.max(1024, maxBytes);
+		return this;
+	}
+
+	/** @return percentage of {@link #getChunkLimit()} used for prefetch, 0..100. */
+	public int getOpenQueuePrefetchRatio() {
+		return openQueuePrefetchRatio;
+	}
+
+	/**
+	 * Set the prefetch ratio used by the open object queue.
+	 *
+	 * @param ratio 0..100.
+	 * @return {@code this}
+	 */
+	public DhtReaderOptions setOpenQueuePrefetchRatio(int ratio) {
+		openQueuePrefetchRatio = Math.max(0, Math.min(ratio, 100));
+		return this;
+	}
+
+	/** @return percentage of {@link #getChunkLimit()} used for prefetch, 0..100. */
+	public int getWalkCommitsPrefetchRatio() {
+		return walkCommitsPrefetchRatio;
+	}
+
+	/**
+	 * Set the prefetch ratio used by the open object queue.
+	 *
+	 * @param ratio 0..100.
+	 * @return {@code this}
+	 */
+	public DhtReaderOptions setWalkCommitsPrefetchRatio(int ratio) {
+		walkCommitsPrefetchRatio = Math.max(0, Math.min(ratio, 100));
+		return this;
+	}
+
+	/** @return percentage of {@link #getChunkLimit()} used for prefetch, 0..100. */
+	public int getWalkTreesPrefetchRatio() {
+		return walkTreesPrefetchRatio;
+	}
+
+	/**
+	 * Set the prefetch ratio used by the open object queue.
+	 *
+	 * @param ratio 0..100.
+	 * @return {@code this}
+	 */
+	public DhtReaderOptions setWalkTreesPrefetchRatio(int ratio) {
+		walkTreesPrefetchRatio = Math.max(0, Math.min(ratio, 100));
+		return this;
+	}
+
+	/** @return percentage of {@link #getChunkLimit()} used for prefetch, 0..100. */
+	public int getWriteObjectsPrefetchRatio() {
+		return writeObjectsPrefetchRatio;
+	}
+
+	/**
+	 * Set the prefetch ratio used by the open object queue.
+	 *
+	 * @param ratio 0..100.
+	 * @return {@code this}
+	 */
+	public DhtReaderOptions setWriteObjectsPrefetchRatio(int ratio) {
+		writeObjectsPrefetchRatio = Math.max(0, Math.min(ratio, 100));
 		return this;
 	}
 
@@ -226,24 +300,6 @@ public class DhtReaderOptions {
 		return this;
 	}
 
-	/** @return number of recent chunks to hold onto per-reader. */
-	public int getRecentChunkCacheSize() {
-		return recentChunkCacheSize;
-	}
-
-	/**
-	 * Set the number of chunks each reader holds onto for recently used access.
-	 *
-	 * @param chunkCnt
-	 *            the number of chunks each reader retains of recently used
-	 *            chunks to smooth out access.
-	 * @return {@code this}
-	 */
-	public DhtReaderOptions setRecentChunkCacheSize(int chunkCnt) {
-		recentChunkCacheSize = Math.max(0, chunkCnt);
-		return this;
-	}
-
 	/**
 	 * @return true if {@link DhtReader.Statistics} includes the stack trace for
 	 *         the first time a chunk is loaded. Supports debugging DHT code.
@@ -277,7 +333,11 @@ public class DhtReaderOptions {
 	public DhtReaderOptions fromConfig(Config rc) {
 		setTimeout(Timeout.getTimeout(rc, "core", "dht", "timeout", getTimeout()));
 		setPrefetchFollowEdgeHints(rc.getBoolean("core", "dht", "prefetchFollowEdgeHints", isPrefetchFollowEdgeHints()));
-		setPrefetchLimit(rc.getInt("core", "dht", "prefetchLimit", getPrefetchLimit()));
+		setChunkLimit(rc.getInt("core", "dht", "chunkLimit", getChunkLimit()));
+		setOpenQueuePrefetchRatio(rc.getInt("core", "dht", "openQueuePrefetchRatio", getOpenQueuePrefetchRatio()));
+		setWalkCommitsPrefetchRatio(rc.getInt("core", "dht", "walkCommitsPrefetchRatio", getWalkCommitsPrefetchRatio()));
+		setWalkTreesPrefetchRatio(rc.getInt("core", "dht", "walkTreesPrefetchRatio", getWalkTreesPrefetchRatio()));
+		setWriteObjectsPrefetchRatio(rc.getInt("core", "dht", "writeObjectsPrefetchRatio", getWriteObjectsPrefetchRatio()));
 
 		setObjectIndexConcurrentBatches(rc.getInt("core", "dht", "objectIndexConcurrentBatches", getObjectIndexConcurrentBatches()));
 		setObjectIndexBatchSize(rc.getInt("core", "dht", "objectIndexBatchSize", getObjectIndexBatchSize()));
@@ -286,7 +346,6 @@ public class DhtReaderOptions {
 		setDeltaBaseCacheLimit(rc.getInt("core", "dht", "deltaBaseCacheLimit", getDeltaBaseCacheLimit()));
 
 		setRecentInfoCacheSize(rc.getInt("core", "dht", "recentInfoCacheSize", getRecentInfoCacheSize()));
-		setRecentChunkCacheSize(rc.getInt("core", "dht", "recentChunkCacheSize", getRecentChunkCacheSize()));
 
 		setTrackFirstChunkLoad(rc.getBoolean("core", "dht", "debugTrackFirstChunkLoad", isTrackFirstChunkLoad()));
 		return this;
