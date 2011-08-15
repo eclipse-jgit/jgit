@@ -1256,7 +1256,7 @@ public class PackWriter {
 	}
 
 	private void findObjectsToPack(final ProgressMonitor countingMonitor,
-			final ObjectWalk walker, final Collection<? extends ObjectId> want,
+			final ObjectWalk walker, Collection<? extends ObjectId> want,
 			Collection<? extends ObjectId> have)
 			throws MissingObjectException, IOException,
 			IncorrectObjectTypeException {
@@ -1264,8 +1264,12 @@ public class PackWriter {
 		countingMonitor.beginTask(JGitText.get().countingObjects,
 				ProgressMonitor.UNKNOWN);
 
+		if (!(want instanceof Set<?>))
+			want = new HashSet<ObjectId>(want);
 		if (have == null)
 			have = Collections.emptySet();
+		else if (!(have instanceof Set<?>))
+			have = new HashSet<ObjectId>(have);
 
 		stats.interestingObjects = Collections.unmodifiableSet(new HashSet<ObjectId>(want));
 		stats.uninterestingObjects = Collections.unmodifiableSet(new HashSet<ObjectId>(have));
