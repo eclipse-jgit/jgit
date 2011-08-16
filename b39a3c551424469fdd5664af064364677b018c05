@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOAn///N8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DiffCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2011-08-16T09:54:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOAn///Vo\u003d",
+      "revId": "b39a3c551424469fdd5664af064364677b018c05",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOAn///Vk\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DiffCommand.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AABOAn///N0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DiffCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2011-08-16T09:54:20Z",
+      "side": 1,
+      "message": "This part is copy-pasted from org.eclipse.jgit.pgm.Diff.run() but I agree we could be more careful here. Updated in the patch set #2, where both oldTree and newTree are set only when null.",
+      "parentUuid": "AABOAn///Vk\u003d",
+      "revId": "b39a3c551424469fdd5664af064364677b018c05",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOAn///Vs\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Git.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2011-08-15T09:35:34Z",
       "side": 1,
       "message": "Style-nit: remove the trailing whitespace",
+      "revId": "b39a3c551424469fdd5664af064364677b018c05",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOAn///OA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Git.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2011-08-16T09:54:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOAn///Vs\u003d",
       "revId": "b39a3c551424469fdd5664af064364677b018c05",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
