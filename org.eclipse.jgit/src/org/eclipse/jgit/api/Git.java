@@ -482,6 +482,19 @@ public class Git {
 	}
 
 	/**
+	 * Returns a command object to execute a {@code diff} command
+	 *
+	 * @see <a
+	 *      href="http://www.kernel.org/pub/software/scm/git/docs/git-diff.html"
+	 *      >Git documentation about diff</a>
+	 * @return a {@link DiffCommand} used to collect all optional parameters and
+	 *         to finally execute the {@code diff} command
+	 */
+	public DiffCommand diff() {
+		return new DiffCommand(repo);
+	}
+
+	/**
 	 * @return the git repository this class is interacting with
 	 */
 	public Repository getRepository() {
