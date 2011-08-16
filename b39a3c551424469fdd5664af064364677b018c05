@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOAn///Vo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DiffCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-08-15T09:35:34Z",
+      "side": 1,
+      "message": "this method returns more than pathes. I would suggest:\ns/the paths that are/a DiffEntry for each path which is/",
+      "revId": "b39a3c551424469fdd5664af064364677b018c05",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOAn///Vk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DiffCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-08-15T09:35:34Z",
+      "side": 1,
+      "message": "shouldn\u0027t we overwrite newtree only when it was checked that is was not explicitly set? If somebody sets newTree but not oldTree then we would ignore his newTree.",
+      "revId": "b39a3c551424469fdd5664af064364677b018c05",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOAn///Vs\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Git.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-08-15T09:35:34Z",
+      "side": 1,
+      "message": "Style-nit: remove the trailing whitespace",
+      "revId": "b39a3c551424469fdd5664af064364677b018c05",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
