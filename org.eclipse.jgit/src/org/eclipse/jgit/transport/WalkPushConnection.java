@@ -50,9 +50,11 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 
 import org.eclipse.jgit.JGitText;
@@ -215,8 +217,8 @@ class WalkPushConnection extends BaseConnection implements PushConnection {
 		final PackWriter writer = new PackWriter(transport.getPackConfig(),
 				local.newObjectReader());
 		try {
-			final List<ObjectId> need = new ArrayList<ObjectId>();
-			final List<ObjectId> have = new ArrayList<ObjectId>();
+			final Set<ObjectId> need = new HashSet<ObjectId>();
+			final Set<ObjectId> have = new HashSet<ObjectId>();
 			for (final RemoteRefUpdate r : updates)
 				need.add(r.getNewObjectId());
 			for (final Ref r : getRefs()) {

@@ -46,10 +46,10 @@ package org.eclipse.jgit.transport;
 
 import java.io.IOException;
 import java.text.MessageFormat;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.NoRemoteRepositoryException;
@@ -243,8 +243,8 @@ public abstract class BasePackPushConnection extends BasePackConnection implemen
 
 	private void writePack(final Map<String, RemoteRefUpdate> refUpdates,
 			final ProgressMonitor monitor) throws IOException {
-		List<ObjectId> remoteObjects = new ArrayList<ObjectId>(getRefs().size());
-		List<ObjectId> newObjects = new ArrayList<ObjectId>(refUpdates.size());
+		Set<ObjectId> remoteObjects = new HashSet<ObjectId>();
+		Set<ObjectId> newObjects = new HashSet<ObjectId>();
 
 		final PackWriter writer = new PackWriter(transport.getPackConfig(),
 				local.newObjectReader());

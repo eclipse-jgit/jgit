@@ -155,10 +155,10 @@ public class UploadPack {
 	private final Set<ObjectId> wantIds = new HashSet<ObjectId>();
 
 	/** Objects the client wants to obtain. */
-	private final List<RevObject> wantAll = new ArrayList<RevObject>();
+	private final Set<RevObject> wantAll = new HashSet<RevObject>();
 
 	/** Objects on both sides, these don't have to be sent. */
-	private final List<RevObject> commonBase = new ArrayList<RevObject>();
+	private final Set<RevObject> commonBase = new HashSet<RevObject>();
 
 	/** Commit time of the oldest common commit, in seconds. */
 	private int oldestTime;
