@@ -377,7 +377,7 @@ public class IndexDiff {
 	}
 
 	/**
-	 * @return list of files on modified on disk relative to the index
+	 * @return list of files modified on disk relative to the index
 	 */
 	public Set<String> getModified() {
 		return modified;
