@@ -16,6 +16,24 @@
       "revId": "48cdc93bb0d60133d885f9428b8a9cbc9e21b952",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOAX///hU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffEntry.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2011-07-06T14:04:37Z",
+      "side": 1,
+      "message": "True, good point!\n\nI\u0027ll push next version soon",
+      "parentUuid": "AABOAX///hc\u003d",
+      "revId": "48cdc93bb0d60133d885f9428b8a9cbc9e21b952",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
