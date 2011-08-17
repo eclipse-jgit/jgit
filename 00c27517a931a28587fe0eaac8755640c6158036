@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOAX///Xk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffEntry.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 15
+      },
+      "writtenOn": "2011-07-07T11:01:42Z",
+      "side": 1,
+      "message": "I don\u0027t think you meant IllegalAccessError here",
+      "revId": "00c27517a931a28587fe0eaac8755640c6158036",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
