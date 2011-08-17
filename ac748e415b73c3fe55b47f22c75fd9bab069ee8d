@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOAn///OM\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/diff/DiffEntryTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2011-08-16T12:58:14Z",
+      "side": 1,
+      "message": "s/Deletation/Deletion",
+      "revId": "ac748e415b73c3fe55b47f22c75fd9bab069ee8d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
