@@ -16,6 +16,24 @@
       "revId": "5de907520025a6fad4bdf32b1054b3b908215c24",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOAn///Ro\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/diff/DiffEntryTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2011-08-15T20:40:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOAn///VI\u003d",
+      "revId": "5de907520025a6fad4bdf32b1054b3b908215c24",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
