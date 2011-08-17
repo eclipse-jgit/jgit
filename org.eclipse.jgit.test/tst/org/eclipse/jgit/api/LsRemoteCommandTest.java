@@ -105,6 +105,7 @@ public class LsRemoteCommandTest extends RepositoryTestCase {
 		try {
 			File directory = createTempDirectory("testRepository");
 			CloneCommand command = Git.cloneRepository();
+			command.setRemote("notorigin");
 			command.setDirectory(directory);
 			command.setURI("file://"
 					+ git.getRepository().getWorkTree().getPath());
@@ -113,6 +114,7 @@ public class LsRemoteCommandTest extends RepositoryTestCase {
 			addRepoToClose(git2.getRepository());
 
 			LsRemoteCommand lsRemoteCommand = git2.lsRemote();
+			lsRemoteCommand.setRemote("notorigin");
 			lsRemoteCommand.setTags(true);
 			Collection<Ref> refs = lsRemoteCommand.call();
 			assertNotNull(refs);

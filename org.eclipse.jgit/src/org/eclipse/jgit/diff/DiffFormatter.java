@@ -143,7 +143,7 @@ public class DiffFormatter {
 
 	/**
 	 * Create a new formatter with a default level of context.
-	 *
+	 * 
 	 * @param out
 	 *            the stream the formatter will write line data to. This stream
 	 *            should have buffering arranged by the caller, as many small
@@ -160,10 +160,10 @@ public class DiffFormatter {
 
 	/**
 	 * Set the repository the formatter can load object contents from.
-	 *
+	 * 
 	 * Once a repository has been set, the formatter must be released to ensure
 	 * the internal ObjectReader is able to release its resources.
-	 *
+	 * 
 	 * @param repository
 	 *            source repository holding referenced objects.
 	 */
@@ -193,7 +193,7 @@ public class DiffFormatter {
 
 	/**
 	 * Change the number of lines of context to display.
-	 *
+	 * 
 	 * @param lineCount
 	 *            number of lines of context to see before the first
 	 *            modification and after the last modification within a hunk of
@@ -208,7 +208,7 @@ public class DiffFormatter {
 
 	/**
 	 * Change the number of digits to show in an ObjectId.
-	 *
+	 * 
 	 * @param count
 	 *            number of digits to show in an ObjectId.
 	 */
@@ -221,7 +221,7 @@ public class DiffFormatter {
 
 	/**
 	 * Set the algorithm that constructs difference output.
-	 *
+	 * 
 	 * @param alg
 	 *            the algorithm to produce text file differences.
 	 * @see HistogramDiff
@@ -232,7 +232,7 @@ public class DiffFormatter {
 
 	/**
 	 * Set the line equivalence function for text file differences.
-	 *
+	 * 
 	 * @param cmp
 	 *            The equivalence function used to determine if two lines of
 	 *            text are identical. The function can be changed to ignore
@@ -249,10 +249,10 @@ public class DiffFormatter {
 
 	/**
 	 * Set maximum file size for text files.
-	 *
+	 * 
 	 * Files larger than this size will be treated as though they are binary and
 	 * not text. Default is {@value #DEFAULT_BINARY_FILE_THRESHOLD} .
-	 *
+	 * 
 	 * @param threshold
 	 *            the limit, in bytes. Files larger than this size will be
 	 *            assumed to be binary, even if they aren't.
@@ -263,7 +263,7 @@ public class DiffFormatter {
 
 	/**
 	 * Set the prefix applied in front of old file paths.
-	 *
+	 * 
 	 * @param prefix
 	 *            the prefix in front of old paths. Typically this is the
 	 *            standard string {@code "a/"}, but may be any prefix desired by
@@ -276,7 +276,7 @@ public class DiffFormatter {
 
 	/**
 	 * Set the prefix applied in front of new file paths.
-	 *
+	 * 
 	 * @param prefix
 	 *            the prefix in front of new paths. Typically this is the
 	 *            standard string {@code "b/"}, but may be any prefix desired by
@@ -294,12 +294,12 @@ public class DiffFormatter {
 
 	/**
 	 * Enable or disable rename detection.
-	 *
+	 * 
 	 * Before enabling rename detection the repository must be set with
 	 * {@link #setRepository(Repository)}. Once enabled the detector can be
 	 * configured away from its defaults by obtaining the instance directly from
 	 * {@link #getRenameDetector()} and invoking configuration.
-	 *
+	 * 
 	 * @param on
 	 *            if rename detection should be enabled.
 	 */
@@ -318,7 +318,7 @@ public class DiffFormatter {
 
 	/**
 	 * Set the progress monitor for long running rename detection.
-	 *
+	 * 
 	 * @param pm
 	 *            progress monitor to receive rename detection status through.
 	 */
@@ -328,11 +328,11 @@ public class DiffFormatter {
 
 	/**
 	 * Set the filter to produce only specific paths.
-	 *
+	 * 
 	 * If the filter is an instance of {@link FollowFilter}, the filter path
 	 * will be updated during successive scan or format invocations. The updated
 	 * path can be obtained from {@link #getPathFilter()}.
-	 *
+	 * 
 	 * @param filter
 	 *            the tree filter to apply.
 	 */
@@ -347,7 +347,7 @@ public class DiffFormatter {
 
 	/**
 	 * Flush the underlying output stream of this formatter.
-	 *
+	 * 
 	 * @throws IOException
 	 *             the stream's own flush method threw an exception.
 	 */
@@ -363,12 +363,12 @@ public class DiffFormatter {
 
 	/**
 	 * Determine the differences between two trees.
-	 *
+	 * 
 	 * No output is created, instead only the file paths that are different are
 	 * returned. Callers may choose to format these paths themselves, or convert
 	 * them into {@link FileHeader} instances with a complete edit list by
 	 * calling {@link #toFileHeader(DiffEntry)}.
-	 *
+	 * 
 	 * @param a
 	 *            the old (or previous) side.
 	 * @param b
@@ -387,12 +387,12 @@ public class DiffFormatter {
 
 	/**
 	 * Determine the differences between two trees.
-	 *
+	 * 
 	 * No output is created, instead only the file paths that are different are
 	 * returned. Callers may choose to format these paths themselves, or convert
 	 * them into {@link FileHeader} instances with a complete edit list by
 	 * calling {@link #toFileHeader(DiffEntry)}.
-	 *
+	 * 
 	 * @param a
 	 *            the old (or previous) side.
 	 * @param b
@@ -415,12 +415,12 @@ public class DiffFormatter {
 
 	/**
 	 * Determine the differences between two trees.
-	 *
+	 * 
 	 * No output is created, instead only the file paths that are different are
 	 * returned. Callers may choose to format these paths themselves, or convert
 	 * them into {@link FileHeader} instances with a complete edit list by
 	 * calling {@link #toFileHeader(DiffEntry)}.
-	 *
+	 * 
 	 * @param a
 	 *            the old (or previous) side.
 	 * @param b
@@ -527,10 +527,10 @@ public class DiffFormatter {
 
 	/**
 	 * Format the differences between two trees.
-	 *
+	 * 
 	 * The patch is expressed as instructions to modify {@code a} to make it
 	 * {@code b}.
-	 *
+	 * 
 	 * @param a
 	 *            the old (or previous) side.
 	 * @param b
@@ -545,10 +545,10 @@ public class DiffFormatter {
 
 	/**
 	 * Format the differences between two trees.
-	 *
+	 * 
 	 * The patch is expressed as instructions to modify {@code a} to make it
 	 * {@code b}.
-	 *
+	 * 
 	 * @param a
 	 *            the old (or previous) side.
 	 * @param b
@@ -563,10 +563,10 @@ public class DiffFormatter {
 
 	/**
 	 * Format the differences between two trees.
-	 *
+	 * 
 	 * The patch is expressed as instructions to modify {@code a} to make it
 	 * {@code b}.
-	 *
+	 * 
 	 * @param a
 	 *            the old (or previous) side.
 	 * @param b
@@ -582,7 +582,7 @@ public class DiffFormatter {
 
 	/**
 	 * Format a patch script from a list of difference entries.
-	 *
+	 * 
 	 * @param entries
 	 *            entries describing the affected files.
 	 * @throws IOException
@@ -596,7 +596,7 @@ public class DiffFormatter {
 
 	/**
 	 * Format a patch script for one file entry.
-	 *
+	 * 
 	 * @param ent
 	 *            the entry to be formatted.
 	 * @throws IOException
@@ -641,7 +641,7 @@ public class DiffFormatter {
 	 * This formatter is primarily useful for editing an existing patch script
 	 * to increase or reduce the number of lines of context within the script.
 	 * All header lines are reused as-is from the supplied FileHeader.
-	 *
+	 * 
 	 * @param head
 	 *            existing file header containing the header lines to copy.
 	 * @param a
@@ -670,7 +670,7 @@ public class DiffFormatter {
 
 	/**
 	 * Formats a list of edits in unified diff format
-	 *
+	 * 
 	 * @param edits
 	 *            some differences which have been calculated between A and B
 	 * @param a
@@ -720,7 +720,7 @@ public class DiffFormatter {
 
 	/**
 	 * Output a line of context (unmodified line).
-	 *
+	 * 
 	 * @param text
 	 *            RawText for accessing raw data
 	 * @param line
@@ -738,7 +738,7 @@ public class DiffFormatter {
 
 	/**
 	 * Output an added line.
-	 *
+	 * 
 	 * @param text
 	 *            RawText for accessing raw data
 	 * @param line
@@ -752,7 +752,7 @@ public class DiffFormatter {
 
 	/**
 	 * Output a removed line
-	 *
+	 * 
 	 * @param text
 	 *            RawText for accessing raw data
 	 * @param line
@@ -766,7 +766,7 @@ public class DiffFormatter {
 
 	/**
 	 * Output a hunk header
-	 *
+	 * 
 	 * @param aStartLine
 	 *            within first source
 	 * @param aEndLine
@@ -821,7 +821,7 @@ public class DiffFormatter {
 
 	/**
 	 * Write a standard patch script line.
-	 *
+	 * 
 	 * @param prefix
 	 *            prefix before the line, typically '-', '+', ' '.
 	 * @param text
@@ -845,7 +845,7 @@ public class DiffFormatter {
 	 * DiffFormatter instance. It is therefore safe to instantiate this
 	 * DiffFormatter instance with a {@link DisabledOutputStream} if this method
 	 * is the only one that will be used.
-	 *
+	 * 
 	 * @param ent
 	 *            the DiffEntry to create the FileHeader for
 	 * @return a FileHeader representing the DiffEntry. The FileHeader's buffer
