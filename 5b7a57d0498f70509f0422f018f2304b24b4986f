@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOAn//+/M\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ReflogCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 2
+      },
+      "writtenOn": "2011-08-17T15:43:03Z",
+      "side": 1,
+      "message": "extra space",
+      "revId": "5b7a57d0498f70509f0422f018f2304b24b4986f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
