@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOAX///UQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffEntry.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-07-07T22:01:46Z",
+      "side": 1,
+      "message": "typo: s/depends/depending/",
+      "revId": "635ee3b6a2e755ff89bf98a5cd6aa5e8be9d8513",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
