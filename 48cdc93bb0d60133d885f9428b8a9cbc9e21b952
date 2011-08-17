@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOAX///hc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffEntry.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-07-06T14:01:54Z",
+      "side": 1,
+      "message": "You should add a comment here that explaining that walk.setRecursive(false) must be used if includeTrees is true.\n\nI wonder if we shouldn\u0027t add a check for this misuse:\n\n  if (includeTrees \u0026\u0026 walk.isRecursive())\n    throw new IllegalArgumentException(...);",
+      "revId": "48cdc93bb0d60133d885f9428b8a9cbc9e21b952",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
