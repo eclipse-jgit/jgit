@@ -48,6 +48,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.FileMode;
@@ -106,8 +107,40 @@ public class DiffEntry {
 	 * @return headers describing the changed files.
 	 * @throws IOException
 	 *             the repository cannot be accessed.
+	 * @throws IllegalArgumentException
+	 *             When given TreeWalk doesn't have exactly two trees.
 	 */
 	public static List<DiffEntry> scan(TreeWalk walk) throws IOException {
+		return scan(walk, false);
+	}
+
+	/**
+	 * Convert the TreeWalk into DiffEntry headers, depending on
+	 * {@code includeTrees} it will add tree objects into result or not.
+	 *
+	 * @param walk
+	 *            the TreeWalk to walk through. Must have exactly two trees and
+	 *            when {@code includeTrees} parameter is {@code true} it can't
+	 *            be recursive.
+	 * @param includeTrees
+	 *            include tree object's.
+	 * @return headers describing the changed files.
+	 * @throws IOException
+	 *             the repository cannot be accessed.
+	 * @throws IllegalArgumentException
+	 *             when {@code includeTrees} is true and given TreeWalk is
+	 *             recursive. Or when given TreeWalk doesn't have exactly two
+	 *             trees
+	 */
+	public static List<DiffEntry> scan(TreeWalk walk, boolean includeTrees)
+			throws IOException {
+		if (walk.getTreeCount() != 2)
+			throw new IllegalArgumentException(
+					JGitText.get().treeWalkMustHaveExactlyTwoTrees);
+		if (includeTrees && walk.isRecursive())
+			throw new IllegalArgumentException(
+					JGitText.get().cannotBeRecursiveWhenTreesAreIncluded);
+
 		List<DiffEntry> r = new ArrayList<DiffEntry>();
 		MutableObjectId idBuf = new MutableObjectId();
 		while (walk.next()) {
@@ -133,13 +166,16 @@ public class DiffEntry {
 				entry.changeType = ChangeType.DELETE;
 				r.add(entry);
 
-			} else {
+			} else if (!entry.oldId.equals(entry.newId)) {
 				entry.changeType = ChangeType.MODIFY;
 				if (RenameDetector.sameType(entry.oldMode, entry.newMode))
 					r.add(entry);
 				else
 					r.addAll(breakModify(entry));
 			}
+
+			if (includeTrees && walk.isSubtree())
+				walk.enterSubtree();
 		}
 		return r;
 	}
