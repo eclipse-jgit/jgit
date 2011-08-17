@@ -495,6 +495,15 @@ public class Git {
 	}
 
 	/**
+	 * Returns a command object used to delete tags
+	 *
+	 * @return a {@link DeleteBranchCommand}
+	 */
+	public DeleteTagCommand tagDelete() {
+		return new DeleteTagCommand(repo);
+	}
+
+	/**
 	 * @return the git repository this class is interacting with
 	 */
 	public Repository getRepository() {

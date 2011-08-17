@@ -45,6 +45,8 @@ package org.eclipse.jgit.api;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
+import java.util.List;
+
 import org.eclipse.jgit.api.errors.ConcurrentRefUpdateException;
 import org.eclipse.jgit.api.errors.InvalidTagNameException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
@@ -52,6 +54,8 @@ import org.eclipse.jgit.api.errors.NoHeadException;
 import org.eclipse.jgit.api.errors.NoMessageException;
 import org.eclipse.jgit.api.errors.WrongRepositoryStateException;
 import org.eclipse.jgit.errors.UnmergedPathException;
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryTestCase;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevTag;
@@ -126,6 +130,71 @@ public class TagCommandTest extends RepositoryTestCase {
 		} catch (UnsupportedOperationException e) {
 			// should hit here
 		}
+	}
+
+	@Test
+	public void testDelete() throws Exception {
+		Git git = new Git(db);
+		git.commit().setMessage("initial commit").call();
+		RevTag tag = git.tag().setName("tag").call();
+		assertEquals(1, db.getTags().size());
+
+		List<String> deleted = git.tagDelete().setTagNames(tag.getTagName())
+				.call();
+		assertEquals(1, deleted.size());
+		assertEquals(tag.getTagName(),
+				Repository.shortenRefName(deleted.get(0)));
+		assertEquals(0, db.getTags().size());
+
+		RevTag tag1 = git.tag().setName("tag1").call();
+		RevTag tag2 = git.tag().setName("tag2").call();
+		assertEquals(2, db.getTags().size());
+		deleted = git.tagDelete()
+				.setTagNames(tag1.getTagName(), tag2.getTagName()).call();
+		assertEquals(2, deleted.size());
+		assertEquals(0, db.getTags().size());
+	}
+
+	@Test
+	public void testDeleteFullName() throws Exception {
+		Git git = new Git(db);
+		git.commit().setMessage("initial commit").call();
+		RevTag tag = git.tag().setName("tag").call();
+		assertEquals(1, db.getTags().size());
+
+		List<String> deleted = git.tagDelete()
+				.setTagNames(Constants.R_TAGS + tag.getTagName()).call();
+		assertEquals(1, deleted.size());
+		assertEquals(Constants.R_TAGS + tag.getTagName(), deleted.get(0));
+		assertEquals(0, db.getTags().size());
+	}
+
+	@Test
+	public void testDeleteEmptyTagNames() throws Exception {
+		Git git = new Git(db);
+		git.commit().setMessage("initial commit").call();
+
+		List<String> deleted = git.tagDelete().setTagNames().call();
+		assertEquals(0, deleted.size());
+	}
+
+	@Test
+	public void testDeleteNonExisting() throws Exception {
+		Git git = new Git(db);
+		git.commit().setMessage("initial commit").call();
+
+		List<String> deleted = git.tagDelete().setTagNames("tag").call();
+		assertEquals(0, deleted.size());
+	}
+
+	@Test
+	public void testDeleteBadName() throws Exception {
+		Git git = new Git(db);
+		git.commit().setMessage("initial commit").call();
+
+		List<String> deleted = git.tagDelete().setTagNames("bad~tag~name")
+				.call();
+		assertEquals(0, deleted.size());
 	}
 
 }
