@@ -62,7 +62,7 @@ import org.eclipse.jgit.storage.file.ReflogReader;
  */
 public class ReflogCommand extends GitCommand<Collection<ReflogEntry>> {
 
-	private String ref = Constants.R_HEADS + Constants.MASTER;
+	private String ref = Constants.HEAD;
 
 	/**
 	 * @param repo
@@ -73,8 +73,8 @@ public class ReflogCommand extends GitCommand<Collection<ReflogEntry>> {
 
 	/**
 	 * The ref used for the reflog operation. If no ref is set, the default
-	 * value of refs/heads/master will be used.
-	 *
+	 * value of HEAD will be used.
+	 * 
 	 * @param ref
 	 * @return {@code this}
 	 */
