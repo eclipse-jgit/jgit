@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AABOAn///Uc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackWriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1262,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-08-15T13:53:36Z",
+      "side": 1,
+      "message": "If we want to have Sets then we could also simply change the signature to accept \"Set\u003c? extends ObjectID\u003e\". This would put the burden of converting Lists to Sets to the caller. But the benefit would be that some callers can create Sets in the first place (instead of first creating Lists and then converting them to Sets). Is it because we have too many callers which have to be adapted or why don\u0027t you go this way",
+      "revId": "24115360c08857f35b18ac22f7d4a3d10bb147f3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOAn///Sg\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackWriter.java",
         "patchSetId": 3
@@ -14,6 +31,24 @@
       "side": 1,
       "message": "Ah, you are probably right. These could be changed to sets.\n\nThere aren\u0027t that many callers inside of JGit, but changing this type from Collection to Set will impact our public API and break it. Are we ready to go to JGit 2.0?",
       "parentUuid": "AABOAn///Uc\u003d",
+      "revId": "24115360c08857f35b18ac22f7d4a3d10bb147f3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOAn///NY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackWriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1262,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-08-16T12:43:48Z",
+      "side": 1,
+      "message": "We are not free anymore to jump to 2.0 anymore, right? But what we could do is to add a method which expects Set\u0027s and at least internally only call the new method. When we jump to 2.0 we remove the old  method which expects Collections.",
+      "parentUuid": "AABOAn///Sg\u003d",
       "revId": "24115360c08857f35b18ac22f7d4a3d10bb147f3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
