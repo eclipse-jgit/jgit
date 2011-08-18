@@ -17,6 +17,24 @@
       "revId": "24115360c08857f35b18ac22f7d4a3d10bb147f3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOAn///J8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackWriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1262,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-08-16T17:08:36Z",
+      "side": 1,
+      "message": "Christian is right, we can add a new method that accepts Set here, and keep the Collection version with this auto-convert-to-Set logic in it before invoking the new Set driven version, and mark that Collection version @Deprecated to be removed in 2.0.\n\nI\u0027ll try to rework the patch sometime today and get an updated version uploaded.",
+      "parentUuid": "AABOAn///NY\u003d",
+      "revId": "24115360c08857f35b18ac22f7d4a3d10bb147f3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
