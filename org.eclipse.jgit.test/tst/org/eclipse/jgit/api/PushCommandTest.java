@@ -52,6 +52,7 @@ import java.net.URISyntaxException;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryTestCase;
@@ -265,6 +266,83 @@ public class PushCommandTest extends RepositoryTestCase {
 		assertEquals(null, git2.getRepository()
 				.resolve("refs/heads/not-pushed"));
 		assertEquals(null, git2.getRepository().resolve("refs/heads/master"));
+	}
+
+	/**
+	 * Check that all existing branches on the remote are pushed if no refspec
+	 * is given.
+	 *
+	 * @throws Exception
+	 */
+	@Test
+	public void testPushExistingBranchesWithoutPushRefSpec() throws Exception {
+		Git git = new Git(db);
+		Git git2 = new Git(createBareRepository());
+
+		final StoredConfig config = git.getRepository().getConfig();
+		RemoteConfig remoteConfig = new RemoteConfig(config, "test");
+		URIish uri = new URIish(git2.getRepository().getDirectory().toURI()
+				.toURL());
+		remoteConfig.addURI(uri);
+		remoteConfig.addFetchRefSpec(new RefSpec(
+				"+refs/heads/*:refs/remotes/origin/*"));
+		remoteConfig.update(config);
+		config.save();
+
+		writeTrashFile("f", "content of f on master");
+		git.add().addFilepattern("f").call();
+		RevCommit commit0 = git.commit().setMessage("adding f").call();
+
+		// create new branches
+		git.checkout().setName("branch1").setCreateBranch(true).call();
+		writeTrashFile("f", "content of f on branch1");
+		git.add().addFilepattern("f").call();
+		RevCommit commit1 = git.commit().setMessage("adding f").call();
+
+		git.checkout().setName("branch2").setCreateBranch(true).call();
+		writeTrashFile("f", "content of f on branch2");
+		git.add().addFilepattern("f").call();
+		RevCommit commit2 = git.commit().setMessage("adding f").call();
+
+		git.checkout().setName(Constants.MASTER).call();
+
+		// push all branches
+		assertEquals(null, git2.getRepository().resolve("refs/heads/branch1"));
+		assertEquals(null, git2.getRepository().resolve("refs/heads/branch2"));
+		assertEquals(null, git2.getRepository().resolve("refs/heads/master"));
+		git.push().setRemote("test").setPushAll().call();
+		assertEquals(commit1.getId(),
+				git2.getRepository().resolve("refs/heads/branch1"));
+		assertEquals(commit2.getId(),
+				git2.getRepository().resolve("refs/heads/branch2"));
+		assertEquals(commit0.getId(),
+				git2.getRepository().resolve("refs/heads/master"));
+
+		// make a change/commit on each branch
+		git.checkout().setName("branch1").call();
+		writeTrashFile("f", "content of f on branch1'");
+		git.add().addFilepattern("f").call();
+		RevCommit commit1a = git.commit().setMessage("changing f").call();
+
+		git.checkout().setName("branch2").call();
+		writeTrashFile("f", "content of f on branch2'");
+		git.add().addFilepattern("f").call();
+		RevCommit commit2a = git.commit().setMessage("changing f").call();
+
+		git.checkout().setName(Constants.MASTER).call();
+
+		writeTrashFile("f", "content of f on master'");
+		git.add().addFilepattern("f").call();
+		RevCommit commit0a = git.commit().setMessage("changing f").call();
+
+		// push again, no refspec given, but all should be pushed anyway
+		git.push().setRemote("test").call();
+		assertEquals(commit0a.getId(),
+				git2.getRepository().resolve("refs/heads/master"));
+		assertEquals(commit1a.getId(),
+				git2.getRepository().resolve("refs/heads/branch1"));
+		assertEquals(commit2a.getId(),
+				git2.getRepository().resolve("refs/heads/branch2"));
 
 	}
 }
