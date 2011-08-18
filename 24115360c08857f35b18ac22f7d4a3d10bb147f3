@@ -1,0 +1,22 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOAn///Sg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackWriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1262,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-08-15T17:18:09Z",
+      "side": 1,
+      "message": "Ah, you are probably right. These could be changed to sets.\n\nThere aren\u0027t that many callers inside of JGit, but changing this type from Collection to Set will impact our public API and break it. Are we ready to go to JGit 2.0?",
+      "parentUuid": "AABOAn///Uc\u003d",
+      "revId": "24115360c08857f35b18ac22f7d4a3d10bb147f3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
