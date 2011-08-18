@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "AABOAn///Mo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackWriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1262,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-08-16T13:53:51Z",
+      "side": 1,
+      "message": "I think we should not go for 2.0 now as we want to ship the next release with Indigo SR1 (in mid September). Shipping a version in a SR which isn\u0027t compatible with the version in the base release seems wrong to me.",
+      "parentUuid": "AABOAn///NY\u003d",
+      "revId": "24115360c08857f35b18ac22f7d4a3d10bb147f3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOAn///J8\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackWriter.java",
         "patchSetId": 3
