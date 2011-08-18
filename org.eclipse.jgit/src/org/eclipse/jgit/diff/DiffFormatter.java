@@ -581,7 +581,9 @@ public class DiffFormatter {
 	}
 
 	/**
-	 * Format a patch script from a list of difference entries.
+	 * Format a patch script from a list of difference entries. Requires
+	 * {@link #scan(AbstractTreeIterator, AbstractTreeIterator)} to have been
+	 * called first.
 	 *
 	 * @param entries
 	 *            entries describing the affected files.
