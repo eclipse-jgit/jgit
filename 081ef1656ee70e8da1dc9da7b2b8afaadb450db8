@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOAX///M0\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2011-07-12T08:22:05Z",
+      "side": 1,
+      "message": "Typo. Should either be:\n\n Tests were added\n\nor:\n\n Test was added",
+      "revId": "081ef1656ee70e8da1dc9da7b2b8afaadb450db8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOAX///M4\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/MergeCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2011-07-12T08:22:05Z",
+      "side": 1,
+      "message": "Looks like this test is doing the same as the testFastForwardWithFiles test. Or?",
+      "revId": "081ef1656ee70e8da1dc9da7b2b8afaadb450db8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOAX///Mw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/Merger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2011-07-12T08:22:05Z",
+      "side": 1,
+      "message": "Style-nit: trailing whitespace.",
+      "revId": "081ef1656ee70e8da1dc9da7b2b8afaadb450db8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOAX///Ms\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/Merger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2011-07-12T08:22:05Z",
+      "side": 1,
+      "message": "Style-nit: trailing whitespace.",
+      "revId": "081ef1656ee70e8da1dc9da7b2b8afaadb450db8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
