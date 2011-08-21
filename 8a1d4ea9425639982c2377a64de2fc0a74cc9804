@@ -121,6 +121,24 @@
     },
     {
       "key": {
+        "uuid": "AABOAH///tw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthGenerator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 236
+      },
+      "writtenOn": "2011-06-27T23:14:59Z",
+      "side": 1,
+      "message": "DepthRevWalk is supposed to be too simple to deal with UNINTERESTING or BOUNDARY so yes, the check is never supposed to get that far. It\u0027s not pretty, but I\u0027ll add a defensive (BOUNDARY !\u003d null) condition.",
+      "parentUuid": "AABOAH///w0\u003d",
+      "revId": "8a1d4ea9425639982c2377a64de2fc0a74cc9804",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOAH///wo\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthObjectWalk.java",
         "patchSetId": 2
@@ -217,6 +235,24 @@
       "writtenOn": "2011-06-27T18:54:19Z",
       "side": 1,
       "message": "Same as above, the flag should not be part of the public API.",
+      "revId": "8a1d4ea9425639982c2377a64de2fc0a74cc9804",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOAH///sk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthObjectWalk.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 236
+      },
+      "writtenOn": "2011-06-27T23:14:59Z",
+      "side": 1,
+      "message": "Okay. I would still like a DepthRevWalk to pass its SHALLOW on to a DepthObjectWalk so I am keeping around a package level constructor.",
+      "parentUuid": "AABOAH///wc\u003d",
       "revId": "8a1d4ea9425639982c2377a64de2fc0a74cc9804",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
