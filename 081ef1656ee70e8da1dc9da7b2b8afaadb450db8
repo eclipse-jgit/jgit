@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOAX///Jo\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 256
+      },
+      "writtenOn": "2011-07-13T06:08:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOAX///M0\u003d",
+      "revId": "081ef1656ee70e8da1dc9da7b2b8afaadb450db8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOAX///M4\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/MergeCommandTest.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2011-07-12T08:22:05Z",
       "side": 1,
       "message": "Looks like this test is doing the same as the testFastForwardWithFiles test. Or?",
+      "revId": "081ef1656ee70e8da1dc9da7b2b8afaadb450db8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOAX///KA\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/MergeCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 256
+      },
+      "writtenOn": "2011-07-13T06:08:42Z",
+      "side": 1,
+      "message": "In my test case I have 3 commits and do actual merge. Tree looks like this\ninit - - - a  \u003c - master\n   \\        \\\n    b - - - d  \u003c - merge\n    |\n  side\n\nIn testFastForwardWithFiles there are 2 commits and no actual merge. Tree looks like this\n\n   a   - - -  b  \u003c- master\n   |          |\nbranch1  branch1\nbefore    after\n      merge",
+      "parentUuid": "AABOAX///M4\u003d",
       "revId": "081ef1656ee70e8da1dc9da7b2b8afaadb450db8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AABOAX///J0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/Merger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 256
+      },
+      "writtenOn": "2011-07-13T06:08:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOAX///Mw\u003d",
+      "revId": "081ef1656ee70e8da1dc9da7b2b8afaadb450db8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOAX///Ms\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/Merger.java",
         "patchSetId": 1
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "AABOAX///J4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/Merger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 256
+      },
+      "writtenOn": "2011-07-13T06:08:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOAX///Ms\u003d",
+      "revId": "081ef1656ee70e8da1dc9da7b2b8afaadb450db8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOAX///NA\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/Merger.java",
         "patchSetId": 1
@@ -81,6 +153,24 @@
       "writtenOn": "2011-07-12T06:52:24Z",
       "side": 1,
       "message": "Instead of adding this method, you could make the \u003e\u003emerge(AnyObjectId[]  tips)\u003c\u003c method take varargs: \u003e\u003emerge(AnyObjectId ... tips)\u003c\u003c",
+      "revId": "081ef1656ee70e8da1dc9da7b2b8afaadb450db8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOAX///J8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/Merger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 256
+      },
+      "writtenOn": "2011-07-13T06:08:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOAX///NA\u003d",
       "revId": "081ef1656ee70e8da1dc9da7b2b8afaadb450db8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
