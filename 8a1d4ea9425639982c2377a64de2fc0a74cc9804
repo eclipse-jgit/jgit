@@ -1,0 +1,412 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOAH///xY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthCommit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-06-27T18:54:19Z",
+      "side": 1,
+      "message": "Style-nit: I prefer single line Javadoc when possible:\n\n  /** Depth of this commit in the graph. */\n  int depth;",
+      "revId": "8a1d4ea9425639982c2377a64de2fc0a74cc9804",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOAH///xc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthCommit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-06-27T18:54:19Z",
+      "side": 1,
+      "message": "Please supply valid Javadoc, not empty placeholders.",
+      "revId": "8a1d4ea9425639982c2377a64de2fc0a74cc9804",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOAH///xQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthGenerator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-06-27T18:54:19Z",
+      "side": 1,
+      "message": "Use a static import rather than copying the field.",
+      "revId": "8a1d4ea9425639982c2377a64de2fc0a74cc9804",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOAH///xI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthGenerator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-06-27T18:54:19Z",
+      "side": 1,
+      "message": "Style-nit: Blank line between fields that have Javadoc, and try to use single line Javadoc when possible.",
+      "revId": "8a1d4ea9425639982c2377a64de2fc0a74cc9804",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOAH///xE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthGenerator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-06-27T18:54:19Z",
+      "side": 1,
+      "message": "Style-nit: This Javadoc is not formatted properly. All lines in the block should use a * lined up in the same column, and to the right of the * the Javadoc should use spaces to indent the description of the parameter.",
+      "revId": "8a1d4ea9425639982c2377a64de2fc0a74cc9804",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOAH///w8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthGenerator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-06-27T18:54:19Z",
+      "side": 1,
+      "message": "This line is still over 80 characters, please line wrap.",
+      "revId": "8a1d4ea9425639982c2377a64de2fc0a74cc9804",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOAH///w0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthGenerator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-06-27T18:54:19Z",
+      "side": 1,
+      "message": "Style-nit: Parens here around !p.has(BOUNDARY) are not necessary.\n\nDoesn\u0027t this NPE when BOUNDARY wasn\u0027t allocated by DepthRevWalk? I guess you assume it cannot since DepthRevWalk overrides markUninteresting() to do nothing and therefore you assume UNINTERESTING can never be set on a RevCommit?\n\nI\u0027m a little skeptical of using that as the method to determine if BOUNDARY is null or not.",
+      "revId": "8a1d4ea9425639982c2377a64de2fc0a74cc9804",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOAH///wo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthObjectWalk.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-06-27T18:54:19Z",
+      "side": 1,
+      "message": "Use static import rather than copying the field.",
+      "revId": "8a1d4ea9425639982c2377a64de2fc0a74cc9804",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOAH///ws\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthObjectWalk.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-06-27T18:54:19Z",
+      "side": 1,
+      "message": "Style-nit: We prefer one-line Javadoc when possible /** ... */.",
+      "revId": "8a1d4ea9425639982c2377a64de2fc0a74cc9804",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOAH///ww\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthObjectWalk.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-06-27T18:54:19Z",
+      "side": 1,
+      "message": "Style-nit: We use tabs for indentation.",
+      "revId": "8a1d4ea9425639982c2377a64de2fc0a74cc9804",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOAH///wk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthObjectWalk.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-06-27T18:54:19Z",
+      "side": 1,
+      "message": "Style-nit: Blank line between fields that have Javadoc.",
+      "revId": "8a1d4ea9425639982c2377a64de2fc0a74cc9804",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOAH///wg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthObjectWalk.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-06-27T18:54:19Z",
+      "side": 1,
+      "message": "These flags should be allocated only inside of the walker, and must not be part of the public API.",
+      "revId": "8a1d4ea9425639982c2377a64de2fc0a74cc9804",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOAH///wc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthObjectWalk.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-06-27T18:54:19Z",
+      "side": 1,
+      "message": "Same as above, the flag should not be part of the public API.",
+      "revId": "8a1d4ea9425639982c2377a64de2fc0a74cc9804",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOAH///wQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthObjectWalk.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-06-27T18:54:19Z",
+      "side": 1,
+      "message": "The only reason you had to override next(), expose pendingObjects, and duplicate all of this code was for this r.has(BOUNDARY) test?\n\nAny way we can skip that flag test on the commit?",
+      "revId": "8a1d4ea9425639982c2377a64de2fc0a74cc9804",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOAH///wU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthObjectWalk.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-06-27T18:54:19Z",
+      "side": 1,
+      "message": "Javadoc isn\u0027t necessary on a package method.",
+      "revId": "8a1d4ea9425639982c2377a64de2fc0a74cc9804",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOAH///yE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthRevWalk.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-06-27T18:54:19Z",
+      "side": 1,
+      "message": "Style-nit: I prefer to write short Javadoc all as one line:\n\n  /** The number of commits to walk down. */",
+      "revId": "8a1d4ea9425639982c2377a64de2fc0a74cc9804",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOAH///yI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthRevWalk.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-06-27T18:54:19Z",
+      "side": 1,
+      "message": "Style-nit: Please use tabs to indent, not spaces.",
+      "revId": "8a1d4ea9425639982c2377a64de2fc0a74cc9804",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOAH///yA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthRevWalk.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-06-27T18:54:19Z",
+      "side": 1,
+      "message": "Please wrap lines longer than 80 characters when possible.",
+      "revId": "8a1d4ea9425639982c2377a64de2fc0a74cc9804",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOAH///x8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthRevWalk.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-06-27T18:54:19Z",
+      "side": 1,
+      "message": "I\u0027m still fairly certain we don\u0027t want to allow the caller to supply the SHALLOW flag to our public constructor. This needs to be built by the RevWalk instance itself to ensure the flags are allocated right.",
+      "revId": "8a1d4ea9425639982c2377a64de2fc0a74cc9804",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOAH///x4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthRevWalk.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-06-27T18:54:19Z",
+      "side": 1,
+      "message": "I\u0027m still fairly certain we don\u0027t want to allow the caller to supply the SHALLOW flag to our public constructor. This needs to be built by the RevWalk instance itself to ensure the flags are allocated right.",
+      "revId": "8a1d4ea9425639982c2377a64de2fc0a74cc9804",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOAH///x0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthRevWalk.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-06-27T18:54:19Z",
+      "side": 1,
+      "message": "This Javadoc is not connected to any code.",
+      "revId": "8a1d4ea9425639982c2377a64de2fc0a74cc9804",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOAH///yc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-06-27T18:54:19Z",
+      "side": 1,
+      "message": "Instead of exposing these fields as protected, lets make a different variant of toObjectWalkWithSameObjects available:\n\n  public ObjectWalk toObjectWalkWithSameObjects() {\n    return toObjectWalkWithSameObjects(new ObjectWalk(reader));\n  }\n\n  protected \u003cT extends ObjectWalk\u003e toObjectWalkWithSameObjects(T dst) {\n    RevWalk rw \u003d dst;\n    rw.objects \u003d objects;\n    rw.freeFlags \u003d freeFlags;\n    return rw;\n  }\n\nThis way DepthRevWalk doesn\u0027t have to know what to copy over, or get to see these private state fields of the RevWalk.",
+      "revId": "8a1d4ea9425639982c2377a64de2fc0a74cc9804",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOAH///yQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/StartGenerator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-06-27T18:54:19Z",
+      "side": 1,
+      "message": "Style-nit: We put the else on the line with the closing curly brace:\n\n  } else {",
+      "revId": "8a1d4ea9425639982c2377a64de2fc0a74cc9804",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOAH///yM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/StartGenerator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-06-27T18:54:19Z",
+      "side": 1,
+      "message": "Style-nit: We put the else on the line with the closing curly brace:\n\n  } else {",
+      "revId": "8a1d4ea9425639982c2377a64de2fc0a74cc9804",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
