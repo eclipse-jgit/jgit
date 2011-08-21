@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOAX///JI\u003d",
+        "filename": "org.eclipse.jgit.test/META-INF/MANIFEST.MF",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 247
+      },
+      "writtenOn": "2011-07-13T07:15:52Z",
+      "side": 1,
+      "message": "I think theories were introduced in junit with 4.4. Hence the minimal requirement should be [4.4.0",
+      "revId": "6447e5945f783a1d4eaf92b54b353d3ce430d786",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOAX///JM\u003d",
+        "filename": "org.eclipse.jgit.test/META-INF/MANIFEST.MF",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 247
+      },
+      "writtenOn": "2011-07-13T07:15:52Z",
+      "side": 1,
+      "message": "see above",
+      "revId": "6447e5945f783a1d4eaf92b54b353d3ce430d786",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOAX///JQ\u003d",
+        "filename": "org.eclipse.jgit.test/META-INF/MANIFEST.MF",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 247
+      },
+      "writtenOn": "2011-07-13T07:15:52Z",
+      "side": 1,
+      "message": "see above",
+      "revId": "6447e5945f783a1d4eaf92b54b353d3ce430d786",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
