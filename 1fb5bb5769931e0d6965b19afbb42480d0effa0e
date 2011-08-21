@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AABOAX//+iM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ResetCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 6
+      },
+      "writtenOn": "2011-07-28T11:16:54Z",
+      "side": 1,
+      "message": "s/know/now",
+      "revId": "1fb5bb5769931e0d6965b19afbb42480d0effa0e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOAn///NE\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ResetCommand.java",
         "patchSetId": 2
