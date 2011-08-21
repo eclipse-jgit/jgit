@@ -1,0 +1,225 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOKH///TA\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-06-17T22:30:10Z",
+      "side": 1,
+      "message": "Include a Change-Id",
+      "revId": "39be374839552866b6ebdd6f106eefb6c9cfbed4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOKH///To\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthGenerator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-06-17T22:30:10Z",
+      "side": 1,
+      "message": "appropriately",
+      "revId": "39be374839552866b6ebdd6f106eefb6c9cfbed4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOKH///TE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthObjectWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-06-17T22:30:10Z",
+      "side": 1,
+      "message": "style-nit; space both before and after \u0027?\u0027",
+      "revId": "39be374839552866b6ebdd6f106eefb6c9cfbed4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOKH///TI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthObjectWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-06-17T22:30:10Z",
+      "side": 1,
+      "message": "Add javadoc",
+      "revId": "39be374839552866b6ebdd6f106eefb6c9cfbed4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOKH///Tk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthObjectWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-06-17T22:30:10Z",
+      "side": 1,
+      "message": "Propagate",
+      "revId": "39be374839552866b6ebdd6f106eefb6c9cfbed4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOKH///Tg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthObjectWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-06-17T22:30:10Z",
+      "side": 1,
+      "message": "s/shallow/shallow one|commit",
+      "revId": "39be374839552866b6ebdd6f106eefb6c9cfbed4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOKH///Tc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthObjectWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-06-17T22:30:10Z",
+      "side": 1,
+      "message": "Can\u0027t this be have package access instead of public?",
+      "revId": "39be374839552866b6ebdd6f106eefb6c9cfbed4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOKH///TY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthRevWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-06-17T22:30:10Z",
+      "side": 1,
+      "message": "style-nit; space both before and after \u0027?\u0027",
+      "revId": "39be374839552866b6ebdd6f106eefb6c9cfbed4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOKH///TU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthRevWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-06-17T22:30:10Z",
+      "side": 1,
+      "message": "style-nit; space both before and after \u0027?\u0027",
+      "revId": "39be374839552866b6ebdd6f106eefb6c9cfbed4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOKH///TQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthRevWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-06-17T22:30:10Z",
+      "side": 1,
+      "message": "javadoc",
+      "revId": "39be374839552866b6ebdd6f106eefb6c9cfbed4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOKH///TM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthRevWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-06-17T22:30:10Z",
+      "side": 1,
+      "message": "Can\u0027t this be package level instead?",
+      "revId": "39be374839552866b6ebdd6f106eefb6c9cfbed4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOKH///S8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/ObjectWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-06-17T22:30:10Z",
+      "side": 1,
+      "message": "Add javadocs for protected variables. Our Eclipse setting are set to require javadocs or flag the declation as an error.\n\nThe reason is that protected is part of the interface, and thus should be documented",
+      "revId": "39be374839552866b6ebdd6f106eefb6c9cfbed4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOKH///S4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-06-17T22:30:10Z",
+      "side": 1,
+      "message": "Add javadocs for protected variables. Our Eclipse setting are set to require javadocs or flag the declation as an error.\n\nThe reason is that protected is part of the interface, and thus should be documented",
+      "revId": "39be374839552866b6ebdd6f106eefb6c9cfbed4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
