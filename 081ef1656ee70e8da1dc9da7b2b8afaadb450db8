@@ -67,6 +67,23 @@
       "revId": "081ef1656ee70e8da1dc9da7b2b8afaadb450db8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOAX///NA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/Merger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 247
+      },
+      "writtenOn": "2011-07-12T06:52:24Z",
+      "side": 1,
+      "message": "Instead of adding this method, you could make the \u003e\u003emerge(AnyObjectId[]  tips)\u003c\u003c method take varargs: \u003e\u003emerge(AnyObjectId ... tips)\u003c\u003c",
+      "revId": "081ef1656ee70e8da1dc9da7b2b8afaadb450db8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
