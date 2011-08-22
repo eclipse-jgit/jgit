@@ -138,6 +138,24 @@
     },
     {
       "key": {
+        "uuid": "AAALyH///ck\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthGenerator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 81
+      },
+      "writtenOn": "2010-08-19T14:40:14Z",
+      "side": 1,
+      "message": "Alternatively, I can just use the SEEN flag like everything else.  I was pretty sure the depth flagging covers it correctly, but I had to think about it for a long time as well, and I\u0027m still not positive I\u0027m right, so all in all that\u0027s probably a sign that it should just be done a simpler way.",
+      "parentUuid": "AAALyH///fs\u003d",
+      "revId": "ed5f501f9c8d1fe90ab2ba44fac5fa67ed0035a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALyH///f8\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthGenerator.java",
         "patchSetId": 1
@@ -376,6 +394,24 @@
     },
     {
       "key": {
+        "uuid": "AAALyH///cg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 81
+      },
+      "writtenOn": "2010-08-19T14:40:14Z",
+      "side": 1,
+      "message": "Gaah, guess who\u0027s been using C++ too much lately... :(",
+      "parentUuid": "AAALyH///g0\u003d",
+      "revId": "ed5f501f9c8d1fe90ab2ba44fac5fa67ed0035a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALyH///hI\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 1
@@ -421,6 +457,24 @@
       "writtenOn": "2010-08-19T02:16:03Z",
       "side": 1,
       "message": "IIRC the shallow protocol still does common ancestor negotiation because its useful to limit what we send.  So we should still pass commonBase through to the PackWriter.\n\nIn particular the client is very likely to have our current refs, and the objects reachable from those.  If they haven\u0027t changed at the boundary, we don\u0027t want to resend those blobs.  The only way to avoid that is to pass through commonBase, as those should be part of the commonBase due to the standard have exchange above.",
+      "revId": "ed5f501f9c8d1fe90ab2ba44fac5fa67ed0035a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyH///cQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 666,
+      "author": {
+        "id": 81
+      },
+      "writtenOn": "2010-08-19T14:40:14Z",
+      "side": 1,
+      "message": "Yeah, but it\u0027s kind of tricky.  Imagine that you already have a shallow clone with a depth of 1, and you want to do a new fetch with depth\u003d2.  You want to avoid the commits that you already have, but then unshallow the old boundary commits and start sending stuff below those again.  I wasn\u0027t quite clear on the best way to handle that, so I basically just copped out and sent the whole tree.  \n\nThis can probably be solved somehow by adding all of the parents of the client\u0027s shallow commits back into the generator as interesting so that they\u0027ll be picked up again, but right now the DepthGenerator doesn\u0027t do anything with uninteresting commits.  I\u0027m not sure I completely understand the logic that would need to be used for those, especially in conjunction with the depth tagging stuff--can you provide any insight?",
+      "parentUuid": "AAALyH///hA\u003d",
       "revId": "ed5f501f9c8d1fe90ab2ba44fac5fa67ed0035a4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
