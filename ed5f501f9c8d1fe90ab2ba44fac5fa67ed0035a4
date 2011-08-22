@@ -1,0 +1,447 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALyH///gY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthGenerator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-19T02:16:03Z",
+      "side": 1,
+      "message": "This class shouldn\u0027t be public.",
+      "revId": "ed5f501f9c8d1fe90ab2ba44fac5fa67ed0035a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyH///gM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthGenerator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-19T02:16:03Z",
+      "side": 1,
+      "message": "Don\u0027t bother with this as a field.  pending.outputType() is fast enough for your own outputType method.",
+      "revId": "ed5f501f9c8d1fe90ab2ba44fac5fa67ed0035a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyH///gc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthGenerator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-19T02:16:03Z",
+      "side": 1,
+      "message": "This constructor shouldn\u0027t be public.\n\nAlso, style-nit: Line too long/wrapped incorrectly.\n\nAlso, this can only be used with a DepthWalk, which has getters for depth and compareMode.  Instead of taking a RevWalk here take a DepthWalk and get the depth and compareMode from it.  You can then downcast the DepthWalk to a RevWalk since a DepthWalk should always be a RevWalk given how your only caller inside of PendingGenerator invokes you.  :-)",
+      "revId": "ed5f501f9c8d1fe90ab2ba44fac5fa67ed0035a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyH///gQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthGenerator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-19T02:16:03Z",
+      "side": 1,
+      "message": "You can simplify a lot of your setup:\n\n  pending \u003d new FIFORevQueue(s);\n  pending.outputType \u003d 0;\n\nWould replace the shareFreeList() as well as this loop to suck out the current generator.  But we should fix our outputType because it might have been tagged as SORT_COMMIT_TIME_DESC.",
+      "revId": "ed5f501f9c8d1fe90ab2ba44fac5fa67ed0035a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyH///gI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthGenerator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-19T02:16:03Z",
+      "side": 1,
+      "message": "I would probably implement this the other way around.  Since pending is \"this\" (well, the backing store) we should do:\n\n  pending.shareFreeList(q);\n\nto mirror the intent of the caller of invoking this.shareFreeList(q).\n\nIts a subtle issue about how we are discarding a potentially large free list from the bottom of the stack by pushing down an empty free list from the top of the stack.  Weird, I know.  But at least mirror the caller\u0027s intent.",
+      "revId": "ed5f501f9c8d1fe90ab2ba44fac5fa67ed0035a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyH///gE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthGenerator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-19T02:16:03Z",
+      "side": 1,
+      "message": "I would just downcast right away:\n\n  final DepthWalk.Commit c \u003d (DepthWalk.Commit)pending.next();",
+      "revId": "ed5f501f9c8d1fe90ab2ba44fac5fa67ed0035a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyH///gA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthGenerator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-19T02:16:03Z",
+      "side": 1,
+      "message": "This actually parses right away.  If the object is already parsed, you are parsing it all over again.  Yuck.  You should guard this:\n\n  if ((c.flags \u0026 PARSED) \u003d\u003d 0)\n    c.parseHeaders(walk);",
+      "revId": "ed5f501f9c8d1fe90ab2ba44fac5fa67ed0035a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyH///fs\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthGenerator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-19T02:16:03Z",
+      "side": 1,
+      "message": "Normally we use the SEEN flag to prevent commits from entering pending twice.  You don\u0027t do that here.  As far as I can tell, using the depth provides the same effect, but it took me a long time to think about.\n\nSince this deviates from our more typical pattern of relying on a flag to track \"have we processed this already\", please provide a short proof of why we don\u0027t need a flag here to prevent duplicates and stuff it in a comment so future readers don\u0027t have to expend as many brain cells I just did over whether or not this works.  (Its easier to verify a proof than it is to derive one on the fly...)",
+      "revId": "ed5f501f9c8d1fe90ab2ba44fac5fa67ed0035a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyH///f8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthGenerator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-19T02:16:03Z",
+      "side": 1,
+      "message": "Style-nit: Parens aren\u0027t necessary here.",
+      "revId": "ed5f501f9c8d1fe90ab2ba44fac5fa67ed0035a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyH///f0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthGenerator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-19T02:16:03Z",
+      "side": 1,
+      "message": "Style-nit: We don\u0027t bother with else continue at the end of a loop.  Just let it occur normally.",
+      "revId": "ed5f501f9c8d1fe90ab2ba44fac5fa67ed0035a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyH///fg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-19T02:16:03Z",
+      "side": 1,
+      "message": "For insane reasons we often allow package level visibility to these sorts of fields and edit them directly, rather than using getters/setters.  It removes the need for the JIT to try to inline the getter/setter logic, which means we perform better even when the JIT can\u0027t inline the getter cross-classes.",
+      "revId": "ed5f501f9c8d1fe90ab2ba44fac5fa67ed0035a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyH///fc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-19T02:16:03Z",
+      "side": 1,
+      "message": "If you do keep the getter, I\u0027m not sure we should endorse the setter as part of our public API yet.  I\u0027d rather keep it package level.  Why would a client need to edit the depth of a commit?",
+      "revId": "ed5f501f9c8d1fe90ab2ba44fac5fa67ed0035a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyH///go\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-19T02:16:03Z",
+      "side": 1,
+      "message": "Style-nit: We always put /** on a line by itself, starting the documentation on the next line.",
+      "revId": "ed5f501f9c8d1fe90ab2ba44fac5fa67ed0035a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyH///gs\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-19T02:16:03Z",
+      "side": 1,
+      "message": "Style-nit: We indent wrapped lines another level.",
+      "revId": "ed5f501f9c8d1fe90ab2ba44fac5fa67ed0035a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyH///gk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-19T02:16:03Z",
+      "side": 1,
+      "message": "I think this comment is overkill.  Its sort of implied that we would use our own Commit type.",
+      "revId": "ed5f501f9c8d1fe90ab2ba44fac5fa67ed0035a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyH///gg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-19T02:16:03Z",
+      "side": 1,
+      "message": "Like above I think this comment isn\u0027t useful enough to stay.",
+      "revId": "ed5f501f9c8d1fe90ab2ba44fac5fa67ed0035a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyH///fo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackWriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 974,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-19T02:16:03Z",
+      "side": 1,
+      "message": "Really long line, this should be line wrapped, which probably implies you should use {} here due to the statement being longer than one line.",
+      "revId": "ed5f501f9c8d1fe90ab2ba44fac5fa67ed0035a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyH///gw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-19T02:16:03Z",
+      "side": 1,
+      "message": "Style-nit: We don\u0027t initialize to 0/null/false because the JVM does that implicitly for you.",
+      "revId": "ed5f501f9c8d1fe90ab2ba44fac5fa67ed0035a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyH///hM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-19T02:16:03Z",
+      "side": 1,
+      "message": "Style-nit: We don\u0027t use unnecessary curly braces.",
+      "revId": "ed5f501f9c8d1fe90ab2ba44fac5fa67ed0035a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyH///g8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-19T02:16:03Z",
+      "side": 1,
+      "message": "Style-nit: Line is too long, we prefer lines to be \u003c80 characters given a tab stop setting of 4.\n\nAlso for performance reasons please try to use the same ObjectReader that the walk member is using.  There may be caching involved that would improve the shallow computation here.  Yes, sorry, that does mean you need that other constructor in your DepthWalk.RevWalk class.",
+      "revId": "ed5f501f9c8d1fe90ab2ba44fac5fa67ed0035a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyH///g4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-19T02:16:03Z",
+      "side": 1,
+      "message": "Style-nit: Avoid the local variable here so we can have a shorter loop:\n\n  for (RevCommit want : wantCommits)\n    depthWalk.markStart(depthWalk.parseCommit(want));",
+      "revId": "ed5f501f9c8d1fe90ab2ba44fac5fa67ed0035a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyH///g0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-19T02:16:03Z",
+      "side": 1,
+      "message": "This will never be true, because you are doing reference equality on two temporarily allocated strings.\n\nInstead you need to say c.equals(o).  But that only works on current master.  So rebase this patch to pick up that fix.  But that point you can simplify the loop:\n\n  if (!remoteShallowCommits.contains(o))\n    packOut.writeString(\"shallow \" + o.name());",
+      "revId": "ed5f501f9c8d1fe90ab2ba44fac5fa67ed0035a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyH///hI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-19T02:16:03Z",
+      "side": 1,
+      "message": "Style-nit: I don\u0027t really see a good reason to throw a blank line here.  If anywhere it would make more sense to put it after the new advertiseCapability(OPTION_SHALLOW) above given how big that capability set is.",
+      "revId": "ed5f501f9c8d1fe90ab2ba44fac5fa67ed0035a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyH///hE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 665,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-19T02:16:03Z",
+      "side": 1,
+      "message": "Style-nit: Space between if and (.  Also like above, we don\u0027t use curly braces on simple conditionals like this one.",
+      "revId": "ed5f501f9c8d1fe90ab2ba44fac5fa67ed0035a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyH///hA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 666,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-19T02:16:03Z",
+      "side": 1,
+      "message": "IIRC the shallow protocol still does common ancestor negotiation because its useful to limit what we send.  So we should still pass commonBase through to the PackWriter.\n\nIn particular the client is very likely to have our current refs, and the objects reachable from those.  If they haven\u0027t changed at the boundary, we don\u0027t want to resend those blobs.  The only way to avoid that is to pass through commonBase, as those should be part of the commonBase due to the standard have exchange above.",
+      "revId": "ed5f501f9c8d1fe90ab2ba44fac5fa67ed0035a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyH///ZY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 666,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-19T19:24:52Z",
+      "side": 1,
+      "message": "I think its easier than you think.\n\nWhen using DepthWalk.ObjectWalk we need some additional state.  The client has already told us its old shallow boundary, and we know the new shallow boundary.  What you want to do is  color every object in the have (aka commonBase / uninterestingObjects) list up to but not including the old shallow boundary with the flag UNINTERESTING.\n\nTo do this, we can add a new flag, UNSHALLOW, at the old shallow boundary.  In DepthGenerator as you loop through the parents of a commit do something like this:\n\n  if (c.has(UNSHALLOW))\n    p.add(UNSHALLOW);\n\n  if (c.has(UNINTERESTING)) {\n    if (p.has(UNSHALLOW))\n      c.add(BOUNDARY);\n    else\n      p.add(UNINTERESTING);\n  }\n\nThis block replaces the standard walker.carryFlagsImpl logic with something more specific.  We only carry UNINTERESTING up until the edge, and then we cut over to carrying UNSHALLOW instead.\n\nNow we shouldn\u0027t output every UNINTERESTING commit, not all of them are relevant.  Instead the produce logic (after deciding depth as that\u0027s cheap) is something like:\n\n  if (produce)\n    produce \u003d c.has(UNINTERESTING) ? c.has(BOUNDARY) : false;\n\nBasically what I am doing here is coloring everything up to the boundary as UNINTERESTING, and we don\u0027t normally produce that.  But when we find a commit that was UNINTERESTING and has a parent that is UNSHALLOW, that commit is on the boundary edge.  The client has it, the server has it, but the client doesn\u0027t have its parents.  This is an excellent point to return the UNINTERESTING commit to PackWriter so it can use these trees and blobs as delta bases for the returned pack.\n\nAbove in the carrying logic it may seem odd that we add BOUNDARY to \"c\" when we are looking at \"p\", but its the right thing to do.  We can only tag a given commit as BOUNDARY once we discover its parent is at the edge.\n\nTo do all of this you need 2 extra flags in your DepthWalk.ObjectWalk.  You can allocate these using newFlag(\"BOUNDARY\"), newFlag(\"UNSHALLOW\").  Unfortunately you also need the unshallow set from UploadPack to be pushed down through here, and the whole thing is getting very specialized to the shallow clone case.  But I think that\u0027s OK, this stuff is really only useful for the shallow clone logic.",
+      "parentUuid": "AAALyH///cQ\u003d",
+      "revId": "ed5f501f9c8d1fe90ab2ba44fac5fa67ed0035a4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
