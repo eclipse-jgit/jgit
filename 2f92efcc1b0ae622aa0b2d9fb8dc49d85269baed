@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAALyn///jI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthGenerator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 81
+      },
+      "writtenOn": "2010-08-28T23:37:08Z",
+      "side": 1,
+      "message": "I think we may be defining this term differently, and that\u0027s leading to many/most of your concerns.\n\nI\u0027m using \u0027unshallow\u0027 in the same sense that the git pack protocol does--a commit which the client DOES have, but which it used to have marked as shallow (which means \u0027this commit claims to have parents, but pretend that it doesn\u0027t because we didn\u0027t download them\u0027.)  If we\u0027re deepening the tree, the client needs to remove the marking on these commits, since afterward it will have their parents just like any other commit.\n\nThus, these commits represent the last commit in the chain that the client has.  Anything beyond this which still passes the depth test is a new commit which must be sent to the client.  Since the client has all UNSHALLOW commits, they should be marked as UNINTERESTING as well, which is normally carried to all ancestors.  This is based on the assumption that if we have a commit, we always have its parents.  But in this case, that is not true, so we need to get rid of the UNINTERESTING flag on these ancestor commits, to tell the rest of the machinery that they need to be sent across.  To accomplish that, I carry the REINTERESTING flag to every commit below an UNSHALLOW commit, to denote that even though it\u0027s marked as UNINTERESTING, it\u0027s really lying.\n\nDoes that clear anything up?  Or are there still corner cases in the algorithm if it\u0027s done this way?",
+      "parentUuid": "AAALyn///lw\u003d",
+      "revId": "2f92efcc1b0ae622aa0b2d9fb8dc49d85269baed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALyn///aA\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthGenerator.java",
         "patchSetId": 3
