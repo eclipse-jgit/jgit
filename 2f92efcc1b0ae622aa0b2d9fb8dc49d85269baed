@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALyn///lw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthGenerator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-28T02:51:04Z",
+      "side": 1,
+      "message": "This documentation isn\u0027t correct.\n\nIf UNSHALLOW is on the commits the client doesn\u0027t have, but will have when we are done transmitting, these cannot be marked UNINTERESTING.  Really its the first descendant of an UNSHALLOW commit that should be marked UNINTERESTING (any commit whose parent is UNSHALLOW should be UNINTERESTING).",
+      "revId": "2f92efcc1b0ae622aa0b2d9fb8dc49d85269baed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///lg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthGenerator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-28T02:51:04Z",
+      "side": 1,
+      "message": "I think this is really:\n\n  if (produce)\n    produce \u003d c.has(UNINTERESTING) ? c.has(BOUNDARY) : false;",
+      "revId": "2f92efcc1b0ae622aa0b2d9fb8dc49d85269baed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///lI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackWriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1050,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-28T02:51:04Z",
+      "side": 1,
+      "message": "Declare this DepthWalk.ObjectWalk and then you don\u0027t need to downcast below.",
+      "revId": "2f92efcc1b0ae622aa0b2d9fb8dc49d85269baed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALzX///qM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-10-28T18:52:29Z",
+      "side": 1,
+      "message": "Style-nit: Please insert a blank line here between the two command test blocks.",
+      "revId": "2f92efcc1b0ae622aa0b2d9fb8dc49d85269baed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
