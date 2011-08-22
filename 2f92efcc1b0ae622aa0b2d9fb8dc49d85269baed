@@ -19,6 +19,92 @@
     },
     {
       "key": {
+        "uuid": "AAALyn///aA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthGenerator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-31T01:48:49Z",
+      "side": 1,
+      "message": "You\u0027re right.  I wasn\u0027t defining the term UNSHALLOW correctly, which lead to me misunderstanding a lot of the implementation.\n\nI\u0027ll have to re-read this entire patch set in light of this new explanation.  Thanks.",
+      "parentUuid": "AAALyn///jI\u003d",
+      "revId": "2f92efcc1b0ae622aa0b2d9fb8dc49d85269baed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///ls\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthGenerator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-28T02:51:04Z",
+      "side": 1,
+      "message": "Can we allocate this flag also as part of the DepthWalk?  The reason is, if a walk gets reset and runs again we\u0027d allocate yet another flag.  Do that enough times and walk suddenly stops working, because there are no free flags.\n\nExplicitly releasing the flag is hard from a generator, there isn\u0027t an API to have the walk tell the generator that the walk is being reset.  So the easiest thing may be to just allocate this at the same time as the UNSHALLOW flag in the individual walk classes.",
+      "revId": "2f92efcc1b0ae622aa0b2d9fb8dc49d85269baed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///k8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthGenerator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-28T02:51:04Z",
+      "side": 1,
+      "message": "Hmmph.  Almost makes sense.\n\nCommits that pass this test are the branch heads the client wants, and which are at depth 0.  I\u0027m a little concerned there may be a corner case here though.  What happens if the client only wants a new branch and that new branch is pointing at a commit that has UNSHALLOW set?  We\u0027ll wind up up with an  empty pending queue and process nothing at all.  Which means the client WON\u0027T get the commit it asked us for, and it\u0027ll crash out, because it doesn\u0027t have that yet (that\u0027s why it asked to unshallow it).\n\nWe may just have to make this test:\n\n  if ((c.flags \u0026 RevWalk.UNINTERESTING) \u003d\u003d 0)\n\nto work around that corner condition.  However we would then be pushing in UNSHALLOW commits that aren\u0027t actually start points.  This is a bug in DepthWalk.ObjectWalk\u0027s markUnshallow method.  It shouldn\u0027t call markStart().\n\nHowever we do also need uninteresting commits to be iterated.  The client may have given us a commit in common that we both have and that wasn\u0027t wanted by the client (because he already has it).\n\nAnd, uh, this is all far harder than I thought.  I might try poking at it more tomorrow to see if I can better distill down the conditions involved and how we can express them internally.",
+      "revId": "2f92efcc1b0ae622aa0b2d9fb8dc49d85269baed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///lo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthGenerator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-28T02:51:04Z",
+      "side": 1,
+      "message": "\"everything below us, including us is new\".  When you unshallow something the client doesn\u0027t have it yet.",
+      "revId": "2f92efcc1b0ae622aa0b2d9fb8dc49d85269baed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///lk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthGenerator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-28T02:51:04Z",
+      "side": 1,
+      "message": "I think your logic is incorrect here.  I still think we want what I  proposed in patch set 1\u0027s comments:\n\n  if (c.has(UNSHALLOW))\n    p.add(UNSHALLOW);\n  if (c.has(UNINTERESTING)) {\n    if (p.has(UNSHALLOW))\n      c.add(BOUNDARY);\n    else\n      p.add(UNINTERESTING);\n  }\n\nWith renaming your REINTERESTING flag to be BOUNDARY.",
+      "revId": "2f92efcc1b0ae622aa0b2d9fb8dc49d85269baed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALyn///lg\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthGenerator.java",
         "patchSetId": 3
@@ -30,6 +116,161 @@
       "writtenOn": "2010-08-28T02:51:04Z",
       "side": 1,
       "message": "I think this is really:\n\n  if (produce)\n    produce \u003d c.has(UNINTERESTING) ? c.has(BOUNDARY) : false;",
+      "revId": "2f92efcc1b0ae622aa0b2d9fb8dc49d85269baed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///l8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthWalk.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-28T02:51:04Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be a static class?",
+      "revId": "2f92efcc1b0ae622aa0b2d9fb8dc49d85269baed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///mA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthWalk.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-28T02:51:04Z",
+      "side": 1,
+      "message": "We typically don\u0027t expose fields to the public, just to our own package.  I know I argued to expose this more than private, but I really just meant package/default access, not public.",
+      "revId": "2f92efcc1b0ae622aa0b2d9fb8dc49d85269baed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///l0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthWalk.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-28T02:51:04Z",
+      "side": 1,
+      "message": "Javadoc?  Why would a caller want to do this?",
+      "revId": "2f92efcc1b0ae622aa0b2d9fb8dc49d85269baed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///l4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthWalk.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-28T02:51:04Z",
+      "side": 1,
+      "message": "Style-nit: Continuation line should be indented one more level.",
+      "revId": "2f92efcc1b0ae622aa0b2d9fb8dc49d85269baed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///ks\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/DepthWalk.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-28T02:51:04Z",
+      "side": 1,
+      "message": "We shouldn\u0027t call markStart here.  See my comments in the setup for DepthGenerator for why.",
+      "revId": "2f92efcc1b0ae622aa0b2d9fb8dc49d85269baed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///lU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackWriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 393,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-28T02:51:04Z",
+      "side": 1,
+      "message": "Style-nit: Blank line before @param tag.",
+      "revId": "2f92efcc1b0ae622aa0b2d9fb8dc49d85269baed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALzX///qA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackWriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 393,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-10-28T18:52:29Z",
+      "side": 1,
+      "message": "Still have a style-nit here (blank line before @param)",
+      "parentUuid": "AAALyn///lU\u003d",
+      "revId": "2f92efcc1b0ae622aa0b2d9fb8dc49d85269baed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///lQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackWriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-28T02:51:04Z",
+      "side": 1,
+      "message": "Style-nit: We indent between the \"*\" and the first part of the text with spaces.  Here you used tabs in this block.",
+      "revId": "2f92efcc1b0ae622aa0b2d9fb8dc49d85269baed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALzX///p8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackWriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-10-28T18:52:29Z",
+      "side": 1,
+      "message": "Still have a style-nit here (use spaces instead of tabs for indent inside of javadoc comment).",
+      "parentUuid": "AAALyn///lQ\u003d",
       "revId": "2f92efcc1b0ae622aa0b2d9fb8dc49d85269baed",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +294,126 @@
     },
     {
       "key": {
+        "uuid": "AAALyn///lM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackWriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1053,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-28T02:51:04Z",
+      "side": 1,
+      "message": "These two sort lines are pointless.  DepthWalk doesn\u0027t honor them.",
+      "revId": "2f92efcc1b0ae622aa0b2d9fb8dc49d85269baed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///lA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackWriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1079,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-28T02:51:04Z",
+      "side": 1,
+      "message": "This is a critical exception.  If we don\u0027t have something that we are unshallowing, we cannot continue.  That means you can simplify your code by removing the try/catch here and make it more like the very simple interestingObjects loop above.",
+      "revId": "2f92efcc1b0ae622aa0b2d9fb8dc49d85269baed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///lE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackWriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1084,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-28T02:51:04Z",
+      "side": 1,
+      "message": "This downcast is unnecessary if you declare the walker variable to be of the correct type above.",
+      "revId": "2f92efcc1b0ae622aa0b2d9fb8dc49d85269baed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALzX///qY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-10-28T18:52:29Z",
+      "side": 1,
+      "message": "This should be c.getDepth()",
+      "revId": "2f92efcc1b0ae622aa0b2d9fb8dc49d85269baed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALzX///qU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-10-28T18:52:29Z",
+      "side": 1,
+      "message": "Style-nit: We don\u0027t need {} around this statement.",
+      "revId": "2f92efcc1b0ae622aa0b2d9fb8dc49d85269baed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///lc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-28T02:51:04Z",
+      "side": 1,
+      "message": "This is sadly going to force us to keep the bulk of this revision pool alive longer than we need to.\n\nCan we instead do:\n\n  unshallowCommits.add(walk.lookupCommit(c));\n\nThis way what we hold onto is a pointer into the main pool we already are retaining long-term.  Or maybe better, since these two collections don\u0027t actually have to be RevCommits we can just declare them ObjectId and use:\n\n  unshallowCommits.add(c.copy));\n\nto shed the entire pool overhead.",
+      "revId": "2f92efcc1b0ae622aa0b2d9fb8dc49d85269baed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALzX///qQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-10-28T18:52:29Z",
+      "side": 1,
+      "message": "We still need to do what I suggested earlier to shed the revision pool memory usage:\n\n  unshallowCommits.add(c.copy())",
+      "parentUuid": "AAALyn///lc\u003d",
+      "revId": "2f92efcc1b0ae622aa0b2d9fb8dc49d85269baed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALzX///qM\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
         "patchSetId": 3
@@ -64,6 +425,57 @@
       "writtenOn": "2010-10-28T18:52:29Z",
       "side": 1,
       "message": "Style-nit: Please insert a blank line here between the two command test blocks.",
+      "revId": "2f92efcc1b0ae622aa0b2d9fb8dc49d85269baed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALzX///qI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 449,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-10-28T18:52:29Z",
+      "side": 1,
+      "message": "Style-nit: Please insert a blank line after your new block (and before the \"want\" test).",
+      "revId": "2f92efcc1b0ae622aa0b2d9fb8dc49d85269baed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyn///lY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 697,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-08-28T02:51:04Z",
+      "side": 1,
+      "message": "Style-nit: Space after if",
+      "revId": "2f92efcc1b0ae622aa0b2d9fb8dc49d85269baed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALzX///qE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 698,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-10-28T18:52:29Z",
+      "side": 1,
+      "message": "I think I would prefer passing the other shallow stuff through a new method.  That is:\n\n  if (depth \u003e 0)\n    pw.setShallowPack(depth, unshallowCommits);\n  pw.preparePack(pm, wantAll, commonBase);",
       "revId": "2f92efcc1b0ae622aa0b2d9fb8dc49d85269baed",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
