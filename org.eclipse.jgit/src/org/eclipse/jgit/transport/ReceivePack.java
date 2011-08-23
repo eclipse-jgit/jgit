@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008-2010, Google Inc.
+ * Copyright (C) 2008-2011, Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -947,7 +947,8 @@ public class ReceivePack {
 					// A well behaved client shouldn't have sent us a
 					// create command for a ref we advertised to it.
 					//
-					cmd.setResult(Result.REJECTED_OTHER_REASON, "ref exists");
+					cmd.setResult(Result.REJECTED_OTHER_REASON, MessageFormat
+							.format(JGitText.get().refAlreadExists, ref));
 					continue;
 				}
 			}
