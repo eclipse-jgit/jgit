@@ -337,7 +337,7 @@ public class DhtRefDatabase extends RefDatabase {
 			RefList<DhtRef> sym = oldCache.sym;
 
 			if (ref.isSymbolic()) {
-				sym.put(ref);
+				sym = sym.put(ref);
 			} else {
 				int p = sym.find(refName);
 				if (0 <= p)
