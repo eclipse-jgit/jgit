@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOAn//+ks\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-08-23T20:28:32Z",
+      "side": 1,
+      "message": "why do you change Google\u0027s copyright statement ? I think you are working for IBM",
+      "revId": "00271e7c03523ae4374912dbfc54e308270f1acc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOAn//+ko\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 951,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-08-23T20:28:32Z",
+      "side": 1,
+      "message": "please also fix the typo : s/refAlreadExists/refAlreadyExists/",
+      "revId": "00271e7c03523ae4374912dbfc54e308270f1acc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
