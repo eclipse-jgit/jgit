@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOAn//+hU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2011-08-24T08:12:36Z",
+      "side": 1,
+      "message": "Sorry, this what we do in Eclipse with every change. I thought that IBM is one of the \"other copyright owners\". I will leave it untouched in the next patch set.",
+      "parentUuid": "AABOAn//+ks\u003d",
+      "revId": "00271e7c03523ae4374912dbfc54e308270f1acc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOAn//+ko\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
         "patchSetId": 1
