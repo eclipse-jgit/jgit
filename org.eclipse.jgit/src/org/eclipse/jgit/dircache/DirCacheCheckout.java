@@ -174,7 +174,7 @@ public class DirCacheCheckout {
 	 * @param dc
 	 *            the (already locked) Dircache for this repo
 	 * @param mergeCommitTree
-	 *            the id of the tree of the
+	 *            the id of the tree we want to fast-forward to
 	 * @throws IOException
 	 */
 	public DirCacheCheckout(Repository repo, ObjectId headCommitTree,
