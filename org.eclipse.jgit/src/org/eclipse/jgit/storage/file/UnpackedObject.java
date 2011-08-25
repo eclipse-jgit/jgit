@@ -270,14 +270,35 @@ public class UnpackedObject {
 	}
 
 	private static boolean isStandardFormat(final byte[] hdr) {
-		// Try to determine if this is a standard format loose object or
-		// a pack style loose object. The standard format is completely
-		// compressed with zlib so the first byte must be 0x78 (15-bit
-		// window size, deflated) and the first 16 bit word must be
-		// evenly divisible by 31. Otherwise its a pack style object.
-		//
+		/*
+		 * We must determine if the buffer contains the standard
+		 * zlib-deflated stream or the experimental format based
+		 * on the in-pack object format. Compare the header byte
+		 * for each format:
+		 *
+		 * RFC1950 zlib w/ deflate : 0www1000 : 0 <= www <= 7
+		 * Experimental pack-based : Stttssss : ttt = 1,2,3,4
+		 *
+		 * If bit 7 is clear and bits 0-3 equal 8, the buffer MUST be
+		 * in standard loose-object format, UNLESS it is a Git-pack
+		 * format object *exactly* 8 bytes in size when inflated.
+		 *
+		 * However, RFC1950 also specifies that the 1st 16-bit word
+		 * must be divisible by 31 - this checksum tells us our buffer
+		 * is in the standard format, giving a false positive only if
+		 * the 1st word of the Git-pack format object happens to be
+		 * divisible by 31, ie:
+		 *      ((byte0 * 256) + byte1) % 31 = 0
+		 *   =>        0ttt10000www1000 % 31 = 0
+		 *
+		 * As it happens, this case can only arise for www=3 & ttt=1
+		 * - ie, a Commit object, which would have to be 8 bytes in
+		 * size. As no Commit can be that small, we find that the
+		 * combination of these two criteria (bitmask & checksum)
+		 * can always correctly determine the buffer format.
+		 */
 		final int fb = hdr[0] & 0xff;
-		return fb == 0x78 && (((fb << 8) | hdr[1] & 0xff) % 31) == 0;
+		return (fb & 0x8f) == 0x08 && (((fb << 8) | hdr[1] & 0xff) % 31) == 0;
 	}
 
 	private static InputStream inflate(final InputStream in, final long size,
