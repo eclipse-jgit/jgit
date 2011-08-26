@@ -48,7 +48,10 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.api.errors.InvalidRemoteException;
@@ -133,6 +136,22 @@ public class PushCommand extends GitCommand<Iterable<PushResult>> {
 				Ref head = repo.getRef(Constants.HEAD);
 				if (head != null && head.isSymbolic())
 					refSpecs.add(new RefSpec(head.getLeaf().getName()));
+				// TODO: checking if a local branch has a remote counterpart
+				Map<String, Ref> headsRefList = repo.getRefDatabase().getRefs(
+						Constants.R_HEADS);
+				Map<String, Ref> remotesRefList = repo.getRefDatabase()
+						.getRefs(Constants.R_REMOTES);
+				for (Iterator<Entry<String, Ref>> iterator = headsRefList
+						.entrySet().iterator(); iterator
+						.hasNext();) {
+					Entry<String, Ref> entry = iterator
+							.next();
+					for (String remoteKey : remotesRefList.keySet()) {
+						if (remoteKey.endsWith(entry.getKey()))
+							refSpecs.add(new RefSpec(entry.getValue().getLeaf()
+								.getName()));
+					}
+				}
 			}
 
 			if (force) {

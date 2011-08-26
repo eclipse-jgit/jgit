@@ -552,10 +552,10 @@ public abstract class Transport {
 	/**
 	 * Convert push remote refs update specification from {@link RefSpec} form
 	 * to {@link RemoteRefUpdate}. Conversion expands wildcards by matching
-	 * source part to local refs. expectedOldObjectId in RemoteRefUpdate is
-	 * always set as null. Tracking branch is configured if RefSpec destination
-	 * matches source of any fetch ref spec for this transport remote
-	 * configuration.
+	 * source part to local refs. <code>expectedOldObjectId</code> in
+	 * <code>RemoteRefUpdate</code> is always set as null. Tracking branch is
+	 * configured if RefSpec destination matches source of any fetch ref spec
+	 * for this transport remote configuration.
 	 *
 	 * @param db
 	 *            local database.
@@ -1079,9 +1079,9 @@ public abstract class Transport {
 	 * <p>
 	 * When {@link #isDryRun()} is true, result of this operation is just
 	 * estimation of real operation result, no real action is performed.
-	 *
+	 * 
 	 * @see RemoteRefUpdate
-	 *
+	 * 
 	 * @param monitor
 	 *            progress monitor to inform the user about our processing
 	 *            activity. Must not be null. Use {@link NullProgressMonitor} if
@@ -1091,7 +1091,8 @@ public abstract class Transport {
 	 *            collection to use the specifications from the RemoteConfig
 	 *            converted by {@link #findRemoteRefUpdatesFor(Collection)}. No
 	 *            more than 1 RemoteRefUpdate with the same remoteName is
-	 *            allowed. These objects are modified during this call.
+	 *            allowed. These objects are modified during this call. TODO:
+	 *            update
 	 * @return information about results of remote refs updates, tracking refs
 	 *         updates and refs advertised by remote repository.
 	 * @throws NotSupportedException
@@ -1113,8 +1114,10 @@ public abstract class Transport {
 				throw new TransportException(MessageFormat.format(
 						JGitText.get().problemWithResolvingPushRefSpecsLocally, e.getMessage()), e);
 			}
-			if (toPush.isEmpty())
-				throw new TransportException(JGitText.get().nothingToPush);
+			// if no refspec has been provided defer creating RemoteRefUpdate
+			// until connected
+			// if (toPush.isEmpty())
+			// throw new TransportException(JGitText.get().nothingToPush);
 		}
 		final PushProcess pushProcess = new PushProcess(this, toPush);
 		return pushProcess.execute(monitor);
