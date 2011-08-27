@@ -243,7 +243,7 @@ class DiffAlgorithms extends TextBuiltin {
 		if (db.getDirectory() != null) {
 			String name = db.getDirectory().getName();
 			File parent = db.getDirectory().getParentFile();
-			if (name.equals(Constants.DOT_GIT_EXT) && parent != null)
+			if (name.equals(Constants.DOT_GIT) && parent != null)
 				name = parent.getName();
 			out.println(name + ": start at " + startId.name());
 		}
