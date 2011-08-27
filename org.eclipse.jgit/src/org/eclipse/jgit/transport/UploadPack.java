@@ -49,6 +49,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -106,6 +107,16 @@ public class UploadPack {
 	static final String OPTION_NO_DONE = BasePackFetchConnection.OPTION_NO_DONE;
 
 	static final String OPTION_SHALLOW = BasePackFetchConnection.OPTION_SHALLOW;
+
+	/** Policy the server uses to validate client requests */
+	public static enum RequestPolicy {
+		/** Client may only ask for objects the server advertised a reference for. */
+		ADVERTISED,
+		/** Client may ask for any commit reachable from a reference. */
+		REACHABLE_COMMIT,
+		/** Client may ask for any SHA-1 in the repository. */
+		ANY;
+	}
 
 	/** Database we read the objects from. */
 	private final Repository db;
@@ -198,6 +209,8 @@ public class UploadPack {
 
 	private final RevFlagSet SAVE;
 
+	private RequestPolicy requestPolicy = RequestPolicy.ADVERTISED;
+
 	private MultiAck multiAck = MultiAck.OFF;
 
 	private boolean noDone;
@@ -243,10 +256,20 @@ public class UploadPack {
 
 	/** @return all refs which were advertised to the client. */
 	public final Map<String, Ref> getAdvertisedRefs() {
-		if (refs == null) {
-			refs = refFilter.filter(db.getAllRefs());
-		}
+		if (refs == null)
+			setAdvertisedRefs(db.getAllRefs());
 		return refs;
+	}
+
+	/**
+	 * @param allRefs
+	 *            explicit set of references to claim as advertised by this
+	 *            UploadPack instance. This overrides any references that
+	 *            may exist in the source repository. The map is passed
+	 *            to the configured {@link #getRefFilter()}.
+	 */
+	public void setAdvertisedRefs(Map<String, Ref> allRefs) {
+		refs = refFilter.filter(allRefs);
 	}
 
 	/** @return timeout (in seconds) before aborting an IO operation. */
@@ -285,6 +308,26 @@ public class UploadPack {
 	 */
 	public void setBiDirectionalPipe(final boolean twoWay) {
 		biDirectionalPipe = twoWay;
+		if (!biDirectionalPipe && requestPolicy == RequestPolicy.ADVERTISED)
+			requestPolicy = RequestPolicy.REACHABLE_COMMIT;
+	}
+
+	/** @return policy used by the service to validate client requests. */
+	public RequestPolicy getRequestPolicy() {
+		return requestPolicy;
+	}
+
+	/**
+	 * @param policy
+	 *            the policy used to enforce validation of a client's want list.
+	 *            By default the policy is {@link RequestPolicy#ADVERTISED},
+	 *            which is the Git default requiring clients to only ask for an
+	 *            object that a reference directly points to. This may be relaxed
+	 *            to {@link RequestPolicy#REACHABLE_COMMIT} when callers
+	 *            have {@link #setBiDirectionalPipe(boolean)} set to false.
+	 */
+	public void setRequestPolicy(RequestPolicy policy) {
+		requestPolicy = policy != null ? policy : RequestPolicy.ADVERTISED;
 	}
 
 	/** @return the filter used while advertising the refs to the client */
@@ -406,6 +449,8 @@ public class UploadPack {
 	private void service() throws IOException {
 		if (biDirectionalPipe)
 			sendAdvertisedRefs(new PacketLineOutRefAdvertiser(pckOut));
+		else if (requestPolicy == RequestPolicy.ANY)
+			advertised = Collections.emptySet();
 		else {
 			advertised = new HashSet<ObjectId>();
 			for (Ref ref : getAdvertisedRefs().values()) {
@@ -659,6 +704,7 @@ public class UploadPack {
 			needMissing = true;
 		}
 
+		Set<RevObject> notAdvertisedWants = null;
 		int haveCnt = 0;
 		AsyncRevObjectQueue q = walk.parseAny(toParse, needMissing);
 		try {
@@ -682,10 +728,10 @@ public class UploadPack {
 				// list wasn't parsed earlier, and was done in this batch.
 				//
 				if (wantIds.remove(obj)) {
-					if (!advertised.contains(obj)) {
-						String msg = MessageFormat.format(
-								JGitText.get().wantNotValid, obj.name());
-						throw new PackProtocolException(msg);
+					if (!advertised.contains(obj) && requestPolicy != RequestPolicy.ANY) {
+						if (notAdvertisedWants == null)
+							notAdvertisedWants = new HashSet<RevObject>();
+						notAdvertisedWants.add(obj);
 					}
 
 					if (!obj.has(WANT)) {
@@ -745,6 +791,26 @@ public class UploadPack {
 		} finally {
 			q.release();
 		}
+
+		// If the client asked for non advertised object, check our policy.
+		if (notAdvertisedWants != null && !notAdvertisedWants.isEmpty()) {
+			switch (requestPolicy) {
+			case ADVERTISED:
+			default:
+				throw new PackProtocolException(MessageFormat.format(
+						JGitText.get().wantNotValid,
+						notAdvertisedWants.iterator().next().name()));
+
+			case REACHABLE_COMMIT:
+				checkNotAdvertisedWants(notAdvertisedWants);
+				break;
+
+			case ANY:
+				// Allow whatever was asked for.
+				break;
+			}
+		}
+
 		int missCnt = peerHas.size() - haveCnt;
 
 		// If we don't have one of the objects but we're also willing to
@@ -785,6 +851,40 @@ public class UploadPack {
 		preUploadHook.onEndNegotiateRound(this, wantAll, haveCnt, missCnt, sentReady);
 		peerHas.clear();
 		return last;
+	}
+
+	private void checkNotAdvertisedWants(Set<RevObject> notAdvertisedWants)
+			throws MissingObjectException, IncorrectObjectTypeException, IOException {
+		// Walk the requested commits back to the advertised commits.
+		// If any commit exists, a branch was deleted or rewound and
+		// the repository owner no longer exports that requested item.
+		// If the requested commit is merged into an advertised branch
+		// it will be marked UNINTERESTING and no commits return.
+
+		for (RevObject o : notAdvertisedWants) {
+			if (!(o instanceof RevCommit)) {
+				throw new PackProtocolException(MessageFormat.format(
+						JGitText.get().wantNotValid,
+						notAdvertisedWants.iterator().next().name()));
+			}
+			walk.markStart((RevCommit) o);
+		}
+
+		for (ObjectId id : advertised) {
+			try {
+				walk.markUninteresting(walk.parseCommit(id));
+			} catch (IncorrectObjectTypeException notCommit) {
+				continue;
+			}
+		}
+
+		RevCommit bad = walk.next();
+		if (bad != null) {
+			throw new PackProtocolException(MessageFormat.format(
+					JGitText.get().wantNotValid,
+					bad.name()));
+		}
+		walk.reset();
 	}
 
 	private void addCommonBase(final RevObject o) {
@@ -941,7 +1041,7 @@ public class UploadPack {
 			pw.setThin(options.contains(OPTION_THIN_PACK));
 			pw.setReuseValidatingObjects(false);
 
-			if (commonBase.isEmpty()) {
+			if (commonBase.isEmpty() && refs != null) {
 				Set<ObjectId> tagTargets = new HashSet<ObjectId>();
 				for (Ref ref : refs.values()) {
 					if (ref.getPeeledObjectId() != null)
@@ -968,7 +1068,7 @@ public class UploadPack {
 				rw = ow;
 			}
 
-			if (options.contains(OPTION_INCLUDE_TAG)) {
+			if (options.contains(OPTION_INCLUDE_TAG) && refs != null) {
 				for (Ref ref : refs.values()) {
 					ObjectId objectId = ref.getObjectId();
 
