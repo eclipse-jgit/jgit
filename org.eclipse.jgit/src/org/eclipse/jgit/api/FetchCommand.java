@@ -92,6 +92,7 @@ public class FetchCommand extends GitCommand<FetchResult> {
 	private CredentialsProvider credentialsProvider;
 
 	private TagOpt tagOption;
+	private TransportConfigCallback transportConfigCallback;
 
 	/**
 	 * @param repo
@@ -132,6 +133,8 @@ public class FetchCommand extends GitCommand<FetchResult> {
 				transport.setFetchThin(thin);
 				if (credentialsProvider != null)
 					transport.setCredentialsProvider(credentialsProvider);
+				if (transportConfigCallback != null)
+					transportConfigCallback.configure(transport);
 
 				FetchResult result = transport.fetch(monitor, refSpecs);
 				return result;
@@ -351,6 +354,13 @@ public class FetchCommand extends GitCommand<FetchResult> {
 	public FetchCommand setTagOpt(TagOpt tagOpt) {
 		checkCallable();
 		this.tagOption = tagOpt;
+		return this;
+	}
+
+	public FetchCommand setTransportConfigCallback(
+			TransportConfigCallback transportConfigCallback) {
+		checkCallable();
+		this.transportConfigCallback = transportConfigCallback;
 		return this;
 	}
 }

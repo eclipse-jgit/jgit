@@ -103,6 +103,7 @@ public class CloneCommand implements Callable<Git> {
 	private boolean noCheckout;
 
 	private Collection<String> branchesToClone;
+	private TransportConfigCallback transportConfigCallback;
 
 	/**
 	 * Executes the {@code Clone} command.
@@ -167,6 +168,7 @@ public class CloneCommand implements Callable<Git> {
 		command.setTimeout(timeout);
 		if (credentialsProvider != null)
 			command.setCredentialsProvider(credentialsProvider);
+		command.setTransportConfigCallback(transportConfigCallback);
 
 		List<RefSpec> specs = calculateRefSpecs(dst);
 		command.setRefSpecs(specs);
@@ -394,4 +396,9 @@ public class CloneCommand implements Callable<Git> {
 		return this;
 	}
 
+	public CloneCommand setTransportConfigCallback(
+			TransportConfigCallback transportConfigCallback) {
+		this.transportConfigCallback = transportConfigCallback;
+		return this;
+	}
 }
