@@ -713,7 +713,8 @@ public class DirCache {
 	 */
 	public DirCacheEntry[] getEntriesWithin(String path) {
 		if (!path.endsWith("/"))
-			path += "/";
+			if (path.length() > 0)
+				path += "/";
 		final byte[] p = Constants.encode(path);
 		final int pLen = p.length;
 

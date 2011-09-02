@@ -269,7 +269,8 @@ public class DirCacheEditor extends BaseDirCacheEditor {
 		 *            only the subtree's contents are matched by the command.
 		 */
 		public DeleteTree(final String entryPath) {
-			super(entryPath.endsWith("/") ? entryPath : entryPath + "/");
+			super(entryPath.endsWith("/") && entryPath.length() > 0 ? entryPath
+					: entryPath + "/");
 		}
 
 		public void apply(final DirCacheEntry ent) {
