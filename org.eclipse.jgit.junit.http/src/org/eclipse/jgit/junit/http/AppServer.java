@@ -104,7 +104,7 @@ public class AppServer {
 
 	public AppServer() {
 		connector = new SelectChannelConnector();
-		connector.setPort(0);
+		connector.setPort(8091);
 		try {
 			final InetAddress me = InetAddress.getByName("localhost");
 			connector.setHost(me.getHostAddress());
