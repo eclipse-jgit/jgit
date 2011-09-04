@@ -45,6 +45,7 @@
 package org.eclipse.jgit.storage.file;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 import java.io.File;
@@ -54,6 +55,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.SampleDataRepositoryTestCase;
@@ -83,6 +85,9 @@ public class ReflogReaderTest extends SampleDataRepositoryTestCase {
 			.getBytes();
 
 	static byte[] oneLineWithoutComment = "da85355dfc525c9f6f3927b876f379f46ccf826e 3e7549db262d1e836d9bf0af7e22355468f1717c A O Thor Too <authortoo@wri.tr> 1243028200 +0200\n"
+			.getBytes();
+
+	static byte[] switchBranch = "0d43a6890a19fd657faad1c4cfbe3cb1b47851c3 4809df9c0d8bce5b00955563f77c5a9f25aa0d12 A O Thor Too <authortoo@wri.tr> 1315088009 +0200\tcheckout: moving from new/work to master\n"
 			.getBytes();
 
 	@Test
@@ -209,6 +214,19 @@ public class ReflogReaderTest extends SampleDataRepositoryTestCase {
 	public void testNoLog() throws Exception {
 		assertEquals(0, db.getReflogReader("master").getReverseEntries().size());
 		assertNull(db.getReflogReader("master").getLastEntry());
+	}
+
+	@Test
+	public void testCheckout() throws Exception {
+		setupReflog("logs/HEAD", switchBranch);
+		List<ReflogEntry> entries = db.getReflogReader(Constants.HEAD)
+				.getReverseEntries();
+		assertEquals(1, entries.size());
+		ReflogEntry entry = entries.get(0);
+		CheckoutEntry checkout = entry.parseCheckout();
+		assertNotNull(checkout);
+		assertEquals("master", checkout.getToBranch());
+		assertEquals("new/work", checkout.getFromBranch());
 	}
 
 	private void setupReflog(String logName, byte[] data)
