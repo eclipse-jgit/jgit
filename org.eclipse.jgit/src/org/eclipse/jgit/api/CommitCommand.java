@@ -66,6 +66,7 @@ import org.eclipse.jgit.dircache.DirCacheIterator;
 import org.eclipse.jgit.errors.UnmergedPathException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -341,17 +342,24 @@ public class CommitCommand extends GitCommand<RevCommit> {
 					if (objectExists) {
 						dcEntry.setObjectId(fTree.getEntryObjectId());
 					} else {
-						// insert object
-						if (inserter == null)
-							inserter = repo.newObjectInserter();
+						if (FileMode.GITLINK.equals(dcEntry.getFileMode())) {
+							// Do not check the content of submodule entries
+							// Use the old entry information instead.
+							dcEntry.copyMetaData(index.getEntry(dcEntry
+									.getPathString()));
+						} else {
+							// insert object
+							if (inserter == null)
+								inserter = repo.newObjectInserter();
 
-						InputStream inputStream = fTree.openEntryStream();
-						try {
-							dcEntry.setObjectId(inserter.insert(
-									Constants.OBJ_BLOB, entryLength,
-									inputStream));
-						} finally {
-							inputStream.close();
+							InputStream inputStream = fTree.openEntryStream();
+							try {
+								dcEntry.setObjectId(inserter.insert(
+										Constants.OBJ_BLOB, entryLength,
+										inputStream));
+							} finally {
+								inputStream.close();
+							}
 						}
 					}
 
