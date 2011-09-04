@@ -143,8 +143,8 @@ public class CheckoutCommand extends GitCommand<Ref> {
 			}
 
 			Ref headRef = repo.getRef(Constants.HEAD);
-			String refLogMessage = "checkout: moving from "
-					+ headRef.getTarget().getName();
+			String shortHeadRef = getShortBranchName(headRef);
+			String refLogMessage = "checkout: moving from " + shortHeadRef;
 			ObjectId branch = repo.resolve(name);
 			if (branch == null)
 				throw new RefNotFoundException(MessageFormat.format(JGitText
@@ -169,10 +169,10 @@ public class CheckoutCommand extends GitCommand<Ref> {
 			Ref ref = repo.getRef(name);
 			if (ref != null && !ref.getName().startsWith(Constants.R_HEADS))
 				ref = null;
+			String toName = Repository.shortenRefName(name);
 			RefUpdate refUpdate = repo.updateRef(Constants.HEAD, ref == null);
 			refUpdate.setForceUpdate(force);
-			refUpdate.setRefLogMessage(refLogMessage + " to "
-					+ newCommit.getName(), false);
+			refUpdate.setRefLogMessage(refLogMessage + " to " + toName, false);
 			Result updateResult;
 			if (ref != null)
 				updateResult = refUpdate.link(ref.getName());
@@ -214,6 +214,12 @@ public class CheckoutCommand extends GitCommand<Ref> {
 			if (status == null)
 				status = CheckoutResult.ERROR_RESULT;
 		}
+	}
+
+	private String getShortBranchName(Ref headRef) {
+		if (headRef.getTarget().getName().equals(headRef.getName()))
+			return headRef.getTarget().getObjectId().getName();
+		return Repository.shortenRefName(headRef.getTarget().getName());
 	}
 
 	/**
