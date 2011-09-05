@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOBH///vk\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-09-04T21:10:42Z",
+      "side": 1,
+      "message": "typo: s/to-branch the reflog/to-branch in the reflog/",
+      "revId": "47e3a039440e3661097c86f613398f5f6c8a8e74",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
