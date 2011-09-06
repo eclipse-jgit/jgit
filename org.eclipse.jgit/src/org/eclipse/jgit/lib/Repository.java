@@ -597,7 +597,7 @@ public abstract class Repository {
 			return resolveAbbreviation(revstr);
 
 		int dashg = revstr.indexOf("-g");
-		if ((dashg + 4) < revstr.length() && 0 <= dashg
+		if ((dashg + 5) < revstr.length() && 0 <= dashg
 				&& isHex(revstr.charAt(dashg + 2))
 				&& isHex(revstr.charAt(dashg + 3))
 				&& isAllHex(revstr, dashg + 4)) {
