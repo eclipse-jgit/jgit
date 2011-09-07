@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOBH///kI\u003d",
+        "filename": ".eclipse_iplog",
+        "patchSetId": 2
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-09-07T08:06:57Z",
+      "side": 1,
+      "message": "Chris mentioned we don\u0027t use these two CQs",
+      "revId": "ea4e7bacba619e1858b42da4498143a9de4f61bf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
