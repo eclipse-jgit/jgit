@@ -217,7 +217,9 @@ public class MergeCommand extends GitCommand<MergeResult> {
 							merger.getResultTreeId());
 					dco.setFailOnConflict(true);
 					dco.checkout();
-					RevCommit newHead = new Git(getRepository()).commit().call();
+
+					RevCommit newHead = new Git(getRepository()).commit()
+							.setReflogComment(refLogMessage.toString()).call();
 					return new MergeResult(newHead.getId(),
 							null, new ObjectId[] {
 									headCommit.getId(), srcCommit.getId() },
