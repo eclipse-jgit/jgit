@@ -59,6 +59,7 @@ import org.eclipse.jgit.lib.RepositoryState;
 import org.eclipse.jgit.lib.RepositoryTestCase;
 import org.eclipse.jgit.merge.ResolveMerger.MergeFailureReason;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.storage.file.ReflogReader;
 import org.junit.Test;
 
 /**
@@ -223,5 +224,14 @@ public class CherryPickCommandTest extends RepositoryTestCase {
 		// index shall be unchanged
 		assertEquals(indexState, indexState(CONTENT));
 		assertEquals(RepositoryState.SAFE, db.getRepositoryState());
+
+		if (reason == null) {
+			ReflogReader reader = db.getReflogReader(Constants.HEAD);
+			assertTrue(reader.getLastEntry().getComment()
+					.startsWith("cherry-pick: "));
+			reader = db.getReflogReader(db.getBranch());
+			assertTrue(reader.getLastEntry().getComment()
+					.startsWith("cherry-pick: "));
+		}
 	}
 }
