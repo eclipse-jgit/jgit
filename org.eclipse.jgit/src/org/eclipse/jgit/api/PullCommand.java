@@ -49,7 +49,6 @@ import java.text.MessageFormat;
 import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.api.RebaseCommand.Operation;
 import org.eclipse.jgit.api.errors.CanceledException;
-import org.eclipse.jgit.api.errors.CheckoutConflictException;
 import org.eclipse.jgit.api.errors.ConcurrentRefUpdateException;
 import org.eclipse.jgit.api.errors.DetachedHeadException;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -290,8 +289,6 @@ public class PullCommand extends GitCommand<PullResult> {
 			} catch (NoHeadException e) {
 				throw new JGitInternalException(e.getMessage(), e);
 			} catch (ConcurrentRefUpdateException e) {
-				throw new JGitInternalException(e.getMessage(), e);
-			} catch (CheckoutConflictException e) {
 				throw new JGitInternalException(e.getMessage(), e);
 			} catch (InvalidMergeHeadsException e) {
 				throw new JGitInternalException(e.getMessage(), e);
