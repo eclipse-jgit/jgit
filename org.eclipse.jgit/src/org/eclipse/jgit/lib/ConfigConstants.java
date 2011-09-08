@@ -66,6 +66,9 @@ public class ConfigConstants {
 	/** The "gerrit" section */
 	public static final String CONFIG_GERRIT_SECTION = "gerrit";
 
+	/** The "workflow" section */
+	public static final String CONFIG_WORKFLOW_SECTION = "workflow";
+
 	/** The "algorithm" key */
 	public static final String CONFIG_KEY_ALGORITHM = "algorithm";
 
@@ -133,4 +136,7 @@ public class ConfigConstants {
 
 	/** The "createchangeid" key */
 	public static final String CONFIG_KEY_CREATECHANGEID = "createchangeid";
+
+	/** The "defaultsourceref" key */
+	public static final String CONFIG_KEY_DEFBRANCHSTARTPOINT = "defbranchstartpoint";
 }
