@@ -16,6 +16,24 @@
       "revId": "3bc896552758419da4c9e9f1449e5be3b1e247b1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOBH///cQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1274,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-09-08T00:46:57Z",
+      "side": 1,
+      "message": "Removed",
+      "parentUuid": "AABOBH///wY\u003d",
+      "revId": "3bc896552758419da4c9e9f1449e5be3b1e247b1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
