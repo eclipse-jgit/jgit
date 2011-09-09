@@ -69,6 +69,8 @@ import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.NoWorkTreeException;
 import org.eclipse.jgit.errors.RevisionSyntaxException;
+import org.eclipse.jgit.events.IndexChangedEvent;
+import org.eclipse.jgit.events.IndexChangedListener;
 import org.eclipse.jgit.events.ListenerList;
 import org.eclipse.jgit.events.RepositoryEvent;
 import org.eclipse.jgit.revwalk.RevBlob;
@@ -883,7 +885,15 @@ public abstract class Repository {
 	 */
 	public DirCache lockDirCache() throws NoWorkTreeException,
 			CorruptObjectException, IOException {
-		return DirCache.lock(getIndexFile(), getFS());
+		// we want DirCache to inform us so that we can inform registered
+		// listeners about index changes
+		IndexChangedListener l = new IndexChangedListener() {
+
+			public void onIndexChanged(IndexChangedEvent event) {
+				notifyIndexChanged();
+			}
+		};
+		return DirCache.lock(getIndexFile(), getFS(), l);
 	}
 
 	static byte[] gitInternalSlash(byte[] bytes) {
@@ -1064,6 +1074,11 @@ public abstract class Repository {
 	 * @throws IOException
 	 */
 	public abstract void scanForRepoChanges() throws IOException;
+
+	/**
+	 * Notify that the index changed
+	 */
+	public abstract void notifyIndexChanged();
 
 	/**
 	 * @param refName
