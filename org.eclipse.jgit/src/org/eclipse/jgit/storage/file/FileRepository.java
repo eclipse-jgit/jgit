@@ -56,6 +56,7 @@ import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.events.ConfigChangedEvent;
 import org.eclipse.jgit.events.ConfigChangedListener;
+import org.eclipse.jgit.events.IndexChangedEvent;
 import org.eclipse.jgit.lib.BaseRepositoryBuilder;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
@@ -104,6 +105,8 @@ public class FileRepository extends Repository {
 	private final RefDatabase refs;
 
 	private final ObjectDirectory objectDatabase;
+
+	private FileSnapshot snapshot;
 
 	/**
 	 * Construct a representation of a Git repository.
@@ -187,6 +190,8 @@ public class FileRepository extends Repository {
 						repositoryFormatVersion));
 			}
 		}
+
+		snapshot = FileSnapshot.save(getIndexFile());
 	}
 
 	private void loadSystemConfig() throws IOException {
@@ -371,15 +376,26 @@ public class FileRepository extends Repository {
 		objectDatabase.openPack(pack, idx);
 	}
 
-	/**
-	 * Force a scan for changed refs.
-	 *
-	 * @throws IOException
-	 */
+	@Override
 	public void scanForRepoChanges() throws IOException {
 		getAllRefs(); // This will look for changes to refs
-		if (!isBare())
-			getIndex(); // This will detect changes in the index
+		detectIndexChanges();
+	}
+
+	/**
+	 * Detect index changes.
+	 */
+	private void detectIndexChanges() {
+		if (isBare())
+			return;
+
+		File indexFile = getIndexFile();
+		if (snapshot == null)
+			snapshot = FileSnapshot.save(indexFile);
+		else if (snapshot.isModified(indexFile)) {
+			snapshot = FileSnapshot.save(indexFile);
+			fireEvent(new IndexChangedEvent());
+		}
 	}
 
 	/**
