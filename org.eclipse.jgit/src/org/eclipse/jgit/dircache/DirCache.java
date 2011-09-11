@@ -63,6 +63,8 @@ import java.util.Comparator;
 import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.UnmergedPathException;
+import org.eclipse.jgit.events.IndexChangedEvent;
+import org.eclipse.jgit.events.IndexChangedListener;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -203,6 +205,39 @@ public class DirCache {
 		return c;
 	}
 
+	/**
+	 * Create a new in-core index representation, lock it, and read from disk.
+	 * <p>
+	 * The new index will be locked and then read before it is returned to the
+	 * caller. Read failures are reported as exceptions and therefore prevent
+	 * the method from returning a partially populated index. On read failure,
+	 * the lock is released.
+	 *
+	 * @param indexLocation
+	 *            location of the index file on disk.
+	 * @param fs
+	 *            the file system abstraction which will be necessary to perform
+	 *            certain file system operations.
+	 * @param indexChangedListener
+	 *            listener to be informed when DirCache is committed
+	 * @return a cache representing the contents of the specified index file (if
+	 *         it exists) or an empty cache if the file does not exist.
+	 * @throws IOException
+	 *             the index file is present but could not be read, or the lock
+	 *             could not be obtained.
+	 * @throws CorruptObjectException
+	 *             the index file is using a format or extension that this
+	 *             library does not support.
+	 */
+	public static DirCache lock(final File indexLocation, final FS fs,
+			IndexChangedListener indexChangedListener)
+			throws CorruptObjectException,
+			IOException {
+		DirCache c = lock(indexLocation, fs);
+		c.registerIndexChangedListener(indexChangedListener);
+		return c;
+	}
+
 	/** Location of the current version of the index file. */
 	private final File liveFile;
 
@@ -223,6 +258,9 @@ public class DirCache {
 
 	/** Keep track of whether the index has changed or not */
 	private FileSnapshot snapshot;
+
+	/** listener to be informed on commit */
+	private IndexChangedListener indexChangedListener;
 
 	/**
 	 * Create a new in-core index representation.
@@ -567,6 +605,8 @@ public class DirCache {
 		if (!tmp.commit())
 			return false;
 		snapshot = tmp.getCommitSnapshot();
+		if (indexChangedListener != null)
+			indexChangedListener.onIndexChanged(new IndexChangedEvent());
 		return true;
 	}
 
@@ -788,5 +828,9 @@ public class DirCache {
 			}
 		}
 		return false;
+	}
+
+	private void registerIndexChangedListener(IndexChangedListener listener) {
+		this.indexChangedListener = listener;
 	}
 }
