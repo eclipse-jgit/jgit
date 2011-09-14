@@ -46,6 +46,7 @@ package org.eclipse.jgit.api;
 import java.io.File;
 import java.io.IOException;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -162,8 +163,8 @@ public class CheckoutCommand extends GitCommand<Ref> {
 			try {
 				dco.checkout();
 			} catch (CheckoutConflictException e) {
-				status = new CheckoutResult(Status.CONFLICTS, dco
-						.getConflicts());
+				status = new CheckoutResult(Status.CONFLICTS,
+						new ArrayList<String>(dco.getConflicts().keySet()));
 				throw e;
 			}
 			Ref ref = repo.getRef(name);

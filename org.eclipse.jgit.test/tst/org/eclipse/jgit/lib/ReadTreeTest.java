@@ -45,6 +45,9 @@
  */
 package org.eclipse.jgit.lib;
 
+import static org.eclipse.jgit.merge.ResolveMerger.MergeFailureReason.COULD_NOT_DELETE;
+import static org.eclipse.jgit.merge.ResolveMerger.MergeFailureReason.DIRTY_INDEX;
+import static org.eclipse.jgit.merge.ResolveMerger.MergeFailureReason.DIRTY_WORKTREE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -61,6 +64,7 @@ import java.util.Map;
 
 import org.eclipse.jgit.errors.CheckoutConflictException;
 import org.eclipse.jgit.errors.CorruptObjectException;
+import org.eclipse.jgit.merge.ResolveMerger.MergeFailureReason;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.junit.Test;
@@ -193,7 +197,7 @@ public abstract class ReadTreeTest extends RepositoryTestCase {
 
 		assertTrue(getUpdated().isEmpty());
 		assertTrue(getRemoved().isEmpty());
-		assertTrue(getConflicts().contains("foo"));
+		assertConflict("foo", null);
 
 		// rule 10
 
@@ -215,7 +219,7 @@ public abstract class ReadTreeTest extends RepositoryTestCase {
 
 		assertTrue(getRemoved().isEmpty());
 		assertTrue(getUpdated().isEmpty());
-		assertTrue(getConflicts().contains("foo"));
+		assertConflict("foo", DIRTY_WORKTREE);
 
 		// rule 12 & 13
 		headMap.put("foo", "head");
@@ -224,7 +228,7 @@ public abstract class ReadTreeTest extends RepositoryTestCase {
 
 		assertTrue(getRemoved().isEmpty());
 		assertTrue(getUpdated().isEmpty());
-		assertTrue(getConflicts().contains("foo"));
+		assertConflict("foo", null);
 
 		// rules 14 & 15
 		setupCase(headMap, headMap, idxMap);
@@ -234,7 +238,7 @@ public abstract class ReadTreeTest extends RepositoryTestCase {
 
 		// rules 16 & 17
 		setupCase(headMap, mergeMap, idxMap); go();
-		assertTrue(getConflicts().contains("foo"));
+		assertConflict("foo", DIRTY_INDEX);
 
 		// rules 18 & 19
 		setupCase(headMap, idxMap, idxMap); go();
@@ -250,7 +254,7 @@ public abstract class ReadTreeTest extends RepositoryTestCase {
 		writeTrashFile("foo", "bar");
 		db.getIndex().getMembers()[0].forceRecheck();
 		go();
-		assertTrue(getConflicts().contains("foo"));
+		assertConflict("foo", DIRTY_WORKTREE);
 	}
 
 	private void assertAllEmpty() {
@@ -324,7 +328,7 @@ public abstract class ReadTreeTest extends RepositoryTestCase {
 		setupCase(mk("DF/DF"), mk("DF"), mk("DF/DF"));
 		writeTrashFile("DF/DF", "different");
 		go();
-		assertConflict("DF/DF");
+		assertConflict("DF/DF", DIRTY_WORKTREE);
 
 	}
 
@@ -379,7 +383,7 @@ public abstract class ReadTreeTest extends RepositoryTestCase {
 		setupCase(mk("DF/DF"), mk("DF/DF"), mk("DF/DF/DF/DF/DF"));
 		writeTrashFile("DF/DF/DF/DF/DF", "diff");
 		go();
-		assertConflict("DF/DF/DF/DF/DF");
+		assertConflict("DF/DF/DF/DF/DF", DIRTY_WORKTREE);
 
 		// assertUpdated("DF/DF");
 								// Why do we expect an update on DF/DF. H==M,
@@ -398,7 +402,7 @@ public abstract class ReadTreeTest extends RepositoryTestCase {
 		recursiveDelete(new File(db.getWorkTree(), "DF"));
 		writeTrashFile("DF", "xy");
 		go();
-		assertConflict("DF/DF");
+		assertConflict("DF/DF", DIRTY_WORKTREE);
 	}
 
 	@Test
@@ -421,7 +425,7 @@ public abstract class ReadTreeTest extends RepositoryTestCase {
 	public void testDirectoryFileConflicts_11() throws Exception {
 		// 11
 		doit(mk("DF"), mk("DF/DF"), mkmap("DF/DF", "asdf"));
-		assertConflict("DF/DF");
+		assertConflict("DF/DF", null);
 	}
 
 	@Test
@@ -440,7 +444,7 @@ public abstract class ReadTreeTest extends RepositoryTestCase {
 		setupCase(mk("DF"), mk("DF/DF"), mk("DF"));
 		writeTrashFile("DF", "asdfsdf");
 		go();
-		assertConflict("DF");
+		assertConflict("DF", DIRTY_WORKTREE);
 		assertUpdated("DF/DF");
 	}
 
@@ -449,7 +453,7 @@ public abstract class ReadTreeTest extends RepositoryTestCase {
 		// 14
 		cleanUpDF();
 		doit(mk("DF"), mk("DF/DF"), mkmap("DF", "Foo"));
-		assertConflict("DF");
+		assertConflict("DF", COULD_NOT_DELETE);
 		assertUpdated("DF/DF");
 	}
 
@@ -494,7 +498,7 @@ public abstract class ReadTreeTest extends RepositoryTestCase {
 		setupCase(mkmap(), mk("DF"), mk("DF/DF/DF"));
 		writeTrashFile("DF/DF/DF", "asdf");
 		go();
-		assertConflict("DF/DF/DF");
+		assertConflict("DF/DF/DF", DIRTY_WORKTREE);
 
 		// Why do we expect an update on DF. If we really update
 		// DF and update also the working tree we would have to
@@ -527,8 +531,10 @@ public abstract class ReadTreeTest extends RepositoryTestCase {
 		recursiveDelete(new File(trash, "DF"));
 	}
 
-	protected void assertConflict(String s) {
-		assertTrue(getConflicts().contains(s));
+	protected void assertConflict(String s, MergeFailureReason r) {
+		assertFalse(getConflicts().isEmpty());
+		assertTrue(getConflicts().containsKey(s));
+		assertEquals(r, getConflicts().get(s));
 	}
 
 	protected void assertUpdated(String s) {
@@ -580,7 +586,7 @@ public abstract class ReadTreeTest extends RepositoryTestCase {
 			checkout();
 			fail("didn't get the expected exception");
 		} catch (CheckoutConflictException e) {
-			assertConflict("foo");
+			assertConflict("foo", DIRTY_WORKTREE);
 			assertWorkDir(mkmap("foo", "bar", "other", "other"));
 			assertIndex(mk("other"));
 		}
@@ -594,7 +600,7 @@ public abstract class ReadTreeTest extends RepositoryTestCase {
 			checkout();
 			fail("didn't get the expected exception");
 		} catch (CheckoutConflictException e) {
-			assertConflict("foo");
+			assertConflict("foo", DIRTY_WORKTREE);
 			assertWorkDir(mkmap("foo", "bar"));
 			assertIndex(mkmap());
 		}
@@ -615,9 +621,9 @@ public abstract class ReadTreeTest extends RepositoryTestCase {
 		writeTrashFile("foo/blahblah", "");
 		go();
 
-		assertConflict("foo");
-		assertConflict("foo/bar/baz");
-		assertConflict("foo/blahblah");
+		assertConflict("foo", DIRTY_WORKTREE);
+		assertConflict("foo/bar/baz", null);
+		assertConflict("foo/blahblah", null);
 
 		recursiveDelete(new File(trash, "foo"));
 
@@ -667,7 +673,7 @@ public abstract class ReadTreeTest extends RepositoryTestCase {
 		} catch (CheckoutConflictException e) {
 			assertWorkDir(mkmap("a", "a", "b/c", "b/c", "d", "d", "e/f",
 					"e/f", "e/g", "e/g3"));
-			assertConflict("e/g");
+			assertConflict("e/g", DIRTY_INDEX);
 		}
 	}
 
@@ -727,7 +733,7 @@ public abstract class ReadTreeTest extends RepositoryTestCase {
 		} catch (CheckoutConflictException e) {
 			assertIndex(mk("foo"));
 			assertWorkDir(mkmap("foo", "different"));
-			assertTrue(getConflicts().equals(Arrays.asList("foo")));
+			assertConflict("foo", DIRTY_WORKTREE);
 			assertTrue(new File(trash, "foo").isFile());
 		}
 	}
@@ -798,5 +804,6 @@ public abstract class ReadTreeTest extends RepositoryTestCase {
 	public abstract void checkout() throws IOException;
 	public abstract List<String> getRemoved();
 	public abstract Map<String, ObjectId> getUpdated();
-	public abstract List<String> getConflicts();
+
+	public abstract Map<String, MergeFailureReason> getConflicts();
 }

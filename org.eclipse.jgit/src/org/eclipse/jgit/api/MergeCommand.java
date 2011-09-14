@@ -180,7 +180,14 @@ public class MergeCommand extends GitCommand<MergeResult> {
 						headCommit.getTree(), repo.lockDirCache(),
 						srcCommit.getTree());
 				dco.setFailOnConflict(true);
-				dco.checkout();
+				try {
+					dco.checkout();
+				} catch (org.eclipse.jgit.errors.CheckoutConflictException e) {
+					return new MergeResult(srcCommit, srcCommit,
+							new ObjectId[] { headCommit, srcCommit },
+							MergeStatus.FAILED, mergeStrategy, null,
+							e.getConflictingPaths(), e.getMessage());
+				}
 
 				updateHead(refLogMessage, srcCommit, headId);
 				setCallable(false);

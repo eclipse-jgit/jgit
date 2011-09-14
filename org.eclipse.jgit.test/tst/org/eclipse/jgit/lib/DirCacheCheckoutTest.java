@@ -53,6 +53,7 @@ import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheCheckout;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.NoWorkTreeException;
+import org.eclipse.jgit.merge.ResolveMerger.MergeFailureReason;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Test;
 
@@ -92,7 +93,7 @@ public class DirCacheCheckoutTest extends ReadTreeTest {
 	}
 
 	@Override
-	public List<String> getConflicts() {
+	public Map<String, MergeFailureReason> getConflicts() {
 		return dco.getConflicts();
 	}
 
