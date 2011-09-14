@@ -148,8 +148,11 @@ public class UnionInputStream extends InputStream {
 				len -= n;
 			} else if (in == EOF)
 				return 0 < cnt ? cnt : -1;
-			else
+			else {
 				pop();
+				if (0 < cnt)
+					break;
+			}
 		}
 		return cnt;
 	}
@@ -180,6 +183,8 @@ public class UnionInputStream extends InputStream {
 				final int r = in.read();
 				if (r < 0) {
 					pop();
+					if (0 < cnt)
+						break;
 				} else {
 					cnt += 1;
 					len -= 1;
