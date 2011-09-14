@@ -433,7 +433,9 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 			// ACK status to tell us common objects for reuse in future
 			// requests.  If its not enabled, we can't talk to the peer.
 			//
-			throw new PackProtocolException(uri, MessageFormat.format(JGitText.get().statelessRPCRequiresOptionToBeEnabled, OPTION_MULTI_ACK_DETAILED));
+			throw new PackProtocolException(uri, MessageFormat.format(
+					JGitText.get().statelessRPCRequiresOptionToBeEnabled,
+					OPTION_MULTI_ACK_DETAILED));
 		}
 
 		return line.toString();
