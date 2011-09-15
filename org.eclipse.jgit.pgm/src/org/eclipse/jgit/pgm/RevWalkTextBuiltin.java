@@ -193,8 +193,10 @@ abstract class RevWalkTextBuiltin extends TextBuiltin {
 			final long end = System.currentTimeMillis();
 			System.err.print(n);
 			System.err.print(' ');
-			System.err.println(MessageFormat.format(
-					CLIText.get().timeInMilliSeconds, end - start));
+			System.err
+					.println(MessageFormat.format(
+							CLIText.get().timeInMilliSeconds,
+							Long.valueOf(end - start)));
 		}
 	}
 
@@ -226,6 +228,16 @@ abstract class RevWalkTextBuiltin extends TextBuiltin {
 
 	protected abstract void show(final RevCommit c) throws Exception;
 
+	/**
+	 * Show the current RevObject.
+	 *
+	 * @param objectWalk
+	 *            the object pool that is used during revision walking
+	 * @param currentObject
+	 *            the current object accessed during revision walking.
+	 * @throws Exception
+	 *             if an error occurs.
+	 */
 	protected void show(final ObjectWalk objectWalk,
 			final RevObject currentObject) throws Exception {
 		// Do nothing by default. Most applications cannot show an object.
