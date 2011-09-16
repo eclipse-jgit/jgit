@@ -93,6 +93,8 @@ public class FetchCommand extends GitCommand<FetchResult> {
 
 	private TagOpt tagOption;
 
+	private TransportConfigCallback transportConfigCallback;
+
 	/**
 	 * @param repo
 	 */
@@ -132,6 +134,8 @@ public class FetchCommand extends GitCommand<FetchResult> {
 				transport.setFetchThin(thin);
 				if (credentialsProvider != null)
 					transport.setCredentialsProvider(credentialsProvider);
+				if (transportConfigCallback != null)
+					transportConfigCallback.configure(transport);
 
 				FetchResult result = transport.fetch(monitor, refSpecs);
 				return result;
@@ -351,6 +355,21 @@ public class FetchCommand extends GitCommand<FetchResult> {
 	public FetchCommand setTagOpt(TagOpt tagOpt) {
 		checkCallable();
 		this.tagOption = tagOpt;
+		return this;
+	}
+
+	/**
+	 * @param transportConfigCallback
+	 *            if set, the callback will be invoked after the Transport has
+	 *            created, but before the Transport is used. The callback can
+	 *            use this opportunity to set additional type-specific
+	 *            configuration on the Transport instance.
+	 * @return {@code this}
+	 */
+	public FetchCommand setTransportConfigCallback(
+			TransportConfigCallback transportConfigCallback) {
+		checkCallable();
+		this.transportConfigCallback = transportConfigCallback;
 		return this;
 	}
 }
