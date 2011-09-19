@@ -224,8 +224,29 @@ abstract class RevWalkTextBuiltin extends TextBuiltin {
 		return n;
 	}
 
+	/**
+	 * Show the given RevCommit.
+	 *
+	 * @param c
+	 *            the commit reference
+	 * @throws Exception
+	 *             if an error occurs.
+	 */
 	protected abstract void show(final RevCommit c) throws Exception;
 
+	/**
+	 * Show the current RevObject.
+	 * 
+	 * The default implementation of this method does nothing. Most applications
+	 * cannot show an object.
+	 * 
+	 * @param objectWalk
+	 *            the object pool that is used during revision walking
+	 * @param currentObject
+	 *            the current object accessed during revision walking.
+	 * @throws Exception
+	 *             if an error occurs.
+	 */
 	protected void show(final ObjectWalk objectWalk,
 			final RevObject currentObject) throws Exception {
 		// Do nothing by default. Most applications cannot show an object.
