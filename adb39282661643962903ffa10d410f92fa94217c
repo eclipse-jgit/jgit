@@ -16,6 +16,24 @@
       "revId": "adb39282661643962903ffa10d410f92fa94217c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOBX///r0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MergeCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-09-17T03:39:13Z",
+      "side": 1,
+      "message": "This is mostly a compliance patch and I don\u0027t see C git writing the algorithm. For non-conflicting merge, the choice of algorithm rarely matters and the reflog is not long-term. \nRegardless, that would be a separate patch.",
+      "parentUuid": "AABOBX///8I\u003d",
+      "revId": "adb39282661643962903ffa10d410f92fa94217c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
