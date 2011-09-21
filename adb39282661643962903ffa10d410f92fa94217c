@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOBX///8I\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MergeCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-09-09T08:21:06Z",
+      "side": 1,
+      "message": "I like that we come closer to what native git would write with this. I am wondering whether we should also mention the diff algorithm used, because this really influences the merge result.",
+      "revId": "adb39282661643962903ffa10d410f92fa94217c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
