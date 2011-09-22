@@ -226,8 +226,30 @@ abstract class RevWalkTextBuiltin extends TextBuiltin {
 		return n;
 	}
 
+	/**
+	 * "Show" the current RevCommit when called from the main processing loop.
+	 * <p>
+	 * Implement this methods to define the behavior for subclasses of
+	 * RevWalkTextBuiltin.
+	 *
+	 * @param c
+	 *            The current {@link RevCommit}
+	 * @throws Exception
+	 */
 	protected abstract void show(final RevCommit c) throws Exception;
 
+	/**
+	 * "Show" the current RevCommit when called from the main processing loop.
+	 * <p>
+	 * The default implementation does nothing because most subclasses only
+	 * process RevCommits.
+	 *
+	 * @param objectWalk
+	 *            the {@link ObjectWalk} used by {@link #walkLoop()}
+	 * @param currentObject
+	 *            The current {@link RevObject}
+	 * @throws Exception
+	 */
 	protected void show(final ObjectWalk objectWalk,
 			final RevObject currentObject) throws Exception {
 		// Do nothing by default. Most applications cannot show an object.
