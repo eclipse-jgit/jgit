@@ -859,7 +859,9 @@ public abstract class Repository {
 	 */
 	public DirCache readDirCache() throws NoWorkTreeException,
 			CorruptObjectException, IOException {
-		return DirCache.read(getIndexFile(), getFS());
+		DirCache dirCache = DirCache.read(getIndexFile(), getFS());
+		dirCache.setRepository(this);
+		return dirCache;
 	}
 
 	/**
@@ -883,7 +885,9 @@ public abstract class Repository {
 	 */
 	public DirCache lockDirCache() throws NoWorkTreeException,
 			CorruptObjectException, IOException {
-		return DirCache.lock(getIndexFile(), getFS());
+		DirCache dirCache = DirCache.lock(getIndexFile(), getFS());
+		dirCache.setRepository(this);
+		return dirCache;
 	}
 
 	static byte[] gitInternalSlash(byte[] bytes) {
