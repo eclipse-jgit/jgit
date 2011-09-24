@@ -88,6 +88,13 @@ public class DirCacheFindTest extends RepositoryTestCase {
 			for (int i = aFirst, j = 0; i <= aLast; i++, j++)
 				assertSame(ents[i], aContents[j]);
 		}
+		{
+			final DirCacheEntry[] aContents = dc.getEntriesWithin("");
+			assertNotNull(aContents);
+			assertEquals(ents.length, aContents.length);
+			for (int i = 0; i < ents.length; i++)
+				assertSame(ents[i], aContents[i]);
+		}
 
 		assertNotNull(dc.getEntriesWithin("a."));
 		assertEquals(0, dc.getEntriesWithin("a.").length);
