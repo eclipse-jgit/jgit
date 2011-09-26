@@ -405,6 +405,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String packingCancelledDuringObjectsWriting;
 	/***/ public String packWriterStatistics;
 	/***/ public String pathIsNotInWorkingDir;
+	/***/ public String pathNotConfigured;
 	/***/ public String peeledLineBeforeRef;
 	/***/ public String peerDidNotSupplyACompleteObjectGraph;
 	/***/ public String prefixRemote;
@@ -535,6 +536,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String unsupportedPackVersion;
 	/***/ public String updatingReferences;
 	/***/ public String updatingRefFailed;
+	/***/ public String uriNotConfigured;
 	/***/ public String uriNotFound;
 	/***/ public String userConfigFileInvalid;
 	/***/ public String walkFailure;
