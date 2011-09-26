@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL2n///8s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 926,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-01-13T18:03:16Z",
+      "side": 1,
+      "message": "We should update the Javadoc to make it clear that the returned DirCache instance is cached by Repository and is thus *not* thread-safe (because DirCache is not thread-safe).  Callers who need a unique copy of the DirCache to support concurrent access from different threads should be directed to the lower level invocation:\n\n  DirCache.read(repo.getIndexFile(), repo.getFS())\n\nto construct their own private copy of the structure.",
+      "revId": "143cb4658d08fc31a3eb83ea67dc3cbac1993ca9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2n///8o\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 936,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-01-13T18:03:16Z",
+      "side": 1,
+      "message": "Should we also use the cached DirCache when locking a DirCache for writing?",
+      "revId": "143cb4658d08fc31a3eb83ea67dc3cbac1993ca9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
