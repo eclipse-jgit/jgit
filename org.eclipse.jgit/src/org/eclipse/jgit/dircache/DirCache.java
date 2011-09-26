@@ -1,6 +1,7 @@
 /*
  * Copyright (C) 2008-2010, Google Inc.
  * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org>
+ * Copyright (C) 2011, Matthias Sohn <matthias.sohn@sap.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -63,6 +64,8 @@ import java.util.Comparator;
 import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.UnmergedPathException;
+import org.eclipse.jgit.events.IndexChangedEvent;
+import org.eclipse.jgit.events.IndexChangedListener;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -93,6 +96,8 @@ public class DirCache {
 	private static final int EXT_TREE = 0x54524545 /* 'TREE' */;
 
 	private static final DirCacheEntry[] NO_ENTRIES = {};
+
+	private static final byte[] NO_CHECKSUM = {};
 
 	static final Comparator<DirCacheEntry> ENT_CMP = new Comparator<DirCacheEntry>() {
 		public int compare(final DirCacheEntry o1, final DirCacheEntry o2) {
@@ -203,6 +208,39 @@ public class DirCache {
 		return c;
 	}
 
+	/**
+	 * Create a new in-core index representation, lock it, and read from disk.
+	 * <p>
+	 * The new index will be locked and then read before it is returned to the
+	 * caller. Read failures are reported as exceptions and therefore prevent
+	 * the method from returning a partially populated index. On read failure,
+	 * the lock is released.
+	 *
+	 * @param indexLocation
+	 *            location of the index file on disk.
+	 * @param fs
+	 *            the file system abstraction which will be necessary to perform
+	 *            certain file system operations.
+	 * @param indexChangedListener
+	 *            listener to be informed when DirCache is committed
+	 * @return a cache representing the contents of the specified index file (if
+	 *         it exists) or an empty cache if the file does not exist.
+	 * @throws IOException
+	 *             the index file is present but could not be read, or the lock
+	 *             could not be obtained.
+	 * @throws CorruptObjectException
+	 *             the index file is using a format or extension that this
+	 *             library does not support.
+	 */
+	public static DirCache lock(final File indexLocation, final FS fs,
+			IndexChangedListener indexChangedListener)
+			throws CorruptObjectException,
+			IOException {
+		DirCache c = lock(indexLocation, fs);
+		c.registerIndexChangedListener(indexChangedListener);
+		return c;
+	}
+
 	/** Location of the current version of the index file. */
 	private final File liveFile;
 
@@ -223,6 +261,15 @@ public class DirCache {
 
 	/** Keep track of whether the index has changed or not */
 	private FileSnapshot snapshot;
+
+	/** index checksum when index was read from disk */
+	private byte[] readIndexChecksum;
+
+	/** index checksum when index was written to disk */
+	private byte[] writeIndexChecksum;
+
+	/** listener to be informed on commit */
+	private IndexChangedListener indexChangedListener;
 
 	/**
 	 * Create a new in-core index representation.
@@ -330,6 +377,7 @@ public class DirCache {
 		sortedEntries = NO_ENTRIES;
 		entryCnt = 0;
 		tree = null;
+		readIndexChecksum = NO_CHECKSUM;
 	}
 
 	private void readFrom(final InputStream inStream) throws IOException,
@@ -412,8 +460,8 @@ public class DirCache {
 			}
 		}
 
-		final byte[] exp = md.digest();
-		if (!Arrays.equals(exp, hdr)) {
+		readIndexChecksum = md.digest();
+		if (!Arrays.equals(readIndexChecksum, hdr)) {
 			throw new CorruptObjectException(JGitText.get().DIRCChecksumMismatch);
 		}
 	}
@@ -544,8 +592,8 @@ public class DirCache {
 			dos.write(tmp, 0, 8);
 			bb.writeTo(dos, null);
 		}
-
-		os.write(foot.digest());
+		writeIndexChecksum = foot.digest();
+		os.write(writeIndexChecksum);
 		os.close();
 	}
 
@@ -567,6 +615,9 @@ public class DirCache {
 		if (!tmp.commit())
 			return false;
 		snapshot = tmp.getCommitSnapshot();
+		if (indexChangedListener != null
+				&& !Arrays.equals(readIndexChecksum, writeIndexChecksum))
+			indexChangedListener.onIndexChanged(new IndexChangedEvent());
 		return true;
 	}
 
@@ -788,5 +839,9 @@ public class DirCache {
 			}
 		}
 		return false;
+	}
+
+	private void registerIndexChangedListener(IndexChangedListener listener) {
+		this.indexChangedListener = listener;
 	}
 }
