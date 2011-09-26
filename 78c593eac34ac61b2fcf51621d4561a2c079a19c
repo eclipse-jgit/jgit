@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL2n///mk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 44
+      },
+      "writtenOn": "2011-01-20T10:11:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL2n///oA\u003d",
+      "revId": "78c593eac34ac61b2fcf51621d4561a2c079a19c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL2n///n4\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCache.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2011-01-19T22:14:07Z",
       "side": 1,
       "message": "did you intend to document this ?",
+      "revId": "78c593eac34ac61b2fcf51621d4561a2c079a19c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2n///mg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 44
+      },
+      "writtenOn": "2011-01-20T10:11:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL2n///n4\u003d",
       "revId": "78c593eac34ac61b2fcf51621d4561a2c079a19c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL2n///mY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 436,
+      "author": {
+        "id": 44
+      },
+      "writtenOn": "2011-01-20T10:11:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL2n///n0\u003d",
+      "revId": "78c593eac34ac61b2fcf51621d4561a2c079a19c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL2n///nw\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/UnmodifiableDirCache.java",
         "patchSetId": 2
@@ -64,6 +118,24 @@
       "writtenOn": "2011-01-19T22:14:07Z",
       "side": 1,
       "message": "missing javadoc",
+      "revId": "78c593eac34ac61b2fcf51621d4561a2c079a19c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2n///mU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/UnmodifiableDirCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 44
+      },
+      "writtenOn": "2011-01-20T10:11:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL2n///nw\u003d",
       "revId": "78c593eac34ac61b2fcf51621d4561a2c079a19c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -98,6 +170,24 @@
       "writtenOn": "2011-01-19T22:14:07Z",
       "side": 1,
       "message": "I would add a method isModifiable() to avoid handling this via an exception (doesn\u0027t look like this is exceptional and this also comes with a performance penalty)",
+      "revId": "78c593eac34ac61b2fcf51621d4561a2c079a19c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2n///mQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 627,
+      "author": {
+        "id": 44
+      },
+      "writtenOn": "2011-01-20T10:11:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL2n///no\u003d",
       "revId": "78c593eac34ac61b2fcf51621d4561a2c079a19c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
