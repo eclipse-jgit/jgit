@@ -712,6 +712,11 @@ public class DirCache {
 	 * @return all entries recursively contained within the subtree.
 	 */
 	public DirCacheEntry[] getEntriesWithin(String path) {
+		if (path.length() == 0) {
+			final DirCacheEntry[] r = new DirCacheEntry[sortedEntries.length];
+			System.arraycopy(sortedEntries, 0, r, 0, sortedEntries.length);
+			return r;
+		}
 		if (!path.endsWith("/"))
 			path += "/";
 		final byte[] p = Constants.encode(path);
