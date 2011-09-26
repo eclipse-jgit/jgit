@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL2n///Z8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/UnmodifiableDirCacheEntry.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-01-23T23:55:40Z",
+      "side": 1,
+      "message": "I\u0027m not sure this is the best approach.  Subclassing a mutable type and then overriding all of the mutator methods is risky; when we add a new mutator method we need to remember to also add it to the subclassed unmodifiable type.  :-(\n\nI would prefer to do what we did with ObjectId when we created AnyObjectId and MutableObjectId.  Pull the majority of the code into a new abstract base class that supports read-only operations.  Make the existing DirCache/DirCacheEntry types extend that and define the mutation methods on those.  Define two new Unmodifiable types that also extend the abstract base classes, and make those the unmodifiable variant.\n\nA different approach that I had considered when we were talking about this was to simply leave DirCacheEntry mutable, but make DirCache itself be at least thread-safe against concurrent updates by taking the majority of its state and tossing that into a new private inner State class, which is held by DirCache through a volatile field.  Readers can grab the state, and then read the state safely.  Writers that are updating the entry list via a builder, editor, or by re-reading from disk would create a new state and perform a write to the volatile field to publish it.  This does mean that readers who have a DirCache might observe a DirCacheEntry, and then later reading the same path from the same DirCache might get an entirely different entry... but I think that\u0027s OK if they are using the cached read-only DirCache and are expecting it to be current with what is on disk.\n\nThen if a client application absolutely needs to have its own stable DirCache we could offer a copy() method on DirCache that makes a new DirCache instance with the same inner State reference... but now future reads wouldn\u0027t impact that new copy.  Oh, and that copy was cheap because its just creating a new DirCache and pointing to the same state array.\n\nWe do have to trust applications *not* to edit a DirCacheEntry obtained from such a shared DirCache.  We already do that with ObjectLoaders and getCachedBytes().  But maybe DirCacheEntry is too high-level of an API to trust applications not to mutate something they shouldn\u0027t?",
+      "revId": "be39f0bb542ac1ad2bdfbc38f60af66b96af701a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2n///aY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-01-23T23:55:40Z",
+      "side": 1,
+      "message": "I think the method warrants a bit more description than just its return value.\n\n /**\n  * Get an immutable (but up-to-date) copy of the DirCache.\n  * \u003cp\u003e\n  * The returned DirCache is cached and shared with all callers\n  * that used this method to obtain it.  If the on-disk file has not\n  * been modified since the last request, the same instance is\n  * returned to the caller.  If the on-disk file has changed, a new\n  * instance is returned that contains the changes.  This allows\n  * callers to treat the method return value as a stable snapshot.",
+      "revId": "be39f0bb542ac1ad2bdfbc38f60af66b96af701a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2n///aU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-01-23T23:55:40Z",
+      "side": 1,
+      "message": "Because the field is volatile, its bad to read it multiple times in the method.  Instead do:\n\n  DirCache ro \u003d readOnlyDirCache;\n  if (ro \u003d\u003d null || ro.isOutdated()) {\n    ro \u003d new UnmodifiableDirCache(getIndexFile(), getFS());\n    readOnlyDirCache \u003d ro;\n  }\n  return ro;",
+      "revId": "be39f0bb542ac1ad2bdfbc38f60af66b96af701a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
