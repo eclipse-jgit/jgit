@@ -36,6 +36,23 @@
     },
     {
       "key": {
+        "uuid": "AAAL2n///ac\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-01-23T23:55:40Z",
+      "side": 1,
+      "message": "Style-nit: This should be next to the readDirCache() method in the class, like before it.  Not in the middle of the listener methods.",
+      "revId": "be39f0bb542ac1ad2bdfbc38f60af66b96af701a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL2n///aU\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
         "patchSetId": 3
