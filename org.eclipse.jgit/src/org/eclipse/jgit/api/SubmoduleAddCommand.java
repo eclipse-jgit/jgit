@@ -1,0 +1,212 @@
+/*
+ * Copyright (C) 2011, GitHub Inc.
+ * and other copyright owners as documented in the project's IP log.
+ *
+ * This program and the accompanying materials are made available
+ * under the terms of the Eclipse Distribution License v1.0 which
+ * accompanies this distribution, is reproduced below, and is
+ * available at http://www.eclipse.org/org/documents/edl-v10.php
+ *
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or
+ * without modification, are permitted provided that the following
+ * conditions are met:
+ *
+ * - Redistributions of source code must retain the above copyright
+ *   notice, this list of conditions and the following disclaimer.
+ *
+ * - Redistributions in binary form must reproduce the above
+ *   copyright notice, this list of conditions and the following
+ *   disclaimer in the documentation and/or other materials provided
+ *   with the distribution.
+ *
+ * - Neither the name of the Eclipse Foundation, Inc. nor the
+ *   names of its contributors may be used to endorse or promote
+ *   products derived from this software without specific prior
+ *   written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND
+ * CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
+ * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+ * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+package org.eclipse.jgit.api;
+
+import java.io.File;
+import java.io.IOException;
+import java.text.MessageFormat;
+
+import org.eclipse.jgit.JGitText;
+import org.eclipse.jgit.api.errors.JGitInternalException;
+import org.eclipse.jgit.api.errors.NoFilepatternException;
+import org.eclipse.jgit.lib.ConfigConstants;
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.NullProgressMonitor;
+import org.eclipse.jgit.lib.ProgressMonitor;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.StoredConfig;
+import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.eclipse.jgit.submodule.SubmoduleGenerator;
+import org.eclipse.jgit.transport.CredentialsProvider;
+import org.eclipse.jgit.treewalk.filter.PathFilter;
+
+/**
+ * A class used to execute a submodule add command.
+ *
+ * This will clone the configured submodule, register the submodule in the
+ * .gitmodules file and the repository config file, and also add the submodule
+ * and .gitmodules file to the index.
+ *
+ * @see <a
+ *      href="http://www.kernel.org/pub/software/scm/git/docs/git-submodule.html"
+ *      >Git documentation about submodules</a>
+ */
+public class SubmoduleAddCommand extends GitCommand<Repository> {
+
+	private String path;
+
+	private String uri;
+
+	private ProgressMonitor monitor;
+
+	private CredentialsProvider credentialsProvider;
+
+	/**
+	 * @param repo
+	 */
+	public SubmoduleAddCommand(final Repository repo) {
+		super(repo);
+	}
+
+	/**
+	 * Set repository-relative path of submodule
+	 *
+	 * @param path
+	 * @return this command
+	 */
+	public SubmoduleAddCommand setPath(final String path) {
+		this.path = path;
+		return this;
+	}
+
+	/**
+	 * Set URI to clone submodule from
+	 *
+	 * @param uri
+	 * @return this command
+	 */
+	public SubmoduleAddCommand setURI(final String uri) {
+		this.uri = uri;
+		return this;
+	}
+
+	/**
+	 * The progress monitor associated with the clone operation. By default,
+	 * this is set to <code>NullProgressMonitor</code>
+	 *
+	 * @see NullProgressMonitor
+	 * @param monitor
+	 * @return this command
+	 */
+	public SubmoduleAddCommand setProgressMonitor(final ProgressMonitor monitor) {
+		this.monitor = monitor;
+		return this;
+	}
+
+	/**
+	 * @param credentialsProvider
+	 *            the {@link CredentialsProvider} to use
+	 * @return this command
+	 */
+	public SubmoduleAddCommand setCredentialsProvider(
+			final CredentialsProvider credentialsProvider) {
+		this.credentialsProvider = credentialsProvider;
+		return this;
+	}
+
+	/**
+	 * Is the configured already a submodule in the index?
+	 *
+	 * @return true if submodule exists in index, false otherwise
+	 * @throws IOException
+	 */
+	protected boolean submoduleExists() throws IOException {
+		SubmoduleGenerator generator = new SubmoduleGenerator(repo,
+				PathFilter.create(path));
+		return generator.next();
+	}
+
+	public Repository call() throws JGitInternalException {
+		checkCallable();
+		if (path == null || path.length() == 0)
+			throw new IllegalArgumentException(JGitText.get().pathNotConfigured);
+		if (uri == null || uri.length() == 0)
+			throw new IllegalArgumentException(JGitText.get().uriNotConfigured);
+
+		try {
+			if (submoduleExists())
+				throw new JGitInternalException(MessageFormat.format(
+						JGitText.get().submoduleExists, path));
+		} catch (IOException e) {
+			throw new JGitInternalException(e.getMessage(), e);
+		}
+
+		// Clone submodule repository
+		File moduleDirectory = SubmoduleGenerator.getSubmoduleDirectory(repo,
+				path);
+		CloneCommand clone = Git.cloneRepository();
+		clone.setDirectory(moduleDirectory);
+		clone.setURI(uri);
+		if (monitor != null)
+			clone.setProgressMonitor(monitor);
+		if (credentialsProvider != null)
+			clone.setCredentialsProvider(credentialsProvider);
+		Repository subRepo = clone.call().getRepository();
+
+		// Save submodule URL to parent repository's config
+		StoredConfig config = repo.getConfig();
+		config.setString(ConfigConstants.CONFIG_SUBMODULE_SECTION, path,
+				ConfigConstants.CONFIG_KEY_URL, uri);
+		try {
+			config.save();
+		} catch (IOException e) {
+			throw new JGitInternalException(e.getMessage(), e);
+		}
+
+		// Save path and URL to parent repository's .gitmodules file
+		FileBasedConfig modulesConfig = new FileBasedConfig(new File(
+				repo.getWorkTree(), Constants.DOT_GIT_MODULES), repo.getFS());
+		modulesConfig.setString(ConfigConstants.CONFIG_SUBMODULE_SECTION, path,
+				ConfigConstants.CONFIG_KEY_PATH, path);
+		modulesConfig.setString(ConfigConstants.CONFIG_SUBMODULE_SECTION, path,
+				ConfigConstants.CONFIG_KEY_URL, uri);
+		try {
+			modulesConfig.save();
+		} catch (IOException e) {
+			throw new JGitInternalException(e.getMessage(), e);
+		}
+
+		AddCommand add = new AddCommand(repo);
+		// Add .gitmodules file to parent repository's index
+		add.addFilepattern(Constants.DOT_GIT_MODULES);
+		// Add submodule directory to parent repository's index
+		add.addFilepattern(path);
+		try {
+			add.call();
+		} catch (NoFilepatternException e) {
+			throw new JGitInternalException(e.getMessage(), e);
+		}
+
+		return subRepo;
+	}
+}
