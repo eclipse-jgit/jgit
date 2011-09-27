@@ -65,6 +65,7 @@ import org.eclipse.jgit.errors.AmbiguousObjectException;
 import org.eclipse.jgit.errors.CheckoutConflictException;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Ref;
@@ -245,40 +246,42 @@ public class CheckoutCommand extends GitCommand<Ref> {
 		RevWalk revWalk = new RevWalk(repo);
 		DirCache dc = repo.lockDirCache();
 		try {
-			TreeWalk treeWalk = new TreeWalk(revWalk.getObjectReader());
-			treeWalk.setRecursive(true);
-			treeWalk.addTree(new DirCacheIterator(dc));
-			treeWalk.setFilter(PathFilterGroup.createFromStrings(paths));
-			List<String> files = new LinkedList<String>();
-			while (treeWalk.next())
-				files.add(treeWalk.getPathString());
-
-			if (startCommit != null || startPoint != null) {
-				DirCacheEditor editor = dc.editor();
-				TreeWalk startWalk = new TreeWalk(revWalk.getObjectReader());
-				startWalk.setRecursive(true);
-				startWalk.setFilter(treeWalk.getFilter());
+			DirCacheEditor editor = dc.editor();
+			TreeWalk startWalk = new TreeWalk(revWalk.getObjectReader());
+			startWalk.setRecursive(true);
+			startWalk.setFilter(PathFilterGroup.createFromStrings(paths));
+			boolean checkoutIndex = startCommit == null && startPoint == null;
+			if (!checkoutIndex)
 				startWalk.addTree(revWalk.parseCommit(getStartPoint())
 						.getTree());
+			else
+				startWalk.addTree(new DirCacheIterator(dc));
+
+			final File workTree = repo.getWorkTree();
+			final ObjectReader r = repo.getObjectDatabase().newReader();
+			try {
 				while (startWalk.next()) {
 					final ObjectId blobId = startWalk.getObjectId(0);
+					final FileMode mode = startWalk.getFileMode(0);
 					editor.add(new PathEdit(startWalk.getPathString()) {
-
 						public void apply(DirCacheEntry ent) {
 							ent.setObjectId(blobId);
+							ent.setFileMode(mode);
+							try {
+								DirCacheCheckout.checkoutEntry(repo, new File(
+										workTree, ent.getPathString()), ent, r);
+							} catch (IOException e) {
+								throw new JGitInternalException(
+										MessageFormat.format(
+												JGitText.get().checkoutConflictWithFile,
+												ent.getPathString()), e);
+							}
 						}
 					});
 				}
 				editor.commit();
-			}
-
-			File workTree = repo.getWorkTree();
-			ObjectReader r = repo.getObjectDatabase().newReader();
-			try {
-				for (String file : files)
-					DirCacheCheckout.checkoutEntry(repo, new File(workTree,
-							file), dc.getEntry(file), r);
 			} finally {
+				startWalk.release();
 				r.release();
 			}
 		} finally {

@@ -45,7 +45,12 @@ package org.eclipse.jgit.api;
 import static org.junit.Assert.assertEquals;
 
 import java.io.File;
+import java.io.IOException;
 
+import org.eclipse.jgit.dircache.DirCache;
+import org.eclipse.jgit.dircache.DirCacheEntry;
+import org.eclipse.jgit.errors.NoWorkTreeException;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.RepositoryTestCase;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Before;
@@ -59,6 +64,8 @@ public class PathCheckoutCommandTest extends RepositoryTestCase {
 	private static final String FILE1 = "f/Test.txt";
 
 	private static final String FILE2 = "Test2.txt";
+
+	private static final String FILE3 = "Test3.txt";
 
 	Git git;
 
@@ -148,4 +155,49 @@ public class PathCheckoutCommandTest extends RepositoryTestCase {
 		assertEquals("c", read(new File(db.getWorkTree(), FILE2)));
 	}
 
+	@Test
+	public void testUpdateWorkingDirectoryFromIndex2() throws Exception {
+		CheckoutCommand co = git.checkout();
+		fsTick(git.getRepository().getIndexFile());
+
+		File written1 = writeTrashFile(FILE1, "3(modified)");
+		File written2 = writeTrashFile(FILE2, "a(modified)");
+		fsTick(written2);
+
+		// make sure that we get unsmudged entries for FILE1 and FILE2
+		writeTrashFile(FILE3, "foo");
+		git.add().addFilepattern(FILE3).call();
+		fsTick(git.getRepository().getIndexFile());
+
+		git.add().addFilepattern(FILE1).addFilepattern(FILE2).call();
+		fsTick(git.getRepository().getIndexFile());
+
+		writeTrashFile(FILE1, "3(modified again)");
+		writeTrashFile(FILE2, "a(modified again)");
+		fsTick(written2);
+
+		co.addPath(FILE1).setStartPoint(secondCommit).call();
+
+		assertEquals("2", read(written1));
+		assertEquals("a(modified again)", read(written2));
+
+		validateIndex(git);
+	}
+
+	public static void validateIndex(Git git) throws NoWorkTreeException,
+			IOException {
+		DirCache dc = git.getRepository().lockDirCache();
+		ObjectReader r = git.getRepository().getObjectDatabase().newReader();
+		try {
+			for (int i = 0; i < dc.getEntryCount(); ++i) {
+				DirCacheEntry entry = dc.getEntry(i);
+				if (entry.getLength() > 0)
+					assertEquals(entry.getLength(), r.getObjectSize(
+							entry.getObjectId(), ObjectReader.OBJ_ANY));
+			}
+		} finally {
+			dc.unlock();
+			r.release();
+		}
+	}
 }
