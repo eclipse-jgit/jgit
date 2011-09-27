@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2008-2009, Google Inc.
+ * Copyright (C) 2011, Matthias Sohn <matthias.sohn@sap.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -49,9 +50,13 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.File;
 
+import org.eclipse.jgit.events.IndexChangedEvent;
+import org.eclipse.jgit.events.IndexChangedListener;
+import org.eclipse.jgit.events.ListenerList;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.RepositoryTestCase;
@@ -185,6 +190,73 @@ public class DirCacheBuilderTest extends RepositoryTestCase {
 			assertEquals(length, entOrig.getLength());
 			assertFalse(entOrig.isAssumeValid());
 		}
+	}
+
+
+	@Test
+	public void testBuildOneFile_Commit_FiresIndexChangedEvent()
+			throws Exception {
+		final class ReceivedEventMarkerException extends RuntimeException {
+			private static final long serialVersionUID = 1L;
+			// empty
+		}
+
+		final String path = "a-file-path";
+		final FileMode mode = FileMode.REGULAR_FILE;
+		// "old" date in 2008
+		final long lastModified = 1218123387057L;
+		final int length = 1342;
+		final DirCacheEntry entOrig;
+		final DirCache dc = db.lockDirCache();
+
+		IndexChangedListener listener = new IndexChangedListener() {
+
+			public void onIndexChanged(IndexChangedEvent event) {
+				throw new ReceivedEventMarkerException();
+			}
+		};
+
+		ListenerList l = db.getListenerList();
+		l.addIndexChangedListener(listener);
+		final DirCacheBuilder b = dc.builder();
+
+		entOrig = new DirCacheEntry(path);
+		entOrig.setFileMode(mode);
+		entOrig.setLastModified(lastModified);
+		entOrig.setLength(length);
+		b.add(entOrig);
+		try {
+			b.commit();
+		} catch (ReceivedEventMarkerException e) {
+			return;
+		}
+		fail("IndexChangedEvent wasn't sent");
+	}
+
+	@Test
+	public void testUnchangedIndex_Commit_FiresNoIndexChangedEvent()
+			throws Exception {
+		final class ReceivedEventMarkerException extends RuntimeException {
+			private static final long serialVersionUID = 1L;
+			// empty
+		}
+
+		final DirCache dc = db.lockDirCache();
+
+		IndexChangedListener listener = new IndexChangedListener() {
+
+			public void onIndexChanged(IndexChangedEvent event) {
+				throw new ReceivedEventMarkerException();
+			}
+		};
+
+		ListenerList l = db.getListenerList();
+		l.addIndexChangedListener(listener);
+		final DirCacheEditor e = dc.editor();
+
+		e.commit();
+		// shouldn't fire event as index wasn't modified hence
+		// ReceivedEventMarkerException shouldn't be thrown
 	}
 
 	@Test
