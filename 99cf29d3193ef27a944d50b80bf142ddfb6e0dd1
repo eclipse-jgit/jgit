@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOBX///OI\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-09-27T14:58:42Z",
+      "side": 1,
+      "message": "typo: s/a/an/",
+      "revId": "99cf29d3193ef27a944d50b80bf142ddfb6e0dd1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOBX///OE\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-09-27T14:58:42Z",
+      "side": 1,
+      "message": "typo: s/throught/through/",
+      "revId": "99cf29d3193ef27a944d50b80bf142ddfb6e0dd1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOBX///OA\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-09-27T14:58:42Z",
+      "side": 1,
+      "message": "typo: s/a/an/",
+      "revId": "99cf29d3193ef27a944d50b80bf142ddfb6e0dd1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOBX///N8\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-09-27T14:58:42Z",
+      "side": 1,
+      "message": "typo: s/doesn\u0027t/don\u0027t/",
+      "revId": "99cf29d3193ef27a944d50b80bf142ddfb6e0dd1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOBX///OQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CheckoutCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-09-27T14:58:42Z",
+      "side": 1,
+      "message": "style nit: no braces around single line blocks",
+      "revId": "99cf29d3193ef27a944d50b80bf142ddfb6e0dd1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOBX///OM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CheckoutCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-09-27T14:58:42Z",
+      "side": 1,
+      "message": "style nit: no braces here",
+      "revId": "99cf29d3193ef27a944d50b80bf142ddfb6e0dd1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
