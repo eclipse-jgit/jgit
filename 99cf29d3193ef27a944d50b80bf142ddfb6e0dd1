@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AABOBX///Nc\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-09-27T15:25:58Z",
+      "side": 1,
+      "message": "spelling: paths.\n\nThis subject is very unclear regarding the problem.\nSuggestion: Fix status in index entries after checkout of paths",
+      "revId": "99cf29d3193ef27a944d50b80bf142ddfb6e0dd1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOBX///Ms\u003d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
