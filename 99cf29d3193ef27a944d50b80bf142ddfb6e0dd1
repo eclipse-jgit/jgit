@@ -159,6 +159,23 @@
     },
     {
       "key": {
+        "uuid": "AABOBX///NM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CheckoutCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2011-09-27T15:29:28Z",
+      "side": 1,
+      "message": "style nit: parentheses not needed on right side",
+      "revId": "99cf29d3193ef27a944d50b80bf142ddfb6e0dd1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOBX///MY\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CheckoutCommand.java",
         "patchSetId": 1
@@ -241,6 +258,23 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "AABOBX///OM\u003d",
+      "revId": "99cf29d3193ef27a944d50b80bf142ddfb6e0dd1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOBX///NI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CheckoutCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2011-09-27T15:29:28Z",
+      "side": 1,
+      "message": "Would JGitInternalException be better to throw here instead of RuntimeException?",
       "revId": "99cf29d3193ef27a944d50b80bf142ddfb6e0dd1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
