@@ -54,8 +54,10 @@ import java.io.InputStream;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 import org.eclipse.jgit.util.FS;
 
 /**
@@ -222,5 +224,27 @@ public class FileTreeIterator extends WorkingTreeIterator {
 	 */
 	public File getEntryFile() {
 		return ((FileEntry) current()).getFile();
+	}
+
+	@Override
+	protected byte[] idSubmodule(final Entry e) {
+		final String gitDirPath = e.getName() + "/" + Constants.DOT_GIT;
+		final File submoduleGitDir = new File(getDirectory(), gitDirPath);
+		if (submoduleGitDir.isDirectory()) {
+			final ObjectId head;
+			try {
+				head = new FileRepositoryBuilder().setMustExist(true)
+						.setGitDir(submoduleGitDir).build()
+						.resolve(Constants.HEAD);
+			} catch (IOException exception) {
+				return zeroid;
+			}
+			if (head != null) {
+				byte[] id = new byte[Constants.OBJECT_ID_LENGTH];
+				head.copyRawTo(id, 0);
+				return id;
+			}
+		}
+		return zeroid;
 	}
 }
