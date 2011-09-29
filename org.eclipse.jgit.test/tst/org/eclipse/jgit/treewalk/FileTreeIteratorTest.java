@@ -45,19 +45,26 @@ package org.eclipse.jgit.treewalk;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.security.MessageDigest;
 
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheCheckout;
+import org.eclipse.jgit.dircache.DirCacheEditor;
 import org.eclipse.jgit.dircache.DirCacheEntry;
+import org.eclipse.jgit.dircache.DirCacheIterator;
+import org.eclipse.jgit.dircache.DirCacheEditor.PathEdit;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.RepositoryTestCase;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.treewalk.filter.PathFilter;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.junit.Before;
@@ -206,6 +213,164 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 		while (!fti.getEntryPathString().equals("symlink"))
 			fti.next(1);
 		assertFalse(fti.isModified(dce, false));
+	}
+
+	/**
+	 * Test case where submodule HEAD commit matches the object id in the index
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	public void submoduleHeadMatchesIndex() throws Exception {
+		Git git = new Git(db);
+		writeTrashFile("file.txt", "content");
+		git.add().addFilepattern("file.txt").call();
+		final RevCommit id = git.commit().setMessage("create file").call();
+		final String path = "sub";
+		DirCache cache = db.lockDirCache();
+		DirCacheEditor editor = cache.editor();
+		editor.add(new PathEdit(path) {
+
+			public void apply(DirCacheEntry ent) {
+				ent.setFileMode(FileMode.GITLINK);
+				ent.setObjectId(id);
+			}
+		});
+		editor.commit();
+
+		Git.cloneRepository().setURI(db.getDirectory().toURI().toString())
+				.setDirectory(new File(db.getWorkTree(), path)).call();
+
+		TreeWalk walk = new TreeWalk(db);
+		DirCacheIterator indexIter = new DirCacheIterator(db.readDirCache());
+		FileTreeIterator workTreeIter = new FileTreeIterator(db);
+		walk.addTree(indexIter);
+		walk.addTree(workTreeIter);
+		walk.setFilter(PathFilter.create(path));
+
+		assertTrue(walk.next());
+		assertTrue(indexIter.idEqual(workTreeIter));
+	}
+
+	/**
+	 * Test case where submodule folder in the working tree has no .git
+	 * directory
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	public void submoduleWithNoGitDirectory() throws Exception {
+		Git git = new Git(db);
+		writeTrashFile("file.txt", "content");
+		git.add().addFilepattern("file.txt").call();
+		final RevCommit id = git.commit().setMessage("create file").call();
+		final String path = "sub";
+		DirCache cache = db.lockDirCache();
+		DirCacheEditor editor = cache.editor();
+		editor.add(new PathEdit(path) {
+
+			public void apply(DirCacheEntry ent) {
+				ent.setFileMode(FileMode.GITLINK);
+				ent.setObjectId(id);
+			}
+		});
+		editor.commit();
+
+		File submoduleRoot = new File(db.getWorkTree(), path);
+		assertTrue(submoduleRoot.mkdir());
+		assertTrue(new File(submoduleRoot, Constants.DOT_GIT).mkdir());
+
+		TreeWalk walk = new TreeWalk(db);
+		DirCacheIterator indexIter = new DirCacheIterator(db.readDirCache());
+		FileTreeIterator workTreeIter = new FileTreeIterator(db);
+		walk.addTree(indexIter);
+		walk.addTree(workTreeIter);
+		walk.setFilter(PathFilter.create(path));
+
+		// Delete before walk begins so entry will be visited but repository
+		// lookup will fail
+		FileUtils.delete(submoduleRoot, FileUtils.RECURSIVE);
+
+		assertTrue(walk.next());
+		assertFalse(indexIter.idEqual(workTreeIter));
+	}
+
+	/**
+	 * Test case where a repository exists in the submodule but the HEAD commit
+	 * cannot be resolved
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	public void submoduleWithNoHead() throws Exception {
+		Git git = new Git(db);
+		writeTrashFile("file.txt", "content");
+		git.add().addFilepattern("file.txt").call();
+		final RevCommit id = git.commit().setMessage("create file").call();
+		final String path = "sub";
+		DirCache cache = db.lockDirCache();
+		DirCacheEditor editor = cache.editor();
+		editor.add(new PathEdit(path) {
+
+			public void apply(DirCacheEntry ent) {
+				ent.setFileMode(FileMode.GITLINK);
+				ent.setObjectId(id);
+			}
+		});
+		editor.commit();
+
+		assertNotNull(Git.init().setDirectory(new File(db.getWorkTree(), path))
+				.call().getRepository());
+
+		TreeWalk walk = new TreeWalk(db);
+		DirCacheIterator indexIter = new DirCacheIterator(db.readDirCache());
+		FileTreeIterator workTreeIter = new FileTreeIterator(db);
+		walk.addTree(indexIter);
+		walk.addTree(workTreeIter);
+		walk.setFilter(PathFilter.create(path));
+
+		assertTrue(walk.next());
+		assertFalse(indexIter.idEqual(workTreeIter));
+	}
+
+	/**
+	 * Test case where {@link FileTreeIterator} is created without a repository
+	 * but the id of the submodule in the working tree can still be resolved and
+	 * successfully matched against the index
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	public void iteratorWithNoRepository() throws Exception {
+		Git git = new Git(db);
+		writeTrashFile("file.txt", "content");
+		git.add().addFilepattern("file.txt").call();
+		final RevCommit id = git.commit().setMessage("create file").call();
+		final String path = "sub";
+		DirCache cache = db.lockDirCache();
+		DirCacheEditor editor = cache.editor();
+		editor.add(new PathEdit(path) {
+
+			public void apply(DirCacheEntry ent) {
+				ent.setFileMode(FileMode.GITLINK);
+				ent.setObjectId(id);
+			}
+		});
+		editor.commit();
+
+		Git.cloneRepository().setURI(db.getDirectory().toURI().toString())
+				.setDirectory(new File(db.getWorkTree(), path)).call();
+
+		TreeWalk walk = new TreeWalk(db);
+		DirCacheIterator indexIter = new DirCacheIterator(db.readDirCache());
+		FileTreeIterator workTreeIter = new FileTreeIterator(db.getWorkTree(),
+				db.getFS(), db.getConfig().get(WorkingTreeOptions.KEY));
+		walk.addTree(indexIter);
+		walk.addTree(workTreeIter);
+		walk.setFilter(PathFilter.create(path));
+
+		assertTrue(walk.next());
+		assertTrue(indexIter.idEqual(workTreeIter));
 	}
 
 	private static String nameOf(final AbstractTreeIterator i) {

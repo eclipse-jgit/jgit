@@ -223,4 +223,11 @@ public class FileTreeIterator extends WorkingTreeIterator {
 	public File getEntryFile() {
 		return ((FileEntry) current()).getFile();
 	}
+
+	@Override
+	protected byte[] idSubmodule(final Entry e) {
+		if (repository == null)
+			return idSubmodule(getDirectory(), e);
+		return super.idSubmodule(e);
+	}
 }
