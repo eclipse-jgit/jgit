@@ -92,6 +92,33 @@ public class PathFilterGroup {
 	}
 
 	/**
+	 * Create a collection of path filters from Java strings.
+	 * <p>
+	 * Path strings are relative to the root of the repository. If the user's
+	 * input should be assumed relative to a subdirectory of the repository the
+	 * caller must prepend the subdirectory's path prior to creating the filter.
+	 * <p>
+	 * Path strings use '/' to delimit directories on all platforms.
+	 * <p>
+	 * Paths may appear in any order. Sorting may be done internally when the
+	 * group is constructed if doing so will improve path matching performance.
+	 *
+	 * @param paths
+	 *            the paths to test against. Must have at least one entry.
+	 * @return a new filter for the paths supplied.
+	 */
+	public static TreeFilter createFromStrings(final String... paths) {
+		if (paths.length == 0)
+			throw new IllegalArgumentException(
+					JGitText.get().atLeastOnePathIsRequired);
+		final int length = paths.length;
+		final PathFilter[] p = new PathFilter[length];
+		for (int i = 0; i < length; i++)
+			p[i] = PathFilter.create(paths[i]);
+		return create(p);
+	}
+
+	/**
 	 * Create a collection of path filters.
 	 * <p>
 	 * Paths may appear in any order within the collection. Sorting may be done
