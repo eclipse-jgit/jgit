@@ -239,10 +239,27 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 			//
 			return zeroid;
 		case FileMode.TYPE_GITLINK:
-			// TODO: Support obtaining current HEAD SHA-1 from nested repository
-			//
-			return zeroid;
+			byte[] subId = idSubmodule(entries[ptr]);
+			if (subId != zeroid) {
+				contentIdFromPtr = ptr;
+				contentId = subId;
+			}
+			return subId;
 		}
+		return zeroid;
+	}
+
+	/**
+	 * Get submodule id.
+	 * <p>
+	 * The default implementations return an id of all zeros and sub-classes
+	 * should override if they are capable of resolving the HEAD commit for a
+	 * submodule repository represented by the specified entry.
+	 *
+	 * @param e
+	 * @return non-null submodule id
+	 */
+	protected byte[] idSubmodule(Entry e) {
 		return zeroid;
 	}
 
