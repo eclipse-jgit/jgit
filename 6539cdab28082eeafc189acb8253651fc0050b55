@@ -1,0 +1,40 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOBX///LU\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/dircache/DirCacheBuilderTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-09-27T21:45:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOBX///Lo\u003d",
+      "revId": "6539cdab28082eeafc189acb8253651fc0050b55",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOBX///LQ\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/dircache/DirCacheBuilderTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-09-27T21:45:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOBX///Ls\u003d",
+      "revId": "6539cdab28082eeafc189acb8253651fc0050b55",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
