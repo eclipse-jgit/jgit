@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOBX///Rs\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/dircache/DirCacheBuilderTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 44
+      },
+      "writtenOn": "2011-09-26T16:08:26Z",
+      "side": 1,
+      "message": "A bit ugly. Runtime exception could occur for other reasons. Define an own exception type or wait for flag.",
+      "revId": "07a8bd97783156533770aa271fd7792065d88ace",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOBX///Ro\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 44
+      },
+      "writtenOn": "2011-09-26T16:08:26Z",
+      "side": 1,
+      "message": "What about DirCache.read? Users could read the cache first and lock afterwards (perhaps this is exotic, I don\u0027t know).",
+      "revId": "07a8bd97783156533770aa271fd7792065d88ace",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
