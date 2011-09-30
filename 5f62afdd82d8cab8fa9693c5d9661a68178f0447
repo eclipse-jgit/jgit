@@ -20,6 +20,23 @@
     },
     {
       "key": {
+        "uuid": "AABOBX///JE\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/dircache/DirCacheBuilderTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-09-28T22:43:36Z",
+      "side": 1,
+      "message": "For a full test that persisting an unchanged index doesn\u0027t fire an IndexChanged event I would also add a test which uses DirCacheBuilder. It is quite easy to detect that an DirCacheEditor with no edits will not change the index. But a builder which creates new DirCacheEntry instances which happen to have the same content as before - that\u0027s much more demanding.\nSuggestion: in the previous test testBuildOneFile_Commit_FiresIndexChangedEvent() just add some block to the end where you again create a builder, add a new DirCacheEntry with the same values as before and commit that. That should not throw an event.",
+      "revId": "5f62afdd82d8cab8fa9693c5d9661a68178f0447",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOBX///Cc\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/dircache/DirCacheBuilderTest.java",
         "patchSetId": 8
@@ -32,6 +49,23 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "AABOBX///JE\u003d",
+      "revId": "5f62afdd82d8cab8fa9693c5d9661a68178f0447",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOBX///Is\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/dircache/DirCacheBuilderTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-09-28T22:50:14Z",
+      "side": 1,
+      "message": "just found out: a DirCacheEditor with no edit\u0027s will not persist the index on commit(). It detects it has nothing to do and just unlocks the index. Therefore this test is no good.",
       "revId": "5f62afdd82d8cab8fa9693c5d9661a68178f0447",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
