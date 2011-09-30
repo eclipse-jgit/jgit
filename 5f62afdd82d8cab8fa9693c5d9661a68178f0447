@@ -1,0 +1,58 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOBX///Cg\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-09-29T22:03:05Z",
+      "side": 1,
+      "message": "it didn\u0027t fire events anymore before this change so I think this is correct",
+      "parentUuid": "AABOBX///JI\u003d",
+      "revId": "5f62afdd82d8cab8fa9693c5d9661a68178f0447",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOBX///Cc\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/dircache/DirCacheBuilderTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-09-29T22:03:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOBX///JE\u003d",
+      "revId": "5f62afdd82d8cab8fa9693c5d9661a68178f0447",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOBX///CY\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/dircache/DirCacheBuilderTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-09-29T22:03:05Z",
+      "side": 1,
+      "message": "removed this test which only proves DirCacheEditor\u0027s smartness",
+      "parentUuid": "AABOBX///Is\u003d",
+      "revId": "5f62afdd82d8cab8fa9693c5d9661a68178f0447",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
