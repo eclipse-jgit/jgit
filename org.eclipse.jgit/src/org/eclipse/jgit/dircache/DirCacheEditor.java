@@ -267,9 +267,12 @@ public class DirCacheEditor extends BaseDirCacheEditor {
 		 *            path of the subtree within the repository. If the path
 		 *            does not end with "/" a "/" is implicitly added to ensure
 		 *            only the subtree's contents are matched by the command.
+		 *            The special case "" (not "/"!) deletes all entries.
 		 */
 		public DeleteTree(final String entryPath) {
-			super(entryPath.endsWith("/") ? entryPath : entryPath + "/");
+			super(
+					(entryPath.endsWith("/") || entryPath.length() == 0) ? entryPath
+							: entryPath + "/");
 		}
 
 		public void apply(final DirCacheEntry ent) {
