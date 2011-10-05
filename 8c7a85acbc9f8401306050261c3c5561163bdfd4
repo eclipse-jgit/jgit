@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOBX//+90\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-09-30T22:05:33Z",
+      "side": 1,
+      "message": "typo: s/DirCacheEdtor/DirCacheEditor/",
+      "revId": "8c7a85acbc9f8401306050261c3c5561163bdfd4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOBX//+7s\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/dircache/DirCachePatEditTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-09-30T22:05:33Z",
+      "side": 1,
+      "message": "did you mean DirCachePathEditTest ?",
+      "revId": "8c7a85acbc9f8401306050261c3c5561163bdfd4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
