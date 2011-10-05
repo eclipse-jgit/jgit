@@ -157,6 +157,8 @@ public class IndexDiff {
 
 	private Set<String> conflicts = new HashSet<String>();
 
+	private Set<String> ignored;
+
 	private Set<String> assumeUnchanged;
 
 	private DirCache dirCache;
@@ -276,7 +278,8 @@ public class IndexDiff {
 		if (filter != null)
 			filters.add(filter);
 		filters.add(new SkipWorkTreeFilter(INDEX));
-		filters.add(new IndexDiffFilter(INDEX, WORKDIR));
+		IndexDiffFilter indexDiffFilter = new IndexDiffFilter(INDEX, WORKDIR);
+		filters.add(indexDiffFilter);
 		treeWalk.setFilter(AndTreeFilter.create(filters));
 		while (treeWalk.next()) {
 			AbstractTreeIterator treeIterator = treeWalk.getTree(TREE,
@@ -340,6 +343,7 @@ public class IndexDiff {
 		if (monitor != null)
 			monitor.endTask();
 
+		ignored = indexDiffFilter.getIgnoredPaths();
 		if (added.isEmpty() && changed.isEmpty() && removed.isEmpty()
 				&& missing.isEmpty() && modified.isEmpty()
 				&& untracked.isEmpty())
@@ -395,6 +399,19 @@ public class IndexDiff {
 	 */
 	public Set<String> getConflicting() {
 		return conflicts;
+	}
+
+	/**
+	 * The method returns the list of ignored files and folders. Only the root
+	 * folder of an ignored folder hierarchy is reported. If a/b/c is listed in
+	 * the .gitignore then you should not expect a/b/c/d/e/f to be reported
+	 * here. Only a/b/c will be reported. Furthermore only ignored files /
+	 * folders are returned that are NOT in the index.
+	 * 
+	 * @return list of files / folders that are ignored
+	 */
+	public Set<String> getIgnoredNotInIndex() {
+		return ignored;
 	}
 
 	/**
