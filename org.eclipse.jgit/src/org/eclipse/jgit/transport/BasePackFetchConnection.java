@@ -433,7 +433,9 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 			// ACK status to tell us common objects for reuse in future
 			// requests.  If its not enabled, we can't talk to the peer.
 			//
-			throw new PackProtocolException(uri, MessageFormat.format(JGitText.get().statelessRPCRequiresOptionToBeEnabled, OPTION_MULTI_ACK_DETAILED));
+			throw new PackProtocolException(uri, MessageFormat.format(
+					JGitText.get().statelessRPCRequiresOptionToBeEnabled,
+					OPTION_MULTI_ACK_DETAILED));
 		}
 
 		return line.toString();
@@ -453,7 +455,7 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 			state.writeTo(out, null);
 
 		negotiateBegin();
-		SEND_HAVES: while (!receivedReady) {
+		SEND_HAVES: for (;;) {
 			final RevCommit c = walk.next();
 			if (c == null)
 				break SEND_HAVES;
@@ -528,6 +530,8 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 					throw new CancelledException();
 			}
 
+			if (noDone & receivedReady)
+				break SEND_HAVES;
 			if (statelessRPC)
 				state.writeTo(out, null);
 

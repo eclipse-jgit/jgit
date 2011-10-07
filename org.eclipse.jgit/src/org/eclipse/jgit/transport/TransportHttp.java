@@ -851,11 +851,6 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		}
 
 		class HttpExecuteStream extends InputStream {
-			public int available() throws IOException {
-				execute();
-				return 0;
-			}
-
 			public int read() throws IOException {
 				execute();
 				return -1;
