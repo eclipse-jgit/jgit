@@ -30,8 +30,13 @@ public class InMemoryRepository extends DfsRepository {
 
 	private final DfsRefDatabase refdb;
 
-	/** Initialize a new in-memory repository. */
-	public InMemoryRepository() {
+	/**
+	 * Initialize a new in-memory repository.
+	 *
+	 * @param repoDesc
+	 *             description of the repository.
+	 */
+	public InMemoryRepository(DfsRepository repoDesc) {
 		super(new DfsRepositoryBuilder<DfsRepositoryBuilder, InMemoryRepository>() {
 			@Override
 			public InMemoryRepository build() throws IOException {
@@ -39,7 +44,7 @@ public class InMemoryRepository extends DfsRepository {
 			}
 		});
 
-		objdb = new MemObjDatabase();
+		objdb = new MemObjDatabase(this);
 		refdb = new MemRefDatabase();
 	}
 
@@ -57,8 +62,8 @@ public class InMemoryRepository extends DfsRepository {
 		private final AtomicInteger packId = new AtomicInteger();
 		private List<DfsPackDescription> packs = new ArrayList<DfsPackDescription>();
 
-		MemObjDatabase() {
-			super(new DfsReaderOptions());
+		MemObjDatabase(DfsRepository repo) {
+			super(repo, new DfsReaderOptions());
 		}
 
 		@Override
@@ -69,7 +74,8 @@ public class InMemoryRepository extends DfsRepository {
 		@Override
 		protected DfsPackDescription newPack(PackSource source) {
 			int id = packId.incrementAndGet();
-			return new MemPack("pack-" + id + "-" + source.name());
+			return new MemPack("pack-" + id + "-" + source.name(),
+					getRepository().getDescription());
 		}
 
 		@Override
@@ -136,8 +142,8 @@ public class InMemoryRepository extends DfsRepository {
 
 		private byte[] packIndex;
 
-		MemPack(String name) {
-			super(name);
+		MemPack(String name, DfsRepositoryDescription repoDesc) {
+			super(repoDesc, name);
 		}
 	}
 

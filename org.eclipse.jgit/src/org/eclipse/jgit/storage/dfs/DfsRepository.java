@@ -57,6 +57,8 @@ import org.eclipse.jgit.storage.file.ReflogReader;
 public abstract class DfsRepository extends Repository {
 	private final DfsConfig config;
 
+	private final DfsRepositoryDescription description;
+
 	/**
 	 * Initialize a DFS repository.
 	 *
@@ -66,6 +68,7 @@ public abstract class DfsRepository extends Repository {
 	protected DfsRepository(DfsRepositoryBuilder builder) {
 		super(builder);
 		this.config = new DfsConfig();
+		this.description = builder.getRepositoryDescription();
 	}
 
 	@Override
@@ -73,6 +76,11 @@ public abstract class DfsRepository extends Repository {
 
 	@Override
 	public abstract DfsRefDatabase getRefDatabase();
+
+	/** @return a description of this repository. */
+	public DfsRepositoryDescription getDescription() {
+		return description;
+	}
 
 	/**
 	 * Check if the repository already exists.
