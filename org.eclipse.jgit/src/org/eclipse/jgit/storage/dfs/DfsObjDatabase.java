@@ -111,15 +111,22 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 
 	private final AtomicReference<PackList> packList;
 
+	private final DfsRepository repository;
+
 	private DfsReaderOptions readerOptions;
 
 	/**
-	 * Initialize an object database for are repository.
+	 * Initialize an object database for our repository.
+	 *
+	 * @param repository
+	 *            repository owning this object database.
 	 *
 	 * @param options
 	 *            how readers should access the object database.
 	 */
-	protected DfsObjDatabase(DfsReaderOptions options) {
+	protected DfsObjDatabase(DfsRepository repository,
+			DfsReaderOptions options) {
+		this.repository = repository;
 		this.packList = new AtomicReference<PackList>(NO_PACKS);
 		this.readerOptions = options;
 	}
@@ -149,6 +156,11 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 	 */
 	public DfsPackFile[] getPacks() throws IOException {
 		return scanPacks(NO_PACKS).packs;
+	}
+
+	/** @return repository owning this object database. */
+	protected DfsRepository getRepository() {
+		return repository;
 	}
 
 	/**

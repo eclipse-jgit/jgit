@@ -60,6 +60,8 @@ public abstract class DfsRepositoryBuilder<B extends DfsRepositoryBuilder, R ext
 		extends BaseRepositoryBuilder<B, R> {
 	private DfsReaderOptions readerOptions;
 
+	private DfsRepositoryDescription repoDesc;
+
 	/** @return options used by readers accessing the repository. */
 	public DfsReaderOptions getReaderOptions() {
 		return readerOptions;
@@ -77,11 +79,30 @@ public abstract class DfsRepositoryBuilder<B extends DfsRepositoryBuilder, R ext
 		return self();
 	}
 
+	/** @return a description of the repository. */
+	public DfsRepositoryDescription getRepositoryDescription() {
+		return repoDesc;
+	}
+
+	/**
+	 * Set the repository description.
+	 *
+	 * @param desc
+	 *            new repository description object.
+	 * @return {@code this}
+	 */
+	public B setRepositoryDescription(DfsRepositoryDescription desc) {
+		repoDesc = desc;
+		return self();
+	}
+
 	@Override
 	public B setup() throws IllegalArgumentException, IOException {
 		super.setup();
 		if (getReaderOptions() == null)
 			setReaderOptions(new DfsReaderOptions());
+		if (getRepositoryDescription() == null)
+			setRepositoryDescription(new DfsRepositoryDescription());
 		return self();
 	}
 
