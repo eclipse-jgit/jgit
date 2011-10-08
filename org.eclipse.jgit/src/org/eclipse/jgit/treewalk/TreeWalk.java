@@ -594,6 +594,7 @@ public class TreeWalk {
 	 * @return r the current iterator of the requested type; null if the tree
 	 *         has no entry to match the current path.
 	 */
+	@SuppressWarnings("unchecked")
 	public <T extends AbstractTreeIterator> T getTree(final int nth,
 			final Class<T> clazz) {
 		final AbstractTreeIterator t = trees[nth];
@@ -914,6 +915,7 @@ public class TreeWalk {
 		System.arraycopy(tmp, 0, trees, 0, trees.length);
 	}
 
+	@SuppressWarnings("unused")
 	AbstractTreeIterator min() throws CorruptObjectException {
 		int i = 0;
 		AbstractTreeIterator minRef = trees[i];
