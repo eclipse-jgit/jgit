@@ -75,7 +75,8 @@ public class RelativeDateFormatter {
 	@SuppressWarnings("boxing")
 	public static String format(Date when) {
 
-		long ageMillis = (System.currentTimeMillis() - when.getTime());
+		long ageMillis = SystemReader.getInstance().getCurrentTime()
+				- when.getTime();
 
 		// shouldn't happen in a perfect world
 		if (ageMillis < 0)
