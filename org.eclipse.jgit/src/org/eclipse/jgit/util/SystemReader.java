@@ -48,6 +48,7 @@ package org.eclipse.jgit.util;
 import java.io.File;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.Locale;
 import java.util.TimeZone;
 
 import org.eclipse.jgit.lib.Config;
@@ -124,6 +125,11 @@ public abstract class SystemReader {
 		public TimeZone getTimeZone() {
 			return TimeZone.getDefault();
 		}
+
+		@Override
+		public Locale getLocale() {
+			return Locale.getDefault();
+		}
 	};
 
 	/** @return the live instance to read system properties. */
@@ -196,4 +202,9 @@ public abstract class SystemReader {
 	 * @return system time zone, possibly mocked for testing
 	 */
 	public abstract TimeZone getTimeZone();
+
+	/**
+	 * @return the locale to use
+	 */
+	public abstract Locale getLocale();
 }
