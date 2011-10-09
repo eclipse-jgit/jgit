@@ -118,10 +118,12 @@ public class RelativeDateFormatter {
 			String yearLabel = (years > 1) ? JGitText.get().years : //
 					JGitText.get().year;
 			long months = round(ageMillis % YEAR_IN_MILLIS, MONTH_IN_MILLIS);
-			String monthLabel = (months > 1) ? JGitText.get().months : //
-					JGitText.get().month;
-			return MessageFormat.format(JGitText.get().yearsMonthsAgo,
-					new Object[] { years, yearLabel, months, monthLabel });
+			if (months >= 1) {
+				String monthLabel = (months > 1) ? JGitText.get().months : //
+						(months == 1 ? JGitText.get().month : "");
+				return MessageFormat.format(JGitText.get().yearsMonthsAgo,
+						new Object[] { years, yearLabel, months, monthLabel });
+			} // just years if months is 0
 		}
 
 		// years
