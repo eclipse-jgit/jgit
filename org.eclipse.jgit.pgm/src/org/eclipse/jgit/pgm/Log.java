@@ -47,18 +47,14 @@ package org.eclipse.jgit.pgm;
 
 import java.io.BufferedOutputStream;
 import java.io.IOException;
-import java.text.DateFormat;
 import java.text.MessageFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
-import java.util.TimeZone;
 
 import org.eclipse.jgit.diff.DiffFormatter;
 import org.eclipse.jgit.diff.RawText;
@@ -73,14 +69,15 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevTree;
-import org.eclipse.jgit.util.SystemReader;
+import org.eclipse.jgit.util.GitDateFormatter;
+import org.eclipse.jgit.util.GitDateFormatter.Format;
 import org.kohsuke.args4j.Option;
 
 @Command(common = true, usage = "usage_viewCommitHistory")
 class Log extends RevWalkTextBuiltin {
-	private final TimeZone myTZ = SystemReader.getInstance().getTimeZone();
 
-	private final DateFormat fmt;
+	private GitDateFormatter dateFormatter = new GitDateFormatter(
+			Format.DEFAULT);
 
 	private final DiffFormatter diffFmt = new DiffFormatter( //
 			new BufferedOutputStream(System.out));
@@ -100,6 +97,13 @@ class Log extends RevWalkTextBuiltin {
 	@Option(name = "--show-notes", usage = "usage_showNotes", metaVar = "metaVar_ref")
 	void addAdditionalNoteRef(String notesRef) {
 		additionalNoteRefs.add(notesRef);
+	}
+
+	@Option(name = "--date", usage = "usage_date")
+	void dateFormat(String date) {
+		if (date.toLowerCase().equals(date))
+			date = date.toUpperCase();
+		dateFormatter = new GitDateFormatter(Format.valueOf(date));
 	}
 
 	// BEGIN -- Options shared with Diff
@@ -175,7 +179,7 @@ class Log extends RevWalkTextBuiltin {
 
 
 	Log() {
-		fmt = new SimpleDateFormat("EEE MMM dd HH:mm:ss yyyy ZZZZZ", Locale.US);
+		dateFormatter = new GitDateFormatter(Format.DEFAULT);
 	}
 
 	@Override
@@ -246,10 +250,8 @@ class Log extends RevWalkTextBuiltin {
 
 		final PersonIdent author = c.getAuthorIdent();
 		out.println(MessageFormat.format(CLIText.get().authorInfo, author.getName(), author.getEmailAddress()));
-
-		final TimeZone authorTZ = author.getTimeZone();
-		fmt.setTimeZone(authorTZ != null ? authorTZ : myTZ);
-		out.println(MessageFormat.format(CLIText.get().dateInfo, fmt.format(author.getWhen())));
+		out.println(MessageFormat.format(CLIText.get().dateInfo,
+				dateFormatter.formatDate(author)));
 
 		out.println();
 		final String[] lines = c.getFullMessage().split("\n");
