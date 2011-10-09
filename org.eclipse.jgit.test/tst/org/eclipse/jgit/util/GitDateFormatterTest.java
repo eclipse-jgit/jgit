@@ -71,13 +71,13 @@ public class GitDateFormatterTest {
 
 	@Test
 	public void LOCALE() {
-		assertEquals("2011-09-20 19:09:25 -0400", new GitDateFormatter(
+		assertEquals("Sep 20, 2011 7:09:25 PM -0400", new GitDateFormatter(
 				Format.LOCALE).formatDate(ident));
 	}
 
 	@Test
 	public void LOCALELOCAL() {
-		assertEquals("2011-09-20 19:39:25", new GitDateFormatter(
+		assertEquals("Sep 20, 2011 7:39:25 PM", new GitDateFormatter(
 				Format.LOCALELOCAL).formatDate(ident));
 	}
 }

@@ -101,8 +101,10 @@ public class GitDateFormatter {
 			break;
 		case LOCALE:
 		case LOCALELOCAL:
-			dateTimeInstance = DateFormat.getDateTimeInstance();
-			dateTimeInstance2 = new SimpleDateFormat("Z");
+			Locale locale = SystemReader.getInstance().getLocale();
+			dateTimeInstance = DateFormat.getDateTimeInstance(
+					DateFormat.DEFAULT, DateFormat.DEFAULT, locale);
+			dateTimeInstance2 = new SimpleDateFormat("Z", locale);
 			break;
 		}
 	}
