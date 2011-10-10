@@ -119,10 +119,11 @@ public class RelativeDateFormatterTest {
 
 	@Test
 	public void testFormatYearsMonths() {
-		assertFormat(366, DAY_IN_MILLIS, "1 year");
+		assertFormat(366, DAY_IN_MILLIS, "1 year ago");
+		assertFormat(360, DAY_IN_MILLIS, "1 year ago");
 		assertFormat(380, DAY_IN_MILLIS, "1 year, 1 month ago");
 		assertFormat(410, DAY_IN_MILLIS, "1 year, 2 months ago");
-		assertFormat(2, YEAR_IN_MILLIS, "2 years");
+		assertFormat(2, YEAR_IN_MILLIS, "2 years ago");
 		assertFormat(1824, DAY_IN_MILLIS, "4 years, 12 months ago");
 	}
 
