@@ -91,7 +91,7 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 		git.add().addFilepattern("Test.txt").call();
 		initialCommit = git.commit().setMessage("Initial commit").call();
 
-		// create a master branch and switch to it
+		// create a test branch and switch to it
 		git.branchCreate().setName("test").call();
 		RefUpdate rup = db.updateRef(Constants.HEAD);
 		rup.link("refs/heads/test");
@@ -136,6 +136,7 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 			fail(e.getMessage());
 		}
 		assertNotNull(db.getRef("test2"));
+		assertEquals("test2", db.getBranch());
 	}
 
 	@Test
@@ -255,5 +256,28 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 		Ref head = db.getRef(Constants.HEAD);
 		assertFalse(head.isSymbolic());
 		assertSame(head, head.getTarget());
+	}
+
+	@Test
+	public void testCreateBranchOnTagCheckout() throws Exception {
+
+		git.tag().setName("tag").call();
+
+		// create new commit
+		writeTrashFile("Test.txt", "not tagged");
+		git.add().addFilepattern("Test.txt").call();
+		git.commit().setMessage("Third commit").call();
+
+		try {
+			// git checkout -b tag refs/tags/tag
+			git.checkout().setName("tag").setCreateBranch(true)
+					.setStartPoint("refs/tags/tag").call();
+		} catch (Exception e) {
+			fail(e.getMessage());
+		}
+		assertNotNull(db.getRef("tag"));
+		assertEquals("tag", db.getBranch());
+		assertEquals("[Test.txt, mode:100644, content:Some change]",
+				indexState(db, CONTENT));
 	}
 }
