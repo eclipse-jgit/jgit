@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOBX//+1w\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/IndexDiff.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 44
+      },
+      "writtenOn": "2011-10-05T11:31:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOBX//+2I\u003d",
+      "revId": "1bc39f6bfe24e8ba7664d6a0b37cd1f7f27da1ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOBX//+2A\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/IndexDiffFilter.java",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AABOBX//+1o\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/IndexDiffFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 44
+      },
+      "writtenOn": "2011-10-05T11:31:00Z",
+      "side": 1,
+      "message": "Good point. I changed the method documentation and also the method name of IndexDiff.getIgnored to getIgnoredNotInIndex.\nFor EGit decoration purposes the ignored state of files is not relevant if they are part of the index. These files get a \"+\" decoration stating that they have been added.",
+      "parentUuid": "AABOBX//+2A\u003d",
+      "revId": "1bc39f6bfe24e8ba7664d6a0b37cd1f7f27da1ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOBX//+2E\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/IndexDiffFilter.java",
         "patchSetId": 2
@@ -47,6 +83,24 @@
       "writtenOn": "2011-10-05T08:29:26Z",
       "side": 1,
       "message": "Why two local variables (wi and workingTreeIterator) both pointing to workingTree(tw). Let\u0027s use only  \u0027wi\u0027 and move it\u0027s initialisation up the place where you first need it.",
+      "revId": "1bc39f6bfe24e8ba7664d6a0b37cd1f7f27da1ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOBX//+1s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/IndexDiffFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 44
+      },
+      "writtenOn": "2011-10-05T11:31:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOBX//+2E\u003d",
       "revId": "1bc39f6bfe24e8ba7664d6a0b37cd1f7f27da1ce",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
