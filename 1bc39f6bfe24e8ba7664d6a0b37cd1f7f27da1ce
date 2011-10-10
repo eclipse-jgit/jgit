@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOBX//+2I\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/IndexDiff.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-10-05T08:29:26Z",
+      "side": 1,
+      "message": "Maybe add a comment here explaining that only the root folder of a ignored folder hierarchy is reported. If a/b/c is listed in the .gitignore then you should not expect a/b/c/d/e/f to be reported here. Only a/b/c will be reported.",
+      "revId": "1bc39f6bfe24e8ba7664d6a0b37cd1f7f27da1ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOBX//+2A\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/IndexDiffFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-10-05T08:29:26Z",
+      "side": 1,
+      "message": "The only place where you add stuff to \u0027ignoredPaths\u0027 is inside a block which we enter only if we don\u0027t find an entry in the index. What is with files which are listed in .gitignore but which have been added to the index before?\n\ngit init\necho a \u003e a\ngit add a\ngit commit -m initial\necho b \u003e b\ngit add b\necho b \u003e .gitignore\n\nWhen processing b dm would be different from 0 although b is ignored, or?",
+      "revId": "1bc39f6bfe24e8ba7664d6a0b37cd1f7f27da1ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOBX//+2E\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/IndexDiffFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-10-05T08:29:26Z",
+      "side": 1,
+      "message": "Why two local variables (wi and workingTreeIterator) both pointing to workingTree(tw). Let\u0027s use only  \u0027wi\u0027 and move it\u0027s initialisation up the place where you first need it.",
+      "revId": "1bc39f6bfe24e8ba7664d6a0b37cd1f7f27da1ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
