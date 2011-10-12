@@ -43,8 +43,10 @@
 package org.eclipse.jgit.api;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.io.File;
 import java.util.List;
 
 import org.eclipse.jgit.api.errors.ConcurrentRefUpdateException;
@@ -233,4 +235,15 @@ public class TagCommandTest extends RepositoryTestCase {
 		assertEquals("v3", list.get(2).getTagName());
 	}
 
+	@Test
+	public void testListAllTagsInOrionServer() throws Exception {
+		// XXX: do not commit, it's for demo purpose only
+		File directory = createTempDirectory("testListAllTagsInOrionServer");
+		CloneCommand command = Git.cloneRepository();
+		command.setDirectory(directory);
+		command.setURI("git://git.eclipse.org/gitroot/orion/org.eclipse.orion.server.git");
+		Git git = command.call();
+		List<RevTag> list = git.tagList().call();
+		assertTrue(list.size() > 0);
+	}
 }
