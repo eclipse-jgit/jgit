@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOJn///r8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/CredentialsProviderUserInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-31T17:11:14Z",
+      "side": 1,
+      "message": "I almost made this change myself... but thought better of it.\n\nA passphrase isn\u0027t exactly a password. Its different because the passphrase is probably connected to a key or certificate file, while the password is connected to an account by a username.\n\nStringType is a generic item to hold any data. The \"true\" argument we pass to its constructor is to tell the UI to use a masked display when handling the input field (e.g. no echo, or display dots instead of characters).\n\nI would only suggest doing this if you also add a new CredentialItem.Passphrase type that is similar to the Password type. But that will require checking all implementations to ensure they will work with this new Passphrase type in a reasonable way.",
+      "revId": "ebea012f647f749cde11211574741cd281c4ee2b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
