@@ -59,6 +59,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.jgit.dircache.DirCache;
+import org.eclipse.jgit.dircache.DirCacheEditor;
+import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.errors.CheckoutConflictException;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
@@ -68,6 +71,8 @@ import org.junit.Test;
 public abstract class ReadTreeTest extends RepositoryTestCase {
 	protected Tree theHead;
 	protected Tree theMerge;
+
+	private DirCache dirCache;
 
 	// Each of these rules are from the read-tree manpage
 	// go there to see what they mean.
@@ -104,16 +109,28 @@ public abstract class ReadTreeTest extends RepositoryTestCase {
 	}
 
 	private void buildIndex(HashMap<String, String> indexEntries) throws IOException {
-		GitIndex index = new GitIndex(db);
-
+		dirCache = new DirCache(db.getIndexFile(), db.getFS());
 		if (indexEntries != null) {
+			assertTrue(dirCache.lock());
+			DirCacheEditor editor = dirCache.editor();
 			for (java.util.Map.Entry<String,String> e : indexEntries.entrySet()) {
-				index.add(trash, writeTrashFile(e.getKey(), e.getValue())).forceRecheck();
+				writeTrashFile(e.getKey(), e.getValue());
+				ObjectInserter inserter = db.newObjectInserter();
+				final ObjectId id = inserter.insert(Constants.OBJ_BLOB, e
+						.getValue().getBytes(Constants.CHARSET));
+				editor.add(new DirCacheEditor.DeletePath(e.getKey()));
+				editor.add(new DirCacheEditor.PathEdit(e.getKey()) {
+					@Override
+					public void apply(DirCacheEntry ent) {
+						ent.setFileMode(FileMode.REGULAR_FILE);
+						ent.setObjectId(id);
+						ent.setUpdateNeeded(false);
+					}
+				});
 			}
+			assertTrue(editor.commit());
 		}
 
-		index.write();
-		db.getIndex().read();
 	}
 
 	private Tree buildTree(HashMap<String, String> headEntries) throws IOException {
@@ -210,7 +227,7 @@ public abstract class ReadTreeTest extends RepositoryTestCase {
 		setupCase(headMap, null, idxMap);
 		assertTrue(new File(trash, "foo").delete());
 		writeTrashFile("foo", "bar");
-		db.getIndex().getMembers()[0].forceRecheck();
+		db.readDirCache().getEntry(0).setUpdateNeeded(true);
 		go();
 
 		assertTrue(getRemoved().isEmpty());
@@ -248,7 +265,7 @@ public abstract class ReadTreeTest extends RepositoryTestCase {
 		setupCase(idxMap, mergeMap, idxMap);
 		assertTrue(new File(trash, "foo").delete());
 		writeTrashFile("foo", "bar");
-		db.getIndex().getMembers()[0].forceRecheck();
+		db.readDirCache().getEntry(0).setUpdateNeeded(true);
 		go();
 		assertTrue(getConflicts().contains("foo"));
 	}
@@ -596,11 +613,11 @@ public abstract class ReadTreeTest extends RepositoryTestCase {
 		} catch (CheckoutConflictException e) {
 			assertConflict("foo");
 			assertWorkDir(mkmap("foo", "bar"));
-			assertIndex(mkmap());
+			assertIndex(mkmap("other", "other"));
 		}
 
 		// TODO: Why should we expect conflicts here?
-		// H and M are emtpy and according to rule #5 of
+		// H and M are empty and according to rule #5 of
 		// the carry-over rules a dirty index is no reason
 		// for a conflict. (I also feel it should be a
 		// conflict because we are going to overwrite
@@ -770,29 +787,8 @@ public abstract class ReadTreeTest extends RepositoryTestCase {
 	}
 
 
-	public void assertIndex(HashMap<String, String> i)
-			throws CorruptObjectException, IOException {
-		String expectedValue;
-		String path;
-		GitIndex theIndex=db.getIndex();
-		// Without an explicit refresh we might miss index updates. If the index
-		// is updated multiple times inside a FileSystemTimer tick db.getIndex will
-		// not reload the index and return a cached (stale) index.
-		theIndex.read();
-		assertEquals("Index has not the right size.", i.size(),
-				theIndex.getMembers().length);
-		for (int j = 0; j < theIndex.getMembers().length; j++) {
-			path = theIndex.getMembers()[j].getName();
-			expectedValue = i.get(path);
-			assertNotNull("found unexpected entry for path " + path
-					+ " in index", expectedValue);
-			assertTrue("unexpected content for path " + path
-					+ " in index. Expected: <" + expectedValue + ">",
-					Arrays.equals(
-							db.open(theIndex.getMembers()[j].getObjectId())
-									.getCachedBytes(), i.get(path).getBytes()));
-		}
-	}
+	public abstract void assertIndex(HashMap<String, String> i)
+			throws CorruptObjectException, IOException;
 
 	public abstract void prescanTwoTrees(Tree head, Tree merge) throws IllegalStateException, IOException;
 	public abstract void checkout() throws IOException;
