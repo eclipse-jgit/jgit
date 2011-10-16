@@ -47,6 +47,7 @@ import java.util.Map;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.MergeResult.MergeStatus;
+import org.eclipse.jgit.api.ResetCommand.ResetType;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.NoFilepatternException;
 import org.eclipse.jgit.dircache.DirCache;
@@ -145,6 +146,34 @@ public class DirCacheCheckoutTest extends ReadTreeTest {
 		assertIndex(mkmap("f", "f()\nmaster", "D/g", "g()\ng2()", "E/h", "h()"));
 		assertWorkDir(mkmap("f", "f()\nmaster", "D/g", "g()\ng2()", "E/h",
 				"h()", "untracked", "untracked"));
+	}
+
+	/**
+	 * Reset hard from unclean condition.
+	 * <p>
+	 * WorkDir: Empty <br/>
+	 * Index: f/g <br/>
+	 * Merge: x
+	 *
+	 * @throws Exception
+	 */
+	@Test
+	public void testXXXResetHardEmptyWdIndexWithDir() throws Exception {
+		Git git = new Git(db);
+		writeTrashFile("x", "x");
+		git.add().addFilepattern("x").call();
+		RevCommit id1 = git.commit().setMessage("c1").call();
+
+		writeTrashFile("f/g", "f/g");
+		git.rm().addFilepattern("x").call();
+		git.add().addFilepattern("f/g").call();
+		git.commit().setMessage("c2").call();
+		deleteTrashFile("f/g");
+		deleteTrashFile("f");
+
+		// The actual test
+		git.reset().setMode(ResetType.HARD).setRef(id1.getName()).call();
+		assertIndex(mkmap("f", "f"));
 	}
 
 	private DirCacheCheckout resetHard(RevCommit commit)
