@@ -56,8 +56,14 @@ import java.util.Map;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.MergeResult.MergeStatus;
+import org.eclipse.jgit.api.ResetCommand.ResetType;
+import org.eclipse.jgit.api.errors.ConcurrentRefUpdateException;
 import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.api.errors.NoFilepatternException;
+import org.eclipse.jgit.api.errors.NoHeadException;
+import org.eclipse.jgit.api.errors.NoMessageException;
+import org.eclipse.jgit.api.errors.WrongRepositoryStateException;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheCheckout;
 import org.eclipse.jgit.dircache.DirCacheEditor;
@@ -174,6 +180,24 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 		assertIndex(mkmap("f", "f()\nmaster", "D/g", "g()\ng2()", "E/h", "h()"));
 		assertWorkDir(mkmap("f", "f()\nmaster", "D/g", "g()\ng2()", "E/h",
 				"h()", "untracked", "untracked"));
+	}
+
+	@Test
+	public void testResetHardFileReplacedByDirectory() throws IOException,
+			NoHeadException, NoMessageException, ConcurrentRefUpdateException,
+			JGitInternalException, WrongRepositoryStateException,
+			NoFilepatternException {
+		Git git = new Git(db);
+		writeTrashFile("f/g", "f/g");
+		git.add().addFilepattern(".").call();
+		RevCommit id1 = git.commit().setMessage("c1").call();
+		deleteTrashFile("f/g");
+		deleteTrashFile("f");
+		git.rm().addFilepattern(".").call();
+		writeTrashFile("f", "f");
+		git.add().addFilepattern("f").call();
+		git.commit().setMessage("c2").call();
+		git.reset().setMode(ResetType.HARD).setRef(id1.getName()).call();
 	}
 
 	private DirCacheCheckout resetHard(RevCommit commit)
