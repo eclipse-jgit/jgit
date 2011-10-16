@@ -49,32 +49,53 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.TreeSet;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.MergeResult;
 import org.eclipse.jgit.api.MergeResult.MergeStatus;
+import org.eclipse.jgit.api.errors.NoFilepatternException;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheEditor;
+import org.eclipse.jgit.dircache.DirCacheEditor.PathEdit;
 import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.merge.MergeStrategy;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
+import org.eclipse.jgit.util.IO;
 import org.junit.Test;
 
 public class IndexDiffTest extends RepositoryTestCase {
+
+	static PathEdit add(final Repository db, final File workdir,
+			final String path) throws FileNotFoundException, IOException {
+		ObjectInserter inserter = db.newObjectInserter();
+		final File f = new File(workdir, path);
+		final ObjectId id = inserter.insert(Constants.OBJ_BLOB,
+				IO.readFully(f));
+		return new PathEdit(path) {
+			public void apply(DirCacheEntry ent) {
+				ent.setFileMode(FileMode.REGULAR_FILE);
+				ent.setLength(f.length());
+				ent.setObjectId(id);
+			}
+		};
+	}
+
 	@Test
 	public void testAdded() throws IOException {
-		GitIndex index = new GitIndex(db);
 		writeTrashFile("file1", "file1");
 		writeTrashFile("dir/subfile", "dir/subfile");
 		Tree tree = new Tree(db);
 		tree.setId(insertTree(tree));
 
-		index.add(trash, new File(trash, "file1"));
-		index.add(trash, new File(trash, "dir/subfile"));
-		index.write();
+		DirCache index = db.lockDirCache();
+		DirCacheEditor editor = index.editor();
+		editor.add(add(db, trash, "file1"));
+		editor.add(add(db, trash, "dir/subfile"));
+		editor.commit();
 		FileTreeIterator iterator = new FileTreeIterator(db);
 		IndexDiff diff = new IndexDiff(db, tree.getId(), iterator);
 		diff.diff();
@@ -113,13 +134,13 @@ public class IndexDiffTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testModified() throws IOException {
-		GitIndex index = new GitIndex(db);
+	public void testModified() throws IOException, NoFilepatternException {
 
+		writeTrashFile("file2", "file2");
+		writeTrashFile("dir/file3", "dir/file3");
 
-		index.add(trash, writeTrashFile("file2", "file2"));
-		index.add(trash, writeTrashFile("dir/file3", "dir/file3"));
-		index.write();
+		Git git = new Git(db);
+		git.add().addFilepattern("file2").addFilepattern("dir/file3").call();
 
 		writeTrashFile("dir/file3", "changed");
 
@@ -261,14 +282,17 @@ public class IndexDiffTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testUnchangedSimple() throws IOException {
-		GitIndex index = new GitIndex(db);
-
-		index.add(trash, writeTrashFile("a.b", "a.b"));
-		index.add(trash, writeTrashFile("a.c", "a.c"));
-		index.add(trash, writeTrashFile("a=c", "a=c"));
-		index.add(trash, writeTrashFile("a=d", "a=d"));
-		index.write();
+	public void testUnchangedSimple() throws IOException,
+			NoFilepatternException {
+		writeTrashFile("a.b", "a.b");
+		writeTrashFile("a.c", "a.c");
+		writeTrashFile("a=c", "a=c");
+		writeTrashFile("a=d", "a=d");
+		Git git = new Git(db);
+		git.add().addFilepattern("a.b").call();
+		git.add().addFilepattern("a.c").call();
+		git.add().addFilepattern("a=c").call();
+		git.add().addFilepattern("a=d").call();
 
 		Tree tree = new Tree(db);
 		// got the hash id'd from the data using echo -n a.b|git hash-object -t blob --stdin
@@ -290,23 +314,27 @@ public class IndexDiffTest extends RepositoryTestCase {
 	}
 
 	/**
-	 * This test has both files and directories that involve
-	 * the tricky ordering used by Git.
+	 * This test has both files and directories that involve the tricky ordering
+	 * used by Git.
 	 *
 	 * @throws IOException
+	 * @throws NoFilepatternException
 	 */
 	@Test
-	public void testUnchangedComplex() throws IOException {
-		GitIndex index = new GitIndex(db);
-
-		index.add(trash, writeTrashFile("a.b", "a.b"));
-		index.add(trash, writeTrashFile("a.c", "a.c"));
-		index.add(trash, writeTrashFile("a/b.b/b", "a/b.b/b"));
-		index.add(trash, writeTrashFile("a/b", "a/b"));
-		index.add(trash, writeTrashFile("a/c", "a/c"));
-		index.add(trash, writeTrashFile("a=c", "a=c"));
-		index.add(trash, writeTrashFile("a=d", "a=d"));
-		index.write();
+	public void testUnchangedComplex() throws IOException,
+			NoFilepatternException {
+		Git git = new Git(db);
+		writeTrashFile("a.b", "a.b");
+		writeTrashFile("a.c", "a.c");
+		writeTrashFile("a/b.b/b", "a/b.b/b");
+		writeTrashFile("a/b", "a/b");
+		writeTrashFile("a/c", "a/c");
+		writeTrashFile("a=c", "a=c");
+		writeTrashFile("a=d", "a=d");
+		git.add().addFilepattern("a.b").addFilepattern("a.c")
+				.addFilepattern("a/b.b/b").addFilepattern("a/b")
+				.addFilepattern("a/c").addFilepattern("a=c")
+				.addFilepattern("a=d").call();
 
 		Tree tree = new Tree(db);
 		// got the hash id'd from the data using echo -n a.b|git hash-object -t blob --stdin
