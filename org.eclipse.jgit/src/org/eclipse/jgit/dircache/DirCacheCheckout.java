@@ -352,12 +352,10 @@ public class DirCacheCheckout {
 					}
 				}
 			} else {
-				// There is no file/folder for that path in the working tree.
-				// The only entry we have is the index entry. If that entry is a
-				// conflict simply remove it. Otherwise keep that entry in the
-				// index
-				if (i.getDirCacheEntry().getStage() == 0)
-					keep(i.getDirCacheEntry());
+				// There is no file/folder for that path in the working tree,
+				// nor in the merge head.
+				// The only entry we have is the index entry. Like the case
+				// where there is a file with the same name, remove it,
 			}
 		}
 	}
