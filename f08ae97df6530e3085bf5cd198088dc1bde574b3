@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOBn///2w\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-10-17T10:50:11Z",
+      "side": 1,
+      "message": "I like this change. If you would change the commit message (remove RFC, better description) we can accept it.",
+      "revId": "f08ae97df6530e3085bf5cd198088dc1bde574b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
