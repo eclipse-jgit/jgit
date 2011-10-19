@@ -487,9 +487,12 @@ public class ResolveMerger extends ThreeWayMerger {
 			// Check worktree before modifying files
 			if (isWorktreeDirty())
 				return false;
-			if (!contentMerge(base, ours, theirs)) {
+
+			MergeResult<RawText> result = contentMerge(base, ours, theirs);
+			File of = writeMergedFile(result);
+			updateIndex(base, ours, theirs, result, of);
+			if (result.containsConflicts())
 				unmergedPaths.add(tw.getPathString());
-			}
 			modifiedFiles.add(tw.getPathString());
 		} else if (modeO != modeT) {
 			// OURS or THEIRS has been deleted
@@ -515,19 +518,36 @@ public class ResolveMerger extends ThreeWayMerger {
 				unmergedPaths.add(tw.getPathString());
 
 				// generate a MergeResult for the deleted file
-				RawText baseText = base == null ? RawText.EMPTY_TEXT
-						: getRawText(base.getEntryObjectId(), db);
-				RawText ourText = ours == null ? RawText.EMPTY_TEXT
-						: getRawText(ours.getEntryObjectId(), db);
-				RawText theirsText = theirs == null ? RawText.EMPTY_TEXT
-						: getRawText(theirs.getEntryObjectId(), db);
-				MergeResult<RawText> result = mergeAlgorithm.merge(
-						RawTextComparator.DEFAULT, baseText, ourText,
-						theirsText);
-				mergeResults.put(tw.getPathString(), result);
+				mergeResults.put(tw.getPathString(),
+						contentMerge(base, ours, theirs));
 			}
 		}
 		return true;
+	}
+
+	/**
+	 * Does the content merge. The three texts base, ours and theirs are
+	 * specified with {@link CanonicalTreeParser}. If any of the parsers is
+	 * specified as <code>null</code> then an empty text will be used instead.
+	 *
+	 * @param base
+	 * @param ours
+	 * @param theirs
+	 *
+	 * @return the result of the content merge
+	 * @throws IOException
+	 */
+	private MergeResult<RawText> contentMerge(CanonicalTreeParser base,
+			CanonicalTreeParser ours, CanonicalTreeParser theirs)
+			throws IOException {
+		RawText baseText = base == null ? RawText.EMPTY_TEXT : getRawText(
+				base.getEntryObjectId(), db);
+		RawText ourText = ours == null ? RawText.EMPTY_TEXT : getRawText(
+				ours.getEntryObjectId(), db);
+		RawText theirsText = theirs == null ? RawText.EMPTY_TEXT : getRawText(
+				theirs.getEntryObjectId(), db);
+		return (mergeAlgorithm.merge(RawTextComparator.DEFAULT, baseText,
+				ourText, theirsText));
 	}
 
 	private boolean isIndexDirty() {
@@ -559,20 +579,70 @@ public class ResolveMerger extends ThreeWayMerger {
 		return isDirty;
 	}
 
-	private boolean contentMerge(CanonicalTreeParser base,
-			CanonicalTreeParser ours, CanonicalTreeParser theirs)
-			throws FileNotFoundException, IllegalStateException, IOException {
+	/**
+	 * Updates the index after a content merge has happened. If no conflict has
+	 * occurred this includes persisting the merged content to the object
+	 * database. In case of conflicts this method takes care to write the
+	 * correct stages to the index.
+	 *
+	 * @param base
+	 * @param ours
+	 * @param theirs
+	 * @param result
+	 * @param of
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 */
+	private void updateIndex(CanonicalTreeParser base,
+			CanonicalTreeParser ours, CanonicalTreeParser theirs,
+			MergeResult<RawText> result, File of) throws FileNotFoundException,
+			IOException {
+		if (result.containsConflicts()) {
+			// a conflict occurred, the file will contain conflict markers
+			// the index will be populated with the three stages and only the
+			// workdir (if used) contains the halfways merged content
+			add(tw.getRawPath(), base, DirCacheEntry.STAGE_1);
+			add(tw.getRawPath(), ours, DirCacheEntry.STAGE_2);
+			add(tw.getRawPath(), theirs, DirCacheEntry.STAGE_3);
+			mergeResults.put(tw.getPathString(), result);
+		} else {
+			// no conflict occurred, the file will contain fully merged content.
+			// the index will be populated with the new merged version
+			DirCacheEntry dce = new DirCacheEntry(tw.getPathString());
+			int newMode = mergeFileModes(tw.getRawMode(0), tw.getRawMode(1),
+					tw.getRawMode(2));
+			// set the mode for the new content. Fall back to REGULAR_FILE if
+			// you can't merge modes of OURS and THEIRS
+			dce.setFileMode((newMode == FileMode.MISSING.getBits()) ? FileMode.REGULAR_FILE
+					: FileMode.fromBits(newMode));
+			dce.setLastModified(of.lastModified());
+			dce.setLength((int) of.length());
+			InputStream is = new FileInputStream(of);
+			try {
+				dce.setObjectId(oi.insert(Constants.OBJ_BLOB, of.length(), is));
+			} finally {
+				is.close();
+				if (inCore)
+					FileUtils.delete(of);
+			}
+			builder.add(dce);
+		}
+	}
+
+	/**
+	 * Writes merged file content to the working tree. In case {@link #inCore}
+	 * is set and we don't have a working tree the content is written to a
+	 * temporary file
+	 *
+	 * @param result
+	 *            the result of the content merge
+	 * @return the file to which the merged content was written
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 */
+	private File writeMergedFile(MergeResult<RawText> result)
+			throws FileNotFoundException, IOException {
 		MergeFormatter fmt = new MergeFormatter();
-
-		RawText baseText = base == null ? RawText.EMPTY_TEXT : getRawText(
-				base.getEntryObjectId(), db);
-
-		// do the merge
-		MergeResult<RawText> result = mergeAlgorithm.merge(
-				RawTextComparator.DEFAULT, baseText,
-				getRawText(ours.getEntryObjectId(), db),
-				getRawText(theirs.getEntryObjectId(), db));
-
 		File of = null;
 		FileOutputStream fos;
 		if (!inCore) {
@@ -603,40 +673,7 @@ public class ResolveMerger extends ThreeWayMerger {
 				fos.close();
 			}
 		}
-
-		if (result.containsConflicts()) {
-			// a conflict occurred, the file will contain conflict markers
-			// the index will be populated with the three stages and only the
-			// workdir (if used) contains the halfways merged content
-			add(tw.getRawPath(), base, DirCacheEntry.STAGE_1);
-			add(tw.getRawPath(), ours, DirCacheEntry.STAGE_2);
-			add(tw.getRawPath(), theirs, DirCacheEntry.STAGE_3);
-			mergeResults.put(tw.getPathString(), result);
-			return false;
-		} else {
-			// no conflict occurred, the file will contain fully merged content.
-			// the index will be populated with the new merged version
-			DirCacheEntry dce = new DirCacheEntry(tw.getPathString());
-			int newMode = mergeFileModes(tw.getRawMode(0), tw.getRawMode(1),
-					tw.getRawMode(2));
-			// set the mode for the new content. Fall back to REGULAR_FILE if
-			// you can't merge modes of OURS and THEIRS
-			dce.setFileMode((newMode == FileMode.MISSING.getBits()) ? FileMode.REGULAR_FILE
-					: FileMode.fromBits(newMode));
-			dce.setLastModified(of.lastModified());
-			dce.setLength((int) of.length());
-			InputStream is = new FileInputStream(of);
-			try {
-				dce.setObjectId(oi.insert(Constants.OBJ_BLOB, of.length(),
-						is));
-			} finally {
-				is.close();
-				if (inCore)
-					FileUtils.delete(of);
-			}
-			builder.add(dce);
-			return true;
-		}
+		return of;
 	}
 
 	/**
