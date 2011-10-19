@@ -147,7 +147,7 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 	}
 
 	/**
-	 * List all available pack files in the repository.
+	 * Scan and list all available pack files in the repository.
 	 *
 	 * @return list of available packs. The returned array is shared with the
 	 *         implementation and must not be modified by the caller.
@@ -161,6 +161,16 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 	/** @return repository owning this object database. */
 	protected DfsRepository getRepository() {
 		return repository;
+	}
+
+	/**
+	 * List currently known pack files in the repository, without scanning.
+	 *
+	 * @return list of available packs. The returned array is shared with the
+	 *         implementation and must not be modified by the caller.
+	 */
+	public DfsPackFile[] getCurrentPacks() {
+		return packList.get().packs;
 	}
 
 	/**
@@ -318,8 +328,8 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 	}
 
 	private PackList scanPacks(final PackList original) throws IOException {
+		PackList o, n;
 		synchronized (packList) {
-			PackList o, n;
 			do {
 				o = packList.get();
 				if (o != original) {
@@ -332,8 +342,9 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 				if (n == o)
 					return n;
 			} while (!packList.compareAndSet(o, n));
-			return n;
 		}
+		getRepository().fireEvent(new DfsPacksChangedEvent());
+		return n;
 	}
 
 	private PackList scanPacksImpl(PackList old) throws IOException {
