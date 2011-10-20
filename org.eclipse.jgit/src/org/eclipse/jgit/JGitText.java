@@ -552,6 +552,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String year;
 	/***/ public String years;
 	/***/ public String yearsAgo;
+	/***/ public String years0MonthsAgo;
 	/***/ public String yearsMonthsAgo;
 	/***/ public String treeWalkMustHaveExactlyTwoTrees;
 	/***/ public String cannotBeRecursiveWhenTreesAreIncluded;
