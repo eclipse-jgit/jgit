@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOBn///3c\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-10-17T09:01:43Z",
+      "side": 1,
+      "message": "Good catch, I also think it\u0027s a bug to keep the index entry. I reproduced with native git and see that it removes index entries in such cases:\n\n\u003eecho 1 \u003e a\n\u003egit add a\n\u003egit commit -m first\n[master (root-commit) 90b3be1] first\n 1 files changed, 1 insertions(+), 0 deletions(-)\n create mode 100644 a\n\u003eecho 2 \u003e b\n\u003egit add b\n\u003egit commit -m second\n[master 67f8760] second\n 1 files changed, 1 insertions(+), 0 deletions(-)\n create mode 100644 b\n\u003egit ls-files -s\n100644 d00491fd7e5bb6fa28c517a0bb32b8b506539d4d 0       a\n100644 0cfbf08886fca9a91cb753ec8734c84fcbe52c9f 0       b\n\u003eecho 3 \u003e b\n\u003egit add b\n\u003egit ls-files -s\n100644 d00491fd7e5bb6fa28c517a0bb32b8b506539d4d 0       a\n100644 00750edc07d6415dcc07ae0351e9397b0222b7ba 0       b\n\u003erm b\n\u003egit read-tree -m -u HEAD~\n\u003egit ls-files -s\n100644 d00491fd7e5bb6fa28c517a0bb32b8b506539d4d 0       a",
+      "revId": "e7329d1e821fcd7d599cecee08fa86b908d51781",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
