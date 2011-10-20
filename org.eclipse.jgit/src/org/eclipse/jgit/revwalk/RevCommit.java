@@ -410,6 +410,7 @@ public class RevCommit extends RevObject {
 		final Charset enc = RawParseUtils.parseEncoding(raw);
 		final int msgE = RawParseUtils.endOfParagraph(raw, msgB);
 		String str = RawParseUtils.decode(enc, raw, msgB, msgE);
+		str = str.replaceAll("\r", "");
 		if (hasLF(raw, msgB, msgE))
 			str = str.replace('\n', ' ');
 		return str;
