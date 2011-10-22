@@ -301,6 +301,8 @@ public class DirCacheCheckout {
 	void processEntry(CanonicalTreeParser m, DirCacheBuildIterator i,
 			WorkingTreeIterator f) throws IOException {
 		if (m != null) {
+			if (!m.isValidPath())
+				throw new InvalidPathException(m.getEntryPathString());
 			// There is an entry in the merge commit. Means: we want to update
 			// what's currently in the index and working-tree to that one
 			if (i == null) {
