@@ -656,4 +656,11 @@ public abstract class AbstractTreeIterator {
 	public void getName(byte[] buffer, int offset) {
 		System.arraycopy(path, pathOffset, buffer, offset, pathLen - pathOffset);
 	}
+
+	/**
+	 * @return true if this is a valid path, i.e. not malicious
+	 */
+	public boolean isValidPath() {
+		return true;
+	}
 }
