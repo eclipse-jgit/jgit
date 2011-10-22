@@ -55,6 +55,7 @@ import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.MutableObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.util.SystemReader;
 
 /** Parses raw Git trees from the canonical semi-text/semi-binary format. */
 public class CanonicalTreeParser extends AbstractTreeIterator {
@@ -70,6 +71,8 @@ public class CanonicalTreeParser extends AbstractTreeIterator {
 
 	/** Offset one past the current entry (first byte of next entry). */
 	private int nextPtr;
+
+	private boolean invalid;
 
 	/** Create a new parser. */
 	public CanonicalTreeParser() {
@@ -225,6 +228,8 @@ public class CanonicalTreeParser extends AbstractTreeIterator {
 			throws IOException {
 		final CanonicalTreeParser p = new CanonicalTreeParser(this);
 		p.reset(reader, id);
+		if (invalid)
+			p.invalid = true;
 		return p;
 	}
 
@@ -340,12 +345,33 @@ public class CanonicalTreeParser extends AbstractTreeIterator {
 			tmp += c - '0';
 		}
 		mode = tmp;
+		boolean maybeInvalid = true;
 
 		tmp = pathOffset;
-		for (;; tmp++) {
+		int tmp2 = tmp;
+		F: for (;; tmp++) {
 			c = raw[ptr++];
-			if (c == 0)
+			switch (c) {
+			case 0:
+				break F;
+			case '/':
+				invalid = true;
 				break;
+			case ' ':
+			case '.':
+				maybeInvalid = true;
+				break;
+			case '\\':
+			case ':':
+				if (SystemReader.getInstance().getProperty("os.name").equals("Windows"))
+					invalid = true;
+				maybeInvalid = false;
+				tmp2 = tmp + 1;
+				break;
+			default:
+				tmp2 = tmp + 1;
+				maybeInvalid = false;
+			}
 			try {
 				path[tmp] = c;
 			} catch (ArrayIndexOutOfBoundsException e) {
@@ -353,7 +379,41 @@ public class CanonicalTreeParser extends AbstractTreeIterator {
 				path[tmp] = c;
 			}
 		}
+		if (tmp - pathOffset == 4
+				|| tmp2 - pathOffset == 4
+				&& SystemReader.getInstance().getProperty("os.name")
+						.equals("Windows")) {
+			if (path[pathOffset] == '.'
+					&& (path[pathOffset + 1] == 'g' || path[pathOffset + 1] == 'G')
+					&& (path[pathOffset + 2] == 'i' || path[pathOffset + 2] == 'I')
+					&& (path[pathOffset + 3] == 't' || path[pathOffset + 3] == 'T'))
+				invalid = true;
+		}
+		if (maybeInvalid
+				&& SystemReader.getInstance().getProperty("os.name")
+						.equals("Windows"))
+			invalid = true;
+		else if (tmp - pathOffset == 0)
+			invalid = true;
+		else if (tmp - pathOffset == 2
+				|| tmp2 - pathOffset == 2
+				&& SystemReader.getInstance().getProperty("os.name")
+						.equals("Windows")) {
+			if (path[pathOffset] == '.' && path[pathOffset + 1] == '.')
+				invalid = true;
+		} else if (tmp - pathOffset == 1
+				|| tmp2 - pathOffset == 1
+				&& SystemReader.getInstance().getProperty("os.name")
+						.equals("Windows")) {
+			if (path[pathOffset] == '.')
+				invalid = true;
+		}
 		pathLen = tmp;
 		nextPtr = ptr + Constants.OBJECT_ID_LENGTH;
+	}
+
+	@Override
+	public boolean isValidPath() {
+		return !invalid;
 	}
 }
