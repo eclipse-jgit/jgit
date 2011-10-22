@@ -990,4 +990,11 @@ public class TreeWalk {
 	static String pathOf(final byte[] buf, int pos, int end) {
 		return RawParseUtils.decode(Constants.CHARSET, buf, pos, end);
 	}
+
+	/**
+	 * @return true if the current path is constructed from valid parts
+	 */
+	public boolean isValidPath() {
+		return currentHead.isValidPath();
+	}
 }
