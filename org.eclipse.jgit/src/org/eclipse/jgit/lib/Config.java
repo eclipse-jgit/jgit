@@ -1414,6 +1414,7 @@ public class Config {
 	 * The configuration file entry
 	 */
 	private static class Entry {
+
 		/**
 		 * The text content before entry
 		 */
@@ -1481,6 +1482,21 @@ public class Config {
 			if (a == null || b == null)
 				return false;
 			return a.equals(b);
+		}
+
+		@Override
+		public String toString() {
+			if (section == null)
+				return "<emtpy>";
+			StringBuilder b = new StringBuilder("[").append(section);
+			if (subsection != null)
+				b.append(".").append(subsection);
+			if (name != null)
+				b.append(".").append(name);
+			b.append("]");
+			if (value != null)
+				b.append("=").append(value);
+			return b.toString();
 		}
 	}
 
