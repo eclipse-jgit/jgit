@@ -150,4 +150,34 @@ public class MockSystemReader extends SystemReader {
 	public Locale getLocale() {
 		return Locale.US;
 	}
+
+	/**
+	 * Assign some properties for the currently executing platform
+	 */
+	public void setCurrentPlatform() {
+		setProperty("os.name", System.getProperty("os.name"));
+		setProperty("file.separator", System.getProperty("file.separator"));
+		setProperty("path.separator", System.getProperty("path.separator"));
+		setProperty("line.separator", System.getProperty("line.separator"));
+	}
+
+	/**
+	 * Emulate Windows
+	 */
+	public void setWindows() {
+		setProperty("os.name", "Windows");
+		setProperty("file.separator", "\\");
+		setProperty("path.separator", ";");
+		setProperty("line.separator", "\r\n");
+	}
+
+	/**
+	 * Emulate Unix
+	 */
+	public void setUnix() {
+		setProperty("os.name", "*nix"); // Essentially anything but Windows
+		setProperty("file.separator", "/");
+		setProperty("path.separator", ":");
+		setProperty("line.separator", "\n");
+	}
 }
