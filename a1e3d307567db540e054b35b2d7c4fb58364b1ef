@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOBn///jg\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-10-22T23:36:43Z",
+      "side": 1,
+      "message": "I think you meant s/localelocale/localelocal/",
+      "revId": "a1e3d307567db540e054b35b2d7c4fb58364b1ef",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOBn///jw\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/GitDateFormatterTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-10-22T23:36:43Z",
+      "side": 1,
+      "message": "missing license header",
+      "revId": "a1e3d307567db540e054b35b2d7c4fb58364b1ef",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOBn///j4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/GitDateFormatter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-10-22T23:36:43Z",
+      "side": 1,
+      "message": "missing license header",
+      "revId": "a1e3d307567db540e054b35b2d7c4fb58364b1ef",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOBn///jY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/GitDateFormatter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-10-22T23:36:43Z",
+      "side": 1,
+      "message": "s/locale/local/",
+      "revId": "a1e3d307567db540e054b35b2d7c4fb58364b1ef",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
