@@ -57,6 +57,8 @@ import org.eclipse.jgit.treewalk.filter.TreeFilter;
  * This is a special filter that performs {@code AND(path, ANY_DIFF)}, but also
  * triggers rename detection so that the path node is updated to include a prior
  * file name as the RevWalk traverses history.
+ *
+ * The renames found will be reported to a {@link RenameCallback} if one is set.
  * <p>
  * Results with this filter are unpredictable if the path being followed is a
  * subdirectory.
@@ -84,6 +86,8 @@ public class FollowFilter extends TreeFilter {
 	}
 
 	private final PathFilter path;
+
+	private RenameCallback renameCallback;
 
 	FollowFilter(final PathFilter path) {
 		this.path = path;
@@ -116,5 +120,23 @@ public class FollowFilter extends TreeFilter {
 		return "(FOLLOW(" + path.toString() + ")" //
 				+ " AND " //
 				+ ANY_DIFF.toString() + ")";
+	}
+
+	/**
+	 * @return the callback to which renames are reported, or <code>null</code>
+	 *         if none
+	 */
+	public RenameCallback getRenameCallback() {
+		return renameCallback;
+	}
+
+	/**
+	 * Sets the callback to which renames shall be reported.
+	 *
+	 * @param callback
+	 *            the callback to use
+	 */
+	public void setRenameCallback(RenameCallback callback) {
+		renameCallback = callback;
 	}
 }
