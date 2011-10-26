@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOBn///dM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RenameCallback.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-10-24T09:27:06Z",
+      "side": 1,
+      "message": "style nit: trailing whitespace",
+      "revId": "85986ff7f6fe597f6b7fb204b7f327cdcda86cc5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
