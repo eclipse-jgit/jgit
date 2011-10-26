@@ -221,6 +221,7 @@ public class CloneCommandTest extends RepositoryTestCase {
 		command.setDirectory(directory);
 		command.setURI("file://" + git.getRepository().getWorkTree().getPath());
 		Git git2 = command.call();
+		addRepoToClose(git2.getRepository());
 		assertNotNull(git2);
 		// clone again
 		command = Git.cloneRepository();
