@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOBn///ik\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-10-22T23:53:46Z",
+      "side": 1,
+      "message": "Done.\n\nIf you have a better name than localelocal, plase share.",
+      "parentUuid": "AABOBn///jg\u003d",
+      "revId": "a1e3d307567db540e054b35b2d7c4fb58364b1ef",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOBn///jw\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/GitDateFormatterTest.java",
         "patchSetId": 2
