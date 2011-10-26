@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOBn///bg\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/RevWalkFollowFilterTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-10-24T20:15:02Z",
+      "side": 1,
+      "message": "did you really want to include this comment ? \n\nInstead add the EDL license header with your copyright like you did in RenameCallback.java",
+      "revId": "985a12b476b757512ac1d0de186c577e6651544f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
