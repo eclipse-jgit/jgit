@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOBn///cU\u003d",
+        "filename": "org.eclipse.jgit.pgm/resources/org/eclipse/jgit/pgm/CLIText.properties",
+        "patchSetId": 4
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-10-24T12:54:42Z",
+      "side": 1,
+      "message": "\"... or locale or localelocal ....\" - shouldn\u0027t the first \" or\" be a \", \"?",
+      "revId": "12697209feec5ac23ba7f7648e6d24ed5a817d3a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
