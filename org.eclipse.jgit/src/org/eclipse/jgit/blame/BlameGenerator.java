@@ -178,6 +178,7 @@ public class BlameGenerator {
 		SEEN = revPool.newFlag("SEEN");
 		reader = revPool.getObjectReader();
 		treeWalk = new TreeWalk(reader);
+		treeWalk.setRecursive(true);
 	}
 
 	/** @return repository being scanned for revision history. */
