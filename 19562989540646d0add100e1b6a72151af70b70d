@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOBn///p4\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-10-20T22:18:15Z",
+      "side": 1,
+      "message": "Could you improve the subject line? Let\u0027s assume that if this passes code review, it\u0027s a proved typo.",
+      "revId": "19562989540646d0add100e1b6a72151af70b70d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOBn///qE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RenameDetector.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-10-20T22:13:34Z",
+      "side": 1,
+      "message": "Seems plausible",
+      "revId": "19562989540646d0add100e1b6a72151af70b70d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
