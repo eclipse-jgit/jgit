@@ -88,6 +88,8 @@ public class PullCommand extends GitCommand<PullResult> {
 
 	private CredentialsProvider credentialsProvider;
 
+	private TransportConfigCallback transportConfigCallback;
+
 	/**
 	 * @param repo
 	 */
@@ -124,6 +126,21 @@ public class PullCommand extends GitCommand<PullResult> {
 			CredentialsProvider credentialsProvider) {
 		checkCallable();
 		this.credentialsProvider = credentialsProvider;
+		return this;
+	}
+
+	/**
+	 * @param transportConfigCallback
+	 *            if set, the callback will be invoked after the Transport has
+	 *            created, but before the Transport is used. The callback can
+	 *            use this opportunity to set additional type-specific
+	 *            configuration on the Transport instance.
+	 * @return {@code this}
+	 */
+	public PullCommand setTransportConfigCallback(
+			TransportConfigCallback transportConfigCallback) {
+		checkCallable();
+		this.transportConfigCallback = transportConfigCallback;
 		return this;
 	}
 
@@ -214,6 +231,7 @@ public class PullCommand extends GitCommand<PullResult> {
 			fetch.setProgressMonitor(monitor);
 			fetch.setTimeout(this.timeout);
 			fetch.setCredentialsProvider(credentialsProvider);
+			fetch.setTransportConfigCallback(transportConfigCallback);
 
 			fetchRes = fetch.call();
 		} else {

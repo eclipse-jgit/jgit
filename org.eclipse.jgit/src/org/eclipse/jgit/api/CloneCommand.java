@@ -104,6 +104,8 @@ public class CloneCommand implements Callable<Git> {
 
 	private Collection<String> branchesToClone;
 
+	private TransportConfigCallback transportConfigCallback;
+
 	/**
 	 * Executes the {@code Clone} command.
 	 *
@@ -167,6 +169,7 @@ public class CloneCommand implements Callable<Git> {
 		command.setTimeout(timeout);
 		if (credentialsProvider != null)
 			command.setCredentialsProvider(credentialsProvider);
+		command.setTransportConfigCallback(transportConfigCallback);
 
 		List<RefSpec> specs = calculateRefSpecs(dst);
 		command.setRefSpecs(specs);
@@ -394,4 +397,17 @@ public class CloneCommand implements Callable<Git> {
 		return this;
 	}
 
+	/**
+	 * @param transportConfigCallback
+	 *            if set, the callback will be invoked after the Transport has
+	 *            created, but before the Transport is used. The callback can
+	 *            use this opportunity to set additional type-specific
+	 *            configuration on the Transport instance.
+	 * @return {@code this}
+	 */
+	public CloneCommand setTransportConfigCallback(
+			TransportConfigCallback transportConfigCallback) {
+		this.transportConfigCallback = transportConfigCallback;
+		return this;
+	}
 }
