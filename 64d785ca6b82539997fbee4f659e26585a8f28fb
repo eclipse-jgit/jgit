@@ -1,0 +1,174 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOBX///1c\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CloneCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2011-09-11T23:40:22Z",
+      "side": 1,
+      "message": "Add a new line before the new  transportConfigCallback field",
+      "revId": "64d785ca6b82539997fbee4f659e26585a8f28fb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOBX///1Y\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/FetchCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2011-09-11T23:40:22Z",
+      "side": 1,
+      "message": "Add a new line before the new  transportConfigCallback field",
+      "revId": "64d785ca6b82539997fbee4f659e26585a8f28fb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOBX///1I\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/FetchCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2011-09-11T23:40:22Z",
+      "side": 1,
+      "message": "Add method comment with appropriate tags",
+      "revId": "64d785ca6b82539997fbee4f659e26585a8f28fb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOBX///1U\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PullCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2011-09-11T23:40:22Z",
+      "side": 1,
+      "message": "Add a new line before the new  transportConfigCallback field",
+      "revId": "64d785ca6b82539997fbee4f659e26585a8f28fb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOBX///1Q\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PullCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2011-09-11T23:40:22Z",
+      "side": 1,
+      "message": "Add method comment with appropriate tags",
+      "revId": "64d785ca6b82539997fbee4f659e26585a8f28fb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOBX///1E\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PushCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2011-09-11T23:40:22Z",
+      "side": 1,
+      "message": "Add a new line before the new  transportConfigCallback field",
+      "revId": "64d785ca6b82539997fbee4f659e26585a8f28fb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOBX///1M\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PushCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2011-09-11T23:40:22Z",
+      "side": 1,
+      "message": "Add method comment with appropriate tags",
+      "revId": "64d785ca6b82539997fbee4f659e26585a8f28fb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOBX///1o\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/TransportConfigCallback.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2011-09-11T23:40:22Z",
+      "side": 1,
+      "message": "The license should be above the package declaration",
+      "revId": "64d785ca6b82539997fbee4f659e26585a8f28fb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOBX///1k\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/TransportConfigCallback.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2011-09-11T23:40:22Z",
+      "side": 1,
+      "message": "Please add a header comment to this interface describing how to use it and why it would be used.",
+      "revId": "64d785ca6b82539997fbee4f659e26585a8f28fb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOBX///1g\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/TransportConfigCallback.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2011-09-11T23:40:22Z",
+      "side": 1,
+      "message": "Please add a comment describing this method",
+      "revId": "64d785ca6b82539997fbee4f659e26585a8f28fb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
