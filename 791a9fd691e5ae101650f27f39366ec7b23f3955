@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOBn///NQ\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-10-27T14:25:18Z",
+      "side": 1,
+      "message": "This is a good idea. If you find the time for it, I would be interested in this refactoring.",
+      "revId": "791a9fd691e5ae101650f27f39366ec7b23f3955",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
