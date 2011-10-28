@@ -81,11 +81,14 @@ class FS_Win32_Cygwin extends FS_Win32 {
 	}
 
 	public File resolve(final File dir, final String pn) {
-		String w = readPipe(dir, //
-				new String[] { cygpath, "--windows", "--absolute", pn }, //
-				"UTF-8");
-		if (w != null)
-			return new File(w);
+		String useCygPath = System.getProperty("jgit.usecygpath");
+		if (useCygPath != null && useCygPath.equals("true")) {
+			String w = readPipe(dir, //
+					new String[] { cygpath, "--windows", "--absolute", pn }, //
+					"UTF-8");
+			if (w != null)
+				return new File(w);
+		}
 		return super.resolve(dir, pn);
 	}
 
