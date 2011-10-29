@@ -1,0 +1,58 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOBn///Ns\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/Merger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-10-27T14:14:35Z",
+      "side": 1,
+      "message": "True, the traditional ObjectDirectoryInserter flush() is currently a nop. This may not always hold.\n\nOne idea Junio Hamano has considered is writing objects directly to pack files, rather than loose to the filesystem. I\u0027m considering the same thing, if we are getting a bunch of smaller objects through the inserter, we may want to use an approach similar to the DFS code where its buffered in a 1 MB buffer in RAM and then flushed out to a pack file once they were all processed. On some filesystems this may be faster when there are more than say 4 objects coming through the inserter (since we have to make the pack-*.pack and pack-*.idx its at least as expensive as 2 objects). This is especially true if fsync is enabled and a lot of objects are being written, because we can stream all of the objects into the pack and defer the fsync calls until everything is written, rather than fsync on each new object. This gives the host OS a better chance to combine those writes together into fewer disk IO operations, and even when it can\u0027t, at least the data was given off to the host with fewer interleaved fsync calls, giving fewer stalls to the application.\n\nSo, long story short, ObjectDirectoryInserter reserves the right to make flush required for correct operation. Actually, I was considering this morning making a change to ODI to have it write the temporary files during insert(), but store a map of ObjectId to temporary file name inside of the ODI and defer the renames until flush. This way the local filesystem behaves similar to the DFS variant, where you must call flush or risk having your object disappear. This would make it easier for JGit developers to find broken code, as broken code would be more likely to cause Git repository corruption on the commonly supported storage.",
+      "parentUuid": "AABOBn///OQ\u003d",
+      "revId": "b24a61272a991373857f9d165db33dbd0170f43a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOB3///3A\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/Merger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-10-29T01:14:25Z",
+      "side": 1,
+      "message": "My third paragraph idea about deferring the renames was one suggestion on how to make it easier to find places like this, where the developer forgot the flush. You would quickly have a corrupt repository, either in a unit test, or on your workstation. :-)",
+      "parentUuid": "AABOB3////Y\u003d",
+      "revId": "b24a61272a991373857f9d165db33dbd0170f43a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOB3///28\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/Merger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-10-29T01:14:25Z",
+      "side": 1,
+      "message": "Yes, good point about passing both inserter and reader by constructor. Not sure its worth that API change, we could also pass these by setters before they are used.",
+      "parentUuid": "AABOBn///II\u003d",
+      "revId": "b24a61272a991373857f9d165db33dbd0170f43a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
