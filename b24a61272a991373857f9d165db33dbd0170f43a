@@ -38,6 +38,23 @@
     },
     {
       "key": {
+        "uuid": "AABOBn///No\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/Merger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-10-27T14:14:35Z",
+      "side": 1,
+      "message": "I think making the inserter here in Merger was a mistake. We should try to share the inserter with the caller who wants to create a commit object. That way on the DFS system we write a single pack with the new blobs/trees/commits at once, rather than 2 packs (one with blobs/trees from merger, the other with a single commit by itself).\n\nThis would also give the ODI a chance to consider putting that commit into the pack if it chose to do the other inserts as part of a pack.",
+      "revId": "b24a61272a991373857f9d165db33dbd0170f43a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOB3///28\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/Merger.java",
         "patchSetId": 2
