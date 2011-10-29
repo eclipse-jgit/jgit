@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AABOBn///OQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/Merger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-10-27T12:23:31Z",
+      "side": 1,
+      "message": "Of course! A questions for my understanding: when we are running JGit on top of traditional filesystem we don\u0027t need this, right? For the only relevant inserter ObjectDirectoryInserter flush() is a nop.",
+      "revId": "b24a61272a991373857f9d165db33dbd0170f43a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOBn///Ns\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/Merger.java",
         "patchSetId": 2
@@ -14,6 +31,24 @@
       "side": 1,
       "message": "True, the traditional ObjectDirectoryInserter flush() is currently a nop. This may not always hold.\n\nOne idea Junio Hamano has considered is writing objects directly to pack files, rather than loose to the filesystem. I\u0027m considering the same thing, if we are getting a bunch of smaller objects through the inserter, we may want to use an approach similar to the DFS code where its buffered in a 1 MB buffer in RAM and then flushed out to a pack file once they were all processed. On some filesystems this may be faster when there are more than say 4 objects coming through the inserter (since we have to make the pack-*.pack and pack-*.idx its at least as expensive as 2 objects). This is especially true if fsync is enabled and a lot of objects are being written, because we can stream all of the objects into the pack and defer the fsync calls until everything is written, rather than fsync on each new object. This gives the host OS a better chance to combine those writes together into fewer disk IO operations, and even when it can\u0027t, at least the data was given off to the host with fewer interleaved fsync calls, giving fewer stalls to the application.\n\nSo, long story short, ObjectDirectoryInserter reserves the right to make flush required for correct operation. Actually, I was considering this morning making a change to ODI to have it write the temporary files during insert(), but store a map of ObjectId to temporary file name inside of the ODI and defer the renames until flush. This way the local filesystem behaves similar to the DFS variant, where you must call flush or risk having your object disappear. This would make it easier for JGit developers to find broken code, as broken code would be more likely to cause Git repository corruption on the commonly supported storage.",
       "parentUuid": "AABOBn///OQ\u003d",
+      "revId": "b24a61272a991373857f9d165db33dbd0170f43a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOB3////Y\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/Merger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-10-28T08:52:37Z",
+      "side": 1,
+      "message": "I understand the first two paragraphs, tanks. What\u0027s not clear to me your idea in the third paragraph. ObjectInserter already writes to temp files and renames them. Your change aims at deferring the rename until flush() (or until we hit some limit on number of modified files). \nUntil we have mass-renames from the os or java this will not have a performance gain by that, or? Your proposed change increase the propability to have a consistent object store in case of buggy or crashing clients.",
+      "parentUuid": "AABOBn///Ns\u003d",
       "revId": "b24a61272a991373857f9d165db33dbd0170f43a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -49,6 +84,24 @@
       "writtenOn": "2011-10-27T14:14:35Z",
       "side": 1,
       "message": "I think making the inserter here in Merger was a mistake. We should try to share the inserter with the caller who wants to create a commit object. That way on the DFS system we write a single pack with the new blobs/trees/commits at once, rather than 2 packs (one with blobs/trees from merger, the other with a single commit by itself).\n\nThis would also give the ODI a chance to consider putting that commit into the pack if it chose to do the other inserts as part of a pack.",
+      "revId": "b24a61272a991373857f9d165db33dbd0170f43a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOBn///II\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/Merger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-10-28T08:52:37Z",
+      "side": 1,
+      "message": "Should be easy to pass an inserter to the Merger constructor. I propose to add the needed ObjectReader also.",
+      "parentUuid": "AABOBn///No\u003d",
       "revId": "b24a61272a991373857f9d165db33dbd0170f43a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
