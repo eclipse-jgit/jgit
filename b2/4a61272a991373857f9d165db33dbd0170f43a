@@ -1,0 +1,9 @@
+Code-Review+2: Shawn Pearce <spearce@spearce.org>
+Code-Review+1: Christian Halstrick <christian.halstrick@sap.com>
+IP-Clean+1: Christian Halstrick <christian.halstrick@sap.com>
+Verified+1: Hudson CI
+Submitted-by: Shawn Pearce <spearce@spearce.org>
+Submitted-at: Fri, 28 Oct 2011 21:14:26 -0400
+Reviewed-on: http://egit.eclipse.org/r/4412
+Project: jgit
+Branch: refs/heads/master
