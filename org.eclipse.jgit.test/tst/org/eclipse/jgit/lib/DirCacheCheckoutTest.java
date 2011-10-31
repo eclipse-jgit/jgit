@@ -40,6 +40,7 @@
  */
 package org.eclipse.jgit.lib;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -879,6 +880,41 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 	}
 
 	@Test
+	public void testCheckoutOutChangesAutoCRLFfalse() throws IOException {
+		setupCase(mk("foo"), mkmap("foo/bar", "foo\nbar"), mk("foo"));
+		checkout();
+		assertIndex(mkmap("foo/bar", "foo\nbar"));
+		assertWorkDir(mkmap("foo/bar", "foo\nbar"));
+	}
+
+	@Test
+	public void testCheckoutOutChangesAutoCRLFInput() throws IOException {
+		setupCase(mk("foo"), mkmap("foo/bar", "foo\nbar"), mk("foo"));
+		db.getConfig().setString("core", null, "autocrlf", "input");
+		checkout();
+		assertIndex(mkmap("foo/bar", "foo\nbar"));
+		assertWorkDir(mkmap("foo/bar", "foo\nbar"));
+	}
+
+	@Test
+	public void testCheckoutOutChangesAutoCRLFtrue() throws IOException {
+		setupCase(mk("foo"), mkmap("foo/bar", "foo\nbar"), mk("foo"));
+		db.getConfig().setString("core", null, "autocrlf", "true");
+		checkout();
+		assertIndex(mkmap("foo/bar", "foo\nbar"));
+		assertWorkDir(mkmap("foo/bar", "foo\r\nbar"));
+	}
+
+	@Test
+	public void testCheckoutOutChangesAutoCRLFtrueBinary() throws IOException {
+		setupCase(mk("foo"), mkmap("foo/bar", "foo\nb\u0000ar"), mk("foo"));
+		db.getConfig().setString("core", null, "autocrlf", "true");
+		checkout();
+		assertIndex(mkmap("foo/bar", "foo\nb\u0000ar"));
+		assertWorkDir(mkmap("foo/bar", "foo\nb\u0000ar"));
+	}
+
+	@Test
 	public void testCheckoutUncachedChanges() throws IOException {
 		setupCase(mk("foo"), mk("foo"), mk("foo"));
 		writeTrashFile("foo", "otherData");
@@ -931,9 +967,8 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 					offset += numRead;
 				}
 				is.close();
-				assertTrue("unexpected content for path " + path
-						+ " in workDir. Expected: <" + expectedValue + ">",
-						Arrays.equals(buffer, i.get(path).getBytes()));
+				assertArrayEquals("unexpected content for path " + path
+						+ " in workDir. ", buffer, i.get(path).getBytes());
 				nrFiles++;
 			}
 		}
