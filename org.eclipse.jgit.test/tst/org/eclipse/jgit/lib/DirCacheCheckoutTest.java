@@ -833,6 +833,23 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 	}
 
 	@Test
+	public void testCheckoutOutChangesAutoCRLFfalse() throws IOException {
+		setupCase(mk("foo"), mkmap("foo/bar", "foo\nbar"), mk("foo"));
+		checkout();
+		assertIndex(mkmap("foo/bar", "foo\nbar"));
+		assertWorkDir(mkmap("foo/bar", "foo\nbar"));
+	}
+
+	@Test
+	public void testCheckoutOutChangesAutoCRLFtrue() throws IOException {
+		setupCase(mk("foo"), mkmap("foo/bar", "foo\nbar"), mk("foo"));
+		db.getConfig().setString("core", null, "autocrlf", "true");
+		checkout();
+		assertIndex(mkmap("foo/bar", "foo\nbar"));
+		assertWorkDir(mkmap("foo/bar", "foo\r\nbar"));
+	}
+
+	@Test
 	public void testCheckoutUncachedChanges() throws IOException {
 		setupCase(mk("foo"), mk("foo"), mk("foo"));
 		writeTrashFile("foo", "otherData");

@@ -50,8 +50,10 @@ import java.io.IOException;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.errors.NoWorkTreeException;
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.RepositoryTestCase;
+import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Before;
 import org.junit.Test;
@@ -199,5 +201,36 @@ public class PathCheckoutCommandTest extends RepositoryTestCase {
 			dc.unlock();
 			r.release();
 		}
+	}
+
+	public void testCheckoutMixedNewlines() throws Exception {
+		// "git config core.autocrlf true"
+		StoredConfig config = git.getRepository().getConfig();
+		config.setBoolean(ConfigConstants.CONFIG_CORE_SECTION, null,
+				ConfigConstants.CONFIG_KEY_AUTOCRLF, true);
+		config.save();
+		// edit <FILE1>
+		File written = writeTrashFile(FILE1, "4\r\n4");
+		assertEquals("4\r\n4", read(written));
+		// "git add <FILE1>"
+		git.add().addFilepattern(FILE1).call();
+		// "git commit -m 'CRLF'"
+		git.commit().setMessage("CRLF").call();
+		// edit <FILE1>
+		written = writeTrashFile(FILE1, "4\n4");
+		assertEquals("4\n4", read(written));
+		// "git add <FILE1>"
+		git.add().addFilepattern(FILE1).call();
+		// "git checkout -- <FILE1>
+		git.checkout().addPath(FILE1).call();
+		// "git status" => clean
+		Status status = git.status().call();
+		assertEquals(0, status.getAdded().size());
+		assertEquals(0, status.getChanged().size());
+		assertEquals(0, status.getConflicting().size());
+		assertEquals(0, status.getMissing().size());
+		assertEquals(0, status.getModified().size());
+		assertEquals(0, status.getRemoved().size());
+		assertEquals(0, status.getUntracked().size());
 	}
 }

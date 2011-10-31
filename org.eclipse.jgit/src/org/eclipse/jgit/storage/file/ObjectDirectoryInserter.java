@@ -97,8 +97,8 @@ class ObjectDirectoryInserter extends ObjectInserter {
 			throws IOException {
 		if (len <= buffer().length) {
 			byte[] buf = buffer();
-			IO.readFully(is, buf, 0, (int) len);
-			return insert(type, buf, 0, (int) len);
+			int actLen = IO.readFully(is, buf, 0);
+			return insert(type, buf, 0, actLen);
 
 		} else {
 			MessageDigest md = digest();
