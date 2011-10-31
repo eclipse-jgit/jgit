@@ -105,6 +105,54 @@ public class AddCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
+	public void testAddExistingSingleFileWithNewLine() throws IOException,
+			NoFilepatternException {
+		File file = new File(db.getWorkTree(), "a.txt");
+		FileUtils.createNewFile(file);
+		PrintWriter writer = new PrintWriter(file);
+		writer.print("row1\r\nrow2");
+		writer.close();
+
+		Git git = new Git(db);
+		db.getConfig().setString("core", null, "autocrlf", "false");
+		git.add().addFilepattern("a.txt").call();
+		assertEquals("[a.txt, mode:100644, content:row1\r\nrow2]",
+				indexState(CONTENT));
+		db.getConfig().setString("core", null, "autocrlf", "true");
+		git.add().addFilepattern("a.txt").call();
+		assertEquals("[a.txt, mode:100644, content:row1\nrow2]",
+				indexState(CONTENT));
+		db.getConfig().setString("core", null, "autocrlf", "input");
+		git.add().addFilepattern("a.txt").call();
+		assertEquals("[a.txt, mode:100644, content:row1\nrow2]",
+				indexState(CONTENT));
+	}
+
+	@Test
+	public void testAddExistingSingleBinaryFile() throws IOException,
+			NoFilepatternException {
+		File file = new File(db.getWorkTree(), "a.txt");
+		FileUtils.createNewFile(file);
+		PrintWriter writer = new PrintWriter(file);
+		writer.print("row1\r\nrow2\u0000");
+		writer.close();
+
+		Git git = new Git(db);
+		db.getConfig().setString("core", null, "autocrlf", "false");
+		git.add().addFilepattern("a.txt").call();
+		assertEquals("[a.txt, mode:100644, content:row1\r\nrow2\u0000]",
+				indexState(CONTENT));
+		db.getConfig().setString("core", null, "autocrlf", "true");
+		git.add().addFilepattern("a.txt").call();
+		assertEquals("[a.txt, mode:100644, content:row1\r\nrow2\u0000]",
+				indexState(CONTENT));
+		db.getConfig().setString("core", null, "autocrlf", "input");
+		git.add().addFilepattern("a.txt").call();
+		assertEquals("[a.txt, mode:100644, content:row1\r\nrow2\u0000]",
+				indexState(CONTENT));
+	}
+
+	@Test
 	public void testAddExistingSingleFileInSubDir() throws IOException, NoFilepatternException {
 		FileUtils.mkdir(new File(db.getWorkTree(), "sub"));
 		File file = new File(db.getWorkTree(), "sub/a.txt");
