@@ -77,6 +77,12 @@ public class EolCanonicalizingInputStreamTest {
 		test(bytes, bytes);
 	}
 
+	@Test
+	public void testEmpty() throws IOException {
+		final byte[] bytes = asBytes("");
+		test(bytes, bytes);
+	}
+
 	private void test(byte[] input, byte[] expected) throws IOException {
 		final InputStream bis1 = new ByteArrayInputStream(input);
 		final InputStream cis1 = new EolCanonicalizingInputStream(bis1);

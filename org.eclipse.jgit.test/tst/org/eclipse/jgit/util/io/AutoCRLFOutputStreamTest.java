@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010, Marc Strapetz <marc.strapetz@syntevo.com>
+ * Copyright (C) 2011, Robin Rosenberg
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -43,100 +43,81 @@
 
 package org.eclipse.jgit.util.io;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 
-import org.eclipse.jgit.diff.RawText;
+import org.junit.Assert;
+import org.junit.Test;
 
-/**
- * An input stream which canonicalizes EOLs bytes on the fly to '\n', unless the
- * first 8000 bytes indicate the stream is binary.
- *
- * Note: Make sure to apply this InputStream only to text files!
- */
-public class EolCanonicalizingInputStream extends InputStream {
-	private final byte[] single = new byte[1];
+public class AutoCRLFOutputStreamTest {
 
-	private final byte[] buf = new byte[8096];
-
-	private final InputStream in;
-
-	private int cnt;
-
-	private int ptr;
-
-	private boolean isBinary;
-
-	private boolean modeDetected;
-
-	/**
-	 * Creates a new InputStream, wrapping the specified stream
-	 *
-	 * @param in
-	 *            raw input stream
-	 */
-	public EolCanonicalizingInputStream(InputStream in) {
-		this.in = in;
+	@Test
+	public void test() throws IOException {
+		assertNoCrLf("", "");
+		assertNoCrLf("\r", "\r");
+		assertNoCrLf("\r\n", "\n");
+		assertNoCrLf("\r\n", "\r\n");
+		assertNoCrLf("\r\r", "\r\r");
+		assertNoCrLf("\r\n\r", "\n\r");
+		assertNoCrLf("\r\n\r\r", "\r\n\r\r");
+		assertNoCrLf("\r\n\r\n", "\r\n\r\n");
+		assertNoCrLf("\r\n\r\n\r", "\n\r\n\r");
 	}
 
-	@Override
-	public int read() throws IOException {
-		final int read = read(single, 0, 1);
-		return read == 1 ? single[0] & 0xff : -1;
+	private void assertNoCrLf(String string, String string2) throws IOException {
+		assertNoCrLfHelper(string, string2);
+		// \u00e5 = LATIN SMALL LETTER A WITH RING ABOVE
+		// the byte value is negative
+		assertNoCrLfHelper("\u00e5" + string, "\u00e5" + string2);
+		assertNoCrLfHelper("\u00e5" + string + "\u00e5", "\u00e5" + string2
+				+ "\u00e5");
+		assertNoCrLfHelper(string + "\u00e5", string2 + "\u00e5");
 	}
 
-	@Override
-	public int read(byte[] bs, int off, int len) throws IOException {
-		if (len == 0)
-			return 0;
-
-		if (cnt == -1)
-			return -1;
-
-		final int startOff = off;
-		final int end = off + len;
-
-		while (off < end) {
-			if (ptr == cnt && !fillBuffer()) {
-				break;
+	private void assertNoCrLfHelper(String expect, String input)
+			throws IOException {
+		byte[] inbytes = input.getBytes();
+		byte[] expectBytes = expect.getBytes();
+		for (int i = 0; i < 5; ++i) {
+			byte[] buf = new byte[i];
+			InputStream in = new ByteArrayInputStream(inbytes);
+			ByteArrayOutputStream bos = new ByteArrayOutputStream();
+			OutputStream out = new AutoCRLFOutputStream(bos);
+			if (i > 0) {
+				int n;
+				while ((n = in.read(buf)) >= 0) {
+					out.write(buf, 0, n);
+				}
+			} else {
+				int c;
+				while ((c = in.read()) != -1)
+					out.write(c);
 			}
-
-			byte b = buf[ptr++];
-			if (isBinary || b != '\r') {
-				// Logic for binary files ends here
-				bs[off++] = b;
-				continue;
-			}
-
-			if (ptr == cnt && !fillBuffer()) {
-				bs[off++] = '\r';
-				break;
-			}
-
-			if (buf[ptr] == '\n') {
-				bs[off++] = '\n';
-				ptr++;
-			} else
-				bs[off++] = '\r';
+			out.flush();
+			in.close();
+			out.close();
+			byte[] actualBytes = bos.toByteArray();
+			Assert.assertEquals("bufsize=" + i, encode(expectBytes),
+					encode(actualBytes));
 		}
-
-		return startOff == off ? -1 : off - startOff;
 	}
 
-	@Override
-	public void close() throws IOException {
-		in.close();
-	}
-
-	private boolean fillBuffer() throws IOException {
-		cnt = in.read(buf, 0, buf.length);
-		if (cnt < 1)
-			return false;
-		if (!modeDetected) {
-			isBinary = RawText.isBinary(buf, cnt);
-			modeDetected = true;
+	String encode(byte[] in) {
+		StringBuilder str = new StringBuilder();
+		for (byte b : in) {
+			if (b < 32)
+				str.append(0xFF & b);
+			else {
+				str.append("'");
+				str.append((char) b);
+				str.append("'");
+			}
+			str.append(' ');
 		}
-		ptr = 0;
-		return true;
+		return str.toString();
 	}
+
 }
