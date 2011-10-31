@@ -86,7 +86,7 @@ public class DirCacheEntry {
 	/** The second tree revision (usually called "theirs"). */
 	public static final int STAGE_3 = 3;
 
-	// private static final int P_CTIME = 0;
+	private static final int P_CTIME = 0;
 
 	// private static final int P_CTIME_NSEC = 4;
 
@@ -477,6 +477,26 @@ public class DirCacheEntry {
 					, mode, getPathString()));
 		}
 		NB.encodeInt32(info, infoOffset + P_MODE, mode.getBits());
+	}
+
+	/**
+	 * Get the cached creation time of this file, in milliseconds.
+	 *
+	 * @return cached creation time of this file, in milliseconds since the
+	 *         Java epoch (midnight Jan 1, 1970 UTC).
+	 */
+	public long getCreationTime() {
+		return decodeTS(P_CTIME);
+	}
+
+	/**
+	 * Set the cached creation time of this file, using milliseconds.
+	 *
+	 * @param when
+	 *            new cached creation time of the file, in milliseconds.
+	 */
+	public void setCreationTime(final long when) {
+		encodeTS(P_CTIME, when);
 	}
 
 	/**
