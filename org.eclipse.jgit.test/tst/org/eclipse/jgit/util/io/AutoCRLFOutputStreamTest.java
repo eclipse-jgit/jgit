@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010, Marc Strapetz <marc.strapetz@syntevo.com>
+ * Copyright (C) 2011, Robin Rosenberg
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -43,81 +43,81 @@
 
 package org.eclipse.jgit.util.io;
 
-import static org.junit.Assert.assertEquals;
-
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
+import java.io.OutputStream;
 
+import org.junit.Assert;
 import org.junit.Test;
 
-public class EolCanonicalizingInputStreamTest {
+public class AutoCRLFOutputStreamTest {
 
 	@Test
-	public void testLF() throws IOException {
-		final byte[] bytes = asBytes("1\n2\n3");
-		test(bytes, bytes);
+	public void test() throws IOException {
+		assertNoCrLf("", "");
+		assertNoCrLf("\r", "\r");
+		assertNoCrLf("\r\n", "\n");
+		assertNoCrLf("\r\n", "\r\n");
+		assertNoCrLf("\r\r", "\r\r");
+		assertNoCrLf("\r\n\r", "\n\r");
+		assertNoCrLf("\r\n\r\r", "\r\n\r\r");
+		assertNoCrLf("\r\n\r\n", "\r\n\r\n");
+		assertNoCrLf("\r\n\r\n\r", "\n\r\n\r");
 	}
 
-	@Test
-	public void testCR() throws IOException {
-		final byte[] bytes = asBytes("1\r2\r3");
-		test(bytes, bytes);
+	private void assertNoCrLf(String string, String string2) throws IOException {
+		assertNoCrLfHelper(string, string2);
+		// \u00e5 = LATIN SMALL LETTER A WITH RING ABOVE
+		// the byte value is negative
+		assertNoCrLfHelper("\u00e5" + string, "\u00e5" + string2);
+		assertNoCrLfHelper("\u00e5" + string + "\u00e5", "\u00e5" + string2
+				+ "\u00e5");
+		assertNoCrLfHelper(string + "\u00e5", string2 + "\u00e5");
 	}
 
-	@Test
-	public void testCRLF() throws IOException {
-		test(asBytes("1\r\n2\r\n3"), asBytes("1\n2\n3"));
-	}
-
-	@Test
-	public void testLFCR() throws IOException {
-		final byte[] bytes = asBytes("1\n\r2\n\r3");
-		test(bytes, bytes);
-	}
-
-	@Test
-	public void testEmpty() throws IOException {
-		final byte[] bytes = asBytes("");
-		test(bytes, bytes);
-	}
-
-	private void test(byte[] input, byte[] expected) throws IOException {
-		final InputStream bis1 = new ByteArrayInputStream(input);
-		final InputStream cis1 = new EolCanonicalizingInputStream(bis1);
-		int index1 = 0;
-		for (int b = cis1.read(); b != -1; b = cis1.read()) {
-			assertEquals(expected[index1], (byte) b);
-			index1++;
-		}
-
-		assertEquals(expected.length, index1);
-
-		for (int bufferSize = 1; bufferSize < 10; bufferSize++) {
-			final byte[] buffer = new byte[bufferSize];
-			final InputStream bis2 = new ByteArrayInputStream(input);
-			final InputStream cis2 = new EolCanonicalizingInputStream(bis2);
-
-			int read = 0;
-			for (int readNow = cis2.read(buffer, 0, buffer.length); readNow != -1
-					&& read < expected.length; readNow = cis2.read(buffer, 0,
-					buffer.length)) {
-				for (int index2 = 0; index2 < readNow; index2++) {
-					assertEquals(expected[read + index2], buffer[index2]);
+	private void assertNoCrLfHelper(String expect, String input)
+			throws IOException {
+		byte[] inbytes = input.getBytes();
+		byte[] expectBytes = expect.getBytes();
+		for (int i = 0; i < 5; ++i) {
+			byte[] buf = new byte[i];
+			InputStream in = new ByteArrayInputStream(inbytes);
+			ByteArrayOutputStream bos = new ByteArrayOutputStream();
+			OutputStream out = new AutoCRLFOutputStream(bos);
+			if (i > 0) {
+				int n;
+				while ((n = in.read(buf)) >= 0) {
+					out.write(buf, 0, n);
 				}
-				read += readNow;
+			} else {
+				int c;
+				while ((c = in.read()) != -1)
+					out.write(c);
 			}
-
-			assertEquals(expected.length, read);
+			out.flush();
+			in.close();
+			out.close();
+			byte[] actualBytes = bos.toByteArray();
+			Assert.assertEquals("bufsize=" + i, encode(expectBytes),
+					encode(actualBytes));
 		}
 	}
 
-	private static byte[] asBytes(String in) {
-		try {
-			return in.getBytes("UTF-8");
-		} catch (UnsupportedEncodingException ex) {
-			throw new AssertionError();
+	String encode(byte[] in) {
+		StringBuilder str = new StringBuilder();
+		for (byte b : in) {
+			if (b < 32)
+				str.append(0xFF & b);
+			else {
+				str.append("'");
+				str.append((char) b);
+				str.append("'");
+			}
+			str.append(' ');
 		}
+		return str.toString();
 	}
+
 }
