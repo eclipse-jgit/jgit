@@ -245,6 +245,9 @@ public abstract class FS {
 	}
 
 	static File searchPath(final String path, final String... lookFor) {
+		if (path == null) {
+			return null;
+		}
 		for (final String p : path.split(File.pathSeparator)) {
 			for (String command : lookFor) {
 				final File e = new File(p, command);
