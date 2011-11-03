@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOBn///Ks\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Config.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1490,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-10-27T20:58:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOBn///Ng\u003d",
+      "revId": "7ecd8e4ececf6b61766c26e2a9cb7ca11a8cffe9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOBn///Nc\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Config.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2011-10-27T14:19:38Z",
       "side": 1,
       "message": "(optional) i wouldn\u0027t bother with the [] around the section.",
+      "revId": "7ecd8e4ececf6b61766c26e2a9cb7ca11a8cffe9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOBn///Ko\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Config.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1491,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-10-27T20:58:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOBn///Nc\u003d",
       "revId": "7ecd8e4ececf6b61766c26e2a9cb7ca11a8cffe9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
