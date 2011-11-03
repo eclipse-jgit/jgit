@@ -164,6 +164,13 @@ public class DfsPackDescription implements Comparable<DfsPackDescription> {
 		return this;
 	}
 
+	/**
+	 * @return size of the reverse index, in bytes.
+	 */
+	public int getReverseIndexSize() {
+		return (int) Math.min(objectCount * 8, Integer.MAX_VALUE);
+	}
+
 	/** @return number of objects in the pack. */
 	public long getObjectCount() {
 		return objectCount;
