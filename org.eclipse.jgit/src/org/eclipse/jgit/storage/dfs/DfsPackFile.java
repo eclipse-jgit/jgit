@@ -265,11 +265,9 @@ public final class DfsPackFile {
 					return revidx;
 			}
 
-			PackIndex fwdidx = idx(ctx);
-			PackReverseIndex revidx = new PackReverseIndex(fwdidx);
-			long objCnt = fwdidx.getObjectCount();
-			int sz = (int) Math.min(objCnt * 8, Integer.MAX_VALUE);
-			reverseIndex = cache.put(key, POS_REVERSE_INDEX, sz, revidx);
+			PackReverseIndex revidx = new PackReverseIndex(idx(ctx));
+			reverseIndex = cache.put(key, POS_REVERSE_INDEX,
+					packDesc.getReverseIndexSize(), revidx);
 			return revidx;
 		}
 	}
