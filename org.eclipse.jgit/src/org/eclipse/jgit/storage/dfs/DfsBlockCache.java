@@ -115,8 +115,13 @@ public final class DfsBlockCache {
 		DfsBlockCache oc = cache;
 		cache = nc;
 
-		if (oc != null && oc.readAheadService != null)
-			oc.readAheadService.shutdown();
+		if (oc != null) {
+			if (oc.readAheadService != null)
+				oc.readAheadService.shutdown();
+			for (DfsPackFile pack : oc.getPackFiles()) {
+				pack.key.cachedSize.set(0);
+			}
+		}
 	}
 
 	/** @return the currently active DfsBlockCache. */
@@ -345,6 +350,7 @@ public final class DfsBlockCache {
 				e2 = table.get(slot);
 			}
 
+			key.cachedSize.addAndGet(v.size());
 			Ref<DfsBlock> ref = new Ref<DfsBlock>(key, position, v.size(), v);
 			ref.hot = true;
 			for (;;) {
@@ -389,6 +395,7 @@ public final class DfsBlockCache {
 				dead.next = null;
 				dead.value = null;
 				live -= dead.size;
+				dead.pack.cachedSize.addAndGet(-dead.size);
 				statEvict++;
 			} while (maxBytes < live);
 			clockHand = prev;
@@ -436,6 +443,7 @@ public final class DfsBlockCache {
 				}
 			}
 
+			key.cachedSize.addAndGet(size);
 			ref = new Ref<T>(key, pos, size, v);
 			ref.hot = true;
 			for (;;) {
