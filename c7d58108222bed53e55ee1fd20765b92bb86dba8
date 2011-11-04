@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOCH///4s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/dfs/DfsRepositoryDescription.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2011-11-03T21:26:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOCH///5U\u003d",
+      "revId": "c7d58108222bed53e55ee1fd20765b92bb86dba8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOCH///5Q\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/dfs/DfsRepositoryDescription.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2011-11-03T21:20:17Z",
       "side": 1,
       "message": "Style-nit: This is hard to read. Maybe:\n\n  if (getRepositoryName() !\u003d null)\n    return getRepositoryName().hashCode();\n  return System.identityHashCode(this);",
+      "revId": "c7d58108222bed53e55ee1fd20765b92bb86dba8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOCH///4g\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/dfs/DfsRepositoryDescription.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2011-11-03T21:26:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOCH///5Q\u003d",
       "revId": "c7d58108222bed53e55ee1fd20765b92bb86dba8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
