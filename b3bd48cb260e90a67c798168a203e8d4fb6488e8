@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AABOCH///1E\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/dfs/DfsBlockCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-11-04T00:05:11Z",
+      "side": 1,
+      "message": "// We want to override the concurrencylevel only",
+      "revId": "b3bd48cb260e90a67c798168a203e8d4fb6488e8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOCH///0s\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/dfs/DfsBlockCache.java",
         "patchSetId": 2
