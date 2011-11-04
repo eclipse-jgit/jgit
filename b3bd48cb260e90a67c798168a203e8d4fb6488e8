@@ -1,0 +1,22 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOCH///0s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/dfs/DfsBlockCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-11-04T00:12:22Z",
+      "side": 1,
+      "message": "I\u0027m not sure this comment actually provides any value.",
+      "parentUuid": "AABOCH///1E\u003d",
+      "revId": "b3bd48cb260e90a67c798168a203e8d4fb6488e8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
