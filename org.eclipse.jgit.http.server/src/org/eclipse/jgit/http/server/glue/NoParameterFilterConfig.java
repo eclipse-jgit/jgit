@@ -43,58 +43,43 @@
 
 package org.eclipse.jgit.http.server.glue;
 
-import java.io.IOException;
-import java.text.MessageFormat;
+import java.util.Enumeration;
+import java.util.NoSuchElementException;
 
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
+import javax.servlet.ServletContext;
 
-import org.eclipse.jgit.http.server.HttpServerText;
+final class NoParameterFilterConfig implements FilterConfig {
+	private final String filterName;
 
-/**
- * Switch servlet path and path info to use another regex match group.
- * <p>
- * This filter is meant to be installed in the middle of a pipeline created by
- * {@link MetaServlet#serveRegex(String)}. The passed request's servlet path is
- * updated to be all text up to the start of the designated capture group, and
- * the path info is changed to the contents of the capture group.
- **/
-public class RegexGroupFilter implements Filter {
-	private final int groupIdx;
+	private final ServletContext context;
 
-	/**
-	 * @param groupIdx
-	 *            capture group number, 1 through the number of groups.
-	 */
-	public RegexGroupFilter(final int groupIdx) {
-		if (groupIdx < 1)
-			throw new IllegalArgumentException(MessageFormat.format(HttpServerText.get().invalidIndex, groupIdx));
-		this.groupIdx = groupIdx - 1;
+	NoParameterFilterConfig(String filterName, ServletContext context) {
+		this.filterName = filterName;
+		this.context = context;
 	}
 
-	public void init(FilterConfig config) throws ServletException {
-		// Do nothing.
+	public String getInitParameter(String name) {
+		return null;
 	}
 
-	public void destroy() {
-		// Do nothing.
+	public Enumeration getInitParameterNames() {
+		return new Enumeration<String>() {
+			public boolean hasMoreElements() {
+				return false;
+			}
+
+			public String nextElement() {
+				throw new NoSuchElementException();
+			}
+		};
 	}
 
-	public void doFilter(final ServletRequest request,
-			final ServletResponse rsp, final FilterChain chain)
-			throws IOException, ServletException {
-		final WrappedRequest[] g = groupsFor(request);
-		if (groupIdx < g.length)
-			chain.doFilter(g[groupIdx], rsp);
-		else
-			throw new ServletException(MessageFormat.format(HttpServerText.get().invalidRegexGroup, (groupIdx + 1)));
+	public ServletContext getServletContext() {
+		return context;
 	}
 
-	private static WrappedRequest[] groupsFor(final ServletRequest r) {
-		return (WrappedRequest[]) r.getAttribute(MetaFilter.REGEX_GROUPS);
+	public String getFilterName() {
+		return filterName;
 	}
 }

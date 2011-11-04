@@ -44,7 +44,7 @@
 package org.eclipse.jgit.http.server.glue;
 
 import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
-import static org.eclipse.jgit.http.server.glue.MetaServlet.REGEX_GROUPS;
+import static org.eclipse.jgit.http.server.glue.MetaFilter.REGEX_GROUPS;
 
 import java.io.IOException;
 import java.util.regex.Matcher;
@@ -64,7 +64,7 @@ import javax.servlet.http.HttpServletResponse;
  * <p>
  * If there are capture groups in the regular expression, the matched ranges of
  * the capture groups are stored as an array of modified HttpServetRequests,
- * into the request attribute {@link MetaServlet#REGEX_GROUPS}.
+ * into the request attribute {@link MetaFilter#REGEX_GROUPS}.
  * <p>
  * Each servlet request has been altered to have its {@code getPathInfo()}
  * method return the matched text of the corresponding capture group. A

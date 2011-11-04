@@ -50,7 +50,6 @@ import java.util.Set;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -111,31 +110,8 @@ abstract class UrlPipeline {
 			final ServletContext context, final Set<Object> inited)
 			throws ServletException {
 		if (!inited.contains(ref)) {
-			ref.init(new FilterConfig() {
-				public String getInitParameter(String name) {
-					return null;
-				}
-
-				public Enumeration getInitParameterNames() {
-					return new Enumeration<String>() {
-						public boolean hasMoreElements() {
-							return false;
-						}
-
-						public String nextElement() {
-							throw new NoSuchElementException();
-						}
-					};
-				}
-
-				public ServletContext getServletContext() {
-					return context;
-				}
-
-				public String getFilterName() {
-					return ref.getClass().getName();
-				}
-			});
+			ref.init(new NoParameterFilterConfig(ref.getClass().getName(),
+					context));
 			inited.add(ref);
 		}
 	}
