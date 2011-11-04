@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AABOBX//+v8\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/FileTreeIteratorTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2011-10-08T03:02:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOBX//+wo\u003d",
+      "revId": "974c8f192d376090cd2621613e0d48aa2d3d8936",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOBX//+wg\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/FileTreeIteratorTest.java",
         "patchSetId": 9
@@ -275,6 +293,24 @@
       "writtenOn": "2011-10-08T01:57:23Z",
       "side": 1,
       "message": "Use the current FS, not the detected one.",
+      "revId": "974c8f192d376090cd2621613e0d48aa2d3d8936",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOBX//+vg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2011-10-08T03:02:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOBX//+ws\u003d",
       "revId": "974c8f192d376090cd2621613e0d48aa2d3d8936",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
