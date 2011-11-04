@@ -321,6 +321,22 @@ public class URIishTest {
 	}
 
 	@Test
+	public void testSshProtoWithADUserPassAndPort() throws Exception {
+		final String str = "ssh://DOMAIN\\user:pass@example.com:33/some/p ath";
+		URIish u = new URIish(str);
+		assertEquals("ssh", u.getScheme());
+		assertTrue(u.isRemote());
+		assertEquals("/some/p ath", u.getPath());
+		assertEquals("example.com", u.getHost());
+		assertEquals("DOMAIN\\user", u.getUser());
+		assertEquals("pass", u.getPass());
+		assertEquals(33, u.getPort());
+		assertEquals(str, u.toPrivateString());
+		assertEquals(u.setPass(null).toPrivateString(), u.toString());
+		assertEquals(u, new URIish(str));
+	}
+
+	@Test
 	public void testGitWithUserHome() throws Exception {
 		final String str = "git://example.com/~some/p ath";
 		URIish u = new URIish(str);
@@ -581,5 +597,55 @@ public class URIishTest {
 		final String incorrectSshUrl = "ssh://some-host:/path/to/repository.git";
 		URIish u = new URIish(incorrectSshUrl);
 		assertFalse(TransportGitSsh.PROTO_SSH.canHandle(u));
+	}
+
+	@Test
+	public void testALot() throws URISyntaxException {
+		// user pass host port path
+		// 1 2 3 4 5
+		String[][] tests = {
+				new String[] { "%1$s://%2$s:%3$s@%4$s:%5$s/%6$s", "%1$s",
+						"%2$s", "%3$s", "%4$s", "%5$s", "%6$s" },
+				new String[] { "%1$s://%2$s@%4$s:%5$s/%6$s", "%1$s", "%2$s",
+						null, "%4$s", "%5$s", "%6$s" },
+				new String[] { "%1$s://%2$s@%4$s/%6$s", "%1$s", "%2$s", null,
+						"%4$s", null, "%6$s" },
+				new String[] { "%1$s://%4$s/%6$s", "%1$s", null, null, "%4$s",
+						null, "%6$s" }, };
+		String[] schemes = new String[] { "ssh", "ssh+git", "http", "https" };
+		String[] users = new String[] { "me", "l usr\\example.com",
+				"lusr\\example" };
+		String[] passes = new String[] { "wtf", };
+		String[] hosts = new String[] { "example.com", "1.2.3.4" };
+		String[] ports = new String[] { "1234", "80" };
+		String[] paths = new String[] { "/", "/abc", "D:/x", "D:\\x" };
+		for (String[] test : tests) {
+			String fmt = test[0];
+			for (String scheme : schemes) {
+				for (String user : users) {
+					for (String pass : passes) {
+						for (String host : hosts) {
+							for (String port : ports) {
+								for (String path : paths) {
+									String url = String.format(fmt, scheme,
+											user, pass, host, port, path);
+									String[] expect = new String[test.length];
+									for (int i = 1; i < expect.length; ++i)
+										if (test[i] != null)
+											expect[i] = String.format(test[i],
+													scheme, user, pass, host,
+													port, path);
+									URIish urIish = new URIish(url);
+									assertEquals(url, expect[1],
+											urIish.getScheme());
+									assertEquals(url, expect[2],
+											urIish.getUser());
+								}
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 }
