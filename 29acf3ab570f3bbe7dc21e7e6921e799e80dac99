@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOB3///Sg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-11-03T07:10:31Z",
+      "side": 1,
+      "message": "style nit: we don\u0027t use curly braces around single line blocks",
+      "revId": "29acf3ab570f3bbe7dc21e7e6921e799e80dac99",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
