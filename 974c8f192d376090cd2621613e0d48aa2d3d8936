@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOBX//+wA\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/FileTreeIteratorTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2011-10-08T03:02:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOBX//+wk\u003d",
+      "revId": "974c8f192d376090cd2621613e0d48aa2d3d8936",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOBX//+wo\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/FileTreeIteratorTest.java",
         "patchSetId": 9
@@ -53,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "AABOBX//+v4\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/FileTreeIteratorTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2011-10-08T03:02:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOBX//+wg\u003d",
+      "revId": "974c8f192d376090cd2621613e0d48aa2d3d8936",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOBX//+wc\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/FileTreeIteratorTest.java",
         "patchSetId": 9
@@ -64,6 +100,24 @@
       "writtenOn": "2011-10-08T01:57:23Z",
       "side": 1,
       "message": "You should also assert that workTreeIter has an id of zeroid.",
+      "revId": "974c8f192d376090cd2621613e0d48aa2d3d8936",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOBX//+v0\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/FileTreeIteratorTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2011-10-08T03:02:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOBX//+wc\u003d",
       "revId": "974c8f192d376090cd2621613e0d48aa2d3d8936",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -87,6 +141,24 @@
     },
     {
       "key": {
+        "uuid": "AABOBX//+vw\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/FileTreeIteratorTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2011-10-08T03:02:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOBX//+wY\u003d",
+      "revId": "974c8f192d376090cd2621613e0d48aa2d3d8936",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOBX//+wU\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/FileTreeIteratorTest.java",
         "patchSetId": 9
@@ -98,6 +170,24 @@
       "writtenOn": "2011-10-08T01:57:23Z",
       "side": 1,
       "message": "Please add a test for a submodule in a deep path, e.g. a module at \"a/b/c\" and not just at the top level.",
+      "revId": "974c8f192d376090cd2621613e0d48aa2d3d8936",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOBX//+vs\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/treewalk/FileTreeIteratorTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2011-10-08T03:02:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOBX//+wU\u003d",
       "revId": "974c8f192d376090cd2621613e0d48aa2d3d8936",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -121,6 +211,24 @@
     },
     {
       "key": {
+        "uuid": "AABOBX//+vo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2011-10-08T03:02:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOBX//+w4\u003d",
+      "revId": "974c8f192d376090cd2621613e0d48aa2d3d8936",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOBX//+w0\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
         "patchSetId": 9
@@ -132,6 +240,24 @@
       "writtenOn": "2011-10-08T01:57:23Z",
       "side": 1,
       "message": "style-nit: You can chain this call:\n\n  Repository git \u003d new FileRepositoryBuilder()\n    .setMustExist(true)\n    .setFS(getFS())\n    .setGitDir(submoduleGitDir)\n    .build();\n  try {\n    head \u003d git.resolve(Constants.HEAD);\n  } finally {\n    git.close();\n  }",
+      "revId": "974c8f192d376090cd2621613e0d48aa2d3d8936",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOBX//+vk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2011-10-08T03:02:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOBX//+w0\u003d",
       "revId": "974c8f192d376090cd2621613e0d48aa2d3d8936",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -166,6 +292,24 @@
       "writtenOn": "2011-10-08T01:57:23Z",
       "side": 1,
       "message": "The Repository object must be closed.",
+      "revId": "974c8f192d376090cd2621613e0d48aa2d3d8936",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOBX//+vc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2011-10-08T03:02:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOBX//+ww\u003d",
       "revId": "974c8f192d376090cd2621613e0d48aa2d3d8936",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
