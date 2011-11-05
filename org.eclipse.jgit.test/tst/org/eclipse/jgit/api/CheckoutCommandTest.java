@@ -103,38 +103,25 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testSimpleCheckout() {
-		try {
-			git.checkout().setName("test").call();
-		} catch (Exception e) {
-			fail(e.getMessage());
-		}
+	public void testSimpleCheckout() throws Exception {
+		git.checkout().setName("test").call();
 	}
 
 	@Test
-	public void testCheckout() {
-		try {
-			git.checkout().setName("test").call();
-			assertEquals("[Test.txt, mode:100644, content:Some change]",
-					indexState(CONTENT));
-			Ref result = git.checkout().setName("master").call();
-			assertEquals("[Test.txt, mode:100644, content:Hello world]",
-					indexState(CONTENT));
-			assertEquals("refs/heads/master", result.getName());
-			assertEquals("refs/heads/master", git.getRepository()
-					.getFullBranch());
-		} catch (Exception e) {
-			fail(e.getMessage());
-		}
+	public void testCheckout() throws Exception {
+		git.checkout().setName("test").call();
+		assertEquals("[Test.txt, mode:100644, content:Some change]",
+				indexState(CONTENT));
+		Ref result = git.checkout().setName("master").call();
+		assertEquals("[Test.txt, mode:100644, content:Hello world]",
+				indexState(CONTENT));
+		assertEquals("refs/heads/master", result.getName());
+		assertEquals("refs/heads/master", git.getRepository().getFullBranch());
 	}
 
 	@Test
-	public void testCreateBranchOnCheckout() throws IOException {
-		try {
-			git.checkout().setCreateBranch(true).setName("test2").call();
-		} catch (Exception e) {
-			fail(e.getMessage());
-		}
+	public void testCreateBranchOnCheckout() throws Exception {
+		git.checkout().setCreateBranch(true).setName("test2").call();
 		assertNotNull(db.getRef("test2"));
 	}
 
@@ -200,45 +187,36 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testCheckoutCommit() {
-		try {
-			Ref result = git.checkout().setName(initialCommit.name()).call();
-			assertEquals("[Test.txt, mode:100644, content:Hello world]",
-					indexState(CONTENT));
-			assertNull(result);
-			assertEquals(initialCommit.name(), git.getRepository()
-					.getFullBranch());
-		} catch (Exception e) {
-			fail(e.getMessage());
-		}
+	public void testCheckoutCommit() throws Exception {
+		Ref result = git.checkout().setName(initialCommit.name()).call();
+		assertEquals("[Test.txt, mode:100644, content:Hello world]",
+				indexState(CONTENT));
+		assertNull(result);
+		assertEquals(initialCommit.name(), git.getRepository().getFullBranch());
 	}
 
 	@Test
-	public void testCheckoutRemoteTrackingWithoutLocalBranch() {
-		try {
-			// create second repository
-			Repository db2 = createWorkRepository();
-			Git git2 = new Git(db2);
+	public void testCheckoutRemoteTrackingWithoutLocalBranch() throws Exception {
+		// create second repository
+		Repository db2 = createWorkRepository();
+		Git git2 = new Git(db2);
 
-			// setup the second repository to fetch from the first repository
-			final StoredConfig config = db2.getConfig();
-			RemoteConfig remoteConfig = new RemoteConfig(config, "origin");
-			URIish uri = new URIish(db.getDirectory().toURI().toURL());
-			remoteConfig.addURI(uri);
-			remoteConfig.update(config);
-			config.save();
+		// setup the second repository to fetch from the first repository
+		final StoredConfig config = db2.getConfig();
+		RemoteConfig remoteConfig = new RemoteConfig(config, "origin");
+		URIish uri = new URIish(db.getDirectory().toURI().toURL());
+		remoteConfig.addURI(uri);
+		remoteConfig.update(config);
+		config.save();
 
-			// fetch from first repository
-			RefSpec spec = new RefSpec("+refs/heads/*:refs/remotes/origin/*");
-			git2.fetch().setRemote("origin").setRefSpecs(spec).call();
-			// checkout remote tracking branch in second repository
-			// (no local branches exist yet in second repository)
-			git2.checkout().setName("remotes/origin/test").call();
-			assertEquals("[Test.txt, mode:100644, content:Some change]",
-					indexState(db2, CONTENT));
-		} catch (Exception e) {
-			fail(e.getMessage());
-		}
+		// fetch from first repository
+		RefSpec spec = new RefSpec("+refs/heads/*:refs/remotes/origin/*");
+		git2.fetch().setRemote("origin").setRefSpecs(spec).call();
+		// checkout remote tracking branch in second repository
+		// (no local branches exist yet in second repository)
+		git2.checkout().setName("remotes/origin/test").call();
+		assertEquals("[Test.txt, mode:100644, content:Some change]",
+				indexState(db2, CONTENT));
 	}
 
 	@Test
