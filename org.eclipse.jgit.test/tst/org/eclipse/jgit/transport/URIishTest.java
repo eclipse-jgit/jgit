@@ -144,7 +144,7 @@ public class URIishTest {
 		assertEquals("file", u.getScheme());
 		assertFalse(u.isRemote());
 		assertEquals("/home/m y", u.getPath());
-		assertEquals(str, u.toString());
+		assertEquals("file:///home/m%20y", u.toString());
 		assertEquals(u, new URIish(str));
 	}
 
@@ -155,7 +155,7 @@ public class URIishTest {
 		assertEquals("file", u.getScheme());
 		assertFalse(u.isRemote());
 		assertEquals("D:/m y", u.getPath());
-		assertEquals(str, u.toString());
+		assertEquals("file:///D:/m%20y", u.toString());
 		assertEquals(u, new URIish(str));
 	}
 
@@ -167,7 +167,7 @@ public class URIishTest {
 		assertTrue(u.isRemote());
 		assertEquals("example.com", u.getHost());
 		assertEquals("/home/m y", u.getPath());
-		assertEquals(str, u.toString());
+		assertEquals("git://example.com/home/m%20y", u.toString());
 		assertEquals(u, new URIish(str));
 	}
 
@@ -180,7 +180,7 @@ public class URIishTest {
 		assertEquals("example.com", u.getHost());
 		assertEquals("/home/m y", u.getPath());
 		assertEquals(333, u.getPort());
-		assertEquals(str, u.toString());
+		assertEquals("git://example.com:333/home/m%20y", u.toString());
 		assertEquals(u, new URIish(str));
 	}
 
@@ -193,7 +193,7 @@ public class URIishTest {
 		assertEquals("D:/m y", u.getPath());
 		assertEquals(338, u.getPort());
 		assertEquals("example.com", u.getHost());
-		assertEquals(str, u.toString());
+		assertEquals("git://example.com:338/D:/m%20y", u.toString());
 		assertEquals(u, new URIish(str));
 	}
 
@@ -206,7 +206,7 @@ public class URIishTest {
 		assertEquals("D:/m y", u.getPath());
 		assertEquals("example.com", u.getHost());
 		assertEquals(-1, u.getPort());
-		assertEquals(str, u.toString());
+		assertEquals("git://example.com/D:/m%20y", u.toString());
 		assertEquals(u, new URIish(str));
 	}
 
@@ -259,7 +259,7 @@ public class URIishTest {
 		assertEquals("/some/p ath", u.getPath());
 		assertEquals("example.com", u.getHost());
 		assertEquals(-1, u.getPort());
-		assertEquals(str, u.toString());
+		assertEquals("git+ssh://example.com/some/p%20ath", u.toString());
 		assertEquals(u, new URIish(str));
 	}
 
@@ -272,7 +272,7 @@ public class URIishTest {
 		assertEquals("/some/p ath", u.getPath());
 		assertEquals("example.com", u.getHost());
 		assertEquals(-1, u.getPort());
-		assertEquals(str, u.toString());
+		assertEquals("ssh+git://example.com/some/p%20ath", u.toString());
 		assertEquals(u, new URIish(str));
 	}
 
@@ -285,7 +285,7 @@ public class URIishTest {
 		assertEquals("/some/p ath", u.getPath());
 		assertEquals("example.com", u.getHost());
 		assertEquals(-1, u.getPort());
-		assertEquals(str, u.toString());
+		assertEquals("ssh://example.com/some/p%20ath", u.toString());
 		assertEquals(u, new URIish(str));
 	}
 
@@ -300,7 +300,7 @@ public class URIishTest {
 		assertEquals("user", u.getUser());
 		assertNull(u.getPass());
 		assertEquals(33, u.getPort());
-		assertEquals(str, u.toString());
+		assertEquals("ssh://user@example.com:33/some/p%20ath", u.toString());
 		assertEquals(u, new URIish(str));
 	}
 
@@ -315,7 +315,8 @@ public class URIishTest {
 		assertEquals("user", u.getUser());
 		assertEquals("pass", u.getPass());
 		assertEquals(33, u.getPort());
-		assertEquals(str, u.toPrivateString());
+		assertEquals("ssh://user:pass@example.com:33/some/p%20ath",
+				u.toPrivateString());
 		assertEquals(u.setPass(null).toPrivateString(), u.toString());
 		assertEquals(u, new URIish(str));
 	}
@@ -331,7 +332,43 @@ public class URIishTest {
 		assertEquals("DOMAIN\\user", u.getUser());
 		assertEquals("pass", u.getPass());
 		assertEquals(33, u.getPort());
-		assertEquals(str, u.toPrivateString());
+		assertEquals("ssh://DOMAIN\\user:pass@example.com:33/some/p%20ath",
+				u.toPrivateString());
+		assertEquals(u.setPass(null).toPrivateString(), u.toString());
+		assertEquals(u, new URIish(str));
+	}
+
+	@Test
+	public void testSshProtoWithEscapedADUserPassAndPort() throws Exception {
+		final String str = "ssh://DOMAIN%5cuser:pass@example.com:33/some/p ath";
+		URIish u = new URIish(str);
+		assertEquals("ssh", u.getScheme());
+		assertTrue(u.isRemote());
+		assertEquals("/some/p ath", u.getPath());
+		assertEquals("example.com", u.getHost());
+		assertEquals("DOMAIN\\user", u.getUser());
+		assertEquals("pass", u.getPass());
+		assertEquals(33, u.getPort());
+		assertEquals("ssh://DOMAIN\\user:pass@example.com:33/some/p%20ath",
+				u.toPrivateString());
+		assertEquals(u.setPass(null).toPrivateString(), u.toString());
+		assertEquals(u, new URIish(str));
+	}
+
+	@Test
+	public void testURIEncodeDecode() throws Exception {
+		final String str = "ssh://%3ax%25:%40%41x@example.com:33/some%c3%a5/p%20a th";
+		URIish u = new URIish(str);
+		assertEquals("ssh", u.getScheme());
+		assertTrue(u.isRemote());
+		assertEquals("/some\u00e5/p a th", u.getPath());
+		assertEquals("example.com", u.getHost());
+		assertEquals(":x%", u.getUser());
+		assertEquals("@Ax", u.getPass());
+		assertEquals(33, u.getPort());
+		assertEquals(
+				"ssh://%3ax%25:%40Ax@example.com:33/some%c3%a5/p%20a%20th",
+				u.toPrivateString());
 		assertEquals(u.setPass(null).toPrivateString(), u.toString());
 		assertEquals(u, new URIish(str));
 	}
@@ -347,7 +384,7 @@ public class URIishTest {
 		assertNull(u.getUser());
 		assertNull(u.getPass());
 		assertEquals(-1, u.getPort());
-		assertEquals(str, u.toPrivateString());
+		assertEquals("git://example.com/~some/p%20ath", u.toPrivateString());
 		assertEquals(u.setPass(null).toPrivateString(), u.toString());
 		assertEquals(u, new URIish(str));
 	}
