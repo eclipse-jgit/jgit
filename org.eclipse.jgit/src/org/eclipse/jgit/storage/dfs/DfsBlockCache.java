@@ -389,36 +389,39 @@ public final class DfsBlockCache {
 	@SuppressWarnings("unchecked")
 	private void reserveSpace(int reserve) {
 		clockLock.lock();
-		long live = liveBytes + reserve;
-		if (maxBytes < live) {
-			Ref prev = clockHand;
-			Ref hand = clockHand.next;
-			do {
-				if (hand.hot) {
-					// Value was recently touched. Clear
-					// hot and give it another chance.
-					hand.hot = false;
-					prev = hand;
-					hand = hand.next;
-					continue;
-				} else if (prev == hand)
-					break;
+		try {
+			long live = liveBytes + reserve;
+			if (maxBytes < live) {
+				Ref prev = clockHand;
+				Ref hand = clockHand.next;
+				do {
+					if (hand.hot) {
+						// Value was recently touched. Clear
+						// hot and give it another chance.
+						hand.hot = false;
+						prev = hand;
+						hand = hand.next;
+						continue;
+					} else if (prev == hand)
+						break;
 
-				// No recent access since last scan, kill
-				// value and remove from clock.
-				Ref dead = hand;
-				hand = hand.next;
-				prev.next = hand;
-				dead.next = null;
-				dead.value = null;
-				live -= dead.size;
-				dead.pack.cachedSize.addAndGet(-dead.size);
-				statEvict++;
-			} while (maxBytes < live);
-			clockHand = prev;
+					// No recent access since last scan, kill
+					// value and remove from clock.
+					Ref dead = hand;
+					hand = hand.next;
+					prev.next = hand;
+					dead.next = null;
+					dead.value = null;
+					live -= dead.size;
+					dead.pack.cachedSize.addAndGet(-dead.size);
+					statEvict++;
+				} while (maxBytes < live);
+				clockHand = prev;
+			}
+			liveBytes = live;
+		} finally {
+			clockLock.unlock();
 		}
-		liveBytes = live;
-		clockLock.unlock();
 	}
 
 	private void creditSpace(int credit) {
@@ -429,13 +432,16 @@ public final class DfsBlockCache {
 
 	private void addToClock(Ref ref, int credit) {
 		clockLock.lock();
-		if (credit != 0)
-			liveBytes -= credit;
-		Ref ptr = clockHand;
-		ref.next = ptr.next;
-		ptr.next = ref;
-		clockHand = ref;
-		clockLock.unlock();
+		try {
+			if (credit != 0)
+				liveBytes -= credit;
+			Ref ptr = clockHand;
+			ref.next = ptr.next;
+			ptr.next = ref;
+			clockHand = ref;
+		} finally {
+			clockLock.unlock();
+		}
 	}
 
 	void put(DfsBlock v) {
