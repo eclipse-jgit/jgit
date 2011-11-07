@@ -54,6 +54,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import org.eclipse.jgit.util.IO;
+import org.eclipse.jgit.util.Logger;
 
 final class ReadAheadTask implements Callable<Void> {
 	private final DfsBlockCache cache;
@@ -103,6 +104,9 @@ final class ReadAheadTask implements Callable<Void> {
 			}
 		} catch (IOException err) {
 			// Ignore read-ahead errors. These will be caught later on.
+			Logger.warning("DFS ReadAheadTask", err);
+		} catch (Throwable err) {
+			Logger.warning("DFS ReadAheadTask", err);
 		} finally {
 			for (; idx < futures.size(); idx++)
 				futures.get(idx).abort();
