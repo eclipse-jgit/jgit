@@ -68,7 +68,8 @@ import org.eclipse.jgit.transport.Transport;
  *      href="http://www.kernel.org/pub/software/scm/git/docs/git-ls-remote.html"
  *      >Git documentation about ls-remote</a>
  */
-public class LsRemoteCommand extends GitCommand<Collection<Ref>> {
+public class LsRemoteCommand extends
+		TransportCommand<LsRemoteCommand, Collection<Ref>> {
 
 	private String remote = Constants.DEFAULT_REMOTE_NAME;
 
@@ -133,6 +134,7 @@ public class LsRemoteCommand extends GitCommand<Collection<Ref>> {
 		try {
 			Transport transport = Transport.open(repo, remote);
 			transport.setOptionUploadPack(uploadPack);
+			configure(transport);
 
 			try {
 				Collection<RefSpec> refSpecs = new ArrayList<RefSpec>(1);
