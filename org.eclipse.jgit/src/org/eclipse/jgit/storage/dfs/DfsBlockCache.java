@@ -206,7 +206,7 @@ public final class DfsBlockCache {
 		blockSizeShift = Integer.numberOfTrailingZeros(blockSize);
 
 		clockLock = new ReentrantLock(true /* fair */);
-		clockHand = new Ref<Object>(null, -1, 0, null);
+		clockHand = new Ref<Object>(new DfsPackKey(), -1, 0, null);
 		clockHand.next = clockHand;
 
 		readAheadLimit = cfg.getReadAheadLimit();
