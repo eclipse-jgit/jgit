@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOBn///vQ\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/DirCacheCheckoutTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 874,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-10-20T06:45:58Z",
+      "side": 1,
+      "message": "It was not correct,  it was indented two tabs too much. The\nnew indentation is the correct one. Unfortunately I also\nre-formatted the wrongly indented part, hence the different\nline-breaks and whitespace changes.",
+      "parentUuid": "AABOBn///v0\u003d",
+      "revId": "94459b6ada0a0ead2cfce352a655910e94ac2edb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOBn///o0\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/DirCacheCheckoutTest.java",
         "patchSetId": 4
