@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOBn///o4\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/DirCacheCheckoutTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 432,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-10-21T07:02:56Z",
+      "side": 1,
+      "message": "Half of the table is indented purely with spaces (up to case 10), cases 11-17 use tabs only, and 18-19 use a mixture. I sugguest to use pure spaces here.",
+      "revId": "5339928aa281903caaad731d8341b60ed192ab9d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
