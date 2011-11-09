@@ -16,6 +16,24 @@
       "revId": "8ffd3803eef470132f7308a38ff85d2c8443bb76",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOCH///fk\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/DirCacheCheckoutTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-11-08T21:15:46Z",
+      "side": 1,
+      "message": "Uh, yes. It does not matter for the test, but it does look strange :)\nDone",
+      "parentUuid": "AABOCH///ns\u003d",
+      "revId": "8ffd3803eef470132f7308a38ff85d2c8443bb76",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
