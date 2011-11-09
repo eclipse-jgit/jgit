@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "AABOBn///1Q\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 820,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-10-17T21:22:12Z",
+      "side": 0,
+      "message": "Again, not sure. Anyone using it now sees the deprecated warnings because you cannot use the method without using the deprecated type.",
+      "parentUuid": "AABOBn///2c\u003d",
+      "revId": "a66dea14514b3edcf636a814ea61adddb8ba97b1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOBn///2Y\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/TreeEntry.java",
         "patchSetId": 2
