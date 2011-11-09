@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOBn///2Q\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/DirCacheCheckoutTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-10-17T14:49:44Z",
+      "side": 1,
+      "message": "That code doesn\u0027t compile with JDK 1.5. String.getBytes(Charset) came with 1.6.\nI was wondering why Hudson was letting this through - but our hudson builds are also configured to run with 1.6",
+      "revId": "72c1c6abc353cdca3d46372171ab89858e1f2aa6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
