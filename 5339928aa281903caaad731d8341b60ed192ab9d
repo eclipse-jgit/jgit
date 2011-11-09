@@ -34,6 +34,24 @@
       "revId": "5339928aa281903caaad731d8341b60ed192ab9d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOB3///Ts\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/DirCacheCheckoutTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 432,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-11-04T00:16:36Z",
+      "side": 1,
+      "message": "Pushed the cleanup as a separate patch",
+      "parentUuid": "AABOB3///ys\u003d",
+      "revId": "5339928aa281903caaad731d8341b60ed192ab9d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
