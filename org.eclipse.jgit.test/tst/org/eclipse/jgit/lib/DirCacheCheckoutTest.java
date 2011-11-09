@@ -63,6 +63,7 @@ import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheCheckout;
 import org.eclipse.jgit.dircache.DirCacheEditor;
 import org.eclipse.jgit.dircache.DirCacheEntry;
+import org.eclipse.jgit.dircache.DirCacheEditor.PathEdit;
 import org.eclipse.jgit.errors.CheckoutConflictException;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.NoWorkTreeException;
@@ -73,15 +74,15 @@ import org.junit.Test;
 
 public class DirCacheCheckoutTest extends RepositoryTestCase {
 	private DirCacheCheckout dco;
-	protected Tree theHead;
-	protected Tree theMerge;
+	protected ObjectId theHead;
+	protected ObjectId theMerge;
 	private DirCache dirCache;
 
-	private void prescanTwoTrees(Tree head, Tree merge)
+	private void prescanTwoTrees(ObjectId head, ObjectId merge)
 			throws IllegalStateException, IOException {
 		DirCache dc = db.lockDirCache();
 		try {
-			dco = new DirCacheCheckout(db, head.getId(), dc, merge.getId());
+			dco = new DirCacheCheckout(db, head, dc, merge);
 			dco.preScanTwoTrees();
 		} finally {
 			dc.unlock();
@@ -91,7 +92,7 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 	private void checkout() throws IOException {
 		DirCache dc = db.lockDirCache();
 		try {
-			dco = new DirCacheCheckout(db, theHead.getId(), dc, theMerge.getId());
+			dco = new DirCacheCheckout(db, theHead, dc, theMerge);
 			dco.checkout();
 		} finally {
 			dc.unlock();
@@ -239,10 +240,11 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 
 	@Test
 	public void testRules1thru3_NoIndexEntry() throws IOException {
-		Tree head = new Tree(db);
-		head = buildTree(mk("foo"));
-		ObjectId objectId = head.findBlobMember("foo").getId();
-		Tree merge = new Tree(db);
+		ObjectId head = buildTree(mk("foo"));
+		TreeWalk tw = TreeWalk.forPath(db, "foo", head);
+		ObjectId objectId = tw.getObjectId(0);
+		ObjectId merge = db.newObjectInserter().insert(Constants.OBJ_TREE,
+				new byte[0]);
 
 		prescanTwoTrees(head, merge);
 
@@ -253,7 +255,8 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 		assertEquals(objectId, getUpdated().get("foo"));
 
 		merge = buildTree(mkmap("foo", "a"));
-		ObjectId anotherId = merge.findBlobMember("foo").getId();
+		tw = TreeWalk.forPath(db, "foo", merge);
+		ObjectId anotherId = tw.getObjectId(0);
 
 		prescanTwoTrees(head, merge);
 
@@ -291,28 +294,41 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 
 	}
 
-	private Tree buildTree(HashMap<String, String> headEntries) throws IOException {
-		Tree tree = new Tree(db);
-		if (headEntries == null)
-			return tree;
-		FileTreeEntry fileEntry;
-		Tree parent;
-		ObjectInserter oi = db.newObjectInserter();
-		try {
-			for (java.util.Map.Entry<String, String> e : headEntries.entrySet()) {
-				fileEntry = tree.addFile(e.getKey());
-				fileEntry.setId(genSha1(e.getValue()));
-				parent = fileEntry.getParent();
-				while (parent != null) {
-					parent.setId(oi.insert(Constants.OBJ_TREE, parent.format()));
-					parent = parent.getParent();
-				}
-			}
-			oi.flush();
-		} finally {
-			oi.release();
+	static final class AddEdit extends PathEdit {
+
+		private final ObjectId data;
+
+		private final long length;
+
+		public AddEdit(String entryPath, ObjectId data, long length) {
+			super(entryPath);
+			this.data = data;
+			this.length = length;
 		}
-		return tree;
+
+		@Override
+		public void apply(DirCacheEntry ent) {
+			ent.setFileMode(FileMode.REGULAR_FILE);
+			ent.setLength(length);
+			ent.setObjectId(data);
+		}
+
+	}
+
+	private ObjectId buildTree(HashMap<String, String> headEntries)
+			throws IOException {
+		DirCache lockDirCache = DirCache.newInCore();
+		// assertTrue(lockDirCache.lock());
+		DirCacheEditor editor = lockDirCache.editor();
+		if (headEntries != null) {
+			for (java.util.Map.Entry<String, String> e : headEntries.entrySet()) {
+				AddEdit addEdit = new AddEdit(e.getKey(),
+						genSha1(e.getValue()), e.getValue().length());
+				editor.add(addEdit);
+			}
+		}
+		editor.finish();
+		return lockDirCache.writeTree(db.newObjectInserter());
 	}
 
 	ObjectId genSha1(String data) {
@@ -463,8 +479,8 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 	 */
 	@Test
 	public void testDirectoryFileSimple() throws IOException {
-		Tree treeDF = buildTree(mkmap("DF", "DF"));
-		Tree treeDFDF = buildTree(mkmap("DF/DF", "DF/DF"));
+		ObjectId treeDF = buildTree(mkmap("DF", "DF"));
+		ObjectId treeDFDF = buildTree(mkmap("DF/DF", "DF/DF"));
 		buildIndex(mkmap("DF", "DF"));
 
 		prescanTwoTrees(treeDF, treeDFDF);
