@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOBn///2g\u003d",
+        "filename": "org.eclipse.jgit.test/exttst/org/eclipse/jgit/lib/T0007_GitIndexTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-10-17T14:15:52Z",
+      "side": 0,
+      "message": "Why do you throw away these tests? Shouldn\u0027t we have the same tests for DirCacheCheckout?",
+      "revId": "a66dea14514b3edcf636a814ea61adddb8ba97b1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOBn///2c\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 820,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-10-17T14:15:52Z",
+      "side": 0,
+      "message": "Can we really do this? That\u0027s an severe API change and will break many users of Repository.java. I know, the class GitIndex is marked is deprecated for a long time now ... but can we remove deprecated code belonging to our API inside a release - or do we have to wait for the next major release.",
+      "revId": "a66dea14514b3edcf636a814ea61adddb8ba97b1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOBn///2Y\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/TreeEntry.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-10-17T14:15:52Z",
+      "side": 0,
+      "message": "Again: are we allowed to remove public methods inside a release?",
+      "revId": "a66dea14514b3edcf636a814ea61adddb8ba97b1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
