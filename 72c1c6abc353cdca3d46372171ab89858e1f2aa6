@@ -16,6 +16,24 @@
       "revId": "72c1c6abc353cdca3d46372171ab89858e1f2aa6",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOBn///y4\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/DirCacheCheckoutTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-10-18T17:55:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOBn///2Q\u003d",
+      "revId": "72c1c6abc353cdca3d46372171ab89858e1f2aa6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
