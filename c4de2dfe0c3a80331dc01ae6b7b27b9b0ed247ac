@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOBn///JA\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/blame/BlameGeneratorTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-10-27T22:14:57Z",
+      "side": 1,
+      "message": "remove commented out code",
+      "revId": "c4de2dfe0c3a80331dc01ae6b7b27b9b0ed247ac",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
