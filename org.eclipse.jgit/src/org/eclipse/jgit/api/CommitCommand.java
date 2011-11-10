@@ -333,8 +333,12 @@ public class CommitCommand extends GitCommand<RevCommit> {
 				boolean tracked = dcTree != null || hTree != null;
 				if (!tracked)
 					break;
-
-				if (fTree != null) {
+				boolean untrack = fTree != null && hTree != null
+						&& dcTree == null;
+				if (untrack)
+					// this is a change
+					emptyCommit = false;
+				else if (fTree != null) {
 					// create a new DirCacheEntry with data retrieved from disk
 					final DirCacheEntry dcEntry = new DirCacheEntry(path);
 					long entryLength = fTree.getEntryLength();
