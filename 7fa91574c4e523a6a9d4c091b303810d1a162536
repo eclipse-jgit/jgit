@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOBn///Vk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/IndexDiff.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-10-25T22:11:38Z",
+      "side": 1,
+      "message": "this change breaks a couple of tests since they do not expect a set",
+      "revId": "7fa91574c4e523a6a9d4c091b303810d1a162536",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
