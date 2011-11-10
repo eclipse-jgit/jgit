@@ -49,6 +49,7 @@ import static org.eclipse.jgit.storage.pack.StoredObjectRepresentation.PACK_WHOL
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.lang.ref.WeakReference;
 import java.security.MessageDigest;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -62,7 +63,9 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
@@ -141,6 +144,50 @@ import org.eclipse.jgit.util.TemporaryBuffer;
 public class PackWriter {
 	private static final int PACK_VERSION_GENERATED = 2;
 
+	private static final Map<WeakReference<PackWriter>, Boolean> instances =
+			new ConcurrentHashMap<WeakReference<PackWriter>, Boolean>();
+
+	private static final Iterable<PackWriter> instancesIterable = new Iterable<PackWriter>() {
+		public Iterator<PackWriter> iterator() {
+			return new Iterator<PackWriter>() {
+				private final Iterator<WeakReference<PackWriter>> it =
+						instances.keySet().iterator();
+				private PackWriter next;
+
+				public boolean hasNext() {
+					if (next != null)
+						return true;
+					while (it.hasNext()) {
+						WeakReference<PackWriter> ref = it.next();
+						next = ref.get();
+						if (next != null)
+							return true;
+						it.remove();
+					}
+					return false;
+				}
+
+				public PackWriter next() {
+					if (hasNext()) {
+						PackWriter result = next;
+						next = null;
+						return result;
+					}
+					throw new NoSuchElementException();
+				}
+
+				public void remove() {
+					throw new UnsupportedOperationException();
+				}
+			};
+		}
+	};
+
+	/** @return all allocated, non-released PackWriters instances. */
+	public static Iterable<PackWriter> getInstances() {
+		return instancesIterable;
+	}
+
 	@SuppressWarnings("unchecked")
 	private final BlockList<ObjectToPack> objectsLists[] = new BlockList[Constants.OBJ_TAG + 1];
 	{
@@ -175,6 +222,8 @@ public class PackWriter {
 	private final Statistics stats;
 
 	private final MutableState state;
+
+	private final WeakReference<PackWriter> selfRef;
 
 	private Statistics.ObjectType typeStats;
 
@@ -269,6 +318,8 @@ public class PackWriter {
 		reuseValidate = true; // be paranoid by default
 		stats = new Statistics();
 		state = new MutableState();
+		selfRef = new WeakReference<PackWriter>(this);
+		instances.put(selfRef, Boolean.TRUE);
 	}
 
 	/**
@@ -901,6 +952,7 @@ public class PackWriter {
 			myDeflater.end();
 			myDeflater = null;
 		}
+		instances.remove(selfRef);
 	}
 
 	private void searchForReuse(ProgressMonitor monitor) throws IOException {
