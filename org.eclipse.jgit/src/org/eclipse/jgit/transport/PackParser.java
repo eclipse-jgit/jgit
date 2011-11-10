@@ -61,6 +61,7 @@ import java.util.zip.Inflater;
 import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.errors.TooLargeObjectInPackException;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.BatchingProgressMonitor;
 import org.eclipse.jgit.lib.Constants;
@@ -179,6 +180,9 @@ public abstract class PackParser {
 
 	/** Message to protect the pack data from garbage collection. */
 	private String lockMessage;
+
+	/** Git object size limit */
+	private long maxObjectSizeLimit;
 
 	/**
 	 * Initialize a pack parser.
@@ -363,6 +367,19 @@ public abstract class PackParser {
 	 */
 	public void setLockMessage(String msg) {
 		lockMessage = msg;
+	}
+
+	/**
+	 * Set the maximum allowed Git object size.
+	 * <p>
+	 * If an object is larger than the given size the pack-parsing will throw an
+	 * exception aborting the parsing.
+	 *
+	 * @param limit
+	 *            the Git object size limit. If zero then there is not limit.
+	 */
+	public void setMaxObjectSizeLimit(long limit) {
+		maxObjectSizeLimit = limit;
 	}
 
 	/**
@@ -584,8 +601,11 @@ public abstract class PackParser {
 						JGitText.get().unknownObjectType, info.type));
 			}
 
-			visit.data = BinaryDelta.apply(visit.parent.data, //
-					inflateAndReturn(Source.DATABASE, info.size));
+			byte[] delta = inflateAndReturn(Source.DATABASE, info.size);
+			checkIfTooLarge(BinaryDelta.getResultSize(delta));
+
+			visit.data = BinaryDelta.apply(visit.parent.data, delta);
+			delta = null;
 
 			if (!checkCRC(visit.delta.crc))
 				throw new IOException(MessageFormat.format(
@@ -611,6 +631,12 @@ public abstract class PackParser {
 			visit.nextChild = firstChildOf(oe);
 			visit = visit.next();
 		} while (visit != null);
+	}
+
+	private final void checkIfTooLarge(long size) throws IOException {
+		if (0 < maxObjectSizeLimit && maxObjectSizeLimit < size) {
+			throw new TooLargeObjectInPackException();
+		}
 	}
 
 	/**
@@ -880,6 +906,7 @@ public abstract class PackParser {
 			final long base = streamPosition - ofs;
 			onBeginOfsDelta(streamPosition, base, sz);
 			onObjectHeader(Source.INPUT, hdrBuf, 0, hdrPtr);
+			checkIfTooLarge(sz);
 			inflateAndSkip(Source.INPUT, sz);
 			UnresolvedDelta n = onEndDelta();
 			n.position = streamPosition;
@@ -901,6 +928,7 @@ public abstract class PackParser {
 			}
 			onBeginRefDelta(streamPosition, base, sz);
 			onObjectHeader(Source.INPUT, hdrBuf, 0, hdrPtr);
+			checkIfTooLarge(sz);
 			inflateAndSkip(Source.INPUT, sz);
 			UnresolvedDelta n = onEndDelta();
 			n.position = streamPosition;
@@ -917,6 +945,7 @@ public abstract class PackParser {
 
 	private void whole(final long pos, final int type, final long sz)
 			throws IOException {
+		checkIfTooLarge(sz);
 		objectDigest.update(Constants.encodedTypeString(type));
 		objectDigest.update((byte) ' ');
 		objectDigest.update(Constants.encodeASCII(sz));
