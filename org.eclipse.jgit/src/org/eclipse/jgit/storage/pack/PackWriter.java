@@ -2139,14 +2139,45 @@ public class PackWriter {
 	}
 
 	private class MutableState {
+		/** Estimated size of a single ObjectToPack instance. */
+		// Assume 64-bit pointers, since this is just an estimate.
+		private static final long OBJECT_TO_PACK_SIZE =
+				(2 * 8)               // Object header
+				+ (2 * 8) + (2 * 8)   // ObjectToPack fields
+				+ (8 + 8)             // PackedObjectInfo fields
+				+ 8                   // ObjectIdOwnerMap fields
+				+ 40                  // AnyObjectId fields
+				+ 8;                  // Reference in BlockList
+
+		private final long totalDeltaSearchBytes;
+
 		private volatile PackingPhase phase;
 
 		MutableState() {
 			phase = PackingPhase.COUNTING;
+			if (config.isDeltaCompress()) {
+				int threads = config.getThreads();
+				if (threads <= 0)
+					threads = Runtime.getRuntime().availableProcessors();
+				totalDeltaSearchBytes = (threads * config.getDeltaSearchMemoryLimit())
+						+ config.getBigFileThreshold();
+			} else
+				totalDeltaSearchBytes = 0;
 		}
 
 		State snapshot() {
-			return new State(phase);
+			long objCnt = 0;
+			objCnt += objectsLists[Constants.OBJ_COMMIT].size();
+			objCnt += objectsLists[Constants.OBJ_TREE].size();
+			objCnt += objectsLists[Constants.OBJ_BLOB].size();
+			objCnt += objectsLists[Constants.OBJ_TAG].size();
+			// Exclude CachedPacks.
+
+			long bytesUsed = OBJECT_TO_PACK_SIZE * objCnt;
+			PackingPhase curr = phase;
+			if (curr == PackingPhase.COMPRESSING)
+				bytesUsed += totalDeltaSearchBytes;
+			return new State(curr, bytesUsed);
 		}
 	}
 
@@ -2172,8 +2203,11 @@ public class PackWriter {
 	public class State {
 		private final PackingPhase phase;
 
-		State(PackingPhase phase) {
+		private final long bytesUsed;
+
+		State(PackingPhase phase, long bytesUsed) {
 			this.phase = phase;
+			this.bytesUsed = bytesUsed;
 		}
 
 		/** @return the PackConfig used to build the writer. */
@@ -2186,9 +2220,14 @@ public class PackWriter {
 			return phase;
 		}
 
+		/** @return an estimate of the total memory used by the writer. */
+		public long estimateBytesUsed() {
+			return bytesUsed;
+		}
+
 		@Override
 		public String toString() {
-			return "PackWriter.State[" + phase + "]";
+			return "PackWriter.State[" + phase + ", memory=" + bytesUsed + "]";
 		}
 	}
 }
