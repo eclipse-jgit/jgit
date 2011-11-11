@@ -620,6 +620,16 @@ public class DirCacheEntry {
 	}
 
 	/**
+	 * Use for debugging only !
+	 */
+	@Override
+	public String toString() {
+		return getFileMode() + " " + getLength() + " " + getLastModified()
+				+ " " + getObjectId() + " " + getStage() + " "
+				+ getPathString() + "\n";
+	}
+
+	/**
 	 * Copy the ObjectId and other meta fields from an existing entry.
 	 * <p>
 	 * This method copies everything except the path from one entry to another,
