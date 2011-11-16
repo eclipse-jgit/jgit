@@ -45,4 +45,11 @@
        <Class name="org.eclipse.jgit.util.TemporaryBuffer$BlockInputStream" />
        <Bug pattern="UR_UNINIT_READ" />
      </Match>
+
+     <!-- Silence returning null for Boolean return type -->
+     <Match>
+       <Class name="org.eclipse.jgit.util.StringUtils" />
+       <Method name="toBooleanOrNull" />
+       <Bug pattern="NP_BOOLEAN_RETURN_NULL" />
+     </Match>
 </FindBugsFilter>
