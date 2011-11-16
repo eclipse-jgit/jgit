@@ -204,7 +204,7 @@ public class PackParserTest extends RepositoryTestCase {
 			fail("Pack with trailing garbage was accepted");
 		} catch (IOException err) {
 			assertEquals(
-					MessageFormat.format(JGitText.get().expectedEOFReceived, "\\x73"),
+					MessageFormat.format(JGitText.get().expectedEOFReceived, "\\x7e"),
 					err.getMessage());
 		}
 	}
