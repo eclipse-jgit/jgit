@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AABOCH///a4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/Logger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-11-09T09:29:15Z",
+      "side": 1,
+      "message": "I was struggeling a little bit to find out how a higher layer would make use of the Logger. I now know how they should do it, but i suggest that you at one small test where somebody registers his own Destination implementation. This would make it clear for potential users how they should use this class.",
+      "revId": "d03c8e6e59531896c8c1e41ce81b81164fed2636",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOCH///Go\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/Logger.java",
         "patchSetId": 1
