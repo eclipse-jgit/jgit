@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOCH///Go\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/Logger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-11-12T12:55:04Z",
+      "side": 1,
+      "message": "style nit: no braces around single line blocks",
+      "revId": "d03c8e6e59531896c8c1e41ce81b81164fed2636",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
