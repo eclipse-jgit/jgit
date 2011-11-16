@@ -444,38 +444,31 @@ final class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 			return;
 		}
 
-		int packIndex = 0;
-		DfsPackFile packLast = packList[packIndex];
-
+		int objectCount = 0;
 		int updated = 0;
 		int posted = 0;
 		List<DfsObjectRepresentation> all = new BlockList<DfsObjectRepresentation>();
 		for (ObjectToPack otp : objects) {
-			long p = packLast.findOffset(this, otp);
-			if (p < 0) {
-				int skip = packIndex;
-				for (packIndex = 0; packIndex < packList.length; packIndex++) {
-					if (skip == packIndex)
-						continue;
-					packLast = packList[packIndex];
-					p = packLast.findOffset(this, otp);
-					if (0 < p)
-						break;
+			boolean found = false;
+			for (int packIndex = 0; packIndex < packList.length; packIndex++) {
+				DfsPackFile pack = packList[packIndex];
+				long p = pack.findOffset(this, otp);
+				if (0 < p) {
+					DfsObjectRepresentation r = new DfsObjectRepresentation(otp);
+					r.pack = pack;
+					r.packIndex = packIndex;
+					r.offset = p;
+					all.add(r);
+					found = true;
 				}
-				if (packIndex == packList.length)
-					throw new MissingObjectException(otp, otp.getType());
 			}
-
-			DfsObjectRepresentation r = new DfsObjectRepresentation(otp);
-			r.pack = packLast;
-			r.packIndex = packIndex;
-			r.offset = p;
-			all.add(r);
-
+			if (!found)
+				throw new MissingObjectException(otp, otp.getType());
 			if ((++updated & 1) == 1) {
 				monitor.update(1); // Update by 50%, the other 50% is below.
 				posted++;
 			}
+			objectCount++;
 		}
 		Collections.sort(all, REPRESENTATION_SORT);
 
@@ -484,7 +477,7 @@ final class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 			for (DfsObjectRepresentation r : all) {
 				r.pack.representation(this, r);
 				packer.select(r.object, r);
-				if ((++updated & 1) == 1) {
+				if ((++updated & 1) == 1 && posted < objectCount) {
 					monitor.update(1);
 					posted++;
 				}
@@ -492,8 +485,8 @@ final class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 		} finally {
 			cancelReadAhead();
 		}
-		if (posted < all.size())
-			monitor.update(all.size() - posted);
+		if (posted < objectCount)
+			monitor.update(objectCount - posted);
 	}
 
 	public void copyObjectAsIs(PackOutputStream out, ObjectToPack otp,
