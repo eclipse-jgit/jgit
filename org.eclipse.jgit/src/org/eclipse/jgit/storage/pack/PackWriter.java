@@ -1396,10 +1396,10 @@ public class PackWriter {
 		otp.setCRC(out.getCRC32());
 	}
 
-	private void writeBase(PackOutputStream out, ObjectToPack baseInPack)
+	private void writeBase(PackOutputStream out, ObjectToPack base)
 			throws IOException {
-		if (baseInPack != null && !baseInPack.isWritten())
-			writeObjectImpl(out, baseInPack);
+		if (base != null && !base.isWritten() && !base.isEdge())
+			writeObjectImpl(out, base);
 	}
 
 	private void writeWholeObjectDeflate(PackOutputStream out,
