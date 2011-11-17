@@ -1041,12 +1041,11 @@ public class PackWriter {
 		try {
 			final long limit = config.getBigFileThreshold();
 			for (;;) {
-				monitor.update(1);
-
 				try {
 					if (!sizeQueue.next())
 						break;
 				} catch (MissingObjectException notFound) {
+					monitor.update(1);
 					if (ignoreMissingUninteresting) {
 						ObjectToPack otp = sizeQueue.getCurrent();
 						if (otp != null && otp.isEdge()) {
@@ -1076,6 +1075,7 @@ public class PackWriter {
 
 				else
 					otp.setWeight((int) sz);
+				monitor.update(1);
 			}
 		} finally {
 			sizeQueue.release();
