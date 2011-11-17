@@ -799,7 +799,7 @@ public class PackWriter {
 	}
 
 	private void beginPhase(PackingPhase phase, ProgressMonitor monitor,
-			int cnt) {
+			long cnt) {
 		state.phase = phase;
 		String task;
 		switch (phase) {
@@ -822,7 +822,7 @@ public class PackWriter {
 			throw new IllegalArgumentException(
 					MessageFormat.format(JGitText.get().illegalPackingPhase, phase));
 		}
-		monitor.beginTask(task, cnt);
+		monitor.beginTask(task, (int) cnt);
 	}
 
 	private void endPhase(ProgressMonitor monitor) {
@@ -888,7 +888,7 @@ public class PackWriter {
 
 		long objCnt = getObjectCount();
 		stats.totalObjects = objCnt;
-		beginPhase(PackingPhase.WRITING, writeMonitor, (int) objCnt);
+		beginPhase(PackingPhase.WRITING, writeMonitor, objCnt);
 		long writeStart = System.currentTimeMillis();
 
 		out.writeFileHeader(PACK_VERSION_GENERATED, objCnt);
@@ -956,7 +956,7 @@ public class PackWriter {
 	}
 
 	private void searchForReuse(ProgressMonitor monitor) throws IOException {
-		int cnt = 0;
+		long cnt = 0;
 		cnt += objectsLists[Constants.OBJ_COMMIT].size();
 		cnt += objectsLists[Constants.OBJ_TREE].size();
 		cnt += objectsLists[Constants.OBJ_BLOB].size();
