@@ -688,7 +688,7 @@ final class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 		for (;;) {
 			dstoff = block.inflate(inf, position, dstbuf, dstoff);
 
-			if (headerOnly & dstoff == dstbuf.length)
+			if (headerOnly && dstoff == dstbuf.length)
 				return dstoff;
 			if (inf.needsInput()) {
 				position += block.remaining(position);
