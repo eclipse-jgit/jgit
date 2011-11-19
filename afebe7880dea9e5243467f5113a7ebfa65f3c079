@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOCX///ns\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-11-18T21:04:33Z",
+      "side": 1,
+      "message": "Really? Is this always the case? I guess we can change the code to be \u0026\u0026 over \u0026, I just find it interesting that findBugs is this insistent that \u0026\u0026 is faster.",
+      "revId": "afebe7880dea9e5243467f5113a7ebfa65f3c079",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
