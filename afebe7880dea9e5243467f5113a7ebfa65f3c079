@@ -16,6 +16,24 @@
       "revId": "afebe7880dea9e5243467f5113a7ebfa65f3c079",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOCX///bo\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-11-19T03:56:00Z",
+      "side": 1,
+      "message": "As I understand \u0026 can be faster sometimes since modern processors can evaluate both in parallell. But I think that in this case it can choose the right thing regardless of how it\u0027s written (there is no work involved in evaluating a simple boolean).\n\nI think we should use the short-circuit syntax unless we know the other is better in order to confuse people less and avoid strang messages from findbugs.",
+      "parentUuid": "AABOCX///ns\u003d",
+      "revId": "afebe7880dea9e5243467f5113a7ebfa65f3c079",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
