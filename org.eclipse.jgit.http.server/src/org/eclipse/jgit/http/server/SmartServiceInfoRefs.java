@@ -44,8 +44,9 @@
 package org.eclipse.jgit.http.server;
 
 import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
-import static javax.servlet.http.HttpServletResponse.SC_SERVICE_UNAVAILABLE;
 import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
+import static org.eclipse.jgit.http.server.GitSmartHttpTools.infoRefsResultType;
+import static org.eclipse.jgit.http.server.GitSmartHttpTools.sendError;
 import static org.eclipse.jgit.http.server.ServletUtils.ATTRIBUTE_HANDLER;
 import static org.eclipse.jgit.http.server.ServletUtils.getRepository;
 
@@ -90,17 +91,17 @@ abstract class SmartServiceInfoRefs implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain chain) throws IOException, ServletException {
 		final HttpServletRequest req = (HttpServletRequest) request;
-		final HttpServletResponse rsp = (HttpServletResponse) response;
+		final HttpServletResponse res = (HttpServletResponse) response;
 
 		if (svc.equals(req.getParameter("service"))) {
 			final Repository db = getRepository(req);
 			try {
 				begin(req, db);
 			} catch (ServiceNotAuthorizedException e) {
-				rsp.sendError(SC_UNAUTHORIZED);
+				res.sendError(SC_UNAUTHORIZED);
 				return;
 			} catch (ServiceNotEnabledException e) {
-				rsp.sendError(SC_FORBIDDEN);
+				sendError(req, res, SC_FORBIDDEN);
 				return;
 			}
 
@@ -120,10 +121,10 @@ abstract class SmartServiceInfoRefs implements Filter {
 	private void service(ServletRequest request, ServletResponse response)
 			throws IOException {
 		final HttpServletRequest req = (HttpServletRequest) request;
-		final HttpServletResponse rsp = (HttpServletResponse) response;
-		final SmartOutputStream buf = new SmartOutputStream(req, rsp);
+		final HttpServletResponse res = (HttpServletResponse) response;
+		final SmartOutputStream buf = new SmartOutputStream(req, res);
 		try {
-			rsp.setContentType("application/x-" + svc + "-advertisement");
+			res.setContentType(infoRefsResultType(svc));
 
 			final PacketLineOut out = new PacketLineOut(buf);
 			out.writeString("# service=" + svc + "\n");
@@ -131,16 +132,16 @@ abstract class SmartServiceInfoRefs implements Filter {
 			advertise(req, new PacketLineOutRefAdvertiser(out));
 			buf.close();
 		} catch (ServiceNotAuthorizedException e) {
-			rsp.sendError(SC_UNAUTHORIZED);
+			res.sendError(SC_UNAUTHORIZED);
 
 		} catch (ServiceNotEnabledException e) {
-			rsp.sendError(SC_FORBIDDEN);
+			sendError(req, res, SC_FORBIDDEN);
 
 		} catch (UploadPackMayNotContinueException e) {
 			if (e.isOutput())
 				buf.close();
 			else
-				rsp.sendError(SC_SERVICE_UNAVAILABLE);
+				sendError(req, res, SC_FORBIDDEN, e.getMessage());
 		}
 	}
 

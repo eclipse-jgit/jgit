@@ -65,6 +65,7 @@ public class HttpServerText extends TranslationBundle {
 	/***/ public String filterMustNotBeNull;
 	/***/ public String internalErrorDuringReceivePack;
 	/***/ public String internalErrorDuringUploadPack;
+	/***/ public String internalServerError;
 	/***/ public String internalServerErrorRequestAttributeWasAlreadySet;
 	/***/ public String invalidBoolean;
 	/***/ public String invalidIndex;
