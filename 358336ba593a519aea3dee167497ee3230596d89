@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "AABOCX///nE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PackParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 604,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2011-11-18T22:26:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOCX///pA\u003d",
+      "revId": "358336ba593a519aea3dee167497ee3230596d89",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOCX///pE\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PackParser.java",
         "patchSetId": 3
@@ -47,6 +65,24 @@
       "writtenOn": "2011-11-18T19:33:37Z",
       "side": 1,
       "message": "I would add a check here and in OBJ_REF_DELTA. If the delta instruction size \"sz\" is larger than maxObjectSizeLimit, I would abort. That is a massive instruction stream that you do not want the server to attempt to process. Unfortunately you cannot get a SHA-1 at this point in time, because the delta cannot be inflated. But this max object size limit is about protecting the server repository from large garbage sent by a user, so we should abort earlier rather than later on an input.",
+      "revId": "358336ba593a519aea3dee167497ee3230596d89",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOCX///mU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PackParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 899,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2011-11-18T22:26:48Z",
+      "side": 1,
+      "message": "done before the inflateAndSkip.\nIf I understood you right we should even try to avoid inflating a delta block whose inflated size exceeds the maxObjectSizeLimit.\n\nSince we are also adding the same check in OBJ_REF_DELTA and also at the beginning of the \"whole\" method I wonder if it is not even better to just check the \"sz\" before the switch statement:\n\n checkIfTooLarge(sz);\n switch (typeCode) {\n ...\n\nDoes it make sense?",
+      "parentUuid": "AABOCX///pE\u003d",
       "revId": "358336ba593a519aea3dee167497ee3230596d89",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -87,6 +123,24 @@
     },
     {
       "key": {
+        "uuid": "AABOCX///mI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PackParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 943,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2011-11-18T22:26:48Z",
+      "side": 1,
+      "message": "I gave up reporting the SHA1 back to the user. It is too expensive.",
+      "parentUuid": "AABOCX///pQ\u003d",
+      "revId": "358336ba593a519aea3dee167497ee3230596d89",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOCX///pM\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PackParser.java",
         "patchSetId": 3
@@ -115,6 +169,24 @@
       "writtenOn": "2011-11-18T19:33:37Z",
       "side": 1,
       "message": "This is far too late to be performing the check. You have already committed JVM heap memory to hold the entire object in memory. It really decreases the value of this max size feature.",
+      "revId": "358336ba593a519aea3dee167497ee3230596d89",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOCX///mA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PackParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 980,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2011-11-18T22:26:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOCX///pY\u003d",
       "revId": "358336ba593a519aea3dee167497ee3230596d89",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
