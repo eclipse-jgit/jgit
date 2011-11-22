@@ -220,6 +220,27 @@ public class PullCommandTest extends RepositoryTestCase {
 				.getRepositoryState());
 	}
 
+	@Test
+	public void testPullWithRemoteName() throws Exception {
+		StoredConfig targetConfig = dbTarget.getConfig();
+		RemoteConfig config = new RemoteConfig(targetConfig, "explicit");
+		config.addURI(new URIish(source.getRepository().getWorkTree().getPath()));
+		config.addFetchRefSpec(new RefSpec(
+				"+refs/heads/*:refs/remotes/explicit/*"));
+		config.update(targetConfig);
+		targetConfig.save();
+		PullResult res = target.pull().setRemote("explicit").call();
+		assertEquals("explicit", res.getFetchedFrom());
+	}
+
+	@Test
+	public void testPullWithRemoteUri() throws Exception {
+		String remote = source.getRepository().getWorkTree().getPath();
+		PullResult res = target.pull().setRemote(remote).add(Constants.MASTER)
+				.call();
+		assertEquals(remote, res.getFetchedFrom());
+	}
+
 	@Override
 	@Before
 	public void setUp() throws Exception {
