@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOCX///cU\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-11-19T00:25:28Z",
+      "side": 1,
+      "message": "Its not known for certain, but it is highly probable that a delta instruction sequence larger than the max size will result in an result object larger than the max size. An evil user could create a delta instruction sequence that produced a smaller result than the delta is, which is evil, but isn\u0027t that harmful to the server. A more typical user would only use a delta sequence if it was smaller than the result object, as generally a delta is only chosen if the delta can copy more data from the base object than the delta needs to insert or needs to represent the copy ranges.\n\nSo, yes, if a delta was bigger than your limit, its pretty certain the result will be too big to accept.",
+      "revId": "9b38231f0f92aeb485f28fba6ef7d4100ea4a285",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOCX///cQ\u003d",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/JGitText.properties",
+        "patchSetId": 4
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-11-19T00:25:28Z",
+      "side": 1,
+      "message": "Or we should at least report the size the user gave us that we are refusing.",
+      "parentUuid": "AABOCX///i4\u003d",
+      "revId": "9b38231f0f92aeb485f28fba6ef7d4100ea4a285",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOCX///cI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/errors/TooLargeObjectInPackException.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-11-19T00:25:28Z",
+      "side": 1,
+      "message": "Missing copyright header.",
+      "revId": "9b38231f0f92aeb485f28fba6ef7d4100ea4a285",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOCX///cA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PackParser.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 638,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-11-19T00:25:28Z",
+      "side": 1,
+      "message": "Maybe include the size parameter in the exception?",
+      "revId": "9b38231f0f92aeb485f28fba6ef7d4100ea4a285",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOCX///b8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PackParser.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 948,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-11-19T00:25:28Z",
+      "side": 1,
+      "message": "If we aren\u0027t going to compute the SHA-1, just do this when the object header is parsed and then its only 1 insertion, rather than 3 (whole, OBJ_OFS_DELTA, OBJ_REF_DELTA).",
+      "revId": "9b38231f0f92aeb485f28fba6ef7d4100ea4a285",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
