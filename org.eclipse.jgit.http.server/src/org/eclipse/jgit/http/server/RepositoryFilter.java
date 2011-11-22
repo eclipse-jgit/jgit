@@ -122,12 +122,12 @@ public class RepositoryFilter implements Filter {
 		final HttpServletRequest req = (HttpServletRequest) request;
 
 		String name = req.getPathInfo();
+		while (name != null && 0 < name.length() && name.charAt(0) == '/')
+			name = name.substring(1);
 		if (name == null || name.length() == 0) {
 			((HttpServletResponse) rsp).sendError(SC_NOT_FOUND);
 			return;
 		}
-		if (name.startsWith("/"))
-			name = name.substring(1);
 
 		final Repository db;
 		try {
