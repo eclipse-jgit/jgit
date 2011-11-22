@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOCX///qQ\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2011-11-18T16:50:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOCX///rc\u003d",
+      "revId": "344a051790040c5327dc4aeb4bd5139f10d82d8a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOCX///rY\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PackParser.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2011-11-18T15:24:09Z",
       "side": 1,
       "message": "Maybe this deserves its own exception type to help applications which want to handle this case in a special way.\n\nText should be externalized and also using MessageFormat for proper formatting in case this gets translated.",
+      "revId": "344a051790040c5327dc4aeb4bd5139f10d82d8a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOCX///qY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PackParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 981,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2011-11-18T16:50:58Z",
+      "side": 1,
+      "message": "Text is externalized in patch-set 2.\n\nOwn exception class could make sense.",
+      "parentUuid": "AABOCX///rY\u003d",
       "revId": "344a051790040c5327dc4aeb4bd5139f10d82d8a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
