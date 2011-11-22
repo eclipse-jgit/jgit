@@ -46,6 +46,7 @@ import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.api.errors.JGitInternalException;
@@ -55,6 +56,7 @@ import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -211,6 +213,26 @@ public class LogCommand extends GitCommand<Iterable<RevCommit>> {
 			throws MissingObjectException, IncorrectObjectTypeException,
 			JGitInternalException {
 		return not(since).add(until);
+	}
+
+	/**
+	 * Add all refs under 'refs/' as commits to start the graph traversal from.
+	 * 
+	 * @see #add(AnyObjectId)
+	 * @return {@code this}
+	 * @throws IOException
+	 *             the references could not be accessed
+	 */
+	public LogCommand all() throws IOException {
+		Map<String, Ref> refs = getRepository().getRefDatabase().getRefs(
+				Constants.R_REFS);
+		for (Ref ref : refs.values()) {
+			ObjectId objectId = ref.getPeeledObjectId();
+			if (objectId == null)
+				objectId = ref.getObjectId();
+			add(objectId);
+		}
+		return this;
 	}
 
 	/**
