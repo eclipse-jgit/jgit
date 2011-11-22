@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "AABOCX///i4\u003d",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/JGitText.properties",
+        "patchSetId": 4
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-11-18T22:37:26Z",
+      "side": 1,
+      "message": "maybe we should report the max allowed length so that the user has an idea what size is accepted by the administrator",
+      "revId": "9b38231f0f92aeb485f28fba6ef7d4100ea4a285",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOCX///cQ\u003d",
         "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/JGitText.properties",
         "patchSetId": 4
@@ -48,6 +65,40 @@
       "writtenOn": "2011-11-19T00:25:28Z",
       "side": 1,
       "message": "Missing copyright header.",
+      "revId": "9b38231f0f92aeb485f28fba6ef7d4100ea4a285",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOCX///jA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/errors/TooLargeObjectInPackException.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-11-18T22:37:26Z",
+      "side": 1,
+      "message": "style nit: unnecessary second blank line",
+      "revId": "9b38231f0f92aeb485f28fba6ef7d4100ea4a285",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOCX///i8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PackParser.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 637,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-11-18T22:37:26Z",
+      "side": 1,
+      "message": "style nit: no braces around single line block",
       "revId": "9b38231f0f92aeb485f28fba6ef7d4100ea4a285",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
