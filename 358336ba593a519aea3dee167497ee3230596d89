@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOCX///pI\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-11-18T19:33:37Z",
+      "side": 1,
+      "message": "I would argue it is wrong to include the object header as part of the size of the object. Its never included in the size of an object when we talk about the size of an object in Git. So what you have done is correct.",
+      "revId": "358336ba593a519aea3dee167497ee3230596d89",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOCX///pA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PackParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 604,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-11-18T19:33:37Z",
+      "side": 1,
+      "message": "Take this 2nd argument and pull it into a new temporary byte[]. It is the inflated delta instruction sequence.\n\nUse BinaryDelta to get the size of the result. Test it against the max object limit, if the result is going to be too big, abort before you allocate the result or you apply the delta command sequence.\n\nAfter you get visit.data created by apply(), null out that temporary byte[] so its garbage and can be reclaimed.",
+      "revId": "358336ba593a519aea3dee167497ee3230596d89",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOCX///pE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PackParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 899,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-11-18T19:33:37Z",
+      "side": 1,
+      "message": "I would add a check here and in OBJ_REF_DELTA. If the delta instruction size \"sz\" is larger than maxObjectSizeLimit, I would abort. That is a massive instruction stream that you do not want the server to attempt to process. Unfortunately you cannot get a SHA-1 at this point in time, because the delta cannot be inflated. But this max object size limit is about protecting the server repository from large garbage sent by a user, so we should abort earlier rather than later on an input.",
+      "revId": "358336ba593a519aea3dee167497ee3230596d89",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOCX///pU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PackParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 934,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-11-18T19:33:37Z",
+      "side": 1,
+      "message": "Put a max object size check at the start of this method, before we update objectDigest, using the sz parameter. This will allow you to catch any object that is in the pack file in \"whole\" representation before we commit to allocating the buffer for it, or even computing its SHA-1.\n\nThe downside is you cannot tell the user what the SHA-1 is of the huge object. I would argue we shouldn\u0027t try, its expensive to inflate and compute the SHA-1 of something that is really big and will be rejected by the server. But if you still really want to do that, you should instead do it with the type \u003d\u003d BLOB case below.",
+      "revId": "358336ba593a519aea3dee167497ee3230596d89",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOCX///pQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PackParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 943,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-11-18T19:33:37Z",
+      "side": 1,
+      "message": "If you still really want to tell the user what the SHA-1 is on a big object, do:\n\n  if (type \u003d\u003d OBJ_BLOB || (0 \u003c maxObjectSizeLimit \u0026\u0026 maxObjectSizeLimit \u003c sz)) {",
+      "revId": "358336ba593a519aea3dee167497ee3230596d89",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOCX///pM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PackParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 955,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-11-18T19:33:37Z",
+      "side": 1,
+      "message": "Add after here:\n\n  if (0 \u003c maxObjectSizeLimit \u0026\u0026 maxObjectSizeLimit \u003c sz)\n    throw new ...object tempObjectId is huge",
+      "revId": "358336ba593a519aea3dee167497ee3230596d89",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOCX///pY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PackParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 980,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-11-18T19:33:37Z",
+      "side": 1,
+      "message": "This is far too late to be performing the check. You have already committed JVM heap memory to hold the entire object in memory. It really decreases the value of this max size feature.",
+      "revId": "358336ba593a519aea3dee167497ee3230596d89",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
