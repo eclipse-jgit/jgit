@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOCX///YE\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2011-11-21T19:54:38Z",
+      "side": 1,
+      "message": "copied a part of your comment into the commit message as it nicely summarized the reason behind checking the size of the delta instruction sequence :-)",
+      "parentUuid": "AABOCX///cU\u003d",
+      "revId": "9b38231f0f92aeb485f28fba6ef7d4100ea4a285",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOCX///i4\u003d",
         "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/JGitText.properties",
         "patchSetId": 4
@@ -48,6 +66,24 @@
       "side": 1,
       "message": "Or we should at least report the size the user gave us that we are refusing.",
       "parentUuid": "AABOCX///i4\u003d",
+      "revId": "9b38231f0f92aeb485f28fba6ef7d4100ea4a285",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOCX///Y8\u003d",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/JGitText.properties",
+        "patchSetId": 4
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2011-11-21T19:54:38Z",
+      "side": 1,
+      "message": "I will provide two versions of the error message.\n\nOne will include the object size and the limit size. This one will be used when the object size is known i.e. whole object in the pack or when we inflate the delta block and read the result size.\n\nThe other one will be used when we find out that the delta size is already too big and we don\u0027t want to inflate it. In this case only the limit size will be included in the error message.",
+      "parentUuid": "AABOCX///cQ\u003d",
       "revId": "9b38231f0f92aeb485f28fba6ef7d4100ea4a285",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -88,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "AABOCX///Y0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/errors/TooLargeObjectInPackException.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2011-11-21T19:54:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOCX///jA\u003d",
+      "revId": "9b38231f0f92aeb485f28fba6ef7d4100ea4a285",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOCX///i8\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PackParser.java",
         "patchSetId": 4
@@ -99,6 +153,24 @@
       "writtenOn": "2011-11-18T22:37:26Z",
       "side": 1,
       "message": "style nit: no braces around single line block",
+      "revId": "9b38231f0f92aeb485f28fba6ef7d4100ea4a285",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOCX///Yw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PackParser.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 637,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2011-11-21T19:54:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOCX///i8\u003d",
       "revId": "9b38231f0f92aeb485f28fba6ef7d4100ea4a285",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -122,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "AABOCX///Ys\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PackParser.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 638,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2011-11-21T19:54:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOCX///cA\u003d",
+      "revId": "9b38231f0f92aeb485f28fba6ef7d4100ea4a285",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOCX///b8\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PackParser.java",
         "patchSetId": 4
@@ -133,6 +223,24 @@
       "writtenOn": "2011-11-19T00:25:28Z",
       "side": 1,
       "message": "If we aren\u0027t going to compute the SHA-1, just do this when the object header is parsed and then its only 1 insertion, rather than 3 (whole, OBJ_OFS_DELTA, OBJ_REF_DELTA).",
+      "revId": "9b38231f0f92aeb485f28fba6ef7d4100ea4a285",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOCX///Yc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PackParser.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 948,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2011-11-21T19:54:38Z",
+      "side": 1,
+      "message": "Done.\nActually another insertion was needed when the delta is inflated and the result size is read.\nWe will have 2 instead of 4 insertions.",
+      "parentUuid": "AABOCX///b8\u003d",
       "revId": "9b38231f0f92aeb485f28fba6ef7d4100ea4a285",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
