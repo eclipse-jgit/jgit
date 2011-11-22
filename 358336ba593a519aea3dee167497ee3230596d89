@@ -106,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "AABOCX///mM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PackParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 934,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2011-11-18T22:26:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOCX///pU\u003d",
+      "revId": "358336ba593a519aea3dee167497ee3230596d89",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOCX///pQ\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PackParser.java",
         "patchSetId": 3
@@ -152,6 +170,24 @@
       "writtenOn": "2011-11-18T19:33:37Z",
       "side": 1,
       "message": "Add after here:\n\n  if (0 \u003c maxObjectSizeLimit \u0026\u0026 maxObjectSizeLimit \u003c sz)\n    throw new ...object tempObjectId is huge",
+      "revId": "358336ba593a519aea3dee167497ee3230596d89",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOCX///mE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PackParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 955,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2011-11-18T22:26:48Z",
+      "side": 1,
+      "message": "Gave up reporting SHA1",
+      "parentUuid": "AABOCX///pM\u003d",
       "revId": "358336ba593a519aea3dee167497ee3230596d89",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
