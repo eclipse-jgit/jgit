@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOCX///QU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/LogCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-11-23T00:09:46Z",
+      "side": 1,
+      "message": "Why under refs/? Why not just getAllRefs() and look at everything including HEAD?",
+      "revId": "6660de9f451312f0e757fe2380bad1a6f2140509",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
