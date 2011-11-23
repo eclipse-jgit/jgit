@@ -1,0 +1,22 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOCX///PI\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/RepositoryFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-11-23T00:33:18Z",
+      "side": 1,
+      "message": "Its not really quadratic in Java. substring(n) returns a new String object that uses the same underlying character array. The cost is just the new String object construction, its quite low.\n\nMost cases this loop runs at most once. Given both of these facts, it is more readable to use the shorter two-line version of the logic than to use the longer version that tries to avoid creating intermediate String objects in the case that additional unnecessary leading slashes are supplied.\n\nPremature optimization being evil and all of that... :-)",
+      "parentUuid": "AABOCX///Pg\u003d",
+      "revId": "9d311b333347d13ff2f9e0b7109e6b164a3643cc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
