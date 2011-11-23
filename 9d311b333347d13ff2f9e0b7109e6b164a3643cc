@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AABOCX///Pg\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/RepositoryFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2011-11-23T00:28:51Z",
+      "side": 1,
+      "message": "I know it\u0027s not an issue in practice but I don\u0027t like seeing this kind of quadratic loop. It\u0027s barely longer to do with a single substring call:\n\nif (name !\u003d null) {\n  int notSlash;\n  while (notSlash \u003c\u003d name.length() \u0026\u0026 name.charAt(notSlash) \u003d\u003d \u0027/\u0027)\n    notSlash++;\n  name \u003d name.substring(notSlash);\n}\n\n(or substitute your favorite for loop variant)",
+      "revId": "9d311b333347d13ff2f9e0b7109e6b164a3643cc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOCX///PI\u003d",
         "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/RepositoryFilter.java",
         "patchSetId": 1
