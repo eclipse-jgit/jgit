@@ -412,6 +412,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String problemWithResolvingPushRefSpecsLocally;
 	/***/ public String progressMonUploading;
 	/***/ public String propertyIsAlreadyNonNull;
+	/***/ public String pullOnRepoWithoutHEADCurrentlyNotSupported;
 	/***/ public String pullTaskName;
 	/***/ public String pushCancelled;
 	/***/ public String pushIsNotSupportedForBundleTransport;

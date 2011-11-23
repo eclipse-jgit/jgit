@@ -112,14 +112,17 @@ public class PullCommand extends TransportCommand<PullCommand, PullResult> {
 	 */
 	public PullResult call() throws WrongRepositoryStateException,
 			InvalidConfigurationException, DetachedHeadException,
-			InvalidRemoteException, CanceledException, RefNotFoundException {
+			InvalidRemoteException, CanceledException, RefNotFoundException,
+			NoHeadException {
 		checkCallable();
 
 		monitor.beginTask(JGitText.get().pullTaskName, 2);
-
 		String branchName;
 		try {
 			String fullBranch = repo.getFullBranch();
+			if (fullBranch == null)
+				throw new NoHeadException(
+						JGitText.get().pullOnRepoWithoutHEADCurrentlyNotSupported);
 			if (!fullBranch.startsWith(Constants.R_HEADS)) {
 				// we can not pull if HEAD is detached and branch is not
 				// specified explicitly
