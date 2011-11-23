@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AABOCX///Og\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/GitSmartHttpTools.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2011-11-23T01:00:27Z",
+      "side": 1,
+      "message": "This looks like it will fail if textForGit overruns the buffer, presumably with an IOException. At the very least can you document in the docstring that there is an implicit maximum length of textForGit?\n\nIt would be better to handle arbitrary length messages. ISTR at least one instance you wrote of a message much longer than 128 bytes.",
+      "revId": "867087bb1119aa0ed52c01095c121229929c007e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOCX///OU\u003d",
         "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/GitSmartHttpTools.java",
         "patchSetId": 1
@@ -14,6 +31,23 @@
       "side": 1,
       "message": "Javadoc for ByteArrayOutputStream states this is the initial capacity of the buffer. The default is only 32 bytes. We probably need more than that for most messages so I set the default to 128 bytes for this usage. It will double in size until either JVM heap is exhausted, or the message is done being created.",
       "parentUuid": "AABOCX///Og\u003d",
+      "revId": "867087bb1119aa0ed52c01095c121229929c007e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOCX///Oc\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/RepositoryFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2011-11-23T01:00:27Z",
+      "side": 1,
+      "message": "This local variable has lost its final, if you care.",
       "revId": "867087bb1119aa0ed52c01095c121229929c007e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
