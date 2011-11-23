@@ -1,0 +1,22 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOCX///OQ\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/RepositoryFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-11-23T01:32:39Z",
+      "side": 1,
+      "message": "Good catch, but yea, no, I don\u0027t care. :-)",
+      "parentUuid": "AABOCX///Oc\u003d",
+      "revId": "867087bb1119aa0ed52c01095c121229929c007e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
