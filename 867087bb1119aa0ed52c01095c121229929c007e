@@ -2,6 +2,24 @@
   "comments": [
     {
       "key": {
+        "uuid": "AABOCX///OU\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/GitSmartHttpTools.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-11-23T01:32:39Z",
+      "side": 1,
+      "message": "Javadoc for ByteArrayOutputStream states this is the initial capacity of the buffer. The default is only 32 bytes. We probably need more than that for most messages so I set the default to 128 bytes for this usage. It will double in size until either JVM heap is exhausted, or the message is done being created.",
+      "parentUuid": "AABOCX///Og\u003d",
+      "revId": "867087bb1119aa0ed52c01095c121229929c007e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOCX///OQ\u003d",
         "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/RepositoryFilter.java",
         "patchSetId": 1
