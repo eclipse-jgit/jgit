@@ -196,7 +196,7 @@ public class GitFilter extends MetaFilter {
 		initialized = true;
 
 		if (uploadPackFactory != UploadPackFactory.DISABLED) {
-			ServletBinder b = serve("*/git-upload-pack");
+			ServletBinder b = serve("*/" + GitSmartHttpTools.UPLOAD_PACK);
 			b = b.through(new UploadPackServlet.Factory(uploadPackFactory));
 			for (Filter f : uploadPackFilters)
 				b = b.through(f);
@@ -204,7 +204,7 @@ public class GitFilter extends MetaFilter {
 		}
 
 		if (receivePackFactory != ReceivePackFactory.DISABLED) {
-			ServletBinder b = serve("*/git-receive-pack");
+			ServletBinder b = serve("*/" + GitSmartHttpTools.RECEIVE_PACK);
 			b = b.through(new ReceivePackServlet.Factory(receivePackFactory));
 			for (Filter f : receivePackFilters)
 				b = b.through(f);

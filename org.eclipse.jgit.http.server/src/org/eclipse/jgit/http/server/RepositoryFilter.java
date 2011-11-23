@@ -47,8 +47,8 @@ import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
 import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
 import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
+import static org.eclipse.jgit.http.server.GitSmartHttpTools.sendError;
 import static org.eclipse.jgit.http.server.ServletUtils.ATTRIBUTE_REPOSITORY;
-import static org.eclipse.jgit.util.HttpSupport.HDR_ACCEPT;
 
 import java.io.IOException;
 import java.text.MessageFormat;
@@ -65,7 +65,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.transport.PacketLineOut;
 import org.eclipse.jgit.transport.resolver.RepositoryResolver;
 import org.eclipse.jgit.transport.resolver.ServiceNotAuthorizedException;
 import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
@@ -109,98 +108,46 @@ public class RepositoryFilter implements Filter {
 	}
 
 	public void doFilter(final ServletRequest request,
-			final ServletResponse rsp, final FilterChain chain)
+			final ServletResponse response, final FilterChain chain)
 			throws IOException, ServletException {
+		HttpServletRequest req = (HttpServletRequest) request;
+		HttpServletResponse res = (HttpServletResponse) response;
+
 		if (request.getAttribute(ATTRIBUTE_REPOSITORY) != null) {
 			context.log(MessageFormat.format(HttpServerText.get().internalServerErrorRequestAttributeWasAlreadySet
 					, ATTRIBUTE_REPOSITORY
 					, getClass().getName()));
-			((HttpServletResponse) rsp).sendError(SC_INTERNAL_SERVER_ERROR);
+			sendError(req, res, SC_INTERNAL_SERVER_ERROR);
 			return;
 		}
-
-		final HttpServletRequest req = (HttpServletRequest) request;
 
 		String name = req.getPathInfo();
+		while (name != null && 0 < name.length() && name.charAt(0) == '/')
+			name = name.substring(1);
 		if (name == null || name.length() == 0) {
-			((HttpServletResponse) rsp).sendError(SC_NOT_FOUND);
+			sendError(req, res, SC_NOT_FOUND);
 			return;
 		}
-		if (name.startsWith("/"))
-			name = name.substring(1);
 
 		final Repository db;
 		try {
 			db = resolver.open(req, name);
 		} catch (RepositoryNotFoundException e) {
-			sendError(SC_NOT_FOUND, req, (HttpServletResponse) rsp);
+			sendError(req, res, SC_NOT_FOUND);
 			return;
 		} catch (ServiceNotEnabledException e) {
-			sendError(SC_FORBIDDEN, req, (HttpServletResponse) rsp);
+			sendError(req, res, SC_FORBIDDEN);
 			return;
 		} catch (ServiceNotAuthorizedException e) {
-			((HttpServletResponse) rsp).sendError(SC_UNAUTHORIZED);
+			res.sendError(SC_UNAUTHORIZED);
 			return;
 		}
 		try {
 			request.setAttribute(ATTRIBUTE_REPOSITORY, db);
-			chain.doFilter(request, rsp);
+			chain.doFilter(request, response);
 		} finally {
 			request.removeAttribute(ATTRIBUTE_REPOSITORY);
 			db.close();
-		}
-	}
-
-	static void sendError(int statusCode, HttpServletRequest req,
-			HttpServletResponse rsp) throws IOException {
-		String svc = req.getParameter("service");
-
-		if (req.getRequestURI().endsWith("/info/refs") && isService(svc)) {
-			// Smart HTTP service request, use an ERR response.
-			rsp.setContentType("application/x-" + svc + "-advertisement");
-
-			SmartOutputStream buf = new SmartOutputStream(req, rsp);
-			PacketLineOut out = new PacketLineOut(buf);
-			out.writeString("# service=" + svc + "\n");
-			out.end();
-			out.writeString("ERR " + translate(statusCode));
-			buf.close();
-			return;
-		}
-
-		String accept = req.getHeader(HDR_ACCEPT);
-		if (accept != null && accept.contains(UploadPackServlet.RSP_TYPE)) {
-			// An upload-pack wants ACK or NAK, return ERR
-			// and the client will print this instead.
-			rsp.setContentType(UploadPackServlet.RSP_TYPE);
-			SmartOutputStream buf = new SmartOutputStream(req, rsp);
-			PacketLineOut out = new PacketLineOut(buf);
-			out.writeString("ERR " + translate(statusCode));
-			buf.close();
-			return;
-		}
-
-		// Otherwise fail with an HTTP error code instead of an
-		// application level message. This may not be as pretty
-		// of a result for the user, but its better than nothing.
-		//
-		rsp.sendError(statusCode);
-	}
-
-	private static boolean isService(String svc) {
-		return "git-upload-pack".equals(svc) || "git-receive-pack".equals(svc);
-	}
-
-	private static String translate(int statusCode) {
-		switch (statusCode) {
-		case SC_NOT_FOUND:
-			return HttpServerText.get().repositoryNotFound;
-
-		case SC_FORBIDDEN:
-			return HttpServerText.get().repositoryAccessForbidden;
-
-		default:
-			return String.valueOf(statusCode);
 		}
 	}
 }
