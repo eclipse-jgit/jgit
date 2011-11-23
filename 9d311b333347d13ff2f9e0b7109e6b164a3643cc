@@ -34,6 +34,24 @@
       "revId": "9d311b333347d13ff2f9e0b7109e6b164a3643cc",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOCX///O0\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/RepositoryFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2011-11-23T00:43:08Z",
+      "side": 1,
+      "message": "Huh, ISTR hearing from a reputable source that substring didn\u0027t return a view of the same backing array due to creating uncollectable garbage. But I just checked the relevant JRE bug[1] and it seems to be working-as-intended.\n\nI agree it is not an issue here due to the typically small number of trailing leading slashes.\n\n[1] http://bugs.sun.com/bugdatabase/view_bug.do?bug_id\u003d4513622",
+      "parentUuid": "AABOCX///PI\u003d",
+      "revId": "9d311b333347d13ff2f9e0b7109e6b164a3643cc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
