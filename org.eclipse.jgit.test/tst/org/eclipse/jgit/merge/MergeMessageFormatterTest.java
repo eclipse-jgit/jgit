@@ -114,7 +114,7 @@ public class MergeMessageFormatterTest extends SampleDataRepositoryTestCase {
 		Ref remoteA = db.getRef("refs/remotes/origin/remote-a");
 		Ref master = db.getRef("refs/heads/master");
 		String message = formatter.format(Arrays.asList(remoteA), master);
-		assertEquals("Merge remote branch 'origin/remote-a'", message);
+		assertEquals("Merge remote-tracking branch 'origin/remote-a'", message);
 	}
 
 	@Test
@@ -123,7 +123,7 @@ public class MergeMessageFormatterTest extends SampleDataRepositoryTestCase {
 		Ref remoteA = db.getRef("refs/remotes/origin/remote-a");
 		Ref master = db.getRef("refs/heads/master");
 		String message = formatter.format(Arrays.asList(c, remoteA), master);
-		assertEquals("Merge branch 'c', remote branch 'origin/remote-a'",
+		assertEquals("Merge branch 'c', remote-tracking branch 'origin/remote-a'",
 				message);
 	}
 

@@ -99,8 +99,8 @@ public class MergeMessageFormatter {
 			listings.add(joinNames(branches, "branch", "branches"));
 
 		if (!remoteBranches.isEmpty())
-			listings.add(joinNames(remoteBranches, "remote branch",
-					"remote branches"));
+			listings.add(joinNames(remoteBranches, "remote-tracking branch",
+					"remote-tracking branches"));
 
 		if (!tags.isEmpty())
 			listings.add(joinNames(tags, "tag", "tags"));
