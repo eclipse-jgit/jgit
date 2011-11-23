@@ -55,8 +55,11 @@ import java.io.IOException;
 
 import org.eclipse.jgit.api.CreateBranchCommand.SetupUpstreamMode;
 import org.eclipse.jgit.api.MergeResult.MergeStatus;
+import org.eclipse.jgit.api.errors.NoHeadException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.RefUpdate;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryState;
 import org.eclipse.jgit.lib.RepositoryTestCase;
 import org.eclipse.jgit.lib.StoredConfig;
@@ -218,6 +221,15 @@ public class PullCommandTest extends RepositoryTestCase {
 		assertFileContentsEqual(targetFile, result);
 		assertEquals(RepositoryState.MERGING, target.getRepository()
 				.getRepositoryState());
+	}
+
+	@Test(expected = NoHeadException.class)
+	public void testPullEmptyRepository() throws Exception {
+		Repository empty = createWorkRepository();
+		RefUpdate delete = empty.updateRef(Constants.HEAD, true);
+		delete.setForceUpdate(true);
+		delete.delete();
+		Git.wrap(empty).pull().call();
 	}
 
 	@Override
