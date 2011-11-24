@@ -82,7 +82,7 @@ case "$V" in
 *-[1-9]*-g[0-9a-f]*)
 	POM_V=$(echo "$V" | perl -pe 's/-(\d+-g.*)$/.$1/')
 	OSGI_V=$(perl -e '
-		$ARGV[0] =~ /^(\d+)(?:\.(\d+)(?:\.(\d+))?)?-(\d+)-g(.*)$/;
+		die unless $ARGV[0] =~ /^(\d+)(?:\.(\d+)(?:\.(\d+))?(?:\.\d{12}-r)?)?-(\d+)-g(.*)$/;
 		my ($a, $b, $c, $p, $r) = ($1, $2, $3, $4, $5);
 		$b = '0' unless defined $b;
 		$c = '0' unless defined $c;
