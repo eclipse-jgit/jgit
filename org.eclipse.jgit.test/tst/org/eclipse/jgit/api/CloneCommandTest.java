@@ -236,4 +236,33 @@ public class CloneCommandTest extends RepositoryTestCase {
 			assertTrue(e.getMessage().contains(dirName));
 		}
 	}
+
+	@Test
+	public void testCloneRepositoryWithBranches() throws Exception {
+		// "git clone ..."
+		String dirName = "testCloneRepositoryWithBranches";
+		File directory = createTempDirectory(dirName);
+		CloneCommand command = Git.cloneRepository();
+		command.setDirectory(directory);
+		command.setURI("file://" + git.getRepository().getWorkTree().getPath());
+		Git git2 = command.call();
+		addRepoToClose(git2.getRepository());
+		assertNotNull(git2);
+
+		// "git branch a"
+		git2.branchCreate().setName("a").call();
+		// "git push --all"
+		git2.push().setPushAll().call();
+
+		// "git clone ..."
+		File directory2 = createTempDirectory(dirName + "-copy");
+		CloneCommand command2 = Git.cloneRepository();
+		command2.setDirectory(directory2);
+		command2.setURI("file://" + git.getRepository().getWorkTree().getPath());
+		Git git3 = command2.call();
+		addRepoToClose(git3.getRepository());
+		assertNotNull(git3);
+
+		assertEquals(Constants.MASTER, git3.getRepository().getBranch());
+	}
 }
