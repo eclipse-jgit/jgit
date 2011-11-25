@@ -134,4 +134,13 @@ public abstract class CredentialsProvider {
 			throws UnsupportedCredentialItem {
 		return get(uri, items.toArray(new CredentialItem[items.size()]));
 	}
+
+	/**
+	 * Reset the credentials provider for the given URI
+	 *
+	 * @param uri
+	 */
+	public void reset(URIish uri) {
+		// default does nothing
+	}
 }
