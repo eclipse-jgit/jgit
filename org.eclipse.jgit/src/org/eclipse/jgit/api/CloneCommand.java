@@ -229,6 +229,12 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 		final Ref idHEAD = result.getAdvertisedRef(Constants.HEAD);
 		if (idHEAD == null)
 			return null;
+
+		Ref master = result.getAdvertisedRef(Constants.R_HEADS
+				+ Constants.MASTER);
+		if (master != null && master.getObjectId().equals(idHEAD.getObjectId()))
+			return master;
+
 		Ref foundBranch = null;
 		for (final Ref r : result.getAdvertisedRefs()) {
 			final String n = r.getName();
