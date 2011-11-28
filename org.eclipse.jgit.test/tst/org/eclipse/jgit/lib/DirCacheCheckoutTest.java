@@ -37,11 +37,15 @@
  */
 package org.eclipse.jgit.lib;
 
+import static org.hamcrest.Matchers.startsWith;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -49,12 +53,21 @@ import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.MergeResult.MergeStatus;
 import org.eclipse.jgit.api.ResetCommand.ResetType;
 import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.api.errors.InvalidRefNameException;
 import org.eclipse.jgit.api.errors.NoFilepatternException;
+import org.eclipse.jgit.api.errors.RefAlreadyExistsException;
+import org.eclipse.jgit.api.errors.RefNotFoundException;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheCheckout;
+import org.eclipse.jgit.dircache.InvalidPathException;
 import org.eclipse.jgit.errors.CorruptObjectException;
+import org.eclipse.jgit.errors.IncorrectObjectTypeException;
+import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.NoWorkTreeException;
+import org.eclipse.jgit.junit.MockSystemReader;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.util.SystemReader;
 import org.junit.Test;
 
 public class DirCacheCheckoutTest extends ReadTreeTest {
@@ -177,6 +190,281 @@ public class DirCacheCheckoutTest extends ReadTreeTest {
 		assertIndex(mkmap("x", "x"));
 	}
 
+	/**
+	 * A paranoid test of the test
+	 *
+	 * @throws Exception
+	 */
+	@Test
+	public void testMaliciousAbsolutePathIsOk()
+			throws Exception {
+		testMaliciousPath(true, "ok");
+	}
+
+	@Test
+	public void testMaliciousAbsolutePath() throws Exception {
+		testMaliciousPath(false, "/tmp/x");
+	}
+
+	@Test
+	public void testMaliciousAbsoluteCurDrivePathWindows() throws Exception {
+		((MockSystemReader) SystemReader.getInstance()).setWindows();
+		testMaliciousPath(false, "\\somepath");
+	}
+
+	@Test
+	public void testMaliciousAbsoluteCurDrivePathWindowsOnUnix()
+			throws Exception {
+		((MockSystemReader) SystemReader.getInstance()).setUnix();
+		testMaliciousPath(true, "\\somepath");
+	}
+
+	@Test
+	public void testMaliciousAbsoluteUNCPathWindows1() throws Exception {
+		((MockSystemReader) SystemReader.getInstance()).setWindows();
+		testMaliciousPath(false, "\\\\somepath");
+	}
+
+	@Test
+	public void testMaliciousAbsoluteUNCPathWindows1OnUnix() throws Exception {
+		((MockSystemReader) SystemReader.getInstance()).setUnix();
+		testMaliciousPath(true, "\\\\somepath");
+	}
+
+	@Test
+	public void testMaliciousAbsoluteUNCPathWindows2() throws Exception {
+		((MockSystemReader) SystemReader.getInstance()).setWindows();
+		testMaliciousPath(false, "\\/somepath");
+	}
+
+	@Test
+	public void testMaliciousAbsoluteUNCPathWindows2OnUnix() throws Exception {
+		((MockSystemReader) SystemReader.getInstance()).setUnix();
+		testMaliciousPath(false, "\\/somepath"); // '/' is no good anywhere
+	}
+
+	@Test
+	public void testMaliciousAbsoluteWindowsPath1() throws Exception {
+		((MockSystemReader) SystemReader.getInstance()).setWindows();
+		testMaliciousPath(false, "c:\\temp\\x");
+	}
+
+	@Test
+	public void testMaliciousAbsoluteWindowsPath1OnUnix() throws Exception {
+		if (File.separatorChar == '\\')
+			return; // cannot emulate Unix on Windows for this test
+		((MockSystemReader) SystemReader.getInstance()).setUnix();
+		testMaliciousPath(true, "c:\\temp\\x");
+	}
+
+	@Test
+	public void testMaliciousAbsoluteWindowsPath2() throws Exception {
+		((MockSystemReader) SystemReader.getInstance()).setCurrentPlatform();
+		testMaliciousPath(false, "c:/temp/x");
+	}
+
+	@Test
+	public void testMaliciousGitPath1()
+			throws Exception {
+		testMaliciousPath(false, ".git/konfig");
+	}
+
+	@Test
+	public void testMaliciousGitPath2() throws Exception {
+		testMaliciousPath(false, ".git", "konfig");
+	}
+
+	@Test
+	public void testMaliciousGitPath1Case() throws Exception {
+		((MockSystemReader) SystemReader.getInstance()).setWindows(); // or OS X
+		testMaliciousPath(false, ".Git/konfig");
+	}
+
+	@Test
+	public void testMaliciousGitPath2Case() throws Exception {
+		((MockSystemReader) SystemReader.getInstance()).setWindows(); // or OS X
+		testMaliciousPath(false, ".giT", "konfig");
+	}
+
+	@Test
+	public void testMaliciousGitPathEndSpaceWindows() throws Exception {
+		((MockSystemReader) SystemReader.getInstance()).setWindows();
+		testMaliciousPath(false, ".git ", "konfig");
+	}
+
+	@Test
+	public void testMaliciousGitPathEndSpaceUnixOk() throws Exception {
+		if (File.separatorChar == '\\')
+			return; // cannot emulate Unix on Windows for this test
+		((MockSystemReader) SystemReader.getInstance()).setUnix();
+		testMaliciousPath(true, ".git ", "konfig");
+	}
+
+	@Test
+	public void testMaliciousGitPathEndDotWindows1() throws Exception {
+		((MockSystemReader) SystemReader.getInstance()).setWindows();
+		testMaliciousPath(false, ".git.", "konfig");
+	}
+
+	@Test
+	public void testMaliciousGitPathEndDotWindows2() throws Exception {
+		((MockSystemReader) SystemReader.getInstance()).setWindows();
+		testMaliciousPath(false, ".f.");
+	}
+
+	@Test
+	public void testMaliciousGitPathEndDotWindows3() throws Exception {
+		((MockSystemReader) SystemReader.getInstance()).setWindows();
+		testMaliciousPath(true, ".f");
+	}
+
+	@Test
+	public void testMaliciousGitPathEndDotUnixOk() throws Exception {
+		if (File.separatorChar == '\\')
+			return; // cannot emulate Unix on Windows for this test
+		((MockSystemReader) SystemReader.getInstance()).setUnix();
+		testMaliciousPath(true, ".git.", "konfig");
+	}
+
+	@Test
+	public void testMaliciousPathDotDot() throws Exception {
+		((MockSystemReader) SystemReader.getInstance()).setCurrentPlatform();
+		testMaliciousPath(false, "..", "no");
+	}
+
+	@Test
+	public void testMaliciousPathDot() throws Exception {
+		((MockSystemReader) SystemReader.getInstance()).setCurrentPlatform();
+		testMaliciousPath(false, ".", "no");
+	}
+
+	@Test
+	public void testMaliciousPathEmpty() throws Exception {
+		((MockSystemReader) SystemReader.getInstance()).setCurrentPlatform();
+		testMaliciousPath(false, "", "no");
+	}
+
+	@Test
+	public void testMaliciousWindowsADS() throws Exception {
+		((MockSystemReader) SystemReader.getInstance()).setWindows();
+		testMaliciousPath(false, "some:path");
+	}
+
+	@Test
+	public void testMaliciousWindowsADSOnUnix() throws Exception {
+		if (File.separatorChar == '\\')
+			return; // cannot emulate Unix on Windows for this test
+		((MockSystemReader) SystemReader.getInstance()).setUnix();
+		testMaliciousPath(true, "some:path");
+	}
+
+	@Test
+	public void testForbiddenNamesOnWindowsEgCon() throws Exception {
+		((MockSystemReader) SystemReader.getInstance()).setWindows();
+		testMaliciousPath(false, "con");
+	}
+
+	@Test
+	public void testForbiddenNamesOnWindowsEgConDotSuffix() throws Exception {
+		((MockSystemReader) SystemReader.getInstance()).setWindows();
+		testMaliciousPath(false, "con.txt");
+	}
+
+	@Test
+	public void testForbiddenNamesOnWindowsEgLpt1() throws Exception {
+		((MockSystemReader) SystemReader.getInstance()).setWindows();
+		testMaliciousPath(false, "lpt1");
+	}
+
+	@Test
+	public void testForbiddenNamesOnWindowsEgLpt1DotSuffix() throws Exception {
+		((MockSystemReader) SystemReader.getInstance()).setWindows();
+		testMaliciousPath(false, "lpt1.txt");
+	}
+
+	@Test
+	public void testForbiddenNamesOnWindowsEgDotCon() throws Exception {
+		((MockSystemReader) SystemReader.getInstance()).setWindows();
+		testMaliciousPath(true, ".con");
+	}
+
+	@Test
+	public void testForbiddenNamesOnWindowsEgLpr() throws Exception {
+		((MockSystemReader) SystemReader.getInstance()).setWindows();
+		testMaliciousPath(true, "lpt"); // good name
+	}
+
+	@Test
+	public void testForbiddenNamesOnWindowsEgCon1() throws Exception {
+		((MockSystemReader) SystemReader.getInstance()).setWindows();
+		testMaliciousPath(true, "con1"); // good name
+	}
+
+	@Test
+	public void testForbiddenWindowsNamesOnUnixEgCon() throws Exception {
+		if (File.separatorChar == '\\')
+			return; // cannot emulate Unix on Windows for this test
+		testMaliciousPath(true, "con");
+	}
+
+	@Test
+	public void testForbiddenWindowsNamesOnUnixEgLpt1() throws Exception {
+		if (File.separatorChar == '\\')
+			return; // cannot emulate Unix on Windows for this test
+		testMaliciousPath(true, "lpt1");
+	}
+
+	/**
+	 * Create a bad tree and tries to check it out
+	 *
+	 * @param good
+	 *            true if we expect this to pass
+	 * @param path
+	 *            to the blob, one or more levels
+	 * @throws IOException
+	 * @throws RefAlreadyExistsException
+	 * @throws RefNotFoundException
+	 * @throws InvalidRefNameException
+	 * @throws MissingObjectException
+	 * @throws IncorrectObjectTypeException
+	 */
+	private void testMaliciousPath(boolean good, String... path)
+			throws IOException, RefAlreadyExistsException,
+			RefNotFoundException, InvalidRefNameException,
+			MissingObjectException, IncorrectObjectTypeException {
+		Git git = new Git(db);
+		ObjectInserter newObjectInserter;
+		newObjectInserter = git.getRepository().newObjectInserter();
+		ObjectId blobId = newObjectInserter.insert(Constants.OBJ_BLOB,
+				"data".getBytes());
+		newObjectInserter = git.getRepository().newObjectInserter();
+		FileMode mode = FileMode.REGULAR_FILE;
+		ObjectId insertId = blobId;
+		for (int i = path.length - 1; i >= 0; --i) {
+			TreeFormatter treeFormatter = new TreeFormatter();
+			treeFormatter.append(path[i], mode, insertId);
+			insertId = newObjectInserter.insert(treeFormatter);
+		}
+		newObjectInserter = git.getRepository().newObjectInserter();
+		CommitBuilder commitBuilder = new CommitBuilder();
+		commitBuilder.setAuthor(author);
+		commitBuilder.setCommitter(committer);
+		commitBuilder.setMessage("foo");
+		commitBuilder.setTreeId(insertId);
+		ObjectId commitId = newObjectInserter.insert(commitBuilder);
+		RevWalk revWalk = new RevWalk(git.getRepository());
+		try {
+			git.checkout().setStartPoint(revWalk.parseCommit(commitId))
+					.setName("refs/heads/master").setCreateBranch(true).call();
+			if (!good)
+				fail("Checkout of Tree " + Arrays.asList(path) + " should fail");
+		} catch (InvalidPathException e) {
+			if (good)
+				throw e;
+			assertThat(e.getMessage(), startsWith("Invalid path: "));
+		}
+	}
+
 	private DirCacheCheckout resetHard(RevCommit commit)
 			throws NoWorkTreeException,
 			CorruptObjectException, IOException {
@@ -187,4 +475,5 @@ public class DirCacheCheckoutTest extends ReadTreeTest {
 		assertTrue(dc.checkout());
 		return dc;
 	}
+
 }

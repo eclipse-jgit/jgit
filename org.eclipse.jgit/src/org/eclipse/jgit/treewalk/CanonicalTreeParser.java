@@ -55,6 +55,7 @@ import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.MutableObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.util.SystemReader;
 
 /** Parses raw Git trees from the canonical semi-text/semi-binary format. */
 public class CanonicalTreeParser extends AbstractTreeIterator {
@@ -355,5 +356,102 @@ public class CanonicalTreeParser extends AbstractTreeIterator {
 		}
 		pathLen = tmp;
 		nextPtr = ptr + Constants.OBJECT_ID_LENGTH;
+	}
+
+	static byte[][] forbidden;
+	static {
+		String[] list = new String[] { "AUX", "COM1", "COM2", "COM3", "COM4",
+				"COM5", "COM6", "COM7", "COM8", "COM9", "CON", "LPT1", "LPT2",
+				"LPT3", "LPT4", "LPT5", "LPT6", "LPT7", "LPT8", "LPT9", "NUL",
+				"PRN" };
+		forbidden = new byte[list.length][];
+		for (int i = 0; i < list.length; ++i)
+			forbidden[i] = Constants.encodeASCII(list[i]);
+	}
+
+	@Override
+	public boolean isValidPath() {
+		if (parent != null)
+			if (!parent.isValidPath())
+				return false;
+
+		boolean isWindows = SystemReader.getInstance().getProperty("os.name")
+				.equals("Windows");
+		boolean isOSX = SystemReader.getInstance().getProperty("os.name")
+				.equals("Mac OS X");
+		boolean ignCase = isOSX || isWindows;
+
+		// Skip mode
+		int ptr = currPtr;
+		while (raw[ptr] != ' ')
+			ptr++;
+
+		// Validate path component at this level of the tree
+		int start = ptr + 1;
+		while (raw[ptr] != 0) {
+			if (raw[ptr] == '/')
+				return false;
+			if (isWindows) {
+				if (raw[ptr] == '\\')
+					return false;
+				if (raw[ptr] == ':')
+					return false;
+			}
+			ptr++;
+		}
+		// '.' and '.'' are invalid here
+		if (ptr - start == 1) {
+			if (raw[start] == '.')
+				return false;
+		} else if (ptr - start == 2) {
+			if (raw[start] == '.')
+				if (raw[start + 1] == '.')
+					return false;
+		} else if (ptr - start == 4) {
+			// .git (possibly case insensitive) is disallowed
+			if (raw[start] == '.')
+				if (raw[start + 1] == 'g' || (ignCase && raw[start + 1] == 'G'))
+					if (raw[start + 2] == 'i'
+							|| (ignCase && raw[start + 2] == 'I'))
+						if (raw[start + 3] == 't'
+								|| (ignCase && raw[start + 3] == 'T'))
+							return false;
+		}
+		if (isWindows) {
+			// Space or period at end of file name is ignored by Windows.
+			// Treat this as a bad path for now. We may want to handle
+			// this as case insensitivity in the future.
+			if (raw[ptr - 1] == '.' || raw[ptr - 1] == ' ')
+					return false;
+			int i;
+			// Bad names, eliminate suffix first
+			for (i = start; i < ptr; ++i)
+				if (raw[i] == '.')
+					break;
+			int len = i - start;
+			if (len == 3 || len == 4) {
+				for (int j = 0; j < forbidden.length; ++j) {
+					if (forbidden[j].length == len) {
+						if (toUpper(raw[start]) < forbidden[j][0])
+							break;
+						int k;
+						for (k = 0; k < len; ++k) {
+							if (toUpper(raw[start + k]) != forbidden[j][k])
+								break;
+						}
+						if (k == len)
+							return false;
+					}
+				}
+			}
+		}
+
+		return true;
+	}
+
+	private byte toUpper(byte b) {
+		if (b >= 'a' && b <= 'z')
+			return (byte) (b - ('a' - 'A'));
+		return b;
 	}
 }
