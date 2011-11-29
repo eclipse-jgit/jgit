@@ -46,22 +46,26 @@
 
 package org.eclipse.jgit.transport;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.BitSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.util.RawParseUtils;
 import org.eclipse.jgit.util.StringUtils;
 
 /**
  * This URI like construct used for referencing Git archives over the net, as
- * well as locally stored archives. The most important difference compared to
- * RFC 2396 URI's is that no URI encoding/decoding ever takes place. A space or
- * any special character is written as-is.
+ * well as locally stored archives. It is similar to RFC 2396 URI's, but also
+ * support SCP and the malformed file://<path> syntax (as opposed to the correct
+ * file:<path> syntax.
  */
 public class URIish implements Serializable {
 	/**
@@ -179,6 +183,8 @@ public class URIish implements Serializable {
 
 	private String path;
 
+	private String rawPath;
+
 	private String user;
 
 	private String pass;
@@ -201,19 +207,21 @@ public class URIish implements Serializable {
 		Matcher matcher = SINGLE_SLASH_FILE_URI.matcher(s);
 		if (matcher.matches()) {
 			scheme = matcher.group(1);
-			path = cleanLeadingSlashes(matcher.group(2), scheme);
+			rawPath = cleanLeadingSlashes(matcher.group(2), scheme);
+			path = unescape(rawPath);
 			return;
 		}
 		matcher = FULL_URI.matcher(s);
 		if (matcher.matches()) {
 			scheme = matcher.group(1);
-			user = matcher.group(2);
-			pass = matcher.group(3);
-			host = matcher.group(4);
+			user = unescape(matcher.group(2));
+			pass = unescape(matcher.group(3));
+			host = unescape(matcher.group(4));
 			if (matcher.group(5) != null)
 				port = Integer.parseInt(matcher.group(5));
-			path = cleanLeadingSlashes(
+			rawPath = cleanLeadingSlashes(
 					n2e(matcher.group(6)) + n2e(matcher.group(7)), scheme);
+			path = unescape(rawPath);
 			return;
 		}
 		matcher = RELATIVE_SCP_URI.matcher(s);
@@ -221,7 +229,8 @@ public class URIish implements Serializable {
 			user = matcher.group(1);
 			pass = matcher.group(2);
 			host = matcher.group(3);
-			path = matcher.group(4);
+			rawPath = matcher.group(4);
+			path = rawPath;
 			return;
 		}
 		matcher = ABSOLUTE_SCP_URI.matcher(s);
@@ -229,15 +238,93 @@ public class URIish implements Serializable {
 			user = matcher.group(1);
 			pass = matcher.group(2);
 			host = matcher.group(3);
-			path = matcher.group(4);
+			rawPath = matcher.group(4);
+			path = rawPath;
 			return;
 		}
 		matcher = LOCAL_FILE.matcher(s);
 		if (matcher.matches()) {
-			path = matcher.group(1);
+			rawPath = matcher.group(1);
+			path = rawPath;
 			return;
 		}
 		throw new URISyntaxException(s, JGitText.get().cannotParseGitURIish);
+	}
+
+	private static String unescape(String s) throws URISyntaxException {
+		if (s == null)
+			return null;
+		if (s.indexOf('%') < 0)
+			return s;
+
+		byte[] bytes;
+		try {
+			bytes = s.getBytes(Constants.CHARACTER_ENCODING);
+		} catch (UnsupportedEncodingException e) {
+			throw new RuntimeException(e); // can't happen
+		}
+
+		byte[] os = new byte[bytes.length];
+		int j = 0;
+		for (int i = 0; i < bytes.length; ++i) {
+			byte c = bytes[i];
+			if (c == '%') {
+				if (i + 2 >= bytes.length)
+					throw new URISyntaxException(s, JGitText.get().cannotParseGitURIish);
+				int val = (RawParseUtils.parseHexInt4(bytes[i + 1]) << 4)
+						| RawParseUtils.parseHexInt4(bytes[i + 2]);
+				os[j++] = (byte) val;
+				i += 2;
+			} else
+				os[j++] = c;
+		}
+		return RawParseUtils.decode(os, 0, j);
+	}
+
+	private static final BitSet reservedChars = new BitSet(127);
+
+	static {
+		for (byte b : Constants.encodeASCII("!*'();:@&=+$,/?#[]"))
+			reservedChars.set(b);
+	}
+
+	/**
+	 * Escape unprintable characters optionally URI-reserved characters
+	 *
+	 * @param s
+	 *            The Java String to encode (may contain any character)
+	 * @param escapeReservedChars
+	 *            true to escape URI reserved characters
+	 * @param encodeNonAscii
+	 *            encode any non-ASCII characters
+	 * @return a URI-encoded string
+	 */
+	private static String escape(String s, boolean escapeReservedChars,
+			boolean encodeNonAscii) {
+		if (s == null)
+			return null;
+		ByteArrayOutputStream os = new ByteArrayOutputStream(s.length());
+		byte[] bytes;
+		try {
+			bytes = s.getBytes(Constants.CHARACTER_ENCODING);
+		} catch (UnsupportedEncodingException e) {
+			throw new RuntimeException(e); // cannot happen
+		}
+		for (int i = 0; i < bytes.length; ++i) {
+			int b = bytes[i] & 0xFF;
+			if (b <= 32 || (encodeNonAscii && b > 127) || b == '%'
+					|| (escapeReservedChars && reservedChars.get(b))) {
+				os.write('%');
+				byte[] tmp = Constants.encodeASCII(String.format("%02x",
+						Integer.valueOf(b)));
+				os.write(tmp[0]);
+				os.write(tmp[1]);
+			} else {
+				os.write(b);
+			}
+		}
+		byte[] buf = os.toByteArray();
+		return RawParseUtils.decode(buf, 0, buf.length);
 	}
 
 	private String n2e(String s) {
@@ -272,6 +359,11 @@ public class URIish implements Serializable {
 	public URIish(final URL u) {
 		scheme = u.getProtocol();
 		path = u.getPath();
+		try {
+			rawPath = u.toURI().getRawPath();
+		} catch (URISyntaxException e) {
+			throw new RuntimeException(e); // Impossible
+		}
 
 		final String ui = u.getUserInfo();
 		if (ui != null) {
@@ -291,6 +383,7 @@ public class URIish implements Serializable {
 
 	private URIish(final URIish u) {
 		this.scheme = u.scheme;
+		this.rawPath = u.rawPath;
 		this.path = u.path;
 		this.user = u.user;
 		this.pass = u.pass;
@@ -353,6 +446,13 @@ public class URIish implements Serializable {
 	}
 
 	/**
+	 * @return path name component
+	 */
+	public String getRawPath() {
+		return rawPath;
+	}
+
+	/**
 	 * Return a new URI matching this one, but with a different path.
 	 *
 	 * @param n
@@ -362,6 +462,22 @@ public class URIish implements Serializable {
 	public URIish setPath(final String n) {
 		final URIish r = new URIish(this);
 		r.path = n;
+		r.rawPath = n;
+		return r;
+	}
+
+	/**
+	 * Return a new URI matching this one, but with a different (raw) path.
+	 *
+	 * @param n
+	 *            the new value for path.
+	 * @return a new URI with the updated value.
+	 * @throws URISyntaxException
+	 */
+	public URIish setRawPath(final String n) throws URISyntaxException {
+		final URIish r = new URIish(this);
+		r.path = unescape(n);
+		r.rawPath = n;
 		return r;
 	}
 
@@ -475,14 +591,15 @@ public class URIish implements Serializable {
 	 * @return the URI, including its password field, if any.
 	 */
 	public String toPrivateString() {
-		return format(true);
+		return format(true, false, false);
 	}
 
 	public String toString() {
-		return format(false);
+		return format(false, false, false);
 	}
 
-	private String format(final boolean includePassword) {
+	private String format(final boolean includePassword, boolean escape,
+			boolean escapeNonAscii) {
 		final StringBuilder r = new StringBuilder();
 		if (getScheme() != null) {
 			r.append(getScheme());
@@ -490,17 +607,17 @@ public class URIish implements Serializable {
 		}
 
 		if (getUser() != null) {
-			r.append(getUser());
+			r.append(escape(getUser(), true, escapeNonAscii));
 			if (includePassword && getPass() != null) {
 				r.append(':');
-				r.append(getPass());
+				r.append(escape(getPass(), true, escapeNonAscii));
 			}
 		}
 
 		if (getHost() != null) {
 			if (getUser() != null)
 				r.append('@');
-			r.append(getHost());
+			r.append(escape(getHost(), false, escapeNonAscii));
 			if (getScheme() != null && getPort() > 0) {
 				r.append(':');
 				r.append(getPort());
@@ -513,10 +630,31 @@ public class URIish implements Serializable {
 					r.append('/');
 			} else if (getHost() != null)
 				r.append(':');
-			r.append(getPath());
+			if (getScheme() != null)
+				if (escapeNonAscii)
+					r.append(escape(getPath(), false, escapeNonAscii));
+				else
+					r.append(getRawPath());
+			else
+				r.append(getPath());
 		}
 
 		return r.toString();
+	}
+
+	/**
+	 * @return the URI as an ASCII string. Password is not included.
+	 */
+	public String toASCIIString() {
+		return format(false, true, true);
+	}
+
+	/**
+	 * @return the URI including password, formatted with only ASCII characters
+	 *         such that it will be valid for use over the network.
+	 */
+	public String toPrivateASCIIString() {
+		return format(true, true, true);
 	}
 
 	/**
