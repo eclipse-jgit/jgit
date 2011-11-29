@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOCn////g\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CloneCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2011-11-28T18:30:36Z",
+      "side": 1,
+      "message": "I think \u0027master\u0027 can\u0027t be expected here since the branch \u0027test\u0027 is already ahead of master when this test case is run (see setUp method) and branch \u0027a\u0027 is created off of \u0027test\u0027 and not \u0027master\u0027.",
+      "revId": "4172a0b18efae6b3c6aee8f4da9ee2ffbf84ffcf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
