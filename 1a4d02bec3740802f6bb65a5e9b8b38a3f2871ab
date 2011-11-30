@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOCX///Iw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryState.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-11-26T06:58:09Z",
+      "side": 1,
+      "message": "style-nit: you used tab after { in every one of the enums, the other methods use a single space.",
+      "revId": "1a4d02bec3740802f6bb65a5e9b8b38a3f2871ab",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOCX///Is\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RepositoryState.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-11-26T06:58:09Z",
+      "side": 1,
+      "message": "Why support amend during bisect?",
+      "revId": "1a4d02bec3740802f6bb65a5e9b8b38a3f2871ab",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
