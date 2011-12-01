@@ -52,6 +52,7 @@ import static org.eclipse.jgit.http.server.GitSmartHttpTools.UPLOAD_PACK_REQUEST
 import static org.eclipse.jgit.http.server.GitSmartHttpTools.UPLOAD_PACK_RESULT_TYPE;
 import static org.eclipse.jgit.http.server.GitSmartHttpTools.sendError;
 import static org.eclipse.jgit.http.server.ServletUtils.ATTRIBUTE_HANDLER;
+import static org.eclipse.jgit.http.server.ServletUtils.consumeRequestBody;
 import static org.eclipse.jgit.http.server.ServletUtils.getInputStream;
 import static org.eclipse.jgit.http.server.ServletUtils.getRepository;
 
@@ -177,6 +178,7 @@ class UploadPackServlet extends HttpServlet {
 
 		} catch (UploadPackMayNotContinueException e) {
 			if (e.isOutput()) {
+				consumeRequestBody(req);
 				out.close();
 			} else if (!rsp.isCommitted()) {
 				rsp.reset();
@@ -189,6 +191,7 @@ class UploadPackServlet extends HttpServlet {
 			getServletContext().log(
 					HttpServerText.get().internalErrorDuringUploadPack,
 					e.getCause());
+			consumeRequestBody(req);
 			out.close();
 
 		} catch (Throwable e) {

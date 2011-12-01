@@ -52,6 +52,7 @@ import static org.eclipse.jgit.http.server.GitSmartHttpTools.RECEIVE_PACK_REQUES
 import static org.eclipse.jgit.http.server.GitSmartHttpTools.RECEIVE_PACK_RESULT_TYPE;
 import static org.eclipse.jgit.http.server.GitSmartHttpTools.sendError;
 import static org.eclipse.jgit.http.server.ServletUtils.ATTRIBUTE_HANDLER;
+import static org.eclipse.jgit.http.server.ServletUtils.consumeRequestBody;
 import static org.eclipse.jgit.http.server.ServletUtils.getInputStream;
 import static org.eclipse.jgit.http.server.ServletUtils.getRepository;
 
@@ -177,6 +178,7 @@ class ReceivePackServlet extends HttpServlet {
 			getServletContext().log(
 					HttpServerText.get().internalErrorDuringReceivePack,
 					e.getCause());
+			consumeRequestBody(req);
 			out.close();
 
 		} catch (Throwable e) {
