@@ -160,22 +160,25 @@ class UploadPackServlet extends HttpServlet {
 			return;
 		}
 
+		SmartOutputStream out = new SmartOutputStream(req, rsp) {
+			@Override
+			public void flush() throws IOException {
+				doFlush();
+			}
+		};
+
 		UploadPack up = (UploadPack) req.getAttribute(ATTRIBUTE_HANDLER);
 		try {
 			up.setBiDirectionalPipe(false);
 			rsp.setContentType(UPLOAD_PACK_RESULT_TYPE);
 
-			final SmartOutputStream out = new SmartOutputStream(req, rsp) {
-				@Override
-				public void flush() throws IOException {
-					doFlush();
-				}
-			};
 			up.upload(getInputStream(req), out, null);
 			out.close();
 
 		} catch (UploadPackMayNotContinueException e) {
-			if (!e.isOutput() && !rsp.isCommitted()) {
+			if (e.isOutput()) {
+				out.close();
+			} else if (!rsp.isCommitted()) {
 				rsp.reset();
 				sendError(req, rsp, SC_FORBIDDEN, e.getMessage());
 			}
@@ -186,8 +189,9 @@ class UploadPackServlet extends HttpServlet {
 			getServletContext().log(
 					HttpServerText.get().internalErrorDuringUploadPack,
 					e.getCause());
+			out.close();
 
-		} catch (IOException e) {
+		} catch (Throwable e) {
 			getServletContext().log(HttpServerText.get().internalErrorDuringUploadPack, e);
 			if (!rsp.isCommitted()) {
 				rsp.reset();

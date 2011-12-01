@@ -158,17 +158,18 @@ class ReceivePackServlet extends HttpServlet {
 			return;
 		}
 
+		SmartOutputStream out = new SmartOutputStream(req, rsp) {
+			@Override
+			public void flush() throws IOException {
+				doFlush();
+			}
+		};
+
 		ReceivePack rp = (ReceivePack) req.getAttribute(ATTRIBUTE_HANDLER);
 		try {
 			rp.setBiDirectionalPipe(false);
 			rsp.setContentType(RECEIVE_PACK_RESULT_TYPE);
 
-			final SmartOutputStream out = new SmartOutputStream(req, rsp) {
-				@Override
-				public void flush() throws IOException {
-					doFlush();
-				}
-			};
 			rp.receive(getInputStream(req), out, null);
 			out.close();
 		} catch (UnpackException e) {
@@ -176,8 +177,9 @@ class ReceivePackServlet extends HttpServlet {
 			getServletContext().log(
 					HttpServerText.get().internalErrorDuringReceivePack,
 					e.getCause());
+			out.close();
 
-		} catch (IOException e) {
+		} catch (Throwable e) {
 			getServletContext().log(HttpServerText.get().internalErrorDuringReceivePack, e);
 			if (!rsp.isCommitted()) {
 				rsp.reset();
