@@ -141,6 +141,7 @@ public class PlotCommitList<L extends PlotLane> extends
 			}
 
 			currCommit.lane = c.lane;
+			handleBlockedLanes(index, currCommit, nChildren);
 		} else {
 			// More than one child, or our child is a merge.
 			// Use a different lane.
@@ -189,38 +190,49 @@ public class PlotCommitList<L extends PlotLane> extends
 			currCommit.lane = nextFreeLane();
 			activeLanes.add(currCommit.lane);
 
-			// take care: when connecting yourself to your child make sure that
-			// you will not be located on a lane on which a passed commit is
-			// located on. Otherwise we would have to draw a line through a
-			// commit.
-			int remaining = nChildren;
-			BitSet blockedPositions = new BitSet();
-			for (int r = index - 1; r >= 0; r--) {
-				final PlotCommit rObj = get(r);
-				if (currCommit.isChild(rObj)) {
-					if (--remaining == 0)
-						break;
-				}
-				if (rObj != null) {
-					PlotLane lane = rObj.getLane();
-					if (lane != null)
-						blockedPositions.set(lane.getPosition());
-					rObj.addPassingLane(currCommit.lane);
-				}
+			handleBlockedLanes(index, currCommit, nChildren);
+		}
+	}
+
+	/**
+	 * when connecting a plotcommit to the child make sure that you will not be
+	 * located on a lane on which a passed commit is located on. Otherwise we
+	 * would have to draw a line through a commit.
+	 *
+	 * @param index
+	 * @param commit
+	 * @param nChildren
+	 */
+	private void handleBlockedLanes(final int index,
+			final PlotCommit<L> commit, final int nChildren) {
+		// take care:
+		int remaining = nChildren;
+		BitSet blockedPositions = new BitSet();
+		for (int r = index - 1; r >= 0; r--) {
+			final PlotCommit rObj = get(r);
+			if (commit.isChild(rObj)) {
+				if (--remaining == 0)
+					break;
 			}
-			// Now let's check whether we have to reposition the lane
-			if (blockedPositions.get(currCommit.lane.getPosition())) {
-				int newPos = -1;
-				for (Integer pos : freePositions)
-					if (!blockedPositions.get(pos)) {
-						newPos = pos;
-						break;
-					}
-				if (newPos == -1)
-					newPos = positionsAllocated++;
-				freePositions.add(currCommit.lane.getPosition());
-				currCommit.lane.position = newPos;
+			if (rObj != null) {
+				PlotLane lane = rObj.getLane();
+				if (lane != null)
+					blockedPositions.set(lane.getPosition());
+				rObj.addPassingLane(commit.lane);
 			}
+		}
+		// Now let's check whether we have to reposition the lane
+		if (blockedPositions.get(commit.lane.getPosition())) {
+			int newPos = -1;
+			for (Integer pos : freePositions)
+				if (!blockedPositions.get(pos)) {
+					newPos = pos;
+					break;
+				}
+			if (newPos == -1)
+				newPos = positionsAllocated++;
+			freePositions.add(commit.lane.getPosition());
+			commit.lane.position = newPos;
 		}
 	}
 
