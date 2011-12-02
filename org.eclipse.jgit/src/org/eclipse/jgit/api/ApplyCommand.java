@@ -1,0 +1,216 @@
+/*
+ * Copyright (C) 2011, Tomasz Zarna <Tomasz.Zarna@pl.ibm.com>
+ * and other copyright owners as documented in the project's IP log.
+ *
+ * This program and the accompanying materials are made available
+ * under the terms of the Eclipse Distribution License v1.0 which
+ * accompanies this distribution, is reproduced below, and is
+ * available at http://www.eclipse.org/org/documents/edl-v10.php
+ *
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or
+ * without modification, are permitted provided that the following
+ * conditions are met:
+ *
+ * - Redistributions of source code must retain the above copyright
+ *   notice, this list of conditions and the following disclaimer.
+ *
+ * - Redistributions in binary form must reproduce the above
+ *   copyright notice, this list of conditions and the following
+ *   disclaimer in the documentation and/or other materials provided
+ *   with the distribution.
+ *
+ * - Neither the name of the Eclipse Foundation, Inc. nor the
+ *   names of its contributors may be used to endorse or promote
+ *   products derived from this software without specific prior
+ *   written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND
+ * CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
+ * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+ * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+package org.eclipse.jgit.api;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.eclipse.jgit.diff.DiffEntry.ChangeType;
+import org.eclipse.jgit.diff.RawText;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.patch.ApplyError;
+import org.eclipse.jgit.patch.FileHeader;
+import org.eclipse.jgit.patch.HunkHeader;
+import org.eclipse.jgit.patch.Patch;
+import org.eclipse.jgit.util.IO;
+
+/**
+ * Apply a patch to files and/or to the index.
+ *
+ * @see <a href="http://www.kernel.org/pub/software/scm/git/docs/git-apply.html"
+ *      >Git documentation about apply</a>
+ */
+public class ApplyCommand extends GitCommand<ApplyResult> {
+
+	private InputStream in;
+
+	/**
+	 * Constructs the command if the patch is to be applied to the index.
+	 *
+	 * @param repo
+	 */
+	ApplyCommand(Repository repo) {
+		super(repo);
+	}
+
+	/**
+	 * @param in
+	 *            the patch to apply
+	 * @return this instance
+	 */
+	public ApplyCommand setPatch(InputStream in) {
+		this.in = in;
+		return this;
+	}
+
+	/**
+	 * Executes the {@code ApplyCommand} command with all the options and
+	 * parameters collected by the setter methods (e.g.
+	 * {@link #setPatch(InputStream)} of this class. Each instance of this class
+	 * should only be used for one invocation of the command. Don't call this
+	 * method twice on an instance.
+	 *
+	 * @return collection of formatting errors, if any
+	 */
+	public ApplyResult call() throws Exception {
+		// TODO: any exception should be added to ApplyResult
+		try {
+			ApplyResult r = new ApplyResult();
+			final Patch p = new Patch();
+			p.parse(in);
+			if (!p.getErrors().isEmpty())
+				return r.setFormatErrors(p.getErrors());
+			for (FileHeader fh : p.getFiles()) {
+				ChangeType type = fh.getChangeType();
+				File f = null;
+				switch (type) {
+				case ADD:
+					f = getFile(fh.getNewPath(), true);
+					FileWriter fw = new FileWriter(f);
+					fw.write(fh.getScriptText());
+					fw.close();
+					break;
+				case MODIFY:
+					f = getFile(fh.getOldPath(), false);
+					apply(f, fh, r);
+					break;
+				case DELETE:
+					f = getFile(fh.getOldPath(), false);
+					if (!f.delete())
+						r.addApplyError(new ApplyError(fh, ChangeType.DELETE));
+					break;
+				case RENAME:
+					f = getFile(fh.getOldPath(), false);
+					File dest = getFile(fh.getNewPath(), false);
+					if (!f.renameTo(dest))
+						r.addApplyError(new ApplyError(fh, ChangeType.RENAME));
+					break;
+				case COPY:
+					f = getFile(fh.getOldPath(), false);
+					byte[] bs = IO.readFully(f);
+					fw = new FileWriter(getFile(fh.getNewPath(), true));
+					fw.write(new String(bs));
+					fw.close();
+				}
+			}
+			return r;
+		} finally {
+			in.close();
+		}
+	}
+
+	private File getFile(String path, boolean create) throws IOException {
+		File f = new File(getRepository().getWorkTree(), path);
+		if (create)
+			f.createNewFile();
+		return f;
+	}
+
+	private void apply(File f, FileHeader fh, ApplyResult r) throws IOException {
+		// TODO: any exception should be added to ApplyResult
+		RawText rt = new RawText(f);
+		List<String> lines = new ArrayList<String>(rt.size());
+		for (int i = 0; i < rt.size(); i++) {
+			lines.add(rt.getString(i));
+		}
+		HUNKS: for (HunkHeader hh : fh.getHunks()) {
+			StringBuilder hunk = new StringBuilder();
+			for (int j = hh.getStartOffset(); j < hh.getEndOffset(); j++) {
+				hunk.append((char) hh.getBuffer()[j]);
+			}
+			RawText hrt = new RawText(hunk.toString().getBytes());
+			List<String> hunkLines = new ArrayList<String>(hrt.size());
+			for (int i = 0; i < hrt.size(); i++) {
+				hunkLines.add(hrt.getString(i));
+			}
+			int pos = 0;
+			for (int j = 1; j < hunkLines.size(); j++) {
+				String hunkLine = hunkLines.get(j);
+				switch (hunkLine.charAt(0)) {
+				case ' ':
+					if (!lines.get(hh.getNewStartLine() - 1 + pos)
+							.equals(hunkLine.substring(1))) {
+						r.addApplyError(new ApplyError(hh, ChangeType.MODIFY));
+						continue HUNKS;
+					}
+					pos++;
+					break;
+				case '-':
+					if (!lines.get(hh.getNewStartLine() - 1 + pos)
+							.equals(hunkLine.substring(1))) {
+						r.addApplyError(new ApplyError(hh, ChangeType.MODIFY));
+						continue HUNKS;
+					}
+					lines.remove(hh.getNewStartLine() - 1 + pos);
+					break;
+				case '+':
+					lines.add(hh.getNewStartLine() - 1 + pos,
+							hunkLine.substring(1));
+					pos++;
+					break;
+				}
+			}
+		}
+
+		StringBuilder sb = new StringBuilder();
+		for (String l : lines) {
+			sb.append(l).append("\n"); // TODO: proper line ending
+		}
+		if (isNoNewlineAtEndOfFile(fh))
+			sb.deleteCharAt(sb.length() - 1);
+		FileWriter fw = new FileWriter(f);
+		fw.write(sb.toString());
+		fw.close();
+	}
+
+	private boolean isNoNewlineAtEndOfFile(FileHeader fh) {
+		HunkHeader lastHunk = fh.getHunks().get(fh.getHunks().size() - 1);
+		RawText lhrt = new RawText(lastHunk.getBuffer());
+		return lhrt.getString(lhrt.size() - 1).equals(
+				"\\ No newline at end of file");
+	}
+}
