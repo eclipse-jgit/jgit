@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOCX///bI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-11-25T06:51:41Z",
+      "side": 1,
+      "message": "C Git support escapes in ssh:// yes and this seems to apply for all scheme:// formats. I was a bit surprised when I\ndiscovered it because I deliberately skipped this when I wrote this class originally, just because C Git didn\u0027t (or I though it didn\u0027t). I\u0027ll change class comment too.\n\nI parse all fields so we can read them as clear text. Didn\u0027t think\nof HTTP though. If we create an HTTP URL from plain text, we need to escape it even if it wasn\u0027t escape at first, so this is consistent, I think. It may not be very efficient, but then how many times do we decode/encode? The constructor throws\nand exception if the string is not valid so we have to parse always. \n\nA bonus (or feature...) is that toString normlizes the encoding.",
+      "parentUuid": "AABOCX///c4\u003d",
+      "revId": "4cf80494602a09c159d86d80663f727d955b2aa1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOCX///c8\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2011-11-19T00:17:01Z",
       "side": 1,
       "message": "I don\u0027t think C Git supports escaped paths in the SCP style URIish. I thought it passed the path through as-is to the remote host. So isn\u0027t it wrong for JGit to unescape %20 here?",
+      "revId": "4cf80494602a09c159d86d80663f727d955b2aa1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOCX///bE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-11-25T06:51:41Z",
+      "side": 1,
+      "message": "Can\u0027t explain what I though (or if I did) there...\nDone.",
+      "parentUuid": "AABOCX///c8\u003d",
       "revId": "4cf80494602a09c159d86d80663f727d955b2aa1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -70,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "AABOCX///aI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-11-25T06:51:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOCH///nk\u003d",
+      "revId": "4cf80494602a09c159d86d80663f727d955b2aa1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOCX///co\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
         "patchSetId": 1
@@ -87,6 +141,24 @@
     },
     {
       "key": {
+        "uuid": "AABOCX///aE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-11-25T06:51:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOCX///co\u003d",
+      "revId": "4cf80494602a09c159d86d80663f727d955b2aa1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOCX///c0\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
         "patchSetId": 1
@@ -98,6 +170,24 @@
       "writtenOn": "2011-11-19T00:17:01Z",
       "side": 1,
       "message": "This would encode %A not %0A. It should always be 2 digits.",
+      "revId": "4cf80494602a09c159d86d80663f727d955b2aa1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOCX///aA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-11-25T06:51:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOCX///c0\u003d",
       "revId": "4cf80494602a09c159d86d80663f727d955b2aa1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
