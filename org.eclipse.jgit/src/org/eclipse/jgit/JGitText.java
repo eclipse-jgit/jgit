@@ -406,6 +406,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String packingCancelledDuringObjectsWriting;
 	/***/ public String packWriterStatistics;
 	/***/ public String pathIsNotInWorkingDir;
+	/***/ public String pathNotConfigured;
 	/***/ public String peeledLineBeforeRef;
 	/***/ public String peerDidNotSupplyACompleteObjectGraph;
 	/***/ public String prefixRemote;
@@ -480,6 +481,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String staleRevFlagsOn;
 	/***/ public String startingReadStageWithoutWrittenRequestDataPendingIsNotSupported;
 	/***/ public String statelessRPCRequiresOptionToBeEnabled;
+	/***/ public String submoduleExists;
 	/***/ public String submodulesNotSupported;
 	/***/ public String symlinkCannotBeWrittenAsTheLinkTarget;
 	/***/ public String systemConfigFileInvalid;
@@ -539,6 +541,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String unsupportedPackVersion;
 	/***/ public String updatingReferences;
 	/***/ public String updatingRefFailed;
+	/***/ public String uriNotConfigured;
 	/***/ public String uriNotFound;
 	/***/ public String userConfigFileInvalid;
 	/***/ public String walkFailure;
