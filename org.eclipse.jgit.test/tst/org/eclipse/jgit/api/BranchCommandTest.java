@@ -66,6 +66,7 @@ import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryTestCase;
 import org.eclipse.jgit.lib.StoredConfig;
+import org.eclipse.jgit.pgm.CLIGitCommand;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevTag;
 import org.eclipse.jgit.transport.FetchResult;
@@ -463,6 +464,12 @@ public class BranchCommandTest extends RepositoryTestCase {
 	public void testCreationImplicitStart() throws JGitInternalException,
 			GitAPIException {
 		git.branchCreate().setName("topic").call();
+	}
+
+	@Test
+	public void testList_CLI() throws Exception {
+		String result = CLIGitCommand.execute("git branch -v", db);
+		assertEquals("* master 9c58deb Initial commit\r\n", result);
 	}
 
 	public Ref createBranch(Git actGit, String name, boolean force,
