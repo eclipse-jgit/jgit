@@ -47,6 +47,7 @@ package org.eclipse.jgit.treewalk;
 import java.io.IOException;
 import java.util.Arrays;
 
+import org.eclipse.jgit.dircache.DirCacheCheckout;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.AnyObjectId;
@@ -106,6 +107,14 @@ public class CanonicalTreeParser extends AbstractTreeIterator {
 
 	private CanonicalTreeParser(final CanonicalTreeParser p) {
 		super(p);
+	}
+
+	/**
+	 * @return the parent of this tree parser
+	 * @internal
+	 */
+	public CanonicalTreeParser getParent() {
+		return (CanonicalTreeParser) parent;
 	}
 
 	/**
@@ -246,6 +255,40 @@ public class CanonicalTreeParser extends AbstractTreeIterator {
 	@Override
 	public int idOffset() {
 		return nextPtr - Constants.OBJECT_ID_LENGTH;
+	}
+
+	/**
+	 * JGit internal API for use by {@link DirCacheCheckout}
+	 *
+	 * @return a reference to the internal buffer holding
+	 */
+	public byte[] pathSegmentBuffer() {
+		return raw;
+	}
+
+	/**
+	 * JGit internal API for use by {@link DirCacheCheckout}
+	 * 
+	 * @return start of segment name within {@link #pathSegmentBuffer()}
+	 */
+	public int pathSegmentOffset() {
+		for (int i = currPtr; i < raw.length; ++i)
+			if (raw[i] == ' ')
+				return i + 1;
+		throw new IllegalStateException();
+	}
+
+	/**
+	 * JGit internal API for use by {@link DirCacheCheckout}
+	 * 
+	 * @return Length of path segment buffer
+	 */
+	public int pathSegmentLength() {
+		int i = pathSegmentOffset();
+		for (int j = i; j < raw.length; ++j)
+			if (raw[j] == 0)
+				return j - i;
+		throw new IllegalStateException();
 	}
 
 	@Override
