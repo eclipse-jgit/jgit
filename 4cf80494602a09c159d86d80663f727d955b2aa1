@@ -53,6 +53,23 @@
     },
     {
       "key": {
+        "uuid": "AABOCH///nk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-11-09T08:44:43Z",
+      "side": 1,
+      "message": "I was confused by the name \u0027reserve\u0027 (nothing is beeing reserved when this flag is true). Something like escapeReservedChars would be clearer",
+      "revId": "4cf80494602a09c159d86d80663f727d955b2aa1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOCX///co\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
         "patchSetId": 1
