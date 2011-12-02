@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOCX///II\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-11-26T07:26:17Z",
+      "side": 1,
+      "message": "Do we need to worry about the odd corner case of HTTP where \"http://HOST/a/b%2Fc/d\" decodes to \"a/b/c/d\" but may then fail on the remote server because the b%2Fc component was meant to be parsed as a single directory component of /a/ namespace and not as \"b\" by itself?\n\nI think this is pretty unlikely. But it can happen here. It may be worthwhile at least writing a test case that shows this happens with URIish so its documented as expected behavior.",
+      "revId": "2735b65ae762cbe72dc64cb85591b8859db4a4f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOCX///IY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-11-26T07:26:17Z",
+      "side": 1,
+      "message": "(optional) I usually prefer to see a blank line before a long try/finally block like this that declares a new local variable.",
+      "revId": "2735b65ae762cbe72dc64cb85591b8859db4a4f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOCX///Ic\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-11-26T07:26:17Z",
+      "side": 1,
+      "message": "Instead of using ByteArrayOutputStream you can allocate a byte[bytes.length] and keep a running len counter. decode() below will take byte[],0,len to decode the buffer. We know we cannot exceed bytes.length as the loop either copies byte-for-byte or collapses 3 bytes to 1 (e.g. \"%2F\" to \"/\").",
+      "revId": "2735b65ae762cbe72dc64cb85591b8859db4a4f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOCX///Ik\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-11-26T07:26:17Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be i + 2? If the input is \"%2\" this isn\u0027t really a valid hex escape. But the substring for i + 3 should fail.",
+      "revId": "2735b65ae762cbe72dc64cb85591b8859db4a4f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOCX///Ig\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-11-26T07:26:17Z",
+      "side": 1,
+      "message": "We shouldn\u0027t assume the UTF-8 encoding of the input string is the same length as the string is in UTF-16. Instead use the RawParseUtils class to parse a hex digit from the byte[] using our hex parser functions.\n\nStyle-nit here, we put spaces after commas in method calls.",
+      "revId": "2735b65ae762cbe72dc64cb85591b8859db4a4f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOCX///IQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-11-26T07:26:17Z",
+      "side": 1,
+      "message": "private?",
+      "revId": "2735b65ae762cbe72dc64cb85591b8859db4a4f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOCX///IU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-11-26T07:26:17Z",
+      "side": 1,
+      "message": "style-nit: curly braces not necessary. Should we be paranoid about the JVM platform encoding and specify Constants.CHARACTER_ENCODING here?",
+      "revId": "2735b65ae762cbe72dc64cb85591b8859db4a4f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOCX///IM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-11-26T07:26:17Z",
+      "side": 1,
+      "message": "typo on escape in esacpeReservedChars",
+      "revId": "2735b65ae762cbe72dc64cb85591b8859db4a4f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
