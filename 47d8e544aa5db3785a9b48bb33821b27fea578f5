@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOC3///qo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-12-02T03:03:40Z",
+      "side": 1,
+      "message": "\u003e\u003d",
+      "revId": "47d8e544aa5db3785a9b48bb33821b27fea578f5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOC3///qk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-12-02T03:03:40Z",
+      "side": 1,
+      "message": "os.write(tmp, 0, 2)?\n\nAlternatively we could just do:\n\n  private static final byte[] hexchar \u003d { \u00270\u0027, \u00271\u0027, \u00272\u0027, \u00273\u0027, \u00274\u0027, \u00275\u0027, \u00276\u0027,\n               \u00277\u0027, \u00278\u0027, \u00279\u0027, \u0027A\u0027, \u0027B\u0027, \u0027C\u0027, \u0027D\u0027, \u0027E\u0027, \u0027F\u0027 };\n\n    os.write(\u0027%\u0027);\n    os.write(hexchar[(b \u003e\u003e 4) \u0026 0xf]);\n    os.write(hexchar[b \u0026 0xf]);",
+      "revId": "47d8e544aa5db3785a9b48bb33821b27fea578f5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOC3///qg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 465,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-12-02T03:03:40Z",
+      "side": 1,
+      "message": "shouldn\u0027t this be rawPath \u003d escape(n)?",
+      "revId": "47d8e544aa5db3785a9b48bb33821b27fea578f5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOC3///qc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 648,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-12-02T03:03:40Z",
+      "side": 1,
+      "message": "Why do we need ASCII version?",
+      "revId": "47d8e544aa5db3785a9b48bb33821b27fea578f5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
