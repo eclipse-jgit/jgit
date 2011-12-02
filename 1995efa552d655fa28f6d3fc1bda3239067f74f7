@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "AABOCn////o\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-11-29T00:08:25Z",
+      "side": 1,
+      "message": "Ah, didn\u0027t see that substring error... You\u0027re right.\nDone.\n\nThe reason I think we should not clean up is that users may\nwrite URL\u0027s \"manually\" and I think that should be ok. We do clean up when formatting. Besides, the java URI also accepts unclean input and Git URL parsing also does it.",
+      "parentUuid": "AABOCX///EA\u003d",
+      "revId": "1995efa552d655fa28f6d3fc1bda3239067f74f7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOCX///EM\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
         "patchSetId": 4
@@ -47,6 +65,24 @@
       "writtenOn": "2011-11-27T22:19:58Z",
       "side": 1,
       "message": "Shouldn\u0027t we use getRawPath() here so that the a/b%2Fc/d case  is preserved through into the formatted string?",
+      "revId": "1995efa552d655fa28f6d3fc1bda3239067f74f7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOC3////0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 623,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-11-29T00:08:25Z",
+      "side": 1,
+      "message": "I\u0027ve considered it, but to be honest; I don\u0027t know which is best. From a pure cleanliness point of view, we should. From a practial.. This way we get the URI cleaned.\n\nFor reference java.net.URI does what you suggest.\n\nShould we, now that we know that git URI-encodes, use java.net.URI as much as possible and only wrap it to allow\nfor local name, scp and the broken file:(no extra slashes) syntax?",
+      "parentUuid": "AABOCX///EM\u003d",
       "revId": "1995efa552d655fa28f6d3fc1bda3239067f74f7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
