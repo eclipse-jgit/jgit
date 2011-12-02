@@ -44,8 +44,10 @@
 package org.eclipse.jgit.transport;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -54,6 +56,7 @@ import java.io.OutputStreamWriter;
 
 import org.eclipse.jgit.lib.RepositoryTestCase;
 import org.eclipse.jgit.transport.OpenSshConfig.Host;
+import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
 import org.junit.Before;
 import org.junit.Test;
@@ -76,7 +79,7 @@ public class OpenSshConfigTest extends RepositoryTestCase {
 		FileUtils.mkdir(configFile.getParentFile());
 
 		System.setProperty("user.name", "jex_junit");
-		osc = new OpenSshConfig(home, configFile);
+		osc = OpenSshConfig.get(new FS_Mock(home));
 	}
 
 	private void config(final String data) throws IOException {
@@ -98,17 +101,11 @@ public class OpenSshConfigTest extends RepositoryTestCase {
 
 	@Test
 	public void testSeparatorParsing() throws Exception {
-		config("Host\tfirst\n" +
-		       "\tHostName\tfirst.tld\n" +
-		       "\n" +
-		       "Host second\n" +
-		       " HostName\tsecond.tld\n" +
-		       "Host=third\n" +
-		       "HostName=third.tld\n\n\n" +
-		       "\t Host = fourth\n\n\n" +
-		       " \t HostName\t=fourth.tld\n" +
-		       "Host\t =     last\n" +
-		       "HostName  \t    last.tld");
+		config("Host\tfirst\n" + "\tHostName\tfirst.tld\n" + "\n"
+				+ "Host second\n" + " HostName\tsecond.tld\n" + "Host=third\n"
+				+ "HostName=third.tld\n\n\n" + "\t Host = fourth\n\n\n"
+				+ " \t HostName\t=fourth.tld\n" + "Host\t =     last\n"
+				+ "HostName  \t    last.tld");
 		assertNotNull(osc.lookup("first"));
 		assertEquals("first.tld", osc.lookup("first").getHostName());
 		assertNotNull(osc.lookup("second"));
@@ -123,19 +120,14 @@ public class OpenSshConfigTest extends RepositoryTestCase {
 
 	@Test
 	public void testQuoteParsing() throws Exception {
-		config("Host \"good\"\n" +
-			" HostName=\"good.tld\"\n" +
-			" Port=\"6007\"\n" +
-			" User=\"gooduser\"\n" +
-			"Host multiple unquoted and \"quoted\" \"hosts\"\n" +
-			" Port=\"2222\"\n" +
-			"Host \"spaced\"\n" +
-			"# Bad host name, but testing preservation of spaces\n" +
-			" HostName=\" spaced\ttld \"\n" +
-			"# Misbalanced quotes\n" +
-			"Host \"bad\"\n" +
-			"# OpenSSH doesn't allow this but ...\n" +
-			" HostName=bad.tld\"\n");
+		config("Host \"good\"\n" + " HostName=\"good.tld\"\n"
+				+ " Port=\"6007\"\n" + " User=\"gooduser\"\n"
+				+ "Host multiple unquoted and \"quoted\" \"hosts\"\n"
+				+ " Port=\"2222\"\n" + "Host \"spaced\"\n"
+				+ "# Bad host name, but testing preservation of spaces\n"
+				+ " HostName=\" spaced\ttld \"\n" + "# Misbalanced quotes\n"
+				+ "Host \"bad\"\n" + "# OpenSSH doesn't allow this but ...\n"
+				+ " HostName=bad.tld\"\n");
 		assertEquals("good.tld", osc.lookup("good").getHostName());
 		assertEquals("gooduser", osc.lookup("good").getUser());
 		assertEquals(6007, osc.lookup("good").getPort());
@@ -227,7 +219,7 @@ public class OpenSshConfigTest extends RepositoryTestCase {
 	public void testAlias_BatchModeDefault() throws Exception {
 		final Host h = osc.lookup("orcz");
 		assertNotNull(h);
-		assertEquals(false, h.isBatchMode());
+		assertFalse(h.isBatchMode());
 	}
 
 	@Test
@@ -235,7 +227,7 @@ public class OpenSshConfigTest extends RepositoryTestCase {
 		config("Host orcz\n" + "\tBatchMode yes\n");
 		final Host h = osc.lookup("orcz");
 		assertNotNull(h);
-		assertEquals(true, h.isBatchMode());
+		assertTrue(h.isBatchMode());
 	}
 
 	@Test
@@ -244,6 +236,56 @@ public class OpenSshConfigTest extends RepositoryTestCase {
 				+ "\tBatchMode yes\n");
 		final Host h = osc.lookup("orcz");
 		assertNotNull(h);
-		assertEquals(true, h.isBatchMode());
+		assertTrue(h.isBatchMode());
+	}
+
+	/** FS mock returning the user's home directory. */
+	private static class FS_Mock extends FS {
+
+		private File userHome;
+
+		private FS_Mock(File userHome) {
+			this.userHome = userHome;
+		}
+
+		@Override
+		public File userHome() {
+			return userHome;
+		}
+
+		@Override
+		public FS newInstance() {
+			return null;
+		}
+
+		@Override
+		public boolean supportsExecute() {
+			return false;
+		}
+
+		@Override
+		public boolean canExecute(File f) {
+			return false;
+		}
+
+		@Override
+		public boolean setExecute(File f, boolean canExec) {
+			return false;
+		}
+
+		@Override
+		public boolean retryFailedLockFileCommit() {
+			return false;
+		}
+
+		@Override
+		protected File discoverGitPrefix() {
+			return null;
+		}
+
+		@Override
+		public ProcessBuilder runInShell(String cmd, String[] args) {
+			return null;
+		}
 	}
 }
