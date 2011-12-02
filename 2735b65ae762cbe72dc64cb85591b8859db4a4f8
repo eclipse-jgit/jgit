@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOCX///Fc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-11-27T10:20:46Z",
+      "side": 1,
+      "message": "Ouch. Back to the drawing board. This is quite bad. It seems the standard among web apps is to parse the path *before* decoding, hence a%2Fb is rarely the same as a/b. The former usually returns a 404.\n\nI\u0027ll add a getRawPath for this.",
+      "parentUuid": "AABOCX///II\u003d",
+      "revId": "2735b65ae762cbe72dc64cb85591b8859db4a4f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOCX///IY\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2011-11-26T07:26:17Z",
       "side": 1,
       "message": "(optional) I usually prefer to see a blank line before a long try/finally block like this that declares a new local variable.",
+      "revId": "2735b65ae762cbe72dc64cb85591b8859db4a4f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOCX///Fw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-11-27T10:20:46Z",
+      "side": 1,
+      "message": "I\u0027ll add  a blank, but before the declaration of bytes instead.",
+      "parentUuid": "AABOCX///IY\u003d",
       "revId": "2735b65ae762cbe72dc64cb85591b8859db4a4f8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AABOCX///F4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-11-27T10:20:46Z",
+      "side": 1,
+      "message": "ByteArrayOutputStream is slightly higher level. Do we need super-efficiency here?",
+      "parentUuid": "AABOCX///Ic\u003d",
+      "revId": "2735b65ae762cbe72dc64cb85591b8859db4a4f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOCX///Ik\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
         "patchSetId": 2
@@ -64,6 +118,24 @@
       "writtenOn": "2011-11-26T07:26:17Z",
       "side": 1,
       "message": "Shouldn\u0027t this be i + 2? If the input is \"%2\" this isn\u0027t really a valid hex escape. But the substring for i + 3 should fail.",
+      "revId": "2735b65ae762cbe72dc64cb85591b8859db4a4f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOCX///F0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-11-27T10:20:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOCX///Ik\u003d",
       "revId": "2735b65ae762cbe72dc64cb85591b8859db4a4f8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AABOCX///Fs\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-11-27T10:20:46Z",
+      "side": 1,
+      "message": "RawparseUtils wouldn\u0027t assume that...!? Only ASCII digits are valid here and they are 1 to 1.",
+      "parentUuid": "AABOCX///Ig\u003d",
+      "revId": "2735b65ae762cbe72dc64cb85591b8859db4a4f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOCX///IQ\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
         "patchSetId": 2
@@ -98,6 +188,24 @@
       "writtenOn": "2011-11-26T07:26:17Z",
       "side": 1,
       "message": "private?",
+      "revId": "2735b65ae762cbe72dc64cb85591b8859db4a4f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOCX///Fo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-11-27T10:20:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOCX///IQ\u003d",
       "revId": "2735b65ae762cbe72dc64cb85591b8859db4a4f8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "AABOCX///Fk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-11-27T10:20:46Z",
+      "side": 1,
+      "message": "ok, using encodeASCII\nDone",
+      "parentUuid": "AABOCX///IU\u003d",
+      "revId": "2735b65ae762cbe72dc64cb85591b8859db4a4f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOCX///IM\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
         "patchSetId": 2
@@ -132,6 +258,24 @@
       "writtenOn": "2011-11-26T07:26:17Z",
       "side": 1,
       "message": "typo on escape in esacpeReservedChars",
+      "revId": "2735b65ae762cbe72dc64cb85591b8859db4a4f8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOCX///Fg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-11-27T10:20:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOCX///IM\u003d",
       "revId": "2735b65ae762cbe72dc64cb85591b8859db4a4f8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
