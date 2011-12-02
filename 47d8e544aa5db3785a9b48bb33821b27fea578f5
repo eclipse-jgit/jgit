@@ -67,6 +67,24 @@
       "revId": "47d8e544aa5db3785a9b48bb33821b27fea578f5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOC3///qU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 648,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-12-02T07:06:59Z",
+      "side": 1,
+      "message": "toString may contain non-ASCII characters and is therefore unsuitable when sent over the wire.",
+      "parentUuid": "AABOC3///qc\u003d",
+      "revId": "47d8e544aa5db3785a9b48bb33821b27fea578f5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
