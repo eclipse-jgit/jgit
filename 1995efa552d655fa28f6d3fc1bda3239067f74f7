@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOCX///D8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-11-27T22:19:58Z",
+      "side": 1,
+      "message": "My suggestion to not use ByteArrayOutputStream is because it really adds little value here. The result cannot be longer than bytes.length. We copy the result twice right now, just because you are don\u0027t want to keep an output index counter.\n\nIf the loop was using a new-style for loop with an iterator, maybe it would make sense to try and use a result buffer type that hides the result buffer pointer. But its not, its heavily relying on the index and direct array access because this is more efficient than doing a new substring call on each character position as you walk down the string. At that point it can be easier to follow the code if both the source and destination buffers are using the same approach, a direct pointer into the array.\n\nWhatever, we can keep the ByteArrayOutputStream. I just think its silly to allocate that, and a temporary byte array, and copy the temporary byte array over to a real byte array, just so you can call RawParseUtils.decode(), which accepts an array, a starting position, and an ending position, and thus does not need the temporary array.",
+      "revId": "1995efa552d655fa28f6d3fc1bda3239067f74f7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOCX///EA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-11-27T22:19:58Z",
+      "side": 1,
+      "message": "You are still assuming the length in bytes in UTF-8 matches the length of chars in UTF-16. Consider this case:\n\n  new URIish(\"ssh://user@host/åpath%2Estring\")\n\nThis is a valid input. The å cannot be represented as a single byte in UTF-8, its a two-byte value. I think this loop will fail horribly on this input and not produce a reasonable result.\n\nI think we would prefer this loop to convert the bare å into its URL encoded version of its UTF-8 form, thus \"cleaning up the input\". If its not going to do that, we need to throw a URISyntaxException and refuse the input. But right now I think this method will mangle the input because the position of the % in the byte array is not the same position as the % in the String object, so you will try to perform parseInt against non-hex text.",
+      "revId": "1995efa552d655fa28f6d3fc1bda3239067f74f7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOCX///EM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 623,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-11-27T22:19:58Z",
+      "side": 1,
+      "message": "Shouldn\u0027t we use getRawPath() here so that the a/b%2Fc/d case  is preserved through into the formatted string?",
+      "revId": "1995efa552d655fa28f6d3fc1bda3239067f74f7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOC3///9o\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 623,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-11-29T02:58:45Z",
+      "side": 1,
+      "message": "It may be worthwhile to use java.net.URI, but I\u0027m not sure how much that saves us. We get correct URI handling for http:// and https://. Yay. What about esoteric helper protocols that aren\u0027t http or https?\n\nFor example, I have two schemes that are internal to google like google:// and some-thing-name:// that don\u0027t use an http or https style string after the :// part.\n\nIn this current code, I think escape(getPath()) isn\u0027t right. It converts \"a/b%2Fc/d\" to \"a/b/c/d\" which may be wrong for the remote system. We should be using the raw path here, and require callers who set a raw path to URL escape in UTF-8 on their own, or to use our setPath() method which will URL escape consistently but then does not permit this corner case of \"a/b%2Fc/d\".",
+      "parentUuid": "AABOC3////0\u003d",
+      "revId": "1995efa552d655fa28f6d3fc1bda3239067f74f7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
