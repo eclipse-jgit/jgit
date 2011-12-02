@@ -53,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "AABOC3///qQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 465,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-12-02T07:06:59Z",
+      "side": 1,
+      "message": "Could be either way. Since we set the encododed path, we cannot know what the rawpath would have been. This way toString preserves the path. \n\ntoASCIIString will format an always-encoded path (see java.net.URI for inspiration).",
+      "parentUuid": "AABOC3///qg\u003d",
+      "revId": "47d8e544aa5db3785a9b48bb33821b27fea578f5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOC3///qc\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
         "patchSetId": 6
