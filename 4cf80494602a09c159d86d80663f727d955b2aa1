@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOCX///c4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-11-19T00:17:01Z",
+      "side": 1,
+      "message": "Does C Git support escaping the path in a ssh:// or git+ssh:// or ssh+git:// style URIish?\n\nAnd in an HTTP style URIish, we have to re-escape when we pass the URI to the remote HTTP server. So why are we bothering with the unescape here?",
+      "revId": "4cf80494602a09c159d86d80663f727d955b2aa1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOCX///c8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-11-19T00:17:01Z",
+      "side": 1,
+      "message": "I don\u0027t think C Git supports escaped paths in the SCP style URIish. I thought it passed the path through as-is to the remote host. So isn\u0027t it wrong for JGit to unescape %20 here?",
+      "revId": "4cf80494602a09c159d86d80663f727d955b2aa1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOCX///ck\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-11-19T00:17:01Z",
+      "side": 1,
+      "message": "This set reference can be final.",
+      "revId": "4cf80494602a09c159d86d80663f727d955b2aa1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOCX///co\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-11-19T00:17:01Z",
+      "side": 1,
+      "message": "Instead of Error we throw RuntimeException when the encoding is not supported.",
+      "revId": "4cf80494602a09c159d86d80663f727d955b2aa1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOCX///c0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/URIish.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-11-19T00:17:01Z",
+      "side": 1,
+      "message": "This would encode %A not %0A. It should always be 2 digits.",
+      "revId": "4cf80494602a09c159d86d80663f727d955b2aa1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
