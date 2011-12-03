@@ -87,6 +87,24 @@
       "revId": "d29a6da59821a391d32dc33e0cea41f7d1307aa2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOC3///k4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/JschConfigSessionFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-12-03T08:26:47Z",
+      "side": 1,
+      "message": "I\u0027ll create the necessary CQs for that",
+      "parentUuid": "AABOCX///GA\u003d",
+      "revId": "d29a6da59821a391d32dc33e0cea41f7d1307aa2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
