@@ -1,6 +1,7 @@
 /*
  * Copyright (C) 2007, Robin Rosenberg <robin.rosenberg@dewire.com>
  * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org>
+ * Copyright (C) 2011, Robin Stocker <robin@nibor.org>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -395,6 +396,47 @@ public class RevWalk implements Iterable<RevCommit> {
 			markStart(tip);
 			markStart(base);
 			return next() == base;
+		} finally {
+			filter = oldRF;
+			treeFilter = oldTF;
+		}
+	}
+
+	/**
+	 * Count the number of commits that are reachable from <code>start</code>
+	 * until a commit that is reachable from <code>end</code> is encountered. In
+	 * other words, count the number of commits that are in <code>start</code>,
+	 * but not in <code>end</code>.
+	 *
+	 * @param start
+	 *            the commit to start counting from
+	 * @param end
+	 *            the commit where counting should end, or null if counting
+	 *            should be done until there are no more commits
+	 *
+	 * @return the number of commits
+	 * @throws MissingObjectException
+	 * @throws IncorrectObjectTypeException
+	 * @throws IOException
+	 */
+	public int count(final RevCommit start, final RevCommit end)
+			throws MissingObjectException, IncorrectObjectTypeException,
+			IOException {
+		final RevFilter oldRF = filter;
+		final TreeFilter oldTF = treeFilter;
+		try {
+			finishDelayedFreeFlags();
+			reset(~freeFlags & APP_FLAGS);
+			filter = RevFilter.ALL;
+			treeFilter = TreeFilter.ALL;
+			markStart(start);
+			if (end != null)
+				markUninteresting(end);
+
+			int count = 0;
+			for (RevCommit c = next(); c != null; c = next())
+				count++;
+			return count;
 		} finally {
 			filter = oldRF;
 			treeFilter = oldTF;
