@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOCX///GY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/JschConfigSessionFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-11-27T00:24:23Z",
+      "side": 1,
+      "message": "fixed this to allow not more than 2 retries",
+      "parentUuid": "AABOCX///I4\u003d",
+      "revId": "d29a6da59821a391d32dc33e0cea41f7d1307aa2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOCX///I8\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/JschConfigSessionFactory.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2011-11-26T06:53:56Z",
       "side": 1,
       "message": "Does disconnect() no-op if connect failed? Or do we need to guard this with if (session.isConnected()) session.disconnect()?",
+      "revId": "d29a6da59821a391d32dc33e0cea41f7d1307aa2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOCX///GQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/JschConfigSessionFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-11-27T00:24:23Z",
+      "side": 1,
+      "message": "without this I wasn\u0027t able to reconnect as connect() did hang when retrying. session.disconnect() has a guard internally already.\n\nCurrently I can\u0027t test anymore as Denis\u0027 intrusion prevention heuristics locked my IP and he didn\u0027t yet manage to unlock me again.\n\nMaybe we should seek IP approval for apache sshd to implement a sshd for testing this properly.",
+      "parentUuid": "AABOCX///I8\u003d",
       "revId": "d29a6da59821a391d32dc33e0cea41f7d1307aa2",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
