@@ -119,6 +119,50 @@ public final class ServletUtils {
 	}
 
 	/**
+	 * Consume the entire request body, if one was supplied.
+	 *
+	 * @param req
+	 *            the request whose body must be consumed.
+	 */
+	public static void consumeRequestBody(HttpServletRequest req) {
+		if (0 < req.getContentLength() || isChunked(req)) {
+			try {
+				consumeRequestBody(req.getInputStream());
+			} catch (IOException e) {
+				// Ignore any errors obtaining the input stream.
+			}
+		}
+	}
+
+	private static boolean isChunked(HttpServletRequest req) {
+		return "chunked".equals(req.getHeader("Transfer-Encoding"));
+	}
+
+	/**
+	 * Consume the rest of the input stream and discard it.
+	 *
+	 * @param in
+	 *            the stream to discard, closed if not null.
+	 */
+	public static void consumeRequestBody(InputStream in) {
+		if (in == null)
+			return;
+		try {
+			while (0 < in.skip(2048) || 0 <= in.read()) {
+				// Discard until EOF.
+			}
+		} catch (IOException err) {
+			// Discard IOException during read or skip.
+		} finally {
+			try {
+				in.close();
+			} catch (IOException err) {
+				// Discard IOException during close of input stream.
+			}
+		}
+	}
+
+	/**
 	 * Send a plain text response to a {@code GET} or {@code HEAD} HTTP request.
 	 * <p>
 	 * The text response is encoded in the Git character encoding, UTF-8.

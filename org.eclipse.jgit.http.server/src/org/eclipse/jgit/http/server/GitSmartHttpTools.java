@@ -49,11 +49,11 @@ import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -184,24 +184,27 @@ public class GitSmartHttpTools {
 			pck.writeString("# service=" + svc + "\n");
 			pck.end();
 			pck.writeString("ERR " + textForGit);
-			send(res, infoRefsResultType(svc), buf.toByteArray());
+			send(req, res, infoRefsResultType(svc), buf.toByteArray());
 		} else if (isUploadPack(req)) {
 			pck.writeString("ERR " + textForGit);
-			send(res, UPLOAD_PACK_RESULT_TYPE, buf.toByteArray());
+			send(req, res, UPLOAD_PACK_RESULT_TYPE, buf.toByteArray());
 		} else if (isReceivePack(req)) {
 			pck.writeString("ERR " + textForGit);
-			send(res, RECEIVE_PACK_RESULT_TYPE, buf.toByteArray());
+			send(req, res, RECEIVE_PACK_RESULT_TYPE, buf.toByteArray());
 		} else {
+			if (httpStatus < 400)
+				ServletUtils.consumeRequestBody(req);
 			res.sendError(httpStatus);
 		}
 	}
 
-	private static void send(HttpServletResponse res, String type, byte[] buf)
-			throws IOException {
+	private static void send(HttpServletRequest req, HttpServletResponse res,
+			String type, byte[] buf) throws IOException {
+		ServletUtils.consumeRequestBody(req);
 		res.setStatus(HttpServletResponse.SC_OK);
 		res.setContentType(type);
 		res.setContentLength(buf.length);
-		ServletOutputStream os = res.getOutputStream();
+		OutputStream os = res.getOutputStream();
 		try {
 			os.write(buf);
 		} finally {

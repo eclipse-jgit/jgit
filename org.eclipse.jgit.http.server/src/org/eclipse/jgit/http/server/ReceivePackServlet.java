@@ -52,6 +52,7 @@ import static org.eclipse.jgit.http.server.GitSmartHttpTools.RECEIVE_PACK_REQUES
 import static org.eclipse.jgit.http.server.GitSmartHttpTools.RECEIVE_PACK_RESULT_TYPE;
 import static org.eclipse.jgit.http.server.GitSmartHttpTools.sendError;
 import static org.eclipse.jgit.http.server.ServletUtils.ATTRIBUTE_HANDLER;
+import static org.eclipse.jgit.http.server.ServletUtils.consumeRequestBody;
 import static org.eclipse.jgit.http.server.ServletUtils.getInputStream;
 import static org.eclipse.jgit.http.server.ServletUtils.getRepository;
 
@@ -158,17 +159,18 @@ class ReceivePackServlet extends HttpServlet {
 			return;
 		}
 
+		SmartOutputStream out = new SmartOutputStream(req, rsp) {
+			@Override
+			public void flush() throws IOException {
+				doFlush();
+			}
+		};
+
 		ReceivePack rp = (ReceivePack) req.getAttribute(ATTRIBUTE_HANDLER);
 		try {
 			rp.setBiDirectionalPipe(false);
 			rsp.setContentType(RECEIVE_PACK_RESULT_TYPE);
 
-			final SmartOutputStream out = new SmartOutputStream(req, rsp) {
-				@Override
-				public void flush() throws IOException {
-					doFlush();
-				}
-			};
 			rp.receive(getInputStream(req), out, null);
 			out.close();
 		} catch (UnpackException e) {
@@ -176,8 +178,10 @@ class ReceivePackServlet extends HttpServlet {
 			getServletContext().log(
 					HttpServerText.get().internalErrorDuringReceivePack,
 					e.getCause());
+			consumeRequestBody(req);
+			out.close();
 
-		} catch (IOException e) {
+		} catch (Throwable e) {
 			getServletContext().log(HttpServerText.get().internalErrorDuringReceivePack, e);
 			if (!rsp.isCommitted()) {
 				rsp.reset();
