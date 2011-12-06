@@ -1,0 +1,22 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOC3///x0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MergeCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-11-30T21:47:42Z",
+      "side": 1,
+      "message": "As the other exception we threw previously is a JGitInternalException applications couldn\u0027t really handle it (like the EGit code which revealed this problem I am trying to fix here)",
+      "parentUuid": "AABOC3///y4\u003d",
+      "revId": "b27ce49c60a8fdf089165aad116dd14416a88f56",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
