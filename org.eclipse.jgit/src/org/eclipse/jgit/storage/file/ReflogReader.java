@@ -51,6 +51,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
@@ -66,7 +67,7 @@ public class ReflogReader {
 	 * @param refname
 	 */
 	public ReflogReader(Repository db, String refname) {
-		logName = new File(db.getDirectory(), "logs/" + refname);
+		logName = new File(db.getDirectory(), Constants.LOGS + "/" + refname);
 	}
 
 	/**
