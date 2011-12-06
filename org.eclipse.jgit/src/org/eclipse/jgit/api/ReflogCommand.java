@@ -47,7 +47,7 @@ import java.text.MessageFormat;
 import java.util.Collection;
 
 import org.eclipse.jgit.JGitText;
-import org.eclipse.jgit.api.errors.InvalidRemoteException;
+import org.eclipse.jgit.api.errors.InvalidRefNameException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.storage.file.ReflogEntry;
@@ -91,8 +91,8 @@ public class ReflogCommand extends GitCommand<Collection<ReflogEntry>> {
 			ReflogReader reader = new ReflogReader(repo, ref);
 			return reader.getReverseEntries();
 		} catch (IOException e) {
-			throw new InvalidRemoteException(MessageFormat.format(
-					JGitText.get().cannotRead, ref));
+			throw new InvalidRefNameException(MessageFormat.format(
+					JGitText.get().cannotRead, ref), e);
 		}
 	}
 
