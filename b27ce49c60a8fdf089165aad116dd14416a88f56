@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AABOC3///y4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MergeCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-11-30T13:32:05Z",
+      "side": 1,
+      "message": "Isn\u0027t this a little bit like a API change? Practically we will break applications which worked before and which catched org.eclipse.jgit.errors.CheckoutConflictException. Now we don\u0027t throw this exception anymore but a org.eclipse.jgit.api.errors.CheckoutConflictException. What you suggest is cleaner and it does what the method signature tells - but still we may break running applications.",
+      "revId": "b27ce49c60a8fdf089165aad116dd14416a88f56",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOC3///x0\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MergeCommand.java",
         "patchSetId": 1
