@@ -506,11 +506,20 @@ public class Git {
 
 	/**
 	 * Returns a command object used to delete tags
-	 * 
+	 *
 	 * @return a {@link DeleteTagCommand}
 	 */
 	public DeleteTagCommand tagDelete() {
 		return new DeleteTagCommand(repo);
+	}
+
+	/**
+	 * Returns a command object used to list stashed commits
+	 *
+	 * @return a {@link StashListCommand}
+	 */
+	public StashListCommand stashList() {
+		return new StashListCommand(repo);
 	}
 
 	/**
