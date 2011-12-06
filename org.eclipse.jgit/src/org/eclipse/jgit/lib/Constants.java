@@ -231,6 +231,9 @@ public final class Constants {
 	/** Default main branch name */
 	public static final String MASTER = "master";
 
+	/** Name of stash ref */
+	public static final String STASH = "stash";
+
 	/** Prefix for branch refs */
 	public static final String R_HEADS = "refs/heads/";
 
