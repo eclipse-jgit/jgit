@@ -395,7 +395,11 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	private ByteBuffer filterClean(byte[] src, int n)
 			throws IOException {
 		InputStream in = new ByteArrayInputStream(src);
-		return IO.readWholeStream(filterClean(in), n);
+		try {
+			return IO.readWholeStream(filterClean(in), n);
+		} finally {
+			safeClose(in);
+		}
 	}
 
 	private InputStream filterClean(InputStream in) {
