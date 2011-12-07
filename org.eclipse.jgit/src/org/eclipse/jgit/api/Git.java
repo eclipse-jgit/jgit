@@ -54,7 +54,8 @@ import org.eclipse.jgit.util.FS;
 /**
  * Offers a "GitPorcelain"-like API to interact with a git repository.
  * <p>
- * The GitPorcelain commands are described in the <a href="http://www.kernel.org/pub/software/scm/git/docs/git.html#_high_level_commands_porcelain"
+ * The GitPorcelain commands are described in the <a href=
+ * "http://www.kernel.org/pub/software/scm/git/docs/git.html#_high_level_commands_porcelain"
  * >Git Documentation</a>.
  * <p>
  * This class only offers methods to construct so-called command classes. Each
@@ -64,12 +65,12 @@ import org.eclipse.jgit.util.FS;
  * for all the arguments and options. The {@code CommitCommand} class also has a
  * {@code call} method to actually execute the commit. The following code show's
  * how to do a simple commit:
- *
+ * 
  * <pre>
  * Git git = new Git(myRepo);
  * git.commit().setMessage(&quot;Fix393&quot;).setAuthor(developerIdent).call();
  * </pre>
- *
+ * 
  * All mandatory parameters for commands have to be specified in the methods of
  * this class, the optional parameters have to be specified by the
  * setter-methods of the Command class.
@@ -109,9 +110,7 @@ public class Git {
 		RepositoryCache.FileKey key;
 
 		key = RepositoryCache.FileKey.lenient(dir, fs);
-		return wrap(new RepositoryBuilder()
-				.setFS(fs)
-				.setGitDir(key.getFile())
+		return wrap(new RepositoryBuilder().setFS(fs).setGitDir(key.getFile())
 				.setMustExist(true).build());
 	}
 
@@ -127,7 +126,7 @@ public class Git {
 
 	/**
 	 * Returns a command object to execute a {@code clone} command
-	 *
+	 * 
 	 * @see <a
 	 *      href="http://www.kernel.org/pub/software/scm/git/docs/git-clone.html"
 	 *      >Git documentation about clone</a>
@@ -140,7 +139,7 @@ public class Git {
 
 	/**
 	 * Returns a command object to execute a {@code init} command
-	 *
+	 * 
 	 * @see <a
 	 *      href="http://www.kernel.org/pub/software/scm/git/docs/git-init.html"
 	 *      >Git documentation about init</a>
@@ -155,7 +154,7 @@ public class Git {
 	 * Constructs a new {@link Git} object which can interact with the specified
 	 * git repository. All command classes returned by methods of this class
 	 * will always interact with this git repository.
-	 *
+	 * 
 	 * @param repo
 	 *            the git repository this class is interacting with.
 	 *            {@code null} is not allowed
@@ -168,7 +167,7 @@ public class Git {
 
 	/**
 	 * Returns a command object to execute a {@code Commit} command
-	 *
+	 * 
 	 * @see <a
 	 *      href="http://www.kernel.org/pub/software/scm/git/docs/git-commit.html"
 	 *      >Git documentation about Commit</a>
@@ -181,7 +180,7 @@ public class Git {
 
 	/**
 	 * Returns a command object to execute a {@code Log} command
-	 *
+	 * 
 	 * @see <a
 	 *      href="http://www.kernel.org/pub/software/scm/git/docs/git-log.html"
 	 *      >Git documentation about Log</a>
@@ -194,7 +193,7 @@ public class Git {
 
 	/**
 	 * Returns a command object to execute a {@code Merge} command
-	 *
+	 * 
 	 * @see <a
 	 *      href="http://www.kernel.org/pub/software/scm/git/docs/git-merge.html"
 	 *      >Git documentation about Merge</a>
@@ -207,7 +206,7 @@ public class Git {
 
 	/**
 	 * Returns a command object to execute a {@code Pull} command
-	 *
+	 * 
 	 * @return a {@link PullCommand}
 	 */
 	public PullCommand pull() {
@@ -216,7 +215,7 @@ public class Git {
 
 	/**
 	 * Returns a command object used to create branches
-	 *
+	 * 
 	 * @return a {@link CreateBranchCommand}
 	 */
 	public CreateBranchCommand branchCreate() {
@@ -225,7 +224,7 @@ public class Git {
 
 	/**
 	 * Returns a command object used to delete branches
-	 *
+	 * 
 	 * @return a {@link DeleteBranchCommand}
 	 */
 	public DeleteBranchCommand branchDelete() {
@@ -234,7 +233,7 @@ public class Git {
 
 	/**
 	 * Returns a command object used to list branches
-	 *
+	 * 
 	 * @return a {@link ListBranchCommand}
 	 */
 	public ListBranchCommand branchList() {
@@ -242,9 +241,9 @@ public class Git {
 	}
 
 	/**
-	 *
+	 * 
 	 * Returns a command object used to list tags
-	 *
+	 * 
 	 * @return a {@link ListTagCommand}
 	 */
 	public ListTagCommand tagList() {
@@ -253,7 +252,7 @@ public class Git {
 
 	/**
 	 * Returns a command object used to rename branches
-	 *
+	 * 
 	 * @return a {@link RenameBranchCommand}
 	 */
 	public RenameBranchCommand branchRename() {
@@ -262,12 +261,12 @@ public class Git {
 
 	/**
 	 * Returns a command object to execute a {@code Add} command
-	 *
+	 * 
 	 * @see <a
 	 *      href="http://www.kernel.org/pub/software/scm/git/docs/git-add.html"
 	 *      >Git documentation about Add</a>
-	 * @return a {@link AddCommand} used to collect all optional parameters
-	 *         and to finally execute the {@code Add} command
+	 * @return a {@link AddCommand} used to collect all optional parameters and
+	 *         to finally execute the {@code Add} command
 	 */
 	public AddCommand add() {
 		return new AddCommand(repo);
@@ -275,12 +274,12 @@ public class Git {
 
 	/**
 	 * Returns a command object to execute a {@code Tag} command
-	 *
+	 * 
 	 * @see <a
 	 *      href="http://www.kernel.org/pub/software/scm/git/docs/git-tag.html"
 	 *      >Git documentation about Tag</a>
-	 * @return a {@link TagCommand} used to collect all optional parameters
-	 *         and to finally execute the {@code Tag} command
+	 * @return a {@link TagCommand} used to collect all optional parameters and
+	 *         to finally execute the {@code Tag} command
 	 */
 	public TagCommand tag() {
 		return new TagCommand(repo);
@@ -288,7 +287,7 @@ public class Git {
 
 	/**
 	 * Returns a command object to execute a {@code Fetch} command
-	 *
+	 * 
 	 * @see <a
 	 *      href="http://www.kernel.org/pub/software/scm/git/docs/git-fetch.html"
 	 *      >Git documentation about Fetch</a>
@@ -301,7 +300,7 @@ public class Git {
 
 	/**
 	 * Returns a command object to execute a {@code Push} command
-	 *
+	 * 
 	 * @see <a
 	 *      href="http://www.kernel.org/pub/software/scm/git/docs/git-push.html"
 	 *      >Git documentation about Push</a>
@@ -314,7 +313,7 @@ public class Git {
 
 	/**
 	 * Returns a command object to execute a {@code cherry-pick} command
-	 *
+	 * 
 	 * @see <a
 	 *      href="http://www.kernel.org/pub/software/scm/git/docs/git-cherry-pick.html"
 	 *      >Git documentation about cherry-pick</a>
@@ -327,12 +326,12 @@ public class Git {
 
 	/**
 	 * Returns a command object to execute a {@code revert} command
-	 *
+	 * 
 	 * @see <a
 	 *      href="http://www.kernel.org/pub/software/scm/git/docs/git-revert.html"
 	 *      >Git documentation about reverting changes</a>
-	 * @return a {@link RevertCommand} used to collect all optional
-	 *         parameters and to finally execute the {@code cherry-pick} command
+	 * @return a {@link RevertCommand} used to collect all optional parameters
+	 *         and to finally execute the {@code cherry-pick} command
 	 */
 	public RevertCommand revert() {
 		return new RevertCommand(repo);
@@ -340,7 +339,7 @@ public class Git {
 
 	/**
 	 * Returns a command object to execute a {@code Rebase} command
-	 *
+	 * 
 	 * @see <a
 	 *      href="http://www.kernel.org/pub/software/scm/git/docs/git-rebase.html"
 	 *      >Git documentation about rebase</a>
@@ -353,7 +352,7 @@ public class Git {
 
 	/**
 	 * Returns a command object to execute a {@code rm} command
-	 *
+	 * 
 	 * @see <a
 	 *      href="http://www.kernel.org/pub/software/scm/git/docs/git-rm.html"
 	 *      >Git documentation about rm</a>
@@ -366,7 +365,7 @@ public class Git {
 
 	/**
 	 * Returns a command object to execute a {@code checkout} command
-	 *
+	 * 
 	 * @see <a
 	 *      href="http://www.kernel.org/pub/software/scm/git/docs/git-checkout.html"
 	 *      >Git documentation about checkout</a>
@@ -379,7 +378,7 @@ public class Git {
 
 	/**
 	 * Returns a command object to execute a {@code reset} command
-	 *
+	 * 
 	 * @see <a
 	 *      href="http://www.kernel.org/pub/software/scm/git/docs/git-reset.html"
 	 *      >Git documentation about reset</a>
@@ -392,7 +391,7 @@ public class Git {
 
 	/**
 	 * Returns a command object to execute a {@code status} command
-	 *
+	 * 
 	 * @see <a
 	 *      href="http://www.kernel.org/pub/software/scm/git/docs/git-status.html"
 	 *      >Git documentation about status</a>
@@ -405,7 +404,7 @@ public class Git {
 
 	/**
 	 * Returns a command to add notes to an object
-	 *
+	 * 
 	 * @return a {@link AddNoteCommand}
 	 */
 	public AddNoteCommand notesAdd() {
@@ -414,7 +413,7 @@ public class Git {
 
 	/**
 	 * Returns a command to remove notes on an object
-	 *
+	 * 
 	 * @return a {@link RemoveNoteCommand}
 	 */
 	public RemoveNoteCommand notesRemove() {
@@ -423,7 +422,7 @@ public class Git {
 
 	/**
 	 * Returns a command to list all notes
-	 *
+	 * 
 	 * @return a {@link ListNotesCommand}
 	 */
 	public ListNotesCommand notesList() {
@@ -432,7 +431,7 @@ public class Git {
 
 	/**
 	 * Returns a command to show notes on an object
-	 *
+	 * 
 	 * @return a {@link ShowNoteCommand}
 	 */
 	public ShowNoteCommand notesShow() {
@@ -441,7 +440,7 @@ public class Git {
 
 	/**
 	 * Returns a command object to execute a {@code ls-remote} command
-	 *
+	 * 
 	 * @see <a
 	 *      href="http://www.kernel.org/pub/software/scm/git/docs/git-ls-remote.html"
 	 *      >Git documentation about ls-remote</a>
@@ -454,7 +453,7 @@ public class Git {
 
 	/**
 	 * Returns a command object to execute a {@code clean} command
-	 *
+	 * 
 	 * @see <a
 	 *      href="http://www.kernel.org/pub/software/scm/git/docs/git-clean.html"
 	 *      >Git documentation about Clean</a>
@@ -467,7 +466,7 @@ public class Git {
 
 	/**
 	 * Returns a command object to execute a {@code blame} command
-	 *
+	 * 
 	 * @see <a
 	 *      href="http://www.kernel.org/pub/software/scm/git/docs/git-blame.html"
 	 *      >Git documentation about Blame</a>
@@ -480,7 +479,7 @@ public class Git {
 
 	/**
 	 * Returns a command object to execute a {@code reflog} command
-	 *
+	 * 
 	 * @see <a
 	 *      href="http://www.kernel.org/pub/software/scm/git/docs/git-reflog.html"
 	 *      >Git documentation about reflog</a>
@@ -493,7 +492,7 @@ public class Git {
 
 	/**
 	 * Returns a command object to execute a {@code diff} command
-	 *
+	 * 
 	 * @see <a
 	 *      href="http://www.kernel.org/pub/software/scm/git/docs/git-diff.html"
 	 *      >Git documentation about diff</a>
@@ -506,7 +505,7 @@ public class Git {
 
 	/**
 	 * Returns a command object used to delete tags
-	 *
+	 * 
 	 * @return a {@link DeleteTagCommand}
 	 */
 	public DeleteTagCommand tagDelete() {
@@ -515,11 +514,20 @@ public class Git {
 
 	/**
 	 * Returns a command object used to list stashed commits
-	 *
+	 * 
 	 * @return a {@link StashListCommand}
 	 */
 	public StashListCommand stashList() {
 		return new StashListCommand(repo);
+	}
+
+	/**
+	 * Returns a command object used to create a stashed commit
+	 * 
+	 * @return a {@link StashCreateCommand}
+	 */
+	public StashCreateCommand stashCreate() {
+		return new StashCreateCommand(repo);
 	}
 
 	/**
