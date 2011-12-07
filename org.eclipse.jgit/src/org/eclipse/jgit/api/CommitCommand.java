@@ -228,7 +228,10 @@ public class CommitCommand extends GitCommand<RevCommit> {
 							ru.setRefLogMessage(
 									prefix + revCommit.getShortMessage(), false);
 						}
-						ru.setExpectedOldObjectId(headId);
+						if (headId != null)
+							ru.setExpectedOldObjectId(headId);
+						else
+							ru.setExpectedOldObjectId(ObjectId.zeroId());
 						Result rc = ru.forceUpdate();
 						switch (rc) {
 						case NEW:
