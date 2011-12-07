@@ -1023,6 +1023,33 @@ public class MergeCommandTest extends RepositoryTestCase {
 		assertFalse(folder2.exists());
 	}
 
+	@Test
+	public void testNotToAddFilemode0() throws Exception {
+		Git git = new Git(db);
+
+		writeTrashFile("a", "a");
+		RevCommit initialCommit = addAllAndCommit(git);
+
+		// switch branch
+		createBranch(initialCommit, "refs/heads/side");
+		checkoutBranch("refs/heads/side");
+		writeTrashFile("b", "ab");
+		new File(git.getRepository().getWorkTree(), "b").setExecutable(true);
+		RevCommit sideCommit = addAllAndCommit(git);
+
+		// switch branch
+		createBranch(initialCommit, "refs/heads/side2");
+		checkoutBranch("refs/heads/side2");
+		writeTrashFile("b", "ab");
+		new File(git.getRepository().getWorkTree(), "b").setExecutable(false);
+		addAllAndCommit(git);
+
+		// merge
+		MergeResult result = git.merge().include(sideCommit.getId())
+				.setStrategy(MergeStrategy.RESOLVE).call();
+		assertEquals(MergeStatus.CONFLICTING, result.getMergeStatus());
+	}
+
 	private RevCommit addAllAndCommit(final Git git) throws Exception {
 		git.add().addFilepattern(".").call();
 		return git.commit().setMessage("message").call();
