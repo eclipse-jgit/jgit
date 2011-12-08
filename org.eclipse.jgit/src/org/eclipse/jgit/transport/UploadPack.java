@@ -217,7 +217,7 @@ public class UploadPack {
 
 	private PackWriter.Statistics statistics;
 
-	private UploadPackLogger logger;
+	private UploadPackLogger logger = UploadPackLogger.NULL;
 
 	/**
 	 * Create a new pack upload for an open repository.
@@ -374,6 +374,11 @@ public class UploadPack {
 	 */
 	public void setPackConfig(PackConfig pc) {
 		this.packConfig = pc;
+	}
+
+	/** @return the configured logger. */
+	public UploadPackLogger getLogger() {
+		return logger;
 	}
 
 	/**
@@ -1111,7 +1116,7 @@ public class UploadPack {
 		if (sideband)
 			pckOut.end();
 
-		if (logger != null && statistics != null)
+		if (statistics != null)
 			logger.onPackStatistics(statistics);
 	}
 }
