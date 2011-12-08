@@ -1023,6 +1023,81 @@ public class MergeCommandTest extends RepositoryTestCase {
 		assertFalse(folder2.exists());
 	}
 
+	@Test
+	public void testFileModeMerge() throws Exception {
+		Git git = new Git(db);
+
+		writeTrashFile("mergeableMode", "a");
+		setExecutable(git, "mergeableMode", false);
+		writeTrashFile("conflictingModeWithBase", "a");
+		setExecutable(git, "conflictingModeWithBase", false);
+		RevCommit initialCommit = addAllAndCommit(git);
+
+		// switch branch
+		createBranch(initialCommit, "refs/heads/side");
+		checkoutBranch("refs/heads/side");
+		setExecutable(git, "mergeableMode", true);
+		writeTrashFile("conflictingModeNoBase", "b");
+		setExecutable(git, "conflictingModeNoBase", true);
+		RevCommit sideCommit = addAllAndCommit(git);
+
+		// switch branch
+		createBranch(initialCommit, "refs/heads/side2");
+		checkoutBranch("refs/heads/side2");
+		setExecutable(git, "mergeableMode", false);
+		assertFalse(new File(git.getRepository().getWorkTree(),
+				"conflictingModeNoBase").exists());
+		writeTrashFile("conflictingModeNoBase", "b");
+		setExecutable(git, "conflictingModeNoBase", false);
+		addAllAndCommit(git);
+
+		// merge
+		MergeResult result = git.merge().include(sideCommit.getId())
+				.setStrategy(MergeStrategy.RESOLVE).call();
+		assertEquals(MergeStatus.CONFLICTING, result.getMergeStatus());
+		assertTrue(canExecute(git, "mergeableMode"));
+		assertFalse(canExecute(git, "conflictingModeNoBase"));
+	}
+
+	@Test
+	public void testFileModeMergeWithDirtyWorkTree() throws Exception {
+		Git git = new Git(db);
+
+		writeTrashFile("mergeableButDirty", "a");
+		setExecutable(git, "mergeableButDirty", false);
+		RevCommit initialCommit = addAllAndCommit(git);
+
+		// switch branch
+		createBranch(initialCommit, "refs/heads/side");
+		checkoutBranch("refs/heads/side");
+		setExecutable(git, "mergeableButDirty", true);
+		RevCommit sideCommit = addAllAndCommit(git);
+
+		// switch branch
+		createBranch(initialCommit, "refs/heads/side2");
+		checkoutBranch("refs/heads/side2");
+		setExecutable(git, "mergeableButDirty", false);
+		addAllAndCommit(git);
+
+		writeTrashFile("mergeableButDirty", "b");
+
+		// merge
+		MergeResult result = git.merge().include(sideCommit.getId())
+				.setStrategy(MergeStrategy.RESOLVE).call();
+		assertEquals(MergeStatus.FAILED, result.getMergeStatus());
+		assertFalse(canExecute(git, "mergeableButDirty"));
+	}
+
+	private void setExecutable(Git git, String path, boolean executable) {
+		new File(git.getRepository().getWorkTree(), path)
+				.setExecutable(executable);
+		assertEquals(executable, canExecute(git, path));
+	}
+
+	private boolean canExecute(Git git, String path) {
+		return (new File(git.getRepository().getWorkTree(), path).canExecute());
+	}
+
 	private RevCommit addAllAndCommit(final Git git) throws Exception {
 		git.add().addFilepattern(".").call();
 		return git.commit().setMessage("message").call();
