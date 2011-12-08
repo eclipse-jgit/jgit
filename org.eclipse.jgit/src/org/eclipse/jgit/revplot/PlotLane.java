@@ -43,12 +43,16 @@
 
 package org.eclipse.jgit.revplot;
 
+import java.io.Serializable;
+
 /**
  * A line space within the graph.
  * <p>
  * Commits are strung onto a lane. For many UIs a lane represents a column.
  */
-public class PlotLane {
+public class PlotLane implements Serializable {
+	private static final long serialVersionUID = 1L;
+
 	int position;
 
 	/**
