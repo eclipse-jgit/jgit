@@ -16,6 +16,24 @@
       "revId": "60563b3478f5b8d61497e553da31a45d6a779657",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOC3///P0\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2011-12-08T18:07:29Z",
+      "side": 1,
+      "message": "ObjectId implements Serializable",
+      "parentUuid": "AABOC3///QA\u003d",
+      "revId": "60563b3478f5b8d61497e553da31a45d6a779657",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
