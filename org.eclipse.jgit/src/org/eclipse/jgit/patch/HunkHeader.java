@@ -401,4 +401,16 @@ public class HunkHeader {
 		final int end = s.indexOf('\n', offsets[fileIdx]);
 		offsets[fileIdx] = end < 0 ? s.length() : end + 1;
 	}
+
+	@Override
+	public String toString() {
+		StringBuilder buf = new StringBuilder();
+		buf.append("HunkHeader[");
+		buf.append(getOldImage().getStartLine() + ","
+				+ getOldImage().getLineCount());
+		buf.append("->");
+		buf.append(getNewStartLine() + "," + getNewLineCount());
+		buf.append("]");
+		return buf.toString();
+	}
 }
