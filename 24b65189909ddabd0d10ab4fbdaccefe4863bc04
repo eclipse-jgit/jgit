@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AABOC3///UM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/errors/CheckoutConflictException.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-12-08T15:54:44Z",
+      "side": 1,
+      "message": "trailing whitespace",
+      "revId": "24b65189909ddabd0d10ab4fbdaccefe4863bc04",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOC3///Ng\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/errors/CheckoutConflictException.java",
         "patchSetId": 1
