@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOC3///QA\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-12-08T18:06:03Z",
+      "side": 1,
+      "message": "We made PlotCommit serializable? If it has a long chain of parents, that could be a really big stream.",
+      "revId": "60563b3478f5b8d61497e553da31a45d6a779657",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
