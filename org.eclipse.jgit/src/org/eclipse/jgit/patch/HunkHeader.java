@@ -59,6 +59,56 @@ import org.eclipse.jgit.util.MutableInteger;
 
 /** Hunk header describing the layout of a single block of lines */
 public class HunkHeader {
+	/** Type of line control character */
+	public static enum HunkControlChar {
+		/** A line to add */
+		ADD('+'),
+
+		/** A line to remove */
+		REMOVE('-'),
+
+		/** A context line */
+		CONTEXT(' '),
+
+		/** The "\\ No newline at end of file" line */
+		NO_NEWLINE('\\'),
+
+		/** An empty line */
+		NEWLINE('\n'),
+
+		/** A hunk header */
+		HEADER('@');
+
+		private final char character;
+
+		HunkControlChar(char character) {
+			this.character = character;
+		}
+
+		/**
+		 * @return the character
+		 */
+		public char character() {
+			return character;
+		}
+
+		/**
+		 * Returns a HunkControlChar instance representing the specified char
+		 * value.
+		 *
+		 * @param character
+		 *            a char value
+		 * @return HunkControlChar instance representing character
+		 */
+		public static HunkControlChar valueOf(char character) {
+			for (HunkControlChar e : values())
+				if (e.character() == character)
+					return e;
+			throw new IllegalArgumentException("Illegal character: "
+					+ character);
+		}
+	}
+
 	/** Details about an old image of the file. */
 	public abstract static class OldImage {
 		/** First line number the hunk starts on in this file. */
@@ -199,15 +249,15 @@ public class HunkHeader {
 			Edit in = null;
 
 			SCAN: for (; c < endOffset; c = nextLF(buf, c)) {
-				switch (buf[c]) {
-				case ' ':
-				case '\n':
+				switch (HunkControlChar.valueOf((char) buf[c])) {
+				case CONTEXT:
+				case NEWLINE:
 					in = null;
 					oLine++;
 					nLine++;
 					continue;
 
-				case '-':
+				case REMOVE:
 					if (in == null) {
 						in = new Edit(oLine - 1, nLine - 1);
 						editList.add(in);
@@ -216,7 +266,7 @@ public class HunkHeader {
 					in.extendA();
 					continue;
 
-				case '+':
+				case ADD:
 					if (in == null) {
 						in = new Edit(oLine - 1, nLine - 1);
 						editList.add(in);
@@ -225,7 +275,7 @@ public class HunkHeader {
 					in.extendB();
 					continue;
 
-				case '\\': // Matches "\ No newline at end of file"
+				case NO_NEWLINE: // Matches "\ No newline at end of file"
 					continue;
 
 				default:
@@ -263,21 +313,21 @@ public class HunkHeader {
 		old.nAdded = 0;
 
 		SCAN: for (; c < end; last = c, c = nextLF(buf, c)) {
-			switch (buf[c]) {
-			case ' ':
-			case '\n':
+			switch (HunkControlChar.valueOf((char) buf[c])) {
+			case CONTEXT:
+			case NEWLINE:
 				nContext++;
 				continue;
 
-			case '-':
+			case REMOVE:
 				old.nDeleted++;
 				continue;
 
-			case '+':
+			case ADD:
 				old.nAdded++;
 				continue;
 
-			case '\\': // Matches "\ No newline at end of file"
+			case NO_NEWLINE: // Matches "\ No newline at end of file"
 				continue;
 
 			default:
@@ -334,17 +384,17 @@ public class HunkHeader {
 
 		SCAN: for (ptr = eol; ptr < endOffset; ptr = eol) {
 			eol = nextLF(buf, ptr);
-			switch (buf[ptr]) {
-			case ' ':
-			case '\n':
-			case '\\':
+			switch (HunkControlChar.valueOf((char) buf[ptr])) {
+			case CONTEXT:
+			case NEWLINE:
+			case NO_NEWLINE:
 				out[0].write(buf, ptr, eol - ptr);
 				out[1].write(buf, ptr, eol - ptr);
 				break;
-			case '-':
+			case REMOVE:
 				out[0].write(buf, ptr, eol - ptr);
 				break;
-			case '+':
+			case ADD:
 				out[1].write(buf, ptr, eol - ptr);
 				break;
 			default:
@@ -363,17 +413,17 @@ public class HunkHeader {
 		copyLine(sb, text, offsets, 0);
 		SCAN: for (ptr = eol; ptr < endOffset; ptr = eol) {
 			eol = nextLF(buf, ptr);
-			switch (buf[ptr]) {
-			case ' ':
-			case '\n':
-			case '\\':
+			switch (HunkControlChar.valueOf((char) buf[ptr])) {
+			case CONTEXT:
+			case NEWLINE:
+			case NO_NEWLINE:
 				copyLine(sb, text, offsets, 0);
 				skipLine(text, offsets, 1);
 				break;
-			case '-':
+			case REMOVE:
 				copyLine(sb, text, offsets, 0);
 				break;
-			case '+':
+			case ADD:
 				copyLine(sb, text, offsets, 1);
 				break;
 			default:
