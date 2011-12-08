@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOC3///Rs\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/HunkHeader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-12-08T16:34:11Z",
+      "side": 1,
+      "message": "also this should be 3 append calls. you can chain them:\n\n buf.append(getStartNewLine()).append(\u0027,\u0027).append(getNewLineCount());\n\nif that is cleaner than doing it on 3 separate lines and it doesn\u0027t line wrap.",
+      "revId": "676d661d481642b7d96fc02fb1ef97465efdfe05",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
