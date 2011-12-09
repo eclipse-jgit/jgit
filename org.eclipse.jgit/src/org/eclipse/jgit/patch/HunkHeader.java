@@ -59,6 +59,44 @@ import org.eclipse.jgit.util.MutableInteger;
 
 /** Hunk header describing the layout of a single block of lines */
 public class HunkHeader {
+
+	/** Type of line control character */
+	public static enum HunkControlChar {
+		/** A line to add */
+		ADD('+'),
+		/** A line to remove */
+		REMOVE('-'),
+		/** A context line */
+		CONTEXT(' '),
+		/** The "\\ No newline at end of file" line */
+		ENDLINE('\\');
+
+		private final char character;
+
+		HunkControlChar(char character) {
+			this.character = character;
+		}
+
+		/**
+		 * @return character
+		 */
+		public char character() {
+			return character;
+		}
+
+		/**
+		 * @param character
+		 * @return TODO
+		 */
+		public static HunkControlChar valueOf(char character) {
+			for (HunkControlChar e : values())
+				if (e.character() == character)
+					return e;
+			throw new IllegalArgumentException("Illegal character: "
+					+ character);
+		}
+	}
+
 	/** Details about an old image of the file. */
 	public abstract static class OldImage {
 		/** First line number the hunk starts on in this file. */
