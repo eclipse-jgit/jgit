@@ -49,4 +49,12 @@ public class InvalidRefNameException extends GitAPIException {
 	public InvalidRefNameException(String msg) {
 		super(msg);
 	}
+
+	/**
+	 * @param msg
+	 * @param cause
+	 */
+	public InvalidRefNameException(String msg, Throwable cause) {
+		super(msg, cause);
+	}
 }
