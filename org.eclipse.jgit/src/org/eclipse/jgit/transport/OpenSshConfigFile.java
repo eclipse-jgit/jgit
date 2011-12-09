@@ -58,14 +58,38 @@ import java.util.Map;
 import org.eclipse.jgit.transport.OpenSshConfig.Host;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.StringUtils;
+import org.eclipse.jgit.util.SystemReader;
 
 class OpenSshConfigFile {
 
+	private static final String ETC = "etc";
+
+	private static final String SSH = "ssh";
+	private static final String DOT_SSH = ".ssh";
+
+	private static final String SSH_CONFIG = "ssh_config";
+	private static final String CONFIG = "config";
+
+	private static final String JGIT_SSH_SYSCONFDIR = "jgit.ssh.sysconfdir";
+
+	static final OpenSshConfigFile IGNORED = new OpenSshConfigFile(null, null);
+
 	static OpenSshConfigFile getUserConfigFile(final FS fs) {
 		final File homeDir = getHomeDir(fs);
-		final File userConfigDir = new File(homeDir, ".ssh");
-		final File userConfigFile = new File(userConfigDir, "config");
+		final File userConfigDir = new File(homeDir, DOT_SSH);
+		final File userConfigFile = new File(userConfigDir, CONFIG);
 		return new OpenSshConfigFile(homeDir, userConfigFile);
+	}
+
+	static OpenSshConfigFile getSystemConfigFile(final FS fs) {
+		final File homeDir = getHomeDir(fs);
+		File systemConfigFile = getSystemConfigFileViaSystemProperty(fs);
+		if (systemConfigFile == null) {
+			systemConfigFile = getSystemConfigFileViaGitPrefix(fs);
+			if (systemConfigFile == null)
+				systemConfigFile = getDefaultSystemConfigFile(fs);
+		}
+		return new OpenSshConfigFile(homeDir, systemConfigFile);
 	}
 
 	private static File getHomeDir(final FS fs) {
@@ -73,6 +97,37 @@ class OpenSshConfigFile {
 		if (homeDir == null)
 			homeDir = new File(".").getAbsoluteFile();
 		return homeDir;
+	}
+
+	private static File getSystemConfigFileViaSystemProperty(final FS fs) {
+		final String sshSysConfDir = SystemReader.getInstance().getProperty(
+				JGIT_SSH_SYSCONFDIR);
+		if (sshSysConfDir != null) {
+			final File systemConfigDir = fs.resolve(null, sshSysConfDir);
+			final File systemConfigFile = new File(systemConfigDir, SSH_CONFIG);
+			if (systemConfigFile.exists())
+				return systemConfigFile;
+		}
+		return null;
+	}
+
+	private static File getSystemConfigFileViaGitPrefix(final FS fs) {
+		final File gitPrefix = fs.gitPrefix();
+		if (gitPrefix != null) {
+			final File etcDir = fs.resolve(gitPrefix, ETC);
+			final File systemConfigDir = new File(etcDir, SSH);
+			final File systemConfigFile = new File(systemConfigDir, SSH_CONFIG);
+			if (systemConfigFile.exists())
+				return systemConfigFile;
+		}
+		return null;
+	}
+
+	private static File getDefaultSystemConfigFile(final FS fs) {
+		final File etcDir = fs.resolve(null, "/" + ETC);
+		final File systemConfigDir = new File(etcDir, SSH);
+		final File systemConfigFile = new File(systemConfigDir, SSH_CONFIG);
+		return systemConfigFile;
 	}
 
 	/** The user's home directory, as key files may be relative to here (~/). */
@@ -87,7 +142,7 @@ class OpenSshConfigFile {
 	/** Cached entries read out of the configuration file. */
 	private Map<String, Host> hosts;
 
-	OpenSshConfigFile(final File homeDir, final File configFile) {
+	private OpenSshConfigFile(final File homeDir, final File configFile) {
 		this.homeDir = homeDir;
 		this.configFile = configFile;
 		hosts = Collections.emptyMap();
@@ -98,26 +153,31 @@ class OpenSshConfigFile {
 	}
 
 	synchronized boolean hasChanged() {
-		return configFile.lastModified() != lastModified;
+		return configFile != null && configFile.lastModified() != lastModified;
 	}
 
 	synchronized Map<String, Host> read() {
+		if (configFile == null || !configFile.exists())
+			return Collections.emptyMap();
+
 		final long mtime = configFile.lastModified();
-		if (mtime != lastModified) {
+		if (mtime == lastModified)
+			return hosts;
+
+		try {
+			final FileInputStream in = new FileInputStream(configFile);
 			try {
-				final FileInputStream in = new FileInputStream(configFile);
-				try {
-					hosts = parse(in);
-				} finally {
-					in.close();
-				}
-			} catch (FileNotFoundException none) {
-				hosts = Collections.emptyMap();
-			} catch (IOException err) {
-				hosts = Collections.emptyMap();
+				hosts = parse(in);
+			} finally {
+				in.close();
 			}
-			lastModified = mtime;
+		} catch (FileNotFoundException none) {
+			hosts = Collections.emptyMap();
+		} catch (IOException err) {
+			hosts = Collections.emptyMap();
 		}
+		lastModified = mtime;
+
 		return hosts;
 	}
 

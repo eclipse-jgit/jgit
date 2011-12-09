@@ -48,6 +48,7 @@ import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.util.Collections;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.eclipse.jgit.errors.InvalidPatternException;
 import org.eclipse.jgit.fnmatch.FileNameMatcher;
@@ -79,19 +80,52 @@ public class OpenSshConfig {
 	 * @return a caching reader of the configuration data.
 	 */
 	public static OpenSshConfig get(final FS fs) {
+		return OpenSshConfig.get(fs, false);
+	}
+
+	/**
+	 * Obtain the user's and (optionally) system-wide configuration data.
+	 * <p>
+	 * A configuration data instance is always returned to the caller, even if
+	 * no configuration file exists in the user's home directory nor in a
+	 * central system location. Lookup requests are cached and are automatically
+	 * updated if one of the configuration files is modified since the last time
+	 * it was cached.
+	 *
+	 * @param fs
+	 *            the file system abstraction which will be necessary to perform
+	 *            certain file system operations.
+	 * @param readSystemConfig
+	 *            flag indicating whether system-wide configuration data
+	 *            (/etc/ssh/ssh_config) is read and merged with the user's
+	 *            configuration
+	 * @return a caching reader of the configuration data.
+	 */
+	public static OpenSshConfig get(final FS fs, final boolean readSystemConfig) {
 		final OpenSshConfigFile userConfigFile = OpenSshConfigFile
 				.getUserConfigFile(fs);
-		return new OpenSshConfig(userConfigFile);
+		OpenSshConfigFile systemConfigFile;
+		if (readSystemConfig)
+			systemConfigFile = OpenSshConfigFile.getSystemConfigFile(fs);
+		else
+			systemConfigFile = OpenSshConfigFile.IGNORED;
+
+		return new OpenSshConfig(userConfigFile, systemConfigFile);
 	}
 
 	/** The user's configuration file. */
 	private final OpenSshConfigFile userConfigFile;
 
+	/** The system-wide configuration file. */
+	private final OpenSshConfigFile systemConfigFile;
+
 	/** The cached configuration data. */
 	private volatile Map<String, Host> cache;
 
-	private OpenSshConfig(final OpenSshConfigFile userConfigFile) {
+	private OpenSshConfig(final OpenSshConfigFile userConfigFile,
+			final OpenSshConfigFile systemConfigFile) {
 		this.userConfigFile = userConfigFile;
+		this.systemConfigFile = systemConfigFile;
 		cache = Collections.emptyMap();
 	}
 
@@ -105,7 +139,7 @@ public class OpenSshConfig {
 	 * @return r configuration for the requested name. Never null.
 	 */
 	public Host lookup(final String hostName) {
-		if (userConfigFile.hasChanged())
+		if (userConfigFile.hasChanged() || systemConfigFile.hasChanged())
 			updateCache();
 
 		Host h = cache.get(hostName);
@@ -133,10 +167,32 @@ public class OpenSshConfig {
 	}
 
 	private void updateCache() {
-		if (userConfigFile.exists())
-			cache = userConfigFile.read();
-		else
-			cache = Collections.emptyMap();
+		final Map<String, Host> userConfig = userConfigFile.read();
+		final Map<String, Host> systemConfig = systemConfigFile.read();
+
+		if (!userConfig.isEmpty()) {
+			cache = userConfig;
+			if (!systemConfig.isEmpty()) {
+				for (Entry<String, Host> e : systemConfig.entrySet()) {
+					String hostName = e.getKey();
+					Host host = e.getValue();
+					if (!cache.containsKey(hostName)) {
+						// copy unique Host entries
+						cache.put(hostName, host);
+					} else {
+						// merge duplicate Host entries
+						Host mergedHost = cache.get(hostName);
+						// copyFrom only updates initial attributes, i.e. user
+						// configuration is not overridden by system-wide
+						// settings
+						mergedHost.copyFrom(host);
+						cache.put(hostName, mergedHost);
+					}
+				}
+			}
+		} else {
+			cache = systemConfig;
+		}
 	}
 
 	private static boolean isHostPattern(final String s) {

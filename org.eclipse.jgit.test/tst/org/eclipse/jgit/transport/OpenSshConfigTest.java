@@ -48,6 +48,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -64,9 +65,19 @@ import org.junit.Test;
 
 public class OpenSshConfigTest extends RepositoryTestCase {
 
-	private File homeDir;
+	private static File homeDir;
+
+	private static File etcDir;
+
+	private static File gitDir;
+
+	private static File otherDir;
+
+	private FS_Mock fsMock;
 
 	private OpenSshConfig userConfig;
+
+	private OpenSshConfig systemConfig;
 
 	@BeforeClass
 	public static void setUpClass() {
@@ -79,8 +90,16 @@ public class OpenSshConfigTest extends RepositoryTestCase {
 
 		homeDir = new File(trash, "home");
 		FileUtils.mkdir(homeDir);
+		etcDir = new File(trash, "etc");
+		FileUtils.mkdir(etcDir);
+		gitDir = new File(trash, "git");
+		FileUtils.mkdir(gitDir);
+		otherDir = new File(trash, "other");
+		FileUtils.mkdir(otherDir);
 
-		userConfig = OpenSshConfig.get(new FS_Mock(homeDir));
+		fsMock = new FS_Mock();
+		userConfig = OpenSshConfig.get(fsMock);
+		systemConfig = OpenSshConfig.get(fsMock, true);
 	}
 
 	private void writeConfigFile(final File configFile, final String data)
@@ -92,10 +111,25 @@ public class OpenSshConfigTest extends RepositoryTestCase {
 	}
 
 	private void userConfig(final String data) throws IOException {
-		final File userConfigFile = new File(new File(homeDir, ".ssh"),
-				"config");
-		FileUtils.mkdir(userConfigFile.getParentFile());
+		final File userConfigDir = new File(homeDir, ".ssh");
+		FileUtils.mkdir(userConfigDir);
+		final File userConfigFile = new File(userConfigDir, "config");
 		writeConfigFile(userConfigFile, data);
+	}
+
+	private void systemConfig(final File systemConfigDir, final String data)
+			throws IOException {
+		final File parentDir = systemConfigDir.getParentFile();
+		if (!parentDir.exists())
+			FileUtils.mkdir(parentDir);
+		if (!systemConfigDir.exists())
+			FileUtils.mkdir(systemConfigDir);
+		final File systemConfigFile = new File(systemConfigDir, "ssh_config");
+		writeConfigFile(systemConfigFile, data);
+	}
+
+	private void systemConfig(final String data) throws IOException {
+		systemConfig(new File(etcDir, "ssh"), data);
 	}
 
 	@Test
@@ -259,18 +293,87 @@ public class OpenSshConfigTest extends RepositoryTestCase {
 		assertTrue(h.isBatchMode());
 	}
 
-	/** FS mock returning the user's home directory. */
+	@Test
+	public void testHostFromSystemConfigViaSystemProperty() throws Exception {
+		systemConfig(otherDir, "Host host\n" + "\tHostName example.org\n");
+		mockSystemReader.setProperty("jgit.ssh.sysconfdir",
+				otherDir.getAbsolutePath());
+		// re-create system config after writing the config file and setting the
+		// system property
+		systemConfig = OpenSshConfig.get(fsMock, true);
+
+		Host h = systemConfig.lookup("host");
+		assertEquals("example.org", h.getHostName());
+	}
+
+	@Test
+	public void testHostFromSystemConfigViaGitPrefix() throws Exception {
+		systemConfig(new File(gitDir, "etc/ssh"), "Host host\n"
+				+ "\tHostName example.org\n");
+		// re-create system config after writing the config file
+		systemConfig = OpenSshConfig.get(fsMock, true);
+
+		Host h = systemConfig.lookup("host");
+		assertEquals("example.org", h.getHostName());
+	}
+
+	@Test
+	public void testHostFromSystemConfig() throws Exception {
+		systemConfig("Host host\n" + "\tHostName example.org\n");
+
+		Host h = systemConfig.lookup("host");
+		assertEquals("example.org", h.getHostName());
+	}
+
+	@Test
+	public void testHostFromSystemConfigOverriddenByUserConfig()
+			throws Exception {
+		userConfig("Host host\n" + "\tHostName test.org\n");
+		systemConfig("Host host\n" + "\tHostName example.org\n");
+
+		Host h = systemConfig.lookup("host");
+		assertEquals("test.org", h.getHostName());
+	}
+
+	@Test
+	public void testHostFromSystemConfigComplementedByUserConfig()
+			throws Exception {
+		userConfig("Host host\n" + "\tUser someone");
+		systemConfig("Host host\n" + "\tHostName example.org");
+
+		Host h = systemConfig.lookup("host");
+		assertEquals("example.org", h.getHostName());
+		assertEquals("someone", h.getUser());
+	}
+
+	/**
+	 * FS mock returning the user's home directory and resolving
+	 * /etc/ssh/ssh_config.
+	 */
 	private static class FS_Mock extends FS {
-
-		private File homeDir;
-
-		private FS_Mock(File homeDir) {
-			this.homeDir = homeDir;
-		}
 
 		@Override
 		public File userHome() {
 			return homeDir;
+		}
+
+		@Override
+		public File gitPrefix() {
+			return gitDir;
+		}
+
+		@Override
+		public File resolve(final File dir, final String name) {
+			if (dir == null && name.equals("/etc"))
+				return etcDir;
+			if (dir == gitDir && name.equals("etc"))
+				return new File(dir, name);
+			if (dir == null
+					&& name.equalsIgnoreCase(otherDir.getAbsolutePath()))
+				return otherDir;
+
+			fail();
+			return null;
 		}
 
 		@Override
