@@ -208,6 +208,40 @@
     },
     {
       "key": {
+        "uuid": "AABOC3///SQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PreUploadHookChain.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-12-08T16:31:38Z",
+      "side": 1,
+      "message": "curly braces",
+      "revId": "e960618d036e90f45c8051a2568a1a8612413a63",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOC3///SI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPackLoggerChain.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-12-08T16:31:38Z",
+      "side": 1,
+      "message": "same bug",
+      "revId": "e960618d036e90f45c8051a2568a1a8612413a63",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOC3///SE\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPackLoggerChain.java",
         "patchSetId": 2
