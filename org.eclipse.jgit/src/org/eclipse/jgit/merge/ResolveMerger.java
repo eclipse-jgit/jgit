@@ -51,6 +51,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -378,12 +379,46 @@ public class ResolveMerger extends ThreeWayMerger {
 		if (isIndexDirty())
 			return false;
 
-		if (nonTree(modeO) && modeO == modeT && tw.idEqual(T_OURS, T_THEIRS)) {
-			// OURS and THEIRS are equal: it doesn't matter which one we choose.
-			// OURS is chosen.
-			add(tw.getRawPath(), ours, DirCacheEntry.STAGE_0);
-			// no checkout needed!
-			return true;
+		if (nonTree(modeO) && nonTree(modeT) && tw.idEqual(T_OURS, T_THEIRS)) {
+			// OURS and THEIRS have equal content. Check the file mode
+			if (modeO == modeT) {
+				// content and mode of OURS and THEIRS are equal: it doesn't
+				// matter which one we choose. OURS is chosen.
+				add(tw.getRawPath(), ours, DirCacheEntry.STAGE_0);
+				// no checkout needed!
+				return true;
+			} else {
+				// same content but different mode on OURS and THEIRS.
+				// Try to merge the mode and report an error if this is
+				// not possible.
+				int newMode = mergeFileModes(modeB, modeO, modeT);
+				if (newMode != FileMode.MISSING.getBits()) {
+					if (newMode == modeO)
+						// ours version is preferred
+						add(tw.getRawPath(), ours, DirCacheEntry.STAGE_0);
+					else {
+						// the preferred version THEIRS has a different mode
+						// than ours. Check it out!
+						if (isWorktreeDirty())
+							return false;
+						DirCacheEntry e = add(tw.getRawPath(), theirs,
+								DirCacheEntry.STAGE_0);
+						toBeCheckedOut.put(tw.getPathString(), e);
+					}
+					return true;
+				} else {
+					// FileModes are not mergeable. We found a conflict on modes
+					add(tw.getRawPath(), base, DirCacheEntry.STAGE_1);
+					add(tw.getRawPath(), ours, DirCacheEntry.STAGE_2);
+					add(tw.getRawPath(), theirs, DirCacheEntry.STAGE_3);
+					unmergedPaths.add(tw.getPathString());
+					mergeResults.put(
+							tw.getPathString(),
+							new MergeResult<RawText>(Collections
+									.<RawText> emptyList()));
+				}
+				return true;
+			}
 		}
 
 		if (nonTree(modeO) && modeB == modeT && tw.idEqual(T_BASE, T_THEIRS)) {
@@ -582,7 +617,12 @@ public class ResolveMerger extends ThreeWayMerger {
 			// no conflict occurred, the file will contain fully merged content.
 			// the index will be populated with the new merged version
 			DirCacheEntry dce = new DirCacheEntry(tw.getPathString());
-			dce.setFileMode(tw.getFileMode(0));
+			int newMode = mergeFileModes(tw.getRawMode(0), tw.getRawMode(1),
+					tw.getRawMode(2));
+			// set the mode for the new content. Fall back to REGULAR_FILE if
+			// you can't merge modes of OURS and THEIRS
+			dce.setFileMode((newMode == FileMode.MISSING.getBits()) ? FileMode.REGULAR_FILE
+					: FileMode.fromBits(newMode));
 			dce.setLastModified(of.lastModified());
 			dce.setLength((int) of.length());
 			InputStream is = new FileInputStream(of);
@@ -597,6 +637,34 @@ public class ResolveMerger extends ThreeWayMerger {
 			builder.add(dce);
 			return true;
 		}
+	}
+
+	/**
+	 * Try to merge filemodes. If only ours or theirs have changed the mode
+	 * (compared to base) we choose that one. If ours and theirs have equal
+	 * modes return that one. If also that is not the case the modes are not
+	 * mergeable. Return {@link FileMode#MISSING} int that case.
+	 *
+	 * @param modeB
+	 *            filemode found in BASE
+	 * @param modeO
+	 *            filemode found in OURS
+	 * @param modeT
+	 *            filemode found in THEIRS
+	 *
+	 * @return the merged filemode or {@link FileMode#MISSING} in case of a
+	 *         conflict
+	 */
+	private int mergeFileModes(int modeB, int modeO, int modeT) {
+		if (modeO == modeT)
+			return modeO;
+		if (modeB == modeO)
+			// Base equal to Ours -> chooses Theirs if that is not missing
+			return (modeT == FileMode.MISSING.getBits()) ? modeO : modeT;
+		if (modeB == modeT)
+			// Base equal to Theirs -> chooses Ours if that is not missing
+			return (modeO == FileMode.MISSING.getBits()) ? modeT : modeO;
+		return FileMode.MISSING.getBits();
 	}
 
 	private static RawText getRawText(ObjectId id, Repository db)
