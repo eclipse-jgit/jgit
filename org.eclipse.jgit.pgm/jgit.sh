@@ -80,6 +80,7 @@ Darwin)
 			-Dcom.apple.mrj.application.growbox.intrudes=false
 			-Dapple.laf.useScreenMenuBar=true
 			-Xdock:name=JGit
+			-Dfile.encoding=UTF-8
 		'
 	fi
 	;;
