@@ -1,0 +1,193 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOC3///S8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PostReceiveHookChain.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-12-08T16:31:38Z",
+      "side": 1,
+      "message": "This fails when I pass in [hook1, NULL, NULL, hook2]. The result array will be [hook1, hook2, null, null] and the onPostReceive method will NPE when it tries to invoke the 3rd element.\n\nDon\u0027t try to be cute and filter out the NULL hook.",
+      "revId": "e960618d036e90f45c8051a2568a1a8612413a63",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOC3///OE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PostReceiveHookChain.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-12-08T22:08:08Z",
+      "side": 1,
+      "message": "It may be worth it for the empty and single element list case:\n\n  if (hooks.size() \u003d\u003d 0)\n    return PostReceiveHook.NULL;\n  if (hooks.size() \u003d\u003d 1)\n    return hooks.get(0);\n  return new PostReceiveHookChain(hooks.toArray(...));\n\nso keep the static factory method. But please fix the NPE. :-)",
+      "parentUuid": "AABOC3///Ro\u003d",
+      "revId": "e960618d036e90f45c8051a2568a1a8612413a63",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOC3///ME\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PostReceiveHookChain.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-12-09T02:44:59Z",
+      "side": 1,
+      "message": "Good point. Then go ahead and do the optimization to remove the NULL instance, but get the length of the final array correct. :-)",
+      "parentUuid": "AABOC3///N8\u003d",
+      "revId": "e960618d036e90f45c8051a2568a1a8612413a63",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOC3///TM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PostReceiveHookChain.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-12-08T16:31:38Z",
+      "side": 1,
+      "message": "line-wrap? this seems pretty long.",
+      "revId": "e960618d036e90f45c8051a2568a1a8612413a63",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOC3///TI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PostReceiveHookChain.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-12-08T16:31:38Z",
+      "side": 1,
+      "message": "no curly braces",
+      "revId": "e960618d036e90f45c8051a2568a1a8612413a63",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOC3///S4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PreReceiveHookChain.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-12-08T16:31:38Z",
+      "side": 1,
+      "message": "same bug",
+      "revId": "e960618d036e90f45c8051a2568a1a8612413a63",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOC3///S0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PreReceiveHookChain.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-12-08T16:31:38Z",
+      "side": 1,
+      "message": "curly braces",
+      "revId": "e960618d036e90f45c8051a2568a1a8612413a63",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOC3///Sk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PreUploadHookChain.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-12-08T16:31:38Z",
+      "side": 1,
+      "message": "same bug",
+      "revId": "e960618d036e90f45c8051a2568a1a8612413a63",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOC3///Sg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PreUploadHookChain.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-12-08T16:31:38Z",
+      "side": 1,
+      "message": "curly braces",
+      "revId": "e960618d036e90f45c8051a2568a1a8612413a63",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOC3///SU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PreUploadHookChain.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-12-08T16:31:38Z",
+      "side": 1,
+      "message": "curly braces",
+      "revId": "e960618d036e90f45c8051a2568a1a8612413a63",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOC3///SE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UploadPackLoggerChain.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-12-08T16:31:38Z",
+      "side": 1,
+      "message": "curly braces",
+      "revId": "e960618d036e90f45c8051a2568a1a8612413a63",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
