@@ -43,28 +43,18 @@
 
 package org.eclipse.jgit.transport;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.eclipse.jgit.errors.InvalidPatternException;
 import org.eclipse.jgit.fnmatch.FileNameMatcher;
 import org.eclipse.jgit.util.FS;
-import org.eclipse.jgit.util.StringUtils;
 
 /**
- * Simple configuration parser for the OpenSSH ~/.ssh/config file.
+ * Simple parser for the OpenSSH configuration file.
  * <p>
  * Since JSch does not (currently) have the ability to parse an OpenSSH
  * configuration file this is a simple parser to read that file and make the
@@ -72,48 +62,37 @@ import org.eclipse.jgit.util.StringUtils;
  */
 public class OpenSshConfig {
 	/** IANA assigned port number for SSH. */
-	static final int SSH_PORT = 22;
+	private static final int SSH_PORT = 22;
 
 	/**
 	 * Obtain the user's configuration data.
 	 * <p>
-	 * The configuration file is always returned to the caller, even if no file
-	 * exists in the user's home directory at the time the call was made. Lookup
-	 * requests are cached and are automatically updated if the user modifies
-	 * the configuration file since the last time it was cached.
+	 * A configuration data instance is always returned to the caller, even if
+	 * no configuration file exists in the user's home directory at the time the
+	 * call was made. Lookup requests are cached and are automatically updated
+	 * if the user modifies the configuration file since the last time it was
+	 * cached.
 	 *
 	 * @param fs
-	 *            the file system abstraction which will be necessary to
-	 *            perform certain file system operations.
-	 * @return a caching reader of the user's configuration file.
+	 *            the file system abstraction which will be necessary to perform
+	 *            certain file system operations.
+	 * @return a caching reader of the configuration data.
 	 */
-	public static OpenSshConfig get(FS fs) {
-		File home = fs.userHome();
-		if (home == null)
-			home = new File(".").getAbsoluteFile();
-
-		final File config = new File(new File(home, ".ssh"), "config");
-		final OpenSshConfig osc = new OpenSshConfig(home, config);
-		osc.refresh();
-		return osc;
+	public static OpenSshConfig get(final FS fs) {
+		final OpenSshConfigFile userConfigFile = OpenSshConfigFile
+				.getUserConfigFile(fs);
+		return new OpenSshConfig(userConfigFile);
 	}
 
-	/** The user's home directory, as key files may be relative to here. */
-	private final File home;
+	/** The user's configuration file. */
+	private final OpenSshConfigFile userConfigFile;
 
-	/** The .ssh/config file we read and monitor for updates. */
-	private final File configFile;
+	/** The cached configuration data. */
+	private volatile Map<String, Host> cache;
 
-	/** Modification time of {@link #configFile} when {@link #hosts} loaded. */
-	private long lastModified;
-
-	/** Cached entries read out of the configuration file. */
-	private Map<String, Host> hosts;
-
-	OpenSshConfig(final File h, final File cfg) {
-		home = h;
-		configFile = cfg;
-		hosts = Collections.emptyMap();
+	private OpenSshConfig(final OpenSshConfigFile userConfigFile) {
+		this.userConfigFile = userConfigFile;
+		cache = Collections.emptyMap();
 	}
 
 	/**
@@ -126,7 +105,9 @@ public class OpenSshConfig {
 	 * @return r configuration for the requested name. Never null.
 	 */
 	public Host lookup(final String hostName) {
-		final Map<String, Host> cache = refresh();
+		if (userConfigFile.hasChanged())
+			updateCache();
+
 		Host h = cache.get(hostName);
 		if (h == null)
 			h = new Host();
@@ -151,100 +132,11 @@ public class OpenSshConfig {
 		return h;
 	}
 
-	private synchronized Map<String, Host> refresh() {
-		final long mtime = configFile.lastModified();
-		if (mtime != lastModified) {
-			try {
-				final FileInputStream in = new FileInputStream(configFile);
-				try {
-					hosts = parse(in);
-				} finally {
-					in.close();
-				}
-			} catch (FileNotFoundException none) {
-				hosts = Collections.emptyMap();
-			} catch (IOException err) {
-				hosts = Collections.emptyMap();
-			}
-			lastModified = mtime;
-		}
-		return hosts;
-	}
-
-	private Map<String, Host> parse(final InputStream in) throws IOException {
-		final Map<String, Host> m = new LinkedHashMap<String, Host>();
-		final BufferedReader br = new BufferedReader(new InputStreamReader(in));
-		final List<Host> current = new ArrayList<Host>(4);
-		String line;
-
-		while ((line = br.readLine()) != null) {
-			line = line.trim();
-			if (line.length() == 0 || line.startsWith("#"))
-				continue;
-
-			final String[] parts = line.split("[ \t]*[= \t]", 2);
-			final String keyword = parts[0].trim();
-			final String argValue = parts[1].trim();
-
-			if (StringUtils.equalsIgnoreCase("Host", keyword)) {
-				current.clear();
-				for (final String pattern : argValue.split("[ \t]")) {
-					final String name = dequote(pattern);
-					Host c = m.get(name);
-					if (c == null) {
-						c = new Host();
-						m.put(name, c);
-					}
-					current.add(c);
-				}
-				continue;
-			}
-
-			if (current.isEmpty()) {
-				// We received an option outside of a Host block. We
-				// don't know who this should match against, so skip.
-				//
-				continue;
-			}
-
-			if (StringUtils.equalsIgnoreCase("HostName", keyword)) {
-				for (final Host c : current)
-					if (c.hostName == null)
-						c.hostName = dequote(argValue);
-			} else if (StringUtils.equalsIgnoreCase("User", keyword)) {
-				for (final Host c : current)
-					if (c.user == null)
-						c.user = dequote(argValue);
-			} else if (StringUtils.equalsIgnoreCase("Port", keyword)) {
-				try {
-					final int port = Integer.parseInt(dequote(argValue));
-					for (final Host c : current)
-						if (c.port == 0)
-							c.port = port;
-				} catch (NumberFormatException nfe) {
-					// Bad port number. Don't set it.
-				}
-			} else if (StringUtils.equalsIgnoreCase("IdentityFile", keyword)) {
-				for (final Host c : current)
-					if (c.identityFile == null)
-						c.identityFile = toFile(dequote(argValue));
-			} else if (StringUtils.equalsIgnoreCase("PreferredAuthentications", keyword)) {
-				for (final Host c : current)
-					if (c.preferredAuthentications == null)
-						c.preferredAuthentications = nows(dequote(argValue));
-			} else if (StringUtils.equalsIgnoreCase("BatchMode", keyword)) {
-				for (final Host c : current)
-					if (c.batchMode == null)
-						c.batchMode = yesno(dequote(argValue));
-			} else if (StringUtils.equalsIgnoreCase("StrictHostKeyChecking", keyword)) {
-				String value = dequote(argValue);
-				for (final Host c : current)
-					if (c.strictHostKeyChecking == null)
-						c.strictHostKeyChecking = value;
-			}
-		}
-
-		return m;
+	private void updateCache() {
+		if (userConfigFile.exists())
+			cache = userConfigFile.read();
+		else
+			cache = Collections.emptyMap();
 	}
 
 	private static boolean isHostPattern(final String s) {
@@ -262,37 +154,7 @@ public class OpenSshConfig {
 		return fn.isMatch();
 	}
 
-	private static String dequote(final String value) {
-		if (value.startsWith("\"") && value.endsWith("\""))
-			return value.substring(1, value.length() - 1);
-		return value;
-	}
-
-	private static String nows(final String value) {
-		final StringBuilder b = new StringBuilder();
-		for (int i = 0; i < value.length(); i++) {
-			if (!Character.isSpaceChar(value.charAt(i)))
-				b.append(value.charAt(i));
-		}
-		return b.toString();
-	}
-
-	private static Boolean yesno(final String value) {
-		if (StringUtils.equalsIgnoreCase("yes", value))
-			return Boolean.TRUE;
-		return Boolean.FALSE;
-	}
-
-	private File toFile(final String path) {
-		if (path.startsWith("~/"))
-			return new File(home, path.substring(2));
-		File ret = new File(path);
-		if (ret.isAbsolute())
-			return ret;
-		return new File(home, path);
-	}
-
-	static String userName() {
+	private static String userName() {
 		return AccessController.doPrivileged(new PrivilegedAction<String>() {
 			public String run() {
 				return System.getProperty("user.name");
