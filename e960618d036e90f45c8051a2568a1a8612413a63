@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOC3///Ro\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PostReceiveHookChain.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2011-12-08T16:34:07Z",
+      "side": 1,
+      "message": "Well, this bug is easy to fix. You think it\u0027s just not worth it? What about the other cuteness, returning something that\u0027s not a chain if we don\u0027t have to? I can just go back to public constructors...",
+      "parentUuid": "AABOC3///S8\u003d",
+      "revId": "e960618d036e90f45c8051a2568a1a8612413a63",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOC3///OE\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PostReceiveHookChain.java",
         "patchSetId": 2
@@ -37,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "AABOC3///N8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PostReceiveHookChain.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2011-12-08T22:16:07Z",
+      "side": 1,
+      "message": "But IMO the most common case (certainly at least one of the usages I\u0027ve written already) is going to be two elements where one is likely to be NULL:\n\n  void addMyHook(ReceivePack rp) {\n    List\u003cPostReceiveHook\u003e newHooks \u003d new ArrayList\u003cPostReceiveHook\u003e();\n    newHooks.add(rp.getPostReceiveHook());\n    newHooks.add(new MyHook());\n    rp.setPostReceiveHook(PostReceiveHookChain.newChain(newHooks);\n  }\n\nIn this case, if no previous hook was set, then the 0- and 1-element optimizations don\u0027t apply unless you also collapse NULLs.",
+      "parentUuid": "AABOC3///OE\u003d",
+      "revId": "e960618d036e90f45c8051a2568a1a8612413a63",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOC3///ME\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PostReceiveHookChain.java",
         "patchSetId": 2
@@ -49,6 +85,24 @@
       "side": 1,
       "message": "Good point. Then go ahead and do the optimization to remove the NULL instance, but get the length of the final array correct. :-)",
       "parentUuid": "AABOC3///N8\u003d",
+      "revId": "e960618d036e90f45c8051a2568a1a8612413a63",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOC3///Iw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PostReceiveHookChain.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2011-12-09T17:06:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOC3///ME\u003d",
       "revId": "e960618d036e90f45c8051a2568a1a8612413a63",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -211,6 +265,24 @@
     },
     {
       "key": {
+        "uuid": "AABOC3///IY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PreUploadHookChain.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2011-12-09T17:06:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOC3///Sk\u003d",
+      "revId": "e960618d036e90f45c8051a2568a1a8612413a63",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOC3///Sg\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PreUploadHookChain.java",
         "patchSetId": 2
@@ -245,6 +317,24 @@
     },
     {
       "key": {
+        "uuid": "AABOC3///IQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PreUploadHookChain.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2011-12-09T17:06:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOC3///SY\u003d",
+      "revId": "e960618d036e90f45c8051a2568a1a8612413a63",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOC3///SU\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PreUploadHookChain.java",
         "patchSetId": 2
@@ -262,6 +352,24 @@
     },
     {
       "key": {
+        "uuid": "AABOC3///IM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PreUploadHookChain.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2011-12-09T17:06:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOC3///SU\u003d",
+      "revId": "e960618d036e90f45c8051a2568a1a8612413a63",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOC3///SQ\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PreUploadHookChain.java",
         "patchSetId": 2
@@ -273,6 +381,24 @@
       "writtenOn": "2011-12-08T16:31:38Z",
       "side": 1,
       "message": "curly braces",
+      "revId": "e960618d036e90f45c8051a2568a1a8612413a63",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOC3///II\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PreUploadHookChain.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2011-12-09T17:06:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOC3///SQ\u003d",
       "revId": "e960618d036e90f45c8051a2568a1a8612413a63",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
