@@ -48,6 +48,20 @@ public class CheckoutConflictException extends GitAPIException {
 	private static final long serialVersionUID = 1L;
 	private List<String> conflictingPaths;
 
+	/**
+	 * Translate internal exception to API exception
+	 *
+	 * @param conflictingPaths
+	 *            list of conflicting paths
+	 *
+	 * @param e
+	 */
+	public CheckoutConflictException(List<String> conflictingPaths,
+			org.eclipse.jgit.errors.CheckoutConflictException e) {
+		super(e.getMessage(), e);
+		this.conflictingPaths = conflictingPaths;
+	}
+
 	CheckoutConflictException(String message, Throwable cause) {
 		super(message, cause);
 	}
@@ -73,6 +87,7 @@ public class CheckoutConflictException extends GitAPIException {
 
 	/**
 	 * Adds a new conflicting path
+	 *
 	 * @param conflictingPath
 	 * @return {@code this}
 	 */
