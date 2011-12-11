@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AABOC3///VY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-12-07T23:18:33Z",
+      "side": 1,
+      "message": "If mode changed on only one branch shouldn\u0027t we pick the changed mode then, without conflict?, i.e. the conflict occurs\nwhen",
+      "revId": "73896ba9dff000a5b1840483089db0f4f8c5aa56",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOC3///U4\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
         "patchSetId": 3
