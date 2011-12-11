@@ -1,0 +1,22 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOC3///U4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-12-08T15:45:56Z",
+      "side": 1,
+      "message": "Yes, of course. you are right. If we don\u0027t have conflicts because of the content (either because contents are equal or conflict-free mergeable) then we should avoid reporting a conflict for mode changes happening on one side only.\nAnd additionally: If we create new content through a content merge then we have to decide on a filemode for that new file revision. Also here we should do a better solution then just picking the first filemode we find as I do now in getFileMode():\nI\u0027ll propose a fix for that",
+      "parentUuid": "AABOC3///VY\u003d",
+      "revId": "73896ba9dff000a5b1840483089db0f4f8c5aa56",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
