@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOC3///Nw\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-12-08T22:30:29Z",
+      "side": 1,
+      "message": "typo s/he/it/",
+      "revId": "cb872e64d6ec14da9b4b4176872e4da8c606a599",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOC3///N0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 644,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-12-08T22:30:29Z",
+      "side": 1,
+      "message": "typo s/the choose/we choose/",
+      "revId": "cb872e64d6ec14da9b4b4176872e4da8c606a599",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
