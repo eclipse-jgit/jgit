@@ -65,6 +65,10 @@ public class AutoCRLFOutputStream extends OutputStream {
 
 	private boolean isBinary;
 
+	private long srcBytes = 0;
+
+	private long dstBytes = 0;
+
 	/**
 	 * @param out
 	 */
@@ -77,24 +81,30 @@ public class AutoCRLFOutputStream extends OutputStream {
 		int overflow = buffer((byte) b);
 		if (overflow >= 0)
 			return;
+		srcBytes++;
 		if (isBinary) {
 			out.write(b);
+			dstBytes++;
 			return;
 		}
 		if (b == '\n') {
 			if (buf == '\r') {
 				out.write('\n');
+				dstBytes++;
 				buf = -1;
 			} else if (buf == -1) {
 				out.write('\r');
 				out.write('\n');
+				dstBytes += 2;
 				buf = -1;
 			}
 		} else if (b == '\r') {
 			out.write(b);
+			dstBytes++;
 			buf = '\r';
 		} else {
 			out.write(b);
+			dstBytes++;
 			buf = -1;
 		}
 	}
@@ -115,9 +125,11 @@ public class AutoCRLFOutputStream extends OutputStream {
 		len = overflow;
 		if (len == 0)
 			return;
+		srcBytes += len;
 		int lastw = off;
 		if (isBinary) {
 			out.write(b, off, len);
+			dstBytes += len;
 			return;
 		}
 		for (int i = off; i < off + len; ++i) {
@@ -127,9 +139,12 @@ public class AutoCRLFOutputStream extends OutputStream {
 			} else if (c == '\n') {
 				if (buf != '\r') {
 					if (lastw < i) {
-						out.write(b, lastw, i - lastw);
+						int chunkSize = i - lastw;
+						out.write(b, lastw, chunkSize);
+						dstBytes += chunkSize;
 					}
 					out.write('\r');
+					dstBytes++;
 					lastw = i;
 				}
 				buf = -1;
@@ -138,7 +153,9 @@ public class AutoCRLFOutputStream extends OutputStream {
 			}
 		}
 		if (lastw < off + len) {
-			out.write(b, lastw, off + len - lastw);
+			int chunkSize = off + len - lastw;
+			out.write(b, lastw, chunkSize);
+			dstBytes += chunkSize;
 		}
 		if (b[off + len - 1] == '\r')
 			buf = '\r';
@@ -184,5 +201,21 @@ public class AutoCRLFOutputStream extends OutputStream {
 	public void close() throws IOException {
 		flush();
 		out.close();
+	}
+
+	/**
+	 * @return number of bytes sent to this stream
+	 *         <em>This counter is not reliable until the stream has been closed or flushed</emA>
+	 */
+	public long getSourceLength() {
+		return srcBytes;
+	}
+
+	/**
+	 * @return number of bytes sent to the underlying stream.
+	 *         <em>This counter is not reliable until the stream has been closed or flused</emA>
+	 */
+	public long getDestinationLength() {
+		return dstBytes;
 	}
 }

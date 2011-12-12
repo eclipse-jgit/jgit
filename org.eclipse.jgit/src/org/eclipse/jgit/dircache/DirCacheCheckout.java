@@ -999,8 +999,9 @@ public class DirCacheCheckout {
 			}
 		}
 		entry.setLastModified(f.lastModified());
-		if (opt.getAutoCRLF() != AutoCRLF.FALSE)
-			entry.setLength(f.length()); // AutoCRLF wants on-disk-size
+		if (channel instanceof AutoCRLFOutputStream)
+			entry.setLength(((AutoCRLFOutputStream) channel)
+					.getDestinationLength());
 		else
 			entry.setLength((int) ol.getSize());
 	}
