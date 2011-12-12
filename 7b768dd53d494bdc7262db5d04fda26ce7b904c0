@@ -16,6 +16,24 @@
       "revId": "7b768dd53d494bdc7262db5d04fda26ce7b904c0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOC3///GQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/HunkHeader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-12-10T01:03:02Z",
+      "side": 1,
+      "message": "I agree. Don\u0027t abstract things that are clear as a day already. The proposed change makes it much harder to understand the\ncode since you need to refer to look in one more place to\nfigure it out.",
+      "parentUuid": "AABOC3///QI\u003d",
+      "revId": "7b768dd53d494bdc7262db5d04fda26ce7b904c0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
