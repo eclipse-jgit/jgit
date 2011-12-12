@@ -85,19 +85,23 @@ public class EolCanonicalizingInputStreamTest {
 
 	private void test(byte[] input, byte[] expected) throws IOException {
 		final InputStream bis1 = new ByteArrayInputStream(input);
-		final InputStream cis1 = new EolCanonicalizingInputStream(bis1);
+		final EolCanonicalizingInputStream cis1 = new EolCanonicalizingInputStream(
+				bis1);
 		int index1 = 0;
 		for (int b = cis1.read(); b != -1; b = cis1.read()) {
 			assertEquals(expected[index1], (byte) b);
 			index1++;
 		}
+		assertEquals(input.length, cis1.getSourceLength());
+		assertEquals(expected.length, cis1.getDestinationLength());
 
 		assertEquals(expected.length, index1);
 
 		for (int bufferSize = 1; bufferSize < 10; bufferSize++) {
 			final byte[] buffer = new byte[bufferSize];
 			final InputStream bis2 = new ByteArrayInputStream(input);
-			final InputStream cis2 = new EolCanonicalizingInputStream(bis2);
+			final EolCanonicalizingInputStream cis2 = new EolCanonicalizingInputStream(
+					bis2);
 
 			int read = 0;
 			for (int readNow = cis2.read(buffer, 0, buffer.length); readNow != -1
@@ -109,6 +113,8 @@ public class EolCanonicalizingInputStreamTest {
 				read += readNow;
 			}
 
+			assertEquals(input.length, cis2.getSourceLength());
+			assertEquals(expected.length, cis2.getDestinationLength());
 			assertEquals(expected.length, read);
 		}
 	}
