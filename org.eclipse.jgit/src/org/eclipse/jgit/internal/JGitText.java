@@ -258,6 +258,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String exceptionCaughtDuringExecutionOfFetchCommand;
 	/***/ public String exceptionCaughtDuringExecutionOfLsRemoteCommand;
 	/***/ public String exceptionCaughtDuringExecutionOfMergeCommand;
+	/***/ public String exceptionCaughtDuringExecutionOfMvCommand;
 	/***/ public String exceptionCaughtDuringExecutionOfPullCommand;
 	/***/ public String exceptionCaughtDuringExecutionOfPushCommand;
 	/***/ public String exceptionCaughtDuringExecutionOfResetCommand;
@@ -529,8 +530,10 @@ public class JGitText extends TranslationBundle {
 	/***/ public String sizeExceeds2GB;
 	/***/ public String skipMustBeNonNegative;
 	/***/ public String smartHTTPPushDisabled;
+	/***/ public String sourceDestinationMustBeProvided;
 	/***/ public String sourceDestinationMustMatch;
 	/***/ public String sourceIsNotAWildcard;
+	/***/ public String sourceIsNotUnderVersionControl;
 	/***/ public String sourceRefDoesntResolveToAnyObject;
 	/***/ public String sourceRefNotSpecifiedForRefspec;
 	/***/ public String squashCommitNotUpdatingHEAD;

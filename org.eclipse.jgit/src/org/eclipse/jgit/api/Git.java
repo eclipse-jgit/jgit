@@ -554,6 +554,7 @@ public class Git {
 	}
 
 	/**
+<<<<<<< HEAD
 	 * Returns a command object to execute a {@code submodule add} command
 	 *
 	 * @return a {@link SubmoduleAddCommand} used to add a new submodule to a
@@ -692,6 +693,20 @@ public class Git {
 	 */
 	public DescribeCommand describe() {
 		return new DescribeCommand(repo);
+	}
+
+	/**
+	 * Returns a command object to execute a {@code mv} command
+	 * 
+	 * @see <a
+	 *      href="http://www.kernel.org/pub/software/scm/git/docs/git-mv.html"
+	 *      >Git documentation about mv</a>
+	 * @return a {@link MvCommand} used to collect all optional parameters and
+	 *         to finally execute the {@code mv} command
+	 * @since 3.6
+	 */
+	public MvCommand mv() {
+		return new MvCommand(repo);
 	}
 
 	/**
