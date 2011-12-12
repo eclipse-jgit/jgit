@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOC3///QI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/HunkHeader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-12-08T18:05:08Z",
+      "side": 1,
+      "message": "I don\u0027t want to change the parser into this nasty for loop and switch.",
+      "revId": "7b768dd53d494bdc7262db5d04fda26ce7b904c0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
