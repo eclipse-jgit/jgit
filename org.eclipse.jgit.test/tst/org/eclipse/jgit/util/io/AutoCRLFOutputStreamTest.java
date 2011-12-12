@@ -43,11 +43,12 @@
 
 package org.eclipse.jgit.util.io;
 
+import static org.junit.Assert.assertEquals;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -85,7 +86,7 @@ public class AutoCRLFOutputStreamTest {
 			byte[] buf = new byte[i];
 			InputStream in = new ByteArrayInputStream(inbytes);
 			ByteArrayOutputStream bos = new ByteArrayOutputStream();
-			OutputStream out = new AutoCRLFOutputStream(bos);
+			AutoCRLFOutputStream out = new AutoCRLFOutputStream(bos);
 			if (i > 0) {
 				int n;
 				while ((n = in.read(buf)) >= 0) {
@@ -99,6 +100,8 @@ public class AutoCRLFOutputStreamTest {
 			out.flush();
 			in.close();
 			out.close();
+			assertEquals(inbytes.length, out.getSourceLength());
+			assertEquals(expectBytes.length, out.getDestinationLength());
 			byte[] actualBytes = bos.toByteArray();
 			Assert.assertEquals("bufsize=" + i, encode(expectBytes),
 					encode(actualBytes));
