@@ -506,11 +506,24 @@ public class Git {
 
 	/**
 	 * Returns a command object used to delete tags
-	 * 
+	 *
 	 * @return a {@link DeleteTagCommand}
 	 */
 	public DeleteTagCommand tagDelete() {
 		return new DeleteTagCommand(repo);
+	}
+
+	/**
+	 * Returns a command object to execute a {@code mv} command
+	 *
+	 * @see <a
+	 *      href="http://www.kernel.org/pub/software/scm/git/docs/git-mv.html"
+	 *      >Git documentation about mv</a>
+	 * @return a {@link MvCommand} used to collect all optional parameters and
+	 *         to finally execute the {@code mv} command
+	 */
+	public MvCommand mv() {
+		return new MvCommand(repo);
 	}
 
 	/**
