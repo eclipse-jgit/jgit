@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOCX///Kw\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/TagCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-11-25T00:53:48Z",
+      "side": 1,
+      "message": "The tagList() command is clearly broken. It assumes all objects under the refs/tags/ namespace are annotated tags. The Orion server repository uses lightweight non-annotated tags, which cannot be cast to a RevTag object, which is why the tagList() command fails.\n\nThe tagList() command needs to be rewritten to not return a RevTag, but instead return some new tag type that supports both annotated and lightweight tags.",
+      "revId": "a4f8656575dbb01e6c0c05dd2080e79546f5dd53",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
