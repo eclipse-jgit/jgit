@@ -78,6 +78,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.eclipse.jgit.JGitText;
+import org.eclipse.jgit.errors.LockFailedException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.ObjectWritingException;
 import org.eclipse.jgit.events.RefsChangedEvent;
@@ -562,8 +563,7 @@ public class RefDirectory extends RefDatabase {
 			LockFile lck = new LockFile(packedRefsFile,
 					update.getRepository().getFS());
 			if (!lck.lock())
-				throw new IOException(MessageFormat.format(
-					JGitText.get().cannotLockFile, packedRefsFile));
+				throw new LockFailedException(packedRefsFile);
 			try {
 				PackedRefList cur = readPackedRefs();
 				int idx = cur.find(name);
