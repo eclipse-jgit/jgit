@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010, Marc Strapetz <marc.strapetz@syntevo.com>
+ * Copyright (C) 2011, Robin Rosenberg
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -40,45 +40,34 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.eclipse.jgit.treewalk;
 
-import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.Config.SectionParser;
-import org.eclipse.jgit.lib.CoreConfig.AutoCRLF;
+package org.eclipse.jgit.errors;
 
-/** Options used by the {@link WorkingTreeIterator}. */
-public class WorkingTreeOptions {
-	/** Key for {@link Config#get(SectionParser)}. */
-	public static final Config.SectionParser<WorkingTreeOptions> KEY = new SectionParser<WorkingTreeOptions>() {
-		public WorkingTreeOptions parse(final Config cfg) {
-			return new WorkingTreeOptions(cfg);
-		}
-	};
+import java.io.IOException;
 
-	private final boolean fileMode;
+import org.eclipse.jgit.JGitText;
 
-	private final AutoCRLF autoCRLF;
+/**
+ * An IO Exception thrown when attempting to perform non-reversible CRLF to LF
+ * conversion.
+ */
+public class UnsafeCRLFConversionException extends IOException {
 
-	private boolean safeCRLF;
+	private static final long serialVersionUID = 1L;
 
-	private WorkingTreeOptions(final Config rc) {
-		fileMode = rc.getBoolean("core", "filemode", true);
-		autoCRLF = rc.getEnum("core", null, "autocrlf", AutoCRLF.FALSE);
-		safeCRLF = rc.getBoolean("core", "safecrlf", false);
+	/**
+	 * Construct an {@link UnsafeCRLFConversionException}
+	 */
+	public UnsafeCRLFConversionException() {
+		this(JGitText.get().unsafeCrlfConversion);
 	}
 
-	/** @return true if the execute bit on working files should be trusted. */
-	public boolean isFileMode() {
-		return fileMode;
-	}
-
-	/** @return how automatic CRLF conversion has been configured. */
-	public AutoCRLF getAutoCRLF() {
-		return autoCRLF;
-	}
-
-	/** @return whether CRLF conversion must be reversible. */
-	public boolean getSafeCRLF() {
-		return safeCRLF;
+	/**
+	 * Construct an {@link UnsafeCRLFConversionException} exception
+	 *
+	 * @param message
+	 */
+	public UnsafeCRLFConversionException(String message) {
+		super(message);
 	}
 }

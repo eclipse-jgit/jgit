@@ -60,6 +60,7 @@ import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.api.errors.NoHeadException;
 import org.eclipse.jgit.api.errors.NoMessageException;
 import org.eclipse.jgit.api.errors.RefNotFoundException;
+import org.eclipse.jgit.api.errors.UnsafeCRLFException;
 import org.eclipse.jgit.api.errors.WrongRepositoryStateException;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Config;
@@ -113,7 +114,7 @@ public class PullCommand extends TransportCommand<PullCommand, PullResult> {
 	public PullResult call() throws WrongRepositoryStateException,
 			InvalidConfigurationException, DetachedHeadException,
 			InvalidRemoteException, CanceledException, RefNotFoundException,
-			NoHeadException {
+			NoHeadException, UnsafeCRLFException {
 		checkCallable();
 
 		monitor.beginTask(JGitText.get().pullTaskName, 2);
