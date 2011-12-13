@@ -84,6 +84,9 @@ public class ConfigConstants {
 	/** The "autocrlf" key */
 	public static final String CONFIG_KEY_AUTOCRLF = "autocrlf";
 
+	/** The "safecrlf" key */
+	public static final String CONFIG_KEY_SAFECRLF = "safecrlf";
+
 	/** The "bare" key */
 	public static final String CONFIG_KEY_BARE = "bare";
 

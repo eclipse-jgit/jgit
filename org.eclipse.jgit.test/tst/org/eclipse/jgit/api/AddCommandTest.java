@@ -45,6 +45,7 @@ package org.eclipse.jgit.api;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.fail;
 
 import java.io.File;
@@ -57,6 +58,7 @@ import org.eclipse.jgit.api.errors.NoFilepatternException;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
 import org.eclipse.jgit.dircache.DirCacheEntry;
+import org.eclipse.jgit.errors.UnsafeCRLFConversionException;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
@@ -189,8 +191,41 @@ public class AddCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testAddExistingSingleFileInSubDir() throws IOException,
-			GitAPIException {
+	public void testAddExistingSingleMixedLineEndings() throws Exception {
+		File file = new File(db.getWorkTree(), "a.txt");
+		FileUtils.createNewFile(file);
+		PrintWriter writer = new PrintWriter(file);
+		writer.print("row1\r\nrow2\n");
+		writer.close();
+
+		Git git = new Git(db);
+		db.getConfig().setString("core", null, "safecrlf", "true");
+		db.getConfig().setString("core", null, "autocrlf", "false");
+		git.add().addFilepattern("a.txt").call();
+		assertEquals("[a.txt, mode:100644, content:row1\r\nrow2\n]",
+				indexState(CONTENT));
+		db.getConfig().setString("core", null, "autocrlf", "true");
+		try {
+			git.add().addFilepattern("a.txt").call();
+			fail("Expected UnsafeCRLFConversion exception");
+		} catch (GitAPIException e) {
+			assertSame(UnsafeCRLFConversionException.class, e.getCause()
+					.getClass());
+			e.getCause().getMessage().endsWith("/a.txt");
+		}
+		db.getConfig().setString("core", null, "autocrlf", "input");
+		try {
+			git.add().addFilepattern("a.txt").call();
+			fail("Expected UnsafeCRLFConversion exception");
+		} catch (GitAPIException e) {
+			assertSame(UnsafeCRLFConversionException.class, e.getCause()
+					.getClass());
+			e.getCause().getMessage().endsWith("/a.txt");
+		}
+	}
+
+	@Test
+	public void testAddExistingSingleFileInSubDir() throws IOException, GitAPIException {
 		FileUtils.mkdir(new File(db.getWorkTree(), "sub"));
 		File file = new File(db.getWorkTree(), "sub/a.txt");
 		FileUtils.createNewFile(file);

@@ -49,6 +49,7 @@ import java.text.MessageFormat;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.api.errors.NoFilepatternException;
+import org.eclipse.jgit.api.errors.UnsafeCRLFException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.ConfigConstants;
@@ -200,6 +201,9 @@ public class SubmoduleAddCommand extends
 		try {
 			add.call();
 		} catch (NoFilepatternException e) {
+			throw new JGitInternalException(e.getMessage(), e);
+		} catch (UnsafeCRLFException e) {
+			// Should not happen
 			throw new JGitInternalException(e.getMessage(), e);
 		}
 

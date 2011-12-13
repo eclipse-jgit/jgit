@@ -43,19 +43,23 @@
  */
 package org.eclipse.jgit.api;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.LinkedList;
 
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.api.errors.NoFilepatternException;
+import org.eclipse.jgit.api.errors.UnsafeCRLFException;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuildIterator;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
 import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.dircache.DirCacheIterator;
+import org.eclipse.jgit.errors.UnsafeCRLFConversionException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
@@ -175,14 +179,22 @@ public class AddCommand extends GitCommand<DirCache> {
 
 								if (FileMode.GITLINK != mode) {
 									entry.setLength(sz);
-									entry.setLastModified(f
-											.getEntryLastModified());
+									entry.setLastModified(f.getEntryLastModified());
 									long contentSize = f
 											.getEntryContentLength();
-									InputStream in = f.openEntryStream();
+									InputStream in = f
+											.openEntryStream(workingTreeIterator
+													.getOptions().getSafeCRLF());
 									try {
 										entry.setObjectId(inserter.insert(
 												Constants.OBJ_BLOB, contentSize, in));
+									} catch (UnsafeCRLFConversionException e) {
+										throw new UnsafeCRLFException(
+												MessageFormat.format(
+														JGitText.get().unsafeCrlfConversionIn,
+														new File(
+																repo.getWorkTree(),
+																path).getPath()), e);
 									} finally {
 										in.close();
 									}
@@ -204,6 +216,8 @@ public class AddCommand extends GitCommand<DirCache> {
 			inserter.flush();
 			builder.commit();
 			setCallable(false);
+		} catch (UnsafeCRLFConversionException e) {
+			throw new UnsafeCRLFException(e.getMessage(), e);
 		} catch (IOException e) {
 			throw new JGitInternalException(
 					JGitText.get().exceptionCaughtDuringExecutionOfAddCommand, e);

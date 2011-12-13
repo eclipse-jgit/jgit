@@ -95,8 +95,16 @@ public class EolCanonicalizingInputStreamTest {
 	}
 
 	private void test(byte[] input, byte[] expected, boolean detectBinary) throws IOException {
+		test(input, expected, detectBinary, false);
+		test(input, expected, detectBinary, true);
+	}
+
+	private void test(byte[] input, byte[] expected, boolean detectBinary,
+			boolean safecrlf) throws IOException {
 		final InputStream bis1 = new ByteArrayInputStream(input);
-		final EolCanonicalizingInputStream cis1 = new EolCanonicalizingInputStream(bis1, detectBinary);
+		@SuppressWarnings("resource")
+		final EolCanonicalizingInputStream cis1 = new EolCanonicalizingInputStream(
+				bis1, detectBinary, safecrlf);
 		int index1 = 0;
 		for (int b = cis1.read(); b != -1; b = cis1.read()) {
 			assertEquals(expected[index1], (byte) b);
@@ -110,8 +118,9 @@ public class EolCanonicalizingInputStreamTest {
 		for (int bufferSize = 1; bufferSize < 10; bufferSize++) {
 			final byte[] buffer = new byte[bufferSize];
 			final InputStream bis2 = new ByteArrayInputStream(input);
+			@SuppressWarnings("resource")
 			final EolCanonicalizingInputStream cis2 = new EolCanonicalizingInputStream(
-					bis2, detectBinary);
+					bis2, detectBinary, safecrlf);
 
 			int read = 0;
 			for (int readNow = cis2.read(buffer, 0, buffer.length); readNow != -1

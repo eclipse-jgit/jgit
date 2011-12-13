@@ -59,6 +59,7 @@ import org.eclipse.jgit.api.errors.InvalidMergeHeadsException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.api.errors.NoHeadException;
 import org.eclipse.jgit.api.errors.NoMessageException;
+import org.eclipse.jgit.api.errors.UnsafeCRLFException;
 import org.eclipse.jgit.api.errors.WrongRepositoryStateException;
 import org.eclipse.jgit.dircache.DirCacheCheckout;
 import org.eclipse.jgit.internal.JGitText;
@@ -116,7 +117,8 @@ public class MergeCommand extends GitCommand<MergeResult> {
 	 */
 	public MergeResult call() throws GitAPIException, NoHeadException,
 			ConcurrentRefUpdateException, CheckoutConflictException,
-			InvalidMergeHeadsException, WrongRepositoryStateException, NoMessageException {
+			InvalidMergeHeadsException, WrongRepositoryStateException,
+			NoMessageException, UnsafeCRLFException {
 		checkCallable();
 
 		if (commits.size() != 1)

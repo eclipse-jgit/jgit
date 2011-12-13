@@ -42,6 +42,7 @@
  */
 package org.eclipse.jgit.api;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.MessageFormat;
@@ -56,6 +57,7 @@ import org.eclipse.jgit.api.errors.NoFilepatternException;
 import org.eclipse.jgit.api.errors.NoHeadException;
 import org.eclipse.jgit.api.errors.NoMessageException;
 import org.eclipse.jgit.api.errors.UnmergedPathsException;
+import org.eclipse.jgit.api.errors.UnsafeCRLFException;
 import org.eclipse.jgit.api.errors.WrongRepositoryStateException;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
@@ -65,6 +67,7 @@ import org.eclipse.jgit.dircache.DirCacheEditor.PathEdit;
 import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.dircache.DirCacheIterator;
 import org.eclipse.jgit.errors.UnmergedPathException;
+import org.eclipse.jgit.errors.UnsafeCRLFConversionException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Constants;
@@ -143,11 +146,13 @@ public class CommitCommand extends GitCommand<RevCommit> {
 	 *             else
 	 * @throws WrongRepositoryStateException
 	 *             when repository is not in the right state for committing
+	 * @throws UnsafeCRLFException
+	 * 				when an crlf handling would produce a non-revisible conversion
 	 */
 	public RevCommit call() throws GitAPIException, NoHeadException,
 			NoMessageException, UnmergedPathsException,
 			ConcurrentRefUpdateException,
-			WrongRepositoryStateException {
+			WrongRepositoryStateException, UnsafeCRLFException {
 		checkCallable();
 
 		RepositoryState state = repo.getRepositoryState();
@@ -359,6 +364,12 @@ public class CommitCommand extends GitCommand<RevCommit> {
 								dcEntry.setObjectId(inserter.insert(
 										Constants.OBJ_BLOB, contentLength,
 										inputStream));
+							} catch (UnsafeCRLFConversionException e) {
+								throw new UnsafeCRLFConversionException(
+										MessageFormat.format(
+												JGitText.get().unsafeCrlfConversionIn,
+												new File(repo.getWorkTree(),
+														path).getPath()));
 							} finally {
 								inputStream.close();
 							}
