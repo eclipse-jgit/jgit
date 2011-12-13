@@ -198,6 +198,10 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 	 * During pack compaction or GC the new pack file may be replacing other
 	 * older files. Implementations should remove those older files (if any) as
 	 * part of the commit of the new file.
+	 * <p>
+	 * This method is a trivial wrapper around
+	 * {@link #commitPackImpl(Collection, Collection)} that calls the
+	 * implementation and fires events.
 	 *
 	 * @param desc
 	 *            description of the new packs.
@@ -207,7 +211,25 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 	 *             the packs cannot be committed. On failure a rollback must
 	 *             also be attempted by the caller.
 	 */
-	protected abstract void commitPack(Collection<DfsPackDescription> desc,
+	protected void commitPack(Collection<DfsPackDescription> desc,
+			Collection<DfsPackDescription> replaces) throws IOException {
+		commitPackImpl(desc, replaces);
+		getRepository().fireEvent(new DfsPacksChangedEvent());
+	}
+
+	/**
+	 * Implementation of pack commit.
+	 *
+	 * @see #commitPack(Collection, Collection)
+	 *
+	 * @param desc
+	 *            description of the new packs.
+	 * @param replaces
+	 *            if not null, list of packs to remove.
+	 * @throws IOException
+	 *             the packs cannot be committed.
+	 */
+	protected abstract void commitPackImpl(Collection<DfsPackDescription> desc,
 			Collection<DfsPackDescription> replaces) throws IOException;
 
 	/**
