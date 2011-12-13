@@ -47,6 +47,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.eclipse.jgit.diff.RawText;
+import org.eclipse.jgit.errors.UnsafeCRLFConversionException;
 
 /**
  * An input stream which canonicalizes EOLs bytes on the fly to '\n', unless the
@@ -73,6 +74,27 @@ public class EolCanonicalizingInputStream extends InputStream {
 
 	private long dstBytes = 0;
 
+	private final boolean safe;
+
+	private boolean lfOnlyFound;
+
+	private boolean crlfFound;
+
+	/**
+	 * Creates a new InputStream, wrapping the specified stream
+	 *
+	 * @param in
+	 *            raw input stream
+	 * @param safe
+	 *            if true, reading will fail in lone LF's appear in input,
+	 *            indicating that checkout would not produce the original
+	 *            stream.
+	 */
+	public EolCanonicalizingInputStream(InputStream in, boolean safe) {
+		this.in = in;
+		this.safe = safe;
+	}
+
 	/**
 	 * Creates a new InputStream, wrapping the specified stream
 	 *
@@ -81,6 +103,7 @@ public class EolCanonicalizingInputStream extends InputStream {
 	 */
 	public EolCanonicalizingInputStream(InputStream in) {
 		this.in = in;
+		this.safe = false;
 	}
 
 	@Override
@@ -109,6 +132,8 @@ public class EolCanonicalizingInputStream extends InputStream {
 			if (isBinary || b != '\r') {
 				// Logic for binary files ends here
 				bs[off++] = b;
+				if (b == '\n')
+					lfOnlyFound = true;
 				continue;
 			}
 
@@ -118,11 +143,15 @@ public class EolCanonicalizingInputStream extends InputStream {
 			}
 
 			if (buf[ptr] == '\n') {
+				crlfFound = true;
 				bs[off++] = '\n';
 				ptr++;
 			} else
 				bs[off++] = '\r';
 		}
+
+		if (crlfFound && lfOnlyFound && safe)
+			throw new UnsafeCRLFConversionException();
 
 		if (startOff == off)
 			return -1;
@@ -162,6 +191,7 @@ public class EolCanonicalizingInputStream extends InputStream {
 			modeDetected = true;
 		}
 		srcBytes += cnt;
+
 		ptr = 0;
 		return true;
 	}

@@ -44,6 +44,7 @@
 package org.eclipse.jgit.api;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.fail;
 
 import java.io.File;
@@ -51,10 +52,13 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.NoFilepatternException;
+import org.eclipse.jgit.api.errors.UnsafeCRLFException;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
 import org.eclipse.jgit.dircache.DirCacheEntry;
+import org.eclipse.jgit.errors.UnsafeCRLFConversionException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
@@ -66,7 +70,7 @@ import org.junit.Test;
 public class AddCommandTest extends RepositoryTestCase {
 
 	@Test
-	public void testAddNothing() {
+	public void testAddNothing() throws UnsafeCRLFException {
 		Git git = new Git(db);
 
 		try {
@@ -79,7 +83,8 @@ public class AddCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testAddNonExistingSingleFile() throws NoFilepatternException {
+	public void testAddNonExistingSingleFile() throws NoFilepatternException,
+			UnsafeCRLFException {
 		Git git = new Git(db);
 
 		DirCache dc = git.add().addFilepattern("a.txt").call();
@@ -88,7 +93,8 @@ public class AddCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testAddExistingSingleFile() throws IOException, NoFilepatternException {
+	public void testAddExistingSingleFile() throws IOException,
+			NoFilepatternException, UnsafeCRLFException {
 		File file = new File(db.getWorkTree(), "a.txt");
 		FileUtils.createNewFile(file);
 		PrintWriter writer = new PrintWriter(file);
@@ -106,7 +112,7 @@ public class AddCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void testAddExistingSingleFileWithNewLine() throws IOException,
-			NoFilepatternException {
+			NoFilepatternException, UnsafeCRLFException {
 		File file = new File(db.getWorkTree(), "a.txt");
 		FileUtils.createNewFile(file);
 		PrintWriter writer = new PrintWriter(file);
@@ -130,7 +136,7 @@ public class AddCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void testAddExistingSingleBinaryFile() throws IOException,
-			NoFilepatternException {
+			NoFilepatternException, UnsafeCRLFException {
 		File file = new File(db.getWorkTree(), "a.txt");
 		FileUtils.createNewFile(file);
 		PrintWriter writer = new PrintWriter(file);
@@ -153,7 +159,42 @@ public class AddCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testAddExistingSingleFileInSubDir() throws IOException, NoFilepatternException {
+	public void testAddExistingSingleMixedLineEndings() throws Exception {
+		File file = new File(db.getWorkTree(), "a.txt");
+		FileUtils.createNewFile(file);
+		PrintWriter writer = new PrintWriter(file);
+		writer.print("row1\r\nrow2\n");
+		writer.close();
+
+		Git git = new Git(db);
+		db.getConfig().setString("core", null, "safecrlf", "true");
+		db.getConfig().setString("core", null, "autocrlf", "false");
+		git.add().addFilepattern("a.txt").call();
+		assertEquals("[a.txt, mode:100644, content:row1\r\nrow2\n]",
+				indexState(CONTENT));
+		db.getConfig().setString("core", null, "autocrlf", "true");
+		try {
+			git.add().addFilepattern("a.txt").call();
+			fail("Expected UnsafeCRLFConversion exception");
+		} catch (GitAPIException e) {
+			assertSame(UnsafeCRLFConversionException.class, e.getCause()
+					.getClass());
+			e.getCause().getMessage().endsWith("/a.txt");
+		}
+		db.getConfig().setString("core", null, "autocrlf", "input");
+		try {
+			git.add().addFilepattern("a.txt").call();
+			fail("Expected UnsafeCRLFConversion exception");
+		} catch (GitAPIException e) {
+			assertSame(UnsafeCRLFConversionException.class, e.getCause()
+					.getClass());
+			e.getCause().getMessage().endsWith("/a.txt");
+		}
+	}
+
+	@Test
+	public void testAddExistingSingleFileInSubDir() throws IOException,
+			NoFilepatternException, UnsafeCRLFException {
 		FileUtils.mkdir(new File(db.getWorkTree(), "sub"));
 		File file = new File(db.getWorkTree(), "sub/a.txt");
 		FileUtils.createNewFile(file);
@@ -171,7 +212,8 @@ public class AddCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testAddExistingSingleFileTwice() throws IOException, NoFilepatternException {
+	public void testAddExistingSingleFileTwice() throws IOException,
+			NoFilepatternException, UnsafeCRLFException {
 		File file = new File(db.getWorkTree(), "a.txt");
 		FileUtils.createNewFile(file);
 		PrintWriter writer = new PrintWriter(file);
