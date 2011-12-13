@@ -46,17 +46,20 @@ package org.eclipse.jgit.api;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.LinkedList;
 
 import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.api.errors.NoFilepatternException;
+import org.eclipse.jgit.api.errors.UnsafeCRLFException;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuildIterator;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
 import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.dircache.DirCacheIterator;
+import org.eclipse.jgit.errors.UnsafeCRLFConversionException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
@@ -124,7 +127,7 @@ public class AddCommand extends GitCommand<DirCache> {
 	 *
 	 * @return the DirCache after Add
 	 */
-	public DirCache call() throws NoFilepatternException {
+	public DirCache call() throws NoFilepatternException, UnsafeCRLFException {
 
 		if (filepatterns.isEmpty())
 			throw new NoFilepatternException(JGitText.get().atLeastOnePatternIsRequired);
@@ -176,12 +179,21 @@ public class AddCommand extends GitCommand<DirCache> {
 
 								if (FileMode.GITLINK != mode) {
 									entry.setLength(sz);
-									entry.setLastModified(f
-											.getEntryLastModified());
-									InputStream in = f.openEntryStream();
+									entry.setLastModified(f.getEntryLastModified());
+
+									InputStream in = f
+											.openEntryStream(workingTreeIterator
+													.getOptions().getSafeCRLF());
 									try {
 										entry.setObjectId(inserter.insert(
 												Constants.OBJ_BLOB, sz, in));
+									} catch (UnsafeCRLFConversionException e) {
+										throw new UnsafeCRLFException(
+												MessageFormat.format(
+														JGitText.get().unsafeCrlfConversionIn,
+														new File(
+																repo.getWorkTree(),
+																path).getPath()), e);
 									} finally {
 										in.close();
 									}
