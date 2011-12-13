@@ -116,7 +116,6 @@ public class JGitText extends TranslationBundle {
 	/***/ public String cannotGet;
 	/***/ public String cannotListRefs;
 	/***/ public String cannotLock;
-	/***/ public String cannotLockFile;
 	/***/ public String cannotLockPackIn;
 	/***/ public String cannotMatchOnEmptyString;
 	/***/ public String cannotMoveIndexTo;

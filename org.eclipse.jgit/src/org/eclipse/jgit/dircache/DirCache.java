@@ -62,6 +62,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 
 import org.eclipse.jgit.JGitText;
+import org.eclipse.jgit.errors.LockFailedException;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.UnmergedPathException;
 import org.eclipse.jgit.events.IndexChangedEvent;
@@ -190,7 +191,7 @@ public class DirCache {
 			throws CorruptObjectException, IOException {
 		final DirCache c = new DirCache(indexLocation, fs);
 		if (!c.lock())
-			throw new IOException(MessageFormat.format(JGitText.get().cannotLock, indexLocation));
+			throw new LockFailedException(indexLocation);
 
 		try {
 			c.read();

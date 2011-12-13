@@ -58,6 +58,7 @@ import java.util.zip.CRC32;
 import java.util.zip.Deflater;
 
 import org.eclipse.jgit.JGitText;
+import org.eclipse.jgit.errors.LockFailedException;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.CoreConfig;
@@ -452,8 +453,9 @@ public class ObjectDirectoryPackParser extends PackParser {
 			//
 			try {
 				if (!keep.lock(lockMessage))
-					throw new IOException(MessageFormat.format(
-							JGitText.get().cannotLockPackIn, finalPack));
+					throw new LockFailedException(finalPack,
+							MessageFormat.format(
+									JGitText.get().cannotLockPackIn, finalPack));
 			} catch (IOException e) {
 				cleanupTemporaryFiles();
 				throw e;
