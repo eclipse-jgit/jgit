@@ -42,6 +42,7 @@
  */
 package org.eclipse.jgit.api;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.MessageFormat;
@@ -55,6 +56,7 @@ import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.api.errors.NoFilepatternException;
 import org.eclipse.jgit.api.errors.NoHeadException;
 import org.eclipse.jgit.api.errors.NoMessageException;
+import org.eclipse.jgit.api.errors.UnsafeCRLFException;
 import org.eclipse.jgit.api.errors.WrongRepositoryStateException;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
@@ -64,6 +66,7 @@ import org.eclipse.jgit.dircache.DirCacheEditor.PathEdit;
 import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.dircache.DirCacheIterator;
 import org.eclipse.jgit.errors.UnmergedPathException;
+import org.eclipse.jgit.errors.UnsafeCRLFConversionException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
@@ -128,7 +131,7 @@ public class CommitCommand extends GitCommand<RevCommit> {
 	 * collected by the setter methods of this class. Each instance of this
 	 * class should only be used for one invocation of the command (means: one
 	 * call to {@link #call()})
-	 *
+	 * 
 	 * @return a {@link RevCommit} object representing the successful commit.
 	 * @throws NoHeadException
 	 *             when called on a git repo without a HEAD reference
@@ -138,6 +141,8 @@ public class CommitCommand extends GitCommand<RevCommit> {
 	 *             when the current index contained unmerged paths (conflicts)
 	 * @throws WrongRepositoryStateException
 	 *             when repository is not in the right state for committing
+	 * @throws UnsafeCRLFException
+	 *             when CRLF conversion would be irreversible
 	 * @throws JGitInternalException
 	 *             a low-level exception of JGit has occurred. The original
 	 *             exception can be retrieved by calling
@@ -148,7 +153,8 @@ public class CommitCommand extends GitCommand<RevCommit> {
 	 */
 	public RevCommit call() throws NoHeadException, NoMessageException,
 			UnmergedPathException, ConcurrentRefUpdateException,
-			JGitInternalException, WrongRepositoryStateException {
+			JGitInternalException, WrongRepositoryStateException,
+			UnsafeCRLFException {
 		checkCallable();
 
 		RepositoryState state = repo.getRepositoryState();
@@ -366,6 +372,12 @@ public class CommitCommand extends GitCommand<RevCommit> {
 								dcEntry.setObjectId(inserter.insert(
 										Constants.OBJ_BLOB, entryLength,
 										inputStream));
+							} catch (UnsafeCRLFConversionException e) {
+								throw new UnsafeCRLFConversionException(
+										MessageFormat.format(
+												JGitText.get().unsafeCrlfConversionIn,
+												new File(repo.getWorkTree(),
+														path).getPath()));
 							} finally {
 								inputStream.close();
 							}
