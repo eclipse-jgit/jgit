@@ -122,10 +122,13 @@ public class CherryPickCommand extends GitCommand<CherryPickResult> {
 				RevCommit srcCommit = revWalk.parseCommit(srcObjectId);
 
 				// get the parent of the commit to cherry-pick
-				if (srcCommit.getParentCount() != 1) {
+				if (srcCommit.getParentCount() != 1)
 					throw new MultipleParentsNotAllowedException(
-							JGitText.get().canOnlyCherryPickCommitsWithOneParent);
-				}
+							MessageFormat.format(
+									JGitText.get().canOnlyCherryPickCommitsWithOneParent,
+									srcCommit.name(),
+									Integer.valueOf(srcCommit.getParentCount())));
+
 				RevCommit srcParent = srcCommit.getParent(0);
 				revWalk.parseHeaders(srcParent);
 
