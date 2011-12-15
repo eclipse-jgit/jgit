@@ -828,6 +828,28 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		return contentDigest.digest();
 	}
 
+	/**
+	 * Get the entry file mode through considering the current index mode of
+	 * this entry and also the given filesystem.
+	 * <p>
+	 * This should be called to determine whether the working directory file
+	 * mode can be reliably trusted or if the index file mode should be used
+	 * instead such as the case on Windows where the executable mode is set in
+	 * the index entry but is not reported as set by this working tree iterator.
+	 *
+	 * @see #getEntryFileMode()
+	 * @param indexMode
+	 * @param fs
+	 * @return file entry mode
+	 */
+	public FileMode getEntryFileMode(FileMode indexMode, FS fs) {
+		FileMode wtMode = getEntryFileMode();
+		if (indexMode == FileMode.EXECUTABLE_FILE
+				&& wtMode == FileMode.REGULAR_FILE && !fs.supportsExecute())
+			return indexMode;
+		return wtMode;
+	}
+
 	/** A single entry within a working directory tree. */
 	protected static abstract class Entry {
 		byte[] encodedName;
