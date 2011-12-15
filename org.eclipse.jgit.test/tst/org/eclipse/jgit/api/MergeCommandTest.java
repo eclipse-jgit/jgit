@@ -60,6 +60,7 @@ import org.eclipse.jgit.lib.RepositoryTestCase;
 import org.eclipse.jgit.merge.MergeStrategy;
 import org.eclipse.jgit.merge.ResolveMerger.MergeFailureReason;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
 import org.junit.Test;
 import org.junit.experimental.theories.DataPoints;
@@ -1025,6 +1026,9 @@ public class MergeCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void testFileModeMerge() throws Exception {
+		if (!FS.DETECTED.supportsExecute())
+			return;
+		// Only Java6
 		Git git = new Git(db);
 
 		writeTrashFile("mergeableMode", "a");
@@ -1061,6 +1065,10 @@ public class MergeCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void testFileModeMergeWithDirtyWorkTree() throws Exception {
+		if (!FS.DETECTED.supportsExecute())
+			return;
+		// Only Java6 (or set x bit in index)
+
 		Git git = new Git(db);
 
 		writeTrashFile("mergeableButDirty", "a");
@@ -1089,13 +1097,13 @@ public class MergeCommandTest extends RepositoryTestCase {
 	}
 
 	private void setExecutable(Git git, String path, boolean executable) {
-		new File(git.getRepository().getWorkTree(), path)
-				.setExecutable(executable);
-		assertEquals(executable, canExecute(git, path));
+		FS.DETECTED.setExecute(
+				new File(git.getRepository().getWorkTree(), path), executable);
 	}
 
 	private boolean canExecute(Git git, String path) {
-		return (new File(git.getRepository().getWorkTree(), path).canExecute());
+		return FS.DETECTED.canExecute(new File(git.getRepository()
+				.getWorkTree(), path));
 	}
 
 	private RevCommit addAllAndCommit(final Git git) throws Exception {
