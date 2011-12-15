@@ -142,7 +142,13 @@
           </archive>
         </configuration>
       </plugin>
+
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>clirr-maven-plugin</artifactId>
+      </plugin>
     </plugins>
+
     <pluginManagement>
       <plugins>
         <plugin>
@@ -155,4 +161,18 @@
       </plugins>
     </pluginManagement>
   </build>
+
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>clirr-maven-plugin</artifactId>
+        <version>${clirr-version}</version>
+        <configuration>
+          <comparisonVersion>${jgit-last-release-version}</comparisonVersion>
+          <minSeverity>info</minSeverity>
+        </configuration>
+      </plugin>
+    </plugins>
+  </reporting>
 </project>
