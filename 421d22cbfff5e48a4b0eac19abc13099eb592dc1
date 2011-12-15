@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABODH///tI\u003d",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2011-12-15T23:37:46Z",
+      "side": 1,
+      "message": "Looks like a tab snuck in here",
+      "revId": "421d22cbfff5e48a4b0eac19abc13099eb592dc1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
