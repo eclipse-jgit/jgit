@@ -172,6 +172,9 @@ public class DiffEntry {
 					r.add(entry);
 				else
 					r.addAll(breakModify(entry));
+			} else if (entry.oldMode != entry.newMode) {
+				entry.changeType = ChangeType.MODIFY;
+				r.add(entry);
 			}
 
 			if (includeTrees && walk.isSubtree())
