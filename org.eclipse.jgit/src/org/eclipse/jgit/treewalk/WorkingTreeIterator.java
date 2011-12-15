@@ -828,6 +828,26 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		return contentDigest.digest();
 	}
 
+	/**
+	 * Should the current index file mode be used instead of the current working
+	 * tree file mode?
+	 * <p>
+	 * This should be called to determine whether the working directory file
+	 * mode can be reliably trusted or if the index file mode should be
+	 * preserved such as the case on Windows where the executable bit should be
+	 * retained if in the index despite not being reported by this iterator.
+	 *
+	 * @param indexFileMode
+	 * @param fs
+	 * @return true if the given index file mode should be used instead of the
+	 *         value returned by {@link #getEntryFileMode()}, false otherwise
+	 */
+	public boolean useIndexMode(FileMode indexFileMode, FS fs) {
+		return indexFileMode == FileMode.EXECUTABLE_FILE
+				&& getEntryFileMode() == FileMode.REGULAR_FILE
+				&& !fs.supportsExecute();
+	}
+
 	/** A single entry within a working directory tree. */
 	protected static abstract class Entry {
 		byte[] encodedName;
