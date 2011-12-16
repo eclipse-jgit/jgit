@@ -130,13 +130,22 @@
     <maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
     <bundle-manifest>${project.build.directory}/META-INF/MANIFEST.MF</bundle-manifest>
 
+    <jgit-last-release-version>1.1.0.201109151100-r</jgit-last-release-version>
     <jsch-version>0.1.44-1</jsch-version>
     <junit-version>4.5</junit-version>
     <args4j-version>2.0.12</args4j-version>
     <servlet-api-version>2.5</servlet-api-version>
     <jetty-version>7.1.6.v20100715</jetty-version>
     <protobuf-version>2.4.0a</protobuf-version>
+    <clirr-version>2.3</clirr-version>
   </properties>
+
+  <repositories>
+    <repository>
+      <id>jgit-repository</id>
+      <url>http://download.eclipse.org/jgit/maven</url>
+    </repository>
+  </repositories>
 
   <build>
     <pluginManagement>
@@ -245,6 +254,16 @@
               </goals>
             </execution>
           </executions>
+        </plugin>
+
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>clirr-maven-plugin</artifactId>
+          <version>${clirr-version}</version>
+          <configuration>
+            <comparisonVersion>${jgit-last-release-version}</comparisonVersion>
+            <minSeverity>info</minSeverity>
+          </configuration>
         </plugin>
       </plugins>
     </pluginManagement>

@@ -60,6 +60,7 @@ import org.eclipse.jgit.lib.RepositoryTestCase;
 import org.eclipse.jgit.merge.MergeStrategy;
 import org.eclipse.jgit.merge.ResolveMerger.MergeFailureReason;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
 import org.junit.Test;
 import org.junit.experimental.theories.DataPoints;
@@ -1021,6 +1022,88 @@ public class MergeCommandTest extends RepositoryTestCase {
 		assertEquals(commit2, result.getNewHead());
 		assertFalse(folder1.exists());
 		assertFalse(folder2.exists());
+	}
+
+	@Test
+	public void testFileModeMerge() throws Exception {
+		if (!FS.DETECTED.supportsExecute())
+			return;
+		// Only Java6
+		Git git = new Git(db);
+
+		writeTrashFile("mergeableMode", "a");
+		setExecutable(git, "mergeableMode", false);
+		writeTrashFile("conflictingModeWithBase", "a");
+		setExecutable(git, "conflictingModeWithBase", false);
+		RevCommit initialCommit = addAllAndCommit(git);
+
+		// switch branch
+		createBranch(initialCommit, "refs/heads/side");
+		checkoutBranch("refs/heads/side");
+		setExecutable(git, "mergeableMode", true);
+		writeTrashFile("conflictingModeNoBase", "b");
+		setExecutable(git, "conflictingModeNoBase", true);
+		RevCommit sideCommit = addAllAndCommit(git);
+
+		// switch branch
+		createBranch(initialCommit, "refs/heads/side2");
+		checkoutBranch("refs/heads/side2");
+		setExecutable(git, "mergeableMode", false);
+		assertFalse(new File(git.getRepository().getWorkTree(),
+				"conflictingModeNoBase").exists());
+		writeTrashFile("conflictingModeNoBase", "b");
+		setExecutable(git, "conflictingModeNoBase", false);
+		addAllAndCommit(git);
+
+		// merge
+		MergeResult result = git.merge().include(sideCommit.getId())
+				.setStrategy(MergeStrategy.RESOLVE).call();
+		assertEquals(MergeStatus.CONFLICTING, result.getMergeStatus());
+		assertTrue(canExecute(git, "mergeableMode"));
+		assertFalse(canExecute(git, "conflictingModeNoBase"));
+	}
+
+	@Test
+	public void testFileModeMergeWithDirtyWorkTree() throws Exception {
+		if (!FS.DETECTED.supportsExecute())
+			return;
+		// Only Java6 (or set x bit in index)
+
+		Git git = new Git(db);
+
+		writeTrashFile("mergeableButDirty", "a");
+		setExecutable(git, "mergeableButDirty", false);
+		RevCommit initialCommit = addAllAndCommit(git);
+
+		// switch branch
+		createBranch(initialCommit, "refs/heads/side");
+		checkoutBranch("refs/heads/side");
+		setExecutable(git, "mergeableButDirty", true);
+		RevCommit sideCommit = addAllAndCommit(git);
+
+		// switch branch
+		createBranch(initialCommit, "refs/heads/side2");
+		checkoutBranch("refs/heads/side2");
+		setExecutable(git, "mergeableButDirty", false);
+		addAllAndCommit(git);
+
+		writeTrashFile("mergeableButDirty", "b");
+
+		// merge
+		MergeResult result = git.merge().include(sideCommit.getId())
+				.setStrategy(MergeStrategy.RESOLVE).call();
+		assertEquals(MergeStatus.FAILED, result.getMergeStatus());
+		assertFalse(canExecute(git, "mergeableButDirty"));
+	}
+
+	private void setExecutable(Git git, String path, boolean executable) {
+		FS.DETECTED.setExecute(
+				new File(git.getRepository().getWorkTree(), path), executable);
+	}
+
+	private boolean canExecute(Git git, String path) {
+		return FS.DETECTED.canExecute(new File(git.getRepository()
+				.getWorkTree(), path));
 	}
 
 	private RevCommit addAllAndCommit(final Git git) throws Exception {
