@@ -59,8 +59,7 @@ import org.junit.Test;
 public class StatusCommandTest extends RepositoryTestCase {
 
 	@Test
-	public void testEmptyStatus() throws IOException, NoWorkTreeException,
-			GitAPIException {
+	public void testEmptyStatus() throws NoWorkTreeException, GitAPIException {
 		Git git = new Git(db);
 
 		Status stat = git.status().call();
