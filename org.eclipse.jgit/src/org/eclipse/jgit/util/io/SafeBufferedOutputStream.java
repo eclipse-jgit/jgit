@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008-2009, Google Inc.
+ * Copyright (C) 2011, Robin Rosenberg
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -40,79 +40,46 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+package org.eclipse.jgit.util.io;
 
-package org.eclipse.jgit.transport;
-
-import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.InetAddress;
-import java.net.Socket;
 
-import org.eclipse.jgit.transport.resolver.ServiceNotAuthorizedException;
-import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
-import org.eclipse.jgit.util.io.SafeBufferedOutputStream;
+/**
+ * A BufferedOutputStream that throws an error if the final flush fails on
+ * close.
+ * <p>
+ * Java's BufferedOutputStream swallows errors that occur when the output stream
+ * tries to write the final bytes to the output during close. This may result in
+ * corrupted files without notice.
+ * </p>
+ */
+public class SafeBufferedOutputStream extends BufferedOutputStream {
 
-/** Active network client of {@link Daemon}. */
-public class DaemonClient {
-	private final Daemon daemon;
-
-	private InetAddress peer;
-
-	private InputStream rawIn;
-
-	private OutputStream rawOut;
-
-	DaemonClient(final Daemon d) {
-		daemon = d;
+	/**
+	 * @see BufferedOutputStream#BufferedOutputStream(OutputStream)
+	 * @param out
+	 */
+	public SafeBufferedOutputStream(OutputStream out) {
+		super(out);
 	}
 
-	void setRemoteAddress(final InetAddress ia) {
-		peer = ia;
+	/**
+	 * @see BufferedOutputStream#BufferedOutputStream(OutputStream, int)
+	 * @param out
+	 * @param size
+	 */
+	public SafeBufferedOutputStream(OutputStream out, int size) {
+		super(out);
 	}
 
-	/** @return the daemon which spawned this client. */
-	public Daemon getDaemon() {
-		return daemon;
-	}
-
-	/** @return Internet address of the remote client. */
-	public InetAddress getRemoteAddress() {
-		return peer;
-	}
-
-	/** @return input stream to read from the connected client. */
-	public InputStream getInputStream() {
-		return rawIn;
-	}
-
-	/** @return output stream to send data to the connected client. */
-	public OutputStream getOutputStream() {
-		return rawOut;
-	}
-
-	void execute(final Socket sock) throws IOException,
-			ServiceNotEnabledException, ServiceNotAuthorizedException {
-		rawIn = new BufferedInputStream(sock.getInputStream());
-		rawOut = new SafeBufferedOutputStream(sock.getOutputStream());
-
-		if (0 < daemon.getTimeout())
-			sock.setSoTimeout(daemon.getTimeout() * 1000);
-		String cmd = new PacketLineIn(rawIn).readStringRaw();
-		final int nul = cmd.indexOf('\0');
-		if (nul >= 0) {
-			// Newer clients hide a "host" header behind this byte.
-			// Currently we don't use it for anything, so we ignore
-			// this portion of the command.
-			//
-			cmd = cmd.substring(0, nul);
+	@Override
+	public void close() throws IOException {
+		try {
+			flush();
+		} finally {
+			super.close();
 		}
-
-		final DaemonService srv = getDaemon().matchService(cmd);
-		if (srv == null)
-			return;
-		sock.setSoTimeout(0);
-		srv.execute(this, cmd);
 	}
 }

@@ -46,7 +46,6 @@
 package org.eclipse.jgit.transport;
 
 import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -63,6 +62,7 @@ import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.NotSupportedException;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.util.io.SafeBufferedOutputStream;
 
 /**
  * Transport through a git-daemon waiting for anonymous TCP connections.
@@ -173,7 +173,7 @@ class TransportGitAnon extends TcpTransport implements PackTransport {
 				OutputStream sOut = sock.getOutputStream();
 
 				sIn = new BufferedInputStream(sIn);
-				sOut = new BufferedOutputStream(sOut);
+				sOut = new SafeBufferedOutputStream(sOut);
 
 				init(sIn, sOut);
 				service("git-upload-pack", pckOut);
@@ -212,7 +212,7 @@ class TransportGitAnon extends TcpTransport implements PackTransport {
 				OutputStream sOut = sock.getOutputStream();
 
 				sIn = new BufferedInputStream(sIn);
-				sOut = new BufferedOutputStream(sOut);
+				sOut = new SafeBufferedOutputStream(sOut);
 
 				init(sIn, sOut);
 				service("git-receive-pack", pckOut);

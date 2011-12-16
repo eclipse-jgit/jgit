@@ -51,7 +51,6 @@ import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -72,6 +71,7 @@ import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.storage.pack.PackWriter;
 import org.eclipse.jgit.util.FileUtils;
+import org.eclipse.jgit.util.io.SafeBufferedOutputStream;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -236,14 +236,14 @@ public class ConcurrentRepackTest extends RepositoryTestCase {
 		NullProgressMonitor m = NullProgressMonitor.INSTANCE;
 		OutputStream out;
 
-		out = new BufferedOutputStream(new FileOutputStream(files[0]));
+		out = new SafeBufferedOutputStream(new FileOutputStream(files[0]));
 		try {
 			pw.writePack(m, m, out);
 		} finally {
 			out.close();
 		}
 
-		out = new BufferedOutputStream(new FileOutputStream(files[1]));
+		out = new SafeBufferedOutputStream(new FileOutputStream(files[1]));
 		try {
 			pw.writeIndex(out);
 		} finally {

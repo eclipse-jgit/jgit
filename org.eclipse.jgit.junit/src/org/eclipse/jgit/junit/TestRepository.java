@@ -43,9 +43,9 @@
 
 package org.eclipse.jgit.junit;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
-import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -61,10 +61,10 @@ import java.util.Set;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
 import org.eclipse.jgit.dircache.DirCacheEditor;
-import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.dircache.DirCacheEditor.DeletePath;
 import org.eclipse.jgit.dircache.DirCacheEditor.DeleteTree;
 import org.eclipse.jgit.dircache.DirCacheEditor.PathEdit;
+import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.ObjectWritingException;
@@ -97,6 +97,7 @@ import org.eclipse.jgit.storage.pack.PackWriter;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
 import org.eclipse.jgit.util.FileUtils;
+import org.eclipse.jgit.util.io.SafeBufferedOutputStream;
 
 /**
  * Wrapper to make creating test data easier.
@@ -623,7 +624,7 @@ public class TestRepository<R extends Repository> {
 				OutputStream out;
 
 				pack = nameFor(odb, name, ".pack");
-				out = new BufferedOutputStream(new FileOutputStream(pack));
+				out = new SafeBufferedOutputStream(new FileOutputStream(pack));
 				try {
 					pw.writePack(m, m, out);
 				} finally {
@@ -632,7 +633,7 @@ public class TestRepository<R extends Repository> {
 				pack.setReadOnly();
 
 				idx = nameFor(odb, name, ".idx");
-				out = new BufferedOutputStream(new FileOutputStream(idx));
+				out = new SafeBufferedOutputStream(new FileOutputStream(idx));
 				try {
 					pw.writeIndex(out);
 				} finally {

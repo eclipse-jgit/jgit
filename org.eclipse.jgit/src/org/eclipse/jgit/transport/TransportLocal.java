@@ -48,7 +48,6 @@
 package org.eclipse.jgit.transport;
 
 import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -67,6 +66,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryCache;
 import org.eclipse.jgit.storage.file.FileRepository;
 import org.eclipse.jgit.util.io.MessageWriter;
+import org.eclipse.jgit.util.io.SafeBufferedOutputStream;
 import org.eclipse.jgit.util.io.StreamCopyThread;
 
 /**
@@ -301,7 +301,7 @@ class TransportLocal extends Transport implements PackTransport {
 			OutputStream upOut = uploadPack.getOutputStream();
 
 			upIn = new BufferedInputStream(upIn);
-			upOut = new BufferedOutputStream(upOut);
+			upOut = new SafeBufferedOutputStream(upOut);
 
 			init(upIn, upOut);
 			readAdvertisedRefs();
@@ -431,7 +431,7 @@ class TransportLocal extends Transport implements PackTransport {
 			OutputStream rpOut = receivePack.getOutputStream();
 
 			rpIn = new BufferedInputStream(rpIn);
-			rpOut = new BufferedOutputStream(rpOut);
+			rpOut = new SafeBufferedOutputStream(rpOut);
 
 			init(rpIn, rpOut);
 			readAdvertisedRefs();
