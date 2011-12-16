@@ -51,6 +51,7 @@ import java.util.List;
 
 import org.eclipse.jgit.api.CheckoutResult.Status;
 import org.eclipse.jgit.api.errors.CheckoutConflictException;
+import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.InvalidRefNameException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.api.errors.RefAlreadyExistsException;
@@ -123,9 +124,8 @@ public class CheckoutCommand extends GitCommand<Ref> {
 	 *             invalid
 	 * @return the newly created branch
 	 */
-	public Ref call() throws JGitInternalException, RefAlreadyExistsException,
-			RefNotFoundException, InvalidRefNameException,
-			CheckoutConflictException {
+	public Ref call() throws GitAPIException, JGitInternalException, RefAlreadyExistsException,
+			RefNotFoundException, InvalidRefNameException, CheckoutConflictException {
 		checkCallable();
 		processOptions();
 		try {

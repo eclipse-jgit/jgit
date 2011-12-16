@@ -48,14 +48,9 @@ import static org.junit.Assert.fail;
 import java.io.IOException;
 import java.util.List;
 
-import org.eclipse.jgit.api.errors.ConcurrentRefUpdateException;
+import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.InvalidTagNameException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
-import org.eclipse.jgit.api.errors.NoHeadException;
-import org.eclipse.jgit.api.errors.NoMessageException;
-import org.eclipse.jgit.api.errors.WrongRepositoryStateException;
-import org.eclipse.jgit.errors.IncorrectObjectTypeException;
-import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.UnmergedPathException;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -67,10 +62,7 @@ import org.junit.Test;
 public class TagCommandTest extends RepositoryTestCase {
 
 	@Test
-	public void testTaggingOnHead() throws NoHeadException, NoMessageException,
-			ConcurrentRefUpdateException, JGitInternalException,
-			WrongRepositoryStateException, InvalidTagNameException,
-			MissingObjectException, IncorrectObjectTypeException, IOException {
+	public void testTaggingOnHead() throws GitAPIException, IOException {
 		Git git = new Git(db);
 		RevCommit commit = git.commit().setMessage("initial commit").call();
 		Ref tagRef = git.tag().setName("tag").call();
@@ -80,10 +72,8 @@ public class TagCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testTagging() throws NoHeadException, NoMessageException,
-			UnmergedPathException, ConcurrentRefUpdateException,
-			JGitInternalException, WrongRepositoryStateException,
-			InvalidTagNameException {
+	public void testTagging() throws GitAPIException, UnmergedPathException,
+			JGitInternalException {
 		Git git = new Git(db);
 		git.commit().setMessage("initial commit").call();
 		RevCommit commit = git.commit().setMessage("second commit").call();
@@ -93,9 +83,8 @@ public class TagCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testEmptyTagName() throws NoHeadException, NoMessageException,
-			UnmergedPathException, ConcurrentRefUpdateException,
-			JGitInternalException, WrongRepositoryStateException {
+	public void testEmptyTagName() throws UnmergedPathException,
+			JGitInternalException, GitAPIException {
 		Git git = new Git(db);
 		git.commit().setMessage("initial commit").call();
 		try {
@@ -108,10 +97,8 @@ public class TagCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testInvalidTagName() throws NoHeadException,
-			NoMessageException, UnmergedPathException,
-			ConcurrentRefUpdateException, JGitInternalException,
-			WrongRepositoryStateException {
+	public void testInvalidTagName() throws UnmergedPathException,
+			JGitInternalException, GitAPIException {
 		Git git = new Git(db);
 		git.commit().setMessage("initial commit").call();
 		try {
@@ -123,10 +110,8 @@ public class TagCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testFailureOnSignedTags() throws NoHeadException,
-			NoMessageException, UnmergedPathException,
-			ConcurrentRefUpdateException, JGitInternalException,
-			WrongRepositoryStateException, InvalidTagNameException {
+	public void testFailureOnSignedTags() throws UnmergedPathException,
+			JGitInternalException, GitAPIException {
 		Git git = new Git(db);
 		git.commit().setMessage("initial commit").call();
 		try {
