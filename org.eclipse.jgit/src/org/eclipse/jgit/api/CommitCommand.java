@@ -51,6 +51,7 @@ import java.util.List;
 
 import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.api.errors.ConcurrentRefUpdateException;
+import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.api.errors.NoFilepatternException;
 import org.eclipse.jgit.api.errors.NoHeadException;
@@ -146,7 +147,7 @@ public class CommitCommand extends GitCommand<RevCommit> {
 	 *             {@link IOException} (e.g. {@link UnmergedPathException}) are
 	 *             typically not wrapped here but thrown as original exception
 	 */
-	public RevCommit call() throws NoHeadException, NoMessageException,
+	public RevCommit call() throws GitAPIException, NoHeadException, NoMessageException,
 			UnmergedPathException, ConcurrentRefUpdateException,
 			JGitInternalException, WrongRepositoryStateException {
 		checkCallable();

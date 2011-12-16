@@ -47,6 +47,7 @@ import java.text.MessageFormat;
 import java.util.Collection;
 
 import org.eclipse.jgit.JGitText;
+import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.InvalidRemoteException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
@@ -84,7 +85,7 @@ public class ReflogCommand extends GitCommand<Collection<ReflogEntry>> {
 		return this;
 	}
 
-	public Collection<ReflogEntry> call() throws Exception {
+	public Collection<ReflogEntry> call() throws GitAPIException, Exception {
 		checkCallable();
 
 		try {

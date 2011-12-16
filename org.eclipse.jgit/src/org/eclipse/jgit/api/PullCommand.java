@@ -110,7 +110,7 @@ public class PullCommand extends TransportCommand<PullCommand, PullResult> {
 	 *
 	 * @return the result of the pull
 	 */
-	public PullResult call() throws WrongRepositoryStateException,
+	public PullResult call() throws GitAPIException, WrongRepositoryStateException,
 			InvalidConfigurationException, DetachedHeadException,
 			InvalidRemoteException, CanceledException, RefNotFoundException,
 			NoHeadException {

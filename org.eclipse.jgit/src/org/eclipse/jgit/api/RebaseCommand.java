@@ -189,7 +189,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 	 *
 	 * @return an object describing the result of this command
 	 */
-	public RebaseResult call() throws NoHeadException, RefNotFoundException,
+	public RebaseResult call() throws GitAPIException, NoHeadException, RefNotFoundException,
 			JGitInternalException, GitAPIException {
 		RevCommit newHead = null;
 		boolean lastStepWasForward = false;
@@ -506,8 +506,8 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		}
 	}
 
-	private RebaseResult initFilesAndRewind() throws RefNotFoundException,
-			IOException, NoHeadException, JGitInternalException {
+	private RebaseResult initFilesAndRewind() throws IOException,
+			JGitInternalException, GitAPIException {
 		// we need to store everything into files so that we can implement
 		// --skip, --continue, and --abort
 
@@ -612,11 +612,12 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 	 *
 	 * @param newCommit
 	 * @return the new head, or null
-	 * @throws RefNotFoundException
 	 * @throws IOException
+	 * @throws GitAPIException
+	 * @throws JGitInternalException
 	 */
-	public RevCommit tryFastForward(RevCommit newCommit)
-			throws RefNotFoundException, IOException {
+	public RevCommit tryFastForward(RevCommit newCommit) throws IOException,
+			JGitInternalException, GitAPIException {
 		Ref head = repo.getRef(Constants.HEAD);
 		if (head == null || head.getObjectId() == null)
 			throw new RefNotFoundException(MessageFormat.format(
@@ -639,7 +640,8 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 	}
 
 	private RevCommit tryFastForward(String headName, RevCommit oldCommit,
-			RevCommit newCommit) throws IOException, JGitInternalException {
+			RevCommit newCommit) throws IOException, JGitInternalException,
+			GitAPIException {
 		boolean tryRebase = false;
 		for (RevCommit parentCommit : newCommit.getParents())
 			if (parentCommit.equals(oldCommit))
