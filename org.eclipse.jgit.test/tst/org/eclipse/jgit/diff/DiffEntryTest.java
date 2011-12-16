@@ -46,13 +46,20 @@ import static org.eclipse.jgit.diff.DiffEntry.DEV_NULL;
 import static org.eclipse.jgit.util.FileUtils.delete;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.util.List;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.diff.DiffEntry.ChangeType;
+import org.eclipse.jgit.dircache.DirCache;
+import org.eclipse.jgit.dircache.DirCacheEditor;
+import org.eclipse.jgit.dircache.DirCacheEditor.PathEdit;
+import org.eclipse.jgit.dircache.DirCacheEntry;
+import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.RepositoryTestCase;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.treewalk.EmptyTreeIterator;
@@ -295,4 +302,39 @@ public class DiffEntryTest extends RepositoryTestCase {
 		DiffEntry.scan(walk, true);
 	}
 
+	@Test
+	public void shouldReportFileModeChange() throws Exception {
+		writeTrashFile("a.txt", "content");
+		Git git = new Git(db);
+		git.add().addFilepattern("a.txt").call();
+		RevCommit c1 = git.commit().setMessage("initial commit").call();
+		DirCache cache = db.lockDirCache();
+		DirCacheEditor editor = cache.editor();
+		final TreeWalk walk = new TreeWalk(db);
+		walk.addTree(c1.getTree());
+		walk.setRecursive(true);
+		assertTrue(walk.next());
+
+		editor.add(new PathEdit("a.txt") {
+
+			public void apply(DirCacheEntry ent) {
+				ent.setFileMode(FileMode.EXECUTABLE_FILE);
+				ent.setObjectId(walk.getObjectId(0));
+			}
+		});
+		assertTrue(editor.commit());
+		RevCommit c2 = git.commit().setMessage("second commit").call();
+		walk.reset();
+		walk.addTree(c1.getTree());
+		walk.addTree(c2.getTree());
+		List<DiffEntry> diffs = DiffEntry.scan(walk, false);
+		assertEquals(1, diffs.size());
+		DiffEntry diff = diffs.get(0);
+		assertEquals(ChangeType.MODIFY,diff.getChangeType());
+		assertEquals(diff.getOldId(), diff.getNewId());
+		assertEquals("a.txt", diff.getOldPath());
+		assertEquals(diff.getOldPath(), diff.getNewPath());
+		assertEquals(FileMode.EXECUTABLE_FILE, diff.getNewMode());
+		assertEquals(FileMode.REGULAR_FILE, diff.getOldMode());
+	}
 }

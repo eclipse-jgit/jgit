@@ -1088,6 +1088,9 @@ public class DiffFormatter {
 
 	private void formatOldNewPaths(ByteArrayOutputStream o, DiffEntry ent)
 			throws IOException {
+		if (ent.oldId.equals(ent.newId))
+			return;
+
 		final String oldp;
 		final String newp;
 
