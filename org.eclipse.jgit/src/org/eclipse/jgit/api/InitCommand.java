@@ -46,6 +46,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.Callable;
 
+import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
@@ -69,7 +70,7 @@ public class InitCommand implements Callable<Git> {
 	 *             if the repository can't be created
 	 * @return the newly created {@code Git} object with associated repository
 	 */
-	public Git call() throws JGitInternalException {
+	public Git call() throws GitAPIException, JGitInternalException {
 		try {
 			RepositoryBuilder builder = new RepositoryBuilder();
 			if (bare)
