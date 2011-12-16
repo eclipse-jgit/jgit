@@ -56,7 +56,9 @@ import org.eclipse.jgit.dircache.DirCacheBuildIterator;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
 import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.dircache.DirCacheIterator;
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
@@ -148,6 +150,10 @@ public class AddCommand extends GitCommand<DirCache> {
 
 			String lastAddedFile = null;
 
+			final boolean fileMode = repo.getConfig().getBoolean(
+					ConfigConstants.CONFIG_CORE_SECTION,
+					ConfigConstants.CONFIG_KEY_FILEMODE, false);
+
 			while (tw.next()) {
 				String path = tw.getPathString();
 
@@ -170,7 +176,15 @@ public class AddCommand extends GitCommand<DirCache> {
 									|| !c.getDirCacheEntry().isAssumeValid()) {
 								entry.setLength(sz);
 								entry.setLastModified(f.getEntryLastModified());
-								entry.setFileMode(f.getEntryFileMode());
+
+								// Use index mode instead of working tree mode
+								// if core.filemode is set to false
+								if (!fileMode
+										&& c != null
+										&& c.getEntryFileMode() != FileMode.MISSING)
+									entry.setFileMode(c.getEntryFileMode());
+								else
+									entry.setFileMode(f.getEntryFileMode());
 
 								InputStream in = f.openEntryStream();
 								try {
