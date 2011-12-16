@@ -56,6 +56,7 @@ import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.api.errors.NoFilepatternException;
 import org.eclipse.jgit.api.errors.NoHeadException;
 import org.eclipse.jgit.api.errors.NoMessageException;
+import org.eclipse.jgit.api.errors.UnmergedPathsException;
 import org.eclipse.jgit.api.errors.WrongRepositoryStateException;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
@@ -135,21 +136,18 @@ public class CommitCommand extends GitCommand<RevCommit> {
 	 *             when called on a git repo without a HEAD reference
 	 * @throws NoMessageException
 	 *             when called without specifying a commit message
-	 * @throws UnmergedPathException
-	 *             when the current index contained unmerged paths (conflicts)
 	 * @throws WrongRepositoryStateException
 	 *             when repository is not in the right state for committing
 	 * @throws JGitInternalException
 	 *             a low-level exception of JGit has occurred. The original
 	 *             exception can be retrieved by calling
-	 *             {@link Exception#getCause()}. Expect only
-	 *             {@code IOException's} to be wrapped. Subclasses of
-	 *             {@link IOException} (e.g. {@link UnmergedPathException}) are
-	 *             typically not wrapped here but thrown as original exception
+	 *             {@link Exception#getCause()}. Expect {@code IOException's} to
+	 *             be wrapped.
 	 */
-	public RevCommit call() throws GitAPIException, NoHeadException, NoMessageException,
-			UnmergedPathException, ConcurrentRefUpdateException,
-			JGitInternalException, WrongRepositoryStateException {
+	public RevCommit call() throws GitAPIException, NoHeadException,
+			NoMessageException, ConcurrentRefUpdateException,
+			JGitInternalException, WrongRepositoryStateException,
+			UnmergedPathsException {
 		checkCallable();
 
 		RepositoryState state = repo.getRepositoryState();
@@ -267,10 +265,8 @@ public class CommitCommand extends GitCommand<RevCommit> {
 				index.unlock();
 			}
 		} catch (UnmergedPathException e) {
-			// since UnmergedPathException is a subclass of IOException
-			// which should not be wrapped by a JGitInternalException we
-			// have to catch and re-throw it here
-			throw e;
+			// FIXME: include the path(s)
+			throw new UnmergedPathsException();
 		} catch (IOException e) {
 			throw new JGitInternalException(
 					JGitText.get().exceptionCaughtDuringExecutionOfCommitCommand, e);

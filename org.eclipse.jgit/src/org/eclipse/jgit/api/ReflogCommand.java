@@ -42,13 +42,12 @@
  */
 package org.eclipse.jgit.api;
 
-import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.Collection;
 
 import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.api.errors.GitAPIException;
-import org.eclipse.jgit.api.errors.InvalidRemoteException;
+import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.storage.file.ReflogEntry;
@@ -85,14 +84,14 @@ public class ReflogCommand extends GitCommand<Collection<ReflogEntry>> {
 		return this;
 	}
 
-	public Collection<ReflogEntry> call() throws GitAPIException, Exception {
+	public Collection<ReflogEntry> call() throws GitAPIException {
 		checkCallable();
 
 		try {
 			ReflogReader reader = new ReflogReader(repo, ref);
 			return reader.getReverseEntries();
-		} catch (IOException e) {
-			throw new InvalidRemoteException(MessageFormat.format(
+		} catch (Exception e) {
+			throw new JGitInternalException(MessageFormat.format(
 					JGitText.get().cannotRead, ref));
 		}
 	}
