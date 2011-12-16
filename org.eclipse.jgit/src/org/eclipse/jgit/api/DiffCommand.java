@@ -45,11 +45,11 @@ package org.eclipse.jgit.api;
 import static org.eclipse.jgit.lib.Constants.HEAD;
 
 import java.io.BufferedOutputStream;
-import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
 
 import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.api.errors.NoHeadException;
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.diff.DiffFormatter;
@@ -108,7 +108,7 @@ public class DiffCommand extends GitCommand<List<DiffEntry>> {
 	 *
 	 * @return a DiffEntry for each path which is different
 	 */
-	public List<DiffEntry> call() throws GitAPIException, IOException {
+	public List<DiffEntry> call() throws GitAPIException {
 		final DiffFormatter diffFmt;
 		if (out != null && !showNameAndStatusOnly)
 			diffFmt = new DiffFormatter(new BufferedOutputStream(out));
@@ -155,6 +155,8 @@ public class DiffCommand extends GitCommand<List<DiffEntry>> {
 				diffFmt.flush();
 				return result;
 			}
+		} catch (Exception e) {
+			throw new JGitInternalException(e.getLocalizedMessage(), e);
 		} finally {
 			diffFmt.release();
 		}

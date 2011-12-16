@@ -130,7 +130,7 @@ public class CommitCommand extends GitCommand<RevCommit> {
 	 * collected by the setter methods of this class. Each instance of this
 	 * class should only be used for one invocation of the command (means: one
 	 * call to {@link #call()})
-	 *
+	 * 
 	 * @return a {@link RevCommit} object representing the successful commit.
 	 * @throws NoHeadException
 	 *             when called on a git repo without a HEAD reference
@@ -143,10 +143,8 @@ public class CommitCommand extends GitCommand<RevCommit> {
 	 * @throws JGitInternalException
 	 *             a low-level exception of JGit has occurred. The original
 	 *             exception can be retrieved by calling
-	 *             {@link Exception#getCause()}. Expect only
-	 *             {@code IOException's} to be wrapped. Subclasses of
-	 *             {@link IOException} (e.g. {@link UnmergedPathsException}) are
-	 *             typically not wrapped here but thrown as original exception
+	 *             {@link Exception#getCause()}. Expect {@code IOException's} to
+	 *             be wrapped.
 	 */
 	public RevCommit call() throws GitAPIException, NoHeadException,
 			NoMessageException, UnmergedPathsException,
