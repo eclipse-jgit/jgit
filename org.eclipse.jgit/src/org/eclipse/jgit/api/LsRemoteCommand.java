@@ -50,6 +50,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.jgit.JGitText;
+import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.InvalidRemoteException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.errors.NotSupportedException;
@@ -128,7 +129,7 @@ public class LsRemoteCommand extends
 		this.uploadPack = uploadPack;
 	}
 
-	public Collection<Ref> call() throws Exception {
+	public Collection<Ref> call() throws GitAPIException, Exception {
 		checkCallable();
 
 		try {
