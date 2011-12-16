@@ -56,7 +56,6 @@ import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.api.errors.NoMessageException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
-import org.eclipse.jgit.errors.UnmergedPathException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -165,8 +164,7 @@ public class CommitAndLogCommandTests extends RepositoryTestCase {
 
 	// try to do a commit without specifying a message. Should fail!
 	@Test
-	public void testWrongParams() throws UnmergedPathException,
-			JGitInternalException, GitAPIException {
+	public void testWrongParams() throws JGitInternalException, GitAPIException {
 		Git git = new Git(db);
 		try {
 			git.commit().setAuthor(author).call();
@@ -179,8 +177,8 @@ public class CommitAndLogCommandTests extends RepositoryTestCase {
 	// try to work with Commands after command has been invoked. Should throw
 	// exceptions
 	@Test
-	public void testMultipleInvocations() throws UnmergedPathException,
-			JGitInternalException, GitAPIException {
+	public void testMultipleInvocations() throws JGitInternalException,
+			GitAPIException {
 		Git git = new Git(db);
 		CommitCommand commitCmd = git.commit();
 		commitCmd.setMessage("initial commit").call();
@@ -257,9 +255,9 @@ public class CommitAndLogCommandTests extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testCommitRange() throws UnmergedPathException,
-			JGitInternalException, IncorrectObjectTypeException,
-			MissingObjectException, GitAPIException {
+	public void testCommitRange() throws JGitInternalException,
+			IncorrectObjectTypeException, MissingObjectException,
+			GitAPIException {
 		// do 4 commits and set the range to the second and fourth one
 		Git git = new Git(db);
 		git.commit().setMessage("first commit").call();
@@ -314,8 +312,8 @@ public class CommitAndLogCommandTests extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testInsertChangeId() throws UnmergedPathException,
-			JGitInternalException, GitAPIException {
+	public void testInsertChangeId() throws JGitInternalException,
+			GitAPIException {
 		Git git = new Git(db);
 		String messageHeader = "Some header line\n\nSome detail explanation\n";
 		String changeIdTemplate = "\nChange-Id: I"
