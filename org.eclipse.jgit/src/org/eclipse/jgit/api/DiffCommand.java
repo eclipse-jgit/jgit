@@ -94,7 +94,7 @@ public class DiffCommand extends GitCommand<List<DiffEntry>> {
 	 *
 	 * @return a DiffEntry for each path which is different
 	 */
-	public List<DiffEntry> call() throws GitAPIException, IOException {
+	public List<DiffEntry> call() throws GitAPIException, GitAPIException, IOException {
 		final DiffFormatter diffFmt = new DiffFormatter(null);
 		diffFmt.setRepository(repo);
 		try {
