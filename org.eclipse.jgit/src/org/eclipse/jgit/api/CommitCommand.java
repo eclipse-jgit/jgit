@@ -385,7 +385,10 @@ public class CommitCommand extends GitCommand<RevCommit> {
 					// add to temporary in-core index
 					dcBuilder.add(dcEntry);
 
-					if (emptyCommit && (hTree == null || !hTree.idEqual(fTree)))
+					if (emptyCommit
+							&& (hTree == null || !hTree.idEqual(fTree) || hTree
+									.getEntryRawMode() != fTree
+									.getEntryRawMode()))
 						// this is a change
 						emptyCommit = false;
 				} else {
