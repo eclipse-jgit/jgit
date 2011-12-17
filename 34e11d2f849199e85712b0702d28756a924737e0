@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABODH///j8\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/ReflogResolveTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2011-12-17T01:06:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABODH///kw\u003d",
+      "revId": "34e11d2f849199e85712b0702d28756a924737e0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABODH///ks\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/ReflogResolveTest.java",
         "patchSetId": 3
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AABODH///j4\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/ReflogResolveTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2011-12-17T01:06:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABODH///ks\u003d",
+      "revId": "34e11d2f849199e85712b0702d28756a924737e0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABODH///k0\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
         "patchSetId": 3
@@ -47,6 +83,24 @@
       "writtenOn": "2011-12-17T00:33:03Z",
       "side": 1,
       "message": "I\u0027m not sure we need to be this specific about why. That we think it\u0027s not good is enough. We\u0027ll change the allowed values soon anyway.",
+      "revId": "34e11d2f849199e85712b0702d28756a924737e0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABODH///j0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 630,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2011-12-17T01:06:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABODH///k0\u003d",
       "revId": "34e11d2f849199e85712b0702d28756a924737e0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
