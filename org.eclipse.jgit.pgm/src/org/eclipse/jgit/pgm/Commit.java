@@ -67,6 +67,9 @@ class Commit extends TextBuiltin {
 	@Option(name = "--only", aliases = { "-o" }, usage = "usage_CommitOnly")
 	private boolean only;
 
+	@Option(name = "--amend", usage = "usage_CommitAmend")
+	private boolean amend;
+
 	@Argument(metaVar = "metaVar_commitPaths", usage = "usage_CommitPaths")
 	private List<String> paths = new ArrayList<String>();
 
@@ -83,6 +86,7 @@ class Commit extends TextBuiltin {
 		if (!paths.isEmpty())
 			for (String p : paths)
 				commitCmd.setOnly(p);
+		commitCmd.setAmend(amend);
 		Ref head = db.getRef(Constants.HEAD);
 		RevCommit commit = commitCmd.call();
 
