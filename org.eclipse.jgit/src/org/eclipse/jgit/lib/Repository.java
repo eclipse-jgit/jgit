@@ -630,14 +630,13 @@ public abstract class Repository {
 					JGitText.get().invalidReflogRevision, time));
 
 		ReflogReader reader = new ReflogReader(this, ref.getName());
-		List<ReflogEntry> entries = reader.getReverseEntries(number + 1);
-		if (number >= entries.size())
+		ReflogEntry entry = reader.getReverseEntry(number);
+		if (entry == null)
 			throw new RevisionSyntaxException(MessageFormat.format(
 					JGitText.get().reflogEntryNotFound,
-					Integer.valueOf(number), ref.getName(),
-					Integer.valueOf(entries.size())));
+					Integer.valueOf(number), ref.getName()));
 
-		return rw.parseCommit(entries.get(number).getNewId());
+		return rw.parseCommit(entry.getNewId());
 	}
 
 	private ObjectId resolveAbbreviation(final String revstr) throws IOException,
