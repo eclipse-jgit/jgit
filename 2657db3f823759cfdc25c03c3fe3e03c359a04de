@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOBX///Pk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/submodule/SubmoduleGenerator.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-09-27T06:07:12Z",
+      "side": 1,
+      "message": "Don\u0027t be \"nice\" to callers that try to call this and other similar methods once we have processed past the last entry.\nLet it crash somehow. In this case we\u0027d get an NPE \"for free\".\n\nIn general accessing data past the end of an iterator is undefined. Returning null obviously fits into this category, but if we want to be helpful, alter the caller to the error and crash instead (which is also undefined but easier to diagnostize). If we return null, that null will often be sent through one ore more layer and problem is now much harder to identify.",
+      "revId": "2657db3f823759cfdc25c03c3fe3e03c359a04de",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
