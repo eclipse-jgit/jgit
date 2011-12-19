@@ -328,6 +328,9 @@ public final class Constants {
 	/** Name of the ignore file */
 	public static final String DOT_GIT_IGNORE = ".gitignore";
 
+	/** Name of the submodules file */
+	public static final String DOT_GIT_MODULES = ".gitmodules";
+
 	/**
 	 * Create a new digest function for objects.
 	 *
