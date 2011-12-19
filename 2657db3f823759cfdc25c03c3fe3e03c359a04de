@@ -16,6 +16,24 @@
       "revId": "2657db3f823759cfdc25c03c3fe3e03c359a04de",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOBX///Ns\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/submodule/SubmoduleGenerator.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2011-09-27T15:16:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOBX///Pk\u003d",
+      "revId": "2657db3f823759cfdc25c03c3fe3e03c359a04de",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
