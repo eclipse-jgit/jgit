@@ -54,6 +54,7 @@ import static org.eclipse.jgit.lib.Constants.PACKED_REFS;
 import static org.eclipse.jgit.lib.Constants.R_HEADS;
 import static org.eclipse.jgit.lib.Constants.R_REFS;
 import static org.eclipse.jgit.lib.Constants.R_REMOTES;
+import static org.eclipse.jgit.lib.Constants.R_STASH;
 import static org.eclipse.jgit.lib.Constants.R_TAGS;
 import static org.eclipse.jgit.lib.Constants.encode;
 import static org.eclipse.jgit.lib.Ref.Storage.LOOSE;
@@ -671,7 +672,8 @@ public class RefDirectory extends RefDatabase {
 	private boolean shouldAutoCreateLog(final String refName) {
 		return refName.equals(HEAD) //
 				|| refName.startsWith(R_HEADS) //
-				|| refName.startsWith(R_REMOTES);
+				|| refName.startsWith(R_REMOTES) //
+				|| refName.equals(R_STASH);
 	}
 
 	private Ref resolve(final Ref ref, int depth, String prefix,
