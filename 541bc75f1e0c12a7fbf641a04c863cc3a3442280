@@ -1,0 +1,76 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOBn///wU\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-10-19T22:37:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOBn///wc\u003d",
+      "revId": "541bc75f1e0c12a7fbf641a04c863cc3a3442280",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOBn///wQ\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-10-19T22:37:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOBn///wg\u003d",
+      "revId": "541bc75f1e0c12a7fbf641a04c863cc3a3442280",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOBn///wM\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-10-19T22:37:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOBn///wk\u003d",
+      "revId": "541bc75f1e0c12a7fbf641a04c863cc3a3442280",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOBn///wI\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-10-19T22:37:18Z",
+      "side": 1,
+      "message": "removed it!",
+      "parentUuid": "AABOBn///wo\u003d",
+      "revId": "541bc75f1e0c12a7fbf641a04c863cc3a3442280",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
