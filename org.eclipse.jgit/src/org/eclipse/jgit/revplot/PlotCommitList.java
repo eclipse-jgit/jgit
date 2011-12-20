@@ -130,8 +130,7 @@ public class PlotCommitList<L extends PlotLane> extends
 			if (c.lane == null) {
 				// Hmmph. This child must be the first along this lane.
 				//
-				c.lane = nextFreeLane();
-				activeLanes.add(c.lane);
+				findLaneForChild(c);
 			}
 			for (int r = index - 1; r >= 0; r--) {
 				final PlotCommit rObj = get(r);
@@ -170,8 +169,7 @@ public class PlotCommitList<L extends PlotLane> extends
 				// don't forget to position all of your children if they are
 				// not already positioned.
 				if (c.lane == null) {
-					c.lane = nextFreeLane();
-					activeLanes.add(c.lane);
+					findLaneForChild(c);
 					if (reservedLane != null)
 						closeLane(c.lane);
 					else
@@ -191,6 +189,19 @@ public class PlotCommitList<L extends PlotLane> extends
 			activeLanes.add(currCommit.lane);
 
 			handleBlockedLanes(index, currCommit, nChildren);
+		}
+	}
+
+	private void findLaneForChild(final PlotCommit c) {
+		c.lane = createLane();
+		BitSet occupied = new BitSet();
+		for (PlotLane l : c.passingLanes)
+			occupied.set(l.getPosition());
+		for (int i = 0; i <= c.passingLanes.length; i++) {
+			if (!occupied.get(i)) {
+				c.lane.position = i;
+				break;
+			}
 		}
 	}
 

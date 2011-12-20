@@ -45,6 +45,14 @@ package org.eclipse.jgit.revplot;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalkTestCase;
 import org.junit.Test;
@@ -113,6 +121,13 @@ public class PlotCommitListTest extends RevWalkTestCase {
 
 	@Test
 	public void testMerged() throws Exception {
+		/**
+		 * <pre>
+		 *  a-c-d
+		 *   \ /
+		 *    b
+		 * </pre>
+		 */
 		final RevCommit a = commit();
 		final RevCommit b = commit(a);
 		final RevCommit c = commit(a);
@@ -134,6 +149,47 @@ public class PlotCommitListTest extends RevWalkTestCase {
 	}
 
 	@Test
+	public void testMerged2() throws Exception {
+		/**
+		 * <pre>
+		 *  a-----d
+		 *   \ \
+		 *    b c---e
+		 * </pre>
+		 *
+		 * gitk shows this differently: It will show:
+		 *
+		 * <pre>
+		 *  a----c-e
+		 *   \ \
+		 *    b d
+		 * </pre>
+		 */
+		final RevCommit a = commit();
+		final RevCommit b = commit(a);
+		final RevCommit c = commit(a);
+		final RevCommit d = commit(a);
+		final RevCommit e = commit(c);
+
+		PlotWalk pw = new PlotWalk(db);
+		pw.markStart(pw.lookupCommit(e.getId()));
+		pw.markStart(pw.lookupCommit(b.getId()));
+		pw.markStart(pw.lookupCommit(d.getId()));
+
+		PlotCommitList<PlotLane> pcl = new PlotCommitList<PlotLane>();
+		pcl.source(pw);
+		pcl.fillTo(Integer.MAX_VALUE);
+
+		CommitListAssert test = new CommitListAssert(pcl);
+		test.commit(e).lanePos(0).parents(c);
+		test.commit(d).lanePos(1).parents(a);
+		test.commit(c).lanePos(0).parents(a);
+		test.commit(b).lanePos(0).parents(a);
+		test.commit(a).lanePos(1).parents();
+		test.noMoreCommits();
+	}
+
+	@Test
 	public void testSideBranch() throws Exception {
 		final RevCommit a = commit();
 		final RevCommit b = commit(a);
@@ -149,8 +205,8 @@ public class PlotCommitListTest extends RevWalkTestCase {
 
 		CommitListAssert test = new CommitListAssert(pcl);
 		test.commit(c).lanePos(0).parents(a);
-		test.commit(b).lanePos(1).parents(a);
-		test.commit(a).lanePos(0).parents();
+		test.commit(b).lanePos(0).parents(a);
+		test.commit(a).lanePos(1).parents();
 		test.noMoreCommits();
 	}
 
@@ -172,9 +228,9 @@ public class PlotCommitListTest extends RevWalkTestCase {
 
 		CommitListAssert test = new CommitListAssert(pcl);
 		test.commit(d).lanePos(0).parents(a);
-		test.commit(c).lanePos(1).parents(a);
-		test.commit(b).lanePos(1).parents(a);
-		test.commit(a).lanePos(0).parents();
+		test.commit(c).lanePos(0).parents(a);
+		test.commit(b).lanePos(0).parents(a);
+		test.commit(a).lanePos(1).parents();
 		test.noMoreCommits();
 	}
 
@@ -207,11 +263,11 @@ public class PlotCommitListTest extends RevWalkTestCase {
 		CommitListAssert test = new CommitListAssert(pcl);
 		test.commit(g).lanePos(0).parents(f);
 		test.commit(f).lanePos(0).parents(a);
-		test.commit(e).lanePos(1).parents(a);
-		test.commit(d).lanePos(1).parents(a);
-		test.commit(c).lanePos(1).parents(a);
-		test.commit(b).lanePos(1).parents(a);
-		test.commit(a).lanePos(0).parents();
+		test.commit(e).lanePos(0).parents(a);
+		test.commit(d).lanePos(0).parents(a);
+		test.commit(c).lanePos(0).parents(a);
+		test.commit(b).lanePos(0).parents(a);
+		test.commit(a).lanePos(1).parents();
 		test.noMoreCommits();
 	}
 
@@ -307,5 +363,171 @@ public class PlotCommitListTest extends RevWalkTestCase {
 		test.commit(add_simple).parents(merge_fix).lanePos(1);
 		test.commit(merge_fix).parents().lanePos(3);
 		test.noMoreCommits();
+	}
+
+	@Test
+	public void testRepo1Changes() throws Exception {
+		testCommitGraphTopology(
+				"**********************************************************"
+						+ "**********************************************************"
+						+ "**********************************************************"
+						+ "**********************************************************"
+						+ "***2*12*2*21**********3*21**2*12*8*21******4*21**7*21*3*21*"
+						+ "2*21**3*21****2**13***5*2**2*14***7*2*37*13*13****8*2*5*23*"
+						+ "12***a*31*3*21**2***24**13********5*21********2*2*3*21*14*"
+						+ "******a*21*3*21*2*21****5*21***2*2*21********3*21*4*21*5*"
+						+ "21*****3*2******17*8*21*2*21*2*21***2*21*2*21*2*21*9*21*4*"
+						+ "21*2*21*2*21*******2*12**3*21****************7*31*4*21*15*"
+						+ "6*21***2*2**13*4*21*7*5*31*13*3*21**3*21*2*21*2*21**3*21**"
+						+ "**2*21*3*21*2*21****f*21*3*21*9*21***4*21***2*8*21*7*21*16*"
+						+ "****2**3*24*12**6*21*******8*21**3*31*13*7*21**3**31*5***4*"
+						+ "2*2**3**3*2*2*h*9*41*43*6*31*2*21*7*21*7*2*******2*21*3*21*"
+						+ "c*2*****2*21************", false);
+	}
+
+	@Test
+	public void testRepo2Changes() throws Exception {
+		testCommitGraphTopology(
+				"**2*21*3*21**********3*21**2*21*8*21******4*21**7*21*3*21*2*"
+						+ "21**3*21*****3*21*****8*21***6*21*6*21*5*21*****8*21*6*"
+						+ "21**9*21*3**21***3*21**4*21********5*21*********2*21*5*"
+						+ "21*******b*21*3*21*2*21****5*21***2**31********3*21*4*"
+						+ "21*5*21***********9*21*2*21*2*21*2*21***2*21*2*21*2*21*"
+						+ "9*21*4*21*2*21*2*21*******2*21**4*21***************6*2"
+						+ "1*3*21*5*21*2*21*****4*21*2*21*5*21*9*21*4*21**3*21*2*"
+						+ "21*2*21**3*21****2*21*3*21*2*21****f*21*3*21*9*21***4*"
+						+ "21***7*21*6*21*6*21******3*21*2*21**7*21*******8*21*2*"
+						+ "21*3*21*7*21**3**31******a*21***e*******4*21*3*21*2*21*"
+						+ "6*21********2*21*3*21******2*21************", false);
+	}
+
+	@Test
+	public void testRepo3Changes() throws Exception {
+		testCommitGraphTopology(
+				"**2*3*4*2******19*1b*5*2*3*2**15*14***2*2**2*12***17***k*2*"
+						+ "3*4*5*25***2*******1e*1c*1f**1c**K*2*", true);
+	}
+
+	/**
+	 * Tests complicated commit graphs for consistency
+	 *
+	 * @param graphDescription
+	 *            describes the commit graph which should be tested. The
+	 *            description is processed from left to right.
+	 *            <ul>
+	 *            <li>Each '*' creates a commit. By default the only parent of a
+	 *            commit is the commit which was created in the previous step</li>
+	 *            <li>If a '*' is prefixed by n hexadecimal digits then the
+	 *            commit will have n parents. Each digit determines one parent
+	 *            as a relative reference: "1" refers to the commit created in
+	 *            the previous step, "2" refers to the commit created two steps
+	 *            before, "a" refers to the commit created 10 steps before and
+	 *            so on.</li>
+	 *            </ul>
+	 * @param tagAllCommits
+	 *            <code>true</code> if every commit should get a tag. This makes
+	 *            it easier to debug and call e.g. gitk on a repo created by
+	 *            this test
+	 *
+	 * @throws Exception
+	 */
+	public void testCommitGraphTopology(String graphDescription,
+			boolean tagAllCommits)
+			throws Exception {
+		List<RevCommit> commits = createCommitGraph(graphDescription);
+
+		PlotWalk pw = new PlotWalk(db);
+		int tnr = 0;
+		for (RevCommit c : commits) {
+			pw.markStart(pw.lookupCommit(c.getId()));
+			if (tagAllCommits)
+				ltag("tag" + tnr++, c.getId());
+		}
+
+		PlotCommitList<PlotLane> pcl = new PlotCommitList<PlotLane>();
+		pcl.source(pw);
+		pcl.fillTo(Integer.MAX_VALUE);
+
+		for (int i = 0; i < pcl.size(); i++) {
+			PlotCommit<PlotLane> pc = pcl.get(i);
+			int myPos = pc.getLane().getPosition();
+			for (PlotLane l : pc.passingLanes)
+				assertTrue("Commit #" + i
+						+ " is located on a position of a passing lane " + l,
+						myPos != l.position);
+			int ci = lookupIndex(commits, pc.getId(), i);
+			RevCommit c = commits.get(ci);
+
+			assertEquals("Not the same number of parents on commit #" + i
+					+ ": " + c.toString(), pc.getParentCount(),
+					c.getParentCount());
+			assertEquals("Not the same number of children on commit #" + i
+					+ ": " + c.toString(), pc.getChildCount(),
+					getChildrenCount(commits, c));
+		}
+	}
+
+	public void ltag(String name, ObjectId tgt) throws IOException {
+		RefUpdate tagRef = db.updateRef(Constants.R_TAGS + name);
+		tagRef.setNewObjectId(tgt);
+		tagRef.setForceUpdate(true);
+		tagRef.setRefLogMessage("tagged " + name, false);
+		tagRef.update();
+	}
+
+	private int lookupIndex(List<RevCommit> commits, ObjectId id, int i) {
+		for (int j = i; j < commits.size(); j++)
+			if (commits.get(j).getId().equals(id))
+				return j;
+		for (int j = 0; j < i; j++)
+			if (commits.get(j).getId().equals(id))
+				return j;
+		return -1;
+	}
+
+	private int getChildrenCount(List<RevCommit> commits, RevCommit parent) {
+		int nrOfChildren = 0;
+		for (RevCommit c : commits) {
+			for (RevCommit aktParent : c.getParents()) {
+				if (aktParent.equals(parent))
+					nrOfChildren++;
+			}
+		}
+		return nrOfChildren;
+	}
+
+	public List<RevCommit> createCommitGraph(String graphDescription)
+			throws Exception {
+		RevCommit lastCommit = null;
+		byte[] bytes = graphDescription.getBytes();
+		List<RevCommit> commits = new ArrayList<RevCommit>();
+		List<RevCommit> parents = new ArrayList<RevCommit>();
+		for (int i = 0; i < bytes.length; i++) {
+			if (bytes[i] != '*') {
+				do
+					parents.add(commits.get(commits.size()
+							- hexChar2int(bytes[i++])));
+				while (bytes[i] != '*');
+				lastCommit = commit(parents.toArray(new RevCommit[parents
+						.size()]));
+				parents.clear();
+			} else
+				lastCommit = (lastCommit == null) ? commit()
+						: commit(lastCommit);
+			commits.add(parseBody(lastCommit));
+		}
+		Collections.reverse(commits);
+		return commits;
+	}
+
+	public static int hexChar2int(byte b) {
+		if (b >= '0' && b <= '9')
+			return b - '0';
+		if (b >= 'a' && b <= 'z')
+			return 10 + b - 'a';
+		if (b >= 'A' && b <= 'Z')
+			return 36 + b - 'A';
+		else
+			throw new IllegalArgumentException();
 	}
 }
