@@ -118,6 +118,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String cannotLock;
 	/***/ public String cannotLockPackIn;
 	/***/ public String cannotMatchOnEmptyString;
+	/***/ public String maxCountMustBeNonNegative;
 	/***/ public String cannotMoveIndexTo;
 	/***/ public String cannotMovePackTo;
 	/***/ public String cannotOpenService;
