@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABODH///W4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/filter/CommitMaxCountRevFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-12-22T09:49:28Z",
+      "side": 1,
+      "message": "I would call this class only MaxCountRevFilter. It\u0027s implicitly clear that it works on commits (Similar to AuthorRevFilter)",
+      "revId": "93cb6e7ea7b68e9c7f141d413691170b782850bd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
