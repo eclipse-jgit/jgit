@@ -16,6 +16,24 @@
       "revId": "93cb6e7ea7b68e9c7f141d413691170b782850bd",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABODH///Ws\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/filter/CommitMaxCountRevFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2011-12-22T11:36:08Z",
+      "side": 1,
+      "message": "Done. Also, I renamed the test class to match this one.",
+      "parentUuid": "AABODH///W4\u003d",
+      "revId": "93cb6e7ea7b68e9c7f141d413691170b782850bd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
