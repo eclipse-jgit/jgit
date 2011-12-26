@@ -86,6 +86,8 @@ public class RevertCommand extends GitCommand<RevCommit> {
 
 	private MergeResult failingResult;
 
+	private List<String> unmergedPaths;
+
 	/**
 	 * @param repo
 	 */
@@ -160,6 +162,7 @@ public class RevertCommand extends GitCommand<RevCommit> {
 							.setReflogComment("revert: " + shortMessage).call();
 					revertedRefs.add(src);
 				} else {
+					unmergedPaths = merger.getUnmergedPaths();
 					Map<String, MergeFailureReason> failingPaths = merger
 							.getFailingPaths();
 					if (failingPaths != null)
@@ -231,5 +234,12 @@ public class RevertCommand extends GitCommand<RevCommit> {
 	 */
 	public MergeResult getFailingResult() {
 		return failingResult;
+	}
+
+	/**
+	 * @return the unmerged paths, will be null if no merge conflicts
+	 */
+	public List<String> getUnmergedPaths() {
+		return unmergedPaths;
 	}
 }
