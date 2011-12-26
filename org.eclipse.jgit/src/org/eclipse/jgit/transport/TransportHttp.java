@@ -521,7 +521,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 	private boolean isSmartHttp(final HttpURLConnection c, final String service) {
 		final String expType = "application/x-" + service + "-advertisement"; //$NON-NLS-1$ //$NON-NLS-2$
 		final String actType = c.getContentType();
-		return expType.equals(actType);
+		return actType != null && actType.startsWith(expType);
 	}
 
 	private void readSmartHeaders(final InputStream in, final String service)
