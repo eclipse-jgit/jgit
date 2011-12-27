@@ -65,6 +65,7 @@ import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.dircache.DirCacheIterator;
 import org.eclipse.jgit.errors.UnmergedPathException;
 import org.eclipse.jgit.lib.CommitBuilder;
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
@@ -315,6 +316,11 @@ public class CommitCommand extends GitCommand<RevCommit> {
 			hIdx = treeWalk.addTree(new RevWalk(repo).parseTree(headId));
 		treeWalk.setRecursive(true);
 
+		final boolean fileMode = repo.getConfig().getBoolean(
+				ConfigConstants.CONFIG_CORE_SECTION,
+				ConfigConstants.CONFIG_KEY_FILEMODE, false);
+
+
 		while (treeWalk.next()) {
 			String path = treeWalk.getPathString();
 			// check if current entry's path matches a specified path
@@ -343,7 +349,14 @@ public class CommitCommand extends GitCommand<RevCommit> {
 					long entryLength = fTree.getEntryLength();
 					dcEntry.setLength(entryLength);
 					dcEntry.setLastModified(fTree.getEntryLastModified());
-					dcEntry.setFileMode(fTree.getEntryFileMode());
+
+					if (!fileMode
+							&& dcTree != null
+							&& dcTree.getEntryFileMode() == FileMode.EXECUTABLE_FILE
+							&& fTree.getEntryFileMode() == FileMode.REGULAR_FILE)
+						dcEntry.setFileMode(dcTree.getEntryFileMode());
+					else
+						dcEntry.setFileMode(fTree.getEntryFileMode());
 
 					boolean objectExists = (dcTree != null && fTree
 							.idEqual(dcTree))
