@@ -90,7 +90,7 @@ public class LogCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void logAllCommitsWithMaxCount() throws Exception {
+	public void logAllCommitsWithSkipAndMaxCount() throws Exception {
 		List<RevCommit> commits = new ArrayList<RevCommit>();
 		Git git = Git.wrap(db);
 
@@ -106,7 +106,7 @@ public class LogCommandTest extends RepositoryTestCase {
 		git.add().addFilepattern("Test2.txt").call();
 		commits.add(git.commit().setMessage("commit#3").call());
 
-		Iterator<RevCommit> log = git.log().all().setMaxCount(2).call()
+		Iterator<RevCommit> log = git.log().all().setSkip(1).setMaxCount(2).call()
 				.iterator();
 		assertTrue(log.hasNext());
 		assertTrue(commits.contains(log.next()));
