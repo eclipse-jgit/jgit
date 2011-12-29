@@ -118,7 +118,6 @@ public class JGitText extends TranslationBundle {
 	/***/ public String cannotLock;
 	/***/ public String cannotLockPackIn;
 	/***/ public String cannotMatchOnEmptyString;
-	/***/ public String maxCountMustBeNonNegative;
 	/***/ public String cannotMoveIndexTo;
 	/***/ public String cannotMovePackTo;
 	/***/ public String cannotOpenService;
@@ -332,6 +331,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String lockError;
 	/***/ public String lockOnNotClosed;
 	/***/ public String lockOnNotHeld;
+	/***/ public String maxCountMustBeNonNegative;
 	/***/ public String malformedpersonIdentString;
 	/***/ public String mergeConflictOnNotes;
 	/***/ public String mergeConflictOnNonNoteEntries;
@@ -474,6 +474,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String signingNotSupportedOnTag;
 	/***/ public String similarityScoreMustBeWithinBounds;
 	/***/ public String sizeExceeds2GB;
+	/***/ public String skipMustBeNonNegative;
 	/***/ public String smartHTTPPushDisabled;
 	/***/ public String sourceDestinationMustMatch;
 	/***/ public String sourceIsNotAWildcard;
