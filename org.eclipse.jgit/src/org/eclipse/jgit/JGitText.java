@@ -474,6 +474,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String signingNotSupportedOnTag;
 	/***/ public String similarityScoreMustBeWithinBounds;
 	/***/ public String sizeExceeds2GB;
+	/***/ public String skipMustBeNonNegative;
 	/***/ public String smartHTTPPushDisabled;
 	/***/ public String sourceDestinationMustMatch;
 	/***/ public String sourceIsNotAWildcard;
