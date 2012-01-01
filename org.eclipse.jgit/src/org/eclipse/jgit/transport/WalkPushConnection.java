@@ -365,7 +365,7 @@ class WalkPushConnection extends BaseConnection implements PushConnection {
 			final String config = "[core]\n"
 					+ "\trepositoryformatversion = 0\n";
 			final byte[] bytes = Constants.encode(config);
-			dest.writeFile(ROOT_DIR + "config", bytes);
+			dest.writeFile(ROOT_DIR + Constants.CONFIG, bytes);
 		} catch (IOException e) {
 			throw new TransportException(uri, JGitText.get().cannotCreateConfig, e);
 		}

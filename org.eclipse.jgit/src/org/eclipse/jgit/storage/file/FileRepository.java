@@ -160,8 +160,8 @@ public class FileRepository extends Repository {
 		systemConfig = SystemReader.getInstance().openSystemConfig(null, getFS());
 		userConfig = SystemReader.getInstance().openUserConfig(systemConfig,
 				getFS());
-		repoConfig = new FileBasedConfig(userConfig, //
-				getFS().resolve(getDirectory(), "config"), //
+		repoConfig = new FileBasedConfig(userConfig, getFS().resolve(
+				getDirectory(), Constants.CONFIG),
 				getFS());
 
 		loadSystemConfig();
