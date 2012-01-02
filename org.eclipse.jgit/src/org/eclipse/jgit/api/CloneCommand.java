@@ -94,6 +94,8 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 
 	private boolean cloneAllBranches;
 
+	private boolean cloneSubmodules;
+
 	private boolean noCheckout;
 
 	private Collection<String> branchesToClone;
@@ -142,8 +144,7 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 	}
 
 	private FetchResult fetch(Repository clonedRepo, URIish u)
-			throws URISyntaxException,
-			JGitInternalException,
+			throws URISyntaxException, JGitInternalException,
 			InvalidRemoteException, IOException {
 		// create the remote config and save it
 		RemoteConfig config = new RemoteConfig(clonedRepo.getConfig(), remote);
@@ -153,7 +154,8 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 				+ config.getName();
 		RefSpec refSpec = new RefSpec();
 		refSpec = refSpec.setForceUpdate(true);
-		refSpec = refSpec.setSourceDestination(Constants.R_HEADS + "*", dst + "/*"); //$NON-NLS-1$ //$NON-NLS-2$
+		refSpec = refSpec.setSourceDestination(
+				Constants.R_HEADS + "*", dst + "/*"); //$NON-NLS-1$ //$NON-NLS-2$
 
 		config.addFetchRefSpec(refSpec);
 		config.update(clonedRepo.getConfig());
@@ -180,8 +182,7 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 		List<RefSpec> specs = new ArrayList<RefSpec>();
 		if (cloneAllBranches)
 			specs.add(wcrs);
-		else if (branchesToClone != null
-				&& branchesToClone.size() > 0) {
+		else if (branchesToClone != null && branchesToClone.size() > 0) {
 			for (final String selectedRef : branchesToClone)
 				if (wcrs.matchSource(selectedRef))
 					specs.add(wcrs.expandFromSource(selectedRef));
@@ -190,8 +191,8 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 	}
 
 	private void checkout(Repository clonedRepo, FetchResult result)
-			throws JGitInternalException,
-			MissingObjectException, IncorrectObjectTypeException, IOException {
+			throws JGitInternalException, MissingObjectException,
+			IncorrectObjectTypeException, IOException {
 
 		Ref head = result.getAdvertisedRef(branch);
 		if (branch.equals(Constants.HEAD)) {
@@ -222,7 +223,21 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 			DirCacheCheckout co = new DirCacheCheckout(clonedRepo, dc,
 					commit.getTree());
 			co.checkout();
+			if (cloneSubmodules)
+				cloneSubmodules(clonedRepo);
+
 		}
+	}
+
+	private void cloneSubmodules(Repository clonedRepo) {
+		SubmoduleInitCommand init = new SubmoduleInitCommand(clonedRepo);
+		if (init.call().isEmpty())
+			return;
+
+		SubmoduleUpdateCommand update = new SubmoduleUpdateCommand(clonedRepo);
+		configure(update);
+		update.setProgressMonitor(monitor);
+		update.call();
 	}
 
 	private Ref findBranchToCheckout(FetchResult result) {
@@ -353,6 +368,17 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 	 */
 	public CloneCommand setCloneAllBranches(boolean cloneAllBranches) {
 		this.cloneAllBranches = cloneAllBranches;
+		return this;
+	}
+
+	/**
+	 * @param cloneSubmodules
+	 *            true to initialize and update submodules. Ignored when
+	 *            {@link #setBare(boolean)} is set to true.
+	 * @return {@code this}
+	 */
+	public CloneCommand setCloneSubmodules(boolean cloneSubmodules) {
+		this.cloneSubmodules = cloneSubmodules;
 		return this;
 	}
 
