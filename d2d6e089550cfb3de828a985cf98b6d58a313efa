@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AABODX///94\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/JGitText.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2011-12-27T19:15:40Z",
+      "side": 1,
+      "message": "Looks like maxCountMustBeNonNegative was moved and a trailing whitespace was introduced.",
+      "revId": "d2d6e089550cfb3de828a985cf98b6d58a313efa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABODX///9o\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/JGitText.java",
         "patchSetId": 1
@@ -20,6 +37,23 @@
     },
     {
       "key": {
+        "uuid": "AABODX///+E\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/LogCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2011-12-27T19:15:40Z",
+      "side": 1,
+      "message": "Two occurrences of \u0027the\u0027",
+      "revId": "d2d6e089550cfb3de828a985cf98b6d58a313efa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABODX///9g\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/LogCommand.java",
         "patchSetId": 1
@@ -32,6 +66,23 @@
       "side": 1,
       "message": "Oops. Done.",
       "parentUuid": "AABODX///+E\u003d",
+      "revId": "d2d6e089550cfb3de828a985cf98b6d58a313efa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABODX///+A\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/filter/SkipRevFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2011-12-27T19:15:40Z",
+      "side": 1,
+      "message": "Perhaps a better comment would be something like:\n\n\"Filter that includes commits after a configured number are skipped\"\n\n\"...show the commit output\" is specific to the log command.",
       "revId": "d2d6e089550cfb3de828a985cf98b6d58a313efa",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
