@@ -202,6 +202,8 @@ public class JGitText extends TranslationBundle {
 	/***/ public String deleteFileFailed;
 	/***/ public String deleteTagUnexpectedResult;
 	/***/ public String deletingNotSupported;
+	/***/ public String describeInvalidAbbreviation;
+	/***/ public String describeObjectIdNotSet;
 	/***/ public String destinationIsNotAWildcard;
 	/***/ public String detachedHeadDetected;
 	/***/ public String dirCacheDoesNotHaveABackingFile;
@@ -235,6 +237,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String exceptionCaughtDuringExecutionOfAddCommand;
 	/***/ public String exceptionCaughtDuringExecutionOfCherryPickCommand;
 	/***/ public String exceptionCaughtDuringExecutionOfCommitCommand;
+	/***/ public String exceptionCaughtDuringExecutionOfDescribeCommand;
 	/***/ public String exceptionCaughtDuringExecutionOfFetchCommand;
 	/***/ public String exceptionCaughtDuringExecutionOfLsRemoteCommand;
 	/***/ public String exceptionCaughtDuringExecutionOfMergeCommand;
