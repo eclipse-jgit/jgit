@@ -109,8 +109,7 @@ public class IndexDiff {
 		}
 
 		@Override
-		public boolean include(TreeWalk walker)
-				throws MissingObjectException,
+		public boolean include(TreeWalk walker) throws MissingObjectException,
 				IncorrectObjectTypeException, IOException {
 			count++;
 			if (count % stepSize == 0) {
@@ -125,8 +124,7 @@ public class IndexDiff {
 		@Override
 		public TreeFilter clone() {
 			throw new IllegalStateException(
-					"Do not clone this kind of filter: "
-							+ getClass().getName());
+					"Do not clone this kind of filter: " + getClass().getName());
 		}
 	}
 
@@ -171,8 +169,8 @@ public class IndexDiff {
 	 *
 	 * @param repository
 	 * @param revstr
-	 *            symbolic name e.g. HEAD
-	 *            An EmptyTreeIterator is used if <code>revstr</code> cannot be resolved.
+	 *            symbolic name e.g. HEAD An EmptyTreeIterator is used if
+	 *            <code>revstr</code> cannot be resolved.
 	 * @param workingTreeIterator
 	 *            iterator for working directory
 	 * @throws IOException
@@ -252,8 +250,7 @@ public class IndexDiff {
 	 * @throws IOException
 	 */
 	public boolean diff(final ProgressMonitor monitor, int estWorkTreeSize,
-			int estIndexSize, final String title)
-			throws IOException {
+			int estIndexSize, final String title) throws IOException {
 		dirCache = repository.readDirCache();
 
 		TreeWalk treeWalk = new TreeWalk(repository);
@@ -304,8 +301,8 @@ public class IndexDiff {
 			if (treeIterator != null) {
 				if (dirCacheIterator != null) {
 					if (!treeIterator.idEqual(dirCacheIterator)
-							|| treeIterator.getEntryRawMode()
-							!= dirCacheIterator.getEntryRawMode()) {
+							|| treeIterator.getEntryRawMode() != dirCacheIterator
+									.getEntryRawMode()) {
 						// in repo, in index, content diff => changed
 						changed.add(treeWalk.getPathString());
 					}
@@ -437,5 +434,16 @@ public class IndexDiff {
 	public Set<String> getUntrackedFolders() {
 		return ((indexDiffFilter == null) ? Collections.<String> emptySet()
 				: new HashSet<String>(indexDiffFilter.getUntrackedFolders()));
+	}
+
+	/**
+	 * Is the index entry at the given path a submodule?
+	 *
+	 * @param path
+	 * @return true if submodule, false otherwise
+	 */
+	public boolean isSubmodule(final String path) {
+		DirCacheEntry entry = dirCache.getEntry(path);
+		return entry != null && FileMode.GITLINK == entry.getFileMode();
 	}
 }
