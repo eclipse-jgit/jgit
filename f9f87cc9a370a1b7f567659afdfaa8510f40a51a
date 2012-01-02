@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AABODX///14\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/JGitText.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 548,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2011-12-31T19:37:37Z",
+      "side": 1,
+      "message": "Trailing whitespace",
+      "revId": "f9f87cc9a370a1b7f567659afdfaa8510f40a51a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABODX///1E\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/JGitText.java",
         "patchSetId": 1
