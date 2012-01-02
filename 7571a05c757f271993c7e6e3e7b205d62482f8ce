@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABODX///4I\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/SkipRevFilterTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2011-12-29T17:17:15Z",
+      "side": 1,
+      "message": "I think here down in this test can be removed, it seems to test the same things as testSkipRevFilter0",
+      "revId": "7571a05c757f271993c7e6e3e7b205d62482f8ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
