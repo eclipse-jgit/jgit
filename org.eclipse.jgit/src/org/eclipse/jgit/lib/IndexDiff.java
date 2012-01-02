@@ -438,4 +438,15 @@ public class IndexDiff {
 		return ((indexDiffFilter == null) ? Collections.<String> emptySet()
 				: new HashSet<String>(indexDiffFilter.getUntrackedFolders()));
 	}
+
+	/**
+	 * Get file mode of path in index
+	 *
+	 * @param path
+	 * @return file mode
+	 */
+	public FileMode getIndexMode(final String path) {
+		DirCacheEntry entry = dirCache.getEntry(path);
+		return entry != null ? entry.getFileMode() : FileMode.MISSING;
+	}
 }
