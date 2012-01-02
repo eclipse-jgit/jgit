@@ -44,7 +44,9 @@ package org.eclipse.jgit.submodule;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.MessageFormat;
 
+import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.dircache.DirCacheIterator;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.CorruptObjectException;
@@ -66,6 +68,8 @@ import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.PathFilter;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
 import org.eclipse.jgit.util.FS;
+import org.eclipse.jgit.util.IO;
+import org.eclipse.jgit.util.RawParseUtils;
 
 /**
  * Walker that visits all submodule entries found in a tree
@@ -153,12 +157,27 @@ public class SubmoduleWalk {
 	 */
 	public static Repository getSubmoduleRepository(final Repository parent,
 			final String path) throws IOException {
-		File directory = getSubmoduleGitDirectory(parent, path);
-		if (!directory.isDirectory())
+		return getSubmoduleRepository(parent.getWorkTree(), path);
+	}
+
+	/**
+	 * Get submodule repository at path
+	 *
+	 * @param parent
+	 * @param path
+	 * @return repository or null if repository doesn't exist
+	 * @throws IOException
+	 */
+	public static Repository getSubmoduleRepository(final File parent,
+			final String path) throws IOException {
+		File gitDir = getSubmoduleGitDirectory(parent, path);
+		if (!gitDir.isDirectory())
 			return null;
+		File workTree = new File(parent, path);
 		try {
 			return new RepositoryBuilder().setMustExist(true)
-					.setFS(FS.DETECTED).setGitDir(directory).build();
+					.setFS(FS.DETECTED).setGitDir(gitDir).setWorkTree(workTree)
+					.build();
 		} catch (RepositoryNotFoundException e) {
 			return null;
 		}
@@ -170,10 +189,56 @@ public class SubmoduleWalk {
 	 * @param parent
 	 * @param path
 	 * @return .git for submodule repository
+	 * @throws IOException
+	 *             if locating the directory failed
 	 */
 	public static File getSubmoduleGitDirectory(final Repository parent,
-			final String path) {
-		return new File(getSubmoduleDirectory(parent, path), Constants.DOT_GIT);
+			final String path) throws IOException {
+		return getSubmoduleGitDirectory(parent.getWorkTree(), path);
+	}
+
+	/**
+	 * Get the .git directory for a repository submodule path
+	 *
+	 * @param parent
+	 * @param path
+	 * @return .git for submodule repository
+	 * @throws IOException
+	 *             if locating the directory failed
+	 */
+	public static File getSubmoduleGitDirectory(final File parent,
+			final String path) throws IOException {
+		File gitDir = new File(new File(parent, path), Constants.DOT_GIT);
+		if (gitDir.isFile()) {
+			byte[] content = IO.readFully(gitDir);
+			if (isSymRef(content)) {
+				int pathStart = 8;
+				int lineEnd = RawParseUtils.nextLF(content, pathStart);
+				if (content[lineEnd - 1] == '\n')
+					lineEnd--;
+				if (lineEnd == pathStart)
+					throw new IOException(MessageFormat.format(
+							JGitText.get().submoduleInvalidGitdirRef, path));
+				gitDir = new File(RawParseUtils.decode(content, pathStart,
+						lineEnd));
+			} else
+				throw new IOException(MessageFormat.format(
+						JGitText.get().submoduleInvalidGitdirRef, path));
+		}
+		return gitDir;
+	}
+
+	private static boolean isSymRef(byte[] ref) {
+		if (ref.length < 9)
+			return false;
+		return /**/ref[0] == 'g' //
+				&& ref[1] == 'i' //
+				&& ref[2] == 't' //
+				&& ref[3] == 'd' //
+				&& ref[4] == 'i' //
+				&& ref[5] == 'r' //
+				&& ref[6] == ':' //
+				&& ref[7] == ' ';
 	}
 
 	private final Repository repository;
@@ -273,8 +338,10 @@ public class SubmoduleWalk {
 	 * Get the .git directory for the current submodule entry
 	 *
 	 * @return .git for submodule repository
+	 * @throws IOException
+	 *             if locating the directory failed
 	 */
-	public File getGitDirectory() {
+	public File getGitDirectory() throws IOException {
 		return getSubmoduleGitDirectory(repository, path);
 	}
 
@@ -388,13 +455,16 @@ public class SubmoduleWalk {
 	}
 
 	/**
-	 * Does the current submodule entry have a .git directory in the parent
-	 * repository's working tree?
+	 * Does the current submodule entry have a .git directory?
 	 *
 	 * @return true if .git directory exists, false otherwise
 	 */
 	public boolean hasGitDirectory() {
-		return getGitDirectory().isDirectory();
+		try {
+			return getGitDirectory().isDirectory();
+		} catch (IOException e) {
+			return false;
+		}
 	}
 
 	/**
