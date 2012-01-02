@@ -1,0 +1,22 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABODX///1E\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/JGitText.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 548,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2012-01-02T08:48:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABODX///14\u003d",
+      "revId": "f9f87cc9a370a1b7f567659afdfaa8510f40a51a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
