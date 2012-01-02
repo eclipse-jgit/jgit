@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AABODX///8s\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/SkipRevFilterTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2011-12-27T21:31:53Z",
+      "side": 1,
+      "message": "Could you add a unit test for creating filter with a negative skip value?",
+      "revId": "3ae064c56824e02829f873590794ec200b07994d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABODX///68\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revwalk/SkipRevFilterTest.java",
         "patchSetId": 2
@@ -20,6 +37,23 @@
     },
     {
       "key": {
+        "uuid": "AABODX///8g\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/LogCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2011-12-27T21:36:40Z",
+      "side": 1,
+      "message": "Shouldn\u0027t an AndRevFilter be used when both skip and maxCount are set?\n\nOr am I misunderstanding the combined usage of the two?",
+      "revId": "3ae064c56824e02829f873590794ec200b07994d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABODX///64\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/LogCommand.java",
         "patchSetId": 2
@@ -32,6 +66,23 @@
       "side": 1,
       "message": "Definitely! I spotted that when rewriting LogCommandTest. My bad. Done.",
       "parentUuid": "AABODX///8g\u003d",
+      "revId": "3ae064c56824e02829f873590794ec200b07994d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABODX///80\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/filter/SkipRevFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2011-12-27T21:31:53Z",
+      "side": 1,
+      "message": "This should be final",
       "revId": "3ae064c56824e02829f873590794ec200b07994d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
