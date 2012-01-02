@@ -94,6 +94,8 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 
 	private boolean cloneAllBranches;
 
+	private boolean cloneSubmodules;
+
 	private boolean noCheckout;
 
 	private Collection<String> branchesToClone;
@@ -222,7 +224,20 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 			DirCacheCheckout co = new DirCacheCheckout(clonedRepo, dc,
 					commit.getTree());
 			co.checkout();
+			if (cloneSubmodules)
+				cloneSubmodules(clonedRepo);
 		}
+	}
+
+	private void cloneSubmodules(Repository clonedRepo) {
+		SubmoduleInitCommand init = new SubmoduleInitCommand(clonedRepo);
+		if (init.call().isEmpty())
+			return;
+
+		SubmoduleUpdateCommand update = new SubmoduleUpdateCommand(clonedRepo);
+		configure(update);
+		update.setProgressMonitor(monitor);
+		update.call();
 	}
 
 	private Ref findBranchToCheckout(FetchResult result) {
@@ -353,6 +368,17 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 	 */
 	public CloneCommand setCloneAllBranches(boolean cloneAllBranches) {
 		this.cloneAllBranches = cloneAllBranches;
+		return this;
+	}
+
+	/**
+	 * @param cloneSubmodules
+	 *            true to initialize and update submodules. Ignored when
+	 *            {@link #setBare(boolean)} is set to true.
+	 * @return {@code this}
+	 */
+	public CloneCommand setCloneSubmodules(boolean cloneSubmodules) {
+		this.cloneSubmodules = cloneSubmodules;
 		return this;
 	}
 
