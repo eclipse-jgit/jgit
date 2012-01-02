@@ -1,0 +1,40 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABODX///60\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/filter/SkipRevFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2011-12-28T12:03:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABODX///80\u003d",
+      "revId": "3ae064c56824e02829f873590794ec200b07994d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABODX///6w\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/filter/SkipRevFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2011-12-28T12:03:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABODX///8w\u003d",
+      "revId": "3ae064c56824e02829f873590794ec200b07994d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
