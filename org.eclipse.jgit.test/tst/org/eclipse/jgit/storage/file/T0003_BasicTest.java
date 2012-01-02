@@ -326,7 +326,7 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 	@Test
 	public void test006_ReadUglyConfig() throws IOException,
 			ConfigInvalidException {
-		final File cfg = new File(db.getDirectory(), "config");
+		final File cfg = new File(db.getDirectory(), Constants.CONFIG);
 		final FileBasedConfig c = new FileBasedConfig(cfg, db.getFS());
 		final String configStr = "  [core];comment\n\tfilemode = yes\n"
 				+ "[user]\n"
@@ -361,7 +361,7 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 
 	@Test
 	public void test008_FailOnWrongVersion() throws IOException {
-		final File cfg = new File(db.getDirectory(), "config");
+		final File cfg = new File(db.getDirectory(), Constants.CONFIG);
 		final String badvers = "ihopethisisneveraversion";
 		final String configStr = "[core]\n" + "\trepositoryFormatVersion="
 				+ badvers + "\n";

@@ -322,6 +322,9 @@ public final class Constants {
 	/** Default name for the Git repository directory */
 	public static final String DOT_GIT = ".git";
 
+	/** Default name for the Git repository configuration */
+	public static final String CONFIG = "config";
+
 	/** A bare repository typically ends with this string */
 	public static final String DOT_GIT_EXT = ".git";
 
