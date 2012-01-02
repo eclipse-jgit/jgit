@@ -438,4 +438,15 @@ public class IndexDiff {
 		return ((indexDiffFilter == null) ? Collections.<String> emptySet()
 				: new HashSet<String>(indexDiffFilter.getUntrackedFolders()));
 	}
+
+	/**
+	 * Is the index entry at the given path a submodule?
+	 *
+	 * @param path
+	 * @return true if submodule, false otherwise
+	 */
+	public boolean isSubmodule(final String path) {
+		DirCacheEntry entry = dirCache.getEntry(path);
+		return entry != null && FileMode.GITLINK == entry.getFileMode();
+	}
 }
