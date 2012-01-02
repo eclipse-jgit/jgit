@@ -1,0 +1,58 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABODX///9o\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/JGitText.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2011-12-27T21:19:56Z",
+      "side": 1,
+      "message": "I moved it on purpose, to keep alphabetical order. The whitespace was unintentional. Fixed.",
+      "parentUuid": "AABODX///94\u003d",
+      "revId": "d2d6e089550cfb3de828a985cf98b6d58a313efa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABODX///9g\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/LogCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2011-12-27T21:19:56Z",
+      "side": 1,
+      "message": "Oops. Done.",
+      "parentUuid": "AABODX///+E\u003d",
+      "revId": "d2d6e089550cfb3de828a985cf98b6d58a313efa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABODX///9k\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/filter/SkipRevFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2011-12-27T21:19:56Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "AABODX///+A\u003d",
+      "revId": "d2d6e089550cfb3de828a985cf98b6d58a313efa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
