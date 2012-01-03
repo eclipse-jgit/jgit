@@ -75,6 +75,9 @@ public class ConfigConstants {
 	/** The "submodule" section */
 	public static final String CONFIG_SUBMODULE_SECTION = "submodule";
 
+	/** The "pack" section */
+	public static final String CONFIG_PACK_SECTION = "pack";
+
 	/** The "algorithm" key */
 	public static final String CONFIG_KEY_ALGORITHM = "algorithm";
 
@@ -169,4 +172,10 @@ public class ConfigConstants {
 
 	/** The "update" key */
 	public static final String CONFIG_KEY_UPDATE = "update";
+
+	/** The "compression" key */
+	public static final String CONFIG_KEY_COMPRESSION = "compression";
+
+	/** The "indexversion" key */
+	public static final String CONFIG_KEY_INDEXVERSION = "indexversion";
 }
