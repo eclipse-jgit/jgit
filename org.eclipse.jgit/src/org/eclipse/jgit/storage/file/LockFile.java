@@ -75,6 +75,16 @@ import org.eclipse.jgit.util.FileUtils;
 public class LockFile {
 	static final String SUFFIX = ".lock"; //$NON-NLS-1$
 
+	/**
+	 * Get the lock file corresponding to the given file.
+	 *
+	 * @param file
+	 * @return lock file
+	 */
+	public static File getLockFile(File file) {
+		return new File(file.getParentFile(), file.getName() + SUFFIX);
+	}
+
 	/** Filter to skip over active lock files when listing a directory. */
 	static final FilenameFilter FILTER = new FilenameFilter() {
 		public boolean accept(File dir, String name) {
@@ -107,9 +117,9 @@ public class LockFile {
 	 *            the file system abstraction which will be necessary to perform
 	 *            certain file system operations.
 	 */
-	public LockFile(final File f, FS fs) {
+	public LockFile(final File f, final FS fs) {
 		ref = f;
-		lck = new File(ref.getParentFile(), ref.getName() + SUFFIX);
+		lck = getLockFile(ref);
 		this.fs = fs;
 	}
 
