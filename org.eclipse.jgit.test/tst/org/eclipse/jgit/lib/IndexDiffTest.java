@@ -46,6 +46,7 @@
 package org.eclipse.jgit.lib;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
@@ -493,6 +494,17 @@ public class IndexDiffTest extends RepositoryTestCase {
 		assertTrue(diff.getAssumeUnchanged().contains("file2"));
 		assertTrue(diff.getChanged().contains("file"));
 		assertEquals(Collections.EMPTY_SET, diff.getUntrackedFolders());
+	}
+
+	@Test
+	public void testSubmoduleOnlyInWorkingDirectory() throws Exception {
+		File submodule = new File(db.getWorkTree(), "sub" + File.separatorChar
+				+ Constants.DOT_GIT);
+		submodule.mkdirs();
+		assertTrue(submodule.isDirectory());
+		FileTreeIterator iterator = new FileTreeIterator(db);
+		IndexDiff diff = new IndexDiff(db, Constants.HEAD, iterator);
+		assertFalse(diff.diff());
 	}
 
 	private void removeFromIndex(String path) throws IOException {
