@@ -752,6 +752,30 @@ public class DirCacheCheckout {
 						update(name, mId, m.getEntryFileMode());
 					}
 				} else {
+					/**
+					 * Conflict: Working tree and merge tree have different
+					 * modes and different content
+					 */
+					final int mMode = m.getEntryRawMode();
+					if (f != null //
+							&& mMode != f.getEntryRawMode() //
+							&& f.isModified(dce, true)) {
+						conflict(name, dce, h, m);
+						return;
+					}
+
+					/**
+					 * Update: Index tree and merge tree have the same content
+					 * but different modes but both modes are file type modes
+					 */
+					final int iMode = i.getEntryRawMode();
+					if (mMode != iMode //
+							&& (mMode & FileMode.TYPE_FILE) != 0 //
+							&& (iMode & FileMode.TYPE_FILE) != 0) {
+						update(name, mId, m.getEntryFileMode());
+						return;
+					}
+
 					keep(dce);
 				}
 			}
