@@ -322,9 +322,10 @@ public class IndexDiff {
 				} else {
 					// not in repo, not in index => untracked
 					if (workingTreeIterator != null
-							&& !workingTreeIterator.isEntryIgnored()) {
+							&& !workingTreeIterator.isEntryIgnored()
+							&& FileMode.GITLINK != workingTreeIterator
+									.getEntryFileMode())
 						untracked.add(treeWalk.getPathString());
-					}
 				}
 			}
 
