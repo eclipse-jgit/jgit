@@ -270,6 +270,14 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 				branchName, ConfigConstants.CONFIG_KEY_REMOTE, remote);
 		clonedRepo.getConfig().setString(ConfigConstants.CONFIG_BRANCH_SECTION,
 				branchName, ConfigConstants.CONFIG_KEY_MERGE, head.getName());
+		String autosetupRebase = clonedRepo.getConfig().getString(
+				ConfigConstants.CONFIG_BRANCH_SECTION, null,
+				ConfigConstants.CONFIG_KEY_AUTOSETUPREBASE);
+		if (ConfigConstants.CONFIG_KEY_ALWAYS.equals(autosetupRebase)
+				|| ConfigConstants.CONFIG_KEY_TRUE.equals(autosetupRebase))
+			clonedRepo.getConfig().setBoolean(
+					ConfigConstants.CONFIG_BRANCH_SECTION, branchName,
+					ConfigConstants.CONFIG_KEY_REBASE, true);
 		clonedRepo.getConfig().save();
 	}
 
