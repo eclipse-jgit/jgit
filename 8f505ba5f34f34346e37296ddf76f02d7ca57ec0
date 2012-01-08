@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABODX///n4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 767,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-01-03T23:01:33Z",
+      "side": 1,
+      "message": "I missed this the previous turn, I think; when filemode is false both changes from regular to executable and vice verse should be ignored.",
+      "revId": "8f505ba5f34f34346e37296ddf76f02d7ca57ec0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
