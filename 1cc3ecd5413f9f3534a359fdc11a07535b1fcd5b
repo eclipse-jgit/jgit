@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABODH///mU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 851,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-12-16T23:15:21Z",
+      "side": 1,
+      "message": "We should check the core.filemode setting for this.",
+      "revId": "1cc3ecd5413f9f3534a359fdc11a07535b1fcd5b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
