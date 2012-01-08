@@ -751,6 +751,32 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	}
 
 	/**
+	 * Get the file mode to use for the current entry when it is to be updated
+	 * in the index.
+	 *
+	 * @param indexIter
+	 *            {@link DirCacheIterator} positioned at the same entry as this
+	 *            iterator or null if no {@link DirCacheIterator} is available
+	 *            at this iterator's current entry
+	 * @return index file mode
+	 */
+	public FileMode getIndexFileMode(final DirCacheIterator indexIter) {
+		final FileMode wtMode = getEntryFileMode();
+		if (indexIter == null)
+			return wtMode;
+		if (getOptions().isFileMode())
+			return wtMode;
+		final FileMode iMode = indexIter.getEntryFileMode();
+		if (FileMode.REGULAR_FILE == wtMode
+				&& FileMode.EXECUTABLE_FILE == iMode)
+			return iMode;
+		if (FileMode.EXECUTABLE_FILE == wtMode
+				&& FileMode.REGULAR_FILE == iMode)
+			return iMode;
+		return wtMode;
+	}
+
+	/**
 	 * Compares the entries content with the content in the filesystem.
 	 * Unsmudges the entry when it is detected that it is clean.
 	 *
