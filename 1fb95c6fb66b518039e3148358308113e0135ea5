@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABODH///lA\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/AddCommandTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 525,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-12-17T00:07:39Z",
+      "side": 1,
+      "message": "spell executableFs.\n\nNow that you obey filemode, the FS shouldn\u0027t matter anymore?",
+      "revId": "1fb95c6fb66b518039e3148358308113e0135ea5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABODH///lE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/AddCommand.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-12-17T00:07:39Z",
+      "side": 1,
+      "message": "The only difference we want NOT to care about is\nthat of regilar file vs executable file.\n\nThe only important difference here is symbolic link. I think our previous behaviour was to change from link to file, though that was by-accident. However if we don\u0027t do that we\u0027ll mess upp even more by creatig a symlink where the target is the content of the linked-ot-file.",
+      "revId": "1fb95c6fb66b518039e3148358308113e0135ea5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
