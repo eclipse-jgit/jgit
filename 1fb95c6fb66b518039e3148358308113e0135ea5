@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABODH///kU\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/AddCommandTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 525,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2011-12-17T01:02:27Z",
+      "side": 1,
+      "message": "I think believe is still needed so that the test consistently passes on run on both windows and linux and consistently fails when run without the change to AddCommand",
+      "parentUuid": "AABODH///lA\u003d",
+      "revId": "1fb95c6fb66b518039e3148358308113e0135ea5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABODH///lE\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/AddCommand.java",
         "patchSetId": 6
@@ -30,6 +48,24 @@
       "writtenOn": "2011-12-17T00:07:39Z",
       "side": 1,
       "message": "The only difference we want NOT to care about is\nthat of regilar file vs executable file.\n\nThe only important difference here is symbolic link. I think our previous behaviour was to change from link to file, though that was by-accident. However if we don\u0027t do that we\u0027ll mess upp even more by creatig a symlink where the target is the content of the linked-ot-file.",
+      "revId": "1fb95c6fb66b518039e3148358308113e0135ea5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABODH///kQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/AddCommand.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2011-12-17T01:02:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABODH///lE\u003d",
       "revId": "1fb95c6fb66b518039e3148358308113e0135ea5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
