@@ -60,7 +60,9 @@ import org.eclipse.jgit.lib.IndexDiff;
  * {@link #getChanged()}
  */
 public class Status {
-	private IndexDiff diff;
+	private final IndexDiff diff;
+
+	private final boolean clean;
 
 	/**
 	 * @param diff
@@ -68,6 +70,21 @@ public class Status {
 	public Status(IndexDiff diff) {
 		super();
 		this.diff = diff;
+		clean = diff.getAdded().isEmpty() //
+				&& diff.getChanged().isEmpty() //
+				&& diff.getRemoved().isEmpty() //
+				&& diff.getMissing().isEmpty() //
+				&& diff.getModified().isEmpty() //
+				&& diff.getUntracked().isEmpty() //
+				&& diff.getConflicting().isEmpty();
+	}
+
+	/**
+	 * @return true if no differences exist between the working-tree, the index,
+	 *         and the current HEAD, false if differences do exist
+	 */
+	public boolean isClean() {
+		return clean;
 	}
 
 	/**
