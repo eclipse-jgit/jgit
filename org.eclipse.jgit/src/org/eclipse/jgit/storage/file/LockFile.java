@@ -57,6 +57,7 @@ import java.nio.channels.FileChannel;
 import java.text.MessageFormat;
 
 import org.eclipse.jgit.JGitText;
+import org.eclipse.jgit.errors.LockFailedException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.util.FS;
@@ -74,6 +75,37 @@ import org.eclipse.jgit.util.FileUtils;
  */
 public class LockFile {
 	static final String SUFFIX = ".lock"; //$NON-NLS-1$
+
+	/**
+	 * Unlock the given file.
+	 * <p>
+	 * This method can be used for recovering from a thrown
+	 * {@link LockFailedException} . This method does not validate that the lock
+	 * is or is not currently held before attempting to unlock it.
+	 *
+	 * @param file
+	 * @return true if unlocked, false if unlocking failed
+	 */
+	public static boolean unlock(final File file) {
+		final File lockFile = getLockFile(file);
+		final int flags = FileUtils.RETRY | FileUtils.SKIP_MISSING;
+		try {
+			FileUtils.delete(lockFile, flags);
+		} catch (IOException ignored) {
+			// Ignore and return whether lock file still exists
+		}
+		return !lockFile.exists();
+	}
+
+	/**
+	 * Get the lock file corresponding to the given file.
+	 *
+	 * @param file
+	 * @return lock file
+	 */
+	static File getLockFile(File file) {
+		return new File(file.getParentFile(), file.getName() + SUFFIX);
+	}
 
 	/** Filter to skip over active lock files when listing a directory. */
 	static final FilenameFilter FILTER = new FilenameFilter() {
@@ -107,9 +139,9 @@ public class LockFile {
 	 *            the file system abstraction which will be necessary to perform
 	 *            certain file system operations.
 	 */
-	public LockFile(final File f, FS fs) {
+	public LockFile(final File f, final FS fs) {
 		ref = f;
-		lck = new File(ref.getParentFile(), ref.getName() + SUFFIX);
+		lck = getLockFile(ref);
 		this.fs = fs;
 	}
 
