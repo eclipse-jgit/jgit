@@ -82,6 +82,12 @@ public class DiffCommand extends GitCommand<List<DiffEntry>> {
 
 	private OutputStream out;
 
+	private int contextLines = -1;
+
+	private String sourcePrefix;
+
+	private String destinationPrefix;
+
 	/**
 	 * @param repo
 	 */
@@ -125,6 +131,12 @@ public class DiffCommand extends GitCommand<List<DiffEntry>> {
 			}
 
 			diffFmt.setPathFilter(pathFilter);
+			if (contextLines >= 0)
+				diffFmt.setContext(contextLines);
+			if (destinationPrefix != null)
+				diffFmt.setNewPrefix(destinationPrefix);
+			if (sourcePrefix != null)
+				diffFmt.setOldPrefix(sourcePrefix);
 
 			List<DiffEntry> result = diffFmt.scan(oldTree, newTree);
 			if (showNameAndStatusOnly) {
@@ -197,6 +209,42 @@ public class DiffCommand extends GitCommand<List<DiffEntry>> {
 	 */
 	public DiffCommand setOutputStream(OutputStream out) {
 		this.out = out;
+		return this;
+	}
+
+	/**
+	 * Set number of context lines instead of the usual three.
+	 *
+	 * @param contextLines
+	 *            the number of context lines
+	 * @return this instance
+	 */
+	public DiffCommand setContextLines(int contextLines) {
+		this.contextLines = contextLines;
+		return this;
+	}
+
+	/**
+	 * Set the given source prefix instead of "a/".
+	 *
+	 * @param sourcePrefix
+	 *            the prefix
+	 * @return this instance
+	 */
+	public DiffCommand setSourcePrefix(String sourcePrefix) {
+		this.sourcePrefix = sourcePrefix;
+		return this;
+	}
+
+	/**
+	 * Set the given destination prefix instead of "b/".
+	 *
+	 * @param destinationPrefix
+	 *            the prefix
+	 * @return this instance
+	 */
+	public DiffCommand setDestinationPrefix(String destinationPrefix) {
+		this.destinationPrefix = destinationPrefix;
 		return this;
 	}
 }
