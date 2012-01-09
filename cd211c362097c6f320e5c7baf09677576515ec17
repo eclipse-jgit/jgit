@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABODX///PM\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2012-01-09T11:15:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABODX///fE\u003d",
+      "revId": "cd211c362097c6f320e5c7baf09677576515ec17",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABODX///fA\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DiffCommand.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AABODX///PI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DiffCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2012-01-09T11:15:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABODX///fA\u003d",
+      "revId": "cd211c362097c6f320e5c7baf09677576515ec17",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABODX///e8\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DiffCommand.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2012-01-05T15:19:50Z",
       "side": 1,
       "message": "In the git documentation the parameter is called \"destination prefix\". I would prefer that we stick to this.",
+      "revId": "cd211c362097c6f320e5c7baf09677576515ec17",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABODX///PE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DiffCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2012-01-09T11:15:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABODX///e8\u003d",
       "revId": "cd211c362097c6f320e5c7baf09677576515ec17",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
