@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AABODX///VE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/LsRemoteCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2012-01-08T02:54:39Z",
+      "side": 1,
+      "message": "Missing @throws tags for GitApiException and JGitInternalException.  Perhaps something similar to the descriptions given in FetchCommand.call",
+      "revId": "0d1c080698beee0b4a902a36e833040790cb2417",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABODX///UQ\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/LsRemoteCommand.java",
         "patchSetId": 1
@@ -14,6 +31,23 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "AABODX///VE\u003d",
+      "revId": "0d1c080698beee0b4a902a36e833040790cb2417",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABODX///U0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/LsRemoteCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2012-01-08T18:39:44Z",
+      "side": 1,
+      "message": "Perhaps move this variable out of the try blocks as well and close it in the finally before transport is closed.  That way there would be a single try block in this method.",
       "revId": "0d1c080698beee0b4a902a36e833040790cb2417",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
