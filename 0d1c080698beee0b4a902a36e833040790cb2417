@@ -1,0 +1,40 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABODX///UQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/LsRemoteCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-01-08T20:46:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABODX///VE\u003d",
+      "revId": "0d1c080698beee0b4a902a36e833040790cb2417",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABODX///UU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/LsRemoteCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-01-08T20:46:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABODX///U0\u003d",
+      "revId": "0d1c080698beee0b4a902a36e833040790cb2417",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
