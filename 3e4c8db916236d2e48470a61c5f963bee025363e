@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOC3///Cc\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/AddCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-12-12T08:02:11Z",
+      "side": 1,
+      "message": "I miss some test for binary data.",
+      "revId": "3e4c8db916236d2e48470a61c5f963bee025363e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOC3///Cg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 938,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-12-12T08:02:11Z",
+      "side": 1,
+      "message": "Do we really always to CRLF conversion - even on binary files? Wouldn\u0027t this corrupt all checked-in jpegs? Even if the file contains e.g. a null byte in the first X bytes - something we used before to check for binary/non-binary files? Or have I overlooked a check here?\n\nI always felt that the lack of git attributes which we could use to specify what is binary and what is not is the biggest obstacle why we didn\u0027t have autocrlf.",
+      "revId": "3e4c8db916236d2e48470a61c5f963bee025363e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOC3///Co\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 965,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-12-12T08:02:11Z",
+      "side": 1,
+      "message": "Why spent another filesystem call if autoCRLF was not true? We should only look into the fs if needed.",
+      "revId": "3e4c8db916236d2e48470a61c5f963bee025363e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOC3///Ck\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/IO.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-12-12T08:02:11Z",
+      "side": 1,
+      "message": "trailing whitespace!",
+      "revId": "3e4c8db916236d2e48470a61c5f963bee025363e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
