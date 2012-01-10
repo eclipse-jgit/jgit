@@ -16,6 +16,24 @@
       "revId": "3dbe33e7c32342150e3118a2ed21b28614b7d513",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABODX///NE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/LockFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2012-01-09T16:41:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABODX///Ow\u003d",
+      "revId": "3dbe33e7c32342150e3118a2ed21b28614b7d513",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
