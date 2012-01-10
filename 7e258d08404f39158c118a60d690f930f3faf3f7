@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABODH///98\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/AutoCRLFOutputStream.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-12-13T09:01:06Z",
+      "side": 1,
+      "message": "It\u0027s a shame. We already processed every little byte of the content up to know. We should have enough info to decide whether the file is binary or not. But now we have to call RawText.isBinary() which will read all the bytes again. Ok, it will read from memory and it can stop on the first 0 byte. But isn\u0027t there a chance that we incrementally ask RawText about binary/not-binary when we are processing the bytes in write(int b)? Then we could also stop buffering when RawText tells us its binary.",
+      "revId": "7e258d08404f39158c118a60d690f930f3faf3f7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
