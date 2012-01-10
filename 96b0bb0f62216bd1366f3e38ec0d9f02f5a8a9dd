@@ -1,0 +1,22 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABODH///vs\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheEntry.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 700,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-12-15T21:03:37Z",
+      "side": 1,
+      "message": "Maybe, but then we git in trouble with the fact that it is static\nand I want to change \"os\" during tests.",
+      "parentUuid": "AABODH///v0\u003d",
+      "revId": "96b0bb0f62216bd1366f3e38ec0d9f02f5a8a9dd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
