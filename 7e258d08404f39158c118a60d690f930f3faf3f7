@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABODH///64\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/AutoCRLFOutputStream.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-12-13T22:17:43Z",
+      "side": 1,
+      "message": "We could, but I\u0027m not sure how much it buys us, considering possible future support for e.g. UTF-16 as text, but most importantly we also need to buffer data and this keeps our logic a tiny bit simpler, which usually translates to faster code, though I have no proof whatsoever that is the case here.",
+      "parentUuid": "AABODH///98\u003d",
+      "revId": "7e258d08404f39158c118a60d690f930f3faf3f7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABODH///pU\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/AutoCRLFOutputStream.java",
         "patchSetId": 2
