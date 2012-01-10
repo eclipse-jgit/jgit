@@ -34,6 +34,24 @@
       "revId": "96b0bb0f62216bd1366f3e38ec0d9f02f5a8a9dd",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABODH///vk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheEntry.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 700,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2011-12-15T21:37:56Z",
+      "side": 1,
+      "message": "But what about doing an indexof/case-insensitive comparison here?\n\nI\u0027m just not sure what os.name returns across different windows versions and the FS_Win32 logic would seem to cover more cases",
+      "parentUuid": "AABODH///vs\u003d",
+      "revId": "96b0bb0f62216bd1366f3e38ec0d9f02f5a8a9dd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
