@@ -16,6 +16,24 @@
       "revId": "aebfc70cc84b1492cd3f5df04dd9b057d0bec1f7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABODX///Lw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/LockFile.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2012-01-09T22:20:42Z",
+      "side": 1,
+      "message": "It definitely could. I left it package-private since SUFFIX and FILTER were also package-private.",
+      "parentUuid": "AABODX///L4\u003d",
+      "revId": "aebfc70cc84b1492cd3f5df04dd9b057d0bec1f7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
