@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABODX///Ow\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/LockFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-01-09T11:39:09Z",
+      "side": 1,
+      "message": "In the commit message you say that we need this method to be able do delete the lock file and retry the failing operation. But wouldn\u0027t it be\nsafer to call this classes \"unlock()\" method instead? That method also tries to delete the lock file. It looks cleaner to me to add a static unlock(File f) method than to expose the File. With a file in hand you can do things (e.g. changing the content, rename) which you don\u0027t need and which may be harmful.",
+      "revId": "3dbe33e7c32342150e3118a2ed21b28614b7d513",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
