@@ -1,0 +1,58 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABODH///5c\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/DirCacheCheckoutTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-12-14T00:21:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABODH///+E\u003d",
+      "revId": "fefab6e902ae2bd9fc555fef3c07fbf94a9d94fa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABODH///5Y\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/CanonicalTreeParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-12-14T00:21:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABODH///+M\u003d",
+      "revId": "fefab6e902ae2bd9fc555fef3c07fbf94a9d94fa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABODH///5U\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/CanonicalTreeParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-12-14T00:21:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABODH///+I\u003d",
+      "revId": "fefab6e902ae2bd9fc555fef3c07fbf94a9d94fa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
