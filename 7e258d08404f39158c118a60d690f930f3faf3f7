@@ -16,6 +16,24 @@
       "revId": "7e258d08404f39158c118a60d690f930f3faf3f7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABODH///pU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/AutoCRLFOutputStream.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-12-20T10:01:54Z",
+      "side": 1,
+      "message": "With your attempt you are always reading the first 8000 bytes in a buffer, even if the already the first byte is null. And then, after you have buffered the first 8000 bytes you again process them (up to the first null).\n\nI suggest a solution which buffers everything up to the first null byte or the 8000th byte - whatever comes first (so potentially we buffer much smaller amount of data). And whenever you detect the first binary artefact (a decision which should be taken by RawText) you can stop doing the buffering \u0026 conversion for the rest of the stream.\n\nBut I see one problem with what I suggest: We would have to have a method RawText.isBinary(byte) (so we can ask RawText for every single byte we get). Do you expect that (e.g. with UTF-16 support) we come into a situation where RawText can\u0027t decide on binary/not-binary by looking at a single byte? If yes, then I agree that it\u0027s better to stay with your approach.",
+      "parentUuid": "AABODH///64\u003d",
+      "revId": "7e258d08404f39158c118a60d690f930f3faf3f7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
