@@ -60,6 +60,9 @@ class Merge extends TextBuiltin {
 	@Option(name = "--strategy", aliases = { "-s" }, usage = "usage_mergeStrategy")
 	private String strategyName;
 
+	@Option(name = "--no-commit", usage = "usage_noCommit")
+	private boolean noCommit = false;
+
 	private MergeStrategy mergeStrategy = MergeStrategy.RESOLVE;
 
 	@Argument(required = true)
@@ -83,7 +86,7 @@ class Merge extends TextBuiltin {
 
 		Git git = new Git(db);
 		MergeResult result = git.merge().setStrategy(mergeStrategy)
-				.include(src).call();
+				.include(src).setCommit(!noCommit).call();
 
 		switch (result.getMergeStatus()) {
 		case ALREADY_UP_TO_DATE:
@@ -113,6 +116,10 @@ class Merge extends TextBuiltin {
 			break;
 		case MERGED:
 			out.println(MessageFormat.format(CLIText.get().mergeMadeBy,
+					mergeStrategy.getName()));
+			break;
+		case MERGED_NOT_COMMITTED:
+			out.println(MessageFormat.format(CLIText.get().mergePreparedBy,
 					mergeStrategy.getName()));
 			break;
 		case NOT_SUPPORTED:

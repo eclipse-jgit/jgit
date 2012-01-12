@@ -94,6 +94,8 @@ public class MergeCommand extends GitCommand<MergeResult> {
 
 	private List<Ref> commits = new LinkedList<Ref>();
 
+	private boolean commit = true;
+
 	/**
 	 * @param repo
 	 */
@@ -222,6 +224,11 @@ public class MergeCommand extends GitCommand<MergeResult> {
 					dco.setFailOnConflict(true);
 					dco.checkout();
 
+					if (!commit)
+						return new MergeResult(null, null, new ObjectId[] {
+								headCommit.getId(), srcCommit.getId() },
+								MergeStatus.MERGED_NOT_COMMITTED,
+								mergeStrategy, null, null);
 					RevCommit newHead = new Git(getRepository()).commit()
 							.setReflogComment(refLogMessage.toString()).call();
 					return new MergeResult(newHead.getId(),
@@ -333,4 +340,24 @@ public class MergeCommand extends GitCommand<MergeResult> {
 		return include(new ObjectIdRef.Unpeeled(Storage.LOOSE, name,
 				commit.copy()));
 	}
+
+	/**
+	 * Controls whether the merge command should automatically commit after a
+	 * successful merge
+	 *
+	 * @param commit
+	 *            <code>true</code> if this command should commit (this is the
+	 *            default behavior). <code>false</code> if this command should
+	 *            not commit. In case the merge was successful but this flag was
+	 *            set to <code>false</code> a {@link MergeResult} with type
+	 *            {@link MergeResult} with status
+	 *            {@link MergeStatus#MERGED_NOT_COMMITTED} is returned
+	 * @return {@code this}
+	 */
+	public MergeCommand setCommit(boolean commit) {
+		this.commit = commit;
+		return this;
+	}
+
 }
+
