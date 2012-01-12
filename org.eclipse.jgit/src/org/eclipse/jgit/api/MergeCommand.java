@@ -195,6 +195,8 @@ public class MergeCommand extends GitCommand<MergeResult> {
 		}
 	}
 
+	private boolean commit = true;
+
 	/**
 	 * @param repo
 	 */
@@ -352,6 +354,11 @@ public class MergeCommand extends GitCommand<MergeResult> {
 					String msg = null;
 					RevCommit newHead = null;
 					MergeStatus mergeStatus = null;
+					if (!commit)
+						return new MergeResult(null, null, new ObjectId[] {
+								headCommit.getId(), srcCommit.getId() },
+								MergeStatus.MERGED_NOT_COMMITTED,
+								mergeStrategy, null, null);
 					if (!squash) {
 						newHead = new Git(getRepository()).commit()
 							.setReflogComment(refLogMessage.toString()).call();
@@ -519,6 +526,25 @@ public class MergeCommand extends GitCommand<MergeResult> {
 	public MergeCommand setFastForward(FastForwardMode fastForwardMode) {
 		checkCallable();
 		this.fastForwardMode = fastForwardMode;
+		return this;
+	}
+
+	/**
+	 * Controls whether the merge command should automatically commit after a
+	 * successful merge
+	 *
+	 * @param commit
+	 *            <code>true</code> if this command should commit (this is the
+	 *            default behavior). <code>false</code> if this command should
+	 *            not commit. In case the merge was successful but this flag was
+	 *            set to <code>false</code> a {@link MergeResult} with type
+	 *            {@link MergeResult} with status
+	 *            {@link MergeStatus#MERGED_NOT_COMMITTED} is returned
+	 * @return {@code this}
+	 * @since 3.0
+	 */
+	public MergeCommand setCommit(boolean commit) {
+		this.commit = commit;
 		return this;
 	}
 }

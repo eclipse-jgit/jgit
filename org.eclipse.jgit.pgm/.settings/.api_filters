@@ -3,6 +3,11 @@
     <resource path="src/org/eclipse/jgit/pgm/CLIText.java" type="org.eclipse.jgit.pgm.CLIText">
         <filter id="1143996420">
             <message_arguments>
+                <message_argument value="mergeWentWellStoppedBeforeCommitting"/>
+            </message_arguments>
+        </filter>
+        <filter id="1143996420">
+            <message_arguments>
                 <message_argument value="noSuchRemoteRef"/>
             </message_arguments>
         </filter>

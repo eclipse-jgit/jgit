@@ -167,6 +167,19 @@ public class MergeResult {
 				return false;
 			}
 		},
+		/**
+		 * @since 3.0
+		 **/
+		MERGED_NOT_COMMITTED {
+			public String toString() {
+				return "MergedNotCommited";
+			}
+
+			@Override
+			public boolean isSuccessful() {
+				return true;
+			}
+		},
 		/** */
 		NOT_SUPPORTED {
 			@Override
