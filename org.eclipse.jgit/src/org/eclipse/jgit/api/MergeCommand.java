@@ -195,6 +195,8 @@ public class MergeCommand extends GitCommand<MergeResult> {
 		}
 	}
 
+	private boolean commit = true;
+
 	/**
 	 * @param repo
 	 */
@@ -327,7 +329,7 @@ public class MergeCommand extends GitCommand<MergeResult> {
 				if (merger instanceof ResolveMerger) {
 					ResolveMerger resolveMerger = (ResolveMerger) merger;
 					resolveMerger.setCommitNames(new String[] {
-							"BASE", "HEAD", ref.getName() }); //$NON-NLS-1$
+							"BASE", "HEAD", ref.getName() }); //$NON-NLS-1$ //$NON-NLS-2$
 					resolveMerger.setWorkingTreeIterator(new FileTreeIterator(repo));
 					noProblems = merger.merge(headCommit, srcCommit);
 					lowLevelResults = resolveMerger
@@ -350,18 +352,26 @@ public class MergeCommand extends GitCommand<MergeResult> {
 					dco.checkout();
 
 					String msg = null;
-					RevCommit newHead = null;
+					ObjectId newHeadId = null;
 					MergeStatus mergeStatus = null;
-					if (!squash) {
-						newHead = new Git(getRepository()).commit()
-							.setReflogComment(refLogMessage.toString()).call();
+					if (!commit && squash) {
+						mergeStatus = MergeStatus.MERGED_SQUASHED_NOT_COMMITTED;
+					}
+					if (!commit && !squash) {
+						mergeStatus = MergeStatus.MERGED_NOT_COMMITTED;
+					}
+					if (commit && !squash) {
+						newHeadId = new Git(getRepository()).commit()
+								.setReflogComment(refLogMessage.toString())
+								.call().getId();
 						mergeStatus = MergeStatus.MERGED;
-					} else {
+					}
+					if (commit && squash) {
 						msg = JGitText.get().squashCommitNotUpdatingHEAD;
-						newHead = headCommit;
+						newHeadId = headCommit.getId();
 						mergeStatus = MergeStatus.MERGED_SQUASHED;
 					}
-					return new MergeResult(newHead.getId(), null,
+					return new MergeResult(newHeadId, null,
 							new ObjectId[] { headCommit.getId(),
 									srcCommit.getId() }, mergeStatus,
 							mergeStrategy, null, msg);
@@ -519,6 +529,25 @@ public class MergeCommand extends GitCommand<MergeResult> {
 	public MergeCommand setFastForward(FastForwardMode fastForwardMode) {
 		checkCallable();
 		this.fastForwardMode = fastForwardMode;
+		return this;
+	}
+
+	/**
+	 * Controls whether the merge command should automatically commit after a
+	 * successful merge
+	 *
+	 * @param commit
+	 *            <code>true</code> if this command should commit (this is the
+	 *            default behavior). <code>false</code> if this command should
+	 *            not commit. In case the merge was successful but this flag was
+	 *            set to <code>false</code> a {@link MergeResult} with type
+	 *            {@link MergeResult} with status
+	 *            {@link MergeStatus#MERGED_NOT_COMMITTED} is returned
+	 * @return {@code this}
+	 * @since 3.0
+	 */
+	public MergeCommand setCommit(boolean commit) {
+		this.commit = commit;
 		return this;
 	}
 }

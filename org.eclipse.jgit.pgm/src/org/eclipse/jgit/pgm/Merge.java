@@ -71,6 +71,9 @@ class Merge extends TextBuiltin {
 	@Option(name = "--squash", usage = "usage_squash")
 	private boolean squash;
 
+	@Option(name = "--no-commit", usage = "usage_noCommit")
+	private boolean noCommit = false;
+
 	private MergeStrategy mergeStrategy = MergeStrategy.RESOLVE;
 
 	@Argument(required = true)
@@ -111,7 +114,7 @@ class Merge extends TextBuiltin {
 		Ref oldHead = db.getRef(Constants.HEAD);
 		Git git = new Git(db);
 		MergeCommand mergeCmd = git.merge().setStrategy(mergeStrategy)
-				.setSquash(squash).setFastForward(ff);
+				.setSquash(squash).setFastForward(ff).setCommit(!noCommit);
 		if (srcRef != null)
 			mergeCmd.include(srcRef);
 		else
@@ -160,8 +163,12 @@ class Merge extends TextBuiltin {
 				name = "recursive"; //$NON-NLS-1$
 			outw.println(MessageFormat.format(CLIText.get().mergeMadeBy, name));
 			break;
+		case MERGED_NOT_COMMITTED:
+			outw.println(CLIText.get().mergeWentWellStoppedBeforeCommitting);
+			break;
 		case MERGED_SQUASHED:
 		case FAST_FORWARD_SQUASHED:
+		case MERGED_SQUASHED_NOT_COMMITTED:
 			outw.println(CLIText.get().mergedSquashed);
 			break;
 		case ABORTED:

@@ -141,6 +141,20 @@ public class MergeResult {
 				return true;
 			}
 		},
+		/**
+		 * @since 3.0
+		 */
+		MERGED_SQUASHED_NOT_COMMITTED {
+			@Override
+			public String toString() {
+				return "Merged-squashed-not-committed";
+			}
+
+			@Override
+			public boolean isSuccessful() {
+				return true;
+			}
+		},
 		/** */
 		CONFLICTING {
 			@Override
@@ -165,6 +179,19 @@ public class MergeResult {
 			@Override
 			public boolean isSuccessful() {
 				return false;
+			}
+		},
+		/**
+		 * @since 3.0
+		 **/
+		MERGED_NOT_COMMITTED {
+			public String toString() {
+				return "MergedNotCommited";
+			}
+
+			@Override
+			public boolean isSuccessful() {
+				return true;
 			}
 		},
 		/** */
