@@ -49,7 +49,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
 import org.eclipse.jgit.pgm.CLIGitCommand;
@@ -57,7 +56,7 @@ import org.junit.Before;
 
 public class CLIRepositoryTestCase extends LocalDiskRepositoryTestCase {
 	/** Test repository, initialized for this test case. */
-	protected FileRepository db;
+	protected Repository db;
 
 	/** Working directory of {@link #db}. */
 	protected File trash;
@@ -165,7 +164,7 @@ public class CLIRepositoryTestCase extends LocalDiskRepositoryTestCase {
 		assertEquals(toText(expected), toText(actual));
 	}
 
-	private String toText(String[] lines) {
+	private static String toText(String[] lines) {
 		StringBuilder b = new StringBuilder();
 		for (String s : lines) {
 			b.append(s);
