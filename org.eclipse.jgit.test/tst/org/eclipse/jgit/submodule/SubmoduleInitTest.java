@@ -123,4 +123,52 @@ public class SubmoduleInitTest extends RepositoryTestCase {
 		assertEquals(url, generator.getConfigUrl());
 		assertEquals(update, generator.getConfigUpdate());
 	}
+
+	@Test
+	public void repositoryWithUninitializedModuleRelativePath()
+			throws IOException, ConfigInvalidException {
+		final ObjectId id = ObjectId
+				.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234");
+		final String path = "sub";
+		DirCache cache = db.lockDirCache();
+		DirCacheEditor editor = cache.editor();
+		editor.add(new PathEdit(path) {
+
+			public void apply(DirCacheEntry ent) {
+				ent.setFileMode(FileMode.GITLINK);
+				ent.setObjectId(id);
+			}
+		});
+		editor.commit();
+
+		SubmoduleWalk generator = SubmoduleWalk.forIndex(db);
+		assertTrue(generator.next());
+		assertNull(generator.getConfigUrl());
+		assertNull(generator.getConfigUpdate());
+
+		FileBasedConfig modulesConfig = new FileBasedConfig(new File(
+				db.getWorkTree(), Constants.DOT_GIT_MODULES), db.getFS());
+		modulesConfig.setString(ConfigConstants.CONFIG_SUBMODULE_SECTION, path,
+				ConfigConstants.CONFIG_KEY_PATH, path);
+		String url = "../submodule-remote";
+		modulesConfig.setString(ConfigConstants.CONFIG_SUBMODULE_SECTION, path,
+				ConfigConstants.CONFIG_KEY_URL, url);
+		String update = "rebase";
+		modulesConfig.setString(ConfigConstants.CONFIG_SUBMODULE_SECTION, path,
+				ConfigConstants.CONFIG_KEY_UPDATE, update);
+		modulesConfig.save();
+
+		SubmoduleInitCommand command = new SubmoduleInitCommand(db);
+		Collection<String> modules = command.call();
+		assertNotNull(modules);
+		assertEquals(1, modules.size());
+		assertEquals(path, modules.iterator().next());
+
+		generator = SubmoduleWalk.forIndex(db);
+		assertTrue(generator.next());
+		assertEquals(new File(db.getWorkTree(), url).getAbsolutePath(),
+				generator.getConfigUrl());
+		assertEquals(update, generator.getConfigUpdate());
+	}
+
 }
