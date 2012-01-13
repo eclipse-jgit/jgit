@@ -1,0 +1,22 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABODX///Lo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-01-09T23:11:25Z",
+      "side": 1,
+      "message": "yeah, see line 335:\n\n // check if entry refers to a tracked file\n boolean tracked \u003d dcTree !\u003d null || hTree !\u003d null;\n if (!tracked)\n       break;\n\n-\u003e if hTree \u003d\u003d null \u0026\u0026 dcTree \u003d\u003d null this is untracked and we break out of the loop. \n\nIn order to make this clear here without reevaluating that dcTree isn\u0027t null if hTree is null we could add a comment:\n\n if (emptyCommit\n    \u0026\u0026 ( (hTree \u003d\u003d null /* \u0026\u0026 dcTree !\u003d null (see tracked check above) */ ) \n     || !hTree.idEqual(fTree) \n     || hTree.getEntryRawMode() !\u003d fTree.getEntryRawMode()))",
+      "parentUuid": "AABODX///Pg\u003d",
+      "revId": "fe3e3199c5c9c0315afd17fa1bbd88a0652b6263",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
