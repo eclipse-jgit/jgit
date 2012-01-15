@@ -560,7 +560,7 @@ public abstract class Repository {
 					tree = rw.parseTree(ref);
 				}
 
-				if (i == rev.length - i)
+				if (i == rev.length - 1)
 					return tree.copy();
 
 				TreeWalk tw = TreeWalk.forPath(rw.getObjectReader(),

@@ -218,6 +218,10 @@ public class RepositoryResolveTest extends SampleDataRepositoryTestCase {
 
 		assertEquals(b2_txt, db.resolve("b:b/b2.txt"));
 		assertEquals(b_root, db.resolve("b:"));
+		assertEquals(id("6020a3b8d5d636e549ccbd0c53e2764684bb3125"),
+				db.resolve("master:"));
+		assertEquals(id("10da5895682013006950e7da534b705252b03be6"),
+				db.resolve("master:b/b2.txt"));
 		assertEquals(master_txt, db.resolve(":master.txt"));
 		assertEquals(b3_b2_txt, db.resolve("b~3:b/b2.txt"));
 
