@@ -45,7 +45,6 @@ package org.eclipse.jgit.diff;
 
 import static org.junit.Assert.assertEquals;
 
-import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 
@@ -62,6 +61,7 @@ import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.treewalk.filter.PathFilter;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.eclipse.jgit.util.io.DisabledOutputStream;
+import org.eclipse.jgit.util.io.SafeBufferedOutputStream;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -267,7 +267,7 @@ public class DiffFormatterTest extends RepositoryTestCase {
 		write(new File(folder, "folder.txt"), "folder change");
 
 		ByteArrayOutputStream os = new ByteArrayOutputStream();
-		DiffFormatter df = new DiffFormatter(new BufferedOutputStream(os));
+		DiffFormatter df = new DiffFormatter(new SafeBufferedOutputStream(os));
 		df.setRepository(db);
 		df.setPathFilter(PathFilter.create("folder"));
 		DirCacheIterator oldTree = new DirCacheIterator(db.readDirCache());

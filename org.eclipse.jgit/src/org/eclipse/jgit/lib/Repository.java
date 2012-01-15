@@ -86,6 +86,7 @@ import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
+import org.eclipse.jgit.util.io.SafeBufferedOutputStream;
 
 /**
  * Represents a Git repository.
@@ -1277,7 +1278,7 @@ public abstract class Repository {
 			throws FileNotFoundException, IOException {
 		File headsFile = new File(getDirectory(), filename);
 		if (heads != null) {
-			BufferedOutputStream bos = new BufferedOutputStream(
+			BufferedOutputStream bos = new SafeBufferedOutputStream(
 					new FileOutputStream(headsFile));
 			try {
 				for (ObjectId id : heads) {

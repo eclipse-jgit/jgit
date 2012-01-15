@@ -45,7 +45,6 @@ package org.eclipse.jgit.transport;
 
 import static org.eclipse.jgit.transport.WalkRemoteObjectDatabase.ROOT_DIR;
 
-import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
@@ -65,11 +64,12 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdRef;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.Ref.Storage;
 import org.eclipse.jgit.lib.RefWriter;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.lib.Ref.Storage;
 import org.eclipse.jgit.storage.pack.PackWriter;
 import org.eclipse.jgit.transport.RemoteRefUpdate.Status;
+import org.eclipse.jgit.util.io.SafeBufferedOutputStream;
 
 /**
  * Generic push support for dumb transport protocols.
@@ -259,7 +259,7 @@ class WalkPushConnection extends BaseConnection implements PushConnection {
 			final String wt = "Put " + base.substring(0, 12);
 			OutputStream os = dest.writeFile(pathPack, monitor, wt + "..pack");
 			try {
-				os = new BufferedOutputStream(os);
+				os = new SafeBufferedOutputStream(os);
 				writer.writePack(monitor, monitor, os);
 			} finally {
 				os.close();
@@ -267,7 +267,7 @@ class WalkPushConnection extends BaseConnection implements PushConnection {
 
 			os = dest.writeFile(pathIdx, monitor, wt + "..idx");
 			try {
-				os = new BufferedOutputStream(os);
+				os = new SafeBufferedOutputStream(os);
 				writer.writeIndex(os);
 			} finally {
 				os.close();
