@@ -34,6 +34,24 @@
       "revId": "76cfc516dbd18ef78a1c1f4cb915bc00ae26a311",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABODX//+x8\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RepositoryResolveTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2012-01-14T23:36:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABODX//+yQ\u003d",
+      "revId": "76cfc516dbd18ef78a1c1f4cb915bc00ae26a311",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
