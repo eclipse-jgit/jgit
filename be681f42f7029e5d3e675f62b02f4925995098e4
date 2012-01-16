@@ -1,0 +1,39 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOC3///hk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-12-05T16:36:00Z",
+      "side": 1,
+      "message": "I\u0027m with Robin on this, I don\u0027t think we want to clutter up this class with this method.\n\nI might be open to the smaller definition of just long count(), where the caller sets up the start/uninteresting points first and then calls count() to run the iteration and increment the counter for it.",
+      "revId": "be681f42f7029e5d3e675f62b02f4925995098e4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOC3///J8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-12-09T15:22:01Z",
+      "side": 1,
+      "message": "I think the method should do the reset() for the caller, given that it is acting as a small utility.\n\nMatch what we call our StringUtils class. Its either StringUtil or StringUtils, I don\u0027t remember which, but whatever it is use the same pluralization for the RevWalk utility.",
+      "parentUuid": "AABOC3///hc\u003d",
+      "revId": "be681f42f7029e5d3e675f62b02f4925995098e4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
