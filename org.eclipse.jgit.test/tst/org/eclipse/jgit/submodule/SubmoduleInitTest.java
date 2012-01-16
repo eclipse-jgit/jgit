@@ -46,12 +46,14 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
 
 import org.eclipse.jgit.api.SubmoduleInitCommand;
+import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheEditor;
 import org.eclipse.jgit.dircache.DirCacheEditor.PathEdit;
@@ -81,19 +83,7 @@ public class SubmoduleInitTest extends RepositoryTestCase {
 	@Test
 	public void repositoryWithUninitializedModule() throws IOException,
 			ConfigInvalidException {
-		final ObjectId id = ObjectId
-				.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234");
-		final String path = "sub";
-		DirCache cache = db.lockDirCache();
-		DirCacheEditor editor = cache.editor();
-		editor.add(new PathEdit(path) {
-
-			public void apply(DirCacheEntry ent) {
-				ent.setFileMode(FileMode.GITLINK);
-				ent.setObjectId(id);
-			}
-		});
-		editor.commit();
+		final String path = addSubmoduleToIndex();
 
 		SubmoduleWalk generator = SubmoduleWalk.forIndex(db);
 		assertTrue(generator.next());
@@ -122,5 +112,221 @@ public class SubmoduleInitTest extends RepositoryTestCase {
 		assertTrue(generator.next());
 		assertEquals(url, generator.getConfigUrl());
 		assertEquals(update, generator.getConfigUpdate());
+	}
+
+	@Test
+	public void resolveSameLevelRelativeUrl() throws Exception {
+		final String path = addSubmoduleToIndex();
+
+		String base = "git://server/repo.git";
+		FileBasedConfig config = db.getConfig();
+		config.setString(ConfigConstants.CONFIG_REMOTE_SECTION,
+				Constants.DEFAULT_REMOTE_NAME, ConfigConstants.CONFIG_KEY_URL,
+				base);
+		config.save();
+
+		SubmoduleWalk generator = SubmoduleWalk.forIndex(db);
+		assertTrue(generator.next());
+		assertNull(generator.getConfigUrl());
+		assertNull(generator.getConfigUpdate());
+
+		FileBasedConfig modulesConfig = new FileBasedConfig(new File(
+				db.getWorkTree(), Constants.DOT_GIT_MODULES), db.getFS());
+		modulesConfig.setString(ConfigConstants.CONFIG_SUBMODULE_SECTION, path,
+				ConfigConstants.CONFIG_KEY_PATH, path);
+		String url = "./sub.git";
+		modulesConfig.setString(ConfigConstants.CONFIG_SUBMODULE_SECTION, path,
+				ConfigConstants.CONFIG_KEY_URL, url);
+		String update = "rebase";
+		modulesConfig.setString(ConfigConstants.CONFIG_SUBMODULE_SECTION, path,
+				ConfigConstants.CONFIG_KEY_UPDATE, update);
+		modulesConfig.save();
+
+		SubmoduleInitCommand command = new SubmoduleInitCommand(db);
+		Collection<String> modules = command.call();
+		assertNotNull(modules);
+		assertEquals(1, modules.size());
+		assertEquals(path, modules.iterator().next());
+
+		generator = SubmoduleWalk.forIndex(db);
+		assertTrue(generator.next());
+		assertEquals("git://server/repo.git/sub.git", generator.getConfigUrl());
+		assertEquals(update, generator.getConfigUpdate());
+	}
+
+	@Test
+	public void resolveOneLevelHigherRelativeUrl() throws IOException,
+			ConfigInvalidException {
+		final String path = addSubmoduleToIndex();
+
+		String base = "git://server/repo.git";
+		FileBasedConfig config = db.getConfig();
+		config.setString(ConfigConstants.CONFIG_REMOTE_SECTION,
+				Constants.DEFAULT_REMOTE_NAME, ConfigConstants.CONFIG_KEY_URL,
+				base);
+		config.save();
+
+		SubmoduleWalk generator = SubmoduleWalk.forIndex(db);
+		assertTrue(generator.next());
+		assertNull(generator.getConfigUrl());
+		assertNull(generator.getConfigUpdate());
+
+		FileBasedConfig modulesConfig = new FileBasedConfig(new File(
+				db.getWorkTree(), Constants.DOT_GIT_MODULES), db.getFS());
+		modulesConfig.setString(ConfigConstants.CONFIG_SUBMODULE_SECTION, path,
+				ConfigConstants.CONFIG_KEY_PATH, path);
+		String url = "../sub.git";
+		modulesConfig.setString(ConfigConstants.CONFIG_SUBMODULE_SECTION, path,
+				ConfigConstants.CONFIG_KEY_URL, url);
+		String update = "rebase";
+		modulesConfig.setString(ConfigConstants.CONFIG_SUBMODULE_SECTION, path,
+				ConfigConstants.CONFIG_KEY_UPDATE, update);
+		modulesConfig.save();
+
+		SubmoduleInitCommand command = new SubmoduleInitCommand(db);
+		Collection<String> modules = command.call();
+		assertNotNull(modules);
+		assertEquals(1, modules.size());
+		assertEquals(path, modules.iterator().next());
+
+		generator = SubmoduleWalk.forIndex(db);
+		assertTrue(generator.next());
+		assertEquals("git://server/sub.git", generator.getConfigUrl());
+		assertEquals(update, generator.getConfigUpdate());
+	}
+
+	@Test
+	public void resolveTwoLevelHigherRelativeUrl() throws IOException,
+			ConfigInvalidException {
+		final String path = addSubmoduleToIndex();
+
+		String base = "git://server/repo.git";
+		FileBasedConfig config = db.getConfig();
+		config.setString(ConfigConstants.CONFIG_REMOTE_SECTION,
+				Constants.DEFAULT_REMOTE_NAME, ConfigConstants.CONFIG_KEY_URL,
+				base);
+		config.save();
+
+		SubmoduleWalk generator = SubmoduleWalk.forIndex(db);
+		assertTrue(generator.next());
+		assertNull(generator.getConfigUrl());
+		assertNull(generator.getConfigUpdate());
+
+		FileBasedConfig modulesConfig = new FileBasedConfig(new File(
+				db.getWorkTree(), Constants.DOT_GIT_MODULES), db.getFS());
+		modulesConfig.setString(ConfigConstants.CONFIG_SUBMODULE_SECTION, path,
+				ConfigConstants.CONFIG_KEY_PATH, path);
+		String url = "../../sub.git";
+		modulesConfig.setString(ConfigConstants.CONFIG_SUBMODULE_SECTION, path,
+				ConfigConstants.CONFIG_KEY_URL, url);
+		String update = "rebase";
+		modulesConfig.setString(ConfigConstants.CONFIG_SUBMODULE_SECTION, path,
+				ConfigConstants.CONFIG_KEY_UPDATE, update);
+		modulesConfig.save();
+
+		SubmoduleInitCommand command = new SubmoduleInitCommand(db);
+		Collection<String> modules = command.call();
+		assertNotNull(modules);
+		assertEquals(1, modules.size());
+		assertEquals(path, modules.iterator().next());
+
+		generator = SubmoduleWalk.forIndex(db);
+		assertTrue(generator.next());
+		assertEquals("git://sub.git", generator.getConfigUrl());
+		assertEquals(update, generator.getConfigUpdate());
+	}
+
+	@Test
+	public void resolveWorkingDirectoryRelativeUrl() throws IOException,
+			ConfigInvalidException {
+		final String path = addSubmoduleToIndex();
+
+		String base = db.getWorkTree().getAbsolutePath();
+		if (File.separatorChar == '\\')
+			base = base.replace('\\', '/');
+		FileBasedConfig config = db.getConfig();
+		config.setString(ConfigConstants.CONFIG_REMOTE_SECTION,
+				Constants.DEFAULT_REMOTE_NAME, ConfigConstants.CONFIG_KEY_URL,
+				null);
+		config.save();
+
+		SubmoduleWalk generator = SubmoduleWalk.forIndex(db);
+		assertTrue(generator.next());
+		assertNull(generator.getConfigUrl());
+		assertNull(generator.getConfigUpdate());
+
+		FileBasedConfig modulesConfig = new FileBasedConfig(new File(
+				db.getWorkTree(), Constants.DOT_GIT_MODULES), db.getFS());
+		modulesConfig.setString(ConfigConstants.CONFIG_SUBMODULE_SECTION, path,
+				ConfigConstants.CONFIG_KEY_PATH, path);
+		String url = "./sub.git";
+		modulesConfig.setString(ConfigConstants.CONFIG_SUBMODULE_SECTION, path,
+				ConfigConstants.CONFIG_KEY_URL, url);
+		String update = "rebase";
+		modulesConfig.setString(ConfigConstants.CONFIG_SUBMODULE_SECTION, path,
+				ConfigConstants.CONFIG_KEY_UPDATE, update);
+		modulesConfig.save();
+
+		SubmoduleInitCommand command = new SubmoduleInitCommand(db);
+		Collection<String> modules = command.call();
+		assertNotNull(modules);
+		assertEquals(1, modules.size());
+		assertEquals(path, modules.iterator().next());
+
+		generator = SubmoduleWalk.forIndex(db);
+		assertTrue(generator.next());
+		assertEquals(base + "/sub.git", generator.getConfigUrl());
+		assertEquals(update, generator.getConfigUpdate());
+	}
+
+	@Test
+	public void resolveInvalidParentUrl() throws IOException,
+			ConfigInvalidException {
+		final String path = addSubmoduleToIndex();
+
+		String base = "no_slash";
+		FileBasedConfig config = db.getConfig();
+		config.setString(ConfigConstants.CONFIG_REMOTE_SECTION,
+				Constants.DEFAULT_REMOTE_NAME, ConfigConstants.CONFIG_KEY_URL,
+				base);
+		config.save();
+
+		SubmoduleWalk generator = SubmoduleWalk.forIndex(db);
+		assertTrue(generator.next());
+		assertNull(generator.getConfigUrl());
+		assertNull(generator.getConfigUpdate());
+
+		FileBasedConfig modulesConfig = new FileBasedConfig(new File(
+				db.getWorkTree(), Constants.DOT_GIT_MODULES), db.getFS());
+		modulesConfig.setString(ConfigConstants.CONFIG_SUBMODULE_SECTION, path,
+				ConfigConstants.CONFIG_KEY_PATH, path);
+		String url = "../sub.git";
+		modulesConfig.setString(ConfigConstants.CONFIG_SUBMODULE_SECTION, path,
+				ConfigConstants.CONFIG_KEY_URL, url);
+		modulesConfig.save();
+
+		try {
+			new SubmoduleInitCommand(db).call();
+			fail("Exception not thrown");
+		} catch (JGitInternalException e) {
+			assertTrue(e.getCause() instanceof IOException);
+		}
+	}
+
+	private String addSubmoduleToIndex() throws IOException {
+		final ObjectId id = ObjectId
+				.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234");
+		final String path = "sub";
+		DirCache cache = db.lockDirCache();
+		DirCacheEditor editor = cache.editor();
+		editor.add(new PathEdit(path) {
+
+			public void apply(DirCacheEntry ent) {
+				ent.setFileMode(FileMode.GITLINK);
+				ent.setObjectId(id);
+			}
+		});
+		editor.commit();
+		return path;
 	}
 }
