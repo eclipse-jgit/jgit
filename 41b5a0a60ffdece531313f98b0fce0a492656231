@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABODX//+5g\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/SubmoduleInitCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2012-01-13T19:53:05Z",
+      "side": 1,
+      "message": "url could be null here which will throw a URISyntaxException which changes the previous behavior or ignoring null url values and still updating the update value.\n\nI think this should be moved to after the check to url !\u003d null on line 117",
+      "revId": "41b5a0a60ffdece531313f98b0fce0a492656231",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABODX//+5k\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/SubmoduleInitCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2012-01-13T19:53:05Z",
+      "side": 1,
+      "message": "curlies not needed",
+      "revId": "41b5a0a60ffdece531313f98b0fce0a492656231",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABODX//+5o\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/SubmoduleInitCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2012-01-13T19:53:05Z",
+      "side": 1,
+      "message": "curlies not needed",
+      "revId": "41b5a0a60ffdece531313f98b0fce0a492656231",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
