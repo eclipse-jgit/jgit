@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOC3///hc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2011-12-05T17:26:33Z",
+      "side": 1,
+      "message": "Ok, I\u0027ll move it into a new class RevWalkUtil (or RevWalkUtils? (both naming conventions seem to be used in jgit)).\n\nShould the new method then have the following signature?:\n\n  public static long count(final RevWalk walk, final RevCommit start, final RevCommit end)\n\nShould the caller be responsible for doing reset() or should that be done inside the method?",
+      "parentUuid": "AABOC3///hk\u003d",
+      "revId": "be681f42f7029e5d3e675f62b02f4925995098e4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOC3///J8\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
         "patchSetId": 1
