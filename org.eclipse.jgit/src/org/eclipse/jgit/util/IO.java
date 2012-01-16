@@ -142,7 +142,13 @@ public class IO {
 				throw new IOException(MessageFormat.format(
 						JGitText.get().fileIsTooLarge, path));
 			final byte[] buf = new byte[(int) sz];
-			IO.readFully(in, buf, 0, buf.length);
+			int actSz = IO.readFully(in, buf, 0);
+
+			if (actSz == sz) {
+				byte[] ret = new byte[actSz];
+				System.arraycopy(buf, 0, ret, 0, actSz);
+				return ret;
+			}
 			return buf;
 		} finally {
 			try {
@@ -251,6 +257,31 @@ public class IO {
 			cnt += r;
 		}
 		return cnt != 0 ? cnt : -1;
+	}
+
+	/**
+	 * Read the entire byte array into memory, unless input is shorter
+	 *
+	 * @param fd
+	 *            input stream to read the data from.
+	 * @param dst
+	 *            buffer that must be fully populated, [off, off+len).
+	 * @param off
+	 *            position within the buffer to start writing to.
+	 * @return number of bytes in buffer or stream, whichever is shortest
+	 * @throws IOException
+	 *             there was an error reading from the stream.
+	 */
+	public static int readFully(InputStream fd, byte[] dst, int off)
+			throws IOException {
+		int r;
+		int len = 0;
+		while ((r = fd.read(dst, off, dst.length - off)) >= 0
+				&& len < dst.length) {
+			off += r;
+			len += r;
+		}
+		return len;
 	}
 
 	/**
