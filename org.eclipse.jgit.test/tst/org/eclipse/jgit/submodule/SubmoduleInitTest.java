@@ -57,11 +57,14 @@ import org.eclipse.jgit.dircache.DirCacheEditor;
 import org.eclipse.jgit.dircache.DirCacheEditor.PathEdit;
 import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.errors.CorruptObjectException;
+import org.eclipse.jgit.errors.NoWorkTreeException;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.RepositoryTestCase;
+import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.junit.Test;
 
@@ -69,6 +72,13 @@ import org.junit.Test;
  * Unit tests of {@link SubmoduleInitCommand}
  */
 public class SubmoduleInitTest extends RepositoryTestCase {
+
+	@Test(expected = NoWorkTreeException.class)
+	public void baseRepositoryShouldFail() throws IOException {
+		db = createBareRepository();
+		SubmoduleInitCommand command = new SubmoduleInitCommand(db);
+		command.call();
+	}
 
 	@Test
 	public void repositoryWithNoSubmodules() {
@@ -79,8 +89,86 @@ public class SubmoduleInitTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void repositoryWithUninitializedModule() throws IOException,
-			ConfigInvalidException {
+	public void repositoryWithUninitializedModuleAbsoluteUrl()
+			throws IOException, ConfigInvalidException {
+		String absoluteUrl = "git://server/repo.git";
+		checkSubmoduleInit(absoluteUrl, absoluteUrl);
+	}
+
+	@Test
+	public void repositoryWithUninitializedModuleRelativePathNoRemote()
+			throws IOException, ConfigInvalidException {
+		String url = "../a/b";
+		checkSubmoduleInit(url, fixWindowsPath(new File(db.getWorkTree()
+				.getParentFile(), "a/b").getAbsolutePath())); // TODO windows only
+	}
+
+	@Test
+	public void repositoryWithUninitializedModuleRelativePathBranchSpecificRemote()
+			throws CorruptObjectException, IOException, ConfigInvalidException {
+		String remoteUrl = "../x/y";
+		String myremote = "myremote";
+		StoredConfig config = db.getConfig();
+		config.setString(ConfigConstants.CONFIG_REMOTE_SECTION, myremote,
+				ConfigConstants.CONFIG_KEY_URL, remoteUrl);
+		config.setString(ConfigConstants.CONFIG_BRANCH_SECTION,
+				Constants.MASTER, ConfigConstants.CONFIG_KEY_REMOTE, myremote);
+		config.save();
+		checkSubmoduleInit(
+				"../a/b",
+				fixWindowsPath(new File(new File(db.getWorkTree(), remoteUrl)
+						.getParentFile(), "a/b").getAbsolutePath()));
+	}
+
+	@Test
+	public void repositoryWithUninitializedModuleRelativePathDefaultRemote()
+			throws CorruptObjectException, IOException, ConfigInvalidException {
+		String remoteUrl = "../x/y";
+		addDefaultRemote(remoteUrl);
+		checkSubmoduleInit(
+				"../a/b",
+				fixWindowsPath(new File(new File(db.getWorkTree(), remoteUrl)
+						.getParentFile(), "a/b").getAbsolutePath()));
+	}
+
+	@Test
+	public void repositoryWithUninitializedModuleRelativePathDefaultRemoteWithProtocol()
+			throws CorruptObjectException, IOException, ConfigInvalidException {
+		String remoteUrl = "file:../x/y";
+		addDefaultRemote(remoteUrl);
+		checkSubmoduleInit(
+				"../a/b",
+				"file:"
+						+ fixWindowsPath(new File(new File(db.getWorkTree(),
+								remoteUrl).getParentFile(), "a/b")
+								.getAbsolutePath()));
+	}
+
+	@Test
+	public void repositoryWithUninitializedModuleRelativePathDefaultRemoteWithProtocolPort()
+			throws CorruptObjectException, IOException, ConfigInvalidException {
+		addDefaultRemote("ssh://x/y:29418");
+		checkSubmoduleInit("../a/b", "ssh://x/a/b");
+	}
+
+	@Test
+	public void repositoryWithUninitializedModuleRelativePathDefaultRemoteWithProtocolPort2()
+			throws CorruptObjectException, IOException, ConfigInvalidException {
+		addDefaultRemote("ssh://x/y:29418");
+		checkSubmoduleInit("../a/b:1234", "ssh://x/a/b:1234");
+	}
+
+	private void addDefaultRemote(String remoteUrl) throws IOException,
+			CorruptObjectException {
+		StoredConfig config = db.getConfig();
+		config.setString(ConfigConstants.CONFIG_REMOTE_SECTION,
+				Constants.DEFAULT_REMOTE_NAME, ConfigConstants.CONFIG_KEY_URL,
+				remoteUrl);
+		config.save();
+	}
+
+	private void checkSubmoduleInit(String url, String resolvedUrl)
+			throws CorruptObjectException, IOException, ConfigInvalidException {
 		final ObjectId id = ObjectId
 				.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234");
 		final String path = "sub";
@@ -104,7 +192,6 @@ public class SubmoduleInitTest extends RepositoryTestCase {
 				db.getWorkTree(), Constants.DOT_GIT_MODULES), db.getFS());
 		modulesConfig.setString(ConfigConstants.CONFIG_SUBMODULE_SECTION, path,
 				ConfigConstants.CONFIG_KEY_PATH, path);
-		String url = "git://server/repo.git";
 		modulesConfig.setString(ConfigConstants.CONFIG_SUBMODULE_SECTION, path,
 				ConfigConstants.CONFIG_KEY_URL, url);
 		String update = "rebase";
@@ -120,7 +207,15 @@ public class SubmoduleInitTest extends RepositoryTestCase {
 
 		generator = SubmoduleWalk.forIndex(db);
 		assertTrue(generator.next());
-		assertEquals(url, generator.getConfigUrl());
+		assertEquals(resolvedUrl, generator.getConfigUrl());
 		assertEquals(update, generator.getConfigUpdate());
 	}
+
+	private String fixWindowsPath(String path) {
+		if (System.getProperty("os.name").toLowerCase().contains("windows"))
+			return path.replace("\\", "/");
+		else
+			return path;
+	}
+
 }

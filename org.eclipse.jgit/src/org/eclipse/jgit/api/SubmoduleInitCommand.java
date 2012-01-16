@@ -43,6 +43,7 @@
 package org.eclipse.jgit.api;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -53,6 +54,7 @@ import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.submodule.SubmoduleWalk;
+import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
 
 /**
@@ -109,6 +111,7 @@ public class SubmoduleInitCommand extends GitCommand<Collection<String>> {
 				String url = generator.getModulesUrl();
 				String update = generator.getModulesUpdate();
 				if (url != null)
+					url = resolveRelativeModulePath(url);
 					config.setString(ConfigConstants.CONFIG_SUBMODULE_SECTION,
 							path, ConfigConstants.CONFIG_KEY_URL, url);
 				if (update != null)
@@ -126,5 +129,10 @@ public class SubmoduleInitCommand extends GitCommand<Collection<String>> {
 		} catch (ConfigInvalidException e) {
 			throw new JGitInternalException(e.getMessage(), e);
 		}
+	}
+
+	private String resolveRelativeModulePath(String url) {
+		// TODO implement
+		return url;
 	}
 }
