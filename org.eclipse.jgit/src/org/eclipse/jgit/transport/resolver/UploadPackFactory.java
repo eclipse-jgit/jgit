@@ -77,6 +77,7 @@ public interface UploadPackFactory<C> {
 	 *             this factory refuses to create the instance for this HTTP
 	 *             request and repository, such as due to a permission error.
 	 */
-	UploadPack create(C req, Repository db) throws ServiceNotEnabledException,
+	UploadPack create(C req, Repository db)
+			throws ServiceNotEnabledException,
 			ServiceNotAuthorizedException;
 }

@@ -80,6 +80,7 @@ import org.eclipse.jgit.storage.pack.PackConfig;
 import org.eclipse.jgit.storage.pack.PackWriter;
 import org.eclipse.jgit.transport.BasePackFetchConnection.MultiAck;
 import org.eclipse.jgit.transport.RefAdvertiser.PacketLineOutRefAdvertiser;
+import org.eclipse.jgit.transport.UploadSession.RequestPolicy;
 import org.eclipse.jgit.util.io.InterruptTimer;
 import org.eclipse.jgit.util.io.TimeoutInputStream;
 import org.eclipse.jgit.util.io.TimeoutOutputStream;
@@ -87,7 +88,7 @@ import org.eclipse.jgit.util.io.TimeoutOutputStream;
 /**
  * Implements the server side of a fetch connection, transmitting objects.
  */
-public class UploadPack {
+public class UploadPack implements UploadSession {
 	static final String OPTION_INCLUDE_TAG = BasePackFetchConnection.OPTION_INCLUDE_TAG;
 
 	static final String OPTION_MULTI_ACK = BasePackFetchConnection.OPTION_MULTI_ACK;
@@ -107,16 +108,6 @@ public class UploadPack {
 	static final String OPTION_NO_DONE = BasePackFetchConnection.OPTION_NO_DONE;
 
 	static final String OPTION_SHALLOW = BasePackFetchConnection.OPTION_SHALLOW;
-
-	/** Policy the server uses to validate client requests */
-	public static enum RequestPolicy {
-		/** Client may only ask for objects the server advertised a reference for. */
-		ADVERTISED,
-		/** Client may ask for any commit reachable from a reference. */
-		REACHABLE_COMMIT,
-		/** Client may ask for any SHA-1 in the repository. */
-		ANY;
-	}
 
 	/** Database we read the objects from. */
 	private final Repository db;
