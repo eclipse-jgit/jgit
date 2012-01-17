@@ -56,7 +56,7 @@ import org.eclipse.jgit.http.server.resolver.DefaultUploadPackFactory;
 import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
-import org.eclipse.jgit.transport.UploadPack;
+import org.eclipse.jgit.transport.UploadSession;
 import org.eclipse.jgit.transport.resolver.ServiceNotAuthorizedException;
 import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
 import org.eclipse.jgit.transport.resolver.UploadPackFactory;
@@ -105,7 +105,7 @@ public class DefaultUploadPackFactoryTest extends LocalDiskRepositoryTestCase {
 	@Test
 	public void testCreate_Default() throws ServiceNotEnabledException,
 			ServiceNotAuthorizedException {
-		UploadPack up;
+		UploadSession up;
 
 		up = factory.create(new R(null, "1.2.3.4"), db);
 		assertNotNull("have UploadPack", up);
@@ -142,7 +142,7 @@ public class DefaultUploadPackFactoryTest extends LocalDiskRepositoryTestCase {
 	public void testCreate_Enabled() throws ServiceNotEnabledException,
 			ServiceNotAuthorizedException {
 		db.getConfig().setBoolean("http", null, "uploadpack", true);
-		UploadPack up;
+		UploadSession up;
 
 		up = factory.create(new R(null, "1.2.3.4"), db);
 		assertNotNull("have UploadPack", up);
