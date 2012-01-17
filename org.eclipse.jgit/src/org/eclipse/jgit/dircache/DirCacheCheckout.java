@@ -900,7 +900,41 @@ public class DirCacheCheckout {
 					// Can be formulated as: Either all three states are
 					// equal or Merge is equal to Head or Index and differs
 					// to the other one.
-					// -> In all three cases we don't touch index and file.
+
+					final int mMode = m.getEntryRawMode();
+					if (mId.equals(hId) && mMode == h.getEntryRawMode()) {
+						keep(dce);
+						return;
+					}
+					final int iMode = i.getEntryRawMode();
+					if (mId.equals(iId) && mMode == iMode) {
+						keep(dce);
+						return;
+					}
+
+					/*
+					 * Conflict: Working tree, HEAD tree, and merge tree have
+					 * different modes and different content
+					 */
+					if (mMode != h.getEntryRawMode() //
+							&& f != null //
+							&& mMode != f.getEntryRawMode() //
+							&& f.isModified(dce, true)) {
+						conflict(name, dce, h, m);
+						return;
+					}
+
+					/*
+					 * Update: Index tree and merge tree have the same content
+					 * but different modes but both modes are file type modes
+					 */
+					if (mMode != iMode //
+							&& (mMode & FileMode.TYPE_FILE) != 0 //
+							&& (iMode & FileMode.TYPE_FILE) != 0
+							&& mId.equals(iId)) {
+						update(name, mId, m.getEntryFileMode());
+						return;
+					}
 
 					keep(dce);
 				}
