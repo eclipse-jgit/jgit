@@ -80,6 +80,7 @@ import org.eclipse.jgit.storage.pack.PackConfig;
 import org.eclipse.jgit.storage.pack.PackWriter;
 import org.eclipse.jgit.transport.BasePackFetchConnection.MultiAck;
 import org.eclipse.jgit.transport.RefAdvertiser.PacketLineOutRefAdvertiser;
+import org.eclipse.jgit.transport.UploadSession.RequestPolicy;
 import org.eclipse.jgit.util.io.InterruptTimer;
 import org.eclipse.jgit.util.io.TimeoutInputStream;
 import org.eclipse.jgit.util.io.TimeoutOutputStream;
@@ -87,7 +88,7 @@ import org.eclipse.jgit.util.io.TimeoutOutputStream;
 /**
  * Implements the server side of a fetch connection, transmitting objects.
  */
-public class UploadPack {
+public class UploadPack implements UploadSession {
 	static final String OPTION_INCLUDE_TAG = BasePackFetchConnection.OPTION_INCLUDE_TAG;
 
 	static final String OPTION_MULTI_ACK = BasePackFetchConnection.OPTION_MULTI_ACK;
@@ -107,16 +108,6 @@ public class UploadPack {
 	static final String OPTION_NO_DONE = BasePackFetchConnection.OPTION_NO_DONE;
 
 	static final String OPTION_SHALLOW = BasePackFetchConnection.OPTION_SHALLOW;
-
-	/** Policy the server uses to validate client requests */
-	public static enum RequestPolicy {
-		/** Client may only ask for objects the server advertised a reference for. */
-		ADVERTISED,
-		/** Client may ask for any commit reachable from a reference. */
-		REACHABLE_COMMIT,
-		/** Client may ask for any SHA-1 in the repository. */
-		ANY;
-	}
 
 	/** Database we read the objects from. */
 	private final Repository db;
@@ -244,17 +235,14 @@ public class UploadPack {
 		refFilter = RefFilter.DEFAULT;
 	}
 
-	/** @return the repository this upload is reading from. */
 	public final Repository getRepository() {
 		return db;
 	}
 
-	/** @return the RevWalk instance used by this connection. */
 	public final RevWalk getRevWalk() {
 		return walk;
 	}
 
-	/** @return all refs which were advertised to the client. */
 	public final Map<String, Ref> getAdvertisedRefs() {
 		if (refs == null)
 			setAdvertisedRefs(db.getAllRefs());
@@ -272,7 +260,6 @@ public class UploadPack {
 		refs = refFilter.filter(allRefs);
 	}
 
-	/** @return timeout (in seconds) before aborting an IO operation. */
 	public int getTimeout() {
 		return timeout;
 	}
@@ -289,10 +276,6 @@ public class UploadPack {
 		timeout = seconds;
 	}
 
-	/**
-	 * @return true if this class expects a bi-directional pipe opened between
-	 *         the client and itself. The default is true.
-	 */
 	public boolean isBiDirectionalPipe() {
 		return biDirectionalPipe;
 	}
@@ -312,7 +295,6 @@ public class UploadPack {
 			requestPolicy = RequestPolicy.REACHABLE_COMMIT;
 	}
 
-	/** @return policy used by the service to validate client requests. */
 	public RequestPolicy getRequestPolicy() {
 		return requestPolicy;
 	}
@@ -330,7 +312,6 @@ public class UploadPack {
 		requestPolicy = policy != null ? policy : RequestPolicy.ADVERTISED;
 	}
 
-	/** @return the filter used while advertising the refs to the client */
 	public RefFilter getRefFilter() {
 		return refFilter;
 	}
@@ -350,7 +331,6 @@ public class UploadPack {
 		this.refFilter = refFilter != null ? refFilter : RefFilter.DEFAULT;
 	}
 
-	/** @return the configured upload hook. */
 	public PreUploadHook getPreUploadHook() {
 		return preUploadHook;
 	}
@@ -376,7 +356,6 @@ public class UploadPack {
 		this.packConfig = pc;
 	}
 
-	/** @return the configured logger. */
 	public UploadPackLogger getLogger() {
 		return logger;
 	}
@@ -440,13 +419,6 @@ public class UploadPack {
 		}
 	}
 
-	/**
-	 * Get the PackWriter's statistics if a pack was sent to the client.
-	 *
-	 * @return statistics about pack output, if a pack was sent. Null if no pack
-	 *         was sent, such as during the negotation phase of a smart HTTP
-	 *         connection, or if the client was already up-to-date.
-	 */
 	public PackWriter.Statistics getPackStatistics() {
 		return statistics;
 	}
