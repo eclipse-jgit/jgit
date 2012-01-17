@@ -62,7 +62,7 @@ import java.util.Collection;
 public interface PostReceiveHook {
 	/** A simple no-op hook. */
 	public static final PostReceiveHook NULL = new PostReceiveHook() {
-		public void onPostReceive(final ReceivePack rp,
+		public void onPostReceive(final ReceiveSession rp,
 				final Collection<ReceiveCommand> commands) {
 			// Do nothing.
 		}
@@ -78,6 +78,6 @@ public interface PostReceiveHook {
 	 *            unmodifiable set of successfully completed commands. May be
 	 *            the empty set.
 	 */
-	public void onPostReceive(ReceivePack rp,
+	public void onPostReceive(ReceiveSession rp,
 			Collection<ReceiveCommand> commands);
 }

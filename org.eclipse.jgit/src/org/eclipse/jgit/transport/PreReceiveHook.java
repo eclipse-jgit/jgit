@@ -78,7 +78,7 @@ import java.util.Collection;
 public interface PreReceiveHook {
 	/** A simple no-op hook. */
 	public static final PreReceiveHook NULL = new PreReceiveHook() {
-		public void onPreReceive(final ReceivePack rp,
+		public void onPreReceive(final ReceiveSession rp,
 				final Collection<ReceiveCommand> commands) {
 			// Do nothing.
 		}
@@ -96,5 +96,5 @@ public interface PreReceiveHook {
 	 *            unmodifiable set of valid commands still pending execution.
 	 *            May be the empty set.
 	 */
-	public void onPreReceive(ReceivePack rp, Collection<ReceiveCommand> commands);
+	public void onPreReceive(ReceiveSession rp, Collection<ReceiveCommand> commands);
 }
