@@ -58,7 +58,7 @@ import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
-import org.eclipse.jgit.transport.ReceivePack;
+import org.eclipse.jgit.transport.ReceiveSession;
 import org.eclipse.jgit.transport.resolver.ReceivePackFactory;
 import org.eclipse.jgit.transport.resolver.ServiceNotAuthorizedException;
 import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
@@ -127,7 +127,7 @@ public class DefaultReceivePackFactoryTest extends LocalDiskRepositoryTestCase {
 	@Test
 	public void testCreate_AuthUser() throws ServiceNotEnabledException,
 			ServiceNotAuthorizedException {
-		ReceivePack rp;
+		ReceiveSession rp;
 		rp = factory.create(new R("bob", "1.2.3.4"), db);
 		assertNotNull("have ReceivePack", rp);
 		assertSame(db, rp.getRepository());
@@ -178,7 +178,7 @@ public class DefaultReceivePackFactoryTest extends LocalDiskRepositoryTestCase {
 		cfg.setBoolean("http", null, "receivepack", true);
 		cfg.save();
 
-		ReceivePack rp;
+		ReceiveSession rp;
 
 		rp = factory.create(new R(null, "1.2.3.4"), db);
 		assertNotNull("have ReceivePack", rp);

@@ -76,7 +76,7 @@ public class PreReceiveHookChain implements PreReceiveHook {
 			return new PreReceiveHookChain(newHooks, i);
 	}
 
-	public void onPreReceive(ReceivePack rp,
+	public void onPreReceive(ReceiveSession rp,
 			Collection<ReceiveCommand> commands) {
 		for (int i = 0; i < count; i++)
 			hooks[i].onPreReceive(rp, commands);
