@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABODX//+kE\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/submodule/SubmoduleInitTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-01-17T07:36:51Z",
+      "side": 1,
+      "message": "this doesn\u0027t look like a valid Url since sub.git is in the host name section of the Url, maybe the resolver should check this ?",
+      "revId": "184d7c6421607c425fe405499be6249ef1d755e7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABODX//+kI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/submodule/SubmoduleWalk.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-01-17T07:36:51Z",
+      "side": 1,
+      "message": "typo: s/resolve/resolved/",
+      "revId": "184d7c6421607c425fe405499be6249ef1d755e7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
