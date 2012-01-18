@@ -55,22 +55,27 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.jgit.api.CheckoutCommand;
+import org.eclipse.jgit.api.CheckoutResult;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.MergeResult.MergeStatus;
 import org.eclipse.jgit.api.ResetCommand.ResetType;
+import org.eclipse.jgit.api.Status;
 import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.api.errors.NoFilepatternException;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheCheckout;
 import org.eclipse.jgit.dircache.DirCacheEditor;
-import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.dircache.DirCacheEditor.PathEdit;
+import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.errors.CheckoutConflictException;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.NoWorkTreeException;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.treewalk.TreeWalk;
+import org.eclipse.jgit.util.FS;
 import org.junit.Test;
 
 public class DirCacheCheckoutTest extends RepositoryTestCase {
@@ -937,6 +942,202 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 			assertTrue(getConflicts().equals(Arrays.asList("foo")));
 			assertTrue(new File(trash, "foo").isFile());
 		}
+	}
+
+	@Test
+	public void testFileModeChangeWithNoContentChangeUpdate() throws Exception {
+		if (!FS.DETECTED.supportsExecute())
+			return;
+
+		Git git = Git.wrap(db);
+
+		// Add non-executable file
+		File file = writeTrashFile("file.txt", "a");
+		git.add().addFilepattern("file.txt").call();
+		git.commit().setMessage("commit1").call();
+		assertFalse(db.getFS().canExecute(file));
+
+		// Create branch
+		git.branchCreate().setName("b1").call();
+
+		// Make file executable
+		db.getFS().setExecute(file, true);
+		git.add().addFilepattern("file.txt").call();
+		git.commit().setMessage("commit2").call();
+
+		// Verify executable and working directory is clean
+		Status status = git.status().call();
+		assertTrue(status.getModified().isEmpty());
+		assertTrue(status.getChanged().isEmpty());
+		assertTrue(db.getFS().canExecute(file));
+
+		// Switch branches
+		git.checkout().setName("b1").call();
+
+		// Verify not executable and working directory is clean
+		status = git.status().call();
+		assertTrue(status.getModified().isEmpty());
+		assertTrue(status.getChanged().isEmpty());
+		assertFalse(db.getFS().canExecute(file));
+	}
+
+	@Test
+	public void testFileModeChangeAndContentChangeConflict() throws Exception {
+		if (!FS.DETECTED.supportsExecute())
+			return;
+
+		Git git = Git.wrap(db);
+
+		// Add non-executable file
+		File file = writeTrashFile("file.txt", "a");
+		git.add().addFilepattern("file.txt").call();
+		git.commit().setMessage("commit1").call();
+		assertFalse(db.getFS().canExecute(file));
+
+		// Create branch
+		git.branchCreate().setName("b1").call();
+
+		// Make file executable
+		db.getFS().setExecute(file, true);
+		git.add().addFilepattern("file.txt").call();
+		git.commit().setMessage("commit2").call();
+
+		// Verify executable and working directory is clean
+		Status status = git.status().call();
+		assertTrue(status.getModified().isEmpty());
+		assertTrue(status.getChanged().isEmpty());
+		assertTrue(db.getFS().canExecute(file));
+
+		writeTrashFile("file.txt", "b");
+
+		// Switch branches
+		CheckoutCommand checkout = git.checkout().setName("b1");
+		try {
+			checkout.call();
+			fail("Checkout exception not thrown");
+		} catch (JGitInternalException e) {
+			CheckoutResult result = checkout.getResult();
+			assertNotNull(result);
+			assertNotNull(result.getConflictList());
+			assertEquals(1, result.getConflictList().size());
+			assertTrue(result.getConflictList().contains("file.txt"));
+		}
+	}
+
+	@Test
+	public void testDirtyFileModeEqualHeadMerge()
+			throws Exception {
+		if (!FS.DETECTED.supportsExecute())
+			return;
+
+		Git git = Git.wrap(db);
+
+		// Add non-executable file
+		File file = writeTrashFile("file.txt", "a");
+		git.add().addFilepattern("file.txt").call();
+		git.commit().setMessage("commit1").call();
+		assertFalse(db.getFS().canExecute(file));
+
+		// Create branch
+		git.branchCreate().setName("b1").call();
+
+		// Create second commit and don't touch file
+		writeTrashFile("file2.txt", "");
+		git.add().addFilepattern("file2.txt").call();
+		git.commit().setMessage("commit2").call();
+
+		// stage a mode change
+		writeTrashFile("file.txt", "a");
+		db.getFS().setExecute(file, true);
+		git.add().addFilepattern("file.txt").call();
+
+		// dirty the file
+		writeTrashFile("file.txt", "b");
+
+		assertEquals(
+				"[file.txt, mode:100755, content:a][file2.txt, mode:100644, content:]",
+				indexState(CONTENT));
+		assertWorkDir(mkmap("file.txt", "b", "file2.txt", ""));
+
+		// Switch branches and check that the dirty file survived in worktree
+		// and index
+		git.checkout().setName("b1").call();
+		assertEquals("[file.txt, mode:100755, content:a]", indexState(CONTENT));
+		assertWorkDir(mkmap("file.txt", "b"));
+	}
+
+	@Test
+	public void testDirtyFileModeEqualIndexMerge()
+			throws Exception {
+		if (!FS.DETECTED.supportsExecute())
+			return;
+
+		Git git = Git.wrap(db);
+
+		// Add non-executable file
+		File file = writeTrashFile("file.txt", "a");
+		git.add().addFilepattern("file.txt").call();
+		git.commit().setMessage("commit1").call();
+		assertFalse(db.getFS().canExecute(file));
+
+		// Create branch
+		git.branchCreate().setName("b1").call();
+
+		// Create second commit with executable file
+		file = writeTrashFile("file.txt", "b");
+		db.getFS().setExecute(file, true);
+		git.add().addFilepattern("file.txt").call();
+		git.commit().setMessage("commit2").call();
+
+		// stage the same content as in the branch we want to switch to
+		writeTrashFile("file.txt", "a");
+		db.getFS().setExecute(file, false);
+		git.add().addFilepattern("file.txt").call();
+
+		// dirty the file
+		writeTrashFile("file.txt", "c");
+		db.getFS().setExecute(file, true);
+
+		assertEquals("[file.txt, mode:100644, content:a]", indexState(CONTENT));
+		assertWorkDir(mkmap("file.txt", "c"));
+
+		// Switch branches and check that the dirty file survived in worktree
+		// and index
+		git.checkout().setName("b1").call();
+		assertEquals("[file.txt, mode:100644, content:a]", indexState(CONTENT));
+		assertWorkDir(mkmap("file.txt", "c"));
+	}
+
+	@Test
+	public void testFileModeChangeAndContentChangeNoConflict() throws Exception {
+		if (!FS.DETECTED.supportsExecute())
+			return;
+
+		Git git = Git.wrap(db);
+
+		// Add first file
+		File file1 = writeTrashFile("file1.txt", "a");
+		git.add().addFilepattern("file1.txt").call();
+		git.commit().setMessage("commit1").call();
+		assertFalse(db.getFS().canExecute(file1));
+
+		// Add second file
+		File file2 = writeTrashFile("file2.txt", "b");
+		git.add().addFilepattern("file2.txt").call();
+		git.commit().setMessage("commit2").call();
+		assertFalse(db.getFS().canExecute(file2));
+
+		// Create branch from first commit
+		assertNotNull(git.checkout().setCreateBranch(true).setName("b1")
+				.setStartPoint(Constants.HEAD + "~1").call());
+
+		// Change content and file mode in working directory and index
+		file1 = writeTrashFile("file1.txt", "c");
+		db.getFS().setExecute(file1, true);
+		git.add().addFilepattern("file1.txt").call();
+
+		// Switch back to 'master'
+		assertNotNull(git.checkout().setName(Constants.MASTER).call());
 	}
 
 	public void assertWorkDir(HashMap<String, String> i) throws CorruptObjectException,
