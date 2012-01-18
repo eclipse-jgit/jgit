@@ -148,12 +148,18 @@ public class SubmoduleAddCommand extends
 			throw new JGitInternalException(e.getMessage(), e);
 		}
 
+		final String resolvedUri;
+		try {
+			resolvedUri = SubmoduleWalk.getSubmoduleRemoteUrl(repo, uri);
+		} catch (IOException e) {
+			throw new JGitInternalException(e.getMessage(), e);
+		}
 		// Clone submodule repository
 		File moduleDirectory = SubmoduleWalk.getSubmoduleDirectory(repo, path);
 		CloneCommand clone = Git.cloneRepository();
 		configure(clone);
 		clone.setDirectory(moduleDirectory);
-		clone.setURI(uri);
+		clone.setURI(resolvedUri);
 		if (monitor != null)
 			clone.setProgressMonitor(monitor);
 		Repository subRepo = clone.call().getRepository();
@@ -161,7 +167,7 @@ public class SubmoduleAddCommand extends
 		// Save submodule URL to parent repository's config
 		StoredConfig config = repo.getConfig();
 		config.setString(ConfigConstants.CONFIG_SUBMODULE_SECTION, path,
-				ConfigConstants.CONFIG_KEY_URL, uri);
+				ConfigConstants.CONFIG_KEY_URL, resolvedUri);
 		try {
 			config.save();
 		} catch (IOException e) {

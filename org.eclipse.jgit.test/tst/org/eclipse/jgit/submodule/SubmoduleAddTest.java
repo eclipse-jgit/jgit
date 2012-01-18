@@ -47,6 +47,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.io.File;
 import java.text.MessageFormat;
 
 import org.eclipse.jgit.JGitText;
@@ -58,6 +59,7 @@ import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheEditor;
 import org.eclipse.jgit.dircache.DirCacheEditor.PathEdit;
 import org.eclipse.jgit.dircache.DirCacheEntry;
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
@@ -168,5 +170,46 @@ public class SubmoduleAddTest extends RepositoryTestCase {
 					MessageFormat.format(JGitText.get().submoduleExists, path),
 					e.getMessage());
 		}
+	}
+
+	@Test
+	public void addSubmoduleWithRelativeUri() throws Exception {
+		Git git = new Git(db);
+		writeTrashFile("file.txt", "content");
+		git.add().addFilepattern("file.txt").call();
+		RevCommit commit = git.commit().setMessage("create file").call();
+
+		SubmoduleAddCommand command = new SubmoduleAddCommand(db);
+		String path = "sub";
+		String uri = "./.git";
+		command.setPath(path);
+		command.setURI(uri);
+		Repository repo = command.call();
+		assertNotNull(repo);
+
+		SubmoduleWalk generator = SubmoduleWalk.forIndex(db);
+		assertTrue(generator.next());
+		assertEquals(path, generator.getPath());
+		assertEquals(commit, generator.getObjectId());
+		assertEquals(uri, generator.getModulesUrl());
+		assertEquals(path, generator.getModulesPath());
+		String fullUri = db.getDirectory().getAbsolutePath();
+		if (File.separatorChar == '\\')
+			fullUri = fullUri.replace('\\', '/');
+		assertEquals(fullUri, generator.getConfigUrl());
+		assertNotNull(generator.getRepository());
+		assertEquals(
+				fullUri,
+				generator
+						.getRepository()
+						.getConfig()
+						.getString(ConfigConstants.CONFIG_REMOTE_SECTION,
+								Constants.DEFAULT_REMOTE_NAME,
+								ConfigConstants.CONFIG_KEY_URL));
+		assertEquals(commit, repo.resolve(Constants.HEAD));
+
+		Status status = Git.wrap(db).status().call();
+		assertTrue(status.getAdded().contains(Constants.DOT_GIT_MODULES));
+		assertTrue(status.getAdded().contains(path));
 	}
 }
