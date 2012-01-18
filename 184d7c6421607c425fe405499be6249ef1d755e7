@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABODX//+go\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/submodule/SubmoduleInitTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2012-01-17T17:36:41Z",
+      "side": 1,
+      "message": "I updated the unit test to more accurately reflect a typical relative url that uses a different server but the same protocol.\n\nCGit does not verify the URLs when copying from the .gitmodules to the .git/config and that is why I didn\u0027t add strict checking to SubmoduleWalk.",
+      "parentUuid": "AABODX//+kE\u003d",
+      "revId": "184d7c6421607c425fe405499be6249ef1d755e7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABODX//+kI\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/submodule/SubmoduleWalk.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2012-01-17T07:36:51Z",
       "side": 1,
       "message": "typo: s/resolve/resolved/",
+      "revId": "184d7c6421607c425fe405499be6249ef1d755e7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABODX//+gk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/submodule/SubmoduleWalk.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2012-01-17T17:36:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABODX//+kI\u003d",
       "revId": "184d7c6421607c425fe405499be6249ef1d755e7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
