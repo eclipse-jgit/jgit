@@ -66,6 +66,8 @@ public class CleanCommand extends GitCommand<Set<String>> {
 
 	private boolean dryRun;
 
+	private boolean directories;
+
 	/**
 	 * @param repo
 	 */
@@ -93,6 +95,16 @@ public class CleanCommand extends GitCommand<Set<String>> {
 					files.add(file);
 				}
 			}
+			if (directories) {
+				for (String dir : status.getUntrackedFolders()) {
+					if (paths.isEmpty() || paths.contains(dir)) {
+						if (!dryRun)
+							FileUtils.delete(new File(repo.getWorkTree(), dir),
+									FileUtils.RECURSIVE);
+						files.add(dir + "/");
+					}
+				}
+			}
 		} catch (IOException e) {
 			throw new JGitInternalException(e.getMessage(), e);
 		}
@@ -113,13 +125,25 @@ public class CleanCommand extends GitCommand<Set<String>> {
 
 	/**
 	 * If dryRun is set, the paths in question will not actually be deleted.
-	 * 
+	 *
 	 * @param dryRun
 	 *            whether to do a dry run or not
 	 * @return {@code this}
 	 */
 	public CleanCommand setDryRun(boolean dryRun) {
 		this.dryRun = dryRun;
+		return this;
+	}
+
+	/**
+	 * If dirs is set, in addition to files, also clean directories.
+	 *
+	 * @param dirs
+	 *            whether to clean directories too, or only files.
+	 * @return {@code this}
+	 */
+	public CleanCommand setCleanDirectories(boolean dirs) {
+		this.directories = dirs;
 		return this;
 	}
 }
