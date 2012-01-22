@@ -46,10 +46,16 @@
 package org.eclipse.jgit.junit;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.lang.reflect.Method;
 import java.net.URISyntaxException;
 import java.net.URL;
 
+import org.eclipse.jgit.storage.file.FileRepository;
+import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.junit.Assert;
 import org.junit.Test;
@@ -127,4 +133,43 @@ public abstract class JGitTestUtil {
 	private static ClassLoader cl() {
 		return JGitTestUtil.class.getClassLoader();
 	}
+
+	public static File writeTrashFile(final FileRepository db,
+			final String name, final String data) throws IOException {
+		File path = new File(db.getWorkTree(), name);
+		write(path, data);
+		return path;
+	}
+
+	/**
+	 * Write a string as a UTF-8 file.
+	 *
+	 * @param f
+	 *            file to write the string to. Caller is responsible for making
+	 *            sure it is in the trash directory or will otherwise be cleaned
+	 *            up at the end of the test. If the parent directory does not
+	 *            exist, the missing parent directories are automatically
+	 *            created.
+	 * @param body
+	 *            content to write to the file.
+	 * @throws IOException
+	 *             the file could not be written.
+	 */
+	public static void write(final File f, final String body)
+			throws IOException {
+		FileUtils.mkdirs(f.getParentFile(), true);
+		Writer w = new OutputStreamWriter(new FileOutputStream(f), "UTF-8");
+		try {
+			w.write(body);
+		} finally {
+			w.close();
+		}
+	}
+
+	public static void deleteTrashFile(final FileRepository db,
+			final String name) throws IOException {
+		File path = new File(db.getWorkTree(), name);
+		FileUtils.delete(path);
+	}
+
 }
