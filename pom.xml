@@ -59,6 +59,11 @@
     Pure Java implementation of Git
   </description>
 
+  <scm>
+    <url>http://egit.eclipse.org/w/?p=jgit.git</url>
+    <connection>scm:git:git://egit.eclipse.org/jgit.git</connection>
+  </scm>
+
   <mailingLists>
     <mailingList>
       <name>jgit-dev Mailing List</name>
