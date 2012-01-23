@@ -48,6 +48,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 
 import org.eclipse.jgit.dircache.DirCache;
@@ -99,6 +100,89 @@ public class SubmoduleWalkTest extends RepositoryTestCase {
 		assertEquals(new File(db.getWorkTree(), path), gen.getDirectory());
 		assertEquals(new File(db.getWorkTree(), path + File.separatorChar
 				+ Constants.DOT_GIT), gen.getGitDirectory());
+		assertNull(gen.getConfigUpdate());
+		assertNull(gen.getConfigUrl());
+		assertNull(gen.getModulesPath());
+		assertNull(gen.getModulesUpdate());
+		assertNull(gen.getModulesUrl());
+		assertNull(gen.getRepository());
+		assertFalse(gen.next());
+	}
+
+	@Test
+	public void repositoryWithRootLevelSubmoduleAbsoluteRef()
+			throws IOException, ConfigInvalidException {
+		final ObjectId id = ObjectId
+				.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234");
+		final String path = "sub";
+		File dotGit = new File(db.getWorkTree(), path + File.separatorChar
+				+ Constants.DOT_GIT);
+		if (!dotGit.getParentFile().exists())
+			dotGit.getParentFile().mkdirs();
+
+		File modulesGitDir = new File(db.getDirectory(), "modules"
+				+ File.separatorChar + path);
+		new FileWriter(dotGit).append(
+				"gitdir: " + modulesGitDir.getAbsolutePath()).close();
+		DirCache cache = db.lockDirCache();
+		DirCacheEditor editor = cache.editor();
+		editor.add(new PathEdit(path) {
+
+			public void apply(DirCacheEntry ent) {
+				ent.setFileMode(FileMode.GITLINK);
+				ent.setObjectId(id);
+			}
+		});
+		editor.commit();
+
+		SubmoduleWalk gen = SubmoduleWalk.forIndex(db);
+		assertTrue(gen.next());
+		assertEquals(path, gen.getPath());
+		assertEquals(id, gen.getObjectId());
+		assertEquals(new File(db.getWorkTree(), path), gen.getDirectory());
+		assertEquals(modulesGitDir, gen.getGitDirectory());
+		assertNull(gen.getConfigUpdate());
+		assertNull(gen.getConfigUrl());
+		assertNull(gen.getModulesPath());
+		assertNull(gen.getModulesUpdate());
+		assertNull(gen.getModulesUrl());
+		assertNull(gen.getRepository());
+		assertFalse(gen.next());
+	}
+
+	@Test
+	public void repositoryWithRootLevelSubmoduleRelativeRef()
+			throws IOException, ConfigInvalidException {
+		final ObjectId id = ObjectId
+				.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234");
+		final String path = "sub";
+		File dotGit = new File(db.getWorkTree(), path + File.separatorChar
+				+ Constants.DOT_GIT);
+		if (!dotGit.getParentFile().exists())
+			dotGit.getParentFile().mkdirs();
+
+		File modulesGitDir = new File(db.getDirectory(), "modules"
+				+ File.separatorChar + path);
+		new FileWriter(dotGit).append(
+				"gitdir: " + "../" + Constants.DOT_GIT + "/modules/" + path)
+				.close();
+		DirCache cache = db.lockDirCache();
+		DirCacheEditor editor = cache.editor();
+		editor.add(new PathEdit(path) {
+
+			public void apply(DirCacheEntry ent) {
+				ent.setFileMode(FileMode.GITLINK);
+				ent.setObjectId(id);
+			}
+		});
+		editor.commit();
+
+		SubmoduleWalk gen = SubmoduleWalk.forIndex(db);
+		assertTrue(gen.next());
+		assertEquals(path, gen.getPath());
+		assertEquals(id, gen.getObjectId());
+		assertEquals(new File(db.getWorkTree(), path), gen.getDirectory());
+		assertEquals(modulesGitDir, gen.getGitDirectory());
 		assertNull(gen.getConfigUpdate());
 		assertNull(gen.getConfigUrl());
 		assertNull(gen.getModulesPath());
