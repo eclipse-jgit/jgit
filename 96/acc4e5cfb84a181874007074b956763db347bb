@@ -1,0 +1,8 @@
+Code-Review+2: Christian Halstrick <christian.halstrick@sap.com>
+IP-Clean+1: Christian Halstrick <christian.halstrick@sap.com>
+Verified+1: Hudson CI
+Submitted-by: Christian Halstrick <christian.halstrick@sap.com>
+Submitted-at: Mon, 23 Jan 2012 04:34:52 -0500
+Reviewed-on: http://egit.eclipse.org/r/4983
+Project: jgit
+Branch: refs/heads/master
