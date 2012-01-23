@@ -44,15 +44,25 @@ package org.eclipse.jgit.api;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
+import java.util.List;
 
+import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.lib.ConfigConstants;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.RefUpdate;
+import org.eclipse.jgit.lib.RefUpdate.Result;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryTestCase;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.submodule.SubmoduleWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
+import org.eclipse.jgit.treewalk.filter.TreeFilter;
 import org.eclipse.jgit.util.FS;
 import org.junit.Test;
 
@@ -151,5 +161,101 @@ public class CommitCommandTest extends RepositoryTestCase {
 		walk = TreeWalk.forPath(db, path, commit2.getTree());
 		assertNotNull(walk);
 		assertEquals(FileMode.EXECUTABLE_FILE, walk.getFileMode(0));
+	}
+
+	@Test
+	public void commitNewSubmodule() throws Exception {
+		Git git = new Git(db);
+		writeTrashFile("file.txt", "content");
+		git.add().addFilepattern("file.txt").call();
+		RevCommit commit = git.commit().setMessage("create file").call();
+
+		SubmoduleAddCommand command = new SubmoduleAddCommand(db);
+		String path = "sub";
+		command.setPath(path);
+		String uri = db.getDirectory().toURI().toString();
+		command.setURI(uri);
+		Repository repo = command.call();
+		assertNotNull(repo);
+
+		SubmoduleWalk generator = SubmoduleWalk.forIndex(db);
+		assertTrue(generator.next());
+		assertEquals(path, generator.getPath());
+		assertEquals(commit, generator.getObjectId());
+		assertEquals(uri, generator.getModulesUrl());
+		assertEquals(path, generator.getModulesPath());
+		assertEquals(uri, generator.getConfigUrl());
+		assertNotNull(generator.getRepository());
+		assertEquals(commit, repo.resolve(Constants.HEAD));
+
+		RevCommit submoduleCommit = git.commit().setMessage("submodule add")
+				.setOnly(path).call();
+		assertNotNull(submoduleCommit);
+		TreeWalk walk = new TreeWalk(db);
+		walk.addTree(commit.getTree());
+		walk.addTree(submoduleCommit.getTree());
+		walk.setFilter(TreeFilter.ANY_DIFF);
+		List<DiffEntry> diffs = DiffEntry.scan(walk);
+		assertEquals(1, diffs.size());
+		DiffEntry subDiff = diffs.get(0);
+		assertEquals(FileMode.MISSING, subDiff.getOldMode());
+		assertEquals(FileMode.GITLINK, subDiff.getNewMode());
+		assertEquals(ObjectId.zeroId(), subDiff.getOldId().toObjectId());
+		assertEquals(commit, subDiff.getNewId().toObjectId());
+		assertEquals(path, subDiff.getNewPath());
+	}
+
+	@Test
+	public void commitSubmoduleUpdate() throws Exception {
+		Git git = new Git(db);
+		writeTrashFile("file.txt", "content");
+		git.add().addFilepattern("file.txt").call();
+		RevCommit commit = git.commit().setMessage("create file").call();
+		writeTrashFile("file.txt", "content2");
+		git.add().addFilepattern("file.txt").call();
+		RevCommit commit2 = git.commit().setMessage("edit file").call();
+
+		SubmoduleAddCommand command = new SubmoduleAddCommand(db);
+		String path = "sub";
+		command.setPath(path);
+		String uri = db.getDirectory().toURI().toString();
+		command.setURI(uri);
+		Repository repo = command.call();
+		assertNotNull(repo);
+
+		SubmoduleWalk generator = SubmoduleWalk.forIndex(db);
+		assertTrue(generator.next());
+		assertEquals(path, generator.getPath());
+		assertEquals(commit2, generator.getObjectId());
+		assertEquals(uri, generator.getModulesUrl());
+		assertEquals(path, generator.getModulesPath());
+		assertEquals(uri, generator.getConfigUrl());
+		assertNotNull(generator.getRepository());
+		assertEquals(commit2, repo.resolve(Constants.HEAD));
+
+		RevCommit submoduleAddCommit = git.commit().setMessage("submodule add")
+				.setOnly(path).call();
+		assertNotNull(submoduleAddCommit);
+
+		RefUpdate update = repo.updateRef(Constants.HEAD);
+		update.setNewObjectId(commit);
+		assertEquals(Result.FORCED, update.forceUpdate());
+
+		RevCommit submoduleEditCommit = git.commit()
+				.setMessage("submodule add").setOnly(path).call();
+		assertNotNull(submoduleEditCommit);
+		TreeWalk walk = new TreeWalk(db);
+		walk.addTree(submoduleAddCommit.getTree());
+		walk.addTree(submoduleEditCommit.getTree());
+		walk.setFilter(TreeFilter.ANY_DIFF);
+		List<DiffEntry> diffs = DiffEntry.scan(walk);
+		assertEquals(1, diffs.size());
+		DiffEntry subDiff = diffs.get(0);
+		assertEquals(FileMode.GITLINK, subDiff.getOldMode());
+		assertEquals(FileMode.GITLINK, subDiff.getNewMode());
+		assertEquals(commit2, subDiff.getOldId().toObjectId());
+		assertEquals(commit, subDiff.getNewId().toObjectId());
+		assertEquals(path, subDiff.getNewPath());
+		assertEquals(path, subDiff.getOldPath());
 	}
 }
