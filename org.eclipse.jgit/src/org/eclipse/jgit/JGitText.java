@@ -405,6 +405,8 @@ public class JGitText extends TranslationBundle {
 	/***/ public String packObjectCountMismatch;
 	/***/ public String packTooLargeForIndexVersion1;
 	/***/ public String packWriterStatistics;
+	/***/ public String patchApplyException;
+	/***/ public String patchFormatException;
 	/***/ public String pathIsNotInWorkingDir;
 	/***/ public String pathNotConfigured;
 	/***/ public String peeledLineBeforeRef;
@@ -436,6 +438,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String renameBranchFailedBecauseTag;
 	/***/ public String renameBranchFailedUnknownReason;
 	/***/ public String renameBranchUnexpectedResult;
+	/***/ public String renameFileFailed;
 	/***/ public String renamesAlreadyFound;
 	/***/ public String renamesBreakingModifies;
 	/***/ public String renamesFindingByContent;
