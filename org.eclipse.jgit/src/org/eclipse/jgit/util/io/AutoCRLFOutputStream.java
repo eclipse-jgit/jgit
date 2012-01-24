@@ -177,12 +177,11 @@ public class AutoCRLFOutputStream extends OutputStream {
 		if (binbufcnt < binbuf.length)
 			decideMode();
 		buf = -1;
-		out.flush();
 	}
 
 	@Override
 	public void close() throws IOException {
 		flush();
-		out.close();
+		super.close();
 	}
 }
