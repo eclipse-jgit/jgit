@@ -63,6 +63,39 @@
     <url>http://egit.eclipse.org/w/?p=jgit.git</url>
     <connection>scm:git:git://egit.eclipse.org/jgit.git</connection>
   </scm>
+  
+  <developers>
+    <developer>
+      <name>Chris Aniszczyk</name>
+    </developer>
+    <developer>
+      <name>Christian Halstrick</name>
+    </developer>
+    <developer>
+      <name>Gunnar Wagenknecht</name>
+    </developer>
+    <developer>
+      <name>Kevin Sawicki</name>
+    </developer>
+    <developer>
+      <name>Mathias Kinzler</name>
+    </developer>
+    <developer>
+      <name>Matthias Sohn</name>
+    </developer>
+    <developer>
+      <name>Robin Rosenberg</name>
+    </developer>
+    <developer>
+      <name>Sasa Zivkov</name>
+    </developer>
+    <developer>
+      <name>Shawn Pearce</name>
+    </developer>
+    <developer>
+      <name>Stefan Lay</name>
+    </developer>
+  </developers>
 
   <mailingLists>
     <mailingList>
