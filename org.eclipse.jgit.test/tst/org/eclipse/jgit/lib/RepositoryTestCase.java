@@ -62,6 +62,7 @@ import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
 import org.eclipse.jgit.dircache.DirCacheCheckout;
 import org.eclipse.jgit.dircache.DirCacheEntry;
+import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -98,14 +99,11 @@ public abstract class RepositoryTestCase extends LocalDiskRepositoryTestCase {
 
 	protected File writeTrashFile(final String name, final String data)
 			throws IOException {
-		File path = new File(db.getWorkTree(), name);
-		write(path, data);
-		return path;
+		return JGitTestUtil.writeTrashFile(db, name, data);
 	}
 
 	protected void deleteTrashFile(final String name) throws IOException {
-		File path = new File(db.getWorkTree(), name);
-		FileUtils.delete(path);
+		JGitTestUtil.deleteTrashFile(db, name);
 	}
 
 	protected static void checkFile(File f, final String checkData)
