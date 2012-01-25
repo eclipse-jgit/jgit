@@ -1096,6 +1096,90 @@ public class MergeCommandTest extends RepositoryTestCase {
 		assertFalse(canExecute(git, "mergeableButDirty"));
 	}
 
+	@Test
+	public void testSquashFastForward() throws Exception {
+		Git git = new Git(db);
+
+		writeTrashFile("file1", "file1");
+		git.add().addFilepattern("file1").call();
+		RevCommit first = git.commit().setMessage("initial commit").call();
+
+		assertTrue(new File(db.getWorkTree(), "file1").exists());
+		createBranch(first, "refs/heads/branch1");
+		checkoutBranch("refs/heads/branch1");
+
+		writeTrashFile("file2", "file2");
+		git.add().addFilepattern("file2").call();
+		git.commit().setMessage("second commit").call();
+		assertTrue(new File(db.getWorkTree(), "file2").exists());
+
+		writeTrashFile("file3", "file3");
+		git.add().addFilepattern("file3").call();
+		git.commit().setMessage("third commit").call();
+		assertTrue(new File(db.getWorkTree(), "file3").exists());
+
+		checkoutBranch("refs/heads/master");
+		assertTrue(new File(db.getWorkTree(), "file1").exists());
+		assertFalse(new File(db.getWorkTree(), "file2").exists());
+		assertFalse(new File(db.getWorkTree(), "file3").exists());
+
+		MergeResult result = git.merge().include(db.getRef("branch1"))
+				.setSquash(true).call();
+
+		assertTrue(new File(db.getWorkTree(), "file1").exists());
+		assertTrue(new File(db.getWorkTree(), "file2").exists());
+		assertTrue(new File(db.getWorkTree(), "file3").exists());
+		assertEquals(MergeResult.MergeStatus.FAST_FORWARD,
+				result.getMergeStatus());
+		assertEquals(first, result.getNewHead()); // HEAD didn't move
+		assertEquals(first, db.resolve(Constants.HEAD + "^{commit}"));
+
+		Status stat = git.status().call();
+		assertEquals(StatusCommandTest.set("file2", "file3"), stat.getAdded());
+	}
+
+	@Test
+	public void testSquashMerge() throws Exception {
+		Git git = new Git(db);
+
+		writeTrashFile("file1", "file1");
+		git.add().addFilepattern("file1").call();
+		RevCommit first = git.commit().setMessage("initial commit").call();
+
+		assertTrue(new File(db.getWorkTree(), "file1").exists());
+		createBranch(first, "refs/heads/branch1");
+
+		writeTrashFile("file2", "file2");
+		git.add().addFilepattern("file2").call();
+		RevCommit second = git.commit().setMessage("second commit").call();
+		assertTrue(new File(db.getWorkTree(), "file2").exists());
+
+		checkoutBranch("refs/heads/branch1");
+
+		writeTrashFile("file3", "file3");
+		git.add().addFilepattern("file3").call();
+		git.commit().setMessage("third commit").call();
+		assertTrue(new File(db.getWorkTree(), "file3").exists());
+
+		checkoutBranch("refs/heads/master");
+		assertTrue(new File(db.getWorkTree(), "file1").exists());
+		assertTrue(new File(db.getWorkTree(), "file2").exists());
+		assertFalse(new File(db.getWorkTree(), "file3").exists());
+
+		MergeResult result = git.merge().include(db.getRef("branch1"))
+				.setSquash(true).call();
+
+		assertTrue(new File(db.getWorkTree(), "file1").exists());
+		assertTrue(new File(db.getWorkTree(), "file2").exists());
+		assertTrue(new File(db.getWorkTree(), "file3").exists());
+		assertEquals(MergeResult.MergeStatus.MERGED, result.getMergeStatus());
+		assertEquals(second, result.getNewHead()); // HEAD didn't move
+		assertEquals(second, db.resolve(Constants.HEAD + "^{commit}"));
+
+		Status stat = git.status().call();
+		assertEquals(StatusCommandTest.set("file3"), stat.getAdded());
+	}
+
 	private void setExecutable(Git git, String path, boolean executable) {
 		FS.DETECTED.setExecute(
 				new File(git.getRepository().getWorkTree(), path), executable);

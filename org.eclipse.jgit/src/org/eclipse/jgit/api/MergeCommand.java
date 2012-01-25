@@ -94,6 +94,8 @@ public class MergeCommand extends GitCommand<MergeResult> {
 
 	private List<Ref> commits = new LinkedList<Ref>();
 
+	private boolean squash;
+
 	/**
 	 * @param repo
 	 */
@@ -183,12 +185,19 @@ public class MergeCommand extends GitCommand<MergeResult> {
 						srcCommit.getTree());
 				dco.setFailOnConflict(true);
 				dco.checkout();
-
-				updateHead(refLogMessage, srcCommit, headId);
+				String msg = null;
+				ObjectId newHead, base = null;
+				if (!squash) {
+					updateHead(refLogMessage, srcCommit, headId);
+					newHead = base = srcCommit;
+				} else {
+					msg = JGitText.get().squashCommitNotUpdatingHEAD;
+					newHead = base = headId;
+				}
 				setCallable(false);
-				return new MergeResult(srcCommit, srcCommit, new ObjectId[] {
+				return new MergeResult(newHead, base, new ObjectId[] {
 						headCommit, srcCommit }, MergeStatus.FAST_FORWARD,
-						mergeStrategy, null, null);
+						mergeStrategy, null, msg);
 			} else {
 
 				String mergeMessage = new MergeMessageFormatter().format(
@@ -222,12 +231,19 @@ public class MergeCommand extends GitCommand<MergeResult> {
 					dco.setFailOnConflict(true);
 					dco.checkout();
 
-					RevCommit newHead = new Git(getRepository()).commit()
+					String msg = null;
+					RevCommit newHead = null;
+					if (!squash) {
+						newHead = new Git(getRepository()).commit()
 							.setReflogComment(refLogMessage.toString()).call();
-					return new MergeResult(newHead.getId(),
-							null, new ObjectId[] {
-									headCommit.getId(), srcCommit.getId() },
-							MergeStatus.MERGED, mergeStrategy, null, null);
+					} else {
+						msg = JGitText.get().squashCommitNotUpdatingHEAD;
+						newHead = headCommit;
+					}
+					return new MergeResult(newHead.getId(), null,
+							new ObjectId[] { headCommit.getId(),
+									srcCommit.getId() }, MergeStatus.MERGED,
+							mergeStrategy, null, msg);
 				} else {
 					if (failingPaths != null) {
 						repo.writeMergeCommitMsg(null);
@@ -332,5 +348,17 @@ public class MergeCommand extends GitCommand<MergeResult> {
 	public MergeCommand include(String name, AnyObjectId commit) {
 		return include(new ObjectIdRef.Unpeeled(Storage.LOOSE, name,
 				commit.copy()));
+	}
+
+	/**
+	 *
+	 * @param squash
+	 *            whether to squash commits or not
+	 * @return {@code this}
+	 */
+	public MergeCommand setSquash(boolean squash) {
+		checkCallable();
+		this.squash = squash;
+		return this;
 	}
 }
