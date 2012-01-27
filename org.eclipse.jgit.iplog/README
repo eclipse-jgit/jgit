@@ -11,19 +11,19 @@
 #     $JGIT_BASE/.eclipse_iplog
 # -----------------------------------------------------------
 # Prepare:
-# jgit work tree base dir
-export JGIT_BASE="c:/data/ide/helios/jgit"
+# jgit executable (assuming jgit mvn build is up to date)
+export jgit="~/src/git/jgit/org.eclipse.jgit.pgm/target/jgit"
 
 # repository work dir root path
-export WORK_DIR="c:/data/ide/helios/jgit"
+export WORK_DIR="~/src/git/jgit/"
 
-# cd to repository work dir root path (for jgit this is identical to $JGIT_BASE)
+# cd to repository work dir root path
 cd $WORK_DIR
 
 # -----------------------------------------------------------
 # Update the CQ list:
 # - this command updates file .eclipse_iplog
-java -jar $JGIT_BASE/org.eclipse.jgit.pgm/target/jgit-cli.jar eclipse-ipzilla
+jgit eclipse-ipzilla
 
 # - if there are any updates 'git commit' them
 git add .eclipse_iplog
@@ -49,6 +49,6 @@ ssh -p 29418 username@egit.eclipse.org gerrit gsql --format PRETTY
 # options:
 #     -- version : the project version the iplog is to be generated for
 #     - o : the output file
-java -jar $JGIT_BASE/org.eclipse.jgit.pgm/target/jgit-cli.jar eclipse-iplog --version=0.8.0 -o jgit-0.8.0.xml
+jgit eclipse-iplog --version=1.3.0 -o $WORK_DIR/jgit-1.3.0.xml
 
 
