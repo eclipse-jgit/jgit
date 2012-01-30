@@ -43,7 +43,8 @@
 
 package org.eclipse.jgit.junit;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -61,10 +62,10 @@ import java.util.Set;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
 import org.eclipse.jgit.dircache.DirCacheEditor;
-import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.dircache.DirCacheEditor.DeletePath;
 import org.eclipse.jgit.dircache.DirCacheEditor.DeleteTree;
 import org.eclipse.jgit.dircache.DirCacheEditor.PathEdit;
+import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.ObjectWritingException;
@@ -540,6 +541,24 @@ public class TestRepository<R extends Repository> {
 		} else
 			ref = Constants.R_HEADS + ref;
 		return new BranchBuilder(ref);
+	}
+
+	/**
+	 * Tag an object using a lightweight tag.
+	 *
+	 * @param name
+	 *            the tag name. The /refs/tags/ prefix will be added if the name
+	 *            doesn't start with it
+	 * @param obj
+	 *            the object to tag
+	 * @return the tagged object
+	 * @throws Exception
+	 */
+	public ObjectId lightweightTag(String name, ObjectId obj) throws Exception {
+		if (!name.startsWith(Constants.R_TAGS)) {
+			name = Constants.R_TAGS + name;
+		}
+		return update(name, obj);
 	}
 
 	/**
