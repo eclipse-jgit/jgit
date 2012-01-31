@@ -78,6 +78,11 @@ public class FileUtils {
 	public static final int SKIP_MISSING = 4;
 
 	/**
+	 * Option not to throw exceptions when a deletion finally doesn't succeed.
+	 */
+	public static final int IGNORE_ERRORS = 8;
+
+	/**
 	 * Delete file or empty folder
 	 *
 	 * @param f
@@ -86,7 +91,8 @@ public class FileUtils {
 	 *             if deletion of {@code f} fails. This may occur if {@code f}
 	 *             didn't exist when the method was called. This can therefore
 	 *             cause IOExceptions during race conditions when multiple
-	 *             concurrent threads all try to delete the same file.
+	 *             concurrent threads all try to delete the same file. This
+	 *             exception is not thrown when IGNORE_ERRORS is set.
 	 */
 	public static void delete(final File f) throws IOException {
 		delete(f, NONE);
@@ -94,7 +100,7 @@ public class FileUtils {
 
 	/**
 	 * Delete file or folder
-	 *
+	 * 
 	 * @param f
 	 *            {@code File} to be deleted
 	 * @param options
@@ -106,7 +112,8 @@ public class FileUtils {
 	 *             if deletion of {@code f} fails. This may occur if {@code f}
 	 *             didn't exist when the method was called. This can therefore
 	 *             cause IOExceptions during race conditions when multiple
-	 *             concurrent threads all try to delete the same file.
+	 *             concurrent threads all try to delete the same file. This
+	 *             exception is not thrown when IGNORE_ERRORS is set.
 	 */
 	public static void delete(final File f, int options) throws IOException {
 		if ((options & SKIP_MISSING) != 0 && !f.exists())
@@ -131,8 +138,9 @@ public class FileUtils {
 						return;
 				}
 			}
-			throw new IOException(MessageFormat.format(
-					JGitText.get().deleteFileFailed, f.getAbsolutePath()));
+			if ((options & IGNORE_ERRORS) == 0)
+				throw new IOException(MessageFormat.format(
+						JGitText.get().deleteFileFailed, f.getAbsolutePath()));
 		}
 	}
 
