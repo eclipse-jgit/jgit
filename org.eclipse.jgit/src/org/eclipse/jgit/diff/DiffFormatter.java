@@ -275,6 +275,15 @@ public class DiffFormatter {
 	}
 
 	/**
+	 * Get the prefix applied in front of old file paths.
+	 *
+	 * @return the prefix
+	 */
+	public String getOldPrefix() {
+		return this.oldPrefix;
+	}
+
+	/**
 	 * Set the prefix applied in front of new file paths.
 	 *
 	 * @param prefix
@@ -285,6 +294,15 @@ public class DiffFormatter {
 	 */
 	public void setNewPrefix(String prefix) {
 		newPrefix = prefix;
+	}
+
+	/**
+	 * Get the prefix applied in front of new file paths.
+	 *
+	 * @return the prefix
+	 */
+	public String getNewPrefix() {
+		return this.newPrefix;
 	}
 
 	/** @return true if rename detection is enabled. */
