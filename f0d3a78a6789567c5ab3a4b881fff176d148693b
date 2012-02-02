@@ -16,6 +16,24 @@
       "revId": "f0d3a78a6789567c5ab3a4b881fff176d148693b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOEn///9I\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2012-02-02T11:00:16Z",
+      "side": 1,
+      "message": "Oops, sorry. I missed that... and the second \"t\" in DiffFormat*t*er. Done.",
+      "parentUuid": "AABOEn///9k\u003d",
+      "revId": "f0d3a78a6789567c5ab3a4b881fff176d148693b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
