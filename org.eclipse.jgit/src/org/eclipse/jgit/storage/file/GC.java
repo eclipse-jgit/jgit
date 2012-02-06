@@ -47,14 +47,18 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
+import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheIterator;
 import org.eclipse.jgit.errors.CorruptObjectException;
@@ -99,7 +103,7 @@ public class GC {
 		if (pm == null)
 			pm = NullProgressMonitor.INSTANCE;
 
-		// TODO: implement pack_refs(pm, repo);
+		packRefs(pm, repo);
 		// TODO: implement reflog_expire(pm, repo);
 		Collection<PackFile> newPacks = repack(pm, repo);
 		prunePacked(pm, repo, Collections.<ObjectId> emptySet());
@@ -203,6 +207,35 @@ public class GC {
 								| FileUtils.SKIP_MISSING);
 				}
 			}
+		} finally {
+			pm.endTask();
+		}
+	}
+
+	/**
+	 * packs all non-symbolic, loose refs into the packed-refs.
+	 *
+	 * @param pm
+	 *            a progressmonitor
+	 * @param repo
+	 *            the repo to work on
+	 * @throws IOException
+	 */
+	public static void packRefs(ProgressMonitor pm, FileRepository repo)
+			throws IOException {
+		Set<Entry<String, Ref>> refEntries = repo.getAllRefs().entrySet();
+		pm.beginTask("pack refs", refEntries.size());
+		try {
+			Collection<RefDirectoryUpdate> updates = new LinkedList<RefDirectoryUpdate>();
+			for (Map.Entry<String, Ref> entry : refEntries) {
+				Ref ref = entry.getValue();
+				if (!ref.isSymbolic() && ref.getStorage().isLoose()) {
+					updates.add(new RefDirectoryUpdate((RefDirectory) repo
+							.getRefDatabase(), ref));
+				}
+				pm.update(1);
+			}
+			((RefDirectory) repo.getRefDatabase()).pack(updates);
 		} finally {
 			pm.endTask();
 		}
@@ -345,6 +378,21 @@ public class GC {
 			if (0 < pw.getObjectCount()) {
 				String id = pw.computeName().getName();
 				File pack = nameFor(repo, id, ".pack");
+				File idx = nameFor(repo, id, ".idx");
+				if (!pack.createNewFile()) {
+					for (PackFile f : repo.getObjectDatabase().getPacks())
+						if (f.getPackName().equals(id))
+							return (f);
+					throw new IOException(
+							MessageFormat.format(
+									JGitText.get().cannotCreatePackfile,
+									pack.getPath()));
+				}
+				if (!idx.createNewFile())
+					throw new IOException(
+							MessageFormat.format(
+									JGitText.get().cannotCreateIndexfile,
+									idx.getPath()));
 				BufferedOutputStream out = new BufferedOutputStream(
 						new FileOutputStream(pack));
 				try {
@@ -354,7 +402,6 @@ public class GC {
 				}
 				pack.setReadOnly();
 
-				File idx = nameFor(repo, id, ".idx");
 				out = new BufferedOutputStream(new FileOutputStream(idx));
 				try {
 					pw.writeIndex(out);
