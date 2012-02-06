@@ -71,9 +71,12 @@ import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.text.MessageFormat;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -592,6 +595,114 @@ public class RefDirectory extends RefDatabase {
 
 		modCnt.incrementAndGet();
 		fireRefsChanged();
+	}
+
+	/**
+	 * Adds a set of refs to the set of packed-refs. Only non-symbolic refs are
+	 * added. If a ref with the given name already existed in packed-refs it is
+	 * updated with the new value. Each loose ref which was added to the
+	 * packed-ref file is deleted.
+	 *
+	 * @param refUpdates
+	 *            the refs to be added
+	 * @throws IOException
+	 */
+	public void pack(Collection<RefDirectoryUpdate> refUpdates) throws IOException {
+		if (refUpdates.isEmpty())
+			return;
+		FS fs = refUpdates.iterator().next().getRepository().getFS();
+
+		Set<RefDirectoryUpdate> lockedLooseRefs = new HashSet<RefDirectoryUpdate>();
+
+		// Lock the packed refs file and read the content
+		LockFile lck = new LockFile(packedRefsFile, fs);
+		if (!lck.lock())
+			throw new IOException(MessageFormat.format(
+					JGitText.get().cannotLockFile, packedRefsFile));
+
+		RevWalk rw = null;
+		try {
+			rw = new RevWalk(getRepository());
+			final PackedRefList packed = getPackedRefs();
+			RefList<Ref> cur = readPackedRefs();
+
+			// Iterate over all refs to be packed
+			for (RefDirectoryUpdate ru : refUpdates) {
+				Ref ref = ru.getRef();
+				if (!ref.isSymbolic()) {
+					if (ref.getStorage().isLoose()) {
+						// Lock the loose ref
+						if (!ru.tryLock(false))
+							continue;
+						lockedLooseRefs.add(ru);
+					}
+					// Add/Update it to packed-refs
+					int idx = cur.find(ref.getName());
+					if (idx >= 0) {
+						// TODO: don't we have to update the storage of the ref?
+						cur = cur.set(idx, peeledPackedRef(ref, rw));
+					} else
+						cur = cur.add(idx, peeledPackedRef(ref, rw));
+				}
+			}
+
+			// The new content for packed-refs is collected. Persist it.
+			commitPackedRefs(lck, cur, packed);
+
+			// Now delete the loose refs which are locked and now packed
+			for (RefDirectoryUpdate ru : lockedLooseRefs) {
+				String name = ru.getName();
+				RefList<LooseRef> curLoose, newLoose;
+				do {
+					curLoose = looseRefs.get();
+					int idx = curLoose.find(name);
+					if (idx < 0)
+						break;
+					newLoose = curLoose.remove(idx);
+				} while (!looseRefs.compareAndSet(curLoose, newLoose));
+				int levels = levelsIn(name) - 2;
+				if (ru.getRef().getStorage().isLoose()) {
+					ru.unlock();
+					delete(fileFor(name), levels);
+				}
+			}
+			lockedLooseRefs.clear();
+			// Don't fire refsChanged. The refs have not change, only their
+			// storage.
+		} finally {
+			rw.release();
+			lck.unlock();
+			for (RefDirectoryUpdate ru : lockedLooseRefs)
+				ru.unlock();
+		}
+	}
+
+	/**
+	 * Make sure a ref is peeled and has the Storage PACKED. If the given ref
+	 * has this attributes simply return it. Otherwise create a new peeled
+	 * {@link ObjectIdRef} where Storage is set to PACKED.
+	 *
+	 * @param f
+	 * @param rw
+	 *            a refwalk used to determine the type of the ref
+	 * @return a ref for Storage PACKED having the same name, id, peeledId as f
+	 * @throws MissingObjectException
+	 * @throws IOException
+	 */
+	private Ref peeledPackedRef(Ref f, RevWalk rw)
+			throws MissingObjectException, IOException {
+
+		if (f.getStorage().isPacked() && f.isPeeled())
+			return f;
+
+		RevObject obj = rw.parseAny(f.getObjectId());
+		if (obj instanceof RevTag)
+			return new ObjectIdRef.PeeledTag(PACKED, f.getName(),
+					f.getObjectId(), (f.isPeeled() ? f.getPeeledObjectId() : rw
+							.peel(obj).copy()));
+		else
+			return new ObjectIdRef.PeeledNonTag(PACKED, f.getName(),
+					f.getObjectId());
 	}
 
 	void log(final RefUpdate update, final String msg, final boolean deref)
