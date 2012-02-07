@@ -43,8 +43,13 @@
 
 package org.eclipse.jgit.transport;
 
+import java.io.IOException;
+import java.text.MessageFormat;
+
+import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefUpdate;
 
 /**
  * A command being processed by {@link ReceivePack}.
@@ -213,12 +218,85 @@ public class ReceiveCommand {
 		message = m;
 	}
 
+	/**
+	 * Execute this command during a receive-pack session.
+	 * <p>
+	 * Sets the status of the command as a side effect.
+	 *
+	 * @param rp
+	 *            receive-pack session.
+	 */
+	public void execute(final ReceivePack rp) {
+		try {
+			final RefUpdate ru = rp.getRepository().updateRef(getRefName());
+			ru.setRefLogIdent(rp.getRefLogIdent());
+			switch (getType()) {
+			case DELETE:
+				if (!ObjectId.zeroId().equals(getOldId())) {
+					// We can only do a CAS style delete if the client
+					// didn't bork its delete request by sending the
+					// wrong zero id rather than the advertised one.
+					//
+					ru.setExpectedOldObjectId(getOldId());
+				}
+				ru.setForceUpdate(true);
+				setResult(ru.delete(rp.getRevWalk()));
+				break;
+
+			case CREATE:
+			case UPDATE:
+			case UPDATE_NONFASTFORWARD:
+				ru.setForceUpdate(rp.isAllowNonFastForwards());
+				ru.setExpectedOldObjectId(getOldId());
+				ru.setNewObjectId(getNewId());
+				ru.setRefLogMessage("push", true);
+				setResult(ru.update(rp.getRevWalk()));
+				break;
+			}
+		} catch (IOException err) {
+			setResult(Result.REJECTED_OTHER_REASON, MessageFormat.format(
+					JGitText.get().lockError, err.getMessage()));
+		}
+	}
+
 	void setRef(final Ref r) {
 		ref = r;
 	}
 
 	void setType(final Type t) {
 		type = t;
+	}
+
+	private void setResult(final RefUpdate.Result r) {
+		switch (r) {
+		case NOT_ATTEMPTED:
+			setResult(Result.NOT_ATTEMPTED);
+			break;
+
+		case LOCK_FAILURE:
+		case IO_FAILURE:
+			setResult(Result.LOCK_FAILURE);
+			break;
+
+		case NO_CHANGE:
+		case NEW:
+		case FORCED:
+		case FAST_FORWARD:
+			setResult(Result.OK);
+			break;
+
+		case REJECTED:
+			setResult(Result.REJECTED_NONFASTFORWARD);
+			break;
+
+		case REJECTED_CURRENT_BRANCH:
+			setResult(Result.REJECTED_CURRENT_BRANCH);
+			break;
+
+		default:
+			setResult(Result.REJECTED_OTHER_REASON, r.name());
+			break;
+		}
 	}
 
 	@Override

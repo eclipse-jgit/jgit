@@ -77,7 +77,6 @@ import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.Config.SectionParser;
 import org.eclipse.jgit.revwalk.ObjectWalk;
@@ -1056,74 +1055,9 @@ public class ReceivePack {
 		updating.beginTask(JGitText.get().updatingReferences, toApply.size());
 		for (ReceiveCommand cmd : toApply) {
 			updating.update(1);
-			execute(cmd);
+			cmd.execute(this);
 		}
 		updating.endTask();
-	}
-
-	private void execute(final ReceiveCommand cmd) {
-		try {
-			final RefUpdate ru = db.updateRef(cmd.getRefName());
-			ru.setRefLogIdent(getRefLogIdent());
-			switch (cmd.getType()) {
-			case DELETE:
-				if (!ObjectId.zeroId().equals(cmd.getOldId())) {
-					// We can only do a CAS style delete if the client
-					// didn't bork its delete request by sending the
-					// wrong zero id rather than the advertised one.
-					//
-					ru.setExpectedOldObjectId(cmd.getOldId());
-				}
-				ru.setForceUpdate(true);
-				status(cmd, ru.delete(walk));
-				break;
-
-			case CREATE:
-			case UPDATE:
-			case UPDATE_NONFASTFORWARD:
-				ru.setForceUpdate(isAllowNonFastForwards());
-				ru.setExpectedOldObjectId(cmd.getOldId());
-				ru.setNewObjectId(cmd.getNewId());
-				ru.setRefLogMessage("push", true);
-				status(cmd, ru.update(walk));
-				break;
-			}
-		} catch (IOException err) {
-			cmd.setResult(Result.REJECTED_OTHER_REASON, MessageFormat.format(
-					JGitText.get().lockError, err.getMessage()));
-		}
-	}
-
-	private void status(final ReceiveCommand cmd, final RefUpdate.Result result) {
-		switch (result) {
-		case NOT_ATTEMPTED:
-			cmd.setResult(Result.NOT_ATTEMPTED);
-			break;
-
-		case LOCK_FAILURE:
-		case IO_FAILURE:
-			cmd.setResult(Result.LOCK_FAILURE);
-			break;
-
-		case NO_CHANGE:
-		case NEW:
-		case FORCED:
-		case FAST_FORWARD:
-			cmd.setResult(Result.OK);
-			break;
-
-		case REJECTED:
-			cmd.setResult(Result.REJECTED_NONFASTFORWARD);
-			break;
-
-		case REJECTED_CURRENT_BRANCH:
-			cmd.setResult(Result.REJECTED_CURRENT_BRANCH);
-			break;
-
-		default:
-			cmd.setResult(Result.REJECTED_OTHER_REASON, result.name());
-			break;
-		}
 	}
 
 	private List<ReceiveCommand> filterCommands(final Result want) {
