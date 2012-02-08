@@ -76,7 +76,7 @@ import org.eclipse.jgit.lib.CoreConfig.AutoCRLF;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.lib.RepositoryBuilder;
+import org.eclipse.jgit.submodule.SubmoduleWalk;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.io.EolCanonicalizingInputStream;
@@ -280,18 +280,16 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	 * @return non-null submodule id
 	 */
 	protected byte[] idSubmodule(File directory, Entry e) {
-		final String gitDirPath = e.getName() + "/" + Constants.DOT_GIT;
-		final File submoduleGitDir = new File(directory, gitDirPath);
-		if (!submoduleGitDir.isDirectory())
-			return zeroid;
 		final Repository submoduleRepo;
 		try {
-			FS fs = repository != null ? repository.getFS() : FS.DETECTED;
-			submoduleRepo = new RepositoryBuilder().setGitDir(submoduleGitDir)
-					.setMustExist(true).setFS(fs).build();
+			submoduleRepo = SubmoduleWalk.getSubmoduleRepository(directory,
+					e.getName());
 		} catch (IOException exception) {
 			return zeroid;
 		}
+		if (submoduleRepo == null)
+			return zeroid;
+
 		final ObjectId head;
 		try {
 			head = submoduleRepo.resolve(Constants.HEAD);
