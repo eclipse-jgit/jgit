@@ -74,6 +74,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevTree;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.storage.file.ObjectDirectory;
 import org.eclipse.jgit.storage.pack.BinaryDelta;
 import org.eclipse.jgit.util.NB;
@@ -82,7 +83,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class ReceivePackRefFilterTest extends LocalDiskRepositoryTestCase {
+public class ReceivePackAdvertiseRefsHookTest extends LocalDiskRepositoryTestCase {
 	private static final NullProgressMonitor PM = NullProgressMonitor.INSTANCE;
 
 	private static final String R_MASTER = Constants.R_HEADS + Constants.MASTER;
@@ -150,7 +151,7 @@ public class ReceivePackRefFilterTest extends LocalDiskRepositoryTestCase {
 				dst.incrementOpen();
 
 				final ReceivePack rp = super.createReceivePack(dst);
-				rp.setRefFilter(new HidePrivateFilter());
+				rp.setAdvertiseRefsHook(new HidePrivateHook());
 				return rp;
 			}
 		};
@@ -174,6 +175,7 @@ public class ReceivePackRefFilterTest extends LocalDiskRepositoryTestCase {
 		assertNotNull("has master", master);
 		assertEquals(B, master.getObjectId());
 	}
+
 
 	@Test
 	public void testSuccess() throws Exception {
@@ -215,7 +217,7 @@ public class ReceivePackRefFilterTest extends LocalDiskRepositoryTestCase {
 				final ReceivePack rp = super.createReceivePack(dst);
 				rp.setCheckReceivedObjects(true);
 				rp.setCheckReferencedObjectsAreReachable(true);
-				rp.setRefFilter(new HidePrivateFilter());
+				rp.setAdvertiseRefsHook(new HidePrivateHook());
 				return rp;
 			}
 		};
@@ -259,7 +261,7 @@ public class ReceivePackRefFilterTest extends LocalDiskRepositoryTestCase {
 		final ReceivePack rp = new ReceivePack(dst);
 		rp.setCheckReceivedObjects(true);
 		rp.setCheckReferencedObjectsAreReachable(true);
-		rp.setRefFilter(new HidePrivateFilter());
+		rp.setAdvertiseRefsHook(new HidePrivateHook());
 		try {
 			receive(rp, inBuf, outBuf);
 			fail("Expected UnpackException");
@@ -317,7 +319,7 @@ public class ReceivePackRefFilterTest extends LocalDiskRepositoryTestCase {
 		final ReceivePack rp = new ReceivePack(dst);
 		rp.setCheckReceivedObjects(true);
 		rp.setCheckReferencedObjectsAreReachable(true);
-		rp.setRefFilter(new HidePrivateFilter());
+		rp.setAdvertiseRefsHook(new HidePrivateHook());
 		try {
 			receive(rp, inBuf, outBuf);
 			fail("Expected UnpackException");
@@ -367,7 +369,7 @@ public class ReceivePackRefFilterTest extends LocalDiskRepositoryTestCase {
 		final ReceivePack rp = new ReceivePack(dst);
 		rp.setCheckReceivedObjects(true);
 		rp.setCheckReferencedObjectsAreReachable(true);
-		rp.setRefFilter(new HidePrivateFilter());
+		rp.setAdvertiseRefsHook(new HidePrivateHook());
 		try {
 			receive(rp, inBuf, outBuf);
 			fail("Expected UnpackException");
@@ -418,7 +420,7 @@ public class ReceivePackRefFilterTest extends LocalDiskRepositoryTestCase {
 		final ReceivePack rp = new ReceivePack(dst);
 		rp.setCheckReceivedObjects(true);
 		rp.setCheckReferencedObjectsAreReachable(true);
-		rp.setRefFilter(new HidePrivateFilter());
+		rp.setAdvertiseRefsHook(new HidePrivateHook());
 		try {
 			receive(rp, inBuf, outBuf);
 			fail("Expected UnpackException");
@@ -466,7 +468,7 @@ public class ReceivePackRefFilterTest extends LocalDiskRepositoryTestCase {
 		final ReceivePack rp = new ReceivePack(dst);
 		rp.setCheckReceivedObjects(true);
 		rp.setCheckReferencedObjectsAreReachable(true);
-		rp.setRefFilter(new HidePrivateFilter());
+		rp.setAdvertiseRefsHook(new HidePrivateHook());
 		try {
 			receive(rp, inBuf, outBuf);
 			fail("Expected UnpackException");
@@ -560,11 +562,11 @@ public class ReceivePackRefFilterTest extends LocalDiskRepositoryTestCase {
 		return new PacketLineIn(new ByteArrayInputStream(buf.toByteArray()));
 	}
 
-	private static final class HidePrivateFilter implements RefFilter {
-		public Map<String, Ref> filter(Map<String, Ref> refs) {
-			Map<String, Ref> r = new HashMap<String, Ref>(refs);
-			assertNotNull(r.remove(R_PRIVATE));
-			return r;
+	private static final class HidePrivateHook extends AbstractAdvertiseRefsHook {
+		public Map<String, Ref> getAdvertisedRefs(Repository r, RevWalk revWalk) {
+			Map<String, Ref> refs = new HashMap<String, Ref>(r.getAllRefs());
+			assertNotNull(refs.remove(R_PRIVATE));
+			return refs;
 		}
 	}
 
