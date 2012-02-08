@@ -76,6 +76,19 @@ public interface UploadSession {
 	/** @return all refs which were advertised to the client. */
 	public Map<String, Ref> getAdvertisedRefs();
 
+	/**
+	 * Explicitly set advertised refs.
+	 * <p>
+	 * May be called by the configured {@link #getAdvertiseRefsHook()}. If called
+	 * with {@code null} or not called at all by the hook, all refs are
+	 * advertised.
+	 *
+	 * @param allRefs
+	 *            explicit set of references to claim as advertised by this
+	 *            UploadPack instance. If null, all refs are advertised.
+	 */
+	public void setAdvertisedRefs(Map<String, Ref> allRefs);
+
 	/** @return timeout (in seconds) before aborting an IO operation. */
 	public int getTimeout();
 
@@ -88,8 +101,8 @@ public interface UploadSession {
 	/** @return policy used by the service to validate client requests. */
 	public RequestPolicy getRequestPolicy();
 
-	/** @return the filter used while advertising the refs to the client */
-	public RefFilter getRefFilter();
+	/** @return the hook used while advertising the refs to the client */
+	public AdvertiseRefsHook getAdvertiseRefsHook();
 
 	/** @return the configured upload hook. */
 	public PreUploadHook getPreUploadHook();

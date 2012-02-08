@@ -74,6 +74,22 @@ public interface ReceiveSession {
 	public Set<ObjectId> getAdvertisedObjects();
 
 	/**
+	 * Explicitly set advertised refs.
+	 * <p>
+	 * May be called by the configured {@link #getAdvertiseRefsHook()}.
+	 *
+	 * @param allRefs
+	 *            explicit set of references to claim as advertised by this
+	 *            ReceivePack instance. If null, all refs are advertised.
+	 * @param additionalHaves
+	 *            explicit set of additional haves to claim as advertised by this
+	 *            ReceivePack instance. If null, the
+	 *            {@link Repository#getAdditionalHaves()} are used.
+	 */
+	public void setAdvertisedRefs(Map<String, Ref> allRefs,
+			Set<ObjectId> additionalHaves);
+
+	/**
 	 * @return true if this instance will validate all referenced, but not
 	 *         supplied by the client, objects are reachable from another
 	 *         reference.
@@ -108,8 +124,8 @@ public interface ReceiveSession {
 	/** @return identity of the user making the changes in the reflog. */
 	public PersonIdent getRefLogIdent();
 
-	/** @return the filter used while advertising the refs to the client */
-	public RefFilter getRefFilter();
+	/** @return the hook used while advertising the refs to the client */
+	public AdvertiseRefsHook getAdvertiseRefsHook();
 
 	/** @return get the hook invoked before updates occur. */
 	public PreReceiveHook getPreReceiveHook();

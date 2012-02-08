@@ -1,8 +1,7 @@
 /*
- * Copyright (C) 2010, Google Inc.
+ * Copyright (C) 2012, Google Inc.
  * and other copyright owners as documented in the project's IP log.
- *
- * This program and the accompanying materials are made available
+ * * This program and the accompanying materials are made available
  * under the terms of the Eclipse Distribution License v1.0 which
  * accompanies this distribution, is reproduced below, and is
  * available at http://www.eclipse.org/org/documents/edl-v10.php
@@ -43,34 +42,46 @@
 
 package org.eclipse.jgit.transport;
 
-import java.util.Map;
+/** Hook to allow callers to take over advertising refs to the client. */
+public interface AdvertiseRefsHook {
+	/**
+	 * A simple hook that advertises the default refs.
+	 * <p>
+	 * The method implementations do nothing to preserve the default behavior; see
+	 * {@link UploadSession#setAdvertisedRefs(java.util.Map)} and
+	 * {@link ReceiveSession#setAdvertisedRefs(java.util.Map,java.util.Set)}.
+	 */
+	public static final AdvertiseRefsHook DEFAULT = new AdvertiseRefsHook() {
+		public void advertiseRefs(UploadSession uploadSession) {
+			// Do nothing.
+		}
 
-import org.eclipse.jgit.lib.Ref;
-
-/**
- * Filters the list of refs that are advertised to the client.
- * <p>
- * The filter is called by {@link ReceivePack} and {@link UploadPack} to ensure
- * that the refs are filtered before they are advertised to the client.
- * <p>
- * This can be used by applications to control visibility of certain refs based
- * on a custom set of rules.
- */
-public interface RefFilter {
-	/** The default filter, allows all refs to be shown. */
-	public static final RefFilter DEFAULT = new RefFilter() {
-		public Map<String, Ref> filter (final Map<String, Ref> refs) {
-			return refs;
+		public void advertiseRefs(ReceiveSession receiveSession) {
+			// Do nothing.
 		}
 	};
 
 	/**
-	 * Filters a {@code Map} of refs before it is advertised to the client.
+	 * Advertise refs for upload-pack.
 	 *
-	 * @param refs
-	 *            the refs which this method need to consider.
-	 * @return
-	 *            the filtered map of refs.
+	 * @param uploadSession instance on which to call
+	 *            {@link UploadSession#setAdvertisedRefs(java.util.Map)}
+	 *            if necessary.
+	 * @throws ServiceMayNotContinueException
+	 *             abort; the message will be sent to the user.
 	 */
-	public Map<String, Ref> filter(Map<String, Ref> refs);
+	public void advertiseRefs(UploadSession uploadSession)
+			throws ServiceMayNotContinueException;
+
+	/**
+	 * Advertise refs for receive-pack.
+	 *
+	 * @param receiveSession instance on which to call
+	 *            {@link ReceiveSession#setAdvertisedRefs(java.util.Map,java.util.Set)}
+	 *            if necessary.
+	 * @throws ServiceMayNotContinueException
+	 *             abort; the message will be sent to the user.
+	 */
+	public void advertiseRefs(ReceiveSession receiveSession)
+			throws ServiceMayNotContinueException;
 }
