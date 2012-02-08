@@ -65,7 +65,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.PacketLineOut;
 import org.eclipse.jgit.transport.RefAdvertiser.PacketLineOutRefAdvertiser;
-import org.eclipse.jgit.transport.UploadPackMayNotContinueException;
+import org.eclipse.jgit.transport.ServiceMayNotContinueException;
 import org.eclipse.jgit.transport.resolver.ServiceNotAuthorizedException;
 import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
 
@@ -137,7 +137,7 @@ abstract class SmartServiceInfoRefs implements Filter {
 		} catch (ServiceNotEnabledException e) {
 			sendError(req, res, SC_FORBIDDEN);
 
-		} catch (UploadPackMayNotContinueException e) {
+		} catch (ServiceMayNotContinueException e) {
 			if (e.isOutput())
 				buf.close();
 			else

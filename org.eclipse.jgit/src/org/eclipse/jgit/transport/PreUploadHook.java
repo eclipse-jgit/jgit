@@ -50,7 +50,7 @@ import org.eclipse.jgit.lib.ObjectId;
 /**
  * Hook invoked by {@link UploadPack} before during critical phases.
  * <p>
- * If any hook function throws {@link UploadPackMayNotContinueException} then
+ * If any hook function throws {@link ServiceMayNotContinueException} then
  * processing stops immediately and the exception is thrown up the call stack.
  * Most phases of UploadPack will try to report the exception's message text to
  * the end-user over the client's protocol connection.
@@ -59,27 +59,27 @@ public interface PreUploadHook {
 	/** A simple no-op hook. */
 	public static final PreUploadHook NULL = new PreUploadHook() {
 		public void onPreAdvertiseRefs(UploadSession up)
-				throws UploadPackMayNotContinueException {
+				throws ServiceMayNotContinueException {
 			// Do nothing.
 		}
 
 		public void onBeginNegotiateRound(UploadSession up,
 				Collection<? extends ObjectId> wants, int cntOffered)
-				throws UploadPackMayNotContinueException {
+				throws ServiceMayNotContinueException {
 			// Do nothing.
 		}
 
 		public void onEndNegotiateRound(UploadSession up,
 				Collection<? extends ObjectId> wants, int cntCommon,
 				int cntNotFound, boolean ready)
-				throws UploadPackMayNotContinueException {
+				throws ServiceMayNotContinueException {
 			// Do nothing.
 		}
 
 		public void onSendPack(UploadSession up,
 				Collection<? extends ObjectId> wants,
 				Collection<? extends ObjectId> haves)
-				throws UploadPackMayNotContinueException {
+				throws ServiceMayNotContinueException {
 			// Do nothing.
 		}
 	};
@@ -89,11 +89,11 @@ public interface PreUploadHook {
 	 *
 	 * @param up
 	 *            the upload pack instance handling the connection.
-	 * @throws UploadPackMayNotContinueException
+	 * @throws ServiceMayNotContinueException
 	 *             abort; the message will be sent to the user.
 	 */
 	public void onPreAdvertiseRefs(UploadSession up)
-			throws UploadPackMayNotContinueException;
+			throws ServiceMayNotContinueException;
 
 	/**
 	 * Invoked before negotiation round is started.
@@ -104,12 +104,12 @@ public interface PreUploadHook {
 	 *            the list of wanted objects.
 	 * @param cntOffered
 	 *            number of objects the client has offered.
-	 * @throws UploadPackMayNotContinueException
+	 * @throws ServiceMayNotContinueException
 	 *             abort; the message will be sent to the user.
 	 */
 	public void onBeginNegotiateRound(UploadSession up,
 			Collection<? extends ObjectId> wants, int cntOffered)
-			throws UploadPackMayNotContinueException;
+			throws ServiceMayNotContinueException;
 
 	/**
 	 * Invoked after a negotiation round is completed.
@@ -128,13 +128,13 @@ public interface PreUploadHook {
 	 * @param ready
 	 *            true if a pack is ready to be sent (the commit graph was
 	 *            successfully cut).
-	 * @throws UploadPackMayNotContinueException
+	 * @throws ServiceMayNotContinueException
 	 *             abort; the message will be sent to the user.
 	 */
 	public void onEndNegotiateRound(UploadSession up,
 			Collection<? extends ObjectId> wants, int cntCommon,
 			int cntNotFound, boolean ready)
-			throws UploadPackMayNotContinueException;
+			throws ServiceMayNotContinueException;
 
 	/**
 	 * Invoked just before a pack will be sent to the client.
@@ -149,10 +149,10 @@ public interface PreUploadHook {
 	 *            the list of common objects. Empty on an initial clone request.
 	 *            These may be RevObject or RevCommit if the processed parsed
 	 *            them. Implementors should not rely on the values being parsed.
-	 * @throws UploadPackMayNotContinueException
+	 * @throws ServiceMayNotContinueException
 	 *             abort; the message will be sent to the user.
 	 */
 	public void onSendPack(UploadSession up, Collection<? extends ObjectId> wants,
 			Collection<? extends ObjectId> haves)
-			throws UploadPackMayNotContinueException;
+			throws ServiceMayNotContinueException;
 }
