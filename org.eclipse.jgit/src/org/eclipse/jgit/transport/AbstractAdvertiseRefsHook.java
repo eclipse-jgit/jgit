@@ -1,8 +1,7 @@
 /*
- * Copyright (C) 2011, Google Inc.
+ * Copyright (C) 2012, Google Inc.
  * and other copyright owners as documented in the project's IP log.
- *
- * This program and the accompanying materials are made available
+ * * This program and the accompanying materials are made available
  * under the terms of the Eclipse Distribution License v1.0 which
  * accompanies this distribution, is reproduced below, and is
  * available at http://www.eclipse.org/org/documents/edl-v10.php
@@ -43,73 +42,64 @@
 
 package org.eclipse.jgit.transport;
 
-import java.util.Collection;
-import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevWalk;
 
 /**
- * {@link PreUploadHook} that delegates to a list of other hooks.
- * <p>
- * Hooks are run in the order passed to the constructor. If running a method on
- * one hook throws an exception, execution of remaining hook methods is aborted.
+ * Implementation of {@link AdvertiseRefsHook} that advertises the same refs for
+ * upload-pack and receive-pack.
  */
-public class PreUploadHookChain implements PreUploadHook {
-	private final PreUploadHook[] hooks;
-	private final int count;
+public abstract class AbstractAdvertiseRefsHook implements AdvertiseRefsHook {
+	public void advertiseRefs(UploadPack uploadPack)
+			throws ServiceMayNotContinueException {
+		uploadPack.setAdvertisedRefs(getAdvertisedRefs(
+				uploadPack.getRepository(), uploadPack.getRevWalk()));
+	}
+
+	public void advertiseRefs(ReceivePack receivePack)
+			throws ServiceMayNotContinueException {
+		Map<String, Ref> refs = getAdvertisedRefs(receivePack.getRepository(),
+				receivePack.getRevWalk());
+		Set<ObjectId> haves = getAdvertisedHaves(receivePack.getRepository(),
+				receivePack.getRevWalk());
+		receivePack.setAdvertisedRefs(refs, haves);
+	}
 
 	/**
-	 * Create a new hook chaining the given hooks together.
+	 * Get the refs to advertise.
 	 *
-	 * @param hooks
-	 *            hooks to execute, in order.
-	 * @return a new hook chain of the given hooks.
+	 * @param repository
+	 *            repository instance.
+	 * @param revWalk
+	 *            open rev walk on the repository.
+	 * @return set of refs to advertise.
+	 * @throws ServiceMayNotContinueException
+	 *             abort; the message will be sent to the user.
 	 */
-	public static PreUploadHook newChain(List<? extends PreUploadHook> hooks) {
-		PreUploadHook[] newHooks = new PreUploadHook[hooks.size()];
-		int i = 0;
-		for (PreUploadHook hook : hooks)
-			if (hook != PreUploadHook.NULL)
-				newHooks[i++] = hook;
-		if (i == 0)
-			return PreUploadHook.NULL;
-		else if (i == 1)
-			return newHooks[0];
-		else
-			return new PreUploadHookChain(newHooks, i);
-	}
+	protected abstract Map<String, Ref> getAdvertisedRefs(
+			Repository repository, RevWalk revWalk)
+			throws ServiceMayNotContinueException;
 
-	public void onPreAdvertiseRefs(UploadPack up)
+	/**
+	 * Get the additional haves to advertise.
+	 *
+	 * @param repository
+	 *            repository instance.
+	 * @param revWalk
+	 *            open rev walk on the repository.
+	 * @return set of additional haves; see
+	 *         {@link ReceivePack#getAdvertisedObjects()}.
+	 * @throws ServiceMayNotContinueException
+	 *             abort; the message will be sent to the user.
+	 */
+	protected Set<ObjectId> getAdvertisedHaves(
+			Repository repository, RevWalk revWalk)
 			throws ServiceMayNotContinueException {
-		for (int i = 0; i < count; i++)
-			hooks[i].onPreAdvertiseRefs(up);
-	}
-
-	public void onBeginNegotiateRound(UploadPack up,
-			Collection<? extends ObjectId> wants, int cntOffered)
-			throws ServiceMayNotContinueException {
-		for (int i = 0; i < count; i++)
-			hooks[i].onBeginNegotiateRound(up, wants, cntOffered);
-	}
-
-	public void onEndNegotiateRound(UploadPack up,
-			Collection<? extends ObjectId> wants, int cntCommon,
-			int cntNotFound, boolean ready)
-			throws ServiceMayNotContinueException {
-		for (int i = 0; i < count; i++)
-			hooks[i].onEndNegotiateRound(up, wants, cntCommon, cntNotFound, ready);
-	}
-
-	public void onSendPack(UploadPack up,
-			Collection<? extends ObjectId> wants,
-			Collection<? extends ObjectId> haves)
-			throws ServiceMayNotContinueException {
-		for (int i = 0; i < count; i++)
-			hooks[i].onSendPack(up, wants, haves);
-	}
-
-	private PreUploadHookChain(PreUploadHook[] hooks, int count) {
-		this.hooks = hooks;
-		this.count = count;
+		return null;
 	}
 }
