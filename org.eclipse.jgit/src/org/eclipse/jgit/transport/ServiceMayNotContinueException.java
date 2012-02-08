@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011, Google Inc.
+ * Copyright (C) 2011-2012, Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -43,17 +43,16 @@
 
 package org.eclipse.jgit.transport;
 
-/**
- * Indicates UploadPack may not continue execution.
- *
- * @deprecated use {@link ServiceMayNotContinueException} instead.
- */
-@Deprecated
-public class UploadPackMayNotContinueException extends ServiceMayNotContinueException {
+import java.io.IOException;
+
+/** Indicates a transport service may not continue execution. */
+public class ServiceMayNotContinueException extends IOException {
 	private static final long serialVersionUID = 1L;
 
+	private boolean output;
+
 	/** Initialize with no message. */
-	public UploadPackMayNotContinueException() {
+	public ServiceMayNotContinueException() {
 		// Do not set a message.
 	}
 
@@ -62,7 +61,17 @@ public class UploadPackMayNotContinueException extends ServiceMayNotContinueExce
 	 *            a message explaining why it cannot continue. This message may
 	 *            be shown to an end-user.
 	 */
-	public UploadPackMayNotContinueException(String msg) {
+	public ServiceMayNotContinueException(String msg) {
 		super(msg);
+	}
+
+	/** @return true if the message was already output to the client. */
+	public boolean isOutput() {
+		return output;
+	}
+
+	/** Mark this message has being sent to the client. */
+	public void setOutput() {
+		output = true;
 	}
 }

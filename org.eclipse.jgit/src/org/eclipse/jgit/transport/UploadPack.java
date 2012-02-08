@@ -157,8 +157,11 @@ public class UploadPack {
 	/** The refs we advertised as existing at the start of the connection. */
 	private Map<String, Ref> refs;
 
+	/** Hook used while advertising the refs to the client. */
+	private AdvertiseRefsHook advertiseRefsHook = AdvertiseRefsHook.DEFAULT;
+
 	/** Filter used while advertising the refs to the client. */
-	private RefFilter refFilter;
+	private RefFilter refFilter = RefFilter.DEFAULT;
 
 	/** Hook handling the various upload phases. */
 	private PreUploadHook preUploadHook = PreUploadHook.NULL;
@@ -241,7 +244,6 @@ public class UploadPack {
 		SAVE.add(PEER_HAS);
 		SAVE.add(COMMON);
 		SAVE.add(SATISFIED);
-		refFilter = RefFilter.DEFAULT;
 	}
 
 	/** @return the repository this upload is reading from. */
@@ -262,14 +264,23 @@ public class UploadPack {
 	}
 
 	/**
+	 * Set the refs advertised by this UploadPack.
+	 * <p>
+	 * Intended to be called from a {@link PreUploadHook}.
+	 *
 	 * @param allRefs
 	 *            explicit set of references to claim as advertised by this
 	 *            UploadPack instance. This overrides any references that
 	 *            may exist in the source repository. The map is passed
-	 *            to the configured {@link #getRefFilter()}.
+	 *            to the configured {@link #getRefFilter()}. If null, assumes
+	 *            all refs were advertised.
 	 */
 	public void setAdvertisedRefs(Map<String, Ref> allRefs) {
-		refs = refFilter.filter(allRefs);
+		if (allRefs != null)
+			refs = allRefs;
+		else
+			refs = db.getAllRefs();
+		refs = refFilter.filter(refs);
 	}
 
 	/** @return timeout (in seconds) before aborting an IO operation. */
@@ -330,18 +341,39 @@ public class UploadPack {
 		requestPolicy = policy != null ? policy : RequestPolicy.ADVERTISED;
 	}
 
+	/** @return the hook used while advertising the refs to the client */
+	public AdvertiseRefsHook getAdvertiseRefsHook() {
+		return advertiseRefsHook;
+	}
+
 	/** @return the filter used while advertising the refs to the client */
 	public RefFilter getRefFilter() {
 		return refFilter;
 	}
 
 	/**
+	 * Set the hook used while advertising the refs to the client.
+	 * <p>
+	 * If the {@link AdvertiseRefsHook} chooses to call
+	 * {@link #setAdvertisedRefs(Map)}, only refs set by this hook <em>and</em>
+	 * selected by the {@link RefFilter} will be shown to the client.
+	 *
+	 * @param advertiseRefsHook
+	 *            the hook; may be null to show all refs.
+	 */
+	public void setAdvertiseRefsHook(final AdvertiseRefsHook advertiseRefsHook) {
+		if (advertiseRefsHook != null)
+			this.advertiseRefsHook = advertiseRefsHook;
+		else
+			this.advertiseRefsHook = AdvertiseRefsHook.DEFAULT;
+	}
+
+	/**
 	 * Set the filter used while advertising the refs to the client.
 	 * <p>
-	 * Only refs allowed by this filter will be sent to the client. This can
-	 * be used by a server to restrict the list of references the client can
-	 * obtain through clone or fetch, effectively limiting the access to only
-	 * certain refs.
+	 * Only refs allowed by this filter will be sent to the client.
+	 * The filter is run against the refs specified by the
+	 * {@link AdvertiseRefsHook} (if applicable).
 	 *
 	 * @param refFilter
 	 *            the filter; may be null to show all refs.
@@ -488,7 +520,7 @@ public class UploadPack {
 			reportErrorDuringNegotiate(err.getMessage());
 			throw err;
 
-		} catch (UploadPackMayNotContinueException err) {
+		} catch (ServiceMayNotContinueException err) {
 			if (!err.isOutput() && err.getMessage() != null) {
 				try {
 					pckOut.writeString("ERR " + err.getMessage() + "\n");
@@ -562,14 +594,15 @@ public class UploadPack {
 	 *            the advertisement formatter.
 	 * @throws IOException
 	 *             the formatter failed to write an advertisement.
-	 * @throws UploadPackMayNotContinueException
+	 * @throws ServiceMayNotContinueException
 	 *             the hook denied advertisement.
 	 */
 	public void sendAdvertisedRefs(final RefAdvertiser adv) throws IOException,
-			UploadPackMayNotContinueException {
+			ServiceMayNotContinueException {
 		try {
 			preUploadHook.onPreAdvertiseRefs(this);
-		} catch (UploadPackMayNotContinueException fail) {
+			advertiseRefsHook.advertiseRefs(this);
+		} catch (ServiceMayNotContinueException fail) {
 			if (fail.getMessage() != null) {
 				adv.writeOne("ERR " + fail.getMessage());
 				fail.setOutput();
@@ -959,7 +992,7 @@ public class UploadPack {
 		if (sideband) {
 			try {
 				sendPack(true);
-			} catch (UploadPackMayNotContinueException noPack) {
+			} catch (ServiceMayNotContinueException noPack) {
 				// This was already reported on (below).
 				throw noPack;
 			} catch (IOException err) {
@@ -1023,7 +1056,7 @@ public class UploadPack {
 			} else {
 				preUploadHook.onSendPack(this, wantAll, commonBase);
 			}
-		} catch (UploadPackMayNotContinueException noPack) {
+		} catch (ServiceMayNotContinueException noPack) {
 			if (sideband && noPack.getMessage() != null) {
 				noPack.setOutput();
 				SideBandOutputStream err = new SideBandOutputStream(
