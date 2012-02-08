@@ -73,7 +73,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.RefAdvertiser.PacketLineOutRefAdvertiser;
 import org.eclipse.jgit.transport.UploadPack;
 import org.eclipse.jgit.transport.UploadPackInternalServerErrorException;
-import org.eclipse.jgit.transport.UploadPackMayNotContinueException;
+import org.eclipse.jgit.transport.ServiceMayNotContinueException;
 import org.eclipse.jgit.transport.resolver.ServiceNotAuthorizedException;
 import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
 import org.eclipse.jgit.transport.resolver.UploadPackFactory;
@@ -176,7 +176,7 @@ class UploadPackServlet extends HttpServlet {
 			up.upload(getInputStream(req), out, null);
 			out.close();
 
-		} catch (UploadPackMayNotContinueException e) {
+		} catch (ServiceMayNotContinueException e) {
 			if (e.isOutput()) {
 				consumeRequestBody(req);
 				out.close();
