@@ -148,8 +148,8 @@ public class UploadPack implements UploadSession {
 	/** The refs we advertised as existing at the start of the connection. */
 	private Map<String, Ref> refs;
 
-	/** Filter used while advertising the refs to the client. */
-	private RefFilter refFilter;
+	/** Hook used while advertising the refs to the client. */
+	private AdvertiseRefsHook advertiseRefsHook = AdvertiseRefsHook.DEFAULT;
 
 	/** Hook handling the various upload phases. */
 	private PreUploadHook preUploadHook = PreUploadHook.NULL;
@@ -232,7 +232,6 @@ public class UploadPack implements UploadSession {
 		SAVE.add(PEER_HAS);
 		SAVE.add(COMMON);
 		SAVE.add(SATISFIED);
-		refFilter = RefFilter.DEFAULT;
 	}
 
 	public final Repository getRepository() {
@@ -245,19 +244,15 @@ public class UploadPack implements UploadSession {
 
 	public final Map<String, Ref> getAdvertisedRefs() {
 		if (refs == null)
-			setAdvertisedRefs(db.getAllRefs());
+			setAdvertisedRefs(null);
 		return refs;
 	}
 
-	/**
-	 * @param allRefs
-	 *            explicit set of references to claim as advertised by this
-	 *            UploadPack instance. This overrides any references that
-	 *            may exist in the source repository. The map is passed
-	 *            to the configured {@link #getRefFilter()}.
-	 */
 	public void setAdvertisedRefs(Map<String, Ref> allRefs) {
-		refs = refFilter.filter(allRefs);
+		if (allRefs != null)
+			refs = allRefs;
+		else
+			refs = db.getAllRefs();
 	}
 
 	public int getTimeout() {
@@ -312,23 +307,27 @@ public class UploadPack implements UploadSession {
 		requestPolicy = policy != null ? policy : RequestPolicy.ADVERTISED;
 	}
 
-	public RefFilter getRefFilter() {
-		return refFilter;
+	public AdvertiseRefsHook getAdvertiseRefsHook() {
+		return advertiseRefsHook;
 	}
 
 	/**
-	 * Set the filter used while advertising the refs to the client.
+	 * Set the hook used while advertising the refs to the client.
 	 * <p>
-	 * Only refs allowed by this filter will be sent to the client. This can
-	 * be used by a server to restrict the list of references the client can
-	 * obtain through clone or fetch, effectively limiting the access to only
-	 * certain refs.
+	 * If the {@link AdvertiseRefsHook} chooses to call
+	 * {@link #setAdvertisedRefs(Map)}, only refs set by this filter will be shown
+	 * to the client. Clients may still attempt to create or update a reference
+	 * not advertised by the configured {@link AdvertiseRefsHook}. These attempts
+	 * should be rejected by a matching {@link PreReceiveHook}.
 	 *
-	 * @param refFilter
-	 *            the filter; may be null to show all refs.
+	 * @param advertiseRefsHook
+	 *            the hook; may be null to show all refs.
 	 */
-	public void setRefFilter(final RefFilter refFilter) {
-		this.refFilter = refFilter != null ? refFilter : RefFilter.DEFAULT;
+	public void setAdvertiseRefsHook(final AdvertiseRefsHook advertiseRefsHook) {
+		if (advertiseRefsHook != null)
+			this.advertiseRefsHook = advertiseRefsHook;
+		else
+			this.advertiseRefsHook = AdvertiseRefsHook.DEFAULT;
 	}
 
 	public PreUploadHook getPreUploadHook() {
@@ -460,7 +459,7 @@ public class UploadPack implements UploadSession {
 			reportErrorDuringNegotiate(err.getMessage());
 			throw err;
 
-		} catch (UploadPackMayNotContinueException err) {
+		} catch (ServiceMayNotContinueException err) {
 			if (!err.isOutput() && err.getMessage() != null) {
 				try {
 					pckOut.writeString("ERR " + err.getMessage() + "\n");
@@ -534,14 +533,15 @@ public class UploadPack implements UploadSession {
 	 *            the advertisement formatter.
 	 * @throws IOException
 	 *             the formatter failed to write an advertisement.
-	 * @throws UploadPackMayNotContinueException
+	 * @throws ServiceMayNotContinueException
 	 *             the hook denied advertisement.
 	 */
 	public void sendAdvertisedRefs(final RefAdvertiser adv) throws IOException,
-			UploadPackMayNotContinueException {
+			ServiceMayNotContinueException {
 		try {
 			preUploadHook.onPreAdvertiseRefs(this);
-		} catch (UploadPackMayNotContinueException fail) {
+			advertiseRefsHook.advertiseRefs(this);
+		} catch (ServiceMayNotContinueException fail) {
 			if (fail.getMessage() != null) {
 				adv.writeOne("ERR " + fail.getMessage());
 				fail.setOutput();
@@ -931,7 +931,7 @@ public class UploadPack implements UploadSession {
 		if (sideband) {
 			try {
 				sendPack(true);
-			} catch (UploadPackMayNotContinueException noPack) {
+			} catch (ServiceMayNotContinueException noPack) {
 				// This was already reported on (below).
 				throw noPack;
 			} catch (IOException err) {
@@ -995,7 +995,7 @@ public class UploadPack implements UploadSession {
 			} else {
 				preUploadHook.onSendPack(this, wantAll, commonBase);
 			}
-		} catch (UploadPackMayNotContinueException noPack) {
+		} catch (ServiceMayNotContinueException noPack) {
 			if (sideband && noPack.getMessage() != null) {
 				noPack.setOutput();
 				SideBandOutputStream err = new SideBandOutputStream(

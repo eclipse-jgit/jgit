@@ -1,8 +1,7 @@
 /*
- * Copyright (C) 2011, Google Inc.
+ * Copyright (C) 2012, Google Inc.
  * and other copyright owners as documented in the project's IP log.
- *
- * This program and the accompanying materials are made available
+ * * This program and the accompanying materials are made available
  * under the terms of the Eclipse Distribution License v1.0 which
  * accompanies this distribution, is reproduced below, and is
  * available at http://www.eclipse.org/org/documents/edl-v10.php
@@ -43,35 +42,46 @@
 
 package org.eclipse.jgit.transport;
 
-import java.io.IOException;
+/** Hook to allow callers to take over advertising refs to the client. */
+public interface AdvertiseRefsHook {
+	/**
+	 * A simple hook that advertises the default refs.
+	 * <p>
+	 * The method implementations do nothing to preserve the default behavior; see
+	 * {@link UploadSession#setAdvertisedRefs(java.util.Map)} and
+	 * {@link ReceiveSession#setAdvertisedRefs(java.util.Map,java.util.Set)}.
+	 */
+	public static final AdvertiseRefsHook DEFAULT = new AdvertiseRefsHook() {
+		public void advertiseRefs(UploadSession uploadSession) {
+			// Do nothing.
+		}
 
-/** Indicates UploadPack may not continue execution. */
-public class UploadPackMayNotContinueException extends IOException {
-	private static final long serialVersionUID = 1L;
-
-	private boolean output;
-
-	/** Initialize with no message. */
-	public UploadPackMayNotContinueException() {
-		// Do not set a message.
-	}
+		public void advertiseRefs(ReceiveSession receiveSession) {
+			// Do nothing.
+		}
+	};
 
 	/**
-	 * @param msg
-	 *            a message explaining why it cannot continue. This message may
-	 *            be shown to an end-user.
+	 * Advertise refs for upload-pack.
+	 *
+	 * @param uploadSession instance on which to call
+	 *            {@link UploadSession#setAdvertisedRefs(java.util.Map)}
+	 *            if necessary.
+	 * @throws ServiceMayNotContinueException
+	 *             abort; the message will be sent to the user.
 	 */
-	public UploadPackMayNotContinueException(String msg) {
-		super(msg);
-	}
+	public void advertiseRefs(UploadSession uploadSession)
+			throws ServiceMayNotContinueException;
 
-	/** @return true if the message was already output to the client. */
-	public boolean isOutput() {
-		return output;
-	}
-
-	/** Mark this message has being sent to the client. */
-	public void setOutput() {
-		output = true;
-	}
+	/**
+	 * Advertise refs for receive-pack.
+	 *
+	 * @param receiveSession instance on which to call
+	 *            {@link ReceiveSession#setAdvertisedRefs(java.util.Map,java.util.Set)}
+	 *            if necessary.
+	 * @throws ServiceMayNotContinueException
+	 *             abort; the message will be sent to the user.
+	 */
+	public void advertiseRefs(ReceiveSession receiveSession)
+			throws ServiceMayNotContinueException;
 }
