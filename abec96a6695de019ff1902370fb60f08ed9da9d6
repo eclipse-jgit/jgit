@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOEn///90\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/storage/file/GCTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2012-02-02T10:09:12Z",
+      "side": 1,
+      "message": "Should I skip this assert?\n\nThe option to prune loose unreachable objects may be important when there is a huge blob which is unreachable and we want to reduce the total size of the repository by pruning it.",
+      "parentUuid": "AABOEn////4\u003d",
+      "revId": "abec96a6695de019ff1902370fb60f08ed9da9d6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOEn////0\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/storage/file/GCTest.java",
         "patchSetId": 2
