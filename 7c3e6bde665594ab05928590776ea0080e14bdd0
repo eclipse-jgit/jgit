@@ -36,6 +36,40 @@
     },
     {
       "key": {
+        "uuid": "AABOC3///mc\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/BranchCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 472,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-12-02T17:18:20Z",
+      "side": 1,
+      "message": "\\r is for Windows only. Don\u0027t do that.",
+      "revId": "7c3e6bde665594ab05928590776ea0080e14bdd0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOC3///mg\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/pgm/CLIGitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-12-02T17:18:20Z",
+      "side": 1,
+      "message": "That won\u0027t handle arguments with spaces",
+      "revId": "7c3e6bde665594ab05928590776ea0080e14bdd0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOC3///lE\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/pgm/CLIGitCommand.java",
         "patchSetId": 1
@@ -47,6 +81,42 @@
       "writtenOn": "2011-12-03T02:47:44Z",
       "side": 1,
       "message": "If you want a function that can parse an sh style line, with quoting, we have logic for that in Gerrit Code Review. Its Apache License 2.0 but I/Google would be willing to relicense it under EDL for use in JGit since it depends on JGit\u0027s QuotedPath code to handle the sh quoting rules anyway. :-)",
+      "revId": "7c3e6bde665594ab05928590776ea0080e14bdd0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOC3///K4\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/pgm/CLIGitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-12-09T12:22:56Z",
+      "side": 1,
+      "message": "That one we will not fix and I\u0027ll try to do what I can to prevent others from fixing it :)\n\n\nI think we should go with the sh style parsing here, if we decide this will be good. \n\nAnother option for exploring writing readable tests might be to use Groovy, but we\u0027d need a proof-of-concept even for that one.",
+      "parentUuid": "AABOC3///U0\u003d",
+      "revId": "7c3e6bde665594ab05928590776ea0080e14bdd0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOC3///K0\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/pgm/CLIGitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-12-09T12:22:56Z",
+      "side": 1,
+      "message": "No. JGit doesn\u0027t care about arguement quoting. The arguments to main are already parsed according to the rules of the user\u0027s shell.",
+      "parentUuid": "AABOC3///Z4\u003d",
       "revId": "7c3e6bde665594ab05928590776ea0080e14bdd0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
