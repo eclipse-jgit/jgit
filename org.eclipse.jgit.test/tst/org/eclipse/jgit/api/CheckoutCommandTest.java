@@ -56,6 +56,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 import org.eclipse.jgit.api.CheckoutResult.Status;
+import org.eclipse.jgit.api.errors.CheckoutConflictException;
 import org.eclipse.jgit.api.errors.InvalidRefNameException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.api.errors.RefAlreadyExistsException;
@@ -127,7 +128,8 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void testCheckoutToNonExistingBranch() throws JGitInternalException,
-			RefAlreadyExistsException, InvalidRefNameException {
+			RefAlreadyExistsException, InvalidRefNameException,
+			CheckoutConflictException {
 		try {
 			git.checkout().setName("badbranch").call();
 			fail("Should have failed");
@@ -222,7 +224,7 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 	@Test
 	public void testDetachedHeadOnCheckout() throws JGitInternalException,
 			RefAlreadyExistsException, RefNotFoundException,
-			InvalidRefNameException, IOException {
+			InvalidRefNameException, IOException, CheckoutConflictException {
 		CheckoutCommand co = git.checkout();
 		co.setName("master").call();
 
