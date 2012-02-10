@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL2n///ck\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Subtree.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-01-23T12:18:45Z",
+      "side": 1,
+      "message": "split is a subcommand of subtree, not a jgit command by itself, so it is misleading. Even stranger is it when you do not supply a subcommand.",
+      "revId": "e1a5d60ba3e641b13578575897930e0cbfedc1ca",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
