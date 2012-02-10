@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALy3///gk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/FileTreeIterator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-20T21:19:54Z",
+      "side": 1,
+      "message": "None of this should be in FileTreeIterator.  It all should be implementable in WorkingTreeIterator.\n\nBut attributes are harder than gitignore.  For attributes we also need to pay attention to the CanonicalTreeParser side of the house during checkout.  Because during checkout we need to use the gitattributes file from the repository to determine CRLF status of a file as we create or update it in the working tree.\n\nGiven that, maybe we should implement attribute support using an AbstractTreeIterator that wraps another AbstractTreeIterator.  It can peek at the underlying AbstractTreeIterator to see if there is a gitattributes present, and if so it would setup an Attributes to represent the current attributes.  Peeking shouldn\u0027t be very expensive because \".gitattributes\" is very likely to occur very early in a sorted list, and is actually not likely to exist.  So we probably only need to examine the first path of the wrapped iterator to prove its after \".gitattributes\" and thus don\u0027t need attribute support... or it is \".gitattributes\", we load it, and back(1) to undo.  That\u0027s all reasonably cheap.\n\nThen checkout client code that needs to care about attributes from a particular location (e.g. working tree or repository) can wrap the iterator with this AttributeIterator type and later query for attributes as necessary.\n\nBecause TreeWalk manages iterators by creating a new iterator when it dives into a tree, and discards an iterator when it exits, we don\u0027t need to manage the stack ourselves.  Attribute collections from a nested subtree will automatically fall out of scope when the TreeWalk throws away the AttributeIterator.\n\nThis also opens the door for some potential optimization of an Attributes object.  If we are in an AttributeIterator we might want to sort the entries by path name so we can merge join them against the underlying iterator\u0027s own names during next() and back(), reducing the amount of work we need to perform during a particular attribute query from the caller.  Likewise we might be able to be told by our caller that we only care about the \"text\" and \"crlf\" attributes, and discard any other rules that aren\u0027t relevant.",
+      "revId": "2bcab9ffdce14c86715cc390844d7b1324fe985c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
