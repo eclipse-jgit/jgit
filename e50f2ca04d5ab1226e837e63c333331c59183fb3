@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAL4H//+34\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-04-21T07:50:57Z",
+      "side": 1,
+      "message": "style nit: don\u0027t put the bug id in the commit message header, instead add a bug footer and also add Gerrit change-id",
+      "revId": "e50f2ca04d5ab1226e837e63c333331c59183fb3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL4H//+30\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-04-21T07:50:57Z",
+      "side": 1,
+      "message": "you shouldn\u0027t attribute that to Shawn\u0027s copyright here, instead use your own copyright statement on another line",
+      "revId": "e50f2ca04d5ab1226e837e63c333331c59183fb3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL4X////o\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
         "patchSetId": 1
@@ -30,6 +64,23 @@
       "writtenOn": "2011-04-21T18:01:43Z",
       "side": 1,
       "message": "Style-nit: There is no reason to hoist this outside of the try block. Please leave it initialized by the Runtime.getRuntime().exec() invocation.",
+      "revId": "e50f2ca04d5ab1226e837e63c333331c59183fb3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL4H//+3w\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-04-21T07:50:57Z",
+      "side": 1,
+      "message": "style nit: we don\u0027t use curly braces around single line blocks",
       "revId": "e50f2ca04d5ab1226e837e63c333331c59183fb3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
