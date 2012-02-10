@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABODX//+vM\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-01-15T10:54:54Z",
+      "side": 1,
+      "message": "following OSGi API rules [1] and Eclipse versioning rules [2] this would require that we bump the major version as this breaks compatibility for consumers of the API\n\n[1] http://www.osgi.org/wiki/uploads/Links/SemanticVersioning.pdf\n\n[2] http://wiki.eclipse.org/Version_Numbering#When_to_change_the_major_segment",
+      "revId": "0a6f83bf7322a896c49a782a49ffb71f9f070314",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABODX//+vQ\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-01-15T10:54:54Z",
+      "side": 1,
+      "message": "remove this blank line so that all footers are in the last paragraph",
+      "revId": "0a6f83bf7322a896c49a782a49ffb71f9f070314",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABODX//+vU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CherryPickCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-01-15T10:54:54Z",
+      "side": 1,
+      "message": "don\u0027t declare the same exception twice",
+      "revId": "0a6f83bf7322a896c49a782a49ffb71f9f070314",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
