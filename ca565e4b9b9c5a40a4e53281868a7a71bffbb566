@@ -50,6 +50,24 @@
       "revId": "ca565e4b9b9c5a40a4e53281868a7a71bffbb566",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOCX///Zo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/CanonicalTreeParser.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-11-21T09:23:35Z",
+      "side": 1,
+      "message": "I also think it\u0027s better to trigger this path validation only when we want to touch the local filesystem. I checked DirCacheCheckout and found the following places which should be adapted:\n- checkoutEntry /* most important */\n- doCheckout()   /* when trying to delete files from \u0027removed\u0027 set and when calling mkdirs() for parent-dirs of updated files */\n- removeEmptyParents()\n- cleanUpConflicts()",
+      "parentUuid": "AABOCX///js\u003d",
+      "revId": "ca565e4b9b9c5a40a4e53281868a7a71bffbb566",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
