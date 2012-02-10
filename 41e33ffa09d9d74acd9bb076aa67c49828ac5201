@@ -124,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "AABODX///qM\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Config.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2012-01-03T10:11:38Z",
+      "side": 1,
+      "message": "Again, I can\u0027t find the man page I took it from, but when I type \"git config --list\" and \"git config --list --local\" git-bash[1] gives me different results. The latter prints out content of the repo configuration, while the former shows system, global and local configs combined (in that order). In other words --local gives the same result as --file .git/config. In my setup, omitting --global and --system works differently from what you said.\n\n[1] 1.7.4.msysgit.0",
+      "parentUuid": "AABODX///ug\u003d",
+      "revId": "41e33ffa09d9d74acd9bb076aa67c49828ac5201",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABODX///qE\u003d",
         "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Config.java",
         "patchSetId": 1
