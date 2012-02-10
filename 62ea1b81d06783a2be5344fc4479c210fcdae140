@@ -1,0 +1,124 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOJn///yU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffFormatter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-30T18:17:51Z",
+      "side": 1,
+      "message": "You should instead try to cache the TreeOptions object inside of the Config by using the SectionParser API (see CoreConfig as an example). That way we don\u0027t do a linear search through the variables every time we try to acquire the configuration. Instead we only trigger the linear search when there was a variable change and the cached objects had to be invalidated.",
+      "revId": "62ea1b81d06783a2be5344fc4479c210fcdae140",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJn///uw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectReader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 444,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-31T14:13:22Z",
+      "side": 1,
+      "message": "Yea, we can use TreeOptions here.\n\nPlease define the method above release().\n\nI wish we could define a reasonable default implementation. But its not possible because the class doesn\u0027t have any reference back to the Repository or ObjectDatabase.",
+      "parentUuid": "AABOJn///wQ\u003d",
+      "revId": "62ea1b81d06783a2be5344fc4479c210fcdae140",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJn///yg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/AbstractTreeIterator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-30T18:17:51Z",
+      "side": 1,
+      "message": "I don\u0027t usually write asserts. :-)",
+      "revId": "62ea1b81d06783a2be5344fc4479c210fcdae140",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJn///yo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/TreeOptions.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-30T18:17:51Z",
+      "side": 1,
+      "message": "Why can\u0027t this just be CoreConfig? I will admit I haven\u0027t read all of the code yet, but we should be setting the path encoding option in one location (e.g. CoreConfig) and have everyone try to use that whenever possible.\n\nOr... if CoreConfig is too heavy for some contexts, always use the TreeOptions object but put this in the .lib package rather than treewalk. (By too heavy, I mean its hard to create a one-off configuration that isn\u0027t connected to a specific Repository.)",
+      "revId": "62ea1b81d06783a2be5344fc4479c210fcdae140",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJn///ys\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/TreeOptions.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-30T18:17:51Z",
+      "side": 1,
+      "message": "I would like to see this at least more standardized into the \"core\" section for Git\u0027s configuration. Msysgit should use the same key we do.",
+      "revId": "62ea1b81d06783a2be5344fc4479c210fcdae140",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJn///yM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeOptions.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-30T18:17:51Z",
+      "side": 1,
+      "message": "Stupid question... can the working tree have a different encoding than the repository?\n\nWhat if my *NIX system thinks the correct encoding is UTF-8, but the repository maintainer has chosen to use ISO-8859-1? Can I set the path encoding within the repository to be ISO-8859-1 but my working tree to UTF-8 and have JGit perform automatic translation between the two?\n\nI think this works magically (*sigh*). In all of our working tree code we use String and File objects to point to the working tree. Java will handle the encoding/decoding to the filesystem itself. So within JGit we just need to encode/decode the String/File to the in-repository encoding. Am I understanding this right?",
+      "revId": "62ea1b81d06783a2be5344fc4479c210fcdae140",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJn///yk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/ByteUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-30T18:17:51Z",
+      "side": 1,
+      "message": "Nit: private constructor.",
+      "revId": "62ea1b81d06783a2be5344fc4479c210fcdae140",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
