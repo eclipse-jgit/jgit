@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOAn//+kY\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/StashApplyCommandTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-08-23T21:33:36Z",
+      "side": 1,
+      "message": "Never catch exceptions in test code unless you actually want to do something use. Just declare that this method throws Exception",
+      "revId": "4a31569496202616e0a0a159fa2dbfaf9d428037",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOAn//+kg\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/StashApplyCommandTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-08-23T21:33:36Z",
+      "side": 1,
+      "message": "At least add an excuse for leaving things like this in an RFC",
+      "revId": "4a31569496202616e0a0a159fa2dbfaf9d428037",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOAn//+kU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/StashCreateCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-08-23T21:33:36Z",
+      "side": 1,
+      "message": "Don\u0027t format comments like this.",
+      "revId": "4a31569496202616e0a0a159fa2dbfaf9d428037",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOAn//+kQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/StashCreateCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-08-23T21:33:36Z",
+      "side": 1,
+      "message": "Leave unreadable things out of the code. What is the purpose?",
+      "revId": "4a31569496202616e0a0a159fa2dbfaf9d428037",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
