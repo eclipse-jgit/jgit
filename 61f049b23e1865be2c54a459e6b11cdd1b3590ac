@@ -71,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "AABOJ3///5k\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PullCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2011-06-01T17:14:08Z",
+      "side": 1,
+      "message": "I was matching it to FetchCommand which uses setRemote",
+      "parentUuid": "AABOJ3///8w\u003d",
+      "revId": "61f049b23e1865be2c54a459e6b11cdd1b3590ac",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOJ3///40\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PullCommand.java",
         "patchSetId": 2
