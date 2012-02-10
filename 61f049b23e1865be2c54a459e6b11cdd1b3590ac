@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AABOJ3///8o\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/PullCommandTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-06-01T07:28:15Z",
+      "side": 1,
+      "message": "We should a a test for calling setRemote with a URL instead of remoteName.",
+      "revId": "61f049b23e1865be2c54a459e6b11cdd1b3590ac",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOJ3///8s\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PullCommand.java",
         "patchSetId": 2
@@ -48,6 +65,24 @@
       "side": 1,
       "message": "then FetchCommand has the same issue. I would prefer \"repository\" because it:\n- matches the native git documentation\n- \"remote\" would make me think I have to specify the name of a remote. But that\u0027s not correct. I can specify remote names but I am also able to specify URLs.",
       "parentUuid": "AABOJ3///5k\u003d",
+      "revId": "61f049b23e1865be2c54a459e6b11cdd1b3590ac",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOCX///Uk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PullCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-11-22T15:35:17Z",
+      "side": 1,
+      "message": "Ok for me. But some comments\n\nAs you can see in the man pages of all 4 git commands you mention they all call it \"repository\". The push command man page e.g. shows  that \"names of remotes\" and URLs are different things and both can go into this parameter. I guess that\u0027s why they didn\u0027t called it \"remote\".\n\nBut even if I could convince you: since the FetchCommand API is included in our released jgit version I can\u0027t change it anymore. And I agree: beeing consistent between Fetch and Pull is important.\n\nMaybe we could add additional setters for \"repository\" to all these commands just to be in sync with native git terminology.",
+      "parentUuid": "AABOCX///VE\u003d",
       "revId": "61f049b23e1865be2c54a459e6b11cdd1b3590ac",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
