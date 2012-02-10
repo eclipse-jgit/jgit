@@ -421,6 +421,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL0n///1w\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/fs/LStat.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-11-24T23:21:59Z",
+      "side": 1,
+      "message": "Done.\n\nThe compiler prevents the second cast saying that is unnecessary.",
+      "parentUuid": "AAAL0n///5Q\u003d",
+      "revId": "fe8b8b07c6e1152c0d538aa57cbf871f5a0f2f1d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL0n///5I\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/fs/NoSuchFileException.java",
         "patchSetId": 4
@@ -432,6 +450,24 @@
       "writtenOn": "2010-11-23T23:22:31Z",
       "side": 1,
       "message": "\"As soon as Java 7 is our minimum supported platform\".",
+      "revId": "fe8b8b07c6e1152c0d538aa57cbf871f5a0f2f1d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0n///1s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/fs/NoSuchFileException.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-11-24T23:21:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL0n///5I\u003d",
       "revId": "fe8b8b07c6e1152c0d538aa57cbf871f5a0f2f1d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
