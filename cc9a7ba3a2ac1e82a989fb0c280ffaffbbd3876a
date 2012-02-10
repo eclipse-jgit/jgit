@@ -16,6 +16,24 @@
       "revId": "cc9a7ba3a2ac1e82a989fb0c280ffaffbbd3876a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABODX///7I\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 89
+      },
+      "writtenOn": "2011-12-28T08:46:41Z",
+      "side": 1,
+      "message": "https://appharbor.com/ returns such header. Native git is able to clone from appharbor. As I understand, it decides what protocol to use inside process_connect_service of transport-helper.c, and it doesn\u0027t check headers of response. That why I thought I can fix it like that.",
+      "parentUuid": "AABODX///88\u003d",
+      "revId": "cc9a7ba3a2ac1e82a989fb0c280ffaffbbd3876a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
