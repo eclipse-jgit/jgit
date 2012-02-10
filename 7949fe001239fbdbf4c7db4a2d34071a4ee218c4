@@ -107,6 +107,23 @@
     },
     {
       "key": {
+        "uuid": "AABODX//++4\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/storage/file/GCTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-01-13T09:14:03Z",
+      "side": 1,
+      "message": "Doesn\u0027t this write a reflog entry for the second commit, thus\nit would keep both commits if you read the reflogs",
+      "revId": "7949fe001239fbdbf4c7db4a2d34071a4ee218c4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABODn///wI\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/storage/file/GCTest.java",
         "patchSetId": 4
@@ -119,6 +136,23 @@
       "side": 1,
       "message": "It should - but we don\u0027t care for reflogs currently. Reflog handling will come but until it\u0027s there we ignore reflogs when writing tests.",
       "parentUuid": "AABODX//++4\u003d",
+      "revId": "7949fe001239fbdbf4c7db4a2d34071a4ee218c4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABODX//++0\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/storage/file/GCTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-01-13T09:14:03Z",
+      "side": 1,
+      "message": "fix indentation of comment",
       "revId": "7949fe001239fbdbf4c7db4a2d34071a4ee218c4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -214,6 +248,23 @@
     },
     {
       "key": {
+        "uuid": "AABODX//++8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-01-13T09:14:03Z",
+      "side": 1,
+      "message": "Only wrap the ObjectId.fromString with the try-catch",
+      "revId": "7949fe001239fbdbf4c7db4a2d34071a4ee218c4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABODn///v4\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
         "patchSetId": 4
@@ -232,6 +283,23 @@
     },
     {
       "key": {
+        "uuid": "AABODX//+/Q\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-01-13T09:14:03Z",
+      "side": 1,
+      "message": "Do you need to take care of all id\u0027s in FETCHHEAD?",
+      "revId": "7949fe001239fbdbf4c7db4a2d34071a4ee218c4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABODn///v0\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
         "patchSetId": 4
@@ -244,6 +312,23 @@
       "side": 1,
       "message": "Yes, of course. FETCH_HEAD will not come with repo.getAllRefs. But we have an utility method RefDatabase.getAdditionalRefs(). I\u0027ll use that also.",
       "parentUuid": "AABODX//+/Q\u003d",
+      "revId": "7949fe001239fbdbf4c7db4a2d34071a4ee218c4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABODX//++s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-01-13T09:14:03Z",
+      "side": 1,
+      "message": "C Git does not pack data located in alternate-repos. Packing to much is not dangerous, so fixing that is not a high-priority.",
       "revId": "7949fe001239fbdbf4c7db4a2d34071a4ee218c4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -286,6 +371,23 @@
     },
     {
       "key": {
+        "uuid": "AABODX//+/M\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-01-13T09:14:03Z",
+      "side": 1,
+      "message": "Though not \"normal\", I think a bare repo can have an index,\nand vice verse C Git does not complain much if there is no\nindex in a non-bare repo. It\u0027s even possible to commit, so\nI the you should simply consider the non-precense of an index files as it being empty (EmptyTreeIterator).",
+      "revId": "7949fe001239fbdbf4c7db4a2d34071a4ee218c4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABODn///vo\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
         "patchSetId": 4
@@ -298,6 +400,23 @@
       "side": 1,
       "message": "yes, I\u0027ll change it that repo.getIndexFile() is asked. But currently we don\u0027t support this setup. repo.readDirCache() and repo.lockDirCache() will all throw exceptions on a bare repo, regardless whether we have a index file or not. I think that\u0027s a different bug.",
       "parentUuid": "AABODX//+/M\u003d",
+      "revId": "7949fe001239fbdbf4c7db4a2d34071a4ee218c4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABODX//+/I\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-01-13T09:14:03Z",
+      "side": 1,
+      "message": "pack.packSizeLimit might be relevant here.",
       "revId": "7949fe001239fbdbf4c7db4a2d34071a4ee218c4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
