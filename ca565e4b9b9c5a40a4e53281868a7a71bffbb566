@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOCX///ms\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/InvalidPathException.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-11-18T22:23:37Z",
+      "side": 1,
+      "message": "I kind of doubt i have copyright on this class. :-)",
+      "revId": "ca565e4b9b9c5a40a4e53281868a7a71bffbb566",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOCX///mo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/AbstractTreeIterator.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 664,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-11-18T22:23:37Z",
+      "side": 1,
+      "message": "Why is this true by default?",
+      "revId": "ca565e4b9b9c5a40a4e53281868a7a71bffbb566",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOCX///js\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/CanonicalTreeParser.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-11-18T22:23:37Z",
+      "side": 1,
+      "message": "I strongly disagree with putting this code into the tree parser. We use this in so many places that are not connected with the local filesystem that are also performance critical that I am concerned about the running time impact this is going to have.\n\nI would instead put this stuff into the DirCacheCheckout code. Maybe you can have isInvalid() on AbstractTreeIterator check the path buffer when its invoked, and DirCacheCheckout calls it only once per path to check that the path buffer is sane before it hands the buffer over to the filesystem?\n\nBut don\u0027t check the path buffer every time we parse a record from a canonical tree.",
+      "revId": "ca565e4b9b9c5a40a4e53281868a7a71bffbb566",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
