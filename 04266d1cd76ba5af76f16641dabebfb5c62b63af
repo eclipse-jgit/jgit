@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOKH///+U\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Status.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 214
+      },
+      "writtenOn": "2011-06-08T06:34:28Z",
+      "side": 1,
+      "message": "add status.getConflicting() as \u0027unmerged\u0027?",
+      "revId": "04266d1cd76ba5af76f16641dabebfb5c62b63af",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
