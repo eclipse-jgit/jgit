@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOAn///eo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/WalkPushConnection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-08-13T21:07:08Z",
+      "side": 1,
+      "message": "There is no message here, this class is the one executing the command. It wants to say funnyRefname as the message. So this one is correct in the old version.",
+      "revId": "d3d110a7cd307d77a8b251f78a6e7a16b219d1d8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}

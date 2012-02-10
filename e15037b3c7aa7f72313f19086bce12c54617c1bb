@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOAn///ek\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/JGitText.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-08-13T21:07:08Z",
+      "side": 0,
+      "message": "You need to keep this translation for the WalkPushConnection.",
+      "revId": "e15037b3c7aa7f72313f19086bce12c54617c1bb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
