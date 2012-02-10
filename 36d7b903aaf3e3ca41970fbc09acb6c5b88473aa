@@ -1,0 +1,293 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOAn//+jI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-08-23T22:59:04Z",
+      "side": 1,
+      "message": "Please correct your copyright notice.",
+      "revId": "36d7b903aaf3e3ca41970fbc09acb6c5b88473aa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOAn//+jE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-08-23T22:59:04Z",
+      "side": 1,
+      "message": "s/seems//. It is the default.",
+      "revId": "36d7b903aaf3e3ca41970fbc09acb6c5b88473aa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOAn//+jA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-08-23T22:59:04Z",
+      "side": 1,
+      "message": "Don\u0027t we usually return the command type so its possible to chain calls?",
+      "revId": "36d7b903aaf3e3ca41970fbc09acb6c5b88473aa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOAn//+ic\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-08-23T22:59:04Z",
+      "side": 1,
+      "message": "This walk should be released when you are done (use a try/finally).",
+      "revId": "36d7b903aaf3e3ca41970fbc09acb6c5b88473aa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOAn//+iE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-08-23T22:59:04Z",
+      "side": 1,
+      "message": "As the author of much of `git describe` in C... this isn\u0027t the most optimal algorithm. A better approach is to allocate a RevFlag from the RevWalk. Loop through each tag. Parse the tag reference to a commit... if it is a commit, add the RevFlag to it.\n\nNow start from the starting point and walk backwards through history. When RevWalk.next() returns a commit that has your RevFlag, you have found a candidate. Mark the history behind that tag UNINTERESTING and keep going until the RevWalk stops.\n\nIf multiple candidates are found, I think you use the one with the largest distance (see below).\n\nI may be forgetting some other isoteric rules related to not picking up the release tag on a maint branch when this is the master branch and there is an -rc tag a further number of commits back, but that is \"version number wise\" more recent. I think this is why you use the largest distance between a commit and the tag.\n\nIIRC I managed to do the entire thing in just 1 reversion traversal in the C code, with a few commits extra being walked to finish up the counting.\n\nAlso as you mention on the commit message, there is a tendency to favor annotated tags over lightweight ones.",
+      "revId": "36d7b903aaf3e3ca41970fbc09acb6c5b88473aa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOAn//+iY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-08-23T22:59:04Z",
+      "side": 1,
+      "message": "Don\u0027t print stack traces. These should be wrapped and thrown to the caller.",
+      "revId": "36d7b903aaf3e3ca41970fbc09acb6c5b88473aa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOAn//+iU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-08-23T22:59:04Z",
+      "side": 1,
+      "message": "Don\u0027t print stack traces. These should be wrapped and thrown to the caller.",
+      "revId": "36d7b903aaf3e3ca41970fbc09acb6c5b88473aa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOAn//+iQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-08-23T22:59:04Z",
+      "side": 1,
+      "message": "The count should not appear if the tag is exactly found.",
+      "revId": "36d7b903aaf3e3ca41970fbc09acb6c5b88473aa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOAn//+i4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-08-23T22:59:04Z",
+      "side": 1,
+      "message": "s/REvCommit/RevCommit/",
+      "revId": "36d7b903aaf3e3ca41970fbc09acb6c5b88473aa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOAn//+ig\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-08-23T22:59:04Z",
+      "side": 1,
+      "message": "I think you need a setRevSort(RevSort.TOPO) here to get the right count in all graphs.",
+      "revId": "36d7b903aaf3e3ca41970fbc09acb6c5b88473aa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOAn//+i0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-08-23T22:59:04Z",
+      "side": 1,
+      "message": "You created a RevWalk above in call. Why not reuse it here?\n\nAlso, FWIW, you should release a RevWalk when you are done with it.",
+      "revId": "36d7b903aaf3e3ca41970fbc09acb6c5b88473aa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOAn//+iw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-08-23T22:59:04Z",
+      "side": 1,
+      "message": "This reset is not necessary unless you were reusing a RevWalk",
+      "revId": "36d7b903aaf3e3ca41970fbc09acb6c5b88473aa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOAn//+is\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-08-23T22:59:04Z",
+      "side": 1,
+      "message": "This is the default.",
+      "revId": "36d7b903aaf3e3ca41970fbc09acb6c5b88473aa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOAn//+io\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-08-23T22:59:04Z",
+      "side": 1,
+      "message": "This is the default.",
+      "revId": "36d7b903aaf3e3ca41970fbc09acb6c5b88473aa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOAn//+ik\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-08-23T22:59:04Z",
+      "side": 1,
+      "message": "Style-nit: We don\u0027t put curly braces around single line blocks.",
+      "revId": "36d7b903aaf3e3ca41970fbc09acb6c5b88473aa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOAn//+i8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DescribeCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-08-23T22:59:04Z",
+      "side": 1,
+      "message": "Return this",
+      "revId": "36d7b903aaf3e3ca41970fbc09acb6c5b88473aa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOAn//+jM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Git.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-08-23T22:59:04Z",
+      "side": 1,
+      "message": "Style-nit: Trailing whitespace.",
+      "revId": "36d7b903aaf3e3ca41970fbc09acb6c5b88473aa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
