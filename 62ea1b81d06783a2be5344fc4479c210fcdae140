@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOJn///wU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffFormatter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-05-31T06:08:41Z",
+      "side": 1,
+      "message": "Ack.",
+      "parentUuid": "AABOJn///yU\u003d",
+      "revId": "62ea1b81d06783a2be5344fc4479c210fcdae140",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOJn///yc\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectReader.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2011-05-30T18:17:51Z",
       "side": 1,
       "message": "Wow. I don\u0027t really like the idea of the path encoding being on the ObjectReader. I would instead prefer exposing the repository configuration, or some other configuration source.\n\nThat may simplify some contexts because then you can get the CoreConfig or something similar from the ObjectReader.",
+      "revId": "62ea1b81d06783a2be5344fc4479c210fcdae140",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJn///wQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectReader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 444,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-05-31T06:08:41Z",
+      "side": 1,
+      "message": "Would TreeOptions be ok? I\u0027m not sure about what kind of options would be a good long term fit.",
+      "parentUuid": "AABOJn///yc\u003d",
       "revId": "62ea1b81d06783a2be5344fc4479c210fcdae140",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -116,6 +152,24 @@
       "writtenOn": "2011-05-30T18:17:51Z",
       "side": 1,
       "message": "Stupid question... can the working tree have a different encoding than the repository?\n\nWhat if my *NIX system thinks the correct encoding is UTF-8, but the repository maintainer has chosen to use ISO-8859-1? Can I set the path encoding within the repository to be ISO-8859-1 but my working tree to UTF-8 and have JGit perform automatic translation between the two?\n\nI think this works magically (*sigh*). In all of our working tree code we use String and File objects to point to the working tree. Java will handle the encoding/decoding to the filesystem itself. So within JGit we just need to encode/decode the String/File to the in-repository encoding. Am I understanding this right?",
+      "revId": "62ea1b81d06783a2be5344fc4479c210fcdae140",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJn///wI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeOptions.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-05-31T06:08:41Z",
+      "side": 1,
+      "message": "That\u0027s the whole point of this patch.  The caveat is that there must exist a bidirectional translation for this to work, which I believe there is for most users.\n\nNot sure about what to do about HFS+ and repos generated with C Git (decomposed file names), yet. Java composes the names for us, with only a little loss (a few code points lose their identify be the decomposition process that HFS+ imposes). Maybe handling this as a case-insensivity problem is the way to go.",
+      "parentUuid": "AABOJn///yM\u003d",
       "revId": "62ea1b81d06783a2be5344fc4479c210fcdae140",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
