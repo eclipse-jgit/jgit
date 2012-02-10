@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOC3///KM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/OpenSshConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-12-09T15:18:50Z",
+      "side": 1,
+      "message": "Given how much of this file you moved to OpenSshConfigFile, you should also copy over this copyright notice to the new home.",
+      "revId": "52c03bb85d394e4f220252595424501330078be6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOC3///KE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/OpenSshConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-12-09T15:18:50Z",
+      "side": 1,
+      "message": "This isn\u0027t really thread safe. The caller might see the wrong cache instance, or see a partially initialized one. Either cache must be volatile, or you need some synchronization around looking at the cache field and running the updateCache() method to replace its contents with a new map.\n\nThis used to work because everything was synchronized together inside of a single refresh() method.",
+      "revId": "52c03bb85d394e4f220252595424501330078be6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOC3///KI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/OpenSshConfigFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-12-09T15:18:50Z",
+      "side": 1,
+      "message": "either mark lastModified volatile, or make this method synchronized to ensure the caller sees the correct version of the lastModified value from the last read() call.",
+      "revId": "52c03bb85d394e4f220252595424501330078be6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
