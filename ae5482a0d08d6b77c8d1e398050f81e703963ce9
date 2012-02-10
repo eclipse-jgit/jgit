@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOBH///fA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/errors/CheckoutConflictException.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-09-07T21:36:06Z",
+      "side": 1,
+      "message": "Why do you re-format the license header ? I think we should stick to a fixed format of the license.",
+      "revId": "ae5482a0d08d6b77c8d1e398050f81e703963ce9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
