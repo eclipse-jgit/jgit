@@ -404,6 +404,23 @@
     },
     {
       "key": {
+        "uuid": "AABODn///1w\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2012-01-25T14:31:02Z",
+      "side": 1,
+      "message": "Why do we need packHeads and packRest?\n\nIsn\u0027t it enough to pack all objects reachable from any (valid) reference as one step?",
+      "revId": "7949fe001239fbdbf4c7db4a2d34071a4ee218c4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABODn///vs\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
         "patchSetId": 4
