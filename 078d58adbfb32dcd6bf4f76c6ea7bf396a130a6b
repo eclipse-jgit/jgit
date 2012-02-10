@@ -74,6 +74,23 @@
     },
     {
       "key": {
+        "uuid": "AABOCH///z4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/dfs/DfsBlockCacheConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-11-04T11:01:22Z",
+      "side": 1,
+      "message": "how about moving these config keys to ConfigConstants ?",
+      "revId": "078d58adbfb32dcd6bf4f76c6ea7bf396a130a6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOCH///vs\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/dfs/DfsBlockCacheConfig.java",
         "patchSetId": 7
@@ -104,6 +121,23 @@
       "side": 1,
       "message": "Storage of the configuration file is not currently specified. Hence it is not implemented.",
       "parentUuid": "AABOCH///3E\u003d",
+      "revId": "078d58adbfb32dcd6bf4f76c6ea7bf396a130a6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOCH///z8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/dfs/DfsRefDatabase.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-11-04T11:01:22Z",
+      "side": 1,
+      "message": "Eclipse raises \"Javadoc: Invalid member type qualification\" here and wants fully qualified org.eclipse.jgit.lib.Ref.Storage#NEW instead",
       "revId": "078d58adbfb32dcd6bf4f76c6ea7bf396a130a6b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
