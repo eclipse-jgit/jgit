@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABODX//+rk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 766,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-01-16T00:44:26Z",
+      "side": 1,
+      "message": "What is if Merge and Index hava different by modes?",
+      "revId": "4b2b4b13ac4beba34a5a87844bb4f862f35dd3b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABODX//+ro\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 824,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-01-16T00:44:26Z",
+      "side": 1,
+      "message": "what is if Head and index have different modes?",
+      "revId": "4b2b4b13ac4beba34a5a87844bb4f862f35dd3b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABODX//+r0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 899,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-01-16T00:44:26Z",
+      "side": 1,
+      "message": "We can remove the last line of the comment because we may touch index and file.",
+      "revId": "4b2b4b13ac4beba34a5a87844bb4f862f35dd3b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABODX//+gw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 901,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-01-17T17:53:42Z",
+      "side": 1,
+      "message": "We need the first if statement because current code will call update() where it should call keep() when merge and head are equal by mode and content but merge and index differ. The comment shows the misunderstanding: we will not always try to update index to merge when they differ.\n\nWe need the second if statement because current code will call conflict() where it should call keep() when merge and index are equal by mode and content but merge and head differ by mode and the file is dirty. Again the comment shows the misunderstanding: It\u0027s not always a conflict if workingtree, head and merge have different content.\n\nSorry, I know, all that sounds far too complicated, but what git does during checkout is really complicated. Look at cases 15 and 19 in the \"carry forward rules\" in http://linux.die.net/man/1/git-read-tree to see the explanation for this two cases.\n\nI\u0027ll propose some testcases which cover this.",
+      "parentUuid": "AABODX//+lU\u003d",
+      "revId": "4b2b4b13ac4beba34a5a87844bb4f862f35dd3b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
