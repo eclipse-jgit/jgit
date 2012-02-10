@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOC3///n8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ApplyCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2011-12-02T16:26:47Z",
+      "side": 1,
+      "message": "this is wrong, a leftover from a previous version",
+      "revId": "3a7c8d739dbaec41d22789228f8318da9edc4f4d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOC3///nw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ApplyCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2011-12-02T16:26:47Z",
+      "side": 1,
+      "message": "no exception should be thrown, all errors should be reported in the ApplyResult",
+      "revId": "3a7c8d739dbaec41d22789228f8318da9edc4f4d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOC3///eA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ApplyCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2011-12-06T11:59:29Z",
+      "side": 1,
+      "message": "This is wrong! It should be \"apply(f, fh, r);\".",
+      "revId": "3a7c8d739dbaec41d22789228f8318da9edc4f4d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOC3///n0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ApplyCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2011-12-02T16:26:47Z",
+      "side": 1,
+      "message": "no exception should be thrown, all errors should be reported in the ApplyResult",
+      "revId": "3a7c8d739dbaec41d22789228f8318da9edc4f4d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOC3///n4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ApplyCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2011-12-02T16:26:47Z",
+      "side": 1,
+      "message": "get the line ending from the source file for MODIFY, but what about ADD?",
+      "revId": "3a7c8d739dbaec41d22789228f8318da9edc4f4d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
