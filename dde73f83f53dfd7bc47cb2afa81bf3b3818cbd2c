@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOBn///xo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MergeCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-10-19T09:43:39Z",
+      "side": 1,
+      "message": "I think that casual users of our GitAPI will be a confused. Many people will have problems understanding the difference between MergeStrategies (Resolve, Recursive, Ours, Theirs, ...) and content-mergers. Even I would on the first look expect that \"mergeWith()\" expects a strategy. Also because native git only allows me to specify the merge strategy together with the \"git merge\" command.\n\nI suggest to name this \"contentMergeWith\" or \"setMergeTool()\" (to be consistent with how you set a content merger in native git).\n\nOf course the same argument goes for all commands you touched.",
+      "revId": "dde73f83f53dfd7bc47cb2afa81bf3b3818cbd2c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOBn///xs\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ContentMerger.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-10-19T09:43:39Z",
+      "side": 1,
+      "message": "Wouldn\u0027t it better to have a named class (instead of a anonymous one) for the Default content merger? The we could reuse the instances of  DefaultContentMerger. We would only need one DefaultContentMerger per repository.",
+      "revId": "dde73f83f53dfd7bc47cb2afa81bf3b3818cbd2c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOBn///xw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 593,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-10-19T09:43:39Z",
+      "side": 1,
+      "message": "Having one method \u0027mergeContent()\u0027 and another one \u0027contentMerge()\u0027 in this class is not nice. It\u0027s hard to find out which method is doing what. Therefore I refactored ResolveMerger so that there is only one method where we do content merge (see change #4366). I would suggest you rebase this change on top of 4366 and adapt it to the new structure. That will look much cleaner.",
+      "revId": "dde73f83f53dfd7bc47cb2afa81bf3b3818cbd2c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
