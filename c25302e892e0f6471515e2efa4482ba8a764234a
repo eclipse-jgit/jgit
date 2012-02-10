@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABODX///rk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CheckoutCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2012-01-03T03:38:43Z",
+      "side": 1,
+      "message": "Couldn\u0027t this be done outside the try block?\n\nThen you wouldn\u0027t need to check for null in the finally block.",
+      "revId": "c25302e892e0f6471515e2efa4482ba8a764234a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
