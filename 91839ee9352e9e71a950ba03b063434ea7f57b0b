@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AABOEX///7k\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2012-01-31T09:50:33Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this method be private?",
+      "revId": "91839ee9352e9e71a950ba03b063434ea7f57b0b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOEn////k\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
         "patchSetId": 6
