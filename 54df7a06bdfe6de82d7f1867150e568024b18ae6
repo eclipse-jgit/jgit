@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "AABOCH///CY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/CommonCommitLimitedRevQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2011-11-14T18:59:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOCH///34\u003d",
+      "revId": "54df7a06bdfe6de82d7f1867150e568024b18ae6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOCH///6Y\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/CommonCommitLimitedRevQueue.java",
         "patchSetId": 1
@@ -70,6 +88,42 @@
     },
     {
       "key": {
+        "uuid": "AABOCH///to\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/CommonCommitLimitedRevQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2011-11-04T20:17:00Z",
+      "side": 1,
+      "message": "I\u0027ve done that and I think it\u0027s acceptable for most use cases that one has to decide whether to use plain RevWalk or MergeBaseWalk.\n\nHowever now resulting code looks like it could be turned into a Generator as well: we could introduce RevWalk.stopOnMergeBase which would create a MergeBaseGenerator that will be put between PendingGenerator and sorting-dependent Generators in the Generator pipeline.\n\nThere will be two implementations of MergeBaseGenerator: the one which is already existing, working for a few start commits only and the new BitSet-based implementation. Depending on the implementation usual RevCommit or extended RevCommitWithBitSet will be created by RevWalk.\n\nThis approach will require that both MergeBaseGenerator implementations can be chained like the other generators. Why is this currently not possible for the already existing implementation: \"Computing for merge bases is a special case and does not use the bulk of the generator pipeline.\"?\n\nAnother issue: RevWalk.stopOnMergeBase must definitely be called before the Walk is started. What would happen, if there have been normal RevCommits created by a previous run, then reset() is called, stopOnMergeBase is set, and the RevWalk is started again and requires now RevCommitWithBitSet?",
+      "parentUuid": "AABOCH///6w\u003d",
+      "revId": "54df7a06bdfe6de82d7f1867150e568024b18ae6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOCH///B8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/CommonCommitLimitedRevQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2011-11-14T18:59:24Z",
+      "side": 1,
+      "message": "I have changed my mind on that:\n\n(1) as the MergeBaseWalk uses its own RevCommit class (and this is reasonable for mentioned memory issues), it couldn\u0027t be combined with other RevWalk derivates. So there would be restrictions on when stopOnMergeBase may be used which are less obvious to the user than when having a separate MergeBaseWalk class.\n\n(2) I didn\u0027t get the intention of MergeBaseGenerator right which actually only returns the merge base commit, but not all commits up to the merge base as MergeBaseWalk does. Still both problems are very similar and probably much code could be shared, but introducing some abstract class here serving both use cases would make the code even harder to understand.\n\n(3) to address \"reachability\" issues as they are e.g. necessary for \"git branch --contains\" and \"git branch --merge\" a separate MergeBaseWalk is sufficient.",
+      "parentUuid": "AABOCH///to\u003d",
+      "revId": "54df7a06bdfe6de82d7f1867150e568024b18ae6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOCH///6s\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/CommonCommitLimitedRevQueue.java",
         "patchSetId": 1
@@ -81,6 +135,24 @@
       "writtenOn": "2011-11-03T20:45:04Z",
       "side": 1,
       "message": "startCommits could contain the same commit more than once, since its a List. Maybe you want to convert it over to a Set first to ensure its unique, or handle that case here specially when the commitToReachability map already contains the commit in it?\n\nOr if you use the RevCommit subclass approach, you can just test for the BitSet field being non-null and refuse to reassign it, instead setting the corresponding start bit.",
+      "revId": "54df7a06bdfe6de82d7f1867150e568024b18ae6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOCH///B4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/CommonCommitLimitedRevQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2011-11-14T18:59:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOCH///6s\u003d",
       "revId": "54df7a06bdfe6de82d7f1867150e568024b18ae6",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -138,6 +210,24 @@
     },
     {
       "key": {
+        "uuid": "AABOCH///Bs\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/CommonCommitLimitedRevQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2011-11-14T18:59:24Z",
+      "side": 1,
+      "message": "Bug; fixed.",
+      "parentUuid": "AABOCH///6c\u003d",
+      "revId": "54df7a06bdfe6de82d7f1867150e568024b18ae6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOCH///6g\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/CommonCommitLimitedRevQueue.java",
         "patchSetId": 1
@@ -149,6 +239,24 @@
       "writtenOn": "2011-11-03T20:45:04Z",
       "side": 1,
       "message": "What is the purpose of this interface/method? Its a bit unclear to me why you want it.",
+      "revId": "54df7a06bdfe6de82d7f1867150e568024b18ae6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOCH///Bo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/CommonCommitLimitedRevQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2011-11-14T18:59:24Z",
+      "side": 1,
+      "message": "Not necessary anymore when using MergeBaseWalk.",
+      "parentUuid": "AABOCH///6g\u003d",
       "revId": "54df7a06bdfe6de82d7f1867150e568024b18ae6",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
