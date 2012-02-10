@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL0n///3I\u003d",
+        "filename": "jgitnative/lstat.c",
+        "patchSetId": 4
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-11-24T23:21:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL0n///44\u003d",
+      "revId": "fe8b8b07c6e1152c0d538aa57cbf871f5a0f2f1d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL0n///40\u003d",
         "filename": "jgitnative/lstat.c",
         "patchSetId": 4
@@ -30,6 +48,41 @@
       "writtenOn": "2010-11-23T23:22:31Z",
       "side": 1,
       "message": "This expression is wrong.  You want the upper 32 bits here, but only if st_size is \u003e 4:\n\n  if (sizeof(finfo.st_size) \u003d\u003d 8)\n    elems[10] \u003d (jint) (finfo.st_size \u003e\u003e 32);\n  else\n    elems[10] \u003d 0;",
+      "revId": "fe8b8b07c6e1152c0d538aa57cbf871f5a0f2f1d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0n///3E\u003d",
+        "filename": "jgitnative/lstat.c",
+        "patchSetId": 4
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-11-24T23:21:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL0n///40\u003d",
+      "revId": "fe8b8b07c6e1152c0d538aa57cbf871f5a0f2f1d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0n///1g\u003d",
+        "filename": "jgitnative/lstat.c",
+        "patchSetId": 4
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-11-24T23:21:59Z",
+      "side": 1,
+      "message": "missed to throw the exception :-(",
       "revId": "fe8b8b07c6e1152c0d538aa57cbf871f5a0f2f1d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL0n///3A\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/fs/AccessDeniedException.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-11-24T23:21:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL0n///5g\u003d",
+      "revId": "fe8b8b07c6e1152c0d538aa57cbf871f5a0f2f1d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL0n///5c\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/fs/AccessDeniedException.java",
         "patchSetId": 4
@@ -64,6 +135,24 @@
       "writtenOn": "2010-11-23T23:22:31Z",
       "side": 1,
       "message": "I would reword this and say, \"as soon as Java 7 is our minimum supported platform\".",
+      "revId": "fe8b8b07c6e1152c0d538aa57cbf871f5a0f2f1d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0n///28\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/fs/AccessDeniedException.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-11-24T23:21:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL0n///5c\u003d",
       "revId": "fe8b8b07c6e1152c0d538aa57cbf871f5a0f2f1d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -87,6 +176,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL0n///24\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/fs/AccessDeniedException.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-11-24T23:21:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL0n///5Y\u003d",
+      "revId": "fe8b8b07c6e1152c0d538aa57cbf871f5a0f2f1d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL0n///5s\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/fs/FSAccess.java",
         "patchSetId": 4
@@ -98,6 +205,24 @@
       "writtenOn": "2010-11-23T23:22:31Z",
       "side": 1,
       "message": "Minor style-nit:  I prefer these to be one line:\n\n  /** The only instance of FSAccess. */",
+      "revId": "fe8b8b07c6e1152c0d538aa57cbf871f5a0f2f1d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0n///20\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/fs/FSAccess.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-11-24T23:21:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL0n///5s\u003d",
       "revId": "fe8b8b07c6e1152c0d538aa57cbf871f5a0f2f1d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -121,6 +246,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL0n///2w\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/fs/FSAccess.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-11-24T23:21:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL0n///5o\u003d",
+      "revId": "fe8b8b07c6e1152c0d538aa57cbf871f5a0f2f1d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL0n///5k\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/fs/FSAccess.java",
         "patchSetId": 4
@@ -132,6 +275,24 @@
       "writtenOn": "2010-11-23T23:22:31Z",
       "side": 1,
       "message": "Style-nit: Trailing space.",
+      "revId": "fe8b8b07c6e1152c0d538aa57cbf871f5a0f2f1d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0n///2s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/fs/FSAccess.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-11-24T23:21:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL0n///5k\u003d",
       "revId": "fe8b8b07c6e1152c0d538aa57cbf871f5a0f2f1d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -155,6 +316,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL0n///2o\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/fs/FSAccessJava.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-11-24T23:21:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL0n///48\u003d",
+      "revId": "fe8b8b07c6e1152c0d538aa57cbf871f5a0f2f1d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL0n///5U\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/fs/FSAccessNative.java",
         "patchSetId": 4
@@ -172,6 +351,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL0n///14\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/fs/FSAccessNative.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-11-24T23:21:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL0n///5U\u003d",
+      "revId": "fe8b8b07c6e1152c0d538aa57cbf871f5a0f2f1d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL0n///5M\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/fs/LStat.java",
         "patchSetId": 4
@@ -183,6 +380,24 @@
       "writtenOn": "2010-11-23T23:22:31Z",
       "side": 1,
       "message": "We probably need to slap \"Fix this before 2038\" warning here, and update that bug about JGit 2038 issues.  See RevCommit for an example of the warning I put on it.\n\nDirCacheEntry probably also needs a warning for its P_MTIME slot.  We can add that later.",
+      "revId": "fe8b8b07c6e1152c0d538aa57cbf871f5a0f2f1d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0n///10\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/fs/LStat.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-11-24T23:21:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL0n///5M\u003d",
       "revId": "fe8b8b07c6e1152c0d538aa57cbf871f5a0f2f1d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -240,6 +455,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL0n///1o\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/fs/NoSuchFileException.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-11-24T23:21:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL0n///5E\u003d",
+      "revId": "fe8b8b07c6e1152c0d538aa57cbf871f5a0f2f1d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL0n///5A\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/fs/NotDirectoryException.java",
         "patchSetId": 4
@@ -251,6 +484,24 @@
       "writtenOn": "2010-11-23T23:22:31Z",
       "side": 1,
       "message": "\"As soon as Java 7 is our minimum supported platform\".",
+      "revId": "fe8b8b07c6e1152c0d538aa57cbf871f5a0f2f1d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0n///1k\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/fs/NotDirectoryException.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-11-24T23:21:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL0n///5A\u003d",
       "revId": "fe8b8b07c6e1152c0d538aa57cbf871f5a0f2f1d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
