@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "AABODH///5A\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/TagCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-12-14T07:26:01Z",
+      "side": 1,
+      "message": "Yes. Most listing of tags wants the names only, so should be parse the RevTag regardless? Isn\u0027t that the opposite of what we\nare trying to do elsewhere, i.e. don\u0027t do things the caller didn\u0027t ask for. An yes, you have to examine what you get so we don\u0027t have\nto do unnecessary work unless you really want the information and regardless of how we design this you have to check whether is an annotated tag and what kind of object it points to etc. If you try to abstract a type you\u0027ll wind up with something very close to a Ref anyway. \n\nI suppose we could play we subclasses of Ref, but I doubt that will help. \n\nAn option could be to the the command to preparse the objectId\nin the ref so you could cast, but you still need to check the type before casting since it could be any type.",
+      "parentUuid": "AABOC3//+9k\u003d",
+      "revId": "a93d0b446d6616032dfb7f46f0df2e9852d7c2c1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABODH///ow\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/TagCommand.java",
         "patchSetId": 1
