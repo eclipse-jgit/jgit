@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABODX///uY\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-01-02T23:36:32Z",
+      "side": 1,
+      "message": "better: Add config --list command to pgm",
+      "revId": "41e33ffa09d9d74acd9bb076aa67c49828ac5201",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABODX///uU\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-01-02T23:36:32Z",
+      "side": 1,
+      "message": "AFAIK there is no --config-file option in native git, it is named --file instead [1]\n\nremove the last two sentences as they are not interesting for the project\u0027s history, put this into a Gerrit review comment or use Bugzilla bugs to publish your plans\n\n[1] http://schacon.github.com/git/git-config.html",
+      "revId": "41e33ffa09d9d74acd9bb076aa67c49828ac5201",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABODX///uc\u003d",
+        "filename": "org.eclipse.jgit.pgm/META-INF/services/org.eclipse.jgit.pgm.TextBuiltin",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-01-02T23:36:32Z",
+      "side": 1,
+      "message": "fix sorting of entries",
+      "revId": "41e33ffa09d9d74acd9bb076aa67c49828ac5201",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABODX///ug\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Config.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-01-02T23:36:32Z",
+      "side": 1,
+      "message": "this option doesn\u0027t exist in native git [1] if no --global or --system is specified this implies local repository configuration\n\n[1] http://schacon.github.com/git/git-config.html",
+      "revId": "41e33ffa09d9d74acd9bb076aa67c49828ac5201",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABODX///0Q\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Config.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-01-02T23:36:32Z",
+      "side": 1,
+      "message": "according to [1] this option is named --file\n\n[1] http://schacon.github.com/git/git-config.html",
+      "revId": "41e33ffa09d9d74acd9bb076aa67c49828ac5201",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABODX///vE\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Config.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-01-02T23:36:32Z",
+      "side": 1,
+      "message": "style nit: no braces around single line blocks",
+      "revId": "41e33ffa09d9d74acd9bb076aa67c49828ac5201",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABODX///u8\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Config.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-01-02T23:36:32Z",
+      "side": 1,
+      "message": "style nit: no braces around single line blocks",
+      "revId": "41e33ffa09d9d74acd9bb076aa67c49828ac5201",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABODX///u4\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Config.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-01-02T23:36:32Z",
+      "side": 1,
+      "message": "style nit: no braces around single line blocks",
+      "revId": "41e33ffa09d9d74acd9bb076aa67c49828ac5201",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
