@@ -71,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "AABOCH///CU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/CommonCommitLimitedRevQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2011-11-14T18:59:24Z",
+      "side": 1,
+      "message": "Commits are discarded in .add() -- this is true as well for the new MergeBaseWalk.",
+      "parentUuid": "AABOCH///6Y\u003d",
+      "revId": "54df7a06bdfe6de82d7f1867150e568024b18ae6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOCH///6w\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/CommonCommitLimitedRevQueue.java",
         "patchSetId": 1
@@ -176,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "AABOCH///B0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/CommonCommitLimitedRevQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2011-11-14T18:59:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOCH///6k\u003d",
+      "revId": "54df7a06bdfe6de82d7f1867150e568024b18ae6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOCH///3k\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/CommonCommitLimitedRevQueue.java",
         "patchSetId": 1
@@ -187,6 +223,24 @@
       "writtenOn": "2011-11-03T21:31:13Z",
       "side": 1,
       "message": "Odd indentation",
+      "revId": "54df7a06bdfe6de82d7f1867150e568024b18ae6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOCH///Bw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/CommonCommitLimitedRevQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2011-11-14T18:59:24Z",
+      "side": 1,
+      "message": "Thanks to Eclipse\u0027s line wrapping; I\u0027ll fix indentation and code style issues, like single-{ for the final patch.",
+      "parentUuid": "AABOCH///3k\u003d",
       "revId": "54df7a06bdfe6de82d7f1867150e568024b18ae6",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
