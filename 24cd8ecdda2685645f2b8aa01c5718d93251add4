@@ -17,6 +17,24 @@
       "revId": "24cd8ecdda2685645f2b8aa01c5718d93251add4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABODX//+WM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 490,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-01-19T22:20:23Z",
+      "side": 1,
+      "message": "right, looks much nicer. done!",
+      "parentUuid": "AABODX//+X8\u003d",
+      "revId": "24cd8ecdda2685645f2b8aa01c5718d93251add4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
