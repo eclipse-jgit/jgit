@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABODX//+/E\u003d",
+        "filename": "org.eclipse.jgit.pgm/META-INF/services/org.eclipse.jgit.pgm.TextBuiltin",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-01-26T17:09:17Z",
+      "side": 1,
+      "message": "I wanted to hide this functionality from normal usage until we have enough experience with it so we can trust it. By putting it to the debug package I wanted to express that this is not (yet) a command for everyday usage. When we have enough experience and trust it I planned to move it from debug to pgm.",
+      "parentUuid": "AABODX//+/g\u003d",
+      "revId": "7949fe001239fbdbf4c7db4a2d34071a4ee218c4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABODX//+/k\u003d",
         "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/debug/Gc.java",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2012-01-13T00:35:45Z",
       "side": 1,
       "message": "shouldn\u0027t that be your copyright header instead ?",
+      "revId": "7949fe001239fbdbf4c7db4a2d34071a4ee218c4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABODX//+/A\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/debug/Gc.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-01-26T17:09:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABODX//+/k\u003d",
       "revId": "7949fe001239fbdbf4c7db4a2d34071a4ee218c4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,60 @@
     },
     {
       "key": {
+        "uuid": "AABODn///wg\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/storage/file/GCTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-01-26T17:09:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABODX//+/c\u003d",
+      "revId": "7949fe001239fbdbf4c7db4a2d34071a4ee218c4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABODn///wI\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/storage/file/GCTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-01-26T17:09:17Z",
+      "side": 1,
+      "message": "It should - but we don\u0027t care for reflogs currently. Reflog handling will come but until it\u0027s there we ignore reflogs when writing tests.",
+      "parentUuid": "AABODX//++4\u003d",
+      "revId": "7949fe001239fbdbf4c7db4a2d34071a4ee218c4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABODn///wE\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/storage/file/GCTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-01-26T17:09:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABODX//++0\u003d",
+      "revId": "7949fe001239fbdbf4c7db4a2d34071a4ee218c4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABODX//+/Y\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
         "patchSetId": 4
@@ -64,6 +154,168 @@
       "writtenOn": "2012-01-13T00:35:45Z",
       "side": 1,
       "message": "update date to 2012",
+      "revId": "7949fe001239fbdbf4c7db4a2d34071a4ee218c4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABODn///wA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-01-26T17:09:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABODX//+/Y\u003d",
+      "revId": "7949fe001239fbdbf4c7db4a2d34071a4ee218c4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABODn///v8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-01-26T17:09:17Z",
+      "side": 1,
+      "message": "yes, it prunes only loose objects ... just as \"git-prune\". If one wants to get rid of unreachable packed objects \"git-repack\" has to be used.\n\nBut you are right: in the end we want to get rid of the old pack files. This should maybe go into the repack method.",
+      "parentUuid": "AABODn///10\u003d",
+      "revId": "7949fe001239fbdbf4c7db4a2d34071a4ee218c4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABODn///wk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-01-26T17:09:17Z",
+      "side": 1,
+      "message": "That\u0027s right. This method currently does what the native git command \"git-prune-packed\" [1] does. I\u0027ll propose in the nex propoasal a rename to prune_packed().\n\n[1] http://linux.die.net/man/1/git-prune-packed",
+      "parentUuid": "AABODn///1g\u003d",
+      "revId": "7949fe001239fbdbf4c7db4a2d34071a4ee218c4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABODn///v4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-01-26T17:09:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABODX//++8\u003d",
+      "revId": "7949fe001239fbdbf4c7db4a2d34071a4ee218c4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABODn///v0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-01-26T17:09:17Z",
+      "side": 1,
+      "message": "Yes, of course. FETCH_HEAD will not come with repo.getAllRefs. But we have an utility method RefDatabase.getAdditionalRefs(). I\u0027ll use that also.",
+      "parentUuid": "AABODX//+/Q\u003d",
+      "revId": "7949fe001239fbdbf4c7db4a2d34071a4ee218c4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABODn///vw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-01-26T17:09:17Z",
+      "side": 1,
+      "message": "Not sure whether I got that right: do you mean that allHeads will contain refs which only live in alternate-repos. And those heads we should not pack. Right?",
+      "parentUuid": "AABODX//++s\u003d",
+      "revId": "7949fe001239fbdbf4c7db4a2d34071a4ee218c4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABODn///vs\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-01-26T17:09:17Z",
+      "side": 1,
+      "message": "I agree that we could also pack everything in one pack. I just copied the strategy of the DfsGarbageCollector. Here we are splitting our objects into two packs. One with all objects reachable from branches and another one with the rest of the objects reachable from tags, reflog, . In case of gerrit servers there may be quite a lot in the second pack - all the old proposals which never got accepted. I can imagine (but I am not sure) that there is a certain performance benefit if you don\u0027t have to deal with packfiles which are huge and contain everything but if there is a packfile which very likely contains all the objects needed for operations like submit, merge.",
+      "parentUuid": "AABODn///1w\u003d",
+      "revId": "7949fe001239fbdbf4c7db4a2d34071a4ee218c4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABODn///vo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-01-26T17:09:17Z",
+      "side": 1,
+      "message": "yes, I\u0027ll change it that repo.getIndexFile() is asked. But currently we don\u0027t support this setup. repo.readDirCache() and repo.lockDirCache() will all throw exceptions on a bare repo, regardless whether we have a index file or not. I think that\u0027s a different bug.",
+      "parentUuid": "AABODX//+/M\u003d",
+      "revId": "7949fe001239fbdbf4c7db4a2d34071a4ee218c4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABODn///vc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-01-26T17:09:17Z",
+      "side": 1,
+      "message": "for sure! But I don\u0027t think that is currently supported. That should be a feature of the PackWriter, or?",
+      "parentUuid": "AABODX//+/I\u003d",
       "revId": "7949fe001239fbdbf4c7db4a2d34071a4ee218c4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
