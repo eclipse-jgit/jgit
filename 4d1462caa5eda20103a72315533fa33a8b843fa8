@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOC3///l4\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/storage/file/GCTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-12-02T22:19:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOC3///uA\u003d",
+      "revId": "4d1462caa5eda20103a72315533fa33a8b843fa8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOC3///tY\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2011-12-01T17:46:22Z",
       "side": 1,
       "message": "Move my name to be in the copyright header if its really derived?",
+      "revId": "4d1462caa5eda20103a72315533fa33a8b843fa8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOC3///l0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-12-02T22:19:03Z",
+      "side": 1,
+      "message": "Sure!",
+      "parentUuid": "AABOC3///tY\u003d",
       "revId": "4d1462caa5eda20103a72315533fa33a8b843fa8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AABOC3///lw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-12-02T22:19:03Z",
+      "side": 1,
+      "message": "No, I really thought that this should in the future become a complete GC. I was inspecting also native git implementation (saw you\u0027re name mentionend oft there) and based on that I came to the 5 steps of gc which I planned to implement here (ok, 4 steps, rerere_gc will not come soon). If this class grows big enough (or if reasons come up to have the steps beeing available as own classes) we can split it. If we split then there will be a repack class, of course!. But for now I wanted to stay in one class.",
+      "parentUuid": "AABOC3///tU\u003d",
+      "revId": "4d1462caa5eda20103a72315533fa33a8b843fa8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOC3///tM\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
         "patchSetId": 3
@@ -64,6 +118,24 @@
       "writtenOn": "2011-12-01T17:46:22Z",
       "side": 1,
       "message": "Should take a ProgressMonitor",
+      "revId": "4d1462caa5eda20103a72315533fa33a8b843fa8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOC3///ls\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-12-02T22:19:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOC3///tM\u003d",
       "revId": "4d1462caa5eda20103a72315533fa33a8b843fa8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AABOC3///lo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-12-02T22:19:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOC3///tQ\u003d",
+      "revId": "4d1462caa5eda20103a72315533fa33a8b843fa8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOC3///ss\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
         "patchSetId": 3
@@ -98,6 +188,24 @@
       "writtenOn": "2011-12-01T17:46:22Z",
       "side": 1,
       "message": "This takes a while, also pass a ProgressMonitor.",
+      "revId": "4d1462caa5eda20103a72315533fa33a8b843fa8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOC3///lk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-12-02T22:19:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOC3///ss\u003d",
       "revId": "4d1462caa5eda20103a72315533fa33a8b843fa8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "AABODX///DM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-01-26T21:09:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOC3///so\u003d",
+      "revId": "4d1462caa5eda20103a72315533fa33a8b843fa8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOC3///tI\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
         "patchSetId": 3
@@ -138,6 +264,24 @@
     },
     {
       "key": {
+        "uuid": "AABOC3///lc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-12-02T22:19:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOC3///tI\u003d",
+      "revId": "4d1462caa5eda20103a72315533fa33a8b843fa8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOC3///tE\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
         "patchSetId": 3
@@ -149,6 +293,24 @@
       "writtenOn": "2011-12-01T17:46:22Z",
       "side": 1,
       "message": "This can all be removed. In the DFS storage system, objects can only be in packs. If the list of packs is empty, the repository is empty, and packing does not need to continue.  On a local filesystem there may be loose objects that have to be packed so this test is not enough.",
+      "revId": "4d1462caa5eda20103a72315533fa33a8b843fa8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOC3///lg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-12-02T22:19:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOC3///tE\u003d",
       "revId": "4d1462caa5eda20103a72315533fa33a8b843fa8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -217,6 +379,24 @@
       "writtenOn": "2011-12-01T17:46:22Z",
       "side": 1,
       "message": "Do not write directly to this pack\u0027s file. The pack name is the SHA-1 of the object names. If the repository is already full packed and we are doing a repack (such as to change compression settings), the output file name is also the input file. If you just write to it immediately we truncate the data and destroy the repository.\n\nInstead write both the pack and the idx file into temporary files and try to perform an atomic rename over onto the real names as close as possible. Yes when repacking an existing pack back onto itself there is a window of time where the pack would appear corrupt as the idx and pack don\u0027t match.\n\nYou could first rename away the old files to a temp name, then rename the new files over.\n\nThis problem does not arise on the DFS system because there we use unique file names that have nothing to do with the contents.",
+      "revId": "4d1462caa5eda20103a72315533fa33a8b843fa8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOC3///lU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-12-02T22:19:03Z",
+      "side": 1,
+      "message": "Got it. About renaming old files first to temp files first: I guess that while this long running gc works the repo should be accessible and consistent. If I would rename the old packs to temp files then they would vanish for other git processes leaving a repo which is not consistent (not all referenced objs can be found). I guess it\u0027s better to write into temp files and rename them to valid files in the end. After renaming we could delete uneeded pack files.",
+      "parentUuid": "AABOC3///s0\u003d",
       "revId": "4d1462caa5eda20103a72315533fa33a8b843fa8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
