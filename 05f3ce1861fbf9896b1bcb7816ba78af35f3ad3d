@@ -1,0 +1,327 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALy3///gw\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/attributes/AttributesQueryTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-20T21:09:46Z",
+      "side": 1,
+      "message": "This test is too difficult to read as written.  Look at IgnoreNodeTest as an example of an easier to read test case.  Don\u0027t be afraid of using instance members inside of the test to help you manage state required to use a DSL to setup the test environment in a more readable way.",
+      "revId": "05f3ce1861fbf9896b1bcb7816ba78af35f3ad3d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///g0\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/attributes/AttributesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-20T21:09:46Z",
+      "side": 1,
+      "message": "I would prefer to have a lot of smaller specific test cases, over chaining a large number of them into a single common input string.  Its hard to figure out what the rules we care about are from a particular assertion when the input is so complex.\n\nDo a lot of little tests for parsing:  testParse_EmptyInput().  testParse_TrailingWhitespace().  testParse_MultipleLinesSamePattern().  testParse_IgnoreComment().  testParse_IgnoreConflictMarkers().  Etc.",
+      "revId": "05f3ce1861fbf9896b1bcb7816ba78af35f3ad3d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///ho\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/Attribute.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-20T21:09:46Z",
+      "side": 1,
+      "message": "We prefer to write:\n\n  if (obj instanceof Attribute) {\n    Attribute other \u003d (Attribute)obj;\n    ...\n  }\n  return false;\n\nas this does both the null test and the type test at the same time.  It also permits us to compare a subclass according to our current semantics.",
+      "revId": "05f3ce1861fbf9896b1bcb7816ba78af35f3ad3d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///hk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/Attribute.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-20T21:09:46Z",
+      "side": 1,
+      "message": "I think the current state of the art is to do something like:\n\n  int hc \u003d key.hashCode();\n  hc *\u003d 31;\n  hc +\u003d value.hashCode();\n  return hc;\n\nBut actually for an attribute there aren\u0027t too many that can can be multi-valued, are there?  So just using the key\u0027s hashCode as our own hashCode might be sufficient here.",
+      "revId": "05f3ce1861fbf9896b1bcb7816ba78af35f3ad3d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///hg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/AttributeValue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-20T21:09:46Z",
+      "side": 1,
+      "message": "Please include a translation text here indicating that attribute value cannot be null.",
+      "revId": "05f3ce1861fbf9896b1bcb7816ba78af35f3ad3d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///hc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/AttributeValue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-20T21:09:46Z",
+      "side": 1,
+      "message": "What is the distinction between id and value?",
+      "revId": "05f3ce1861fbf9896b1bcb7816ba78af35f3ad3d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///hU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/Attributes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-20T21:09:46Z",
+      "side": 1,
+      "message": "I would rather have this be an Entry class that is abstract, with two subclasses:  TextLine (any string) and AttrLine (an attribute declaration).  That way we don\u0027t play as many instanceof games below.",
+      "revId": "05f3ce1861fbf9896b1bcb7816ba78af35f3ad3d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///hQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/Attributes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-20T21:09:46Z",
+      "side": 1,
+      "message": "Given its name and existence in a public API, I wouldn\u0027t expect the Set to be modified by the method.  But it is.  Different name perhaps?  Or maybe you should be copying the set inside of the method and altering the copy?",
+      "revId": "05f3ce1861fbf9896b1bcb7816ba78af35f3ad3d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///hM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/Attributes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-20T21:09:46Z",
+      "side": 1,
+      "message": "Config parses a String.  I don\u0027t think its unreasonable to have all of an attributes file as a single String object.  So maybe we should parse(String) here rather than a Reader.",
+      "revId": "05f3ce1861fbf9896b1bcb7816ba78af35f3ad3d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///gs\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/Attributes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-20T21:09:46Z",
+      "side": 1,
+      "message": "Have you put any thought into editing an Attributes?  What might our edit API look like?  I can\u0027t say I\u0027m proud of the Config API for this, its a difficult thing to edit a human written file...",
+      "revId": "05f3ce1861fbf9896b1bcb7816ba78af35f3ad3d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///hE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/Attributes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-20T21:09:46Z",
+      "side": 1,
+      "message": "FWIW we try not to use split in our lower-level parsing routines.  We instead prefer to do loop through the characters ourselves, as it avoids the allocation of the String[], as well as the internal Pattern and Matcher objects needed to perform the regex search during the split.",
+      "revId": "05f3ce1861fbf9896b1bcb7816ba78af35f3ad3d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///hI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/Attributes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-20T21:09:46Z",
+      "side": 1,
+      "message": "Isn\u0027t this trim unnecessary?  Wouldn\u0027t the prior trim call have already removed everything it can?",
+      "revId": "05f3ce1861fbf9896b1bcb7816ba78af35f3ad3d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///hA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/Attributes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-20T21:09:46Z",
+      "side": 1,
+      "message": "Since the \u003c\u003c\u003c, \u003d\u003d\u003d and \u003e\u003e\u003e cases can only happen at the start of a line shouldn\u0027t we test for these before we do the splitting into tokens?  That is, can\u0027t we do:\n\n  static Entry parseEntry(String line) {\n    line \u003d line.trim();\n    if (line.startsWith(\"#\")\n        || line.startsWith(\"\u003c\u003c\u003c\u003c\u003c\u003c\u003c\")\n        || line.startsWith(\"\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\")\n        || line.startsWith(\"\u003e\u003e\u003e\u003e\u003e\u003e\u003e\u003e\")\n      return null;",
+      "revId": "05f3ce1861fbf9896b1bcb7816ba78af35f3ad3d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///g4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/Attributes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-20T21:09:46Z",
+      "side": 1,
+      "message": "If the pattern isn\u0027t valid, we should treat the entry as though it were a comment line... not throw an exception.",
+      "revId": "05f3ce1861fbf9896b1bcb7816ba78af35f3ad3d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///g8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/Attributes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-20T21:09:46Z",
+      "side": 1,
+      "message": "This expression can be hard to read.  I\u0027d rather break it out as:\n\n  if (\u00270\u0027 \u003c\u003d ch \u0026\u0026 ch \u003c\u003d \u00279\u0027)\n    continue;\n  if (\u0027a\u0027 \u003c\u003d ch \u0026\u0026 ch \u003c\u003d \u0027z\u0027)\n    continue;\n  if (\u0027A\u0027 \u003c\u003d ch \u0026\u0026 ch \u003c\u003d \u0027Z\u0027)\n    continue;\n  ...\n  return false;\n\nOr use a table to check the validity:\n\n  static boolean validChars[128];\n\n  static {\n    for (char c \u003d \u00270\u0027; c \u003c\u003d \u00279\u0027; c++)\n      validChars[c] \u003d true;\n    validChars[\u0027-\u0027] \u003d true;\n    ...\n  }\n\n  if (ch \u003e 127 || !vaildChars[ch])\n    return false;",
+      "revId": "05f3ce1861fbf9896b1bcb7816ba78af35f3ad3d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///hY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/attributes/AttributesCollector.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-20T21:09:46Z",
+      "side": 1,
+      "message": "I know Javadoc was omitted to get a basic draft uploaded, but I\u0027d like some to help understand the purpose of this interface and how collect should behave.",
+      "revId": "05f3ce1861fbf9896b1bcb7816ba78af35f3ad3d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///hs\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/CompareUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-20T21:09:46Z",
+      "side": 1,
+      "message": "I wonder if we shouldn\u0027t call this equals().  StringUtils has an equalsIgnoreCase(String,String) that almost mirrors String.equalsIgnoreCase(String).",
+      "revId": "05f3ce1861fbf9896b1bcb7816ba78af35f3ad3d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///hw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/CompareUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-20T21:09:46Z",
+      "side": 1,
+      "message": "Style-nit: Parens on the LHS of || aren\u0027t necessary.",
+      "revId": "05f3ce1861fbf9896b1bcb7816ba78af35f3ad3d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///h0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/RawParseUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1057,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-20T21:09:46Z",
+      "side": 1,
+      "message": "PathUtils class maybe?  I\u0027m not convinced these should be in RawParseUtils.  RawParseUtils is typically working on byte[] and often providing a higher level value from that (e.g. an int, String or PersonIdent).",
+      "revId": "05f3ce1861fbf9896b1bcb7816ba78af35f3ad3d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
