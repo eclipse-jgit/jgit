@@ -1,0 +1,243 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOC3///tY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-12-01T17:46:22Z",
+      "side": 1,
+      "message": "Move my name to be in the copyright header if its really derived?",
+      "revId": "4d1462caa5eda20103a72315533fa33a8b843fa8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOC3///tU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-12-01T17:46:22Z",
+      "side": 1,
+      "message": "GarbageCollector or Repacker?",
+      "revId": "4d1462caa5eda20103a72315533fa33a8b843fa8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOC3///tM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-12-01T17:46:22Z",
+      "side": 1,
+      "message": "Should take a ProgressMonitor",
+      "revId": "4d1462caa5eda20103a72315533fa33a8b843fa8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOC3///tQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-12-01T17:46:22Z",
+      "side": 1,
+      "message": "Don\u0027t allow a null repository. :-)",
+      "revId": "4d1462caa5eda20103a72315533fa33a8b843fa8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOC3///ss\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-12-01T17:46:22Z",
+      "side": 1,
+      "message": "This takes a while, also pass a ProgressMonitor.",
+      "revId": "4d1462caa5eda20103a72315533fa33a8b843fa8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOC3///so\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-12-01T17:46:22Z",
+      "side": 1,
+      "message": "Don\u0027t go about it this direction. Instead list all of the loose objects. Look at CachedObjectDirectory\u0027s constructor to build the set of what is loose, then scan the packs and ask \"do you contain this object?\" if so you can remove that loose object.\n\nFWIW in C Git the progress monitor here is over the 256 different loose object directories. We update it once per ?? top level directory examined.",
+      "revId": "4d1462caa5eda20103a72315533fa33a8b843fa8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOC3///tI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-12-01T17:46:22Z",
+      "side": 1,
+      "message": "Drop this assertion. It is legal for JGit to create a index version 1 on a FileRepository.",
+      "revId": "4d1462caa5eda20103a72315533fa33a8b843fa8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOC3///tE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-12-01T17:46:22Z",
+      "side": 1,
+      "message": "This can all be removed. In the DFS storage system, objects can only be in packs. If the list of packs is empty, the repository is empty, and packing does not need to continue.  On a local filesystem there may be loose objects that have to be packed so this test is not enough.",
+      "revId": "4d1462caa5eda20103a72315533fa33a8b843fa8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOC3///s8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-12-01T17:46:22Z",
+      "side": 1,
+      "message": "if the repo is bare, there is no index, so this method should produce an empty set.",
+      "revId": "4d1462caa5eda20103a72315533fa33a8b843fa8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOC3///tA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-12-01T17:46:22Z",
+      "side": 1,
+      "message": "don\u0027t lock it, just read it.",
+      "revId": "4d1462caa5eda20103a72315533fa33a8b843fa8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOC3///s4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-12-01T17:46:22Z",
+      "side": 1,
+      "message": "Doing a diff here isn\u0027t really useful. PackWriter can tell you if the objects were seen already elsewhere or not. So just have this method scan the DirCache and process any objects in it.",
+      "revId": "4d1462caa5eda20103a72315533fa33a8b843fa8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOC3///s0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-12-01T17:46:22Z",
+      "side": 1,
+      "message": "Do not write directly to this pack\u0027s file. The pack name is the SHA-1 of the object names. If the repository is already full packed and we are doing a repack (such as to change compression settings), the output file name is also the input file. If you just write to it immediately we truncate the data and destroy the repository.\n\nInstead write both the pack and the idx file into temporary files and try to perform an atomic rename over onto the real names as close as possible. Yes when repacking an existing pack back onto itself there is a window of time where the pack would appear corrupt as the idx and pack don\u0027t match.\n\nYou could first rename away the old files to a temp name, then rename the new files over.\n\nThis problem does not arise on the DFS system because there we use unique file names that have nothing to do with the contents.",
+      "revId": "4d1462caa5eda20103a72315533fa33a8b843fa8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOC3///J0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-12-09T15:25:34Z",
+      "side": 1,
+      "message": "Correct, we want to keep the repository accessible during the repack phase with readers not seeing half-written files.\n\nRenaming the old files to temp files is a bad idea. I don\u0027t know what possessed me to suggest that to you earlier. Just rename the new temp files onto the real names, if the rename fails because the filesystem won\u0027t let you do that, try deleting the real name and then renaming. Yay windows with open files and all that. :-)",
+      "parentUuid": "AABOC3///lU\u003d",
+      "revId": "4d1462caa5eda20103a72315533fa33a8b843fa8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOC3///sw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-12-01T17:46:22Z",
+      "side": 1,
+      "message": "If the pack was just replaced, there is some danger that the existing PackIndex object in memory is out of date relative to the current file. We need to make sure we remove the old PackFile and its PackIndex from the ObjectDatabase implementation before we add the pack.",
+      "revId": "4d1462caa5eda20103a72315533fa33a8b843fa8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
