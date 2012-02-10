@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABODX///g8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CloneCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-01-04T22:42:10Z",
+      "side": 1,
+      "message": "According to native git \"true\" is not a valid value for the option \"branch.autosetuprebase\". Native git reports the error \"error: Malformed value for branch.autosetuprebase\n\" when trying to use the value \"true\" for this option.",
+      "revId": "40ae9f169b1790db6ed294eb88686e58e9da0612",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
