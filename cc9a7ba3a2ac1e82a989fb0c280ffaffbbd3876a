@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABODX///88\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-12-27T21:25:57Z",
+      "side": 1,
+      "message": "What server is emitting a Content-Type of \"application/x-git-upload-pack-advertisement; charset\u003d...\"?\n\nThe server is wrong.",
+      "revId": "cc9a7ba3a2ac1e82a989fb0c280ffaffbbd3876a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
