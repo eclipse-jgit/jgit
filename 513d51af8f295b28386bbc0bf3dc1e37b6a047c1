@@ -19,6 +19,41 @@
     },
     {
       "key": {
+        "uuid": "AAALzX///mQ\u003d",
+        "filename": "jgitnative/lstat.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-10-30T00:04:13Z",
+      "side": 1,
+      "message": "yup, I\u0027ll add an #ifdef\n\nmacosx, x86_64 fills that with 0 \n\nNot sure which platforms we want to support here. \nI would say at least:\n- macosx, x86_64\n- linux, x86 and x86_64\n- windows, x86 and x86_64\n\nAny other ? The challenge will be to setup the central\nbuild for all the platforms.",
+      "parentUuid": "AAALzX///mc\u003d",
+      "revId": "513d51af8f295b28386bbc0bf3dc1e37b6a047c1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALzX///pU\u003d",
+        "filename": "jgitnative/lstat.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-10-28T22:33:11Z",
+      "side": 1,
+      "message": "these printf calls will be removed",
+      "revId": "513d51af8f295b28386bbc0bf3dc1e37b6a047c1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALzX///mg\u003d",
         "filename": "jgitnative/lstat.c",
         "patchSetId": 1
@@ -30,6 +65,41 @@
       "writtenOn": "2010-10-29T22:58:22Z",
       "side": 1,
       "message": "Probably fine, but ENOENT or ENOTDIR are likely failures, failures we may wish to make more obvious to the Java code.\n\nSo we should make those more easily detectable than relying on checking the translated platform error string.",
+      "revId": "513d51af8f295b28386bbc0bf3dc1e37b6a047c1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALzX///mM\u003d",
+        "filename": "jgitnative/lstat.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-10-30T00:04:13Z",
+      "side": 1,
+      "message": "yeah, will throw specific exceptions here",
+      "parentUuid": "AAALzX///mg\u003d",
+      "revId": "513d51af8f295b28386bbc0bf3dc1e37b6a047c1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALzX///pQ\u003d",
+        "filename": "org.eclipse.jgit.macosx_x86_64/src/org/eclipse/jgit/util/fs/os/NativeFSAccess.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-10-28T22:33:11Z",
+      "side": 1,
+      "message": "will be removed",
       "revId": "513d51af8f295b28386bbc0bf3dc1e37b6a047c1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +123,24 @@
     },
     {
       "key": {
+        "uuid": "AAALzX///mU\u003d",
+        "filename": "org.eclipse.jgit.macosx_x86_64/src/org/eclipse/jgit/util/fs/os/NativeFSAccess.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-10-30T00:04:13Z",
+      "side": 1,
+      "message": "good idea, I will do that",
+      "parentUuid": "AAALzX///mo\u003d",
+      "revId": "513d51af8f295b28386bbc0bf3dc1e37b6a047c1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALzX///mk\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/fs/FSAccess.java",
         "patchSetId": 1
@@ -64,6 +152,24 @@
       "writtenOn": "2010-10-29T22:58:22Z",
       "side": 1,
       "message": "FWIW, this stuff should go in the static initializer of the class.\n\nWe should also use an interface to bridge the two together, that is the NativeFSAccess should extend the abstract FSAccess class and implement the abstract virtual methods that are defined.  That way at runtime we are only dispatching through the abstract method rather than through reflection.",
+      "revId": "513d51af8f295b28386bbc0bf3dc1e37b6a047c1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALzX///mI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/fs/FSAccess.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-10-30T00:04:13Z",
+      "side": 1,
+      "message": "ok, that\u0027s better, I also didn\u0027t like reflection, I was too tired looking at the manifests to spot a better solution ;-)",
+      "parentUuid": "AAALzX///mk\u003d",
       "revId": "513d51af8f295b28386bbc0bf3dc1e37b6a047c1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
