@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABODX//+/g\u003d",
+        "filename": "org.eclipse.jgit.pgm/META-INF/services/org.eclipse.jgit.pgm.TextBuiltin",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-01-13T00:35:45Z",
+      "side": 1,
+      "message": "why is Gc a debug command ?",
+      "revId": "7949fe001239fbdbf4c7db4a2d34071a4ee218c4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABODX//+/k\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/debug/Gc.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-01-13T00:35:45Z",
+      "side": 1,
+      "message": "shouldn\u0027t that be your copyright header instead ?",
+      "revId": "7949fe001239fbdbf4c7db4a2d34071a4ee218c4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABODX//+/c\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/storage/file/GCTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-01-13T00:35:45Z",
+      "side": 1,
+      "message": "update date to 2012",
+      "revId": "7949fe001239fbdbf4c7db4a2d34071a4ee218c4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABODX//+/Y\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-01-13T00:35:45Z",
+      "side": 1,
+      "message": "update date to 2012",
+      "revId": "7949fe001239fbdbf4c7db4a2d34071a4ee218c4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
