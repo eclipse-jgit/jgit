@@ -1,0 +1,22 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOAX//+gA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/ObjectToPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-07-28T17:01:49Z",
+      "side": 1,
+      "message": "Oy. We don\u0027t have a test covering a delta and its base in the pack? Yikes. Yes, we absolutely need to add a test here.",
+      "parentUuid": "AABOAX//+hs\u003d",
+      "revId": "8da617267a73d0c37ec43b3cf158b8b446f4292a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
