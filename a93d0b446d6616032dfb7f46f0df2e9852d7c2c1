@@ -1,0 +1,22 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOC3///To\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/TagCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-12-08T16:26:14Z",
+      "side": 1,
+      "message": "Yup, I agree with Christian here. We need a new tag object for both lightweight and annotated tag data to return in the API package.",
+      "parentUuid": "AABOC3///UE\u003d",
+      "revId": "a93d0b446d6616032dfb7f46f0df2e9852d7c2c1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
