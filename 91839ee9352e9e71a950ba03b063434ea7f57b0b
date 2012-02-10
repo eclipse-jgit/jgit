@@ -1,0 +1,58 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOEn////k\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-01-31T16:21:28Z",
+      "side": 1,
+      "message": "Since I want to expose multiple methods (prune, repack, packRefs) from this class and since this class does not have complicated state I will offer these methods as public static methods.",
+      "parentUuid": "AABOEX///7k\u003d",
+      "revId": "91839ee9352e9e71a950ba03b063434ea7f57b0b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOEX///7s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-01-31T16:21:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOEX///8E\u003d",
+      "revId": "91839ee9352e9e71a950ba03b063434ea7f57b0b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOEX///7o\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-01-31T16:21:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOEX///8A\u003d",
+      "revId": "91839ee9352e9e71a950ba03b063434ea7f57b0b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
