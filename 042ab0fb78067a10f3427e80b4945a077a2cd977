@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABODH///jI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 413,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-12-17T23:41:25Z",
+      "side": 1,
+      "message": "This method might be called a lot and \\r only occurs very rarely,\nso check whether it contains a \\r before invoking the whole regexp machinery.",
+      "revId": "042ab0fb78067a10f3427e80b4945a077a2cd977",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
