@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL0n///zQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/fs/FSAccessNative.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-11-25T17:52:55Z",
+      "side": 1,
+      "message": "I\u0027m still not sure we need the absolute path here to go into the native layer.  From what I understand of the JRE, you can\u0027t change the current working directory, so it should be OK to use a relative path as returned by getPath().  Which avoids unnecessary VFS traversals on some systems.\n\nBut whatever.  We can optimize later if its worth it.  This is at least going to ensure an accurate path is passed into the native code.",
+      "revId": "a436517589d36ee6cd27721b7e5872a279c5dadd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
