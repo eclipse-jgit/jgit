@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALy3///6w\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Show.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-08T05:37:11Z",
+      "side": 1,
+      "message": "This sucks.  Log, Diff, and now Show all have the same option block.  I wish I knew of a way to not duplicate this and still get the options supported by args4j.",
+      "revId": "6ff5c92596d2f89c0585aabaf98f7ccaba9d5df3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///6s\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Show.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-08T05:37:11Z",
+      "side": 1,
+      "message": "This first part of the try block is all duplicated with Log.  It would be nice if that wasn\u0027t the case.",
+      "revId": "6ff5c92596d2f89c0585aabaf98f7ccaba9d5df3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///6o\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Show.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-08T05:37:11Z",
+      "side": 1,
+      "message": "This is duplicated with LsTree.  We should share the code.",
+      "revId": "6ff5c92596d2f89c0585aabaf98f7ccaba9d5df3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALy3///6k\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Show.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-09-08T05:37:11Z",
+      "side": 1,
+      "message": "This is duplicated with Log.  We should share the code.",
+      "revId": "6ff5c92596d2f89c0585aabaf98f7ccaba9d5df3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
