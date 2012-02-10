@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOFH////Y\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2012-02-08T20:35:07Z",
+      "side": 1,
+      "message": "you should have null check for the \u0027pm\u0027 progress monitor at the beginning of this method to avoid a NPE here in case when caller calls with null.\n\nThe same check as in the gc method above.",
+      "revId": "5bbe20554f3004215444446dbb0b9af5533db3d8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
