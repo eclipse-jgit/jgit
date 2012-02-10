@@ -106,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "AABOCX///LY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PullCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2011-11-24T00:20:44Z",
+      "side": 1,
+      "message": "I \"borrowed\" this from the PushCommand class",
+      "parentUuid": "AABOCX///ME\u003d",
+      "revId": "0cfe955b26d2d65715efed16c7c8cc457addcc0e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOCX///MA\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PullCommand.java",
         "patchSetId": 5
