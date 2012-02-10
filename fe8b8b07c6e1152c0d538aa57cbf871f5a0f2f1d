@@ -1,0 +1,259 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL0n///44\u003d",
+        "filename": "jgitnative/lstat.c",
+        "patchSetId": 4
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-11-23T23:22:31Z",
+      "side": 1,
+      "message": "This shouldn\u0027t require a cast to long.  Casting to jint should cast to a 32 bit value, which will truncate the upper bits (if any) and leave you with the low 32.  So this is just:\n\n  elems[9] \u003d (jint) finfo.st_size;",
+      "revId": "fe8b8b07c6e1152c0d538aa57cbf871f5a0f2f1d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0n///40\u003d",
+        "filename": "jgitnative/lstat.c",
+        "patchSetId": 4
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-11-23T23:22:31Z",
+      "side": 1,
+      "message": "This expression is wrong.  You want the upper 32 bits here, but only if st_size is \u003e 4:\n\n  if (sizeof(finfo.st_size) \u003d\u003d 8)\n    elems[10] \u003d (jint) (finfo.st_size \u003e\u003e 32);\n  else\n    elems[10] \u003d 0;",
+      "revId": "fe8b8b07c6e1152c0d538aa57cbf871f5a0f2f1d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0n///5g\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/fs/AccessDeniedException.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-11-23T23:22:31Z",
+      "side": 1,
+      "message": "Style-nit: Trailing whitespace.",
+      "revId": "fe8b8b07c6e1152c0d538aa57cbf871f5a0f2f1d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0n///5c\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/fs/AccessDeniedException.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-11-23T23:22:31Z",
+      "side": 1,
+      "message": "I would reword this and say, \"as soon as Java 7 is our minimum supported platform\".",
+      "revId": "fe8b8b07c6e1152c0d538aa57cbf871f5a0f2f1d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0n///5Y\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/fs/AccessDeniedException.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-11-23T23:22:31Z",
+      "side": 1,
+      "message": "Should we localize this?",
+      "revId": "fe8b8b07c6e1152c0d538aa57cbf871f5a0f2f1d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0n///5s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/fs/FSAccess.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-11-23T23:22:31Z",
+      "side": 1,
+      "message": "Minor style-nit:  I prefer these to be one line:\n\n  /** The only instance of FSAccess. */",
+      "revId": "fe8b8b07c6e1152c0d538aa57cbf871f5a0f2f1d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0n///5o\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/fs/FSAccess.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-11-23T23:22:31Z",
+      "side": 1,
+      "message": "Style-nit: Braces aren\u0027t necessary here.",
+      "revId": "fe8b8b07c6e1152c0d538aa57cbf871f5a0f2f1d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0n///5k\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/fs/FSAccess.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-11-23T23:22:31Z",
+      "side": 1,
+      "message": "Style-nit: Trailing space.",
+      "revId": "fe8b8b07c6e1152c0d538aa57cbf871f5a0f2f1d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0n///48\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/fs/FSAccessJava.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-11-23T23:22:31Z",
+      "side": 1,
+      "message": "Isn\u0027t this behavior different from the native ENOENT case?  When the file doesn\u0027t exist:\n\nIn FSAccessJava you are returning an apparently valid LStat with the mode REGULAR_FILE, but -1 for lastModified and file length.\n\nIn FSAccessNative I think you are throwing NoSuchFileException.\n\nThe Java code needs to trap that, doesn\u0027t it?\n\n  long sz \u003d file.length();\n  if (sz \u003c 0)\n    throw new NoSuchFileExeption(file);\n\n  return new LStat(file.lastModified(), mode, sz);",
+      "revId": "fe8b8b07c6e1152c0d538aa57cbf871f5a0f2f1d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0n///5U\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/fs/FSAccessNative.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-11-23T23:22:31Z",
+      "side": 1,
+      "message": "Should we localize this string?",
+      "revId": "fe8b8b07c6e1152c0d538aa57cbf871f5a0f2f1d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0n///5M\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/fs/LStat.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-11-23T23:22:31Z",
+      "side": 1,
+      "message": "We probably need to slap \"Fix this before 2038\" warning here, and update that bug about JGit 2038 issues.  See RevCommit for an example of the warning I put on it.\n\nDirCacheEntry probably also needs a warning for its P_MTIME slot.  We can add that later.",
+      "revId": "fe8b8b07c6e1152c0d538aa57cbf871f5a0f2f1d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0n///5Q\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/fs/LStat.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-11-23T23:22:31Z",
+      "side": 1,
+      "message": "This is going to overflow as its all computed as an int.  Also, the precedence of + and \u003c\u003c isn\u0027t that widely known, so we prefer to wrap with () here to make the order of operations clear to everyone.\n\nSo instead:\n\n  size \u003d ((long)rawlstat[9]) + (((long)rawlstat[10]) \u003c\u003c 32);\n\nFWIW, given that almost everywhere else we use big endian ordering, its weird to see the high 32 bits of the size occur later in the array than the low 32 bits.",
+      "revId": "fe8b8b07c6e1152c0d538aa57cbf871f5a0f2f1d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0n///5I\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/fs/NoSuchFileException.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-11-23T23:22:31Z",
+      "side": 1,
+      "message": "\"As soon as Java 7 is our minimum supported platform\".",
+      "revId": "fe8b8b07c6e1152c0d538aa57cbf871f5a0f2f1d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0n///5E\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/fs/NoSuchFileException.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-11-23T23:22:31Z",
+      "side": 1,
+      "message": "Translate this?",
+      "revId": "fe8b8b07c6e1152c0d538aa57cbf871f5a0f2f1d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0n///5A\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/fs/NotDirectoryException.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-11-23T23:22:31Z",
+      "side": 1,
+      "message": "\"As soon as Java 7 is our minimum supported platform\".",
+      "revId": "fe8b8b07c6e1152c0d538aa57cbf871f5a0f2f1d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
