@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOAX//+jE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/dfs/DfsBlockCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-07-28T09:29:02Z",
+      "side": 1,
+      "message": "it seems we hit [1] on Hudson [2] when using the Java 6 Oracle compiler, compilation works fine when using Eclipse or Mac Java 6 compiler \n\n[1] http://bugs.sun.com/bugdatabase/view_bug.do?bug_id\u003d6302954\n[2] https://hudson.eclipse.org/sandbox/job/jgit.gerrit/669/console",
+      "revId": "d9f21a13031a27a878be8ed7c5fa6c95926c32df",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
