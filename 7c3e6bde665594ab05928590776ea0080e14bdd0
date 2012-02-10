@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOC3///oM\u003d",
+        "filename": "org.eclipse.jgit.pgm/META-INF/MANIFEST.MF",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-12-02T15:08:39Z",
+      "side": 1,
+      "message": "missing version tag",
+      "revId": "7c3e6bde665594ab05928590776ea0080e14bdd0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOC3///oY\u003d",
+        "filename": "org.eclipse.jgit.test/META-INF/MANIFEST.MF",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-12-02T15:08:39Z",
+      "side": 1,
+      "message": "missing version tag",
+      "revId": "7c3e6bde665594ab05928590776ea0080e14bdd0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOC3///lE\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/pgm/CLIGitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-12-03T02:47:44Z",
+      "side": 1,
+      "message": "If you want a function that can parse an sh style line, with quoting, we have logic for that in Gerrit Code Review. Its Apache License 2.0 but I/Google would be willing to relicense it under EDL for use in JGit since it depends on JGit\u0027s QuotedPath code to handle the sh quoting rules anyway. :-)",
+      "revId": "7c3e6bde665594ab05928590776ea0080e14bdd0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
