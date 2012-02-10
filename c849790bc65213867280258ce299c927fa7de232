@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOAn//+jU\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-08-23T22:48:46Z",
+      "side": 1,
+      "message": "Did you consider adding a WindowCache.reconfigure() call in Main within the pgm package?\n\nYou could add a new command line flag to Main called --config-file that points to a user configuration file, then callers can set these settings in ~/.jgitconfig (for example) and call `jgit --config-file\u003d$HOME/.jgitconfig log ...`.\n\nWe could also consider standardizing a ~/.jgitconfig file that is loaded by Main if present.\n\nFWIW, the reason Main doesn\u0027t support a config file is there is no way to have that config file also specify memory settings for the JVM. Setting too large of a value for core.packedGitLimit without also increasing the heap may cause performance problems in the application. Not entirely a problem you need to solve, but that\u0027s why I didn\u0027t added a reconfigure() call here.",
+      "revId": "c849790bc65213867280258ce299c927fa7de232",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOAn//+jk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/WindowCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-08-23T22:48:46Z",
+      "side": 1,
+      "message": "Style-nit: Trailing whitespace.",
+      "revId": "c849790bc65213867280258ce299c927fa7de232",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOAn//+jg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/WindowCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-08-23T22:48:46Z",
+      "side": 1,
+      "message": "I would prefer to put this into WindowCacheConfig. We have a fromConfig() method. Lets also add fromSystemProperties(). Then this code here becomes:\n\n  reconfigure(new WindowCacheConfig().fromSystemProperties());",
+      "revId": "c849790bc65213867280258ce299c927fa7de232",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOAn//+jc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/WindowCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-08-23T22:48:46Z",
+      "side": 1,
+      "message": "What if we named the system properties:\n\n  org.eclipse.jgit.config.core.streamFileThreshold\n\n? Then you can write the conversion code for fromSystemProperties() as:\n\n  Config cfg \u003d new Config();\n  ... loop through system properties\n  ... if name starts with \"org.eclipse.jgit.config.\"\n  ... split remainder on first dot, set string value\n  fromConfig(cfg);\n\nThat way the user can set any property using the -Dorg.eclipse.jgit.config.section.name\u003dvalue flag syntax. FWIW I have a special version of Config that parses JSON and converts it to a Config object so I can configure JGit via JSON. Works nicely. I\u0027m thinking the same sort of idea here, construct a Config from a properties collection.",
+      "revId": "c849790bc65213867280258ce299c927fa7de232",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOAn//+jY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/WindowCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-08-23T22:48:46Z",
+      "side": 1,
+      "message": "If you use the Config approach I suggest above, users can say -Dorg.eclipse.jgit.config.core.streamFileThreshold\u003d200m rather than 200000000. Its cleaner.",
+      "revId": "c849790bc65213867280258ce299c927fa7de232",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
