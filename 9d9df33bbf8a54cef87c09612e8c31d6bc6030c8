@@ -1,0 +1,191 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL2n///YM\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-01-24T20:58:16Z",
+      "side": 1,
+      "message": "Style-nit: Trailing whitespace.",
+      "revId": "9d9df33bbf8a54cef87c09612e8c31d6bc6030c8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2n///YI\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-01-24T20:58:16Z",
+      "side": 1,
+      "message": "PackWriter should disable this, shouldn\u0027t it?  IIRC pack-objects in C Git doesn\u0027t honor grafts when it creates the pack file.",
+      "revId": "9d9df33bbf8a54cef87c09612e8c31d6bc6030c8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2n///YE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/GraftsDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-01-24T20:58:16Z",
+      "side": 1,
+      "message": "These should be ObjectId because the mapping shouldn\u0027t be mutable.",
+      "revId": "9d9df33bbf8a54cef87c09612e8c31d6bc6030c8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2n///YA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1264,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-01-24T20:58:16Z",
+      "side": 1,
+      "message": "Grafts in alternates don\u0027t apply.",
+      "revId": "9d9df33bbf8a54cef87c09612e8c31d6bc6030c8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2n///X8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1268,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-01-24T20:58:16Z",
+      "side": 1,
+      "message": "Should be ObjectId, as the mapping cannot be mutable.",
+      "revId": "9d9df33bbf8a54cef87c09612e8c31d6bc6030c8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2n///Xs\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevCommit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-01-24T20:58:16Z",
+      "side": 1,
+      "message": "Because the number of grafts is low, I always thought we would implement grafts in RevWalk by just having the RevWalk\u0027s graft enable method lookup each of the RevCommits named as keys in the graft file, and assign their parents outright to the looked up RevCommit parents.\n\nThat way during traversal we aren\u0027t incurring this hit to look to see if each individual commit is part of the grafts file, its already been computed.  And actually that is part of the reason why we have this \"if (parents \u003d\u003d null)\" test in parseCanonical.  We don\u0027t want to replace parents that have already been computed for us, even if they are currently different from what is in the real content we loaded.",
+      "revId": "9d9df33bbf8a54cef87c09612e8c31d6bc6030c8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2n///Xo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-01-24T20:58:16Z",
+      "side": 1,
+      "message": "Ouch.  Do we really need to burn a reserved bit flag on something that is so uncommon?",
+      "revId": "9d9df33bbf8a54cef87c09612e8c31d6bc6030c8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2n///Xg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-01-24T20:58:16Z",
+      "side": 1,
+      "message": "Why does this variant of the constructor disable grafts, while another enables them?  This will result in a lot of confusion in the current code because some code uses this constructor just to reuse an existing reader between different related objects.\n\nI know the problem is you don\u0027t have the graft data available in this context.  But its still scary that the behavior of RevWalk differs based on the type of object we used to create it, and the Javadoc doesn\u0027t reflect this.",
+      "revId": "9d9df33bbf8a54cef87c09612e8c31d6bc6030c8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2n///X0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/FileGraftsDataBase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-01-24T20:58:16Z",
+      "side": 1,
+      "message": "Should be ObjectId so its immutable.",
+      "revId": "9d9df33bbf8a54cef87c09612e8c31d6bc6030c8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2n///Xw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/FileGraftsDataBase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-01-24T20:58:16Z",
+      "side": 1,
+      "message": "grafts should be volatile, and use a volatile safe pattern here:\n\n  static State {\n    final FileSnapshot snapshot;\n    final Map... grafts;\n  }\n  private volatile State state;\n\n  State s \u003d state;\n  if (s.isOutdated()) {\n    s \u003d loadGrafts();\n    state \u003d s;\n  }\n  return s.grafts;",
+      "revId": "9d9df33bbf8a54cef87c09612e8c31d6bc6030c8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2n///X4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/FileRepository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-01-24T20:58:16Z",
+      "side": 1,
+      "message": "Style-nit: Put this all on one line:\n\n  /** @return the grafts file, from info/grafts */",
+      "revId": "9d9df33bbf8a54cef87c09612e8c31d6bc6030c8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
