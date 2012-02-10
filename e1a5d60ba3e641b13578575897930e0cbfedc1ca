@@ -16,6 +16,23 @@
       "revId": "e1a5d60ba3e641b13578575897930e0cbfedc1ca",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL2n///cU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/SubtreeSplitResult.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-01-29T22:55:12Z",
+      "side": 1,
+      "message": "Document the content of the map. original \u003d\u003e rewitten",
+      "revId": "e1a5d60ba3e641b13578575897930e0cbfedc1ca",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
