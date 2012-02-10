@@ -53,6 +53,23 @@
     },
     {
       "key": {
+        "uuid": "AABODX//+sA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 901,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-01-16T00:44:26Z",
+      "side": 1,
+      "message": "If Head and Merge are equal by content and mode we will not touch index or file. Same is true if Head and Index are equal. I would add\n\n  if (mId.equals(hId) \u0026\u0026 mMode \u003d\u003d h.getEntryRawMode())\n    keep(dce);\n  if (mId.equals(iId) \u0026\u0026 mMode \u003d\u003d iMode)\n    keep(dce);",
+      "revId": "4b2b4b13ac4beba34a5a87844bb4f862f35dd3b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABODX//+gw\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
         "patchSetId": 6
