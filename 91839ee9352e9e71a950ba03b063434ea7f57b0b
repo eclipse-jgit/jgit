@@ -20,6 +20,40 @@
     },
     {
       "key": {
+        "uuid": "AABOEX///7g\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2012-01-31T09:50:33Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this method be private?",
+      "revId": "91839ee9352e9e71a950ba03b063434ea7f57b0b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOEX///8E\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2012-01-31T08:30:32Z",
+      "side": 1,
+      "message": "Use Collections.emptySet() as a typesafe replacement for Collections.EMTPY_SET. Then you don\u0027t need to cast.",
+      "revId": "91839ee9352e9e71a950ba03b063434ea7f57b0b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOEX///7s\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
         "patchSetId": 6
@@ -38,6 +72,23 @@
     },
     {
       "key": {
+        "uuid": "AABOEX///8A\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2012-01-31T08:30:32Z",
+      "side": 1,
+      "message": "Also replace with the Collections.emptySet()",
+      "revId": "91839ee9352e9e71a950ba03b063434ea7f57b0b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOEX///7o\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
         "patchSetId": 6
@@ -50,6 +101,40 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "AABOEX///8A\u003d",
+      "revId": "91839ee9352e9e71a950ba03b063434ea7f57b0b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOEX///7c\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2012-01-31T09:50:33Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this method be private?",
+      "revId": "91839ee9352e9e71a950ba03b063434ea7f57b0b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOEX///7Y\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2012-01-31T09:50:33Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this method be private?",
       "revId": "91839ee9352e9e71a950ba03b063434ea7f57b0b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
