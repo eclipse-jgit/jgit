@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "AABOCH///3U\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-11-03T21:31:56Z",
+      "side": 1,
+      "message": "What queries will be sped up and how much?",
+      "revId": "54df7a06bdfe6de82d7f1867150e568024b18ae6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOCH///34\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/CommonCommitLimitedRevQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-11-03T21:31:13Z",
+      "side": 1,
+      "message": "We don\u0027t use author tags",
+      "revId": "54df7a06bdfe6de82d7f1867150e568024b18ae6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOCH///6Y\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/CommonCommitLimitedRevQueue.java",
         "patchSetId": 1
@@ -64,6 +98,23 @@
       "writtenOn": "2011-11-03T20:45:04Z",
       "side": 1,
       "message": "By the time you are dealing with a RevFlag object, it may just be worthwhile to use the normal RevFlag set and has methods instead of hand-coded bitmasking.",
+      "revId": "54df7a06bdfe6de82d7f1867150e568024b18ae6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOCH///3k\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/CommonCommitLimitedRevQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-11-03T21:31:13Z",
+      "side": 1,
+      "message": "Odd indentation",
       "revId": "54df7a06bdfe6de82d7f1867150e568024b18ae6",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
