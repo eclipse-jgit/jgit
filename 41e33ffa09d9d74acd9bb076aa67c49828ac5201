@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABODX//+Fs\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2012-01-23T00:21:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABODX///uY\u003d",
+      "revId": "41e33ffa09d9d74acd9bb076aa67c49828ac5201",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABODX///uU\u003d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2012-01-02T23:36:32Z",
       "side": 1,
       "message": "AFAIK there is no --config-file option in native git, it is named --file instead [1]\n\nremove the last two sentences as they are not interesting for the project\u0027s history, put this into a Gerrit review comment or use Bugzilla bugs to publish your plans\n\n[1] http://schacon.github.com/git/git-config.html",
+      "revId": "41e33ffa09d9d74acd9bb076aa67c49828ac5201",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABODX//+Fo\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2012-01-23T00:21:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABODX///uU\u003d",
       "revId": "41e33ffa09d9d74acd9bb076aa67c49828ac5201",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AABODX//+Fw\u003d",
+        "filename": "org.eclipse.jgit.pgm/META-INF/services/org.eclipse.jgit.pgm.TextBuiltin",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2012-01-23T00:21:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABODX///uc\u003d",
+      "revId": "41e33ffa09d9d74acd9bb076aa67c49828ac5201",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABODX///ug\u003d",
         "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Config.java",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2012-01-02T23:36:32Z",
       "side": 1,
       "message": "this option doesn\u0027t exist in native git [1] if no --global or --system is specified this implies local repository configuration\n\n[1] http://schacon.github.com/git/git-config.html",
+      "revId": "41e33ffa09d9d74acd9bb076aa67c49828ac5201",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABODX///qE\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Config.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2012-01-03T10:22:47Z",
+      "side": 1,
+      "message": "This is what \"git config\" produces:\n\n$ git config\nusage: git config [options]\n\nConfig file location\n    --global              use global config file\n    --system              use system config file\n    --local               use repository config file\n    -f, --file \u003cFILE\u003e     use given config file\n...",
+      "parentUuid": "AABODX///qM\u003d",
       "revId": "41e33ffa09d9d74acd9bb076aa67c49828ac5201",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AABODX//+GA\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Config.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2012-01-23T00:21:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABODX///0Q\u003d",
+      "revId": "41e33ffa09d9d74acd9bb076aa67c49828ac5201",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABODX///vE\u003d",
         "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Config.java",
         "patchSetId": 1
@@ -98,6 +188,24 @@
       "writtenOn": "2012-01-02T23:36:32Z",
       "side": 1,
       "message": "style nit: no braces around single line blocks",
+      "revId": "41e33ffa09d9d74acd9bb076aa67c49828ac5201",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABODX//+F8\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Config.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2012-01-23T00:21:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABODX///vE\u003d",
       "revId": "41e33ffa09d9d74acd9bb076aa67c49828ac5201",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "AABODX//+F4\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Config.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2012-01-23T00:21:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABODX///u8\u003d",
+      "revId": "41e33ffa09d9d74acd9bb076aa67c49828ac5201",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABODX///u4\u003d",
         "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Config.java",
         "patchSetId": 1
@@ -132,6 +258,24 @@
       "writtenOn": "2012-01-02T23:36:32Z",
       "side": 1,
       "message": "style nit: no braces around single line blocks",
+      "revId": "41e33ffa09d9d74acd9bb076aa67c49828ac5201",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABODX//+F0\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Config.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2012-01-23T00:21:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABODX///u4\u003d",
       "revId": "41e33ffa09d9d74acd9bb076aa67c49828ac5201",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
