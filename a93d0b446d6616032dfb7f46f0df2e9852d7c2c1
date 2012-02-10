@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "AABOC3///GY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/TagCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-12-10T00:53:56Z",
+      "side": 1,
+      "message": "This is already the second attempt. I think a Ref is good enough. It\u0027s easy to convert to an object once you get it, but\nit may be any object type actually. Once you resolve the Ref you get to see what it is and handle it, should you care. In\nmost cases I don\u0027t think you do, it\u0027s just a name. Whether we\nhave a special type here or not makes no difference in the\namount of work the caller has to do. The reality behind tags\naren\u0027t very complicated and abstracting things too much is\nnot very good and in this case doesn\u0027t simplify anything. It will just give us an extra object and class to handle.",
+      "parentUuid": "AABOC3///UE\u003d",
+      "revId": "a93d0b446d6616032dfb7f46f0df2e9852d7c2c1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOC3//+9k\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/TagCommand.java",
         "patchSetId": 1
