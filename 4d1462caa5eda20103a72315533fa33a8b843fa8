@@ -334,6 +334,24 @@
     },
     {
       "key": {
+        "uuid": "AABOC3///lY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-12-02T22:19:03Z",
+      "side": 1,
+      "message": "yes, I also stumbled over that because my tests cases used bare repos in the beginning which led to an empty treewalk and AIOOB exceptions. Fixed it!",
+      "parentUuid": "AABOC3///s8\u003d",
+      "revId": "4d1462caa5eda20103a72315533fa33a8b843fa8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOC3///tA\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
         "patchSetId": 3
