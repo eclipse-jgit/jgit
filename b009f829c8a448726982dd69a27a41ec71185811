@@ -456,6 +456,24 @@
     },
     {
       "key": {
+        "uuid": "AAALz3///+Q\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/fs/FSAccessNative.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-11-19T23:39:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALzn///3E\u003d",
+      "revId": "b009f829c8a448726982dd69a27a41ec71185811",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALzn///3A\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/fs/FSAccessNative.java",
         "patchSetId": 2
