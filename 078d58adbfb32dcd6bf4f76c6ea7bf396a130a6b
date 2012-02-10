@@ -1,0 +1,130 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOCH///vk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/dfs/DfsBlockCache.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-11-04T18:17:53Z",
+      "side": 1,
+      "message": "Its not RFC anymore. But I\u0027m also not fixing this bug right now.",
+      "parentUuid": "AABOCH///1o\u003d",
+      "revId": "078d58adbfb32dcd6bf4f76c6ea7bf396a130a6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOCH///vo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/dfs/DfsBlockCache.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-11-04T18:17:53Z",
+      "side": 1,
+      "message": "Done. Defined as Integer.MAX_VALUE instead.",
+      "parentUuid": "AABOCH///1s\u003d",
+      "revId": "078d58adbfb32dcd6bf4f76c6ea7bf396a130a6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOCH///vg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/dfs/DfsBlockCache.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-11-04T18:17:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOCH///1k\u003d",
+      "revId": "078d58adbfb32dcd6bf4f76c6ea7bf396a130a6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOCH///vc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/dfs/DfsBlockCache.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 559,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-11-04T18:17:53Z",
+      "side": 1,
+      "message": "Replaced with ReentrantLock.",
+      "parentUuid": "AABOCH///1c\u003d",
+      "revId": "078d58adbfb32dcd6bf4f76c6ea7bf396a130a6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOCH///vs\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/dfs/DfsBlockCacheConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-11-04T18:17:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOCH///z4\u003d",
+      "revId": "078d58adbfb32dcd6bf4f76c6ea7bf396a130a6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOCH///vM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/dfs/DfsConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-11-04T18:17:53Z",
+      "side": 1,
+      "message": "Storage of the configuration file is not currently specified. Hence it is not implemented.",
+      "parentUuid": "AABOCH///3E\u003d",
+      "revId": "078d58adbfb32dcd6bf4f76c6ea7bf396a130a6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOCH///vw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/dfs/DfsRefDatabase.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-11-04T18:17:53Z",
+      "side": 1,
+      "message": "Depends on Eclipse version I think. But done.",
+      "parentUuid": "AABOCH///z8\u003d",
+      "revId": "078d58adbfb32dcd6bf4f76c6ea7bf396a130a6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
