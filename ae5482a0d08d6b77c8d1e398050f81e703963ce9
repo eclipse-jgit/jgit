@@ -16,6 +16,24 @@
       "revId": "ae5482a0d08d6b77c8d1e398050f81e703963ce9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOBH///bI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/errors/CheckoutConflictException.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2011-09-08T09:54:21Z",
+      "side": 1,
+      "message": "I didn\u0027t. This is how it\u0027s formatted in org.eclipse.jgit.errors.CheckoutConflictException, which I moved to org.eclipse.jgit.api.errors to replace deleted org.eclipse.jgit.api.errors.CheckoutConflictException. Then I added the line about Christian and the \u0027conflictingPaths\u0027 list. But you\u0027re right, this is confusing, Patch Set 3 should be a cleaner cut.",
+      "parentUuid": "AABOBH///fA\u003d",
+      "revId": "ae5482a0d08d6b77c8d1e398050f81e703963ce9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
