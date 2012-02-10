@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOAn///uY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackWriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1090,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-08-08T05:03:27Z",
+      "side": 1,
+      "message": "I think the second part of this conditional (otp.getDeltaBase() !\u003d null) is what causes the corruption. When there is a delta chain cycle (A-\u003eB-\u003eA) neither A nor B gets through this condition, so neither runs writeObjectAndDeltaChildren(), and neither appears in the pack output stream. This means the pack doesn\u0027t contain the number of objects declared in its header, causing IndexPack to abort with an early EOF error, and the index stores a bunch of objects with offset\u003d0. Trying to read those back always fails, because the first byte of the pack (\u0027P\u0027) appears to have object type code \u003d 5, which is a currently invalid code.",
+      "revId": "81b3ac6910f1a59f43fba4a42d1d1cb6b99c0ba4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
