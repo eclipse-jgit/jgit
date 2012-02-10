@@ -1,0 +1,316 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL1n///7o\u003d",
+        "filename": "libjgit_native/src/list.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-15T04:44:13Z",
+      "side": 1,
+      "message": "This needs to be abstracted somehow.  Not every C library exports d_type.  If its not there, we need to use the DT_UNKNOWN code path (that is, return 0).",
+      "revId": "61b1d352ace4617ba73d9e55e95dc98590857daa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL13///90\u003d",
+        "filename": "libjgit_native/src/list.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-16T03:03:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL1n///7o\u003d",
+      "revId": "61b1d352ace4617ba73d9e55e95dc98590857daa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL1n///7s\u003d",
+        "filename": "libjgit_native/src/list.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-15T04:44:13Z",
+      "side": 1,
+      "message": "We could load these constants from the Java fields and store them in our struct DirEnt above, that way the native code doesn\u0027t have to be as closely coupled with the DirEnt class definition.  But it will result in slower machine code because we aren\u0027t returning constants anymore from a simple function.",
+      "revId": "61b1d352ace4617ba73d9e55e95dc98590857daa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL13///+E\u003d",
+        "filename": "libjgit_native/src/list.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-16T03:03:46Z",
+      "side": 1,
+      "message": "I\u0027ve decided to leave this table as-is and just document in the Java DirEnt class that the values should not be changed.  Since they are public constants we already have to avoid changing them to prevent breaking binary compatibility with other Java code using the DirEnt class.",
+      "parentUuid": "AAAL1n///7s\u003d",
+      "revId": "61b1d352ace4617ba73d9e55e95dc98590857daa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL1n///7w\u003d",
+        "filename": "libjgit_native/src/list.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-15T04:44:13Z",
+      "side": 1,
+      "message": "Style-nit: I forgot to clean up trailing whitespace.",
+      "revId": "61b1d352ace4617ba73d9e55e95dc98590857daa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL13///+I\u003d",
+        "filename": "libjgit_native/src/list.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-16T03:03:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL1n///7w\u003d",
+      "revId": "61b1d352ace4617ba73d9e55e95dc98590857daa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL1n///7c\u003d",
+        "filename": "libjgit_native/src/list.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-15T04:44:13Z",
+      "side": 1,
+      "message": "This malloc is ugly.  It would be nice if we could stack allocate the \"average\" buffer on this platform and avoid the malloc/free for common cases.  But that may just turn into wasted stack space if we guess wrong.",
+      "revId": "61b1d352ace4617ba73d9e55e95dc98590857daa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL1n///7k\u003d",
+        "filename": "libjgit_native/src/list.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-15T04:44:13Z",
+      "side": 1,
+      "message": "This is somewhat hideous.  We double the array, and then later we contract it back to the exact size necessary.  Makes me wonder if returning an immutable List\u003cDirEnt\u003e might be better, because then we don\u0027t need to contract the result array back to the correct size.  Unfortunately walking the List\u003cDirEnt\u003e would require allocating an Iterator\u003cDirEnt\u003e, so its an object allocation either way.",
+      "revId": "61b1d352ace4617ba73d9e55e95dc98590857daa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL1n///7g\u003d",
+        "filename": "libjgit_native/src/list.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-15T04:44:13Z",
+      "side": 1,
+      "message": "Some C libraries (Darwin aka Mac OS X) have a e-\u003ed_namlen that can tell us the length without performing a strlen().  That is faster, but its not available everywhere (notably its missing on Linux).",
+      "revId": "61b1d352ace4617ba73d9e55e95dc98590857daa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL1n///8E\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/fs/FileAccessNativeTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-15T04:44:13Z",
+      "side": 1,
+      "message": "We probably shouldn\u0027t try the symlink if !isPosix().",
+      "revId": "61b1d352ace4617ba73d9e55e95dc98590857daa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL1n///8I\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/fs/FileAccessNativeTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-15T04:44:13Z",
+      "side": 1,
+      "message": "These tests assume that the underlying platform actually supports the d_type field.  Not every filesystem does, even if the operating system and libc do.  For example on Linux ext2/3/4 support it but FAT doesn\u0027t, resulting in TYPE_UNKNOWN coming back instead of the proper types.",
+      "revId": "61b1d352ace4617ba73d9e55e95dc98590857daa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL1n///8A\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/fs/DirEnt.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-15T04:44:13Z",
+      "side": 1,
+      "message": "These are obviously missing Javadoc.",
+      "revId": "61b1d352ace4617ba73d9e55e95dc98590857daa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL13///+A\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/fs/DirEnt.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-16T03:03:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL1n///8A\u003d",
+      "revId": "61b1d352ace4617ba73d9e55e95dc98590857daa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL1n///78\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/fs/FileAccess.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-15T04:44:13Z",
+      "side": 1,
+      "message": "We should document that \".\" and \"..\" are omitted from the returned listing.",
+      "revId": "61b1d352ace4617ba73d9e55e95dc98590857daa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL13///98\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/fs/FileAccess.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-16T03:03:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL1n///78\u003d",
+      "revId": "61b1d352ace4617ba73d9e55e95dc98590857daa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL1n///74\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/fs/FileAccess.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-15T04:44:13Z",
+      "side": 1,
+      "message": "I\u0027m not sure we have all of the potential errno cases covered here.  We may be translating other errors into exceptions with our generic jgit_ThrowErrno utility function.",
+      "revId": "61b1d352ace4617ba73d9e55e95dc98590857daa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL13///94\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/fs/FileAccess.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-16T03:03:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL1n///74\u003d",
+      "revId": "61b1d352ace4617ba73d9e55e95dc98590857daa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL1n///70\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/fs/FileAccessJava.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-15T04:44:13Z",
+      "side": 1,
+      "message": "I really hate that for the pure-Java case we\u0027ll have to be a tad slower to make the File.list result conform to the API by wrapping the results.\n\nThis should however let us avoid a number of stat calls to determine file type within FileTreeIterator, and that would really make up for it if our native library was widely deployed.",
+      "revId": "61b1d352ace4617ba73d9e55e95dc98590857daa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
