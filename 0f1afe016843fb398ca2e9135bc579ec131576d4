@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABODn///2o\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-01-25T10:19:04Z",
+      "side": 1,
+      "message": "please remove the trailing whitespace",
+      "revId": "0f1afe016843fb398ca2e9135bc579ec131576d4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABODn///2w\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MergeCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-01-25T10:19:04Z",
+      "side": 1,
+      "message": "just a comment: I thought a little bit whether it is ok to report a non-null newHead here. This merge command didn\u0027t do a new commit and also didn\u0027t touched HEAD - so why should it report something in newHead. Failing merges also report null as newHead But: in the ALREADY_UP_TO_DATE case we also report the old HEAD as newHead. Also javadocs for MergeResult.getNewHead() vote for youre proposal. So, ok for me.",
+      "revId": "0f1afe016843fb398ca2e9135bc579ec131576d4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABODn///2k\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MergeCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-01-25T10:19:04Z",
+      "side": 1,
+      "message": "Don\u0027t we want to spent a new MergeStatus for this? Users of our API (e.g. EGit, jgit-pgm) may want to decide on MergeStatus what to report to the end-user. E.g. EGit can detect by MergeStatus whether the HEAD has moved or not (ALREADY_UP_TO_DATE vs. MERGED|FAST_FORWARD) and because of that other actions may be triggered (decoration,...) . But if we report MERGED as status we don\u0027t give the higher layers a chance to act properly.",
+      "revId": "0f1afe016843fb398ca2e9135bc579ec131576d4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABODn///2s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MergeCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-01-25T10:19:04Z",
+      "side": 1,
+      "message": "I would refer to either a merge man page or explain it a little bit that we prepare the next commit in index and working-tree. I guess a lot of users will missinterprete this because they know about the squash option in interactive rebase which has different results.",
+      "revId": "0f1afe016843fb398ca2e9135bc579ec131576d4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
