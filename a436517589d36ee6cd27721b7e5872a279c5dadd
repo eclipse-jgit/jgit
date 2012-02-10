@@ -16,6 +16,24 @@
       "revId": "a436517589d36ee6cd27721b7e5872a279c5dadd",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0n///w8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/fs/FSAccessNative.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-11-25T23:45:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL0n///zQ\u003d",
+      "revId": "a436517589d36ee6cd27721b7e5872a279c5dadd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
