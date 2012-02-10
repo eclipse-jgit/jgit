@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL0X///9o\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-11-15T18:31:22Z",
+      "side": 1,
+      "message": "s/withi/within/",
+      "revId": "f2f23ad301fec407686a244cf4bcb6a6bcdf9910",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0X///9g\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-11-15T18:31:22Z",
+      "side": 1,
+      "message": "This should be p.now, not reading the clock.  I think your intent was to read the clock at the start of the entire iteration, and then use that single timestamp for all subdirectories.  Here you are updating the clock within each subdirectory as the TreeWalk recurses into them, but then you aren\u0027t updating it when we pop back out and evaluate another file in the parent directory.  That\u0027s somewhat inconsistent timestamp behavior.",
+      "revId": "f2f23ad301fec407686a244cf4bcb6a6bcdf9910",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0X///9k\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 634,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-11-15T18:31:22Z",
+      "side": 1,
+      "message": "Style-nit: Line wrapping here is very ugly.",
+      "revId": "f2f23ad301fec407686a244cf4bcb6a6bcdf9910",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
