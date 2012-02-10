@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABODX//+fg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SystemReader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-01-17T23:23:47Z",
+      "side": 1,
+      "message": "nit-pick; trailing whitespace",
+      "revId": "b9df5f1af11dd6fdb4670829b00f4018f772f9e1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
