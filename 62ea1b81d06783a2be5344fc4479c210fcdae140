@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "AABOJn///yc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectReader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 444,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-05-30T18:17:51Z",
+      "side": 1,
+      "message": "Wow. I don\u0027t really like the idea of the path encoding being on the ObjectReader. I would instead prefer exposing the repository configuration, or some other configuration source.\n\nThat may simplify some contexts because then you can get the CoreConfig or something similar from the ObjectReader.",
+      "revId": "62ea1b81d06783a2be5344fc4479c210fcdae140",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOJn///uw\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectReader.java",
         "patchSetId": 1
