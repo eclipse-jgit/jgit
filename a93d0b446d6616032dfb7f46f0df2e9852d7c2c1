@@ -52,6 +52,24 @@
       "revId": "a93d0b446d6616032dfb7f46f0df2e9852d7c2c1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABODH///ow\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/TagCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-12-20T10:00:45Z",
+      "side": 1,
+      "message": "The GitAPI was meant as a high-level API. It is for developers willing to sacrifice performance in order to get an API which offers exactly the same methods as native-git commandline commands. Who don\u0027t want this penalty should use our tradiditional API (Repository, ..:Walk, DirCacheCheckout,....).\n\nFor such an API I find it ok that if I explicitly create a tag that I get back something tag specific. There are quite some use-cases where I have handle tags differently from other refs. Tags can point to other tags or even to other object types while e.g. branches always point to commits. If I want to know the commit a tag is pointing too (I very common use case I guess) I do that in a tag specific way. Reasons enough for me to introduce a type representing all our tags in our high-level API. Especially when I look at ListTagCommand.",
+      "parentUuid": "AABODH///5A\u003d",
+      "revId": "a93d0b446d6616032dfb7f46f0df2e9852d7c2c1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
