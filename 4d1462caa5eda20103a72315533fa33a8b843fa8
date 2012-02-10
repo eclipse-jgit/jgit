@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AABOC3///uA\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/storage/file/GCTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2011-12-01T13:40:48Z",
+      "side": 1,
+      "message": "missing license header",
+      "revId": "4d1462caa5eda20103a72315533fa33a8b843fa8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOC3///tY\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
         "patchSetId": 3
