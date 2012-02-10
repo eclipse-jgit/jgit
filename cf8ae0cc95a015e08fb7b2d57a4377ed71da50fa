@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOFX///7U\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2012-02-10T08:20:49Z",
+      "side": 1,
+      "message": "please document that the IOException is thrown when the packRefs fails to lock the packed-refs file",
+      "revId": "cf8ae0cc95a015e08fb7b2d57a4377ed71da50fa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
