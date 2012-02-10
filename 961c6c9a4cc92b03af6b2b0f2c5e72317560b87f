@@ -1,0 +1,242 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABODX//+r4\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/ApplyCommandTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-01-16T00:34:58Z",
+      "side": 1,
+      "message": "these tests only cover change type ADD, we also need tests for the other change types, also it would be good to have tests for error situations",
+      "revId": "961c6c9a4cc92b03af6b2b0f2c5e72317560b87f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABODX//+r8\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/ApplyCommandTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-01-16T00:34:58Z",
+      "side": 1,
+      "message": "why do you test this for E, X, Y, Z ? Somehow I feel I miss the point here...",
+      "revId": "961c6c9a4cc92b03af6b2b0f2c5e72317560b87f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABODX//+sY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ApplyCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-01-16T00:34:58Z",
+      "side": 1,
+      "message": "add a technical check to prevent that the same command object can be run more than once, see e.g. AddComand.call()",
+      "revId": "961c6c9a4cc92b03af6b2b0f2c5e72317560b87f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABODX//+uM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ApplyCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-01-16T00:34:58Z",
+      "side": 1,
+      "message": "Commands should declare to throw GitAPIException for exceptions which are supposed to be handled by clients, specific exceptions should be subclasses of GitAPIException. \n\nJGitInternalException should wrap internal exception clients can\u0027t handle in a reasonable way.",
+      "revId": "961c6c9a4cc92b03af6b2b0f2c5e72317560b87f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABODX//+t4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ApplyCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-01-16T00:34:58Z",
+      "side": 1,
+      "message": "why don\u0027t you throw a checked exception here ? I would expect something like a PatchFormatException extending GitAPIException and wrapping the format errors",
+      "revId": "961c6c9a4cc92b03af6b2b0f2c5e72317560b87f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABODX//+t0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ApplyCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-01-16T00:34:58Z",
+      "side": 1,
+      "message": "use FileUtils.createNewFile() instead in order to check return value",
+      "revId": "961c6c9a4cc92b03af6b2b0f2c5e72317560b87f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABODX//+ts\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ApplyCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-01-16T00:34:58Z",
+      "side": 1,
+      "message": "style nit: no curly braces around single line blocks",
+      "revId": "961c6c9a4cc92b03af6b2b0f2c5e72317560b87f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABODX//+to\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ApplyCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-01-16T00:34:58Z",
+      "side": 1,
+      "message": "style nit: no curly braces around single line blocks",
+      "revId": "961c6c9a4cc92b03af6b2b0f2c5e72317560b87f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABODX//+tk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ApplyCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-01-16T00:34:58Z",
+      "side": 1,
+      "message": "style nit: no curly braces around single line blocks",
+      "revId": "961c6c9a4cc92b03af6b2b0f2c5e72317560b87f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABODX//+tg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ApplyCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-01-16T00:34:58Z",
+      "side": 1,
+      "message": "style nit: no curly braces around single line blocks",
+      "revId": "961c6c9a4cc92b03af6b2b0f2c5e72317560b87f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABODX//+sk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ApplyCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-01-16T00:34:58Z",
+      "side": 1,
+      "message": "fix TODO",
+      "revId": "961c6c9a4cc92b03af6b2b0f2c5e72317560b87f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABODX//+tc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ApplyCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-01-16T00:34:58Z",
+      "side": 1,
+      "message": "style nit: no curly braces around single line blocks",
+      "revId": "961c6c9a4cc92b03af6b2b0f2c5e72317560b87f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABODX//+rw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/HunkHeader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-01-16T00:34:58Z",
+      "side": 1,
+      "message": "fix TODO",
+      "revId": "961c6c9a4cc92b03af6b2b0f2c5e72317560b87f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABODX//+sE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/patch/HunkHeader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-01-16T00:34:58Z",
+      "side": 1,
+      "message": "externalize the error message\n\nmaybe better use \"Illegal hunk control character\" ?",
+      "revId": "961c6c9a4cc92b03af6b2b0f2c5e72317560b87f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
