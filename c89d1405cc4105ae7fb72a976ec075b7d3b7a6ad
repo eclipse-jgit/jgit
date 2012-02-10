@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOCH///54\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/CommitReachability.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-11-04T00:10:50Z",
+      "side": 1,
+      "message": "Add a license header",
+      "revId": "c89d1405cc4105ae7fb72a976ec075b7d3b7a6ad",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOCH///50\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/CommitReachability.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-11-04T00:10:50Z",
+      "side": 1,
+      "message": "no author tags",
+      "revId": "c89d1405cc4105ae7fb72a976ec075b7d3b7a6ad",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOCH///5w\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/CommitReachability.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-11-04T00:10:50Z",
+      "side": 1,
+      "message": "Describe what you expect this method to return and the input",
+      "revId": "c89d1405cc4105ae7fb72a976ec075b7d3b7a6ad",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
