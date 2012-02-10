@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL23///iU\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 100
+      },
+      "writtenOn": "2011-02-17T19:58:08Z",
+      "side": 1,
+      "message": "The first line of the commit message should be short and precise, e.g. \"Add testcase for CloneCommand\".\r\n\r\nThe subsequent lines should then provide detailed information about the change, e.g. \"A test method for cloning to a bare repository is added to class CloneCommandTest.\"\r\n\r\nPlease also add Change-Id and Signed-off-by to the message:\r\nChange-Id: I296f9259dd418866a16c9b45ffbc0c3e7f0efd07\r\nSigned-off-by: Ketan Padegaonkar\u003cKetanPadegaonkar@gmail.com\u003e",
+      "revId": "296f9259dd418866a16c9b45ffbc0c3e7f0efd07",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL23///iA\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CloneCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 100
+      },
+      "writtenOn": "2011-02-17T19:58:08Z",
+      "side": 1,
+      "message": "Test methods should start with \"test\".",
+      "revId": "296f9259dd418866a16c9b45ffbc0c3e7f0efd07",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL23///iI\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CloneCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 100
+      },
+      "writtenOn": "2011-02-17T19:58:08Z",
+      "side": 1,
+      "message": "In order to create a bare repository, you have to perform the following: Git.init().setDirectory(directory).setBare(true).call();",
+      "revId": "296f9259dd418866a16c9b45ffbc0c3e7f0efd07",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL23///iE\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CloneCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 100
+      },
+      "writtenOn": "2011-02-17T19:58:08Z",
+      "side": 1,
+      "message": "This setting is wrong. The original repository is not bare.",
+      "revId": "296f9259dd418866a16c9b45ffbc0c3e7f0efd07",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
