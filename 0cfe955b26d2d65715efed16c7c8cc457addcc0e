@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOCX///L8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PullCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-11-23T23:14:35Z",
+      "side": 1,
+      "message": "Why 3? Why not just allow the default size of 16?",
+      "revId": "0cfe955b26d2d65715efed16c7c8cc457addcc0e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOCX///L4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PullCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-11-23T23:14:35Z",
+      "side": 1,
+      "message": "git pull is weird. If I say `git pull URL foo:refs/heads/foo master` then master is merged but foo is stored as refs/heads/foo.\n\nI don\u0027t see you accounting for that f\u0027king odd behavior in this change. But you probably should be.",
+      "revId": "0cfe955b26d2d65715efed16c7c8cc457addcc0e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOCX///ME\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PullCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-11-23T23:14:35Z",
+      "side": 1,
+      "message": "This seems wrong to me. Why are we asking the local repository  for a reference that exists on the remote side, and ignoring it if it does not exist locally?",
+      "revId": "0cfe955b26d2d65715efed16c7c8cc457addcc0e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOCX///MA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PullCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-11-23T23:14:35Z",
+      "side": 1,
+      "message": "return setRefSpecs(Arrays.asList(specs)) is much shorter.",
+      "revId": "0cfe955b26d2d65715efed16c7c8cc457addcc0e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
