@@ -71,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "AABOCX///VE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PullCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2011-11-22T02:32:26Z",
+      "side": 1,
+      "message": "I also added support for setting the ref specs to pull as well and therefore it seems to make sense to have the setter method signatures for remote and ref specs mirror FetchCommand for consistency.\n\nPullCommand should not be an outlier, FetchCommand, PushCommand, and LsRemote command also use setRemote to mean a name or URI to use in the Transport operation.",
+      "parentUuid": "AABOJ3///40\u003d",
+      "revId": "61f049b23e1865be2c54a459e6b11cdd1b3590ac",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOCX///Uk\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PullCommand.java",
         "patchSetId": 2
@@ -83,6 +101,24 @@
       "side": 1,
       "message": "Ok for me. But some comments\n\nAs you can see in the man pages of all 4 git commands you mention they all call it \"repository\". The push command man page e.g. shows  that \"names of remotes\" and URLs are different things and both can go into this parameter. I guess that\u0027s why they didn\u0027t called it \"remote\".\n\nBut even if I could convince you: since the FetchCommand API is included in our released jgit version I can\u0027t change it anymore. And I agree: beeing consistent between Fetch and Pull is important.\n\nMaybe we could add additional setters for \"repository\" to all these commands just to be in sync with native git terminology.",
       "parentUuid": "AABOCX///VE\u003d",
+      "revId": "61f049b23e1865be2c54a459e6b11cdd1b3590ac",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOCX///Sc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PullCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2011-11-22T17:33:45Z",
+      "side": 1,
+      "message": "I think setRepository would be confusing since the commands already have a getRepository which would return a diferrent object (Repository) than the proposed setter",
+      "parentUuid": "AABOCX///Uk\u003d",
       "revId": "61f049b23e1865be2c54a459e6b11cdd1b3590ac",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
