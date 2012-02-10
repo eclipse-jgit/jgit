@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "AABOC3///Og\u003d",
+        "filename": "org.eclipse.jgit.test/META-INF/MANIFEST.MF",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2011-12-08T21:29:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOC3///oY\u003d",
+      "revId": "7c3e6bde665594ab05928590776ea0080e14bdd0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOC3///mc\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/BranchCommandTest.java",
         "patchSetId": 1
@@ -47,6 +65,24 @@
       "writtenOn": "2011-12-02T17:18:20Z",
       "side": 1,
       "message": "\\r is for Windows only. Don\u0027t do that.",
+      "revId": "7c3e6bde665594ab05928590776ea0080e14bdd0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOC3///Oc\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/BranchCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 472,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2011-12-08T21:29:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOC3///mc\u003d",
       "revId": "7c3e6bde665594ab05928590776ea0080e14bdd0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -81,6 +117,42 @@
       "writtenOn": "2011-12-03T02:47:44Z",
       "side": 1,
       "message": "If you want a function that can parse an sh style line, with quoting, we have logic for that in Gerrit Code Review. Its Apache License 2.0 but I/Google would be willing to relicense it under EDL for use in JGit since it depends on JGit\u0027s QuotedPath code to handle the sh quoting rules anyway. :-)",
+      "revId": "7c3e6bde665594ab05928590776ea0080e14bdd0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOC3///Z4\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/pgm/CLIGitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2011-12-06T22:18:23Z",
+      "side": 1,
+      "message": "Point taken, but isn\u0027t it true for org.eclipse.jgit.pgm.Main.main(String[]) as well? I would file a separate bug to fix here and there at the same time. Is it ok with you guys?",
+      "parentUuid": "AABOC3///lE\u003d",
+      "revId": "7c3e6bde665594ab05928590776ea0080e14bdd0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOC3///U0\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/pgm/CLIGitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2011-12-08T13:05:40Z",
+      "side": 1,
+      "message": "I\u0027ve filed bug 366025 for that.",
+      "parentUuid": "AABOC3///Z4\u003d",
       "revId": "7c3e6bde665594ab05928590776ea0080e14bdd0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
