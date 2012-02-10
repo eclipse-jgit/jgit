@@ -70,6 +70,24 @@
     },
     {
       "key": {
+        "uuid": "AABODX//+lU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 901,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2012-01-17T01:11:37Z",
+      "side": 1,
+      "message": "I\u0027m not sure I understand your comment, you want to add explicit checks to keep the current entry even though they would be kept by falling through the current checks to the keep line on 927?  I think I might be missing something.",
+      "parentUuid": "AABODX//+sA\u003d",
+      "revId": "4b2b4b13ac4beba34a5a87844bb4f862f35dd3b3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABODX//+gw\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
         "patchSetId": 6
