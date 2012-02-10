@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "AABODX//+GY\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/ApplyCommandTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2012-01-23T00:10:01Z",
+      "side": 1,
+      "message": "I\u0027m reusing test cases from DiffFormatterReflowTest. E is for modifying an empty file; Y and Z are two different cases with the \"No newline at end of file\" info. X contains hunks adding, removing and replacing lines.",
+      "parentUuid": "AABODX//+r8\u003d",
+      "revId": "961c6c9a4cc92b03af6b2b0f2c5e72317560b87f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABODX//+sY\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ApplyCommand.java",
         "patchSetId": 2
