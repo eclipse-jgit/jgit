@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL2n///YU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/subtree/SubtreeContext.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-01-29T22:55:41Z",
+      "side": 1,
+      "message": "Private?",
+      "revId": "7c3d97dad7d7fe4b483f6bd5b4b937d267c1495b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
