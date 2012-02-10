@@ -125,6 +125,24 @@
       "revId": "078d58adbfb32dcd6bf4f76c6ea7bf396a130a6b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOCH///vY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/dfs/LargePackedWholeObject.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-11-04T18:17:53Z",
+      "side": 1,
+      "message": "Comment added.",
+      "parentUuid": "AABOCH///1w\u003d",
+      "revId": "078d58adbfb32dcd6bf4f76c6ea7bf396a130a6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
