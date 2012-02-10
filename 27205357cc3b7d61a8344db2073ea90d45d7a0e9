@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABODX//+7s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 758,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-01-13T16:32:47Z",
+      "side": 1,
+      "message": "This code will sometimes produce a conflict if Head and Merge commit are the same. You decide on throwing a conflict without looking at the Head commit and this cannot be true. Try this:\n\n git init\n echo 1\u003ea\n git add a\n git commit -m initial\n echo 2\u003eb\n git add b\n git commit -m second\n git checkout -b side HEAD~\n echo 3\u003ea\n chmod a+x a\n git add a\n git checkout master\n\nNative git allows the checkout without a conflict although index and working are dirty by all means (content and mode).\n\nWhat we want to achieve is that during a checkout when we touch a file in the filesystem we should not silently overwrite the files mode. You failed to detect correctly when we touch a file in the filesystem.",
+      "revId": "27205357cc3b7d61a8344db2073ea90d45d7a0e9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
