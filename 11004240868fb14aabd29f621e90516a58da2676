@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAL4H//+10\u003d",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/JGitText.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 100
+      },
+      "writtenOn": "2011-04-21T13:59:34Z",
+      "side": 1,
+      "message": "Maybe \"... certificate/ key in...\" would be better...",
+      "revId": "11004240868fb14aabd29f621e90516a58da2676",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL4H//+1w\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/CredentialItem.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 100
+      },
+      "writtenOn": "2011-04-21T13:59:34Z",
+      "side": 1,
+      "message": "We could add \"/ private key\" to this comment as well.",
+      "revId": "11004240868fb14aabd29f621e90516a58da2676",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL4X///+k\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
         "patchSetId": 1
@@ -149,6 +183,23 @@
       "writtenOn": "2011-04-21T18:27:41Z",
       "side": 1,
       "message": "Style-nit: See above about keeping the exception chain.",
+      "revId": "11004240868fb14aabd29f621e90516a58da2676",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL4H//+14\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UsernamePasswordCredentialsProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 100
+      },
+      "writtenOn": "2011-04-21T13:59:34Z",
+      "side": 1,
+      "message": "Comment does not match list of parameters.",
       "revId": "11004240868fb14aabd29f621e90516a58da2676",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false

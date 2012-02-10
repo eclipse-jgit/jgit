@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL4H//+1s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/UsernamePasswordCredentialsProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 100
+      },
+      "writtenOn": "2011-04-21T13:59:34Z",
+      "side": 0,
+      "message": "Would it make sense to have a separate CertCredentialsProvider?",
+      "revId": "0359184f4ed54eb5b880f66d9d514afa10d9fc4a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
