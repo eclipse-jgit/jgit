@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "AABODX//+8Y\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/DirCacheCheckoutTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 982,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-01-13T12:44:59Z",
+      "side": 1,
+      "message": "wtf, isn\u0027t JGitInternalException something more serious?\n\nOf that would be another bug, no need to fix for this commit.",
+      "revId": "27205357cc3b7d61a8344db2073ea90d45d7a0e9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABODX//+8k\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 755,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-01-13T12:44:59Z",
+      "side": 1,
+      "message": "nit-pick: Don\u0027t use javadoc-style comments here, one * will do",
+      "revId": "27205357cc3b7d61a8344db2073ea90d45d7a0e9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABODX//+7s\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
         "patchSetId": 3
