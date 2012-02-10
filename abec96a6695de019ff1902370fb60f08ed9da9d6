@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOEn////4\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/storage/file/GCTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-01-31T16:18:29Z",
+      "side": 1,
+      "message": "Unreachable loose objects are currently not pruned. We prune only those loose objects which made it into packfiles. That\u0027s why the following assertion currently doesn\u0027t work. Maybe we should invent a option for gc() which tells when to prune loose, unreachable objects. Currently this parameter is set to NEVER.",
+      "revId": "abec96a6695de019ff1902370fb60f08ed9da9d6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOEn////0\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/storage/file/GCTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-01-31T16:18:29Z",
+      "side": 1,
+      "message": "Unreachable loose objects are currently not pruned. See above.",
+      "revId": "abec96a6695de019ff1902370fb60f08ed9da9d6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOEn////8\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/storage/file/GCTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-01-31T16:18:29Z",
+      "side": 1,
+      "message": "This will create a tag object in the database. But this tag object is not referenced by any ref. The tag object is unreachable and therefore doesn\u0027t save the blob from being pruned. Both object\u0027s should be be gc\u0027d.",
+      "revId": "abec96a6695de019ff1902370fb60f08ed9da9d6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOEn////w\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/storage/file/GCTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-01-31T16:18:29Z",
+      "side": 1,
+      "message": "Unreachable loose objects are currently not pruned. See above.",
+      "revId": "abec96a6695de019ff1902370fb60f08ed9da9d6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOEn////s\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/storage/file/GCTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-01-31T16:18:29Z",
+      "side": 1,
+      "message": "Unreachable loose objects are currently not pruned. See above.",
+      "revId": "abec96a6695de019ff1902370fb60f08ed9da9d6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
