@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL4X///+k\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-21T18:27:41Z",
+      "side": 1,
+      "message": "Should we also consider support for sslCAPath?",
+      "revId": "11004240868fb14aabd29f621e90516a58da2676",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL4X///+Y\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-21T18:27:41Z",
+      "side": 1,
+      "message": "Stupid question: Do we need http.sslCert?",
+      "revId": "11004240868fb14aabd29f621e90516a58da2676",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL4X////Q\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 502,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-21T18:27:41Z",
+      "side": 1,
+      "message": "Why are we getting the CertPassword if http.sslKey is null (because the user isn\u0027t using client certificates)?\n\nAlso, C Git suggests the user set http.sslCertPasswordProtected if their key is encrypted with a password. If its not set, C Git doesn\u0027t prompt until later when the key is required and a password is needed. Is there some way we can tell if the key is encrypted and avoid prompting if this variable is unset and the key is not stored encrypted?",
+      "revId": "11004240868fb14aabd29f621e90516a58da2676",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL4X////M\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 514,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-21T18:27:41Z",
+      "side": 1,
+      "message": "What is this TODO here?",
+      "revId": "11004240868fb14aabd29f621e90516a58da2676",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL4X////I\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 539,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-21T18:27:41Z",
+      "side": 1,
+      "message": "It may be true that you want to trust all hosts inside your company, but I don\u0027t think this is a sane default. :-)\n\nI think C Git just ties this in with sslVerify. If sslVerify is false, then hostname verification isn\u0027t performed either. If sslVerify is true, then both certificate and hostname verification is done.",
+      "revId": "11004240868fb14aabd29f621e90516a58da2676",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL4X////E\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 549,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-21T18:27:41Z",
+      "side": 1,
+      "message": "Style-nit: We prefer the idiom:\n\n  FileInputStream fis \u003d new FileInputStream(path);\n  try {\n  } finally {\n    fis.close();\n  }",
+      "revId": "11004240868fb14aabd29f621e90516a58da2676",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL4X////A\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 560,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-21T18:27:41Z",
+      "side": 1,
+      "message": "Style-nit: Please preserve the original chain of exceptions:\n\n  IOException ioe \u003d new IOException(e.getMessage());\n  ioe.initCause(e);\n  throw ioe;",
+      "revId": "11004240868fb14aabd29f621e90516a58da2676",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL4X///+8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 575,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-21T18:27:41Z",
+      "side": 1,
+      "message": "Style-nit: See above about file handling.",
+      "revId": "11004240868fb14aabd29f621e90516a58da2676",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL4X///+4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 593,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-21T18:27:41Z",
+      "side": 1,
+      "message": "Style-nit: See above about keeping the exception chain.",
+      "revId": "11004240868fb14aabd29f621e90516a58da2676",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
