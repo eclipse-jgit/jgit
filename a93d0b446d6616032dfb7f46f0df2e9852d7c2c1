@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AABOC3///UE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/TagCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-12-08T16:06:59Z",
+      "side": 1,
+      "message": "Is Ref the right type here? Shouldn\u0027t we introduce a type which can hold lightweight and annotated tags. Like Shawn suggested in http://egit.eclipse.org/r/#patch,unified,4346,1,org.eclipse.jgit.test/tst/org/eclipse/jgit/api/TagCommandTest.java\nIf we don\u0027t introduce it then the user of this API has to care for the details (checking that the ref is under \u0027refs/tags\u0027, differentiate between the different types of tags). Since this belongs to the public API we should get it right in the first shot.",
+      "revId": "a93d0b446d6616032dfb7f46f0df2e9852d7c2c1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOC3///To\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/TagCommand.java",
         "patchSetId": 1
@@ -14,6 +31,24 @@
       "side": 1,
       "message": "Yup, I agree with Christian here. We need a new tag object for both lightweight and annotated tag data to return in the API package.",
       "parentUuid": "AABOC3///UE\u003d",
+      "revId": "a93d0b446d6616032dfb7f46f0df2e9852d7c2c1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOC3//+9k\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/TagCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-12-12T22:42:07Z",
+      "side": 1,
+      "message": "Annotated tags have special attributes (taggerIdents, message) which I may want to process. How would you write code which list\u0027s all annotated tags which are tagged by a person X? The TagCommand.call() method would instantiate all the RevTag objects I need to get to this data, but you throw that info away and give me refs instead. As a caller I have to use RevWalks now to distinguish which of the refs you gave me are annotated tags and then to recreate these RevTag objects, or?",
+      "parentUuid": "AABOC3///GY\u003d",
       "revId": "a93d0b446d6616032dfb7f46f0df2e9852d7c2c1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
