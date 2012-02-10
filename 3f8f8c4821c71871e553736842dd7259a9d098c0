@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOBn///f8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/fnmatch/FileNameMatcher.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-10-23T10:57:18Z",
+      "side": 1,
+      "message": "style-nit; no braces for simple single-statement constrcuts",
+      "revId": "3f8f8c4821c71871e553736842dd7259a9d098c0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOBn///f0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/fnmatch/FileNameMatcher.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-10-23T10:57:18Z",
+      "side": 1,
+      "message": "style-nit; no braces for simple single-statement constrcuts",
+      "revId": "3f8f8c4821c71871e553736842dd7259a9d098c0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOBn///f4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/fnmatch/FileNameMatcher.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-10-23T10:57:18Z",
+      "side": 1,
+      "message": "style-nit; no braces for simple single-statement constrcuts",
+      "revId": "3f8f8c4821c71871e553736842dd7259a9d098c0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOBn///fw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/fnmatch/FileNameMatcher.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-10-23T10:57:18Z",
+      "side": 1,
+      "message": "style-nit; badly indented comment",
+      "revId": "3f8f8c4821c71871e553736842dd7259a9d098c0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOBn///fs\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/fnmatch/FileNameMatcher.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-10-23T10:57:18Z",
+      "side": 1,
+      "message": "style-nit; no braces for simple single-statement constrcuts",
+      "revId": "3f8f8c4821c71871e553736842dd7259a9d098c0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
