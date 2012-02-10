@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOCH///6Y\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/CommonCommitLimitedRevQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-11-03T20:45:04Z",
+      "side": 1,
+      "message": "How does this queue discard ancestors? It looks to me like it walks all commits in the queue in the next() method. Shouldn\u0027t it skip a commit if the reachability cardinality is the start size?",
+      "revId": "54df7a06bdfe6de82d7f1867150e568024b18ae6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOCH///6w\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/CommonCommitLimitedRevQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-11-03T20:45:04Z",
+      "side": 1,
+      "message": "How is this better than making a special subclass of RevWalk that overrides createCommit() to provide its own subclass of RevCommit that carries BitSet member? That would use less memory, and make the whole thing slightly less awkward for the caller to work with as they don\u0027t have to try to register the CommonCommitLimitedRevQueue against an existing RevWalk they created. But it does mean you cannot convert an existing graph held by an existing RevWalk to perform this operation, the application author would need to decide which type of RevWalk to create and what type of graph they want to maintain in memory.",
+      "revId": "54df7a06bdfe6de82d7f1867150e568024b18ae6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOCH///6s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/CommonCommitLimitedRevQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-11-03T20:45:04Z",
+      "side": 1,
+      "message": "startCommits could contain the same commit more than once, since its a List. Maybe you want to convert it over to a Set first to ensure its unique, or handle that case here specially when the commitToReachability map already contains the commit in it?\n\nOr if you use the RevCommit subclass approach, you can just test for the BitSet field being non-null and refuse to reassign it, instead setting the corresponding start bit.",
+      "revId": "54df7a06bdfe6de82d7f1867150e568024b18ae6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOCH///6k\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/CommonCommitLimitedRevQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-11-03T20:45:04Z",
+      "side": 1,
+      "message": "By the time you are dealing with a RevFlag object, it may just be worthwhile to use the normal RevFlag set and has methods instead of hand-coded bitmasking.",
+      "revId": "54df7a06bdfe6de82d7f1867150e568024b18ae6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOCH///6c\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/CommonCommitLimitedRevQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-11-03T20:45:04Z",
+      "side": 1,
+      "message": "This set is always empty. What is it for?",
+      "revId": "54df7a06bdfe6de82d7f1867150e568024b18ae6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOCH///6g\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/CommonCommitLimitedRevQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-11-03T20:45:04Z",
+      "side": 1,
+      "message": "What is the purpose of this interface/method? Its a bit unclear to me why you want it.",
+      "revId": "54df7a06bdfe6de82d7f1867150e568024b18ae6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
