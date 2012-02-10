@@ -212,6 +212,23 @@
     },
     {
       "key": {
+        "uuid": "AABODn///10\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2012-01-25T14:31:02Z",
+      "side": 1,
+      "message": "This method prunes only loose objects.\n\nIf all reachable objects are written into the new pack file then\nwhy don\u0027t delete the old pack files too?",
+      "revId": "7949fe001239fbdbf4c7db4a2d34071a4ee218c4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABODn///v8\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
         "patchSetId": 4
@@ -224,6 +241,40 @@
       "side": 1,
       "message": "yes, it prunes only loose objects ... just as \"git-prune\". If one wants to get rid of unreachable packed objects \"git-repack\" has to be used.\n\nBut you are right: in the end we want to get rid of the old pack files. This should maybe go into the repack method.",
       "parentUuid": "AABODn///10\u003d",
+      "revId": "7949fe001239fbdbf4c7db4a2d34071a4ee218c4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABODn///14\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2012-01-25T14:31:02Z",
+      "side": 1,
+      "message": "Looks like you want to test:\n\n ! objectsToKeep.contains(id)\n\ninstead of:\n\n objectsToKeep.contains(id)",
+      "revId": "7949fe001239fbdbf4c7db4a2d34071a4ee218c4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABODn///1g\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2012-01-25T17:01:21Z",
+      "side": 1,
+      "message": "If a loose object is not found in a pack it will not be deleted.\nAnd, if a loose object is not reachable then the repack method will not put it into the (new) pack.\nThis means that the \"prune\" method can never prune non-reachable loose objects. Right?\n\nSo, we either have a bug in this method or it should be named something like \"deletePackedLooseObjects\"",
       "revId": "7949fe001239fbdbf4c7db4a2d34071a4ee218c4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
