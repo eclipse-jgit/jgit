@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL4X///+Q\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/resolver/DefaultReceivePackFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-21T18:36:11Z",
+      "side": 1,
+      "message": "Please add a note about X.509 certificates being accepted too.",
+      "revId": "1855acea0d64d6aee1f275ec5bb24391d6a8f311",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL4X///+E\u003d",
+        "filename": "org.eclipse.jgit.junit.http/src/org/eclipse/jgit/junit/http/AppServer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-21T18:36:11Z",
+      "side": 1,
+      "message": "You shouldn\u0027t hard-code the port, but instead let it be assigned by the OS and pick up the port after-the-fact like we do with the non-SSL connection.",
+      "revId": "1855acea0d64d6aee1f275ec5bb24391d6a8f311",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL4X///+A\u003d",
+        "filename": "org.eclipse.jgit.junit.http/src/org/eclipse/jgit/junit/http/KeyStoreHelper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-21T18:36:11Z",
+      "side": 1,
+      "message": "Why aren\u0027t these huge base64 thinks resource files in the test suite? Then they can be loaded as files from the source directory, rather than writing them out to temporary files during the test and needing to delete them after.",
+      "revId": "1855acea0d64d6aee1f275ec5bb24391d6a8f311",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL4X///+I\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/HttpAuthMethod.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-21T18:36:11Z",
+      "side": 1,
+      "message": "Why isn\u0027t this change combined into the prior commit that handles the client side changes?",
+      "revId": "1855acea0d64d6aee1f275ec5bb24391d6a8f311",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL4X///+M\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/HttpAuthMethod.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-21T18:36:11Z",
+      "side": 1,
+      "message": "What is left TODO here?",
+      "revId": "1855acea0d64d6aee1f275ec5bb24391d6a8f311",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
