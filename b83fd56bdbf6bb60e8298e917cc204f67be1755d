@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOBX///aQ\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/ReadTreeTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 807,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-09-23T14:14:56Z",
+      "side": 1,
+      "message": "please remote the empty line",
+      "revId": "b83fd56bdbf6bb60e8298e917cc204f67be1755d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOBX///Z0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MergeCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-09-23T14:14:56Z",
+      "side": 1,
+      "message": "can\u0027t we expose our new knowledge about why checkout/merge failed to the user of MergeCommand, CheckoutCommand?",
+      "revId": "b83fd56bdbf6bb60e8298e917cc204f67be1755d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOBX///aA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-09-23T14:14:56Z",
+      "side": 1,
+      "message": "is this really a MergeFailureReason? This class is used also during normal checkouts, resets, ...and it sounds strange to me that we have to import org.eclipse.jgit.merge.ResolveMerger when I want understand the exceptions thrown by a checkout.\n\nOne example: during the merge operation we don\u0027t like dirty indexes and publish MergeFailureReason.DIRTY_INDEX. But here, in the DirCacheCheckout, a dirty index alone is not a reason to fail. You can checkout succesfully although your index is dirty.\n\nMy suggestion: Let\u0027s introduce a CheckoutFailureReason located in org.eclipse.jgit.dircache.",
+      "revId": "b83fd56bdbf6bb60e8298e917cc204f67be1755d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOBX///aE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 723,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-09-23T14:14:56Z",
+      "side": 1,
+      "message": "these todos - they are there because it is not clear which MergeFailureReason should be choosen, or?",
+      "revId": "b83fd56bdbf6bb60e8298e917cc204f67be1755d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
