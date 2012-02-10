@@ -1,0 +1,56 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOJ3///8s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PullCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-06-01T07:28:15Z",
+      "side": 1,
+      "message": "Is it really the name of a remote or is it also possible to specifiy the URL like \"git://myhost/myrepo.git\"?",
+      "revId": "61f049b23e1865be2c54a459e6b11cdd1b3590ac",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJ3///8w\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PullCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-06-01T07:28:15Z",
+      "side": 1,
+      "message": "As this API should be as close to native-git as possible I would like to call this parameter \"repository\" instead of \"remote\". Have a look at http://www.kernel.org/pub/software/scm/git/docs/git-pull.html .",
+      "revId": "61f049b23e1865be2c54a459e6b11cdd1b3590ac",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOJ3///40\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PullCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2011-06-02T06:29:48Z",
+      "side": 1,
+      "message": "then FetchCommand has the same issue. I would prefer \"repository\" because it:\n- matches the native git documentation\n- \"remote\" would make me think I have to specify the name of a remote. But that\u0027s not correct. I can specify remote names but I am also able to specify URLs.",
+      "parentUuid": "AABOJ3///5k\u003d",
+      "revId": "61f049b23e1865be2c54a459e6b11cdd1b3590ac",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
