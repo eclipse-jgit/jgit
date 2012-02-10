@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL1n///7U\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/fs/FileAccessJava.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2010-12-15T04:48:55Z",
+      "side": 1,
+      "message": "Do we really want to put the symlink emulation that Msysgit does into our FileAccessJava class?",
+      "revId": "b18ad0ec92179ed0b9f360567f59db5fd3468296",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
