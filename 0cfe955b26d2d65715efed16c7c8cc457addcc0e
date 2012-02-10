@@ -19,6 +19,41 @@
     },
     {
       "key": {
+        "uuid": "AABOCX///Lc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PullCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2011-11-24T00:20:44Z",
+      "side": 1,
+      "message": "I \"borrowed\" this from the PushCommand class",
+      "parentUuid": "AABOCX///L8\u003d",
+      "revId": "0cfe955b26d2d65715efed16c7c8cc457addcc0e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOCX///Ro\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PullCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2011-11-22T19:32:45Z",
+      "side": 1,
+      "message": "The one change since the last patch was to use toString instead of toPrivateString when setting the remoteUri variable.\n\nThis seemed appropriate since the remoteUri is used in the commit message for the merge and the password shouldn\u0027t appear there if included in the URI.",
+      "revId": "0cfe955b26d2d65715efed16c7c8cc457addcc0e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOCX///L4\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PullCommand.java",
         "patchSetId": 5
@@ -30,6 +65,24 @@
       "writtenOn": "2011-11-23T23:14:35Z",
       "side": 1,
       "message": "git pull is weird. If I say `git pull URL foo:refs/heads/foo master` then master is merged but foo is stored as refs/heads/foo.\n\nI don\u0027t see you accounting for that f\u0027king odd behavior in this change. But you probably should be.",
+      "revId": "0cfe955b26d2d65715efed16c7c8cc457addcc0e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOCX///HE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PullCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2011-11-26T22:15:19Z",
+      "side": 1,
+      "message": "So in the case you mention, foo is only fetched, not fetched and merged?\n\nI was trying to reproduce the behavior you mentioned and it looked like an octopus merge is always done when multiple refspecs are included on the command line.",
+      "parentUuid": "AABOCX///L4\u003d",
       "revId": "0cfe955b26d2d65715efed16c7c8cc457addcc0e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
