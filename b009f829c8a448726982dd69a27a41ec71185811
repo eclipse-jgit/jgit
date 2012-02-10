@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAALz3////w\u003d",
+        "filename": "jgitnative/lstat.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-11-19T23:39:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALzn///2s\u003d",
+      "revId": "b009f829c8a448726982dd69a27a41ec71185811",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALzn///2o\u003d",
         "filename": "jgitnative/lstat.c",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2010-11-08T21:39:54Z",
       "side": 1,
       "message": "That will be an API change, in a public API.  But we should do it once we can drop support for Java 6.  Which is years away from now.",
+      "revId": "b009f829c8a448726982dd69a27a41ec71185811",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALz3////s\u003d",
+        "filename": "jgitnative/lstat.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-11-19T23:39:28Z",
+      "side": 1,
+      "message": "yeah",
+      "parentUuid": "AAALzn///2o\u003d",
       "revId": "b009f829c8a448726982dd69a27a41ec71185811",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL0n///+E\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/fs/FSAccessTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-11-19T23:39:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALzn///2k\u003d",
+      "revId": "b009f829c8a448726982dd69a27a41ec71185811",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALzn///2g\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/fs/FSAccessTest.java",
         "patchSetId": 2
@@ -64,6 +118,24 @@
       "writtenOn": "2010-11-08T21:39:54Z",
       "side": 1,
       "message": "I don\u0027t think that is true.  It should only be true if the file was created and never written to, e.g. by the creat(2) system call.  I think its legal for close(2) to update the mtime of a file after it was opened for writing, where the open call set the ctime.  So I don\u0027t think we should rely on this assumption in our unit test.\n\nHowever, we should be able to rely on mtime being \u003e\u003d ctime.",
+      "revId": "b009f829c8a448726982dd69a27a41ec71185811",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0H///1c\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/fs/FSAccessTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-11-19T23:39:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALzn///2g\u003d",
       "revId": "b009f829c8a448726982dd69a27a41ec71185811",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL0n///+A\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/fs/FSAccessTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-11-19T23:39:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALzn///2c\u003d",
+      "revId": "b009f829c8a448726982dd69a27a41ec71185811",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALzn///2Y\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/fs/FSAccessTest.java",
         "patchSetId": 2
@@ -98,6 +188,41 @@
       "writtenOn": "2010-11-08T21:39:54Z",
       "side": 1,
       "message": "Haha.  I love how you defined the text to fit a particular answer.  :-)",
+      "revId": "b009f829c8a448726982dd69a27a41ec71185811",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0n///98\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/util/fs/FSAccessTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-11-19T23:39:28Z",
+      "side": 1,
+      "message": "this was pure coincidence, I also like the answer :-)",
+      "parentUuid": "AAALzn///2Y\u003d",
+      "revId": "b009f829c8a448726982dd69a27a41ec71185811",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALzn///3g\u003d",
+        "filename": "org.eclipse.jgit/META-INF/MANIFEST.MF",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-11-19T23:39:28Z",
+      "side": 1,
+      "message": "we don\u0027t need this line",
       "revId": "b009f829c8a448726982dd69a27a41ec71185811",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -121,6 +246,24 @@
     },
     {
       "key": {
+        "uuid": "AAALz3////Q\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/fs/FSAccess.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-11-19T23:39:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALzn///3Q\u003d",
+      "revId": "b009f829c8a448726982dd69a27a41ec71185811",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALzn///3U\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/fs/FSAccess.java",
         "patchSetId": 2
@@ -132,6 +275,24 @@
       "writtenOn": "2010-11-08T21:39:54Z",
       "side": 1,
       "message": "Make this an abstract member and return true in FSAccessNative and false in FSAccessJava.",
+      "revId": "b009f829c8a448726982dd69a27a41ec71185811",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALz3///+4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/fs/FSAccess.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-11-19T23:39:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALzn///3U\u003d",
       "revId": "b009f829c8a448726982dd69a27a41ec71185811",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -155,6 +316,24 @@
     },
     {
       "key": {
+        "uuid": "AAALz3///+0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/fs/FSAccess.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-11-19T23:39:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALzn///3M\u003d",
+      "revId": "b009f829c8a448726982dd69a27a41ec71185811",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALzn///28\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/fs/FSAccessJava.java",
         "patchSetId": 2
@@ -166,6 +345,24 @@
       "writtenOn": "2010-11-08T21:39:54Z",
       "side": 1,
       "message": "Missing copyright header.",
+      "revId": "b009f829c8a448726982dd69a27a41ec71185811",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALz3///+Y\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/fs/FSAccessJava.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-11-19T23:39:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALzn///28\u003d",
       "revId": "b009f829c8a448726982dd69a27a41ec71185811",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -189,6 +386,24 @@
     },
     {
       "key": {
+        "uuid": "AAALz3///+c\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/fs/FSAccessJava.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-11-19T23:39:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALzn///24\u003d",
+      "revId": "b009f829c8a448726982dd69a27a41ec71185811",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALzn///3I\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/fs/FSAccessNative.java",
         "patchSetId": 2
@@ -200,6 +415,24 @@
       "writtenOn": "2010-11-08T21:39:54Z",
       "side": 1,
       "message": "Drop this static ctor?",
+      "revId": "b009f829c8a448726982dd69a27a41ec71185811",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALz3///+U\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/fs/FSAccessNative.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2010-11-19T23:39:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALzn///3I\u003d",
       "revId": "b009f829c8a448726982dd69a27a41ec71185811",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
