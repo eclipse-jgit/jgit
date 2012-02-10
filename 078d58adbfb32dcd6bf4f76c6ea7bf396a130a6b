@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AABOCH///1o\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/dfs/DfsBlockCache.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-11-03T23:55:17Z",
+      "side": 1,
+      "message": "Is this an RFC patch?",
+      "revId": "078d58adbfb32dcd6bf4f76c6ea7bf396a130a6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOCH///vk\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/dfs/DfsBlockCache.java",
         "patchSetId": 7
@@ -14,6 +31,23 @@
       "side": 1,
       "message": "Its not RFC anymore. But I\u0027m also not fixing this bug right now.",
       "parentUuid": "AABOCH///1o\u003d",
+      "revId": "078d58adbfb32dcd6bf4f76c6ea7bf396a130a6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOCH///1s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/dfs/DfsBlockCache.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-11-03T23:55:17Z",
+      "side": 1,
+      "message": "Define a final static int BILLION \u003d 1000*1000*1000;\nand say 2*BILLION so we don\u0027t have to count zeroes. \n\nEver used the old Turkish Lira, counting the zeroes to figure out whether it was a million or ten million? 1000000 vs 10000000.\n\nBtw, zeroes or zeros?",
       "revId": "078d58adbfb32dcd6bf4f76c6ea7bf396a130a6b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -38,6 +72,23 @@
     },
     {
       "key": {
+        "uuid": "AABOCH///1k\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/dfs/DfsBlockCache.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-11-03T23:55:17Z",
+      "side": 1,
+      "message": "How about Exception, or even Throwable?\nWhy not just call creditSpace within a finally block ?\nOr, since you don\u0027t handle all exceptions, a short comment on why.",
+      "revId": "078d58adbfb32dcd6bf4f76c6ea7bf396a130a6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOCH///vg\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/dfs/DfsBlockCache.java",
         "patchSetId": 7
@@ -50,6 +101,40 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "AABOCH///1k\u003d",
+      "revId": "078d58adbfb32dcd6bf4f76c6ea7bf396a130a6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOCH///1g\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/dfs/DfsBlockCache.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 457,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-11-03T23:55:17Z",
+      "side": 1,
+      "message": "I think  a little more code is easier to read for cases like this. It make it clearer, why, you are doing this.\n\nlong end \u003d pos+ size;\nif (end \u003e len)\n   end \u003d len;",
+      "revId": "078d58adbfb32dcd6bf4f76c6ea7bf396a130a6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOCH///1c\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/dfs/DfsBlockCache.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 559,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-11-03T23:55:17Z",
+      "side": 1,
+      "message": "You could have used just Object, but I actually like defining a class for this purpose.",
       "revId": "078d58adbfb32dcd6bf4f76c6ea7bf396a130a6b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -109,6 +194,23 @@
     },
     {
       "key": {
+        "uuid": "AABOCH///3E\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/dfs/DfsConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-11-03T23:55:17Z",
+      "side": 1,
+      "message": "What TODO about this?",
+      "revId": "078d58adbfb32dcd6bf4f76c6ea7bf396a130a6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOCH///vM\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/dfs/DfsConfig.java",
         "patchSetId": 7
@@ -121,6 +223,57 @@
       "side": 1,
       "message": "Storage of the configuration file is not currently specified. Hence it is not implemented.",
       "parentUuid": "AABOCH///3E\u003d",
+      "revId": "078d58adbfb32dcd6bf4f76c6ea7bf396a130a6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOCH///2c\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/dfs/DfsInserter.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-11-03T23:55:17Z",
+      "side": 1,
+      "message": "This ooks like a generally useful utility to me",
+      "revId": "078d58adbfb32dcd6bf4f76c6ea7bf396a130a6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOCH///2E\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/dfs/DfsPackKey.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-11-03T23:55:17Z",
+      "side": 1,
+      "message": "Seems unnecessary. Why is the other value multiplied?",
+      "revId": "078d58adbfb32dcd6bf4f76c6ea7bf396a130a6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOCH///18\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/dfs/DfsPackParser.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-11-03T23:55:17Z",
+      "side": 1,
+      "message": "Could we have less magic constants for these things",
       "revId": "078d58adbfb32dcd6bf4f76c6ea7bf396a130a6b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -156,6 +309,23 @@
       "side": 1,
       "message": "Depends on Eclipse version I think. But done.",
       "parentUuid": "AABOCH///z8\u003d",
+      "revId": "078d58adbfb32dcd6bf4f76c6ea7bf396a130a6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOCH///1w\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/dfs/LargePackedWholeObject.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-11-03T23:55:17Z",
+      "side": 1,
+      "message": "Any particular reason for 8192 here?",
       "revId": "078d58adbfb32dcd6bf4f76c6ea7bf396a130a6b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
