@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL4X////o\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-21T18:01:43Z",
+      "side": 1,
+      "message": "We actually already have most of this code:\n\n  InterruptTimer timer \u003d new InterruptTimer(\"FS.readPipe\");\n  try {\n    TimeoutInputStream in \u003d new TimeoutInputStream(p.getInputStream(), timer);\n    in.setTimeout(10000);\n    BufferedReader lineRead \u003d new BufferedReader(in, encoding));\n    ...\n  } finally {\n    timer.terminate();\n  }\n\nIf a timeout triggers, lineRead.readLine() will throw InterruptedIOException.",
+      "revId": "e50f2ca04d5ab1226e837e63c333331c59183fb3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL4X////0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-21T18:01:43Z",
+      "side": 1,
+      "message": "Style-nit: There is no reason to hoist this outside of the try block. Please leave it initialized by the Runtime.getRuntime().exec() invocation.",
+      "revId": "e50f2ca04d5ab1226e837e63c333331c59183fb3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL4X////w\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FS.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2011-04-21T18:01:43Z",
+      "side": 1,
+      "message": "A read exception should be considered before looking at the result string.",
+      "revId": "e50f2ca04d5ab1226e837e63c333331c59183fb3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
