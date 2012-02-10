@@ -1,0 +1,361 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOBn///gE\u003d",
+        "filename": "org.eclipse.jgit.test/NOW EDITED",
+        "patchSetId": 8
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-10-23T09:16:41Z",
+      "side": 1,
+      "message": "What\u0027s this?",
+      "revId": "23c84b2092df25586429bbef1f1b89b4e644b23f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOBn///gg\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/StashApplyCommandTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-10-23T09:16:41Z",
+      "side": 1,
+      "message": "We usually invent names here. After all it is not you that create the commits when the test execute on somebody else\u0027s machine.",
+      "revId": "23c84b2092df25586429bbef1f1b89b4e644b23f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOBn///gc\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/StashApplyCommandTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-10-23T09:16:41Z",
+      "side": 1,
+      "message": "You should test the index AND the files that we expect/do not expect",
+      "revId": "23c84b2092df25586429bbef1f1b89b4e644b23f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOBn///gY\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/StashApplyCommandTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-10-23T09:16:41Z",
+      "side": 1,
+      "message": "ouch",
+      "revId": "23c84b2092df25586429bbef1f1b89b4e644b23f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOBn///gU\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/StashApplyCommandTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-10-23T09:16:41Z",
+      "side": 1,
+      "message": "ouch",
+      "revId": "23c84b2092df25586429bbef1f1b89b4e644b23f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOBn///gQ\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/StashApplyCommandTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-10-23T09:16:41Z",
+      "side": 1,
+      "message": "Doesn\u0027t writeTrashFile work?",
+      "revId": "23c84b2092df25586429bbef1f1b89b4e644b23f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOBn///gM\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/StashApplyCommandTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-10-23T09:16:41Z",
+      "side": 1,
+      "message": "ouch",
+      "revId": "23c84b2092df25586429bbef1f1b89b4e644b23f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOBn///gI\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/StashApplyCommandTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-10-23T09:16:41Z",
+      "side": 1,
+      "message": "ouch",
+      "revId": "23c84b2092df25586429bbef1f1b89b4e644b23f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOBn///hE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Git.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 482,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-10-23T09:16:41Z",
+      "side": 1,
+      "message": "Missing stashPop",
+      "revId": "23c84b2092df25586429bbef1f1b89b4e644b23f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOBn///gs\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/StashApplyCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-10-23T09:16:41Z",
+      "side": 1,
+      "message": "Javadoc for the return values",
+      "revId": "23c84b2092df25586429bbef1f1b89b4e644b23f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOBn///gw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/StashApplyCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-10-23T09:16:41Z",
+      "side": 1,
+      "message": "object id or ObjectId",
+      "revId": "23c84b2092df25586429bbef1f1b89b4e644b23f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOBn///go\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/StashApplyCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-10-23T09:16:41Z",
+      "side": 1,
+      "message": "There must be something useful we could return.\nOr you could state that, so far this method does not\nreturn anything. hmm  I wonder if it is possible to use Void (capital V) and then changing to something else without breaking the API",
+      "revId": "23c84b2092df25586429bbef1f1b89b4e644b23f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOBn///hk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/StashCreateCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-10-23T09:16:41Z",
+      "side": 1,
+      "message": "\"the stash commit\" is more precise",
+      "revId": "23c84b2092df25586429bbef1f1b89b4e644b23f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOBn///hQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/StashCreateCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-10-23T09:16:41Z",
+      "side": 1,
+      "message": "R_STASH is \"refs/stash/\". Can this work?",
+      "revId": "23c84b2092df25586429bbef1f1b89b4e644b23f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOBn///hM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/StashCreateCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-10-23T09:16:41Z",
+      "side": 1,
+      "message": "We should have a constant here",
+      "revId": "23c84b2092df25586429bbef1f1b89b4e644b23f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOBn///hI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/StashCreateCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-10-23T09:16:41Z",
+      "side": 1,
+      "message": "and here",
+      "revId": "23c84b2092df25586429bbef1f1b89b4e644b23f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOBn///g8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/StashListCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-10-23T09:16:41Z",
+      "side": 1,
+      "message": "Good question. You could return\n\na string, e.g. \"stash@{38}\" (not the message)\n\nIterable\u003cRevCommit\u003e\n\nIterable\u003cRefLogEntry\u003e This is the most complete of all\nthe readily available types.\n\nNot sure. Chris?",
+      "revId": "23c84b2092df25586429bbef1f1b89b4e644b23f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOBn///hA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/StashListCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-10-23T09:16:41Z",
+      "side": 1,
+      "message": "Use constant.\nIncomplete method.",
+      "revId": "23c84b2092df25586429bbef1f1b89b4e644b23f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOBn///g4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/StashListCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-10-23T09:16:41Z",
+      "side": 1,
+      "message": "Tell us what the content is. \"string\" is just too general a description",
+      "revId": "23c84b2092df25586429bbef1f1b89b4e644b23f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOBn///g0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/StashListCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-10-23T09:16:41Z",
+      "side": 1,
+      "message": "Use a Constant. Is this needed?",
+      "revId": "23c84b2092df25586429bbef1f1b89b4e644b23f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOBn///gk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Constants.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2011-10-23T09:16:41Z",
+      "side": 1,
+      "message": "refs/stash should it be, not? and then the constant should be called just STASH",
+      "revId": "23c84b2092df25586429bbef1f1b89b4e644b23f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
