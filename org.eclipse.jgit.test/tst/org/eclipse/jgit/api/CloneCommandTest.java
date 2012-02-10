@@ -55,6 +55,7 @@ import java.util.Map;
 
 import org.eclipse.jgit.api.ListBranchCommand.ListMode;
 import org.eclipse.jgit.api.errors.JGitInternalException;
+import org.eclipse.jgit.junit.MockSystemReader;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
@@ -65,8 +66,11 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryTestCase;
 import org.eclipse.jgit.revwalk.RevBlob;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.submodule.SubmoduleStatus;
 import org.eclipse.jgit.submodule.SubmoduleStatusType;
+import org.eclipse.jgit.util.FS;
+import org.eclipse.jgit.util.SystemReader;
 import org.junit.Test;
 
 public class CloneCommandTest extends RepositoryTestCase {
@@ -298,5 +302,51 @@ public class CloneCommandTest extends RepositoryTestCase {
 		assertEquals(SubmoduleStatusType.INITIALIZED, pathStatus.getType());
 		assertEquals(commit, pathStatus.getHeadId());
 		assertEquals(commit, pathStatus.getIndexId());
+	}
+
+	@Test
+	public void testCloneShouldSetUpRebaseIfAutoSetupRebaseSetToRemote()
+			throws Exception {
+		FileBasedConfig userConfig = getUserConfig();
+		userConfig.setString(ConfigConstants.CONFIG_BRANCH_SECTION, null,
+				ConfigConstants.CONFIG_KEY_AUTOSETUPREBASE,
+				ConfigConstants.CONFIG_KEY_REMOTE);
+
+		assertRebaseIsConfiguredAfterClone();
+	}
+
+	@Test
+	public void testCloneShouldSetUpRebaseIfAutoSetupRebaseSetToAlways()
+			throws Exception {
+		FileBasedConfig userConfig = getUserConfig();
+		userConfig.setString(ConfigConstants.CONFIG_BRANCH_SECTION, null,
+				ConfigConstants.CONFIG_KEY_AUTOSETUPREBASE,
+				ConfigConstants.CONFIG_KEY_ALWAYS);
+
+		assertRebaseIsConfiguredAfterClone();
+	}
+
+	private FileBasedConfig getUserConfig() {
+		MockSystemReader mockSystemReader = new MockSystemReader();
+		SystemReader.setInstance(mockSystemReader);
+		FileBasedConfig userConfig = SystemReader.getInstance().openUserConfig(
+				null, FS.DETECTED);
+		return userConfig;
+	}
+
+	private void assertRebaseIsConfiguredAfterClone() throws Exception {
+		File directory = createTempDirectory("testCloneSetupRebase");
+		CloneCommand clone = Git.cloneRepository();
+		clone.setDirectory(directory);
+		clone.setURI("file://" + git.getRepository().getWorkTree().getPath());
+		Git git2 = clone.call();
+		Repository clonedRepo = git2.getRepository();
+		addRepoToClose(git2.getRepository());
+
+		boolean rebase = clonedRepo.getConfig().getBoolean(
+				ConfigConstants.CONFIG_BRANCH_SECTION, "test",
+				ConfigConstants.CONFIG_KEY_REBASE, false);
+		assertTrue("rebase=true should have been automatically configured",
+				rebase);
 	}
 }
