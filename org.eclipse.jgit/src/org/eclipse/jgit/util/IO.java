@@ -142,13 +142,7 @@ public class IO {
 				throw new IOException(MessageFormat.format(
 						JGitText.get().fileIsTooLarge, path));
 			final byte[] buf = new byte[(int) sz];
-			int actSz = IO.readFully(in, buf, 0);
-
-			if (actSz == sz) {
-				byte[] ret = new byte[actSz];
-				System.arraycopy(buf, 0, ret, 0, actSz);
-				return ret;
-			}
+			IO.readFully(in, buf, 0);
 			return buf;
 		} finally {
 			try {
