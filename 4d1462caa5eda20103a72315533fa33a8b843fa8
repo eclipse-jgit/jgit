@@ -453,6 +453,24 @@
       "revId": "4d1462caa5eda20103a72315533fa33a8b843fa8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOF3///7k\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-02-13T17:02:21Z",
+      "side": 1,
+      "message": "How can we \"replace\" a packfile? If we have created a packfile for id X and the objectrepository already contains a cached packfile for id X - then the cached packfile and the cached index data should be equivalent to what we have produced newly. No problem if I don\u0027t update pack and indexdata atomically. Or?",
+      "parentUuid": "AABOC3///sw\u003d",
+      "revId": "4d1462caa5eda20103a72315533fa33a8b843fa8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
