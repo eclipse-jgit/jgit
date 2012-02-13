@@ -69,6 +69,8 @@ import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.storage.file.FileRepository;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 import org.eclipse.jgit.util.FS;
+import org.eclipse.jgit.util.IO;
+import org.eclipse.jgit.util.RawParseUtils;
 import org.eclipse.jgit.util.SystemReader;
 
 /**
@@ -85,6 +87,19 @@ import org.eclipse.jgit.util.SystemReader;
  * @see FileRepositoryBuilder
  */
 public class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R extends Repository> {
+	private static boolean isSymRef(byte[] ref) {
+		if (ref.length < 9)
+			return false;
+		return /**/ref[0] == 'g' //
+				&& ref[1] == 'i' //
+				&& ref[2] == 't' //
+				&& ref[3] == 'd' //
+				&& ref[4] == 'i' //
+				&& ref[5] == 'r' //
+				&& ref[6] == ':' //
+				&& ref[7] == ' ';
+	}
+
 	private FS fs;
 
 	private File gitDir;
@@ -546,10 +561,37 @@ public class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R extends Re
 	 *             the repository could not be accessed
 	 */
 	protected void setupGitDir() throws IOException {
-		// No gitDir? Try to assume its under the workTree.
-		//
-		if (getGitDir() == null && getWorkTree() != null)
-			setGitDir(new File(getWorkTree(), DOT_GIT));
+		// No gitDir? Try to assume its under the workTree or a ref to another
+		// location
+		if (getGitDir() == null && getWorkTree() != null) {
+			File dotGit = new File(getWorkTree(), DOT_GIT);
+			if (!dotGit.isFile())
+				setGitDir(dotGit);
+			else {
+				byte[] content = IO.readFully(dotGit);
+				if (!isSymRef(content))
+					throw new IOException(MessageFormat.format(
+							JGitText.get().invalidGitdirRef,
+							dotGit.getAbsolutePath()));
+				int pathStart = 8;
+				int lineEnd = RawParseUtils.nextLF(content, pathStart);
+				if (content[lineEnd - 1] == '\n')
+					lineEnd--;
+				if (lineEnd == pathStart)
+					throw new IOException(MessageFormat.format(
+							JGitText.get().invalidGitdirRef,
+							dotGit.getAbsolutePath()));
+
+				String gitdirPath = RawParseUtils.decode(content, pathStart,
+						lineEnd);
+				File gitdirFile = new File(gitdirPath);
+				if (gitdirFile.isAbsolute())
+					setGitDir(gitdirFile);
+				else
+					setGitDir(new File(getWorkTree(), gitdirPath)
+							.getCanonicalFile());
+			}
+		}
 	}
 
 	/**

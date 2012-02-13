@@ -351,12 +351,9 @@ public class CommitCommand extends GitCommand<RevCommit> {
 					if (objectExists) {
 						dcEntry.setObjectId(fTree.getEntryObjectId());
 					} else {
-						if (FileMode.GITLINK.equals(dcEntry.getFileMode())) {
-							// Do not check the content of submodule entries
-							// Use the old entry information instead.
-							dcEntry.copyMetaData(index.getEntry(dcEntry
-									.getPathString()));
-						} else {
+						if (FileMode.GITLINK.equals(dcEntry.getFileMode()))
+							dcEntry.setObjectId(fTree.getEntryObjectId());
+						else {
 							// insert object
 							if (inserter == null)
 								inserter = repo.newObjectInserter();
