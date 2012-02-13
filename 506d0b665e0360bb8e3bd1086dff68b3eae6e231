@@ -16,6 +16,24 @@
       "revId": "506d0b665e0360bb8e3bd1086dff68b3eae6e231",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOF3///68\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PostReceiveHook.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-02-13T22:18:27Z",
+      "side": 1,
+      "message": "I didn\u0027t realize this was going to be such a big deal. I will think a bit harder about whether I can avoid this by making more invasive changes to Gerrit (namely making ReceiveCommits not implement Pre/PostReceiveHook).",
+      "parentUuid": "AABOF3///7U\u003d",
+      "revId": "506d0b665e0360bb8e3bd1086dff68b3eae6e231",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
