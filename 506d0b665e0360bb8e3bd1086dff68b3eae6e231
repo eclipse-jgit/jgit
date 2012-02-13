@@ -34,6 +34,24 @@
       "revId": "506d0b665e0360bb8e3bd1086dff68b3eae6e231",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOF3///60\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PostReceiveHook.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-02-13T22:55:59Z",
+      "side": 1,
+      "message": "Upon further reflection, I think I can avoid changing the *Hook interfaces.\n\nIn my prototype RPC implementation, I only needed to set a hook on the client side (that is, the frontline server speaking the git wire protocol with an end-user), which is where there is a real ReceivePack available. I still needed the interface, and the ability for com.google.gerrit.server.git.ReceiveCommits to accept different types of ReceiveSessions, but ReceiveCommits does *not* have to be a hook for my server-side RPC code to work.\n\nHere\u0027s another way of thinking about it: the whole point of having a pre-receive hook is to make one method call at a very specific point in the implementation of ReceivePack.receive(). Once you\u0027re talking about a ReceiveSession reconsituted from something sent over the wire in an RPC, you no longer have the idea of this specific wire protocol implementation, so there\u0027s no \"natural\" place where the hook belongs. Thus hooks don\u0027t really belong in the interface.",
+      "parentUuid": "AABOF3///68\u003d",
+      "revId": "506d0b665e0360bb8e3bd1086dff68b3eae6e231",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
