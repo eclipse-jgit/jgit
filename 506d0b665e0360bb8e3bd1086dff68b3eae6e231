@@ -52,6 +52,24 @@
       "revId": "506d0b665e0360bb8e3bd1086dff68b3eae6e231",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOF3///6s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PostReceiveHook.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-02-13T23:22:35Z",
+      "side": 1,
+      "message": "Although I can get away with this, there is a downside, namely that it makes it so RPC server implementors have to modify *every* *Hook implementation to expose two public methods, one taking a ReceiveSession and one taking a ReceivePack to implement the hook interface.\n\nFor a concrete example ReceiveCommits is going to have to change from this:\n\n  @Override\n  public void onPreReceive(final ReceivePack rp,\n      final Collection\u003cReceiveCommand\u003e commands) {\n    \u003cdo work\u003e\n  }\n\nto this:\n\n  @Override\n  public void onPreReceive(final ReceivePack rp,\n      final Collection\u003cReceiveCommand\u003e commands) {\n    processCommands(rp, commands);\n  }\n\n  public void processCommands(final ReceiveSession rs,\n      final Collection\u003cReceiveCommand\u003e commands) {\n    \u003cdo work\u003e\n  }\n\nThis is not so bad for one class, but it requires modifying *every* class that the server implementor wants to expose.",
+      "parentUuid": "AABOF3///60\u003d",
+      "revId": "506d0b665e0360bb8e3bd1086dff68b3eae6e231",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
