@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOF3///8g\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 599,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-02-13T08:43:14Z",
+      "side": 0,
+      "message": "done in change I224602d68228eb419813986807f1eeab77e9c302",
+      "parentUuid": "AABOF3///8w\u003d",
+      "revId": "14cc47ea1a117b2b149d10b425dc4dbf8a63bbfe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOF3///80\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
         "patchSetId": 13
@@ -30,6 +48,24 @@
       "writtenOn": "2012-02-13T08:36:54Z",
       "side": 0,
       "message": "here we need to also consider file mode changes",
+      "revId": "14cc47ea1a117b2b149d10b425dc4dbf8a63bbfe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOF3///8c\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 665,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-02-13T08:43:14Z",
+      "side": 0,
+      "message": "done in change I224602d68228eb419813986807f1eeab77e9c302",
+      "parentUuid": "AABOF3///80\u003d",
       "revId": "14cc47ea1a117b2b149d10b425dc4dbf8a63bbfe",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
