@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOF3///7U\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PostReceiveHook.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-02-13T22:06:02Z",
+      "side": 1,
+      "message": "This change is going to force the JGit project to bump its version to 2.0 in the next release, because its a public API signature change.\n\nI can\u0027t think of a way to avoid this without making too much pain for the project. Making the current ReceiveCommits an abstract base class with no wire protocol information is also a breaking change.\n\nI may prefer to just accept this change and break the API and force us to 2.0 in the next release. Its not that much work for a consumer application to adjust their linking to this one change. In aggregate though it might get to be a lot. :-\\",
+      "revId": "506d0b665e0360bb8e3bd1086dff68b3eae6e231",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}

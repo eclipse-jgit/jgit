@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOF3///7Y\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/resolver/ReceivePackFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-02-13T22:06:02Z",
+      "side": 0,
+      "message": "Unnecessary change?",
+      "revId": "de48250da5a424ffbf26db0a4b8bf0d83f39f76e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
