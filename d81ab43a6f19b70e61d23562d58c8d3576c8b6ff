@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOF3///74\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2012-02-13T13:28:18Z",
+      "side": 1,
+      "message": "why is day the smallest unit when specifying the expire parameter?\n\nThe --expire option in the native Git understands also options like:\n\n --expire\u003d1.minute\n --expire\u003d10.seconds\n --expire\u003d2.hours\n ...\n\nThis makes hard writing automated tests where I would like to create two non-reachable objects:\n\n object creation-time\n A      T1\n B      T2\n\nand specify the --expire to be between the T1 and T2 and check  that A is pruned and B is not pruned.\n\nIf you don\u0027t want to deal with the time-unit strings (like \"1.minute\", ...) then I would propose to use:\n\n long expire\n\nor:\n\n java.util.Date expire\n\nwhere is the number of milliseconds since Jan 1st 1970 UTC.\n\nAll objects older, non-reachable objects older than \u0027expire\u0027 timestamp are candidates for pruning.",
+      "revId": "d81ab43a6f19b70e61d23562d58c8d3576c8b6ff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
