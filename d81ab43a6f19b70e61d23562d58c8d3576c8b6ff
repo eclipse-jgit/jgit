@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOF3///5g\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-02-14T16:22:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOF3///7w\u003d",
+      "revId": "d81ab43a6f19b70e61d23562d58c8d3576c8b6ff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOF3///58\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
         "patchSetId": 9
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AABOF3///5c\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-02-14T16:22:04Z",
+      "side": 1,
+      "message": "Done. The more this class grew the greater was the need to have non-static methods.",
+      "parentUuid": "AABOF3///58\u003d",
+      "revId": "d81ab43a6f19b70e61d23562d58c8d3576c8b6ff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOF3///6M\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
         "patchSetId": 9
@@ -47,6 +83,24 @@
       "writtenOn": "2012-02-14T03:28:02Z",
       "side": 1,
       "message": "why two packfiles? If there is a size parameter, it can be more than two packs if they go over the size limit. I wouldn\u0027t say how many is created here.",
+      "revId": "d81ab43a6f19b70e61d23562d58c8d3576c8b6ff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOF3///5Y\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-02-14T16:22:04Z",
+      "side": 1,
+      "message": "I wrote \"two\" because it\u0027s currently the truth since we don\u0027t have a size parameter. But it\u0027s right: it\u0027s not GC\u0027s business to know about how man packfiles PackWriter will write. I\u0027ll remove \"two \".",
+      "parentUuid": "AABOF3///6M\u003d",
       "revId": "d81ab43a6f19b70e61d23562d58c8d3576c8b6ff",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -105,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AABOF3///5U\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-02-14T16:22:04Z",
+      "side": 1,
+      "message": "it\u0027s called expireAgeMillis now. Sasa requested to add the term \"age\" know they have to specify a timespan and not what System.currentTimeMillis() returns",
+      "parentUuid": "AABOF3///6Q\u003d",
+      "revId": "d81ab43a6f19b70e61d23562d58c8d3576c8b6ff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOF3///6E\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
         "patchSetId": 9
@@ -116,6 +188,24 @@
       "writtenOn": "2012-02-14T03:28:02Z",
       "side": 1,
       "message": "I am unclear as to why we need objectsToKeep here. If the object is in a pack file that is available to the repository, why are we also keeping it loose?",
+      "revId": "d81ab43a6f19b70e61d23562d58c8d3576c8b6ff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOF3///5I\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-02-14T16:22:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOF3///6E\u003d",
       "revId": "d81ab43a6f19b70e61d23562d58c8d3576c8b6ff",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -139,6 +229,41 @@
     },
     {
       "key": {
+        "uuid": "AABOF3///5Q\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-02-14T16:22:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOF3///6I\u003d",
+      "revId": "d81ab43a6f19b70e61d23562d58c8d3576c8b6ff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOF3///40\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-02-14T16:22:04Z",
+      "side": 1,
+      "message": "Currently this doesn\u0027t work reliable. This method prunes too many objects because it asks objectwalk with lookupOrNull() whether he knows a certain objects and if null is returned we assume the object is unreferenced. I has been shown that this assumption is wrong. I keep working on it.",
+      "revId": "d81ab43a6f19b70e61d23562d58c8d3576c8b6ff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOF3///6A\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
         "patchSetId": 9
@@ -156,6 +281,24 @@
     },
     {
       "key": {
+        "uuid": "AABOF3///5E\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-02-14T16:22:04Z",
+      "side": 1,
+      "message": "If I understand correctly I should not check at all, right. I\u0027ll simply remove this check and expect lower layers to determine the requested index version.",
+      "parentUuid": "AABOF3///6A\u003d",
+      "revId": "d81ab43a6f19b70e61d23562d58c8d3576c8b6ff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOF3///54\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
         "patchSetId": 9
@@ -167,6 +310,24 @@
       "writtenOn": "2012-02-14T03:28:02Z",
       "side": 1,
       "message": "We don\u0027t use parens on return statements.",
+      "revId": "d81ab43a6f19b70e61d23562d58c8d3576c8b6ff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOF3///5A\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-02-14T16:22:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOF3///54\u003d",
       "revId": "d81ab43a6f19b70e61d23562d58c8d3576c8b6ff",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -207,6 +368,24 @@
     },
     {
       "key": {
+        "uuid": "AABOF3///48\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 411,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-02-14T16:22:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOF3///5w\u003d",
+      "revId": "d81ab43a6f19b70e61d23562d58c8d3576c8b6ff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOF3///5s\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
         "patchSetId": 9
@@ -218,6 +397,24 @@
       "writtenOn": "2012-02-14T03:28:02Z",
       "side": 1,
       "message": "These have to write to temporary files, otherwise you trash the current file if its the same object set.",
+      "revId": "d81ab43a6f19b70e61d23562d58c8d3576c8b6ff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOF3///44\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 436,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-02-14T16:22:04Z",
+      "side": 1,
+      "message": "If I call File.createNewFile() for pack and index I know that a packfile with that name already exists and I directly leave this method with creating a new files. That check was already proposed but by mistake it went to the follow-up change 5055. I reorganized the two changes.",
+      "parentUuid": "AABOF3///5s\u003d",
       "revId": "d81ab43a6f19b70e61d23562d58c8d3576c8b6ff",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
