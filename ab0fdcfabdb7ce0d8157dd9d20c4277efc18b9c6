@@ -1,0 +1,310 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOF3///4Q\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-02-14T23:23:10Z",
+      "side": 1,
+      "message": "s/reflog entries will save objects from beeing pruned/objects referenced from reflog will not be pruned/",
+      "revId": "ab0fdcfabdb7ce0d8157dd9d20c4277efc18b9c6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOF3///4M\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-02-14T23:23:10Z",
+      "side": 1,
+      "message": "- support for configuration option gc.pruneExpire",
+      "revId": "ab0fdcfabdb7ce0d8157dd9d20c4277efc18b9c6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOF3///4I\u003d",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/JGitText.properties",
+        "patchSetId": 10
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-02-14T23:23:10Z",
+      "side": 1,
+      "message": "s/cannot create a indexfile/Cannot create an index file/",
+      "revId": "ab0fdcfabdb7ce0d8157dd9d20c4277efc18b9c6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOF3///4E\u003d",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/JGitText.properties",
+        "patchSetId": 10
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-02-14T23:23:10Z",
+      "side": 1,
+      "message": "s/cannot create a packfile/Cannot create a pack file/",
+      "revId": "ab0fdcfabdb7ce0d8157dd9d20c4277efc18b9c6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOF3///4A\u003d",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/JGitText.properties",
+        "patchSetId": 10
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-02-14T23:23:10Z",
+      "side": 1,
+      "message": "s/prune loose objects also found in packfiles/Prune loose objects also found in pack files/",
+      "revId": "ab0fdcfabdb7ce0d8157dd9d20c4277efc18b9c6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOF3///38\u003d",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/JGitText.properties",
+        "patchSetId": 10
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-02-14T23:23:10Z",
+      "side": 1,
+      "message": "s/prune/Prune/",
+      "revId": "ab0fdcfabdb7ce0d8157dd9d20c4277efc18b9c6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOF3///34\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-02-14T23:23:10Z",
+      "side": 1,
+      "message": "s/progressmonitor/progress monitor/",
+      "revId": "ab0fdcfabdb7ce0d8157dd9d20c4277efc18b9c6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOF3///30\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-02-14T23:23:10Z",
+      "side": 1,
+      "message": "into new pack files ?",
+      "revId": "ab0fdcfabdb7ce0d8157dd9d20c4277efc18b9c6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOF3///3w\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-02-14T23:23:10Z",
+      "side": 1,
+      "message": "typo: s/prunes/prune/",
+      "revId": "ab0fdcfabdb7ce0d8157dd9d20c4277efc18b9c6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOF3///3k\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-02-14T23:23:10Z",
+      "side": 1,
+      "message": "this sentence seems to be broken, I don\u0027t get what you want to say...",
+      "revId": "ab0fdcfabdb7ce0d8157dd9d20c4277efc18b9c6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOF3///3g\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-02-14T23:23:10Z",
+      "side": 1,
+      "message": "s/and/an/, last section should better be moved to JavaDoc for throws clause",
+      "revId": "ab0fdcfabdb7ce0d8157dd9d20c4277efc18b9c6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOF3///3c\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-02-14T23:23:10Z",
+      "side": 1,
+      "message": "style nit: unnecessary blank line",
+      "revId": "ab0fdcfabdb7ce0d8157dd9d20c4277efc18b9c6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOF3///3Y\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-02-14T23:23:10Z",
+      "side": 1,
+      "message": "s/shouldn\u0027t/must not/",
+      "revId": "ab0fdcfabdb7ce0d8157dd9d20c4277efc18b9c6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOF3///3U\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-02-14T23:23:10Z",
+      "side": 1,
+      "message": "s/which reachable/which are reachable/",
+      "revId": "ab0fdcfabdb7ce0d8157dd9d20c4277efc18b9c6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOF3///3Q\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-02-14T23:23:10Z",
+      "side": 1,
+      "message": "document when this is thrown",
+      "revId": "ab0fdcfabdb7ce0d8157dd9d20c4277efc18b9c6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOF3///3M\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-02-14T23:23:10Z",
+      "side": 1,
+      "message": "s/existance/existence/",
+      "revId": "ab0fdcfabdb7ce0d8157dd9d20c4277efc18b9c6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOF3///3I\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 464,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-02-14T23:23:10Z",
+      "side": 1,
+      "message": "shouldn\u0027t this be public since it\u0027s returned by the public method getStatistics() ?",
+      "revId": "ab0fdcfabdb7ce0d8157dd9d20c4277efc18b9c6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOF3///3E\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-02-14T23:23:10Z",
+      "side": 1,
+      "message": "I think this could go into a separate change",
+      "revId": "ab0fdcfabdb7ce0d8157dd9d20c4277efc18b9c6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
