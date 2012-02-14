@@ -58,11 +58,6 @@ import org.eclipse.jgit.lib.ObjectId;
 public interface PreUploadHook {
 	/** A simple no-op hook. */
 	public static final PreUploadHook NULL = new PreUploadHook() {
-		public void onPreAdvertiseRefs(UploadSession up)
-				throws ServiceMayNotContinueException {
-			// Do nothing.
-		}
-
 		public void onBeginNegotiateRound(UploadSession up,
 				Collection<? extends ObjectId> wants, int cntOffered)
 				throws ServiceMayNotContinueException {
@@ -83,17 +78,6 @@ public interface PreUploadHook {
 			// Do nothing.
 		}
 	};
-
-	/**
-	 * Invoked just before {@link UploadPack#sendAdvertisedRefs(RefAdvertiser)}.
-	 *
-	 * @param up
-	 *            the upload pack instance handling the connection.
-	 * @throws ServiceMayNotContinueException
-	 *             abort; the message will be sent to the user.
-	 */
-	public void onPreAdvertiseRefs(UploadSession up)
-			throws ServiceMayNotContinueException;
 
 	/**
 	 * Invoked before negotiation round is started.
