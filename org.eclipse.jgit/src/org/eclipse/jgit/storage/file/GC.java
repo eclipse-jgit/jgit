@@ -52,8 +52,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import org.eclipse.jgit.JGitText;
@@ -121,7 +123,7 @@ public class GC {
 	 *
 	 */
 	public Collection<PackFile> gc() throws IOException {
-		// TODO: implement packRefs(pm, repo);
+		packRefs();
 		// TODO: implement reflog_expire(pm, repo);
 		Collection<PackFile> newPacks = repack();
 		prune(Collections.<ObjectId> emptySet());
@@ -295,11 +297,45 @@ public class GC {
 	}
 
 	/**
+<<<<<<< HEAD
 	 * Packs all objects which are reachable from any of the heads into one pack
 	 * file. Additionally all objects which are not reachable from any head but
 	 * which are reachable from any of the other refs (e.g. tags), special refs
 	 * (e.g. FETCH_HEAD) or index are packed into a separate pack file. All old
 	 * pack files which existed before are deleted.
+=======
+	 * packs all non-symbolic, loose refs into the packed-refs.
+	 *
+	 * @throws IOException
+	 */
+	public void packRefs() throws IOException {
+		Set<Entry<String, Ref>> refEntries = repo.getAllRefs().entrySet();
+		if (pm == null)
+			pm = NullProgressMonitor.INSTANCE;
+		pm.beginTask("pack refs", refEntries.size());
+		try {
+			Collection<RefDirectoryUpdate> updates = new LinkedList<RefDirectoryUpdate>();
+			for (Map.Entry<String, Ref> entry : refEntries) {
+				Ref ref = entry.getValue();
+				if (!ref.isSymbolic() && ref.getStorage().isLoose()) {
+					updates.add(new RefDirectoryUpdate((RefDirectory) repo
+							.getRefDatabase(), ref));
+				}
+				pm.update(1);
+			}
+			((RefDirectory) repo.getRefDatabase()).pack(updates);
+		} finally {
+			pm.endTask();
+		}
+	}
+
+	/**
+	 * Packs all objects which reachable from any of the heads into one
+	 * packfile. Additionally all objects which are not reachable from any head
+	 * but which are reachable from any of the other refs (e.g. tags), special
+	 * refs (e.g. FETCH_HEAD) or index are packed into a separate packfile. All
+	 * old packfiles which existed before are deleted.
+>>>>>>> Allow to pack a set of loose and packed refs into a new packed-ref file
 	 *
 	 * @return a collection of the newly created pack files
 	 * @throws IOException
