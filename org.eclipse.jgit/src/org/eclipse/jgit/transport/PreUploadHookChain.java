@@ -79,12 +79,6 @@ public class PreUploadHookChain implements PreUploadHook {
 			return new PreUploadHookChain(newHooks, i);
 	}
 
-	public void onPreAdvertiseRefs(UploadSession up)
-			throws ServiceMayNotContinueException {
-		for (int i = 0; i < count; i++)
-			hooks[i].onPreAdvertiseRefs(up);
-	}
-
 	public void onBeginNegotiateRound(UploadSession up,
 			Collection<? extends ObjectId> wants, int cntOffered)
 			throws ServiceMayNotContinueException {
