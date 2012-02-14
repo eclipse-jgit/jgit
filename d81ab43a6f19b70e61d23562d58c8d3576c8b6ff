@@ -2,6 +2,57 @@
   "comments": [
     {
       "key": {
+        "uuid": "AABOF3///7w\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-02-14T03:28:02Z",
+      "side": 1,
+      "message": "packSizeLimit has to be handled inside of PackWriter. Its a nontrivial change and should be done independently of this change.",
+      "revId": "d81ab43a6f19b70e61d23562d58c8d3576c8b6ff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOF3///58\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-02-14T03:28:02Z",
+      "side": 1,
+      "message": "I\u0027m not convinced this code is cleaner by having everything be static methods and passing around the FileRepository.",
+      "revId": "d81ab43a6f19b70e61d23562d58c8d3576c8b6ff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOF3///6M\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-02-14T03:28:02Z",
+      "side": 1,
+      "message": "why two packfiles? If there is a size parameter, it can be more than two packs if they go over the size limit. I wouldn\u0027t say how many is created here.",
+      "revId": "d81ab43a6f19b70e61d23562d58c8d3576c8b6ff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOF3///74\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
         "patchSetId": 9
@@ -31,6 +82,142 @@
       "side": 1,
       "message": "ok, good point. I\u0027ll go for \u0027long expire\u0027 expressing the number of milliseconds which have to be elapsed since the file has been modified. I don\u0027t like Date because this refers to a certain point in time - but native git only accepts timespans which have to be elapsed before we consider files for pruning",
       "parentUuid": "AABOF3///74\u003d",
+      "revId": "d81ab43a6f19b70e61d23562d58c8d3576c8b6ff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOF3///6Q\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-02-14T03:28:02Z",
+      "side": 1,
+      "message": "Yes, this should be long expireMillis. :-)\n\nWe should also be able to disable the prune, aka --expire\u003dnever.",
+      "revId": "d81ab43a6f19b70e61d23562d58c8d3576c8b6ff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOF3///6E\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-02-14T03:28:02Z",
+      "side": 1,
+      "message": "I am unclear as to why we need objectsToKeep here. If the object is in a pack file that is available to the repository, why are we also keeping it loose?",
+      "revId": "d81ab43a6f19b70e61d23562d58c8d3576c8b6ff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOF3///6I\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-02-14T03:28:02Z",
+      "side": 1,
+      "message": "translate this string :-)",
+      "revId": "d81ab43a6f19b70e61d23562d58c8d3576c8b6ff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOF3///6A\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-02-14T03:28:02Z",
+      "side": 1,
+      "message": "This can be relaxed, we should permit creating version 1 indexes if that is what the user has asked us to do explicitly in the configuration. But the default should be version 2.",
+      "revId": "d81ab43a6f19b70e61d23562d58c8d3576c8b6ff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOF3///54\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-02-14T03:28:02Z",
+      "side": 1,
+      "message": "We don\u0027t use parens on return statements.",
+      "revId": "d81ab43a6f19b70e61d23562d58c8d3576c8b6ff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOF3///50\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-02-14T03:28:02Z",
+      "side": 1,
+      "message": "I think we have a subtle bug here. The TREE extension in the DirCache doesn\u0027t have its tree SHA-1s included in the result here. If they aren\u0027t in HEAD (e.g. due to the user force updating the reference without updating the index to match) and then we gc and prune these objects away the DirCache is corrupt to git-core.\n\nIIRC the TREE extension needs to also be considered here for objects the index uses.",
+      "revId": "d81ab43a6f19b70e61d23562d58c8d3576c8b6ff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOF3///5w\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 411,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-02-14T03:28:02Z",
+      "side": 1,
+      "message": "Please don\u0027t rely on reference equality with zeroId(). ObjectId.from* can create a new ObjectId that is 0{40} without using the singleton zeroId().",
+      "revId": "d81ab43a6f19b70e61d23562d58c8d3576c8b6ff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOF3///5s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 436,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-02-14T03:28:02Z",
+      "side": 1,
+      "message": "These have to write to temporary files, otherwise you trash the current file if its the same object set.",
       "revId": "d81ab43a6f19b70e61d23562d58c8d3576c8b6ff",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
