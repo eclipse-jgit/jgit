@@ -52,8 +52,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import org.eclipse.jgit.JGitText;
@@ -115,7 +117,7 @@ public class GC {
 	 *
 	 */
 	public Collection<PackFile> gc(long expireAgeMillis) throws IOException {
-		// TODO: implement packRefs(pm, repo);
+		packRefs();
 		// TODO: implement reflog_expire(pm, repo);
 		Collection<PackFile> newPacks = repack();
 		prune(Collections.<ObjectId> emptySet(), expireAgeMillis);
@@ -286,6 +288,32 @@ public class GC {
 				if (w != null)
 					w.dispose();
 			}
+		}
+	}
+
+	/**
+	 * packs all non-symbolic, loose refs into the packed-refs.
+	 *
+	 * @throws IOException
+	 */
+	public void packRefs() throws IOException {
+		Set<Entry<String, Ref>> refEntries = repo.getAllRefs().entrySet();
+		if (pm == null)
+			pm = NullProgressMonitor.INSTANCE;
+		pm.beginTask("pack refs", refEntries.size());
+		try {
+			Collection<RefDirectoryUpdate> updates = new LinkedList<RefDirectoryUpdate>();
+			for (Map.Entry<String, Ref> entry : refEntries) {
+				Ref ref = entry.getValue();
+				if (!ref.isSymbolic() && ref.getStorage().isLoose()) {
+					updates.add(new RefDirectoryUpdate((RefDirectory) repo
+							.getRefDatabase(), ref));
+				}
+				pm.update(1);
+			}
+			((RefDirectory) repo.getRefDatabase()).pack(updates);
+		} finally {
+			pm.endTask();
 		}
 	}
 
