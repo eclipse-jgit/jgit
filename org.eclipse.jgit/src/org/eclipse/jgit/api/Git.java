@@ -572,6 +572,15 @@ public class Git {
 	public StashListCommand stashList() {
 		return new StashListCommand(repo);
 	}
+        
+	/**
+	 * Returns a command object used to symbolic ref
+	 *
+	 * @return a {@link SymbolicRefCommand}
+	 */
+	public SymbolicRefCommand symbolicRef() {
+		return new SymbolicRefCommand(repo);
+	}
 
 	/**
 	 * @return the git repository this class is interacting with
