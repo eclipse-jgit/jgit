@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOF3///0U\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-02-15T13:47:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOF3///4Q\u003d",
+      "revId": "ab0fdcfabdb7ce0d8157dd9d20c4277efc18b9c6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOF3///4M\u003d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 10
@@ -30,6 +48,24 @@
       "writtenOn": "2012-02-14T23:23:10Z",
       "side": 1,
       "message": "- support for configuration option gc.pruneExpire",
+      "revId": "ab0fdcfabdb7ce0d8157dd9d20c4277efc18b9c6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOF3///0Q\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-02-15T13:47:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOF3///4M\u003d",
       "revId": "ab0fdcfabdb7ce0d8157dd9d20c4277efc18b9c6",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AABOF3///0M\u003d",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/JGitText.properties",
+        "patchSetId": 10
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-02-15T13:47:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOF3///4I\u003d",
+      "revId": "ab0fdcfabdb7ce0d8157dd9d20c4277efc18b9c6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOF3///4E\u003d",
         "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/JGitText.properties",
         "patchSetId": 10
@@ -64,6 +118,24 @@
       "writtenOn": "2012-02-14T23:23:10Z",
       "side": 1,
       "message": "s/cannot create a packfile/Cannot create a pack file/",
+      "revId": "ab0fdcfabdb7ce0d8157dd9d20c4277efc18b9c6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOF3///0I\u003d",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/JGitText.properties",
+        "patchSetId": 10
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-02-15T13:47:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOF3///4E\u003d",
       "revId": "ab0fdcfabdb7ce0d8157dd9d20c4277efc18b9c6",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AABOF3///0E\u003d",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/JGitText.properties",
+        "patchSetId": 10
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-02-15T13:47:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOF3///4A\u003d",
+      "revId": "ab0fdcfabdb7ce0d8157dd9d20c4277efc18b9c6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOF3///38\u003d",
         "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/JGitText.properties",
         "patchSetId": 10
@@ -98,6 +188,24 @@
       "writtenOn": "2012-02-14T23:23:10Z",
       "side": 1,
       "message": "s/prune/Prune/",
+      "revId": "ab0fdcfabdb7ce0d8157dd9d20c4277efc18b9c6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOF3///zI\u003d",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/JGitText.properties",
+        "patchSetId": 10
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-02-15T13:47:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOF3///38\u003d",
       "revId": "ab0fdcfabdb7ce0d8157dd9d20c4277efc18b9c6",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "AABOF3///0A\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-02-15T13:47:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOF3///34\u003d",
+      "revId": "ab0fdcfabdb7ce0d8157dd9d20c4277efc18b9c6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOF3///30\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
         "patchSetId": 10
@@ -132,6 +258,24 @@
       "writtenOn": "2012-02-14T23:23:10Z",
       "side": 1,
       "message": "into new pack files ?",
+      "revId": "ab0fdcfabdb7ce0d8157dd9d20c4277efc18b9c6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOF3///z8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-02-15T13:47:04Z",
+      "side": 1,
+      "message": "Currently I don\u0027t write new pack files when they already exist. The name of a pack file tell\u0027s you which objects are in. If I am about to create a pack file and see it exists already the I will not create it again but reuse the old one.\nBut I think I will change this behavior because the the different gc config parameters (e.g. pack.packSizeLimit, pack.compression) may cause that the result of a repack is different although I pack the same set of objects.\n\nSo, I\u0027ll change this comment to \"new pack files\" and will change the code accordingly.",
+      "parentUuid": "AABOF3///30\u003d",
       "revId": "ab0fdcfabdb7ce0d8157dd9d20c4277efc18b9c6",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "AABOF3///z4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-02-15T13:47:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOF3///3w\u003d",
+      "revId": "ab0fdcfabdb7ce0d8157dd9d20c4277efc18b9c6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOF3///3k\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
         "patchSetId": 10
@@ -166,6 +328,24 @@
       "writtenOn": "2012-02-14T23:23:10Z",
       "side": 1,
       "message": "this sentence seems to be broken, I don\u0027t get what you want to say...",
+      "revId": "ab0fdcfabdb7ce0d8157dd9d20c4277efc18b9c6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOF3///z0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-02-15T13:47:04Z",
+      "side": 1,
+      "message": "I\u0027ll rephrase it.",
+      "parentUuid": "AABOF3///3k\u003d",
       "revId": "ab0fdcfabdb7ce0d8157dd9d20c4277efc18b9c6",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -189,6 +369,24 @@
     },
     {
       "key": {
+        "uuid": "AABOF3///zw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-02-15T13:47:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOF3///3g\u003d",
+      "revId": "ab0fdcfabdb7ce0d8157dd9d20c4277efc18b9c6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOF3///3c\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
         "patchSetId": 10
@@ -200,6 +398,24 @@
       "writtenOn": "2012-02-14T23:23:10Z",
       "side": 1,
       "message": "style nit: unnecessary blank line",
+      "revId": "ab0fdcfabdb7ce0d8157dd9d20c4277efc18b9c6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOF3///zs\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-02-15T13:47:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOF3///3c\u003d",
       "revId": "ab0fdcfabdb7ce0d8157dd9d20c4277efc18b9c6",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -223,6 +439,24 @@
     },
     {
       "key": {
+        "uuid": "AABOF3///zo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-02-15T13:47:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOF3///3Y\u003d",
+      "revId": "ab0fdcfabdb7ce0d8157dd9d20c4277efc18b9c6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOF3///3U\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
         "patchSetId": 10
@@ -234,6 +468,24 @@
       "writtenOn": "2012-02-14T23:23:10Z",
       "side": 1,
       "message": "s/which reachable/which are reachable/",
+      "revId": "ab0fdcfabdb7ce0d8157dd9d20c4277efc18b9c6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOF3///zk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-02-15T13:47:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOF3///3U\u003d",
       "revId": "ab0fdcfabdb7ce0d8157dd9d20c4277efc18b9c6",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -257,6 +509,24 @@
     },
     {
       "key": {
+        "uuid": "AABOF3///zg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-02-15T13:47:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOF3///3Q\u003d",
+      "revId": "ab0fdcfabdb7ce0d8157dd9d20c4277efc18b9c6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOF3///3M\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
         "patchSetId": 10
@@ -268,6 +538,24 @@
       "writtenOn": "2012-02-14T23:23:10Z",
       "side": 1,
       "message": "s/existance/existence/",
+      "revId": "ab0fdcfabdb7ce0d8157dd9d20c4277efc18b9c6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOF3///zc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-02-15T13:47:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOF3///3M\u003d",
       "revId": "ab0fdcfabdb7ce0d8157dd9d20c4277efc18b9c6",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -291,6 +579,24 @@
     },
     {
       "key": {
+        "uuid": "AABOF3///zY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 464,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-02-15T13:47:04Z",
+      "side": 1,
+      "message": "Yes, of course. Done!",
+      "parentUuid": "AABOF3///3I\u003d",
+      "revId": "ab0fdcfabdb7ce0d8157dd9d20c4277efc18b9c6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOF3///3E\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
         "patchSetId": 10
@@ -302,6 +608,24 @@
       "writtenOn": "2012-02-14T23:23:10Z",
       "side": 1,
       "message": "I think this could go into a separate change",
+      "revId": "ab0fdcfabdb7ce0d8157dd9d20c4277efc18b9c6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOF3///zU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-02-15T13:47:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOF3///3E\u003d",
       "revId": "ab0fdcfabdb7ce0d8157dd9d20c4277efc18b9c6",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
