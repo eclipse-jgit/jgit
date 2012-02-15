@@ -130,7 +130,7 @@ public class ReceiveCommand {
 
 	private Ref ref;
 
-	private Result status;
+	private Result status = Result.NOT_ATTEMPTED;
 
 	private String message;
 
@@ -157,7 +157,38 @@ public class ReceiveCommand {
 			type = Type.CREATE;
 		if (ObjectId.zeroId().equals(newId))
 			type = Type.DELETE;
-		status = Result.NOT_ATTEMPTED;
+	}
+
+	/**
+	 * Create a new command for {@link ReceiveSession}.
+	 *
+	 * @param oldId
+	 *            the old object id; must not be null. Use
+	 *            {@link ObjectId#zeroId()} to indicate a ref creation.
+	 * @param newId
+	 *            the new object id; must not be null. Use
+	 *            {@link ObjectId#zeroId()} to indicate a ref deletion.
+	 * @param name
+	 *            name of the ref being affected.
+	 * @param type
+	 *            type of the command.
+	 */
+	public ReceiveCommand(final ObjectId oldId, final ObjectId newId,
+			final String name, final Type type) {
+		if (type != Type.CREATE && ObjectId.zeroId().equals(oldId))
+			throw new IllegalArgumentException(MessageFormat.format(
+					JGitText.get().illegalCombinationOfArguments,
+					"oldId=" + ObjectId.zeroId(),
+					"type=" + type));
+		if (type != Type.DELETE && ObjectId.zeroId().equals(newId))
+			throw new IllegalArgumentException(MessageFormat.format(
+					JGitText.get().illegalCombinationOfArguments,
+					"newId=" + ObjectId.zeroId(),
+					"type=" + type));
+		this.oldId = oldId;
+		this.newId = newId;
+		this.name = name;
+		this.type = type;
 	}
 
 	/** @return the old value the client thinks the ref has. */
