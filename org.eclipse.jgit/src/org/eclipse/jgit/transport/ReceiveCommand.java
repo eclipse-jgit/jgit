@@ -160,6 +160,28 @@ public class ReceiveCommand {
 		status = Result.NOT_ATTEMPTED;
 	}
 
+	/**
+	 * Create a new command for {@link ReceivePack}.
+	 *
+	 * @param oldId
+	 *            the old object id; must not be null. Use
+	 *            {@link ObjectId#zeroId()} to indicate a ref creation.
+	 * @param newId
+	 *            the new object id; must not be null. Use
+	 *            {@link ObjectId#zeroId()} to indicate a ref deletion.
+	 * @param name
+	 *            name of the ref being affected.
+	 * @param type
+	 *            type of the command.
+	 */
+	public ReceiveCommand(final ObjectId oldId, final ObjectId newId,
+			final String name, final Type type) {
+		this.oldId = oldId;
+		this.newId = newId;
+		this.name = name;
+		this.type = type;
+	}
+
 	/** @return the old value the client thinks the ref has. */
 	public ObjectId getOldId() {
 		return oldId;
