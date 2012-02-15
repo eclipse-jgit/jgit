@@ -16,6 +16,24 @@
       "revId": "5bbe20554f3004215444446dbb0b9af5533db3d8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOF3///1g\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-02-15T10:03:25Z",
+      "side": 1,
+      "message": "this is not needed anymore since in the latest proposal pm is field where this topic is handled in the constructor",
+      "parentUuid": "AABOFH////Y\u003d",
+      "revId": "5bbe20554f3004215444446dbb0b9af5533db3d8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
