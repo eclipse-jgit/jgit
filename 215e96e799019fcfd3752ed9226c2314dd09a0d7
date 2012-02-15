@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOF3///y0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2012-02-15T15:48:56Z",
+      "side": 1,
+      "message": "Could we have another constructor without the expireAreMillis which would initialize the expireAgeMillis to 2 weeks?\nAs a user of this API this would be a more convenient way to stick to the default value.",
+      "revId": "215e96e799019fcfd3752ed9226c2314dd09a0d7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOF3///yw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2012-02-15T15:48:56Z",
+      "side": 1,
+      "message": "My tests show that the deleted object still stays in the ObjectDirectory.unpackedObjectCache.\n\nIf, after prune, I use the same instance of FileRepository that was passed to prune to call the \"hasObject\" method then it will return true for a loose object that was deleted here.",
+      "revId": "215e96e799019fcfd3752ed9226c2314dd09a0d7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
