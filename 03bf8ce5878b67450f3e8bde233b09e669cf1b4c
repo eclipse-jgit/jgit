@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOF3///uk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-02-17T15:20:47Z",
+      "side": 1,
+      "message": "FYI, merge conflict markers are stuck here.",
+      "revId": "03bf8ce5878b67450f3e8bde233b09e669cf1b4c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOF3///ug\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-02-17T15:20:47Z",
+      "side": 1,
+      "message": "externalize this string for translation",
+      "revId": "03bf8ce5878b67450f3e8bde233b09e669cf1b4c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOF3///u4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/RefDirectory.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 611,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-02-17T15:20:47Z",
+      "side": 1,
+      "message": "Why RefDirectoryUpdate? Why not just Ref objects?\n\nIMHO the caller should be passing you String or Ref. If you need a RefDirectoryUpdate internally, that should be an implementation detail that you handle after you lock the packed-refs file.",
+      "revId": "03bf8ce5878b67450f3e8bde233b09e669cf1b4c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOF3///u0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/RefDirectory.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 614,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-02-17T15:20:47Z",
+      "side": 1,
+      "message": "You should be using your own Repository object, not the object of whatever the RefDirectoryUpdate might have been associated with.",
+      "revId": "03bf8ce5878b67450f3e8bde233b09e669cf1b4c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOF3///uw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/RefDirectory.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 624,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-02-17T15:20:47Z",
+      "side": 1,
+      "message": "Don\u0027t init to null. Move the new RevWalk call from line 626 up to here so its:\n\n  RevWalk rw \u003d new RevWalk(getRepository());\n  try {\n\n  } finally {\n    rw.release();\n  }\n\nThe way you have it coded right now you will NPE in the finally block if the RevWalk constructor throws an exception. This isn\u0027t good.",
+      "revId": "03bf8ce5878b67450f3e8bde233b09e669cf1b4c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOF3///us\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/RefDirectory.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 633,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-02-17T15:20:47Z",
+      "side": 1,
+      "message": "It may be cleaner to avoid nesting by using instead:\n\n  if (ref.isSymbolic())\n    continue;  // Skip, cannot pack symbolic references",
+      "revId": "03bf8ce5878b67450f3e8bde233b09e669cf1b4c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOF3///uo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/RefDirectory.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 643,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-02-17T15:20:47Z",
+      "side": 1,
+      "message": "Yes you do. The cached Ref object needs to know its storage is packed so it can be handled correctly in future updates.",
+      "revId": "03bf8ce5878b67450f3e8bde233b09e669cf1b4c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOF3///u8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/RefDirectory.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 702,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-02-17T15:20:47Z",
+      "side": 1,
+      "message": "Why this test?\n\nIf the reference is peeled already and it has a peeled object id, the thing was a tag before, and is still a tag now. You should be able to say something like:\n\n  if (f.getStorage().isPacked() \u0026\u0026 f.isPeeled())\n    return f;\n  if (!f.isPeeled())\n    f \u003d peel(f);\n  if (f.getPeeledObjectId() !\u003d null)\n    return new ObjectIdRef.PeeledTag(...);\n  else\n    return new ObjectIdRef.PeeledNonTag(...);\n \n and avoid the entire use of RevWalk yourself.",
+      "revId": "03bf8ce5878b67450f3e8bde233b09e669cf1b4c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
