@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOF3///vg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-02-17T15:00:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOF3///y0\u003d",
+      "revId": "215e96e799019fcfd3752ed9226c2314dd09a0d7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOF3///yw\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
         "patchSetId": 12
@@ -30,6 +48,24 @@
       "writtenOn": "2012-02-15T15:48:56Z",
       "side": 1,
       "message": "My tests show that the deleted object still stays in the ObjectDirectory.unpackedObjectCache.\n\nIf, after prune, I use the same instance of FileRepository that was passed to prune to call the \"hasObject\" method then it will return true for a loose object that was deleted here.",
+      "revId": "215e96e799019fcfd3752ed9226c2314dd09a0d7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOF3///vY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-02-17T15:00:14Z",
+      "side": 1,
+      "message": "Fixed it by trying to load the object after I deleted the associated file. This will fail with a MissingObjectException and will remove the object from the cache.",
+      "parentUuid": "AABOF3///yw\u003d",
       "revId": "215e96e799019fcfd3752ed9226c2314dd09a0d7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
