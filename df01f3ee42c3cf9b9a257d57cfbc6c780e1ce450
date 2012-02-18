@@ -1,0 +1,259 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOF3///r4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-02-18T03:19:01Z",
+      "side": 1,
+      "message": "final",
+      "revId": "df01f3ee42c3cf9b9a257d57cfbc6c780e1ce450",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOF3///r8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-02-18T03:19:01Z",
+      "side": 1,
+      "message": "Don\u0027t bother with this in the constructor. Let the callers use the setter method you have defined if they need to override the default.",
+      "revId": "df01f3ee42c3cf9b9a257d57cfbc6c780e1ce450",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOF3///sA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-02-18T03:19:01Z",
+      "side": 1,
+      "message": "unnecessary blank line",
+      "revId": "df01f3ee42c3cf9b9a257d57cfbc6c780e1ce450",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOF3///rI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-02-18T03:19:01Z",
+      "side": 1,
+      "message": "On Windows this can fail if JGit has the pack open. You\u0027ll need to  ensure the object directory closes the pack before you delete it. PackFile.close() should do the right thing. I think. :-)",
+      "revId": "df01f3ee42c3cf9b9a257d57cfbc6c780e1ce450",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOF3///rA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-02-18T03:19:01Z",
+      "side": 1,
+      "message": "I still haven\u0027t had time to review prune, sorry. :-(",
+      "revId": "df01f3ee42c3cf9b9a257d57cfbc6c780e1ce450",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOF3///rU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-02-18T03:19:01Z",
+      "side": 1,
+      "message": "I think git-core adds both the old and new ids if the id isn\u0027t zeroId. The rationale is logging might have been enabled after the reference was already created and the old id should still be kept around as its mentioned in the log. But I may be wrong. :-)",
+      "revId": "df01f3ee42c3cf9b9a257d57cfbc6c780e1ce450",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOF3///rM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-02-18T03:19:01Z",
+      "side": 1,
+      "message": "Yes you also have to use excludeObjects(idx). DfsGarbageCollector does the right thing. This code does not.\n\nConsider a blob Q exists in a graph (look at this on gerrit web ui it may misformat in email):\n\n  M---o---B---o---o--- A master\n  |       |\n  |       Q\n   \\\n    +-- o ---- o ---- o ---- R  refs/changes/12/1212/1\n                             |\n                             Q\n\nNow if there is another commit R in a non-head that also points to Q, your current code will pack Q twice because the second PackWriter cannot see that R was actually packed. It only considers A, M and R. It does not look at the contents of the tree B to determine Q is not part of R\u0027s set to pack.\n\nexcludeObjects was created to make the pack was we want it to here. You have to use it, so you\u0027ll need to expose the PackIndex from the PackFile.",
+      "revId": "df01f3ee42c3cf9b9a257d57cfbc6c780e1ce450",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOF3///rQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-02-18T03:19:01Z",
+      "side": 1,
+      "message": "You need to expose getPackIndex() on PackFile.",
+      "revId": "df01f3ee42c3cf9b9a257d57cfbc6c780e1ce450",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOF3///rE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-02-18T03:19:01Z",
+      "side": 1,
+      "message": "Before you delete old packs, you may want to eject any unused objects into loose objects.",
+      "revId": "df01f3ee42c3cf9b9a257d57cfbc6c780e1ce450",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOF3///rs\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-02-18T03:19:01Z",
+      "side": 1,
+      "message": "dc is an unnecessary local variable, i think you can inline it into the addTree call.",
+      "revId": "df01f3ee42c3cf9b9a257d57cfbc6c780e1ce450",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOF3///ro\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-02-18T03:19:01Z",
+      "side": 1,
+      "message": "It would be cleaner to say:\n\n  if (pw.getObjectCount() \u003d\u003d 0)\n    return null;",
+      "revId": "df01f3ee42c3cf9b9a257d57cfbc6c780e1ce450",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOF3///rk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-02-18T03:19:01Z",
+      "side": 1,
+      "message": "I think we should really try to support the case of repacking with different compression settings, producing packs with the same object set but different contents.\n\nThat means changing this code to write the pack and index to temporary files in the objects/pack directory and later renaming them over to the final target names.\n\nActually, using temporary names is critical to preventing readers from trying to read a partially written index and screaming because the index is corrupt.",
+      "revId": "df01f3ee42c3cf9b9a257d57cfbc6c780e1ce450",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOF3///rg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 460,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-02-18T03:19:01Z",
+      "side": 1,
+      "message": "We should not only mark the pack setReadOnly() but we should use the FileChannel to ensure the data was synced to disk before we return and claim the file is created. We already have this as an optional feature when creating loose objects. git-core *always* does an fsync when it is done creating the pack and the index during repacking. The extra time the fsync takes is minimal compared to the time it takes to make the pack.",
+      "revId": "df01f3ee42c3cf9b9a257d57cfbc6c780e1ce450",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOF3///rc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 498,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-02-18T03:19:01Z",
+      "side": 1,
+      "message": "Do not abbreviate public structure names. numberOfPackedObjects is a better name, even though it is longer.",
+      "revId": "df01f3ee42c3cf9b9a257d57cfbc6c780e1ce450",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOF3///rY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 545,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-02-18T03:19:01Z",
+      "side": 1,
+      "message": "s/Set\u0027s/Set/",
+      "revId": "df01f3ee42c3cf9b9a257d57cfbc6c780e1ce450",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
