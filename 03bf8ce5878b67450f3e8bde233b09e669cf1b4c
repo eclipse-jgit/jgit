@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOF3///uM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-02-19T23:55:50Z",
+      "side": 1,
+      "message": "uuuh, sorry. Always run a git log -p directly before you submit - I should not forget it.",
+      "parentUuid": "AABOF3///uk\u003d",
+      "revId": "03bf8ce5878b67450f3e8bde233b09e669cf1b4c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOF3///ug\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
         "patchSetId": 7
@@ -30,6 +48,24 @@
       "writtenOn": "2012-02-17T15:20:47Z",
       "side": 1,
       "message": "externalize this string for translation",
+      "revId": "03bf8ce5878b67450f3e8bde233b09e669cf1b4c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOF3///uQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-02-19T23:55:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOF3///ug\u003d",
       "revId": "03bf8ce5878b67450f3e8bde233b09e669cf1b4c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AABOF3///oM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/RefDirectory.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 611,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-02-19T23:55:50Z",
+      "side": 1,
+      "message": "I initially wanted RefUpdates because I knew I have to lock each ref. And maybe the user already has locked RefUpdates in hand. But: I now believe that this is very unlikely and a String-based interface is easier. I\u0027ll change that.\nSide topic: I was thinking of a Ref based interface but I think that\u0027s not right. If we let the user specify Refs this implies that the user also specifies the targets of the refs. I think most users of pack() are not interested in specifying the target of the refs. And I would have to document how I behave on refs which have been updated after the user has created his Ref instances. So: String based is easier!",
+      "parentUuid": "AABOF3///u4\u003d",
+      "revId": "03bf8ce5878b67450f3e8bde233b09e669cf1b4c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOF3///u0\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/RefDirectory.java",
         "patchSetId": 7
@@ -64,6 +118,24 @@
       "writtenOn": "2012-02-17T15:20:47Z",
       "side": 1,
       "message": "You should be using your own Repository object, not the object of whatever the RefDirectoryUpdate might have been associated with.",
+      "revId": "03bf8ce5878b67450f3e8bde233b09e669cf1b4c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOF3///t0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/RefDirectory.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 614,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-02-19T23:55:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOF3///u0\u003d",
       "revId": "03bf8ce5878b67450f3e8bde233b09e669cf1b4c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AABOF3///tw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/RefDirectory.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 624,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-02-19T23:55:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOF3///uw\u003d",
+      "revId": "03bf8ce5878b67450f3e8bde233b09e669cf1b4c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOF3///us\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/RefDirectory.java",
         "patchSetId": 7
@@ -98,6 +188,24 @@
       "writtenOn": "2012-02-17T15:20:47Z",
       "side": 1,
       "message": "It may be cleaner to avoid nesting by using instead:\n\n  if (ref.isSymbolic())\n    continue;  // Skip, cannot pack symbolic references",
+      "revId": "03bf8ce5878b67450f3e8bde233b09e669cf1b4c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOF3///ts\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/RefDirectory.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 633,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-02-19T23:55:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOF3///us\u003d",
       "revId": "03bf8ce5878b67450f3e8bde233b09e669cf1b4c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "AABOF3///oI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/RefDirectory.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 643,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-02-19T23:55:50Z",
+      "side": 1,
+      "message": "Now I don\u0027t understand my TODO anymore. I do set the Storage to PACKED in peeledPackedRef(). Which cached Ref still exists which has a wrong Storage? I\u0027ll remove the TODO.",
+      "parentUuid": "AABOF3///uo\u003d",
+      "revId": "03bf8ce5878b67450f3e8bde233b09e669cf1b4c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOF3///u8\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/RefDirectory.java",
         "patchSetId": 7
@@ -132,6 +258,24 @@
       "writtenOn": "2012-02-17T15:20:47Z",
       "side": 1,
       "message": "Why this test?\n\nIf the reference is peeled already and it has a peeled object id, the thing was a tag before, and is still a tag now. You should be able to say something like:\n\n  if (f.getStorage().isPacked() \u0026\u0026 f.isPeeled())\n    return f;\n  if (!f.isPeeled())\n    f \u003d peel(f);\n  if (f.getPeeledObjectId() !\u003d null)\n    return new ObjectIdRef.PeeledTag(...);\n  else\n    return new ObjectIdRef.PeeledNonTag(...);\n \n and avoid the entire use of RevWalk yourself.",
+      "revId": "03bf8ce5878b67450f3e8bde233b09e669cf1b4c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOF3///to\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/RefDirectory.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 702,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-02-19T23:55:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOF3///u8\u003d",
       "revId": "03bf8ce5878b67450f3e8bde233b09e669cf1b4c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
