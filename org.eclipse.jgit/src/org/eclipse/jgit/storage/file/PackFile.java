@@ -177,6 +177,14 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 		return packFile;
 	}
 
+	/**
+	 * @return the index for this pack file.
+	 * @throws IOException
+	 */
+	public PackIndex getIndex() throws IOException {
+		return idx();
+	}
+
 	/** @return name extracted from {@code pack-*.pack} pattern. */
 	public String getPackName() {
 		String name = packName;
