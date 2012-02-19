@@ -406,6 +406,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String packHasUnresolvedDeltas;
 	/***/ public String packingCancelledDuringObjectsWriting;
 	/***/ public String packObjectCountMismatch;
+	/***/ public String packRefs;
 	/***/ public String packTooLargeForIndexVersion1;
 	/***/ public String packWriterStatistics;
 	/***/ public String pathIsNotInWorkingDir;

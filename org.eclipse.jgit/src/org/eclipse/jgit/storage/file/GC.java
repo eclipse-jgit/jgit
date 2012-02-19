@@ -114,7 +114,7 @@ public class GC {
 	 *
 	 */
 	public Collection<PackFile> gc() throws IOException {
-		// TODO: implement packRefs(pm, repo);
+		packRefs();
 		// TODO: implement reflog_expire(pm, repo);
 		Collection<PackFile> newPacks = repack();
 		prune(Collections.<ObjectId> emptySet());
@@ -295,7 +295,32 @@ public class GC {
 	}
 
 	/**
-	 * Packs all objects which are reachable from any of the heads into one pack
+	 * Packs all non-symbolic, loose refs into packed-refs.
+	 *
+	 * @throws IOException
+	 */
+	public void packRefs() throws IOException {
+		Collection<Ref> refs = repo.getAllRefs().values();
+		ArrayList<String> refsToBePacked = new ArrayList<String>(refs.size());
+		int packRefsCnt = 0;
+		pm.beginTask(JGitText.get().packRefs, refs.size());
+		try {
+			for (Ref ref : refs) {
+				if (!ref.isSymbolic() && ref.getStorage().isLoose()) {
+					refsToBePacked.add(ref.getName());
+					packRefsCnt++;
+				}
+				pm.update(1);
+			}
+			((RefDirectory) repo.getRefDatabase()).pack(refsToBePacked
+					.toArray(new String[packRefsCnt]));
+		} finally {
+			pm.endTask();
+		}
+	}
+
+	/**
+	 * Packs all objects which reachable from any of the heads into one pack
 	 * file. Additionally all objects which are not reachable from any head but
 	 * which are reachable from any of the other refs (e.g. tags), special refs
 	 * (e.g. FETCH_HEAD) or index are packed into a separate pack file. All old
@@ -303,8 +328,8 @@ public class GC {
 	 *
 	 * @return a collection of the newly created pack files
 	 * @throws IOException
-	 *             when during reading of refs, index, packfiles, objects,
-	 *             reflog-entries or during writing to the packfiles
+	 *             when during reading of refs, index, pack files, objects,
+	 *             reflog-entries or during writing to the pack files
 	 *             {@link IOException} occurs
 	 */
 	public Collection<PackFile> repack() throws IOException {
