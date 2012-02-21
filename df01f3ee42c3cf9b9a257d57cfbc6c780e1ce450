@@ -439,6 +439,24 @@
     },
     {
       "key": {
+        "uuid": "AABOF3///jY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 460,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-02-21T14:06:03Z",
+      "side": 1,
+      "message": "I tried to user java.nio.FileChannel.force() method to flush modifications to disk. But the force() method only guarantees that modifications done through the FileChannel methods are flushed to disk. No guarantees for modifications done through the associated outputstream. That means: we to add methods PackWriter.writePack() and PackWriter.writeIndex() which accept FileChannels instead of Outputstream. Can be done, but was this your intention?",
+      "parentUuid": "AABOF3///rg\u003d",
+      "revId": "df01f3ee42c3cf9b9a257d57cfbc6c780e1ce450",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOF3///rc\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
         "patchSetId": 13
