@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOF3///kc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/FileUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-02-21T00:13:58Z",
+      "side": 1,
+      "message": "looks like this option is irrelevant here as it\u0027s impossible to set IGNORE_ERRORS when using this method hence I would say this option shouldn\u0027t be mentioned here",
+      "revId": "23c99b2ded87ff10784dd797bad667e1971ae842",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
