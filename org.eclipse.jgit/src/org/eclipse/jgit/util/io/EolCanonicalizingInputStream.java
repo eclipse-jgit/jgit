@@ -49,10 +49,11 @@ import java.io.InputStream;
 import org.eclipse.jgit.diff.RawText;
 
 /**
- * An input stream which canonicalizes EOLs bytes on the fly to '\n', unless the
- * first 8000 bytes indicate the stream is binary.
+ * An input stream which canonicalizes EOLs bytes on the fly to '\n'.
  *
- * Note: Make sure to apply this InputStream only to text files!
+ * Optionally, a binary check on the first 8000 bytes is performed
+ * and in case of binary files, canonicalization is turned off
+ * (for the complete file).
  */
 public class EolCanonicalizingInputStream extends InputStream {
 	private final byte[] single = new byte[1];
@@ -67,7 +68,7 @@ public class EolCanonicalizingInputStream extends InputStream {
 
 	private boolean isBinary;
 
-	private boolean modeDetected;
+	private boolean detectBinary;
 
 	/**
 	 * Creates a new InputStream, wrapping the specified stream
@@ -75,8 +76,9 @@ public class EolCanonicalizingInputStream extends InputStream {
 	 * @param in
 	 *            raw input stream
 	 */
-	public EolCanonicalizingInputStream(InputStream in) {
+	public EolCanonicalizingInputStream(InputStream in, boolean detectBinary) {
 		this.in = in;
+		this.detectBinary = detectBinary;
 	}
 
 	@Override
@@ -132,9 +134,9 @@ public class EolCanonicalizingInputStream extends InputStream {
 		cnt = in.read(buf, 0, buf.length);
 		if (cnt < 1)
 			return false;
-		if (!modeDetected) {
+		if (detectBinary) {
 			isBinary = RawText.isBinary(buf, cnt);
-			modeDetected = true;
+			detectBinary = false;
 		}
 		ptr = 0;
 		return true;
