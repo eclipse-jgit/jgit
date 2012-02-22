@@ -2,6 +2,7 @@
  * Copyright (C) 2009, Google Inc.
  * Copyright (C) 2009, Robin Rosenberg <robin.rosenberg@dewire.com>
  * Copyright (C) 2009, Yann Simon <yann.simon.fr@gmail.com>
+ * Copyright (C) 2012, Daniel Megert <daniel_megert@ch.ibm.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -48,6 +49,8 @@ package org.eclipse.jgit.util;
 import java.io.File;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Locale;
 import java.util.TimeZone;
 
@@ -204,4 +207,34 @@ public abstract class SystemReader {
 	public Locale getLocale() {
 		return Locale.getDefault();
 	}
+
+	/**
+	 * Returns a simple date format instance as specified by the given pattern.
+	 *
+	 * @param pattern
+	 *            the pattern as defined in
+	 *            {@link SimpleDateFormat#SimpleDateFormat(String)}
+	 * @return the simple date format
+	 * @since 2.0
+	 */
+	public SimpleDateFormat getSimpleDateFormat(String pattern) {
+		return new SimpleDateFormat(pattern);
+	}
+
+	/**
+	 * Returns a date/time format instance for the given styles.
+	 *
+	 * @param dateStyle
+	 *            the date style as specified in
+	 *            {@link DateFormat#getDateTimeInstance(int, int)}
+	 * @param timeStyle
+	 *            the time style as specified in
+	 *            {@link DateFormat#getDateTimeInstance(int, int)}
+	 * @return the date format
+	 * @since 2.0
+	 */
+	public DateFormat getDateTimeInstance(int dateStyle, int timeStyle) {
+		return DateFormat.getDateTimeInstance(dateStyle, timeStyle);
+	}
+
 }
