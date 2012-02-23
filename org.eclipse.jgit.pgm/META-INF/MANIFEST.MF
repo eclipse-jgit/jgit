@@ -39,6 +39,7 @@ Export-Package: org.eclipse.jgit.pgm;version="2.0.0";
    javax.swing,
    org.eclipse.jgit.pgm.opt,
    org.eclipse.jgit.awtui,
-   org.eclipse.jgit.transport"
+   org.eclipse.jgit.transport",
+ org.eclipse.jgit.pgm.opt;version="2.0.0"
 Main-Class: org.eclipse.jgit.pgm.Main
 Implementation-Title: JGit Command Line Interface
