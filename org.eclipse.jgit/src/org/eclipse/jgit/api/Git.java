@@ -574,6 +574,15 @@ public class Git {
 	}
 
 	/**
+	 * Returns a command object used to create a stashed commit
+	 *
+	 * @return a {@link StashCreateCommand}
+	 */
+	public StashCreateCommand stashCreate() {
+		return new StashCreateCommand(repo);
+	}
+
+	/**
 	 * @return the git repository this class is interacting with
 	 */
 	public Repository getRepository() {
