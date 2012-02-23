@@ -194,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "AABOGH////I\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-02-23T03:09:12Z",
+      "side": 1,
+      "message": "I went and double checked the git-core behavior. It does what you do here in patch set 14, which is include both new and old ids when packing.\n\nYou should make one change, and that is to ignore newId when it is zeroId(). It is somewhat valid for a reflog entry to use zeroId() in the newId position to indicate a branch was deleted, but *not* delete the log file. git-core handles this case cleanly by only pushing in the old id from that record. We should do the same thing here in JGit and only push in the newId if it isn\u0027t zeroId.",
+      "parentUuid": "AABOF3///n0\u003d",
+      "revId": "df01f3ee42c3cf9b9a257d57cfbc6c780e1ce450",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOF3///rM\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
         "patchSetId": 13
@@ -223,6 +241,24 @@
       "side": 1,
       "message": "Ok, I think I understand part of the problem. But isn\u0027t the problem with current code not even worse? Let\u0027s see whether I got it. The first PackWriter for heads is told to start from A. He will pack A,B,Q,M. The second PackWriter for non-heads is told to start on R and to stop traversing when he sees A (A is the only object in allHeads). My code would now write R,Q and M(!). Not only Q but also M is written twice, right?\n\nAnyhow, I\u0027ll fix it by exposing index files from packs and calling excludeObjects().",
       "parentUuid": "AABOF3///rM\u003d",
+      "revId": "df01f3ee42c3cf9b9a257d57cfbc6c780e1ce450",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOGH////E\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-02-23T03:09:12Z",
+      "side": 1,
+      "message": "M should never be included. When the have collection (3rd arg of preparePack, here the allHeads argument) is non-empty the PackWriter uses a TOPO sort. The TOPO sort is slower, but ensures that A, R, B all came out of the revision queue *before* M does. Doing so ensures the UNINTERESTING flag from A is carried onto M, so that M is deemed UNINTERESTING too and does not appear in the output pack.\n\nThinking about this more, we might be able to be more sloppy about this in PackWriter in order to avoid the expense of TOPO sorting in the RevWalk. It isn\u0027t related to your GC feature and shouldn\u0027t be combined with it, but I think that the commit resort feature we do in PackWriter around line 1620 is allowing us to delay the addition of M into the pack sufficiently that its OK if we found M through R before we found M through A, and thus cancel M during that commit resort loop. But I can\u0027t say I have proven this theory, its just something that occurred to me looking at the code again.  :-)\n\nSo in short, M would never have been included. But Q is, and doesn\u0027t need to be.",
+      "parentUuid": "AABOF3///nw\u003d",
       "revId": "df01f3ee42c3cf9b9a257d57cfbc6c780e1ce450",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -293,6 +329,24 @@
       "side": 1,
       "message": "yes, I know. Unpacking objects is in the moment a missing feature. Do you accept a GC without that feature? I know, without unpacking the we don\u0027t have a expiration time for packed objects. Packed objects will be pruned immediatly. On the other hand the expiration time should save \"new\" objects created during the current gc run - and objects in packs are old enough to be pruned. Or?",
       "parentUuid": "AABOF3///rE\u003d",
+      "revId": "df01f3ee42c3cf9b9a257d57cfbc6c780e1ce450",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOGH////U\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-02-23T03:09:12Z",
+      "side": 1,
+      "message": "We can accept a GC feature that doesn\u0027t eject unused objects to loose format. git-core went many years before people identified the bug that required this ejection process, as you point out most new objects will be written as new loose objects and thus won\u0027t be in packs and thus won\u0027t suddenly disappear during GC.\n\nBut we really should try to close this hole soon after we add GC support. I just don\u0027t want it forgotten about.",
+      "parentUuid": "AABOF3///no\u003d",
       "revId": "df01f3ee42c3cf9b9a257d57cfbc6c780e1ce450",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -451,6 +505,24 @@
       "side": 1,
       "message": "I tried to user java.nio.FileChannel.force() method to flush modifications to disk. But the force() method only guarantees that modifications done through the FileChannel methods are flushed to disk. No guarantees for modifications done through the associated outputstream. That means: we to add methods PackWriter.writePack() and PackWriter.writeIndex() which accept FileChannels instead of Outputstream. Can be done, but was this your intention?",
       "parentUuid": "AABOF3///rg\u003d",
+      "revId": "df01f3ee42c3cf9b9a257d57cfbc6c780e1ce450",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOGH////M\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 460,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-02-23T03:09:12Z",
+      "side": 1,
+      "message": "Use Channels.newOutputStream() to wrap the FileChannel into an OutputStream. Then writes will go through the channel, which means the force call works on the data as expected.",
+      "parentUuid": "AABOF3///jY\u003d",
       "revId": "df01f3ee42c3cf9b9a257d57cfbc6c780e1ce450",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
