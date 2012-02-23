@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOGH///+4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-02-23T03:22:29Z",
+      "side": 1,
+      "message": "Because of `git gc --auto` the number of loose objects should be \"reasonable\". I wonder if it may be more efficient to invert the way you do the set difference.\n\nConstruct a Set\u003cObjectId\u003e consisting of all loose objects by scanning the loose objects directory. If this set is empty, you have nothing to do. If it is non-empty, then we try to proceed with proving if we need the objects (or not).\n\nIf the repository was just repacked, prunePacked should be fast and reduce this set considerably. Doing that first (or ensuring it was run) might be a good idea before doing this method.\n\nYou can start by removing objectsToKeep, if the set is now non-empty, you are done.\n\nIf the repository was just repacked, you can really cut down your existence test work considerably. If you keep the Ref objects that you used to generate the packs, perform the prune by comparing each current reference against the references you used to make the packs.\n\nIf every reference is identical ObjectId (that is no reference was created or modified in the interim), you can implement the prune by looking at the PackIndexes. Any loose object not in the PackIndex that is older than the expireDate can be blindly removed. Realize that prunePacked has already taken care of removing objects that do exist in the PackIndexes. Which means all that is left in the loose object directory is garbage. So you don\u0027t really have to look at anything... you can just delete the files if they are sufficiently old enough.\n\nIf the references did move between the pack creations and now, you only need to run an ObjectWalk over the difference of the old reference set and the new reference set to keep loose objects that are now suddenly referenced. And the reflog entries for any refs that changed, but again you only need to look at the tail of the reflogs.\n\nIf it wasn\u0027t recently repacked, I think you can still take a similar shortcut. Run an ObjectWalk back from the current references until you find objects that are in pack files. Everything prior to that should also be in pack files. So then you just consider the point where something is in the pack as the \"ref at time of pack creation\" and the current refs, and run the above algorithm as though you had just repacked, only you are working from a guessed set of references.",
+      "revId": "80a40aa188629a879b54ae144e13d274b9e83817",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOGH///+8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-02-23T03:22:29Z",
+      "side": 1,
+      "message": "You also have to consider the reflogs here, and you aren\u0027t.",
+      "revId": "80a40aa188629a879b54ae144e13d274b9e83817",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOGH///+0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-02-23T03:22:29Z",
+      "side": 1,
+      "message": "Also like this case, you should not include objects that appear in packs that have a .keep file alongside of them. And you should not delete those packs when you consider what packs to prune after the repack. I don\u0027t think you handled this .keep case at all in the GC class.",
+      "revId": "80a40aa188629a879b54ae144e13d274b9e83817",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
