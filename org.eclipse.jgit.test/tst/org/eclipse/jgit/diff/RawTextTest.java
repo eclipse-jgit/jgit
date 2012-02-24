@@ -46,6 +46,7 @@ package org.eclipse.jgit.diff;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayOutputStream;
@@ -187,6 +188,46 @@ public class RawTextTest {
 		e = new Edit(0, 1, 0, 2);
 		e = RawTextComparator.DEFAULT.reduceCommonStartEnd(a, b, e);
 		assertEquals(new Edit(0, 1, 0, 2), e);
+	}
+
+	@Test
+	public void testEOL() throws Exception {
+		RawText rt = new RawText(Constants.encodeASCII("foo\n"));
+		assertEquals("\n", rt.getEOL());
+		assertFalse(rt.isMissingNewlineAtEnd());
+		rt = new RawText(Constants.encodeASCII("foo\r\n"));
+		assertEquals("\r\n", rt.getEOL());
+		assertFalse(rt.isMissingNewlineAtEnd());
+
+		rt = new RawText(Constants.encodeASCII("foo\nbar"));
+		assertEquals("\n", rt.getEOL());
+		assertTrue(rt.isMissingNewlineAtEnd());
+		rt = new RawText(Constants.encodeASCII("foo\r\nbar"));
+		assertEquals("\r\n", rt.getEOL());
+		assertTrue(rt.isMissingNewlineAtEnd());
+
+		rt = new RawText(Constants.encodeASCII("foo\nbar\r\n"));
+		assertEquals("\n", rt.getEOL());
+		assertFalse(rt.isMissingNewlineAtEnd());
+		rt = new RawText(Constants.encodeASCII("foo\r\nbar\n"));
+		assertEquals("\r\n", rt.getEOL());
+		assertFalse(rt.isMissingNewlineAtEnd());
+
+		rt = new RawText(Constants.encodeASCII("foo"));
+		assertNull(rt.getEOL());
+		assertTrue(rt.isMissingNewlineAtEnd());
+
+		rt = new RawText(Constants.encodeASCII(""));
+		assertNull(rt.getEOL());
+		assertTrue(rt.isMissingNewlineAtEnd());
+
+		rt = new RawText(Constants.encodeASCII("\n"));
+		assertEquals("\n", rt.getEOL());
+		assertFalse(rt.isMissingNewlineAtEnd());
+
+		rt = new RawText(Constants.encodeASCII("\r\n"));
+		assertEquals("\r\n", rt.getEOL());
+		assertFalse(rt.isMissingNewlineAtEnd());
 	}
 
 	private static RawText t(String text) {

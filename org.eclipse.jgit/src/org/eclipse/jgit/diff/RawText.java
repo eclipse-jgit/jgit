@@ -276,4 +276,21 @@ public class RawText extends Sequence {
 
 		return false;
 	}
+
+	/**
+	 * Get the EOL characters for the first line.
+	 * 
+	 * @return the EOL characters or <code>null</code>
+	 */
+	public String getEOL() {
+		if (size() == 0)
+			return null;
+		int e = getEnd(0);
+		if (content.length > 1 && content[e - 2] == '\r'
+				&& content[e - 1] == '\n')
+			return "\r\n";
+		if (content.length > 0 && content[e - 1] == '\n')
+			return "\n";
+		return null;
+	}
 }
