@@ -102,6 +102,8 @@ public class CheckoutCommand extends GitCommand<Ref> {
 
 	private List<String> paths;
 
+	private boolean checkoutAllPaths;
+
 	/**
 	 * @param repo
 	 */
@@ -126,7 +128,7 @@ public class CheckoutCommand extends GitCommand<Ref> {
 		checkCallable();
 		processOptions();
 		try {
-			if (!paths.isEmpty()) {
+			if (checkoutAllPaths || !paths.isEmpty()) {
 				checkoutPaths();
 				status = CheckoutResult.OK_RESULT;
 				setCallable(false);
@@ -235,6 +237,22 @@ public class CheckoutCommand extends GitCommand<Ref> {
 	}
 
 	/**
+	 * Set whether to checkout all paths from the index
+	 * <p>
+	 * This options should be used when you want to do a path checkout on the
+	 * entire repository and so calling {@link #addPath(String)} is not possible
+	 * since empty paths are not allowed.
+	 *
+	 * @param all
+	 *            true to checkout all paths, false otherwise
+	 * @return {@code this}
+	 */
+	public CheckoutCommand setAllPaths(boolean all) {
+		checkoutAllPaths = all;
+		return this;
+	}
+
+	/**
 	 * Checkout paths into index and working directory
 	 *
 	 * @return this instance
@@ -249,7 +267,8 @@ public class CheckoutCommand extends GitCommand<Ref> {
 			DirCacheEditor editor = dc.editor();
 			TreeWalk startWalk = new TreeWalk(revWalk.getObjectReader());
 			startWalk.setRecursive(true);
-			startWalk.setFilter(PathFilterGroup.createFromStrings(paths));
+			if (!checkoutAllPaths)
+				startWalk.setFilter(PathFilterGroup.createFromStrings(paths));
 			boolean checkoutIndex = startCommit == null && startPoint == null;
 			if (!checkoutIndex)
 				startWalk.addTree(revWalk.parseCommit(getStartPoint())
@@ -310,7 +329,7 @@ public class CheckoutCommand extends GitCommand<Ref> {
 	}
 
 	private void processOptions() throws InvalidRefNameException {
-		if (paths.isEmpty()
+		if ((!checkoutAllPaths && paths.isEmpty())
 				&& (name == null || !Repository
 						.isValidRefName(Constants.R_HEADS + name)))
 			throw new InvalidRefNameException(MessageFormat.format(JGitText
