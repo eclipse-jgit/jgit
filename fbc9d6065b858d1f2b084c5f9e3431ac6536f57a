@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOGH///6s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawText.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2012-02-24T16:33:47Z",
+      "side": 1,
+      "message": "Do you think getLineDelimiter would be a better name?",
+      "revId": "fbc9d6065b858d1f2b084c5f9e3431ac6536f57a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOGH///6w\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawText.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2012-02-24T16:33:47Z",
+      "side": 1,
+      "message": "If size is !\u003d 0 than I believe that means content.length will be non-zero so maybe the checks here could be simplified:\n\n    if (size() \u003d\u003d 0)\n        return null;\n      \n    int e \u003d getEnd(0);\n    if (content[e-1] !\u003d \u0027\\n\u0027)\n        return null;\n\n    if (content.length \u003e 1 \u0026\u0026 content[e - 2] \u003d\u003d \u0027\\r\u0027)\n        return \"\\r\\n\";\n    else\n        return \"\\n\";\n\nWhat do you think?",
+      "revId": "fbc9d6065b858d1f2b084c5f9e3431ac6536f57a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
