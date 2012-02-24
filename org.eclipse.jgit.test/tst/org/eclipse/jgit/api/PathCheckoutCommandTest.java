@@ -233,4 +233,14 @@ public class PathCheckoutCommandTest extends RepositoryTestCase {
 		assertEquals(0, status.getRemoved().size());
 		assertEquals(0, status.getUntracked().size());
 	}
+
+	@Test
+	public void testCheckoutRepository() throws Exception {
+		CheckoutCommand co = git.checkout();
+		File test = writeTrashFile(FILE1, "");
+		File test2 = writeTrashFile(FILE2, "");
+		co.setStartPoint("HEAD~2").setAllPaths(true).call();
+		assertEquals("1", read(test));
+		assertEquals("a", read(test2));
+	}
 }
