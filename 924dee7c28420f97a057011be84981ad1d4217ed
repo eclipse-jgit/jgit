@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOGH///7k\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/diff/RawTextTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2012-02-24T11:14:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOGH///8g\u003d",
+      "revId": "924dee7c28420f97a057011be84981ad1d4217ed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOGH///8c\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawText.java",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2012-02-24T01:20:41Z",
       "side": 1,
       "message": "Replace chars with characters",
+      "revId": "924dee7c28420f97a057011be84981ad1d4217ed",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOGH///7o\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/RawText.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2012-02-24T11:14:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOGH///8c\u003d",
       "revId": "924dee7c28420f97a057011be84981ad1d4217ed",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
