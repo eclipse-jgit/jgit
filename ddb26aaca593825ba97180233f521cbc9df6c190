@@ -16,6 +16,24 @@
       "revId": "ddb26aaca593825ba97180233f521cbc9df6c190",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOGH///0w\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/StashCreateCommand.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2012-02-26T22:25:08Z",
+      "side": 1,
+      "message": "No, the RevWalk constructor that takes an ObjectReader is used here and that same reader is used elsewhere and disposed on line 299 in a finally block.",
+      "parentUuid": "AABOGH///04\u003d",
+      "revId": "ddb26aaca593825ba97180233f521cbc9df6c190",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
