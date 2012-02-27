@@ -45,6 +45,8 @@ package org.eclipse.jgit.transport;
 
 import java.io.IOException;
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.lib.ObjectId;
@@ -118,6 +120,26 @@ public class ReceiveCommand {
 
 		/** The change was completed successfully. */
 		OK;
+	}
+
+	/**
+	 * Filter a list of commands according to result.
+	 *
+	 * @param commands
+	 *            commands to filter.
+	 * @param want
+	 *            desired status to filter by.
+	 * @return a copy of the command list containing only those commands with the
+	 *         desired status.
+	 */
+	public static List<ReceiveCommand> filter(List<ReceiveCommand> commands,
+			final Result want) {
+		List<ReceiveCommand> r = new ArrayList<ReceiveCommand>(commands.size());
+		for (final ReceiveCommand cmd : commands) {
+			if (cmd.getResult() == want)
+				r.add(cmd);
+		}
+		return r;
 	}
 
 	private final ObjectId oldId;
