@@ -157,6 +157,8 @@ public class ReceivePack {
 
 	private OutputStream msgOut;
 
+	private final MessageOutputWrapper msgOutWrapper = new MessageOutputWrapper();
+
 	private PacketLineIn pckIn;
 
 	private PacketLineOut pckOut;
@@ -243,6 +245,52 @@ public class ReceivePack {
 					"denynonfastforwards", false);
 			allowOfsDelta = config.getBoolean("repack", "usedeltabaseoffset",
 					true);
+		}
+	}
+
+	/**
+	 * Output stream that wraps the current {@link #msgOut}.
+	 * <p>
+	 * We don't want to expose {@link #msgOut} directly because it can change
+	 * several times over the course of a session.
+	 */
+	private class MessageOutputWrapper extends OutputStream {
+		@Override
+		public void write(int ch) {
+			if (msgOut != null) {
+				try {
+					msgOut.write(ch);
+				} catch (IOException e) {
+					// Ignore write failures.
+				}
+			}
+		}
+
+		@Override
+		public void write(byte[] b, int off, int len) {
+			if (msgOut != null) {
+				try {
+					msgOut.write(b, off, len);
+				} catch (IOException e) {
+					// Ignore write failures.
+				}
+			}
+		}
+
+		@Override
+		public void write(byte[] b) {
+			write(b, 0, b.length);
+		}
+
+		@Override
+		public void flush() {
+			if (msgOut != null) {
+				try {
+					msgOut.flush();
+				} catch (IOException e) {
+					// Ignore write failures.
+				}
+			}
 		}
 	}
 
@@ -542,12 +590,7 @@ public class ReceivePack {
 				advertiseError = new StringBuilder();
 			advertiseError.append(what).append('\n');
 		} else {
-			try {
-				if (msgOut != null)
-					msgOut.write(Constants.encode("error: " + what + "\n"));
-			} catch (IOException e) {
-				// Ignore write failures.
-			}
+			msgOutWrapper.write(Constants.encode("error: " + what + "\n"));
 		}
 	}
 
@@ -562,12 +605,12 @@ public class ReceivePack {
 	 *            string must not end with an LF, and must not contain an LF.
 	 */
 	public void sendMessage(final String what) {
-		try {
-			if (msgOut != null)
-				msgOut.write(Constants.encode(what + "\n"));
-		} catch (IOException e) {
-			// Ignore write failures.
-		}
+		msgOutWrapper.write(Constants.encode(what + "\n"));
+	}
+
+	/** @return an underlying stream for sending messages to the client. */
+	public OutputStream getMessageOutputStream() {
+		return msgOutWrapper;
 	}
 
 	/**
