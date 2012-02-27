@@ -1154,13 +1154,7 @@ public class ReceivePack {
 	}
 
 	private List<ReceiveCommand> filterCommands(final Result want) {
-		final List<ReceiveCommand> r = new ArrayList<ReceiveCommand>(commands
-				.size());
-		for (final ReceiveCommand cmd : commands) {
-			if (cmd.getResult() == want)
-				r.add(cmd);
-		}
-		return r;
+		return ReceiveCommand.filter(commands, want);
 	}
 
 	private void sendStatusReport(final boolean forClient, final Reporter out)
