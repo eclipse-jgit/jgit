@@ -571,6 +571,23 @@ public class ReceivePack {
 	}
 
 	/**
+	 * Set a secondary "notice" channel for messages.
+	 * <p>
+	 * When run over SSH, for example, this should be tied back to the standard
+	 * error channel of the command execution. For most other network connections
+	 * this should be null.
+	 *
+	 * @param messages
+	 *            message output channel.
+	 */
+	public void setMessageOutputStream(final OutputStream messages) {
+		if (msgOut != null)
+			throw new IllegalStateException(
+					MessageFormat.format(JGitText.get().illegalStateExists, "msgOut"));
+		msgOut = messages;
+	}
+
+  /**
 	 * Execute the receive task on the socket.
 	 *
 	 * @param input
@@ -582,10 +599,8 @@ public class ReceivePack {
 	 *            the output is buffered, otherwise write performance may
 	 *            suffer.
 	 * @param messages
-	 *            secondary "notice" channel to send additional messages out
-	 *            through. When run over SSH this should be tied back to the
-	 *            standard error channel of the command execution. For most
-	 *            other network connections this should be null.
+	 *            secondary "notice" channel for messages; see
+	 *            {@link #setMessageOutputStream(OutputStream)}.
 	 * @throws IOException
 	 */
 	public void receive(final InputStream input, final OutputStream output,
@@ -593,7 +608,7 @@ public class ReceivePack {
 		try {
 			rawIn = input;
 			rawOut = output;
-			msgOut = messages;
+			setMessageOutputStream(messages);
 
 			if (timeout > 0) {
 				final Thread caller = Thread.currentThread();
