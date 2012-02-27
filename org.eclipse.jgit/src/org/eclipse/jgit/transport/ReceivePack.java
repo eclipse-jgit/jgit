@@ -542,12 +542,7 @@ public class ReceivePack {
 				advertiseError = new StringBuilder();
 			advertiseError.append(what).append('\n');
 		} else {
-			try {
-				if (msgOut != null)
-					msgOut.write(Constants.encode("error: " + what + "\n"));
-			} catch (IOException e) {
-				// Ignore write failures.
-			}
+			sendBytes(Constants.encode("error: " + what + "\n"));
 		}
 	}
 
@@ -562,9 +557,40 @@ public class ReceivePack {
 	 *            string must not end with an LF, and must not contain an LF.
 	 */
 	public void sendMessage(final String what) {
+		sendBytes(Constants.encode(what + "\n"));
+	}
+
+	/**
+	 * @see #sendBytes(byte[], int, int)
+	 *
+	 * @param what
+	 *            bytes to send.
+	 */
+	public void sendBytes(final byte[] what) {
+		sendBytes(what, 0, what.length);
+	}
+
+	/**
+	 * Send raw bytes to the the client over the sideband, if supported.
+	 * <p>
+	 * If the client doesn't support receiving messages, the message will be
+	 * discarded, with no other indication to the caller or to the client.
+	 * <p>
+	 * When possible, prefer {@link #sendMessage(String)} or
+	 * {@link #sendError(String)}; this method is intended only for callers who
+	 * need to do their own encoding.
+	 *
+	 * @param what
+	 *            bytes to send.
+	 * @param off
+	 *            array offset.
+	 * @param len
+	 *            number of bytes.
+	 */
+	public void sendBytes(final byte[] what, final int off, final int len) {
 		try {
 			if (msgOut != null)
-				msgOut.write(Constants.encode(what + "\n"));
+				msgOut.write(what, off, len);
 		} catch (IOException e) {
 			// Ignore write failures.
 		}
