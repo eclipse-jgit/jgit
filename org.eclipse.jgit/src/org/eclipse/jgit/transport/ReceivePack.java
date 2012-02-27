@@ -821,7 +821,8 @@ public class ReceivePack {
 				});
 			}
 
-			postReceive.onPostReceive(this, filterCommands(Result.OK));
+			postReceive.onPostReceive(this,
+					ReceiveCommand.filter(commands, Result.OK));
 
 			if (unpackError != null)
 				throw new UnpackException(unpackError);
@@ -1165,9 +1166,11 @@ public class ReceivePack {
 	}
 
 	private void executeCommands() {
-		preReceive.onPreReceive(this, filterCommands(Result.NOT_ATTEMPTED));
+		preReceive.onPreReceive(this,
+				ReceiveCommand.filter(commands, Result.NOT_ATTEMPTED));
 
-		List<ReceiveCommand> toApply = filterCommands(Result.NOT_ATTEMPTED);
+		List<ReceiveCommand> toApply = ReceiveCommand.filter(commands,
+				Result.NOT_ATTEMPTED);
 		ProgressMonitor updating = NullProgressMonitor.INSTANCE;
 		if (sideBand) {
 			SideBandProgressMonitor pm = new SideBandProgressMonitor(msgOut);
@@ -1180,16 +1183,6 @@ public class ReceivePack {
 			cmd.execute(this);
 		}
 		updating.endTask();
-	}
-
-	private List<ReceiveCommand> filterCommands(final Result want) {
-		final List<ReceiveCommand> r = new ArrayList<ReceiveCommand>(commands
-				.size());
-		for (final ReceiveCommand cmd : commands) {
-			if (cmd.getResult() == want)
-				r.add(cmd);
-		}
-		return r;
 	}
 
 	private void sendStatusReport(final boolean forClient, final Reporter out)
