@@ -577,13 +577,11 @@ public class DirCacheCheckout {
 
 		int ffMask = 0;
 		if (h != null)
-			ffMask = FileMode.TREE.equals(h.getEntryFileMode()) ? 0xD00 : 0xF00;
+			ffMask = FileMode.TREE.equals(hMode) ? 0xD00 : 0xF00;
 		if (i != null)
-			ffMask |= FileMode.TREE.equals(i.getEntryFileMode()) ? 0x0D0
-					: 0x0F0;
+			ffMask |= FileMode.TREE.equals(iMode) ? 0x0D0 : 0x0F0;
 		if (m != null)
-			ffMask |= FileMode.TREE.equals(m.getEntryFileMode()) ? 0x00D
-					: 0x00F;
+			ffMask |= FileMode.TREE.equals(mMode) ? 0x00D : 0x00F;
 
 		// Check whether we have a possible file/folder conflict. Therefore we
 		// need a least one file and one folder.
@@ -599,7 +597,7 @@ public class DirCacheCheckout {
 				if (isModified(name)) {
 					conflict(name, i.getDirCacheEntry(), h, m); // 1
 				} else {
-					update(name, m.getEntryObjectId(), m.getEntryFileMode()); // 2
+					update(name, mId, mMode); // 2
 				}
 
 				break;
@@ -623,7 +621,7 @@ public class DirCacheCheckout {
 				// are found later
 				break;
 			case 0xD0F: // 19
-				update(name, mId, m.getEntryFileMode());
+				update(name, mId, mMode);
 				break;
 			case 0xDF0: // conflict without a rule
 			case 0x0FD: // 15
@@ -634,9 +632,9 @@ public class DirCacheCheckout {
 					if (isModified(name))
 						conflict(name, i.getDirCacheEntry(), h, m); // 8
 					else
-						update(name, mId, m.getEntryFileMode()); // 7
+						update(name, mId, mMode); // 7
 				} else if (!isModified(name))
-					update(name, mId, m.getEntryFileMode());  // 9
+					update(name, mId, mMode); // 9
 				else
 					// To be confirmed - this case is not in the table.
 					conflict(name, i.getDirCacheEntry(), h, m);
@@ -656,7 +654,7 @@ public class DirCacheCheckout {
 				break;
 			case 0x0DF: // 16 17
 				if (!isModified(name))
-					update(name, mId, m.getEntryFileMode());
+					update(name, mId, mMode);
 				else
 					conflict(name, i.getDirCacheEntry(), h, m);
 				break;
@@ -679,7 +677,7 @@ public class DirCacheCheckout {
 			// make sure not to overwrite untracked files
 			if (f != null) {
 				// A submodule is not a file. We should ignore it
-				if (!FileMode.GITLINK.equals(m.getEntryFileMode())) {
+				if (!FileMode.GITLINK.equals(mMode)) {
 					// a dirty worktree: the index is empty but we have a
 					// workingtree-file
 					if (mId == null
@@ -703,11 +701,11 @@ public class DirCacheCheckout {
 			 */
 
 			if (h == null)
-				update(name, mId, m.getEntryFileMode()); // 1
+				update(name, mId, mMode); // 1
 			else if (m == null)
 				remove(name); // 2
 			else
-				update(name, mId, m.getEntryFileMode()); // 3
+				update(name, mId, mMode); // 3
 		} else {
 			dce = i.getDirCacheEntry();
 			if (h == null) {
@@ -772,12 +770,12 @@ public class DirCacheCheckout {
 					// For submodules just update the index with the new SHA-1
 					if (dce != null
 							&& FileMode.GITLINK.equals(dce.getFileMode())) {
-						update(name, mId, m.getEntryFileMode());
+						update(name, mId, mMode);
 					} else if (dce != null
 							&& (f == null || f.isModified(dce, true))) {
 						conflict(name, dce, h, m);
 					} else {
-						update(name, mId, m.getEntryFileMode());
+						update(name, mId, mMode);
 					}
 				} else {
 					keep(dce);
