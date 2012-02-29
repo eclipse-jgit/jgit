@@ -180,10 +180,13 @@ public class StashCreateCommand extends GitCommand<RevCommit> {
 		return builder;
 	}
 
-	private void updateStashRef(ObjectId commitId) throws IOException {
+	private void updateStashRef(ObjectId commitId, PersonIdent refLogIdent,
+			String refLogMessage) throws IOException {
 		Ref currentRef = repo.getRef(ref);
 		RefUpdate refUpdate = repo.updateRef(ref);
 		refUpdate.setNewObjectId(commitId);
+		refUpdate.setRefLogIdent(refLogIdent);
+		refUpdate.setRefLogMessage(refLogMessage, false);
 		if (currentRef != null)
 			refUpdate.setExpectedOldObjectId(currentRef.getObjectId());
 		else
@@ -300,7 +303,8 @@ public class StashCreateCommand extends GitCommand<RevCommit> {
 				commitId = inserter.insert(builder);
 				inserter.flush();
 
-				updateStashRef(commitId);
+				updateStashRef(commitId, builder.getAuthor(),
+						builder.getMessage());
 			} finally {
 				inserter.release();
 				cache.unlock();
