@@ -109,7 +109,7 @@ public class StashApplyCommandTest extends RepositoryTestCase {
 		File addedFile = writeTrashFile(addedPath, "content2");
 		git.add().addFilepattern(addedPath).call();
 
-		RevCommit stashed = Git.wrap(db).stashCreate().call();
+		RevCommit stashed = git.stashCreate().call();
 		assertNotNull(stashed);
 		assertFalse(addedFile.exists());
 
@@ -134,7 +134,7 @@ public class StashApplyCommandTest extends RepositoryTestCase {
 	public void indexDelete() throws Exception {
 		git.rm().addFilepattern("file.txt").call();
 
-		RevCommit stashed = Git.wrap(db).stashCreate().call();
+		RevCommit stashed = git.stashCreate().call();
 		assertNotNull(stashed);
 		assertEquals("content", read(committedFile));
 
@@ -158,7 +158,7 @@ public class StashApplyCommandTest extends RepositoryTestCase {
 	public void workingDirectoryModify() throws Exception {
 		writeTrashFile("file.txt", "content2");
 
-		RevCommit stashed = Git.wrap(db).stashCreate().call();
+		RevCommit stashed = git.stashCreate().call();
 		assertNotNull(stashed);
 		assertEquals("content", read(committedFile));
 
@@ -187,7 +187,7 @@ public class StashApplyCommandTest extends RepositoryTestCase {
 
 		writeTrashFile(path, "content2");
 
-		RevCommit stashed = Git.wrap(db).stashCreate().call();
+		RevCommit stashed = git.stashCreate().call();
 		assertNotNull(stashed);
 		assertEquals("content", read(subfolderFile));
 
@@ -213,7 +213,7 @@ public class StashApplyCommandTest extends RepositoryTestCase {
 		git.add().addFilepattern("file.txt").call();
 		writeTrashFile("file.txt", "content3");
 
-		RevCommit stashed = Git.wrap(db).stashCreate().call();
+		RevCommit stashed = git.stashCreate().call();
 		assertNotNull(stashed);
 		assertEquals("content", read(committedFile));
 
@@ -240,7 +240,7 @@ public class StashApplyCommandTest extends RepositoryTestCase {
 		git.add().addFilepattern("file.txt").call();
 		writeTrashFile("file.txt", "content");
 
-		RevCommit stashed = Git.wrap(db).stashCreate().call();
+		RevCommit stashed = git.stashCreate().call();
 		assertNotNull(stashed);
 		assertEquals("content", read(committedFile));
 
@@ -269,7 +269,7 @@ public class StashApplyCommandTest extends RepositoryTestCase {
 		FileUtils.delete(added);
 		assertFalse(added.exists());
 
-		RevCommit stashed = Git.wrap(db).stashCreate().call();
+		RevCommit stashed = git.stashCreate().call();
 		assertNotNull(stashed);
 		assertFalse(added.exists());
 
@@ -296,7 +296,7 @@ public class StashApplyCommandTest extends RepositoryTestCase {
 		FileUtils.delete(committedFile);
 		assertFalse(committedFile.exists());
 
-		RevCommit stashed = Git.wrap(db).stashCreate().call();
+		RevCommit stashed = git.stashCreate().call();
 		assertNotNull(stashed);
 		assertEquals("content", read(committedFile));
 
@@ -323,7 +323,7 @@ public class StashApplyCommandTest extends RepositoryTestCase {
 		File addedFile = writeTrashFile(addedPath, "content2");
 		git.add().addFilepattern(addedPath).call();
 
-		RevCommit stashed = Git.wrap(db).stashCreate().call();
+		RevCommit stashed = git.stashCreate().call();
 		assertNotNull(stashed);
 		assertTrue(committedFile.exists());
 		assertFalse(addedFile.exists());
