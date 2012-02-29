@@ -54,10 +54,14 @@ import java.util.List;
 
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RepositoryTestCase;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.storage.file.ReflogEntry;
+import org.eclipse.jgit.storage.file.ReflogReader;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
 import org.eclipse.jgit.util.FileUtils;
@@ -393,5 +397,24 @@ public class StashCreateCommandTest extends RepositoryTestCase {
 		assertEquals("file.txt", diffs.get(0).getOldPath());
 		assertEquals(DiffEntry.ChangeType.ADD, diffs.get(1).getChangeType());
 		assertEquals("file2.txt", diffs.get(1).getNewPath());
+	}
+
+	@Test
+	public void refLogIncludesCommitMessage() throws Exception {
+		PersonIdent who = new PersonIdent("user", "user@email.com");
+		deleteTrashFile("file.txt");
+		RevCommit stashed = git.stashCreate().setPerson(who).call();
+		assertNotNull(stashed);
+		assertEquals("content", read(committedFile));
+		validateStashedCommit(stashed);
+
+		ReflogReader reader = new ReflogReader(git.getRepository(),
+				Constants.R_STASH);
+		ReflogEntry entry = reader.getLastEntry();
+		assertNotNull(entry);
+		assertEquals(ObjectId.zeroId(), entry.getOldId());
+		assertEquals(stashed, entry.getNewId());
+		assertEquals(who, entry.getWho());
+		assertEquals(stashed.getFullMessage(), entry.getComment());
 	}
 }
