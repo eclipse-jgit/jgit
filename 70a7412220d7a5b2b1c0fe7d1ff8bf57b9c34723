@@ -16,6 +16,24 @@
       "revId": "70a7412220d7a5b2b1c0fe7d1ff8bf57b9c34723",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOGH///mI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceiveCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-03-01T00:25:47Z",
+      "side": 1,
+      "message": "Will do. This hunk used to be in Iae483594 and accidentally got squashed; shall I un-squash it?",
+      "parentUuid": "AABOGH///mQ\u003d",
+      "revId": "70a7412220d7a5b2b1c0fe7d1ff8bf57b9c34723",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
