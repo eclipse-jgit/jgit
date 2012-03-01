@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOGH///io\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/ReceivePackAdvertiseRefsHookTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-03-01T01:22:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOGH///iw\u003d",
+      "revId": "c53167e0e8d7330343276a7b8816184332b05b05",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOGH///jg\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/AdvertiseRefsHook.java",
         "patchSetId": 6
@@ -30,6 +48,24 @@
       "writtenOn": "2012-03-01T01:17:56Z",
       "side": 1,
       "message": "I\u0027m sort of inclined to say a hook has to call the setAdvertisedRefs method. If it doesn\u0027t, then no refs are advertised at all. That means the default hook implementation has to make sure the set call is made by running:\n\n  uploadPack.setAdvertisedRefs(\n      uploadPack.getRepository().getAllRefs());",
+      "revId": "c53167e0e8d7330343276a7b8816184332b05b05",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOGH///ic\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/AdvertiseRefsHook.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-03-01T01:22:43Z",
+      "side": 1,
+      "message": "Hm, I\u0027m not sure. We have some AdvertiseRefsHooks downstream that don\u0027t really have anything to do with ref advertisement, and do things like set up some logging state.\n\nIt so happens that we run those hooks in a chain such that the hook at the end of the chain actually does call setAdvertiseRefs, so that would be safe. But it feels a little weird to say that if one of the constituent hooks stood alone, we would have to change it to call setAdvertiseRefs.",
+      "parentUuid": "AABOGH///jg\u003d",
       "revId": "c53167e0e8d7330343276a7b8816184332b05b05",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
