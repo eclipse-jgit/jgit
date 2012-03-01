@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOGH///h8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceiveCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-03-01T01:41:18Z",
+      "side": 1,
+      "message": "If you drop the final qualifier on \"r\" will this all fit on one line?",
+      "revId": "4675038c7938b9470da824e9bd07d030f9c2c3b4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOGH///hw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1155,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-03-01T01:41:18Z",
+      "side": 1,
+      "message": "Did you consider inlining this method now that its so small?",
+      "revId": "4675038c7938b9470da824e9bd07d030f9c2c3b4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
