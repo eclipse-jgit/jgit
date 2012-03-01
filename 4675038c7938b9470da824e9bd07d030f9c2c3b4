@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOGH///hA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceiveCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-03-01T02:32:44Z",
+      "side": 1,
+      "message": "Yes, done.",
+      "parentUuid": "AABOGH///h8\u003d",
+      "revId": "4675038c7938b9470da824e9bd07d030f9c2c3b4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOGH///hw\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2012-03-01T01:41:18Z",
       "side": 1,
       "message": "Did you consider inlining this method now that its so small?",
+      "revId": "4675038c7938b9470da824e9bd07d030f9c2c3b4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOGH///g8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1155,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-03-01T02:32:44Z",
+      "side": 1,
+      "message": "TBQH I did, but then had to have some not-too-pretty line breaks at the call sites, and I thought the name was too generic for a static import. I\u0027ve inlined it so you can see for yourself; let me know if I should keep or revert.",
+      "parentUuid": "AABOGH///hw\u003d",
       "revId": "4675038c7938b9470da824e9bd07d030f9c2c3b4",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
