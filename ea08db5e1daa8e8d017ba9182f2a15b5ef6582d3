@@ -106,6 +106,23 @@
       "revId": "ea08db5e1daa8e8d017ba9182f2a15b5ef6582d3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOGH///hI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 593,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-03-01T02:06:15Z",
+      "side": 1,
+      "message": "Too parnaoid. Don\u0027t synchronize. The caller is responsible for using synchronization here if they are swapping stuff back and forth across threads. Most of JGit is not thread safe. There are a few special places that are (e.g. Repository, ObjDatabase, RefDatabase) that makes the rest not being thread safe actually OK for any common usage. Fancier things that are starting their own threads are on their own.",
+      "revId": "ea08db5e1daa8e8d017ba9182f2a15b5ef6582d3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
