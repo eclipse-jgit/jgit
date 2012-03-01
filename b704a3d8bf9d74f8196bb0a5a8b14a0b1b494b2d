@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOGH///iE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/AdvertiseRefsHookChain.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-03-01T01:38:08Z",
+      "side": 1,
+      "message": "Ouch. This sucks.\n\nConsider we write a hook that wants to only show refs/heads/ and refs/tags/. Lets also consider it may want to support being mixed in with other hooks in a chain.\n\nIf there was a hook before it, it should use getAdvertisedRefs() to look at the current map, pick out only refs/{heads,tags} and then reset the map. OK but this is really slow if there was no prior hook because you are now doing getAllRefs() to pre-populate the transport object. That defeats one of the notions of this hook, which is to try and use the lower-level APIs to only scan the subspaces that it needs.\n\nRight now as you have it there is no clean way to know if there is a prior hook and whether you should be replacing the prior results, filtering them, etc.",
+      "revId": "b704a3d8bf9d74f8196bb0a5a8b14a0b1b494b2d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
