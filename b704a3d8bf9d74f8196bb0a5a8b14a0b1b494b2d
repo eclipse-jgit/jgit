@@ -34,6 +34,24 @@
       "revId": "b704a3d8bf9d74f8196bb0a5a8b14a0b1b494b2d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOGH///hg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/AdvertiseRefsHookChain.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-03-01T01:43:53Z",
+      "side": 1,
+      "message": "Yes it would help if we change getAdvertisedRefs() to return null until a hook has called setAdvertisedRefs(). You may need to audit the callers within JGit to make sure they are OK with this ordering of operations. I suspect its OK... but WTF do I know.",
+      "parentUuid": "AABOGH///h4\u003d",
+      "revId": "b704a3d8bf9d74f8196bb0a5a8b14a0b1b494b2d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
