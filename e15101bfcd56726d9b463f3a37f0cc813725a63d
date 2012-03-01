@@ -16,6 +16,24 @@
       "revId": "e15101bfcd56726d9b463f3a37f0cc813725a63d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOGH///lE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 582,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-03-01T00:36:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOGH///mA\u003d",
+      "revId": "e15101bfcd56726d9b463f3a37f0cc813725a63d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
