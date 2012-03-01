@@ -88,6 +88,24 @@
       "revId": "ea08db5e1daa8e8d017ba9182f2a15b5ef6582d3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOGH///hQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 593,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-03-01T01:55:46Z",
+      "side": 1,
+      "message": "I\u0027ll try that. Should those methods be synchronized, or is that too paranoid? Paranoid because e.g. if the caller is a PreReceiveHook, obviously they won\u0027t be calling methods on the returned output stream until msgOut has settled into its final state.",
+      "parentUuid": "AABOGH///ik\u003d",
+      "revId": "ea08db5e1daa8e8d017ba9182f2a15b5ef6582d3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
