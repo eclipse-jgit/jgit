@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOGH///mQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceiveCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-03-01T00:23:45Z",
+      "side": 1,
+      "message": "This check precludes the \"We can only do CAS\" comment on line 267. There are some older Git clients that send zeroId in the old id field when deleting a branch. type !\u003d create, and oldId cannot be zeroId with this constructor, so it fails.\n\nI\u0027m not really sure why you need to enforce these two checks at all on the constructor. Just take the type as supplied.",
+      "revId": "70a7412220d7a5b2b1c0fe7d1ff8bf57b9c34723",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
