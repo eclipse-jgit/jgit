@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOGH///kQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 593,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-03-01T00:50:30Z",
+      "side": 1,
+      "message": "Maybe what we should do is export an OutputStream the caller can ask for:\n\n  OutputStream getSidebandOutputStream() {\n    if (msgOut \u003d\u003d null)\n      return NullOutputStream.INSTANCE;\n    return new FilterOutputStream(msgOut) {  \n      public void close() {}\n    };\n  }\n\nThis way they can also control flush behavior and force the underlying side band to flush. Right now I think the messages get stuck in the side band buffer and don\u0027t head out to the client until its either full, or \"later\" when ReceivePack forces a flush at the end.",
+      "revId": "ea08db5e1daa8e8d017ba9182f2a15b5ef6582d3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
