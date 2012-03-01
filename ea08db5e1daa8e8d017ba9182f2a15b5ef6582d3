@@ -34,6 +34,24 @@
       "revId": "ea08db5e1daa8e8d017ba9182f2a15b5ef6582d3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOGH///jY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 593,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-03-01T01:07:45Z",
+      "side": 1,
+      "message": "That said, note that this buffering behavior is already present and not changing due to this change.\n\nIn my downstream work I\u0027m not using sendBytes (except where sendMessage was already being used), so I don\u0027t think this is an issue. If you think otherwise after seeing my downstream code, let me know.",
+      "parentUuid": "AABOGH///jw\u003d",
+      "revId": "ea08db5e1daa8e8d017ba9182f2a15b5ef6582d3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
