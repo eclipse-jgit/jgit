@@ -16,6 +16,24 @@
       "revId": "ea08db5e1daa8e8d017ba9182f2a15b5ef6582d3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOGH///jw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 593,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-03-01T00:57:53Z",
+      "side": 1,
+      "message": "I agree that this will probably get buffered and should be fixed.\n\nThis interacts weirdly with the way msgOut changes over ReceivePack\u0027s lifetime. msgOut starts out as null, then gets set at the beginning of receive(), and gets reset as soon as it determines the client wants a sideband.\n\nWhich is not to say it\u0027s impossible. It\u0027s just that if a caller calls getSidebandOutputStream() followed by receive(), they might reasonably expect there to be a relationship between the stream returned by the former and the stream actually used by the latter.",
+      "parentUuid": "AABOGH///kQ\u003d",
+      "revId": "ea08db5e1daa8e8d017ba9182f2a15b5ef6582d3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
