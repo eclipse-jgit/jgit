@@ -52,6 +52,42 @@
       "revId": "ea08db5e1daa8e8d017ba9182f2a15b5ef6582d3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOGH///ig\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 593,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-03-01T01:22:41Z",
+      "side": 1,
+      "message": "I didn\u0027t say get rid of the buffering entirely. I just suggested making flush available so the caller could get to flush and force output of the buffer if they wanted to.",
+      "parentUuid": "AABOGH///jY\u003d",
+      "revId": "ea08db5e1daa8e8d017ba9182f2a15b5ef6582d3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOGH///ik\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 593,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-03-01T01:22:41Z",
+      "side": 1,
+      "message": "Don\u0027t use a FilterOutputStream. Implement the output yourself:\n\n  public OutputStream getSidebandOutputStream() {\n    return new OutputStream() {\n      public void write(int ch) {\n        if (msgOut !\u003d null)\n          msgOut.write(ch);\n      }\n      public void write(byte[] buf, int pos, int len) {\n        if (msgOut !\u003d null)\n          msgOut.write(buf, pos, len);\n      }\n      public void flush() {\n        if (msgOut !\u003d null)\n          msgOut.flush();\n      }\n    };\n  }\n\nDone.",
+      "parentUuid": "AABOGH///jw\u003d",
+      "revId": "ea08db5e1daa8e8d017ba9182f2a15b5ef6582d3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
