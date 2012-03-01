@@ -52,6 +52,24 @@
       "revId": "b704a3d8bf9d74f8196bb0a5a8b14a0b1b494b2d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOGH///hY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/AdvertiseRefsHookChain.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-03-01T01:46:28Z",
+      "side": 1,
+      "message": "Ok, will do. I\u0027ve audited the callers in the past, I don\u0027t mind doing it again.\n\nUnder this new contract we would of course not require hooks to call setAdvertisedRefs(), going back to the discussion in the previous patch.",
+      "parentUuid": "AABOGH///hg\u003d",
+      "revId": "b704a3d8bf9d74f8196bb0a5a8b14a0b1b494b2d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
