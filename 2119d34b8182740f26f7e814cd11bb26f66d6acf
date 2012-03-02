@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOGX///34\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CleanCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2012-03-02T20:13:21Z",
+      "side": 1,
+      "message": "Curlies not needed",
+      "revId": "2119d34b8182740f26f7e814cd11bb26f66d6acf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOGX///30\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CleanCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2012-03-02T20:13:21Z",
+      "side": 1,
+      "message": "Curlies not needed",
+      "revId": "2119d34b8182740f26f7e814cd11bb26f66d6acf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOGX///3w\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CleanCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2012-03-02T20:13:21Z",
+      "side": 1,
+      "message": "this keyword not needed",
+      "revId": "2119d34b8182740f26f7e814cd11bb26f66d6acf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
