@@ -49,6 +49,7 @@ import java.text.MessageFormat;
 import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.api.errors.NoFilepatternException;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
@@ -177,13 +178,16 @@ public class SubmoduleAddCommand extends
 		// Save path and URL to parent repository's .gitmodules file
 		FileBasedConfig modulesConfig = new FileBasedConfig(new File(
 				repo.getWorkTree(), Constants.DOT_GIT_MODULES), repo.getFS());
-		modulesConfig.setString(ConfigConstants.CONFIG_SUBMODULE_SECTION, path,
-				ConfigConstants.CONFIG_KEY_PATH, path);
-		modulesConfig.setString(ConfigConstants.CONFIG_SUBMODULE_SECTION, path,
-				ConfigConstants.CONFIG_KEY_URL, uri);
 		try {
+			modulesConfig.load();
+			modulesConfig.setString(ConfigConstants.CONFIG_SUBMODULE_SECTION,
+					path, ConfigConstants.CONFIG_KEY_PATH, path);
+			modulesConfig.setString(ConfigConstants.CONFIG_SUBMODULE_SECTION,
+					path, ConfigConstants.CONFIG_KEY_URL, uri);
 			modulesConfig.save();
 		} catch (IOException e) {
+			throw new JGitInternalException(e.getMessage(), e);
+		} catch (ConfigInvalidException e) {
 			throw new JGitInternalException(e.getMessage(), e);
 		}
 
