@@ -1,0 +1,378 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOF3///1w\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/SymbolicRefCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-03-02T13:28:57Z",
+      "side": 1,
+      "message": "we don\u0027t use author tags, you don\u0027t need to provide javadoc for tests",
+      "revId": "414557af735dd253b746c06d8afb910cff8622d3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOGX///7I\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/SymbolicRefCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-03-02T13:28:57Z",
+      "side": 1,
+      "message": "shouldn\u0027t that be final ? Maybe tests are easier to read if such strings are inlined ?",
+      "revId": "414557af735dd253b746c06d8afb910cff8622d3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOGX///7A\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/SymbolicRefCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-03-02T13:28:57Z",
+      "side": 1,
+      "message": "s/not a symbolic/non-symbolic/",
+      "revId": "414557af735dd253b746c06d8afb910cff8622d3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOGX///68\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/SymbolicRefCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-03-02T13:28:57Z",
+      "side": 1,
+      "message": "do you expect generic Exception here or something more specific ?",
+      "revId": "414557af735dd253b746c06d8afb910cff8622d3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOF3///1s\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/SymbolicRefCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-03-02T13:28:57Z",
+      "side": 1,
+      "message": "style nit: trailing whitespace",
+      "revId": "414557af735dd253b746c06d8afb910cff8622d3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOGX///64\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/SymbolicRefCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-03-02T13:28:57Z",
+      "side": 1,
+      "message": "do you expect generic Exception here or something more specific ?",
+      "revId": "414557af735dd253b746c06d8afb910cff8622d3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOF3///1o\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/JGitText.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-03-02T13:28:57Z",
+      "side": 1,
+      "message": "style nit: fix indentation",
+      "revId": "414557af735dd253b746c06d8afb910cff8622d3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOF3///1k\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Git.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 575,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-03-02T13:28:57Z",
+      "side": 1,
+      "message": "style nit: trailing whitespace",
+      "revId": "414557af735dd253b746c06d8afb910cff8622d3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOF3///1c\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/Git.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 577,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-03-02T13:28:57Z",
+      "side": 1,
+      "message": "missing verb between \"used to\" and \"symbolic ref\"",
+      "revId": "414557af735dd253b746c06d8afb910cff8622d3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOF3///1Y\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/SymbolicRefCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-03-02T13:28:57Z",
+      "side": 1,
+      "message": "I do not understand what you want to say here",
+      "revId": "414557af735dd253b746c06d8afb910cff8622d3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOF3///1U\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/SymbolicRefCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-03-02T13:28:57Z",
+      "side": 1,
+      "message": "s/not a symbolic/non-symbolic/",
+      "revId": "414557af735dd253b746c06d8afb910cff8622d3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOF3///1Q\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/SymbolicRefCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-03-02T13:28:57Z",
+      "side": 1,
+      "message": "s/not exists/not exist/\n\nwhat do you mean with \"or null set\" ?",
+      "revId": "414557af735dd253b746c06d8afb910cff8622d3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOF3///0k\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/SymbolicRefCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-03-02T13:28:57Z",
+      "side": 1,
+      "message": "are you sure ?",
+      "revId": "414557af735dd253b746c06d8afb910cff8622d3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOF3///1M\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/SymbolicRefCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-03-02T13:28:57Z",
+      "side": 1,
+      "message": "s/is not exists/does not exist/\n\nthis comment should be moved up to where this is checked, but I think this comment isn\u0027t needed as \"if (ref \u003d\u003d null)\" is pretty obvious. If you want to make this even more clear rename ref to oldRef",
+      "revId": "414557af735dd253b746c06d8afb910cff8622d3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOF3///08\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/SymbolicRefCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-03-02T13:28:57Z",
+      "side": 1,
+      "message": "why do you return null here ? I am not sure about what\u0027s the purpose of the returned String",
+      "revId": "414557af735dd253b746c06d8afb910cff8622d3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOF3///1I\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/SymbolicRefCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-03-02T13:28:57Z",
+      "side": 1,
+      "message": "s/the ref is exists/the ref exists/",
+      "revId": "414557af735dd253b746c06d8afb910cff8622d3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOF3///00\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/SymbolicRefCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-03-02T13:28:57Z",
+      "side": 1,
+      "message": "why do you return null here ? I am not sure about what\u0027s the purpose of the returned String",
+      "revId": "414557af735dd253b746c06d8afb910cff8622d3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOF3///0w\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/SymbolicRefCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-03-02T13:28:57Z",
+      "side": 1,
+      "message": "style nit: we don\u0027t use braces around single line blocks",
+      "revId": "414557af735dd253b746c06d8afb910cff8622d3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOF3///0s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/SymbolicRefCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-03-02T13:28:57Z",
+      "side": 1,
+      "message": "style nit: no braces around single line blocks",
+      "revId": "414557af735dd253b746c06d8afb910cff8622d3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOGX///7U\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/errors/NotSymbolicRefException.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-03-02T13:28:57Z",
+      "side": 1,
+      "message": "missing license header",
+      "revId": "414557af735dd253b746c06d8afb910cff8622d3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOGX///7Q\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/errors/NotSymbolicRefException.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-03-02T13:28:57Z",
+      "side": 1,
+      "message": "trailing whitespace",
+      "revId": "414557af735dd253b746c06d8afb910cff8622d3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOGX///7M\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/errors/RefUpdateException.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-03-02T13:28:57Z",
+      "side": 1,
+      "message": "s/by/be/",
+      "revId": "414557af735dd253b746c06d8afb910cff8622d3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
