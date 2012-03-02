@@ -50,6 +50,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -454,5 +455,67 @@ public class RemoteConfigTest {
 		checkConfig("[remote \"origin\"]\n" + "\turl = /some/dir\n"
 				+ "\tfetch = +refs/heads/*:refs/remotes/origin/*\n"
 				+ "\ttimeout = 60\n");
+	}
+
+	@Test
+	public void noInsteadOf() throws Exception {
+		config.setString("remote", "origin", "url", "short:project.git");
+		config.setString("url", "https://server/repos/", "name", "short:");
+		RemoteConfig rc = new RemoteConfig(config, "origin");
+		assertFalse(rc.getURIs().isEmpty());
+		assertEquals("short:project.git", rc.getURIs().get(0).toASCIIString());
+	}
+
+	@Test
+	public void singleInsteadOf() throws Exception {
+		config.setString("remote", "origin", "url", "short:project.git");
+		config.setString("url", "https://server/repos/", "insteadOf", "short:");
+		RemoteConfig rc = new RemoteConfig(config, "origin");
+		assertFalse(rc.getURIs().isEmpty());
+		assertEquals("https://server/repos/project.git", rc.getURIs().get(0)
+				.toASCIIString());
+	}
+
+	@Test
+	public void multipleInsteadOf() throws Exception {
+		config.setString("remote", "origin", "url", "prefixproject.git");
+		config.setStringList("url", "https://server/repos/", "insteadOf",
+				Arrays.asList("pre", "prefix", "pref", "perf"));
+		RemoteConfig rc = new RemoteConfig(config, "origin");
+		assertFalse(rc.getURIs().isEmpty());
+		assertEquals("https://server/repos/project.git", rc.getURIs().get(0)
+				.toASCIIString());
+	}
+
+	@Test
+	public void noPushInsteadOf() throws Exception {
+		config.setString("remote", "origin", "pushurl", "short:project.git");
+		config.setString("url", "https://server/repos/", "name", "short:");
+		RemoteConfig rc = new RemoteConfig(config, "origin");
+		assertFalse(rc.getPushURIs().isEmpty());
+		assertEquals("short:project.git", rc.getPushURIs().get(0)
+				.toASCIIString());
+	}
+
+	@Test
+	public void singlePushInsteadOf() throws Exception {
+		config.setString("remote", "origin", "pushurl", "short:project.git");
+		config.setString("url", "https://server/repos/", "pushInsteadOf",
+				"short:");
+		RemoteConfig rc = new RemoteConfig(config, "origin");
+		assertFalse(rc.getPushURIs().isEmpty());
+		assertEquals("https://server/repos/project.git", rc.getPushURIs()
+				.get(0).toASCIIString());
+	}
+
+	@Test
+	public void multiplePushInsteadOf() throws Exception {
+		config.setString("remote", "origin", "pushurl", "prefixproject.git");
+		config.setStringList("url", "https://server/repos/", "pushInsteadOf",
+				Arrays.asList("pre", "prefix", "pref", "perf"));
+		RemoteConfig rc = new RemoteConfig(config, "origin");
+		assertFalse(rc.getPushURIs().isEmpty());
+		assertEquals("https://server/repos/project.git", rc.getPushURIs()
+				.get(0).toASCIIString());
 	}
 }

@@ -49,7 +49,10 @@ import java.io.Serializable;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.eclipse.jgit.lib.Config;
 
@@ -83,6 +86,10 @@ public class RemoteConfig implements Serializable {
 	private static final String KEY_MIRROR = "mirror";
 
 	private static final String KEY_TIMEOUT = "timeout";
+
+	private static final String KEY_INSTEADOF = "insteadof";
+
+	private static final String KEY_PUSHINSTEADOF = "pushinsteadof";
 
 	private static final boolean DEFAULT_MIRROR = false;
 
@@ -161,14 +168,17 @@ public class RemoteConfig implements Serializable {
 		String val;
 
 		vlst = rc.getStringList(SECTION, name, KEY_URL);
+		Map<String, String> insteadOf = getReplacements(rc, KEY_INSTEADOF);
 		uris = new ArrayList<URIish>(vlst.length);
 		for (final String s : vlst)
-			uris.add(new URIish(s));
+			uris.add(new URIish(replaceUri(s, insteadOf)));
 
+		Map<String, String> pushInsteadOf = getReplacements(rc,
+				KEY_PUSHINSTEADOF);
 		vlst = rc.getStringList(SECTION, name, KEY_PUSHURL);
 		pushURIs = new ArrayList<URIish>(vlst.length);
 		for (final String s : vlst)
-			pushURIs.add(new URIish(s));
+			pushURIs.add(new URIish(replaceUri(s, pushInsteadOf)));
 
 		vlst = rc.getStringList(SECTION, name, KEY_FETCH);
 		fetch = new ArrayList<RefSpec>(vlst.length);
@@ -258,6 +268,35 @@ public class RemoteConfig implements Serializable {
 
 	private void unset(final Config rc, final String key) {
 		rc.unset(SECTION, getName(), key);
+	}
+
+	private Map<String, String> getReplacements(final Config config,
+			final String keyName) {
+		final Map<String, String> replacements = new HashMap<String, String>();
+		for (String url : config.getSubsections(KEY_URL))
+			for (String insteadOf : config.getStringList(KEY_URL, url, keyName))
+				replacements.put(insteadOf, url);
+		return replacements;
+	}
+
+	private String replaceUri(final String uri,
+			final Map<String, String> replacements) {
+		if (replacements.isEmpty())
+			return uri;
+		Entry<String, String> match = null;
+		for (Entry<String, String> replacement : replacements.entrySet()) {
+			// Ignore current entry if not longer than previous match
+			if (match != null
+					&& match.getKey().length() > replacement.getKey().length())
+				continue;
+			if (!uri.startsWith(replacement.getKey()))
+				continue;
+			match = replacement;
+		}
+		if (match != null)
+			return match.getValue() + uri.substring(match.getKey().length());
+		else
+			return uri;
 	}
 
 	/**
