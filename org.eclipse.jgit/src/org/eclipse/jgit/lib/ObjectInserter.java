@@ -109,6 +109,29 @@ public abstract class ObjectInserter {
 		return tempBuffer;
 	}
 
+	static private final int tempBufSize;
+	static {
+		String s = System.getProperty("jgit.tempbufmaxsize");
+		if (s != null)
+			tempBufSize = Integer.parseInt(s);
+		else
+			tempBufSize = 1000000;
+	}
+
+	/**
+	 * @param hintSize
+	 * @return a temporary byte array for use by the caller
+	 */
+	protected byte[] buffer(long hintSize) {
+		if (hintSize >= tempBufSize)
+			tempBuffer = new byte[0];
+		else if (tempBuffer == null)
+			tempBuffer = new byte[(int) hintSize];
+		else if (tempBuffer.length < hintSize)
+			tempBuffer = new byte[(int) hintSize];
+		return tempBuffer;
+	}
+
 	/** @return digest to help compute an ObjectId */
 	protected MessageDigest digest() {
 		digest.reset();
@@ -172,7 +195,7 @@ public abstract class ObjectInserter {
 		md.update((byte) ' ');
 		md.update(Constants.encodeASCII(length));
 		md.update((byte) 0);
-		byte[] buf = buffer();
+		byte[] buf = buffer(length);
 		while (length > 0) {
 			int n = in.read(buf, 0, (int) Math.min(length, buf.length));
 			if (n < 0)
