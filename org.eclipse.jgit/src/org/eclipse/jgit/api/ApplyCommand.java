@@ -228,7 +228,7 @@ public class ApplyCommand extends GitCommand<ApplyResult> {
 		StringBuilder sb = new StringBuilder();
 		final String eol = rt.size() == 0
 				|| (rt.size() == 1 && rt.isMissingNewlineAtEnd()) ? "\n" : rt
-				.getEOL();
+				.getLineDelimiter();
 		for (String l : newLines) {
 			sb.append(l);
 			if (eol != null)
