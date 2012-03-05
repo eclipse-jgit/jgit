@@ -68,6 +68,7 @@ import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.PackProtocolException;
 import org.eclipse.jgit.errors.UnpackException;
+import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
@@ -1156,6 +1157,12 @@ public class ReceivePack {
 				} else {
 					cmd.setType(ReceiveCommand.Type.UPDATE_NONFASTFORWARD);
 				}
+
+				if (cmd.getType() == ReceiveCommand.Type.UPDATE_NONFASTFORWARD
+						&& !isAllowNonFastForwards()) {
+					cmd.setResult(Result.REJECTED_NONFASTFORWARD);
+					continue;
+				}
 			}
 
 			if (!cmd.getRefName().startsWith(Constants.R_REFS)
@@ -1171,18 +1178,31 @@ public class ReceivePack {
 
 		List<ReceiveCommand> toApply = ReceiveCommand.filter(commands,
 				Result.NOT_ATTEMPTED);
+		if (toApply.isEmpty())
+			return;
+
 		ProgressMonitor updating = NullProgressMonitor.INSTANCE;
 		if (sideBand) {
 			SideBandProgressMonitor pm = new SideBandProgressMonitor(msgOut);
 			pm.setDelayStart(250, TimeUnit.MILLISECONDS);
 			updating = pm;
 		}
-		updating.beginTask(JGitText.get().updatingReferences, toApply.size());
-		for (ReceiveCommand cmd : toApply) {
-			updating.update(1);
-			cmd.execute(this);
+
+		BatchRefUpdate batch = db.getRefDatabase().newBatchUpdate();
+		batch.setForceUpdate(isAllowNonFastForwards());
+		batch.setRefLogIdent(getRefLogIdent());
+		batch.setRefLogMessage("push", true);
+		batch.addCommand(toApply);
+		try {
+			batch.execute(walk, updating);
+		} catch (IOException err) {
+			String msg = MessageFormat.format(JGitText.get().lockError, err
+					.getMessage());
+			for (ReceiveCommand cmd : commands) {
+				if (cmd.getResult() == Result.NOT_ATTEMPTED)
+					cmd.setResult(Result.REJECTED_OTHER_REASON, msg);
+			}
 		}
-		updating.endTask();
 	}
 
 	private void sendStatusReport(final boolean forClient, final Reporter out)
