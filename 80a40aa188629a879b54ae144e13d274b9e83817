@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOG3///9M\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-03-06T23:57:45Z",
+      "side": 1,
+      "message": "Took me a while to consume this comment. I agree: because we can assume that we have a very small number of loose objects we should collect them first and make sure that we don\u0027t go through expensive objectwalks if there are no loose objects left.\n\nI rewrote prune() to be more optimized in the cases you mention.\n\nA few thins I found are more complicated\n- Although all refs point to the same objects as during last repack there may be new entries in the reflogs. (E.g. somebody checkout out an old state and switched back to originial branch afterwards. The reflog entries should save some loose objects although refs have not changed\n- Index entries have to be checked always.",
+      "parentUuid": "AABOGH///+4\u003d",
+      "revId": "80a40aa188629a879b54ae144e13d274b9e83817",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOGH///+8\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
         "patchSetId": 14
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AABOG3///9k\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-03-06T23:57:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOGH///+8\u003d",
+      "revId": "80a40aa188629a879b54ae144e13d274b9e83817",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOGH///+0\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
         "patchSetId": 14
@@ -47,6 +83,24 @@
       "writtenOn": "2012-02-23T03:22:29Z",
       "side": 1,
       "message": "Also like this case, you should not include objects that appear in packs that have a .keep file alongside of them. And you should not delete those packs when you consider what packs to prune after the repack. I don\u0027t think you handled this .keep case at all in the GC class.",
+      "revId": "80a40aa188629a879b54ae144e13d274b9e83817",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOG3///9Q\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-03-06T23:57:45Z",
+      "side": 1,
+      "message": "I understand that I shouldn\u0027t delete pack files which have a .keep file alongside. But why shouldn\u0027t I repack objects from those pack files? Is it because those pack files exist because of currently ongoing transport operations. If the transport operation fails these pack files may be deleted, right? But why is it harmful to have the objects in other pack files. The next gc() will get rid of these objects again.",
+      "parentUuid": "AABOGH///+0\u003d",
       "revId": "80a40aa188629a879b54ae144e13d274b9e83817",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
