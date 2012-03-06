@@ -212,6 +212,24 @@
     },
     {
       "key": {
+        "uuid": "AABOGX///3U\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-03-06T23:57:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOGH////I\u003d",
+      "revId": "df01f3ee42c3cf9b9a257d57cfbc6c780e1ce450",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOF3///rM\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
         "patchSetId": 13
@@ -259,6 +277,24 @@
       "side": 1,
       "message": "M should never be included. When the have collection (3rd arg of preparePack, here the allHeads argument) is non-empty the PackWriter uses a TOPO sort. The TOPO sort is slower, but ensures that A, R, B all came out of the revision queue *before* M does. Doing so ensures the UNINTERESTING flag from A is carried onto M, so that M is deemed UNINTERESTING too and does not appear in the output pack.\n\nThinking about this more, we might be able to be more sloppy about this in PackWriter in order to avoid the expense of TOPO sorting in the RevWalk. It isn\u0027t related to your GC feature and shouldn\u0027t be combined with it, but I think that the commit resort feature we do in PackWriter around line 1620 is allowing us to delay the addition of M into the pack sufficiently that its OK if we found M through R before we found M through A, and thus cancel M during that commit resort loop. But I can\u0027t say I have proven this theory, its just something that occurred to me looking at the code again.  :-)\n\nSo in short, M would never have been included. But Q is, and doesn\u0027t need to be.",
       "parentUuid": "AABOF3///nw\u003d",
+      "revId": "df01f3ee42c3cf9b9a257d57cfbc6c780e1ce450",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOGX///1Q\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-03-06T23:57:26Z",
+      "side": 1,
+      "message": "Wrote a test which checks the new behavior. And with old code this test fails. \n\nMy misunderstanding was that I thought that you start the walk on the objects in \"want\". And you stop walking further if you see an object in \"have\". But I learned that also \"have\" objects are real starting points for the walk carrying the UNINTERESTING flag to all the children.\n\nDone!",
+      "parentUuid": "AABOGH////E\u003d",
       "revId": "df01f3ee42c3cf9b9a257d57cfbc6c780e1ce450",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -452,6 +488,24 @@
       "side": 1,
       "message": "yes, I agree. I commented already in patchset 10 on Matthias comment on gc() that I will change to always writing new packs. This of course implies to write into temp files. Will come in a subsequent pachtset.",
       "parentUuid": "AABOF3///rk\u003d",
+      "revId": "df01f3ee42c3cf9b9a257d57cfbc6c780e1ce450",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOGX///1M\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-03-06T23:57:26Z",
+      "side": 1,
+      "message": "Done. I write into temp files now.",
+      "parentUuid": "AABOF3///nc\u003d",
       "revId": "df01f3ee42c3cf9b9a257d57cfbc6c780e1ce450",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
