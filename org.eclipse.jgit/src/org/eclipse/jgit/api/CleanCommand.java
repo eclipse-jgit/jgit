@@ -66,6 +66,8 @@ public class CleanCommand extends GitCommand<Set<String>> {
 
 	private boolean dryRun;
 
+	private boolean directories;
+
 	/**
 	 * @param repo
 	 */
@@ -86,17 +88,47 @@ public class CleanCommand extends GitCommand<Set<String>> {
 		try {
 			StatusCommand command = new StatusCommand(repo);
 			Status status = command.call();
-			for (String file : status.getUntracked()) {
+
+			Set<String> filtered = filterUntrackedFolders(
+					status.getUntracked(),
+					status.getUntrackedFolders());
+
+			for (String file : filtered) {
 				if (paths.isEmpty() || paths.contains(file)) {
 					if (!dryRun)
 						FileUtils.delete(new File(repo.getWorkTree(), file));
 					files.add(file);
 				}
 			}
+			if (directories)
+				for (String dir : status.getUntrackedFolders())
+					if (paths.isEmpty() || paths.contains(dir)) {
+						if (!dryRun)
+							FileUtils.delete(new File(repo.getWorkTree(), dir),
+									FileUtils.RECURSIVE);
+						files.add(dir + "/");
+					}
 		} catch (IOException e) {
 			throw new JGitInternalException(e.getMessage(), e);
 		}
 		return files;
+	}
+
+	private Set<String> filterUntrackedFolders(Set<String> untracked,
+			Set<String> untrackedFolders) {
+		Set<String> filtered = new TreeSet<String>();
+
+		fileLoop: for (String file : untracked) {
+			for (String folder : untrackedFolders) {
+				if (file.startsWith(folder)) {
+					continue fileLoop;
+				}
+			}
+
+			filtered.add(file);
+		}
+
+		return filtered;
 	}
 
 	/**
@@ -113,13 +145,25 @@ public class CleanCommand extends GitCommand<Set<String>> {
 
 	/**
 	 * If dryRun is set, the paths in question will not actually be deleted.
-	 * 
+	 *
 	 * @param dryRun
 	 *            whether to do a dry run or not
 	 * @return {@code this}
 	 */
 	public CleanCommand setDryRun(boolean dryRun) {
 		this.dryRun = dryRun;
+		return this;
+	}
+
+	/**
+	 * If dirs is set, in addition to files, also clean directories.
+	 *
+	 * @param dirs
+	 *            whether to clean directories too, or only files.
+	 * @return {@code this}
+	 */
+	public CleanCommand setCleanDirectories(boolean dirs) {
+		directories = dirs;
 		return this;
 	}
 }
