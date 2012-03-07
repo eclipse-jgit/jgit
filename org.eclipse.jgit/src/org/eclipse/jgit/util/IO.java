@@ -137,7 +137,7 @@ public class IO {
 			throws FileNotFoundException, IOException {
 		final FileInputStream in = new FileInputStream(path);
 		try {
-			final long sz = in.getChannel().size();
+			final long sz = path.length();
 			if (sz > max)
 				throw new IOException(MessageFormat.format(
 						JGitText.get().fileIsTooLarge, path));
