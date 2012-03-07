@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOG3///3A\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/IO.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-03-07T15:30:41Z",
+      "side": 1,
+      "message": "See my comment in email, the problem here is the inode may have changed between the open and the length test, resulting in the buffer not being sized correctly.",
+      "revId": "515688954309be95b10b2cc6e142ab2634ccd840",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
