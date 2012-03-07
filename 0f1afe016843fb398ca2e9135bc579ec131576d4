@@ -53,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "AABOG3///4c\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MergeCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2012-03-07T13:58:10Z",
+      "side": 1,
+      "message": "Makes sense to me. What would that new status be: MERGED|SQUASHED or just SQUASHED?",
+      "parentUuid": "AABODn///2k\u003d",
+      "revId": "0f1afe016843fb398ca2e9135bc579ec131576d4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABODn///2s\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MergeCommand.java",
         "patchSetId": 1
