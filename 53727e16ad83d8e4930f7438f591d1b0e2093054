@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOG3///0g\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/GitSmartHttpTools.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-03-07T22:33:17Z",
+      "side": 1,
+      "message": "This assumption is problematic as it does not hold in ReceivePackServlet.doPost, which calls sendError in a catch block possibly after rp.receive() is called. It is *likely* that it\u0027s safe, since it\u0027s guarded by \"if (!rsp.isCommitted())\", and typcially  ReceivePack will flush some output (committing the response) as one of the first things it does. But I don\u0027t think it\u0027s good enough :(\n\nThis is going to require some more substantial hacking in ReceivePack/UploadPack to expose a) whether or not the capabilities have been read from the wire and b) if so, which capabilities are set. That\u0027s in addition to the case I\u0027ve already done where the ReceivePack/UploadPack doesn\u0027t even exist yet, sigh.",
+      "revId": "53727e16ad83d8e4930f7438f591d1b0e2093054",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
