@@ -649,6 +649,23 @@ public class ReceivePack {
 		maxObjectSizeLimit = limit;
 	}
 
+	/**
+	 * Check whether the client expects a side-band stream.
+	 *
+	 * @return true if the client has advertised a side-band capability, false
+	 *     otherwise.
+	 * @throws RequestNotYetReadException
+	 *             if the client's request has not yet been read from the wire, so
+	 *             we do not know if they expect side-band. Note that the client
+	 *             may have already written the request, it just has not been
+	 *             read.
+	 */
+	public boolean isSideBand() throws RequestNotYetReadException {
+		if (enabledCapabilities == null)
+			throw new RequestNotYetReadException();
+		return enabledCapabilities.contains(CAPABILITY_SIDE_BAND_64K);
+	}
+
 	/** @return all of the command received by the current request. */
 	public List<ReceiveCommand> getAllCommands() {
 		return Collections.unmodifiableList(commands);

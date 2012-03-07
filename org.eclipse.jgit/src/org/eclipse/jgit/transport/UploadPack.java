@@ -465,6 +465,24 @@ public class UploadPack {
 	}
 
 	/**
+	 * Check whether the client expects a side-band stream.
+	 *
+	 * @return true if the client has advertised a side-band capability, false
+	 *     otherwise.
+	 * @throws RequestNotYetReadException
+	 *             if the client's request has not yet been read from the wire, so
+	 *             we do not know if they expect side-band. Note that the client
+	 *             may have already written the request, it just has not been
+	 *             read.
+	 */
+	public boolean isSideBand() throws RequestNotYetReadException {
+		if (options == null)
+			throw new RequestNotYetReadException();
+		return (options.contains(OPTION_SIDE_BAND)
+				|| options.contains(OPTION_SIDE_BAND_64K));
+	}
+
+	/**
 	 * Execute the upload task on the socket.
 	 *
 	 * @param input
