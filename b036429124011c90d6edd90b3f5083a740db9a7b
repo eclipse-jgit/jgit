@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOG3///3s\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/storage/file/GCTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2012-03-07T14:43:57Z",
+      "side": 1,
+      "message": "This test fails!",
+      "revId": "b036429124011c90d6edd90b3f5083a740db9a7b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOG3///3o\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/storage/file/GCTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2012-03-07T14:43:57Z",
+      "side": 1,
+      "message": "This test fails!",
+      "revId": "b036429124011c90d6edd90b3f5083a740db9a7b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOG3///3k\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/storage/file/GCTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2012-03-07T14:43:57Z",
+      "side": 1,
+      "message": "This test fails!",
+      "revId": "b036429124011c90d6edd90b3f5083a740db9a7b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
