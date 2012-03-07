@@ -16,6 +16,24 @@
       "revId": "53727e16ad83d8e4930f7438f591d1b0e2093054",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOG3///0Q\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/GitSmartHttpTools.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-03-07T23:06:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOG3///0g\u003d",
+      "revId": "53727e16ad83d8e4930f7438f591d1b0e2093054",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
