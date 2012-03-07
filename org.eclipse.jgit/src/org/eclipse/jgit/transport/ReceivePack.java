@@ -98,6 +98,39 @@ import org.eclipse.jgit.util.io.TimeoutOutputStream;
  * Implements the server side of a push connection, receiving objects.
  */
 public class ReceivePack {
+	/** Data in the first line of a request, the line itself plus capabilities. */
+	public static class FirstLine {
+		private final String line;
+		private final Set<String> capabilities;
+
+		/**
+		 * Parse the first line of a receive-pack request.
+		 *
+		 * @param line
+		 *            line from the client.
+		 */
+		public FirstLine(String line) {
+			final HashSet<String> caps = new HashSet<String>();
+			final int nul = line.indexOf('\0');
+			if (nul >= 0) {
+				for (String c : line.substring(nul + 1).split(" "))
+					caps.add(c);
+			}
+			this.line = line.substring(0, nul);
+			this.capabilities = Collections.unmodifiableSet(caps);
+		}
+
+		/** @return non-capabilities part of the line. */
+		public String getLine() {
+			return line;
+		}
+
+		/** @return capabilities parsed from the line. */
+		public Set<String> getCapabilities() {
+			return capabilities;
+		}
+	}
+
 	/** Database we write the stored objects into. */
 	private final Repository db;
 
@@ -713,7 +746,6 @@ public class ReceivePack {
 			pckOut = new PacketLineOut(rawOut);
 			pckOut.setFlushOnEnd(false);
 
-			enabledCapabilities = new HashSet<String>();
 			commands = new ArrayList<ReceiveCommand>();
 
 			service();
@@ -891,12 +923,9 @@ public class ReceivePack {
 				break;
 
 			if (commands.isEmpty()) {
-				final int nul = line.indexOf('\0');
-				if (nul >= 0) {
-					for (String c : line.substring(nul + 1).split(" "))
-						enabledCapabilities.add(c);
-					line = line.substring(0, nul);
-				}
+				final FirstLine firstLine = new FirstLine(line);
+				enabledCapabilities = firstLine.getCapabilities();
+				line = firstLine.getLine();
 			}
 
 			if (line.length() < 83) {
