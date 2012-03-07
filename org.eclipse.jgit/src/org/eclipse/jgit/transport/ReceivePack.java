@@ -175,7 +175,7 @@ public class ReceivePack {
 	private Set<ObjectId> advertisedHaves;
 
 	/** Capabilities requested by the client. */
-	private Set<String> enabledCapablities;
+	private Set<String> enabledCapabilities;
 
 	/** Commands to execute, as received by the client. */
 	private List<ReceiveCommand> commands;
@@ -713,7 +713,7 @@ public class ReceivePack {
 			pckOut = new PacketLineOut(rawOut);
 			pckOut.setFlushOnEnd(false);
 
-			enabledCapablities = new HashSet<String>();
+			enabledCapabilities = new HashSet<String>();
 			commands = new ArrayList<ReceiveCommand>();
 
 			service();
@@ -753,7 +753,7 @@ public class ReceivePack {
 				pckIn = null;
 				pckOut = null;
 				refs = null;
-				enabledCapablities = null;
+				enabledCapabilities = null;
 				commands = null;
 				if (timer != null) {
 					try {
@@ -894,7 +894,7 @@ public class ReceivePack {
 				final int nul = line.indexOf('\0');
 				if (nul >= 0) {
 					for (String c : line.substring(nul + 1).split(" "))
-						enabledCapablities.add(c);
+						enabledCapabilities.add(c);
 					line = line.substring(0, nul);
 				}
 			}
@@ -919,9 +919,9 @@ public class ReceivePack {
 	}
 
 	private void enableCapabilities() {
-		reportStatus = enabledCapablities.contains(CAPABILITY_REPORT_STATUS);
+		reportStatus = enabledCapabilities.contains(CAPABILITY_REPORT_STATUS);
 
-		sideBand = enabledCapablities.contains(CAPABILITY_SIDE_BAND_64K);
+		sideBand = enabledCapabilities.contains(CAPABILITY_SIDE_BAND_64K);
 		if (sideBand) {
 			OutputStream out = rawOut;
 
