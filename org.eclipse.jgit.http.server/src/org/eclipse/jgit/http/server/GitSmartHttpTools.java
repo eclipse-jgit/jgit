@@ -43,6 +43,11 @@
 
 package org.eclipse.jgit.http.server;
 
+import static org.eclipse.jgit.transport.BasePackFetchConnection.OPTION_SIDE_BAND;
+import static org.eclipse.jgit.transport.BasePackFetchConnection.OPTION_SIDE_BAND_64K;
+import static org.eclipse.jgit.transport.BasePackPushConnection.CAPABILITY_SIDE_BAND_64K;
+import static org.eclipse.jgit.transport.SideBandOutputStream.CH_ERROR;
+import static org.eclipse.jgit.transport.SideBandOutputStream.SMALL_BUF;
 import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
 import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
@@ -58,7 +63,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.transport.PacketLineIn;
 import org.eclipse.jgit.transport.PacketLineOut;
+import org.eclipse.jgit.transport.ReceivePack;
+import org.eclipse.jgit.transport.SideBandOutputStream;
+import org.eclipse.jgit.transport.UploadPack;
 
 /**
  * Utility functions for handling the Git-over-HTTP protocol.
@@ -141,6 +150,11 @@ public class GitSmartHttpTools {
 	 * to a Git protocol client using an HTTP 200 OK response with the error
 	 * embedded in the payload. If the request was not issued by a Git client,
 	 * an HTTP response code is returned instead.
+	 * <p>
+	 * This method may only be called before handing off the request to
+	 * {@link UploadPack#upload(java.io.InputStream, OutputStream, OutputStream)}
+	 * or
+	 * {@link ReceivePack#receive(java.io.InputStream, OutputStream, OutputStream)}.
 	 *
 	 * @param req
 	 *            current request.
@@ -176,26 +190,95 @@ public class GitSmartHttpTools {
 			}
 		}
 
-		ByteArrayOutputStream buf = new ByteArrayOutputStream(128);
-		PacketLineOut pck = new PacketLineOut(buf);
-
 		if (isInfoRefs(req)) {
-			String svc = req.getParameter("service");
-			pck.writeString("# service=" + svc + "\n");
-			pck.end();
-			pck.writeString("ERR " + textForGit);
-			send(req, res, infoRefsResultType(svc), buf.toByteArray());
+			sendInfoRefsError(req, res, textForGit);
 		} else if (isUploadPack(req)) {
-			pck.writeString("ERR " + textForGit);
-			send(req, res, UPLOAD_PACK_RESULT_TYPE, buf.toByteArray());
+			sendUploadPackError(req, res, textForGit);
 		} else if (isReceivePack(req)) {
-			pck.writeString("ERR " + textForGit);
-			send(req, res, RECEIVE_PACK_RESULT_TYPE, buf.toByteArray());
+			sendReceivePackError(req, res, textForGit);
 		} else {
 			if (httpStatus < 400)
 				ServletUtils.consumeRequestBody(req);
 			res.sendError(httpStatus);
 		}
+	}
+
+	private static void sendInfoRefsError(HttpServletRequest req,
+			HttpServletResponse res, String textForGit) throws IOException {
+		ByteArrayOutputStream buf = new ByteArrayOutputStream(128);
+		PacketLineOut pck = new PacketLineOut(buf);
+		String svc = req.getParameter("service");
+		pck.writeString("# service=" + svc + "\n");
+		pck.end();
+		pck.writeString("ERR " + textForGit);
+		send(req, res, infoRefsResultType(svc), buf.toByteArray());
+	}
+
+	private static void sendUploadPackError(HttpServletRequest req,
+			HttpServletResponse res, String textForGit) throws IOException {
+		ByteArrayOutputStream buf = new ByteArrayOutputStream(128);
+		PacketLineOut pckOut = new PacketLineOut(buf);
+
+		boolean sideband;
+		try {
+			// The client may be in a state where they have sent the sideband
+			// capability and are expecting a response in the sideband, but if no
+			// UploadPack was created, we haven't read any of the request yet. Cheat
+			// and read the first line.
+			String line = new PacketLineIn(req.getInputStream()).readStringRaw();
+			UploadPack.FirstLine parsed = new UploadPack.FirstLine(line);
+			sideband = (parsed.getOptions().contains(OPTION_SIDE_BAND)
+					|| parsed.getOptions().contains(OPTION_SIDE_BAND_64K));
+		} catch (IOException e) {
+			// Probably the connection is closed and the write below will fail, but
+			// try it just in case.
+			sideband = false;
+		}
+
+		if (sideband)
+			writeSideBand(buf, textForGit);
+		else
+			writePacket(pckOut, textForGit);
+		send(req, res, UPLOAD_PACK_RESULT_TYPE, buf.toByteArray());
+	}
+
+	private static void sendReceivePackError(HttpServletRequest req,
+			HttpServletResponse res, String textForGit) throws IOException {
+		ByteArrayOutputStream buf = new ByteArrayOutputStream(128);
+		PacketLineOut pckOut = new PacketLineOut(buf);
+
+		boolean sideband;
+		try {
+			// The client may be in a state where they have sent the sideband
+			// capability and are expecting a response in the sideband, but if no
+			// ReceivePack was created, we haven't read any of the request yet. Cheat
+			// and read the first line.
+			String line = new PacketLineIn(req.getInputStream()).readStringRaw();
+			ReceivePack.FirstLine parsed = new ReceivePack.FirstLine(line);
+			sideband = parsed.getCapabilities().contains(CAPABILITY_SIDE_BAND_64K);
+		} catch (IOException e) {
+			// Probably the connection is closed and the write below will fail, but
+			// try it just in case.
+			sideband = false;
+		}
+
+		if (sideband)
+			writeSideBand(buf, textForGit);
+		else
+			writePacket(pckOut, textForGit);
+		send(req, res, RECEIVE_PACK_RESULT_TYPE, buf.toByteArray());
+	}
+
+	private static void writeSideBand(OutputStream out, String textForGit)
+			throws IOException {
+		OutputStream msg = new SideBandOutputStream(CH_ERROR, SMALL_BUF, out);
+		msg.write(Constants.encode("error: " + textForGit));
+		msg.flush();
+	}
+
+	private static void writePacket(PacketLineOut pckOut, String textForGit)
+			throws IOException {
+		pckOut.writeString("error: " + textForGit);
 	}
 
 	private static void send(HttpServletRequest req, HttpServletResponse res,
