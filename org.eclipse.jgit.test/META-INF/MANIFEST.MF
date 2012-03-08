@@ -46,4 +46,3 @@ Import-Package: org.eclipse.jgit;version="[2.0.0,2.1.0)",
 Require-Bundle: com.jcraft.jsch;bundle-version="[0.1.37,0.2.0)",
  org.hamcrest.core;bundle-version="[1.1.0,2.0.0)"
 Export-Package: org.eclipse.jgit.lib
- 
