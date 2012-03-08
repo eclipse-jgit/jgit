@@ -245,7 +245,7 @@ public class GitSmartHttpTools {
 			// capability and are expecting a response in the sideband, but we might
 			// not have an UploadPack, or it might not have read any of the request.
 			// So, cheat and read the first line.
-			String line = new PacketLineIn(req.getInputStream()).readStringRaw();
+			String line = new PacketLineIn(req.getInputStream()).readString();
 			UploadPack.FirstLine parsed = new UploadPack.FirstLine(line);
 			return (parsed.getOptions().contains(OPTION_SIDE_BAND)
 					|| parsed.getOptions().contains(OPTION_SIDE_BAND_64K));
@@ -285,7 +285,7 @@ public class GitSmartHttpTools {
 			// capability and are expecting a response in the sideband, but we might
 			// not have a ReceivePack, or it might not have read any of the request.
 			// So, cheat and read the first line.
-			String line = new PacketLineIn(req.getInputStream()).readStringRaw();
+			String line = new PacketLineIn(req.getInputStream()).readString();
 			ReceivePack.FirstLine parsed = new ReceivePack.FirstLine(line);
 			return parsed.getCapabilities().contains(CAPABILITY_SIDE_BAND_64K);
 		} catch (IOException e) {
