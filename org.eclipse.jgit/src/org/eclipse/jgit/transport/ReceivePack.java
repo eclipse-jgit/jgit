@@ -98,6 +98,39 @@ import org.eclipse.jgit.util.io.TimeoutOutputStream;
  * Implements the server side of a push connection, receiving objects.
  */
 public class ReceivePack {
+	/** Data in the first line of a request, the line itself plus capabilities. */
+	public static class FirstLine {
+		private final String line;
+		private final Set<String> capabilities;
+
+		/**
+		 * Parse the first line of a receive-pack request.
+		 *
+		 * @param line
+		 *            line from the client.
+		 */
+		public FirstLine(String line) {
+			final HashSet<String> caps = new HashSet<String>();
+			final int nul = line.indexOf('\0');
+			if (nul >= 0) {
+				for (String c : line.substring(nul + 1).split(" "))
+					caps.add(c);
+			}
+			this.line = line.substring(0, nul);
+			this.capabilities = Collections.unmodifiableSet(caps);
+		}
+
+		/** @return non-capabilities part of the line. */
+		public String getLine() {
+			return line;
+		}
+
+		/** @return capabilities parsed from the line. */
+		public Set<String> getCapabilities() {
+			return capabilities;
+		}
+	}
+
 	/** Database we write the stored objects into. */
 	private final Repository db;
 
@@ -175,7 +208,7 @@ public class ReceivePack {
 	private Set<ObjectId> advertisedHaves;
 
 	/** Capabilities requested by the client. */
-	private Set<String> enabledCapablities;
+	private Set<String> enabledCapabilities;
 
 	/** Commands to execute, as received by the client. */
 	private List<ReceiveCommand> commands;
@@ -616,6 +649,23 @@ public class ReceivePack {
 		maxObjectSizeLimit = limit;
 	}
 
+	/**
+	 * Check whether the client expects a side-band stream.
+	 *
+	 * @return true if the client has advertised a side-band capability, false
+	 *     otherwise.
+	 * @throws RequestNotYetReadException
+	 *             if the client's request has not yet been read from the wire, so
+	 *             we do not know if they expect side-band. Note that the client
+	 *             may have already written the request, it just has not been
+	 *             read.
+	 */
+	public boolean isSideBand() throws RequestNotYetReadException {
+		if (enabledCapabilities == null)
+			throw new RequestNotYetReadException();
+		return enabledCapabilities.contains(CAPABILITY_SIDE_BAND_64K);
+	}
+
 	/** @return all of the command received by the current request. */
 	public List<ReceiveCommand> getAllCommands() {
 		return Collections.unmodifiableList(commands);
@@ -713,7 +763,6 @@ public class ReceivePack {
 			pckOut = new PacketLineOut(rawOut);
 			pckOut.setFlushOnEnd(false);
 
-			enabledCapablities = new HashSet<String>();
 			commands = new ArrayList<ReceiveCommand>();
 
 			service();
@@ -753,7 +802,7 @@ public class ReceivePack {
 				pckIn = null;
 				pckOut = null;
 				refs = null;
-				enabledCapablities = null;
+				enabledCapabilities = null;
 				commands = null;
 				if (timer != null) {
 					try {
@@ -891,12 +940,9 @@ public class ReceivePack {
 				break;
 
 			if (commands.isEmpty()) {
-				final int nul = line.indexOf('\0');
-				if (nul >= 0) {
-					for (String c : line.substring(nul + 1).split(" "))
-						enabledCapablities.add(c);
-					line = line.substring(0, nul);
-				}
+				final FirstLine firstLine = new FirstLine(line);
+				enabledCapabilities = firstLine.getCapabilities();
+				line = firstLine.getLine();
 			}
 
 			if (line.length() < 83) {
@@ -919,9 +965,9 @@ public class ReceivePack {
 	}
 
 	private void enableCapabilities() {
-		reportStatus = enabledCapablities.contains(CAPABILITY_REPORT_STATUS);
+		reportStatus = enabledCapabilities.contains(CAPABILITY_REPORT_STATUS);
 
-		sideBand = enabledCapablities.contains(CAPABILITY_SIDE_BAND_64K);
+		sideBand = enabledCapabilities.contains(CAPABILITY_SIDE_BAND_64K);
 		if (sideBand) {
 			OutputStream out = rawOut;
 

@@ -120,25 +120,35 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 	 */
 	protected static final int MIN_CLIENT_BUFFER = 2 * 32 * 46 + 8;
 
-	static final String OPTION_INCLUDE_TAG = "include-tag";
+	/** Include tags if we are also including the referenced objects. */
+	public static final String OPTION_INCLUDE_TAG = "include-tag";
 
-	static final String OPTION_MULTI_ACK = "multi_ack";
+	/** Mutli-ACK support for improved negotiation. */
+	public static final String OPTION_MULTI_ACK = "multi_ack";
 
-	static final String OPTION_MULTI_ACK_DETAILED = "multi_ack_detailed";
+	/** Mutli-ACK detailed support for improved negotiation. */
+	public static final String OPTION_MULTI_ACK_DETAILED = "multi_ack_detailed";
 
-	static final String OPTION_THIN_PACK = "thin-pack";
+	/** The client supports packs with deltas but not their bases. */
+	public static final String OPTION_THIN_PACK = "thin-pack";
 
-	static final String OPTION_SIDE_BAND = "side-band";
+	/** The client supports using the side-band for progress messages. */
+	public static final String OPTION_SIDE_BAND = "side-band";
 
-	static final String OPTION_SIDE_BAND_64K = "side-band-64k";
+	/** The client supports using the 64K side-band for progress messages. */
+	public static final String OPTION_SIDE_BAND_64K = "side-band-64k";
 
-	static final String OPTION_OFS_DELTA = "ofs-delta";
+	/** The client supports packs with OFS deltas. */
+	public static final String OPTION_OFS_DELTA = "ofs-delta";
 
-	static final String OPTION_SHALLOW = "shallow";
+	/** The client supports shallow fetches. */
+	public static final String OPTION_SHALLOW = "shallow";
 
-	static final String OPTION_NO_PROGRESS = "no-progress";
+	/** The client does not want progress messages and will ignore them. */
+	public static final String OPTION_NO_PROGRESS = "no-progress";
 
-	static final String OPTION_NO_DONE = "no-done";
+	/** The client supports receiving a pack before it has sent "done". */
+	public static final String OPTION_NO_DONE = "no-done";
 
 	static enum MultiAck {
 		OFF, CONTINUE, DETAILED;

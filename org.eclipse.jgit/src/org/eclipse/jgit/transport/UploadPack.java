@@ -118,6 +118,44 @@ public class UploadPack {
 		ANY;
 	}
 
+	/** Data in the first line of a request, the line itself plus options. */
+	public static class FirstLine {
+		private final String line;
+		private final Set<String> options;
+
+		/**
+		 * Parse the first line of a receive-pack request.
+		 *
+		 * @param line
+		 *            line from the client.
+		 */
+		public FirstLine(String line) {
+			if (line.length() > 45) {
+				final HashSet<String> opts = new HashSet<String>();
+				String opt = line.substring(45);
+				if (opt.startsWith(" "))
+					opt = opt.substring(1);
+				for (String c : opt.split(" "))
+					opts.add(c);
+				this.line = line.substring(0, 45);
+				this.options = Collections.unmodifiableSet(opts);
+			} else {
+				this.line = line;
+				this.options = Collections.emptySet();
+			}
+		}
+
+		/** @return non-capabilities part of the line. */
+		public String getLine() {
+			return line;
+		}
+
+		/** @return options parsed from the line. */
+		public Set<String> getOptions() {
+			return options;
+		}
+	}
+
 	/** Database we read the objects from. */
 	private final Repository db;
 
@@ -167,7 +205,7 @@ public class UploadPack {
 	private PreUploadHook preUploadHook = PreUploadHook.NULL;
 
 	/** Capabilities requested by the client. */
-	private final Set<String> options = new HashSet<String>();
+	private Set<String> options;
 
 	/** Raw ObjectIds the client has asked for, before validating them. */
 	private final Set<ObjectId> wantIds = new HashSet<ObjectId>();
@@ -427,6 +465,24 @@ public class UploadPack {
 	}
 
 	/**
+	 * Check whether the client expects a side-band stream.
+	 *
+	 * @return true if the client has advertised a side-band capability, false
+	 *     otherwise.
+	 * @throws RequestNotYetReadException
+	 *             if the client's request has not yet been read from the wire, so
+	 *             we do not know if they expect side-band. Note that the client
+	 *             may have already written the request, it just has not been
+	 *             read.
+	 */
+	public boolean isSideBand() throws RequestNotYetReadException {
+		if (options == null)
+			throw new RequestNotYetReadException();
+		return (options.contains(OPTION_SIDE_BAND)
+				|| options.contains(OPTION_SIDE_BAND_64K));
+	}
+
+	/**
 	 * Execute the upload task on the socket.
 	 *
 	 * @param input
@@ -664,12 +720,9 @@ public class UploadPack {
 				throw new PackProtocolException(MessageFormat.format(JGitText.get().expectedGot, "want", line));
 
 			if (isFirst && line.length() > 45) {
-				String opt = line.substring(45);
-				if (opt.startsWith(" "))
-					opt = opt.substring(1);
-				for (String c : opt.split(" "))
-					options.add(c);
-				line = line.substring(0, 45);
+				final FirstLine firstLine = new FirstLine(line);
+				options = firstLine.getOptions();
+				line = firstLine.getLine();
 			}
 
 			wantIds.add(ObjectId.fromString(line.substring(5)));
