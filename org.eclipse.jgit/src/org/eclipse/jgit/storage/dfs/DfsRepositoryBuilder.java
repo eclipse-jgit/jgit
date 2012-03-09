@@ -120,7 +120,6 @@ public abstract class DfsRepositoryBuilder<B extends DfsRepositoryBuilder, R ext
 	 *             the repository could not be accessed to configure the rest of
 	 *             the builder's parameters.
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public abstract R build() throws IOException;
 

@@ -138,7 +138,6 @@ public class GitServlet extends MetaServlet {
 	 *            the factory to construct and configure an {@link UploadPack}
 	 *            session when a fetch or clone is requested by a client.
 	 */
-	@SuppressWarnings("unchecked")
 	public void setUploadPackFactory(UploadPackFactory<HttpServletRequest> f) {
 		gitFilter.setUploadPackFactory(f);
 	}
@@ -158,7 +157,6 @@ public class GitServlet extends MetaServlet {
 	 *            the factory to construct and configure a {@link ReceivePack}
 	 *            session when a push is requested by a client.
 	 */
-	@SuppressWarnings("unchecked")
 	public void setReceivePackFactory(ReceivePackFactory<HttpServletRequest> f) {
 		gitFilter.setReceivePackFactory(f);
 	}
