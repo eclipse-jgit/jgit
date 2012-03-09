@@ -402,7 +402,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	}
 
 	private InputStream filterClean(InputStream in) throws IOException {
-		return new EolCanonicalizingInputStream(in);
+		return new EolCanonicalizingInputStream(in, true);
 	}
 
 	/**
@@ -500,7 +500,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		InputStream rawis = current().openInputStream();
 		InputStream is;
 		if (getOptions().getAutoCRLF() != AutoCRLF.FALSE)
-			is = new EolCanonicalizingInputStream(rawis);
+			is = new EolCanonicalizingInputStream(rawis, true);
 		else
 			is = rawis;
 		return is;
