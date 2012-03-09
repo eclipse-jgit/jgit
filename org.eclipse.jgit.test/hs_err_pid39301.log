@@ -1,0 +1,168 @@
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  SIGSEGV (0xb) at pc=4318277998, pid=39301, tid=5938544640
+#
+# JRE version: 6.0-b20
+# Java VM: OpenJDK 64-Bit Server VM (17.0-b16 mixed mode bsd-amd64 )
+# Problematic frame:
+# V  [libjvm.dylib+0x63b16e]
+#
+# If you would like to submit a bug report, please visit:
+#   http://java.sun.com/webapps/bugreport/crash.jsp
+#
+
+---------------  T H R E A D  ---------------
+
+Current thread (4336941056):  JavaThread "JDWP Transport Listener: dt_socket" daemon [_thread_in_vm, id=1643577344, stack(5937496064,5938544640)]
+
+siginfo:si_signo=SIGSEGV: si_errno=0, si_code=1 (SEGV_MAPERR), si_addr=24
+
+Registers:
+RAX=0, RBX=24, RCX=0, RDX=24
+RSP=5938542720, RBP=5938542736, RSI=24, RDI=0
+R8 =0, R9 =11, R10=53, R11=4314955488
+R12=1, R13=4336941056, R14=4324340848, R15=5938543072
+RIP=4318277998, EFL=66118, ERR=4
+  TRAPNO=14
+
+Top of Stack: (sp=5938542720)
+5938542720:   0000000101c02920 000000010050f380
+5938542736:   0000000161f6f920 000000010131cd69
+5938542752:   0000000161f6f8e0 0000000000000000
+5938542768:   0000000000000001 0000000101c03858
+5938542784:   0000000101c03480 0000000102807800
+5938542800:   0000000102807800 0000000000000000
+5938542816:   0000000161f6f900 00000001000b95e9
+5938542832:   0000000161f6f920 0000000161f6f990
+5938542848:   00000001028079c8 00000001000ca5a0
+5938542864:   000000010050f380 0000000161f6f9e0
+5938542880:   0000000161f6f960 00000001000988c3
+5938542896:   0000000161f6f9e0 000000010050c660
+5938542912:   0000000161f6f9e0 0000000161f6f990
+5938542928:   0000000000000001 0000000161f6f9c0
+5938542944:   0000000161f6fba0 00000001000a0cbf
+5938542960:   0000079600000013 0000000101010a00
+5938542976:   000000010050f830 0000000000000000
+5938542992:   000000010050f838 000000000000000b
+5938543008:   0000079600000013 0000000101010a00
+5938543024:   000000010050f830 0000000101c08830
+5938543040:   0000079600000013 0000000101010a00
+5938543056:   000000010050f830 0000000161f6f9e0
+5938543072:   0000000161f6fa30 000000010000012c
+5938543088:   0000000161f6f9f8 00007fff00000000
+5938543104:   0000000161f6fa30 0000000000000000
+5938543120:   0000000000000000 0000079600000014
+5938543136:   0000000100007880 0000000161f6fa30
+5938543152:   0000000000000001 0000000100004254
+5938543168:   0000005400000000 000000a018510001
+5938543184:   0000003b00000000 0000010100420000
+5938543200:   0000110000000000 0000a8fd50000100
+5938543216:   0000dc0300000000 0001020042000000 
+
+Instructions: (pc=4318277998)
+4318277982:   0f 90 ff c7 41 ff c0 48 83 c6 02 45 39 e0 74 28
+4318277998:   0f b7 0e 8d 41 ff 66 83 f8 7e 76 e6 8d 57 02 8d 
+
+Stack: [5937496064,5938544640],  sp=5938542720,  free space=%ldk
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+V  [libjvm.dylib+0x63b16e]
+V  [libjvm.dylib+0x31cd69]
+C  [libjdwp.dylib+0x88c3]  value+0x93
+C  [libjdwp.dylib+0x10cbf]  debugLoop_run+0x29f
+C  [libjdwp.dylib+0x237ef]  attachThread+0x2f
+V  [libjvm.dylib+0x3fd4da]
+V  [libjvm.dylib+0x6112fd]
+V  [libjvm.dylib+0x501d4f]
+C  [libSystem.B.dylib+0x39fd6]  _pthread_start+0x14b
+C  [libSystem.B.dylib+0x39e89]  thread_start+0xd
+
+
+---------------  P R O C E S S  ---------------
+
+Java Threads: ( => current thread )
+  4328617984 JavaThread "ReaderThread" [_thread_in_native, id=1659973632, stack(5953892352,5954940928)]
+  4336959488 JavaThread "Low Memory Detector" daemon [_thread_blocked, id=1657851904, stack(5951770624,5952819200)]
+  4336957440 JavaThread "CompilerThread1" daemon [_thread_blocked, id=1656791040, stack(5950709760,5951758336)]
+  4303796224 JavaThread "CompilerThread0" daemon [_thread_blocked, id=1655730176, stack(5949648896,5950697472)]
+  4336947200 JavaThread "JDWP Command Reader" daemon [_thread_in_native, id=1654669312, stack(5948588032,5949636608)]
+  4336945152 JavaThread "JDWP Event Helper Thread" daemon [_thread_blocked, id=1653608448, stack(5947527168,5948575744)]
+=>4336941056 JavaThread "JDWP Transport Listener: dt_socket" daemon [_thread_in_vm, id=1643577344, stack(5937496064,5938544640)]
+  4303767552 JavaThread "Signal Dispatcher" daemon [_thread_blocked, id=1642516480, stack(5936435200,5937483776)]
+  4303679488 JavaThread "Finalizer" daemon [_thread_blocked, id=1641455616, stack(5935374336,5936422912)]
+  4303677440 JavaThread "Reference Handler" daemon [_thread_blocked, id=1640394752, stack(5934313472,5935362048)]
+  4303357952 JavaThread "main" [_thread_blocked, id=3149824, stack(4297068544,4298117120)]
+
+Other Threads:
+  4303667200 VMThread [stack: 5933252608,5934301184] [id=1639333888]
+  5939138560 WatcherThread [stack: 5952831488,5953880064] [id=1658912768]
+
+VM state:not at safepoint (normal execution)
+
+VM Mutex/Monitor currently owned by a thread: None
+
+Heap
+ PSYoungGen      total 25536K, used 11846K [5441454080, 5471338496, 5920260096)
+  eden space 21888K, 54% used [5441454080,5453584952,5463867392)
+  from space 3648K, 0% used [5467602944,5467602944,5471338496)
+  to   space 3648K, 0% used [5463867392,5463867392,5467602944)
+ PSOldGen        total 58432K, used 0K [4483710976, 4543545344, 5441454080)
+  object space 58432K, 0% used [4483710976,4483710976,4543545344)
+ PSPermGen       total 21248K, used 8132K [4395630592, 4417388544, 4483710976)
+  object space 21248K, 38% used [4395630592,4403958616,4417388544)
+
+Dynamic libraries:
+0 	/usr/lib/libSystem.B.dylib
+0 	/usr/lib/system/libmathCommon.A.dylib
+4311744512 	/opt/local/share/java/openjdk6/jre/lib/amd64/server/libjvm.dylib
+0 	/usr/lib/libstdc++.6.dylib
+4295282688 	/opt/local/share/java/openjdk6/jre/lib/amd64/libverify.dylib
+4295340032 	/opt/local/share/java/openjdk6/jre/lib/amd64/libjava.dylib
+4295507968 	/opt/local/share/java/openjdk6/jre/lib/amd64/native_threads/libhpi.dylib
+4295557120 	/opt/local/share/java/openjdk6/jre/lib/amd64/libjdwp.dylib
+4295835648 	/opt/local/share/java/openjdk6/jre/lib/amd64/libnpt.dylib
+4301258752 	/opt/local/lib/libiconv.2.dylib
+4295892992 	/opt/local/share/java/openjdk6/jre/lib/amd64/libzip.dylib
+4295979008 	/opt/local/share/java/openjdk6/jre/lib/amd64/libdt_socket.dylib
+4302725120 	/opt/local/share/java/openjdk6/jre/lib/amd64/libnet.dylib
+
+VM Arguments:
+jvm_args: -agentlib:jdwp=transport=dt_socket,suspend=y,address=localhost:55094 -Dfile.encoding=UTF-8 
+java_command: org.eclipse.jdt.internal.junit.runner.RemoteTestRunner -version 3 -port 55093 -testLoaderClass org.eclipse.jdt.internal.junit4.runner.JUnit4TestLoader -loaderpluginname org.eclipse.jdt.junit4.runtime -test org.eclipse.jgit.lib.RepositoryResolveTest:testParseLookupPath
+Launcher Type: SUN_STANDARD
+
+Environment Variables:
+PATH=/usr/bin:/bin:/usr/sbin:/sbin
+SHELL=/bin/bash
+DISPLAY=/tmp/launch-YbWP2R/org.x:0
+DYLD_FALLBACK_LIBRARY_PATH=/opt/local/share/java/openjdk6/jre/lib/amd64/server:/opt/local/share/java/openjdk6/jre/lib/amd64:/opt/local/share/java/openjdk6/jre/../lib/amd64
+
+Signal Handlers:
+SIGSEGV: [libjvm.dylib+0x65a980], sa_mask[0]=0xfffefeff, sa_flags=0x00000042
+SIGBUS: [libjvm.dylib+0x65a980], sa_mask[0]=0xfffefeff, sa_flags=0x00000042
+SIGFPE: [libjvm.dylib+0x4ffdf0], sa_mask[0]=0xfffefeff, sa_flags=0x00000042
+SIGPIPE: [libjvm.dylib+0x4ffdf0], sa_mask[0]=0xfffefeff, sa_flags=0x00000042
+SIGXFSZ: [libjvm.dylib+0x4ffdf0], sa_mask[0]=0xfffefeff, sa_flags=0x00000042
+SIGILL: [libjvm.dylib+0x4ffdf0], sa_mask[0]=0xfffefeff, sa_flags=0x00000042
+SIGUSR1: SIG_DFL, sa_mask[0]=0x00000000, sa_flags=0x00000002
+SIGUSR2: [libjvm.dylib+0x500850], sa_mask[0]=0x00000004, sa_flags=0x00000042
+SIGHUP: [libjvm.dylib+0x500d50], sa_mask[0]=0xfffefeff, sa_flags=0x00000042
+SIGINT: [libjvm.dylib+0x500d50], sa_mask[0]=0xfffefeff, sa_flags=0x00000042
+SIGTERM: [libjvm.dylib+0x500d50], sa_mask[0]=0xfffefeff, sa_flags=0x00000042
+SIGQUIT: [libjvm.dylib+0x500d50], sa_mask[0]=0xfffefeff, sa_flags=0x00000042
+
+
+---------------  S Y S T E M  ---------------
+
+OS:Bsd
+uname:Darwin 10.8.0 Darwin Kernel Version 10.8.0: Tue Jun  7 16:33:36 PDT 2011; root:xnu-1504.15.3~1/RELEASE_I386 i386
+rlimit: STACK 8192k, CORE 0k, NPROC 266, NOFILE 10240
+CPU:total 4 (8 cores per cpu, 2 threads per core) family 6 model 37 stepping 5, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, ht
+
+Memory: 4k page, physical 5604568k(1401142k free)
+
+vm_info: OpenJDK 64-Bit Server VM (17.0-b16) for bsd-amd64 JRE (1.6.0-b20), built on Nov 27 2011 10:04:52 by "macports" with gcc 4.2.1 (Apple Inc. build 5664)
+
+time: Sun Jan 15 20:45:14 2012
+elapsed time: 448 seconds
+
