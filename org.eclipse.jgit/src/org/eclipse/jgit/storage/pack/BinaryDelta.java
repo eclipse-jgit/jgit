@@ -44,7 +44,7 @@
 
 package org.eclipse.jgit.storage.pack;
 
-import org.eclipse.jgit.JGitText;
+import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.util.QuotedString;
 import org.eclipse.jgit.util.RawParseUtils;
 

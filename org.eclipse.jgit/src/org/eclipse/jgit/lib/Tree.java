@@ -48,11 +48,11 @@ package org.eclipse.jgit.lib;
 import java.io.IOException;
 import java.text.MessageFormat;
 
-import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.EntryExistsException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.ObjectWritingException;
+import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.util.RawParseUtils;
 
 /**

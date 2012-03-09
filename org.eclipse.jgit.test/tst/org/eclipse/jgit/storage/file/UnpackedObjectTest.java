@@ -60,9 +60,9 @@ import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.zip.DeflaterOutputStream;
 
-import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.LargeObjectException;
+import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
 import org.eclipse.jgit.junit.TestRng;

@@ -44,7 +44,7 @@
 
 package org.eclipse.jgit.errors;
 
-import org.eclipse.jgit.JGitText;
+import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.revwalk.RevWalk;
 
 /**

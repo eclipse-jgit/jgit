@@ -51,7 +51,7 @@ import java.security.DigestOutputStream;
 import java.text.MessageFormat;
 import java.util.List;
 
-import org.eclipse.jgit.JGitText;
+import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.transport.PackedObjectInfo;

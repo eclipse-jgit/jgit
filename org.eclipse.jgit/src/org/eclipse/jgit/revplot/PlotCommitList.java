@@ -50,7 +50,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.TreeSet;
 
-import org.eclipse.jgit.JGitText;
+import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.revwalk.RevCommitList;
 import org.eclipse.jgit.revwalk.RevWalk;
 

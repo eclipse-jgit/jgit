@@ -45,7 +45,7 @@ package org.eclipse.jgit.errors;
 
 import java.io.IOException;
 
-import org.eclipse.jgit.JGitText;
+import org.eclipse.jgit.internal.JGitText;
 
 /** Indicates a ReceivePack failure while scanning the pack stream. */
 public class UnpackException extends IOException {

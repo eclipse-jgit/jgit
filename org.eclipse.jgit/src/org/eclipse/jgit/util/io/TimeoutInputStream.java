@@ -49,7 +49,7 @@ import java.io.InputStream;
 import java.io.InterruptedIOException;
 import java.text.MessageFormat;
 
-import org.eclipse.jgit.JGitText;
+import org.eclipse.jgit.internal.JGitText;
 
 /** InputStream with a configurable timeout. */
 public class TimeoutInputStream extends FilterInputStream {

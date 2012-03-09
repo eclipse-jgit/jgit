@@ -43,7 +43,7 @@
 
 package org.eclipse.jgit.transport.resolver;
 
-import org.eclipse.jgit.JGitText;
+import org.eclipse.jgit.internal.JGitText;
 
 /** Indicates the request service is not authorized for current user. */
 public class ServiceNotAuthorizedException extends Exception {

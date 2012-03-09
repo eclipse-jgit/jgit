@@ -48,8 +48,8 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
 
-import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.StopWalkException;
+import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.treewalk.TreeWalk;
 
 /**

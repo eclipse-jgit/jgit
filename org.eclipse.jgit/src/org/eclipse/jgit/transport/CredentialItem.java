@@ -45,7 +45,7 @@ package org.eclipse.jgit.transport;
 
 import java.util.Arrays;
 
-import org.eclipse.jgit.JGitText;
+import org.eclipse.jgit.internal.JGitText;
 
 /**
  * A credential requested from a {@link CredentialsProvider}.

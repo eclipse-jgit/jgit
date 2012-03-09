@@ -45,7 +45,7 @@ package org.eclipse.jgit.revwalk.filter;
 
 import java.util.regex.Pattern;
 
-import org.eclipse.jgit.JGitText;
+import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.util.RawCharSequence;
 import org.eclipse.jgit.util.RawParseUtils;

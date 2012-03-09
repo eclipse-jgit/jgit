@@ -48,7 +48,7 @@ package org.eclipse.jgit.errors;
 import java.io.UnsupportedEncodingException;
 import java.text.MessageFormat;
 
-import org.eclipse.jgit.JGitText;
+import org.eclipse.jgit.internal.JGitText;
 
 /**
  * Thrown when an invalid object id is passed in as an argument.

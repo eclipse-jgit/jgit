@@ -45,7 +45,7 @@ package org.eclipse.jgit.api.errors;
 import java.text.MessageFormat;
 import java.util.List;
 
-import org.eclipse.jgit.JGitText;
+import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.patch.FormatError;
 
 /**

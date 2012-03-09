@@ -47,7 +47,7 @@ package org.eclipse.jgit.storage.file;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import org.eclipse.jgit.JGitText;
+import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.transport.PackedObjectInfo;
 import org.eclipse.jgit.util.NB;
 

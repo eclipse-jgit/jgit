@@ -60,12 +60,12 @@ import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.Comparator;
 
-import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.LockFailedException;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.UnmergedPathException;
 import org.eclipse.jgit.events.IndexChangedEvent;
 import org.eclipse.jgit.events.IndexChangedListener;
+import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;

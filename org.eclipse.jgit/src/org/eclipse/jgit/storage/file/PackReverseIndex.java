@@ -46,8 +46,8 @@ package org.eclipse.jgit.storage.file;
 import java.text.MessageFormat;
 import java.util.Arrays;
 
-import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.CorruptObjectException;
+import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.storage.file.PackIndex.MutableEntry;
 

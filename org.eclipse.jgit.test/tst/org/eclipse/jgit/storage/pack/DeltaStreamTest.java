@@ -54,8 +54,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
 
-import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.CorruptObjectException;
+import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.junit.TestRng;
 import org.eclipse.jgit.lib.Constants;

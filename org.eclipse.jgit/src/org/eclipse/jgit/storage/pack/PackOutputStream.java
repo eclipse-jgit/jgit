@@ -49,7 +49,7 @@ import java.io.OutputStream;
 import java.security.MessageDigest;
 import java.util.zip.CRC32;
 
-import org.eclipse.jgit.JGitText;
+import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.util.NB;

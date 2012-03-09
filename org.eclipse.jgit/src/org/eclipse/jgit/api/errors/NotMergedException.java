@@ -37,7 +37,7 @@
  */
 package org.eclipse.jgit.api.errors;
 
-import org.eclipse.jgit.JGitText;
+import org.eclipse.jgit.internal.JGitText;
 
 /**
  * Thrown when branch deletion fails due to unmerged data
