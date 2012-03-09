@@ -45,7 +45,7 @@ package org.eclipse.jgit.revwalk;
 
 import java.text.MessageFormat;
 
-import org.eclipse.jgit.JGitText;
+import org.eclipse.jgit.internal.JGitText;
 
 /**
  * Application level mark bit for {@link RevObject}s.

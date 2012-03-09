@@ -46,8 +46,8 @@ package org.eclipse.jgit.errors;
 import java.io.IOException;
 import java.text.MessageFormat;
 
-import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.dircache.DirCacheEntry;
+import org.eclipse.jgit.internal.JGitText;
 
 /**
  * Indicates one or more paths in a DirCache have non-zero stages present.

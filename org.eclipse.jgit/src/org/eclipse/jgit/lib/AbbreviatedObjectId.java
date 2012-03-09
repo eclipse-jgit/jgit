@@ -46,8 +46,8 @@ package org.eclipse.jgit.lib;
 import java.io.Serializable;
 import java.text.MessageFormat;
 
-import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.InvalidObjectIdException;
+import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.util.NB;
 import org.eclipse.jgit.util.RawParseUtils;
 

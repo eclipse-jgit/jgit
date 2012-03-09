@@ -46,7 +46,7 @@ package org.eclipse.jgit.notes;
 import java.io.IOException;
 import java.text.MessageFormat;
 
-import org.eclipse.jgit.JGitText;
+import org.eclipse.jgit.internal.JGitText;
 
 /**
  * This exception will be thrown from the {@link NoteMerger} when a conflict on

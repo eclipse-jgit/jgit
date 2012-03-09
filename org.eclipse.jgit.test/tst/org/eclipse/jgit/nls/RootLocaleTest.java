@@ -43,10 +43,10 @@
 
 package org.eclipse.jgit.nls;
 
-import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.awtui.UIText;
 import org.eclipse.jgit.console.ConsoleText;
 import org.eclipse.jgit.http.server.HttpServerText;
+import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.iplog.IpLogText;
 import org.eclipse.jgit.pgm.CLIText;
 import org.junit.Before;

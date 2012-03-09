@@ -45,7 +45,7 @@ package org.eclipse.jgit.util;
 import java.text.MessageFormat;
 import java.util.Date;
 
-import org.eclipse.jgit.JGitText;
+import org.eclipse.jgit.internal.JGitText;
 
 /**
  * Formatter to format timestamps relative to the current time using time units

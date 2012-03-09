@@ -46,7 +46,7 @@ package org.eclipse.jgit.errors;
 import java.io.File;
 import java.text.MessageFormat;
 
-import org.eclipse.jgit.JGitText;
+import org.eclipse.jgit.internal.JGitText;
 
 /** Indicates a local repository does not exist. */
 public class RepositoryNotFoundException extends TransportException {

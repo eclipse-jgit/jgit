@@ -46,9 +46,9 @@ package org.eclipse.jgit.revwalk;
 import java.io.IOException;
 import java.text.MessageFormat;
 
-import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.internal.JGitText;
 
 /**
  * Computes the merge base(s) of the starting commits.

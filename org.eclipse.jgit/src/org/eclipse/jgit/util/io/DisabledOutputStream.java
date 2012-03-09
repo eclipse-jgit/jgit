@@ -46,7 +46,7 @@ package org.eclipse.jgit.util.io;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import org.eclipse.jgit.JGitText;
+import org.eclipse.jgit.internal.JGitText;
 
 /** An OutputStream which always throws IllegalStateExeption during write. */
 public final class DisabledOutputStream extends OutputStream {
