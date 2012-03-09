@@ -49,11 +49,11 @@ import java.net.URISyntaxException;
 
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryTestCase;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevTag;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteConfig;
 import org.eclipse.jgit.transport.URIish;
@@ -79,7 +79,7 @@ public class FetchCommandTest extends RepositoryTestCase {
 
 		// create some refs via commits and tag
 		RevCommit commit = git2.commit().setMessage("initial commit").call();
-		RevTag tag = git2.tag().setName("tag").call();
+		Ref tagRef = git2.tag().setName("tag").call();
 
 		Git git1 = new Git(db);
 
@@ -89,7 +89,8 @@ public class FetchCommandTest extends RepositoryTestCase {
 
 		assertEquals(commit.getId(),
 				db.resolve(commit.getId().getName() + "^{commit}"));
-		assertEquals(tag.getId(), db.resolve(tag.getId().getName()));
+		assertEquals(tagRef.getObjectId(),
+				db.resolve(tagRef.getObjectId().getName()));
 
 	}
 
