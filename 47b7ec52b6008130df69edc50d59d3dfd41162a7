@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOG3///uU\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2012-03-09T12:38:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOG3///u0\u003d",
+      "revId": "47b7ec52b6008130df69edc50d59d3dfd41162a7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOG3///u4\u003d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2012-03-09T12:25:44Z",
       "side": 1,
       "message": "s/Bug-Id:/Bug:/",
+      "revId": "47b7ec52b6008130df69edc50d59d3dfd41162a7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOG3///uE\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2012-03-09T12:38:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOG3///u4\u003d",
       "revId": "47b7ec52b6008130df69edc50d59d3dfd41162a7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
