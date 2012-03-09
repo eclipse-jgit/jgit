@@ -38,7 +38,7 @@
  */
 package org.eclipse.jgit.api.errors;
 
-import org.eclipse.jgit.JGitText;
+import org.eclipse.jgit.internal.JGitText;
 
 /**
  * Exception thrown when a command expected a non-detached {@code HEAD}

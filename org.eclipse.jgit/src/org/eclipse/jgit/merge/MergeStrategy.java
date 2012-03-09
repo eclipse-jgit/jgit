@@ -47,7 +47,7 @@ package org.eclipse.jgit.merge;
 import java.text.MessageFormat;
 import java.util.HashMap;
 
-import org.eclipse.jgit.JGitText;
+import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Repository;
 
 /**

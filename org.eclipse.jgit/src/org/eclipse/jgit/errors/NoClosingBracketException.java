@@ -48,7 +48,7 @@ package org.eclipse.jgit.errors;
 
 import java.text.MessageFormat;
 
-import org.eclipse.jgit.JGitText;
+import org.eclipse.jgit.internal.JGitText;
 
 /**
  * Thrown when a pattern contains a character group which is open to the right

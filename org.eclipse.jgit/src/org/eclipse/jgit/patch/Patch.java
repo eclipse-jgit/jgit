@@ -55,7 +55,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.jgit.JGitText;
+import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.util.TemporaryBuffer;
 
 /** A parsed collection of {@link FileHeader}s from a unified diff patch file */

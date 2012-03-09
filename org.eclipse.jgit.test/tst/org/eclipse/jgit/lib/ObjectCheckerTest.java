@@ -49,8 +49,8 @@ import static org.junit.Assert.fail;
 
 import java.text.MessageFormat;
 
-import org.eclipse.jgit.JGitText;
 import org.eclipse.jgit.errors.CorruptObjectException;
+import org.eclipse.jgit.internal.JGitText;
 import org.junit.Before;
 import org.junit.Test;
 

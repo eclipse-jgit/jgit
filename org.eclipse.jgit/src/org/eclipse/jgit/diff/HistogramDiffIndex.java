@@ -43,7 +43,7 @@
 
 package org.eclipse.jgit.diff;
 
-import org.eclipse.jgit.JGitText;
+import org.eclipse.jgit.internal.JGitText;
 
 /**
  * Support {@link HistogramDiff} by computing occurrence counts of elements.
