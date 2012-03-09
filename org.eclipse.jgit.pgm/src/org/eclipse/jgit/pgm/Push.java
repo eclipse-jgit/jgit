@@ -89,7 +89,7 @@ class Push extends TextBuiltin {
 	private boolean thin = Transport.DEFAULT_PUSH_THIN;
 
 	@Option(name = "--no-thin")
-	void nothin(final boolean ignored) {
+	void nothin(@SuppressWarnings("unused") final boolean ignored) {
 		thin = false;
 	}
 
