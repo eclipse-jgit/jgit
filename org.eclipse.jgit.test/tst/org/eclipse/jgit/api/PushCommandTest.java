@@ -52,12 +52,12 @@ import java.net.URISyntaxException;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryTestCase;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevTag;
 import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteConfig;
@@ -85,7 +85,7 @@ public class PushCommandTest extends RepositoryTestCase {
 		Git git1 = new Git(db);
 		// create some refs via commits and tag
 		RevCommit commit = git1.commit().setMessage("initial commit").call();
-		RevTag tag = git1.tag().setName("tag").call();
+		Ref tagRef = git1.tag().setName("tag").call();
 
 		try {
 			db2.resolve(commit.getId().getName() + "^{commit}");
@@ -100,7 +100,8 @@ public class PushCommandTest extends RepositoryTestCase {
 
 		assertEquals(commit.getId(),
 				db2.resolve(commit.getId().getName() + "^{commit}"));
-		assertEquals(tag.getId(), db2.resolve(tag.getId().getName()));
+		assertEquals(tagRef.getObjectId(),
+				db2.resolve(tagRef.getObjectId().getName()));
 	}
 
 	@Test
