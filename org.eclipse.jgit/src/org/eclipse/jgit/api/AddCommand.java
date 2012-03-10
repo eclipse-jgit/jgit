@@ -203,9 +203,10 @@ public class AddCommand extends GitCommand<DirCache> {
 								builder.add(c.getDirCacheEntry());
 							}
 
-						} else if (!update){
+						} else if (c != null
+								&& (!update || FileMode.GITLINK == c
+										.getEntryFileMode()))
 							builder.add(c.getDirCacheEntry());
-						}
 					}
 				}
 			}
