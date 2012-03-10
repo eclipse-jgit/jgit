@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOG3///pA\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-03-10T12:06:56Z",
+      "side": 1,
+      "message": "Start sentences with upper case.\n\ns/site/size/",
+      "revId": "d24b65f57e8629c9b967ebaede45d4361bfc9ca1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
