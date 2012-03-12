@@ -370,9 +370,8 @@ public class T0003_BasicTest extends SampleDataRepositoryTestCase {
 		try {
 			new FileRepository(db.getDirectory());
 			fail("incorrectly opened a bad repository");
-		} catch (IOException ioe) {
-			assertTrue(ioe.getMessage().indexOf("format") > 0);
-			assertTrue(ioe.getMessage().indexOf(badvers) > 0);
+		} catch (IllegalArgumentException ioe) {
+			assertNotNull(ioe.getMessage());
 		}
 	}
 
