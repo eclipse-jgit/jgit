@@ -82,7 +82,7 @@ public class SubcommandHandler extends OptionHandler<TextBuiltin> {
 		final String name = params.getParameter(0);
 		final CommandRef cr = CommandCatalog.get(name);
 		if (cr == null)
-			throw new CmdLineException(MessageFormat.format(
+			throw new CmdLineException(owner, MessageFormat.format(
 					CLIText.get().notAJgitCommand, name));
 
 		// Force option parsing to stop. Everything after us should
