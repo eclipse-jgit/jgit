@@ -44,10 +44,14 @@
 package org.eclipse.jgit.storage.file;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
 import java.io.File;
+import java.io.IOException;
 
 import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.util.FileUtils;
 import org.junit.Test;
 
@@ -60,5 +64,48 @@ public class FileRepositoryBuilderTest extends LocalDiskRepositoryTestCase {
 
 		assertEquals(r.getDirectory(), new FileRepositoryBuilder()
 				.findGitDir(d).getGitDir());
+	}
+
+	@Test
+	public void emptyRepositoryFormatVersion() throws Exception {
+		FileRepository r = createWorkRepository();
+		FileBasedConfig config = r.getConfig();
+		config.setString(ConfigConstants.CONFIG_CORE_SECTION, null,
+				ConfigConstants.CONFIG_KEY_REPO_FORMAT_VERSION, "");
+		config.save();
+
+		new FileRepository(r.getDirectory());
+	}
+
+	@Test
+	public void invalidRepositoryFormatVersion() throws Exception {
+		FileRepository r = createWorkRepository();
+		FileBasedConfig config = r.getConfig();
+		config.setString(ConfigConstants.CONFIG_CORE_SECTION, null,
+				ConfigConstants.CONFIG_KEY_REPO_FORMAT_VERSION, "notanumber");
+		config.save();
+
+		try {
+			new FileRepository(r.getDirectory());
+			fail("IllegalArgumentException not thrown");
+		} catch (IllegalArgumentException e) {
+			assertNotNull(e.getMessage());
+		}
+	}
+
+	@Test
+	public void unknownRepositoryFormatVersion() throws Exception {
+		FileRepository r = createWorkRepository();
+		FileBasedConfig config = r.getConfig();
+		config.setLong(ConfigConstants.CONFIG_CORE_SECTION, null,
+				ConfigConstants.CONFIG_KEY_REPO_FORMAT_VERSION, 1);
+		config.save();
+
+		try {
+			new FileRepository(r.getDirectory());
+			fail("IOException not thrown");
+		} catch (IOException e) {
+			assertNotNull(e.getMessage());
+		}
 	}
 }

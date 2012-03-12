@@ -181,14 +181,13 @@ public class FileRepository extends Repository {
 				getFS());
 
 		if (objectDatabase.exists()) {
-			final String repositoryFormatVersion = getConfig().getString(
+			final long repositoryFormatVersion = getConfig().getLong(
 					ConfigConstants.CONFIG_CORE_SECTION, null,
-					ConfigConstants.CONFIG_KEY_REPO_FORMAT_VERSION);
-			if (!"0".equals(repositoryFormatVersion)) {
+					ConfigConstants.CONFIG_KEY_REPO_FORMAT_VERSION, 0);
+			if (repositoryFormatVersion > 0)
 				throw new IOException(MessageFormat.format(
 						JGitText.get().unknownRepositoryFormat2,
-						repositoryFormatVersion));
-			}
+						Long.valueOf(repositoryFormatVersion)));
 		}
 
 		if (!isBare())
