@@ -53,7 +53,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.channels.ReadableByteChannel;
-import java.text.MessageFormat;
 
 import org.eclipse.jgit.JGitText;
 
@@ -137,12 +136,24 @@ public class IO {
 			throws FileNotFoundException, IOException {
 		final FileInputStream in = new FileInputStream(path);
 		try {
-			final long sz = in.getChannel().size();
-			if (sz > max)
-				throw new IOException(MessageFormat.format(
-						JGitText.get().fileIsTooLarge, path));
-			final byte[] buf = new byte[(int) sz];
-			IO.readFully(in, buf, 0);
+			byte[] buf = new byte[(int) Math.min(path.length(), max)];
+			int valid = 0;
+			for (;;) {
+				if (buf.length == valid) {
+					byte[] nb = new byte[buf.length * 2];
+					System.arraycopy(buf, 0, nb, 0, valid);
+					buf = nb;
+				}
+				int n = in.read(buf, valid, buf.length - valid);
+				if (n < 0)
+					break;
+				valid += n;
+			}
+			if (valid < buf.length) {
+				byte[] nb = new byte[valid];
+				System.arraycopy(buf, 0, nb, 0, valid);
+				buf = nb;
+			}
 			return buf;
 		} finally {
 			try {
