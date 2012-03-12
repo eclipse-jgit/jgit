@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOG3///i4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/IO.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-03-12T14:11:59Z",
+      "side": 0,
+      "message": "We lost this error condition. I think you want to include it in two places:\n\n  long sz \u003d path.length();\n  if (sz \u003e max)\n    throw ...\n  byte[] buf \u003d new byte[Math.min(sz, (int) max)];\n\nand also when the array grows:\n\n  if (buf.length \u003d\u003d valid) {\n    if (buf.length \u003d\u003d max)\n      throw ...\n    byte[] nb \u003d new byte[Math.min(buf.length * 2, max)];",
+      "revId": "5c18fcb81b126a288445d0034ad6e9f6b47a7209",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
