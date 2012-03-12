@@ -16,6 +16,24 @@
       "revId": "5c18fcb81b126a288445d0034ad6e9f6b47a7209",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOG3///gs\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/IO.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2012-03-12T14:49:21Z",
+      "side": 0,
+      "message": "can\u0027t we determine whether the file is too big in the \"grow\" case only after fully populating the buffer? i know this is not so good, bug with the buf.length \u003d\u003d max check we only assure that we\u0027re not hitting the limit with what we already have. growing the buffer even by one byte may already hit the limit...\n\nchecking after the facts is not a good idea either, but how about growing the buffer only to Math.max(max, buf.length * 2)? i\u0027ll post a new patchset that does this...",
+      "parentUuid": "AABOG3///i4\u003d",
+      "revId": "5c18fcb81b126a288445d0034ad6e9f6b47a7209",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
