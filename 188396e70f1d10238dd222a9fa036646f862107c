@@ -16,6 +16,24 @@
       "revId": "188396e70f1d10238dd222a9fa036646f862107c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOG3///fw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/IO.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2012-03-12T15:24:32Z",
+      "side": 1,
+      "message": "hah... I/O and messing with byte arrays is not my most loved task ;D i tend to make mistakes and/or miss things - thanks for taking close looks :)\n\nit again took me some thinking about this, why we don\u0027t have to handle the possible valid byte from in.read() in this case - of course it doesn\u0027t fit anywhere if there is one :)",
+      "parentUuid": "AABOG3///gA\u003d",
+      "revId": "188396e70f1d10238dd222a9fa036646f862107c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
