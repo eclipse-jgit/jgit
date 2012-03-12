@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AABOG3///b0\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/storage/file/GCTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-03-12T21:18:36Z",
+      "side": 1,
+      "message": "This test worked for you only by luck. When I add my fix to prune() which I describe in the comment on nonReferencedExiredObject_pruned() then this test also fails. It fails for the same reason as I described in the comment on nonReferencedObjects_onlyExpiredPruned().",
+      "revId": "b036429124011c90d6edd90b3f5083a740db9a7b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOG3///3s\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/storage/file/GCTest.java",
         "patchSetId": 9
@@ -13,6 +30,24 @@
       "writtenOn": "2012-03-07T14:43:57Z",
       "side": 1,
       "message": "This test fails!",
+      "revId": "b036429124011c90d6edd90b3f5083a740db9a7b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOG3///po\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/storage/file/GCTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-03-12T21:18:36Z",
+      "side": 1,
+      "message": "The object is pruned from the filesystem, but the repository instance you ask in the end still has caches which know about object a. Since I can\u0027t tell jgit\u0027s ojbectdatabase that to remove a certain object I\u0027ll added a call to close the complete objectdatabase in end of the prune() call. This invalidates all caches and makes this test green.",
+      "parentUuid": "AABOG3///3s\u003d",
       "revId": "b036429124011c90d6edd90b3f5083a740db9a7b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -36,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "AABOG3///b4\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/storage/file/GCTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-03-12T21:18:36Z",
+      "side": 1,
+      "message": "That was as caching problem as in nonReferencedExiredObject_pruned(). Should be fixed in next PatchSet.",
+      "parentUuid": "AABOG3///3o\u003d",
+      "revId": "b036429124011c90d6edd90b3f5083a740db9a7b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOG3///3k\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/storage/file/GCTest.java",
         "patchSetId": 9
@@ -47,6 +100,24 @@
       "writtenOn": "2012-03-07T14:43:57Z",
       "side": 1,
       "message": "This test fails!",
+      "revId": "b036429124011c90d6edd90b3f5083a740db9a7b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOG3///b8\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/storage/file/GCTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-03-12T21:18:36Z",
+      "side": 1,
+      "message": "This test cannot work reliable. There are multiple problems:\n\n1) You may be able to create blobs so fast that the two calls to System.currentTimeMillis() return the same value. On my system I can create 20 new files before System.currentTimeMillis() returns a new value. In such cases you call setExpireAgeMillis with 0 ... and the object will be pruned.\n\n2) The filesystem may not store timestamps in the same granularity as System.currentTimeMillis() returns it. Example: If you look at the clock and get back 12345678 and then you create a file this file may have a lastModifed() of 12345000. On my linux system I can create 20000 files in a row which all have the same lastmodified(). \nFor your test this means: before you create a file currentTimeMillis() is 12345678. Then you create the file which gets lastModified of 12345000 and after creation you look again at the clock and see 12345679. You call expireAgeMillis(1) and of course the object will be pruned. You would have the same problem if expireAgeMillis() would expect absolute time specifications.\n\nI suggest that you wait that the filesystem timer advances after creating the first blob. RepositoryTestCase.fsTick() can help you with that: \n\n   \t\tFile file_a \u003d repo.getObjectDatabase().fileFor(a);\n\t\tlong start\u003dfile_a.lastModified();\n\t\tRepositoryTestCase.fsTick(file_a);\n\t\tRevBlob b \u003d tr.blob(\"b\");\n\t\tFile file_b \u003d repo.getObjectDatabase().fileFor(b);\n\t\tgc.setExpireAgeMillis(file_b.lastModified() - start);",
+      "parentUuid": "AABOG3///3k\u003d",
       "revId": "b036429124011c90d6edd90b3f5083a740db9a7b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
