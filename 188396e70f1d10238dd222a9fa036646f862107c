@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOG3///gA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/IO.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-03-12T15:14:07Z",
+      "side": 1,
+      "message": "This can\u0027t be true, as Math.min() would return max if nsz would be \u003e maz. :-)\n\nI think you really meant to write:\n\n  if (buf.length \u003d\u003d valid) {\n    if (buf.length \u003d\u003d max)\n      throw\n\nWhen buf.length \u003d\u003d valid we have to grow the buffer to read more data from the file, but we can\u0027t grow the buffer because growing it would put the buffer larger than the maximum size the caller wants this method to read and return.\n\nYes there is a small issue here where the whole file might fit and we haven\u0027t seen EOF yet, but if we read once more we would see EOF. We can work around that by checking for EOF before throwing:\n\n  if (buf.length \u003d\u003d valid) {\n    if (buf.length \u003d\u003d max) {\n      int next \u003d in.read();\n      if (next \u003c -1)\n        break;\n      throw ...",
+      "revId": "188396e70f1d10238dd222a9fa036646f862107c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
