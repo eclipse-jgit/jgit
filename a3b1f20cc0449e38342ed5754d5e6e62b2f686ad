@@ -16,6 +16,24 @@
       "revId": "a3b1f20cc0449e38342ed5754d5e6e62b2f686ad",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOG3///eQ\u003d",
+        "filename": "pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2012-03-12T17:49:14Z",
+      "side": 1,
+      "message": "I believe those are still needed since they specify a different manifest to use which not all modules have.",
+      "parentUuid": "AABOG3///hE\u003d",
+      "revId": "a3b1f20cc0449e38342ed5754d5e6e62b2f686ad",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
