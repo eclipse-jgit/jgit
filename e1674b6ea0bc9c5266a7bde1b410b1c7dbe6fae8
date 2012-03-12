@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOG3///hg\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-03-12T14:23:32Z",
+      "side": 1,
+      "message": "Ugh. git-core really accepts repositories with no repositoryformatversion field? I thought this was a required property that was part of the way it was safe to assume this directory really contains a Git repository.\n\nBefore we make this change I would like some documentation in the commit message pointing to where in git-core it says its OK to open a repository without a repositoryformatversion field.",
+      "revId": "e1674b6ea0bc9c5266a7bde1b410b1c7dbe6fae8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
