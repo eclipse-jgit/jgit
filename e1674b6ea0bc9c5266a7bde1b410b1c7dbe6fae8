@@ -16,6 +16,24 @@
       "revId": "e1674b6ea0bc9c5266a7bde1b410b1c7dbe6fae8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOG3///hU\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-03-12T14:25:00Z",
+      "side": 1,
+      "message": "I am also not at all annoyed that this is at least the 2nd time I have seen a GitHub product \"forcing Git\" to redefine its formats because of a bug or misfeature in a GitHub implementation that gets spread so widely that we have no choice but to accept it.\n\nJGit still chokes on and refuses to accept trees with the leading \u00270\u0027 mode that GitHub introduced with the web editor.",
+      "parentUuid": "AABOG3///hg\u003d",
+      "revId": "e1674b6ea0bc9c5266a7bde1b410b1c7dbe6fae8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
