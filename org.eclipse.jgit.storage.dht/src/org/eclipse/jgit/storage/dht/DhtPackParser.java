@@ -1016,11 +1016,11 @@ public class DhtPackParser extends PackParser {
 			break;
 
 		case OBJ_TREE:
-			onTree(info, data);
+			onTree(data);
 			break;
 
 		case OBJ_TAG:
-			onTag(info, data);
+			onTag(data);
 			break;
 		}
 	}
@@ -1045,7 +1045,7 @@ public class DhtPackParser extends PackParser {
 		}
 	}
 
-	private void onTree(DhtInfo obj, byte[] data) {
+	private void onTree(byte[] data) {
 		if (isSaveAsCachedPack()) {
 			treeParser.reset(data);
 			while (!treeParser.eof()) {
@@ -1056,7 +1056,7 @@ public class DhtPackParser extends PackParser {
 		}
 	}
 
-	private void onTag(DhtInfo obj, byte[] data) {
+	private void onTag(byte[] data) {
 		if (isSaveAsCachedPack()) {
 			idBuffer.fromString(data, 7); // "object $sha1"
 			lookupByName(idBuffer).setReferenced();

@@ -616,7 +616,7 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 		ObjectId oldHead = db.resolve(Constants.HEAD);
 		assertFalse("precondition for this test, branch b != HEAD", rb
 				.equals(oldHead));
-		writeReflog(db, rb, rb, "Just a message", "refs/heads/b");
+		writeReflog(db, rb, "Just a message", "refs/heads/b");
 		assertTrue("log on old branch", new File(db.getDirectory(),
 				"logs/refs/heads/b").exists());
 		RefRename renameRef = db.renameRef("refs/heads/b",
@@ -640,7 +640,7 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 		writeSymref(Constants.HEAD, "refs/heads/b");
 		ObjectId oldHead = db.resolve(Constants.HEAD);
 		assertTrue("internal test condition, b == HEAD", rb.equals(oldHead));
-		writeReflog(db, rb, rb, "Just a message", "refs/heads/b");
+		writeReflog(db, rb, "Just a message", "refs/heads/b");
 		assertTrue("log on old branch", new File(db.getDirectory(),
 				"logs/refs/heads/b").exists());
 		RefRename renameRef = db.renameRef("refs/heads/b",
@@ -669,7 +669,7 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 		Result update = updateRef.update();
 		assertEquals("internal check new ref is loose", Result.FORCED, update);
 		assertEquals(Ref.Storage.LOOSE, db.getRef("refs/heads/b").getStorage());
-		writeReflog(db, rb, rb, "Just a message", "refs/heads/b");
+		writeReflog(db, rb, "Just a message", "refs/heads/b");
 		assertTrue("log on old branch", new File(db.getDirectory(),
 				"logs/refs/heads/b").exists());
 		RefRename renameRef = db.renameRef("refs/heads/b",
@@ -699,8 +699,7 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 		writeSymref(Constants.HEAD, headPointsTo);
 		ObjectId oldfromId = db.resolve(fromName);
 		ObjectId oldHeadId = db.resolve(Constants.HEAD);
-		writeReflog(db, oldfromId, oldfromId, "Just a message",
-				fromName);
+		writeReflog(db, oldfromId, "Just a message", fromName);
 		List<org.eclipse.jgit.storage.file.ReflogEntry> oldFromLog = db
 				.getReflogReader(fromName).getReverseEntries();
 		List<org.eclipse.jgit.storage.file.ReflogEntry> oldHeadLog = oldHeadId != null ? db
@@ -806,7 +805,7 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 		assertEquals(Result.FAST_FORWARD, updateRef.update());
 		ObjectId oldHead = db.resolve(Constants.HEAD);
 		assertTrue(rb.equals(oldHead)); // assumption for this test
-		writeReflog(db, rb, rb, "Just a message", "refs/heads/a");
+		writeReflog(db, rb, "Just a message", "refs/heads/a");
 		assertTrue("internal check, we have a log", new File(db.getDirectory(),
 				"logs/refs/heads/a").exists());
 
@@ -840,8 +839,7 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 		assertEquals(Result.FORCED, updateRef.update());
 		ObjectId oldHead = db.resolve(Constants.HEAD);
 		assertTrue(rb.equals(oldHead)); // assumption for this test
-		writeReflog(db, rb, rb, "Just a message",
-				"refs/heads/prefix/a");
+		writeReflog(db, rb, "Just a message", "refs/heads/prefix/a");
 		assertTrue("internal check, we have a log", new File(db.getDirectory(),
 				"logs/refs/heads/prefix/a").exists());
 
@@ -864,8 +862,8 @@ public class RefUpdateTest extends SampleDataRepositoryTestCase {
 				"HEAD").getReverseEntries().get(0).getComment());
 	}
 
-	private void writeReflog(Repository db, ObjectId oldId, ObjectId newId,
-			String msg, String refName) throws IOException {
+	private void writeReflog(Repository db, ObjectId newId, String msg,
+			String refName) throws IOException {
 		RefDirectory refs = (RefDirectory) db.getRefDatabase();
 		RefDirectoryUpdate update = refs.newUpdate(refName, true);
 		update.setNewObjectId(newId);

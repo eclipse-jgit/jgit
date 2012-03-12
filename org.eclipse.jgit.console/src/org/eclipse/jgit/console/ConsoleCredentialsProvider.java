@@ -99,16 +99,16 @@ public class ConsoleCredentialsProvider extends CredentialsProvider {
 			CredentialItem item = items[i];
 
 			if (item instanceof CredentialItem.StringType)
-				ok = get(uri, (CredentialItem.StringType) item);
+				ok = get((CredentialItem.StringType) item);
 
 			else if (item instanceof CredentialItem.CharArrayType)
-				ok = get(uri, (CredentialItem.CharArrayType) item);
+				ok = get((CredentialItem.CharArrayType) item);
 
 			else if (item instanceof CredentialItem.YesNoType)
-				ok = get(uri, (CredentialItem.YesNoType) item);
+				ok = get((CredentialItem.YesNoType) item);
 
 			else if (item instanceof CredentialItem.InformationalMessage)
-				ok = get(uri, (CredentialItem.InformationalMessage) item);
+				ok = get((CredentialItem.InformationalMessage) item);
 
 			else
 				throw new UnsupportedCredentialItem(uri, item.getPromptText());
@@ -116,7 +116,7 @@ public class ConsoleCredentialsProvider extends CredentialsProvider {
 		return ok;
 	}
 
-	private boolean get(URIish uri, CredentialItem.StringType item) {
+	private boolean get(CredentialItem.StringType item) {
 		if (item.isValueSecure()) {
 			char[] v = cons.readPassword("%s: ", item.getPromptText());
 			if (v != null) {
@@ -136,7 +136,7 @@ public class ConsoleCredentialsProvider extends CredentialsProvider {
 		}
 	}
 
-	private boolean get(URIish uri, CredentialItem.CharArrayType item) {
+	private boolean get(CredentialItem.CharArrayType item) {
 		if (item.isValueSecure()) {
 			char[] v = cons.readPassword("%s: ", item.getPromptText());
 			if (v != null) {
@@ -156,13 +156,13 @@ public class ConsoleCredentialsProvider extends CredentialsProvider {
 		}
 	}
 
-	private boolean get(URIish uri, CredentialItem.InformationalMessage item) {
+	private boolean get(CredentialItem.InformationalMessage item) {
 		cons.printf("%s\n", item.getPromptText());
 		cons.flush();
 		return true;
 	}
 
-	private boolean get(URIish uri, CredentialItem.YesNoType item) {
+	private boolean get(CredentialItem.YesNoType item) {
 		String r = cons.readLine("%s [%s/%s]? ", item.getPromptText(),
 				ConsoleText.get().answerYes, ConsoleText.get().answerNo);
 		if (r != null) {

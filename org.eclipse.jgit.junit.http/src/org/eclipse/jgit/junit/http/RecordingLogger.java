@@ -184,6 +184,7 @@ public class RecordingLogger implements Logger {
 		// Ignore (not relevant to test failures)
 	}
 
+	@SuppressWarnings("unused")
 	public void ignore(Throwable arg0) {
 		// Ignore (not relevant to test failures)
 	}

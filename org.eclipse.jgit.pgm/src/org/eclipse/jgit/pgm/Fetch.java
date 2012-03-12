@@ -65,7 +65,7 @@ class Fetch extends AbstractFetchCommand {
 	private Boolean fsck;
 
 	@Option(name = "--no-fsck")
-	void nofsck(final boolean ignored) {
+	void nofsck(@SuppressWarnings("unused") final boolean ignored) {
 		fsck = Boolean.FALSE;
 	}
 
@@ -79,7 +79,7 @@ class Fetch extends AbstractFetchCommand {
 	private Boolean thin;
 
 	@Option(name = "--no-thin")
-	void nothin(final boolean ignored) {
+	void nothin(@SuppressWarnings("unused") final boolean ignored) {
 		thin = Boolean.FALSE;
 	}
 

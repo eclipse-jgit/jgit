@@ -524,7 +524,6 @@ public final class DfsBlockCache {
 		return true;
 	}
 
-	@SuppressWarnings("unchecked")
 	private <T> T scan(HashEntry n, DfsPackKey pack, long position) {
 		Ref<T> r = scanRef(n, pack, position);
 		return r != null ? r.get() : null;
