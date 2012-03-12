@@ -34,6 +34,24 @@
       "revId": "e1674b6ea0bc9c5266a7bde1b410b1c7dbe6fae8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOG3///eo\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2012-03-12T17:01:36Z",
+      "side": 1,
+      "message": "It seems like in git-core config values attempting to be parsed as int/long that are missing just default to 0 which is how the repository format version is compared.\n\nhttps://github.com/git/git/blob/master/setup.c#L333\n\nhttps://github.com/git/git/blob/master/setup.c#L750-751\n\nhttps://github.com/git/git/blob/master/config.c#L472\n\nhttps://github.com/git/git/blob/master/config.c#L416",
+      "parentUuid": "AABOG3///hg\u003d",
+      "revId": "e1674b6ea0bc9c5266a7bde1b410b1c7dbe6fae8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
