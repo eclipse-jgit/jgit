@@ -52,12 +52,6 @@ import java.util.List;
 public class CheckoutResult {
 
 	/**
-	 * The {@link Status#OK} result;
-	 */
-	public static final CheckoutResult OK_RESULT = new CheckoutResult(
-			Status.OK, null);
-
-	/**
 	 * The {@link Status#ERROR} result;
 	 */
 	public static final CheckoutResult ERROR_RESULT = new CheckoutResult(
@@ -101,6 +95,23 @@ public class CheckoutResult {
 
 	private final List<String> undeletedList;
 
+	private final List<String> modifiedList;
+
+	private final List<String> removedList;
+
+	/**
+	 * Create a new fail result. If status is {@link Status#CONFLICTS},
+	 * <code>fileList</code> is a list of conflicting files, if status is
+	 * {@link Status#NONDELETED}, <code>fileList</code> is a list of not deleted
+	 * files. All other values ignore <code>fileList</code>. To create a result
+	 * for {@link Status#OK}, see {@link #CheckoutResult(List, List)}.
+	 *
+	 * @param status
+	 *            the failure status
+	 * @param fileList
+	 *            the list of files to store, status has to be either
+	 *            {@link Status#CONFLICTS} or {@link Status#NONDELETED}.
+	 */
 	CheckoutResult(Status status, List<String> fileList) {
 		myStatus = status;
 		if (status == Status.CONFLICTS)
@@ -112,6 +123,26 @@ public class CheckoutResult {
 		else
 			this.undeletedList = new ArrayList<String>(0);
 
+		this.modifiedList = new ArrayList<String>(0);
+		this.removedList = new ArrayList<String>(0);
+	}
+
+	/**
+	 * Create a new OK result with modified and removed files.
+	 *
+	 * @param modified
+	 *            the modified files
+	 * @param removed
+	 *            the removed files.
+	 */
+	CheckoutResult(List<String> modified, List<String> removed) {
+		myStatus = Status.OK;
+
+		this.conflictList = new ArrayList<String>(0);
+		this.undeletedList = new ArrayList<String>(0);
+
+		this.modifiedList = modified;
+		this.removedList = removed;
 	}
 
 	/**
@@ -138,4 +169,19 @@ public class CheckoutResult {
 		return undeletedList;
 	}
 
+	/**
+	 * @return the list of files that where modified during checkout, or an
+	 *         empty list if {@link #getStatus()} is not {@link Status#OK}
+	 */
+	public List<String> getModifiedList() {
+		return modifiedList;
+	}
+
+	/**
+	 * @return the list of files that where removed during checkout, or an empty
+	 *         list if {@link #getStatus()} is not {@link Status#OK}
+	 */
+	public List<String> getRemovedList() {
+		return removedList;
+	}
 }
