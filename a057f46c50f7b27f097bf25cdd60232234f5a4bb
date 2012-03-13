@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOG3///SA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 706,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-03-13T18:45:57Z",
+      "side": 1,
+      "message": "The Service object was only held on the stack, so it was available for garbage collection immediately after doFetch() scope ended. Now its an instance member on the connection, which is held in the caller\u0027s stack frame and may be getting held longer than we would like. A try/finally to set the field to null ensures the Service object has the same lifespan as before, it only is reachable during the scope of the doFetch method.\n\nIn theory the caller should also be holding the connection like this:\n\n  FetchConnection fc \u003d transport.openFetch(...);\n  try {\n    fc.fetch(...);\n  } finally {\n    fc.close();\n  }\n\nBut I\u0027d rather not worry about it, or how much buffer space might get retained inside of the Service object when fetch fails and the caller is holding onto the FetchConnection longer than they should. Its at least the same behavior as before.\n\nI guess my alternative implementation would have been to pass a reference to the SmartHttpFetchConnection or an AtomicBoolean into Service and use that to read the finalRequest boolean. This just seemed slightly cleaner.",
+      "parentUuid": "AABOG3///SI\u003d",
+      "revId": "a057f46c50f7b27f097bf25cdd60232234f5a4bb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOG3///SM\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2012-03-13T18:31:50Z",
       "side": 1,
       "message": "I don\u0027t believe this comment accurately reflects your changes.",
+      "revId": "a057f46c50f7b27f097bf25cdd60232234f5a4bb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOG3///R8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 800,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-03-13T18:45:57Z",
+      "side": 1,
+      "message": "Good point. I have rewritten this comment block.",
+      "parentUuid": "AABOG3///SM\u003d",
       "revId": "a057f46c50f7b27f097bf25cdd60232234f5a4bb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
