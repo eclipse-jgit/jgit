@@ -687,6 +687,8 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 	}
 
 	class SmartHttpFetchConnection extends BasePackFetchConnection {
+		private Service svc;
+
 		SmartHttpFetchConnection(final InputStream advertisement)
 				throws TransportException {
 			super(TransportHttp.this);
@@ -701,9 +703,18 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		protected void doFetch(final ProgressMonitor monitor,
 				final Collection<Ref> want, final Set<ObjectId> have)
 				throws TransportException {
-			final Service svc = new Service(SVC_UPLOAD_PACK);
-			init(svc.in, svc.out);
-			super.doFetch(monitor, want, have);
+			try {
+				svc = new Service(SVC_UPLOAD_PACK);
+				init(svc.in, svc.out);
+				super.doFetch(monitor, want, have);
+			} finally {
+				svc = null;
+			}
+		}
+
+		@Override
+		protected void onReceivePack() {
+			svc.finalRequest = true;
 		}
 	}
 
@@ -756,6 +767,8 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 
 		private final HttpExecuteStream execute;
 
+		boolean finalRequest;
+
 		final UnionInputStream in;
 
 		final HttpOutputStream out;
@@ -784,10 +797,14 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 			out.close();
 
 			if (conn == null) {
-				// Output hasn't started yet, because everything fit into
-				// our request buffer. Send with a Content-Length header.
-				//
 				if (out.length() == 0) {
+					// Request output hasn't started yet, but more data is being
+					// requested. If there is no request data buffered and the
+					// final request was already sent, do nothing to ensure the
+					// caller is shown EOF on the InputStream; otherwise an
+					// programming error has occurred within this module.
+					if (finalRequest)
+						return;
 					throw new TransportException(uri,
 							JGitText.get().startingReadStageWithoutWrittenRequestDataPendingIsNotSupported);
 				}
@@ -833,7 +850,8 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 			}
 
 			in.add(openInputStream(conn));
-			in.add(execute);
+			if (!finalRequest)
+				in.add(execute);
 			conn = null;
 		}
 

@@ -673,6 +673,7 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 	}
 
 	private void receivePack(final ProgressMonitor monitor) throws IOException {
+		onReceivePack();
 		InputStream input = in;
 		if (sideband)
 			input = new SideBandInputStream(input, monitor, getMessageWriter());
@@ -688,6 +689,15 @@ public abstract class BasePackFetchConnection extends BasePackConnection
 		} finally {
 			ins.release();
 		}
+	}
+
+	/**
+	 * Notification event delivered just before the pack is received from the
+	 * network. This event can be used by RPC such as {@link TransportHttp} to
+	 * disable its request magic and ensure the pack stream is read correctly.
+	 */
+	protected void onReceivePack() {
+		// By default do nothing for TCP based protocols.
 	}
 
 	private static class CancelledException extends Exception {
