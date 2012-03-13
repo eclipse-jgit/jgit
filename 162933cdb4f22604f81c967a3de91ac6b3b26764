@@ -69,6 +69,24 @@
       "revId": "162933cdb4f22604f81c967a3de91ac6b3b26764",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOG3///ag\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CleanCommand.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2012-03-13T06:37:41Z",
+      "side": 1,
+      "message": "ok, right - i\u0027ve done it this way now.",
+      "parentUuid": "AABOG3///cE\u003d",
+      "revId": "162933cdb4f22604f81c967a3de91ac6b3b26764",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
