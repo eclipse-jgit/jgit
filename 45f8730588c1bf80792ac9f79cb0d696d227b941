@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOG3///QM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/StashApplyCommand.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2012-03-14T00:12:14Z",
+      "side": 1,
+      "message": "Trailing whitespace",
+      "revId": "45f8730588c1bf80792ac9f79cb0d696d227b941",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
