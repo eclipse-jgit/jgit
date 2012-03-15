@@ -167,6 +167,24 @@ public class AddCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
+	public void testAddExistingSingleBigSizeFile() throws IOException,
+			NoFilepatternException {
+		File file = new File(db.getWorkTree(), "a.txt");
+		FileUtils.createNewFile(file);
+		PrintWriter writer = new PrintWriter(file);
+		for (int i = 0; i < 50000; ++i) {
+			writer.print("01234567890123456789012345678901234567890123456789\n");
+		}
+		writer.close();
+
+		Git git = new Git(db);
+		git.add().addFilepattern("a.txt").call();
+
+		assertEquals("[a.txt, mode:100644, length:" + (51 * 50000) + "]",
+				indexState(LENGTH));
+	}
+
+	@Test
 	public void testAddExistingSingleBinaryFile() throws IOException,
 			NoFilepatternException {
 		File file = new File(db.getWorkTree(), "a.txt");

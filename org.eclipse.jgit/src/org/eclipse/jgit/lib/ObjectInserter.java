@@ -124,7 +124,7 @@ public abstract class ObjectInserter {
 	 */
 	protected byte[] buffer(long hintSize) {
 		if (hintSize >= tempBufSize)
-			tempBuffer = new byte[0];
+			tempBuffer = new byte[tempBufSize];
 		else if (tempBuffer == null)
 			tempBuffer = new byte[(int) hintSize];
 		else if (tempBuffer.length < hintSize)
