@@ -16,6 +16,24 @@
       "revId": "7d2e0db1cb6e9dc2a06b22e2c46a3d93428590a9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOG3///DU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectInserter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2012-03-15T14:28:49Z",
+      "side": 1,
+      "message": "if you tell me what to do .... maybe i can give it a try :)\n\nin the meantime, maybe we should still get this fix in, as otherwise processing of large files is simply not possible.",
+      "parentUuid": "AABOG3///Dc\u003d",
+      "revId": "7d2e0db1cb6e9dc2a06b22e2c46a3d93428590a9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
