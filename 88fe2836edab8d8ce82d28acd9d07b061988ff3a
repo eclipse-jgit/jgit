@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AABOG3///Cw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectInserter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-03-15T15:02:42Z",
+      "side": 1,
+      "message": "We shouldn\u0027t be using system properties to configure JGit. Configuration should come through the Config object.",
+      "revId": "88fe2836edab8d8ce82d28acd9d07b061988ff3a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOG3///Dk\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectInserter.java",
         "patchSetId": 4
