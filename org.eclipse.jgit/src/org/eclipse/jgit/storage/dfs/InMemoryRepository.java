@@ -36,13 +36,13 @@ public class InMemoryRepository extends DfsRepository {
 	 * @param repoDesc
 	 *             description of the repository.
 	 */
-	public InMemoryRepository(DfsRepository repoDesc) {
+	public InMemoryRepository(DfsRepositoryDescription repoDesc) {
 		super(new DfsRepositoryBuilder<DfsRepositoryBuilder, InMemoryRepository>() {
 			@Override
 			public InMemoryRepository build() throws IOException {
 				throw new UnsupportedOperationException();
 			}
-		});
+		}.setRepositoryDescription(repoDesc));
 
 		objdb = new MemObjDatabase(this);
 		refdb = new MemRefDatabase();
