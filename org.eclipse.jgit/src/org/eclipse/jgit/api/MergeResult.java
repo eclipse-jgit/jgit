@@ -170,17 +170,19 @@ public class MergeResult {
 	 *            all the commits which have been merged together
 	 * @param mergeStatus
 	 *            the status the merge resulted in
+	 * @param mergeStrategy
+	 *            the used {@link MergeStrategy}
 	 * @param lowLevelResults
 	 *            merge results as returned by
 	 *            {@link ResolveMerger#getMergeResults()}
-	 * @param mergeStrategy
-	 *            the used {@link MergeStrategy}
+	 * @since 2.0
 	 */
 	public MergeResult(ObjectId newHead, ObjectId base,
 			ObjectId[] mergedCommits, MergeStatus mergeStatus,
-			Map<String, org.eclipse.jgit.merge.MergeResult<?>> lowLevelResults,
-			MergeStrategy mergeStrategy) {
-		this(newHead, base, mergedCommits, mergeStatus, mergeStrategy, lowLevelResults, null);
+			MergeStrategy mergeStrategy,
+			Map<String, org.eclipse.jgit.merge.MergeResult<?>> lowLevelResults) {
+		this(newHead, base, mergedCommits, mergeStatus, mergeStrategy,
+				lowLevelResults, null);
 	}
 
 	/**
@@ -207,7 +209,7 @@ public class MergeResult {
 			Map<String, org.eclipse.jgit.merge.MergeResult<?>> lowLevelResults,
 			String description) {
 		this(newHead, base, mergedCommits, mergeStatus, mergeStrategy,
-				lowLevelResults, null, null);
+				lowLevelResults, null, description);
 	}
 
 	/**
