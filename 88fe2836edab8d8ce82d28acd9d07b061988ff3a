@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOG3///Dk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectInserter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-03-15T14:11:56Z",
+      "side": 1,
+      "message": "Its a bit late for this now... but I don\u0027t think Auto CRLF handling should be this low in the system that it has to impact the ObjectInserter.\n\nObjectInserter should be dealing with only raw byte sequences supplied either as a byte[] or as an InputStream, and this tempBuffer was originally meant only for copying from an InputStream through to the Deflater the inserter is using.\n\nI\u0027m strongly in favor of pulling this stuff out of the inserter.",
+      "revId": "88fe2836edab8d8ce82d28acd9d07b061988ff3a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
