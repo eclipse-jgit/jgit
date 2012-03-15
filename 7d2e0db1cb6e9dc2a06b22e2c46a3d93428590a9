@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOG3///Dc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectInserter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-03-15T14:14:21Z",
+      "side": 1,
+      "message": "Perhaps a reasonable fix, but this whole buffer(long) method should be torn out.",
+      "revId": "7d2e0db1cb6e9dc2a06b22e2c46a3d93428590a9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
