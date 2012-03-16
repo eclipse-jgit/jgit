@@ -291,6 +291,8 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 				return RebaseResult.OK_RESULT;
 			}
 			return RebaseResult.FAST_FORWARD_RESULT;
+		} catch (CheckoutConflictException cce) {
+			return new RebaseResult(cce.getConflictingPaths());
 		} catch (IOException ioe) {
 			throw new JGitInternalException(ioe.getMessage(), ioe);
 		}
@@ -518,7 +520,8 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 	}
 
 	private RebaseResult initFilesAndRewind() throws RefNotFoundException,
-			IOException, NoHeadException, JGitInternalException {
+			IOException, NoHeadException, JGitInternalException,
+			CheckoutConflictException {
 		// we need to store everything into files so that we can implement
 		// --skip, --continue, and --abort
 
@@ -793,13 +796,18 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		return RawParseUtils.decode(content, 0, end);
 	}
 
-	private boolean checkoutCommit(RevCommit commit) throws IOException {
+	private boolean checkoutCommit(RevCommit commit) throws IOException,
+			CheckoutConflictException {
 		try {
 			RevCommit head = walk.parseCommit(repo.resolve(Constants.HEAD));
 			DirCacheCheckout dco = new DirCacheCheckout(repo, head.getTree(),
 					repo.lockDirCache(), commit.getTree());
 			dco.setFailOnConflict(true);
+			try {
 			dco.checkout();
+			} catch (org.eclipse.jgit.errors.CheckoutConflictException cce) {
+				throw new CheckoutConflictException(dco.getConflicts(), cce);
+			}
 			// update the HEAD
 			RefUpdate refUpdate = repo.updateRef(Constants.HEAD, true);
 			refUpdate.setExpectedOldObjectId(head);
