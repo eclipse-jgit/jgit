@@ -94,11 +94,11 @@ public class LogCommandTest extends RepositoryTestCase {
 		writeTrashFile("Test.txt", "Hello world");
 		git.add().addFilepattern("Test.txt").call();
 		commits.add(git.commit().setMessage("commit#1").call());
-		writeTrashFile("Test1.txt", "Hello world!");
-		git.add().addFilepattern("Test1.txt").call();
+		writeTrashFile("Test.txt", "Hello world!");
+		git.add().addFilepattern("Test.txt").call();
 		commits.add(git.commit().setMessage("commit#2").call());
-		writeTrashFile("Test2.txt", "Hello world!!");
-		git.add().addFilepattern("Test2.txt").call();
+		writeTrashFile("Test1.txt", "Hello world!!");
+		git.add().addFilepattern("Test1.txt").call();
 		commits.add(git.commit().setMessage("commit#3").call());
 		return commits;
 	}
@@ -118,6 +118,34 @@ public class LogCommandTest extends RepositoryTestCase {
 		commit = log.next();
 		assertTrue(commits.contains(commit));
 		assertEquals("commit#2", commit.getShortMessage());
+		assertFalse(log.hasNext());
+	}
+
+	@Test
+	public void logPathWithMaxCount() throws Exception {
+		Git git = Git.wrap(db);
+		List<RevCommit> commits = createCommits(git);
+
+		Iterator<RevCommit> log = git.log().addPath("Test.txt").setMaxCount(1)
+				.call().iterator();
+		assertTrue(log.hasNext());
+		RevCommit commit = log.next();
+		assertTrue(commits.contains(commit));
+		assertEquals("commit#2", commit.getShortMessage());
+		assertFalse(log.hasNext());
+	}
+
+	@Test
+	public void logPathWithSkip() throws Exception {
+		Git git = Git.wrap(db);
+		List<RevCommit> commits = createCommits(git);
+
+		Iterator<RevCommit> log = git.log().addPath("Test.txt").setSkip(1)
+				.call().iterator();
+		assertTrue(log.hasNext());
+		RevCommit commit = log.next();
+		assertTrue(commits.contains(commit));
+		assertEquals("commit#1", commit.getShortMessage());
 		assertFalse(log.hasNext());
 	}
 

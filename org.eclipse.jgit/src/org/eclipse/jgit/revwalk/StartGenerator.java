@@ -127,7 +127,7 @@ class StartGenerator extends Generator {
 		else
 			pending = new DateRevQueue(q);
 		if (tf != TreeFilter.ALL) {
-			rf = AndRevFilter.create(rf, new RewriteTreeFilter(w, tf));
+			rf = AndRevFilter.create(new RewriteTreeFilter(w, tf), rf);
 			pendingOutputType |= HAS_REWRITE | NEEDS_REWRITE;
 		}
 
