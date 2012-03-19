@@ -1,0 +1,191 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOG3//+7E\u003d",
+        "filename": "org.eclipse.jgit.pgm.test/.gitignore",
+        "patchSetId": 6
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-03-19T16:29:52Z",
+      "side": 1,
+      "message": "this seems to be unnecessary, none of the tests creates this directory in the project root",
+      "revId": "6472597e3aef68c8c092a283b252d79d24e9ed6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOG3//+60\u003d",
+        "filename": "org.eclipse.jgit.pgm.test/META-INF/MANIFEST.MF",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-03-19T16:29:52Z",
+      "side": 1,
+      "message": "use version ranges",
+      "revId": "6472597e3aef68c8c092a283b252d79d24e9ed6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOG3//+7I\u003d",
+        "filename": "org.eclipse.jgit.pgm.test/META-INF/MANIFEST.MF",
+        "patchSetId": 6
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-03-19T16:29:52Z",
+      "side": 1,
+      "message": "for me this doesn\u0027t work when run from Eclipse, it seems this needs an additional dependency to org.hamcrest.core\n\norg.eclipse.jgit.pgm--All-Tests\norg.eclipse.jgit.api.BranchCommandTest\ninitializationError(org.eclipse.jgit.api.BranchCommandTest)\njava.lang.NoClassDefFoundError: org/hamcrest/SelfDescribing\n\tat java.lang.ClassLoader.defineClass1(Native Method)\n\tat java.lang.ClassLoader.defineClassCond(ClassLoader.java:631)\n\tat java.lang.ClassLoader.defineClass(ClassLoader.java:615)\n\tat java.security.SecureClassLoader.defineClass(SecureClassLoader.java:141)\n\tat java.net.URLClassLoader.defineClass(URLClassLoader.java:283)\n\tat java.net.URLClassLoader.access$000(URLClassLoader.java:58)\n\tat java.net.URLClassLoader$1.run(URLClassLoader.java:197)\n\tat java.security.AccessController.doPrivileged(Native Method)\n\tat java.net.URLClassLoader.findClass(URLClassLoader.java:190)\n\tat java.lang.ClassLoader.loadClass(ClassLoader.java:306)\n\tat sun.misc.Launcher$AppClassLoader.loadClass(Launcher.java:301)\n\tat java.lang.ClassLoader.loadClass(ClassLoader.java:247)\n\tat org.junit.internal.builders.JUnit4Builder.runnerForClass(JUnit4Builder.java:13)\n\tat org.junit.runners.model.RunnerBuilder.safeRunnerForClass(RunnerBuilder.java:57)\n\tat org.junit.internal.builders.AllDefaultPossibilitiesBuilder.runnerForClass(AllDefaultPossibilitiesBuilder.java:29)\n\tat org.junit.runners.model.RunnerBuilder.safeRunnerForClass(RunnerBuilder.java:57)\n\tat org.junit.internal.requests.ClassRequest.getRunner(ClassRequest.java:24)\n\tat org.eclipse.jdt.internal.junit4.runner.JUnit4TestReference.\u003cinit\u003e(JUnit4TestReference.java:33)\n\tat org.eclipse.jdt.internal.junit4.runner.JUnit4TestClassReference.\u003cinit\u003e(JUnit4TestClassReference.java:25)\n\tat org.eclipse.jdt.internal.junit4.runner.JUnit4TestLoader.createTest(JUnit4TestLoader.java:48)\n\tat org.eclipse.jdt.internal.junit4.runner.JUnit4TestLoader.loadTests(JUnit4TestLoader.java:38)\n\tat org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:452)\n\tat org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:683)\n\tat org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:390)\n\tat org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:197)\nCaused by: java.lang.ClassNotFoundException: org.hamcrest.SelfDescribing\n\tat java.net.URLClassLoader$1.run(URLClassLoader.java:202)\n\tat java.security.AccessController.doPrivileged(Native Method)\n\tat java.net.URLClassLoader.findClass(URLClassLoader.java:190)\n\tat java.lang.ClassLoader.loadClass(ClassLoader.java:306)\n\tat sun.misc.Launcher$AppClassLoader.loadClass(Launcher.java:301)\n\tat java.lang.ClassLoader.loadClass(ClassLoader.java:247)\n\t... 25 more\n\norg.eclipse.jgit.pgm.CLIGitCommand\ninitializationError(org.eclipse.jgit.pgm.CLIGitCommand)\njava.lang.NoClassDefFoundError: org/hamcrest/SelfDescribing\n\tat java.lang.ClassLoader.defineClass1(Native Method)\n\tat java.lang.ClassLoader.defineClassCond(ClassLoader.java:631)\n\tat java.lang.ClassLoader.defineClass(ClassLoader.java:615)\n\tat java.security.SecureClassLoader.defineClass(SecureClassLoader.java:141)\n\tat java.net.URLClassLoader.defineClass(URLClassLoader.java:283)\n\tat java.net.URLClassLoader.access$000(URLClassLoader.java:58)\n\tat java.net.URLClassLoader$1.run(URLClassLoader.java:197)\n\tat java.security.AccessController.doPrivileged(Native Method)\n\tat java.net.URLClassLoader.findClass(URLClassLoader.java:190)\n\tat java.lang.ClassLoader.loadClass(ClassLoader.java:306)\n\tat sun.misc.Launcher$AppClassLoader.loadClass(Launcher.java:301)\n\tat java.lang.ClassLoader.loadClass(ClassLoader.java:247)\n\tat org.junit.internal.builders.JUnit4Builder.runnerForClass(JUnit4Builder.java:13)\n\tat org.junit.runners.model.RunnerBuilder.safeRunnerForClass(RunnerBuilder.java:57)\n\tat org.junit.internal.builders.AllDefaultPossibilitiesBuilder.runnerForClass(AllDefaultPossibilitiesBuilder.java:29)\n\tat org.junit.runners.model.RunnerBuilder.safeRunnerForClass(RunnerBuilder.java:57)\n\tat org.junit.internal.requests.ClassRequest.getRunner(ClassRequest.java:24)\n\tat org.eclipse.jdt.internal.junit4.runner.JUnit4TestReference.\u003cinit\u003e(JUnit4TestReference.java:33)\n\tat org.eclipse.jdt.internal.junit4.runner.JUnit4TestClassReference.\u003cinit\u003e(JUnit4TestClassReference.java:25)\n\tat org.eclipse.jdt.internal.junit4.runner.JUnit4TestLoader.createTest(JUnit4TestLoader.java:48)\n\tat org.eclipse.jdt.internal.junit4.runner.JUnit4TestLoader.loadTests(JUnit4TestLoader.java:38)\n\tat org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:452)\n\tat org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:683)\n\tat org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:390)\n\tat org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:197)\nCaused by: java.lang.ClassNotFoundException: org.hamcrest.SelfDescribing\n\tat java.net.URLClassLoader$1.run(URLClassLoader.java:202)\n\tat java.security.AccessController.doPrivileged(Native Method)\n\tat java.net.URLClassLoader.findClass(URLClassLoader.java:190)\n\tat java.lang.ClassLoader.loadClass(ClassLoader.java:306)\n\tat sun.misc.Launcher$AppClassLoader.loadClass(Launcher.java:301)\n\tat java.lang.ClassLoader.loadClass(ClassLoader.java:247)\n\t... 25 more\n\norg.eclipse.jgit.api.CommitAndLogCommandTests\ninitializationError(org.eclipse.jgit.api.CommitAndLogCommandTests)\njava.lang.NoClassDefFoundError: org/hamcrest/SelfDescribing\n\tat java.lang.ClassLoader.defineClass1(Native Method)\n\tat java.lang.ClassLoader.defineClassCond(ClassLoader.java:631)\n\tat java.lang.ClassLoader.defineClass(ClassLoader.java:615)\n\tat java.security.SecureClassLoader.defineClass(SecureClassLoader.java:141)\n\tat java.net.URLClassLoader.defineClass(URLClassLoader.java:283)\n\tat java.net.URLClassLoader.access$000(URLClassLoader.java:58)\n\tat java.net.URLClassLoader$1.run(URLClassLoader.java:197)\n\tat java.security.AccessController.doPrivileged(Native Method)\n\tat java.net.URLClassLoader.findClass(URLClassLoader.java:190)\n\tat java.lang.ClassLoader.loadClass(ClassLoader.java:306)\n\tat sun.misc.Launcher$AppClassLoader.loadClass(Launcher.java:301)\n\tat java.lang.ClassLoader.loadClass(ClassLoader.java:247)\n\tat org.junit.internal.builders.JUnit4Builder.runnerForClass(JUnit4Builder.java:13)\n\tat org.junit.runners.model.RunnerBuilder.safeRunnerForClass(RunnerBuilder.java:57)\n\tat org.junit.internal.builders.AllDefaultPossibilitiesBuilder.runnerForClass(AllDefaultPossibilitiesBuilder.java:29)\n\tat org.junit.runners.model.RunnerBuilder.safeRunnerForClass(RunnerBuilder.java:57)\n\tat org.junit.internal.requests.ClassRequest.getRunner(ClassRequest.java:24)\n\tat org.eclipse.jdt.internal.junit4.runner.JUnit4TestReference.\u003cinit\u003e(JUnit4TestReference.java:33)\n\tat org.eclipse.jdt.internal.junit4.runner.JUnit4TestClassReference.\u003cinit\u003e(JUnit4TestClassReference.java:25)\n\tat org.eclipse.jdt.internal.junit4.runner.JUnit4TestLoader.createTest(JUnit4TestLoader.java:48)\n\tat org.eclipse.jdt.internal.junit4.runner.JUnit4TestLoader.loadTests(JUnit4TestLoader.java:38)\n\tat org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:452)\n\tat org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:683)\n\tat org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:390)\n\tat org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:197)\nCaused by: java.lang.ClassNotFoundException: org.hamcrest.SelfDescribing\n\tat java.net.URLClassLoader$1.run(URLClassLoader.java:202)\n\tat java.security.AccessController.doPrivileged(Native Method)\n\tat java.net.URLClassLoader.findClass(URLClassLoader.java:190)\n\tat java.lang.ClassLoader.loadClass(ClassLoader.java:306)\n\tat sun.misc.Launcher$AppClassLoader.loadClass(Launcher.java:301)\n\tat java.lang.ClassLoader.loadClass(ClassLoader.java:247)\n\t... 25 more",
+      "revId": "6472597e3aef68c8c092a283b252d79d24e9ed6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOG3//+7U\u003d",
+        "filename": "org.eclipse.jgit.pgm.test/pom.xml",
+        "patchSetId": 6
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-03-19T16:29:52Z",
+      "side": 1,
+      "message": "style nit: trailing whitespace",
+      "revId": "6472597e3aef68c8c092a283b252d79d24e9ed6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOG3//+6A\u003d",
+        "filename": "org.eclipse.jgit.pgm.test/pom.xml",
+        "patchSetId": 6
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-03-19T16:29:52Z",
+      "side": 1,
+      "message": "version is already defined in parent pom.xml",
+      "revId": "6472597e3aef68c8c092a283b252d79d24e9ed6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOG3//+64\u003d",
+        "filename": "org.eclipse.jgit.pgm.test/pom.xml",
+        "patchSetId": 6
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-03-19T16:29:52Z",
+      "side": 1,
+      "message": "this doesn\u0027t work, instead use:\n\n \u003ctestSourceDirectory\u003etst/\u003c/testSourceDirectory\u003e",
+      "revId": "6472597e3aef68c8c092a283b252d79d24e9ed6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOG3//+28\u003d",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/api/BranchCommandTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-03-19T16:29:52Z",
+      "side": 1,
+      "message": "I think this should rather be located in org.eclipse.jgit.pgm as it\u0027s testing classes in that package",
+      "revId": "6472597e3aef68c8c092a283b252d79d24e9ed6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOG3//+24\u003d",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/api/CommitAndLogCommandTests.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-03-19T16:29:52Z",
+      "side": 1,
+      "message": "I think this should rather be located in org.eclipse.jgit.pgm as it\u0027s testing classes in that package",
+      "revId": "6472597e3aef68c8c092a283b252d79d24e9ed6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOG3//+3E\u003d",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/api/CommitAndLogCommandTests.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-03-19T16:29:52Z",
+      "side": 1,
+      "message": "I didn\u0027t find a way to convince the surefire plugin to run this test except renaming the class to CommitAndLogCommandTest. I suspect it\u0027s using junit 3 despite the fact that we specify 4.5 in the parent pom.",
+      "revId": "6472597e3aef68c8c092a283b252d79d24e9ed6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOG3//+58\u003d",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/CLIGitCommand.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-03-19T16:29:52Z",
+      "side": 1,
+      "message": "in order to enable maven to run this test you need to split the test into a separate class under org.eclipse.jgit.pgm.test/tst folder, CLIGitCommand itself should go under src/ folder",
+      "revId": "6472597e3aef68c8c092a283b252d79d24e9ed6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOG3//+7M\u003d",
+        "filename": "pom.xml",
+        "patchSetId": 6
+      },
+      "lineNbr": 473,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-03-19T16:29:52Z",
+      "side": 1,
+      "message": "style nit: inconsistent whitespace, here we only use blanks",
+      "revId": "6472597e3aef68c8c092a283b252d79d24e9ed6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
