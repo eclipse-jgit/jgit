@@ -106,7 +106,7 @@ public class PullResult {
 	 */
 	public boolean isSuccessful() {
 		if (mergeResult != null)
-			return mergeResult.getMergeStatus().isSuccessful();
+			return mergeResult.isSuccessful();
 		else if (rebaseResult != null)
 			return rebaseResult.getStatus().isSuccessful();
 		return true;

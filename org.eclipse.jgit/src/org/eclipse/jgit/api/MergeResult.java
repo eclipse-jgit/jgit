@@ -44,7 +44,9 @@
 package org.eclipse.jgit.api;
 
 import java.text.MessageFormat;
+import java.util.EnumSet;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import org.eclipse.jgit.internal.JGitText;
@@ -109,6 +111,19 @@ public class MergeResult {
 				return true;
 			}
 		},
+		/**
+		 * @since 2.0
+		 */
+		SQUASHED {
+			public String toString() {
+				return "Squashed";
+			}
+
+			@Override
+			public boolean isSuccessful() {
+				return true;
+			}
+		},
 		/** */
 		CONFLICTING {
 			public String toString() {
@@ -146,7 +161,7 @@ public class MergeResult {
 
 	private Map<String, int[][]> conflicts;
 
-	private MergeStatus mergeStatus;
+	private EnumSet<MergeStatus> mergeStatus;
 
 	private String description;
 
@@ -170,11 +185,12 @@ public class MergeResult {
 	 *            {@link ResolveMerger#getMergeResults()}
 	 * @param mergeStrategy
 	 *            the used {@link MergeStrategy}
+	 * @since 2.0
 	 */
 	public MergeResult(ObjectId newHead, ObjectId base,
 			ObjectId[] mergedCommits, MergeStatus mergeStatus,
-			Map<String, org.eclipse.jgit.merge.MergeResult<?>> lowLevelResults,
-			MergeStrategy mergeStrategy) {
+			MergeStrategy mergeStrategy,
+			Map<String, org.eclipse.jgit.merge.MergeResult<?>> lowLevelResults) {
 		this(newHead, base, mergedCommits, mergeStatus, mergeStrategy, lowLevelResults, null);
 	}
 
@@ -202,7 +218,7 @@ public class MergeResult {
 			Map<String, org.eclipse.jgit.merge.MergeResult<?>> lowLevelResults,
 			String description) {
 		this(newHead, base, mergedCommits, mergeStatus, mergeStrategy,
-				lowLevelResults, null, null);
+				lowLevelResults, null, description);
 	}
 
 	/**
@@ -232,6 +248,14 @@ public class MergeResult {
 			MergeStrategy mergeStrategy,
 			Map<String, org.eclipse.jgit.merge.MergeResult<?>> lowLevelResults,
 			Map<String, MergeFailureReason> failingPaths, String description) {
+		this(newHead, base, mergedCommits, EnumSet.of(mergeStatus),
+				mergeStrategy, lowLevelResults, failingPaths, description);
+	}
+
+	MergeResult(ObjectId newHead, ObjectId base, ObjectId[] mergedCommits,
+			EnumSet<MergeStatus> mergeStatus, MergeStrategy mergeStrategy,
+			Map<String, org.eclipse.jgit.merge.MergeResult<?>> lowLevelResults,
+			Map<String, MergeFailureReason> failingPaths, String description) {
 		this.newHead = newHead;
 		this.mergedCommits = mergedCommits;
 		this.base = base;
@@ -254,8 +278,9 @@ public class MergeResult {
 
 	/**
 	 * @return the status the merge resulted in
+	 * @since 2.0
 	 */
-	public MergeStatus getMergeStatus() {
+	public EnumSet<MergeStatus> getMergeStatus() {
 		return mergeStatus;
 	}
 
@@ -399,5 +424,32 @@ public class MergeResult {
 	 */
 	public Map<String, MergeFailureReason> getFailingPaths() {
 		return failingPaths;
+	}
+
+	/**
+	 * @return whether the combined status indicates a successful result
+	 * @since 2.0
+	 */
+	public boolean isSuccessful() {
+		for (MergeStatus ms : mergeStatus) {
+			if (!ms.isSuccessful())
+				return false;
+		}
+		return true;
+	}
+
+	/**
+	 * @return the combined name of merge status
+	 * @since 2.0
+	 */
+	public String name() {
+		StringBuilder sb = new StringBuilder();
+		for (Iterator i = mergeStatus.iterator(); i.hasNext();) {
+			MergeStatus ms = (MergeStatus) i.next();
+			sb.append(ms.name());
+			if (i.hasNext())
+				sb.append(" ");
+		}
+		return sb.toString();
 	}
 }

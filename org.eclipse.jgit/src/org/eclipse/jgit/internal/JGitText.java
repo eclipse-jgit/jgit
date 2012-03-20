@@ -484,6 +484,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String sourceIsNotAWildcard;
 	/***/ public String sourceRefDoesntResolveToAnyObject;
 	/***/ public String sourceRefNotSpecifiedForRefspec;
+	/***/ public String squashCommitNotUpdatingHEAD;
 	/***/ public String staleRevFlagsOn;
 	/***/ public String startingReadStageWithoutWrittenRequestDataPendingIsNotSupported;
 	/***/ public String stashApplyFailed;

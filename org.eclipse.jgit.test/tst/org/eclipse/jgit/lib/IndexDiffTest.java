@@ -53,6 +53,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.TreeSet;
 
@@ -197,7 +198,8 @@ public class IndexDiffTest extends RepositoryTestCase {
 		// merge side with master
 		MergeResult result = git.merge().include(secondCommit.getId())
 				.setStrategy(MergeStrategy.RESOLVE).call();
-		assertEquals(MergeStatus.CONFLICTING, result.getMergeStatus());
+		assertEquals(EnumSet.of(MergeStatus.CONFLICTING),
+				result.getMergeStatus());
 
 		FileTreeIterator iterator = new FileTreeIterator(db);
 		IndexDiff diff = new IndexDiff(db, Constants.HEAD, iterator);
@@ -237,7 +239,8 @@ public class IndexDiffTest extends RepositoryTestCase {
 		// merge side with master
 		MergeResult result = git.merge().include(secondCommit.getId())
 				.setStrategy(MergeStrategy.RESOLVE).call();
-		assertEquals(MergeStatus.CONFLICTING, result.getMergeStatus());
+		assertEquals(EnumSet.of(MergeStatus.CONFLICTING),
+				result.getMergeStatus());
 
 		FileTreeIterator iterator = new FileTreeIterator(db);
 		IndexDiff diff = new IndexDiff(db, Constants.HEAD, iterator);
@@ -275,7 +278,8 @@ public class IndexDiffTest extends RepositoryTestCase {
 
 		MergeResult result = git.merge().include(secondCommit.getId())
 				.setStrategy(MergeStrategy.RESOLVE).call();
-		assertEquals(MergeStatus.CONFLICTING, result.getMergeStatus());
+		assertEquals(EnumSet.of(MergeStatus.CONFLICTING),
+				result.getMergeStatus());
 
 		FileTreeIterator iterator = new FileTreeIterator(db);
 		IndexDiff diff = new IndexDiff(db, Constants.HEAD, iterator);

@@ -48,6 +48,7 @@ import java.util.Map;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.MergeResult;
+import org.eclipse.jgit.api.MergeResult.MergeStatus;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.merge.MergeStrategy;
 import org.eclipse.jgit.merge.ResolveMerger.MergeFailureReason;
@@ -85,39 +86,44 @@ class Merge extends TextBuiltin {
 		MergeResult result = git.merge().setStrategy(mergeStrategy)
 				.include(src).call();
 
-		switch (result.getMergeStatus()) {
-		case ALREADY_UP_TO_DATE:
-		case FAST_FORWARD:
-			out.println(result.getMergeStatus().toString());
-			break;
-		case CONFLICTING:
-			for (String collidingPath : result.getConflicts().keySet())
-				out.println(MessageFormat.format(CLIText.get().mergeConflict,
-						collidingPath));
-			out.println(CLIText.get().mergeFailed);
-			break;
-		case FAILED:
-			for (Map.Entry<String, MergeFailureReason> entry : result
-					.getFailingPaths().entrySet())
-				switch (entry.getValue()) {
-				case DIRTY_WORKTREE:
-				case DIRTY_INDEX:
-					out.println(CLIText.get().dontOverwriteLocalChanges);
-					out.println("        " + entry.getKey());
-					break;
-				case COULD_NOT_DELETE:
-					out.println(CLIText.get().cannotDeleteFile);
-					out.println("        " + entry.getKey());
-					break;
-				}
-			break;
-		case MERGED:
-			out.println(MessageFormat.format(CLIText.get().mergeMadeBy,
-					mergeStrategy.getName()));
-			break;
-		case NOT_SUPPORTED:
-			out.println(MessageFormat.format(
-					CLIText.get().unsupportedOperation, result.toString()));
+		for (MergeStatus mergeStatus : result.getMergeStatus()) {
+			switch (mergeStatus) {
+			case ALREADY_UP_TO_DATE:
+			case FAST_FORWARD:
+				out.println(result.getMergeStatus().toString());
+				break;
+			case CONFLICTING:
+				for (String collidingPath : result.getConflicts().keySet())
+					out.println(MessageFormat.format(
+							CLIText.get().mergeConflict, collidingPath));
+				out.println(CLIText.get().mergeFailed);
+				break;
+			case FAILED:
+				for (Map.Entry<String, MergeFailureReason> entry : result
+						.getFailingPaths().entrySet())
+					switch (entry.getValue()) {
+					case DIRTY_WORKTREE:
+					case DIRTY_INDEX:
+						out.println(CLIText.get().dontOverwriteLocalChanges);
+						out.println("        " + entry.getKey());
+						break;
+					case COULD_NOT_DELETE:
+						out.println(CLIText.get().cannotDeleteFile);
+						out.println("        " + entry.getKey());
+						break;
+					}
+				break;
+			case MERGED:
+				out.println(MessageFormat.format(CLIText.get().mergeMadeBy,
+						mergeStrategy.getName()));
+				break;
+			case SQUASHED:
+				out.println(CLIText.get().squashCommit);
+				break;
+			case NOT_SUPPORTED:
+				out.println(MessageFormat.format(
+						CLIText.get().unsupportedOperation, result.toString()));
+			}
 		}
 	}
 }
