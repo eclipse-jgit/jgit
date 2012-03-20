@@ -149,8 +149,15 @@ public abstract class Transport {
 		try {
 			String line;
 			while ((line = br.readLine()) != null) {
-				if (line.length() > 0 && !line.startsWith("#"))
-					load(ldr, line);
+				line = line.trim();
+				if (line.length() == 0)
+					continue;
+				int comment = line.indexOf('#');
+				if (comment == 0)
+					continue;
+				if (comment != -1)
+					line = line.substring(0, comment).trim();
+				load(ldr, line);
 			}
 		} catch (IOException err) {
 			// If we failed during a read, ignore the error.
