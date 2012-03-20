@@ -1,0 +1,7 @@
+# Comment at beginning
+org.eclipse.jgit.transport.SpiTransport # spi
+ # Comment after just whitespace
+org.eclipse.jgit.transport.MissingTransport
+
+	
+  
