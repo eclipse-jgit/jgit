@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOC3///yw\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/DirCacheCheckoutTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 458,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-03-20T21:48:26Z",
+      "side": 1,
+      "message": "Is there a checkout during commit?\n\nI\u0027m less concerned about committers shooting themselves in the foot during commit and it\u0027s kind-of-hard to do anyway. My concern is with bad stuff coming in from the outside.\n\nOther than that: Done",
+      "parentUuid": "AABOC3///zM\u003d",
+      "revId": "74f88d8c5de96dc9a29490e25e4e2467278b634f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOC3///zI\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
         "patchSetId": 9
@@ -30,6 +48,24 @@
       "writtenOn": "2011-11-30T13:06:35Z",
       "side": 1,
       "message": "We need a check for invalid pathes also here.",
+      "revId": "74f88d8c5de96dc9a29490e25e4e2467278b634f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOC3///pg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 496,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-03-20T21:48:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOC3///zI\u003d",
       "revId": "74f88d8c5de96dc9a29490e25e4e2467278b634f",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
