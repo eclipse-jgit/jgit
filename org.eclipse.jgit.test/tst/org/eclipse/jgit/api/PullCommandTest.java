@@ -52,6 +52,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.EnumSet;
 
 import org.eclipse.jgit.api.CreateBranchCommand.SetupUpstreamMode;
 import org.eclipse.jgit.api.MergeResult.MergeStatus;
@@ -89,8 +90,8 @@ public class PullCommandTest extends RepositoryTestCase {
 		PullResult res = target.pull().call();
 		// nothing to update since we don't have different data yet
 		assertTrue(res.getFetchResult().getTrackingRefUpdates().isEmpty());
-		assertTrue(res.getMergeResult().getMergeStatus().equals(
-				MergeStatus.ALREADY_UP_TO_DATE));
+		assertEquals(EnumSet.of(MergeStatus.ALREADY_UP_TO_DATE), res
+				.getMergeResult().getMergeStatus());
 
 		assertFileContentsEqual(targetFile, "Hello world");
 
@@ -102,15 +103,15 @@ public class PullCommandTest extends RepositoryTestCase {
 		res = target.pull().call();
 
 		assertFalse(res.getFetchResult().getTrackingRefUpdates().isEmpty());
-		assertEquals(res.getMergeResult().getMergeStatus(),
-				MergeStatus.FAST_FORWARD);
+		assertEquals(EnumSet.of(MergeStatus.FAST_FORWARD), res.getMergeResult()
+				.getMergeStatus());
 		assertFileContentsEqual(targetFile, "Another change");
 		assertEquals(RepositoryState.SAFE, target.getRepository()
 				.getRepositoryState());
 
 		res = target.pull().call();
-		assertEquals(res.getMergeResult().getMergeStatus(),
-				MergeStatus.ALREADY_UP_TO_DATE);
+		assertEquals(EnumSet.of(MergeStatus.ALREADY_UP_TO_DATE), res
+				.getMergeResult().getMergeStatus());
 	}
 
 	@Test
@@ -118,8 +119,8 @@ public class PullCommandTest extends RepositoryTestCase {
 		PullResult res = target.pull().call();
 		// nothing to update since we don't have different data yet
 		assertTrue(res.getFetchResult().getTrackingRefUpdates().isEmpty());
-		assertTrue(res.getMergeResult().getMergeStatus()
-				.equals(MergeStatus.ALREADY_UP_TO_DATE));
+		assertEquals(EnumSet.of(MergeStatus.ALREADY_UP_TO_DATE), res
+				.getMergeResult().getMergeStatus());
 
 		writeToFile(sourceFile, "Source change");
 		source.add().addFilepattern("SomeFile.txt");
@@ -149,8 +150,8 @@ public class PullCommandTest extends RepositoryTestCase {
 		PullResult res = target.pull().call();
 		// nothing to update since we don't have different data yet
 		assertTrue(res.getFetchResult().getTrackingRefUpdates().isEmpty());
-		assertTrue(res.getMergeResult().getMergeStatus().equals(
-				MergeStatus.ALREADY_UP_TO_DATE));
+		assertEquals(EnumSet.of(MergeStatus.ALREADY_UP_TO_DATE), res
+				.getMergeResult().getMergeStatus());
 
 		assertFileContentsEqual(targetFile, "Hello world");
 
@@ -171,8 +172,8 @@ public class PullCommandTest extends RepositoryTestCase {
 						"origin", "url");
 
 		assertFalse(res.getFetchResult().getTrackingRefUpdates().isEmpty());
-		assertEquals(res.getMergeResult().getMergeStatus(),
-				MergeStatus.CONFLICTING);
+		assertEquals(EnumSet.of(MergeStatus.CONFLICTING), res.getMergeResult()
+				.getMergeStatus());
 		String result = "<<<<<<< HEAD\nTarget change\n=======\n"
 				+ sourceChangeString + "\n";
 		assertFileContentsEqual(targetFile, result);
@@ -190,8 +191,8 @@ public class PullCommandTest extends RepositoryTestCase {
 		PullResult res = target.pull().call();
 		// nothing to update since we don't have different data yet
 		assertNull(res.getFetchResult());
-		assertTrue(res.getMergeResult().getMergeStatus().equals(
-				MergeStatus.ALREADY_UP_TO_DATE));
+		assertEquals(EnumSet.of(MergeStatus.ALREADY_UP_TO_DATE), res
+				.getMergeResult().getMergeStatus());
 
 		assertFileContentsEqual(targetFile, "Hello world");
 
@@ -214,8 +215,8 @@ public class PullCommandTest extends RepositoryTestCase {
 		String sourceChangeString = "Master change\n>>>>>>> branch 'master' of local repository";
 
 		assertNull(res.getFetchResult());
-		assertEquals(res.getMergeResult().getMergeStatus(),
-				MergeStatus.CONFLICTING);
+		assertEquals(EnumSet.of(MergeStatus.CONFLICTING), res.getMergeResult()
+				.getMergeStatus());
 		String result = "<<<<<<< HEAD\nSlave change\n=======\n"
 				+ sourceChangeString + "\n";
 		assertFileContentsEqual(targetFile, result);

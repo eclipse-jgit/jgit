@@ -51,6 +51,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -171,7 +172,8 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 		assertWorkDir(mkmap("f", "f()\nside", "G/i", "i()", "untracked",
 				"untracked"));
 
-		assertEquals(MergeStatus.CONFLICTING, git.merge().include(master)
+		assertEquals(EnumSet.of(MergeStatus.CONFLICTING),
+				git.merge().include(master)
 				.call().getMergeStatus());
 		assertEquals(
 				"[D/g, mode:100644, stage:1][D/g, mode:100644, stage:3][E/h, mode:100644][G/i, mode:100644][f, mode:100644, stage:1][f, mode:100644, stage:2][f, mode:100644, stage:3]",

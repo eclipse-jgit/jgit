@@ -179,6 +179,7 @@ public class CLIText extends TranslationBundle {
 	/***/ public String repaint;
 	/***/ public String serviceNotSupported;
 	/***/ public String skippingObject;
+	/***/ public String squashCommit;
 	/***/ public String timeInMilliSeconds;
 	/***/ public String tooManyRefsGiven;
 	/***/ public String unknownMergeStratey;
