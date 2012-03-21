@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOG3//+xU\u003d",
+        "filename": "org.eclipse.jgit.pgm.test/.gitignore",
+        "patchSetId": 6
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-03-21T00:23:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOG3//+7E\u003d",
+      "revId": "6472597e3aef68c8c092a283b252d79d24e9ed6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOG3//+60\u003d",
         "filename": "org.eclipse.jgit.pgm.test/META-INF/MANIFEST.MF",
         "patchSetId": 6
@@ -30,6 +48,24 @@
       "writtenOn": "2012-03-19T16:29:52Z",
       "side": 1,
       "message": "use version ranges",
+      "revId": "6472597e3aef68c8c092a283b252d79d24e9ed6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOG3//+xQ\u003d",
+        "filename": "org.eclipse.jgit.pgm.test/META-INF/MANIFEST.MF",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-03-21T00:23:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOG3//+60\u003d",
       "revId": "6472597e3aef68c8c092a283b252d79d24e9ed6b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AABOG3//+xM\u003d",
+        "filename": "org.eclipse.jgit.pgm.test/META-INF/MANIFEST.MF",
+        "patchSetId": 6
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-03-21T00:23:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOG3//+7I\u003d",
+      "revId": "6472597e3aef68c8c092a283b252d79d24e9ed6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOG3//+7U\u003d",
         "filename": "org.eclipse.jgit.pgm.test/pom.xml",
         "patchSetId": 6
@@ -64,6 +118,24 @@
       "writtenOn": "2012-03-19T16:29:52Z",
       "side": 1,
       "message": "style nit: trailing whitespace",
+      "revId": "6472597e3aef68c8c092a283b252d79d24e9ed6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOG3//+xI\u003d",
+        "filename": "org.eclipse.jgit.pgm.test/pom.xml",
+        "patchSetId": 6
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-03-21T00:23:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOG3//+7U\u003d",
       "revId": "6472597e3aef68c8c092a283b252d79d24e9ed6b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AABOG3//+xE\u003d",
+        "filename": "org.eclipse.jgit.pgm.test/pom.xml",
+        "patchSetId": 6
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-03-21T00:23:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOG3//+6A\u003d",
+      "revId": "6472597e3aef68c8c092a283b252d79d24e9ed6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOG3//+64\u003d",
         "filename": "org.eclipse.jgit.pgm.test/pom.xml",
         "patchSetId": 6
@@ -98,6 +188,24 @@
       "writtenOn": "2012-03-19T16:29:52Z",
       "side": 1,
       "message": "this doesn\u0027t work, instead use:\n\n \u003ctestSourceDirectory\u003etst/\u003c/testSourceDirectory\u003e",
+      "revId": "6472597e3aef68c8c092a283b252d79d24e9ed6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOG3//+xA\u003d",
+        "filename": "org.eclipse.jgit.pgm.test/pom.xml",
+        "patchSetId": 6
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-03-21T00:23:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOG3//+64\u003d",
       "revId": "6472597e3aef68c8c092a283b252d79d24e9ed6b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "AABOG3//+w4\u003d",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/api/BranchCommandTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-03-21T00:23:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOG3//+28\u003d",
+      "revId": "6472597e3aef68c8c092a283b252d79d24e9ed6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOG3//+24\u003d",
         "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/api/CommitAndLogCommandTests.java",
         "patchSetId": 6
@@ -132,6 +258,24 @@
       "writtenOn": "2012-03-19T16:29:52Z",
       "side": 1,
       "message": "I think this should rather be located in org.eclipse.jgit.pgm as it\u0027s testing classes in that package",
+      "revId": "6472597e3aef68c8c092a283b252d79d24e9ed6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOG3//+w0\u003d",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/api/CommitAndLogCommandTests.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-03-21T00:23:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOG3//+24\u003d",
       "revId": "6472597e3aef68c8c092a283b252d79d24e9ed6b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "AABOG3//+ww\u003d",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/api/CommitAndLogCommandTests.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-03-21T00:23:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOG3//+3E\u003d",
+      "revId": "6472597e3aef68c8c092a283b252d79d24e9ed6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOG3//+58\u003d",
         "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/CLIGitCommand.java",
         "patchSetId": 6
@@ -172,6 +334,24 @@
     },
     {
       "key": {
+        "uuid": "AABOG3//+w8\u003d",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/CLIGitCommand.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-03-21T00:23:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOG3//+58\u003d",
+      "revId": "6472597e3aef68c8c092a283b252d79d24e9ed6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOG3//+7M\u003d",
         "filename": "pom.xml",
         "patchSetId": 6
@@ -183,6 +363,24 @@
       "writtenOn": "2012-03-19T16:29:52Z",
       "side": 1,
       "message": "style nit: inconsistent whitespace, here we only use blanks",
+      "revId": "6472597e3aef68c8c092a283b252d79d24e9ed6b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOG3//+wo\u003d",
+        "filename": "pom.xml",
+        "patchSetId": 6
+      },
+      "lineNbr": 473,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-03-21T00:23:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOG3//+7M\u003d",
       "revId": "6472597e3aef68c8c092a283b252d79d24e9ed6b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
