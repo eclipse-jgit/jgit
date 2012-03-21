@@ -48,15 +48,11 @@ package org.eclipse.jgit.storage.file;
 
 import static org.eclipse.jgit.lib.Constants.CHARSET;
 import static org.eclipse.jgit.lib.Constants.HEAD;
-import static org.eclipse.jgit.lib.Constants.LOGS;
 import static org.eclipse.jgit.lib.Constants.OBJECT_ID_STRING_LENGTH;
 import static org.eclipse.jgit.lib.Constants.PACKED_REFS;
 import static org.eclipse.jgit.lib.Constants.R_HEADS;
 import static org.eclipse.jgit.lib.Constants.R_REFS;
-import static org.eclipse.jgit.lib.Constants.R_REMOTES;
-import static org.eclipse.jgit.lib.Constants.R_STASH;
 import static org.eclipse.jgit.lib.Constants.R_TAGS;
-import static org.eclipse.jgit.lib.Constants.encode;
 import static org.eclipse.jgit.lib.Ref.Storage.LOOSE;
 import static org.eclipse.jgit.lib.Ref.Storage.NEW;
 import static org.eclipse.jgit.lib.Ref.Storage.PACKED;
@@ -65,11 +61,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.nio.ByteBuffer;
-import java.nio.channels.FileChannel;
 import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -84,10 +77,8 @@ import org.eclipse.jgit.errors.ObjectWritingException;
 import org.eclipse.jgit.events.RefsChangedEvent;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.CoreConfig;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdRef;
-import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefComparator;
 import org.eclipse.jgit.lib.RefDatabase;
@@ -141,9 +132,7 @@ public class RefDirectory extends RefDatabase {
 
 	private final File refsDir;
 
-	private final File logsDir;
-
-	private final File logsRefsDir;
+	private final ReflogWriter logWriter;
 
 	private final File packedRefsFile;
 
@@ -180,9 +169,8 @@ public class RefDirectory extends RefDatabase {
 		final FS fs = db.getFS();
 		parent = db;
 		gitDir = db.getDirectory();
+		logWriter = new ReflogWriter(db);
 		refsDir = fs.resolve(gitDir, R_REFS);
-		logsDir = fs.resolve(gitDir, LOGS);
-		logsRefsDir = fs.resolve(gitDir, LOGS + '/' + R_REFS);
 		packedRefsFile = fs.resolve(gitDir, PACKED_REFS);
 
 		looseRefs.set(RefList.<LooseRef> emptyList());
@@ -193,15 +181,15 @@ public class RefDirectory extends RefDatabase {
 		return parent;
 	}
 
+	ReflogWriter getLogWriter() {
+		return logWriter;
+	}
+
 	public void create() throws IOException {
 		FileUtils.mkdir(refsDir);
-		FileUtils.mkdir(logsDir);
-		FileUtils.mkdir(logsRefsDir);
-
 		FileUtils.mkdir(new File(refsDir, R_HEADS.substring(R_REFS.length())));
 		FileUtils.mkdir(new File(refsDir, R_TAGS.substring(R_REFS.length())));
-		FileUtils.mkdir(new File(logsRefsDir,
-				R_HEADS.substring(R_REFS.length())));
+		logWriter.create();
 	}
 
 	@Override
@@ -301,7 +289,8 @@ public class RefDirectory extends RefDatabase {
 		RefList.Builder<Ref> symbolic = scan.symbolic;
 		for (int idx = 0; idx < symbolic.size();) {
 			final Ref symbolicRef = symbolic.get(idx);
-			final Ref resolvedRef = resolve(symbolicRef, 0, prefix, loose, packed);
+			final Ref resolvedRef = resolve(symbolicRef, 0, prefix, loose,
+					packed);
 			if (resolvedRef != null && resolvedRef.getObjectId() != null) {
 				symbolic.set(idx, resolvedRef);
 				idx++;
@@ -483,11 +472,11 @@ public class RefDirectory extends RefDatabase {
 		try {
 			RevObject obj = rw.parseAny(leaf.getObjectId());
 			if (obj instanceof RevTag) {
-				return new ObjectIdRef.PeeledTag(leaf.getStorage(), leaf
-						.getName(), leaf.getObjectId(), rw.peel(obj).copy());
+				return new ObjectIdRef.PeeledTag(leaf.getStorage(),
+						leaf.getName(), leaf.getObjectId(), rw.peel(obj).copy());
 			} else {
-				return new ObjectIdRef.PeeledNonTag(leaf.getStorage(), leaf
-						.getName(), leaf.getObjectId());
+				return new ObjectIdRef.PeeledNonTag(leaf.getStorage(),
+						leaf.getName(), leaf.getObjectId());
 			}
 		} finally {
 			rw.release();
@@ -561,8 +550,8 @@ public class RefDirectory extends RefDatabase {
 		// we don't miss an edit made externally.
 		final PackedRefList packed = getPackedRefs();
 		if (packed.contains(name)) {
-			LockFile lck = new LockFile(packedRefsFile,
-					update.getRepository().getFS());
+			LockFile lck = new LockFile(packedRefsFile, update.getRepository()
+					.getFS());
 			if (!lck.lock())
 				throw new LockFailedException(packedRefsFile);
 			try {
@@ -585,7 +574,7 @@ public class RefDirectory extends RefDatabase {
 		} while (!looseRefs.compareAndSet(curLoose, newLoose));
 
 		int levels = levelsIn(name) - 2;
-		delete(logFor(name), levels);
+		delete(logWriter.logFor(name), levels);
 		if (dst.getStorage().isLoose()) {
 			update.unlock();
 			delete(fileFor(name), levels);
@@ -597,83 +586,7 @@ public class RefDirectory extends RefDatabase {
 
 	void log(final RefUpdate update, final String msg, final boolean deref)
 			throws IOException {
-		final ObjectId oldId = update.getOldObjectId();
-		final ObjectId newId = update.getNewObjectId();
-		final Ref ref = update.getRef();
-
-		PersonIdent ident = update.getRefLogIdent();
-		if (ident == null)
-			ident = new PersonIdent(parent);
-		else
-			ident = new PersonIdent(ident);
-
-		final StringBuilder r = new StringBuilder();
-		r.append(ObjectId.toString(oldId));
-		r.append(' ');
-		r.append(ObjectId.toString(newId));
-		r.append(' ');
-		r.append(ident.toExternalString());
-		r.append('\t');
-		r.append(msg);
-		r.append('\n');
-		final byte[] rec = encode(r.toString());
-
-		if (deref && ref.isSymbolic()) {
-			log(ref.getName(), rec);
-			log(ref.getLeaf().getName(), rec);
-		} else {
-			log(ref.getName(), rec);
-		}
-	}
-
-	private void log(final String refName, final byte[] rec) throws IOException {
-		final File log = logFor(refName);
-		final boolean write;
-		if (isLogAllRefUpdates() && shouldAutoCreateLog(refName))
-			write = true;
-		else if (log.isFile())
-			write = true;
-		else
-			write = false;
-
-		if (write) {
-			WriteConfig wc = getRepository().getConfig().get(WriteConfig.KEY);
-			FileOutputStream out;
-			try {
-				out = new FileOutputStream(log, true);
-			} catch (FileNotFoundException err) {
-				final File dir = log.getParentFile();
-				if (dir.exists())
-					throw err;
-				if (!dir.mkdirs() && !dir.isDirectory())
-					throw new IOException(MessageFormat.format(JGitText.get().cannotCreateDirectory, dir));
-				out = new FileOutputStream(log, true);
-			}
-			try {
-				if (wc.getFSyncRefFiles()) {
-					FileChannel fc = out.getChannel();
-					ByteBuffer buf = ByteBuffer.wrap(rec);
-					while (0 < buf.remaining())
-						fc.write(buf);
-					fc.force(true);
-				} else {
-					out.write(rec);
-				}
-			} finally {
-				out.close();
-			}
-		}
-	}
-
-	private boolean isLogAllRefUpdates() {
-		return parent.getConfig().get(CoreConfig.KEY).isLogAllRefUpdates();
-	}
-
-	private boolean shouldAutoCreateLog(final String refName) {
-		return refName.equals(HEAD) //
-				|| refName.startsWith(R_HEADS) //
-				|| refName.startsWith(R_REMOTES) //
-				|| refName.equals(R_STASH);
+		logWriter.log(update, msg, deref);
 	}
 
 	private Ref resolve(final Ref ref, int depth, String prefix,
@@ -719,8 +632,7 @@ public class RefDirectory extends RefDatabase {
 		return newList;
 	}
 
-	private PackedRefList readPackedRefs()
-			throws IOException {
+	private PackedRefList readPackedRefs() throws IOException {
 		final FileSnapshot snapshot = FileSnapshot.save(packedRefsFile);
 		final BufferedReader br;
 		try {
@@ -759,8 +671,8 @@ public class RefDirectory extends RefDatabase {
 					throw new IOException(JGitText.get().peeledLineBeforeRef);
 
 				ObjectId id = ObjectId.fromString(p.substring(1));
-				last = new ObjectIdRef.PeeledTag(PACKED, last.getName(), last
-						.getObjectId(), id);
+				last = new ObjectIdRef.PeeledTag(PACKED, last.getName(),
+						last.getObjectId(), id);
 				all.set(all.size() - 1, last);
 				continue;
 			}
@@ -801,19 +713,22 @@ public class RefDirectory extends RefDatabase {
 				try {
 					lck.write(content);
 				} catch (IOException ioe) {
-					throw new ObjectWritingException(MessageFormat.format(JGitText.get().unableToWrite, name), ioe);
+					throw new ObjectWritingException(MessageFormat.format(
+							JGitText.get().unableToWrite, name), ioe);
 				}
 				try {
 					lck.waitForStatChange();
 				} catch (InterruptedException e) {
 					lck.unlock();
-					throw new ObjectWritingException(MessageFormat.format(JGitText.get().interruptedWriting, name));
+					throw new ObjectWritingException(MessageFormat.format(
+							JGitText.get().interruptedWriting, name));
 				}
 				if (!lck.commit())
-					throw new ObjectWritingException(MessageFormat.format(JGitText.get().unableToWrite, name));
+					throw new ObjectWritingException(MessageFormat.format(
+							JGitText.get().unableToWrite, name));
 
-				packedRefs.compareAndSet(oldPackedList, new PackedRefList(
-						refs, lck.getCommitSnapshot()));
+				packedRefs.compareAndSet(oldPackedList, new PackedRefList(refs,
+						lck.getCommitSnapshot()));
 			}
 		}.writePackedRefs();
 	}
@@ -886,7 +801,8 @@ public class RefDirectory extends RefDatabase {
 				n--;
 			if (n < 6) {
 				String content = RawParseUtils.decode(buf, 0, n);
-				throw new IOException(MessageFormat.format(JGitText.get().notARef, name, content));
+				throw new IOException(MessageFormat.format(
+						JGitText.get().notARef, name, content));
 			}
 			final String target = RawParseUtils.decode(buf, 5, n);
 			if (ref != null && ref.isSymbolic()
@@ -913,7 +829,8 @@ public class RefDirectory extends RefDatabase {
 			while (0 < n && Character.isWhitespace(buf[n - 1]))
 				n--;
 			String content = RawParseUtils.decode(buf, 0, n);
-			throw new IOException(MessageFormat.format(JGitText.get().notARef, name, content));
+			throw new IOException(MessageFormat.format(JGitText.get().notARef,
+					name, content));
 		}
 		return new LooseUnpeeled(otherSnapshot, name, id);
 	}
@@ -932,7 +849,8 @@ public class RefDirectory extends RefDatabase {
 	private void fireRefsChanged() {
 		final int last = lastNotifiedModCnt.get();
 		final int curr = modCnt.get();
-		if (last != curr && lastNotifiedModCnt.compareAndSet(last, curr) && last != 0)
+		if (last != curr && lastNotifiedModCnt.compareAndSet(last, curr)
+				&& last != 0)
 			parent.fireEvent(new RefsChangedEvent());
 	}
 
@@ -966,22 +884,6 @@ public class RefDirectory extends RefDatabase {
 		return new File(gitDir, name);
 	}
 
-	/**
-	 * Locate the log file on disk for a single reference name.
-	 *
-	 * @param name
-	 *            name of the ref, relative to the Git repository top level
-	 *            directory (so typically starts with refs/).
-	 * @return the log file location.
-	 */
-	File logFor(String name) {
-		if (name.startsWith(R_REFS)) {
-			name = name.substring(R_REFS.length());
-			return new File(logsRefsDir, name);
-		}
-		return new File(logsDir, name);
-	}
-
 	static int levelsIn(final String name) {
 		int count = 0;
 		for (int p = name.indexOf('/'); p >= 0; p = name.indexOf('/', p + 1))
@@ -991,7 +893,8 @@ public class RefDirectory extends RefDatabase {
 
 	static void delete(final File file, final int depth) throws IOException {
 		if (!file.delete() && file.isFile())
-			throw new IOException(MessageFormat.format(JGitText.get().fileCannotBeDeleted, file));
+			throw new IOException(MessageFormat.format(
+					JGitText.get().fileCannotBeDeleted, file));
 
 		File dir = file.getParentFile();
 		for (int i = 0; i < depth; ++i) {
@@ -1077,11 +980,10 @@ public class RefDirectory extends RefDatabase {
 
 		public LooseRef peel(ObjectIdRef newLeaf) {
 			if (newLeaf.getPeeledObjectId() != null)
-				return new LoosePeeledTag(snapShot, getName(),
-						getObjectId(), newLeaf.getPeeledObjectId());
+				return new LoosePeeledTag(snapShot, getName(), getObjectId(),
+						newLeaf.getPeeledObjectId());
 			else
-				return new LooseNonTag(snapShot, getName(),
-						getObjectId());
+				return new LooseNonTag(snapShot, getName(), getObjectId());
 		}
 	}
 
