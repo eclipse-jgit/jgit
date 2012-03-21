@@ -48,15 +48,11 @@ package org.eclipse.jgit.storage.file;
 
 import static org.eclipse.jgit.lib.Constants.CHARSET;
 import static org.eclipse.jgit.lib.Constants.HEAD;
-import static org.eclipse.jgit.lib.Constants.LOGS;
 import static org.eclipse.jgit.lib.Constants.OBJECT_ID_STRING_LENGTH;
 import static org.eclipse.jgit.lib.Constants.PACKED_REFS;
 import static org.eclipse.jgit.lib.Constants.R_HEADS;
 import static org.eclipse.jgit.lib.Constants.R_REFS;
-import static org.eclipse.jgit.lib.Constants.R_REMOTES;
-import static org.eclipse.jgit.lib.Constants.R_STASH;
 import static org.eclipse.jgit.lib.Constants.R_TAGS;
-import static org.eclipse.jgit.lib.Constants.encode;
 import static org.eclipse.jgit.lib.Ref.Storage.LOOSE;
 import static org.eclipse.jgit.lib.Ref.Storage.NEW;
 import static org.eclipse.jgit.lib.Ref.Storage.PACKED;
@@ -65,11 +61,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.nio.ByteBuffer;
-import java.nio.channels.FileChannel;
 import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -84,10 +77,8 @@ import org.eclipse.jgit.errors.ObjectWritingException;
 import org.eclipse.jgit.events.RefsChangedEvent;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.CoreConfig;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdRef;
-import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefComparator;
 import org.eclipse.jgit.lib.RefDatabase;
@@ -141,9 +132,7 @@ public class RefDirectory extends RefDatabase {
 
 	private final File refsDir;
 
-	private final File logsDir;
-
-	private final File logsRefsDir;
+	private final ReflogWriter logWriter;
 
 	private final File packedRefsFile;
 
@@ -180,9 +169,8 @@ public class RefDirectory extends RefDatabase {
 		final FS fs = db.getFS();
 		parent = db;
 		gitDir = db.getDirectory();
+		logWriter = new ReflogWriter(db);
 		refsDir = fs.resolve(gitDir, R_REFS);
-		logsDir = fs.resolve(gitDir, LOGS);
-		logsRefsDir = fs.resolve(gitDir, LOGS + '/' + R_REFS);
 		packedRefsFile = fs.resolve(gitDir, PACKED_REFS);
 
 		looseRefs.set(RefList.<LooseRef> emptyList());
@@ -193,15 +181,15 @@ public class RefDirectory extends RefDatabase {
 		return parent;
 	}
 
+	ReflogWriter getLogWriter() {
+		return logWriter;
+	}
+
 	public void create() throws IOException {
 		FileUtils.mkdir(refsDir);
-		FileUtils.mkdir(logsDir);
-		FileUtils.mkdir(logsRefsDir);
-
 		FileUtils.mkdir(new File(refsDir, R_HEADS.substring(R_REFS.length())));
 		FileUtils.mkdir(new File(refsDir, R_TAGS.substring(R_REFS.length())));
-		FileUtils.mkdir(new File(logsRefsDir,
-				R_HEADS.substring(R_REFS.length())));
+		logWriter.create();
 	}
 
 	@Override
@@ -585,7 +573,7 @@ public class RefDirectory extends RefDatabase {
 		} while (!looseRefs.compareAndSet(curLoose, newLoose));
 
 		int levels = levelsIn(name) - 2;
-		delete(logFor(name), levels);
+		delete(logWriter.logFor(name), levels);
 		if (dst.getStorage().isLoose()) {
 			update.unlock();
 			delete(fileFor(name), levels);
@@ -597,83 +585,7 @@ public class RefDirectory extends RefDatabase {
 
 	void log(final RefUpdate update, final String msg, final boolean deref)
 			throws IOException {
-		final ObjectId oldId = update.getOldObjectId();
-		final ObjectId newId = update.getNewObjectId();
-		final Ref ref = update.getRef();
-
-		PersonIdent ident = update.getRefLogIdent();
-		if (ident == null)
-			ident = new PersonIdent(parent);
-		else
-			ident = new PersonIdent(ident);
-
-		final StringBuilder r = new StringBuilder();
-		r.append(ObjectId.toString(oldId));
-		r.append(' ');
-		r.append(ObjectId.toString(newId));
-		r.append(' ');
-		r.append(ident.toExternalString());
-		r.append('\t');
-		r.append(msg);
-		r.append('\n');
-		final byte[] rec = encode(r.toString());
-
-		if (deref && ref.isSymbolic()) {
-			log(ref.getName(), rec);
-			log(ref.getLeaf().getName(), rec);
-		} else {
-			log(ref.getName(), rec);
-		}
-	}
-
-	private void log(final String refName, final byte[] rec) throws IOException {
-		final File log = logFor(refName);
-		final boolean write;
-		if (isLogAllRefUpdates() && shouldAutoCreateLog(refName))
-			write = true;
-		else if (log.isFile())
-			write = true;
-		else
-			write = false;
-
-		if (write) {
-			WriteConfig wc = getRepository().getConfig().get(WriteConfig.KEY);
-			FileOutputStream out;
-			try {
-				out = new FileOutputStream(log, true);
-			} catch (FileNotFoundException err) {
-				final File dir = log.getParentFile();
-				if (dir.exists())
-					throw err;
-				if (!dir.mkdirs() && !dir.isDirectory())
-					throw new IOException(MessageFormat.format(JGitText.get().cannotCreateDirectory, dir));
-				out = new FileOutputStream(log, true);
-			}
-			try {
-				if (wc.getFSyncRefFiles()) {
-					FileChannel fc = out.getChannel();
-					ByteBuffer buf = ByteBuffer.wrap(rec);
-					while (0 < buf.remaining())
-						fc.write(buf);
-					fc.force(true);
-				} else {
-					out.write(rec);
-				}
-			} finally {
-				out.close();
-			}
-		}
-	}
-
-	private boolean isLogAllRefUpdates() {
-		return parent.getConfig().get(CoreConfig.KEY).isLogAllRefUpdates();
-	}
-
-	private boolean shouldAutoCreateLog(final String refName) {
-		return refName.equals(HEAD) //
-				|| refName.startsWith(R_HEADS) //
-				|| refName.startsWith(R_REMOTES) //
-				|| refName.equals(R_STASH);
+		logWriter.log(update, msg, deref);
 	}
 
 	private Ref resolve(final Ref ref, int depth, String prefix,
@@ -964,22 +876,6 @@ public class RefDirectory extends RefDatabase {
 			return new File(refsDir, name);
 		}
 		return new File(gitDir, name);
-	}
-
-	/**
-	 * Locate the log file on disk for a single reference name.
-	 *
-	 * @param name
-	 *            name of the ref, relative to the Git repository top level
-	 *            directory (so typically starts with refs/).
-	 * @return the log file location.
-	 */
-	File logFor(String name) {
-		if (name.startsWith(R_REFS)) {
-			name = name.substring(R_REFS.length());
-			return new File(logsRefsDir, name);
-		}
-		return new File(logsDir, name);
 	}
 
 	static int levelsIn(final String name) {
