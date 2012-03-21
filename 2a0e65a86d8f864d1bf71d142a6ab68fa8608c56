@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOG3//+t8\u003d",
+        "filename": "org.eclipse.jgit.pgm.test/src/org/eclipse/jgit/lib/RepositoryTestCase.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-03-21T14:34:40Z",
+      "side": 1,
+      "message": "We have two classes in different packages doing similar things and having the same name. Just to avoid misunderstandings I would rename this to CLIRepositoryTestCase.",
+      "revId": "2a0e65a86d8f864d1bf71d142a6ab68fa8608c56",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOG3//+t4\u003d",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/BranchCommandTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-03-21T14:34:40Z",
+      "side": 1,
+      "message": "Every test in this package will test commands which you can enter through our CLI. Why repeat the name \"Command\" now in all class names. Simply call it \"BranchTest\" (and you avoid again that developers have two equally named classes in their workspace and potentially navigate to the wrong one).",
+      "revId": "2a0e65a86d8f864d1bf71d142a6ab68fa8608c56",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOG3//+t0\u003d",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/CommitAndLogCommandTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-03-21T14:34:40Z",
+      "side": 1,
+      "message": "same rename argument. Let\u0027s call it CommitAndLogTest",
+      "revId": "2a0e65a86d8f864d1bf71d142a6ab68fa8608c56",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
