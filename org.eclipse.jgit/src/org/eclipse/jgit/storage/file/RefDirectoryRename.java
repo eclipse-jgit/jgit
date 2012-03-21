@@ -183,8 +183,8 @@ class RefDirectoryRename extends RefRename {
 	}
 
 	private boolean renameLog(RefUpdate src, RefUpdate dst) {
-		File srcLog = refdb.logFor(src.getName());
-		File dstLog = refdb.logFor(dst.getName());
+		File srcLog = refdb.getLogWriter().logFor(src.getName());
+		File dstLog = refdb.getLogWriter().logFor(dst.getName());
 
 		if (!srcLog.exists())
 			return true;
