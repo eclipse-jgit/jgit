@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "AABOG3//+vg\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/DirCacheCheckoutTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 458,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-03-21T08:27:18Z",
+      "side": 1,
+      "message": "No, we don\u0027t checkout during commit. What I meant was: Create a second commit object and then check it out. \nWhat you changed in line 518 of https://git.eclipse.org/r/#/c/4617/12/org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java is not covered by the tests. And that line is called much more often then line 309 for which you provided a test.\nIf you simply create another commit with bad content and check it out then we cover an important line in DirCacheCheckout (because then HEAD is !\u003d null and we do a non-trivial checkout).",
+      "parentUuid": "AABOC3///yw\u003d",
+      "revId": "74f88d8c5de96dc9a29490e25e4e2467278b634f",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOC3///zI\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
         "patchSetId": 9
