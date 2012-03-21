@@ -591,6 +591,15 @@ public class Git {
 	}
 
 	/**
+	 * Returns a command object used to drop a stashed commit
+	 * 
+	 * @return a {@link StashDropCommand}
+	 */
+	public StashDropCommand stashDrop() {
+		return new StashDropCommand(repo);
+	}
+
+	/**
 	 * Returns a command object to execute a {@code apply} command
 	 *
 	 * @see <a
