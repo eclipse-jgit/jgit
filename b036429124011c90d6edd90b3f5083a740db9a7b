@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOG3//+m8\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/storage/file/GCTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2012-03-22T14:11:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOG3///b0\u003d",
+      "revId": "b036429124011c90d6edd90b3f5083a740db9a7b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOG3///3s\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/storage/file/GCTest.java",
         "patchSetId": 9
@@ -118,6 +136,24 @@
       "side": 1,
       "message": "This test cannot work reliable. There are multiple problems:\n\n1) You may be able to create blobs so fast that the two calls to System.currentTimeMillis() return the same value. On my system I can create 20 new files before System.currentTimeMillis() returns a new value. In such cases you call setExpireAgeMillis with 0 ... and the object will be pruned.\n\n2) The filesystem may not store timestamps in the same granularity as System.currentTimeMillis() returns it. Example: If you look at the clock and get back 12345678 and then you create a file this file may have a lastModifed() of 12345000. On my linux system I can create 20000 files in a row which all have the same lastmodified(). \nFor your test this means: before you create a file currentTimeMillis() is 12345678. Then you create the file which gets lastModified of 12345000 and after creation you look again at the clock and see 12345679. You call expireAgeMillis(1) and of course the object will be pruned. You would have the same problem if expireAgeMillis() would expect absolute time specifications.\n\nI suggest that you wait that the filesystem timer advances after creating the first blob. RepositoryTestCase.fsTick() can help you with that: \n\n   \t\tFile file_a \u003d repo.getObjectDatabase().fileFor(a);\n\t\tlong start\u003dfile_a.lastModified();\n\t\tRepositoryTestCase.fsTick(file_a);\n\t\tRevBlob b \u003d tr.blob(\"b\");\n\t\tFile file_b \u003d repo.getObjectDatabase().fileFor(b);\n\t\tgc.setExpireAgeMillis(file_b.lastModified() - start);",
       "parentUuid": "AABOG3///3k\u003d",
+      "revId": "b036429124011c90d6edd90b3f5083a740db9a7b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOG3//+m4\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/storage/file/GCTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2012-03-22T14:11:04Z",
+      "side": 1,
+      "message": "Done.\n\nActually, the RepositoryTestCase.fsTick method also accepts NULL as the parameter and will simply wait until it is sure that a next lastModified on a touched file will be younger than the time when this method was invoked. This makes the test a bit simpler as access to the blob-files is not necessary.",
+      "parentUuid": "AABOG3///b8\u003d",
       "revId": "b036429124011c90d6edd90b3f5083a740db9a7b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
