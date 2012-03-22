@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOG3//+ok\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MergeResult.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2012-03-22T08:16:16Z",
+      "side": 1,
+      "message": "It\u0027s a change from I97cebfe5d7db6247fe899075d917b82955906f85. Not actually required here, can be removed.",
+      "revId": "7068acfb8bf7190154c8a38e5918455d1eb1bda2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOG3//+os\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MergeResult.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2012-03-22T08:16:16Z",
+      "side": 1,
+      "message": "It\u0027s a change from I97cebfe5d7db6247fe899075d917b82955906f85. Not actually required here, can be removed.",
+      "revId": "7068acfb8bf7190154c8a38e5918455d1eb1bda2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOG3//+oo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MergeResult.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2012-03-22T08:16:16Z",
+      "side": 1,
+      "message": "It\u0027s a change from I97cebfe5d7db6247fe899075d917b82955906f85. Not actually required here, can be removed.",
+      "revId": "7068acfb8bf7190154c8a38e5918455d1eb1bda2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOG3//+ow\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MergeResult.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2012-03-22T08:16:16Z",
+      "side": 1,
+      "message": "On second thought, maybe I should stick to simple Set here.",
+      "revId": "7068acfb8bf7190154c8a38e5918455d1eb1bda2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
