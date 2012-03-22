@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOG3//+oU\u003d",
+        "filename": "org.eclipse.jgit.pgm.test/src/org/eclipse/jgit/lib/RepositoryTestCase.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2012-03-22T10:30:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOG3//+t8\u003d",
+      "revId": "2a0e65a86d8f864d1bf71d142a6ab68fa8608c56",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOG3//+t4\u003d",
         "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/BranchCommandTest.java",
         "patchSetId": 7
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AABOG3//+oQ\u003d",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/BranchCommandTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2012-03-22T10:30:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOG3//+t4\u003d",
+      "revId": "2a0e65a86d8f864d1bf71d142a6ab68fa8608c56",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOG3//+t0\u003d",
         "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/CommitAndLogCommandTest.java",
         "patchSetId": 7
@@ -47,6 +83,24 @@
       "writtenOn": "2012-03-21T14:34:40Z",
       "side": 1,
       "message": "same rename argument. Let\u0027s call it CommitAndLogTest",
+      "revId": "2a0e65a86d8f864d1bf71d142a6ab68fa8608c56",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOG3//+oM\u003d",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/CommitAndLogCommandTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2012-03-22T10:30:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOG3//+t0\u003d",
       "revId": "2a0e65a86d8f864d1bf71d142a6ab68fa8608c56",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
