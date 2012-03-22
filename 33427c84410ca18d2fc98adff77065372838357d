@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOG3//+nE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 731,
+      "author": {
+        "id": 9
+      },
+      "writtenOn": "2012-03-22T13:30:43Z",
+      "side": 1,
+      "message": "The \u003cexpireAgeMillis\u003e is, I think, wrong syntax for javadoc.\nIf, in Eclipse, I put the mouse over a call to this method then the \u003cexpireAgeMillis\u003e is not present in the text.\n\nIt should be:\n\n \u003ccode\u003eexpireAgeMillis\u003c/code\u003e\n\nAlso, I think, a large part of this javadoc belongs to the @param expireAgeMillis",
+      "revId": "33427c84410ca18d2fc98adff77065372838357d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
