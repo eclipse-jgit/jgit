@@ -104,6 +104,24 @@
       "revId": "80a40aa188629a879b54ae144e13d274b9e83817",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOG3//+mk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-03-22T14:18:57Z",
+      "side": 1,
+      "message": "Pack files with a .keep file have a .keep file for two different reasons.\n\nThe common reason is the pack was recently created by an ongoing transport operation and has not yet been connected to the references. The .keep file was created to protect the pack from being removed by a GC. It would be OK to copy these objects out and put them into a new pack if you happened to reach them through an ObjectWalk. In a future GC the pack would eventually be deleted after the transport operation ends and the .keep file is removed.\n\nThe other reason a .keep file exists is on really big pack files. Consider you download the entire Linux kernel repository at 480M and 2.2M objects. If you put a .keep file next to the downloaded pack, your local GCs will be fast because Git won\u0027t copy this 480M over to a new pack. It will only pack the handful of new objects since the pack. Now git-core packs 480M in a matter of minutes, so it may not be useful for a human to make the .keep file in this case. But consider a repository with 64GB in it. Yes at least one exists that someone told me about. Repacking that will take too long most times. But packing it once and placing .keep files alongside each pack can make future repacks go more quickly by avoiding copying objects from a pack that has a .keep flag.",
+      "parentUuid": "AABOG3///9Q\u003d",
+      "revId": "80a40aa188629a879b54ae144e13d274b9e83817",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
