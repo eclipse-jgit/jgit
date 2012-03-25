@@ -132,12 +132,46 @@ public class RevWalkFollowFilterTest extends RevWalkTestCase {
 		follow("a");
 		markStart(renameCommit3);
 		assertCommit(renameCommit3, rw.next());
+		assertRenames("c->a");
+		assertNoRenames();
 		assertCommit(renameCommit2, rw.next());
+		assertRenames("c->a", "b->c");
 		assertCommit(renameCommit1, rw.next());
-		assertCommit(a, rw.next());
-		assertNull(rw.next());
-
 		assertRenames("c->a", "b->c", "a->b");
+		assertCommit(a, rw.next());
+		assertRenames("c->a", "b->c", "a->b");
+		assertNull(rw.next());
+	}
+
+	@Test
+	public void testMultiRenameStartInbetween() throws Exception {
+		final String contents = "A";
+		final RevCommit a = commit(tree(file("a", blob(contents))));
+
+		// rename a to b
+		CommitBuilder commitBuilder = commitBuilder().parent(a)
+				.add("b", blob(contents)).rm("a");
+		RevCommit renameCommit1 = commitBuilder.create();
+
+		// rename b to c
+		commitBuilder = commitBuilder().parent(renameCommit1)
+				.add("c", blob(contents)).rm("b");
+		RevCommit renameCommit2 = commitBuilder.create();
+
+		// rename c to a
+		commitBuilder = commitBuilder().parent(renameCommit2)
+				.add("a", blob(contents)).rm("c");
+		commitBuilder.create();
+
+		follow("a");
+		markStart(renameCommit2);
+		assertCommit(renameCommit2, rw.next());
+		assertRenames("b->c");
+		assertCommit(renameCommit1, rw.next());
+		assertRenames("b->c", "a->b");
+		assertCommit(a, rw.next());
+		assertRenames("b->c", "a->b");
+		assertNull(rw.next());
 	}
 
 	/**
