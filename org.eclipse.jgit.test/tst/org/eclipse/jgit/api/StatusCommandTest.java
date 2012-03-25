@@ -78,11 +78,12 @@ public class StatusCommandTest extends RepositoryTestCase {
 		writeTrashFile("b", "content of b");
 		writeTrashFile("c", "content of c");
 		git.add().addFilepattern("a").addFilepattern("b").call();
+		writeTrashFile("b", "Content of b");
 		Status stat = git.status().call();
 		assertEquals(set("a", "b"), stat.getAdded());
 		assertEquals(0, stat.getChanged().size());
 		assertEquals(0, stat.getMissing().size());
-		assertEquals(0, stat.getModified().size());
+		assertEquals(set("b"), stat.getModified());
 		assertEquals(0, stat.getRemoved().size());
 		assertEquals(set("c"), stat.getUntracked());
 		git.commit().setMessage("initial").call();
