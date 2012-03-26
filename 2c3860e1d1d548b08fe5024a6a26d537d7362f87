@@ -16,6 +16,24 @@
       "revId": "2c3860e1d1d548b08fe5024a6a26d537d7362f87",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOG3//+Qg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/LockFile.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 511,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-03-26T22:51:48Z",
+      "side": 1,
+      "message": "Done.\n\nI use this method from DirCache in this change.",
+      "parentUuid": "AABOG3//+ew\u003d",
+      "revId": "2c3860e1d1d548b08fe5024a6a26d537d7362f87",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
