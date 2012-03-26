@@ -65,6 +65,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.transport.ServiceMayNotContinueException;
 import org.eclipse.jgit.transport.resolver.RepositoryResolver;
 import org.eclipse.jgit.transport.resolver.ServiceNotAuthorizedException;
 import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
@@ -140,6 +141,9 @@ public class RepositoryFilter implements Filter {
 			return;
 		} catch (ServiceNotAuthorizedException e) {
 			res.sendError(SC_UNAUTHORIZED);
+			return;
+		} catch (ServiceMayNotContinueException e) {
+			sendError(req, res, SC_INTERNAL_SERVER_ERROR, e.getMessage());
 			return;
 		}
 		try {

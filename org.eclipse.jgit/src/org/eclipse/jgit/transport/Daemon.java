@@ -366,7 +366,8 @@ public class Daemon {
 		return null;
 	}
 
-	Repository openRepository(DaemonClient client, String name) {
+	Repository openRepository(DaemonClient client, String name)
+			throws ServiceMayNotContinueException {
 		// Assume any attempt to use \ was by a Windows client
 		// and correct to the more typical / used in Git URIs.
 		//
