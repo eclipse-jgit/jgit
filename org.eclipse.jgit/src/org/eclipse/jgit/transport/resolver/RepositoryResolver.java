@@ -76,11 +76,12 @@ public interface RepositoryResolver<C> {
 	 *             the repository does not exist or the name is incorrectly
 	 *             formatted as a repository name.
 	 * @throws ServiceNotAuthorizedException
-	 *             the repository exists, but HTTP access is not allowed for the
-	 *             current user.
+	 *             the repository may exist, but HTTP access is not allowed
+	 *             without authentication, i.e. this corresponds to an HTTP 401
+	 *             Unauthorized.
 	 * @throws ServiceNotEnabledException
-	 *             the repository exists, but HTTP access is not allowed on the
-	 *             target repository, by any user.
+	 *             the repository may exist, but HTTP access is not allowed on the
+	 *             target repository, for the current user.
 	 */
 	Repository open(C req, String name) throws RepositoryNotFoundException,
 			ServiceNotAuthorizedException, ServiceNotEnabledException;
