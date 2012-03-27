@@ -52,14 +52,9 @@
 package org.eclipse.jgit.lib;
 
 import java.text.MessageFormat;
-import java.util.AbstractSet;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -479,17 +474,22 @@ public class Config {
 	 *            section to search for.
 	 * @return set of all subsections of specified section within this
 	 *         configuration and its base configuration; may be empty if no
-	 *         subsection exists.
+	 *         subsection exists. The set's iterator returns sections in the
+	 *         order they are declared by the configuration starting from this
+	 *         instance and progressing through the base.
 	 */
 	public Set<String> getSubsections(final String section) {
-		return get(new SubsectionNames(section));
+		return getState().getSubsections(section);
 	}
 
 	/**
-	 * @return the sections defined in this {@link Config}
+	 * @return the sections defined in this {@link Config}. The set's iterator
+	 *         returns sections in the order they are declared by the
+	 *         configuration starting from this instance and progressing through
+	 *         the base.
 	 */
 	public Set<String> getSections() {
-		return get(new SectionNames());
+		return getState().getSections();
 	}
 
 	/**
@@ -509,7 +509,7 @@ public class Config {
 	 * @return the list of names defined for this subsection
 	 */
 	public Set<String> getNames(String section, String subsection) {
-		return get(new NamesInSection(section, subsection));
+		return getState().getNames(section, subsection);
 	}
 
 	/**
@@ -1241,144 +1241,6 @@ public class Config {
 		 * @return the application model instance.
 		 */
 		T parse(Config cfg);
-	}
-
-	private static class SubsectionNames implements SectionParser<Set<String>> {
-		private final String section;
-
-		SubsectionNames(final String sectionName) {
-			section = sectionName;
-		}
-
-		public int hashCode() {
-			return section.hashCode();
-		}
-
-		public boolean equals(Object other) {
-			if (other instanceof SubsectionNames) {
-				return section.equals(((SubsectionNames) other).section);
-			}
-			return false;
-		}
-
-		public Set<String> parse(Config cfg) {
-			final Set<String> result = new LinkedHashSet<String>();
-			while (cfg != null) {
-				for (final ConfigLine e : cfg.state.get().entryList) {
-					if (e.subsection != null && e.name == null
-							&& StringUtils.equalsIgnoreCase(section, e.section))
-						result.add(e.subsection);
-				}
-				cfg = cfg.baseConfig;
-			}
-			return Collections.unmodifiableSet(result);
-		}
-	}
-
-	private static class NamesInSection implements SectionParser<Set<String>> {
-		private final String section;
-
-		private final String subsection;
-
-		NamesInSection(final String sectionName, final String subSectionName) {
-			section = sectionName;
-			subsection = subSectionName;
-		}
-
-		@Override
-		public int hashCode() {
-			final int prime = 31;
-			int result = 1;
-			result = prime * result + section.hashCode();
-			result = prime * result
-					+ ((subsection == null) ? 0 : subsection.hashCode());
-			return result;
-		}
-
-		@Override
-		public boolean equals(Object obj) {
-			if (this == obj)
-				return true;
-			if (obj == null)
-				return false;
-			if (getClass() != obj.getClass())
-				return false;
-			NamesInSection other = (NamesInSection) obj;
-			if (!section.equals(other.section))
-				return false;
-			if (subsection == null) {
-				if (other.subsection != null)
-					return false;
-			} else if (!subsection.equals(other.subsection))
-				return false;
-			return true;
-		}
-
-		public Set<String> parse(Config cfg) {
-			final Map<String, String> m = new LinkedHashMap<String, String>();
-			while (cfg != null) {
-				for (final ConfigLine e : cfg.state.get().entryList) {
-					if (e.name == null)
-						continue;
-					if (!StringUtils.equalsIgnoreCase(section, e.section))
-						continue;
-					if ((subsection == null && e.subsection == null)
-							|| (subsection != null && subsection
-									.equals(e.subsection))) {
-						String lc = StringUtils.toLowerCase(e.name);
-						if (!m.containsKey(lc))
-							m.put(lc, e.name);
-					}
-				}
-				cfg = cfg.baseConfig;
-			}
-			return new CaseFoldingSet(m);
-		}
-	}
-
-	private static class SectionNames implements SectionParser<Set<String>> {
-		public Set<String> parse(Config cfg) {
-			final Map<String, String> m = new LinkedHashMap<String, String>();
-			while (cfg != null) {
-				for (final ConfigLine e : cfg.state.get().entryList) {
-					if (e.section != null) {
-						String lc = StringUtils.toLowerCase(e.section);
-						if (!m.containsKey(lc))
-							m.put(lc, e.section);
-					}
-				}
-				cfg = cfg.baseConfig;
-			}
-			return new CaseFoldingSet(m);
-		}
-	}
-
-	private static class CaseFoldingSet extends AbstractSet<String> {
-		private final Map<String, String> names;
-
-		CaseFoldingSet(Map<String, String> names) {
-			this.names = Collections.unmodifiableMap(names);
-		}
-
-		@Override
-		public boolean contains(Object needle) {
-			if (!(needle instanceof String))
-				return false;
-
-			String n = (String) needle;
-			return names.containsKey(n)
-					|| names.containsKey(StringUtils.toLowerCase(n));
-		}
-
-		@Override
-		public Iterator<String> iterator() {
-			return names.values().iterator();
-		}
-
-		@Override
-		public int size() {
-			return names.size();
-		}
 	}
 
 	private static class StringReader {
