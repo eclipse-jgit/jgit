@@ -456,22 +456,22 @@ public class Config {
 	 */
 	public String[] getStringList(final String section, String subsection,
 			final String name) {
-		final String[] baseList;
+		String[] base;
 		if (baseConfig != null)
-			baseList = baseConfig.getStringList(section, subsection, name);
+			base = baseConfig.getStringList(section, subsection, name);
 		else
-			baseList = EMPTY_STRING_ARRAY;
+			base = EMPTY_STRING_ARRAY;
 
-		final List<String> lst = getRawStringList(section, subsection, name);
-		if (lst != null) {
-			final String[] res = new String[baseList.length + lst.size()];
-			int idx = baseList.length;
-			System.arraycopy(baseList, 0, res, 0, idx);
-			for (final String val : lst)
-				res[idx++] = val;
-			return res;
-		}
-		return baseList;
+		String[] self = getRawStringList(section, subsection, name);
+		if (self == null)
+			return base;
+		if (base.length == 0)
+			return self;
+		String[] res = new String[base.length + self.length];
+		int n = base.length;
+		System.arraycopy(base, 0, res, 0, n);
+		System.arraycopy(self, 0, res, n, self.length);
+		return res;
 	}
 
 	/**
@@ -588,36 +588,18 @@ public class Config {
 
 	private String getRawString(final String section, final String subsection,
 			final String name) {
-		final List<String> lst = getRawStringList(section, subsection, name);
+		String[] lst = getRawStringList(section, subsection, name);
 		if (lst != null)
-			return lst.get(0);
+			return lst[0];
 		else if (baseConfig != null)
 			return baseConfig.getRawString(section, subsection, name);
 		else
 			return null;
 	}
 
-	private List<String> getRawStringList(final String section,
-			final String subsection, final String name) {
-		List<String> r = null;
-		for (final ConfigLine e : state.get().entryList) {
-			if (e.match(section, subsection, name))
-				r = add(r, e.value);
-		}
-		return r;
-	}
-
-	private static List<String> add(final List<String> curr, final String value) {
-		if (curr == null)
-			return Collections.singletonList(value);
-		if (curr.size() == 1) {
-			final List<String> r = new ArrayList<String>(2);
-			r.add(curr.get(0));
-			r.add(value);
-			return r;
-		}
-		curr.add(value);
-		return curr;
+	private String[] getRawStringList(String section, String subsection,
+			String name) {
+		return state.get().get(section, subsection, name);
 	}
 
 	private ConfigSnapshot getState() {
