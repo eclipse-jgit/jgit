@@ -349,7 +349,7 @@ public final class PackChunk {
 				int p = 1;
 				while ((c & 0x80) != 0) {
 					c = dataBuf[posPtr + p++] & 0xff;
-					sz += (c & 0x7f) << shift;
+					sz += ((long) (c & 0x7f)) << shift;
 					shift += 7;
 				}
 
@@ -603,7 +603,7 @@ public final class PackChunk {
 		int shift = 4;
 		while ((c & 0x80) != 0) {
 			c = dataBuf[ptr++] & 0xff;
-			sz += (c & 0x7f) << shift;
+			sz += ((long) (c & 0x7f)) << shift;
 			shift += 7;
 		}
 
@@ -650,7 +650,7 @@ public final class PackChunk {
 		int shift = 4;
 		while ((c & 0x80) != 0) {
 			c = dataBuf[ptr++] & 0xff;
-			inflatedSize += (c & 0x7f) << shift;
+			inflatedSize += ((long) (c & 0x7f)) << shift;
 			shift += 7;
 		}
 

@@ -151,7 +151,7 @@ public class UnpackedObject {
 				int p = 1;
 				while ((c & 0x80) != 0) {
 					c = hdr[p++] & 0xff;
-					size += (c & 0x7f) << shift;
+					size += ((long) (c & 0x7f)) << shift;
 					shift += 7;
 				}
 
@@ -224,7 +224,7 @@ public class UnpackedObject {
 				int p = 1;
 				while ((c & 0x80) != 0) {
 					c = hdr[p++] & 0xff;
-					size += (c & 0x7f) << shift;
+					size += ((long) (c & 0x7f)) << shift;
 					shift += 7;
 				}
 				return size;
