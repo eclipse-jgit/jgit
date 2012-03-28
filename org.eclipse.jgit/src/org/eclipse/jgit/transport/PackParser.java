@@ -681,7 +681,7 @@ public abstract class PackParser {
 		while ((c & 0x80) != 0) {
 			c = readFrom(Source.DATABASE);
 			hdrBuf[hdrPtr++] = (byte) c;
-			sz += (c & 0x7f) << shift;
+			sz += ((long) (c & 0x7f)) << shift;
 			shift += 7;
 		}
 		info.size = sz;
@@ -892,7 +892,7 @@ public abstract class PackParser {
 		while ((c & 0x80) != 0) {
 			c = readFrom(Source.INPUT);
 			hdrBuf[hdrPtr++] = (byte) c;
-			sz += (c & 0x7f) << shift;
+			sz += ((long) (c & 0x7f)) << shift;
 			shift += 7;
 		}
 

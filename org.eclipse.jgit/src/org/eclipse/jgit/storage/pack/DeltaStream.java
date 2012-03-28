@@ -114,7 +114,7 @@ public abstract class DeltaStream extends InputStream {
 		int c, shift = 0;
 		do {
 			c = cmdbuf[cmdptr++] & 0xff;
-			baseSize |= (c & 0x7f) << shift;
+			baseSize |= ((long) (c & 0x7f)) << shift;
 			shift += 7;
 		} while ((c & 0x80) != 0);
 
@@ -123,7 +123,7 @@ public abstract class DeltaStream extends InputStream {
 		shift = 0;
 		do {
 			c = cmdbuf[cmdptr++] & 0xff;
-			resultSize |= (c & 0x7f) << shift;
+			resultSize |= ((long) (c & 0x7f)) << shift;
 			shift += 7;
 		} while ((c & 0x80) != 0);
 
