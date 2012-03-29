@@ -44,15 +44,17 @@
 package org.eclipse.jgit.revwalk;
 
 import java.io.IOException;
+import java.util.Comparator;
+import java.util.PriorityQueue;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 
 /** A queue of commits sorted by commit time order. */
 public class DateRevQueue extends AbstractRevQueue {
-	private Entry head;
-
-	private Entry free;
+	private PriorityQueue<Entry> queue =
+			new PriorityQueue<Entry>(32, new EntryComparator());
+	private int counter;
 
 	/** Create an empty date queue. */
 	public DateRevQueue() {
@@ -70,30 +72,12 @@ public class DateRevQueue extends AbstractRevQueue {
 	}
 
 	public void add(final RevCommit c) {
-		Entry q = head;
-		final long when = c.commitTime;
-		final Entry n = newEntry(c);
-		if (q == null || when > q.commit.commitTime) {
-			n.next = q;
-			head = n;
-		} else {
-			Entry p = q.next;
-			while (p != null && p.commit.commitTime > when) {
-				q = p;
-				p = q.next;
-			}
-			n.next = q.next;
-			q.next = n;
-		}
+		queue.add(new Entry(c, counter++));
 	}
 
 	public RevCommit next() {
-		final Entry q = head;
-		if (q == null)
-			return null;
-		head = q.next;
-		freeEntry(q);
-		return q.commit;
+		final Entry q = queue.poll();
+		return q != null ? q.commit : null;
 	}
 
 	/**
@@ -102,16 +86,16 @@ public class DateRevQueue extends AbstractRevQueue {
 	 * @return the next available commit; null if there are no commits left.
 	 */
 	public RevCommit peek() {
-		return head != null ? head.commit : null;
+		final Entry q = queue.peek();
+		return q != null ? q.commit : null;
 	}
 
 	public void clear() {
-		head = null;
-		free = null;
+		queue.clear();
 	}
 
 	boolean everbodyHasFlag(final int f) {
-		for (Entry q = head; q != null; q = q.next) {
+		for (Entry q : queue) {
 			if ((q.commit.flags & f) == 0)
 				return false;
 		}
@@ -119,7 +103,7 @@ public class DateRevQueue extends AbstractRevQueue {
 	}
 
 	boolean anybodyHasFlag(final int f) {
-		for (Entry q = head; q != null; q = q.next) {
+		for (Entry q : queue) {
 			if ((q.commit.flags & f) != 0)
 				return true;
 		}
@@ -133,29 +117,25 @@ public class DateRevQueue extends AbstractRevQueue {
 
 	public String toString() {
 		final StringBuilder s = new StringBuilder();
-		for (Entry q = head; q != null; q = q.next)
+		for (Entry q : queue)
 			describe(s, q.commit);
 		return s.toString();
 	}
 
-	private Entry newEntry(final RevCommit c) {
-		Entry r = free;
-		if (r == null)
-			r = new Entry();
-		else
-			free = r.next;
-		r.commit = c;
-		return r;
-	}
-
-	private void freeEntry(final Entry e) {
-		e.next = free;
-		free = e;
-	}
-
 	static class Entry {
-		Entry next;
-
 		RevCommit commit;
+		int n;
+
+		Entry(RevCommit c, int n) {
+			commit = c;
+			this.n = n;
+		}
+	}
+
+	private static class EntryComparator implements Comparator<Entry> {
+		public int compare(Entry q1, Entry q2) {
+			final int d = q2.commit.commitTime - q1.commit.commitTime;
+			return d != 0 ? d : q1.n - q2.n;
+		}
 	}
 }
