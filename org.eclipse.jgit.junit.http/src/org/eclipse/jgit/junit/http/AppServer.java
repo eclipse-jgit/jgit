@@ -54,8 +54,6 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.jetty.http.security.Constraint;
-import org.eclipse.jetty.http.security.Password;
 import org.eclipse.jetty.security.Authenticator;
 import org.eclipse.jetty.security.ConstraintMapping;
 import org.eclipse.jetty.security.ConstraintSecurityHandler;
@@ -67,6 +65,8 @@ import org.eclipse.jetty.server.UserIdentity;
 import org.eclipse.jetty.server.handler.ContextHandlerCollection;
 import org.eclipse.jetty.server.nio.SelectChannelConnector;
 import org.eclipse.jetty.servlet.ServletContextHandler;
+import org.eclipse.jetty.util.security.Constraint;
+import org.eclipse.jetty.util.security.Password;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
 import org.eclipse.jgit.transport.URIish;
 
