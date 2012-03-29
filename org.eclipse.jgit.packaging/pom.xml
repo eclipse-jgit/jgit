@@ -60,7 +60,7 @@
 
   <properties>
     <tycho-version>0.12.0</tycho-version>
-    <eclipse-site>http://download.eclipse.org/releases/galileo</eclipse-site>
+    <eclipse-site>http://download.eclipse.org/releases/juno</eclipse-site>
   </properties>
 
   <modules>
@@ -72,9 +72,14 @@
 
   <repositories>
     <repository>
-      <id>ganymede</id>
+      <id>eclipse</id>
       <layout>p2</layout>
       <url>${eclipse-site}</url>
+    </repository>
+    <repository>
+      <id>jetty</id>
+      <layout>p2</layout>
+      <url>http://download.eclipse.org/jetty/updates/jetty-bundles-8.x/8.1.1.v20120215/</url>
     </repository>
   </repositories>
 
@@ -152,6 +157,11 @@
                 <arch>x86_64</arch>
               </environment>
               <environment>
+                <os>macosx</os>
+                <ws>cocoa</ws>
+                <arch>x86</arch>
+              </environment>
+			  <environment>
                 <os>macosx</os>
                 <ws>cocoa</ws>
                 <arch>x86_64</arch>
