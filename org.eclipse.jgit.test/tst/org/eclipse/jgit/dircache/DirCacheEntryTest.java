@@ -164,4 +164,41 @@ public class DirCacheEntryTest {
 			assertEquals("Invalid mode 40000 for path a", err.getMessage());
 		}
 	}
+
+	@Test
+	public void testCopyMetaData() {
+		DirCacheEntry e = new DirCacheEntry("some/path", DirCacheEntry.STAGE_2);
+		e.setAssumeValid(false);
+		e.setCreationTime(2L);
+		e.setFileMode(FileMode.EXECUTABLE_FILE);
+		e.setLastModified(3L);
+		e.setLength(100L);
+		e.setObjectId(ObjectId
+				.fromString("0123456789012345678901234567890123456789"));
+		e.setUpdateNeeded(true);
+
+		DirCacheEntry f = new DirCacheEntry("someother/path",
+				DirCacheEntry.STAGE_1);
+		f.setAssumeValid(true);
+		f.setCreationTime(10L);
+		f.setFileMode(FileMode.SYMLINK);
+		f.setLastModified(20L);
+		f.setLength(100000000L);
+		f.setObjectId(ObjectId
+				.fromString("1234567890123456789012345678901234567890"));
+		f.setUpdateNeeded(true);
+
+		e.copyMetaData(f);
+		assertTrue(e.isAssumeValid());
+		assertEquals(10L, e.getCreationTime());
+		assertEquals(
+				ObjectId.fromString("1234567890123456789012345678901234567890"),
+				e.getObjectId());
+		assertEquals(FileMode.SYMLINK, e.getFileMode());
+		assertEquals(20L, e.getLastModified());
+		assertEquals(100000000L, e.getLength());
+		assertEquals(DirCacheEntry.STAGE_2, e.getStage());
+		assertTrue(e.isUpdateNeeded());
+		assertEquals("some/path", e.getPathString());
+	}
 }
