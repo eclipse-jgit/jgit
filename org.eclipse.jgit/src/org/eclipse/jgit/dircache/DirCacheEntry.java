@@ -258,6 +258,7 @@ public class DirCacheEntry {
 	 *             or DirCache file.  Or if {@code stage} is outside of the
 	 *             range 0..3, inclusive.
 	 */
+	@SuppressWarnings("boxing")
 	public DirCacheEntry(final byte[] newPath, final int stage) {
 		if (!isValidPath(newPath))
 			throw new IllegalArgumentException(MessageFormat.format(JGitText.get().invalidPath
@@ -559,6 +560,7 @@ public class DirCacheEntry {
 	 *             if the size exceeds the 2 GiB barrier imposed by current file
 	 *             format limitations.
 	 */
+	@SuppressWarnings("boxing")
 	public void setLength(final long sz) {
 		if (Integer.MAX_VALUE <= sz)
 			throw new IllegalArgumentException(MessageFormat.format(JGitText
