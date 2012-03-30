@@ -121,6 +121,50 @@ public final class StringUtils {
 	}
 
 	/**
+	 * Compare two strings, ignoring case.
+	 * <p>
+	 * This method does not honor the JVM locale, but instead always behaves as
+	 * though it is in the US-ASCII locale.
+	 *
+	 * @param a
+	 *            first string to compare.
+	 * @param b
+	 *            second string to compare.
+	 * @return negative, zero or positive if a sorts before, is equal to, or
+	 *         sorts after b.
+	 */
+	public static int compareIgnoreCase(String a, String b) {
+		for (int i = 0; i < a.length() && i < b.length(); i++) {
+			int d = toLowerCase(a.charAt(i)) - toLowerCase(b.charAt(i));
+			if (d != 0)
+				return d;
+		}
+		return a.length() - b.length();
+	}
+
+	/**
+	 * Compare two strings, honoring case.
+	 * <p>
+	 * This method does not honor the JVM locale, but instead always behaves as
+	 * though it is in the US-ASCII locale.
+	 *
+	 * @param a
+	 *            first string to compare.
+	 * @param b
+	 *            second string to compare.
+	 * @return negative, zero or positive if a sorts before, is equal to, or
+	 *         sorts after b.
+	 */
+	public static int compareWithCase(String a, String b) {
+		for (int i = 0; i < a.length() && i < b.length(); i++) {
+			int d = a.charAt(i) - b.charAt(i);
+			if (d != 0)
+				return d;
+		}
+		return a.length() - b.length();
+	}
+
+	/**
 	 * Parse a string as a standard Git boolean value. See
 	 * {@link #toBooleanOrNull(String)}.
 	 *
