@@ -1,0 +1,11 @@
+Code-Review+1: Shawn Pearce <sop@google.com>
+Verified+1: Shawn Pearce <sop@google.com>
+Code-Review+2: Matthias Sohn <matthias.sohn@sap.com>
+IP-Clean+1: Matthias Sohn <matthias.sohn@sap.com>
+Code-Review+1: Marc Strapetz <marc.strapetz@syntevo.com>
+Verified+1: Hudson CI
+Submitted-by: Matthias Sohn <matthias.sohn@sap.com>
+Submitted-at: Thu, 29 Mar 2012 22:44:29 -0400
+Reviewed-on: https://git.eclipse.org/r/5490
+Project: jgit/jgit
+Branch: refs/heads/master
