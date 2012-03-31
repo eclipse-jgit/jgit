@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOG3//+HU\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/RebaseCommandTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1080,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-03-31T20:48:09Z",
+      "side": 1,
+      "message": "Assert the name of the conflicted file too. Here and elsewhere.",
+      "revId": "214c7d69b8203ffe050742093fd9d1de14899cd0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOG3//+HQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MergeResult.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-03-31T20:48:09Z",
+      "side": 1,
+      "message": "extra whitespace",
+      "revId": "214c7d69b8203ffe050742093fd9d1de14899cd0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOG3//+HM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 807,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-03-31T20:48:09Z",
+      "side": 1,
+      "message": "indent this line",
+      "revId": "214c7d69b8203ffe050742093fd9d1de14899cd0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
