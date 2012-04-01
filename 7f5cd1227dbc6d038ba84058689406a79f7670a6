@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOG3//+D4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/IO.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-04-01T22:24:52Z",
+      "side": 1,
+      "message": "This should be capped at max, so:\n\n  byte[] nb \u003d new byte[Math.min(buf.length * 2, max)];",
+      "revId": "7f5cd1227dbc6d038ba84058689406a79f7670a6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
