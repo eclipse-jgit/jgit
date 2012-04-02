@@ -1,0 +1,10 @@
+IP-Clean+1: Shawn Pearce <sop@google.com>
+Verified+1: Shawn Pearce <sop@google.com>
+Code-Review+2: Robin Rosenberg <robin.rosenberg@dewire.com>
+IP-Clean+1: Robin Rosenberg <robin.rosenberg@dewire.com>
+Verified+1: Robin Rosenberg <robin.rosenberg@dewire.com>
+Submitted-by: Robin Rosenberg <robin.rosenberg@dewire.com>
+Submitted-at: Mon, 02 Apr 2012 17:59:34 -0400
+Reviewed-on: https://git.eclipse.org/r/5487
+Project: jgit/jgit
+Branch: refs/heads/master
