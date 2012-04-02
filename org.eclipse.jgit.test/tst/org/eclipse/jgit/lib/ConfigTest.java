@@ -414,9 +414,9 @@ public class ConfigTest {
 				names.contains("repositoryformatversion"));
 
 		Iterator<String> itr = names.iterator();
-		assertEquals("repositoryFormatVersion", itr.next());
 		assertEquals("filemode", itr.next());
 		assertEquals("logAllRefUpdates", itr.next());
+		assertEquals("repositoryFormatVersion", itr.next());
 		assertFalse(itr.hasNext());
 	}
 

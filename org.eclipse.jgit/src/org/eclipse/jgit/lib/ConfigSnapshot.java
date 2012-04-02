@@ -52,24 +52,68 @@ package org.eclipse.jgit.lib;
 
 import static org.eclipse.jgit.util.StringUtils.compareIgnoreCase;
 import static org.eclipse.jgit.util.StringUtils.compareWithCase;
+import static org.eclipse.jgit.util.StringUtils.toLowerCase;
 
+import java.util.AbstractSet;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+
+import org.eclipse.jgit.util.StringUtils;
 
 class ConfigSnapshot {
 	final List<ConfigLine> entryList;
 	final Map<Object, Object> cache;
 	final ConfigSnapshot baseState;
 	volatile List<ConfigLine> sorted;
+	volatile SectionNames names;
 
 	ConfigSnapshot(List<ConfigLine> entries, ConfigSnapshot base) {
 		entryList = entries;
 		cache = new ConcurrentHashMap<Object, Object>(16, 0.75f, 1);
 		baseState = base;
+	}
+
+	Set<String> getSections() {
+		return names().sections;
+	}
+
+	Set<String> getSubsections(String section) {
+		Map<String, Set<String>> m = names().subsections;
+		Set<String> r = m.get(section);
+		if (r == null)
+			r = m.get(toLowerCase(section));
+		if (r == null)
+			return Collections.emptySet();
+		return Collections.unmodifiableSet(r);
+	}
+
+	Set<String> getNames(String section, String subsection) {
+		List<ConfigLine> s = sorted();
+		int idx = find(s, section, subsection, "");
+		if (idx < 0)
+			idx = -(idx + 1);
+
+		Map<String, String> m = new LinkedHashMap<String, String>();
+		while (idx < s.size()) {
+			ConfigLine e = s.get(idx++);
+			if (!e.match(section, subsection))
+				break;
+			if (e.name == null)
+				continue;
+			String l = toLowerCase(e.name);
+			if (!m.containsKey(l))
+				m.put(l, e.name);
+		}
+		return new CaseFoldingSet(m);
 	}
 
 	String[] get(String section, String subsection, String name) {
@@ -165,6 +209,88 @@ class ConfigSnapshot {
 			return compare2(
 					a.section, a.subsection, a.name,
 					b.section, b.subsection, b.name);
+		}
+	}
+
+	private SectionNames names() {
+		SectionNames n = names;
+		if (n == null)
+			names = n = new SectionNames(this);
+		return n;
+	}
+
+	private static class SectionNames {
+		final CaseFoldingSet sections;
+		final Map<String, Set<String>> subsections;
+
+		SectionNames(ConfigSnapshot cfg) {
+			Map<String, String> sec = new LinkedHashMap<String, String>();
+			Map<String, Set<String>> sub = new HashMap<String, Set<String>>();
+			while (cfg != null) {
+				for (ConfigLine e : cfg.entryList) {
+					if (e.section == null)
+						continue;
+
+					String l1 = toLowerCase(e.section);
+					if (!sec.containsKey(l1))
+						sec.put(l1, e.section);
+
+					if (e.subsection == null)
+						continue;
+
+					Set<String> m = sub.get(l1);
+					if (m == null) {
+						m = new LinkedHashSet<String>();
+						sub.put(l1, m);
+					}
+					m.add(e.subsection);
+				}
+				cfg = cfg.baseState;
+			}
+
+			sections = new CaseFoldingSet(sec);
+			subsections = sub;
+		}
+	}
+
+	private static class CaseFoldingSet extends AbstractSet<String> {
+		private final Map<String, String> names;
+
+		CaseFoldingSet(Map<String, String> names) {
+			this.names = names;
+		}
+
+		@Override
+		public boolean contains(Object needle) {
+			if (needle instanceof String) {
+				String n = (String) needle;
+				return names.containsKey(n)
+						|| names.containsKey(StringUtils.toLowerCase(n));
+			}
+			return false;
+		}
+
+		@Override
+		public Iterator<String> iterator() {
+			final Iterator<String> i = names.values().iterator();
+			return new Iterator<String>() {
+				public boolean hasNext() {
+					return i.hasNext();
+				}
+
+				public String next() {
+					return i.next();
+				}
+
+				public void remove() {
+					throw new UnsupportedOperationException();
+				}
+			};
+		}
+
+		@Override
+		public int size() {
+			return names.size();
 		}
 	}
 }
