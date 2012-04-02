@@ -34,6 +34,24 @@
       "revId": "3766bc8d98f07c3527b20a088fb0c5f8b0982fd9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOG3//99A\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MergeResult.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-04-02T19:56:11Z",
+      "side": 1,
+      "message": "the following trick works around this problem:\n\n- delete the blank\n- save file, this brings back the blank through code formatter\n- Ctrl Z and save again",
+      "parentUuid": "AABOG3//+Bs\u003d",
+      "revId": "3766bc8d98f07c3527b20a088fb0c5f8b0982fd9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
