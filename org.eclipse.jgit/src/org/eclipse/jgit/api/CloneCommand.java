@@ -66,6 +66,7 @@ import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.submodule.SubmoduleWalk;
 import org.eclipse.jgit.transport.FetchResult;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteConfig;
@@ -229,7 +230,7 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 		}
 	}
 
-	private void cloneSubmodules(Repository clonedRepo) {
+	private void cloneSubmodules(Repository clonedRepo) throws IOException {
 		SubmoduleInitCommand init = new SubmoduleInitCommand(clonedRepo);
 		if (init.call().isEmpty())
 			return;
@@ -237,7 +238,14 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 		SubmoduleUpdateCommand update = new SubmoduleUpdateCommand(clonedRepo);
 		configure(update);
 		update.setProgressMonitor(monitor);
-		update.call();
+		if (!update.call().isEmpty()) {
+			SubmoduleWalk walk = SubmoduleWalk.forIndex(clonedRepo);
+			while (walk.next()) {
+				Repository subRepo = walk.getRepository();
+				if (subRepo != null)
+					cloneSubmodules(subRepo);
+			}
+		}
 	}
 
 	private Ref findBranchToCheckout(FetchResult result) {
