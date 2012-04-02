@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOG3//+CA\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/RebaseCommandTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1080,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2012-04-02T06:06:39Z",
+      "side": 1,
+      "message": "ok, added some checks all over the place :)",
+      "parentUuid": "AABOG3//+HU\u003d",
+      "revId": "214c7d69b8203ffe050742093fd9d1de14899cd0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOG3//+HQ\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MergeResult.java",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AABOG3//+B8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MergeResult.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2012-04-02T06:06:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOG3//+HQ\u003d",
+      "revId": "214c7d69b8203ffe050742093fd9d1de14899cd0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOG3//+HM\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
         "patchSetId": 2
@@ -47,6 +83,24 @@
       "writtenOn": "2012-03-31T20:48:09Z",
       "side": 1,
       "message": "indent this line",
+      "revId": "214c7d69b8203ffe050742093fd9d1de14899cd0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOG3//+B4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 807,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2012-04-02T06:06:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOG3//+HM\u003d",
       "revId": "214c7d69b8203ffe050742093fd9d1de14899cd0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
