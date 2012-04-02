@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOG3//99Y\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-04-02T18:46:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOG3//+J0\u003d",
+      "revId": "ea0f4e52786fea53163e1222b5d967d231f0cf4d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOG3//+H0\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigSnapshot.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AABOG3//99U\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigSnapshot.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-04-02T18:46:55Z",
+      "side": 1,
+      "message": "We put only the first so that when there are two different variations of the same string we report the first in the file. E.g. if a user has both \"pushurl\" and \"pushUrl\" in the file, we report the first case variant used, not the last.",
+      "parentUuid": "AABOG3//+H0\u003d",
+      "revId": "ea0f4e52786fea53163e1222b5d967d231f0cf4d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOG3//+Hc\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigSnapshot.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2012-03-31T20:35:21Z",
       "side": 1,
       "message": "Isn\u0027t the overhead of put so low that could could always do a put?",
+      "revId": "ea0f4e52786fea53163e1222b5d967d231f0cf4d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOG3//99Q\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/ConfigSnapshot.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-04-02T18:46:55Z",
+      "side": 1,
+      "message": "See above about reporting the first variation rather than the last.",
+      "parentUuid": "AABOG3//+Hc\u003d",
       "revId": "ea0f4e52786fea53163e1222b5d967d231f0cf4d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
