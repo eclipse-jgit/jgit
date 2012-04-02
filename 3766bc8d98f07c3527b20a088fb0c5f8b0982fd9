@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOG3//+Bs\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MergeResult.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2012-04-02T06:08:22Z",
+      "side": 1,
+      "message": "argl - thats eclipse code formatter.... i\u0027ll try again...\n\nerm - nope. eclipse insists on inserting this whitespace. shall i disable code formatter and remove it? there has to be a strategy how to handle those anyway, right?",
+      "revId": "3766bc8d98f07c3527b20a088fb0c5f8b0982fd9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
