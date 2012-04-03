@@ -45,6 +45,7 @@ package org.eclipse.jgit.api;
 
 import java.text.MessageFormat;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.jgit.internal.JGitText;
@@ -135,6 +136,17 @@ public class MergeResult {
 			public boolean isSuccessful() {
 				return false;
 			}
+		},
+		/** */
+		CHECKOUT_CONFLICT {
+			public String toString() {
+				return "Checkout Conflict";
+			}
+
+			@Override
+			public boolean isSuccessful() {
+				return false;
+			}
 		};
 
 		/**
@@ -158,6 +170,8 @@ public class MergeResult {
 	private MergeStrategy mergeStrategy;
 
 	private Map<String, MergeFailureReason> failingPaths;
+
+	private List<String> checkoutConflicts;
 
 	/**
 	 * @param newHead
@@ -250,6 +264,18 @@ public class MergeResult {
 			for (Map.Entry<String, org.eclipse.jgit.merge.MergeResult<?>> result : lowLevelResults
 					.entrySet())
 				addConflict(result.getKey(), result.getValue());
+	}
+
+	/**
+	 * Creates a new result that represents a checkout conflict before the
+	 * operation even started for real.
+	 *
+	 * @param checkoutConflicts
+	 *            the conflicting files
+	 */
+	public MergeResult(List<String> checkoutConflicts) {
+		this.checkoutConflicts = checkoutConflicts;
+		this.mergeStatus = MergeStatus.CHECKOUT_CONFLICT;
 	}
 
 	/**
@@ -406,5 +432,15 @@ public class MergeResult {
 	 */
 	public Map<String, MergeFailureReason> getFailingPaths() {
 		return failingPaths;
+	}
+
+	/**
+	 * Returns a list of paths that cause a checkout conflict. These paths
+	 * prevent the operation from even starting.
+	 *
+	 * @return the list of files that caused the checkout conflict.
+	 */
+	public List<String> getCheckoutConflicts() {
+		return checkoutConflicts;
 	}
 }
