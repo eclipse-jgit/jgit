@@ -34,6 +34,24 @@
       "revId": "c25302e892e0f6471515e2efa4482ba8a764234a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOG3//94k\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CheckoutCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 44
+      },
+      "writtenOn": "2012-04-03T15:27:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABODX///rk\u003d",
+      "revId": "c25302e892e0f6471515e2efa4482ba8a764234a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
