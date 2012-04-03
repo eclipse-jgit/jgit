@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOG3//94Y\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheEntry.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 649,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-04-03T15:47:45Z",
+      "side": 1,
+      "message": "Looks ok to me. Took me some time to investigate but now I think this change is correct.",
+      "revId": "5ce9f8f19c5ff02f25797954e30ae9d856ebd2f6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
