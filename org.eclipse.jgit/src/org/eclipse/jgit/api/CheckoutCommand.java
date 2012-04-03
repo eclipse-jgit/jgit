@@ -160,15 +160,21 @@ public class CheckoutCommand extends GitCommand<Ref> {
 					.parseCommit(headId);
 			RevCommit newCommit = revWalk.parseCommit(branch);
 			RevTree headTree = headCommit == null ? null : headCommit.getTree();
-			DirCacheCheckout dco = new DirCacheCheckout(repo, headTree,
-					repo.lockDirCache(), newCommit.getTree());
-			dco.setFailOnConflict(true);
+			DirCacheCheckout dco;
+			DirCache dc = repo.lockDirCache();
 			try {
-				dco.checkout();
-			} catch (org.eclipse.jgit.errors.CheckoutConflictException e) {
-				status = new CheckoutResult(Status.CONFLICTS, dco
-						.getConflicts());
-				throw new CheckoutConflictException(dco.getConflicts(), e);
+				dco = new DirCacheCheckout(repo, headTree, dc,
+						newCommit.getTree());
+				dco.setFailOnConflict(true);
+				try {
+					dco.checkout();
+				} catch (org.eclipse.jgit.errors.CheckoutConflictException e) {
+					status = new CheckoutResult(Status.CONFLICTS,
+							dco.getConflicts());
+					throw new CheckoutConflictException(dco.getConflicts(), e);
+				}
+			} finally {
+				dc.unlock();
 			}
 			Ref ref = repo.getRef(name);
 			if (ref != null && !ref.getName().startsWith(Constants.R_HEADS))
