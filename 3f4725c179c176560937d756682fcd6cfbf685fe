@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOG3//9x4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/WorkingTreeIterator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-04-04T06:57:57Z",
+      "side": 1,
+      "message": "This method is nested pretty deeply. I would use early return pattern by setting canonLen first and then returning the InputStream rather than setting filteredIs.\n\nOr at least use \"} else if {\" pattern to pull the else else else up a few levels so we aren\u0027t as deeply nested here.",
+      "revId": "3f4725c179c176560937d756682fcd6cfbf685fe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
