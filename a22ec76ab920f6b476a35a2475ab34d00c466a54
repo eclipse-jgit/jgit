@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOG3//9xs\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCache.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 589,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-04-04T07:09:01Z",
+      "side": 1,
+      "message": "You also need to use the old snapshot from when we read the index.\n\ngit-core doesn\u0027t pre-smudge entries during the index write, it does the smudge during future index reads so we need to smudge here if the entry we are about to write is dirty clean relative to the old index timestamp.",
+      "revId": "a22ec76ab920f6b476a35a2475ab34d00c466a54",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
