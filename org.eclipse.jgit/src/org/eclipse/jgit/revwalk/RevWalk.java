@@ -61,6 +61,7 @@ import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.AsyncObjectLoaderQueue;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.CoreConfig;
 import org.eclipse.jgit.lib.MutableObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdOwnerMap;
@@ -95,8 +96,6 @@ import org.eclipse.jgit.treewalk.filter.TreeFilter;
  * {@link #next()} does not.
  */
 public class RevWalk implements Iterable<RevCommit> {
-	private static final int MB = 1 << 20;
-
 	/**
 	 * Set on objects whose important header data has been loaded.
 	 * <p>
@@ -192,6 +191,8 @@ public class RevWalk implements Iterable<RevCommit> {
 
 	private boolean retainBody;
 
+	private int streamFileThreshold;
+
 	/**
 	 * Create a new revision walker for a given repository.
 	 *
@@ -228,6 +229,9 @@ public class RevWalk implements Iterable<RevCommit> {
 		filter = RevFilter.ALL;
 		treeFilter = TreeFilter.ALL;
 		retainBody = true;
+		streamFileThreshold = (int) Math
+				.min(CoreConfig.KEY.parse(repo.getConfig())
+						.getStreamFileThreshold(), Integer.MAX_VALUE);
 	}
 
 	/** @return the reader this walker is using to load objects. */
@@ -858,7 +862,7 @@ public class RevWalk implements Iterable<RevCommit> {
 	byte[] getCachedBytes(RevObject obj, ObjectLoader ldr)
 			throws LargeObjectException, MissingObjectException, IOException {
 		try {
-			return ldr.getCachedBytes(5 * MB);
+			return ldr.getCachedBytes(streamFileThreshold);
 		} catch (LargeObjectException tooBig) {
 			tooBig.setObjectId(obj);
 			throw tooBig;
