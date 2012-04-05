@@ -45,7 +45,6 @@ package org.eclipse.jgit.storage.file;
 
 import org.eclipse.jgit.lib.CoreConfig;
 import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.ConfigConstants;
 
 /** Configuration parameters for {@link WindowCache}. */
 public class WindowCacheConfig {
@@ -197,9 +196,7 @@ public class WindowCacheConfig {
 		setDeltaBaseCacheLimit(rc.getInt("core", null, "deltabasecachelimit", getDeltaBaseCacheLimit()));
 
 		long maxMem = Runtime.getRuntime().maxMemory();
-		long sft = rc.getLong("core", null,
-				ConfigConstants.CONFIG_KEY_STREAM_FILE_TRESHOLD.toLowerCase(),
-				getStreamFileThreshold());
+		long sft = CoreConfig.KEY.parse(rc).getStreamFileThreshold();
 		sft = Math.min(sft, maxMem / 4); // don't use more than 1/4 of the heap
 		sft = Math.min(sft, Integer.MAX_VALUE); // cannot exceed array length
 		setStreamFileThreshold((int) sft);
