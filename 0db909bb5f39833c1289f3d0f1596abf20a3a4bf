@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOG3//9pQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2012-04-06T09:43:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOG3//9p4\u003d",
+      "revId": "0db909bb5f39833c1289f3d0f1596abf20a3a4bf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOG3//9p0\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2012-04-06T02:01:36Z",
       "side": 1,
       "message": "I think you can just drop this parameter, and the MiB constant and that is the entire commit.",
+      "revId": "0db909bb5f39833c1289f3d0f1596abf20a3a4bf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOG3//9pM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 865,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2012-04-06T09:43:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOG3//9p0\u003d",
       "revId": "0db909bb5f39833c1289f3d0f1596abf20a3a4bf",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
