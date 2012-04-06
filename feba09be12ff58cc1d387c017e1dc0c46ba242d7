@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOG3//9pc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/CoreConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2012-04-06T09:42:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOG3//9qA\u003d",
+      "revId": "feba09be12ff58cc1d387c017e1dc0c46ba242d7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOG3//9qI\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackConfig.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AABOG3//9pY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2012-04-06T09:42:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOG3//9qI\u003d",
+      "revId": "feba09be12ff58cc1d387c017e1dc0c46ba242d7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOG3//9qE\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackConfig.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2012-04-06T01:56:10Z",
       "side": 1,
       "message": "No, this really should be 50 MiB. Its a different animal than the stream file threshold. This caps how big of a file the packer will attempt to perform delta compression with. Git has determined that above certain sizes, using delta compression when packing has a significant negative performance impact and shouldn\u0027t be done.\n\nThe default of 50 MiB here is a rough estimate of what is reasonable to delta compress. Even if your application sets core.streamFileThreshold to 128M or 256M, the packer shouldn\u0027t create deltas for objects \u003e50M by default because it hurts other readers too badly who might have lower streamFileThresholds.\n\nDoes that make sense?",
+      "revId": "feba09be12ff58cc1d387c017e1dc0c46ba242d7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOG3//9pU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/PackConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 502,
+      "author": {
+        "id": 51
+      },
+      "writtenOn": "2012-04-06T09:42:39Z",
+      "side": 1,
+      "message": "Yes :)",
+      "parentUuid": "AABOG3//9qE\u003d",
       "revId": "feba09be12ff58cc1d387c017e1dc0c46ba242d7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
