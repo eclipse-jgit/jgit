@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOG3//9u0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 1025,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-04-06T09:36:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOG3//9yE\u003d",
+      "revId": "2d590738a867723415aeb613c249001d9c28a3ff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOG3//9yA\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
         "patchSetId": 13
@@ -30,6 +48,24 @@
       "writtenOn": "2012-04-04T06:52:06Z",
       "side": 1,
       "message": "testing for NUL here is a bit too low level for this code. You should be able to rely on the ptr \u003c end logic.",
+      "revId": "2d590738a867723415aeb613c249001d9c28a3ff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOG3//9uw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 1030,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-04-06T09:36:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOG3//9yA\u003d",
       "revId": "2d590738a867723415aeb613c249001d9c28a3ff",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AABOG3//9u4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheEntry.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 699,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-04-06T09:36:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOG3//9yM\u003d",
+      "revId": "2d590738a867723415aeb613c249001d9c28a3ff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOG3//9yI\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/CanonicalTreeParser.java",
         "patchSetId": 13
@@ -64,6 +118,24 @@
       "writtenOn": "2012-04-04T06:52:06Z",
       "side": 1,
       "message": "An alternative implementation that is faster would be:\n\n* pathSegmentBuffer():  Use instead getEntryPathBuffer()\n* pathSegmentOffset() { return pathOffset; }\n* patchSegmentLength(): Use instead getNameLength()\n\nThis is all pre-computed when the tree parser advances to the current entry. You might want to look at the AbstractTreeIterator base class as it defines the path buffer and methods to access the entire path, but not the current segment\u0027s name.",
+      "revId": "2d590738a867723415aeb613c249001d9c28a3ff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOG3//9u8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/CanonicalTreeParser.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-04-06T09:36:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOG3//9yI\u003d",
       "revId": "2d590738a867723415aeb613c249001d9c28a3ff",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
