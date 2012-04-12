@@ -49,6 +49,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
@@ -75,7 +76,7 @@ public class ListTagCommand extends GitCommand<List<Ref>> {
 	 *             upon internal failure
 	 * @return the tags available
 	 */
-	public List<Ref> call() throws JGitInternalException {
+	public List<Ref> call() throws GitAPIException, JGitInternalException {
 		checkCallable();
 		Map<String, Ref> refList;
 		List<Ref> tags = new ArrayList<Ref>();
