@@ -53,6 +53,7 @@ import java.util.Map.Entry;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.SubmoduleStatusCommand;
+import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheEditor;
 import org.eclipse.jgit.dircache.DirCacheEditor.PathEdit;
@@ -152,7 +153,8 @@ public class SubmoduleStatusTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void repositoryWithNoHeadInSubmodule() throws IOException {
+	public void repositoryWithNoHeadInSubmodule() throws IOException,
+			GitAPIException {
 		final ObjectId id = ObjectId
 				.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234");
 		final String path = "sub";
@@ -247,7 +249,8 @@ public class SubmoduleStatusTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void repositoryWithInitializedSubmodule() throws IOException {
+	public void repositoryWithInitializedSubmodule() throws IOException,
+			GitAPIException {
 		final ObjectId id = ObjectId
 				.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234");
 		final String path = "sub";
@@ -302,7 +305,7 @@ public class SubmoduleStatusTest extends RepositoryTestCase {
 
 	@Test
 	public void repositoryWithDifferentRevCheckedOutSubmodule()
-			throws IOException {
+			throws IOException, GitAPIException {
 		final ObjectId id = ObjectId
 				.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234");
 		final String path = "sub";
