@@ -641,10 +641,33 @@ public class DirCacheEntry {
 	 *            the entry to copy ObjectId and meta fields from.
 	 */
 	public void copyMetaData(final DirCacheEntry src) {
-		final int pLen = NB.decodeUInt16(info, infoOffset + P_FLAGS) & NAME_MASK;
+		copyMetaData(src, false);
+	}
+
+	/**
+	 * Copy the ObjectId and other meta fields from an existing entry.
+	 * <p>
+	 * This method copies everything except the path and possibly stage from one
+	 * entry to another, supporting renaming.
+	 *
+	 * @param src
+	 *            the entry to copy ObjectId and meta fields from.
+	 * @param keepStage
+	 *            if true, the stage attribute will not be copied
+	 */
+	void copyMetaData(final DirCacheEntry src, boolean keepStage) {
+		int origflags = NB.decodeUInt16(info, infoOffset + P_FLAGS);
+		int newflags = NB.decodeUInt16(src.info, src.infoOffset + P_FLAGS);
 		System.arraycopy(src.info, src.infoOffset, info, infoOffset, INFO_LEN);
-		NB.encodeInt16(info, infoOffset + P_FLAGS, pLen
-				| NB.decodeUInt16(info, infoOffset + P_FLAGS) & ~NAME_MASK);
+		final int pLen = origflags & NAME_MASK;
+		final int SHIFTED_STAGE_MASK = 0x3 << 12;
+		final int pStageShifted;
+		if (keepStage)
+			pStageShifted = origflags & SHIFTED_STAGE_MASK;
+		else
+			pStageShifted = newflags & SHIFTED_STAGE_MASK;
+		NB.encodeInt16(info, infoOffset + P_FLAGS, pStageShifted | pLen
+				| (newflags & ~NAME_MASK & ~SHIFTED_STAGE_MASK));
 	}
 
 	/**
