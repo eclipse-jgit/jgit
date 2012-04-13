@@ -795,7 +795,7 @@ public class DirCacheCheckout {
 		DirCacheEntry entry;
 		if (e != null) {
 			entry = new DirCacheEntry(e.getPathString(), DirCacheEntry.STAGE_1);
-			entry.copyMetaData(e);
+			entry.copyMetaData(e, true);
 			builder.add(entry);
 		}
 
