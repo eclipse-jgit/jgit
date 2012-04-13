@@ -34,6 +34,24 @@
       "revId": "a22ec76ab920f6b476a35a2475ab34d00c466a54",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOG3//9XU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCache.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 589,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-04-13T22:11:24Z",
+      "side": 1,
+      "message": "Maybe we should do like C Git, and smudge on read instead of here. At least tracking down strange behaviour would be simpler.",
+      "parentUuid": "AABOG3//9tw\u003d",
+      "revId": "a22ec76ab920f6b476a35a2475ab34d00c466a54",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
