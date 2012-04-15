@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOG3//9R8\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/HugeFileTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-04-15T18:13:37Z",
+      "side": 1,
+      "message": "I wish I had a good answer for how to avoid doing operations like a SHA-1 on 4G of data.\n\nMaybe a custom subclass of WorkTreeIterator that provides a single fake huge file and returns a fake ObjectId that is cached, thus avoiding the need to run SHA-1 over the input stream?",
+      "revId": "f65359d33315d59729b9b4e51c6f4779473acb92",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
