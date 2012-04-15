@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AABOG3//9Rw\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/HugeFileTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-04-15T23:44:29Z",
+      "side": 1,
+      "message": "I guess this should be your copyright",
+      "revId": "f65359d33315d59729b9b4e51c6f4779473acb92",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOG3//9R8\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/HugeFileTest.java",
         "patchSetId": 1
