@@ -34,6 +34,24 @@
       "revId": "f65359d33315d59729b9b4e51c6f4779473acb92",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOG3//9Rk\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/HugeFileTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-04-15T23:15:57Z",
+      "side": 1,
+      "message": "tmpfs and lots of RAM would help. This is an essentially IO-bound operation. On my laptop raw dd runs at about 65 MB/s, while the Add opertions slows down, but only to around 55. An infinitely fast SHA-1 would only gain about 10 seconds. I tried http://www.saphir2.com/sphlib/, but the difference is drowned by measuring errors.",
+      "parentUuid": "AABOG3//9Rs\u003d",
+      "revId": "f65359d33315d59729b9b4e51c6f4779473acb92",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
