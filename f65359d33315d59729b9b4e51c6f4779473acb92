@@ -16,6 +16,24 @@
       "revId": "f65359d33315d59729b9b4e51c6f4779473acb92",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOG3//9Rs\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/HugeFileTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-04-15T20:11:27Z",
+      "side": 1,
+      "message": "I am a little worried some optimization may bypass the modulo nature of the dircache length attribute and not read everyting. \n\nMocking some operation with mockito may be better, because we could then verify that the correct calls would have been made.",
+      "parentUuid": "AABOG3//9R8\u003d",
+      "revId": "f65359d33315d59729b9b4e51c6f4779473acb92",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
