@@ -52,6 +52,24 @@
       "revId": "f65359d33315d59729b9b4e51c6f4779473acb92",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOG3//9Rc\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/HugeFileTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-04-15T23:31:41Z",
+      "side": 1,
+      "message": "I\u0027m not thrilled about adding 40 seconds or whatever to our unit testing time just to verify we truncate a long to an int the way git-core does. It would be better to mock out this \u003e4G test somewhat so we aren\u0027t asking the local system to deal with a 4G temporary file in the middle of what should be small fast unit test.",
+      "parentUuid": "AABOG3//9Rk\u003d",
+      "revId": "f65359d33315d59729b9b4e51c6f4779473acb92",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
