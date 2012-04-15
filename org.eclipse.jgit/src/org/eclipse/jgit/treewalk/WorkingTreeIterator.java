@@ -711,7 +711,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		if (entry.isUpdateNeeded())
 			return MetadataDiff.DIFFER_BY_METADATA;
 
-		if (!entry.isSmudged() && (getEntryLength() != entry.getLength()))
+		if (!entry.isSmudged() && entry.getLength() != (int) getEntryLength())
 			return MetadataDiff.DIFFER_BY_METADATA;
 
 		// Determine difference in mode-bits of file and index-entry. In the
