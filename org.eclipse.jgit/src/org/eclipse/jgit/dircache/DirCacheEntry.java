@@ -525,7 +525,7 @@ public class DirCacheEntry {
 	}
 
 	/**
-	 * Get the cached size (in bytes) of this file.
+	 * Get the cached size (mod 4 GB) (in bytes) of this file.
 	 * <p>
 	 * One of the indicators that the file has been modified by an application
 	 * changing the working tree is if the size of the file (in bytes) differs
@@ -534,6 +534,10 @@ public class DirCacheEntry {
 	 * Note that this is the length of the file in the working directory, which
 	 * may differ from the size of the decompressed blob if work tree filters
 	 * are being used, such as LF<->CRLF conversion.
+	 * <p>
+	 * Note also that for very large files, this is the size of the on-disk file
+	 * truncated to 32 bits, i.e. modulo 4294967296. If that value is larger
+	 * than 2GB, it will appear negative.
 	 *
 	 * @return cached size of the working directory file, in bytes.
 	 */
@@ -545,7 +549,8 @@ public class DirCacheEntry {
 	 * Set the cached size (in bytes) of this file.
 	 *
 	 * @param sz
-	 *            new cached size of the file, as bytes.
+	 *            new cached size of the file, as bytes. If the file is larger
+	 *            than 2G, cast it to (int) before calling this method.
 	 */
 	public void setLength(final int sz) {
 		NB.encodeInt32(info, infoOffset + P_SIZE, sz);
@@ -556,15 +561,9 @@ public class DirCacheEntry {
 	 *
 	 * @param sz
 	 *            new cached size of the file, as bytes.
-	 * @throws IllegalArgumentException
-	 *             if the size exceeds the 2 GiB barrier imposed by current file
-	 *             format limitations.
 	 */
 	@SuppressWarnings("boxing")
 	public void setLength(final long sz) {
-		if (Integer.MAX_VALUE <= sz)
-			throw new IllegalArgumentException(MessageFormat.format(JGitText
-					.get().sizeExceeds2GB, getPathString(), sz));
 		setLength((int) sz);
 	}
 
