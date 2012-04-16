@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOG3//9J8\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/HugeFileTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-04-16T22:36:56Z",
+      "side": 1,
+      "message": "I would still prefer a mocked version of this test that run \u003c\u003d 1 second and gave us better confidence on the rounding logic.\n\nIgnoring the real file version by default is OK if we have a mock that tests the bulk of the logic on every test run.",
+      "revId": "5f8053f4fb26bb5b160a706b2cd62a057ba89ec8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
