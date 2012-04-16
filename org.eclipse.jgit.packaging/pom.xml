@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-   Copyright (C) 2009-2011, Matthias Sohn <matthias.sohn@sap.com>
+   Copyright (C) 2009-2012, Matthias Sohn <matthias.sohn@sap.com>
    and other copyright owners as documented in the project's IP log.
 
    This program and the accompanying materials are made available
@@ -59,7 +59,7 @@
   <name>JGit Tycho Parent</name>
 
   <properties>
-    <tycho-version>0.12.0</tycho-version>
+    <tycho-version>0.14.1</tycho-version>
     <eclipse-site>http://download.eclipse.org/releases/indigo</eclipse-site>
   </properties>
 
@@ -67,7 +67,7 @@
     <module>org.eclipse.jgit.feature</module>
     <module>org.eclipse.jgit.source.feature</module>
     <module>org.eclipse.jgit.junit.feature</module>
-    <module>org.eclipse.jgit.updatesite</module>
+    <module>org.eclipse.jgit.repository</module>
   </modules>
 
   <repositories>
