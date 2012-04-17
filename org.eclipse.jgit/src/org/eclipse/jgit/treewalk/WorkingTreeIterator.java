@@ -859,7 +859,15 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		return length;
 	}
 
-	private byte[] computeHash(InputStream in, long length) throws IOException {
+	/**
+	 * internal
+	 * 
+	 * @param in
+	 * @param length
+	 * @return hash
+	 * @throws IOException
+	 */
+	public byte[] computeHash(InputStream in, long length) throws IOException {
 		final MessageDigest contentDigest = state.contentDigest;
 		final byte[] contentReadBuffer = state.contentReadBuffer;
 
