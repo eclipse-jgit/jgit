@@ -139,8 +139,16 @@ public class FileTreeIterator extends WorkingTreeIterator {
 			return EOF;
 		final Entry[] r = new Entry[all.length];
 		for (int i = 0; i < r.length; i++)
-			r[i] = new FileEntry(all[i], fs);
+			r[i] = newFileTreeEntry(all[i]);
 		return r;
+	}
+
+	/**
+	 * @param f
+	 * @return an entry representing a File
+	 */
+	protected Entry newFileTreeEntry(final File f) {
+		return new FileEntry(f, fs);
 	}
 
 	/**
