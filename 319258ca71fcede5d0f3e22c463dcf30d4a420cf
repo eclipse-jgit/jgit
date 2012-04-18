@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOG3//8/A\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/HugeFileTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-04-18T07:38:25Z",
+      "side": 1,
+      "message": "Ouch. I didn\u0027t realize this was going to need to mock this much of the JGit objects between the object directory and the tree iterator. Now I finally understand why you didn\u0027t want to mock the 4G test.\n\nWith this much code being mocked, its much harder to be sure the test is actually testing enough to make it worth carrying in tree.",
+      "revId": "319258ca71fcede5d0f3e22c463dcf30d4a420cf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
