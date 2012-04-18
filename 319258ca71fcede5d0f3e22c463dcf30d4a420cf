@@ -16,6 +16,24 @@
       "revId": "319258ca71fcede5d0f3e22c463dcf30d4a420cf",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOG3//86k\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/HugeFileTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-04-18T19:48:38Z",
+      "side": 1,
+      "message": "Yes, it\u0027s a lot and messy. It might be possible to clean it up, but the amount of code is too much.\n\nUsing JMockIt should be much cleaner, since it allows direct mocking of things like File and FileInputStream. However I did not find JMockit in orbit.",
+      "parentUuid": "AABOG3//8/A\u003d",
+      "revId": "319258ca71fcede5d0f3e22c463dcf30d4a420cf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
