@@ -107,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "AABOG3//9dM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheEntry.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 699,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-04-19T06:09:08Z",
+      "side": 1,
+      "message": "Also fixed two similar cases in DirCacheCheckout",
+      "parentUuid": "AABOG3//9u4\u003d",
+      "revId": "2d590738a867723415aeb613c249001d9c28a3ff",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOG3//9yI\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/CanonicalTreeParser.java",
         "patchSetId": 13
