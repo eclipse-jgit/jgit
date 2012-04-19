@@ -34,6 +34,23 @@
       "revId": "cc9a7ba3a2ac1e82a989fb0c280ffaffbbd3876a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOG3//83E\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-04-19T14:05:00Z",
+      "side": 1,
+      "message": "I don\u0027t like the idea of checking the content type with startsWith, its still a fuzzy check.... and that server is still wrong. This MIME type doesn\u0027t take a charset because the character encoding of branch names is uhm, unspecified by Git.\n\nC Git does the is smart check by slurping the entire response body into a buffer and then reading the start of the buffer. If we changed this code to do the same thing, I would be more comfortable with the idea of dropping the content type check altogether and ignoring it like C Git does. But that is pretty stupid to not check the content type.\n\nA better way to check this MIME type is something like:\n\n  String actType \u003d c.getContentType();\n  if (actType \u003d\u003d null)\n    return false;\n  int s \u003d actType.indexOf(\u0027;\u0027);\n  if (s \u003e 0)\n    actType \u003d actType.substring(0, s);\n  return expType.equals(actType);",
+      "revId": "cc9a7ba3a2ac1e82a989fb0c280ffaffbbd3876a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
