@@ -122,6 +122,24 @@
       "revId": "80a40aa188629a879b54ae144e13d274b9e83817",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOG3//9FI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-04-20T09:11:55Z",
+      "side": 1,
+      "message": "now I understand it. Yes it\u0027s an important feature for huge repos. We have internally teams working on a 17GB repo (size of bare repo). They\u0027ll need this feature.\n\nNot to delete pack files which have a .keep file was already in the latest patchset. Now I\u0027ll introduce not to repack objects in packs with a .keep file.",
+      "parentUuid": "AABOG3//+mk\u003d",
+      "revId": "80a40aa188629a879b54ae144e13d274b9e83817",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
