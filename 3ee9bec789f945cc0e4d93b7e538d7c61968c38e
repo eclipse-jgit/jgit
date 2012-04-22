@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AABOG3//8so\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CleanCommandTest.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-04-22T10:49:10Z",
+      "side": 1,
+      "message": "I\u0027d prefer assertEquals(4, files.size()) for bettr reports if the test fails",
+      "revId": "3ee9bec789f945cc0e4d93b7e538d7c61968c38e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOG3//8sw\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CleanCommand.java",
         "patchSetId": 12
