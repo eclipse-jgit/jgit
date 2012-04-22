@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOG3//8sw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CleanCommand.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-04-22T10:44:43Z",
+      "side": 1,
+      "message": "- Be very careful with startsWith on paths\n\"a.txt\".startsWith(\"a\")\n\nThis does not have to be an O(N^2) operation.",
+      "revId": "3ee9bec789f945cc0e4d93b7e538d7c61968c38e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
