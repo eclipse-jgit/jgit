@@ -340,6 +340,40 @@ public class RevCommitList<E extends RevCommit> extends RevObjectList<E> {
 	}
 
 	/**
+	 * Ensures all commits until the given commit are loaded. The revision
+	 * walker specified by {@link #source(RevWalk)} is pumped until the
+	 * specified commit is loaded. Callers can test the final size of the list
+	 * by {@link #size()} to determine if the high water mark specified was met.
+	 * <p/>
+	 * @param commitToLoad
+	 *            commit the caller wants this list to contain when the fill
+	 *            operation is complete.
+	 * @throws IOException
+	 *             see {@link RevWalk#next()}
+	 * @throws IncorrectObjectTypeException
+	 *             see {@link RevWalk#next()}
+	 * @throws MissingObjectException
+	 *             see {@link RevWalk#next()}
+	 */
+	public void fillTo(final RevCommit commitToLoad)
+			throws MissingObjectException, IncorrectObjectTypeException,
+			IOException {
+		if (walker == null || commitToLoad == null)
+			return;
+
+		RevCommit c;
+		do {
+			c = walker.next();
+			if (c == null) {
+				walker = null;
+				return;
+			}
+			enter(size++, (E) c);
+			add((E) c);
+		} while (!c.equals(commitToLoad));
+	}
+
+	/**
 	 * Optional callback invoked when commits enter the list by fillTo.
 	 * <p>
 	 * This method is only called during {@link #fillTo(int)}.
