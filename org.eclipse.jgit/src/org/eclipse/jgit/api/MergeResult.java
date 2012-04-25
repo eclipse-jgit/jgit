@@ -76,6 +76,20 @@ public class MergeResult {
 				return true;
 			}
 		},
+		/**
+		 * @since 2.0
+		 */
+		FAST_FORWARD_SQUASHED {
+			@Override
+			public String toString() {
+				return "Fast-forward-squashed";
+			}
+
+			@Override
+			public boolean isSuccessful() {
+				return true;
+			}
+		},
 		/** */
 		ALREADY_UP_TO_DATE {
 			@Override
@@ -105,6 +119,20 @@ public class MergeResult {
 			@Override
 			public String toString() {
 				return "Merged";
+			}
+
+			@Override
+			public boolean isSuccessful() {
+				return true;
+			}
+		},
+		/**
+		 * @since 2.0
+		 */
+		MERGED_SQUASHED {
+			@Override
+			public String toString() {
+				return "Merged-squashed";
 			}
 
 			@Override
