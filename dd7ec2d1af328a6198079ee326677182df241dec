@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOG3//8hU\u003d",
+        "filename": "org.eclipse.jgit.pgm/resources/org/eclipse/jgit/pgm/CLIText.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2012-04-25T10:48:28Z",
+      "side": 1,
+      "message": "FWIW, the message in native git is \"Automatic merge went well; stopped before committing as requested\". With the current message a CLI test [1] is going to fail.\n\n[1] https://git.eclipse.org/r/#/c/5408/",
+      "revId": "dd7ec2d1af328a6198079ee326677182df241dec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOG3//8hY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MergeCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2012-04-25T10:48:28Z",
+      "side": 1,
+      "message": "There is a change for --squash being developed in parallel [1]. We better make sure they have distinguishable descriptions. Currently I wouldn\u0027t know which one to use without reading the explanation you sent me [2] ;)\n\n[1] https://git.eclipse.org/r/#/c/4995/\n\n[2] http://stackoverflow.com/questions/9599411/git-merge-no-commit-squash-difference",
+      "revId": "dd7ec2d1af328a6198079ee326677182df241dec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOG3//8hg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MergeCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2012-04-25T10:48:28Z",
+      "side": 1,
+      "message": "\"a MergeResult with type MergeResult with MergeStatus...\" sounds weird. Is this expected? Wouldn\u0027t \"a MergeResult with MergeStatus...\" be enough?",
+      "revId": "dd7ec2d1af328a6198079ee326677182df241dec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
