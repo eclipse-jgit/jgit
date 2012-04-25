@@ -19,6 +19,58 @@
     },
     {
       "key": {
+        "uuid": "AABOG3//8go\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-04-25T15:46:35Z",
+      "side": 1,
+      "message": "right, that\u0027s :/ . We have a trailing whitespace above and no description afterwards.",
+      "parentUuid": "AABOG3//8hs\u003d",
+      "revId": "0878213dbda36d3805b1b00a001f7459e551126c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOG3//8gk\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/MergeCommandTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 797,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-04-25T15:46:35Z",
+      "side": 1,
+      "message": "Just for curiosity: why have you changed this assertion?",
+      "revId": "0878213dbda36d3805b1b00a001f7459e551126c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOG3//8gQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MergeCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-04-25T15:46:35Z",
+      "side": 1,
+      "message": "I think something important is missing here: the merge command prepares here the text of the next commit message and the parents of the next commit by writing into .git/MERGE_HEAD and .git/MERGE_MSG files. If you do a \u0027git merge --squash\u0027 you want explicitly that the next commit (which is prepared by this command) is not a merge commit with two parents. Also the commit message should not be prefilled with the same text as with standard merges. The writeMergeCommitMsg() and writeMergeHeads() in the previous two lines should be configured depending on the squash flag.\nWe should add tests which check that after \"git merge --squash\" which fails due to conflicts that a subsequent call to commit (after resolving conflicts) has the right number of parents and the right message. Check this script:\n\n rm -fr * .git\ngit init\necho initial \u003e readme\ngit add readme\ngit commit -m create_readme\ngit checkout -b side\necho initial \u003e b\ngit add b\ngit commit -a -m added_b\ngit checkout -b side2 HEAD^\necho added_b2 \u003e\u003e readme\necho initial \u003e b2\ngit add b2\ngit commit -a -m added_b2_and_modified_readme\ngit checkout master\necho added_c \u003e\u003e readme\necho initial \u003e c\ngit add c\ngit commit -a -m added_c_and_modified_readme\ngit merge --squash side\ngit commit\ngit merge --squash side2\necho mergeConflict \u003e\u003e readme\ngit commit -a",
+      "revId": "0878213dbda36d3805b1b00a001f7459e551126c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOG3//8ho\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MergeCommand.java",
         "patchSetId": 4
