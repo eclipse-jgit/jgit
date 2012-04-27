@@ -538,9 +538,9 @@ public class RevWalk implements Iterable<RevCommit> {
 	 * that do not contain tree entries matched by the filter.
 	 * <p>
 	 * Usually callers should be inserting a filter graph including
-	 * {@link TreeFilter#ANY_DIFF} along with one or more
-	 * {@link org.eclipse.jgit.treewalk.filter.PathFilter} instances.
-	 *
+	 * {@link TreeFilter#anyDiff(org.eclipse.jgit.lib.Config)} along with one or
+	 * more {@link org.eclipse.jgit.treewalk.filter.PathFilter} instances.
+	 * 
 	 * @param newFilter
 	 *            new filter. If null the special {@link TreeFilter#ALL} filter
 	 *            will be used instead, as it matches everything.

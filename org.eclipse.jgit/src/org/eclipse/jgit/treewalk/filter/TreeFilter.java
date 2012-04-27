@@ -48,8 +48,10 @@ import java.io.IOException;
 import org.eclipse.jgit.dircache.DirCacheIterator;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.WorkingTreeIterator;
+import org.eclipse.jgit.treewalk.WorkingTreeOptions;
 
 /**
  * Selects interesting tree entries during walking.
@@ -125,11 +127,48 @@ public abstract class TreeFilter {
 	 * <p>
 	 * When comparing {@link WorkingTreeIterator} and {@link DirCacheIterator}
 	 * applications should use {@link IndexDiffFilter}.
+	 *
+	 * @deprecated ANY_DIFF filter ignores local repository filemode settings,
+	 *             use {@link TreeFilter#anyDiff(Config)} to consider repository
+	 *             specyfic settings
 	 */
-	public static final TreeFilter ANY_DIFF = new AnyDiffFilter();
+	@Deprecated
+	public static final TreeFilter ANY_DIFF = new AnyDiffFilter(true);
+
+	/**
+	 * Selects only tree entries which differ between at least 2 trees.
+	 * <p>
+	 * This filter also prevents a TreeWalk from recursing into a subtree if all
+	 * parent trees have the identical subtree at the same path. This
+	 * dramatically improves walk performance as only the changed subtrees are
+	 * entered into.
+	 * <p>
+	 * If this filter is applied to a walker with only one tree it behaves like
+	 * {@link #ALL}, or as though the walker was matching a virtual empty tree
+	 * against the single tree it was actually given. Applications may wish to
+	 * treat such a difference as "all names added".
+	 * <p>
+	 * When comparing {@link WorkingTreeIterator} and {@link DirCacheIterator}
+	 * applications should use {@link IndexDiffFilter}.
+	 *
+	 * @param cfg
+	 *            repository specific configuration
+	 * @return configured {@link TreeFilter} that will include only entries
+	 *         which differ between at least 2 trees
+	 */
+	public static TreeFilter anyDiff(Config cfg) {
+		WorkingTreeOptions options = WorkingTreeOptions.KEY.parse(cfg);
+		return new AnyDiffFilter(options.isFileMode());
+	}
 
 	private static final class AnyDiffFilter extends TreeFilter {
 		private static final int baseTree = 0;
+
+		private final boolean fileMode;
+
+		private AnyDiffFilter(boolean fileMode) {
+			this.fileMode = fileMode;
+		}
 
 		@Override
 		public boolean include(final TreeWalk walker) {
@@ -139,7 +178,8 @@ public abstract class TreeFilter {
 
 			final int m = walker.getRawMode(baseTree);
 			for (int i = 1; i < n; i++)
-				if (walker.getRawMode(i) != m || !walker.idEqual(i, baseTree))
+				if ((fileMode && walker.getRawMode(i) != m)
+						|| !walker.idEqual(i, baseTree))
 					return true;
 			return false;
 		}

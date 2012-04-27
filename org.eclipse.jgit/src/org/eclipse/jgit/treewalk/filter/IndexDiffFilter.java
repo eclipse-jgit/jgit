@@ -56,13 +56,16 @@ import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.WorkingTreeIterator;
 
 /**
- * A performance optimized variant of {@link TreeFilter#ANY_DIFF} which should
- * be used when among the walked trees there is a {@link DirCacheIterator} and a
+ * A performance optimized variant of
+ * {@link TreeFilter#anyDiff(org.eclipse.jgit.lib.Config)} which should be used
+ * when among the walked trees there is a {@link DirCacheIterator} and a
  * {@link WorkingTreeIterator}. Please see the documentation of
- * {@link TreeFilter#ANY_DIFF} for a basic description of the semantics.
+ * {@link TreeFilter#anyDiff(org.eclipse.jgit.lib.Config)} for a basic
+ * description of the semantics.
  * <p>
  * This filter tries to avoid computing content ids of the files in the
- * working-tree. In contrast to {@link TreeFilter#ANY_DIFF} this filter takes
+ * working-tree. In contrast to
+ * {@link TreeFilter#anyDiff(org.eclipse.jgit.lib.Config)} this filter takes
  * care to first compare the entry from the {@link DirCacheIterator} with the
  * entries from all other iterators besides the {@link WorkingTreeIterator}.
  * Since all those entries have fast access to content ids that is very fast. If
