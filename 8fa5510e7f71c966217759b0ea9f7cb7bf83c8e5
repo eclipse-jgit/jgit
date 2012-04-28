@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOHH///xc\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-04-28T01:59:49Z",
+      "side": 1,
+      "message": "I disagree with the reason for this change. ANY_DIFF is about the raw difference between two trees. Even when core.filemode is true git-core performing `git diff A B` when A and B are both commits or tree objects compares file modes and reports only on file mode differences. ANY_DIFF Is about supporting that particular usage. Real working tree differences may need a different implementation of a TreeFilter to support the compare logic they need.",
+      "revId": "8fa5510e7f71c966217759b0ea9f7cb7bf83c8e5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHH///xk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 543,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-04-28T01:59:49Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "8fa5510e7f71c966217759b0ea9f7cb7bf83c8e5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHH///xg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/TreeFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-04-28T01:59:49Z",
+      "side": 1,
+      "message": "typo on specific",
+      "revId": "8fa5510e7f71c966217759b0ea9f7cb7bf83c8e5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHH///xY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/treewalk/filter/TreeFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-04-28T01:59:49Z",
+      "side": 1,
+      "message": "I don\u0027t think we actually want to deprecate this. See commit message comments for more.",
+      "revId": "8fa5510e7f71c966217759b0ea9f7cb7bf83c8e5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
