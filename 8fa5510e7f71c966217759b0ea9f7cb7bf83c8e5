@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOHH///uU\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2012-04-29T08:04:16Z",
+      "side": 1,
+      "message": "OK, I didn\u0027t spot this intention in ANY_DIFF. In the mean time I\u0027ve found IndexDiffFilter with solves my problems in egit. I\u0027ll abandon this change",
+      "parentUuid": "AABOHH///xc\u003d",
+      "revId": "8fa5510e7f71c966217759b0ea9f7cb7bf83c8e5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOHH///xk\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalk.java",
         "patchSetId": 1
