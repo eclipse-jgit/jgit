@@ -43,7 +43,6 @@
 
 package org.eclipse.jgit.http.test;
 
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -53,6 +52,7 @@ import javax.servlet.ServletException;
 
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
+import org.eclipse.jetty.util.MultiException;
 import org.eclipse.jgit.http.server.GitServlet;
 import org.eclipse.jgit.junit.http.AppServer;
 import org.eclipse.jgit.junit.http.MockServletConfig;
@@ -100,15 +100,23 @@ public class GitServletInitTest {
 		ServletContextHandler app = server.addContext("/");
 		ServletHolder s = app.addServlet(GitServlet.class, "/git");
 		s.setInitOrder(1);
+		s.getServletHandler().setStartWithUnavailable(false);
 
-		server.setUp();
-
-		List<RecordingLogger.Warning> events = RecordingLogger.getWarnings();
-		assertFalse("Servlet started without base-path", events.isEmpty());
-
-		Throwable why = events.get(0).getCause();
-		assertTrue("Caught ServletException", why instanceof ServletException);
-		assertTrue("Wanted base-path", why.getMessage().contains("base-path"));
+		try {
+			server.setUp();
+		} catch (Exception e) {
+			assertTrue("Caught MultiException", e instanceof MultiException);
+			MultiException multi = (MultiException) e;
+			List<Throwable> reasons = multi.getThrowables();
+			Throwable why = reasons.get(0);
+			assertTrue("Caught ServletException",
+					why instanceof ServletException);
+			assertTrue("Wanted base-path",
+					why.getMessage().contains("base-path"));
+			return;
+		}
+		fail("Expected ServletException wrapped in MultiException"
+				+ " complaining about unset base-path");
 	}
 
 	@Test
@@ -120,6 +128,7 @@ public class GitServletInitTest {
 		s.setInitOrder(1);
 		s.setInitParameter("base-path", ".");
 		s.setInitParameter("export-all", "true");
+		s.getServletHandler().setStartWithUnavailable(false);
 
 		server.setUp();
 		assertTrue("no warnings", RecordingLogger.getWarnings().isEmpty());
