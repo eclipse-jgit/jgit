@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010, Chris Aniszczyk <caniszczyk@gmail.com>
+ * Copyright (C) 2010, 2012 Chris Aniszczyk <caniszczyk@gmail.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -43,8 +43,12 @@
 
 package org.eclipse.jgit.pgm;
 
+import java.text.MessageFormat;
+
 import org.eclipse.jgit.api.CheckoutCommand;
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.Repository;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 
@@ -66,6 +70,13 @@ class Checkout extends TextBuiltin {
 		command.setCreateBranch(createBranch);
 		command.setName(name);
 		command.setForce(force);
-		command.call();
+		Ref ref = command.call();
+
+		if (createBranch)
+			out.println(MessageFormat.format(CLIText.get().switchedToNewBranch,
+					Repository.shortenRefName(ref.getName())));
+		else
+			out.println(MessageFormat.format(CLIText.get().switchedToBranch,
+					Repository.shortenRefName(ref.getName())));
 	}
 }
