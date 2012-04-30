@@ -16,6 +16,24 @@
       "revId": "04266d1cd76ba5af76f16641dabebfb5c62b63af",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHH///nw\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Status.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 507
+      },
+      "writtenOn": "2012-04-30T19:08:01Z",
+      "side": 1,
+      "message": "Done.\nUnfortunately, due to some difficulties when migrating my gerrit user to the new eclipse git/gerrit server, pushing it again gave it a new home:\nhttps://git.eclipse.org/r/#/c/5765/\nChangeId is still the same though...",
+      "parentUuid": "AABOKH///+U\u003d",
+      "revId": "04266d1cd76ba5af76f16641dabebfb5c62b63af",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
