@@ -16,6 +16,24 @@
       "revId": "40899a05148c7ddbaa9d5d026fecd08dc50fec6c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHH///kU\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/StashCreateCommandTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-04-30T21:32:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOHH///lc\u003d",
+      "revId": "40899a05148c7ddbaa9d5d026fecd08dc50fec6c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
