@@ -48,13 +48,22 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.jgit.diff.DiffEntry;
+import org.eclipse.jgit.errors.CorruptObjectException;
+import org.eclipse.jgit.errors.IncorrectObjectTypeException;
+import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.CoreConfig.AutoCRLF;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectLoader;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RepositoryTestCase;
@@ -67,10 +76,14 @@ import org.eclipse.jgit.treewalk.filter.TreeFilter;
 import org.eclipse.jgit.util.FileUtils;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
 
 /**
  * Unit tests of {@link StashCreateCommand}
  */
+@RunWith(Parameterized.class)
 public class StashCreateCommandTest extends RepositoryTestCase {
 
 	private RevCommit head;
@@ -79,14 +92,43 @@ public class StashCreateCommandTest extends RepositoryTestCase {
 
 	private File committedFile;
 
+	private final String crInWS;
+
+	private final AutoCRLF crlfoption;
+
+	public final String crInRepo;
+
+	private String crOutWS;
+
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
+		db.getConfig().setEnum("core", null, "autocrlf", crlfoption);
 		git = Git.wrap(db);
-		committedFile = writeTrashFile("file.txt", "content");
+		committedFile = writeTrashFile("file.txt", "content" + crInWS);
 		git.add().addFilepattern("file.txt").call();
 		head = git.commit().setMessage("add file").call();
 		assertNotNull(head);
+	}
+
+	@SuppressWarnings("boxing")
+	public StashCreateCommandTest(String crInWS, String crInRepo,
+			String crInWSAfter,
+			AutoCRLF crlfoption) {
+		this.crInWS = crInWS;
+		this.crInRepo = crInRepo;
+		this.crOutWS = crInWSAfter;
+		this.crlfoption = crlfoption;
+	}
+
+	@Parameters
+	public static Collection<Object[]> getVariants() {
+		return Arrays.asList(new Object[][] {
+				{ "\n", "\n", "\n", AutoCRLF.FALSE }, //
+				{ "\r\n", "\r\n", "\r\n", AutoCRLF.FALSE }, //
+				{ "\r\n", "\n", "\n", AutoCRLF.INPUT }, //
+				{ "\r\n", "\n", "\r\n", AutoCRLF.TRUE }, //
+		});
 	}
 
 	/**
@@ -154,6 +196,23 @@ public class StashCreateCommandTest extends RepositoryTestCase {
 		}
 	}
 
+	private String readBlob(RevCommit commit, String string)
+			throws MissingObjectException, IncorrectObjectTypeException,
+			CorruptObjectException, IOException {
+		TreeWalk tw = TreeWalk.forPath(db, string, commit.getTree());
+		if (tw == null)
+			return null;
+		ObjectId bId = tw.getObjectId(0);
+		if (bId == null)
+			return null;
+		ObjectReader or = db.getObjectDatabase().newReader();
+		ObjectLoader ol = or.open(bId);
+		ByteArrayOutputStream bos = new ByteArrayOutputStream();
+		ol.copyTo(bos);
+		or.release();
+		return new String(bos.toByteArray(), "UTF-8");
+	}
+
 	@Test
 	public void noLocalChanges() throws Exception {
 		assertNull(git.stashCreate().call());
@@ -164,8 +223,11 @@ public class StashCreateCommandTest extends RepositoryTestCase {
 		deleteTrashFile("file.txt");
 		RevCommit stashed = git.stashCreate().call();
 		assertNotNull(stashed);
-		assertEquals("content", read(committedFile));
+		assertEquals("content" + crOutWS, read(committedFile));
 		validateStashedCommit(stashed);
+		assertNull(readBlob(stashed, "file.txt"));
+		assertEquals("content" + crInRepo,
+				readBlob(stashed.getParent(0), "file.txt"));
 
 		assertEquals(head.getTree(), stashed.getParent(1).getTree());
 
@@ -177,14 +239,15 @@ public class StashCreateCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void indexAdd() throws Exception {
-		File addedFile = writeTrashFile("file2.txt", "content2");
+		File addedFile = writeTrashFile("file2.txt", "content2" + crInWS);
 		git.add().addFilepattern("file2.txt").call();
 
 		RevCommit stashed = Git.wrap(db).stashCreate().call();
 		assertNotNull(stashed);
 		assertFalse(addedFile.exists());
 		validateStashedCommit(stashed);
-
+		assertEquals("content2" + crInRepo, readBlob(stashed, "file2.txt"));
+		assertNull(readBlob(stashed.getParent(0), "file2.txt"));
 		assertEquals(stashed.getTree(), stashed.getParent(1).getTree());
 
 		List<DiffEntry> diffs = diffWorkingAgainstHead(stashed);
@@ -199,8 +262,11 @@ public class StashCreateCommandTest extends RepositoryTestCase {
 
 		RevCommit stashed = Git.wrap(db).stashCreate().call();
 		assertNotNull(stashed);
-		assertEquals("content", read(committedFile));
+		assertEquals("content" + crOutWS, read(committedFile));
 		validateStashedCommit(stashed);
+		assertNull(readBlob(stashed, "file.txt"));
+		assertEquals("content" + crInRepo,
+				readBlob(stashed.getParent(0), "file.txt"));
 
 		assertEquals(stashed.getTree(), stashed.getParent(1).getTree());
 
@@ -212,12 +278,15 @@ public class StashCreateCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void workingDirectoryModify() throws Exception {
-		writeTrashFile("file.txt", "content2");
+		writeTrashFile("file.txt", "content2" + crOutWS);
 
 		RevCommit stashed = Git.wrap(db).stashCreate().call();
 		assertNotNull(stashed);
-		assertEquals("content", read(committedFile));
+		assertEquals("content" + crOutWS, read(committedFile));
 		validateStashedCommit(stashed);
+		assertEquals("content2" + crInRepo, readBlob(stashed, "file.txt"));
+		assertEquals("content" + crInRepo,
+				readBlob(stashed.getParent(1), "file.txt"));
 
 		assertEquals(head.getTree(), stashed.getParent(1).getTree());
 
@@ -230,16 +299,17 @@ public class StashCreateCommandTest extends RepositoryTestCase {
 	@Test
 	public void workingDirectoryModifyInSubfolder() throws Exception {
 		String path = "d1/d2/f.txt";
-		File subfolderFile = writeTrashFile(path, "content");
+		File subfolderFile = writeTrashFile(path, "content" + crInWS);
 		git.add().addFilepattern(path).call();
 		head = git.commit().setMessage("add file").call();
 
-		writeTrashFile(path, "content2");
+		writeTrashFile(path, "content2" + crInWS);
 
 		RevCommit stashed = Git.wrap(db).stashCreate().call();
 		assertNotNull(stashed);
-		assertEquals("content", read(subfolderFile));
+		assertEquals("content" + crOutWS, read(subfolderFile));
 		validateStashedCommit(stashed);
+		assertEquals("content2" + crInRepo, readBlob(stashed, "d1/d2/f.txt"));
 
 		assertEquals(head.getTree(), stashed.getParent(1).getTree());
 
@@ -251,14 +321,17 @@ public class StashCreateCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void workingDirectoryModifyIndexChanged() throws Exception {
-		writeTrashFile("file.txt", "content2");
+		writeTrashFile("file.txt", "content2" + crInWS);
 		git.add().addFilepattern("file.txt").call();
-		writeTrashFile("file.txt", "content3");
+		writeTrashFile("file.txt", "content3" + crInWS);
 
 		RevCommit stashed = Git.wrap(db).stashCreate().call();
 		assertNotNull(stashed);
-		assertEquals("content", read(committedFile));
+		assertEquals("content" + crOutWS, read(committedFile));
 		validateStashedCommit(stashed);
+		assertEquals("content3" + crInRepo, readBlob(stashed, "file.txt"));
+		assertEquals("content2" + crInRepo,
+				readBlob(stashed.getParent(1), "file.txt"));
 
 		assertFalse(stashed.getTree().equals(stashed.getParent(1).getTree()));
 
@@ -282,13 +355,13 @@ public class StashCreateCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void workingDirectoryCleanIndexModify() throws Exception {
-		writeTrashFile("file.txt", "content2");
+		writeTrashFile("file.txt", "content2" + crInWS);
 		git.add().addFilepattern("file.txt").call();
-		writeTrashFile("file.txt", "content");
+		writeTrashFile("file.txt", "content" + crInWS);
 
 		RevCommit stashed = Git.wrap(db).stashCreate().call();
 		assertNotNull(stashed);
-		assertEquals("content", read(committedFile));
+		assertEquals("content" + crOutWS, read(committedFile));
 		validateStashedCommit(stashed);
 
 		assertTrue(stashed.getTree().equals(stashed.getParent(1).getTree()));
@@ -314,7 +387,7 @@ public class StashCreateCommandTest extends RepositoryTestCase {
 	@Test
 	public void workingDirectoryDeleteIndexAdd() throws Exception {
 		String path = "file2.txt";
-		File added = writeTrashFile(path, "content2");
+		File added = writeTrashFile(path, "content2" + crInWS);
 		assertTrue(added.exists());
 		git.add().addFilepattern(path).call();
 		FileUtils.delete(added);
@@ -348,14 +421,14 @@ public class StashCreateCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void workingDirectoryDeleteIndexEdit() throws Exception {
-		File edited = writeTrashFile("file.txt", "content2");
+		File edited = writeTrashFile("file.txt", "content2" + crInWS);
 		git.add().addFilepattern("file.txt").call();
 		FileUtils.delete(edited);
 		assertFalse(edited.exists());
 
 		RevCommit stashed = Git.wrap(db).stashCreate().call();
 		assertNotNull(stashed);
-		assertEquals("content", read(committedFile));
+		assertEquals("content" + crOutWS, read(committedFile));
 		validateStashedCommit(stashed);
 
 		assertFalse(stashed.getTree().equals(stashed.getParent(1).getTree()));
@@ -381,7 +454,7 @@ public class StashCreateCommandTest extends RepositoryTestCase {
 	@Test
 	public void multipleEdits() throws Exception {
 		git.rm().addFilepattern("file.txt").call();
-		File addedFile = writeTrashFile("file2.txt", "content2");
+		File addedFile = writeTrashFile("file2.txt", "content2" + crInWS);
 		git.add().addFilepattern("file2.txt").call();
 
 		RevCommit stashed = Git.wrap(db).stashCreate().call();
@@ -405,7 +478,7 @@ public class StashCreateCommandTest extends RepositoryTestCase {
 		deleteTrashFile("file.txt");
 		RevCommit stashed = git.stashCreate().setPerson(who).call();
 		assertNotNull(stashed);
-		assertEquals("content", read(committedFile));
+		assertEquals("content" + crOutWS, read(committedFile));
 		validateStashedCommit(stashed);
 
 		ReflogReader reader = new ReflogReader(git.getRepository(),
