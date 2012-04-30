@@ -52,6 +52,24 @@
       "revId": "a22ec76ab920f6b476a35a2475ab34d00c466a54",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHH///jU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCache.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 589,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-04-30T23:53:44Z",
+      "side": 1,
+      "message": "Done.\nCan we perhaps skip smuding on write completely instead?",
+      "parentUuid": "AABOG3//9XU\u003d",
+      "revId": "a22ec76ab920f6b476a35a2475ab34d00c466a54",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
