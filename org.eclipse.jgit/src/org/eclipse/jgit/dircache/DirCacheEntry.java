@@ -141,7 +141,8 @@ public class DirCacheEntry {
 	private byte inCoreFlags;
 
 	DirCacheEntry(final byte[] sharedInfo, final MutableInteger infoAt,
-			final InputStream in, final MessageDigest md) throws IOException {
+			final InputStream in, final MessageDigest md, int smudge_s,
+			int smudge_ns) throws IOException {
 		info = sharedInfo;
 		infoOffset = infoAt.value;
 
@@ -199,6 +200,10 @@ public class DirCacheEntry {
 			IO.skipFully(in, padLen);
 			md.update(nullpad, 0, padLen);
 		}
+
+		if (mightBeRacilyClean(smudge_s, smudge_ns))
+			smudgeRacilyClean();
+
 	}
 
 	/**

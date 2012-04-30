@@ -64,6 +64,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.RepositoryTestCase;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.treewalk.WorkingTreeIterator.MetadataDiff;
 import org.eclipse.jgit.treewalk.filter.PathFilter;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.RawParseUtils;
@@ -213,6 +214,27 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 		while (!fti.getEntryPathString().equals("symlink"))
 			fti.next(1);
 		assertFalse(fti.isModified(dce, false));
+	}
+
+	@Test
+	public void testIsModifiedFileSmudged() throws Exception {
+		File f = writeTrashFile("file", "content");
+		Git git = new Git(db);
+		// The idea of this test is to check the smudged handling
+		// Hopefully fsTick will make sure our entry gets smudged
+		fsTick(f);
+		writeTrashFile("file", "content");
+		git.add().addFilepattern("file").call();
+		writeTrashFile("file", "conten2");
+		DirCacheEntry dce = db.readDirCache().getEntry("file");
+		FileTreeIterator fti = new FileTreeIterator(trash, db.getFS(), db
+				.getConfig().get(WorkingTreeOptions.KEY));
+		while (!fti.getEntryPathString().equals("file"))
+			fti.next(1);
+		// If the fsTick trick does not work we could skip the compareMetaData
+		// test and hope that we are usually testing the intended code path.
+		assertEquals(MetadataDiff.SMUDGED, fti.compareMetadata(dce));
+		assertTrue(fti.isModified(dce, false));
 	}
 
 	@Test
