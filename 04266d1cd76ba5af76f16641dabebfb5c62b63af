@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AABOHH///mA\u003d",
+        "filename": "org.eclipse.jgit.pgm/resources/org/eclipse/jgit/pgm/CLIText.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-04-30T19:45:39Z",
+      "side": 1,
+      "message": "- use a more robust way to achieve correct formatting, also this doesn\u0027t allow translation to other languages, so instead use MessageFormat.format() to achieve proper formatting.\n- I would prefer to keep this file sorted\n- currently the output doesn\u0027t match the one from native git",
+      "revId": "04266d1cd76ba5af76f16641dabebfb5c62b63af",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOKH///+U\u003d",
         "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Status.java",
         "patchSetId": 1
