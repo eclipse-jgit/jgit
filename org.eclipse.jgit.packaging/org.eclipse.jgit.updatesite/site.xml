@@ -6,6 +6,9 @@
    <feature url="features/org.eclipse.jgit_0.0.0.qualifier.jar" id="org.eclipse.jgit" version="0.0.0" patch="true">
       <category name="JGit"/>
    </feature>
+   <feature url="features/org.eclipse.jgit.pgm_0.0.0.qualifier.jar" id="org.eclipse.jgit.pgm" version="0.0.0" patch="true">
+      <category name="JGit"/>
+   </feature>
    <feature url="features/org.eclipse.jgit.source_0.0.0.qualifier.jar" id="org.eclipse.jgit.source" version="0.0.0" patch="true">
       <category name="JGit"/>
    </feature>
