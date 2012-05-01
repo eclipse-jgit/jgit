@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOHH///bU\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-05-01T23:07:53Z",
+      "side": 1,
+      "message": "Add an empty line for new paragraphs.",
+      "revId": "3d9d408cce7417b1976f632a4e9f8c6064020e5b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHH///b8\u003d",
+        "filename": "org.eclipse.jgit.pgm/resources/org/eclipse/jgit/pgm/CLIText.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-05-01T23:07:53Z",
+      "side": 1,
+      "message": "This hurts my eyes. Left align and pad between key and \u0027\u003d\u0027 instead..\n\nI\u0027d also prefer a longer key name since these texts are so very context specific.\n\nYou should match C Git better. This includes padding after the \":\". It also appears your current padding isn\u0027t honored at all. Spaces around they key and \u003d are ignored.",
+      "revId": "3d9d408cce7417b1976f632a4e9f8c6064020e5b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHH///bo\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Status.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-05-01T23:07:53Z",
+      "side": 1,
+      "message": "My guess is that even the \"#\" part should be localized.",
+      "revId": "3d9d408cce7417b1976f632a4e9f8c6064020e5b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHH///b0\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Status.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-05-01T23:07:53Z",
+      "side": 1,
+      "message": "AFAIK, These lists are alway non-null. So you don\u0027t need a null check.",
+      "revId": "3d9d408cce7417b1976f632a4e9f8c6064020e5b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHH///bc\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Status.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-05-01T23:07:53Z",
+      "side": 1,
+      "message": "Don\u0027t fix now, since all other commands mostly are wrong, but maybe we should make all pgm commands use the Git quoting rules.",
+      "revId": "3d9d408cce7417b1976f632a4e9f8c6064020e5b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
