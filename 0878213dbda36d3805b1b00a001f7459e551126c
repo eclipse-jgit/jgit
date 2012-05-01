@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "AABOHH///cU\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/MergeCommandTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 797,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-05-01T23:09:47Z",
+      "side": 1,
+      "message": "If I compare in gerrit webui your patchset 4 against your patchset 3 then you see it. But forget it -- your latest patchset contains no diff against the base version. It\u0027s ok",
+      "parentUuid": "AABOG3//8gI\u003d",
+      "revId": "0878213dbda36d3805b1b00a001f7459e551126c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOG3//8gQ\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MergeCommand.java",
         "patchSetId": 4
@@ -101,6 +119,24 @@
       "side": 1,
       "message": "\u003e .git/MERGE_HEAD and .git/MERGE_MSG\n\nIn native git the latter is .git/SQUASH_MSG. Not sure about the former, as there was no sign of either MERGE_HEAD or SQUASH_HEAD in .git when executing \"git commit\" from your script (4th from the bottom).",
       "parentUuid": "AABOG3//8gQ\u003d",
+      "revId": "0878213dbda36d3805b1b00a001f7459e551126c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHH///bY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MergeCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-05-01T23:09:47Z",
+      "side": 1,
+      "message": "regarding MERGE_MSG/SQUASH_MSG: right we should write into SQUASH_MSG like native git does. But your change-set doesn\u0027t write in SQUASH_MSG. And it writes exactly the same content as a non-squash merge which is wrong. We have to write different texts depending on whether its a squash merge or not.\n\nregarding MERGE_HEAD (SQUASH_HEAD wouldn\u0027t make sense): you don\u0027t see  a sign of MERGE_HEAD when trying the script with native git. That\u0027s exactly the problem. We shouldn\u0027t write the file MERGE_HEAD when we do squash merges - but your changeset writes it. If we write MERGE_HEAD and somebody touches our repo with native git and simply calls \"git commit\" he would end up with a standard merge commit.\n\nI suggest something like:\n\n  if (!squash) {\n    repo.writeMergeCommitMsg(mergeMessage);\n    repo.writeMergeHeads(Arrays.asList(ref.getObjectId()));\n  } else\n    repo.writeSquashCommitMsg(squashMessage);\n\n(squashMessage and writeSquashCommitMsg() are to be implemented). The SQUASH_MSG file must also be interpreted everywhere where we up to now only parse MERGE_MSG. Especially in CommitCommand.",
+      "parentUuid": "AABOHH///pg\u003d",
       "revId": "0878213dbda36d3805b1b00a001f7459e551126c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
