@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010, Sasa Zivkov <sasa.zivkov@sap.com>
+ * Copyright (C) 2010, 2012 Sasa Zivkov <sasa.zivkov@sap.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -59,6 +59,7 @@ public class CLIText extends TranslationBundle {
 	}
 
 	/***/ public String IPZillaPasswordPrompt;
+	/***/ public String alreadyOnBranch;
 	/***/ public String authorInfo;
 	/***/ public String averageMSPerRead;
 	/***/ public String branchAlreadyExists;
@@ -179,6 +180,8 @@ public class CLIText extends TranslationBundle {
 	/***/ public String repaint;
 	/***/ public String serviceNotSupported;
 	/***/ public String skippingObject;
+	/***/ public String switchedToNewBranch;
+	/***/ public String switchedToBranch;
 	/***/ public String timeInMilliSeconds;
 	/***/ public String tooManyRefsGiven;
 	/***/ public String unknownMergeStratey;

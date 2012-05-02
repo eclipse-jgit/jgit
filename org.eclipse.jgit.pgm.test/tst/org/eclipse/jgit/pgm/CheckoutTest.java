@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010, 2012 Chris Aniszczyk <caniszczyk@gmail.com>
+ * Copyright (C) 2012, IBM Corporation and others.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -40,47 +40,40 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
 package org.eclipse.jgit.pgm;
 
-import java.text.MessageFormat;
+import static org.junit.Assert.assertEquals;
 
-import org.eclipse.jgit.api.CheckoutCommand;
 import org.eclipse.jgit.api.Git;
-import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.Repository;
-import org.kohsuke.args4j.Argument;
-import org.kohsuke.args4j.Option;
+import org.eclipse.jgit.lib.CLIRepositoryTestCase;
+import org.junit.Before;
+import org.junit.Test;
 
-@Command(common = true, usage = "usage_checkout")
-class Checkout extends TextBuiltin {
-
-	@Option(name = "-b", usage = "usage_createBranchAndCheckout")
-	private boolean createBranch = false;
-
-	@Option(name = "--force", aliases = { "-f" }, usage = "usage_forceCheckout")
-	private boolean force = false;
-
-	@Argument(required = true, metaVar = "metaVar_name", usage = "usage_checkout")
-	private String name;
-
+public class CheckoutTest extends CLIRepositoryTestCase {
 	@Override
-	protected void run() throws Exception {
-		if (name.equals(db.getBranch()))
-			out.println(MessageFormat.format(CLIText.get().alreadyOnBranch,
-					name));
-
-		CheckoutCommand command = new Git(db).checkout();
-		command.setCreateBranch(createBranch);
-		command.setName(name);
-		command.setForce(force);
-		Ref ref = command.call();
-
-		if (createBranch)
-			out.println(MessageFormat.format(CLIText.get().switchedToNewBranch,
-					Repository.shortenRefName(ref.getName())));
-		else
-			out.println(MessageFormat.format(CLIText.get().switchedToBranch,
-					Repository.shortenRefName(ref.getName())));
+	@Before
+	public void setUp() throws Exception {
+		super.setUp();
+		new Git(db).commit().setMessage("initial commit").call();
 	}
+
+	@Test
+	public void testCheckoutSelf() throws Exception {
+		assertEquals("Already on 'master'", execute("git checkout master")[0]);
+	}
+
+	@Test
+	public void testCheckoutBranch() throws Exception {
+		new Git(db).branchCreate().setName("side").call();
+
+		assertEquals("Switched to branch 'side'",
+				execute("git checkout side")[0]);
+	}
+
+	@Test
+	public void testCheckoutNewBranch() throws Exception {
+		assertEquals("Switched to a new branch 'side'",
+				execute("git checkout -b side")[0]);
+	}
+
 }
