@@ -44,6 +44,7 @@ package org.eclipse.jgit.api;
 
 import java.io.IOException;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 
@@ -362,8 +363,8 @@ public class ResetCommand extends GitCommand<Ref> {
 			try {
 				checkout.checkout();
 			} catch (org.eclipse.jgit.errors.CheckoutConflictException cce) {
-				throw new CheckoutConflictException(checkout.getConflicts(),
-						cce);
+				throw new CheckoutConflictException(new ArrayList<String>(
+						checkout.getConflicts().keySet()), cce);
 			}
 		} finally {
 			dc.unlock();
