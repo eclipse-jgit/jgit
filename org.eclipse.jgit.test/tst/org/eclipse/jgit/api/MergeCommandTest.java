@@ -164,6 +164,57 @@ public class MergeCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
+	public void testFastForwardFailsDueToDirtyWorktree() throws Exception {
+		Git git = new Git(db);
+		File a = writeTrashFile("a", "a(1)");
+		writeTrashFile("c", "c");
+		RevCommit first = addAllAndCommit(git);
+
+		createBranch(first, "refs/heads/branch1");
+		writeTrashFile("a", "a(2)");
+		git.add().addFilepattern("a").call();
+		git.commit().setMessage("second commit").call();
+
+		checkoutBranch("refs/heads/branch1");
+		writeTrashFile("a", "a(modified)");
+
+		// get current index state
+		String indexState = indexState(CONTENT);
+
+		MergeResult result = git.merge().include(db.getRef(Constants.MASTER))
+				.call();
+
+		checkMergeFailedResult(result, MergeFailureReason.DIRTY_WORKTREE,
+				indexState, a);
+	}
+
+	@Test
+	public void testFastForwardFailsDueToDirtyIndex() throws Exception {
+		Git git = new Git(db);
+		File a = writeTrashFile("a", "a(1)");
+		writeTrashFile("c", "c");
+		RevCommit first = addAllAndCommit(git);
+
+		createBranch(first, "refs/heads/branch1");
+		writeTrashFile("a", "a(2)");
+		git.add().addFilepattern("a").call();
+		git.commit().setMessage("second commit").call();
+
+		checkoutBranch("refs/heads/branch1");
+		writeTrashFile("a", "a(modified)");
+		git.add().addFilepattern("a").call();
+
+		// get current index state
+		String indexState = indexState(CONTENT);
+
+		MergeResult result = git.merge().include(db.getRef(Constants.MASTER))
+				.call();
+
+		checkMergeFailedResult(result, MergeFailureReason.DIRTY_INDEX,
+				indexState, a);
+	}
+
+	@Test
 	public void testFastForwardWithFiles() throws Exception {
 		Git git = new Git(db);
 

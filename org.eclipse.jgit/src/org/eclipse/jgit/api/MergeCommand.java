@@ -45,6 +45,7 @@ package org.eclipse.jgit.api;
 
 import java.io.IOException;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -280,7 +281,14 @@ public class MergeCommand extends GitCommand<MergeResult> {
 						headCommit.getTree(), repo.lockDirCache(),
 						srcCommit.getTree());
 				dco.setFailOnConflict(true);
-				dco.checkout();
+				try {
+					dco.checkout();
+				} catch (org.eclipse.jgit.errors.CheckoutConflictException e) {
+					return new MergeResult(srcCommit, srcCommit,
+							new ObjectId[] { headCommit, srcCommit },
+							MergeStatus.FAILED, mergeStrategy, null,
+							e.getConflictingPaths(), e.getMessage());
+				}
 				String msg = null;
 				ObjectId newHead, base = null;
 				MergeStatus mergeStatus = null;
@@ -401,7 +409,8 @@ public class MergeCommand extends GitCommand<MergeResult> {
 			}
 		} catch (org.eclipse.jgit.errors.CheckoutConflictException e) {
 			List<String> conflicts = (dco == null) ? Collections
-					.<String> emptyList() : dco.getConflicts();
+					.<String> emptyList() : new ArrayList<String>(dco
+					.getConflicts().keySet());
 			throw new CheckoutConflictException(conflicts, e);
 		} catch (IOException e) {
 			throw new JGitInternalException(
