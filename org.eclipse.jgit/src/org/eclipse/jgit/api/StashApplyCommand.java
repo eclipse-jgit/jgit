@@ -45,6 +45,8 @@ package org.eclipse.jgit.api;
 import java.io.File;
 import java.io.IOException;
 import java.text.MessageFormat;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.InvalidRefNameException;
@@ -65,6 +67,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryState;
+import org.eclipse.jgit.merge.ResolveMerger.MergeFailureReason;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -238,7 +241,10 @@ public class StashApplyCommand extends GitCommand<ObjectId> {
 					indexIter, workingIter)) {
 				String path = treeWalk.getPathString();
 				File file = new File(workingTree, path);
-				throw new CheckoutConflictException(file.getAbsolutePath());
+				Map<String, MergeFailureReason> conflicts = new HashMap<String, MergeFailureReason>();
+				conflicts.put(file.getAbsolutePath(),
+						MergeFailureReason.DIRTY_WORKTREE);
+				throw new CheckoutConflictException(conflicts);
 			}
 		}
 	}
