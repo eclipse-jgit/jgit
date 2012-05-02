@@ -65,6 +65,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.merge.ResolveMerger.MergeFailureReason;
 import org.eclipse.jgit.treewalk.AbstractTreeIterator;
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
 import org.eclipse.jgit.treewalk.EmptyTreeIterator;
@@ -87,7 +88,7 @@ public class DirCacheCheckout {
 
 	private HashMap<String, ObjectId> updated = new HashMap<String, ObjectId>();
 
-	private ArrayList<String> conflicts = new ArrayList<String>();
+	private Map<String, MergeFailureReason> conflicts = new HashMap<String, MergeFailureReason>();
 
 	private ArrayList<String> removed = new ArrayList<String>();
 
@@ -115,9 +116,10 @@ public class DirCacheCheckout {
 	}
 
 	/**
-	 * @return a list of conflicts created by this checkout
+	 * @return a map of conflicts created by this checkout
+	 * @since 2.0
 	 */
-	public List<String> getConflicts() {
+	public Map<String, MergeFailureReason> getConflicts() {
 		return conflicts;
 	}
 
@@ -291,7 +293,9 @@ public class DirCacheCheckout {
 			if (walk.isSubtree())
 				walk.enterSubtree();
 		}
-		conflicts.removeAll(removed);
+		for (String r : removed) {
+			conflicts.remove(r);
+		}
 	}
 
 	/**
@@ -315,7 +319,8 @@ public class DirCacheCheckout {
 				if (f != null && !FileMode.TREE.equals(f.getEntryFileMode())
 						&& !f.isEntryIgnored()) {
 					// don't overwrite an untracked and not ignored file
-					conflicts.add(walk.getPathString());
+					conflicts.put(walk.getPathString(),
+							MergeFailureReason.DIRTY_WORKTREE);
 				} else
 					update(m.getEntryPathString(), m.getEntryObjectId(),
 						m.getEntryFileMode());
@@ -349,7 +354,8 @@ public class DirCacheCheckout {
 			if (f != null) {
 				// There is a file/folder for that path in the working tree
 				if (walk.isDirectoryFileConflict()) {
-					conflicts.add(walk.getPathString());
+					conflicts.put(walk.getPathString(),
+							MergeFailureReason.DIRTY_WORKTREE);
 				} else {
 					// No file/folder conflict exists. All entries are files or
 					// all entries are folders
@@ -408,7 +414,7 @@ public class DirCacheCheckout {
 
 			if (!conflicts.isEmpty()) {
 				if (failOnConflict)
-					throw new CheckoutConflictException(conflicts.toArray(new String[conflicts.size()]));
+					throw new CheckoutConflictException(conflicts);
 				else
 					cleanUpConflicts();
 			}
@@ -529,7 +535,7 @@ public class DirCacheCheckout {
 			// File/Directory conflict case #20
 			if (walk.isDirectoryFileConflict())
 				// TODO: check whether it is always correct to report a conflict here
-				conflict(name, null, null, null);
+				conflict(name, null, null, null, null);
 
 			// file only exists in working tree -> ignore it
 			return;
@@ -608,9 +614,9 @@ public class DirCacheCheckout {
 			switch (ffMask) {
 			case 0xDDF: // 1 2
 				if (isModified(name)) {
-					conflict(name, dce, h, m); // 1
+					conflict(name, dce, h, m, MergeFailureReason.DIRTY_WORKTREE); // 2
 				} else {
-					update(name, mId, mMode); // 2
+					update(name, mId, mMode); // 1
 				}
 
 				break;
@@ -635,19 +641,19 @@ public class DirCacheCheckout {
 				break;
 			case 0xDF0: // conflict without a rule
 			case 0x0FD: // 15
-				conflict(name, dce, h, m);
+				conflict(name, dce, h, m, MergeFailureReason.COULD_NOT_DELETE);
 				break;
 			case 0xFDF: // 7 8 9
 				if (equalIdAndMode(hId, hMode, mId, mMode)) {
 					if (isModified(name))
-						conflict(name, dce, h, m); // 8
+						conflict(name, dce, h, m, MergeFailureReason.DIRTY_WORKTREE); // 8
 					else
 						update(name, mId, mMode); // 7
 				} else if (!isModified(name))
 					update(name, mId, mMode); // 9
 				else
-					// To be confirmed - this case is not in the table.
-					conflict(name, dce, h, m);
+					// TODO: To be confirmed - this case is not in the table.
+					conflict(name, dce, h, m, MergeFailureReason.DIRTY_INDEX);
 				break;
 			case 0xFD0: // keep without a rule
 				keep(dce);
@@ -655,17 +661,17 @@ public class DirCacheCheckout {
 			case 0xFFD: // 12 13 14
 				if (equalIdAndMode(hId, hMode, iId, iMode))
 					if (f == null || f.isModified(dce, true))
-						conflict(name, dce, h, m);
+						conflict(name, dce, h, m, MergeFailureReason.DIRTY_WORKTREE); // 13
 					else
-						remove(name);
+						remove(name); // 12
 				else
-					conflict(name, dce, h, m);
+					conflict(name, dce, h, m, MergeFailureReason.COULD_NOT_DELETE); // 14
 				break;
 			case 0x0DF: // 16 17
 				if (!isModified(name))
 					update(name, mId, mMode);
 				else
-					conflict(name, dce, h, m);
+					conflict(name, dce, h, m, MergeFailureReason.COULD_NOT_DELETE);
 				break;
 			default:
 				keep(dce);
@@ -679,7 +685,7 @@ public class DirCacheCheckout {
 
 		if ((ffMask == 0x00F) && f != null && FileMode.TREE.equals(f.getEntryFileMode())) {
 			// File/Directory conflict case #20
-			conflict(name, null, h, m);
+			conflict(name, null, h, m, MergeFailureReason.DIRTY_WORKTREE);
 		}
 
 		if (i == null) {
@@ -694,7 +700,7 @@ public class DirCacheCheckout {
 					if (mId == null
 							|| !equalIdAndMode(mId, mMode,
 									f.getEntryObjectId(), f.getEntryFileMode())) {
-						conflict(name, null, h, m);
+						conflict(name, null, h, m, MergeFailureReason.DIRTY_WORKTREE);
 						return;
 					}
 				}
@@ -737,7 +743,7 @@ public class DirCacheCheckout {
 				if (equalIdAndMode(hId, hMode, mId, mMode))
 					keep(dce);
 				else
-					conflict(name, dce, h, m);
+					conflict(name, dce, h, m, null /* TODO */);
 			}
 		} else {
 			// Something in Index
@@ -777,7 +783,7 @@ public class DirCacheCheckout {
 							// -> File folder conflict and Merge wants this
 							// path to be removed. Since the file is dirty
 							// report a conflict
-							conflict(name, dce, h, m);
+							conflict(name, dce, h, m, MergeFailureReason.DIRTY_WORKTREE);
 						else
 							// A file is present and file is not dirty
 							// Nothing in Merge and current path is part of
@@ -802,7 +808,7 @@ public class DirCacheCheckout {
 					// Something in Index
 					// -> Index contains something new (different from Head)
 					// and Merge is different from Index. Report a conflict
-					conflict(name, dce, h, m);
+					conflict(name, dce, h, m, null /* TODO */);
 			} else if (m == null) {
 				// Nothing in Merge
 				// Something in Head
@@ -843,7 +849,8 @@ public class DirCacheCheckout {
 							// Something in Head
 							// -> file is dirty but is should be removed. That's
 							// a conflict
-							conflict(name, dce, h, m);
+							conflict(name, dce, h, m,
+									MergeFailureReason.DIRTY_WORKTREE);
 						else
 							// file doesn't exist or is clean
 							// Index contains the same as Head
@@ -860,7 +867,7 @@ public class DirCacheCheckout {
 						// -> Something new is in index (and maybe even on the
 						// filesystem). But Merge wants the path to be removed.
 						// Report a conflict
-						conflict(name, dce, h, m);
+						conflict(name, dce, h, m, null /* TODO */);
 				}
 			} else {
 				// Something in Merge
@@ -872,7 +879,7 @@ public class DirCacheCheckout {
 					// All three contents in Head, Merge, Index differ from each
 					// other
 					// -> All contents differ. Report a conflict.
-					conflict(name, dce, h, m);
+					conflict(name, dce, h, m, MergeFailureReason.DIRTY_INDEX);
 				else
 					// At least two of the contents of Head, Index, Merge
 					// are the same
@@ -905,7 +912,8 @@ public class DirCacheCheckout {
 						// Something in Merge
 						// -> Merge wants the index and file to be updated
 						// but the file is dirty. Report a conflict
-						conflict(name, dce, h, m);
+						conflict(name, dce, h, m,
+								MergeFailureReason.DIRTY_WORKTREE);
 					} else {
 						// File exists and is clean
 						// Head and Index don't contain a submodule
@@ -937,13 +945,21 @@ public class DirCacheCheckout {
 
 	/**
 	 * A conflict is detected - add the three different stages to the index
-	 * @param path the path of the conflicting entry
-	 * @param e the previous index entry
-	 * @param h the first tree you want to merge (the HEAD)
-	 * @param m the second tree you want to merge
+	 *
+	 * @param path
+	 *            the path of the conflicting entry
+	 * @param e
+	 *            the previous index entry
+	 * @param h
+	 *            the first tree you want to merge (the HEAD)
+	 * @param m
+	 *            the second tree you want to merge
+	 * @param reason
+	 *            conflict description
 	 */
-	private void conflict(String path, DirCacheEntry e, AbstractTreeIterator h, AbstractTreeIterator m) {
-		conflicts.add(path);
+	private void conflict(String path, DirCacheEntry e, AbstractTreeIterator h,
+			AbstractTreeIterator m, MergeFailureReason reason) {
+		conflicts.put(path, reason);
 
 		DirCacheEntry entry;
 		if (e != null) {
@@ -1005,19 +1021,25 @@ public class DirCacheCheckout {
 	 */
 	private void cleanUpConflicts() throws CheckoutConflictException {
 		// TODO: couldn't we delete unsaved worktree content here?
-		for (String c : conflicts) {
+		for (String c : conflicts.keySet()) {
 			File conflict = new File(repo.getWorkTree(), c);
-			if (!conflict.delete())
-				throw new CheckoutConflictException(MessageFormat.format(
-						JGitText.get().cannotDeleteFile, c));
+			if (!conflict.delete()) {
+				Map<String, MergeFailureReason> m = new HashMap<String, MergeFailureReason>(
+						1);
+				m.put(c, MergeFailureReason.COULD_NOT_DELETE);
+				throw new CheckoutConflictException(m);
+			}
 			removeEmptyParents(conflict);
 		}
 		for (String r : removed) {
 			File file = new File(repo.getWorkTree(), r);
-			if (!file.delete())
-				throw new CheckoutConflictException(
-						MessageFormat.format(JGitText.get().cannotDeleteFile,
-								file.getAbsolutePath()));
+			if (!file.delete()) {
+				Map<String, MergeFailureReason> m = new HashMap<String, MergeFailureReason>(
+						1);
+				m.put(file.getAbsolutePath(),
+						MergeFailureReason.COULD_NOT_DELETE);
+				throw new CheckoutConflictException(m);
+			}
 			removeEmptyParents(file);
 		}
 	}

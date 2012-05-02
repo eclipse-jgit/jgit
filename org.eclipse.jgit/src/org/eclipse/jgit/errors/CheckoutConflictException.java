@@ -47,8 +47,11 @@ package org.eclipse.jgit.errors;
 
 import java.io.IOException;
 import java.text.MessageFormat;
+import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.merge.ResolveMerger.MergeFailureReason;
 
 /**
  * Exception thrown if a conflict occurs during a merge checkout.
@@ -56,30 +59,34 @@ import org.eclipse.jgit.internal.JGitText;
 public class CheckoutConflictException extends IOException {
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * Construct a CheckoutConflictException for the specified file
-	 *
-	 * @param file
-	 */
-	public CheckoutConflictException(String file) {
-		super(MessageFormat.format(JGitText.get().checkoutConflictWithFile, file));
-	}
+	private Map<String, MergeFailureReason> conflicts;
 
 	/**
 	 * Construct a CheckoutConflictException for the specified set of files
 	 *
-	 * @param files
+	 * @param conflicts
+	 * @since 2.0
 	 */
-	public CheckoutConflictException(String[] files) {
-		super(MessageFormat.format(JGitText.get().checkoutConflictWithFiles, buildList(files)));
+	public CheckoutConflictException(Map<String, MergeFailureReason> conflicts) {
+		super(MessageFormat.format(JGitText.get().checkoutConflictWithFiles,
+				buildList(conflicts.keySet())));
+		this.conflicts = conflicts;
 	}
 
-	private static String buildList(String[] files) {
+	private static String buildList(Set<String> files) {
 		StringBuilder builder = new StringBuilder();
 		for (String f : files) {
 			builder.append("\n"); //$NON-NLS-1$
 			builder.append(f);
 		}
 		return builder.toString();
+	}
+
+	/**
+	 * @return all the paths where unresolved conflicts have been detected
+	 * @since 2.0
+	 */
+	public Map<String, MergeFailureReason> getConflictingPaths() {
+		return conflicts;
 	}
 }
