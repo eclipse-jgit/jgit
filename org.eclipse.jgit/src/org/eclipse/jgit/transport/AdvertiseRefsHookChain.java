@@ -51,8 +51,8 @@ import java.util.List;
  * Hooks are run in the order passed to the constructor. A hook may inspect or
  * modify the results of the previous hooks in the chain by calling
  * {@link UploadPack#getAdvertisedRefs()}, or
- * {@link ReceivePack#getAdvertisedRefs()} or
- * {@link ReceivePack#getAdvertisedObjects()}.
+ * {@link BaseReceivePack#getAdvertisedRefs()} or
+ * {@link BaseReceivePack#getAdvertisedObjects()}.
  */
 public class AdvertiseRefsHookChain implements AdvertiseRefsHook {
 	private final AdvertiseRefsHook[] hooks;
@@ -79,7 +79,7 @@ public class AdvertiseRefsHookChain implements AdvertiseRefsHook {
 			return new AdvertiseRefsHookChain(newHooks, i);
 	}
 
-	public void advertiseRefs(ReceivePack rp)
+	public void advertiseRefs(BaseReceivePack rp)
 			throws ServiceMayNotContinueException {
 		for (int i = 0; i < count; i++)
 			hooks[i].advertiseRefs(rp);

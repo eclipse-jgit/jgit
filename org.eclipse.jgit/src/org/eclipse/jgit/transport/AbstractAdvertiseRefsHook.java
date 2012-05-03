@@ -61,7 +61,7 @@ public abstract class AbstractAdvertiseRefsHook implements AdvertiseRefsHook {
 				uploadPack.getRepository(), uploadPack.getRevWalk()));
 	}
 
-	public void advertiseRefs(ReceivePack receivePack)
+	public void advertiseRefs(BaseReceivePack receivePack)
 			throws ServiceMayNotContinueException {
 		Map<String, Ref> refs = getAdvertisedRefs(receivePack.getRepository(),
 				receivePack.getRevWalk());
