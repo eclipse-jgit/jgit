@@ -54,7 +54,7 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 
 /**
- * A command being processed by {@link ReceivePack}.
+ * A command being processed by {@link BaseReceivePack}.
  * <p>
  * This command instance roughly translates to the server side representation of
  * the {@link RemoteRefUpdate} created by the client.
@@ -158,7 +158,7 @@ public class ReceiveCommand {
 	private String message;
 
 	/**
-	 * Create a new command for {@link ReceivePack}.
+	 * Create a new command for {@link BaseReceivePack}.
 	 *
 	 * @param oldId
 	 *            the old object id; must not be null. Use
@@ -184,7 +184,7 @@ public class ReceiveCommand {
 	}
 
 	/**
-	 * Create a new command for {@link ReceivePack}.
+	 * Create a new command for {@link BaseReceivePack}.
 	 *
 	 * @param oldId
 	 *            the old object id; must not be null. Use
@@ -273,7 +273,7 @@ public class ReceiveCommand {
 	 *            receive-pack session.
 	 * @since 2.0
 	 */
-	public void execute(final ReceivePack rp) {
+	public void execute(final BaseReceivePack rp) {
 		try {
 			final RefUpdate ru = rp.getRepository().updateRef(getRefName());
 			ru.setRefLogIdent(rp.getRefLogIdent());
