@@ -49,7 +49,7 @@ import org.eclipse.jgit.lib.CLIRepositoryTestCase;
 import org.junit.Before;
 import org.junit.Test;
 
-public class BranchTest extends CLIRepositoryTestCase {
+public class CheckoutTest extends CLIRepositoryTestCase {
 	@Override
 	@Before
 	public void setUp() throws Exception {
@@ -58,14 +58,36 @@ public class BranchTest extends CLIRepositoryTestCase {
 	}
 
 	@Test
-	public void testList() throws Exception {
-		assertEquals("* master 6fd41be initial commit",
-				execute("git branch -v")[0]);
+	public void testCheckoutSelf() throws Exception {
+		assertEquals("Already on 'master'", execute("git checkout master")[0]);
 	}
 
 	@Test
-	public void testExistingBranch() throws Exception {
-		assertEquals("fatal: A branch named 'master' already exists.",
-				execute("git branch master")[0]);
+	public void testCheckoutBranch() throws Exception {
+		new Git(db).branchCreate().setName("side").call();
+
+		assertEquals("Switched to branch 'side'",
+				execute("git checkout side")[0]);
 	}
+
+	@Test
+	public void testCheckoutNewBranch() throws Exception {
+		assertEquals("Switched to a new branch 'side'",
+				execute("git checkout -b side")[0]);
+	}
+
+	@Test
+	public void testCheckoutNonExistingBranch() throws Exception {
+		assertEquals(
+				"error: pathspec 'side' did not match any file(s) known to git.",
+				execute("git checkout side")[0]);
+	}
+
+	@Test
+	public void testCheckoutNewBranchThatAlreadyExists() throws Exception {
+		assertEquals(
+"fatal: git checkout: branch master already exists",
+				execute("git checkout -b master")[0]);
+	}
+
 }
