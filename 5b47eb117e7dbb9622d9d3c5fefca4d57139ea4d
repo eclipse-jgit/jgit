@@ -1,0 +1,344 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOHH///M0\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-05-04T18:48:13Z",
+      "side": 1,
+      "message": "fix \", a there may be\"",
+      "revId": "5b47eb117e7dbb9622d9d3c5fefca4d57139ea4d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHH///Ms\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-05-04T18:48:13Z",
+      "side": 1,
+      "message": "trailing whitespace on line. even if it existed in the old source, lets fix it in the new file.",
+      "revId": "5b47eb117e7dbb9622d9d3c5fefca4d57139ea4d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHH///Mo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-05-04T18:48:13Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "5b47eb117e7dbb9622d9d3c5fefca4d57139ea4d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHH///Mk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-05-04T18:48:13Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "5b47eb117e7dbb9622d9d3c5fefca4d57139ea4d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHH///Mg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-05-04T18:48:13Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "5b47eb117e7dbb9622d9d3c5fefca4d57139ea4d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHH///Mc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-05-04T18:48:13Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "5b47eb117e7dbb9622d9d3c5fefca4d57139ea4d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHH///MY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 788,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-05-04T18:48:13Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "5b47eb117e7dbb9622d9d3c5fefca4d57139ea4d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHH///MU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 798,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-05-04T18:48:13Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "5b47eb117e7dbb9622d9d3c5fefca4d57139ea4d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHH///MQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 830,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-05-04T18:48:13Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "5b47eb117e7dbb9622d9d3c5fefca4d57139ea4d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHH///MM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 836,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-05-04T18:48:13Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "5b47eb117e7dbb9622d9d3c5fefca4d57139ea4d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHH///MI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 842,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-05-04T18:48:13Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "5b47eb117e7dbb9622d9d3c5fefca4d57139ea4d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHH///ME\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 859,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-05-04T18:48:13Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "5b47eb117e7dbb9622d9d3c5fefca4d57139ea4d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHH///MA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 863,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-05-04T18:48:13Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "5b47eb117e7dbb9622d9d3c5fefca4d57139ea4d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHH///L8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 866,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-05-04T18:48:13Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "5b47eb117e7dbb9622d9d3c5fefca4d57139ea4d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHH///L4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 894,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-05-04T18:48:13Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "5b47eb117e7dbb9622d9d3c5fefca4d57139ea4d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHH///L0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 899,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-05-04T18:48:13Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "5b47eb117e7dbb9622d9d3c5fefca4d57139ea4d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHH///Lw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 905,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-05-04T18:48:13Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "5b47eb117e7dbb9622d9d3c5fefca4d57139ea4d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHH///Ls\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 919,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-05-04T18:48:13Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "5b47eb117e7dbb9622d9d3c5fefca4d57139ea4d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHH///Lo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BaseReceivePack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 932,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-05-04T18:48:13Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "5b47eb117e7dbb9622d9d3c5fefca4d57139ea4d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHH///Mw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-05-04T18:48:13Z",
+      "side": 1,
+      "message": "You are breaking so much of this code out into the new base class that the copyright should remain 2008-... in the new base class.",
+      "revId": "5b47eb117e7dbb9622d9d3c5fefca4d57139ea4d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
