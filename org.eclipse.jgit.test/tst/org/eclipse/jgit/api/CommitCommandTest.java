@@ -50,6 +50,7 @@ import java.io.File;
 import java.util.List;
 
 import org.eclipse.jgit.diff.DiffEntry;
+import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
@@ -257,5 +258,54 @@ public class CommitCommandTest extends RepositoryTestCase {
 		assertEquals(commit, subDiff.getNewId().toObjectId());
 		assertEquals(path, subDiff.getNewPath());
 		assertEquals(path, subDiff.getOldPath());
+	}
+
+	@Test
+	public void commitUpdatesSmudgedEntries() throws Exception {
+		Git git = new Git(db);
+
+		writeTrashFile("file1.txt", "content1");
+		writeTrashFile("file2.txt", "content2");
+		writeTrashFile("file3.txt", "content3");
+
+		assertNotNull(git.add().addFilepattern("file1.txt")
+				.addFilepattern("file2.txt").addFilepattern("file3.txt")
+				.addFilepattern("content2").call());
+		RevCommit commit = git.commit().setMessage("add files").call();
+		assertNotNull(commit);
+
+		DirCache cache = db.readDirCache();
+		int file1Size = cache.getEntry("file1.txt").getLength();
+		int file2Size = cache.getEntry("file2.txt").getLength();
+		int file3Size = cache.getEntry("file3.txt").getLength();
+		assertTrue(file1Size > 0);
+		assertTrue(file2Size > 0);
+		assertTrue(file3Size > 0);
+
+		// Smudge entries
+		cache = db.lockDirCache();
+		cache.getEntry("file1.txt").setLength(0);
+		cache.getEntry("file2.txt").setLength(0);
+		cache.getEntry("file3.txt").setLength(0);
+		cache.write();
+		assertTrue(cache.commit());
+
+		// Verify entries smudged
+		cache = db.readDirCache();
+		assertEquals(0, cache.getEntry("file1.txt").getLength());
+		assertEquals(0, cache.getEntry("file2.txt").getLength());
+		assertEquals(0, cache.getEntry("file3.txt").getLength());
+
+		long indexTime = db.getIndexFile().lastModified();
+		db.getIndexFile().setLastModified(indexTime - 5000);
+
+		writeTrashFile("file1.txt", "content4");
+		assertNotNull(git.commit().setMessage("edit file").setOnly("file1.txt")
+				.call());
+
+		cache = db.readDirCache();
+		assertEquals(file1Size, cache.getEntry("file1.txt").getLength());
+		assertEquals(file2Size, cache.getEntry("file2.txt").getLength());
+		assertEquals(file3Size, cache.getEntry("file3.txt").getLength());
 	}
 }
