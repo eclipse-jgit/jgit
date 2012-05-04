@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOHH///K4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/errors/AuthenticationNotSupportedException.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-05-04T19:12:45Z",
+      "side": 1,
+      "message": "Should JschConfigSessionFactory also throw this?",
+      "revId": "f39d43380054d53403944ee4905a752560334854",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHH///LI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/errors/NotAuthorizedException.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-05-04T19:12:45Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "f39d43380054d53403944ee4905a752560334854",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHH///K8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/errors/NotAuthorizedException.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-05-04T19:12:45Z",
+      "side": 1,
+      "message": "Should JschConfigSessionFactory also throw this when authentication fails?",
+      "revId": "f39d43380054d53403944ee4905a752560334854",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHH///LE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/errors/NotAuthorizedException.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-05-04T19:12:45Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "f39d43380054d53403944ee4905a752560334854",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHH///LA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/errors/ServiceNotPermittedException.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-05-04T19:12:45Z",
+      "side": 1,
+      "message": "what is service? I think you mean its the git-upload-pack or git-receive-pack argument in the smart http protocol. but we should try to explain that a little here.",
+      "revId": "f39d43380054d53403944ee4905a752560334854",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
