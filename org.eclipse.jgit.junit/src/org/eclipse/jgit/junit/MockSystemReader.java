@@ -92,6 +92,7 @@ public class MockSystemReader extends SystemReader {
 		init(Constants.GIT_COMMITTER_EMAIL_KEY);
 		userGitConfig = new MockConfig(null, null);
 		systemGitConfig = new MockConfig(null, null);
+		setCurrentPlatform();
 	}
 
 	private void init(final String n) {

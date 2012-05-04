@@ -88,9 +88,12 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
+import org.eclipse.jgit.errors.AuthenticationNotSupportedException;
 import org.eclipse.jgit.errors.NoRemoteRepositoryException;
+import org.eclipse.jgit.errors.NotAuthorizedException;
 import org.eclipse.jgit.errors.NotSupportedException;
 import org.eclipse.jgit.errors.PackProtocolException;
+import org.eclipse.jgit.errors.ServiceNotPermittedException;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Config;
@@ -438,20 +441,25 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 				case HttpURLConnection.HTTP_UNAUTHORIZED:
 					authMethod = HttpAuthMethod.scanResponse(conn);
 					if (authMethod == HttpAuthMethod.NONE)
-						throw new TransportException(uri, MessageFormat.format(
-								JGitText.get().authenticationNotSupported, uri));
+						throw new AuthenticationNotSupportedException(
+								uri,
+								JGitText.get().authenticationNotSupported);
 					if (1 < authAttempts
 							|| !authMethod.authorize(uri,
 									getCredentialsProvider())) {
-						throw new TransportException(uri,
+						throw new NotAuthorizedException(
+								uri,
 								JGitText.get().notAuthorized);
 					}
 					authAttempts++;
 					continue;
 
 				case HttpURLConnection.HTTP_FORBIDDEN:
-					throw new TransportException(uri, MessageFormat.format(
-							JGitText.get().serviceNotPermitted, service));
+					throw new ServiceNotPermittedException(
+							uri,
+							service,
+							MessageFormat.format(
+									JGitText.get().serviceNotPermitted, service));
 
 				default:
 					String err = status + " " + conn.getResponseMessage(); //$NON-NLS-1$
