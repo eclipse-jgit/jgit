@@ -161,9 +161,7 @@ public class CommitCommand extends GitCommand<RevCommit> {
 			if (all && !repo.isBare() && repo.getWorkTree() != null) {
 				Git git = new Git(repo);
 				try {
-					git.add()
-							.addFilepattern(".")
-							.setUpdate(true).call();
+					git.add().addFilepattern(".").setUpdate(true).call();
 				} catch (NoFilepatternException e) {
 					// should really not happen
 					throw new JGitInternalException(e.getMessage(), e);
@@ -251,11 +249,13 @@ public class CommitCommand extends GitCommand<RevCommit> {
 						}
 						case REJECTED:
 						case LOCK_FAILURE:
-							throw new ConcurrentRefUpdateException(JGitText
-									.get().couldNotLockHEAD, ru.getRef(), rc);
+							throw new ConcurrentRefUpdateException(
+									JGitText.get().couldNotLockHEAD,
+									ru.getRef(), rc);
 						default:
-							throw new JGitInternalException(MessageFormat
-									.format(JGitText.get().updatingRefFailed,
+							throw new JGitInternalException(
+									MessageFormat.format(
+											JGitText.get().updatingRefFailed,
 											Constants.HEAD,
 											commitId.toString(), rc));
 						}
@@ -275,7 +275,8 @@ public class CommitCommand extends GitCommand<RevCommit> {
 			throw e;
 		} catch (IOException e) {
 			throw new JGitInternalException(
-					JGitText.get().exceptionCaughtDuringExecutionOfCommitCommand, e);
+					JGitText.get().exceptionCaughtDuringExecutionOfCommitCommand,
+					e);
 		}
 	}
 
@@ -324,13 +325,13 @@ public class CommitCommand extends GitCommand<RevCommit> {
 			if (hIdx != -1)
 				hTree = treeWalk.getTree(hIdx, CanonicalTreeParser.class);
 
+			DirCacheIterator dcTree = treeWalk.getTree(dcIdx,
+					DirCacheIterator.class);
+			FileTreeIterator fTree = treeWalk.getTree(fIdx,
+					FileTreeIterator.class);
+
 			if (pos >= 0) {
 				// include entry in commit
-
-				DirCacheIterator dcTree = treeWalk.getTree(dcIdx,
-						DirCacheIterator.class);
-				FileTreeIterator fTree = treeWalk.getTree(fIdx,
-						FileTreeIterator.class);
 
 				// check if entry refers to a tracked file
 				boolean tracked = dcTree != null || hTree != null;
@@ -408,6 +409,15 @@ public class CommitCommand extends GitCommand<RevCommit> {
 					// add to temporary in-core index
 					dcBuilder.add(dcEntry);
 				}
+
+				// Update any smudged entries currently in the index
+				if (dcTree != null && fTree != null) {
+					final DirCacheEntry entry = dcTree.getDirCacheEntry();
+					if (entry.isSmudged()) {
+						entry.setLength(fTree.getEntryLength());
+						entry.setLastModified(fTree.getEntryLastModified());
+					}
+				}
 			}
 		}
 
@@ -468,7 +478,8 @@ public class CommitCommand extends GitCommand<RevCommit> {
 	 * @throws NoMessageException
 	 *             if the commit message has not been specified
 	 */
-	private void processOptions(RepositoryState state) throws NoMessageException {
+	private void processOptions(RepositoryState state)
+			throws NoMessageException {
 		if (committer == null)
 			committer = new PersonIdent(repo);
 		if (author == null)
@@ -487,16 +498,18 @@ public class CommitCommand extends GitCommand<RevCommit> {
 				try {
 					message = repo.readMergeCommitMsg();
 				} catch (IOException e) {
-					throw new JGitInternalException(MessageFormat.format(
-							JGitText.get().exceptionOccurredDuringReadingOfGIT_DIR,
-							Constants.MERGE_MSG, e), e);
+					throw new JGitInternalException(
+							MessageFormat.format(
+									JGitText.get().exceptionOccurredDuringReadingOfGIT_DIR,
+									Constants.MERGE_MSG, e), e);
 				}
 			}
 		}
 		if (message == null)
 			// as long as we don't suppport -C option we have to have
 			// an explicit message
-			throw new NoMessageException(JGitText.get().commitMessageNotSpecified);
+			throw new NoMessageException(
+					JGitText.get().commitMessageNotSpecified);
 	}
 
 	/**
