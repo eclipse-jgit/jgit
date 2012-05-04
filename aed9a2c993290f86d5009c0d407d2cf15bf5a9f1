@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOHH///Kg\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Checkout.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-05-04T20:01:00Z",
+      "side": 1,
+      "message": "here the method should return early otherwise the output is\n\n Already on \u0027b2\u0027\n Switched to branch \u0027b2\u0027\n\nbut native git only says\n\n Already on \u0027b2\u0027",
+      "revId": "aed9a2c993290f86d5009c0d407d2cf15bf5a9f1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHH///I4\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Checkout.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-05-04T20:01:00Z",
+      "side": 1,
+      "message": "\"jgit checkout xx\" (xx not existing) prints:\n\n fatal: error: pathspec \u0027xx\u0027 did not match any file(s) known to git.\n\nwhereas native git says:\n\n error: pathspec \u0027xx\u0027 did not match any file(s) known to git.",
+      "revId": "aed9a2c993290f86d5009c0d407d2cf15bf5a9f1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHH///KQ\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Checkout.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-05-04T20:01:00Z",
+      "side": 1,
+      "message": "\"jgit checkout -b b2\" prints (branch b2 already existing):\n\n fatal: fatal: git checkout: branch b2 already exists\n\nwhere native git says:\n\n fatal: A branch named \u0027b2\u0027 already exists.",
+      "revId": "aed9a2c993290f86d5009c0d407d2cf15bf5a9f1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
