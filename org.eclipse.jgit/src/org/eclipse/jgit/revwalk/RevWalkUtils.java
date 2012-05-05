@@ -45,10 +45,16 @@ package org.eclipse.jgit.revwalk;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectIdSubclassMap;
+import org.eclipse.jgit.lib.Ref;
 
 /**
  * Utility methods for {@link RevWalk}.
@@ -124,4 +130,71 @@ public final class RevWalkUtils {
 			commits.add(c);
 		return commits;
 	}
+
+	/**
+	 * Find the list of branches a given commit is reachable from when following
+	 * parent.s
+	 * <p>
+	 * Note that this method calls {@link RevWalk#reset()} at the beginning.
+	 * <p>
+	 * In order to improve performance this method assumes clock skew among
+	 * committers is never larger than 24 hours.
+	 *
+	 * @param commit
+	 *            the commit we are looking at
+	 * @param revWalk
+	 *            The RevWalk to be used.
+	 * @param refs
+	 *            the set of branches we want to see reachability from
+	 * @return the list of branches a given commit is reachable from
+	 * @throws MissingObjectException
+	 * @throws IncorrectObjectTypeException
+	 * @throws IOException
+	 */
+	public static List<Ref> findBranchesReachableFrom(RevCommit commit,
+			RevWalk revWalk, Collection<Ref> refs)
+			throws MissingObjectException, IncorrectObjectTypeException,
+			IOException {
+
+		List<Ref> result = new ArrayList<Ref>();
+		// searches from branches can be cut off early if any parent of the
+		// search-for commit is found. This is quite likely, so optimize for this.
+		revWalk.markStart(Arrays.asList(commit.getParents()));
+		ObjectIdSubclassMap<ObjectId> cutOff = new ObjectIdSubclassMap<ObjectId>();
+
+		final int SKEW = 24*3600; // one day clock skew
+
+		for (Ref ref : refs) {
+			RevCommit headCommit = revWalk.parseCommit(ref.getObjectId());
+
+			// if commit is in the ref branch, then the tip of ref should be
+			// newer than the commit we are looking for. Allow for a large
+			// clock skew.
+			if (headCommit.getCommitTime() + SKEW < commit.getCommitTime())
+				continue;
+
+			List<ObjectId> maybeCutOff = new ArrayList<ObjectId>(cutOff.size()); // guess rough size
+			revWalk.resetRetain();
+			revWalk.markStart(headCommit);
+			RevCommit current;
+			Ref found = null;
+			while ((current = revWalk.next()) != null) {
+				if (AnyObjectId.equals(current, commit)) {
+					found = ref;
+					break;
+				}
+				if (cutOff.contains(current))
+					break;
+				maybeCutOff.add(current.toObjectId());
+			}
+			if (found != null)
+				result.add(ref);
+			else
+				for (ObjectId id : maybeCutOff)
+					cutOff.addIfAbsent(id);
+
+		}
+		return result;
+	}
+
 }
