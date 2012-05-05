@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOHH///BY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 423,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-05-05T19:24:19Z",
+      "side": 1,
+      "message": "Can\u0027t you just do dcEntry.setLength etc here?",
+      "revId": "7973cc5cd9a3c5289a3e0dc6f972e97c0fe904f5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
