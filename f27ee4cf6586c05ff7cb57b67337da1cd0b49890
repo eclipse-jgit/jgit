@@ -16,6 +16,24 @@
       "revId": "f27ee4cf6586c05ff7cb57b67337da1cd0b49890",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHH//++8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 415,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-05-06T22:25:37Z",
+      "side": 1,
+      "message": "forget this comment, the ID is recomputed here so it\u0027s ok to rely on it",
+      "parentUuid": "AABOHH//+/E\u003d",
+      "revId": "f27ee4cf6586c05ff7cb57b67337da1cd0b49890",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
