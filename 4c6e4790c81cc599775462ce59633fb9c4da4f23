@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOHH///AE\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-05-06T12:46:02Z",
+      "side": 1,
+      "message": "The notes on alignment seems not apply anymore",
+      "revId": "4c6e4790c81cc599775462ce59633fb9c4da4f23",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
