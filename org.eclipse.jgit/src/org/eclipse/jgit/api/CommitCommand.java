@@ -324,13 +324,13 @@ public class CommitCommand extends GitCommand<RevCommit> {
 			if (hIdx != -1)
 				hTree = treeWalk.getTree(hIdx, CanonicalTreeParser.class);
 
+			DirCacheIterator dcTree = treeWalk.getTree(dcIdx,
+					DirCacheIterator.class);
+			FileTreeIterator fTree = treeWalk.getTree(fIdx,
+					FileTreeIterator.class);
+
 			if (pos >= 0) {
 				// include entry in commit
-
-				DirCacheIterator dcTree = treeWalk.getTree(dcIdx,
-						DirCacheIterator.class);
-				FileTreeIterator fTree = treeWalk.getTree(fIdx,
-						FileTreeIterator.class);
 
 				// check if entry refers to a tracked file
 				boolean tracked = dcTree != null || hTree != null;
@@ -407,6 +407,15 @@ public class CommitCommand extends GitCommand<RevCommit> {
 
 					// add to temporary in-core index
 					dcBuilder.add(dcEntry);
+				}
+
+				// Update any smudged entries currently in the index
+				if (dcTree != null && fTree != null) {
+					final DirCacheEntry entry = dcTree.getDirCacheEntry();
+					if (entry.isSmudged() && dcTree.idEqual(fTree)) {
+						entry.setLength(fTree.getEntryLength());
+						entry.setLastModified(fTree.getEntryLastModified());
+					}
 				}
 			}
 		}
