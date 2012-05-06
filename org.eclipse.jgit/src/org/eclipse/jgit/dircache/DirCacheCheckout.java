@@ -333,10 +333,10 @@ public class DirCacheCheckout {
 					update(m.getEntryPathString(), m.getEntryObjectId(),
 							m.getEntryFileMode());
 				else
-					keep(i.getDirCacheEntry());
+					keep(i.getDirCacheEntry(), i, f);
 			} else
 				// The index contains a folder
-				keep(i.getDirCacheEntry());
+				keep(i.getDirCacheEntry(), i, f);
 		} else {
 			// There is no entry in the merge commit. Means: we want to delete
 			// what's currently in the index and working tree
@@ -647,7 +647,7 @@ public class DirCacheCheckout {
 					conflict(name, dce, h, m);
 				break;
 			case 0xFD0: // keep without a rule
-				keep(dce);
+				keep(dce, i, f);
 				break;
 			case 0xFFD: // 12 13 14
 				if (equalIdAndMode(hId, hMode, iId, iMode))
@@ -665,7 +665,7 @@ public class DirCacheCheckout {
 					conflict(name, dce, h, m);
 				break;
 			default:
-				keep(dce);
+				keep(dce, i, f);
 			}
 			return;
 		}
@@ -736,7 +736,7 @@ public class DirCacheCheckout {
 						else
 							remove(name);
 					} else
-						keep(dce);
+						keep(dce, i, f);
 				} else
 					conflict(name, dce, h, m);
 			} else if (m == null) {
@@ -783,7 +783,7 @@ public class DirCacheCheckout {
 						update(name, mId, mMode);
 					}
 				} else {
-					keep(dce);
+					keep(dce, i, f);
 				}
 			}
 		}
@@ -821,9 +821,16 @@ public class DirCacheCheckout {
 		}
 	}
 
-	private void keep(DirCacheEntry e) {
-		if (e != null && !FileMode.TREE.equals(e.getFileMode()))
-			builder.add(e);
+	private void keep(DirCacheEntry e, DirCacheIterator i, WorkingTreeIterator f) {
+		if (e == null || FileMode.TREE.equals(e.getRawMode()))
+			return;
+
+		if (e.isSmudged() && i != null && f != null && i.idEqual(f)) {
+			e.setLength(f.getEntryLength());
+			e.setLastModified(f.getEntryLastModified());
+		}
+
+		builder.add(e);
 	}
 
 	private void remove(String path) {
