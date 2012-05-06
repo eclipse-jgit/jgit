@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOHH//+/E\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 415,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-05-06T22:15:50Z",
+      "side": 1,
+      "message": "I think you can\u0027t rely on the ID of the working tree entry since it was smudged, the only way to fix this is to read the blob content and recompute its ID",
+      "revId": "f27ee4cf6586c05ff7cb57b67337da1cd0b49890",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
