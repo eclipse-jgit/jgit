@@ -49,9 +49,10 @@ import java.util.LinkedList;
 
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.dircache.DirCache;
-import org.eclipse.jgit.dircache.DirCacheBuilder;
 import org.eclipse.jgit.dircache.DirCacheCheckout;
 import org.eclipse.jgit.dircache.DirCacheEditor;
+import org.eclipse.jgit.dircache.DirCacheEditor.DeletePath;
+import org.eclipse.jgit.dircache.DirCacheEditor.PathEdit;
 import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.dircache.DirCacheIterator;
 import org.eclipse.jgit.internal.JGitText;
@@ -64,6 +65,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryState;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.treewalk.AbstractTreeIterator;
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
@@ -313,14 +315,49 @@ public class ResetCommand extends GitCommand<Ref> {
 
 	private void resetIndex(RevCommit commit) throws IOException {
 		DirCache dc = repo.lockDirCache();
+		TreeWalk walk = null;
 		try {
-			dc.clear();
-			DirCacheBuilder dcb = dc.builder();
-			dcb.addTree(new byte[0], 0, repo.newObjectReader(),
-					commit.getTree());
-			dcb.commit();
+			DirCacheEditor editor = dc.editor();
+
+			walk = new TreeWalk(repo);
+			walk.addTree(commit.getTree());
+			walk.addTree(new DirCacheIterator(dc));
+			walk.setRecursive(true);
+
+			while (walk.next()) {
+				AbstractTreeIterator cIter = walk.getTree(0,
+						AbstractTreeIterator.class);
+				if (cIter == null) {
+					editor.add(new DeletePath(walk.getPathString()));
+					continue;
+				}
+
+				final DirCacheEntry entry = new DirCacheEntry(walk.getRawPath());
+				entry.setFileMode(cIter.getEntryFileMode());
+				entry.setObjectIdFromRaw(cIter.idBuffer(), cIter.idOffset());
+
+				DirCacheIterator dcIter = walk.getTree(1,
+						DirCacheIterator.class);
+				if (dcIter != null && dcIter.idEqual(cIter)) {
+					DirCacheEntry indexEntry = dcIter.getDirCacheEntry();
+					entry.setLastModified(indexEntry.getLastModified());
+					entry.setLength(indexEntry.getLength());
+				}
+
+				editor.add(new PathEdit(entry) {
+
+					@Override
+					public void apply(DirCacheEntry ent) {
+						ent.copyMetaData(entry);
+					}
+				});
+			}
+
+			editor.commit();
 		} finally {
 			dc.unlock();
+			if (walk != null)
+				walk.release();
 		}
 	}
 
