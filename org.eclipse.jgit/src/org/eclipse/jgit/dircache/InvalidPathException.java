@@ -49,6 +49,8 @@ import org.eclipse.jgit.internal.JGitText;
 
 /**
  * Thrown when JGit detects and refuses to use an invalid path
+ *
+ * @since 2.0
  */
 public class InvalidPathException extends IllegalArgumentException {
 

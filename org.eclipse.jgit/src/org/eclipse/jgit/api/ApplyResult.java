@@ -48,6 +48,8 @@ import java.util.List;
 
 /**
  * Encapsulates the result of a {@link ApplyCommand}
+ *
+ * @since 2.0
  */
 public class ApplyResult {
 

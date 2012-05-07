@@ -42,7 +42,11 @@
 
 package org.eclipse.jgit.transport;
 
-/** Hook to allow callers to take over advertising refs to the client. */
+/**
+ * Hook to allow callers to take over advertising refs to the client.
+ *
+ * @since 2.0
+ */
 public interface AdvertiseRefsHook {
 	/**
 	 * A simple hook that advertises the default refs.

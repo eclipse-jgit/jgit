@@ -132,6 +132,7 @@ public final class StringUtils {
 	 *            second string to compare.
 	 * @return negative, zero or positive if a sorts before, is equal to, or
 	 *         sorts after b.
+	 * @since 2.0
 	 */
 	public static int compareIgnoreCase(String a, String b) {
 		for (int i = 0; i < a.length() && i < b.length(); i++) {
@@ -154,6 +155,7 @@ public final class StringUtils {
 	 *            second string to compare.
 	 * @return negative, zero or positive if a sorts before, is equal to, or
 	 *         sorts after b.
+	 * @since 2.0
 	 */
 	public static int compareWithCase(String a, String b) {
 		for (int i = 0; i < a.length() && i < b.length(); i++) {

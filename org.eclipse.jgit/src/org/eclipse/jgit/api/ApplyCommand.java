@@ -68,6 +68,7 @@ import org.eclipse.jgit.util.IO;
  *
  * @see <a href="http://www.kernel.org/pub/software/scm/git/docs/git-apply.html"
  *      >Git documentation about apply</a>
+ * @since 2.0
  */
 public class ApplyCommand extends GitCommand<ApplyResult> {
 

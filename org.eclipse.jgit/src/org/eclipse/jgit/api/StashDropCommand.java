@@ -69,6 +69,7 @@ import org.eclipse.jgit.util.FileUtils;
  *
  * @see <a href="http://www.kernel.org/pub/software/scm/git/docs/git-stash.html"
  *      >Git documentation about Stash</a>
+ * @since 2.0
  */
 public class StashDropCommand extends GitCommand<ObjectId> {
 

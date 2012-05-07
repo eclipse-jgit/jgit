@@ -73,6 +73,8 @@ import org.eclipse.jgit.util.FileUtils;
 
 /**
  * Utility for writing reflog entries
+ *
+ * @since 2.0
  */
 public class ReflogWriter {
 

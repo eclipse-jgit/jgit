@@ -651,6 +651,7 @@ public abstract class AbstractTreeIterator {
 	 * JGit internal API for use by {@link DirCacheCheckout}
 	 *
 	 * @return start of name component part within {@link #getEntryPathBuffer()}
+	 * @since 2.0
 	 */
 	public int getNameOffset() {
 		return pathOffset;

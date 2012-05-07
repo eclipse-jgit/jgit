@@ -53,6 +53,8 @@ import org.eclipse.jgit.revwalk.RevWalk;
 /**
  * Implementation of {@link AdvertiseRefsHook} that advertises the same refs for
  * upload-pack and receive-pack.
+ *
+ * @since 2.0
  */
 public abstract class AbstractAdvertiseRefsHook implements AdvertiseRefsHook {
 	public void advertiseRefs(UploadPack uploadPack)

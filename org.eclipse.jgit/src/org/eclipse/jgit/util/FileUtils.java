@@ -79,6 +79,7 @@ public class FileUtils {
 
 	/**
 	 * Option not to throw exceptions when a deletion finally doesn't succeed.
+	 * @since 2.0
 	 */
 	public static final int IGNORE_ERRORS = 8;
 

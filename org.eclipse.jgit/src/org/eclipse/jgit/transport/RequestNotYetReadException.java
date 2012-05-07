@@ -43,7 +43,11 @@
 
 package org.eclipse.jgit.transport;
 
-/** Indicates that a client request has not yet been read from the wire. */
+/**
+ * Indicates that a client request has not yet been read from the wire.
+ *
+ * @since 2.0
+ */
 public class RequestNotYetReadException extends IllegalStateException {
 	private static final long serialVersionUID = 1L;
 
