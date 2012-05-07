@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOHH//+24\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-05-07T22:29:14Z",
+      "side": 1,
+      "message": "style nit: start the commit message header with an uppercase letter",
+      "revId": "a46d848382c98ab6a6b7c9b280e6b78bb9ee6291",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
