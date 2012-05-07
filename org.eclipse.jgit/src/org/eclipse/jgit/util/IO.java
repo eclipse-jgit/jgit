@@ -339,6 +339,7 @@ public class IO {
 	 * @param s
 	 *            the string to read
 	 * @return the string divided into lines
+	 * @since 2.0
 	 */
 	public static List<String> readLines(final String s) {
 		List<String> l = new ArrayList<String>();

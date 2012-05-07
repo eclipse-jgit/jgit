@@ -278,6 +278,7 @@ public class DiffFormatter {
 	 * Get the prefix applied in front of old file paths.
 	 *
 	 * @return the prefix
+	 * @since 2.0
 	 */
 	public String getOldPrefix() {
 		return this.oldPrefix;
@@ -298,8 +299,9 @@ public class DiffFormatter {
 
 	/**
 	 * Get the prefix applied in front of new file paths.
-	 *
+	 * 
 	 * @return the prefix
+	 * @since 2.0
 	 */
 	public String getNewPrefix() {
 		return this.newPrefix;

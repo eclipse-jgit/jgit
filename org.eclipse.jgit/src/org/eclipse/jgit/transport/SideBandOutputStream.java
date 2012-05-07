@@ -54,6 +54,8 @@ import org.eclipse.jgit.internal.JGitText;
  * <p>
  * This stream is buffered at packet sizes, so the caller doesn't need to wrap
  * it in yet another buffered stream.
+ *
+ * @since 2.0
  */
 public class SideBandOutputStream extends OutputStream {
 	/** Channel used for pack data. */
