@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOHH//+4A\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 408,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2012-05-07T22:12:15Z",
+      "side": 1,
+      "message": "Could the second and nanosecond computation logic be moved into either a method in this class or a method in the FileSnapshot class? Since it is not used in multiple locations.",
+      "revId": "74eaf9d5159f51ae41dbf04e08552181d7722658",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
