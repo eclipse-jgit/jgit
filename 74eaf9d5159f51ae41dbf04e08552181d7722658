@@ -34,6 +34,24 @@
       "revId": "74eaf9d5159f51ae41dbf04e08552181d7722658",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHX///9s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 408,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2012-05-08T22:16:22Z",
+      "side": 1,
+      "message": "Just to clarify, I meant \"now\" instead of \"not\" in my initial comment.",
+      "parentUuid": "AABOHX///+M\u003d",
+      "revId": "74eaf9d5159f51ae41dbf04e08552181d7722658",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
