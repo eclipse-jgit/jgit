@@ -34,6 +34,24 @@
       "revId": "f27ee4cf6586c05ff7cb57b67337da1cd0b49890",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHX///+I\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 415,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-05-08T22:09:32Z",
+      "side": 1,
+      "message": "Wouldn\u0027t it be better if we did this when dirache is written. That would work for all operations, not just commit.\n\nThat could be done as a followup to https://git.eclipse.org/r/#/c/5413/6",
+      "parentUuid": "AABOHH//++8\u003d",
+      "revId": "f27ee4cf6586c05ff7cb57b67337da1cd0b49890",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
