@@ -69,8 +69,11 @@ import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.storage.file.FileSnapshot;
 import org.eclipse.jgit.storage.file.LockFile;
+import org.eclipse.jgit.treewalk.FileTreeIterator;
+import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.MutableInteger;
@@ -136,6 +139,30 @@ public class DirCache {
 	 */
 	public static DirCache newInCore() {
 		return new DirCache(null, null);
+	}
+
+	/**
+	 * Create a new in-core index representation and read an index from disk.
+	 * <p>
+	 * The new index will be read before it is returned to the caller. Read
+	 * failures are reported as exceptions and therefore prevent the method from
+	 * returning a partially populated index.
+	 *
+	 * @param repository
+	 *            repository containing the index to read
+	 * @return a cache representing the contents of the specified index file (if
+	 *         it exists) or an empty cache if the file does not exist.
+	 * @throws IOException
+	 *             the index file is present but could not be read.
+	 * @throws CorruptObjectException
+	 *             the index file is using a format or extension that this
+	 *             library does not support.
+	 */
+	public static DirCache read(final Repository repository)
+			throws CorruptObjectException, IOException {
+		final DirCache c = read(repository.getIndexFile(), repository.getFS());
+		c.repository = repository;
+		return c;
 	}
 
 	/**
@@ -217,6 +244,37 @@ public class DirCache {
 	 * the method from returning a partially populated index. On read failure,
 	 * the lock is released.
 	 *
+	 * @param repository
+	 *            repository containing the index to lock and read
+	 * @param indexChangedListener
+	 *            listener to be informed when DirCache is committed
+	 * @return a cache representing the contents of the specified index file (if
+	 *         it exists) or an empty cache if the file does not exist.
+	 * @throws IOException
+	 *             the index file is present but could not be read, or the lock
+	 *             could not be obtained.
+	 * @throws CorruptObjectException
+	 *             the index file is using a format or extension that this
+	 *             library does not support.
+	 * @since 2.0
+	 */
+	public static DirCache lock(final Repository repository,
+			final IndexChangedListener indexChangedListener)
+			throws CorruptObjectException, IOException {
+		DirCache c = lock(repository.getIndexFile(), repository.getFS(),
+				indexChangedListener);
+		c.repository = repository;
+		return c;
+	}
+
+	/**
+	 * Create a new in-core index representation, lock it, and read from disk.
+	 * <p>
+	 * The new index will be locked and then read before it is returned to the
+	 * caller. Read failures are reported as exceptions and therefore prevent
+	 * the method from returning a partially populated index. On read failure,
+	 * the lock is released.
+	 *
 	 * @param indexLocation
 	 *            location of the index file on disk.
 	 * @param fs
@@ -271,6 +329,9 @@ public class DirCache {
 
 	/** listener to be informed on commit */
 	private IndexChangedListener indexChangedListener;
+
+	/** Repository containing this index */
+	private Repository repository;
 
 	/**
 	 * Create a new in-core index representation.
@@ -587,6 +648,9 @@ public class DirCache {
 			smudge_s = 0;
 		}
 
+		if (repository != null)
+			updateSmudgedEntries();
+
 		for (int i = 0; i < entryCnt; i++) {
 			final DirCacheEntry e = sortedEntries[i];
 			if (e.mightBeRacilyClean(smudge_s, smudge_ns))
@@ -860,5 +924,36 @@ public class DirCache {
 
 	private void registerIndexChangedListener(IndexChangedListener listener) {
 		this.indexChangedListener = listener;
+	}
+
+	/**
+	 * Update any smudged entries with information from the working tree
+	 * 
+	 * @throws IOException
+	 */
+	private void updateSmudgedEntries() throws IOException {
+		TreeWalk walk = new TreeWalk(repository);
+		try {
+			DirCacheIterator iIter = new DirCacheIterator(this);
+			FileTreeIterator fIter = new FileTreeIterator(repository);
+			walk.addTree(iIter);
+			walk.addTree(fIter);
+			walk.setRecursive(true);
+			while (walk.next()) {
+				iIter = walk.getTree(0, DirCacheIterator.class);
+				if (iIter == null)
+					continue;
+				fIter = walk.getTree(1, FileTreeIterator.class);
+				if (fIter == null)
+					continue;
+				DirCacheEntry entry = iIter.getDirCacheEntry();
+				if (entry.isSmudged() && iIter.idEqual(fIter)) {
+					entry.setLength(fIter.getEntryLength());
+					entry.setLastModified(fIter.getEntryLastModified());
+				}
+			}
+		} finally {
+			walk.release();
+		}
 	}
 }
