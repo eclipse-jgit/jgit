@@ -16,6 +16,24 @@
       "revId": "74eaf9d5159f51ae41dbf04e08552181d7722658",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHX///+M\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 408,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-05-08T22:08:25Z",
+      "side": 1,
+      "message": "I would need more code to reuse those three operators than the code being re-used.  Actually the pattern is used in three locations (IO included).",
+      "parentUuid": "AABOHH//+4A\u003d",
+      "revId": "74eaf9d5159f51ae41dbf04e08552181d7722658",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
