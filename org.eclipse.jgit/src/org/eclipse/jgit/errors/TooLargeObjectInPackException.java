@@ -64,7 +64,7 @@ public class TooLargeObjectInPackException extends IOException {
 	 */
 	public TooLargeObjectInPackException(long maxObjectSizeLimit) {
 		super(MessageFormat.format(JGitText.get().receivePackObjectTooLarge1,
-				maxObjectSizeLimit));
+				Long.valueOf(maxObjectSizeLimit)));
 	}
 
 	/**
@@ -77,6 +77,6 @@ public class TooLargeObjectInPackException extends IOException {
 	public TooLargeObjectInPackException(long objectSize,
 			long maxObjectSizeLimit) {
 		super(MessageFormat.format(JGitText.get().receivePackObjectTooLarge2,
-				objectSize, maxObjectSizeLimit));
+				Long.valueOf(objectSize), Long.valueOf(maxObjectSizeLimit)));
 	}
 }

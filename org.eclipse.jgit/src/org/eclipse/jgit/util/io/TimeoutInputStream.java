@@ -83,7 +83,8 @@ public class TimeoutInputStream extends FilterInputStream {
 	 */
 	public void setTimeout(final int millis) {
 		if (millis < 0)
-			throw new IllegalArgumentException(MessageFormat.format(JGitText.get().invalidTimeout, millis));
+			throw new IllegalArgumentException(MessageFormat.format(
+					JGitText.get().invalidTimeout, Integer.valueOf(millis)));
 		timeout = millis;
 	}
 

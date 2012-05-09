@@ -682,7 +682,8 @@ public class RevWalk implements Iterable<RevCommit> {
 				r = new RevTag(id);
 				break;
 			default:
-				throw new IllegalArgumentException(MessageFormat.format(JGitText.get().invalidGitType, type));
+				throw new IllegalArgumentException(MessageFormat.format(
+						JGitText.get().invalidGitType, Integer.valueOf(type)));
 			}
 			objects.add(r);
 		}
@@ -843,8 +844,8 @@ public class RevWalk implements Iterable<RevCommit> {
 			break;
 		}
 		default:
-			throw new IllegalArgumentException(MessageFormat.format(JGitText
-					.get().badObjectType, type));
+			throw new IllegalArgumentException(MessageFormat.format(
+					JGitText.get().badObjectType, Integer.valueOf(type)));
 		}
 		objects.add(r);
 		return r;
@@ -1026,7 +1027,8 @@ public class RevWalk implements Iterable<RevCommit> {
 	int allocFlag() {
 		if (freeFlags == 0)
 			throw new IllegalArgumentException(MessageFormat.format(
-					JGitText.get().flagsAlreadyCreated, 32 - RESERVED_FLAGS));
+					JGitText.get().flagsAlreadyCreated,
+					Integer.valueOf(32 - RESERVED_FLAGS)));
 		final int m = Integer.lowestOneBit(freeFlags);
 		freeFlags &= ~m;
 		return m;

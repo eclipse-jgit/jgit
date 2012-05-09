@@ -242,7 +242,7 @@ public class TransportSftp extends SshTransport implements WalkTransport {
 					if (!files.containsKey(in))
 						continue;
 
-					mtimes.put(n, ent.getAttrs().getMTime());
+					mtimes.put(n, Integer.valueOf(ent.getAttrs().getMTime()));
 					packs.add(n);
 				}
 

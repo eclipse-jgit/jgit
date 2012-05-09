@@ -344,7 +344,8 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 
 			default:
 				throw new TransportException(uri, MessageFormat.format(
-						JGitText.get().cannotReadHEAD, status, conn.getResponseMessage()));
+						JGitText.get().cannotReadHEAD, Integer.valueOf(status),
+						conn.getResponseMessage()));
 			}
 		}
 

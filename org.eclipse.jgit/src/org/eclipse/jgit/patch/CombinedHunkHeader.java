@@ -186,13 +186,17 @@ public class CombinedHunkHeader extends HunkHeader {
 			if (cmp < o.lineCount) {
 				final int missingCnt = o.lineCount - cmp;
 				script.error(buf, startOffset, MessageFormat.format(
-						JGitText.get().truncatedHunkLinesMissingForAncestor, missingCnt, (ancestor + 1)));
+						JGitText.get().truncatedHunkLinesMissingForAncestor,
+						Integer.valueOf(missingCnt),
+						Integer.valueOf(ancestor + 1)));
 			}
 		}
 
 		if (nContext + nAdded < newLineCount) {
 			final int missingCount = newLineCount - (nContext + nAdded);
-			script.error(buf, startOffset, MessageFormat.format(JGitText.get().truncatedHunkNewLinesMissing, missingCount));
+			script.error(buf, startOffset, MessageFormat.format(
+					JGitText.get().truncatedHunkNewLinesMissing,
+					Integer.valueOf(missingCount)));
 		}
 
 		return c;

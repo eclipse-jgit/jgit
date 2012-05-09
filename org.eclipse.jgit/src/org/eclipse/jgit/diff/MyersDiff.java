@@ -301,21 +301,21 @@ public class MyersDiff<S extends Sequence> {
 			final int getIndex(int d, int k) {
 // TODO: remove
 if (((d + k - middleK) % 2) != 0)
-	throw new RuntimeException(MessageFormat.format(JGitText.get().unexpectedOddResult, d, k, middleK));
+	throw new RuntimeException(MessageFormat.format(JGitText.get().unexpectedOddResult, Integer.valueOf(d), Integer.valueOf(k), Integer.valueOf(middleK)));
 				return (d + k - middleK) / 2;
 			}
 
 			final int getX(int d, int k) {
 // TODO: remove
 if (k < beginK || k > endK)
-	throw new RuntimeException(MessageFormat.format(JGitText.get().kNotInRange, k, beginK, endK));
+	throw new RuntimeException(MessageFormat.format(JGitText.get().kNotInRange, Integer.valueOf(k), Integer.valueOf(beginK), Integer.valueOf(endK)));
 				return x.get(getIndex(d, k));
 			}
 
 			final long getSnake(int d, int k) {
 // TODO: remove
 if (k < beginK || k > endK)
-	throw new RuntimeException(MessageFormat.format(JGitText.get().kNotInRange, k, beginK, endK));
+	throw new RuntimeException(MessageFormat.format(JGitText.get().kNotInRange, Integer.valueOf(k), Integer.valueOf(beginK), Integer.valueOf(endK)));
 				return snake.get(getIndex(d, k));
 			}
 

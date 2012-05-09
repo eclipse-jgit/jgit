@@ -375,7 +375,8 @@ public final class Constants {
 		case OBJ_TAG:
 			return TYPE_TAG;
 		default:
-			throw new IllegalArgumentException(MessageFormat.format(JGitText.get().badObjectType, typeCode));
+			throw new IllegalArgumentException(MessageFormat.format(
+					JGitText.get().badObjectType, Integer.valueOf(typeCode)));
 		}
 	}
 
@@ -399,7 +400,8 @@ public final class Constants {
 		case OBJ_TAG:
 			return ENCODED_TYPE_TAG;
 		default:
-			throw new IllegalArgumentException(MessageFormat.format(JGitText.get().badObjectType, typeCode));
+			throw new IllegalArgumentException(MessageFormat.format(
+					JGitText.get().badObjectType, Integer.valueOf(typeCode)));
 		}
 	}
 
