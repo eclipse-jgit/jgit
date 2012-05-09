@@ -412,7 +412,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		}
 	}
 
-	private InputStream filterClean(InputStream in) throws IOException {
+	private InputStream filterClean(InputStream in) {
 		return new EolCanonicalizingInputStream(in, true);
 	}
 
