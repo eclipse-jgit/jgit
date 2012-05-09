@@ -34,6 +34,24 @@
       "revId": "b7c7223d5d7d9cb7a4901815df8ca79d4a25a873",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHX///5E\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/diff/DiffFormatter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2012-05-09T08:32:38Z",
+      "side": 1,
+      "message": "Well, you tell me. I though trailing whitespaces are bad. It\u0027s the only one in your change, so I assumed it\u0027s an oversight.",
+      "parentUuid": "AABOHX///6E\u003d",
+      "revId": "b7c7223d5d7d9cb7a4901815df8ca79d4a25a873",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
