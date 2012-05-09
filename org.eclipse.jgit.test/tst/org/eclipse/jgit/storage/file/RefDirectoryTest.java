@@ -59,6 +59,7 @@ import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
@@ -70,6 +71,7 @@ import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.Ref.Storage;
 import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -80,7 +82,7 @@ import org.junit.Test;
 public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 	private Repository diskRepo;
 
-	private TestRepository repo;
+	private TestRepository<Repository> repo;
 
 	private RefDirectory refdir;
 
@@ -97,7 +99,7 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 		diskRepo = createBareRepository();
 		refdir = (RefDirectory) diskRepo.getRefDatabase();
 
-		repo = new TestRepository(diskRepo);
+		repo = new TestRepository<Repository>(diskRepo);
 		A = repo.commit().create();
 		B = repo.commit(repo.getRevWalk().parseCommit(A));
 		v1_0 = repo.tag("v1_0", B);
@@ -889,6 +891,55 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 		assertEquals(v1_0, tag.getObjectId());
 		assertTrue(tag.isPeeled());
 		assertEquals(v1_0.getObject(), tag.getPeeledObjectId());
+	}
+
+	@Test
+	public void test_repack() throws Exception {
+		Map<String, Ref> all;
+
+		writePackedRefs("# pack-refs with: peeled \n" + //
+				A.name() + " refs/heads/master\n" + //
+				B.name() + " refs/heads/other\n" + //
+				v1_0.name() + " refs/tags/v1.0\n" + //
+				"^" + v1_0.getObject().name() + "\n");
+		all = refdir.getRefs(RefDatabase.ALL);
+
+		assertEquals(4, all.size());
+		assertEquals(Storage.LOOSE, all.get(HEAD).getStorage());
+		assertEquals(Storage.PACKED, all.get("refs/heads/master").getStorage());
+		assertEquals(A.getId(), all.get("refs/heads/master").getObjectId());
+		assertEquals(Storage.PACKED, all.get("refs/heads/other").getStorage());
+		assertEquals(Storage.PACKED, all.get("refs/tags/v1.0").getStorage());
+
+		repo.update("refs/heads/master", B.getId());
+		RevTag v0_1 = repo.tag("v0.1", A);
+		repo.update("refs/tags/v0.1", v0_1);
+
+		all = refdir.getRefs(RefDatabase.ALL);
+		assertEquals(5, all.size());
+		assertEquals(Storage.LOOSE, all.get(HEAD).getStorage());
+		// Why isn't the next ref LOOSE_PACKED?
+		assertEquals(Storage.LOOSE, all.get("refs/heads/master")
+				.getStorage());
+		assertEquals(B.getId(), all.get("refs/heads/master").getObjectId());
+		assertEquals(Storage.PACKED, all.get("refs/heads/other").getStorage());
+		assertEquals(Storage.PACKED, all.get("refs/tags/v1.0").getStorage());
+		assertEquals(Storage.LOOSE, all.get("refs/tags/v0.1").getStorage());
+		assertEquals(v0_1.getId(), all.get("refs/tags/v0.1").getObjectId());
+
+		all = refdir.getRefs(RefDatabase.ALL);
+		refdir.pack(new ArrayList<String>(all.keySet()));
+
+		all = refdir.getRefs(RefDatabase.ALL);
+		assertEquals(5, all.size());
+		assertEquals(Storage.LOOSE, all.get(HEAD).getStorage());
+		// Why isn't the next ref LOOSE_PACKED?
+		assertEquals(Storage.PACKED, all.get("refs/heads/master").getStorage());
+		assertEquals(B.getId(), all.get("refs/heads/master").getObjectId());
+		assertEquals(Storage.PACKED, all.get("refs/heads/other").getStorage());
+		assertEquals(Storage.PACKED, all.get("refs/tags/v1.0").getStorage());
+		assertEquals(Storage.PACKED, all.get("refs/tags/v0.1").getStorage());
+		assertEquals(v0_1.getId(), all.get("refs/tags/v0.1").getObjectId());
 	}
 
 	@Test
