@@ -96,6 +96,8 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 
 	private final File packFile;
 
+	private File keepFile;
+
 	private volatile String packName;
 
 	final int hash;
@@ -177,6 +179,14 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 		return packFile;
 	}
 
+	/**
+	 * @return the index for this pack file.
+	 * @throws IOException
+	 */
+	public PackIndex getIndex() throws IOException {
+		return idx();
+	}
+
 	/** @return name extracted from {@code pack-*.pack} pattern. */
 	public String getPackName() {
 		String name = packName;
@@ -207,6 +217,17 @@ public class PackFile implements Iterable<PackIndex.MutableEntry> {
 	public boolean hasObject(final AnyObjectId id) throws IOException {
 		final long offset = idx().findOffset(id);
 		return 0 < offset && !isCorrupt(offset);
+	}
+
+	/**
+	 * Determines whether a .keep file exists for this pack file.
+	 *
+	 * @return true if a .keep file exist.
+	 */
+	public boolean shouldBeKept() {
+		if (keepFile == null)
+			keepFile = new File(packFile.getPath() + ".keep");
+		return keepFile.exists();
 	}
 
 	/**
