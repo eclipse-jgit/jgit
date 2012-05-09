@@ -43,6 +43,8 @@
 package org.eclipse.jgit.api;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -220,6 +222,23 @@ public class DiffCommandTest extends RepositoryTestCase {
 				+ "+++ b/test.txt\n" + "@@ -4,3 +4,3 @@\n" + " 3\n" + "-4\n"
 				+ "+4a\n" + " 5\n";
 		assertEquals(expected.toString(), actual);
+	}
+
+	@Test
+	public void testNoOutputStreamSet() throws Exception {
+		File file = writeTrashFile("test.txt", "a");
+		assertTrue(file.setLastModified(file.lastModified() - 5000));
+		Git git = new Git(db);
+		git.add().addFilepattern(".").call();
+		write(file, "b");
+
+		List<DiffEntry> diffs = git.diff().call();
+		assertNotNull(diffs);
+		assertEquals(1, diffs.size());
+		DiffEntry diff = diffs.get(0);
+		assertEquals(ChangeType.MODIFY, diff.getChangeType());
+		assertEquals("test.txt", diff.getOldPath());
+		assertEquals("test.txt", diff.getNewPath());
 	}
 
 	private AbstractTreeIterator getTreeIterator(String name)

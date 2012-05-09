@@ -64,6 +64,7 @@ import org.eclipse.jgit.treewalk.AbstractTreeIterator;
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
+import org.eclipse.jgit.util.io.NullOutputStream;
 
 /**
  * Show changes between commits, commit and working tree, etc.
@@ -108,8 +109,11 @@ public class DiffCommand extends GitCommand<List<DiffEntry>> {
 	 * @return a DiffEntry for each path which is different
 	 */
 	public List<DiffEntry> call() throws GitAPIException, IOException {
-		final DiffFormatter diffFmt = new DiffFormatter(
-				new BufferedOutputStream(out));
+		final DiffFormatter diffFmt;
+		if (out != null && !showNameAndStatusOnly)
+			diffFmt = new DiffFormatter(new BufferedOutputStream(out));
+		else
+			diffFmt = new DiffFormatter(NullOutputStream.INSTANCE);
 		diffFmt.setRepository(repo);
 		diffFmt.setProgressMonitor(monitor);
 		try {
@@ -136,17 +140,17 @@ public class DiffCommand extends GitCommand<List<DiffEntry>> {
 			}
 
 			diffFmt.setPathFilter(pathFilter);
-			if (contextLines >= 0)
-				diffFmt.setContext(contextLines);
-			if (destinationPrefix != null)
-				diffFmt.setNewPrefix(destinationPrefix);
-			if (sourcePrefix != null)
-				diffFmt.setOldPrefix(sourcePrefix);
 
 			List<DiffEntry> result = diffFmt.scan(oldTree, newTree);
-			if (showNameAndStatusOnly) {
+			if (showNameAndStatusOnly)
 				return result;
-			} else {
+			else {
+				if (contextLines >= 0)
+					diffFmt.setContext(contextLines);
+				if (destinationPrefix != null)
+					diffFmt.setNewPrefix(destinationPrefix);
+				if (sourcePrefix != null)
+					diffFmt.setOldPrefix(sourcePrefix);
 				diffFmt.format(result);
 				diffFmt.flush();
 				return result;
