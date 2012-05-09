@@ -583,6 +583,114 @@ public class RefDirectory extends RefDatabase {
 		fireRefsChanged();
 	}
 
+	/**
+	 * Adds a set of refs to the set of packed-refs. Only non-symbolic refs are
+	 * added. If a ref with the given name already existed in packed-refs it is
+	 * updated with the new value. Each loose ref which was added to the
+	 * packed-ref file is deleted. If a given ref can't be locked it will not be
+	 * added to the pack file.
+	 *
+	 * @param refs
+	 *            the refs to be added. Must be fully qualified.
+	 * @throws IOException
+	 */
+	public void pack(String[] refs) throws IOException {
+		if (refs.length == 0)
+			return;
+		FS fs = parent.getFS();
+		LockFile[] locks = new LockFile[refs.length];
+
+		// Lock the packed refs file and read the content
+		LockFile lck = new LockFile(packedRefsFile, fs);
+		if (!lck.lock())
+			throw new IOException(MessageFormat.format(
+					JGitText.get().cannotLock, packedRefsFile));
+
+		try {
+			String refName;
+			LockFile rLck;
+			final PackedRefList packed = getPackedRefs();
+			RefList<Ref> cur = readPackedRefs();
+
+			// Iterate over all refs to be packed
+			for (int i = 0; i < refs.length; i++) {
+				refName = refs[i];
+				Ref ref = readRef(refName, cur);
+				if (ref.isSymbolic())
+					continue; // can't pack symbolic refs
+				if (ref.getStorage().isLoose()) {
+					// Lock the loose ref
+					rLck = new LockFile(fileFor(refName),
+							parent.getFS());
+					if (!rLck.lock())
+						continue;
+					locks[i] = rLck;
+				}
+				// Add/Update it to packed-refs
+				int idx = cur.find(refName);
+				if (idx >= 0) {
+					cur = cur.set(idx, peeledPackedRef(ref));
+				} else
+					cur = cur.add(idx, peeledPackedRef(ref));
+
+			}
+
+			// The new content for packed-refs is collected. Persist it.
+			commitPackedRefs(lck, cur, packed);
+
+			// Now delete the loose refs which are locked and now packed
+			for (int i = 0; i < refs.length; i++) {
+				rLck = locks[i];
+				if (rLck == null)
+					continue;
+				refName = refs[i];
+				RefList<LooseRef> curLoose, newLoose;
+				do {
+					curLoose = looseRefs.get();
+					int idx = curLoose.find(refName);
+					if (idx < 0)
+						break;
+					newLoose = curLoose.remove(idx);
+				} while (!looseRefs.compareAndSet(curLoose, newLoose));
+				int levels = levelsIn(refName) - 2;
+				delete(fileFor(refName), levels);
+				locks[i] = null;
+				rLck.unlock();
+			}
+			// Don't fire refsChanged. The refs have not change, only their
+			// storage.
+		} finally {
+			lck.unlock();
+			for (LockFile l : locks)
+				if (l != null)
+					l.unlock();
+		}
+	}
+
+	/**
+	 * Make sure a ref is peeled and has the Storage PACKED. If the given ref
+	 * has this attributes simply return it. Otherwise create a new peeled
+	 * {@link ObjectIdRef} where Storage is set to PACKED.
+	 *
+	 * @param f
+	 * @return a ref for Storage PACKED having the same name, id, peeledId as f
+	 * @throws MissingObjectException
+	 * @throws IOException
+	 */
+	private Ref peeledPackedRef(Ref f)
+			throws MissingObjectException, IOException {
+		if (f.getStorage().isPacked() && f.isPeeled())
+			return f;
+		if (!f.isPeeled())
+			f = peel(f);
+		if (f.getPeeledObjectId() != null)
+			return new ObjectIdRef.PeeledTag(PACKED, f.getName(),
+					f.getObjectId(), f.getPeeledObjectId());
+		else
+			return new ObjectIdRef.PeeledNonTag(PACKED, f.getName(),
+					f.getObjectId());
+	}
+
 	void log(final RefUpdate update, final String msg, final boolean deref)
 			throws IOException {
 		logWriter.log(update, msg, deref);

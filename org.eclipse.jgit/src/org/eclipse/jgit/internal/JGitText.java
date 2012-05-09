@@ -99,6 +99,8 @@ public class JGitText extends TranslationBundle {
 	/***/ public String cannotCreateConfig;
 	/***/ public String cannotCreateDirectory;
 	/***/ public String cannotCreateHEAD;
+	/***/ public String cannotCreateIndexfile;
+	/***/ public String cannotCreatePackfile;
 	/***/ public String cannotDeleteCheckedOutBranch;
 	/***/ public String cannotDeleteFile;
 	/***/ public String cannotDeleteStaleTrackingRef;
@@ -405,6 +407,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String packHasUnresolvedDeltas;
 	/***/ public String packingCancelledDuringObjectsWriting;
 	/***/ public String packObjectCountMismatch;
+	/***/ public String packRefs;
 	/***/ public String packTooLargeForIndexVersion1;
 	/***/ public String packWriterStatistics;
 	/***/ public String patchApplyException;
@@ -417,6 +420,8 @@ public class JGitText extends TranslationBundle {
 	/***/ public String problemWithResolvingPushRefSpecsLocally;
 	/***/ public String progressMonUploading;
 	/***/ public String propertyIsAlreadyNonNull;
+	/***/ public String pruneLoosePackedObjects;
+	/***/ public String pruneLooseUnreferencedObjects;
 	/***/ public String pullOnRepoWithoutHEADCurrentlyNotSupported;
 	/***/ public String pullTaskName;
 	/***/ public String pushCancelled;
