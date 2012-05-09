@@ -556,7 +556,7 @@ public class ResolveMerger extends ThreeWayMerger {
 
 		// Index entry has to match ours to be considered clean
 		final boolean isDirty = nonTree(modeI)
-				&& !(tw.idEqual(T_INDEX, T_OURS) && modeO == modeI);
+				&& !(modeO == modeI && tw.idEqual(T_INDEX, T_OURS));
 		if (isDirty)
 			failingPaths
 					.put(tw.getPathString(), MergeFailureReason.DIRTY_INDEX);
@@ -572,7 +572,7 @@ public class ResolveMerger extends ThreeWayMerger {
 
 		// Worktree entry has to match ours to be considered clean
 		final boolean isDirty = nonTree(modeF)
-				&& !(tw.idEqual(T_FILE, T_OURS) && modeO == modeF);
+				&& !(modeO == modeF && tw.idEqual(T_FILE, T_OURS));
 		if (isDirty)
 			failingPaths.put(tw.getPathString(),
 					MergeFailureReason.DIRTY_WORKTREE);
