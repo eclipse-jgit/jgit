@@ -300,12 +300,14 @@ public class HunkHeader {
 		if (nContext + old.nDeleted < old.lineCount) {
 			final int missingCount = old.lineCount - (nContext + old.nDeleted);
 			script.error(buf, startOffset, MessageFormat.format(
-					JGitText.get().truncatedHunkOldLinesMissing, missingCount));
+					JGitText.get().truncatedHunkOldLinesMissing,
+					Integer.valueOf(missingCount)));
 
 		} else if (nContext + old.nAdded < newLineCount) {
 			final int missingCount = newLineCount - (nContext + old.nAdded);
 			script.error(buf, startOffset, MessageFormat.format(
-					JGitText.get().truncatedHunkNewLinesMissing, missingCount));
+					JGitText.get().truncatedHunkNewLinesMissing,
+					Integer.valueOf(missingCount)));
 
 		} else if (nContext + old.nDeleted > old.lineCount
 				|| nContext + old.nAdded > newLineCount) {

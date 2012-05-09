@@ -218,7 +218,9 @@ public class FileHeader extends DiffEntry {
 		}
 
 		if (charsetGuess != null && charsetGuess.length != getParentCount() + 1)
-			throw new IllegalArgumentException(MessageFormat.format(JGitText.get().expectedCharacterEncodingGuesses, (getParentCount() + 1)));
+			throw new IllegalArgumentException(MessageFormat.format(
+					JGitText.get().expectedCharacterEncodingGuesses,
+					Integer.valueOf(getParentCount() + 1)));
 
 		if (trySimpleConversion(charsetGuess)) {
 			Charset cs = charsetGuess != null ? charsetGuess[0] : null;

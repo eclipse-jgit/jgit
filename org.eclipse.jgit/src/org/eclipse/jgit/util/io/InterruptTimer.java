@@ -117,7 +117,8 @@ public final class InterruptTimer {
 	 */
 	public void begin(final int timeout) {
 		if (timeout <= 0)
-			throw new IllegalArgumentException(MessageFormat.format(JGitText.get().invalidTimeout, timeout));
+			throw new IllegalArgumentException(MessageFormat.format(
+					JGitText.get().invalidTimeout, Integer.valueOf(timeout)));
 		Thread.interrupted();
 		state.begin(timeout);
 	}

@@ -157,7 +157,7 @@ public class LargeObjectException extends RuntimeException {
 		@Override
 		public String getMessage() {
 			return MessageFormat.format(JGitText.get().largeObjectExceedsLimit,
-					getObjectName(), limit, size);
+					getObjectName(), Long.valueOf(limit), Long.valueOf(size));
 		}
 	}
 }

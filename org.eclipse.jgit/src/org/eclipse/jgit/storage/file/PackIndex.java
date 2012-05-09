@@ -136,7 +136,9 @@ public abstract class PackIndex implements Iterable<PackIndex.MutableEntry> {
 			case 2:
 				return new PackIndexV2(fd);
 			default:
-				throw new IOException(MessageFormat.format(JGitText.get().unsupportedPackIndexVersion, v));
+				throw new IOException(MessageFormat.format(
+						JGitText.get().unsupportedPackIndexVersion,
+						Integer.valueOf(v)));
 			}
 		}
 		return new PackIndexV1(fd, hdr);

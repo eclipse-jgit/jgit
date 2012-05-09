@@ -102,11 +102,17 @@ public class SideBandOutputStream extends OutputStream {
 	 */
 	public SideBandOutputStream(final int chan, final int sz, final OutputStream os) {
 		if (chan <= 0 || chan > 255)
-			throw new IllegalArgumentException(MessageFormat.format(JGitText.get().channelMustBeInRange0_255, chan));
+			throw new IllegalArgumentException(MessageFormat.format(
+					JGitText.get().channelMustBeInRange0_255,
+					Integer.valueOf(chan)));
 		if (sz <= HDR_SIZE)
-			throw new IllegalArgumentException(MessageFormat.format(JGitText.get().packetSizeMustBeAtLeast, sz, HDR_SIZE));
+			throw new IllegalArgumentException(MessageFormat.format(
+					JGitText.get().packetSizeMustBeAtLeast,
+					Integer.valueOf(sz), Integer.valueOf(HDR_SIZE)));
 		else if (MAX_BUF < sz)
-			throw new IllegalArgumentException(MessageFormat.format(JGitText.get().packetSizeMustBeAtMost, sz, MAX_BUF));
+			throw new IllegalArgumentException(MessageFormat.format(
+					JGitText.get().packetSizeMustBeAtMost, Integer.valueOf(sz),
+					Integer.valueOf(MAX_BUF)));
 
 		out = os;
 		buffer = new byte[sz];

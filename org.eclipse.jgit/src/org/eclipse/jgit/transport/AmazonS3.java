@@ -510,8 +510,10 @@ public class AmazonS3 {
 
 	private IOException error(final String action, final String key,
 			final HttpURLConnection c) throws IOException {
-		final IOException err = new IOException(MessageFormat.format(JGitText.get().amazonS3ActionFailed
-				, action, key, HttpSupport.response(c), c.getResponseMessage()));
+		final IOException err = new IOException(MessageFormat.format(
+				JGitText.get().amazonS3ActionFailed, action, key,
+				Integer.valueOf(HttpSupport.response(c)),
+				c.getResponseMessage()));
 		final InputStream errorStream = c.getErrorStream();
 		if (errorStream == null)
 			return err;
@@ -532,8 +534,9 @@ public class AmazonS3 {
 	}
 
 	private IOException maxAttempts(final String action, final String key) {
-		return new IOException(MessageFormat.format(JGitText.get().amazonS3ActionFailedGivingUp
-				, action, key, maxAttempts));
+		return new IOException(MessageFormat.format(
+				JGitText.get().amazonS3ActionFailedGivingUp, action, key,
+				Integer.valueOf(maxAttempts)));
 	}
 
 	private HttpURLConnection open(final String method, final String bucket,

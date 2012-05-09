@@ -181,7 +181,9 @@ public abstract class BasePackPushConnection extends BasePackConnection implemen
 					//
 					int b = in.read();
 					if (0 <= b)
-						throw new TransportException(uri, MessageFormat.format(JGitText.get().expectedEOFReceived, (char) b));
+						throw new TransportException(uri, MessageFormat.format(
+								JGitText.get().expectedEOFReceived,
+								Character.valueOf((char) b)));
 				}
 			}
 		} catch (TransportException e) {
