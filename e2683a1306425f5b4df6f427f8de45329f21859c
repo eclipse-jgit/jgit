@@ -16,6 +16,24 @@
       "revId": "e2683a1306425f5b4df6f427f8de45329f21859c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHX///rk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheEntry.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-05-10T20:30:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOHX///wM\u003d",
+      "revId": "e2683a1306425f5b4df6f427f8de45329f21859c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
