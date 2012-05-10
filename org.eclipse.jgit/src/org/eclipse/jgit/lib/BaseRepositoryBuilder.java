@@ -100,6 +100,29 @@ public class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R extends Re
 				&& ref[7] == ' ';
 	}
 
+	private static File getSymRef(File workTree, File dotGit)
+			throws IOException {
+		byte[] content = IO.readFully(dotGit);
+		if (!isSymRef(content))
+			throw new IOException(MessageFormat.format(
+					JGitText.get().invalidGitdirRef, dotGit.getAbsolutePath()));
+
+		int pathStart = 8;
+		int lineEnd = RawParseUtils.nextLF(content, pathStart);
+		if (content[lineEnd - 1] == '\n')
+			lineEnd--;
+		if (lineEnd == pathStart)
+			throw new IOException(MessageFormat.format(
+					JGitText.get().invalidGitdirRef, dotGit.getAbsolutePath()));
+
+		String gitdirPath = RawParseUtils.decode(content, pathStart, lineEnd);
+		File gitdirFile = new File(gitdirPath);
+		if (gitdirFile.isAbsolute())
+			return gitdirFile;
+		else
+			return new File(workTree, gitdirPath).getCanonicalFile();
+	}
+
 	private FS fs;
 
 	private File gitDir;
@@ -491,7 +514,13 @@ public class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R extends Re
 				if (FileKey.isGitRepository(dir, tryFS)) {
 					setGitDir(dir);
 					break;
-				}
+				} else if (dir.isFile())
+					try {
+						setGitDir(getSymRef(current, dir));
+						break;
+					} catch (IOException ignored) {
+						// Continue searching if gitdir ref isn't found
+					}
 
 				current = current.getParentFile();
 				if (current != null && ceilingDirectories != null
@@ -567,30 +596,8 @@ public class BaseRepositoryBuilder<B extends BaseRepositoryBuilder, R extends Re
 			File dotGit = new File(getWorkTree(), DOT_GIT);
 			if (!dotGit.isFile())
 				setGitDir(dotGit);
-			else {
-				byte[] content = IO.readFully(dotGit);
-				if (!isSymRef(content))
-					throw new IOException(MessageFormat.format(
-							JGitText.get().invalidGitdirRef,
-							dotGit.getAbsolutePath()));
-				int pathStart = 8;
-				int lineEnd = RawParseUtils.nextLF(content, pathStart);
-				if (content[lineEnd - 1] == '\n')
-					lineEnd--;
-				if (lineEnd == pathStart)
-					throw new IOException(MessageFormat.format(
-							JGitText.get().invalidGitdirRef,
-							dotGit.getAbsolutePath()));
-
-				String gitdirPath = RawParseUtils.decode(content, pathStart,
-						lineEnd);
-				File gitdirFile = new File(gitdirPath);
-				if (gitdirFile.isAbsolute())
-					setGitDir(gitdirFile);
-				else
-					setGitDir(new File(getWorkTree(), gitdirPath)
-							.getCanonicalFile());
-			}
+			else
+				setGitDir(getSymRef(getWorkTree(), dotGit));
 		}
 	}
 

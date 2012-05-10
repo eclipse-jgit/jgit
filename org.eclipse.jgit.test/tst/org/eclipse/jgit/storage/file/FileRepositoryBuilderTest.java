@@ -45,13 +45,16 @@ package org.eclipse.jgit.storage.file;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 
 import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
 import org.eclipse.jgit.lib.ConfigConstants;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.util.FileUtils;
 import org.junit.Test;
 
@@ -107,5 +110,59 @@ public class FileRepositoryBuilderTest extends LocalDiskRepositoryTestCase {
 		} catch (IOException e) {
 			assertNotNull(e.getMessage());
 		}
+	}
+
+	@Test
+	public void absoluteGitDirRef() throws Exception {
+		FileRepository repo1 = createWorkRepository();
+		File dir = createTempDirectory("dir");
+		File dotGit = new File(dir, Constants.DOT_GIT);
+		new FileWriter(dotGit).append(
+				"gitdir: " + repo1.getDirectory().getAbsolutePath()).close();
+		FileRepositoryBuilder builder = new FileRepositoryBuilder();
+
+		builder.setWorkTree(dir);
+		builder.setMustExist(true);
+		FileRepository repo2 = builder.build();
+
+		assertEquals(repo1.getDirectory(), repo2.getDirectory());
+		assertEquals(dir, repo2.getWorkTree());
+	}
+
+	@Test
+	public void relativeGitDirRef() throws Exception {
+		FileRepository repo1 = createWorkRepository();
+		File dir = new File(repo1.getWorkTree(), "dir");
+		assertTrue(dir.mkdir());
+		File dotGit = new File(dir, Constants.DOT_GIT);
+		new FileWriter(dotGit).append("gitdir: ../" + Constants.DOT_GIT)
+				.close();
+
+		FileRepositoryBuilder builder = new FileRepositoryBuilder();
+		builder.setWorkTree(dir);
+		builder.setMustExist(true);
+		FileRepository repo2 = builder.build();
+
+		assertEquals(repo1.getDirectory(), repo2.getDirectory());
+		assertEquals(dir, repo2.getWorkTree());
+	}
+
+	@Test
+	public void scanWithGitDirRef() throws Exception {
+		FileRepository repo1 = createWorkRepository();
+		File dir = createTempDirectory("dir");
+		File dotGit = new File(dir, Constants.DOT_GIT);
+		new FileWriter(dotGit).append(
+				"gitdir: " + repo1.getDirectory().getAbsolutePath()).close();
+		FileRepositoryBuilder builder = new FileRepositoryBuilder();
+
+		builder.setWorkTree(dir);
+		builder.findGitDir(dir);
+		assertEquals(repo1.getDirectory(), builder.getGitDir());
+		builder.setMustExist(true);
+		FileRepository repo2 = builder.build();
+
+		assertEquals(repo1.getDirectory(), repo2.getDirectory());
+		assertEquals(dir, repo2.getWorkTree());
 	}
 }
