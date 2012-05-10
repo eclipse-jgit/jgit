@@ -1248,6 +1248,39 @@ public abstract class Repository {
 	}
 
 	/**
+	 * Write original HEAD commit into $GIT_DIR/ORIG_HEAD.
+	 *
+	 * @param head
+	 *            an object id of the original HEAD commit or <code>null</code>
+	 *            to delete the file
+	 * @throws IOException
+	 */
+	public void writeOrigHead(ObjectId head) throws IOException {
+		List<ObjectId> heads = head != null ? Collections.singletonList(head)
+				: null;
+		writeHeadsFile(heads, Constants.ORIG_HEAD);
+	}
+
+	/**
+	 * Return the information stored in the file $GIT_DIR/ORIG_HEAD.
+	 *
+	 * @return object id from ORIG_HEAD file or {@code null} if this file
+	 *         doesn't exist. Also if the file exists but is empty {@code null}
+	 *         will be returned
+	 * @throws IOException
+	 * @throws NoWorkTreeException
+	 *             if this is bare, which implies it has no working directory.
+	 *             See {@link #isBare()}.
+	 */
+	public ObjectId readOrigHead() throws IOException, NoWorkTreeException {
+		if (isBare() || getDirectory() == null)
+			throw new NoWorkTreeException();
+
+		byte[] raw = readGitDirectoryFile(Constants.ORIG_HEAD);
+		return raw != null ? ObjectId.fromString(raw, 0) : null;
+	}
+
+	/**
 	 * Read a file from the git directory.
 	 *
 	 * @param filename

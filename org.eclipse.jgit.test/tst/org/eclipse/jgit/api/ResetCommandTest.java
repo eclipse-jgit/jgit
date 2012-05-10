@@ -156,6 +156,7 @@ public class ResetCommandTest extends RepositoryTestCase {
 		assertFalse(inHead(fileInIndexPath));
 		assertFalse(inIndex(indexFile.getName()));
 		assertReflog(prevHead, head);
+		assertEquals(prevHead, db.readOrigHead());
 	}
 
 	@Test
@@ -194,6 +195,7 @@ public class ResetCommandTest extends RepositoryTestCase {
 		assertFalse(inHead(fileInIndexPath));
 		assertTrue(inIndex(indexFile.getName()));
 		assertReflog(prevHead, head);
+		assertEquals(prevHead, db.readOrigHead());
 	}
 
 	@Test
@@ -217,6 +219,7 @@ public class ResetCommandTest extends RepositoryTestCase {
 		assertFalse(inIndex(indexFile.getName()));
 
 		assertReflog(prevHead, head);
+		assertEquals(prevHead, db.readOrigHead());
 	}
 
 	@Test
