@@ -571,8 +571,23 @@ public class ResolveMerger extends ThreeWayMerger {
 		final int modeO = tw.getRawMode(T_OURS);
 
 		// Worktree entry has to match ours to be considered clean
-		final boolean isDirty = nonTree(modeF)
-				&& !(modeO == modeF && tw.idEqual(T_FILE, T_OURS));
+		final boolean isDirty;
+		if (nonTree(modeF)) {
+			boolean sameMode = modeF == modeO;
+
+			// Consider the modes the equal if both are files but ours is an
+			// executable file and the working tree file could never be
+			// executable since the repository's filesystem does not support
+			// it
+			if (!sameMode)
+				sameMode = (FileMode.TYPE_MASK & modeF) == FileMode.TYPE_FILE
+						&& FileMode.EXECUTABLE_FILE.equals(modeO)
+						&& !db.getFS().supportsExecute();
+
+			isDirty = !sameMode || !tw.idEqual(T_FILE, T_OURS);
+		} else
+			isDirty = false;
+
 		if (isDirty)
 			failingPaths.put(tw.getPathString(),
 					MergeFailureReason.DIRTY_WORKTREE);

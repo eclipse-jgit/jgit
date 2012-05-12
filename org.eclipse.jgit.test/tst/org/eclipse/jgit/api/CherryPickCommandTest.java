@@ -44,6 +44,7 @@ package org.eclipse.jgit.api;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
@@ -54,12 +55,16 @@ import org.eclipse.jgit.api.CherryPickResult.CherryPickStatus;
 import org.eclipse.jgit.api.ResetCommand.ResetType;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
+import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.RepositoryState;
 import org.eclipse.jgit.lib.RepositoryTestCase;
 import org.eclipse.jgit.merge.ResolveMerger.MergeFailureReason;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 import org.eclipse.jgit.storage.file.ReflogReader;
+import org.eclipse.jgit.util.FS;
 import org.junit.Test;
 
 /**
@@ -181,6 +186,75 @@ public class CherryPickCommandTest extends RepositoryTestCase {
 		assertEquals(RepositoryState.SAFE, db.getRepositoryState());
 		assertFalse(new File(db.getDirectory(), Constants.CHERRY_PICK_HEAD)
 				.exists());
+	}
+
+	@Test
+	public void testCherryPickOverExecutableChangeOnNonExectuableFileSystem()
+			throws Exception {
+		Git git = new Git(db);
+		File file = writeTrashFile("test.txt", "a");
+		assertNotNull(git.add().addFilepattern("test.txt").call());
+		assertNotNull(git.commit().setMessage("commit1").call());
+
+		assertNotNull(git.checkout().setCreateBranch(true).setName("a").call());
+
+		writeTrashFile("test.txt", "b");
+		assertNotNull(git.add().addFilepattern("test.txt").call());
+		RevCommit commit2 = git.commit().setMessage("commit2").call();
+		assertNotNull(commit2);
+
+		assertNotNull(git.checkout().setName(Constants.MASTER).call());
+
+		DirCache cache = db.lockDirCache();
+		cache.getEntry("test.txt").setFileMode(FileMode.EXECUTABLE_FILE);
+		cache.write();
+		assertTrue(cache.commit());
+		cache.unlock();
+		db.getFS().setExecute(file, true);
+
+		assertNotNull(git.commit().setMessage("commit3").call());
+
+		final FS baseFs = db.getFS();
+		FS nonExecutableFs;
+		if (!baseFs.supportsExecute())
+			nonExecutableFs = baseFs;
+		else
+			nonExecutableFs = new FS() {
+
+				public boolean supportsExecute() {
+					return false;
+				}
+
+				public boolean setExecute(File f, boolean canExec) {
+					return false;
+				}
+
+				public ProcessBuilder runInShell(String cmd, String[] args) {
+					return baseFs.runInShell(cmd, args);
+				}
+
+				public boolean retryFailedLockFileCommit() {
+					return baseFs.retryFailedLockFileCommit();
+				}
+
+				public FS newInstance() {
+					return this;
+				}
+
+				protected File discoverGitPrefix() {
+					return null;
+				}
+
+				public boolean canExecute(File f) {
+					return false;
+				}
+			};
+
+		git = Git.wrap(new FileRepositoryBuilder().setGitDir(db.getDirectory())
+				.setFS(nonExecutableFs).setMustExist(true).build());
+		CherryPickResult result = git.cherryPick().include(commit2).call();
+		assertNotNull(result);
+		assertEquals(CherryPickStatus.OK, result.getStatus());
 	}
 
 	private RevCommit prepareCherryPick(final Git git) throws Exception {
