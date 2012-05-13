@@ -68,11 +68,84 @@ public class CLIRepositoryTestCase extends LocalDiskRepositoryTestCase {
 		trash = db.getWorkTree();
 	}
 
+	/**
+	 * Execute the given commands and return the standard output.
+	 *
+	 * @param cmds
+	 *            The commands to execute
+	 * @return the resulting standard output of the commands
+	 * @throws Exception
+	 */
 	protected String[] execute(String... cmds) throws Exception {
 		List<String> result = new ArrayList<String>(cmds.length);
 		for (String cmd : cmds)
 			result.addAll(CLIGitCommand.execute(cmd, db));
 		return result.toArray(new String[0]);
+	}
+
+	/**
+	 * Execute the given commands and print the output to stdout.
+	 *
+	 * @param cmds
+	 *            The commands to execute
+	 * @return the result of the command, see {@link #execute(String...)}
+	 * @throws Exception
+	 */
+	protected String[] executeAndPrint(String... cmds) throws Exception {
+		String[] lines = execute(cmds);
+		for (String line : lines) {
+			System.out.println(line);
+		}
+		return lines;
+	}
+
+	/**
+	 * Execute the given commands and print the code to test output.
+	 *
+	 * @param cmds
+	 *            The commands to execute
+	 * @return the result of the command, see {@link #execute(String...)}
+	 * @throws Exception
+	 */
+	protected String[] executeAndPrintTestCode(String... cmds) throws Exception {
+		String[] lines = execute(cmds);
+		String cmdString = cmdString(cmds);
+		if (lines.length == 0)
+			System.out.println("\t\tassertTrue(execute(" + cmdString
+					+ ").length == 0);");
+		else {
+			System.out.println("\t\tassertArrayEquals(new String[] { //");
+			System.out.print("\t\t\t\t\t\t\"" + escapeJava(lines[0]));
+			for (int i=1; i<lines.length; i++) {
+				System.out.println("\", //");
+				System.out.print("\t\t\t\t\t\t\"" + escapeJava(lines[i]));
+			}
+			System.out.println("\" //");
+			System.out.println("\t\t\t\t}, execute(" + cmdString + ")); //");
+		}
+		return lines;
+	}
+
+	protected String cmdString(String... cmds) {
+		if (cmds.length == 0)
+			return "";
+		else if (cmds.length == 1)
+			return "\"" + escapeJava(cmds[0]) + "\"";
+		else {
+			StringBuffer sb = new StringBuffer(cmdString(cmds[0]));
+			for (int i=1; i<cmds.length; i++) {
+				sb.append(", ");
+				sb.append(cmdString(cmds[i]));
+			}
+			return sb.toString();
+		}
+	}
+
+	protected String escapeJava(String line) {
+		// very crude implementation but ok for generating test code
+		return line.replaceAll("\"", "\\\\\"") //
+				.replaceAll("\\\\", "\\\\\\")
+				.replaceAll("\t", "\\\\t");
 	}
 
 	protected File writeTrashFile(final String name, final String data)
