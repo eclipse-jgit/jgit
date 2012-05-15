@@ -120,7 +120,8 @@ public abstract class JschConfigSessionFactory extends SshSessionFactory {
 					// if authentication failed maybe credentials changed at the
 					// remote end therefore reset credentials and retry
 					if (credentialsProvider != null && e.getCause() == null
-							&& e.getMessage().equals("Auth fail")) {
+							&& e.getMessage().equals("Auth fail")
+							&& retries < 3) {
 						credentialsProvider.reset(uri);
 						session = createSession(credentialsProvider, fs, user,
 								pass, host, port, hc);
