@@ -73,6 +73,9 @@ class Commit extends TextBuiltin {
 	@Option(name = "--amend", usage = "usage_CommitAmend")
 	private boolean amend;
 
+	@Option(name = "--allow-empty", usage = "usage_CommitAllowEmpty")
+	private boolean allowEmpty;
+
 	@Argument(metaVar = "metaVar_commitPaths", usage = "usage_CommitPaths")
 	private List<String> paths = new ArrayList<String>();
 
@@ -92,6 +95,7 @@ class Commit extends TextBuiltin {
 			for (String p : paths)
 				commitCmd.setOnly(p);
 		commitCmd.setAmend(amend);
+		commitCmd.setAllowEmpty(allowEmpty);
 		commitCmd.setAll(all);
 		Ref head = db.getRef(Constants.HEAD);
 		RevCommit commit = commitCmd.call();

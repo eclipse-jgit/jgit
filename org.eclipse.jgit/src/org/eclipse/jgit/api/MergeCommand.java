@@ -223,7 +223,8 @@ public class MergeCommand extends GitCommand<MergeResult> {
 					dco.checkout();
 
 					RevCommit newHead = new Git(getRepository()).commit()
-							.setReflogComment(refLogMessage.toString()).call();
+							.setReflogComment(refLogMessage.toString())
+							.setAllowEmpty(true).call();
 					return new MergeResult(newHead.getId(),
 							null, new ObjectId[] {
 									headCommit.getId(), srcCommit.getId() },

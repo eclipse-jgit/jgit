@@ -124,7 +124,8 @@ public class PullCommandTest extends RepositoryTestCase {
 		writeToFile(sourceFile, "Source change");
 		source.add().addFilepattern("SomeFile.txt");
 		RevCommit sourceCommit = source.commit()
-				.setMessage("Source change in remote").call();
+				.setMessage("Source change in remote").setAllowEmpty(true)
+				.call();
 
 		File targetFile2 = new File(dbTarget.getWorkTree(), "OtherFile.txt");
 		writeToFile(targetFile2, "Unconflicting change");

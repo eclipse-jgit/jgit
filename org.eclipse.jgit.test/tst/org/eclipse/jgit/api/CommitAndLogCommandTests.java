@@ -83,11 +83,13 @@ public class CommitAndLogCommandTests extends RepositoryTestCase {
 
 		// do 4 commits
 		Git git = new Git(db);
-		git.commit().setMessage("initial commit").call();
-		git.commit().setMessage("second commit").setCommitter(committer).call();
-		git.commit().setMessage("third commit").setAuthor(author).call();
-		git.commit().setMessage("fourth commit").setAuthor(author)
+		git.commit().setMessage("initial commit").setAllowEmpty(true).call();
+		git.commit().setMessage("second commit").setAllowEmpty(true)
 				.setCommitter(committer).call();
+		git.commit().setMessage("third commit").setAllowEmpty(true)
+				.setAuthor(author).call();
+		git.commit().setMessage("fourth commit").setAllowEmpty(true)
+				.setAuthor(author).setCommitter(committer).call();
 		Iterable<RevCommit> commits = git.log().call();
 
 		// check that all commits came in correctly
@@ -191,7 +193,7 @@ public class CommitAndLogCommandTests extends RepositoryTestCase {
 			WrongRepositoryStateException {
 		Git git = new Git(db);
 		CommitCommand commitCmd = git.commit();
-		commitCmd.setMessage("initial commit").call();
+		commitCmd.setMessage("initial commit").setAllowEmpty(true).call();
 		try {
 			// check that setters can't be called after invocation
 			commitCmd.setAuthor(author);
@@ -215,19 +217,21 @@ public class CommitAndLogCommandTests extends RepositoryTestCase {
 			NoMessageException, ConcurrentRefUpdateException,
 			JGitInternalException, WrongRepositoryStateException {
 		Git git = new Git(db);
-		git.commit().setMessage("initial commit").call();
+		git.commit().setMessage("initial commit").setAllowEmpty(true).call();
 		RefUpdate r = db.updateRef("refs/heads/side");
 		r.setNewObjectId(db.resolve(Constants.HEAD));
 		assertEquals(r.forceUpdate(), RefUpdate.Result.NEW);
-		RevCommit second = git.commit().setMessage("second commit").setCommitter(committer).call();
+		RevCommit second = git.commit().setMessage("second commit")
+				.setCommitter(committer).setAllowEmpty(true).call();
 		db.updateRef(Constants.HEAD).link("refs/heads/side");
-		RevCommit firstSide = git.commit().setMessage("first side commit").setAuthor(author).call();
+		RevCommit firstSide = git.commit().setMessage("first side commit")
+				.setAuthor(author).setAllowEmpty(true).call();
 
 		write(new File(db.getDirectory(), Constants.MERGE_HEAD), ObjectId
 				.toString(db.resolve("refs/heads/master")));
 		write(new File(db.getDirectory(), Constants.MERGE_MSG), "merging");
 
-		RevCommit commit = git.commit().call();
+		RevCommit commit = git.commit().setAllowEmpty(true).call();
 		RevCommit[] parents = commit.getParents();
 		assertEquals(parents[0], firstSide);
 		assertEquals(parents[1], second);
@@ -255,7 +259,8 @@ public class CommitAndLogCommandTests extends RepositoryTestCase {
 		writer = new PrintWriter(file);
 		writer.print("content2");
 		writer.close();
-		commit = git.commit().setMessage("second commit").call();
+		commit = git.commit().setMessage("second commit").setAllowEmpty(true)
+				.call();
 		tw = TreeWalk.forPath(db, "a.txt", commit.getTree());
 		assertEquals("6b584e8ece562ebffc15d38808cd6b98fc3d97ea",
 				tw.getObjectId(0).getName());
@@ -304,13 +309,14 @@ public class CommitAndLogCommandTests extends RepositoryTestCase {
 			IncorrectObjectTypeException, MissingObjectException {
 		// do 4 commits and set the range to the second and fourth one
 		Git git = new Git(db);
-		git.commit().setMessage("first commit").call();
+		git.commit().setMessage("first commit").setAllowEmpty(true).call();
 		RevCommit second = git.commit().setMessage("second commit")
-				.setCommitter(committer).call();
-		git.commit().setMessage("third commit").setAuthor(author).call();
-		RevCommit last = git.commit().setMessage("fourth commit").setAuthor(
-				author)
-				.setCommitter(committer).call();
+				.setCommitter(committer).setAllowEmpty(true).call();
+		git.commit().setMessage("third commit").setAuthor(author)
+				.setAllowEmpty(true).call();
+		RevCommit last = git.commit().setMessage("fourth commit")
+				.setAuthor(author).setCommitter(committer).setAllowEmpty(true)
+				.call();
 		Iterable<RevCommit> commits = git.log().addRange(second.getId(),
 				last.getId()).call();
 
@@ -338,8 +344,9 @@ public class CommitAndLogCommandTests extends RepositoryTestCase {
 			ConcurrentRefUpdateException, JGitInternalException,
 			WrongRepositoryStateException, IOException {
 		Git git = new Git(db);
-		git.commit().setMessage("first comit").call(); // typo
-		git.commit().setAmend(true).setMessage("first commit").call();
+		git.commit().setMessage("first comit").setAllowEmpty(true).call(); // typo
+		git.commit().setAmend(true).setMessage("first commit")
+				.setAllowEmpty(true).call();
 
 		Iterable<RevCommit> commits = git.log().call();
 		int c = 0;
@@ -368,7 +375,7 @@ public class CommitAndLogCommandTests extends RepositoryTestCase {
 		String messageFooter = "Some foooter lines\nAnother footer line\n";
 		RevCommit commit = git.commit().setMessage(
 				messageHeader + messageFooter)
-				.setInsertChangeId(true).call();
+				.setInsertChangeId(true).setAllowEmpty(true).call();
 		// we should find a real change id (at the end of the file)
 		byte[] chars = commit.getFullMessage().getBytes();
 		int lastLineBegin = RawParseUtils.prevLF(chars, chars.length - 2);
@@ -380,7 +387,7 @@ public class CommitAndLogCommandTests extends RepositoryTestCase {
 
 		commit = git.commit().setMessage(
 				messageHeader + changeIdTemplate + messageFooter)
-				.setInsertChangeId(true).call();
+				.setInsertChangeId(true).setAllowEmpty(true).call();
 		// we should find a real change id (in the line as dictated by the
 		// template)
 		chars = commit.getFullMessage().getBytes();
@@ -399,7 +406,7 @@ public class CommitAndLogCommandTests extends RepositoryTestCase {
 
 		commit = git.commit().setMessage(
 				messageHeader + changeIdTemplate + messageFooter)
-				.setInsertChangeId(false).call();
+				.setInsertChangeId(false).setAllowEmpty(true).call();
 		// we should find the untouched template
 		chars = commit.getFullMessage().getBytes();
 		lineStart = 0;
