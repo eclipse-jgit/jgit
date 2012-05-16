@@ -80,6 +80,14 @@ public class PullCommand extends TransportCommand<PullCommand, PullResult> {
 
 	private ProgressMonitor monitor = NullProgressMonitor.INSTANCE;
 
+	private PullRebaseMode pullRebaseMode = PullRebaseMode.USE_CONFIG;
+
+	private enum PullRebaseMode {
+		USE_CONFIG,
+		REBASE,
+		NO_REBASE
+	}
+
 	/**
 	 * @param repo
 	 */
@@ -94,6 +102,28 @@ public class PullCommand extends TransportCommand<PullCommand, PullResult> {
 	 */
 	public PullCommand setProgressMonitor(ProgressMonitor monitor) {
 		this.monitor = monitor;
+		return this;
+	}
+
+	/**
+	 * Set if rebase should be used after fetching. If set to true, rebase is
+	 * used instead of merge. This is equivalent to --rebase on the command line.
+	 * <p/>
+	 * If set to false, merge is used after fetching, overriding the configuration
+	 * file. This is equivalent to --no-rebase on the command line.
+	 * <p/>
+	 * This setting overrides the settings in the configuration file.
+	 * By default, the setting in the repository configuration file is used.
+	 * <p/>
+	 * A branch can be configured to use rebase by default.
+	 * See branch.[name].rebase and branch.autosetuprebase.
+	 *
+	 * @param useRebase
+	 * @return {@code this}
+	 */
+	public PullCommand setRebase(boolean useRebase) {
+		checkCallable();
+		pullRebaseMode = useRebase ? PullRebaseMode.REBASE : PullRebaseMode.NO_REBASE;
 		return this;
 	}
 
@@ -162,10 +192,24 @@ public class PullCommand extends TransportCommand<PullCommand, PullResult> {
 		String remoteBranchName = repoConfig.getString(
 				ConfigConstants.CONFIG_BRANCH_SECTION, branchName,
 				ConfigConstants.CONFIG_KEY_MERGE);
-		// check if the branch is configured for pull-rebase
-		boolean doRebase = repoConfig.getBoolean(
-				ConfigConstants.CONFIG_BRANCH_SECTION, branchName,
-				ConfigConstants.CONFIG_KEY_REBASE, false);
+
+        // determines whether rebase should be used after fetching
+        boolean doRebase = false;
+        switch (pullRebaseMode) {
+            case REBASE:
+                doRebase = true;
+                break;
+            case NO_REBASE:
+                doRebase = false;
+                break;
+            case USE_CONFIG:
+            default:
+                // check if the branch is configured for pull-rebase
+                doRebase = repoConfig.getBoolean(
+                        ConfigConstants.CONFIG_BRANCH_SECTION, branchName,
+                        ConfigConstants.CONFIG_KEY_REBASE, false);
+                break;
+        }
 
 		if (remoteBranchName == null) {
 			String missingKey = ConfigConstants.CONFIG_BRANCH_SECTION + DOT

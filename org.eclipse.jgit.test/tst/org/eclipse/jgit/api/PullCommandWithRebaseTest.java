@@ -44,6 +44,7 @@ package org.eclipse.jgit.api;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
@@ -58,11 +59,14 @@ import org.eclipse.jgit.api.MergeResult.MergeStatus;
 import org.eclipse.jgit.api.RebaseResult.Status;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryState;
 import org.eclipse.jgit.lib.RepositoryTestCase;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.merge.MergeStrategy;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.storage.file.FileRepository;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteConfig;
@@ -224,6 +228,72 @@ public class PullCommandWithRebaseTest extends RepositoryTestCase {
 		assertFileContentsEqual(targetFile, result);
 		assertEquals(RepositoryState.REBASING_INTERACTIVE, target
 				.getRepository().getRepositoryState());
+	}
+
+    @Test
+	public void testPullFastForwardWithLocalCommitAndRebaseFlagSet() throws Exception {
+		final String SOURCE_COMMIT_MESSAGE = "Source commit message for rebase flag test";
+		final String TARGET_COMMIT_MESSAGE = "Target commit message for rebase flag test";
+
+		assertFalse(SOURCE_COMMIT_MESSAGE.equals(TARGET_COMMIT_MESSAGE));
+
+		final String SOURCE_FILE_CONTENTS = "Source change";
+		final String NEW_FILE_CONTENTS = "New file from target";
+
+		// make sure the config for target says we should pull with merge
+		// we will override this later with the setRebase method
+		StoredConfig targetConfig = dbTarget.getConfig();
+		targetConfig.setBoolean("branch", "master", "rebase", false);
+		targetConfig.save();
+
+		// create commit in source
+		writeToFile(sourceFile, SOURCE_FILE_CONTENTS);
+		source.add().addFilepattern(sourceFile.getName()).call();
+		source.commit().setMessage(SOURCE_COMMIT_MESSAGE).call();
+
+		// create commit in target, not conflicting with the new commit in source
+		File newFile = new File(dbTarget.getWorkTree().getPath() + "/newFile.txt");
+		writeToFile(newFile, NEW_FILE_CONTENTS);
+		target.add().addFilepattern(newFile.getName()).call();
+		target.commit().setMessage(TARGET_COMMIT_MESSAGE).call();
+
+		// verify that rebase is set to false in the config
+		assertFalse(targetConfig.getBoolean("branch", "master", "rebase", true));
+
+		// pull with rebase - local commit in target should be on top
+		PullResult pullResult = target.pull().setRebase(true).call();
+
+		// make sure pull is considered successful
+		assertTrue(pullResult.isSuccessful());
+
+		// verify rebase result is ok
+		RebaseResult rebaseResult = pullResult.getRebaseResult();
+		assertNotNull(rebaseResult);
+		assertNull(rebaseResult.getFailingPaths());
+		assertEquals(Status.OK, rebaseResult.getStatus());
+
+		// Get the HEAD and HEAD~1 commits
+		Repository targetRepo = target.getRepository();
+		RevWalk revWalk = new RevWalk(targetRepo);
+		ObjectId headId = targetRepo.resolve(Constants.HEAD);
+		RevCommit root = revWalk.parseCommit(headId);
+		revWalk.markStart(root);
+		// HEAD
+		RevCommit head = revWalk.next();
+		// HEAD~1
+		RevCommit beforeHead = revWalk.next();
+
+		// verify the commit message on the HEAD commit
+		assertEquals(TARGET_COMMIT_MESSAGE, head.getFullMessage());
+		// verify the commit just before HEAD
+		assertEquals(SOURCE_COMMIT_MESSAGE, beforeHead.getFullMessage());
+
+		// verify file states
+		assertFileContentsEqual(sourceFile, SOURCE_FILE_CONTENTS);
+		assertFileContentsEqual(newFile, NEW_FILE_CONTENTS);
+		// verify repository state
+		assertEquals(RepositoryState.SAFE, target
+			.getRepository().getRepositoryState());
 	}
 
 	@Override
