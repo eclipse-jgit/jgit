@@ -102,9 +102,11 @@ public class CommitCommand extends GitCommand<RevCommit> {
 
 	private List<String> only = new ArrayList<String>();
 
-	private boolean[] onlyProcessed;
+    private boolean[] onlyProcessed;
 
-	private boolean amend;
+    private boolean amend;
+
+    private boolean allowEmpty;
 
 	private boolean insertChangeId;
 
@@ -158,8 +160,8 @@ public class CommitCommand extends GitCommand<RevCommit> {
 		processOptions(state);
 
 		try {
+            Git git = new Git(repo);
 			if (all && !repo.isBare() && repo.getWorkTree() != null) {
-				Git git = new Git(repo);
 				try {
 					git.add()
 							.addFilepattern(".")
@@ -175,9 +177,20 @@ public class CommitCommand extends GitCommand<RevCommit> {
 				throw new NoHeadException(
 						JGitText.get().commitOnRepoWithoutHEADCurrentlyNotSupported);
 
-			// determine the current HEAD and the commit it is referring to
+            // Check if there are any files to commit
+            if (!allowEmpty) {
+                // files could have been added to only list, in that case the commit is not empty
+                if (only.isEmpty()) {
+                    Status status = git.status().call();
+                    if ((status.getAdded().size() + status.getChanged().size() + status.getRemoved().size()) == 0) {
+                        throw new JGitInternalException(JGitText.get().emptyCommit);
+                    }
+                }
+            }
+
+            // determine the current HEAD and the commit it is referring to
 			ObjectId headId = repo.resolve(Constants.HEAD + "^{commit}");
-			if (headId != null)
+			if (headId != null) {
 				if (amend) {
 					RevCommit previousCommit = new RevWalk(repo)
 							.parseCommit(headId);
@@ -187,6 +200,7 @@ public class CommitCommand extends GitCommand<RevCommit> {
 				} else {
 					parents.add(0, headId);
 				}
+            }
 
 			// lock the index
 			DirCache index = repo.lockDirCache();
@@ -635,7 +649,21 @@ public class CommitCommand extends GitCommand<RevCommit> {
 		return this;
 	}
 
-	/**
+    /**
+     * Used to allow an empty commit, i.e. a commit without any changes added.
+     * This is equivalent to --allow-empty on the command line.
+     *
+     * Default is false.
+     *
+     * @param allowEmpty
+     * @return {@code this}
+     */
+    public CommitCommand setAllowEmpty(boolean allowEmpty) {
+        this.allowEmpty = allowEmpty;
+        return this;
+    }
+
+    /**
 	 * Commit dedicated path only
 	 *
 	 * This method can be called several times to add multiple paths. Full file
