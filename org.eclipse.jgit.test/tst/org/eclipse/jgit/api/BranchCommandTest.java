@@ -59,6 +59,7 @@ import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.api.errors.NotMergedException;
 import org.eclipse.jgit.api.errors.RefAlreadyExistsException;
 import org.eclipse.jgit.api.errors.RefNotFoundException;
+import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
@@ -87,7 +88,7 @@ public class BranchCommandTest extends RepositoryTestCase {
 		super.setUp();
 		git = new Git(db);
 		// checkout master
-		git.commit().setMessage("initial commit").call();
+		git.commit().setMessage("initial commit").setAllowEmpty(true).call();
 		// commit something
 		writeTrashFile("Test.txt", "Hello world");
 		git.add().addFilepattern("Test.txt").call();
@@ -106,10 +107,12 @@ public class BranchCommandTest extends RepositoryTestCase {
 		Repository remoteRepository = createWorkRepository();
 		Git remoteGit = new Git(remoteRepository);
 		// commit something
-		writeTrashFile("Test.txt", "Hello world");
+		JGitTestUtil
+				.writeTrashFile(remoteRepository, "Test.txt", "Hello world");
 		remoteGit.add().addFilepattern("Test.txt").call();
 		initialCommit = remoteGit.commit().setMessage("Initial commit").call();
-		writeTrashFile("Test.txt", "Some change");
+		JGitTestUtil
+				.writeTrashFile(remoteRepository, "Test.txt", "Some change");
 		remoteGit.add().addFilepattern("Test.txt").call();
 		secondCommit = remoteGit.commit().setMessage("Second commit").call();
 		// create a master branch
