@@ -103,13 +103,13 @@ public class BranchCommandTest extends RepositoryTestCase {
 	}
 
 	private Git setUpRepoWithRemote() throws Exception {
-		Repository remoteRepository = createWorkRepository();
+		FileRepository remoteRepository = createWorkRepository();
 		Git remoteGit = new Git(remoteRepository);
 		// commit something
-		writeTrashFile("Test.txt", "Hello world");
-		remoteGit.add().addFilepattern("Test.txt").call();
+        JGitTestUtil.writeTrashFile(remoteRepository, "Test.txt", "Hello world");
+        remoteGit.add().addFilepattern("Test.txt").call();
 		initialCommit = remoteGit.commit().setMessage("Initial commit").call();
-		writeTrashFile("Test.txt", "Some change");
+        JGitTestUtil.writeTrashFile(remoteRepository, "Test.txt", "Some change");
 		remoteGit.add().addFilepattern("Test.txt").call();
 		secondCommit = remoteGit.commit().setMessage("Second commit").call();
 		// create a master branch
