@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOHn///zo\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-05-16T21:47:38Z",
+      "side": 1,
+      "message": "you don\u0027t need to explain that you added a new method and test as this is obvious from the commit\u0027s diff",
+      "revId": "4c294d7ff8ec1c18dcde2cc44e6f9e28ecfd7e82",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn///zk\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/PullCommandWithRebaseTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-05-16T21:47:38Z",
+      "side": 1,
+      "message": "style nit: we don\u0027t use wildcards in import statements",
+      "revId": "4c294d7ff8ec1c18dcde2cc44e6f9e28ecfd7e82",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn///zg\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/PullCommandWithRebaseTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-05-16T21:47:38Z",
+      "side": 1,
+      "message": "style nit: avoid comments which repeat what should be obvious from the code, first try to make the code itself more readable, if this is too hard add a comment",
+      "revId": "4c294d7ff8ec1c18dcde2cc44e6f9e28ecfd7e82",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn///zc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PullCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-05-16T21:47:38Z",
+      "side": 1,
+      "message": "style nit: we don\u0027t use curly braces around single line statements",
+      "revId": "4c294d7ff8ec1c18dcde2cc44e6f9e28ecfd7e82",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn///zU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PullCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-05-16T21:47:38Z",
+      "side": 1,
+      "message": "I think this comment isn\u0027t necessary",
+      "revId": "4c294d7ff8ec1c18dcde2cc44e6f9e28ecfd7e82",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn///zE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PullCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-05-16T21:47:38Z",
+      "side": 1,
+      "message": "I think this comment isn\u0027t necessary",
+      "revId": "4c294d7ff8ec1c18dcde2cc44e6f9e28ecfd7e82",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
