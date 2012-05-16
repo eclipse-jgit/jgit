@@ -42,14 +42,12 @@
  */
 package org.eclipse.jgit.api;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
 import java.io.File;
 import java.util.List;
 
+import org.eclipse.jgit.api.errors.*;
 import org.eclipse.jgit.diff.DiffEntry;
+import org.eclipse.jgit.errors.UnmergedPathException;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
@@ -65,6 +63,8 @@ import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
 import org.eclipse.jgit.util.FS;
 import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 /**
  * Unit tests of {@link CommitCommand}
@@ -258,4 +258,26 @@ public class CommitCommandTest extends RepositoryTestCase {
 		assertEquals(path, subDiff.getNewPath());
 		assertEquals(path, subDiff.getOldPath());
 	}
+
+    @Test(expected = JGitInternalException.class)
+    public void shouldNotBePossibleToCreateEmptyCommitByDefault() throws Exception {
+        Git git = new Git(db);
+        git.commit().setMessage("This is an empty commit!").call();
+    }
+
+    @Test(expected = JGitInternalException.class)
+    public void shouldNotBePossibleToCreateEmptyCommitIfAllowEmptyIsSetToFalse() throws Exception {
+        Git git = new Git(db);
+        git.commit().setMessage("This is an empty commit!").setAllowEmpty(false).call();
+    }
+
+    @Test
+    public void shouldBePossibleToCreateEmptyCommitIfAllowEmptyIsSetToTrue() throws Exception {
+        final String COMMIT_MESSAGE = "This is an empty commit!";
+        Git git = new Git(db);
+        assertTrue(git.status().call().isClean());
+        RevCommit emptyCommit = git.commit().setMessage(COMMIT_MESSAGE).setAllowEmpty(true).call();
+
+        assertEquals(COMMIT_MESSAGE, emptyCommit.getFullMessage());
+    }
 }
