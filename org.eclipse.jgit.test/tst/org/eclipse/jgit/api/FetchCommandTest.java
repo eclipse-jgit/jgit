@@ -78,14 +78,14 @@ public class FetchCommandTest extends RepositoryTestCase {
 		config.save();
 
 		// create some refs via commits and tag
-		RevCommit commit = git2.commit().setMessage("initial commit").call();
+		RevCommit commit = git2.commit().setMessage("initial commit")
+				.setAllowEmpty(true).call();
 		Ref tagRef = git2.tag().setName("tag").call();
 
 		Git git1 = new Git(db);
 
 		RefSpec spec = new RefSpec("refs/heads/master:refs/heads/x");
-		git1.fetch().setRemote("test").setRefSpecs(spec)
-				.call();
+		git1.fetch().setRemote("test").setRefSpecs(spec).call();
 
 		assertEquals(commit.getId(),
 				db.resolve(commit.getId().getName() + "^{commit}"));

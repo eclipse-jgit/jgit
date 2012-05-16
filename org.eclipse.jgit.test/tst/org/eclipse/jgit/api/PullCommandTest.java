@@ -89,8 +89,8 @@ public class PullCommandTest extends RepositoryTestCase {
 		PullResult res = target.pull().call();
 		// nothing to update since we don't have different data yet
 		assertTrue(res.getFetchResult().getTrackingRefUpdates().isEmpty());
-		assertTrue(res.getMergeResult().getMergeStatus().equals(
-				MergeStatus.ALREADY_UP_TO_DATE));
+		assertTrue(res.getMergeResult().getMergeStatus()
+				.equals(MergeStatus.ALREADY_UP_TO_DATE));
 
 		assertFileContentsEqual(targetFile, "Hello world");
 
@@ -124,7 +124,8 @@ public class PullCommandTest extends RepositoryTestCase {
 		writeToFile(sourceFile, "Source change");
 		source.add().addFilepattern("SomeFile.txt");
 		RevCommit sourceCommit = source.commit()
-				.setMessage("Source change in remote").call();
+				.setMessage("Source change in remote").setAllowEmpty(true)
+				.call();
 
 		File targetFile2 = new File(dbTarget.getWorkTree(), "OtherFile.txt");
 		writeToFile(targetFile2, "Unconflicting change");
@@ -149,8 +150,8 @@ public class PullCommandTest extends RepositoryTestCase {
 		PullResult res = target.pull().call();
 		// nothing to update since we don't have different data yet
 		assertTrue(res.getFetchResult().getTrackingRefUpdates().isEmpty());
-		assertTrue(res.getMergeResult().getMergeStatus().equals(
-				MergeStatus.ALREADY_UP_TO_DATE));
+		assertTrue(res.getMergeResult().getMergeStatus()
+				.equals(MergeStatus.ALREADY_UP_TO_DATE));
 
 		assertFileContentsEqual(targetFile, "Hello world");
 
@@ -167,8 +168,8 @@ public class PullCommandTest extends RepositoryTestCase {
 		res = target.pull().call();
 
 		String sourceChangeString = "Source change\n>>>>>>> branch 'master' of "
-				+ target.getRepository().getConfig().getString("remote",
-						"origin", "url");
+				+ target.getRepository().getConfig()
+						.getString("remote", "origin", "url");
 
 		assertFalse(res.getFetchResult().getTrackingRefUpdates().isEmpty());
 		assertEquals(res.getMergeResult().getMergeStatus(),
@@ -182,29 +183,29 @@ public class PullCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void testPullLocalConflict() throws Exception {
-		target.branchCreate().setName("basedOnMaster").setStartPoint(
-				"refs/heads/master").setUpstreamMode(SetupUpstreamMode.TRACK)
-				.call();
-		target.getRepository().updateRef(Constants.HEAD).link(
-				"refs/heads/basedOnMaster");
+		target.branchCreate().setName("basedOnMaster")
+				.setStartPoint("refs/heads/master")
+				.setUpstreamMode(SetupUpstreamMode.TRACK).call();
+		target.getRepository().updateRef(Constants.HEAD)
+				.link("refs/heads/basedOnMaster");
 		PullResult res = target.pull().call();
 		// nothing to update since we don't have different data yet
 		assertNull(res.getFetchResult());
-		assertTrue(res.getMergeResult().getMergeStatus().equals(
-				MergeStatus.ALREADY_UP_TO_DATE));
+		assertTrue(res.getMergeResult().getMergeStatus()
+				.equals(MergeStatus.ALREADY_UP_TO_DATE));
 
 		assertFileContentsEqual(targetFile, "Hello world");
 
 		// change the file in master
-		target.getRepository().updateRef(Constants.HEAD).link(
-				"refs/heads/master");
+		target.getRepository().updateRef(Constants.HEAD)
+				.link("refs/heads/master");
 		writeToFile(targetFile, "Master change");
 		target.add().addFilepattern("SomeFile.txt").call();
 		target.commit().setMessage("Source change in master").call();
 
 		// change the file in slave
-		target.getRepository().updateRef(Constants.HEAD).link(
-				"refs/heads/basedOnMaster");
+		target.getRepository().updateRef(Constants.HEAD)
+				.link("refs/heads/basedOnMaster");
 		writeToFile(targetFile, "Slave change");
 		target.add().addFilepattern("SomeFile.txt").call();
 		target.commit().setMessage("Source change in based on master").call();
@@ -254,9 +255,7 @@ public class PullCommandTest extends RepositoryTestCase {
 				.setString("branch", "master", "merge", "refs/heads/master");
 		RemoteConfig config = new RemoteConfig(targetConfig, "origin");
 
-		config
-				.addURI(new URIish(source.getRepository().getWorkTree()
-						.getPath()));
+		config.addURI(new URIish(source.getRepository().getWorkTree().getPath()));
 		config.addFetchRefSpec(new RefSpec(
 				"+refs/heads/*:refs/remotes/origin/*"));
 		config.update(targetConfig);

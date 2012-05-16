@@ -86,7 +86,7 @@ import org.eclipse.jgit.util.ChangeIdUtil;
  * A class used to execute a {@code Commit} command. It has setters for all
  * supported options and arguments of this command and a {@link #call()} method
  * to finally execute the command.
- *
+ * 
  * @see <a
  *      href="http://www.kernel.org/pub/software/scm/git/docs/git-commit.html"
  *      >Git documentation about Commit</a>
@@ -105,6 +105,8 @@ public class CommitCommand extends GitCommand<RevCommit> {
 	private boolean[] onlyProcessed;
 
 	private boolean amend;
+
+	private boolean allowEmpty;
 
 	private boolean insertChangeId;
 
@@ -128,7 +130,7 @@ public class CommitCommand extends GitCommand<RevCommit> {
 	 * collected by the setter methods of this class. Each instance of this
 	 * class should only be used for one invocation of the command (means: one
 	 * call to {@link #call()})
-	 *
+	 * 
 	 * @return a {@link RevCommit} object representing the successful commit.
 	 * @throws NoHeadException
 	 *             when called on a git repo without a HEAD reference
@@ -158,12 +160,10 @@ public class CommitCommand extends GitCommand<RevCommit> {
 		processOptions(state);
 
 		try {
+			Git git = new Git(repo);
 			if (all && !repo.isBare() && repo.getWorkTree() != null) {
-				Git git = new Git(repo);
 				try {
-					git.add()
-							.addFilepattern(".")
-							.setUpdate(true).call();
+					git.add().addFilepattern(".").setUpdate(true).call();
 				} catch (NoFilepatternException e) {
 					// should really not happen
 					throw new JGitInternalException(e.getMessage(), e);
@@ -174,6 +174,20 @@ public class CommitCommand extends GitCommand<RevCommit> {
 			if (head == null)
 				throw new NoHeadException(
 						JGitText.get().commitOnRepoWithoutHEADCurrentlyNotSupported);
+
+			// Check if there are any files to commit
+			if (!allowEmpty) {
+				// files could have been added to only list, in that case the
+				// commit is not empty
+				if (only.isEmpty()) {
+					Status status = git.status().call();
+					if ((status.getAdded().size() + status.getChanged().size() + status
+							.getRemoved().size()) == 0) {
+						throw new JGitInternalException(
+								JGitText.get().emptyCommit);
+					}
+				}
+			}
 
 			// determine the current HEAD and the commit it is referring to
 			ObjectId headId = repo.resolve(Constants.HEAD + "^{commit}");
@@ -251,11 +265,13 @@ public class CommitCommand extends GitCommand<RevCommit> {
 						}
 						case REJECTED:
 						case LOCK_FAILURE:
-							throw new ConcurrentRefUpdateException(JGitText
-									.get().couldNotLockHEAD, ru.getRef(), rc);
+							throw new ConcurrentRefUpdateException(
+									JGitText.get().couldNotLockHEAD,
+									ru.getRef(), rc);
 						default:
-							throw new JGitInternalException(MessageFormat
-									.format(JGitText.get().updatingRefFailed,
+							throw new JGitInternalException(
+									MessageFormat.format(
+											JGitText.get().updatingRefFailed,
 											Constants.HEAD,
 											commitId.toString(), rc));
 						}
@@ -275,7 +291,8 @@ public class CommitCommand extends GitCommand<RevCommit> {
 			throw e;
 		} catch (IOException e) {
 			throw new JGitInternalException(
-					JGitText.get().exceptionCaughtDuringExecutionOfCommitCommand, e);
+					JGitText.get().exceptionCaughtDuringExecutionOfCommitCommand,
+					e);
 		}
 	}
 
@@ -432,11 +449,11 @@ public class CommitCommand extends GitCommand<RevCommit> {
 	/**
 	 * Look an entry's path up in the list of paths specified by the --only/ -o
 	 * option
-	 *
+	 * 
 	 * In case the complete (file) path (e.g. "d1/d2/f1") cannot be found in
 	 * <code>only</code>, lookup is also tried with (parent) directory paths
 	 * (e.g. "d1/d2" and "d1").
-	 *
+	 * 
 	 * @param pathString
 	 *            entry's path
 	 * @return the item's index in <code>only</code>; -1 if no item matches
@@ -461,14 +478,15 @@ public class CommitCommand extends GitCommand<RevCommit> {
 	/**
 	 * Sets default values for not explicitly specified options. Then validates
 	 * that all required data has been provided.
-	 *
+	 * 
 	 * @param state
 	 *            the state of the repository we are working on
-	 *
+	 * 
 	 * @throws NoMessageException
 	 *             if the commit message has not been specified
 	 */
-	private void processOptions(RepositoryState state) throws NoMessageException {
+	private void processOptions(RepositoryState state)
+			throws NoMessageException {
 		if (committer == null)
 			committer = new PersonIdent(repo);
 		if (author == null)
@@ -487,16 +505,18 @@ public class CommitCommand extends GitCommand<RevCommit> {
 				try {
 					message = repo.readMergeCommitMsg();
 				} catch (IOException e) {
-					throw new JGitInternalException(MessageFormat.format(
-							JGitText.get().exceptionOccurredDuringReadingOfGIT_DIR,
-							Constants.MERGE_MSG, e), e);
+					throw new JGitInternalException(
+							MessageFormat.format(
+									JGitText.get().exceptionOccurredDuringReadingOfGIT_DIR,
+									Constants.MERGE_MSG, e), e);
 				}
 			}
 		}
 		if (message == null)
 			// as long as we don't suppport -C option we have to have
 			// an explicit message
-			throw new NoMessageException(JGitText.get().commitMessageNotSpecified);
+			throw new NoMessageException(
+					JGitText.get().commitMessageNotSpecified);
 	}
 
 	/**
@@ -522,7 +542,7 @@ public class CommitCommand extends GitCommand<RevCommit> {
 	 * specified because this method is never called or called with {@code null}
 	 * value then the committer will be deduced from config info in repository,
 	 * with current time.
-	 *
+	 * 
 	 * @param committer
 	 *            the committer used for the {@code commit}
 	 * @return {@code this}
@@ -538,7 +558,7 @@ public class CommitCommand extends GitCommand<RevCommit> {
 	 * specified because this method is never called or called with {@code null}
 	 * value then the committer will be deduced from config info in repository,
 	 * with current time.
-	 *
+	 * 
 	 * @param name
 	 *            the name of the committer used for the {@code commit}
 	 * @param email
@@ -564,7 +584,7 @@ public class CommitCommand extends GitCommand<RevCommit> {
 	 * Sets the author for this {@code commit}. If no author is explicitly
 	 * specified because this method is never called or called with {@code null}
 	 * value then the author will be set to the committer.
-	 *
+	 * 
 	 * @param author
 	 *            the author used for the {@code commit}
 	 * @return {@code this}
@@ -579,7 +599,7 @@ public class CommitCommand extends GitCommand<RevCommit> {
 	 * Sets the author for this {@code commit}. If no author is explicitly
 	 * specified because this method is never called or called with {@code null}
 	 * value then the author will be set to the committer.
-	 *
+	 * 
 	 * @param name
 	 *            the name of the author used for the {@code commit}
 	 * @param email
@@ -605,7 +625,7 @@ public class CommitCommand extends GitCommand<RevCommit> {
 	 * If set to true the Commit command automatically stages files that have
 	 * been modified and deleted, but new files not known by the repository are
 	 * not affected. This corresponds to the parameter -a on the command line.
-	 *
+	 * 
 	 * @param all
 	 * @return {@code this}
 	 * @throws JGitInternalException
@@ -625,7 +645,7 @@ public class CommitCommand extends GitCommand<RevCommit> {
 	 * Used to amend the tip of the current branch. If set to true, the previous
 	 * commit will be amended. This is equivalent to --amend on the command
 	 * line.
-	 *
+	 * 
 	 * @param amend
 	 * @return {@code this}
 	 */
@@ -636,12 +656,26 @@ public class CommitCommand extends GitCommand<RevCommit> {
 	}
 
 	/**
+	 * Used to allow an empty commit, i.e. a commit without any changes added.
+	 * This is equivalent to --allow-empty on the command line.
+	 * 
+	 * Default is false.
+	 * 
+	 * @param allowEmpty
+	 * @return {@code this}
+	 */
+	public CommitCommand setAllowEmpty(boolean allowEmpty) {
+		this.allowEmpty = allowEmpty;
+		return this;
+	}
+
+	/**
 	 * Commit dedicated path only
-	 *
+	 * 
 	 * This method can be called several times to add multiple paths. Full file
 	 * paths are supported as well as directory paths; in the latter case this
 	 * commits all files/ directories below the specified path.
-	 *
+	 * 
 	 * @param only
 	 *            path to commit
 	 * @return {@code this}
@@ -662,12 +696,12 @@ public class CommitCommand extends GitCommand<RevCommit> {
 
 	/**
 	 * If set to true a change id will be inserted into the commit message
-	 *
+	 * 
 	 * An existing change id is not replaced. An initial change id (I000...)
 	 * will be replaced by the change id.
-	 *
+	 * 
 	 * @param insertChangeId
-	 *
+	 * 
 	 * @return {@code this}
 	 */
 	public CommitCommand setInsertChangeId(boolean insertChangeId) {
@@ -678,7 +712,7 @@ public class CommitCommand extends GitCommand<RevCommit> {
 
 	/**
 	 * Override the message written to the reflog
-	 *
+	 * 
 	 * @param reflogComment
 	 * @return {@code this}
 	 */

@@ -84,7 +84,7 @@ import org.eclipse.jgit.treewalk.FileTreeIterator;
  * supported options and arguments of this command and a {@link #call()} method
  * to finally execute the command. Each instance of this class should only be
  * used for one invocation of the command (means: one call to {@link #call()})
- *
+ * 
  * @see <a href="http://www.kernel.org/pub/software/scm/git/docs/git-merge.html"
  *      >Git documentation about Merge</a>
  */
@@ -106,12 +106,13 @@ public class MergeCommand extends GitCommand<MergeResult> {
 	 * collected by the setter methods (e.g. {@link #include(Ref)}) of this
 	 * class. Each instance of this class should only be used for one invocation
 	 * of the command. Don't call this method twice on an instance.
-	 *
+	 * 
 	 * @return the result of the merge
 	 */
 	public MergeResult call() throws NoHeadException,
 			ConcurrentRefUpdateException, CheckoutConflictException,
-			InvalidMergeHeadsException, WrongRepositoryStateException, NoMessageException {
+			InvalidMergeHeadsException, WrongRepositoryStateException,
+			NoMessageException {
 		checkCallable();
 
 		if (commits.size() != 1)
@@ -149,8 +150,8 @@ public class MergeCommand extends GitCommand<MergeResult> {
 			ObjectId headId = head.getObjectId();
 			if (headId == null) {
 				revWalk.parseHeaders(srcCommit);
-				dco = new DirCacheCheckout(repo,
-						repo.lockDirCache(), srcCommit.getTree());
+				dco = new DirCacheCheckout(repo, repo.lockDirCache(),
+						srcCommit.getTree());
 				dco.setFailOnConflict(true);
 				dco.checkout();
 				RefUpdate refUpdate = repo
@@ -173,14 +174,14 @@ public class MergeCommand extends GitCommand<MergeResult> {
 				setCallable(false);
 				return new MergeResult(headCommit, srcCommit, new ObjectId[] {
 						headCommit, srcCommit },
-						MergeStatus.ALREADY_UP_TO_DATE, mergeStrategy, null, null);
+						MergeStatus.ALREADY_UP_TO_DATE, mergeStrategy, null,
+						null);
 			} else if (revWalk.isMergedInto(headCommit, srcCommit)) {
 				// FAST_FORWARD detected: skip doing a real merge but only
 				// update HEAD
 				refLogMessage.append(": " + MergeStatus.FAST_FORWARD);
-				dco = new DirCacheCheckout(repo,
-						headCommit.getTree(), repo.lockDirCache(),
-						srcCommit.getTree());
+				dco = new DirCacheCheckout(repo, headCommit.getTree(),
+						repo.lockDirCache(), srcCommit.getTree());
 				dco.setFailOnConflict(true);
 				dco.checkout();
 
@@ -202,12 +203,12 @@ public class MergeCommand extends GitCommand<MergeResult> {
 				List<String> unmergedPaths = null;
 				if (merger instanceof ResolveMerger) {
 					ResolveMerger resolveMerger = (ResolveMerger) merger;
-					resolveMerger.setCommitNames(new String[] {
-							"BASE", "HEAD", ref.getName() });
-					resolveMerger.setWorkingTreeIterator(new FileTreeIterator(repo));
+					resolveMerger.setCommitNames(new String[] { "BASE", "HEAD",
+							ref.getName() });
+					resolveMerger.setWorkingTreeIterator(new FileTreeIterator(
+							repo));
 					noProblems = merger.merge(headCommit, srcCommit);
-					lowLevelResults = resolveMerger
-							.getMergeResults();
+					lowLevelResults = resolveMerger.getMergeResults();
 					failingPaths = resolveMerger.getFailingPaths();
 					unmergedPaths = resolveMerger.getUnmergedPaths();
 				} else
@@ -216,26 +217,26 @@ public class MergeCommand extends GitCommand<MergeResult> {
 				refLogMessage.append(mergeStrategy.getName());
 				refLogMessage.append('.');
 				if (noProblems) {
-					dco = new DirCacheCheckout(repo,
-							headCommit.getTree(), repo.lockDirCache(),
-							merger.getResultTreeId());
+					dco = new DirCacheCheckout(repo, headCommit.getTree(),
+							repo.lockDirCache(), merger.getResultTreeId());
 					dco.setFailOnConflict(true);
 					dco.checkout();
 
 					RevCommit newHead = new Git(getRepository()).commit()
-							.setReflogComment(refLogMessage.toString()).call();
-					return new MergeResult(newHead.getId(),
-							null, new ObjectId[] {
-									headCommit.getId(), srcCommit.getId() },
-							MergeStatus.MERGED, mergeStrategy, null, null);
+							.setReflogComment(refLogMessage.toString())
+							.setAllowEmpty(true).call();
+					return new MergeResult(newHead.getId(), null,
+							new ObjectId[] { headCommit.getId(),
+									srcCommit.getId() }, MergeStatus.MERGED,
+							mergeStrategy, null, null);
 				} else {
 					if (failingPaths != null) {
 						repo.writeMergeCommitMsg(null);
 						repo.writeMergeHeads(null);
 						return new MergeResult(null,
 								merger.getBaseCommit(0, 1),
-								new ObjectId[] {
-										headCommit.getId(), srcCommit.getId() },
+								new ObjectId[] { headCommit.getId(),
+										srcCommit.getId() },
 								MergeStatus.FAILED, mergeStrategy,
 								lowLevelResults, failingPaths, null);
 					} else {
@@ -291,7 +292,7 @@ public class MergeCommand extends GitCommand<MergeResult> {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param mergeStrategy
 	 *            the {@link MergeStrategy} to be used
 	 * @return {@code this}

@@ -77,28 +77,32 @@ public class MergeCommandTest extends RepositoryTestCase {
 	@Test
 	public void testMergeInItself() throws Exception {
 		Git git = new Git(db);
-		git.commit().setMessage("initial commit").call();
+		git.commit().setMessage("initial commit").setAllowEmpty(true).call();
 
-		MergeResult result = git.merge().include(db.getRef(Constants.HEAD)).call();
-		assertEquals(MergeResult.MergeStatus.ALREADY_UP_TO_DATE, result.getMergeStatus());
+		MergeResult result = git.merge().include(db.getRef(Constants.HEAD))
+				.call();
+		assertEquals(MergeResult.MergeStatus.ALREADY_UP_TO_DATE,
+				result.getMergeStatus());
 		// no reflog entry written by merge
 		assertEquals("commit: initial commit",
-				db
-				.getReflogReader(Constants.HEAD).getLastEntry().getComment());
+				db.getReflogReader(Constants.HEAD).getLastEntry().getComment());
 		assertEquals("commit: initial commit",
-				db
-				.getReflogReader(db.getBranch()).getLastEntry().getComment());
+				db.getReflogReader(db.getBranch()).getLastEntry().getComment());
 	}
 
 	@Test
 	public void testAlreadyUpToDate() throws Exception {
 		Git git = new Git(db);
-		RevCommit first = git.commit().setMessage("initial commit").call();
+		RevCommit first = git.commit().setMessage("initial commit")
+				.setAllowEmpty(true).call();
 		createBranch(first, "refs/heads/branch1");
 
-		RevCommit second = git.commit().setMessage("second commit").call();
-		MergeResult result = git.merge().include(db.getRef("refs/heads/branch1")).call();
-		assertEquals(MergeResult.MergeStatus.ALREADY_UP_TO_DATE, result.getMergeStatus());
+		RevCommit second = git.commit().setMessage("second commit")
+				.setAllowEmpty(true).call();
+		MergeResult result = git.merge()
+				.include(db.getRef("refs/heads/branch1")).call();
+		assertEquals(MergeResult.MergeStatus.ALREADY_UP_TO_DATE,
+				result.getMergeStatus());
 		assertEquals(second, result.getNewHead());
 		// no reflog entry written by merge
 		assertEquals("commit: second commit", db
@@ -110,21 +114,25 @@ public class MergeCommandTest extends RepositoryTestCase {
 	@Test
 	public void testFastForward() throws Exception {
 		Git git = new Git(db);
-		RevCommit first = git.commit().setMessage("initial commit").call();
+		RevCommit first = git.commit().setMessage("initial commit")
+				.setAllowEmpty(true).call();
 		createBranch(first, "refs/heads/branch1");
 
-		RevCommit second = git.commit().setMessage("second commit").call();
+		RevCommit second = git.commit().setMessage("second commit")
+				.setAllowEmpty(true).call();
 
 		checkoutBranch("refs/heads/branch1");
 
-		MergeResult result = git.merge().include(db.getRef(Constants.MASTER)).call();
+		MergeResult result = git.merge().include(db.getRef(Constants.MASTER))
+				.call();
 
-		assertEquals(MergeResult.MergeStatus.FAST_FORWARD, result.getMergeStatus());
+		assertEquals(MergeResult.MergeStatus.FAST_FORWARD,
+				result.getMergeStatus());
 		assertEquals(second, result.getNewHead());
-		assertEquals("merge refs/heads/master: Fast-forward",
-				db.getReflogReader(Constants.HEAD).getLastEntry().getComment());
-		assertEquals("merge refs/heads/master: Fast-forward",
-				db.getReflogReader(db.getBranch()).getLastEntry().getComment());
+		assertEquals("merge refs/heads/master: Fast-forward", db
+				.getReflogReader(Constants.HEAD).getLastEntry().getComment());
+		assertEquals("merge refs/heads/master: Fast-forward", db
+				.getReflogReader(db.getBranch()).getLastEntry().getComment());
 	}
 
 	@Test
@@ -146,16 +154,18 @@ public class MergeCommandTest extends RepositoryTestCase {
 		checkoutBranch("refs/heads/branch1");
 		assertFalse(new File(db.getWorkTree(), "file2").exists());
 
-		MergeResult result = git.merge().include(db.getRef(Constants.MASTER)).call();
+		MergeResult result = git.merge().include(db.getRef(Constants.MASTER))
+				.call();
 
 		assertTrue(new File(db.getWorkTree(), "file1").exists());
 		assertTrue(new File(db.getWorkTree(), "file2").exists());
-		assertEquals(MergeResult.MergeStatus.FAST_FORWARD, result.getMergeStatus());
+		assertEquals(MergeResult.MergeStatus.FAST_FORWARD,
+				result.getMergeStatus());
 		assertEquals(second, result.getNewHead());
-		assertEquals("merge refs/heads/master: Fast-forward",
-				db.getReflogReader(Constants.HEAD).getLastEntry().getComment());
-		assertEquals("merge refs/heads/master: Fast-forward",
-				db.getReflogReader(db.getBranch()).getLastEntry().getComment());
+		assertEquals("merge refs/heads/master: Fast-forward", db
+				.getReflogReader(Constants.HEAD).getLastEntry().getComment());
+		assertEquals("merge refs/heads/master: Fast-forward", db
+				.getReflogReader(db.getBranch()).getLastEntry().getComment());
 	}
 
 	@Test
@@ -195,7 +205,8 @@ public class MergeCommandTest extends RepositoryTestCase {
 			throws Exception {
 		Git git = new Git(db);
 
-		RevCommit first = git.commit().setMessage("first").call();
+		RevCommit first = git.commit().setMessage("first").setAllowEmpty(true)
+				.call();
 		createBranch(first, "refs/heads/side");
 
 		writeTrashFile("a", "a");
@@ -288,8 +299,8 @@ public class MergeCommandTest extends RepositoryTestCase {
 
 		Ref sideBranch = db.getRef("side");
 
-		git.merge().include(sideBranch)
-				.setStrategy(MergeStrategy.RESOLVE).call();
+		git.merge().include(sideBranch).setStrategy(MergeStrategy.RESOLVE)
+				.call();
 
 		assertEquals("Merge branch 'side'\n\nConflicts:\n\ta\n",
 				db.readMergeCommitMsg());
@@ -400,12 +411,10 @@ public class MergeCommandTest extends RepositoryTestCase {
 		assertEquals("1\nb(1)\n3\n", read(new File(db.getWorkTree(), "b")));
 		assertEquals("merge " + secondCommit.getId().getName()
 				+ ": Merge made by resolve.", db
-				.getReflogReader(Constants.HEAD)
-				.getLastEntry().getComment());
+				.getReflogReader(Constants.HEAD).getLastEntry().getComment());
 		assertEquals("merge " + secondCommit.getId().getName()
 				+ ": Merge made by resolve.", db
-				.getReflogReader(db.getBranch())
-				.getLastEntry().getComment());
+				.getReflogReader(db.getBranch()).getLastEntry().getComment());
 	}
 
 	@Test
@@ -443,8 +452,8 @@ public class MergeCommandTest extends RepositoryTestCase {
 		assertEquals("1(side)\na\n3(main)\n", read(new File(db.getWorkTree(),
 				"a")));
 		assertEquals("1\nb(side)\n3\n", read(new File(db.getWorkTree(), "b")));
-		assertEquals("1\nc(main)\n3\n", read(new File(db.getWorkTree(),
-				"c/c/c")));
+		assertEquals("1\nc(main)\n3\n",
+				read(new File(db.getWorkTree(), "c/c/c")));
 
 		assertEquals(null, result.getConflicts());
 
@@ -458,8 +467,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 		assertEquals(2, newHead.getParentCount());
 		assertEquals(thirdCommit, newHead.getParent(0));
 		assertEquals(secondCommit, newHead.getParent(1));
-		assertEquals(
-				"Merge commit '3fa334456d236a92db020289fe0bf481d91777b4'",
+		assertEquals("Merge commit '3fa334456d236a92db020289fe0bf481d91777b4'",
 				newHead.getFullMessage());
 		// @TODO fix me
 		assertEquals(RepositoryState.SAFE, db.getRepositoryState());
@@ -504,8 +512,8 @@ public class MergeCommandTest extends RepositoryTestCase {
 		assertEquals("1(side)\na\n3(main)\n", read(new File(db.getWorkTree(),
 				"a")));
 		assertEquals("1\nb(side)\n3\n", read(new File(db.getWorkTree(), "b")));
-		assertEquals("1\nc(main)\n3\n", read(new File(db.getWorkTree(),
-				"c/c/c")));
+		assertEquals("1\nc(main)\n3\n",
+				read(new File(db.getWorkTree(), "c/c/c")));
 		assertEquals("--- dirty ---", read(new File(db.getWorkTree(), "d")));
 
 		assertEquals(null, result.getConflicts());
@@ -520,8 +528,7 @@ public class MergeCommandTest extends RepositoryTestCase {
 		assertEquals(2, newHead.getParentCount());
 		assertEquals(thirdCommit, newHead.getParent(0));
 		assertEquals(secondCommit, newHead.getParent(1));
-		assertEquals(
-				"Merge commit '064d54d98a4cdb0fed1802a21c656bfda67fe879'",
+		assertEquals("Merge commit '064d54d98a4cdb0fed1802a21c656bfda67fe879'",
 				newHead.getFullMessage());
 
 		assertEquals(RepositoryState.SAFE, db.getRepositoryState());
@@ -831,7 +838,8 @@ public class MergeCommandTest extends RepositoryTestCase {
 		assertEquals("1\na\n3\n", read(new File(db.getWorkTree(), "a")));
 		assertEquals("1\nb\n3\n", read(new File(db.getWorkTree(), "b")));
 		assertEquals("1\nc(main)\n3\n", read(new File(db.getWorkTree(), "c")));
-		assertEquals("1\nd(main)\n3\n", read(new File(db.getWorkTree(), "d/d/d")));
+		assertEquals("1\nd(main)\n3\n",
+				read(new File(db.getWorkTree(), "d/d/d")));
 
 		assertEquals(null, result.getConflicts());
 
@@ -1108,12 +1116,12 @@ public class MergeCommandTest extends RepositoryTestCase {
 
 	private RevCommit addAllAndCommit(final Git git) throws Exception {
 		git.add().addFilepattern(".").call();
-		return git.commit().setMessage("message").call();
+		return git.commit().setMessage("message").setAllowEmpty(true).call();
 	}
 
 	private void checkMergeFailedResult(final MergeResult result,
-			final MergeFailureReason reason,
-			final String indexState, final File fileA) throws Exception {
+			final MergeFailureReason reason, final String indexState,
+			final File fileA) throws Exception {
 		assertEquals(MergeStatus.FAILED, result.getMergeStatus());
 		assertEquals(reason, result.getFailingPaths().get("a"));
 		assertEquals("a(modified)", read(fileA));

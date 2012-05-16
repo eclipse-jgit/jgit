@@ -92,7 +92,8 @@ public class ResetCommandTest extends RepositoryTestCase {
 
 		// create initial commit
 		git = new Git(db);
-		initialCommit = git.commit().setMessage("initial commit").call();
+		initialCommit = git.commit().setMessage("initial commit")
+				.setAllowEmpty(true).call();
 
 		// create nested file
 		File dir = new File(db.getWorkTree(), "dir");
@@ -127,8 +128,7 @@ public class ResetCommandTest extends RepositoryTestCase {
 		git.add().addFilepattern("a.txt").addFilepattern("dir").call();
 
 		// create a file not added to the index
-		untrackedFile = new File(db.getWorkTree(),
-				"notAddedToIndex.txt");
+		untrackedFile = new File(db.getWorkTree(), "notAddedToIndex.txt");
 		FileUtils.createNewFile(untrackedFile);
 		PrintWriter writer2 = new PrintWriter(untrackedFile);
 		writer2.print("content");
@@ -291,8 +291,8 @@ public class ResetCommandTest extends RepositoryTestCase {
 		// 'notAddedToIndex.txt' has been added to repository
 		// reset to the inital commit
 		git.reset().setRef(initialCommit.getName())
-				.addPath(indexFile.getName())
-				.addPath(untrackedFile.getName()).call();
+				.addPath(indexFile.getName()).addPath(untrackedFile.getName())
+				.call();
 
 		// check that HEAD hasn't moved
 		ObjectId head = db.resolve(Constants.HEAD);
@@ -331,7 +331,7 @@ public class ResetCommandTest extends RepositoryTestCase {
 
 	/**
 	 * Checks if a file with the given path exists in the HEAD tree
-	 *
+	 * 
 	 * @param path
 	 * @return true if the file exists
 	 * @throws IOException
@@ -353,7 +353,7 @@ public class ResetCommandTest extends RepositoryTestCase {
 
 	/**
 	 * Checks if a file with the given path exists in the index
-	 *
+	 * 
 	 * @param path
 	 * @return true if the file exists
 	 * @throws IOException

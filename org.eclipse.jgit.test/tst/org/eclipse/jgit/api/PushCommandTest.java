@@ -84,7 +84,8 @@ public class PushCommandTest extends RepositoryTestCase {
 
 		Git git1 = new Git(db);
 		// create some refs via commits and tag
-		RevCommit commit = git1.commit().setMessage("initial commit").call();
+		RevCommit commit = git1.commit().setMessage("initial commit")
+				.setAllowEmpty(true).call();
 		Ref tagRef = git1.tag().setName("tag").call();
 
 		try {
@@ -95,8 +96,7 @@ public class PushCommandTest extends RepositoryTestCase {
 		}
 
 		RefSpec spec = new RefSpec("refs/heads/master:refs/heads/x");
-		git1.push().setRemote("test").setRefSpecs(spec)
-				.call();
+		git1.push().setRemote("test").setRefSpecs(spec).call();
 
 		assertEquals(commit.getId(),
 				db2.resolve(commit.getId().getName() + "^{commit}"));
@@ -115,7 +115,7 @@ public class PushCommandTest extends RepositoryTestCase {
 		Git git = new Git(db);
 
 		RevCommit commit1 = git.commit().setMessage("Initial commit")
-				.call();
+				.setAllowEmpty(true).call();
 
 		RefUpdate branchRefUpdate = db.updateRef(branch);
 		branchRefUpdate.setNewObjectId(commit1.getId());
@@ -134,8 +134,8 @@ public class PushCommandTest extends RepositoryTestCase {
 		remoteConfig.update(config);
 		config.save();
 
-
-		RevCommit commit2 = git.commit().setMessage("Commit to push").call();
+		RevCommit commit2 = git.commit().setMessage("Commit to push")
+				.setAllowEmpty(true).call();
 
 		RefSpec spec = new RefSpec(branch + ":" + branch);
 		Iterable<PushResult> resultIterable = git.push().setRemote(remote)
@@ -155,7 +155,7 @@ public class PushCommandTest extends RepositoryTestCase {
 
 	/**
 	 * Check that pushes over file protocol lead to appropriate ref-updates.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	@Test
@@ -184,7 +184,6 @@ public class PushCommandTest extends RepositoryTestCase {
 		git.branchCreate().setName("refs/heads/test").call();
 		git.checkout().setName("refs/heads/test").call();
 
-
 		for (int i = 0; i < 6; i++) {
 			writeTrashFile("f" + i, "content of f" + i);
 			git.add().addFilepattern("f" + i).call();
@@ -199,7 +198,7 @@ public class PushCommandTest extends RepositoryTestCase {
 
 	/**
 	 * Check that the push refspec is read from config.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	@Test
@@ -225,12 +224,11 @@ public class PushCommandTest extends RepositoryTestCase {
 		assertEquals(commit.getId(),
 				git2.getRepository().resolve("refs/heads/newbranch"));
 
-
 	}
 
 	/**
 	 * Check that only HEAD is pushed if no refspec is given.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	@Test

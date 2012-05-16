@@ -63,6 +63,7 @@ import org.eclipse.jgit.api.errors.RefNotFoundException;
 import org.eclipse.jgit.api.errors.UnmergedPathsException;
 import org.eclipse.jgit.api.errors.WrongRepositoryStateException;
 import org.eclipse.jgit.dircache.DirCacheCheckout;
+import org.eclipse.jgit.junit.JGitTestUtil;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -92,8 +93,8 @@ public class RebaseCommandTest extends RepositoryTestCase {
 			IOException {
 		RevWalk walk = new RevWalk(db);
 		RevCommit head = walk.parseCommit(db.resolve(Constants.HEAD));
-		DirCacheCheckout dco = new DirCacheCheckout(db, head.getTree(), db
-				.lockDirCache(), commit.getTree());
+		DirCacheCheckout dco = new DirCacheCheckout(db, head.getTree(),
+				db.lockDirCache(), commit.getTree());
 		dco.setFailOnConflict(true);
 		dco.checkout();
 		walk.release();
@@ -158,13 +159,12 @@ public class RebaseCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testRebaseFailsCantCherryPickMergeCommits()
-			throws Exception {
+	public void testRebaseFailsCantCherryPickMergeCommits() throws Exception {
 		/**
 		 * Create the following commits and then attempt to rebase topic onto
 		 * master. This will fail as the cherry-pick list C, D, E an F contains
 		 * a merge commit (F).
-		 *
+		 * 
 		 * <pre>
 		 * A - B (master)
 		 *   \
@@ -280,8 +280,8 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		writeTrashFile(FILE1, "1master\n2\n3\n");
 		checkFile(theFile, "1master\n2\n3\n");
 		git.add().addFilepattern(FILE1).call();
-		RevCommit lastMasterChange = git.commit().setMessage(
-				"change file1 in master").call();
+		RevCommit lastMasterChange = git.commit()
+				.setMessage("change file1 in master").call();
 
 		// create a topic branch based on second commit
 		createBranch(second, "refs/heads/topic");
@@ -300,8 +300,9 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		checkFile(theFile, "1master\n2\n3\ntopic\n");
 		// our old branch should be checked out again
 		assertEquals("refs/heads/topic", db.getFullBranch());
-		assertEquals(lastMasterChange, new RevWalk(db).parseCommit(
-				db.resolve(Constants.HEAD)).getParent(0));
+		assertEquals(lastMasterChange,
+				new RevWalk(db).parseCommit(db.resolve(Constants.HEAD))
+						.getParent(0));
 	}
 
 	@Test
@@ -315,8 +316,8 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		writeTrashFile(FILE1, "1master\n2\n3\n");
 		checkFile(theFile, "1master\n2\n3\n");
 		git.add().addFilepattern(FILE1).call();
-		RevCommit lastMasterChange = git.commit().setMessage(
-				"change file1 in master").call();
+		RevCommit lastMasterChange = git.commit()
+				.setMessage("change file1 in master").call();
 
 		// create a topic branch based on second commit
 		createBranch(second, "refs/heads/topic");
@@ -337,8 +338,9 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		RebaseResult res = git.rebase().setUpstream("refs/heads/master").call();
 		assertEquals(Status.OK, res.getStatus());
 		checkFile(theFile, "1master\n2\n3\ntopic\n");
-		assertEquals(lastMasterChange, new RevWalk(db).parseCommit(
-				db.resolve(Constants.HEAD)).getParent(0));
+		assertEquals(lastMasterChange,
+				new RevWalk(db).parseCommit(db.resolve(Constants.HEAD))
+						.getParent(0));
 
 	}
 
@@ -355,8 +357,8 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		checkoutBranch("refs/heads/file2");
 		writeTrashFile("file2", "file2");
 		git.add().addFilepattern("file2").call();
-		RevCommit addFile2 = git.commit().setMessage(
-				"Add file2 to branch file2").call();
+		RevCommit addFile2 = git.commit()
+				.setMessage("Add file2 to branch file2").call();
 
 		// create a branch named file3 and add file3
 		createBranch(masterCommit, "refs/heads/file3");
@@ -378,8 +380,9 @@ public class RebaseCommandTest extends RepositoryTestCase {
 
 		// our old branch should be checked out again
 		assertEquals("refs/heads/file3", db.getFullBranch());
-		assertEquals(addFile2, new RevWalk(db).parseCommit(
-				db.resolve(Constants.HEAD)).getParent(0));
+		assertEquals(addFile2,
+				new RevWalk(db).parseCommit(db.resolve(Constants.HEAD))
+						.getParent(0));
 
 		checkoutBranch("refs/heads/file2");
 		assertTrue(new File(db.getWorkTree(), FILE1).exists());
@@ -410,7 +413,8 @@ public class RebaseCommandTest extends RepositoryTestCase {
 				"change file1 in topic", "1topic", "2", "3", "topic4");
 
 		RevCommit lastTopicCommit = writeFileAndCommit(FILE1,
-				"change file1 in topic again", "1topic", "2", "3", "topic4");
+				"change file1 in topic again", "1topic", "2", "3", "topic4",
+				"change");
 
 		RebaseResult res = git.rebase().setUpstream("refs/heads/master").call();
 		assertEquals(Status.STOPPED, res.getStatus());
@@ -418,8 +422,8 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		checkFile(FILE1,
 				"<<<<<<< OURS\n1master\n=======\n1topic\n>>>>>>> THEIRS\n2\n3\ntopic4");
 
-		assertEquals(RepositoryState.REBASING_INTERACTIVE, db
-				.getRepositoryState());
+		assertEquals(RepositoryState.REBASING_INTERACTIVE,
+				db.getRepositoryState());
 		assertTrue(new File(db.getDirectory(), "rebase-merge").exists());
 		// the first one should be included, so we should have left two picks in
 		// the file
@@ -437,10 +441,10 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		res = git.rebase().setOperation(Operation.ABORT).call();
 		assertEquals(res.getStatus(), Status.ABORTED);
 		assertEquals("refs/heads/topic", db.getFullBranch());
-		checkFile(FILE1, "1topic", "2", "3", "topic4");
+		checkFile(FILE1, "1topic", "2", "3", "topic4", "change");
 		RevWalk rw = new RevWalk(db);
-		assertEquals(lastTopicCommit, rw
-				.parseCommit(db.resolve(Constants.HEAD)));
+		assertEquals(lastTopicCommit,
+				rw.parseCommit(db.resolve(Constants.HEAD)));
 		assertEquals(RepositoryState.SAFE, db.getRepositoryState());
 
 		// rebase- dir in .git must be deleted
@@ -498,8 +502,8 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		RevWalk rw = new RevWalk(db);
 		RevCommit rc = rw.parseCommit(headId);
 		RevCommit parent = rw.parseCommit(rc.getParent(0));
-		assertEquals("change file1 in topic\n\nThis is conflicting", parent
-				.getFullMessage());
+		assertEquals("change file1 in topic\n\nThis is conflicting",
+				parent.getFullMessage());
 	}
 
 	@Test
@@ -843,13 +847,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 
 	private RevCommit writeFileAndCommit(String fileName, String commitMessage,
 			String... lines) throws Exception {
-		StringBuilder sb = new StringBuilder();
-		for (String line : lines) {
-			sb.append(line);
-			sb.append('\n');
-		}
-		writeTrashFile(fileName, sb.toString());
-		git.add().addFilepattern(fileName).call();
+		writeFileAndAdd(fileName, lines);
 		return git.commit().setMessage(commitMessage).call();
 	}
 
@@ -860,7 +858,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 			sb.append(line);
 			sb.append('\n');
 		}
-		writeTrashFile(fileName, sb.toString());
+		JGitTestUtil.writeTrashFile(db, fileName, sb.toString());
 		git.add().addFilepattern(fileName).call();
 	}
 
@@ -900,8 +898,10 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		writeTrashFile("folder6/file1", "Hello World folder6");
 		git.add().addFilepattern("folder6/file1").call();
 
-		git.commit().setMessage(
-				"Add file 4 and folder folder6, delete file2 on master").call();
+		git.commit()
+				.setMessage(
+						"Add file 4 and folder folder6, delete file2 on master")
+				.call();
 
 		// create a topic branch based on second commit
 		createBranch(firstInMaster, "refs/heads/topic");
@@ -923,15 +923,17 @@ public class RebaseCommandTest extends RepositoryTestCase {
 
 		deleteTrashFile("file5");
 		git.add().setUpdate(true).addFilepattern("file5").call();
-		RevCommit conflicting = git.commit().setMessage(
-				"Delete file5, add file folder6 and file7 in topic").call();
+		RevCommit conflicting = git
+				.commit()
+				.setMessage("Delete file5, add file folder6 and file7 in topic")
+				.call();
 
 		RebaseResult res = git.rebase().setUpstream("refs/heads/master").call();
 		assertEquals(Status.STOPPED, res.getStatus());
 		assertEquals(conflicting, res.getCurrentCommit());
 
-		assertEquals(RepositoryState.REBASING_INTERACTIVE, db
-				.getRepositoryState());
+		assertEquals(RepositoryState.REBASING_INTERACTIVE,
+				db.getRepositoryState());
 		assertTrue(new File(db.getDirectory(), "rebase-merge").exists());
 		// the first one should be included, so we should have left two picks in
 		// the file
@@ -1125,7 +1127,8 @@ public class RebaseCommandTest extends RepositoryTestCase {
 				exception.getMessage());
 
 		checkFile(uncommittedFile, "uncommitted file2");
-		assertEquals(RepositoryState.SAFE, git.getRepository().getRepositoryState());
+		assertEquals(RepositoryState.SAFE, git.getRepository()
+				.getRepositoryState());
 	}
 
 	@Test
@@ -1411,8 +1414,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		// update FILE1 on master
 		writeTrashFile(FILE1, "blah");
 		git.add().addFilepattern(FILE1).call();
-		git.commit().setMessage("updated file1 on master")
-				.call();
+		git.commit().setMessage("updated file1 on master").call();
 
 		// switch to side branch and update file2
 		checkoutBranch("refs/heads/side");
