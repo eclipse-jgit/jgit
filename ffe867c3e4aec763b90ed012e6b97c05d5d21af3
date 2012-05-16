@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOHn///yY\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-05-16T22:33:27Z",
+      "side": 1,
+      "message": "it\u0027s unnecessary to have this in the commit message as this is obvious from the commit\u0027s diff",
+      "revId": "ffe867c3e4aec763b90ed012e6b97c05d5d21af3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn///yU\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CommitCommandTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-05-16T22:33:27Z",
+      "side": 1,
+      "message": "style nit: we don\u0027t use wildcards in import statements",
+      "revId": "ffe867c3e4aec763b90ed012e6b97c05d5d21af3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn///yQ\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CommitCommandTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-05-16T22:33:27Z",
+      "side": 1,
+      "message": "we manage and sort import statements using Ctrl-Shift-O in Eclipse",
+      "revId": "ffe867c3e4aec763b90ed012e6b97c05d5d21af3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn///yI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-05-16T22:33:27Z",
+      "side": 1,
+      "message": "this line seems too wide, please use the JGit formatter settings, find them in tools/eclipse-JGit-format.xml",
+      "revId": "ffe867c3e4aec763b90ed012e6b97c05d5d21af3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn///yE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-05-16T22:33:27Z",
+      "side": 1,
+      "message": "this hunk seems unrelated to this change",
+      "revId": "ffe867c3e4aec763b90ed012e6b97c05d5d21af3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
