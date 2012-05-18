@@ -25,7 +25,10 @@ org.eclipse.jgit.pgm.RevParse
 org.eclipse.jgit.pgm.Rm
 org.eclipse.jgit.pgm.ShowRev
 org.eclipse.jgit.pgm.ShowRef
+org.eclipse.jgit.pgm.Subscribe
+org.eclipse.jgit.pgm.SubscribeDaemon
 org.eclipse.jgit.pgm.Tag
+org.eclipse.jgit.pgm.Unsubscribe
 org.eclipse.jgit.pgm.UploadPack
 org.eclipse.jgit.pgm.Version
 
