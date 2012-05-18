@@ -631,6 +631,11 @@ public class AddCommandTest extends RepositoryTestCase {
 			public boolean canExecute(File f) {
 				return true;
 			}
+
+			@Override
+			public boolean isCaseSensitive() {
+				return false;
+			}
 		};
 
 		Git git = Git.open(db.getDirectory(), executableFs);
@@ -669,6 +674,11 @@ public class AddCommandTest extends RepositoryTestCase {
 			}
 
 			public boolean canExecute(File f) {
+				return false;
+			}
+
+			@Override
+			public boolean isCaseSensitive() {
 				return false;
 			}
 		};
