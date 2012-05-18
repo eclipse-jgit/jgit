@@ -439,6 +439,16 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 	}
 
 	@Test
+	public void testGetRefsCaseSensitive() throws IOException {
+		writeLooseRef("refs/heads/A", A);
+		writeLooseRef("refs/tags/lowercase", v1_0);
+
+		assertEquals(v1_0, refdir.getRef("refs/tags/lowercase").getObjectId());
+		assertNull("case sensitive getRef shouldn't find wrong case",
+				refdir.getRef("refs/tags/LOWERCASE"));
+	}
+
+	@Test
 	public void testGetRefs_TagsOnly_AllLoose() throws IOException {
 		Map<String, Ref> tags;
 		Ref a;
