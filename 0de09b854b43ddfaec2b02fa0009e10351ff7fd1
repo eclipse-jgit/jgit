@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOHn///hU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/RefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 794,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-05-18T21:56:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOHn///mY\u003d",
+      "revId": "0de09b854b43ddfaec2b02fa0009e10351ff7fd1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOHn///mU\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/RefDirectory.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2012-05-18T15:58:00Z",
       "side": 1,
       "message": "Seem C Git does not do this. That may still be useful. Are you sure this is not too expensive  We may have lots of refs and getCanonicalPath is very very expensive, which is one reason we have avoided it so far. It may even fail sometimes.\n\nIf we do this we should only do this when the name comes\nthrough the public API and not when it comes from our own\nscan of the file system, which I presume return the correct\ncase.",
+      "revId": "0de09b854b43ddfaec2b02fa0009e10351ff7fd1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn///hI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/RefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 795,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-05-18T21:56:19Z",
+      "side": 1,
+      "message": "We need this when the public method RefDirectory.getRef(String refname) is called with a refname which is duplicate when ignoring case and does not match the ref which is stored on disk as a loose ref. \n\nFor the case reported in bug 376270 the tags cdt_8_0 and CDT_8_0 are duplicate when ignoring case. When cloning this repo on Mac we ended up with refs/tags/CDT_8_0 as a loose ref on disc. \n\nBut, since HFS+ is case insensitive, RefDirectory.getRef(\"cdt_8_0\") matches this file.  getRef(refname) also matches when the case is wrong since new File(parent, \"cdt_8_0\") returns the file refs/tags/CDT_8_0 in our case, this constructor is called from scanRef(null, \"cdt_8_0\"). Hence this generates a refsChanged event triggering an IndexDiff re-computation in EGit. \n\nSome time later RepositoryChangeScanner will enumerate all refs calling RefDirectory.getRefs(\"\") which only finds the refs which are really on disc, so this time it doesn\u0027t find cdt_8_0. Hence this again generates a refsChanged event again triggering IndexDiff recomputation. Since RepositoryChangeScanner is scheduled every 10 sec this leads to excessive resource consumption by recomputing IndexDiff on the large CDT repository every 10 sec.",
+      "parentUuid": "AABOHn///mU\u003d",
       "revId": "0de09b854b43ddfaec2b02fa0009e10351ff7fd1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
