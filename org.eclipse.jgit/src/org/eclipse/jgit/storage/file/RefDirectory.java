@@ -789,6 +789,12 @@ public class RefDirectory extends RefDatabase {
 		if (n == 0)
 			return null; // empty file; not a reference.
 
+		// prevent returning ref with wrong case on case insensitive file
+		// systems
+		if (!FS.DETECTED.isCaseSensitive()
+				&& !path.getCanonicalPath().equals(path.getPath()))
+			return null;
+
 		if (isSymRef(buf, n)) {
 			if (n == limit)
 				return null; // possibly truncated ref
