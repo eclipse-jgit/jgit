@@ -136,6 +136,13 @@ public abstract class FS {
 	public abstract boolean supportsExecute();
 
 	/**
+	 * Is this file system case sensitive
+	 *
+	 * @return true if this implementation is case sensitive
+	 */
+	public abstract boolean isCaseSensitive();
+
+	/**
 	 * Determine if the file is executable (or not).
 	 * <p>
 	 * Not all platforms and JREs support executable flags on files. If the
