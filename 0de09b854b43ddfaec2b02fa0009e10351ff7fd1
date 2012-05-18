@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOHn///mY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/RefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 794,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-05-18T15:58:00Z",
+      "side": 1,
+      "message": "Use parent.getFS() instead",
+      "revId": "0de09b854b43ddfaec2b02fa0009e10351ff7fd1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn///mU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/RefDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 795,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-05-18T15:58:00Z",
+      "side": 1,
+      "message": "Seem C Git does not do this. That may still be useful. Are you sure this is not too expensive  We may have lots of refs and getCanonicalPath is very very expensive, which is one reason we have avoided it so far. It may even fail sometimes.\n\nIf we do this we should only do this when the name comes\nthrough the public API and not when it comes from our own\nscan of the file system, which I presume return the correct\ncase.",
+      "revId": "0de09b854b43ddfaec2b02fa0009e10351ff7fd1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
