@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOHn///cc\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Checkout.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2012-05-20T10:51:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOHH///Kg\u003d",
+      "revId": "aed9a2c993290f86d5009c0d407d2cf15bf5a9f1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOHH///I4\u003d",
         "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Checkout.java",
         "patchSetId": 3
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AABOHn///cU\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Checkout.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2012-05-20T10:51:27Z",
+      "side": 1,
+      "message": "The \"fatal: \" prefix is added in case an exception occurs when executing the command line. See catch clauses in org.eclipse.jgit.pgm.Main.run(String[]). So I guess it\u0027s not the only place where the prefix is not expected.",
+      "parentUuid": "AABOHH///I4\u003d",
+      "revId": "aed9a2c993290f86d5009c0d407d2cf15bf5a9f1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOHH///KQ\u003d",
         "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Checkout.java",
         "patchSetId": 3
@@ -47,6 +83,24 @@
       "writtenOn": "2012-05-04T20:01:00Z",
       "side": 1,
       "message": "\"jgit checkout -b b2\" prints (branch b2 already existing):\n\n fatal: fatal: git checkout: branch b2 already exists\n\nwhere native git says:\n\n fatal: A branch named \u0027b2\u0027 already exists.",
+      "revId": "aed9a2c993290f86d5009c0d407d2cf15bf5a9f1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn///cY\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Checkout.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2012-05-20T10:51:27Z",
+      "side": 1,
+      "message": "The native git I use (1.7.4.msysgit.0) prints:\n\n fatal: git checkout: branch b2 already exists\n\nDoubled \"fatal: \" is bad, but the rest of the message seems to be fine.",
+      "parentUuid": "AABOHH///KQ\u003d",
       "revId": "aed9a2c993290f86d5009c0d407d2cf15bf5a9f1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
