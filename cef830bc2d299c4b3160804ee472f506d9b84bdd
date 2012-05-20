@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOHn///as\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalkUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-05-20T22:18:23Z",
+      "side": 1,
+      "message": "typo s/.s/s./",
+      "revId": "cef830bc2d299c4b3160804ee472f506d9b84bdd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn///aY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalkUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-05-20T22:18:23Z",
+      "side": 1,
+      "message": "If refs.size() is less than the number of RevFlags free in the RevWalk you are perhaps better off assigning a flag to each Ref and using the flag system to track reachability during a single traversal.\n\nIf you have more refs than RevFlags free, you could run them in batches. With your idea on line 144 of skipping any Ref whose tip commit is more than 1 day older than the target commit, you may be able to get most executions reduced down to just one batch and avoid additional traversals.",
+      "revId": "cef830bc2d299c4b3160804ee472f506d9b84bdd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn///ak\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalkUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-05-20T22:18:23Z",
+      "side": 1,
+      "message": "This markStart is pointless. You run resetRetain() before doing anything else.",
+      "revId": "cef830bc2d299c4b3160804ee472f506d9b84bdd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn///ao\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalkUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-05-20T22:18:23Z",
+      "side": 1,
+      "message": "You should require the commit to come from the RevWalk, and then this is a reference equality test and not an equals test.",
+      "revId": "cef830bc2d299c4b3160804ee472f506d9b84bdd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn///aQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalkUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-05-20T22:18:23Z",
+      "side": 1,
+      "message": "This may be faster as a RevFlag if you can temporarily borrow or allocate a flag from the RevWalk. But see above about using RevFlags to track reachability for multiple Refs at once so you can reduce the number of traversals performed.",
+      "revId": "cef830bc2d299c4b3160804ee472f506d9b84bdd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn///ag\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalkUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-05-20T22:18:23Z",
+      "side": 1,
+      "message": "s/.toObjectId()//. You can just add current to the list/map.",
+      "revId": "cef830bc2d299c4b3160804ee472f506d9b84bdd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
