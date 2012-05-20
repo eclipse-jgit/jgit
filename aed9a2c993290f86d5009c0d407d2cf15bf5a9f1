@@ -104,6 +104,24 @@
       "revId": "aed9a2c993290f86d5009c0d407d2cf15bf5a9f1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn///ac\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Checkout.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-05-20T22:17:49Z",
+      "side": 1,
+      "message": "git 1.7.10.1 (Mac) says\n\n fatal: A branch named \u0027b2\u0027 already exists.\n\nthis matches the string \"branchAlreadyExists\", I would use this one also here",
+      "parentUuid": "AABOHn///cY\u003d",
+      "revId": "aed9a2c993290f86d5009c0d407d2cf15bf5a9f1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
