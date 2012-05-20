@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOHn///Yg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CherryPickCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-05-20T23:49:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOHH///94\u003d",
+      "revId": "d081c2279000cd9e196b8a15a8412c979949acba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOHn///ZQ\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ReflogCommand.java",
         "patchSetId": 8
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AABOHn///YY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ReflogCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-05-20T23:49:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOHn///ZQ\u003d",
+      "revId": "d081c2279000cd9e196b8a15a8412c979949acba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOHn///ZE\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RevertCommand.java",
         "patchSetId": 8
@@ -47,6 +83,24 @@
       "writtenOn": "2012-05-20T23:47:49Z",
       "side": 1,
       "message": "duplicate throws declaration",
+      "revId": "d081c2279000cd9e196b8a15a8412c979949acba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn///YU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RevertCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-05-20T23:49:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOHn///ZE\u003d",
       "revId": "d081c2279000cd9e196b8a15a8412c979949acba",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
