@@ -40,7 +40,7 @@ package org.eclipse.jgit.api.errors;
 import org.eclipse.jgit.lib.Ref;
 
 /**
- * Thrown when trying to create a {@link Ref} with the same name as an exsiting
+ * Thrown when trying to create a {@link Ref} with the same name as an existing
  * one
  */
 public class RefAlreadyExistsException extends GitAPIException {
