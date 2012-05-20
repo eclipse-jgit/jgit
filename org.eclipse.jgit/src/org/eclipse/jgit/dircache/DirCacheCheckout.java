@@ -1015,10 +1015,9 @@ public class DirCacheCheckout {
 	}
 
 	private static boolean isValidPathSegment(CanonicalTreeParser t) {
-		boolean isWindows = "Windows".equals(SystemReader.getInstance()
-				.getProperty("os.name"));
-		boolean isOSX = "Mac OS X".equals(SystemReader.getInstance()
-				.getProperty("os.name"));
+		String osName = SystemReader.getInstance().getProperty("os.name");
+		boolean isWindows = "Windows".equals(osName);
+		boolean isOSX = "Darwin".equals(osName) || "Mac OS X".equals(osName);
 		boolean ignCase = isOSX || isWindows;
 
 		int ptr = t.getNameOffset();
