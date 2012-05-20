@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOHn///a0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1021,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-05-20T22:07:45Z",
+      "side": 1,
+      "message": "I dom\u0027t expect you to fix this in this change, but for what it is worth, OS X does support a case sensitive version of HFS+. Its not common, but it is possible with a disk image.",
+      "revId": "93f95f1ca11de25441206b05eacb52e213d31cfa",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
