@@ -182,7 +182,7 @@ public class CLIText extends TranslationBundle {
 	/***/ public String skippingObject;
 	/***/ public String timeInMilliSeconds;
 	/***/ public String tooManyRefsGiven;
-	/***/ public String unknownMergeStratey;
+	/***/ public String unknownMergeStrategy;
 	/***/ public String unsupportedOperation;
 	/***/ public String warningNoCommitGivenOnCommandLine;
 }
