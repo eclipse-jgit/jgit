@@ -60,8 +60,8 @@ import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.Comparator;
 
-import org.eclipse.jgit.errors.LockFailedException;
 import org.eclipse.jgit.errors.CorruptObjectException;
+import org.eclipse.jgit.errors.LockFailedException;
 import org.eclipse.jgit.errors.UnmergedPathException;
 import org.eclipse.jgit.events.IndexChangedEvent;
 import org.eclipse.jgit.events.IndexChangedListener;
@@ -404,6 +404,10 @@ public class DirCache {
 		if (entryCnt < 0)
 			throw new CorruptObjectException(JGitText.get().DIRCHasTooManyEntries);
 
+		snapshot = FileSnapshot.save(liveFile);
+		int smudge_s = (int) (snapshot.lastModified() / 1000);
+		int smudge_ns = ((int) (snapshot.lastModified() % 1000)) * 1000000;
+
 		// Load the individual file entries.
 		//
 		final int infoLength = DirCacheEntry.getMaximumInfoLength(extended);
@@ -412,8 +416,7 @@ public class DirCache {
 
 		final MutableInteger infoAt = new MutableInteger();
 		for (int i = 0; i < entryCnt; i++)
-			sortedEntries[i] = new DirCacheEntry(infos, infoAt, in, md);
-		snapshot = FileSnapshot.save(liveFile);
+			sortedEntries[i] = new DirCacheEntry(infos, infoAt, in, md, smudge_s, smudge_ns);
 
 		// After the file entries are index extensions, and then a footer.
 		//
@@ -570,21 +573,29 @@ public class DirCache {
 		dos.write(tmp, 0, 12);
 
 		// Write the individual file entries.
-		//
-		if (snapshot == null) {
-			// Write a new index, as no entries require smudging.
-			//
-			for (int i = 0; i < entryCnt; i++)
-				sortedEntries[i].write(dos);
+
+		final int smudge_s;
+		final int smudge_ns;
+		if (myLock != null) {
+			// For new files we need to smudge the index entry
+			// if they have been modified "now". Ideally we'd
+			// want the timestamp when we're done writing the index,
+			// so we use the current timestamp as a approximation.
+			myLock.createCommitSnapshot();
+			snapshot = myLock.getCommitSnapshot();
+			smudge_s = (int) (snapshot.lastModified() / 1000);
+			smudge_ns = ((int) (snapshot.lastModified() % 1000)) * 1000000;
 		} else {
-			final int smudge_s = (int) (snapshot.lastModified() / 1000);
-			final int smudge_ns = ((int) (snapshot.lastModified() % 1000)) * 1000000;
-			for (int i = 0; i < entryCnt; i++) {
-				final DirCacheEntry e = sortedEntries[i];
-				if (e.mightBeRacilyClean(smudge_s, smudge_ns))
-					e.smudgeRacilyClean();
-				e.write(dos);
-			}
+			// Used in unit tests only
+			smudge_ns = 0;
+			smudge_s = 0;
+		}
+
+		for (int i = 0; i < entryCnt; i++) {
+			final DirCacheEntry e = sortedEntries[i];
+			if (e.mightBeRacilyClean(smudge_s, smudge_ns))
+				e.smudgeRacilyClean();
+			e.write(dos);
 		}
 
 		if (tree != null) {
