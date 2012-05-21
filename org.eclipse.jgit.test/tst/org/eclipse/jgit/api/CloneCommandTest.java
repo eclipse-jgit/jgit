@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011, Chris Aniszczyk <caniszczyk@gmail.com>
+ * Copyright (C) 2012, Chris Aniszczyk <caniszczyk@gmail.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -302,6 +302,48 @@ public class CloneCommandTest extends RepositoryTestCase {
 		assertEquals(SubmoduleStatusType.INITIALIZED, pathStatus.getType());
 		assertEquals(commit, pathStatus.getHeadId());
 		assertEquals(commit, pathStatus.getIndexId());
+	}
+
+	@Test
+	public void testCloneRepositoryWithoutCloningSubmodules() throws Exception {
+		git.checkout().setName(Constants.MASTER).call();
+
+		String file = "file.txt";
+		writeTrashFile(file, "content");
+		git.add().addFilepattern(file).call();
+		git.commit().setMessage("create file").call();
+
+		SubmoduleAddCommand command = new SubmoduleAddCommand(db);
+		String path = "sub";
+		command.setPath(path);
+		String uri = db.getDirectory().toURI().toString();
+		command.setURI(uri);
+		Repository repo = command.call();
+		assertNotNull(repo);
+		git.add().addFilepattern(path)
+				.addFilepattern(Constants.DOT_GIT_MODULES).call();
+		git.commit().setMessage("adding submodule").call();
+
+		File directory = createTempDirectory("testCloneRepositoryWithoutCloningSubmodules");
+		CloneCommand clone = Git.cloneRepository();
+		clone.setDirectory(directory);
+		clone.setURI("file://" + git.getRepository().getWorkTree().getPath());
+		Git git2 = clone.call();
+		addRepoToClose(git2.getRepository());
+		assertNotNull(git2);
+
+		assertEquals(Constants.MASTER, git2.getRepository().getBranch());
+		assertTrue(new File(git2.getRepository().getWorkTree(), path).exists());
+		assertFalse(new File(git2.getRepository().getWorkTree(), path
+				+ File.separatorChar + file).exists());
+
+		Status stat = git2.status().call();
+		assertEquals(0, stat.getAdded().size());
+		assertEquals(0, stat.getChanged().size());
+		assertEquals(0, stat.getMissing().size());
+		assertEquals(0, stat.getModified().size());
+		assertEquals(0, stat.getRemoved().size());
+		assertEquals(0, stat.getUntracked().size());
 	}
 
 	@Test
