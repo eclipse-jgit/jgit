@@ -34,6 +34,24 @@
       "revId": "6a83030de9ff21e97bdde7f8dd1cbdb06f3a8793",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn///Vc\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/PathCheckoutCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-05-21T13:15:07Z",
+      "side": 1,
+      "message": "Ah, now I understand. The current commit message just tells about a problem you see, right? Not about something you fixed or added. We\u0027ll fix the commit message when we have a fix for the failing test.",
+      "parentUuid": "AABOHn///WQ\u003d",
+      "revId": "6a83030de9ff21e97bdde7f8dd1cbdb06f3a8793",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
