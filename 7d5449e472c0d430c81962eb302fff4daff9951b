@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOHn///P0\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CommitCommandTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2012-05-21T21:59:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOHn///Qc\u003d",
+      "revId": "7d5449e472c0d430c81962eb302fff4daff9951b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOHn///QU\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
         "patchSetId": 9
@@ -30,6 +48,24 @@
       "writtenOn": "2012-05-21T21:55:17Z",
       "side": 1,
       "message": "What has this change to do with the topic?",
+      "revId": "7d5449e472c0d430c81962eb302fff4daff9951b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn///QI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 874,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2012-05-21T21:59:45Z",
+      "side": 1,
+      "message": "This is needed in the case where this method is called to obtain a DirCache that is then written after a subsequent call to DirCache.lock so that the DirCache has a handle to the repository to update smudged index entries with data from the working tree.",
+      "parentUuid": "AABOHn///QU\u003d",
       "revId": "7d5449e472c0d430c81962eb302fff4daff9951b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
