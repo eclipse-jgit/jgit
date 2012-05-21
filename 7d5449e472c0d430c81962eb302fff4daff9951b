@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOHn///Qc\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CommitCommandTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-05-21T21:55:17Z",
+      "side": 1,
+      "message": "\"content2\" ?",
+      "revId": "7d5449e472c0d430c81962eb302fff4daff9951b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn///QU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/Repository.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 874,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-05-21T21:55:17Z",
+      "side": 1,
+      "message": "What has this change to do with the topic?",
+      "revId": "7d5449e472c0d430c81962eb302fff4daff9951b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
