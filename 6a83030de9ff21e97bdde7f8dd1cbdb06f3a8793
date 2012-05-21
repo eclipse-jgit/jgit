@@ -16,6 +16,24 @@
       "revId": "6a83030de9ff21e97bdde7f8dd1cbdb06f3a8793",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn///WQ\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/PathCheckoutCommandTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2012-05-21T11:08:42Z",
+      "side": 1,
+      "message": "Have you rebased it? IIRC it failed at the time it was submitted, nearly year ago.",
+      "parentUuid": "AABOHn///WY\u003d",
+      "revId": "6a83030de9ff21e97bdde7f8dd1cbdb06f3a8793",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
