@@ -2,7 +2,7 @@
  * Copyright (C) 2007, Dave Watson <dwatson@mimvista.com>
  * Copyright (C) 2008-2010, Google Inc.
  * Copyright (C) 2006-2010, Robin Rosenberg <robin.rosenberg@dewire.com>
- * Copyright (C) 2006-2008, Shawn O. Pearce <spearce@spearce.org>
+ * Copyright (C) 2006-2012, Shawn O. Pearce <spearce@spearce.org>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -1125,43 +1125,24 @@ public abstract class Repository {
 	 *             See {@link #isBare()}.
 	 */
 	public String readMergeCommitMsg() throws IOException, NoWorkTreeException {
-		if (isBare() || getDirectory() == null)
-			throw new NoWorkTreeException();
-
-		File mergeMsgFile = new File(getDirectory(), Constants.MERGE_MSG);
-		try {
-			return RawParseUtils.decode(IO.readFully(mergeMsgFile));
-		} catch (FileNotFoundException e) {
-			// MERGE_MSG file has disappeared in the meantime
-			// ignore it
-			return null;
-		}
+		return readCommitMsgFile(Constants.MERGE_MSG);
 	}
 
 	/**
 	 * Write new content to the file $GIT_DIR/MERGE_MSG. In this file operations
 	 * triggering a merge will store a template for the commit message of the
 	 * merge commit. If <code>null</code> is specified as message the file will
-	 * be deleted
-	 *
+	 * be deleted.
+	 * 
 	 * @param msg
 	 *            the message which should be written or <code>null</code> to
 	 *            delete the file
-	 *
+	 * 
 	 * @throws IOException
 	 */
 	public void writeMergeCommitMsg(String msg) throws IOException {
 		File mergeMsgFile = new File(gitDir, Constants.MERGE_MSG);
-		if (msg != null) {
-			FileOutputStream fos = new FileOutputStream(mergeMsgFile);
-			try {
-				fos.write(msg.getBytes(Constants.CHARACTER_ENCODING));
-			} finally {
-				fos.close();
-			}
-		} else {
-			FileUtils.delete(mergeMsgFile, FileUtils.SKIP_MISSING);
-		}
+		writeCommitMsg(mergeMsgFile, msg);
 	}
 
 	/**
@@ -1169,9 +1150,9 @@ public abstract class Repository {
 	 * file operations triggering a merge will store the IDs of all heads which
 	 * should be merged together with HEAD.
 	 *
-	 * @return a list of commits which IDs are listed in the MERGE_HEAD
-	 *         file or {@code null} if this file doesn't exist. Also if the file
-	 *         exists but is empty {@code null} will be returned
+	 * @return a list of commits which IDs are listed in the MERGE_HEAD file or
+	 *         {@code null} if this file doesn't exist. Also if the file exists
+	 *         but is empty {@code null} will be returned
 	 * @throws IOException
 	 * @throws NoWorkTreeException
 	 *             if this is bare, which implies it has no working directory.
@@ -1245,6 +1226,65 @@ public abstract class Repository {
 		List<ObjectId> heads = (head != null) ? Collections.singletonList(head)
 				: null;
 		writeHeadsFile(heads, Constants.CHERRY_PICK_HEAD);
+	}
+
+	/**
+	 * Return the information stored in the file $GIT_DIR/SQUASH_MSG. In this
+	 * file operations triggering a squashed merge will store a template for the
+	 * commit message of the squash commit.
+	 *
+	 * @return a String containing the content of the SQUASH_MSG file or
+	 *         {@code null} if this file doesn't exist
+	 * @throws IOException
+	 * @throws NoWorkTreeException
+	 *             if this is bare, which implies it has no working directory.
+	 *             See {@link #isBare()}.
+	 */
+	public String readSquashCommitMsg() throws IOException {
+		return readCommitMsgFile(Constants.SQUASH_MSG);
+	}
+
+	/**
+	 * Write new content to the file $GIT_DIR/SQUASH_MSG. In this file
+	 * operations triggering a squashed merge will store a template for the
+	 * commit message of the squash commit. If <code>null</code> is specified as
+	 * message the file will be deleted.
+	 *
+	 * @param msg
+	 *            the message which should be written or <code>null</code> to
+	 *            delete the file
+	 *
+	 * @throws IOException
+	 */
+	public void writeSquashCommitMsg(String msg) throws IOException {
+		File squashMsgFile = new File(gitDir, Constants.SQUASH_MSG);
+		writeCommitMsg(squashMsgFile, msg);
+	}
+
+	private String readCommitMsgFile(String msgFilename) throws IOException {
+		if (isBare() || getDirectory() == null)
+			throw new NoWorkTreeException();
+
+		File mergeMsgFile = new File(getDirectory(), msgFilename);
+		try {
+			return RawParseUtils.decode(IO.readFully(mergeMsgFile));
+		} catch (FileNotFoundException e) {
+			// the file has disappeared in the meantime ignore it
+			return null;
+		}
+	}
+
+	private void writeCommitMsg(File msgFile, String msg) throws IOException {
+		if (msg != null) {
+			FileOutputStream fos = new FileOutputStream(msgFile);
+			try {
+				fos.write(msg.getBytes(Constants.CHARACTER_ENCODING));
+			} finally {
+				fos.close();
+			}
+		} else {
+			FileUtils.delete(msgFile, FileUtils.SKIP_MISSING);
+		}
 	}
 
 	/**
