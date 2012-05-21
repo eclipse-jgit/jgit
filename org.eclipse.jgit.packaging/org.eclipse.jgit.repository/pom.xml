@@ -54,7 +54,9 @@
   </parent>
 
   <artifactId>org.eclipse.jgit.repository</artifactId>
-  <packaging>eclipse-repository</packaging>
+  <!-- TODO as soon as Tycho bug 368596 is fixed we should use packaging type
+       eclipse-repository -->
+  <packaging>eclipse-update-site</packaging>
 
   <name>JGit P2 Repository</name>
 
