@@ -122,6 +122,24 @@
       "revId": "aed9a2c993290f86d5009c0d407d2cf15bf5a9f1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn///Ww\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Checkout.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2012-05-21T09:00:58Z",
+      "side": 1,
+      "message": "You\u0027re right, I\u0027m seeing the same message after updating the native git client. I will try to do it more often now.",
+      "parentUuid": "AABOHn///ac\u003d",
+      "revId": "aed9a2c993290f86d5009c0d407d2cf15bf5a9f1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
