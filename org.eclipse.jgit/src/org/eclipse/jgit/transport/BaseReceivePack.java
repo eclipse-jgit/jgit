@@ -67,6 +67,7 @@ import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.PackProtocolException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Config.SectionParser;
 import org.eclipse.jgit.lib.Constants;
@@ -1139,12 +1140,20 @@ public abstract class BaseReceivePack {
 			pm.setDelayStart(250, TimeUnit.MILLISECONDS);
 			updating = pm;
 		}
-		updating.beginTask(JGitText.get().updatingReferences, toApply.size());
-		for (ReceiveCommand cmd : toApply) {
-			updating.update(1);
-			cmd.execute(this);
+
+		BatchRefUpdate batch = db.getRefDatabase().newBatchUpdate();
+		batch.setAllowNonFastForwards(isAllowNonFastForwards());
+		batch.setRefLogIdent(getRefLogIdent());
+		batch.setRefLogMessage("push", true);
+		batch.addCommand(toApply);
+		try {
+			batch.execute(walk, updating);
+		} catch (IOException err) {
+			for (ReceiveCommand cmd : toApply) {
+				if (cmd.getResult() == Result.NOT_ATTEMPTED)
+					cmd.reject(err);
+			}
 		}
-		updating.endTask();
 	}
 
 	/**

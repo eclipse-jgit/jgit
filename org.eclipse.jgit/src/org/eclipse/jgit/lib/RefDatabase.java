@@ -147,6 +147,17 @@ public abstract class RefDatabase {
 			throws IOException;
 
 	/**
+	 * Create a new batch update to attempt on this database.
+	 * <p>
+	 * The default implementation performs a sequential update of each command.
+	 *
+	 * @return a new batch update object.
+	 */
+	public BatchRefUpdate newBatchUpdate() {
+		return new BatchRefUpdate(this);
+	}
+
+	/**
 	 * Read a single reference.
 	 * <p>
 	 * Aside from taking advantage of {@link #SEARCH_PATH}, this method may be

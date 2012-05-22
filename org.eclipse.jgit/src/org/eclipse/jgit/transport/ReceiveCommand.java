@@ -337,8 +337,7 @@ public class ReceiveCommand {
 				break;
 			}
 		} catch (IOException err) {
-			setResult(Result.REJECTED_OTHER_REASON, MessageFormat.format(
-					JGitText.get().lockError, err.getMessage()));
+			reject(err);
 		}
 	}
 
@@ -355,7 +354,13 @@ public class ReceiveCommand {
 		typeIsCorrect = true;
 	}
 
-	private void setResult(final RefUpdate.Result r) {
+	/**
+	 * Set the result of this command.
+	 *
+	 * @param r
+	 *            the new result code for this command.
+	 */
+	public void setResult(RefUpdate.Result r) {
 		switch (r) {
 		case NOT_ATTEMPTED:
 			setResult(Result.NOT_ATTEMPTED);
@@ -385,6 +390,11 @@ public class ReceiveCommand {
 			setResult(Result.REJECTED_OTHER_REASON, r.name());
 			break;
 		}
+	}
+
+	void reject(IOException err) {
+		setResult(Result.REJECTED_OTHER_REASON, MessageFormat.format(
+				JGitText.get().lockError, err.getMessage()));
 	}
 
 	@Override
