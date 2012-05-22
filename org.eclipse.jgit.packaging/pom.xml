@@ -61,6 +61,7 @@
   <properties>
     <tycho-version>0.14.1</tycho-version>
     <eclipse-site>http://download.eclipse.org/releases/indigo</eclipse-site>
+    <jetty-version>8.1.3.v20120416</jetty-version>
   </properties>
 
   <modules>
@@ -72,9 +73,14 @@
 
   <repositories>
     <repository>
-      <id>indigo</id>
+      <id>eclipse</id>
       <layout>p2</layout>
       <url>${eclipse-site}</url>
+    </repository>
+    <repository>
+      <id>jetty</id>
+      <layout>p2</layout>
+      <url>http://download.eclipse.org/jetty/updates/jetty-bundles-8.x/${jetty-version}/</url>
     </repository>
   </repositories>
 
@@ -150,6 +156,11 @@
                 <os>win32</os>
                 <ws>win32</ws>
                 <arch>x86_64</arch>
+              </environment>
+              <environment>
+                <os>macosx</os>
+                <ws>cocoa</ws>
+                <arch>x86</arch>
               </environment>
               <environment>
                 <os>macosx</os>
