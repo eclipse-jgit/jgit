@@ -41,13 +41,9 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.eclipse.jgit.nls;
+package org.eclipse.jgit.http.server;
 
-import org.eclipse.jgit.awtui.UIText;
-import org.eclipse.jgit.console.ConsoleText;
-import org.eclipse.jgit.internal.JGitText;
-import org.eclipse.jgit.iplog.IpLogText;
-import org.eclipse.jgit.pgm.CLIText;
+import org.eclipse.jgit.nls.NLS;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -58,27 +54,7 @@ public class RootLocaleTest {
 	}
 
 	@Test
-	public void testJGitText() {
-		NLS.getBundleFor(JGitText.class);
-	}
-
-	@Test
-	public void testConsoleText() {
-		NLS.getBundleFor(ConsoleText.class);
-	}
-
-	@Test
-	public void testCLIText() {
-		NLS.getBundleFor(CLIText.class);
-	}
-
-	@Test
-	public void testUIText() {
-		NLS.getBundleFor(UIText.class);
-	}
-
-	@Test
-	public void testIpLogText() {
-		NLS.getBundleFor(IpLogText.class);
+	public void testHttpServerText() {
+		NLS.getBundleFor(HttpServerText.class);
 	}
 }
