@@ -49,9 +49,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevObject;
+import org.eclipse.jgit.revwalk.RevWalk;
 
 /**
  * A command being processed by {@link BaseReceivePack}.
@@ -156,6 +160,8 @@ public class ReceiveCommand {
 	private Result status;
 
 	private String message;
+
+	private boolean typeIsCorrect;
 
 	/**
 	 * Create a new command for {@link BaseReceivePack}.
@@ -265,6 +271,36 @@ public class ReceiveCommand {
 	}
 
 	/**
+	 * Update the type of this command by checking for fast-forward.
+	 * <p>
+	 * If the command's current type is UPDATE, a merge test will be performed
+	 * using the supplied RevWalk to determine if {@link #getOldId()} is fully
+	 * merged into {@link #getNewId()}. If some commits are not merged the
+	 * update type is changed to {@link Type#UPDATE_NONFASTFORWARD}.
+	 *
+	 * @param walk
+	 *            an instance to perform the merge test with. The caller must
+	 *            allocate and release this object.
+	 * @throws IOException
+	 *             either oldId or newId is not accessible in the repository
+	 *             used by the RevWalk. This usually indicates data corruption,
+	 *             and the command cannot be processed.
+	 */
+	public void updateType(RevWalk walk) throws IOException {
+		if (typeIsCorrect)
+			return;
+		if (type == Type.UPDATE && !AnyObjectId.equals(oldId, newId)) {
+			RevObject o = walk.parseAny(oldId);
+			RevObject n = walk.parseAny(newId);
+			if (!(o instanceof RevCommit)
+					|| !(n instanceof RevCommit)
+					|| !walk.isMergedInto((RevCommit) o, (RevCommit) n))
+				setType(Type.UPDATE_NONFASTFORWARD);
+		}
+		typeIsCorrect = true;
+	}
+
+	/**
 	 * Execute this command during a receive-pack session.
 	 * <p>
 	 * Sets the status of the command as a side effect.
@@ -312,6 +348,11 @@ public class ReceiveCommand {
 
 	void setType(final Type t) {
 		type = t;
+	}
+
+	void setTypeFastForwardUpdate() {
+		type = Type.UPDATE;
+		typeIsCorrect = true;
 	}
 
 	private void setResult(final RefUpdate.Result r) {

@@ -1086,11 +1086,11 @@ public abstract class BaseReceivePack {
 
 				if (oldObj instanceof RevCommit && newObj instanceof RevCommit) {
 					try {
-						if (!walk.isMergedInto((RevCommit) oldObj,
-								(RevCommit) newObj)) {
-							cmd
-									.setType(ReceiveCommand.Type.UPDATE_NONFASTFORWARD);
-						}
+						if (walk.isMergedInto((RevCommit) oldObj,
+								(RevCommit) newObj))
+							cmd.setTypeFastForwardUpdate();
+						else
+							cmd.setType(ReceiveCommand.Type.UPDATE_NONFASTFORWARD);
 					} catch (MissingObjectException e) {
 						cmd.setResult(Result.REJECTED_MISSING_OBJECT, e
 								.getMessage());
