@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011, Chris Aniszczyk <caniszczyk@gmail.com>
+ * Copyright (C) 2011-2012, Chris Aniszczyk <caniszczyk@gmail.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -212,6 +212,8 @@ public class ResetCommand extends GitCommand<Ref> {
 					resetMerge();
 				else if (cherryPicking)
 					resetCherryPick();
+				else if (repo.readSquashCommitMsg() != null)
+					repo.writeSquashCommitMsg(null /* delete */);
 			}
 
 			setCallable(false);

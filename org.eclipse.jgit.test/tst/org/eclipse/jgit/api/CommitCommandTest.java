@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011, GitHub Inc.
+ * Copyright (C) 2011-2012, GitHub Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -67,7 +67,7 @@ import org.eclipse.jgit.util.FS;
 import org.junit.Test;
 
 /**
- * Unit tests of {@link CommitCommand}
+ * Unit tests of {@link CommitCommand}.
  */
 public class CommitCommandTest extends RepositoryTestCase {
 
@@ -257,5 +257,41 @@ public class CommitCommandTest extends RepositoryTestCase {
 		assertEquals(commit, subDiff.getNewId().toObjectId());
 		assertEquals(path, subDiff.getNewPath());
 		assertEquals(path, subDiff.getOldPath());
+	}
+
+	@Test
+	public void commitAfterSquashMerge() throws Exception {
+		Git git = new Git(db);
+
+		writeTrashFile("file1", "file1");
+		git.add().addFilepattern("file1").call();
+		RevCommit first = git.commit().setMessage("initial commit").call();
+
+		assertTrue(new File(db.getWorkTree(), "file1").exists());
+		createBranch(first, "refs/heads/branch1");
+		checkoutBranch("refs/heads/branch1");
+
+		writeTrashFile("file2", "file2");
+		git.add().addFilepattern("file2").call();
+		git.commit().setMessage("second commit").call();
+		assertTrue(new File(db.getWorkTree(), "file2").exists());
+
+		checkoutBranch("refs/heads/master");
+
+		MergeResult result = git.merge().include(db.getRef("branch1"))
+				.setSquash(true).call();
+
+		assertTrue(new File(db.getWorkTree(), "file1").exists());
+		assertTrue(new File(db.getWorkTree(), "file2").exists());
+		assertEquals(MergeResult.MergeStatus.FAST_FORWARD_SQUASHED,
+				result.getMergeStatus());
+
+		// comment not set, should be inferred from SQUASH_MSG
+		git.commit().call();
+
+		assertEquals("commit: Squashed commit of the following:", db
+				.getReflogReader(Constants.HEAD).getLastEntry().getComment());
+		assertEquals("commit: Squashed commit of the following:", db
+				.getReflogReader(db.getBranch()).getLastEntry().getComment());
 	}
 }
