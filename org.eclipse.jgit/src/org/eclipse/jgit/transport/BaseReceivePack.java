@@ -1100,6 +1100,12 @@ public abstract class BaseReceivePack {
 				} else {
 					cmd.setType(ReceiveCommand.Type.UPDATE_NONFASTFORWARD);
 				}
+
+				if (cmd.getType() == ReceiveCommand.Type.UPDATE_NONFASTFORWARD
+						&& !isAllowNonFastForwards()) {
+					cmd.setResult(Result.REJECTED_NONFASTFORWARD);
+					continue;
+				}
 			}
 
 			if (!cmd.getRefName().startsWith(Constants.R_REFS)
@@ -1123,8 +1129,10 @@ public abstract class BaseReceivePack {
 
 	/** Execute commands to update references. */
 	protected void executeCommands() {
-		List<ReceiveCommand> toApply = ReceiveCommand.filter(commands,
-				Result.NOT_ATTEMPTED);
+		List<ReceiveCommand> toApply = filterCommands(Result.NOT_ATTEMPTED);
+		if (toApply.isEmpty())
+			return;
+
 		ProgressMonitor updating = NullProgressMonitor.INSTANCE;
 		if (sideBand) {
 			SideBandProgressMonitor pm = new SideBandProgressMonitor(msgOut);
