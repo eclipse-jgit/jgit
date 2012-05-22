@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOHn///CU\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-05-22T23:47:51Z",
+      "side": 1,
+      "message": "Yea, well, I just didn\u0027t feel like writing the packed-refs version because its not that obvious in the face of locking. You don\u0027t really want another concurrent writer attempt to create a reference you have chosen to put into packed-refs.",
+      "parentUuid": "AABOGn///+U\u003d",
+      "revId": "6e68af59529b4227052c115f14ba6058ca9d26b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOGn///+Q\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BatchRefUpdate.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2012-03-06T18:31:38Z",
       "side": 1,
       "message": "s/updated/updates/\n\nI would probably also clarify that this is at least one forced update.",
+      "revId": "6e68af59529b4227052c115f14ba6058ca9d26b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn///CE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BatchRefUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-05-22T23:47:51Z",
+      "side": 1,
+      "message": "Clarified, this is actually the isAllowNonFastForwards() from BaseReceivePack which has nothing to do with whether or not there is a force update in the command set.",
+      "parentUuid": "AABOGn///+Q\u003d",
       "revId": "6e68af59529b4227052c115f14ba6058ca9d26b7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AABOHn///B0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BatchRefUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-05-22T23:47:51Z",
+      "side": 1,
+      "message": "renamed isAllowNonFastForwards matching BaseReceivePack",
+      "parentUuid": "AABOGn///+M\u003d",
+      "revId": "6e68af59529b4227052c115f14ba6058ca9d26b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOGn///+I\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BatchRefUpdate.java",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2012-03-06T18:31:38Z",
       "side": 1,
       "message": "s/the/a/",
+      "revId": "6e68af59529b4227052c115f14ba6058ca9d26b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn///Bk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BatchRefUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-05-22T23:47:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOGn///+I\u003d",
       "revId": "6e68af59529b4227052c115f14ba6058ca9d26b7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AABOHn///Bo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BatchRefUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-05-22T23:47:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOGn///+E\u003d",
+      "revId": "6e68af59529b4227052c115f14ba6058ca9d26b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOGn///+A\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BatchRefUpdate.java",
         "patchSetId": 1
@@ -98,6 +188,24 @@
       "writtenOn": "2012-03-06T18:31:38Z",
       "side": 1,
       "message": "Does this need to be final? (Perhaps I\u0027m forgetting the style in this corner of the world.)",
+      "revId": "6e68af59529b4227052c115f14ba6058ca9d26b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn///Bg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BatchRefUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-05-22T23:47:51Z",
+      "side": 1,
+      "message": "No. Its OK to be non-final.",
+      "parentUuid": "AABOGn///+A\u003d",
       "revId": "6e68af59529b4227052c115f14ba6058ca9d26b7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -138,6 +246,24 @@
     },
     {
       "key": {
+        "uuid": "AABOHn///Bc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BatchRefUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-05-22T23:47:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOGn///94\u003d",
+      "revId": "6e68af59529b4227052c115f14ba6058ca9d26b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOGn///9w\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BatchRefUpdate.java",
         "patchSetId": 1
@@ -149,6 +275,24 @@
       "writtenOn": "2012-03-06T18:31:38Z",
       "side": 1,
       "message": "Is it worth clarifying that classification will be aborted, so the results after an exception won\u0027t necessarily be accurate?\n\nI\u0027m picturing a caller that chooses to ignore this exception and go ahead and call execute() with the expectation that the same commands that failed here will fail there, when in reality there might be some unexpected REJECTED_NONFASTFORWARDS in there due to this aborting early.",
+      "revId": "6e68af59529b4227052c115f14ba6058ca9d26b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn///BY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BatchRefUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-05-22T23:47:51Z",
+      "side": 1,
+      "message": "Method deleted.",
+      "parentUuid": "AABOGn///9w\u003d",
       "revId": "6e68af59529b4227052c115f14ba6058ca9d26b7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -189,6 +333,24 @@
     },
     {
       "key": {
+        "uuid": "AABOHn///BU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BatchRefUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-05-22T23:47:51Z",
+      "side": 1,
+      "message": "No. Return void.",
+      "parentUuid": "AABOGn///9s\u003d",
+      "revId": "6e68af59529b4227052c115f14ba6058ca9d26b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOGn///9o\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceiveCommand.java",
         "patchSetId": 1
@@ -200,6 +362,24 @@
       "writtenOn": "2012-03-06T18:31:38Z",
       "side": 1,
       "message": "s/status/result/?",
+      "revId": "6e68af59529b4227052c115f14ba6058ca9d26b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn///CQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceiveCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-05-22T23:47:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOGn///9o\u003d",
       "revId": "6e68af59529b4227052c115f14ba6058ca9d26b7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -223,6 +403,24 @@
     },
     {
       "key": {
+        "uuid": "AABOHn///CI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1201,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-05-22T23:47:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOGn///9k\u003d",
+      "revId": "6e68af59529b4227052c115f14ba6058ca9d26b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOGn///9g\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
         "patchSetId": 1
@@ -234,6 +432,24 @@
       "writtenOn": "2012-03-06T18:31:38Z",
       "side": 1,
       "message": "This is a behavior change, isn\u0027t it? ISTM previously these would have been left as NOT_ATTEMPTED if one of the cmd.execute()s threw an IOException.",
+      "revId": "6e68af59529b4227052c115f14ba6058ca9d26b7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn///CM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1203,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-05-22T23:47:51Z",
+      "side": 1,
+      "message": "No. cmd.execute() doesn\u0027t throw IOException. It catches it internally and sets it to REJECTED_OTHER_REASON with a message.",
+      "parentUuid": "AABOGn///9g\u003d",
       "revId": "6e68af59529b4227052c115f14ba6058ca9d26b7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
