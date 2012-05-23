@@ -150,7 +150,7 @@ public class ResetCommand extends GitCommand<Ref> {
 			// resolve the ref to a commit
 			final ObjectId commitId;
 			try {
-				commitId = repo.resolve(ref);
+				commitId = repo.resolve(ref + "^{commit}");
 				if (commitId == null) {
 					// @TODO throw an InvalidRefNameException. We can't do that
 					// now because this would break the API
