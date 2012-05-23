@@ -49,6 +49,7 @@ import java.text.MessageFormat;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 
@@ -143,6 +144,8 @@ public class RemoteRefUpdate {
 	private String message;
 
 	private final Repository localDb;
+
+	private RefUpdate localUpdate;
 
 	/**
 	 * Construct remote ref update request by providing an update specification.
@@ -299,10 +302,20 @@ public class RemoteRefUpdate {
 
 		this.remoteName = remoteName;
 		this.forceUpdate = forceUpdate;
-		if (localName != null && localDb != null)
-			trackingRefUpdate = new TrackingRefUpdate(localDb, localName,
-					remoteName, true, newObjectId, "push");
-		else
+		if (localName != null && localDb != null) {
+			localUpdate = localDb.updateRef(localName);
+			localUpdate.setForceUpdate(true);
+			localUpdate.setRefLogMessage("push", true);
+			localUpdate.setNewObjectId(newObjectId);
+			trackingRefUpdate = new TrackingRefUpdate(
+					true,
+					remoteName,
+					localName,
+					localUpdate.getOldObjectId() != null
+						? localUpdate.getOldObjectId()
+						: ObjectId.zeroId(),
+					newObjectId);
+		} else
 			trackingRefUpdate = null;
 		this.localDb = localDb;
 		this.expectedOldObjectId = expectedOldObjectId;
@@ -449,9 +462,9 @@ public class RemoteRefUpdate {
 	 */
 	protected void updateTrackingRef(final RevWalk walk) throws IOException {
 		if (isDelete())
-			trackingRefUpdate.delete(walk);
+			trackingRefUpdate.setResult(localUpdate.delete(walk));
 		else
-			trackingRefUpdate.update(walk);
+			trackingRefUpdate.setResult(localUpdate.update(walk));
 	}
 
 	@Override
