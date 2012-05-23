@@ -44,6 +44,11 @@
 
 package org.eclipse.jgit.transport;
 
+import static org.eclipse.jgit.transport.ReceiveCommand.Result.NOT_ATTEMPTED;
+import static org.eclipse.jgit.transport.ReceiveCommand.Result.OK;
+import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_NONFASTFORWARD;
+import static org.eclipse.jgit.transport.ReceiveCommand.Type.UPDATE_NONFASTFORWARD;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -63,12 +68,13 @@ import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.NotSupportedException;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.BatchingProgressMonitor;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.revwalk.ObjectWalk;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.storage.file.LockFile;
@@ -97,6 +103,8 @@ class FetchProcess {
 
 	private FetchConnection conn;
 
+	private Map<String, Ref> localRefs;
+
 	FetchProcess(final Transport t, final Collection<RefSpec> f) {
 		transport = t;
 		toFetch = f;
@@ -108,6 +116,7 @@ class FetchProcess {
 		localUpdates.clear();
 		fetchHeadUpdates.clear();
 		packLocks.clear();
+		localRefs = null;
 
 		try {
 			executeImp(monitor, result);
@@ -183,27 +192,40 @@ class FetchProcess {
 			closeConnection(result);
 		}
 
+		BatchRefUpdate batch = transport.local.getRefDatabase()
+				.newBatchUpdate()
+				.setAllowNonFastForwards(true)
+				.setRefLogMessage("fetch", true);
 		final RevWalk walk = new RevWalk(transport.local);
 		try {
 			if (monitor instanceof BatchingProgressMonitor) {
 				((BatchingProgressMonitor) monitor).setDelayStart(
 						250, TimeUnit.MILLISECONDS);
 			}
-			monitor.beginTask(JGitText.get().updatingReferences, localUpdates.size());
 			if (transport.isRemoveDeletedRefs())
-				deleteStaleTrackingRefs(result, walk);
+				deleteStaleTrackingRefs(result, batch);
 			for (TrackingRefUpdate u : localUpdates) {
-				try {
-					monitor.update(1);
-					u.update(walk);
-					result.add(u);
-				} catch (IOException err) {
-					throw new TransportException(MessageFormat.format(JGitText
-							.get().failureUpdatingTrackingRef,
-							u.getLocalName(), err.getMessage()), err);
-				}
+				result.add(u);
+				batch.addCommand(u.asReceiveCommand());
 			}
-			monitor.endTask();
+			for (ReceiveCommand cmd : batch.getCommands()) {
+				cmd.updateType(walk);
+				if (cmd.getType() == UPDATE_NONFASTFORWARD
+						&& cmd instanceof TrackingRefUpdate.Command
+						&& !((TrackingRefUpdate.Command) cmd).canForceUpdate())
+					cmd.setResult(REJECTED_NONFASTFORWARD);
+			}
+			if (transport.isDryRun()) {
+				for (ReceiveCommand cmd : batch.getCommands()) {
+					if (cmd.getResult() == NOT_ATTEMPTED)
+						cmd.setResult(OK);
+				}
+			} else
+				batch.execute(walk, monitor);
+		} catch (IOException err) {
+			throw new TransportException(MessageFormat.format(
+					JGitText.get().failureUpdatingTrackingRef,
+					getFirstFailedRefName(batch), err.getMessage()), err);
 		} finally {
 			walk.release();
 		}
@@ -320,7 +342,7 @@ class FetchProcess {
 			try {
 				for (final ObjectId want : askFor.keySet())
 					ow.markStart(ow.parseAny(want));
-				for (final Ref ref : transport.local.getAllRefs().values())
+				for (final Ref ref : localRefs().values())
 					ow.markUninteresting(ow.parseAny(ref.getObjectId()));
 				ow.checkConnectivity();
 			} finally {
@@ -354,7 +376,7 @@ class FetchProcess {
 
 	private Collection<Ref> expandAutoFollowTags() throws TransportException {
 		final Collection<Ref> additionalTags = new ArrayList<Ref>();
-		final Map<String, Ref> haveRefs = transport.local.getAllRefs();
+		final Map<String, Ref> haveRefs = localRefs();
 		for (final Ref r : conn.getRefs()) {
 			if (!isTag(r))
 				continue;
@@ -385,7 +407,7 @@ class FetchProcess {
 	}
 
 	private void expandFetchTags() throws TransportException {
-		final Map<String, Ref> haveRefs = transport.local.getAllRefs();
+		final Map<String, Ref> haveRefs = localRefs();
 		for (final Ref r : conn.getRefs()) {
 			if (!isTag(r))
 				continue;
@@ -404,17 +426,10 @@ class FetchProcess {
 			throws TransportException {
 		final ObjectId newId = src.getObjectId();
 		if (spec.getDestination() != null) {
-			try {
-				final TrackingRefUpdate tru = createUpdate(spec, newId);
-				if (newId.equals(tru.getOldObjectId()))
-					return;
-				localUpdates.add(tru);
-			} catch (IOException err) {
-				// Bad symbolic ref? That is the most likely cause.
-				//
-				throw new TransportException( MessageFormat.format(
-						JGitText.get().cannotResolveLocalTrackingRefForUpdating, spec.getDestination()), err);
-			}
+			final TrackingRefUpdate tru = createUpdate(spec, newId);
+			if (newId.equals(tru.getOldObjectId()))
+				return;
+			localUpdates.add(tru);
 		}
 
 		askFor.put(newId, src);
@@ -427,21 +442,41 @@ class FetchProcess {
 		fetchHeadUpdates.add(fhr);
 	}
 
-	private TrackingRefUpdate createUpdate(final RefSpec spec,
-			final ObjectId newId) throws IOException {
-		return new TrackingRefUpdate(transport.local, spec, newId, "fetch");
+	private TrackingRefUpdate createUpdate(RefSpec spec, ObjectId newId)
+			throws TransportException {
+		Ref ref = localRefs().get(spec.getDestination());
+		ObjectId oldId = ref != null && ref.getObjectId() != null
+				? ref.getObjectId()
+				: ObjectId.zeroId();
+		return new TrackingRefUpdate(
+				spec.isForceUpdate(),
+				spec.getSource(),
+				spec.getDestination(),
+				oldId,
+				newId);
 	}
 
-	private void deleteStaleTrackingRefs(final FetchResult result,
-			final RevWalk walk) throws TransportException {
-		final Repository db = transport.local;
-		for (final Ref ref : db.getAllRefs().values()) {
+	private Map<String, Ref> localRefs() throws TransportException {
+		if (localRefs == null) {
+			try {
+				localRefs = transport.local.getRefDatabase()
+						.getRefs(RefDatabase.ALL);
+			} catch (IOException err) {
+				throw new TransportException(JGitText.get().cannotListRefs, err);
+			}
+		}
+		return localRefs;
+	}
+
+	private void deleteStaleTrackingRefs(FetchResult result,
+			BatchRefUpdate batch) throws IOException {
+		for (final Ref ref : localRefs().values()) {
 			final String refname = ref.getName();
 			for (final RefSpec spec : toFetch) {
 				if (spec.matchDestination(refname)) {
 					final RefSpec s = spec.expandFromDestination(refname);
 					if (result.getAdvertisedRef(s.getSource()) == null) {
-						deleteTrackingRef(result, db, walk, s, ref);
+						deleteTrackingRef(result, batch, s, ref);
 					}
 				}
 			}
@@ -449,31 +484,17 @@ class FetchProcess {
 	}
 
 	private void deleteTrackingRef(final FetchResult result,
-			final Repository db, final RevWalk walk, final RefSpec spec,
-			final Ref localRef) throws TransportException {
-		final String name = localRef.getName();
-		try {
-			final TrackingRefUpdate u = new TrackingRefUpdate(db, name, spec
-					.getSource(), true, ObjectId.zeroId(), "deleted");
-			result.add(u);
-			if (transport.isDryRun()){
-				return;
-			}
-			u.delete(walk);
-			switch (u.getResult()) {
-			case NEW:
-			case NO_CHANGE:
-			case FAST_FORWARD:
-			case FORCED:
-				break;
-			default:
-				throw new TransportException(transport.getURI(), MessageFormat.format(
-						JGitText.get().cannotDeleteStaleTrackingRef2, name, u.getResult().name()));
-			}
-		} catch (IOException e) {
-			throw new TransportException(transport.getURI(), MessageFormat.format(
-					JGitText.get().cannotDeleteStaleTrackingRef, name), e);
-		}
+			final BatchRefUpdate batch, final RefSpec spec, final Ref localRef) {
+		if (localRef.getObjectId() == null)
+			return;
+		TrackingRefUpdate update = new TrackingRefUpdate(
+				true,
+				spec.getSource(),
+				localRef.getName(),
+				localRef.getObjectId(),
+				ObjectId.zeroId());
+		result.add(update);
+		batch.addCommand(update.asReceiveCommand());
 	}
 
 	private static boolean isTag(final Ref r) {
@@ -482,5 +503,13 @@ class FetchProcess {
 
 	private static boolean isTag(final String name) {
 		return name.startsWith(Constants.R_TAGS);
+	}
+
+	private static String getFirstFailedRefName(BatchRefUpdate batch) {
+		for (ReceiveCommand cmd : batch.getCommands()) {
+			if (cmd.getResult() != ReceiveCommand.Result.OK)
+				return cmd.getRefName();
+		}
+		return "";
 	}
 }
