@@ -46,7 +46,9 @@ import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.Collection;
 
+import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.InvalidRefNameException;
+import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
@@ -84,7 +86,8 @@ public class ReflogCommand extends GitCommand<Collection<ReflogEntry>> {
 		return this;
 	}
 
-	public Collection<ReflogEntry> call() throws Exception {
+	public Collection<ReflogEntry> call() throws GitAPIException,
+			JGitInternalException {
 		checkCallable();
 
 		try {

@@ -46,6 +46,7 @@ import java.io.IOException;
 import java.text.MessageFormat;
 
 import org.eclipse.jgit.api.errors.ConcurrentRefUpdateException;
+import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.InvalidTagNameException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.api.errors.NoHeadException;
@@ -107,7 +108,7 @@ public class TagCommand extends GitCommand<Ref> {
 	 *             {@code IOException's} to be wrapped.
 	 * @since 2.0
 	 */
-	public Ref call() throws JGitInternalException,
+	public Ref call() throws GitAPIException, JGitInternalException,
 			ConcurrentRefUpdateException, InvalidTagNameException, NoHeadException {
 		checkCallable();
 
