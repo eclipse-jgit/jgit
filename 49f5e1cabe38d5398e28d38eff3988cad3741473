@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOHn//+5s\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CommitCommandTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-05-23T22:33:04Z",
+      "side": 1,
+      "message": "I would add a check that the resulting commit has one parent. That\u0027s an important fix.",
+      "revId": "49f5e1cabe38d5398e28d38eff3988cad3741473",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//+5I\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CommitCommandTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-05-23T22:33:04Z",
+      "side": 1,
+      "message": "I would also add somewhere a test that the commit command will delete the SQUASH_MSG file after it has succesfully commited. If the commit command doesn\u0027t delete this file nobody will do it and every further commit will have the same prefilled commit message as listed int SQASH_MSG",
+      "revId": "49f5e1cabe38d5398e28d38eff3988cad3741473",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
