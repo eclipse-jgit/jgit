@@ -46,6 +46,7 @@ import static org.junit.Assert.assertArrayEquals;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.CLIRepositoryTestCase;
+import org.eclipse.jgit.util.SystemReader;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -59,10 +60,13 @@ public class ConfigTest extends CLIRepositoryTestCase {
 
 	@Test
 	public void testListConfig() throws Exception {
+		boolean isWindows = SystemReader.getInstance().getProperty("os.name")
+				.startsWith("Windows");
+
 		String[] output = execute("git config --list");
 		assertArrayEquals("expected default configuration", //
 				new String[] { "core.autocrlf=false", //
-						"core.filemode=true", //
+						"core.filemode=" + !isWindows, //
 						"core.logallrefupdates=true", //
 						"core.repositoryformatversion=0", //
 						"" /* ends with LF (last line empty) */}, output);
