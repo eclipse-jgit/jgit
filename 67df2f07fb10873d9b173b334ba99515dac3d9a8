@@ -1,0 +1,820 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOHn//+24\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-05-24T12:59:01Z",
+      "side": 1,
+      "message": "Let\u0027s remove RFC",
+      "revId": "67df2f07fb10873d9b173b334ba99515dac3d9a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//+2k\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/BranchCommandTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 469,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-05-24T12:59:01Z",
+      "side": 1,
+      "message": "remove JGitInternalException from the signature",
+      "revId": "67df2f07fb10873d9b173b334ba99515dac3d9a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//+2o\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CloneCommandTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-05-24T12:59:01Z",
+      "side": 1,
+      "message": "remove JGitInternalException from the signature",
+      "revId": "67df2f07fb10873d9b173b334ba99515dac3d9a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//+2s\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CloneCommandTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-05-24T12:59:01Z",
+      "side": 1,
+      "message": "remove JGitInternalException from the signature",
+      "revId": "67df2f07fb10873d9b173b334ba99515dac3d9a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//+2w\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CloneCommandTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-05-24T12:59:01Z",
+      "side": 1,
+      "message": "remove JGitInternalException from the signature",
+      "revId": "67df2f07fb10873d9b173b334ba99515dac3d9a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//+20\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CloneCommandTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-05-24T12:59:01Z",
+      "side": 1,
+      "message": "remove JGitInternalException from the signature",
+      "revId": "67df2f07fb10873d9b173b334ba99515dac3d9a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//+2g\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CommitAndLogCommandTests.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-05-24T12:59:01Z",
+      "side": 1,
+      "message": "remove JGitInternalException from the signature",
+      "revId": "67df2f07fb10873d9b173b334ba99515dac3d9a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//+2c\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CommitAndLogCommandTests.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-05-24T12:59:01Z",
+      "side": 1,
+      "message": "remove JGitInternalException from the signature",
+      "revId": "67df2f07fb10873d9b173b334ba99515dac3d9a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//+2Y\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CommitAndLogCommandTests.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-05-24T12:59:01Z",
+      "side": 1,
+      "message": "remove JGitInternalException from the signature",
+      "revId": "67df2f07fb10873d9b173b334ba99515dac3d9a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//+2U\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CommitAndLogCommandTests.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-05-24T12:59:01Z",
+      "side": 1,
+      "message": "remove JGitInternalException from the signature",
+      "revId": "67df2f07fb10873d9b173b334ba99515dac3d9a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//+2Q\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CommitAndLogCommandTests.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-05-24T12:59:01Z",
+      "side": 1,
+      "message": "remove JGitInternalException from the signature",
+      "revId": "67df2f07fb10873d9b173b334ba99515dac3d9a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//+2M\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CommitAndLogCommandTests.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-05-24T12:59:01Z",
+      "side": 1,
+      "message": "remove JGitInternalException from the signature",
+      "revId": "67df2f07fb10873d9b173b334ba99515dac3d9a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//+2I\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CommitAndLogCommandTests.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-05-24T12:59:01Z",
+      "side": 1,
+      "message": "remove JGitInternalException from the signature",
+      "revId": "67df2f07fb10873d9b173b334ba99515dac3d9a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//+2E\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/GitConstructionTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-05-24T12:59:01Z",
+      "side": 1,
+      "message": "remove JGitInternalException from the signature",
+      "revId": "67df2f07fb10873d9b173b334ba99515dac3d9a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//+2A\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/GitConstructionTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-05-24T12:59:01Z",
+      "side": 1,
+      "message": "remove JGitInternalException from the signature",
+      "revId": "67df2f07fb10873d9b173b334ba99515dac3d9a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//+14\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/InitCommandTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-05-24T12:59:01Z",
+      "side": 1,
+      "message": "remove JGitInternalException from the signature",
+      "revId": "67df2f07fb10873d9b173b334ba99515dac3d9a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//+18\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/InitCommandTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-05-24T12:59:01Z",
+      "side": 1,
+      "message": "remove JGitInternalException from the signature",
+      "revId": "67df2f07fb10873d9b173b334ba99515dac3d9a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//+10\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/InitCommandTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-05-24T12:59:01Z",
+      "side": 1,
+      "message": "remove JGitInternalException from the signature",
+      "revId": "67df2f07fb10873d9b173b334ba99515dac3d9a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//+1w\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/ResetCommandTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-05-24T12:59:01Z",
+      "side": 1,
+      "message": "remove JGitInternalException from the signature",
+      "revId": "67df2f07fb10873d9b173b334ba99515dac3d9a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//+1c\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/AddNoteCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-05-24T12:59:01Z",
+      "side": 1,
+      "message": "remove JGitInternalException from the signature",
+      "revId": "67df2f07fb10873d9b173b334ba99515dac3d9a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//+1Y\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/BlameCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-05-24T12:59:01Z",
+      "side": 1,
+      "message": "remove JGitInternalException from the signature",
+      "revId": "67df2f07fb10873d9b173b334ba99515dac3d9a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//+1U\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CheckoutCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-05-24T12:59:01Z",
+      "side": 1,
+      "message": "remove JGitInternalException from the signature",
+      "revId": "67df2f07fb10873d9b173b334ba99515dac3d9a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//+1Q\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CloneCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-05-24T12:59:01Z",
+      "side": 1,
+      "message": "remove JGitInternalException and the corresponding javadoc entry from the signature. The explanation we give in the javadoc is not helpful enough to keep this exception and the documentation in the signature",
+      "revId": "67df2f07fb10873d9b173b334ba99515dac3d9a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//+1M\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CloneCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-05-24T12:59:01Z",
+      "side": 1,
+      "message": "remove JGitInternalException from the signature",
+      "revId": "67df2f07fb10873d9b173b334ba99515dac3d9a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//+1I\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CloneCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-05-24T12:59:01Z",
+      "side": 1,
+      "message": "remove JGitInternalException from the signature",
+      "revId": "67df2f07fb10873d9b173b334ba99515dac3d9a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//+00\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CommitCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-05-24T12:59:01Z",
+      "side": 1,
+      "message": "If we would remove JGitInternalException and the javadoc entry we would loose the explanation. But this explanation is again not of much help. For consistency I would remove the exception also here.",
+      "revId": "67df2f07fb10873d9b173b334ba99515dac3d9a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//+0s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DeleteBranchCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-05-24T12:59:01Z",
+      "side": 1,
+      "message": "remove JGitInternalException from the signature",
+      "revId": "67df2f07fb10873d9b173b334ba99515dac3d9a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//+0o\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DeleteTagCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-05-24T12:59:01Z",
+      "side": 1,
+      "message": "Here we give a better explanation for the cause of the JGitInternalException. If we can so nicely explain the error shouldn\u0027t we throw a checked exception in this case? I suggest a RefNotFoundException. Then we can remove the JGitInternalException from the API.",
+      "revId": "67df2f07fb10873d9b173b334ba99515dac3d9a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//+0k\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/FetchCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-05-24T12:59:01Z",
+      "side": 1,
+      "message": "remove JGitInternalException from the signature",
+      "revId": "67df2f07fb10873d9b173b334ba99515dac3d9a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//+0g\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/InitCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-05-24T12:59:01Z",
+      "side": 1,
+      "message": "remove JGitInternalException from the signature",
+      "revId": "67df2f07fb10873d9b173b334ba99515dac3d9a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//+0c\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ListBranchCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-05-24T12:59:01Z",
+      "side": 1,
+      "message": "remove JGitInternalException from the signature",
+      "revId": "67df2f07fb10873d9b173b334ba99515dac3d9a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//+0Y\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ListNotesCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-05-24T12:59:01Z",
+      "side": 1,
+      "message": "remove JGitInternalException from the signature",
+      "revId": "67df2f07fb10873d9b173b334ba99515dac3d9a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//+0U\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ListTagCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-05-24T12:59:01Z",
+      "side": 1,
+      "message": "remove JGitInternalException from the signature",
+      "revId": "67df2f07fb10873d9b173b334ba99515dac3d9a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//+0Q\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/LogCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-05-24T12:59:01Z",
+      "side": 1,
+      "message": "remove JGitInternalException from the signature",
+      "revId": "67df2f07fb10873d9b173b334ba99515dac3d9a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//+0M\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/LsRemoteCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-05-24T12:59:01Z",
+      "side": 1,
+      "message": "remove this fully qualified JGitInternalException from the signature",
+      "revId": "67df2f07fb10873d9b173b334ba99515dac3d9a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//+0I\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PushCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-05-24T12:59:01Z",
+      "side": 1,
+      "message": "remove JGitInternalException from signature",
+      "revId": "67df2f07fb10873d9b173b334ba99515dac3d9a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//+0E\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-05-24T12:59:01Z",
+      "side": 1,
+      "message": "remove JGitInternalException from signature",
+      "revId": "67df2f07fb10873d9b173b334ba99515dac3d9a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//+0A\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 521,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-05-24T12:59:01Z",
+      "side": 1,
+      "message": "remove JGitInternalException from signature",
+      "revId": "67df2f07fb10873d9b173b334ba99515dac3d9a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//+z8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 634,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-05-24T12:59:01Z",
+      "side": 1,
+      "message": "remove JGitInternalException from signature",
+      "revId": "67df2f07fb10873d9b173b334ba99515dac3d9a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//+z4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 657,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-05-24T12:59:01Z",
+      "side": 1,
+      "message": "remove JGitInternalException from signature",
+      "revId": "67df2f07fb10873d9b173b334ba99515dac3d9a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//+z0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RemoveNoteCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-05-24T12:59:01Z",
+      "side": 1,
+      "message": "remove JGitInternalException from signature",
+      "revId": "67df2f07fb10873d9b173b334ba99515dac3d9a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//+zw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/ShowNoteCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-05-24T12:59:01Z",
+      "side": 1,
+      "message": "remove JGitInternalException from signature",
+      "revId": "67df2f07fb10873d9b173b334ba99515dac3d9a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//+zs\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/SubmoduleAddCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-05-24T12:59:01Z",
+      "side": 1,
+      "message": "remove JGitInternalException from signature",
+      "revId": "67df2f07fb10873d9b173b334ba99515dac3d9a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//+zo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/SubmoduleInitCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-05-24T12:59:01Z",
+      "side": 1,
+      "message": "remove JGitInternalException from signature",
+      "revId": "67df2f07fb10873d9b173b334ba99515dac3d9a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//+zk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/SubmoduleStatusCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-05-24T12:59:01Z",
+      "side": 1,
+      "message": "remove JGitInternalException from signature",
+      "revId": "67df2f07fb10873d9b173b334ba99515dac3d9a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//+zg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/SubmoduleSyncCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-05-24T12:59:01Z",
+      "side": 1,
+      "message": "remove JGitInternalException from signature",
+      "revId": "67df2f07fb10873d9b173b334ba99515dac3d9a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//+zc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/SubmoduleUpdateCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-05-24T12:59:01Z",
+      "side": 1,
+      "message": "remove JGitInternalException from signature",
+      "revId": "67df2f07fb10873d9b173b334ba99515dac3d9a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//+zY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/TagCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-05-24T12:59:01Z",
+      "side": 1,
+      "message": "remove JGitInternalException from signature",
+      "revId": "67df2f07fb10873d9b173b334ba99515dac3d9a8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
