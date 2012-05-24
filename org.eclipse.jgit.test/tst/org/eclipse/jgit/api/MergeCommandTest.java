@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2010, Stefan Lay <stefan.lay@sap.com>
- * Copyright (C) 2010, Christian Halstrick <christian.halstrick@sap.com>
+ * Copyright (C) 2010-2012, Christian Halstrick <christian.halstrick@sap.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -45,6 +45,7 @@ package org.eclipse.jgit.api;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -59,6 +60,7 @@ import org.eclipse.jgit.lib.RepositoryState;
 import org.eclipse.jgit.lib.RepositoryTestCase;
 import org.eclipse.jgit.merge.MergeStrategy;
 import org.eclipse.jgit.merge.ResolveMerger.MergeFailureReason;
+import org.eclipse.jgit.merge.SquashMessageFormatterTest;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
@@ -1094,6 +1096,180 @@ public class MergeCommandTest extends RepositoryTestCase {
 				.setStrategy(MergeStrategy.RESOLVE).call();
 		assertEquals(MergeStatus.FAILED, result.getMergeStatus());
 		assertFalse(canExecute(git, "mergeableButDirty"));
+	}
+
+	@Test
+	public void testSquashFastForward() throws Exception {
+		Git git = new Git(db);
+
+		writeTrashFile("file1", "file1");
+		git.add().addFilepattern("file1").call();
+		RevCommit first = git.commit().setMessage("initial commit").call();
+
+		assertTrue(new File(db.getWorkTree(), "file1").exists());
+		createBranch(first, "refs/heads/branch1");
+		checkoutBranch("refs/heads/branch1");
+
+		writeTrashFile("file2", "file2");
+		git.add().addFilepattern("file2").call();
+		RevCommit second = git.commit().setMessage("second commit").call();
+		assertTrue(new File(db.getWorkTree(), "file2").exists());
+
+		writeTrashFile("file3", "file3");
+		git.add().addFilepattern("file3").call();
+		RevCommit third = git.commit().setMessage("third commit").call();
+		assertTrue(new File(db.getWorkTree(), "file3").exists());
+
+		checkoutBranch("refs/heads/master");
+		assertTrue(new File(db.getWorkTree(), "file1").exists());
+		assertFalse(new File(db.getWorkTree(), "file2").exists());
+		assertFalse(new File(db.getWorkTree(), "file3").exists());
+
+		MergeResult result = git.merge().include(db.getRef("branch1"))
+				.setSquash(true).call();
+
+		assertTrue(new File(db.getWorkTree(), "file1").exists());
+		assertTrue(new File(db.getWorkTree(), "file2").exists());
+		assertTrue(new File(db.getWorkTree(), "file3").exists());
+		assertEquals(MergeResult.MergeStatus.FAST_FORWARD_SQUASHED,
+				result.getMergeStatus());
+		assertEquals(first, result.getNewHead()); // HEAD didn't move
+		assertEquals(first, db.resolve(Constants.HEAD + "^{commit}"));
+
+		assertEquals(
+				"Squashed commit of the following:\n\ncommit "
+						+ third.getName()
+						+ "\nAuthor: "
+						+ third.getAuthorIdent().getName()
+						+ " <"
+						+ third.getAuthorIdent().getEmailAddress()
+						+ ">\nDate:   "
+						+ SquashMessageFormatterTest.formatWhen(third
+								.getAuthorIdent())
+						+ "\n\n\tthird commit\n\ncommit "
+						+ second.getName()
+						+ "\nAuthor: "
+						+ second.getAuthorIdent().getName()
+						+ " <"
+						+ second.getAuthorIdent().getEmailAddress()
+						+ ">\nDate:   "
+						+ SquashMessageFormatterTest.formatWhen(second
+								.getAuthorIdent()) + "\n\n\tsecond commit\n",
+				db.readSquashCommitMsg());
+		assertNull(db.readMergeCommitMsg());
+
+		Status stat = git.status().call();
+		assertEquals(StatusCommandTest.set("file2", "file3"), stat.getAdded());
+	}
+
+	@Test
+	public void testSquashMerge() throws Exception {
+		Git git = new Git(db);
+
+		writeTrashFile("file1", "file1");
+		git.add().addFilepattern("file1").call();
+		RevCommit first = git.commit().setMessage("initial commit").call();
+
+		assertTrue(new File(db.getWorkTree(), "file1").exists());
+		createBranch(first, "refs/heads/branch1");
+
+		writeTrashFile("file2", "file2");
+		git.add().addFilepattern("file2").call();
+		RevCommit second = git.commit().setMessage("second commit").call();
+		assertTrue(new File(db.getWorkTree(), "file2").exists());
+
+		checkoutBranch("refs/heads/branch1");
+
+		writeTrashFile("file3", "file3");
+		git.add().addFilepattern("file3").call();
+		RevCommit third = git.commit().setMessage("third commit").call();
+		assertTrue(new File(db.getWorkTree(), "file3").exists());
+
+		checkoutBranch("refs/heads/master");
+		assertTrue(new File(db.getWorkTree(), "file1").exists());
+		assertTrue(new File(db.getWorkTree(), "file2").exists());
+		assertFalse(new File(db.getWorkTree(), "file3").exists());
+
+		MergeResult result = git.merge().include(db.getRef("branch1"))
+				.setSquash(true).call();
+
+		assertTrue(new File(db.getWorkTree(), "file1").exists());
+		assertTrue(new File(db.getWorkTree(), "file2").exists());
+		assertTrue(new File(db.getWorkTree(), "file3").exists());
+		assertEquals(MergeResult.MergeStatus.MERGED_SQUASHED,
+				result.getMergeStatus());
+		assertEquals(second, result.getNewHead()); // HEAD didn't move
+		assertEquals(second, db.resolve(Constants.HEAD + "^{commit}"));
+
+		assertEquals(
+				"Squashed commit of the following:\n\ncommit "
+						+ third.getName()
+						+ "\nAuthor: "
+						+ third.getAuthorIdent().getName()
+						+ " <"
+						+ third.getAuthorIdent().getEmailAddress()
+						+ ">\nDate:   "
+						+ SquashMessageFormatterTest.formatWhen(third
+								.getAuthorIdent()) + "\n\n\tthird commit\n",
+				db.readSquashCommitMsg());
+		assertNull(db.readMergeCommitMsg());
+
+		Status stat = git.status().call();
+		assertEquals(StatusCommandTest.set("file3"), stat.getAdded());
+	}
+
+	@Test
+	public void testSquashMergeConflict() throws Exception {
+		Git git = new Git(db);
+
+		writeTrashFile("file1", "file1");
+		git.add().addFilepattern("file1").call();
+		RevCommit first = git.commit().setMessage("initial commit").call();
+
+		assertTrue(new File(db.getWorkTree(), "file1").exists());
+		createBranch(first, "refs/heads/branch1");
+
+		writeTrashFile("file2", "master");
+		git.add().addFilepattern("file2").call();
+		RevCommit second = git.commit().setMessage("second commit").call();
+		assertTrue(new File(db.getWorkTree(), "file2").exists());
+
+		checkoutBranch("refs/heads/branch1");
+
+		writeTrashFile("file2", "branch");
+		git.add().addFilepattern("file2").call();
+		RevCommit third = git.commit().setMessage("third commit").call();
+		assertTrue(new File(db.getWorkTree(), "file2").exists());
+
+		checkoutBranch("refs/heads/master");
+		assertTrue(new File(db.getWorkTree(), "file1").exists());
+		assertTrue(new File(db.getWorkTree(), "file2").exists());
+
+		MergeResult result = git.merge().include(db.getRef("branch1"))
+				.setSquash(true).call();
+
+		assertTrue(new File(db.getWorkTree(), "file1").exists());
+		assertTrue(new File(db.getWorkTree(), "file2").exists());
+		assertEquals(MergeResult.MergeStatus.CONFLICTING,
+				result.getMergeStatus());
+		assertNull(result.getNewHead());
+		assertEquals(second, db.resolve(Constants.HEAD + "^{commit}"));
+
+		assertEquals(
+				"Squashed commit of the following:\n\ncommit "
+						+ third.getName()
+						+ "\nAuthor: "
+						+ third.getAuthorIdent().getName()
+						+ " <"
+						+ third.getAuthorIdent().getEmailAddress()
+						+ ">\nDate:   "
+						+ SquashMessageFormatterTest.formatWhen(third
+								.getAuthorIdent()) + "\n\n\tthird commit\n",
+				db.readSquashCommitMsg());
+		assertEquals("\nConflicts:\n\tfile2\n", db.readMergeCommitMsg());
+
+		Status stat = git.status().call();
+		assertEquals(StatusCommandTest.set("file2"), stat.getConflicting());
 	}
 
 	private void setExecutable(Git git, String path, boolean executable) {
