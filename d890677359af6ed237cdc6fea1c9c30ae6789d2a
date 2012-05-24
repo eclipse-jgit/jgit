@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOHn//+3Q\u003d",
+        "filename": "org.eclipse.jgit.packaging/org.eclipse.jgit.pgm.feature/feature.properties",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2012-05-24T11:43:21Z",
+      "side": 1,
+      "message": "The description should be replaced with something more accurate. Currently, the update manager displays the same description for this one and Eclipse JGit feature.",
+      "revId": "d890677359af6ed237cdc6fea1c9c30ae6789d2a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//+3Y\u003d",
+        "filename": "org.eclipse.jgit.packaging/org.eclipse.jgit.pgm.feature/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2012-05-24T11:43:21Z",
+      "side": 1,
+      "message": "I would use more descriptive name here e.g. \"JGit Command Line Interface Feature\" or  \"JGit Command Line Feature\".",
+      "revId": "d890677359af6ed237cdc6fea1c9c30ae6789d2a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
