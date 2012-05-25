@@ -1,0 +1,191 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOHn//+uk\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2012-05-25T09:27:24Z",
+      "side": 1,
+      "message": "Could put your full name here?",
+      "revId": "729382f8704105e7ca268b0b056a8ac900a1cab1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//+uU\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2012-05-25T09:27:24Z",
+      "side": 1,
+      "message": "Same here.",
+      "revId": "729382f8704105e7ca268b0b056a8ac900a1cab1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//+uY\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2012-05-25T09:27:24Z",
+      "side": 1,
+      "message": "From http://wiki.eclipse.org/EGit/Contributor_Guide#Commit_message_guidelines: \"The commit message header should fit on one line...\". Feel free to remove the second sentence, no need to refer to the other change. Also, add space between \"new\" and \"--all\".",
+      "revId": "729382f8704105e7ca268b0b056a8ac900a1cab1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//+uc\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2012-05-25T09:27:24Z",
+      "side": 1,
+      "message": "Remove spaces.",
+      "revId": "729382f8704105e7ca268b0b056a8ac900a1cab1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//+ug\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2012-05-25T09:27:24Z",
+      "side": 1,
+      "message": "Remove the empty line.",
+      "revId": "729382f8704105e7ca268b0b056a8ac900a1cab1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//+uQ\u003d",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/CommitAllTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2012-05-25T09:27:24Z",
+      "side": 1,
+      "message": "Replace IBM with your name.",
+      "revId": "729382f8704105e7ca268b0b056a8ac900a1cab1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//+t8\u003d",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/CommitAllTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2012-05-25T09:27:24Z",
+      "side": 1,
+      "message": "Remove empty line - organize imports in Eclipse.",
+      "revId": "729382f8704105e7ca268b0b056a8ac900a1cab1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//+t4\u003d",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/CommitAllTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2012-05-25T09:27:24Z",
+      "side": 1,
+      "message": "Move the test to CommitAndLogTest.java.",
+      "revId": "729382f8704105e7ca268b0b056a8ac900a1cab1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//+uA\u003d",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/CommitAllTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2012-05-25T09:27:24Z",
+      "side": 1,
+      "message": "Remove empty line.",
+      "revId": "729382f8704105e7ca268b0b056a8ac900a1cab1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//+uI\u003d",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/CommitAllTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2012-05-25T09:27:24Z",
+      "side": 1,
+      "message": "The command would give the same result if executed without the \"--all\" switch, so it doesn\u0027t buy us anything.\n\nHave a look at git commit man [1] and make sure to test what\u0027s is special about the switch.\n\n[1] http://linux.die.net/man/1/git-commit",
+      "revId": "729382f8704105e7ca268b0b056a8ac900a1cab1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//+uE\u003d",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/CommitAllTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2012-05-25T09:27:24Z",
+      "side": 1,
+      "message": "Remove empty line.",
+      "revId": "729382f8704105e7ca268b0b056a8ac900a1cab1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
