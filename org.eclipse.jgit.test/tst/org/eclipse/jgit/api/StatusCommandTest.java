@@ -52,13 +52,15 @@ import java.util.Set;
 
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.NoFilepatternException;
+import org.eclipse.jgit.errors.NoWorkTreeException;
 import org.eclipse.jgit.lib.RepositoryTestCase;
 import org.junit.Test;
 
 public class StatusCommandTest extends RepositoryTestCase {
 
 	@Test
-	public void testEmptyStatus() throws IOException {
+	public void testEmptyStatus() throws NoWorkTreeException,
+			GitAPIException {
 		Git git = new Git(db);
 
 		Status stat = git.status().call();
