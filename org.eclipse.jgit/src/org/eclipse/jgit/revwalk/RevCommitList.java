@@ -340,6 +340,72 @@ public class RevCommitList<E extends RevCommit> extends RevObjectList<E> {
 	}
 
 	/**
+	 * Ensures all commits until the given commit are loaded. The revision
+	 * walker specified by {@link #source(RevWalk)} is pumped until the
+	 * specified commit is loaded. Callers can test the final size of the list
+	 * by {@link #size()} to determine if the high water mark specified was met.
+	 * <p/>
+	 * @param commitToLoad
+	 *            commit the caller wants this list to contain when the fill
+	 *            operation is complete.
+	 * @param highMark
+	 *            maximum number of commits the caller wants this list to
+	 *            contain when the fill operation is complete. If highMark is 0
+	 *            the walk is pumped until the specified commit or the end of
+	 *            the walk is reached.
+	 * @throws IOException
+	 *             see {@link RevWalk#next()}
+	 * @throws IncorrectObjectTypeException
+	 *             see {@link RevWalk#next()}
+	 * @throws MissingObjectException
+	 *             see {@link RevWalk#next()}
+	 */
+	public void fillTo(final RevCommit commitToLoad, int highMark)
+			throws MissingObjectException, IncorrectObjectTypeException,
+			IOException {
+		if (walker == null || commitToLoad == null
+				|| (highMark > 0 && size > highMark))
+			return;
+
+		RevCommit c = walker.next();
+		if (c == null) {
+			walker = null;
+			return;
+		}
+		enter(size, (E) c);
+		add((E) c);
+
+		while ((highMark == 0 || size <= highMark) && !c.equals(commitToLoad)) {
+			int index = size;
+			Block s = contents;
+			while (index >> s.shift >= BLOCK_SIZE) {
+				s = new Block(s.shift + BLOCK_SHIFT);
+				s.contents[0] = contents;
+				contents = s;
+			}
+			while (s.shift > 0) {
+				final int i = index >> s.shift;
+				index -= i << s.shift;
+				if (s.contents[i] == null)
+					s.contents[i] = new Block(s.shift - BLOCK_SHIFT);
+				s = (Block) s.contents[i];
+			}
+
+			final Object[] dst = s.contents;
+			while ((highMark == 0 || size <= highMark) && index < BLOCK_SIZE
+					&& !c.equals(commitToLoad)) {
+				c = walker.next();
+				if (c == null) {
+					walker = null;
+					return;
+				}
+				enter(size++, (E) c);
+				dst[index++] = c;
+			}
+		}
+	}
+
+	/**
 	 * Optional callback invoked when commits enter the list by fillTo.
 	 * <p>
 	 * This method is only called during {@link #fillTo(int)}.
