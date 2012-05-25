@@ -52,7 +52,9 @@ import org.eclipse.jgit.lib.PersonIdent;
 
 /**
  * A utility for formatting dates according to the Git log.date formats plus
- * extensions. <p< The enum {@link Format} defines the available types
+ * extensions.
+ * <p>
+ * The enum {@link Format} defines the available types.
  */
 public class GitDateFormatter {
 
