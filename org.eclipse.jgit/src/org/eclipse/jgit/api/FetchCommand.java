@@ -47,6 +47,7 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.InvalidRemoteException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.errors.NoRemoteRepositoryException;
@@ -111,7 +112,7 @@ public class FetchCommand extends TransportCommand<FetchCommand, FetchResult> {
 	 *             exception can be retrieved by calling
 	 *             {@link Exception#getCause()}.
 	 */
-	public FetchResult call() throws JGitInternalException,
+	public FetchResult call() throws GitAPIException, JGitInternalException,
 			InvalidRemoteException {
 		checkCallable();
 
