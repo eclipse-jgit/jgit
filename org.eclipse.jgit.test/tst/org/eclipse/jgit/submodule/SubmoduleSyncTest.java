@@ -53,6 +53,7 @@ import java.util.Map.Entry;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.SubmoduleSyncCommand;
+import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheEditor;
 import org.eclipse.jgit.dircache.DirCacheEditor.PathEdit;
@@ -73,7 +74,7 @@ import org.junit.Test;
 public class SubmoduleSyncTest extends RepositoryTestCase {
 
 	@Test
-	public void repositoryWithNoSubmodules() {
+	public void repositoryWithNoSubmodules() throws GitAPIException {
 		SubmoduleSyncCommand command = new SubmoduleSyncCommand(db);
 		Map<String, String> modules = command.call();
 		assertNotNull(modules);

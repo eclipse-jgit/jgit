@@ -49,6 +49,16 @@ public class UnmergedPathsException extends GitAPIException {
 	 * The default constructor with a default message
 	 */
 	public UnmergedPathsException() {
-		super(JGitText.get().unmergedPaths);
+		this(null);
+	}
+
+	/**
+	 * The default constructor with a default message
+	 *
+	 * @param cause
+	 *            original exception
+	 */
+	public UnmergedPathsException(Throwable cause) {
+		super(JGitText.get().unmergedPaths, cause);
 	}
 }
