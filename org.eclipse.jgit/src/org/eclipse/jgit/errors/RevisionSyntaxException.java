@@ -45,13 +45,12 @@
 
 package org.eclipse.jgit.errors;
 
-import java.io.IOException;
 
 /**
  * This signals a revision or object reference was not
  * properly formatted.
  */
-public class RevisionSyntaxException extends IOException {
+public class RevisionSyntaxException extends IllegalArgumentException {
 	private static final long serialVersionUID = 1L;
 
 	private final String revstr;
