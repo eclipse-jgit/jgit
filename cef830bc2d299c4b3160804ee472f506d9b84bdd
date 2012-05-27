@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "AABOHn//+rM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalkUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-05-27T22:04:30Z",
+      "side": 1,
+      "message": "Note that I\u0027m just moving code around here (from egit) for re-use. I\u0027ll maybe improve more later. The primary goal is to speed up the commit view in EGit, and the refactored code seems a good fit for JGit, rather than keeping it in EGit.",
+      "parentUuid": "AABOHn///aY\u003d",
+      "revId": "cef830bc2d299c4b3160804ee472f506d9b84bdd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOHn///ak\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalkUtils.java",
         "patchSetId": 1
@@ -53,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "AABOHn//+rA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalkUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-05-27T22:04:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOHn///ak\u003d",
+      "revId": "cef830bc2d299c4b3160804ee472f506d9b84bdd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOHn///ao\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalkUtils.java",
         "patchSetId": 1
@@ -64,6 +100,24 @@
       "writtenOn": "2012-05-20T22:18:23Z",
       "side": 1,
       "message": "You should require the commit to come from the RevWalk, and then this is a reference equality test and not an equals test.",
+      "revId": "cef830bc2d299c4b3160804ee472f506d9b84bdd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//+rE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalkUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-05-27T22:04:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOHn///ao\u003d",
       "revId": "cef830bc2d299c4b3160804ee472f506d9b84bdd",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -98,6 +152,24 @@
       "writtenOn": "2012-05-20T22:18:23Z",
       "side": 1,
       "message": "s/.toObjectId()//. You can just add current to the list/map.",
+      "revId": "cef830bc2d299c4b3160804ee472f506d9b84bdd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//+rI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalkUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-05-27T22:04:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOHn///ag\u003d",
       "revId": "cef830bc2d299c4b3160804ee472f506d9b84bdd",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
