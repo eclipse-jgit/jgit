@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOHn//+qc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/DiffCommand.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-05-27T23:17:25Z",
+      "side": 1,
+      "message": "did you want to wrap this exception ?",
+      "revId": "688d88a0976502f1c61cd5ee6114c746502a0b58",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//+qY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/GitCommand.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-05-27T23:17:25Z",
+      "side": 1,
+      "message": "style nit: trailing whitespace",
+      "revId": "688d88a0976502f1c61cd5ee6114c746502a0b58",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//+qU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 521,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-05-27T23:17:25Z",
+      "side": 1,
+      "message": "don\u0027t declare JGitInternalException",
+      "revId": "688d88a0976502f1c61cd5ee6114c746502a0b58",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//+qQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 634,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-05-27T23:17:25Z",
+      "side": 1,
+      "message": "don\u0027t declare JGitInternalException",
+      "revId": "688d88a0976502f1c61cd5ee6114c746502a0b58",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//+qM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 657,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-05-27T23:17:25Z",
+      "side": 1,
+      "message": "don\u0027t declare JGitInternalException",
+      "revId": "688d88a0976502f1c61cd5ee6114c746502a0b58",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
