@@ -47,6 +47,7 @@ import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.LinkedList;
 
+import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
@@ -133,7 +134,7 @@ public class ResetCommand extends GitCommand<Ref> {
 	 *
 	 * @return the Ref after reset
 	 */
-	public Ref call() throws IOException {
+	public Ref call() throws GitAPIException {
 		checkCallable();
 
 		Ref r;

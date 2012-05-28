@@ -49,6 +49,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Ref;
@@ -77,12 +78,9 @@ public class DeleteTagCommand extends GitCommand<List<String>> {
 	}
 
 	/**
-	 * @throws JGitInternalException
-	 *             when trying to delete a tag that doesn't exist
-	 *
 	 * @return the list with the full names of the deleted tags
 	 */
-	public List<String> call() throws JGitInternalException {
+	public List<String> call() throws GitAPIException {
 		checkCallable();
 		List<String> result = new ArrayList<String>();
 		if (tags.isEmpty())
