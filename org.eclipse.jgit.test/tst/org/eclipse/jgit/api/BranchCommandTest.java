@@ -466,9 +466,7 @@ public class BranchCommandTest extends RepositoryTestCase {
 
 	public Ref createBranch(Git actGit, String name, boolean force,
 			String startPoint, SetupUpstreamMode mode)
-			throws JGitInternalException, RefAlreadyExistsException,
-			RefNotFoundException,
-			InvalidRefNameException {
+			throws JGitInternalException, GitAPIException {
 		CreateBranchCommand cmd = actGit.branchCreate();
 		cmd.setName(name);
 		cmd.setForce(force);
