@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOHn//+ig\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BatchRefUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-05-30T01:08:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOHn//+ls\u003d",
+      "revId": "17be66acdbe662b42a263be77c435945902df968",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOHn//+lo\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceiveCommand.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2012-05-29T15:08:08Z",
       "side": 1,
       "message": "Again, don\u0027t necessarily want to blindly show the message to the end user.",
+      "revId": "17be66acdbe662b42a263be77c435945902df968",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//+ic\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceiveCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 397,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-05-30T01:08:14Z",
+      "side": 1,
+      "message": "Changing this code to report a different error message isn\u0027t related to batching the updates together. I would rather keep the error handling matching current behavior, and then later address how errors are reported to clients in a separate set of changes.\n\nI think there is more that has to happen to protect internal server details from clients than just setting the result message to a less revealing string.",
+      "parentUuid": "AABOHn//+lo\u003d",
       "revId": "17be66acdbe662b42a263be77c435945902df968",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
