@@ -91,7 +91,7 @@ public class GitInitTask extends Task {
 			InitCommand init = Git.init();
 			init.setBare(bare).setDirectory(destination);
 			init.call();
-		} catch (JGitInternalException e) {
+		} catch (Exception e) {
 			throw new BuildException("Could not initialize repository", e);
 		}
 	}

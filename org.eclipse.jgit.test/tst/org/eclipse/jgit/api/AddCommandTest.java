@@ -52,6 +52,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.NoFilepatternException;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
@@ -72,7 +73,7 @@ import org.junit.Test;
 public class AddCommandTest extends RepositoryTestCase {
 
 	@Test
-	public void testAddNothing() {
+	public void testAddNothing() throws GitAPIException {
 		Git git = new Git(db);
 
 		try {
@@ -85,7 +86,7 @@ public class AddCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testAddNonExistingSingleFile() throws NoFilepatternException {
+	public void testAddNonExistingSingleFile() throws GitAPIException {
 		Git git = new Git(db);
 
 		DirCache dc = git.add().addFilepattern("a.txt").call();
@@ -94,7 +95,7 @@ public class AddCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testAddExistingSingleFile() throws IOException, NoFilepatternException {
+	public void testAddExistingSingleFile() throws IOException, GitAPIException {
 		File file = new File(db.getWorkTree(), "a.txt");
 		FileUtils.createNewFile(file);
 		PrintWriter writer = new PrintWriter(file);
@@ -112,7 +113,7 @@ public class AddCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void testAddExistingSingleSmallFileWithNewLine() throws IOException,
-			NoFilepatternException {
+			GitAPIException {
 		File file = new File(db.getWorkTree(), "a.txt");
 		FileUtils.createNewFile(file);
 		PrintWriter writer = new PrintWriter(file);
@@ -136,7 +137,7 @@ public class AddCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void testAddExistingSingleMediumSizeFileWithNewLine()
-			throws IOException, NoFilepatternException {
+			throws IOException, GitAPIException {
 		File file = new File(db.getWorkTree(), "a.txt");
 		FileUtils.createNewFile(file);
 		StringBuilder data = new StringBuilder();
@@ -165,7 +166,7 @@ public class AddCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void testAddExistingSingleBinaryFile() throws IOException,
-			NoFilepatternException {
+			GitAPIException {
 		File file = new File(db.getWorkTree(), "a.txt");
 		FileUtils.createNewFile(file);
 		PrintWriter writer = new PrintWriter(file);
@@ -188,7 +189,8 @@ public class AddCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testAddExistingSingleFileInSubDir() throws IOException, NoFilepatternException {
+	public void testAddExistingSingleFileInSubDir() throws IOException,
+			GitAPIException {
 		FileUtils.mkdir(new File(db.getWorkTree(), "sub"));
 		File file = new File(db.getWorkTree(), "sub/a.txt");
 		FileUtils.createNewFile(file);
@@ -206,7 +208,8 @@ public class AddCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testAddExistingSingleFileTwice() throws IOException, NoFilepatternException {
+	public void testAddExistingSingleFileTwice() throws IOException,
+			GitAPIException {
 		File file = new File(db.getWorkTree(), "a.txt");
 		FileUtils.createNewFile(file);
 		PrintWriter writer = new PrintWriter(file);

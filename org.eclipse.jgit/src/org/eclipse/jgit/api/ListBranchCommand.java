@@ -47,10 +47,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.HashMap;
 
+import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
@@ -88,11 +89,7 @@ public class ListBranchCommand extends GitCommand<List<Ref>> {
 		super(repo);
 	}
 
-	/**
-	 * @throws JGitInternalException
-	 *             upon internal failure
-	 */
-	public List<Ref> call() throws JGitInternalException {
+	public List<Ref> call() throws GitAPIException {
 		checkCallable();
 		Map<String, Ref> refList;
 		try {
