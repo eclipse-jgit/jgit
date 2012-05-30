@@ -212,7 +212,7 @@ public class StashCreateCommand extends GitCommand<RevCommit> {
 	 *
 	 * @return stashed commit or null if no changes to stash
 	 */
-	public RevCommit call() throws GitAPIException, JGitInternalException {
+	public RevCommit call() throws GitAPIException {
 		checkCallable();
 
 		Ref head = getHead();
