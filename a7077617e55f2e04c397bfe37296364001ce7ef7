@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOHn//+jk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CloneCommand.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-05-30T00:13:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOHn//+oo\u003d",
+      "revId": "a7077617e55f2e04c397bfe37296364001ce7ef7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOHn//+ok\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CloneCommand.java",
         "patchSetId": 7
@@ -30,6 +48,24 @@
       "writtenOn": "2012-05-30T00:02:36Z",
       "side": 1,
       "message": "don\u0027t declare JGitInternalException",
+      "revId": "a7077617e55f2e04c397bfe37296364001ce7ef7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//+jg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CloneCommand.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-05-30T00:13:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOHn//+ok\u003d",
       "revId": "a7077617e55f2e04c397bfe37296364001ce7ef7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AABOHn//+jc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CloneCommand.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-05-30T00:13:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOHn//+og\u003d",
+      "revId": "a7077617e55f2e04c397bfe37296364001ce7ef7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOHn//+oc\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CloneCommand.java",
         "patchSetId": 7
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "AABOHn//+jY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CloneCommand.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-05-30T00:13:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOHn//+oc\u003d",
+      "revId": "a7077617e55f2e04c397bfe37296364001ce7ef7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOHn//+oY\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
         "patchSetId": 7
@@ -81,6 +153,24 @@
       "writtenOn": "2012-05-30T00:02:36Z",
       "side": 1,
       "message": "don\u0027t declare JGitInternalException",
+      "revId": "a7077617e55f2e04c397bfe37296364001ce7ef7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//+jA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 520,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-05-30T00:13:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOHn//+oY\u003d",
       "revId": "a7077617e55f2e04c397bfe37296364001ce7ef7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
