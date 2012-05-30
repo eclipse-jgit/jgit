@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOHn//+kI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/LogCommand.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-05-30T00:02:36Z",
+      "side": 0,
+      "message": "don\u0027t declare JGitInternalExecption",
+      "revId": "8c73245fd0b6c764c629d241e3cb3c6b24f3ec9b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//+kE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/LogCommand.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-05-30T00:02:36Z",
+      "side": 0,
+      "message": "don\u0027t declare JGitInternalExecption",
+      "revId": "8c73245fd0b6c764c629d241e3cb3c6b24f3ec9b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//+kA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/LogCommand.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-05-30T00:02:36Z",
+      "side": 0,
+      "message": "don\u0027t declare JGitInternalExecption",
+      "revId": "8c73245fd0b6c764c629d241e3cb3c6b24f3ec9b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//+j8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/LogCommand.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-05-30T00:02:36Z",
+      "side": 0,
+      "message": "don\u0027t declare JGitInternalExecption",
+      "revId": "8c73245fd0b6c764c629d241e3cb3c6b24f3ec9b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//+j4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PushCommand.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-05-30T00:02:36Z",
+      "side": 0,
+      "message": "don\u0027t declare JGitInternalExecption",
+      "revId": "8c73245fd0b6c764c629d241e3cb3c6b24f3ec9b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//+j0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/StashApplyCommand.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-05-30T00:02:36Z",
+      "side": 0,
+      "message": "don\u0027t declare JGitInternalExecption",
+      "revId": "8c73245fd0b6c764c629d241e3cb3c6b24f3ec9b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//+jw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/StashApplyCommand.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-05-30T00:02:36Z",
+      "side": 0,
+      "message": "don\u0027t declare JGitInternalExecption",
+      "revId": "8c73245fd0b6c764c629d241e3cb3c6b24f3ec9b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
