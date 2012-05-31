@@ -169,8 +169,6 @@ public class SubmoduleUpdateCommand extends
 			throw new JGitInternalException(e.getMessage(), e);
 		} catch (ConfigInvalidException e) {
 			throw new JGitInternalException(e.getMessage(), e);
-		} catch (GitAPIException e) {
-			throw new JGitInternalException(e.getMessage(), e);
 		}
 	}
 }
