@@ -113,8 +113,11 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 	 * Executes the {@code Clone} command.
 	 *
 	 * @return the newly created {@code Git} object with associated repository
+	 * @throws InvalidRemoteException
+	 * @throws org.eclipse.jgit.api.errors.TransportException
+	 * @throws GitAPIException
 	 */
-	public Git call() throws GitAPIException {
+	public Git call() throws GitAPIException, InvalidRemoteException {
 		try {
 			URIish u = new URIish(uri);
 			Repository repository = init(u);
@@ -124,10 +127,9 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 			return new Git(repository);
 		} catch (IOException ioe) {
 			throw new JGitInternalException(ioe.getMessage(), ioe);
-		} catch (InvalidRemoteException e) {
-			throw new JGitInternalException(e.getMessage(), e);
 		} catch (URISyntaxException e) {
-			throw new JGitInternalException(e.getMessage(), e);
+			throw new InvalidRemoteException(MessageFormat.format(
+					JGitText.get().invalidRemote, remote));
 		}
 	}
 
@@ -144,7 +146,9 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 	}
 
 	private FetchResult fetch(Repository clonedRepo, URIish u)
-			throws URISyntaxException, IOException, GitAPIException {
+			throws URISyntaxException,
+			org.eclipse.jgit.api.errors.TransportException, IOException,
+			GitAPIException {
 		// create the remote config and save it
 		RemoteConfig config = new RemoteConfig(clonedRepo.getConfig(), remote);
 		config.addURI(u);

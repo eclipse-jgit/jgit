@@ -47,8 +47,16 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.eclipse.jgit.api.errors.CheckoutConflictException;
+import org.eclipse.jgit.api.errors.ConcurrentRefUpdateException;
 import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.api.errors.InvalidConfigurationException;
+import org.eclipse.jgit.api.errors.InvalidMergeHeadsException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
+import org.eclipse.jgit.api.errors.NoHeadException;
+import org.eclipse.jgit.api.errors.NoMessageException;
+import org.eclipse.jgit.api.errors.RefNotFoundException;
+import org.eclipse.jgit.api.errors.WrongRepositoryStateException;
 import org.eclipse.jgit.dircache.DirCacheCheckout;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ConfigConstants;
@@ -109,7 +117,25 @@ public class SubmoduleUpdateCommand extends
 		return this;
 	}
 
-	public Collection<String> call() throws GitAPIException {
+	/**
+	 * Execute the SubmoduleUpdateCommand command.
+	 *
+	 * @return a collection of updated submodule paths
+	 * @throws ConcurrentRefUpdateException
+	 * @throws CheckoutConflictException
+	 * @throws InvalidMergeHeadsException
+	 * @throws InvalidConfigurationException
+	 * @throws NoHeadException
+	 * @throws NoMessageException
+	 * @throws RefNotFoundException
+	 * @throws WrongRepositoryStateException
+	 * @throws GitAPIException
+	 */
+	public Collection<String> call() throws InvalidConfigurationException,
+			NoHeadException, ConcurrentRefUpdateException,
+			CheckoutConflictException, InvalidMergeHeadsException,
+			WrongRepositoryStateException, NoMessageException, NoHeadException,
+			RefNotFoundException, GitAPIException {
 		checkCallable();
 
 		try {
@@ -168,9 +194,7 @@ public class SubmoduleUpdateCommand extends
 		} catch (IOException e) {
 			throw new JGitInternalException(e.getMessage(), e);
 		} catch (ConfigInvalidException e) {
-			throw new JGitInternalException(e.getMessage(), e);
-		} catch (GitAPIException e) {
-			throw new JGitInternalException(e.getMessage(), e);
+			throw new InvalidConfigurationException(e.getMessage(), e);
 		}
 	}
 }
