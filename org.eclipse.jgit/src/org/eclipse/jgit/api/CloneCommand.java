@@ -144,7 +144,9 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 	}
 
 	private FetchResult fetch(Repository clonedRepo, URIish u)
-			throws URISyntaxException, IOException, GitAPIException {
+			throws URISyntaxException,
+			org.eclipse.jgit.api.errors.TransportException, IOException,
+			GitAPIException {
 		// create the remote config and save it
 		RemoteConfig config = new RemoteConfig(clonedRepo.getConfig(), remote);
 		config.addURI(u);

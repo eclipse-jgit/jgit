@@ -186,8 +186,8 @@ public class LsRemoteCommand extends
 					JGitText.get().exceptionCaughtDuringExecutionOfLsRemoteCommand,
 					e);
 		} catch (TransportException e) {
-				throw new org.eclipse.jgit.api.errors.TransportException(
-					JGitText.get().exceptionCaughtDuringExecutionOfLsRemoteCommand,
+			throw new org.eclipse.jgit.api.errors.TransportException(
+					e.getMessage(),
 					e);
 		} finally {
 			if (fc != null)
