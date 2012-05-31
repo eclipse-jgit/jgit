@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "AABOHn//+as\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BatchRefUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-05-31T00:14:33Z",
+      "side": 1,
+      "message": "Did you mean to change this? I don\u0027t see a newer patch set. Or are you just marking this comment reviewed and postponing this change until we can fix it more thoroughly, as you mentioned elsewhere?",
+      "parentUuid": "AABOHn//+ig\u003d",
+      "revId": "17be66acdbe662b42a263be77c435945902df968",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOHn//+lo\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceiveCommand.java",
         "patchSetId": 2
