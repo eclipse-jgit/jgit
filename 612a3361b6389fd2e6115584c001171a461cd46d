@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOHn//+Ug\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CloneCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 479
+      },
+      "writtenOn": "2012-06-01T09:23:09Z",
+      "side": 1,
+      "message": "We do not need to add TransportException to the signature since GitAPIException is already there.",
+      "revId": "612a3361b6389fd2e6115584c001171a461cd46d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//+Uc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PullCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 479
+      },
+      "writtenOn": "2012-06-01T09:23:09Z",
+      "side": 1,
+      "message": "We could remove all exceptions that extend GitAPIException from the method signature",
+      "revId": "612a3361b6389fd2e6115584c001171a461cd46d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//+UY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PushCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 479
+      },
+      "writtenOn": "2012-06-01T09:23:09Z",
+      "side": 1,
+      "message": "We could remove all exceptions that extend GitAPIException from the signature.",
+      "revId": "612a3361b6389fd2e6115584c001171a461cd46d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
