@@ -75,11 +75,6 @@
       <artifactId>org.eclipse.jgit.http.server</artifactId>
       <version>${project.version}</version>
     </dependency>
-    <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>javax.servlet-api</artifactId>
-      <version>${servlet-api-version}</version>
-    </dependency>
   </dependencies>
 
 </project>
