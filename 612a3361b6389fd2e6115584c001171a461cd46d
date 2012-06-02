@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOHn//+O0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CloneCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-06-02T10:26:07Z",
+      "side": 1,
+      "message": "We have done so in the other API\u0027s to help callers understand what exceptions matter. GitAPIExceptoin is a catch-all.",
+      "parentUuid": "AABOHn//+Ug\u003d",
+      "revId": "612a3361b6389fd2e6115584c001171a461cd46d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOHn//+Uc\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PullCommand.java",
         "patchSetId": 3
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AABOHn//+Ow\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PullCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-06-02T10:26:07Z",
+      "side": 1,
+      "message": "We have done so in the other API\u0027s to help callers understand what exceptions matter. GitAPIExceptoin is a catch-all.",
+      "parentUuid": "AABOHn//+Uc\u003d",
+      "revId": "612a3361b6389fd2e6115584c001171a461cd46d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOHn//+UY\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PushCommand.java",
         "patchSetId": 3
@@ -47,6 +83,24 @@
       "writtenOn": "2012-06-01T09:23:09Z",
       "side": 1,
       "message": "We could remove all exceptions that extend GitAPIException from the signature.",
+      "revId": "612a3361b6389fd2e6115584c001171a461cd46d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//+Os\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/PushCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-06-02T10:26:07Z",
+      "side": 1,
+      "message": "We have done so in the other API\u0027s to help callers understand what exceptions matter. GitAPIExceptoin is a catch-all.",
+      "parentUuid": "AABOHn//+UY\u003d",
       "revId": "612a3361b6389fd2e6115584c001171a461cd46d",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
