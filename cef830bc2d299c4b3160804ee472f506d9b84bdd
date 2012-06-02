@@ -124,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "AABOHn//+bc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalkUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-06-02T22:59:59Z",
+      "side": 1,
+      "message": "follow-up commit",
+      "parentUuid": "AABOHn//+rE\u003d",
+      "revId": "cef830bc2d299c4b3160804ee472f506d9b84bdd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOHn///aQ\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalkUtils.java",
         "patchSetId": 1
@@ -170,6 +188,24 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "AABOHn///ag\u003d",
+      "revId": "cef830bc2d299c4b3160804ee472f506d9b84bdd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//+bY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalkUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-06-02T22:59:59Z",
+      "side": 1,
+      "message": "followup-commit",
+      "parentUuid": "AABOHn//+rI\u003d",
       "revId": "cef830bc2d299c4b3160804ee472f506d9b84bdd",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
