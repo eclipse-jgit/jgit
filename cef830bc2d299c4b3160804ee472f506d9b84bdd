@@ -142,6 +142,24 @@
     },
     {
       "key": {
+        "uuid": "AABOHn//+NM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalkUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-06-02T23:02:02Z",
+      "side": 1,
+      "message": "This is not what we do, as the commits come from getAllRefs(). This feels a bit too strict. \n\nMaybe I should keep this routine internal within EGit",
+      "parentUuid": "AABOHn//+bc\u003d",
+      "revId": "cef830bc2d299c4b3160804ee472f506d9b84bdd",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOHn///aQ\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revwalk/RevWalkUtils.java",
         "patchSetId": 1
