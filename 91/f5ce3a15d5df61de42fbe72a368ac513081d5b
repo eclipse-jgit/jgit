@@ -1,0 +1,11 @@
+Code-Review+2: Shawn Pearce <sop@google.com>
+Code-Review+1: Christian Halstrick <christian.halstrick@sap.com>
+Code-Review+1: Robin Rosenberg <robin.rosenberg@dewire.com>
+IP-Clean+1: Robin Rosenberg <robin.rosenberg@dewire.com>
+Verified+1: Robin Rosenberg <robin.rosenberg@dewire.com>
+Code-Review+1: Markus Duft <mduft@gentoo.org>
+Submitted-by: Shawn Pearce <sop@google.com>
+Submitted-at: Mon, 04 Jun 2012 10:44:10 -0400
+Reviewed-on: https://git.eclipse.org/r/6141
+Project: jgit/jgit
+Branch: refs/heads/stable-2.0
