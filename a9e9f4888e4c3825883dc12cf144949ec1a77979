@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOHn//+KY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CloneCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 479
+      },
+      "writtenOn": "2012-06-04T08:44:34Z",
+      "side": 1,
+      "message": "I think that having specialized exceptions in both the method signature and javadoc is redundant. This is what I guess John meant too. Anyway in this particular method, the lists of exceptions in throws and javadoc do not match.",
+      "revId": "a9e9f4888e4c3825883dc12cf144949ec1a77979",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
