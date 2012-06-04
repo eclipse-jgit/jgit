@@ -53,10 +53,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.List;
 
 import org.eclipse.jgit.api.MergeResult.MergeStatus;
 import org.eclipse.jgit.api.RebaseCommand.Action;
 import org.eclipse.jgit.api.RebaseCommand.Operation;
+import org.eclipse.jgit.api.RebaseCommand.Step;
 import org.eclipse.jgit.api.RebaseResult.Status;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.api.errors.RefNotFoundException;
@@ -1365,8 +1367,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 
 	private int countPicks() throws IOException {
 		int count = 0;
-		File todoFile = new File(db.getDirectory(),
-				"rebase-merge/git-rebase-todo");
+		File todoFile = getTodoFile();
 		BufferedReader br = new BufferedReader(new InputStreamReader(
 				new FileInputStream(todoFile), "UTF-8"));
 		try {
@@ -1469,5 +1470,27 @@ public class RebaseCommandTest extends RepositoryTestCase {
 
 		assertEquals(RepositoryState.SAFE, git.getRepository()
 				.getRepositoryState());
+	}
+
+	@Test
+	public void testRebaseShouldBeAbleToHandleEmptyLinesInRebaseTodoFile()
+			throws IOException {
+		String emptyLine = "\n";
+		String todo = "pick 1111111 Commit 1\n" + emptyLine
+				+ "pick 2222222 Commit 2\n" + emptyLine
+				+ "# Comment line at end\n";
+		write(getTodoFile(), todo);
+
+		RebaseCommand rebaseCommand = git.rebase();
+		List<Step> steps = rebaseCommand.loadSteps();
+		assertEquals(2, steps.size());
+		assertEquals("1111111", steps.get(0).commit.name());
+		assertEquals("2222222", steps.get(1).commit.name());
+	}
+
+	private File getTodoFile() {
+		File todoFile = new File(db.getDirectory(),
+				"rebase-merge/git-rebase-todo");
+		return todoFile;
 	}
 }
