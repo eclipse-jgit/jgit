@@ -696,6 +696,33 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	}
 
 	/**
+	 * Is the file mode of the current entry different than the given raw mode?
+	 *
+	 * @param rawMode
+	 * @return true if different, false otherwise
+	 */
+	public boolean isModeDifferent(final int rawMode) {
+		// Determine difference in mode-bits of file and index-entry. In the
+		// bitwise presentation of modeDiff we'll have a '1' when the two modes
+		// differ at this position.
+		int modeDiff = getEntryRawMode() ^ rawMode;
+
+		if (modeDiff == 0)
+			return false;
+
+		// Do not rely on filemode differences in case of symbolic links
+		if (FileMode.SYMLINK.equals(rawMode))
+			return false;
+
+		// Ignore the executable file bits if WorkingTreeOptions tell me to
+		// do so. Ignoring is done by setting the bits representing a
+		// EXECUTABLE_FILE to '0' in modeDiff
+		if (!state.options.isFileMode())
+			modeDiff &= ~FileMode.EXECUTABLE_FILE.getBits();
+		return modeDiff != 0;
+	}
+
+	/**
 	 * Compare the metadata (mode, length, modification-timestamp) of the
 	 * current entry and a {@link DirCacheEntry}
 	 *
@@ -714,23 +741,8 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 		if (!entry.isSmudged() && entry.getLength() != (int) getEntryLength())
 			return MetadataDiff.DIFFER_BY_METADATA;
 
-		// Determine difference in mode-bits of file and index-entry. In the
-		// bitwise presentation of modeDiff we'll have a '1' when the two modes
-		// differ at this position.
-		int modeDiff = getEntryRawMode() ^ entry.getRawMode();
-
-		// Do not rely on filemode differences in case of symbolic links
-		if (modeDiff != 0 && !FileMode.SYMLINK.equals(entry.getRawMode())) {
-			// Ignore the executable file bits if WorkingTreeOptions tell me to
-			// do so. Ignoring is done by setting the bits representing a
-			// EXECUTABLE_FILE to '0' in modeDiff
-			if (!state.options.isFileMode())
-				modeDiff &= ~FileMode.EXECUTABLE_FILE.getBits();
-			if (modeDiff != 0)
-				// Report a modification if the modes still (after potentially
-				// ignoring EXECUTABLE_FILE bits) differ
-				return MetadataDiff.DIFFER_BY_METADATA;
-		}
+		if (isModeDifferent(entry.getRawMode()))
+			return MetadataDiff.DIFFER_BY_METADATA;
 
 		// Git under windows only stores seconds so we round the timestamp
 		// Java gives us if it looks like the timestamp in index is seconds
