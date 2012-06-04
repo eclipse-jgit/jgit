@@ -172,6 +172,11 @@ public class PlotWalk extends RevWalk {
 				return ((RevCommit) o).getCommitTime();
 			if (o instanceof RevTag) {
 				RevTag tag = (RevTag) o;
+				try {
+					parseBody(tag);
+				} catch (IOException e) {
+					return 0;
+				}
 				PersonIdent who = tag.getTaggerIdent();
 				return who != null ? who.getWhen().getTime() : 0;
 			}

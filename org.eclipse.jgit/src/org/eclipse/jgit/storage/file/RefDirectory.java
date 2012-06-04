@@ -63,6 +63,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.security.DigestInputStream;
+import java.security.MessageDigest;
 import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -626,24 +628,27 @@ public class RefDirectory extends RefDatabase {
 			return curList;
 
 		final PackedRefList newList = readPackedRefs();
-		if (packedRefs.compareAndSet(curList, newList))
+		if (packedRefs.compareAndSet(curList, newList)
+				&& !curList.id.equals(newList.id))
 			modCnt.incrementAndGet();
 		return newList;
 	}
 
-	private PackedRefList readPackedRefs()
-			throws IOException {
+	private PackedRefList readPackedRefs() throws IOException {
 		final FileSnapshot snapshot = FileSnapshot.save(packedRefsFile);
 		final BufferedReader br;
+		final MessageDigest digest = Constants.newMessageDigest();
 		try {
-			br = new BufferedReader(new InputStreamReader(new FileInputStream(
-					packedRefsFile), CHARSET));
+			br = new BufferedReader(new InputStreamReader(
+					new DigestInputStream(new FileInputStream(packedRefsFile),
+							digest), CHARSET));
 		} catch (FileNotFoundException noPackedRefs) {
 			// Ignore it and leave the new list empty.
 			return PackedRefList.NO_PACKED_REFS;
 		}
 		try {
-			return new PackedRefList(parsePackedRefs(br), snapshot);
+			return new PackedRefList(parsePackedRefs(br), snapshot,
+					ObjectId.fromRaw(digest.digest()));
 		} finally {
 			br.close();
 		}
@@ -724,8 +729,9 @@ public class RefDirectory extends RefDatabase {
 				if (!lck.commit())
 					throw new ObjectWritingException(MessageFormat.format(JGitText.get().unableToWrite, name));
 
-				packedRefs.compareAndSet(oldPackedList, new PackedRefList(
-						refs, lck.getCommitSnapshot()));
+				byte[] digest = Constants.newMessageDigest().digest(content);
+				packedRefs.compareAndSet(oldPackedList, new PackedRefList(refs,
+						lck.getCommitSnapshot(), ObjectId.fromRaw(digest)));
 			}
 		}.writePackedRefs();
 	}
@@ -899,13 +905,17 @@ public class RefDirectory extends RefDatabase {
 
 	private static class PackedRefList extends RefList<Ref> {
 		static final PackedRefList NO_PACKED_REFS = new PackedRefList(
-				RefList.emptyList(), FileSnapshot.MISSING_FILE);
+				RefList.emptyList(), FileSnapshot.MISSING_FILE,
+				ObjectId.zeroId());
 
 		final FileSnapshot snapshot;
 
-		PackedRefList(RefList<Ref> src, FileSnapshot s) {
+		final ObjectId id;
+
+		PackedRefList(RefList<Ref> src, FileSnapshot s, ObjectId i) {
 			super(src);
 			snapshot = s;
+			id = i;
 		}
 	}
 

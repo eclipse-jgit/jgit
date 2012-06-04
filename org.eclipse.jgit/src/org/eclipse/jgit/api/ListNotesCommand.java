@@ -47,6 +47,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
@@ -74,10 +75,9 @@ public class ListNotesCommand extends GitCommand<List<Note>> {
 	}
 
 	/**
-	 * @throws JGitInternalException
-	 *             upon internal failure
+	 * @return the requested notes
 	 */
-	public List<Note> call() throws JGitInternalException {
+	public List<Note> call() throws GitAPIException {
 		checkCallable();
 		List<Note> notes = new ArrayList<Note>();
 		RevWalk walk = new RevWalk(repo);

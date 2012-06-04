@@ -54,12 +54,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 import org.eclipse.jgit.api.ResetCommand.ResetType;
-import org.eclipse.jgit.api.errors.ConcurrentRefUpdateException;
+import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
-import org.eclipse.jgit.api.errors.NoFilepatternException;
-import org.eclipse.jgit.api.errors.NoHeadException;
-import org.eclipse.jgit.api.errors.NoMessageException;
-import org.eclipse.jgit.api.errors.WrongRepositoryStateException;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.errors.AmbiguousObjectException;
@@ -87,9 +83,8 @@ public class ResetCommandTest extends RepositoryTestCase {
 
 	private DirCacheEntry prestage;
 
-	public void setupRepository() throws IOException, NoFilepatternException,
-			NoHeadException, NoMessageException, ConcurrentRefUpdateException,
-			JGitInternalException, WrongRepositoryStateException {
+	public void setupRepository() throws IOException, JGitInternalException,
+			GitAPIException {
 
 		// create initial commit
 		git = new Git(db);
@@ -138,9 +133,7 @@ public class ResetCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void testHardReset() throws JGitInternalException,
-			AmbiguousObjectException, IOException, NoFilepatternException,
-			NoHeadException, NoMessageException, ConcurrentRefUpdateException,
-			WrongRepositoryStateException {
+			AmbiguousObjectException, IOException, GitAPIException {
 		setupRepository();
 		ObjectId prevHead = db.resolve(Constants.HEAD);
 		git.reset().setMode(ResetType.HARD).setRef(initialCommit.getName())
@@ -156,11 +149,12 @@ public class ResetCommandTest extends RepositoryTestCase {
 		assertFalse(inHead(fileInIndexPath));
 		assertFalse(inIndex(indexFile.getName()));
 		assertReflog(prevHead, head);
+		assertEquals(prevHead, db.readOrigHead());
 	}
 
 	@Test
 	public void testResetToNonexistingHEAD() throws JGitInternalException,
-			AmbiguousObjectException, IOException {
+			AmbiguousObjectException, IOException, GitAPIException {
 
 		// create a file in the working tree of a fresh repo
 		git = new Git(db);
@@ -176,9 +170,7 @@ public class ResetCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void testSoftReset() throws JGitInternalException,
-			AmbiguousObjectException, IOException, NoFilepatternException,
-			NoHeadException, NoMessageException, ConcurrentRefUpdateException,
-			WrongRepositoryStateException {
+			AmbiguousObjectException, IOException, GitAPIException {
 		setupRepository();
 		ObjectId prevHead = db.resolve(Constants.HEAD);
 		git.reset().setMode(ResetType.SOFT).setRef(initialCommit.getName())
@@ -194,13 +186,12 @@ public class ResetCommandTest extends RepositoryTestCase {
 		assertFalse(inHead(fileInIndexPath));
 		assertTrue(inIndex(indexFile.getName()));
 		assertReflog(prevHead, head);
+		assertEquals(prevHead, db.readOrigHead());
 	}
 
 	@Test
 	public void testMixedReset() throws JGitInternalException,
-			AmbiguousObjectException, IOException, NoFilepatternException,
-			NoHeadException, NoMessageException, ConcurrentRefUpdateException,
-			WrongRepositoryStateException {
+			AmbiguousObjectException, IOException, GitAPIException {
 		setupRepository();
 		ObjectId prevHead = db.resolve(Constants.HEAD);
 		git.reset().setMode(ResetType.MIXED).setRef(initialCommit.getName())
@@ -217,6 +208,49 @@ public class ResetCommandTest extends RepositoryTestCase {
 		assertFalse(inIndex(indexFile.getName()));
 
 		assertReflog(prevHead, head);
+		assertEquals(prevHead, db.readOrigHead());
+	}
+
+	@Test
+	public void testMixedResetRetainsSizeAndModifiedTime() throws Exception {
+		git = new Git(db);
+
+		writeTrashFile("a.txt", "a").setLastModified(
+				System.currentTimeMillis() - 60 * 1000);
+		assertNotNull(git.add().addFilepattern("a.txt").call());
+		assertNotNull(git.commit().setMessage("a commit").call());
+
+		writeTrashFile("b.txt", "b").setLastModified(
+				System.currentTimeMillis() - 60 * 1000);
+		assertNotNull(git.add().addFilepattern("b.txt").call());
+		RevCommit commit2 = git.commit().setMessage("b commit").call();
+		assertNotNull(commit2);
+
+		DirCache cache = db.readDirCache();
+
+		DirCacheEntry aEntry = cache.getEntry("a.txt");
+		assertNotNull(aEntry);
+		assertTrue(aEntry.getLength() > 0);
+		assertTrue(aEntry.getLastModified() > 0);
+
+		DirCacheEntry bEntry = cache.getEntry("b.txt");
+		assertNotNull(bEntry);
+		assertTrue(bEntry.getLength() > 0);
+		assertTrue(bEntry.getLastModified() > 0);
+
+		git.reset().setMode(ResetType.MIXED).setRef(commit2.getName()).call();
+
+		cache = db.readDirCache();
+
+		DirCacheEntry mixedAEntry = cache.getEntry("a.txt");
+		assertNotNull(mixedAEntry);
+		assertEquals(aEntry.getLastModified(), mixedAEntry.getLastModified());
+		assertEquals(aEntry.getLastModified(), mixedAEntry.getLastModified());
+
+		DirCacheEntry mixedBEntry = cache.getEntry("b.txt");
+		assertNotNull(mixedBEntry);
+		assertEquals(bEntry.getLastModified(), mixedBEntry.getLastModified());
+		assertEquals(bEntry.getLastModified(), mixedBEntry.getLastModified());
 	}
 
 	@Test

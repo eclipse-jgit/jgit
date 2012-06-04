@@ -56,11 +56,11 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 import org.eclipse.jgit.api.CheckoutResult.Status;
-import org.eclipse.jgit.api.errors.CheckoutConflictException;
-import org.eclipse.jgit.api.errors.InvalidRefNameException;
+import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
-import org.eclipse.jgit.api.errors.RefAlreadyExistsException;
 import org.eclipse.jgit.api.errors.RefNotFoundException;
+import org.eclipse.jgit.dircache.DirCache;
+import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
@@ -127,9 +127,7 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	public void testCheckoutToNonExistingBranch() throws JGitInternalException,
-			RefAlreadyExistsException, InvalidRefNameException,
-			CheckoutConflictException {
+	public void testCheckoutToNonExistingBranch() throws GitAPIException {
 		try {
 			git.checkout().setName("badbranch").call();
 			fail("Should have failed");
@@ -223,8 +221,7 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void testDetachedHeadOnCheckout() throws JGitInternalException,
-			RefAlreadyExistsException, RefNotFoundException,
-			InvalidRefNameException, IOException, CheckoutConflictException {
+			IOException, GitAPIException {
 		CheckoutCommand co = git.checkout();
 		co.setName("master").call();
 
@@ -235,5 +232,42 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 		Ref head = db.getRef(Constants.HEAD);
 		assertFalse(head.isSymbolic());
 		assertSame(head, head.getTarget());
+	}
+
+	@Test
+	public void testUpdateSmudgedEntries() throws Exception {
+		git.branchCreate().setName("test2").call();
+		RefUpdate rup = db.updateRef(Constants.HEAD);
+		rup.link("refs/heads/test2");
+
+		File file = new File(db.getWorkTree(), "Test.txt");
+		long size = file.length();
+		long mTime = file.lastModified() - 5000L;
+		assertTrue(file.setLastModified(mTime));
+
+		DirCache cache = DirCache.lock(db.getIndexFile(), db.getFS());
+		DirCacheEntry entry = cache.getEntry("Test.txt");
+		assertNotNull(entry);
+		entry.setLength(0);
+		entry.setLastModified(0);
+		cache.write();
+		assertTrue(cache.commit());
+
+		cache = DirCache.read(db.getIndexFile(), db.getFS());
+		entry = cache.getEntry("Test.txt");
+		assertNotNull(entry);
+		assertEquals(0, entry.getLength());
+		assertEquals(0, entry.getLastModified());
+
+		db.getIndexFile().setLastModified(
+				db.getIndexFile().lastModified() - 5000);
+
+		assertNotNull(git.checkout().setName("test").call());
+
+		cache = DirCache.read(db.getIndexFile(), db.getFS());
+		entry = cache.getEntry("Test.txt");
+		assertNotNull(entry);
+		assertEquals(size, entry.getLength());
+		assertEquals(mTime, entry.getLastModified());
 	}
 }

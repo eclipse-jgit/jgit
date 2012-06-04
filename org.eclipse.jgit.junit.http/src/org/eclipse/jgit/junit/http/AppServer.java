@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010, Google Inc.
+ * Copyright (C) 2010, 2012 Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -54,8 +54,6 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.jetty.http.security.Constraint;
-import org.eclipse.jetty.http.security.Password;
 import org.eclipse.jetty.security.Authenticator;
 import org.eclipse.jetty.security.ConstraintMapping;
 import org.eclipse.jetty.security.ConstraintSecurityHandler;
@@ -67,7 +65,8 @@ import org.eclipse.jetty.server.UserIdentity;
 import org.eclipse.jetty.server.handler.ContextHandlerCollection;
 import org.eclipse.jetty.server.nio.SelectChannelConnector;
 import org.eclipse.jetty.servlet.ServletContextHandler;
-import org.eclipse.jetty.util.thread.QueuedThreadPool;
+import org.eclipse.jetty.util.security.Constraint;
+import org.eclipse.jetty.util.security.Password;
 import org.eclipse.jgit.transport.URIish;
 
 /**
@@ -112,17 +111,6 @@ public class AppServer {
 			throw new RuntimeException("Cannot find localhost", e);
 		}
 
-		// We need a handful of threads in the thread pool, otherwise
-		// our tests will deadlock when they can't open enough requests.
-		// In theory we only need 1 concurrent connection at a time, but
-		// I suspect the JRE isn't doing request pipelining on existing
-		// connections like we want it to.
-		//
-		final QueuedThreadPool pool = new QueuedThreadPool();
-		pool.setMinThreads(1);
-		pool.setMaxThreads(4);
-		pool.setMaxQueued(8);
-
 		contexts = new ContextHandlerCollection();
 
 		log = new TestRequestLog();
@@ -130,11 +118,7 @@ public class AppServer {
 
 		server = new Server();
 		server.setConnectors(new Connector[] { connector });
-		server.setThreadPool(pool);
 		server.setHandler(log);
-
-		server.setStopAtShutdown(false);
-		server.setGracefulShutdown(0);
 	}
 
 	/**

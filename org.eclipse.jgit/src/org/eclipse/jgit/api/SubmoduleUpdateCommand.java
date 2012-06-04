@@ -109,7 +109,7 @@ public class SubmoduleUpdateCommand extends
 		return this;
 	}
 
-	public Collection<String> call() throws JGitInternalException {
+	public Collection<String> call() throws GitAPIException {
 		checkCallable();
 
 		try {

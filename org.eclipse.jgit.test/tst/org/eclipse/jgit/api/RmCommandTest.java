@@ -46,8 +46,8 @@ import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
 
+import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
-import org.eclipse.jgit.api.errors.NoFilepatternException;
 import org.eclipse.jgit.lib.RepositoryTestCase;
 import org.junit.Before;
 import org.junit.Test;
@@ -71,7 +71,7 @@ public class RmCommandTest extends RepositoryTestCase {
 
 	@Test
 	public void testRemove() throws JGitInternalException,
-			NoFilepatternException, IllegalStateException, IOException {
+			IllegalStateException, IOException, GitAPIException {
 		assertEquals("[test.txt, mode:100644, content:Hello world]",
 				indexState(CONTENT));
 		RmCommand command = git.rm();

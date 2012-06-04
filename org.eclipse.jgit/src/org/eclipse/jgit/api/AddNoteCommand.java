@@ -44,6 +44,7 @@ package org.eclipse.jgit.api;
 
 import java.io.IOException;
 
+import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Constants;
@@ -80,11 +81,7 @@ public class AddNoteCommand extends GitCommand<Note> {
 		super(repo);
 	}
 
-	/**
-	 * @throws JGitInternalException
-	 *             upon internal failure
-	 */
-	public Note call() throws JGitInternalException {
+	public Note call() throws GitAPIException {
 		checkCallable();
 		RevWalk walk = new RevWalk(repo);
 		ObjectInserter inserter = repo.newObjectInserter();

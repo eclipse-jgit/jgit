@@ -173,7 +173,7 @@
     <junit-version>4.5</junit-version>
     <args4j-version>2.0.12</args4j-version>
     <servlet-api-version>2.5</servlet-api-version>
-    <jetty-version>7.1.6.v20100715</jetty-version>
+    <jetty-version>7.6.0.v20120127</jetty-version>
     <protobuf-version>2.4.0a</protobuf-version>
     <clirr-version>2.3</clirr-version>
   </properties>
@@ -182,6 +182,11 @@
     <repository>
       <id>jgit-repository</id>
       <url>http://download.eclipse.org/jgit/maven</url>
+    </repository>
+    <repository>
+      <id>jetty</id>
+      <layout>p2</layout>
+      <url>http://download.eclipse.org/jetty/updates/jetty-bundles-7.x/${jetty-version}/</url>
     </repository>
   </repositories>
 
