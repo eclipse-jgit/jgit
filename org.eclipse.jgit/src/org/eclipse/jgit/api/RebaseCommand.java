@@ -820,7 +820,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		return true;
 	}
 
-	private List<Step> loadSteps() throws IOException {
+	List<Step> loadSteps() throws IOException {
 		byte[] buf = IO.readFully(new File(rebaseDir, GIT_REBASE_TODO));
 		int ptr = 0;
 		int tokenBegin = 0;
@@ -828,13 +828,12 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		while (ptr < buf.length) {
 			tokenBegin = ptr;
 			ptr = RawParseUtils.nextLF(buf, ptr);
-			int nextSpace = 0;
+			int nextSpace = RawParseUtils.next(buf, tokenBegin, ' ');
 			int tokenCount = 0;
 			Step current = null;
 			while (tokenCount < 3 && nextSpace < ptr) {
 				switch (tokenCount) {
 				case 0:
-					nextSpace = RawParseUtils.next(buf, tokenBegin, ' ');
 					String actionToken = new String(buf, tokenBegin, nextSpace
 							- tokenBegin - 1);
 					tokenBegin = nextSpace;
