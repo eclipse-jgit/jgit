@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOHn//9+w\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-06-04T21:29:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOHn//+Js\u003d",
+      "revId": "a9e9f4888e4c3825883dc12cf144949ec1a77979",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOHn//+KY\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CloneCommand.java",
         "patchSetId": 5
@@ -48,6 +66,24 @@
       "side": 1,
       "message": "I like the proposal of Robin and don\u0027t think we have to remove this redundancy. Here are my points:\n\n- Which subclasses of GitAPIException may be thrown by a specific command is so important that I like every API user to know the specific checked exceptions which can occur. We have \u003e20 GitAPIExceptions and most commands throw only very few of them. Having it in javadoc and in the signature makes it harder to overlook. \n\n- There is a difference in having it only in javadoc than in javadoc\u0026signature: When programming Eclipse then Eclipse helps you to handle all relevant exceptions. If you have written down the call to the JGit API and then trigger Quick-Fixes (Ctrl-1) Eclipse can automatically create catch clauses for the exceptions in the signature. If you have described the possible exceptions only in javadoc then the quickfix will only create a catch for GitApiExceptions.\n\nOf course we should fix that javadoc and signature doesn\u0027t match. Please add TransportException to the signature.",
       "parentUuid": "AABOHn//+KY\u003d",
+      "revId": "a9e9f4888e4c3825883dc12cf144949ec1a77979",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//9+0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CloneCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-06-04T21:29:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOHn//+JQ\u003d",
       "revId": "a9e9f4888e4c3825883dc12cf144949ec1a77979",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
