@@ -133,8 +133,9 @@ public class ResetCommand extends GitCommand<Ref> {
 	 * Executes the {@code Reset} command. Each instance of this class should
 	 * only be used for one invocation of the command. Don't call this method
 	 * twice on an instance.
-	 *
+	 * 
 	 * @return the Ref after reset
+	 * @throws GitAPIException
 	 */
 	public Ref call() throws GitAPIException {
 		checkCallable();

@@ -135,8 +135,7 @@ public class FetchCommand extends TransportCommand<FetchCommand, FetchResult> {
 					JGitText.get().invalidRemote, remote), e);
 		} catch (TransportException e) {
 			throw new org.eclipse.jgit.api.errors.TransportException(
-					JGitText.get().exceptionCaughtDuringExecutionOfFetchCommand,
-					e);
+					e.getMessage(), e);
 		} catch (URISyntaxException e) {
 			throw new InvalidRemoteException(MessageFormat.format(
 					JGitText.get().invalidRemote, remote));

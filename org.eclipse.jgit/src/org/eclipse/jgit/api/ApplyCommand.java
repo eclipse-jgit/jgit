@@ -100,10 +100,14 @@ public class ApplyCommand extends GitCommand<ApplyResult> {
 	 * {@link #setPatch(InputStream)} of this class. Each instance of this class
 	 * should only be used for one invocation of the command. Don't call this
 	 * method twice on an instance.
-	 *
+	 * 
 	 * @return an {@link ApplyResult} object representing the command result
+	 * @throws GitAPIException
+	 * @throws PatchFormatException
+	 * @throws PatchApplyException
 	 */
-	public ApplyResult call() throws GitAPIException {
+	public ApplyResult call() throws GitAPIException, PatchFormatException,
+			PatchApplyException {
 		checkCallable();
 		ApplyResult r = new ApplyResult();
 		try {

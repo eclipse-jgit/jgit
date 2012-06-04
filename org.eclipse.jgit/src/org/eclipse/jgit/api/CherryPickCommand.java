@@ -47,10 +47,14 @@ import java.text.MessageFormat;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.eclipse.jgit.api.errors.ConcurrentRefUpdateException;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.api.errors.MultipleParentsNotAllowedException;
 import org.eclipse.jgit.api.errors.NoHeadException;
+import org.eclipse.jgit.api.errors.NoMessageException;
+import org.eclipse.jgit.api.errors.UnmergedPathsException;
+import org.eclipse.jgit.api.errors.WrongRepositoryStateException;
 import org.eclipse.jgit.dircache.DirCacheCheckout;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.AnyObjectId;
@@ -92,10 +96,18 @@ public class CherryPickCommand extends GitCommand<CherryPickResult> {
 	 * parameters collected by the setter methods (e.g. {@link #include(Ref)} of
 	 * this class. Each instance of this class should only be used for one
 	 * invocation of the command. Don't call this method twice on an instance.
-	 *
+	 * 
 	 * @return the result of the cherry-pick
+	 * @throws GitAPIException
+	 * @throws WrongRepositoryStateException
+	 * @throws ConcurrentRefUpdateException
+	 * @throws UnmergedPathsException
+	 * @throws NoMessageException
+	 * @throws NoHeadException
 	 */
-	public CherryPickResult call() throws GitAPIException {
+	public CherryPickResult call() throws GitAPIException, NoMessageException,
+			UnmergedPathsException, ConcurrentRefUpdateException,
+			WrongRepositoryStateException, NoHeadException {
 		RevCommit newHead = null;
 		List<Ref> cherryPickedRefs = new LinkedList<Ref>();
 		checkCallable();

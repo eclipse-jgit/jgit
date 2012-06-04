@@ -187,11 +187,15 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 	 * collected by the setter methods of this class. Each instance of this
 	 * class should only be used for one invocation of the command. Don't call
 	 * this method twice on an instance.
-	 *
+	 * 
 	 * @return an object describing the result of this command
+	 * @throws GitAPIException
+	 * @throws WrongRepositoryStateException
+	 * @throws NoHeadException
+	 * @throws RefNotFoundException
 	 */
 	public RebaseResult call() throws GitAPIException, NoHeadException,
-			RefNotFoundException {
+			RefNotFoundException, WrongRepositoryStateException {
 		RevCommit newHead = null;
 		boolean lastStepWasForward = false;
 		checkCallable();

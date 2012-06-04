@@ -209,8 +209,9 @@ public class StashCreateCommand extends GitCommand<RevCommit> {
 	/**
 	 * Stash the contents on the working directory and index in separate commits
 	 * and reset to the current HEAD commit.
-	 *
+	 * 
 	 * @return stashed commit or null if no changes to stash
+	 * @throws GitAPIException
 	 */
 	public RevCommit call() throws GitAPIException {
 		checkCallable();
