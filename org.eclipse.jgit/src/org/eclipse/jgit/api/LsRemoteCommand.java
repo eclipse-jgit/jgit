@@ -148,6 +148,7 @@ public class LsRemoteCommand extends
 	 *             for errors that occurs during transport
 	 */
 	public Collection<Ref> call() throws GitAPIException,
+			InvalidRemoteException,
 			org.eclipse.jgit.api.errors.TransportException {
 		checkCallable();
 
@@ -186,8 +187,8 @@ public class LsRemoteCommand extends
 					JGitText.get().exceptionCaughtDuringExecutionOfLsRemoteCommand,
 					e);
 		} catch (TransportException e) {
-				throw new org.eclipse.jgit.api.errors.TransportException(
-					JGitText.get().exceptionCaughtDuringExecutionOfLsRemoteCommand,
+			throw new org.eclipse.jgit.api.errors.TransportException(
+					e.getMessage(),
 					e);
 		} finally {
 			if (fc != null)

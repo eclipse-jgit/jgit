@@ -109,9 +109,13 @@ public class PushCommand extends
 	 * @return an iteration over {@link PushResult} objects
 	 * @throws InvalidRemoteException
 	 *             when called with an invalid remote uri
+	 * @throws org.eclipse.jgit.api.errors.TransportException
+	 *             when an error occurs with the transport
+	 * @throws GitAPIException
 	 */
 	public Iterable<PushResult> call() throws GitAPIException,
-			InvalidRemoteException {
+			InvalidRemoteException,
+			org.eclipse.jgit.api.errors.TransportException {
 		checkCallable();
 
 		ArrayList<PushResult> pushResults = new ArrayList<PushResult>(3);
@@ -150,9 +154,8 @@ public class PushCommand extends
 					pushResults.add(result);
 
 				} catch (TransportException e) {
-					throw new JGitInternalException(
-							JGitText.get().exceptionCaughtDuringExecutionOfPushCommand,
-							e);
+					throw new org.eclipse.jgit.api.errors.TransportException(
+							e.getMessage(), e);
 				} finally {
 					transport.close();
 				}
@@ -161,6 +164,9 @@ public class PushCommand extends
 		} catch (URISyntaxException e) {
 			throw new InvalidRemoteException(MessageFormat.format(
 					JGitText.get().invalidRemote, remote));
+		} catch (TransportException e) {
+			throw new org.eclipse.jgit.api.errors.TransportException(
+					e.getMessage(), e);
 		} catch (NotSupportedException e) {
 			throw new JGitInternalException(
 					JGitText.get().exceptionCaughtDuringExecutionOfPushCommand,

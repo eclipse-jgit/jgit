@@ -102,8 +102,12 @@ public class ApplyCommand extends GitCommand<ApplyResult> {
 	 * method twice on an instance.
 	 *
 	 * @return an {@link ApplyResult} object representing the command result
+	 * @throws GitAPIException
+	 * @throws PatchFormatException
+	 * @throws PatchApplyException
 	 */
-	public ApplyResult call() throws GitAPIException {
+	public ApplyResult call() throws GitAPIException, PatchFormatException,
+			PatchApplyException {
 		checkCallable();
 		ApplyResult r = new ApplyResult();
 		try {
