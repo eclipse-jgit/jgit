@@ -231,7 +231,6 @@ public class DfsInserter extends ObjectInserter {
 		packOut.write(buf, 0, 12);
 	}
 
-	@SuppressWarnings("unchecked")
 	private void sortObjectsById() {
 		Collections.sort(objectList);
 	}
