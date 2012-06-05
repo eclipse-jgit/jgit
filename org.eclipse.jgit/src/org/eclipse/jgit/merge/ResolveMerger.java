@@ -399,7 +399,7 @@ public class ResolveMerger extends ThreeWayMerger {
 					else {
 						// the preferred version THEIRS has a different mode
 						// than ours. Check it out!
-						if (isWorktreeDirty())
+						if (isWorktreeDirty(work))
 							return false;
 						DirCacheEntry e = add(tw.getRawPath(), theirs,
 								DirCacheEntry.STAGE_0);
@@ -434,7 +434,7 @@ public class ResolveMerger extends ThreeWayMerger {
 			// THEIRS. THEIRS is chosen.
 
 			// Check worktree before checking out THEIRS
-			if (isWorktreeDirty())
+			if (isWorktreeDirty(work))
 				return false;
 			if (nonTree(modeT)) {
 				DirCacheEntry e = add(tw.getRawPath(), theirs,
@@ -485,7 +485,7 @@ public class ResolveMerger extends ThreeWayMerger {
 
 		if (nonTree(modeO) && nonTree(modeT)) {
 			// Check worktree before modifying files
-			if (isWorktreeDirty())
+			if (isWorktreeDirty(work))
 				return false;
 
 			MergeResult<RawText> result = contentMerge(base, ours, theirs);
@@ -507,7 +507,7 @@ public class ResolveMerger extends ThreeWayMerger {
 				// OURS was deleted checkout THEIRS
 				if (modeO == 0) {
 					// Check worktree before checking out THEIRS
-					if (isWorktreeDirty())
+					if (isWorktreeDirty(work))
 						return false;
 					if (nonTree(modeT)) {
 						if (e != null)
@@ -563,7 +563,7 @@ public class ResolveMerger extends ThreeWayMerger {
 		return isDirty;
 	}
 
-	private boolean isWorktreeDirty() {
+	private boolean isWorktreeDirty(WorkingTreeIterator work) {
 		if (inCore)
 			return false;
 
@@ -571,8 +571,13 @@ public class ResolveMerger extends ThreeWayMerger {
 		final int modeO = tw.getRawMode(T_OURS);
 
 		// Worktree entry has to match ours to be considered clean
-		final boolean isDirty = nonTree(modeF)
-				&& !(modeO == modeF && tw.idEqual(T_FILE, T_OURS));
+		final boolean isDirty;
+		if (nonTree(modeF))
+			isDirty = work.isModeDifferent(modeO)
+					|| !tw.idEqual(T_FILE, T_OURS);
+		else
+			isDirty = false;
+
 		if (isDirty)
 			failingPaths.put(tw.getPathString(),
 					MergeFailureReason.DIRTY_WORKTREE);
