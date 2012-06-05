@@ -45,35 +45,31 @@
 
 package org.eclipse.jgit.transport;
 
-import java.io.IOException;
-
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.RefUpdate;
-import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.lib.RefUpdate.Result;
-import org.eclipse.jgit.revwalk.RevWalk;
 
 /** Update of a locally stored tracking branch. */
 public class TrackingRefUpdate {
 	private final String remoteName;
+	private final String localName;
+	private boolean forceUpdate;
+	private ObjectId oldObjectId;
+	private ObjectId newObjectId;
 
-	private final RefUpdate update;
+	private RefUpdate.Result result;
 
-	TrackingRefUpdate(final Repository db, final RefSpec spec,
-			final AnyObjectId nv, final String msg) throws IOException {
-		this(db, spec.getDestination(), spec.getSource(), spec.isForceUpdate(),
-				nv, msg);
-	}
-
-	TrackingRefUpdate(final Repository db, final String localName,
-			final String remoteName, final boolean forceUpdate,
-			final AnyObjectId nv, final String msg) throws IOException {
+	TrackingRefUpdate(
+			boolean canForceUpdate,
+			String remoteName,
+			String localName,
+			AnyObjectId oldValue,
+			AnyObjectId newValue) {
 		this.remoteName = remoteName;
-		update = db.updateRef(localName);
-		update.setForceUpdate(forceUpdate);
-		update.setNewObjectId(nv);
-		update.setRefLogMessage(msg, true);
+		this.localName = localName;
+		this.forceUpdate = canForceUpdate;
+		this.oldObjectId = oldValue.copy();
+		this.newObjectId = newValue.copy();
 	}
 
 	/**
@@ -95,7 +91,7 @@ public class TrackingRefUpdate {
 	 * @return the name used within this local repository.
 	 */
 	public String getLocalName() {
-		return update.getName();
+		return localName;
 	}
 
 	/**
@@ -104,7 +100,7 @@ public class TrackingRefUpdate {
 	 * @return new value. Null if the caller has not configured it.
 	 */
 	public ObjectId getNewObjectId() {
-		return update.getNewObjectId();
+		return newObjectId;
 	}
 
 	/**
@@ -115,11 +111,10 @@ public class TrackingRefUpdate {
 	 * value may change if someone else modified the ref between the time we
 	 * last read it and when the ref was locked for update.
 	 *
-	 * @return the value of the ref prior to the update being attempted; null if
-	 *         the updated has not been attempted yet.
+	 * @return the value of the ref prior to the update being attempted.
 	 */
 	public ObjectId getOldObjectId() {
-		return update.getOldObjectId();
+		return oldObjectId;
 	}
 
 	/**
@@ -127,15 +122,75 @@ public class TrackingRefUpdate {
 	 *
 	 * @return the status of the update.
 	 */
-	public Result getResult() {
-		return update.getResult();
+	public RefUpdate.Result getResult() {
+		return result;
 	}
 
-	void update(final RevWalk walk) throws IOException {
-		update.update(walk);
+	void setResult(RefUpdate.Result result) {
+		this.result = result;
 	}
 
-	void delete(final RevWalk walk) throws IOException {
-		update.delete(walk);
+	ReceiveCommand asReceiveCommand() {
+		return new Command();
+	}
+
+	final class Command extends ReceiveCommand {
+		private Command() {
+			super(oldObjectId, newObjectId, localName);
+		}
+
+		boolean canForceUpdate() {
+			return forceUpdate;
+		}
+
+		@Override
+		public void setResult(RefUpdate.Result status) {
+			result = status;
+			super.setResult(status);
+		}
+
+		@Override
+		public void setResult(ReceiveCommand.Result status) {
+			result = decode(status);
+			super.setResult(status);
+		}
+
+		@Override
+		public void setResult(ReceiveCommand.Result status, String msg) {
+			result = decode(status);
+			super.setResult(status, msg);
+		}
+
+		private RefUpdate.Result decode(ReceiveCommand.Result status) {
+			switch (status) {
+			case OK:
+				if (AnyObjectId.equals(oldObjectId, newObjectId))
+					return RefUpdate.Result.NO_CHANGE;
+				switch (getType()) {
+				case CREATE:
+					return RefUpdate.Result.NEW;
+				case UPDATE:
+					return RefUpdate.Result.FAST_FORWARD;
+				case DELETE:
+				case UPDATE_NONFASTFORWARD:
+				default:
+					return RefUpdate.Result.FORCED;
+				}
+
+			case REJECTED_NOCREATE:
+			case REJECTED_NODELETE:
+			case REJECTED_NONFASTFORWARD:
+				return RefUpdate.Result.REJECTED;
+			case REJECTED_CURRENT_BRANCH:
+				return RefUpdate.Result.REJECTED_CURRENT_BRANCH;
+			case REJECTED_MISSING_OBJECT:
+				return RefUpdate.Result.IO_FAILURE;
+			case LOCK_FAILURE:
+			case NOT_ATTEMPTED:
+			case REJECTED_OTHER_REASON:
+			default:
+				return RefUpdate.Result.LOCK_FAILURE;
+			}
+		}
 	}
 }

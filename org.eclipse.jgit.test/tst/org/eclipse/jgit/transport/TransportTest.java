@@ -56,6 +56,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.SampleDataRepositoryTestCase;
 import org.junit.After;
 import org.junit.Before;
@@ -209,7 +210,7 @@ public class TransportTest extends SampleDataRepositoryTestCase {
 		assertEquals("refs/remotes/test/a", tru.getLocalName());
 		assertEquals("refs/heads/a", tru.getRemoteName());
 		assertEquals(db.resolve("refs/heads/a"), tru.getNewObjectId());
-		assertNull(tru.getOldObjectId());
+		assertEquals(ObjectId.zeroId(), tru.getOldObjectId());
 	}
 
 	@Test

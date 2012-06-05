@@ -67,6 +67,7 @@ import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.PackProtocolException;
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Config.SectionParser;
 import org.eclipse.jgit.lib.Constants;
@@ -1086,11 +1087,11 @@ public abstract class BaseReceivePack {
 
 				if (oldObj instanceof RevCommit && newObj instanceof RevCommit) {
 					try {
-						if (!walk.isMergedInto((RevCommit) oldObj,
-								(RevCommit) newObj)) {
-							cmd
-									.setType(ReceiveCommand.Type.UPDATE_NONFASTFORWARD);
-						}
+						if (walk.isMergedInto((RevCommit) oldObj,
+								(RevCommit) newObj))
+							cmd.setTypeFastForwardUpdate();
+						else
+							cmd.setType(ReceiveCommand.Type.UPDATE_NONFASTFORWARD);
 					} catch (MissingObjectException e) {
 						cmd.setResult(Result.REJECTED_MISSING_OBJECT, e
 								.getMessage());
@@ -1099,6 +1100,12 @@ public abstract class BaseReceivePack {
 					}
 				} else {
 					cmd.setType(ReceiveCommand.Type.UPDATE_NONFASTFORWARD);
+				}
+
+				if (cmd.getType() == ReceiveCommand.Type.UPDATE_NONFASTFORWARD
+						&& !isAllowNonFastForwards()) {
+					cmd.setResult(Result.REJECTED_NONFASTFORWARD);
+					continue;
 				}
 			}
 
@@ -1123,20 +1130,30 @@ public abstract class BaseReceivePack {
 
 	/** Execute commands to update references. */
 	protected void executeCommands() {
-		List<ReceiveCommand> toApply = ReceiveCommand.filter(commands,
-				Result.NOT_ATTEMPTED);
+		List<ReceiveCommand> toApply = filterCommands(Result.NOT_ATTEMPTED);
+		if (toApply.isEmpty())
+			return;
+
 		ProgressMonitor updating = NullProgressMonitor.INSTANCE;
 		if (sideBand) {
 			SideBandProgressMonitor pm = new SideBandProgressMonitor(msgOut);
 			pm.setDelayStart(250, TimeUnit.MILLISECONDS);
 			updating = pm;
 		}
-		updating.beginTask(JGitText.get().updatingReferences, toApply.size());
-		for (ReceiveCommand cmd : toApply) {
-			updating.update(1);
-			cmd.execute(this);
+
+		BatchRefUpdate batch = db.getRefDatabase().newBatchUpdate();
+		batch.setAllowNonFastForwards(isAllowNonFastForwards());
+		batch.setRefLogIdent(getRefLogIdent());
+		batch.setRefLogMessage("push", true);
+		batch.addCommand(toApply);
+		try {
+			batch.execute(walk, updating);
+		} catch (IOException err) {
+			for (ReceiveCommand cmd : toApply) {
+				if (cmd.getResult() == Result.NOT_ATTEMPTED)
+					cmd.reject(err);
+			}
 		}
-		updating.endTask();
 	}
 
 	/**
