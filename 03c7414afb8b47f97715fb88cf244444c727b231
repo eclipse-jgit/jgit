@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOHn//96w\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CherryPickCommandTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-06-05T11:44:41Z",
+      "side": 1,
+      "message": "For me this test doesn\u0027t work on windows - the following cherrypick fails.\n\nYou set core.filemode to TRUE - means we should really look at executable bit changes and fail if there are differences in this flag between index \u0026 worktree. And then you produce a difference on this flag: you set the executable bit to true in the index but your call to db.getFS().setExecute() will fail on windows.\n\nDid you wanted to set the core.filemode flag to FALSE instead? Then this test would succeed.",
+      "revId": "03c7414afb8b47f97715fb88cf244444c727b231",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
