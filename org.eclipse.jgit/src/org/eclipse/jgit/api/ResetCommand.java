@@ -136,6 +136,7 @@ public class ResetCommand extends GitCommand<Ref> {
 	 * twice on an instance.
 	 *
 	 * @return the Ref after reset
+	 * @throws GitAPIException
 	 */
 	public Ref call() throws GitAPIException, CheckoutConflictException {
 		checkCallable();

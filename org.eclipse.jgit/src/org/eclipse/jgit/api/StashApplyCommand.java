@@ -296,8 +296,11 @@ public class StashApplyCommand extends GitCommand<ObjectId> {
 	 * Apply the changes in a stashed commit to the working directory and index
 	 *
 	 * @return id of stashed commit that was applied
+	 * @throws GitAPIException
+	 * @throws WrongRepositoryStateException
 	 */
-	public ObjectId call() throws GitAPIException {
+	public ObjectId call() throws GitAPIException,
+			WrongRepositoryStateException {
 		checkCallable();
 
 		if (repo.getRepositoryState() != RepositoryState.SAFE)

@@ -167,6 +167,7 @@ public class StashDropCommand extends GitCommand<ObjectId> {
 	 * stash reference after the drop occurs
 	 *
 	 * @return commit id of stash reference or null if no more stashed changes
+	 * @throws GitAPIException
 	 */
 	public ObjectId call() throws GitAPIException {
 		checkCallable();
