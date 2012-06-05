@@ -47,6 +47,7 @@ import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.LinkedList;
 
+import org.eclipse.jgit.api.errors.CheckoutConflictException;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.dircache.DirCache;
@@ -136,7 +137,7 @@ public class ResetCommand extends GitCommand<Ref> {
 	 *
 	 * @return the Ref after reset
 	 */
-	public Ref call() throws GitAPIException {
+	public Ref call() throws GitAPIException, CheckoutConflictException {
 		checkCallable();
 
 		Ref r;
@@ -366,13 +367,19 @@ public class ResetCommand extends GitCommand<Ref> {
 		}
 	}
 
-	private void checkoutIndex(RevCommit commit) throws IOException {
+	private void checkoutIndex(RevCommit commit) throws IOException,
+			GitAPIException {
 		DirCache dc = repo.lockDirCache();
 		try {
 			DirCacheCheckout checkout = new DirCacheCheckout(repo, dc,
 					commit.getTree());
 			checkout.setFailOnConflict(false);
-			checkout.checkout();
+			try {
+				checkout.checkout();
+			} catch (org.eclipse.jgit.errors.CheckoutConflictException cce) {
+				throw new CheckoutConflictException(checkout.getConflicts(),
+						cce);
+			}
 		} finally {
 			dc.unlock();
 		}
