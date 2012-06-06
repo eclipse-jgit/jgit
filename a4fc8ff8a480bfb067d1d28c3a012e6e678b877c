@@ -16,6 +16,24 @@
       "revId": "a4fc8ff8a480bfb067d1d28c3a012e6e678b877c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//9uY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2012-06-06T11:10:30Z",
+      "side": 1,
+      "message": "i agree. still i think this change (or better: the upcoming patchset) still makes sense in any case. just to be bullet proof, as in the bad case it fixes things, and in the good case it cost very (very very) little.",
+      "parentUuid": "AABOHn//9vM\u003d",
+      "revId": "a4fc8ff8a480bfb067d1d28c3a012e6e678b877c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
