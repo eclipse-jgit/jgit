@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOHn//9vM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-06-06T10:40:00Z",
+      "side": 1,
+      "message": "Great. I think you found it. Yes, here we are safe. We know that the file has the same content as the index. Now it should be safe to copy the files modification time to the index entry.\n\nI would like not to change the keep signature this way. By telling keep() you say that you want this entry entry to be reused unmodified. But saying keep() and telling how you want to modify the entry looks strange. Could you instead simply update the index entry before you give it to keep()? Like\n\n DirCacheEntry entry \u003d i.getDirCacheEntry();  \n if (f !\u003d null \u0026\u0026 e.getLastModified() \u003d\u003d 0)\n   e.setLastModified(f.getEntryLastModified());\n keep(entry);\n\nYou can then remove all your other modifications to keep() and keep()-callers.\n\nWhat I ask myself: this doesn\u0027t explain that during a checkout without head (e.g. during rebase, clone, reset) we reach a state where all modification timestamps are 0. That is the initial problem and we should find out why.",
+      "revId": "a4fc8ff8a480bfb067d1d28c3a012e6e678b877c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
