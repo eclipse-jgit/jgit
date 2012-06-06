@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "AABOHn//9v0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 650,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2012-06-06T09:30:05Z",
+      "side": 1,
+      "message": "ah, i think i see. during checkout with two trees i now totally skip all this. only in the case with one tree (plain checkout), i update the stamp on files that i keep. that should be sufficient to keep most timestamps up to date. of course there still may be cases where i don\u0027t want to do that.",
+      "parentUuid": "AABOHn//9ws\u003d",
+      "revId": "d5ec330437dafa0ada508c248cfbca2ddc2124ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOHn//9wo\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
         "patchSetId": 4
