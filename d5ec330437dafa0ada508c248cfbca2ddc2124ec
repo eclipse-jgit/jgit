@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOHn//9wE\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/IndexModificationTimesTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-06-06T09:17:55Z",
+      "side": 1,
+      "message": "oops, sorry, forget what I said. I mixed some things together wrongly. \n\nIndeed we smudge entries (mark that we cant trust the timestamps) by setting the length to 0 (and not the modification timestamp). That means: your test is ok. Sorry for that.",
+      "parentUuid": "AABOHn//9ww\u003d",
+      "revId": "d5ec330437dafa0ada508c248cfbca2ddc2124ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOHn//9ws\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
         "patchSetId": 4
