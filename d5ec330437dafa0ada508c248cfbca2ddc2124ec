@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOHn//9ww\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/IndexModificationTimesTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-06-06T08:54:13Z",
+      "side": 1,
+      "message": "That\u0027s not ok: having an index entry with a modification time of 0 is a feature - nut a bug :-) . Such entries are called smudged and we do that to mark that we can\u0027t trust the modification timestamp anymore to detect dirtyness of the file. Imagine you create a file, add it to the index and modify it again all between two ticks  of the filesystem timer. The file, the index entry and the index file (.git/index) all have the same lastmodifed date. How do you handle this? How can you tell the file is modified although index entry and local file have same timestamp. Git\u0027s solution as described in [1] is to set the modification timestamp to 0 (to smduge it) to force a content check next time check the file for dirtyness (e.g. during checkout, reset, status). If this content check happens at a time where the filesystem timer has finally poceeded and we find out that the content is not modified ... then we should unsmduge the entry. The last part is something I gues we don\u0027t do correctly.\n\nI\u0027ll copy this to mailing list (you\u0027re thread about speeding up reindexing) - let\u0027s furhter discuss there.",
+      "revId": "d5ec330437dafa0ada508c248cfbca2ddc2124ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//9ws\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 650,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-06-06T08:54:13Z",
+      "side": 1,
+      "message": "It\u0027s sematically wrong to copy the files modification time to the index entry. The file may be dirty (updated since you last added it to the index) and therefore file and index entry modification time have to have different timestamps.",
+      "revId": "d5ec330437dafa0ada508c248cfbca2ddc2124ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//9wo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 786,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-06-06T08:54:13Z",
+      "side": 1,
+      "message": "wrong, the index entry and the filesystem may differ from content and modification time. It\u0027s not ok to blindly copy the filesystem modification time to the index entry. Let\u0027s dicuss further on ML.",
+      "revId": "d5ec330437dafa0ada508c248cfbca2ddc2124ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
