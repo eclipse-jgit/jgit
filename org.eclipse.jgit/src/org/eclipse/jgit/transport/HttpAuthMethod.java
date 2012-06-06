@@ -277,12 +277,14 @@ abstract class HttpAuthMethod {
 			r.append("://");
 			r.append(u.getHost());
 			if (0 < u.getPort()) {
-				if (u.getPort() == 80 && "http".equals(u.getProtocol()))
-					/* nothing */;
-				else if (u.getPort() == 443 && "https".equals(u.getProtocol()))
-					/* nothing */;
-				else
+				if (u.getPort() == 80 && "http".equals(u.getProtocol())) {
+					/* nothing */
+				} else if (u.getPort() == 443
+						&& "https".equals(u.getProtocol())) {
+					/* nothing */
+				} else {
 					r.append(':').append(u.getPort());
+				}
 			}
 			r.append(u.getPath());
 			if (u.getQuery() != null)
