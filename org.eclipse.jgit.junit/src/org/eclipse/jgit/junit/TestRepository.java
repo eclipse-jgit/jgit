@@ -459,9 +459,13 @@ public class TestRepository<R extends Repository> {
 	 */
 	public <T extends AnyObjectId> T update(String ref, T obj) throws Exception {
 		if (Constants.HEAD.equals(ref)) {
+			// nothing
 		} else if ("FETCH_HEAD".equals(ref)) {
+			// nothing
 		} else if ("MERGE_HEAD".equals(ref)) {
+			// nothing
 		} else if (ref.startsWith(Constants.R_REFS)) {
+			// nothing
 		} else
 			ref = Constants.R_HEADS + ref;
 
@@ -537,7 +541,9 @@ public class TestRepository<R extends Repository> {
 	 */
 	public BranchBuilder branch(String ref) {
 		if (Constants.HEAD.equals(ref)) {
+			// nothing
 		} else if (ref.startsWith(Constants.R_REFS)) {
+			// nothing
 		} else
 			ref = Constants.R_HEADS + ref;
 		return new BranchBuilder(ref);
