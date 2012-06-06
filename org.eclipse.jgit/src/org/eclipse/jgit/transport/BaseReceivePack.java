@@ -939,7 +939,7 @@ public abstract class BaseReceivePack {
 
 		final ObjectWalk ow = new ObjectWalk(db);
 		ow.setRetainBody(false);
-		if (checkReferencedIsReachable) {
+		if (baseObjects != null) {
 			ow.sort(RevSort.TOPO);
 			if (!baseObjects.isEmpty())
 				ow.sort(RevSort.BOUNDARY, true);
@@ -956,7 +956,7 @@ public abstract class BaseReceivePack {
 			RevObject o = ow.parseAny(have);
 			ow.markUninteresting(o);
 
-			if (checkReferencedIsReachable && !baseObjects.isEmpty()) {
+			if (baseObjects != null && !baseObjects.isEmpty()) {
 				o = ow.peel(o);
 				if (o instanceof RevCommit)
 					o = ((RevCommit) o).getTree();
@@ -967,7 +967,7 @@ public abstract class BaseReceivePack {
 
 		RevCommit c;
 		while ((c = ow.next()) != null) {
-			if (checkReferencedIsReachable //
+			if (providedObjects != null //
 					&& !c.has(RevFlag.UNINTERESTING) //
 					&& !providedObjects.contains(c))
 				throw new MissingObjectException(c, Constants.TYPE_COMMIT);
@@ -978,7 +978,7 @@ public abstract class BaseReceivePack {
 			if (o.has(RevFlag.UNINTERESTING))
 				continue;
 
-			if (checkReferencedIsReachable) {
+			if (providedObjects != null) {
 				if (providedObjects.contains(o))
 					continue;
 				else
@@ -989,7 +989,7 @@ public abstract class BaseReceivePack {
 				throw new MissingObjectException(o, Constants.TYPE_BLOB);
 		}
 
-		if (checkReferencedIsReachable) {
+		if (baseObjects != null) {
 			for (ObjectId id : baseObjects) {
 				o = ow.parseAny(id);
 				if (!o.has(RevFlag.UNINTERESTING))
