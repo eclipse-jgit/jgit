@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "AABOHn//9v8\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/IndexModificationTimesTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2012-06-06T09:19:46Z",
+      "side": 1,
+      "message": "hah, just wanted to reply, but you where faster :)",
+      "parentUuid": "AABOHn//9wE\u003d",
+      "revId": "d5ec330437dafa0ada508c248cfbca2ddc2124ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOHn//9ws\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCacheCheckout.java",
         "patchSetId": 4
