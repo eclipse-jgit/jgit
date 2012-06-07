@@ -154,6 +154,9 @@ public abstract class BaseReceivePack {
 	 */
 	protected boolean biDirectionalPipe = true;
 
+	/** Expecting data after the pack footer */
+	protected boolean expectDataAfterPackFooter;
+
 	/** Should an incoming transfer validate objects? */
 	protected boolean checkReceivedObjects;
 
@@ -452,6 +455,19 @@ public abstract class BaseReceivePack {
 	 */
 	public void setBiDirectionalPipe(final boolean twoWay) {
 		biDirectionalPipe = twoWay;
+	}
+
+	/** @return true if there is data expected after the pack footer. */
+	public boolean isExpectDataAfterPackFooter() {
+		return expectDataAfterPackFooter;
+	}
+
+	/**
+	 * @param e
+	 *            true if there is additional data in InputStream after pack.
+	 */
+	public void setExpectDataAfterPackFooter(boolean e) {
+		expectDataAfterPackFooter = e;
 	}
 
 	/**
@@ -909,6 +925,7 @@ public abstract class BaseReceivePack {
 			parser.setNeedNewObjectIds(checkReferencedIsReachable);
 			parser.setNeedBaseObjectIds(checkReferencedIsReachable);
 			parser.setCheckEofAfterPackFooter(!biDirectionalPipe);
+			parser.setExpectDataAfterPackFooter(isExpectDataAfterPackFooter());
 			parser.setObjectChecking(isCheckReceivedObjects());
 			parser.setLockMessage(lockMsg);
 			parser.setMaxObjectSizeLimit(maxObjectSizeLimit);
