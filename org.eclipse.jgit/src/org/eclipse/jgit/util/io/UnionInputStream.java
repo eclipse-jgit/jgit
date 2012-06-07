@@ -141,18 +141,17 @@ public class UnionInputStream extends InputStream {
 		int cnt = 0;
 		while (0 < len) {
 			final InputStream in = head();
+			// Read the next underlying stream once, up to len bytes
 			final int n = in.read(b, off, len);
 			if (0 < n) {
 				cnt += n;
 				off += n;
 				len -= n;
+				break;
 			} else if (in == EOF)
 				return 0 < cnt ? cnt : -1;
-			else {
+			else
 				pop();
-				if (0 < cnt)
-					break;
-			}
 		}
 		return cnt;
 	}
