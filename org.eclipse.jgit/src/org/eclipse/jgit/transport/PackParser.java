@@ -141,6 +141,8 @@ public abstract class PackParser {
 
 	private boolean checkEofAfterPackFooter;
 
+	private boolean expectDataAfterPackFooter;
+
 	private long objectCount;
 
 	private PackedObjectInfo[] entries;
@@ -303,6 +305,21 @@ public abstract class PackParser {
 	 */
 	public void setCheckEofAfterPackFooter(boolean b) {
 		checkEofAfterPackFooter = b;
+	}
+
+	/** @return true if there is data expected after the pack footer. */
+	public boolean isExpectDataAfterPackFooter() {
+		return expectDataAfterPackFooter;
+	}
+
+	/**
+	 * @param e
+	 *            true if there is additional data in InputStream after pack.
+	 *            This requires the InputStream to support the mark and reset
+	 *            functions.
+	 */
+	public void setExpectDataAfterPackFooter(boolean e) {
+		expectDataAfterPackFooter = e;
 	}
 
 	/** @return the new objects that were sent by the user */
@@ -826,6 +843,13 @@ public abstract class PackParser {
 	}
 
 	private void readPackHeader() throws IOException {
+		if (expectDataAfterPackFooter) {
+			if (!in.markSupported())
+				throw new IOException(
+						JGitText.get().inputStreamMustSupportMark);
+			in.mark(buf.length);
+		}
+
 		final int hdrln = Constants.PACK_SIGNATURE.length + 4 + 4;
 		final int p = fill(Source.INPUT, hdrln);
 		for (int k = 0; k < Constants.PACK_SIGNATURE.length; k++)
@@ -851,23 +875,19 @@ public abstract class PackParser {
 		System.arraycopy(buf, c, srcHash, 0, 20);
 		use(20);
 
-		// The input stream should be at EOF at this point. We do not support
-		// yielding back any remaining buffered data after the pack footer, so
-		// protocols that embed a pack stream are required to either end their
-		// stream with the pack, or embed the pack with a framing system like
-		// the SideBandInputStream does.
-
-		if (bAvail != 0)
+		if (bAvail != 0 && !expectDataAfterPackFooter)
 			throw new CorruptObjectException(MessageFormat.format(
 					JGitText.get().expectedEOFReceived,
 					"\\x" + Integer.toHexString(buf[bOffset] & 0xff)));
-
 		if (isCheckEofAfterPackFooter()) {
 			int eof = in.read();
 			if (0 <= eof)
 				throw new CorruptObjectException(MessageFormat.format(
 						JGitText.get().expectedEOFReceived,
 						"\\x" + Integer.toHexString(eof)));
+		} else if (bAvail > 0 && expectDataAfterPackFooter) {
+			in.reset();
+			IO.skipFully(in, bOffset);
 		}
 
 		if (!Arrays.equals(actHash, srcHash))
@@ -1141,6 +1161,13 @@ public abstract class PackParser {
 	// Store consumed bytes in {@link #buf} up to {@link #bOffset}.
 	private void sync() throws IOException {
 		packDigest.update(buf, 0, bOffset);
+		if (expectDataAfterPackFooter) {
+			if (bAvail > 0) {
+				in.reset();
+				IO.skipFully(in, bOffset);
+			}
+			in.mark(buf.length);
+		}
 		onStoreStream(buf, 0, bOffset);
 		if (bAvail > 0)
 			System.arraycopy(buf, bOffset, buf, 0, bAvail);
