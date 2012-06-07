@@ -50,6 +50,7 @@ import static org.junit.Assert.fail;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Arrays;
 
 import org.junit.Test;
@@ -236,6 +237,28 @@ public class UnionInputStreamTest {
 			fail("close ignored inner stream exception");
 		} catch (IOException e) {
 			assertEquals("I AM A TEST", e.getMessage());
+		}
+	}
+
+	@Test
+	public void testNonBlockingPartialRead() throws Exception {
+		InputStream errorReadStream = new InputStream() {
+			@Override
+			public int read() throws IOException {
+				throw new IOException("Expected");
+			}
+		};
+		final UnionInputStream u = new UnionInputStream(
+				new ByteArrayInputStream(new byte[]{1,2,3}),
+				errorReadStream);
+		byte buf[] = new byte[10];
+		assertEquals(3, u.read(buf, 0, 10));
+		assertTrue(Arrays.equals(new byte[] {1,2,3}, slice(buf, 3)));
+		try {
+			u.read(buf, 0, 1);
+			fail("Expected exception from errorReadStream");
+		} catch (IOException e) {
+			assertEquals("Expected", e.getMessage());
 		}
 	}
 }
