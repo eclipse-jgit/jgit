@@ -167,6 +167,10 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 				throws NotSupportedException {
 			return new TransportHttp(local, uri);
 		}
+
+		public Transport open(URIish uri) throws NotSupportedException {
+			return new TransportHttp(uri);
+		}
 	};
 
 	static final TransportProtocol PROTO_FTP = new TransportProtocol() {
@@ -224,6 +228,10 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 			postBuffer = rc.getInt("http", "postbuffer", 1 * 1024 * 1024); //$NON-NLS-1$  //$NON-NLS-2$
 			sslVerify = rc.getBoolean("http", "sslVerify", true);
 		}
+
+		private HttpConfig() {
+			this(new Config());
+		}
 	}
 
 	private final URL baseUrl;
@@ -251,6 +259,27 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 			throw new NotSupportedException(MessageFormat.format(JGitText.get().invalidURL, uri), e);
 		}
 		http = local.getConfig().get(HTTP_KEY);
+		proxySelector = ProxySelector.getDefault();
+	}
+
+	/**
+	 * Create a minimal HTTP transport with default configuration values.
+	 *
+	 * @param uri
+	 * @throws NotSupportedException
+	 */
+	TransportHttp(final URIish uri) throws NotSupportedException {
+		super(uri);
+		try {
+			String uriString = uri.toString();
+			if (!uriString.endsWith("/")) //$NON-NLS-1$
+				uriString += "/"; //$NON-NLS-1$
+			baseUrl = new URL(uriString);
+			objectsUrl = new URL(baseUrl, "objects/"); //$NON-NLS-1$
+		} catch (MalformedURLException e) {
+			throw new NotSupportedException(MessageFormat.format(JGitText.get().invalidURL, uri), e);
+		}
+		http = new HttpConfig();
 		proxySelector = ProxySelector.getDefault();
 	}
 

@@ -66,4 +66,13 @@ public abstract class HttpTransport extends Transport {
 	protected HttpTransport(Repository local, URIish uri) {
 		super(local, uri);
 	}
+
+	/**
+	 * Create a minimal HTTP transport instance not tied to a single repository.
+	 *
+	 * @param uri
+	 */
+	protected HttpTransport(URIish uri) {
+		super(uri);
+	}
 }
