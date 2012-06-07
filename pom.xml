@@ -183,11 +183,6 @@
       <id>jgit-repository</id>
       <url>http://download.eclipse.org/jgit/maven</url>
     </repository>
-    <repository>
-      <id>jetty</id>
-      <layout>p2</layout>
-      <url>http://download.eclipse.org/jetty/updates/jetty-bundles-7.x/${jetty-version}/</url>
-    </repository>
   </repositories>
 
   <build>
@@ -371,6 +366,20 @@
         <executions>
           <execution>
             <id>attach-javadocs</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <inherited>true</inherited>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <phase>process-classes</phase>
             <goals>
               <goal>jar</goal>
             </goals>

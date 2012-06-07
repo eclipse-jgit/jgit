@@ -204,7 +204,6 @@ public abstract class ChunkIndex {
 		return fmt;
 	}
 
-	@SuppressWarnings("unchecked")
 	private static void sortObjectList(List<? extends PackedObjectInfo> list) {
 		Collections.sort(list);
 	}

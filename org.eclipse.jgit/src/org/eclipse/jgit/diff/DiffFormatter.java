@@ -963,7 +963,7 @@ public class DiffFormatter {
 		if (entry.getMode(side).getObjectType() != Constants.OBJ_BLOB)
 			return EMPTY;
 
-		if (isBinary(entry.getPath(side)))
+		if (isBinary())
 			return BINARY;
 
 		AbbreviatedObjectId id = entry.getId(side);
@@ -1004,7 +1004,7 @@ public class DiffFormatter {
 		}
 	}
 
-	private boolean isBinary(String path) {
+	private boolean isBinary() {
 		return false;
 	}
 
