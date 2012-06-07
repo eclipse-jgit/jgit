@@ -688,7 +688,7 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 	}
 
 	class SmartHttpFetchConnection extends BasePackFetchConnection {
-		private Service svc;
+		private MultiRequestService svc;
 
 		SmartHttpFetchConnection(final InputStream advertisement)
 				throws TransportException {
@@ -705,8 +705,8 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 				final Collection<Ref> want, final Set<ObjectId> have)
 				throws TransportException {
 			try {
-				svc = new Service(SVC_UPLOAD_PACK);
-				init(svc.in, svc.out);
+				svc = new MultiRequestService(SVC_UPLOAD_PACK);
+				init(svc.getInputStream(), svc.getOutputStream());
 				super.doFetch(monitor, want, have);
 			} finally {
 				svc = null;
@@ -733,9 +733,125 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 		protected void doPush(final ProgressMonitor monitor,
 				final Map<String, RemoteRefUpdate> refUpdates)
 				throws TransportException {
-			final Service svc = new Service(SVC_RECEIVE_PACK);
-			init(svc.in, svc.out);
+			final Service svc = new MultiRequestService(SVC_RECEIVE_PACK);
+			init(svc.getInputStream(), svc.getOutputStream());
 			super.doPush(monitor, refUpdates);
+		}
+	}
+
+	/** Basic service for sending and receiving HTTP requests. */
+	abstract class Service {
+		protected final String serviceName;
+
+		protected final String requestType;
+
+		protected final String responseType;
+
+		protected HttpURLConnection conn;
+
+		protected HttpOutputStream out;
+
+		protected final HttpExecuteStream execute;
+
+		final UnionInputStream in;
+
+		Service(String serviceName) {
+			this.serviceName = serviceName;
+			this.requestType = "application/x-" + serviceName + "-request"; //$NON-NLS-1$ //$NON-NLS-2$
+			this.responseType = "application/x-" + serviceName + "-result"; //$NON-NLS-1$ //$NON-NLS-2$
+
+			this.out = new HttpOutputStream();
+			this.execute = new HttpExecuteStream();
+			this.in = new UnionInputStream(execute);
+		}
+
+		void openStream() throws IOException {
+			conn = httpOpen(METHOD_POST, new URL(baseUrl, serviceName));
+			conn.setInstanceFollowRedirects(false);
+			conn.setDoOutput(true);
+			conn.setRequestProperty(HDR_CONTENT_TYPE, requestType);
+			conn.setRequestProperty(HDR_ACCEPT, responseType);
+		}
+
+		void sendRequest() throws IOException {
+			// Try to compress the content, but only if that is smaller.
+			TemporaryBuffer buf = new TemporaryBuffer.Heap(http.postBuffer);
+			try {
+				GZIPOutputStream gzip = new GZIPOutputStream(buf);
+				out.writeTo(gzip, null);
+				gzip.close();
+				if (out.length() < buf.length())
+					buf = out;
+			} catch (IOException err) {
+				// Most likely caused by overflowing the buffer, meaning
+				// its larger if it were compressed. Don't compress.
+				buf = out;
+			}
+
+			openStream();
+			if (buf != out)
+				conn.setRequestProperty(HDR_CONTENT_ENCODING, ENCODING_GZIP);
+			conn.setFixedLengthStreamingMode((int) buf.length());
+			final OutputStream httpOut = conn.getOutputStream();
+			try {
+				buf.writeTo(httpOut, null);
+			} finally {
+				httpOut.close();
+			}
+		}
+
+		void openResponse() throws IOException {
+			final int status = HttpSupport.response(conn);
+			if (status != HttpURLConnection.HTTP_OK) {
+				throw new TransportException(uri, status + " " //$NON-NLS-1$
+						+ conn.getResponseMessage());
+			}
+
+			final String contentType = conn.getContentType();
+			if (!responseType.equals(contentType)) {
+				conn.getInputStream().close();
+				throw wrongContentType(responseType, contentType);
+			}
+		}
+
+		HttpOutputStream getOutputStream() {
+			return out;
+		}
+
+		InputStream getInputStream() {
+			return in;
+		}
+
+		abstract void execute() throws IOException;
+
+		class HttpExecuteStream extends InputStream {
+			public int read() throws IOException {
+				execute();
+				return -1;
+			}
+
+			public int read(byte[] b, int off, int len) throws IOException {
+				execute();
+				return -1;
+			}
+
+			public long skip(long n) throws IOException {
+				execute();
+				return 0;
+			}
+		}
+
+		class HttpOutputStream extends TemporaryBuffer {
+			HttpOutputStream() {
+				super(http.postBuffer);
+			}
+
+			@Override
+			protected OutputStream overflow() throws IOException {
+				openStream();
+				conn.setChunkedStreamingMode(0);
+				return conn.getOutputStream();
+			}
 		}
 	}
 
@@ -759,41 +875,15 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 	 * be preserved between requests, it is left up to the JVM's implementation
 	 * of the HTTP client.
 	 */
-	class Service {
-		private final String serviceName;
-
-		private final String requestType;
-
-		private final String responseType;
-
-		private final HttpExecuteStream execute;
-
+	class MultiRequestService extends Service {
 		boolean finalRequest;
 
-		final UnionInputStream in;
-
-		final HttpOutputStream out;
-
-		HttpURLConnection conn;
-
-		Service(final String serviceName) {
-			this.serviceName = serviceName;
-			this.requestType = "application/x-" + serviceName + "-request"; //$NON-NLS-1$ //$NON-NLS-2$
-			this.responseType = "application/x-" + serviceName + "-result"; //$NON-NLS-1$ //$NON-NLS-2$
-
-			this.execute = new HttpExecuteStream();
-			this.in = new UnionInputStream(execute);
-			this.out = new HttpOutputStream();
+		MultiRequestService(final String serviceName) {
+			super(serviceName);
 		}
 
-		void openStream() throws IOException {
-			conn = httpOpen(METHOD_POST, new URL(baseUrl, serviceName));
-			conn.setInstanceFollowRedirects(false);
-			conn.setDoOutput(true);
-			conn.setRequestProperty(HDR_CONTENT_TYPE, requestType);
-			conn.setRequestProperty(HDR_ACCEPT, responseType);
-		}
-
+		/** Keep opening send-receive pairs to the given URI. */
+		@Override
 		void execute() throws IOException {
 			out.close();
 
@@ -810,80 +900,37 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 							JGitText.get().startingReadStageWithoutWrittenRequestDataPendingIsNotSupported);
 				}
 
-				// Try to compress the content, but only if that is smaller.
-				TemporaryBuffer buf = new TemporaryBuffer.Heap(http.postBuffer);
-				try {
-					GZIPOutputStream gzip = new GZIPOutputStream(buf);
-					out.writeTo(gzip, null);
-					gzip.close();
-					if (out.length() < buf.length())
-						buf = out;
-				} catch (IOException err) {
-					// Most likely caused by overflowing the buffer, meaning
-					// its larger if it were compressed. Don't compress.
-					buf = out;
-				}
-
-				openStream();
-				if (buf != out)
-					conn.setRequestProperty(HDR_CONTENT_ENCODING, ENCODING_GZIP);
-				conn.setFixedLengthStreamingMode((int) buf.length());
-				final OutputStream httpOut = conn.getOutputStream();
-				try {
-					buf.writeTo(httpOut, null);
-				} finally {
-					httpOut.close();
-				}
+				sendRequest();
 			}
 
 			out.reset();
 
-			final int status = HttpSupport.response(conn);
-			if (status != HttpURLConnection.HTTP_OK) {
-				throw new TransportException(uri, status + " " //$NON-NLS-1$
-						+ conn.getResponseMessage());
-			}
-
-			final String contentType = conn.getContentType();
-			if (!responseType.equals(contentType)) {
-				conn.getInputStream().close();
-				throw wrongContentType(responseType, contentType);
-			}
+			openResponse();
 
 			in.add(openInputStream(conn));
 			if (!finalRequest)
 				in.add(execute);
 			conn = null;
 		}
+	}
 
-		class HttpOutputStream extends TemporaryBuffer {
-			HttpOutputStream() {
-				super(http.postBuffer);
-			}
-
-			@Override
-			protected OutputStream overflow() throws IOException {
-				openStream();
-				conn.setChunkedStreamingMode(0);
-				return conn.getOutputStream();
-			}
+	/** Service for maintaining a single long-poll connection. */
+	class LongPollService extends Service {
+		/**
+		 * @param serviceName
+		 */
+		LongPollService(String serviceName) {
+			super(serviceName);
 		}
 
-		class HttpExecuteStream extends InputStream {
-			public int read() throws IOException {
-				execute();
-				return -1;
-			}
-
-			public int read(byte[] b, int off, int len) throws IOException {
-				execute();
-				return -1;
-			}
-
-			public long skip(long n) throws IOException {
-				execute();
-				return 0;
-			}
+		/** Only open one send-receive request. */
+		@Override
+		void execute() throws IOException {
+			out.close();
+			if (conn == null)
+				sendRequest();
+			openResponse();
+			in.add(openInputStream(conn));
 		}
 	}
 
