@@ -91,6 +91,10 @@ class RegexPipeline extends UrlPipeline {
 			pattern = Pattern.compile(p);
 		}
 
+		Binder(final Pattern p) {
+			pattern = p;
+		}
+
 		UrlPipeline create() {
 			return new RegexPipeline(pattern, getFilters(), getServlet());
 		}
