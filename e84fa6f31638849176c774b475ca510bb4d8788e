@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOHn//9j4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CherryPickCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-06-08T15:30:35Z",
+      "side": 1,
+      "message": "You replaced MultipleParentsNotAllowedException by NoSuchParentException. Can this be ok? What is if I have not called setMainline() and try to cherry-pick a merge commit? Then I would still expect a MultipleParentsNotAllowedException. In such a case NoSuchParentException is not meaningful to me",
+      "revId": "e84fa6f31638849176c774b475ca510bb4d8788e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
