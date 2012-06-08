@@ -52,6 +52,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -114,6 +115,17 @@ public class MetaFilter implements Filter {
 	 */
 	public ServletBinder serveRegex(String expression) {
 		return register(new RegexPipeline.Binder(expression));
+	}
+
+	/**
+	 * Construct a binding for a regular expression.
+	 *
+	 * @param pattern
+	 *            the regular expression to pattern match the URL against.
+	 * @return binder for the passed expression.
+	 */
+	public ServletBinder serveRegex(Pattern pattern) {
+		return register(new RegexPipeline.Binder(pattern));
 	}
 
 	public void init(FilterConfig filterConfig) throws ServletException {

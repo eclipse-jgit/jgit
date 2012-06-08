@@ -64,13 +64,20 @@ import javax.servlet.http.HttpServletResponse;
  * <p>
  * If there are capture groups in the regular expression, the matched ranges of
  * the capture groups are stored as an array of modified HttpServetRequests,
- * into the request attribute {@link MetaFilter#REGEX_GROUPS}.
+ * into the request attribute {@link MetaFilter#REGEX_GROUPS}. Using a capture
+ * group that may not capture, e.g. {@code "(/foo)?"}, will cause an error at
+ * request handling time.
  * <p>
- * Each servlet request has been altered to have its {@code getPathInfo()}
- * method return the matched text of the corresponding capture group. A
- * {@link RegexGroupFilter} can be applied in the pipeline to switch the current
- * HttpServletRequest to reference a different capture group before running
- * additional filters, or the final servlet.
+ * Each servlet request has been altered to have its {@code getServletPath()}
+ * method return the original path info up to the beginning of the corresponding
+ * capture group, and its {@code getPathInfo()} method return the matched text.
+ * A {@link RegexGroupFilter} can be applied in the pipeline to switch the
+ * current HttpServletRequest to reference a different capture group before
+ * running additional filters, or the final servlet.
+ * <p>
+ * Note that for {@code getPathInfo()} to start with a leading "/" as described
+ * in the servlet documentation, capture groups must actually capture the
+ * leading "/".
  * <p>
  * This class dispatches the remainder of the pipeline using the first capture
  * group as the current request, making {@code RegexGroupFilter} required only
@@ -82,6 +89,10 @@ class RegexPipeline extends UrlPipeline {
 
 		Binder(final String p) {
 			pattern = Pattern.compile(p);
+		}
+
+		Binder(final Pattern p) {
+			pattern = p;
 		}
 
 		UrlPipeline create() {
