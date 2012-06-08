@@ -1210,6 +1210,18 @@ public abstract class Transport {
 			TransportException;
 
 	/**
+	 * Begins a new connection for subscribing to a remote repository.
+	 *
+	 * @return a fresh connection to subscribe to the remote repository.
+	 * @throws NotSupportedException
+	 * @throws TransportException
+	 */
+	public SubscribeConnection openSubscribe()
+			throws NotSupportedException, TransportException {
+		throw new NotSupportedException("Subscribe not supported");
+	}
+
+	/**
 	 * Close any resources used by this transport.
 	 * <p>
 	 * If the remote repository is contacted by a network socket this method
