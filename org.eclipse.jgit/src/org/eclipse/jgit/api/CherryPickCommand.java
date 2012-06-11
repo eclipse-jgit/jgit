@@ -51,6 +51,7 @@ import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.api.errors.MultipleParentsNotAllowedException;
 import org.eclipse.jgit.api.errors.NoHeadException;
+import org.eclipse.jgit.api.errors.NoSuchParentException;
 import org.eclipse.jgit.dircache.DirCacheCheckout;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.AnyObjectId;
@@ -79,6 +80,10 @@ import org.eclipse.jgit.treewalk.FileTreeIterator;
  */
 public class CherryPickCommand extends GitCommand<CherryPickResult> {
 	private List<Ref> commits = new LinkedList<Ref>();
+
+	private int mainline = 0;
+
+	private boolean mainlineSet = false;
 
 	/**
 	 * @param repo
@@ -122,14 +127,23 @@ public class CherryPickCommand extends GitCommand<CherryPickResult> {
 				RevCommit srcCommit = revWalk.parseCommit(srcObjectId);
 
 				// get the parent of the commit to cherry-pick
-				if (srcCommit.getParentCount() != 1)
-					throw new MultipleParentsNotAllowedException(
-							MessageFormat.format(
-									JGitText.get().canOnlyCherryPickCommitsWithOneParent,
-									srcCommit.name(),
-									Integer.valueOf(srcCommit.getParentCount())));
+				if (srcCommit.getParentCount() != 1) {
+					if (!mainlineSet)
+						throw new MultipleParentsNotAllowedException(
+								MessageFormat.format(
+										JGitText.get().commitIsAMergeButNoMainlineWasSpecified,
+										srcCommit.name(),
+										Integer.valueOf(srcCommit.getParentCount())));
+					 else if (mainline >= srcCommit.getParentCount())
+						throw new NoSuchParentException(
+								MessageFormat.format(
+										JGitText.get().invalidCommitParentNumber,
+										srcCommit.name(),
+										Integer.valueOf(srcCommit.getParentCount())));
+				}
 
-				RevCommit srcParent = srcCommit.getParent(0);
+				RevCommit srcParent = srcCommit.getParent(mainline);
+
 				revWalk.parseHeaders(srcParent);
 
 				ResolveMerger merger = (ResolveMerger) MergeStrategy.RESOLVE
@@ -177,6 +191,18 @@ public class CherryPickCommand extends GitCommand<CherryPickResult> {
 			revWalk.release();
 		}
 		return new CherryPickResult(newHead, cherryPickedRefs);
+	}
+
+	/**
+	 * @param mainline
+	 *            index of the parent that the cherry-pick should be relative
+	 *            to, indexing starts with 0
+	 * @return {@code this}
+	 */
+	public CherryPickCommand setMainline(int mainline) {
+		this.mainline = mainline;
+		mainlineSet = true;
+		return this;
 	}
 
 	/**
