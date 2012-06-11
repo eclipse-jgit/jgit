@@ -16,6 +16,24 @@
       "revId": "e84fa6f31638849176c774b475ca510bb4d8788e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//9bc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CherryPickCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-06-11T13:52:40Z",
+      "side": 1,
+      "message": "How you pick the parent is ok for me. I am only complaining because in error cases you don\u0027t differentiate anymore between that I have picked a non-existing parent and that I have not picked a parent at all but specified a merge commit.\n\nAlso native git gives me different error messages in these situations. Try this:\n\n git init\n touch a\n git add a\n git commit -m addA\n git branch target\n git checkout -b side\n touch b\n git add b\n git commit -m addB\n git checkout master\n echo a \u003e a\n git commit -a -m modifyA\n git merge side\n git checkout target\n git cherry-pick master\n # the previous command returned: fatal: Commit 9ee535192272b65a6911fd19403176be7ba5c759 is a merge but no -m option was given.\n git cherry-pick -m 3 master\n # the previous command returned: fatal: Commit 9ee535192272b65a6911fd19403176be7ba5c759 does not have parent 3\n\nThe two last cherry-picks gave to different error messages and I would like to have two different exceptions (NoSuchParentException, MultipleParentsNotAllowedException) which express that.",
+      "parentUuid": "AABOHn//9j4\u003d",
+      "revId": "e84fa6f31638849176c774b475ca510bb4d8788e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
