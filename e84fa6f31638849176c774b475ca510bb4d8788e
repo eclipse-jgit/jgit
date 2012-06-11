@@ -34,6 +34,24 @@
       "revId": "e84fa6f31638849176c774b475ca510bb4d8788e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//9bU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CherryPickCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 678
+      },
+      "writtenOn": "2012-06-11T14:07:02Z",
+      "side": 1,
+      "message": "My bad. I have misinterpreted the man for cherry-pick command. http://linux.die.net/man/1/git-cherry-pick\nWould you like me to submit a different solution?",
+      "parentUuid": "AABOHn//9bc\u003d",
+      "revId": "e84fa6f31638849176c774b475ca510bb4d8788e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
