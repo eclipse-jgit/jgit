@@ -33,6 +33,24 @@
       "revId": "3ee9bec789f945cc0e4d93b7e538d7c61968c38e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//9dI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CleanCommand.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2012-06-11T06:06:21Z",
+      "side": 1,
+      "message": "what do you suggest then? any idea on how to make it better?",
+      "parentUuid": "AABOG3//8sw\u003d",
+      "revId": "3ee9bec789f945cc0e4d93b7e538d7c61968c38e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
