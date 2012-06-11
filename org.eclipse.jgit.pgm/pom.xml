@@ -60,6 +60,11 @@
     Command line client tools built on top of JGit.
   </description>
 
+  <properties>
+    <translate-qualifier/>
+    <source-bundle-manifest>${project.build.directory}/META-INF/SOURCE-MANIFEST.MF</source-bundle-manifest>
+  </properties>
+
   <dependencies>
     <dependency>
       <groupId>args4j</groupId>
@@ -108,6 +113,7 @@
       <resource>
         <directory>.</directory>
         <includes>
+          <include>plugin.properties</include>
           <include>META-INF/services/org.eclipse.jgit.pgm.TextBuiltin</include>
           <include>about.html</include>
         </includes>
@@ -118,6 +124,15 @@
     </resources>
 
     <plugins>
+      <plugin>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <archive>
+            <manifestFile>${bundle-manifest}</manifestFile>
+          </archive>
+        </configuration>
+      </plugin>
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-shade-plugin</artifactId>
@@ -163,6 +178,41 @@
             <goals>
               <goal>run</goal>
             </goals>
+          </execution>
+          <execution>
+            <id>translate-source-qualifier</id>
+            <phase>generate-resources</phase>
+            <configuration>
+              <tasks>
+                <copy file="META-INF/SOURCE-MANIFEST.MF" tofile="${source-bundle-manifest}" overwrite="true"/>
+                <replace file="${source-bundle-manifest}">
+                  <replacefilter token=".qualifier" value=".${maven.build.timestamp}"/>
+                </replace>
+              </tasks>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <inherited>true</inherited>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <phase>process-classes</phase>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+            <configuration>
+              <archive>
+                <manifestFile>${source-bundle-manifest}</manifestFile>
+              </archive>
+            </configuration>
           </execution>
         </executions>
       </plugin>

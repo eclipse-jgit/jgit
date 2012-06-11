@@ -61,12 +61,17 @@
   <properties>
     <tycho-version>0.15.0</tycho-version>
     <jetty-version>7.6.0.v20120127</jetty-version>
+    <args4j-version>2.0.12</args4j-version>
+    <jsch-version>0.1.44-1</jsch-version>
     <eclipse-site>http://download.eclipse.org/releases/indigo</eclipse-site>
+    <orbit-site>http://download.eclipse.org/tools/orbit/downloads/drops/R20120526062928/repository/</orbit-site>
   </properties>
 
   <modules>
     <module>org.eclipse.jgit.feature</module>
+    <module>org.eclipse.jgit.pgm.feature</module>
     <module>org.eclipse.jgit.source.feature</module>
+    <module>org.eclipse.jgit.pgm.source.feature</module>
     <module>org.eclipse.jgit.junit.feature</module>
     <module>org.eclipse.jgit.repository</module>
   </modules>
@@ -82,6 +87,11 @@
       <layout>p2</layout>
       <url>http://download.eclipse.org/jetty/updates/jetty-bundles-7.x/${jetty-version}/</url>
     </repository>
+    <repository>
+      <id>orbit</id>
+      <layout>p2</layout>
+      <url>${orbit-site}</url>
+    </repository>
   </repositories>
 
   <dependencies>
@@ -89,6 +99,12 @@
     <dependency>
       <groupId>org.eclipse.jgit</groupId>
       <artifactId>org.eclipse.jgit</artifactId>
+      <version>${project.version}</version>
+      <classifier>sources</classifier>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.jgit</groupId>
+      <artifactId>org.eclipse.jgit.pgm</artifactId>
       <version>${project.version}</version>
       <classifier>sources</classifier>
     </dependency>
@@ -168,5 +184,19 @@
       </plugins>
     </pluginManagement>
   </build>
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>com.jcraft</groupId>
+        <artifactId>jsch</artifactId>
+        <version>${jsch-version}</version>
+      </dependency>
+      <dependency>
+        <groupId>args4j</groupId>
+        <artifactId>args4j</artifactId>
+        <version>${args4j-version}</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
 </project>
 
