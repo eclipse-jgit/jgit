@@ -142,6 +142,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String collisionOn;
 	/***/ public String commandWasCalledInTheWrongState;
 	/***/ public String commitAlreadyExists;
+	/***/ public String commitIsAMergeButNoMainlineWasSpecified;
 	/***/ public String commitMessageNotSpecified;
 	/***/ public String commitOnRepoWithoutHEADCurrentlyNotSupported;
 	/***/ public String compressingObjects;
