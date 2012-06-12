@@ -231,13 +231,10 @@ public class ApplyCommand extends GitCommand<ApplyResult> {
 		if (!isChanged(oldLines, newLines))
 			return; // don't touch the file
 		StringBuilder sb = new StringBuilder();
-		final String eol = rt.size() == 0
-				|| (rt.size() == 1 && rt.isMissingNewlineAtEnd()) ? "\n" : rt
-				.getLineDelimiter();
 		for (String l : newLines) {
-			sb.append(l);
-			if (eol != null)
-				sb.append(eol);
+			// don't bother handling line endings - if it was windows, the \r is
+			// still there!
+			sb.append(l).append('\n');
 		}
 		sb.deleteCharAt(sb.length() - 1);
 		FileWriter fw = new FileWriter(f);
