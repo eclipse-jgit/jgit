@@ -225,7 +225,7 @@ public class ResolveMerger extends ThreeWayMerger {
 				builder = null;
 			}
 
-			if (getUnmergedPaths().isEmpty()) {
+			if (getUnmergedPaths().isEmpty() && !failed()) {
 				resultTree = dircache.writeTree(oi);
 				return true;
 			} else {
