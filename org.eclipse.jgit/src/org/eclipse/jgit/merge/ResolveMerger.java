@@ -126,6 +126,8 @@ public class ResolveMerger extends ThreeWayMerger {
 
 	private Map<String, DirCacheEntry> toBeCheckedOut = new HashMap<String, DirCacheEntry>();
 
+	private List<String> toBeDeleted = new ArrayList<String>();
+
 	private Map<String, MergeResult<? extends Sequence>> mergeResults = new HashMap<String, MergeResult<? extends Sequence>>();
 
 	private Map<String, MergeFailureReason> failingPaths = new HashMap<String, MergeFailureReason>();
@@ -240,15 +242,20 @@ public class ResolveMerger extends ThreeWayMerger {
 			for (Map.Entry<String, DirCacheEntry> entry : toBeCheckedOut
 					.entrySet()) {
 				File f = new File(db.getWorkTree(), entry.getKey());
-				if (entry.getValue() != null) {
-					createDir(f.getParentFile());
-					DirCacheCheckout.checkoutEntry(db, f, entry.getValue(), r);
-				} else {
-					if (!f.delete())
-						failingPaths.put(entry.getKey(),
-								MergeFailureReason.COULD_NOT_DELETE);
-				}
+				createDir(f.getParentFile());
+				DirCacheCheckout.checkoutEntry(db, f, entry.getValue(), r);
 				modifiedFiles.add(entry.getKey());
+			}
+			// Iterate in reverse so that "folder/file" is deleted before
+			// "folder". Otherwise this could result in a failing path because
+			// of a non-empty directory, for which delete() would fail.
+			for (int i = toBeDeleted.size() - 1; i >= 0; i--) {
+				String fileName = toBeDeleted.get(i);
+				File f = new File(db.getWorkTree(), fileName);
+				if (!f.delete())
+					failingPaths.put(fileName,
+							MergeFailureReason.COULD_NOT_DELETE);
+				modifiedFiles.add(fileName);
 			}
 		} finally {
 			r.release();
@@ -441,7 +448,7 @@ public class ResolveMerger extends ThreeWayMerger {
 			} else if (modeT == 0 && modeB != 0) {
 				// we want THEIRS ... but THEIRS contains the deletion of the
 				// file
-				toBeCheckedOut.put(tw.getPathString(), null);
+				toBeDeleted.add(tw.getPathString());
 				return true;
 			}
 		}
