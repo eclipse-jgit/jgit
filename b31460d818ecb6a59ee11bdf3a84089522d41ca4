@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOHn//9Ys\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CherryPickCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-06-12T08:03:30Z",
+      "side": 1,
+      "message": "This message \u0027commitIsAMergeButNoMainlineWasSpecified\u0027 has no parameters. But you specify two parameters here. Thats a bug.\n\nI suggest that you write a test in CherryPickCommandTest where you also explicitly produce these two errors and check that the exceptions are thrown. Otherwise we will overlook this kind of bugs.",
+      "revId": "b31460d818ecb6a59ee11bdf3a84089522d41ca4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//9Yw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CherryPickCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-06-12T08:03:30Z",
+      "side": 1,
+      "message": "This message \u0027invalidCommitParentNumber\u0027 has no parameters. But you specify two parameters here.",
+      "revId": "b31460d818ecb6a59ee11bdf3a84089522d41ca4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//9Y0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/errors/NoSuchParentException.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-06-12T08:03:30Z",
+      "side": 1,
+      "message": "You should put your name here.",
+      "revId": "b31460d818ecb6a59ee11bdf3a84089522d41ca4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
