@@ -47,6 +47,7 @@ import java.io.File;
 import java.text.MessageFormat;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterConfig;
@@ -54,19 +55,33 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.http.server.glue.ErrorServlet;
 import org.eclipse.jgit.http.server.glue.MetaFilter;
 import org.eclipse.jgit.http.server.glue.RegexGroupFilter;
 import org.eclipse.jgit.http.server.glue.ServletBinder;
 import org.eclipse.jgit.http.server.resolver.AsIsFileService;
+import org.eclipse.jgit.http.server.resolver.DefaultPublisherClientFactory;
 import org.eclipse.jgit.http.server.resolver.DefaultReceivePackFactory;
 import org.eclipse.jgit.http.server.resolver.DefaultUploadPackFactory;
+import org.eclipse.jgit.http.server.resolver.DefaultPublisherClientFactory.PublisherClientConnectionWrap;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.transport.Publisher;
+import org.eclipse.jgit.transport.PublisherBuffer;
+import org.eclipse.jgit.transport.PublisherClient;
+import org.eclipse.jgit.transport.PublisherPackFactory;
+import org.eclipse.jgit.transport.PublisherReverseResolver;
+import org.eclipse.jgit.transport.PublisherSession.SessionGenerator;
 import org.eclipse.jgit.transport.ReceivePack;
+import org.eclipse.jgit.transport.ServiceMayNotContinueException;
 import org.eclipse.jgit.transport.UploadPack;
 import org.eclipse.jgit.transport.resolver.FileResolver;
+import org.eclipse.jgit.transport.resolver.PublisherClientFactory;
 import org.eclipse.jgit.transport.resolver.ReceivePackFactory;
 import org.eclipse.jgit.transport.resolver.RepositoryResolver;
+import org.eclipse.jgit.transport.resolver.ServiceNotAuthorizedException;
+import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
 import org.eclipse.jgit.transport.resolver.UploadPackFactory;
 import org.eclipse.jgit.util.StringUtils;
 
@@ -77,8 +92,8 @@ import org.eclipse.jgit.util.StringUtils;
  * application to this filter. For a servlet version, see {@link GitServlet}.
  * <p>
  * Applications may wish to add additional repository action URLs to this
- * servlet by taking advantage of its extension from {@link MetaFilter}.
- * Callers may register their own URL suffix translations through
+ * servlet by taking advantage of its extension from {@link MetaFilter}. Callers
+ * may register their own URL suffix translations through
  * {@link #serve(String)}, or their regex translations through
  * {@link #serveRegex(String)}. Each translation should contain a complete
  * filter pipeline which ends with the HttpServlet that should handle the
@@ -89,15 +104,25 @@ public class GitFilter extends MetaFilter {
 
 	private RepositoryResolver<HttpServletRequest> resolver;
 
+	private Publisher publisher;
+
 	private AsIsFileService asIs = new AsIsFileService();
 
-	private UploadPackFactory<HttpServletRequest> uploadPackFactory = new DefaultUploadPackFactory();
+	private UploadPackFactory<HttpServletRequest>
+			uploadPackFactory = new DefaultUploadPackFactory();
 
-	private ReceivePackFactory<HttpServletRequest> receivePackFactory = new DefaultReceivePackFactory();
+	private ReceivePackFactory<HttpServletRequest>
+			receivePackFactory = new DefaultReceivePackFactory();
+
+	private PublisherClientFactory<HttpServletRequest>
+			publisherClientFactory = new DefaultPublisherClientFactory();
 
 	private final List<Filter> uploadPackFilters = new LinkedList<Filter>();
 
 	private final List<Filter> receivePackFilters = new LinkedList<Filter>();
+
+	private final List<Filter>
+			publisherClientFilters = new LinkedList<Filter>();
 
 	/**
 	 * New servlet that will load its base directory from {@code web.xml}.
@@ -118,7 +143,8 @@ public class GitFilter extends MetaFilter {
 	 *            parameter table during init, which usually comes from the
 	 *            {@code web.xml} file of the web application.
 	 */
-	public void setRepositoryResolver(RepositoryResolver<HttpServletRequest> resolver) {
+	public void setRepositoryResolver(
+			RepositoryResolver<HttpServletRequest> resolver) {
 		assertNotInitialized();
 		this.resolver = resolver;
 	}
@@ -142,7 +168,9 @@ public class GitFilter extends MetaFilter {
 	@SuppressWarnings("unchecked")
 	public void setUploadPackFactory(UploadPackFactory<HttpServletRequest> f) {
 		assertNotInitialized();
-		this.uploadPackFactory = f != null ? f : (UploadPackFactory<HttpServletRequest>)UploadPackFactory.DISABLED;
+		this.uploadPackFactory = f != null ? f
+				: (UploadPackFactory<
+						HttpServletRequest>) UploadPackFactory.DISABLED;
 	}
 
 	/**
@@ -162,9 +190,12 @@ public class GitFilter extends MetaFilter {
 	 *            session when a push is requested by a client.
 	 */
 	@SuppressWarnings("unchecked")
-	public void setReceivePackFactory(ReceivePackFactory<HttpServletRequest> f) {
+	public void setReceivePackFactory(
+			ReceivePackFactory<HttpServletRequest> f) {
 		assertNotInitialized();
-		this.receivePackFactory = f != null ? f : (ReceivePackFactory<HttpServletRequest>)ReceivePackFactory.DISABLED;
+		this.receivePackFactory = f != null ? f
+				: (ReceivePackFactory<
+						HttpServletRequest>) ReceivePackFactory.DISABLED;
 	}
 
 	/**
@@ -178,9 +209,42 @@ public class GitFilter extends MetaFilter {
 		receivePackFilters.add(filter);
 	}
 
+	/**
+	 * @param f
+	 *            the factor to construct a {@link PublisherClient} for
+	 *            publish-subscribe.
+	 */
+	@SuppressWarnings("unchecked")
+	public void setPublisherClientFactory(
+			PublisherClientFactory<HttpServletRequest> f) {
+		assertNotInitialized();
+		this.publisherClientFactory = f != null ? f
+				: PublisherClientFactory.DISABLED;
+	}
+
+	/**
+	 * @param p
+	 *            the publisher instance to use.
+	 */
+	public void setPublisher(Publisher p) {
+		this.publisher = p;
+	}
+
+	/**
+	 * @param filter
+	 *            filter to apply before any PublisherClient operations,
+	 *            available in the request attribute
+	 *            {@link ServletUtils#ATTRIBUTE_HANDLER}.
+	 */
+	public void addPublisherClientFilter(Filter filter) {
+		assertNotInitialized();
+		publisherClientFilters.add(filter);
+	}
+
 	private void assertNotInitialized() {
 		if (initialized)
-			throw new IllegalStateException(HttpServerText.get().alreadyInitializedByContainer);
+			throw new IllegalStateException(HttpServerText
+					.get().alreadyInitializedByContainer);
 	}
 
 	@Override
@@ -190,7 +254,28 @@ public class GitFilter extends MetaFilter {
 		if (resolver == null) {
 			File root = getFile(filterConfig, "base-path");
 			boolean exportAll = getBoolean(filterConfig, "export-all");
-			setRepositoryResolver(new FileResolver<HttpServletRequest>(root, exportAll));
+			setRepositoryResolver(
+					new FileResolver<HttpServletRequest>(root, exportAll));
+		}
+
+		if (publisher == null) {
+			// Default publisher with 1gb max buffer
+			publisher = new Publisher(new PublisherReverseResolver(),
+				new RepositoryResolver<PublisherClient>() {
+				public Repository open(PublisherClient req, String name)
+						throws RepositoryNotFoundException,
+						ServiceNotAuthorizedException,
+						ServiceNotEnabledException,
+						ServiceMayNotContinueException {
+					HttpServletRequest request = ((PublisherClientConnectionWrap) req).getRequest();
+					return resolver.open(request, name);
+				}
+			}, new PublisherPackFactory(new PublisherBuffer(1024 * 1024
+					* 1024)), new SessionGenerator() {
+				public String generate() {
+					return UUID.randomUUID().toString();
+				}
+			});
 		}
 
 		initialized = true;
@@ -205,10 +290,29 @@ public class GitFilter extends MetaFilter {
 
 		if (receivePackFactory != ReceivePackFactory.DISABLED) {
 			ServletBinder b = serve("*/" + GitSmartHttpTools.RECEIVE_PACK);
-			b = b.through(new ReceivePackServlet.Factory(receivePackFactory));
+			ReceivePackServlet.Factory receivePackServletFactory
+					= new ReceivePackServlet.Factory(receivePackFactory);
+			receivePackServletFactory.setPostReceiveHook(publisher.getHook());
+			b = b.through(receivePackServletFactory);
 			for (Filter f : receivePackFilters)
 				b = b.through(f);
 			b.with(new ReceivePackServlet());
+		}
+
+		if (publisherClientFactory != PublisherClientFactory.DISABLED) {
+			publisherClientFactory.setPublisher(publisher);
+			ServletBinder b = serveRegex(
+					"^/" + GitSmartHttpTools.PUBLISH_SUBSCRIBE, true);
+			b = b.through(new PublisherServlet.Factory(publisherClientFactory));
+			for (Filter f : publisherClientFilters)
+				b = b.through(f);
+			b.with(new PublisherServlet());
+
+			ServletBinder pubRefs = serveRegex("^/" + Constants.INFO_REFS,
+					true);
+			pubRefs = pubRefs.through(new PublisherServlet.InfoRefs(
+					publisherClientFilters));
+			pubRefs.with(new ErrorServlet(HttpServletResponse.SC_FORBIDDEN));
 		}
 
 		ServletBinder refs = serve("*/" + Constants.INFO_REFS);
@@ -220,6 +324,7 @@ public class GitFilter extends MetaFilter {
 			refs = refs.through(new ReceivePackServlet.InfoRefs(
 					receivePackFactory, receivePackFilters));
 		}
+
 		if (asIs != AsIsFileService.DISABLED) {
 			refs = refs.through(new IsLocalFilter());
 			refs = refs.through(new AsIsFileFilter(asIs));
@@ -277,11 +382,13 @@ public class GitFilter extends MetaFilter {
 			throws ServletException {
 		String n = cfg.getInitParameter(param);
 		if (n == null || "".equals(n))
-			throw new ServletException(MessageFormat.format(HttpServerText.get().parameterNotSet, param));
+			throw new ServletException(MessageFormat.format(
+					HttpServerText.get().parameterNotSet, param));
 
 		File path = new File(n);
 		if (!path.exists())
-			throw new ServletException(MessageFormat.format(HttpServerText.get().pathForParamNotFound, path, param));
+			throw new ServletException(MessageFormat.format(
+					HttpServerText.get().pathForParamNotFound, path, param));
 		return path;
 	}
 
@@ -293,16 +400,19 @@ public class GitFilter extends MetaFilter {
 		try {
 			return StringUtils.toBoolean(n);
 		} catch (IllegalArgumentException err) {
-			throw new ServletException(MessageFormat.format(HttpServerText.get().invalidBoolean, param, n));
+			throw new ServletException(MessageFormat.format(
+					HttpServerText.get().invalidBoolean, param, n));
 		}
 	}
 
 	@Override
-	protected ServletBinder register(ServletBinder binder) {
+	protected ServletBinder register(ServletBinder binder, boolean isBare) {
 		if (resolver == null)
-			throw new IllegalStateException(HttpServerText.get().noResolverAvailable);
+			throw new IllegalStateException(HttpServerText
+					.get().noResolverAvailable);
 		binder = binder.through(new NoCacheFilter());
-		binder = binder.through(new RepositoryFilter(resolver));
+		if (!isBare)
+			binder = binder.through(new RepositoryFilter(resolver));
 		return binder;
 	}
 }

@@ -148,6 +148,6 @@ public class MetaServlet extends HttpServlet {
 	 *         filters into the pipeline.
 	 */
 	protected ServletBinder register(ServletBinder b) {
-		return filter.register(b);
+		return filter.register(b, false);
 	}
 }
