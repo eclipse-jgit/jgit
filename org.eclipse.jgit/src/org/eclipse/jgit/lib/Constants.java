@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2008, Google Inc.
  * Copyright (C) 2008, Robin Rosenberg <robin.rosenberg@dewire.com>
- * Copyright (C) 2006-2008, Shawn O. Pearce <spearce@spearce.org>
+ * Copyright (C) 2006-2012, Shawn O. Pearce <spearce@spearce.org>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -552,6 +552,9 @@ public final class Constants {
 
 	/** name of the file containing the ID of a cherry pick commit in case of conflicts */
 	public static final String CHERRY_PICK_HEAD = "CHERRY_PICK_HEAD";
+
+	/** name of the file containing the commit msg for a squash commit */
+	public static final String SQUASH_MSG = "SQUASH_MSG";
 
 	/**
 	 * name of the ref ORIG_HEAD used by certain commands to store the original

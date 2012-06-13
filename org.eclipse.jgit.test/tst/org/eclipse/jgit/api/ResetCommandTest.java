@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011, Chris Aniszczyk <caniszczyk@gmail.com>
+ * Copyright (C) 2011-2012, Chris Aniszczyk <caniszczyk@gmail.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -46,6 +46,7 @@ import static org.eclipse.jgit.api.ResetCommand.ResetType.HARD;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -357,6 +358,37 @@ public class ResetCommandTest extends RepositoryTestCase {
 
 		ObjectId head = db.resolve(Constants.HEAD);
 		assertTrue(head.equals(secondCommit));
+	}
+
+	@Test
+	public void testHardResetAfterSquashMerge() throws Exception {
+		Git g = new Git(db);
+
+		writeTrashFile("file1", "file1");
+		g.add().addFilepattern("file1").call();
+		RevCommit first = g.commit().setMessage("initial commit").call();
+
+		assertTrue(new File(db.getWorkTree(), "file1").exists());
+		createBranch(first, "refs/heads/branch1");
+		checkoutBranch("refs/heads/branch1");
+
+		writeTrashFile("file2", "file2");
+		g.add().addFilepattern("file2").call();
+		g.commit().setMessage("second commit").call();
+		assertTrue(new File(db.getWorkTree(), "file2").exists());
+
+		checkoutBranch("refs/heads/master");
+
+		MergeResult result = g.merge().include(db.getRef("branch1"))
+				.setSquash(true).call();
+
+		assertEquals(MergeResult.MergeStatus.FAST_FORWARD_SQUASHED,
+				result.getMergeStatus());
+		assertNotNull(db.readSquashCommitMsg());
+
+		g.reset().setMode(ResetType.HARD).setRef(first.getName()).call();
+
+		assertNull(db.readSquashCommitMsg());
 	}
 
 	private void assertReflog(ObjectId prevHead, ObjectId head)
