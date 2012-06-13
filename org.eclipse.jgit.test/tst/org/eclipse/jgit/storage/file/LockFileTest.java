@@ -70,13 +70,14 @@ public class LockFileTest extends RepositoryTestCase {
 		git.add().addFilepattern("file.txt").call();
 		assertNotNull(git.commit().setMessage("edit file").call());
 
-		assertTrue(new LockFile(db.getIndexFile(), db.getFS()).lock());
+		LockFile lf = new LockFile(db.getIndexFile(), db.getFS());
+		assertTrue(lf.lock());
 		try {
 			git.checkout().setName(commit1.name()).call();
 			fail("JGitInternalException not thrown");
 		} catch (JGitInternalException e) {
 			assertTrue(e.getCause() instanceof LockFailedException);
-			LockFile.unlock(((LockFailedException) e.getCause()).getFile());
+			lf.unlock();
 			git.checkout().setName(commit1.name()).call();
 		}
 	}
