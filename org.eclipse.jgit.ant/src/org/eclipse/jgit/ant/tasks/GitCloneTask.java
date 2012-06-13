@@ -109,7 +109,7 @@ public class GitCloneTask extends Task {
 		CloneCommand clone = Git.cloneRepository();
 		try {
 			clone.setURI(uri).setDirectory(destination).setBranch(branch).setBare(bare);
-			clone.call();
+			clone.call().getRepository().close();
 		} catch (Exception e) {
 			log("Could not clone repository: " + e, e, Project.MSG_ERR);
 			throw new BuildException("Could not clone repository: " + e.getMessage(), e);

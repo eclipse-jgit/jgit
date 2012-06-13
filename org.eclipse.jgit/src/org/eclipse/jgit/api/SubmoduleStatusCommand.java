@@ -130,7 +130,12 @@ public class SubmoduleStatusCommand extends
 			return new SubmoduleStatus(SubmoduleStatusType.UNINITIALIZED, path,
 					id);
 
-		ObjectId headId = subRepo.resolve(Constants.HEAD);
+		ObjectId headId;
+		try {
+			headId = subRepo.resolve(Constants.HEAD);
+		} finally {
+			subRepo.close();
+		}
 
 		// Report uninitialized if no HEAD commit in submodule repository
 		if (headId == null)
