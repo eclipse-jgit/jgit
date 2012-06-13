@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010, Sasa Zivkov <sasa.zivkov@sap.com>
+ * Copyright (C) 2012, Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -41,44 +41,49 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.eclipse.jgit.http.server;
+package org.eclipse.jgit.http.server.resolver;
 
-import org.eclipse.jgit.nls.NLS;
-import org.eclipse.jgit.nls.TranslationBundle;
+import javax.servlet.http.HttpServletRequest;
 
-/**
- * Translation bundle for JGit http server
- */
-public class HttpServerText extends TranslationBundle {
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.transport.Publisher;
+import org.eclipse.jgit.transport.PublisherClient;
+import org.eclipse.jgit.transport.ServiceMayNotContinueException;
+import org.eclipse.jgit.transport.resolver.PublisherClientFactory;
+import org.eclipse.jgit.transport.resolver.RepositoryResolver;
+import org.eclipse.jgit.transport.resolver.ServiceNotAuthorizedException;
+import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
 
-	/**
-	 * @return an instance of this translation bundle
-	 */
-	public static HttpServerText get() {
-		return NLS.getBundleFor(HttpServerText.class);
+/** Default creator for PublisherClients */
+public class DefaultPublisherClientFactory
+		implements PublisherClientFactory<HttpServletRequest> {
+	private Publisher publisher;
+
+	private RepositoryResolver<HttpServletRequest> resolver;
+
+	public void setResolver(RepositoryResolver<HttpServletRequest> r) {
+		this.resolver = r;
 	}
 
-	/***/ public String alreadyInitializedByContainer;
-	/***/ public String cannotGetLengthOf;
-	/***/ public String encodingNotSupportedByThisLibrary;
-	/***/ public String expectedRepositoryAttribute;
-	/***/ public String filterMustNotBeNull;
-	/***/ public String internalErrorDuringPublishSubscribe;
-	/***/ public String internalErrorDuringReceivePack;
-	/***/ public String internalErrorDuringUploadPack;
-	/***/ public String internalServerError;
-	/***/ public String internalServerErrorRequestAttributeWasAlreadySet;
-	/***/ public String invalidBoolean;
-	/***/ public String invalidIndex;
-	/***/ public String invalidRegexGroup;
-	/***/ public String noResolverAvailable;
-	/***/ public String parameterNotSet;
-	/***/ public String pathForParamNotFound;
-	/***/ public String pathNotSupported;
-	/***/ public String repositoryAccessForbidden;
-	/***/ public String repositoryNotFound;
-	/***/ public String servletAlreadyInitialized;
-	/***/ public String servletMustNotBeNull;
-	/***/ public String servletWasAlreadyBound;
-	/***/ public String unexpectedeOFOn;
+	public void setPublisher(Publisher p) {
+		this.publisher = p;
+	}
+
+	public PublisherClient create(final HttpServletRequest req)
+			throws ServiceNotEnabledException, ServiceNotAuthorizedException {
+		return new PublisherClient(publisher) {
+			@Override
+			public Repository openRepository(String name)
+					throws RepositoryNotFoundException,
+					ServiceMayNotContinueException,
+					ServiceNotAuthorizedException, ServiceNotEnabledException {
+				try {
+					return resolver.open(req, name);
+				} catch (ServiceNotEnabledException e) {
+					throw new ServiceNotEnabledException(name);
+				}
+			}
+		};
+	}
 }
