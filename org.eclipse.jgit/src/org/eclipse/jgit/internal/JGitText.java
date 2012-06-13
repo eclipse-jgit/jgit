@@ -503,6 +503,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String submoduleExists;
 	/***/ public String submodulesNotSupported;
 	/***/ public String submoduleParentRemoteUrlInvalid;
+	/***/ public String subscribeError;
 	/***/ public String subscribeNewUpdate;
 	/***/ public String subscribeNotSupported;
 	/***/ public String subscribeStart;
