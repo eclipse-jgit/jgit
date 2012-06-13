@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009-2010, Google Inc.
+ * Copyright (C) 2012, Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -47,14 +47,12 @@ import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
 import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 import static javax.servlet.http.HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE;
-import static org.eclipse.jgit.http.server.GitSmartHttpTools.RECEIVE_PACK;
-import static org.eclipse.jgit.http.server.GitSmartHttpTools.RECEIVE_PACK_REQUEST_TYPE;
-import static org.eclipse.jgit.http.server.GitSmartHttpTools.RECEIVE_PACK_RESULT_TYPE;
+import static org.eclipse.jgit.http.server.GitSmartHttpTools.PUBLISH_SUBSCRIBE;
+import static org.eclipse.jgit.http.server.GitSmartHttpTools.PUBLISH_SUBSCRIBE_REQUEST_TYPE;
+import static org.eclipse.jgit.http.server.GitSmartHttpTools.PUBLISH_SUBSCRIBE_RESULT_TYPE;
 import static org.eclipse.jgit.http.server.GitSmartHttpTools.sendError;
 import static org.eclipse.jgit.http.server.ServletUtils.ATTRIBUTE_HANDLER;
-import static org.eclipse.jgit.http.server.ServletUtils.consumeRequestBody;
 import static org.eclipse.jgit.http.server.ServletUtils.getInputStream;
-import static org.eclipse.jgit.http.server.ServletUtils.getRepository;
 
 import java.io.IOException;
 import java.util.List;
@@ -69,80 +67,83 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.eclipse.jgit.errors.UnpackException;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.transport.PostReceiveHook;
-import org.eclipse.jgit.transport.PostReceiveHookChain;
-import org.eclipse.jgit.transport.ReceivePack;
+import org.eclipse.jgit.transport.PublisherClient;
 import org.eclipse.jgit.transport.RefAdvertiser.PacketLineOutRefAdvertiser;
-import org.eclipse.jgit.transport.resolver.ReceivePackFactory;
+import org.eclipse.jgit.transport.ServiceMayNotContinueException;
+import org.eclipse.jgit.transport.resolver.PublisherClientFactory;
 import org.eclipse.jgit.transport.resolver.ServiceNotAuthorizedException;
 import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
 
-/** Server side implementation of smart push over HTTP. */
-class ReceivePackServlet extends HttpServlet {
+/** Server side implementation of publish-subscribe over HTTP. */
+public class PublisherServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
+	/** Respond to advertisements that the Publisher service exists */
 	static class InfoRefs extends SmartServiceInfoRefs {
-		private final ReceivePackFactory<HttpServletRequest> receivePackFactory;
+		InfoRefs(List<Filter> filters) {
+			super(PUBLISH_SUBSCRIBE, filters);
+		}
 
-		InfoRefs(ReceivePackFactory<HttpServletRequest> receivePackFactory,
-				List<Filter> filters) {
-			super(RECEIVE_PACK, filters);
-			this.receivePackFactory = receivePackFactory;
+		@Override
+		public void doFilter(ServletRequest request, ServletResponse response,
+				FilterChain chain) throws IOException, ServletException {
+			final HttpServletRequest req = (HttpServletRequest) request;
+			if (svc.equals(req.getParameter("service")))
+				service(req, response);
+			else
+				chain.doFilter(request, response);
+		}
+
+		public void init(FilterConfig filterConfig) throws ServletException {
+			// Do nothing.
+		}
+
+		public void destroy() {
+			// Do nothing.
 		}
 
 		@Override
 		protected void begin(HttpServletRequest req, Repository db)
 				throws IOException, ServiceNotEnabledException,
 				ServiceNotAuthorizedException {
-			ReceivePack rp = receivePackFactory.create(req, db);
-			req.setAttribute(ATTRIBUTE_HANDLER, rp);
+			// Do nothing.
 		}
 
 		@Override
-		protected void advertise(HttpServletRequest req,
-				PacketLineOutRefAdvertiser pck) throws IOException,
-				ServiceNotEnabledException, ServiceNotAuthorizedException {
-			ReceivePack rp = (ReceivePack) req.getAttribute(ATTRIBUTE_HANDLER);
-			try {
-				rp.sendAdvertisedRefs(pck);
-			} finally {
-				rp.getRevWalk().release();
-			}
+		protected void advertise(
+				HttpServletRequest req, PacketLineOutRefAdvertiser pck)
+				throws IOException, ServiceNotEnabledException,
+				ServiceNotAuthorizedException {
+			// Do nothing.
 		}
 	}
 
 	static class Factory implements Filter {
-		private final ReceivePackFactory<HttpServletRequest> receivePackFactory;
+		private final PublisherClientFactory<HttpServletRequest>
+				publisherFactory;
 
-		private PostReceiveHook postReceiveHook;
-
-		Factory(ReceivePackFactory<HttpServletRequest> receivePackFactory) {
-			this.receivePackFactory = receivePackFactory;
-			postReceiveHook = PostReceiveHook.NULL;
+		Factory(PublisherClientFactory<HttpServletRequest> publisherFactory) {
+			this.publisherFactory = publisherFactory;
 		}
 
 		public void doFilter(ServletRequest request, ServletResponse response,
 				FilterChain chain) throws IOException, ServletException {
 			HttpServletRequest req = (HttpServletRequest) request;
 			HttpServletResponse rsp = (HttpServletResponse) response;
-			ReceivePack rp;
+			PublisherClient pc;
 			try {
-				rp = receivePackFactory.create(req, getRepository(req));
-				rp.setPostReceiveHook(PostReceiveHookChain.newChain(
-						postReceiveHook, rp.getPostReceiveHook()));
-			} catch (ServiceNotAuthorizedException e) {
-				rsp.sendError(SC_UNAUTHORIZED);
-				return;
-
+				pc = publisherFactory.create(req);
 			} catch (ServiceNotEnabledException e) {
 				sendError(req, rsp, SC_FORBIDDEN);
+				return;
+			} catch (ServiceNotAuthorizedException e) {
+				rsp.sendError(SC_UNAUTHORIZED);
 				return;
 			}
 
 			try {
-				req.setAttribute(ATTRIBUTE_HANDLER, rp);
+				req.setAttribute(ATTRIBUTE_HANDLER, pc);
 				chain.doFilter(req, rsp);
 			} finally {
 				req.removeAttribute(ATTRIBUTE_HANDLER);
@@ -156,23 +157,15 @@ class ReceivePackServlet extends HttpServlet {
 		public void destroy() {
 			// Nothing.
 		}
-
-		/**
-		 * @param hook
-		 */
-		public void setPostReceiveHook(PostReceiveHook hook) {
-			this.postReceiveHook = hook != null ? hook : PostReceiveHook.NULL;
-		}
 	}
 
 	@Override
-	public void doPost(final HttpServletRequest req,
-			final HttpServletResponse rsp) throws IOException {
-		if (!RECEIVE_PACK_REQUEST_TYPE.equals(req.getContentType())) {
+	protected void doPost(HttpServletRequest req, HttpServletResponse rsp)
+			throws ServletException, IOException {
+		if (!PUBLISH_SUBSCRIBE_REQUEST_TYPE.equals(req.getContentType())) {
 			rsp.sendError(SC_UNSUPPORTED_MEDIA_TYPE);
 			return;
 		}
-
 		SmartOutputStream out = new SmartOutputStream(req, rsp) {
 			@Override
 			public void flush() throws IOException {
@@ -180,28 +173,27 @@ class ReceivePackServlet extends HttpServlet {
 			}
 		};
 
-		ReceivePack rp = (ReceivePack) req.getAttribute(ATTRIBUTE_HANDLER);
+		PublisherClient pc = (PublisherClient) req.getAttribute(ATTRIBUTE_HANDLER);
 		try {
-			rp.setBiDirectionalPipe(false);
-			rsp.setContentType(RECEIVE_PACK_RESULT_TYPE);
-
-			rp.receive(getInputStream(req), out, null);
+			rsp.setContentType(PUBLISH_SUBSCRIBE_RESULT_TYPE);
+			// Block inside subscribe until the client disconnects
+			pc.subscribe(getInputStream(req), out, null);
 			out.close();
-		} catch (UnpackException e) {
-			// This should be already reported to the client.
-			getServletContext().log(
-					HttpServerText.get().internalErrorDuringReceivePack,
-					e.getCause());
-			consumeRequestBody(req);
-			out.close();
-
+		} catch (ServiceMayNotContinueException e) {
+			if (e.isOutput())
+				out.close();
+			else if (!rsp.isCommitted()) {
+				rsp.reset();
+				sendError(req, rsp, SC_FORBIDDEN, e.getMessage());
+			}
 		} catch (Throwable e) {
-			getServletContext().log(HttpServerText.get().internalErrorDuringReceivePack, e);
+			getServletContext().log(
+					HttpServerText.get().internalErrorDuringPublishSubscribe,
+					e);
 			if (!rsp.isCommitted()) {
 				rsp.reset();
 				sendError(req, rsp, SC_INTERNAL_SERVER_ERROR);
 			}
-			return;
 		}
 	}
 }

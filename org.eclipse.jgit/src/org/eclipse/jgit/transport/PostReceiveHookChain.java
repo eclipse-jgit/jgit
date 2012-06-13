@@ -43,6 +43,7 @@
 
 package org.eclipse.jgit.transport;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -75,6 +76,14 @@ public class PostReceiveHookChain implements PostReceiveHook {
 			return newHooks[0];
 		else
 			return new PostReceiveHookChain(newHooks, i);
+	}
+
+	/**
+	 * @param hooks
+	 * @return a new hook chain
+	 */
+	public static PostReceiveHook newChain(PostReceiveHook... hooks) {
+		return newChain(Arrays.asList(hooks));
 	}
 
 	public void onPostReceive(ReceivePack rp,
