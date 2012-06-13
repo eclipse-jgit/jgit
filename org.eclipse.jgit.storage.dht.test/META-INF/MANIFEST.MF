@@ -2,18 +2,18 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %plugin_name
 Bundle-SymbolicName: org.eclipse.jgit.storage.dht.test
-Bundle-Version: 2.0.0.qualifier
+Bundle-Version: 2.1.0.qualifier
 Bundle-Localization: plugin
 Bundle-Vendor: %provider_name
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
-Import-Package: org.eclipse.jgit.lib;version="[2.0.0,2.1.0)",
- org.eclipse.jgit.errors;version="[2.0.0,2.1.0)",
- org.eclipse.jgit.storage.dht;version="[2.0.0,2.1.0)",
- org.eclipse.jgit.storage.dht.spi.memory;version="[2.0.0,2.1.0)",
- org.eclipse.jgit.storage.file;version="[2.0.0,2.1.0)",
- org.eclipse.jgit.storage.pack;version="[2.0.0,2.1.0)",
- org.eclipse.jgit.transport;version="[2.0.0,2.1.0)",
- org.eclipse.jgit.util;version="[2.0.0,2.1.0)",
+Import-Package: org.eclipse.jgit.lib;version="[2.1.0,2.2.0)",
+ org.eclipse.jgit.errors;version="[2.1.0,2.2.0)",
+ org.eclipse.jgit.storage.dht;version="[2.1.0,2.2.0)",
+ org.eclipse.jgit.storage.dht.spi.memory;version="[2.1.0,2.2.0)",
+ org.eclipse.jgit.storage.file;version="[2.1.0,2.2.0)",
+ org.eclipse.jgit.storage.pack;version="[2.1.0,2.2.0)",
+ org.eclipse.jgit.transport;version="[2.1.0,2.2.0)",
+ org.eclipse.jgit.util;version="[2.1.0,2.2.0)",
  org.junit;version="[4.0.0,5.0.0)",
  org.hamcrest.core;version="[1.1.0,2.0.0)"
