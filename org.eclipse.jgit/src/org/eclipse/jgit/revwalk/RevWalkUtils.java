@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011, Robin Stocker <robin@nibor.org>
+ * Copyright (C) 2011-2012, Robin Stocker <robin@nibor.org>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -44,6 +44,8 @@
 package org.eclipse.jgit.revwalk;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -83,14 +85,43 @@ public final class RevWalkUtils {
 	public static int count(final RevWalk walk, final RevCommit start,
 			final RevCommit end) throws MissingObjectException,
 			IncorrectObjectTypeException, IOException {
+		return find(walk, start, end).size();
+	}
+
+	/**
+	 * Find commits that are reachable from <code>start</code> until a commit
+	 * that is reachable from <code>end</code> is encountered. In other words,
+	 * Find of commits that are in <code>start</code>, but not in
+	 * <code>end</code>.
+	 * <p>
+	 * Note that this method calls {@link RevWalk#reset()} at the beginning.
+	 * Also note that the existing rev filter on the walk is left as-is, so be
+	 * sure to set the right rev filter before calling this method.
+	 *
+	 * @param walk
+	 *            the rev walk to use
+	 * @param start
+	 *            the commit to start counting from
+	 * @param end
+	 *            the commit where counting should end, or null if counting
+	 *            should be done until there are no more commits
+	 * @return the commits found
+	 * @throws MissingObjectException
+	 * @throws IncorrectObjectTypeException
+	 * @throws IOException
+	 */
+	public static List<RevCommit> find(final RevWalk walk,
+			final RevCommit start, final RevCommit end)
+			throws MissingObjectException, IncorrectObjectTypeException,
+			IOException {
 		walk.reset();
 		walk.markStart(start);
 		if (end != null)
 			walk.markUninteresting(end);
 
-		int count = 0;
-		for (RevCommit c = walk.next(); c != null; c = walk.next())
-			count++;
-		return count;
+		List<RevCommit> commits = new ArrayList<RevCommit>();
+		for (RevCommit c : walk)
+			commits.add(c);
+		return commits;
 	}
 }
