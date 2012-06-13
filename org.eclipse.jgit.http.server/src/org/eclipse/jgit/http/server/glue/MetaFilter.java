@@ -52,7 +52,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.regex.Pattern;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -101,7 +100,8 @@ public class MetaFilter implements Filter {
 	 */
 	public ServletBinder serve(String path) {
 		if (path.startsWith("*"))
-			return register(new SuffixPipeline.Binder(path.substring(1)));
+			return register(new SuffixPipeline.Binder(path.substring(1)),
+					false);
 		throw new IllegalArgumentException(MessageFormat.format(HttpServerText
 				.get().pathNotSupported, path));
 	}
@@ -114,18 +114,21 @@ public class MetaFilter implements Filter {
 	 * @return binder for the passed expression.
 	 */
 	public ServletBinder serveRegex(String expression) {
-		return register(new RegexPipeline.Binder(expression));
+		return register(new RegexPipeline.Binder(expression), false);
 	}
 
 	/**
-	 * Construct a binding for a regular expression.
+	 * Construct a binding for a regular expression, and configure auto-added
+	 * filters.
 	 *
-	 * @param pattern
-	 *            the regular expression to pattern match the URL against.
-	 * @return binder for the passed expression.
+	 * @param expression
+	 * @param noRepository
+	 *            if true, do not add the repository lookup filter to this
+	 *            request.
+	 * @return the binder for the passed expression.
 	 */
-	public ServletBinder serveRegex(Pattern pattern) {
-		return register(new RegexPipeline.Binder(pattern));
+	public ServletBinder serveRegex(String expression, boolean noRepository) {
+		return register(new RegexPipeline.Binder(expression), noRepository);
 	}
 
 	public void init(FilterConfig filterConfig) throws ServletException {
@@ -184,14 +187,14 @@ public class MetaFilter implements Filter {
 		return null;
 	}
 
-	private ServletBinder register(ServletBinderImpl b) {
+	private ServletBinder register(ServletBinderImpl b, boolean noRepository) {
 		synchronized (bindings) {
 			if (pipelines != null)
 				throw new IllegalStateException(
 						HttpServerText.get().servletAlreadyInitialized);
 			bindings.add(b);
 		}
-		return register((ServletBinder) b);
+		return register((ServletBinder) b, noRepository);
 	}
 
 	/**
@@ -199,10 +202,11 @@ public class MetaFilter implements Filter {
 	 *
 	 * @param b
 	 *            the newly created binder.
+	 * @param noRepository
 	 * @return binder for the caller, potentially after adding one or more
 	 *         filters into the pipeline.
 	 */
-	protected ServletBinder register(ServletBinder b) {
+	protected ServletBinder register(ServletBinder b, boolean noRepository) {
 		return b;
 	}
 
