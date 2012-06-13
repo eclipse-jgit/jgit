@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010, Christian Halstrick <christian.halstrick@sap.com>
+ * Copyright (C) 2010-2012, Christian Halstrick <christian.halstrick@sap.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -488,9 +488,20 @@ public class CommitCommand extends GitCommand<RevCommit> {
 							Constants.MERGE_MSG, e), e);
 				}
 			}
+		} else if (state == RepositoryState.SAFE && message == null) {
+			try {
+				message = repo.readSquashCommitMsg();
+				if (message != null)
+					repo.writeSquashCommitMsg(null /* delete */);
+			} catch (IOException e) {
+				throw new JGitInternalException(MessageFormat.format(
+						JGitText.get().exceptionOccurredDuringReadingOfGIT_DIR,
+						Constants.MERGE_MSG, e), e);
+			}
+
 		}
 		if (message == null)
-			// as long as we don't suppport -C option we have to have
+			// as long as we don't support -C option we have to have
 			// an explicit message
 			throw new NoMessageException(JGitText.get().commitMessageNotSpecified);
 	}

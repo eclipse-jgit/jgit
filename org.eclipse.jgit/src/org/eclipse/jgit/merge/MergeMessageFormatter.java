@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010, Robin Stocker <robin@nibor.org>
+ * Copyright (C) 2010-2012, Robin Stocker <robin@nibor.org>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -134,7 +134,7 @@ public class MergeMessageFormatter {
 	public String formatWithConflicts(String message,
 			List<String> conflictingPaths) {
 		StringBuilder sb = new StringBuilder(message);
-		if (!message.endsWith("\n"))
+		if (!message.endsWith("\n") && message.length() != 0)
 			sb.append("\n");
 		sb.append("\n");
 		sb.append("Conflicts:\n");
