@@ -48,8 +48,11 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.ProgressMonitor;
+import org.eclipse.jgit.lib.TextProgressMonitor;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.transport.PubSubConfig;
+import org.eclipse.jgit.transport.SubscriptionManager;
 import org.eclipse.jgit.util.FS;
 
 @Command(common = false, usage = "usage_RunSubscribeDaemon")
@@ -90,6 +93,20 @@ class SubscribeDaemon extends TextBuiltin {
 
 	@Override
 	protected void run() throws Exception {
-		// TODO(wetherbeei): fill in daemon launch
+		File configFile = getConfigFile();
+		ProgressMonitor monitor = new TextProgressMonitor(out);
+		SubscriptionManager manager = new SubscriptionManager(monitor, out);
+
+		try {
+			while (true) {
+				// Poll the pubsub config file for changes
+				long changeTime = configFile.lastModified();
+				manager.sync(getConfig().getPublishers());
+				while (changeTime == configFile.lastModified())
+					Thread.sleep(5000); // Check every 5 seconds
+			}
+		} finally {
+			manager.close();
+		}
 	}
 }
