@@ -42,7 +42,8 @@
  */
 package org.eclipse.jgit.pgm;
 
-import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.CLIRepositoryTestCase;
@@ -60,11 +61,11 @@ public class ConfigTest extends CLIRepositoryTestCase {
 	@Test
 	public void testListConfig() throws Exception {
 		String[] output = execute("git config --list");
-		assertArrayEquals("expected default configuration", //
-				new String[] { "core.autocrlf=false", //
-						"core.filemode=true", //
-						"core.logallrefupdates=true", //
-						"core.repositoryformatversion=0", //
-						"" /* ends with LF (last line empty) */}, output);
+		// value depends on platform
+		assertTrue(output[0].startsWith("core.filemode="));
+		assertTrue(output[0].endsWith("true") || output[0].endsWith("false"));
+		assertEquals("core.logallrefupdates=true", output[1]);
+		assertEquals("core.repositoryformatversion=0", output[2]);
+		assertEquals("", output[3]); /* ends with LF (last line empty) */
 	}
 }
