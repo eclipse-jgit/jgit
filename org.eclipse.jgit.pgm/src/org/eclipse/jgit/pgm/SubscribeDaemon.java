@@ -48,12 +48,20 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.ProgressMonitor;
+import org.eclipse.jgit.lib.TextProgressMonitor;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.eclipse.jgit.storage.file.FileSnapshot;
 import org.eclipse.jgit.transport.PubSubConfig;
+import org.eclipse.jgit.transport.SubscriptionManager;
 import org.eclipse.jgit.util.FS;
+import org.kohsuke.args4j.Option;
 
 @Command(common = false, usage = "usage_RunSubscribeDaemon")
 class SubscribeDaemon extends TextBuiltin {
+	@Option(name = "-p", metaVar = "metaVar_seconds", usage = "usage_pollTime")
+	private int pollTime = 5; // Default to 5 seconds
+
 	/** Name of the pubsub config file */
 	protected static String GLOBAL_PUBSUB_FILE = ".gitpubsub";
 
@@ -90,6 +98,20 @@ class SubscribeDaemon extends TextBuiltin {
 
 	@Override
 	protected void run() throws Exception {
-		// TODO(wetherbeei): fill in daemon launch
+		File configFile = getConfigFile();
+		ProgressMonitor monitor = new TextProgressMonitor(out);
+		SubscriptionManager manager = new SubscriptionManager(monitor, out);
+
+		try {
+			while (true) {
+				// Poll the pubsub config file for changes
+				FileSnapshot configFileSnapshot = FileSnapshot.save(configFile);
+				manager.sync(getConfig().getPublishers());
+				while (!configFileSnapshot.isModified(configFile))
+					Thread.sleep(1000 * pollTime);
+			}
+		} finally {
+			manager.close();
+		}
 	}
 }
