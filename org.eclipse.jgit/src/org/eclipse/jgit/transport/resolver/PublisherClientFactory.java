@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010, Sasa Zivkov <sasa.zivkov@sap.com>
+ * Copyright (C) 2012, Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -41,44 +41,57 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.eclipse.jgit.http.server;
+package org.eclipse.jgit.transport.resolver;
 
-import org.eclipse.jgit.nls.NLS;
-import org.eclipse.jgit.nls.TranslationBundle;
+import org.eclipse.jgit.transport.Publisher;
+import org.eclipse.jgit.transport.PublisherClient;
 
 /**
- * Translation bundle for JGit http server
+ * Interface for creating PublisherClients linked to a Publisher.
+ *
+ * @param <C>
+ *            type of connection
  */
-public class HttpServerText extends TranslationBundle {
+public interface PublisherClientFactory<C> {
+	/** Disabled service. */
+	public static final PublisherClientFactory DISABLED =
+		new PublisherClientFactory() {
+
+		public void setPublisher(Publisher p) {
+			// Nothing
+		}
+
+		public void setResolver(RepositoryResolver r) {
+			// Nothing
+		}
+
+		public PublisherClient create(Object req)
+				throws ServiceNotEnabledException,
+				ServiceNotAuthorizedException {
+			throw new ServiceNotEnabledException();
+		}
+	};
 
 	/**
-	 * @return an instance of this translation bundle
+	 * @param p
+	 *            Publisher instance used when creating PublisherClients
 	 */
-	public static HttpServerText get() {
-		return NLS.getBundleFor(HttpServerText.class);
-	}
+	void setPublisher(Publisher p);
 
-	/***/ public String alreadyInitializedByContainer;
-	/***/ public String cannotGetLengthOf;
-	/***/ public String encodingNotSupportedByThisLibrary;
-	/***/ public String expectedRepositoryAttribute;
-	/***/ public String filterMustNotBeNull;
-	/***/ public String internalErrorDuringPublishSubscribe;
-	/***/ public String internalErrorDuringReceivePack;
-	/***/ public String internalErrorDuringUploadPack;
-	/***/ public String internalServerError;
-	/***/ public String internalServerErrorRequestAttributeWasAlreadySet;
-	/***/ public String invalidBoolean;
-	/***/ public String invalidIndex;
-	/***/ public String invalidRegexGroup;
-	/***/ public String noResolverAvailable;
-	/***/ public String parameterNotSet;
-	/***/ public String pathForParamNotFound;
-	/***/ public String pathNotSupported;
-	/***/ public String repositoryAccessForbidden;
-	/***/ public String repositoryNotFound;
-	/***/ public String servletAlreadyInitialized;
-	/***/ public String servletMustNotBeNull;
-	/***/ public String servletWasAlreadyBound;
-	/***/ public String unexpectedeOFOn;
+	/**
+	 * @param r
+	 *            RepositoryResolver used to look up repositories using the
+	 *            connection passed to {@link #create(Object)}.
+	 */
+	void setResolver(RepositoryResolver<C> r);
+
+	/**
+	 * @param req
+	 *            the request connection
+	 * @return PublisherClient instance for this connection
+	 * @throws ServiceNotEnabledException
+	 * @throws ServiceNotAuthorizedException
+	 */
+	PublisherClient create(C req)
+			throws ServiceNotEnabledException, ServiceNotAuthorizedException;
 }

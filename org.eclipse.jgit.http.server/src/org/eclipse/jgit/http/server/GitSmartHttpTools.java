@@ -83,6 +83,9 @@ public class GitSmartHttpTools {
 	/** Name of the git-receive-pack service. */
 	public static final String RECEIVE_PACK = "git-receive-pack";
 
+	/** Name of the git-publish-subscribe service. */
+	public static final String PUBLISH_SUBSCRIBE = "git-publish-subscribe";
+
 	/** Content type supplied by the client to the /git-upload-pack handler. */
 	public static final String UPLOAD_PACK_REQUEST_TYPE =
 			"application/x-git-upload-pack-request";
@@ -99,14 +102,26 @@ public class GitSmartHttpTools {
 	public static final String RECEIVE_PACK_RESULT_TYPE =
 			"application/x-git-receive-pack-result";
 
+	/**
+	 * Content type supplied by the client to the /git-publish-subscribe handler
+	 */
+	public static final String PUBLISH_SUBSCRIBE_REQUEST_TYPE =
+			"application/x-git-publish-subscribe-request";
+
+	/** Content type returned from the /git-publish-subscribe handler */
+	public static final String PUBLISH_SUBSCRIBE_RESULT_TYPE =
+			"application/x-git-publish-subscribe-result";
+
 	/** Git service names accepted by the /info/refs?service= handler. */
 	public static final List<String> VALID_SERVICES =
 			Collections.unmodifiableList(Arrays.asList(new String[] {
-					UPLOAD_PACK, RECEIVE_PACK }));
+					UPLOAD_PACK, RECEIVE_PACK, PUBLISH_SUBSCRIBE }));
 
 	private static final String INFO_REFS_PATH = "/" + INFO_REFS;
 	private static final String UPLOAD_PACK_PATH = "/" + UPLOAD_PACK;
 	private static final String RECEIVE_PACK_PATH = "/" + RECEIVE_PACK;
+	private static final String PUBLISH_SUBSCRIBE_PATH = "/"
+			+ PUBLISH_SUBSCRIBE;
 
 	private static final List<String> SERVICE_SUFFIXES =
 			Collections.unmodifiableList(Arrays.asList(new String[] {
@@ -120,7 +135,8 @@ public class GitSmartHttpTools {
 	 * @return true if the request is likely made by a Git client program.
 	 */
 	public static boolean isGitClient(HttpServletRequest req) {
-		return isInfoRefs(req) || isUploadPack(req) || isReceivePack(req);
+		return isInfoRefs(req) || isUploadPack(req) || isReceivePack(req)
+				|| isPublishSubscribe(req);
 	}
 
 	/**
@@ -198,6 +214,8 @@ public class GitSmartHttpTools {
 			sendUploadPackError(req, res, textForGit);
 		} else if (isReceivePack(req)) {
 			sendReceivePackError(req, res, textForGit);
+		} else if (isPublishSubscribe(req)) {
+			sendPublishSubscribeError(req, res, textForGit);
 		} else {
 			if (httpStatus < 400)
 				ServletUtils.consumeRequestBody(req);
@@ -279,6 +297,14 @@ public class GitSmartHttpTools {
 		send(req, res, RECEIVE_PACK_RESULT_TYPE, buf.toByteArray());
 	}
 
+	private static void sendPublishSubscribeError(HttpServletRequest req,
+			HttpServletResponse res, String textForGit) throws IOException {
+		ByteArrayOutputStream buf = new ByteArrayOutputStream(128);
+		PacketLineOut pckOut = new PacketLineOut(buf);
+		writePacket(pckOut, textForGit);
+		send(req, res, PUBLISH_SUBSCRIBE_RESULT_TYPE, buf.toByteArray());
+	}
+
 	private static boolean isReceivePackSideBand(HttpServletRequest req) {
 		try {
 			// The client may be in a state where they have sent the sideband
@@ -341,6 +367,8 @@ public class GitSmartHttpTools {
 			return UPLOAD_PACK_RESULT_TYPE;
 		else if (isReceivePack(req))
 			return RECEIVE_PACK_RESULT_TYPE;
+		else if (isPublishSubscribe(req))
+			return PUBLISH_SUBSCRIBE_RESULT_TYPE;
 		else
 			throw new IllegalArgumentException();
 	}
@@ -414,6 +442,30 @@ public class GitSmartHttpTools {
 		String uri = req.getRequestURI();
 		return uri != null && uri.endsWith(RECEIVE_PACK_PATH)
 				&& RECEIVE_PACK_REQUEST_TYPE.equals(req.getContentType());
+	}
+
+	/**
+	 * Check if the HTTP request path equals the /git-publish-subscribe handler.
+	 *
+	 * @param pathOrUri
+	 *            path or URI of the request.
+	 * @return true if the request is for the /git-publish-subscribe handler.
+	 */
+	public static boolean isPublishSubscribe(String pathOrUri) {
+		return pathOrUri != null && pathOrUri.equals(PUBLISH_SUBSCRIBE_PATH);
+	}
+
+	/**
+	 * Check if the HTTP request was for the /git-publish-subscribe Git handler.
+	 *
+	 * @param req
+	 *            current request.
+	 * @return true if the request is for the /git-publish-subscribe handler.
+	 */
+	public static boolean isPublishSubscribe(HttpServletRequest req) {
+		String uri = req.getRequestURI();
+		return isPublishSubscribe(uri)
+				&& PUBLISH_SUBSCRIBE_REQUEST_TYPE.equals(req.getContentType());
 	}
 
 	private GitSmartHttpTools() {
