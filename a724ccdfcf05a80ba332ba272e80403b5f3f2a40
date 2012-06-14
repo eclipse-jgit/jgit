@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "AABOHn//9OE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/submodule/SubmoduleWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2012-06-14T22:50:59Z",
+      "side": 1,
+      "message": "Ah, I see that now, thanks.",
+      "parentUuid": "AABOHn//9OM\u003d",
+      "revId": "a724ccdfcf05a80ba332ba272e80403b5f3f2a40",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOHn//9Ok\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/submodule/SubmoduleWalk.java",
         "patchSetId": 1
