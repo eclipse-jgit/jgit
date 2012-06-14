@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOHn//9S8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/SubmoduleUpdateCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-06-14T01:48:01Z",
+      "side": 1,
+      "message": "please pull this up onto the prior line",
+      "revId": "810f151a43c029aeb29aa0a17601649e06e34125",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//9TA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/submodule/SubmoduleWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 485,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-06-14T01:48:01Z",
+      "side": 1,
+      "message": "This local isn\u0027t necessary, you can write:\n\n  try {\n    return subRepo.resolve(Constants.HEAD);\n  } finally {\n    subRepo.close();\n  }\n\nand have everything work correctly. Same goes for the other hunks in this file.",
+      "revId": "810f151a43c029aeb29aa0a17601649e06e34125",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
