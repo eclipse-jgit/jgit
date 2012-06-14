@@ -102,12 +102,18 @@ public class SubmoduleWalk {
 	public static SubmoduleWalk forPath(Repository repository,
 			AnyObjectId treeId, String path) throws IOException {
 		SubmoduleWalk generator = new SubmoduleWalk(repository);
-		generator.setTree(treeId);
-		PathFilter filter = PathFilter.create(path);
-		generator.setFilter(filter);
-		while (generator.next())
-			if (filter.isDone(generator.walk))
-				return generator;
+		try {
+			generator.setTree(treeId);
+			PathFilter filter = PathFilter.create(path);
+			generator.setFilter(filter);
+			while (generator.next())
+				if (filter.isDone(generator.walk))
+					return generator;
+		} catch (IOException e) {
+			generator.release();
+			throw e;
+		}
+		generator.release();
 		return null;
 	}
 
@@ -124,12 +130,18 @@ public class SubmoduleWalk {
 	public static SubmoduleWalk forPath(Repository repository,
 			AbstractTreeIterator iterator, String path) throws IOException {
 		SubmoduleWalk generator = new SubmoduleWalk(repository);
-		generator.setTree(iterator);
-		PathFilter filter = PathFilter.create(path);
-		generator.setFilter(filter);
-		while (generator.next())
-			if (filter.isDone(generator.walk))
-				return generator;
+		try {
+			generator.setTree(iterator);
+			PathFilter filter = PathFilter.create(path);
+			generator.setFilter(filter);
+			while (generator.next())
+				if (filter.isDone(generator.walk))
+					return generator;
+		} catch (IOException e) {
+			generator.release();
+			throw e;
+		}
+		generator.release();
 		return null;
 	}
 
@@ -510,5 +522,10 @@ public class SubmoduleWalk {
 	public String getRemoteUrl() throws IOException, ConfigInvalidException {
 		String url = getModulesUrl();
 		return url != null ? getSubmoduleRemoteUrl(repository, url) : null;
+	}
+
+	/** Release any resources used by this walker's reader. */
+	public void release() {
+		walk.release();
 	}
 }
