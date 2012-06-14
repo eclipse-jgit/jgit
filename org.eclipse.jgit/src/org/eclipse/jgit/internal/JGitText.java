@@ -265,6 +265,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String flagNotFromThis;
 	/***/ public String flagsAlreadyCreated;
 	/***/ public String funnyRefname;
+	/***/ public String gitmodulesNotFound;
 	/***/ public String headRequiredToStash;
 	/***/ public String hoursAgo;
 	/***/ public String hugeIndexesAreNotSupportedByJgitYet;
