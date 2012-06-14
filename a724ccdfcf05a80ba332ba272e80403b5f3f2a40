@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "AABOHn//9OM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/submodule/SubmoduleWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-06-14T22:49:49Z",
+      "side": 1,
+      "message": "No, we can\u0027t blindly release in a finally. In the non-exception case (l. 111), we *don\u0027t* want to release, because the SubmoduleWalk\u0027s underlying TreeWalk is still used (e.g. in SubmoduleWalk.next()).",
+      "parentUuid": "AABOHn//9OU\u003d",
+      "revId": "a724ccdfcf05a80ba332ba272e80403b5f3f2a40",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOHn//9Ok\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/submodule/SubmoduleWalk.java",
         "patchSetId": 1
