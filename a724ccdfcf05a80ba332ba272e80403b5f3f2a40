@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOHn//9OU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/submodule/SubmoduleWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-06-14T22:46:52Z",
+      "side": 1,
+      "message": "Hmm, good point. The walk is effectively done by the time this method returns.",
+      "parentUuid": "AABOHn//9Oo\u003d",
+      "revId": "a724ccdfcf05a80ba332ba272e80403b5f3f2a40",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOHn//9Ok\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/submodule/SubmoduleWalk.java",
         "patchSetId": 1
