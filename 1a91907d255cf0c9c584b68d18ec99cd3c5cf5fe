@@ -53,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "AABOHn//9SY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-06-14T02:18:43Z",
+      "side": 1,
+      "message": "oh this is l not L. We prefer L when you are trying to force long.",
+      "parentUuid": "AABOHn//+F4\u003d",
+      "revId": "1a91907d255cf0c9c584b68d18ec99cd3c5cf5fe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOHn//+FY\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
         "patchSetId": 19
@@ -115,6 +133,57 @@
       "writtenOn": "2012-06-04T17:28:16Z",
       "side": 1,
       "message": "new File(oldPack.getPackFile().getPath() + \".keep\").exists()",
+      "revId": "1a91907d255cf0c9c584b68d18ec99cd3c5cf5fe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//9Sk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-06-14T02:18:43Z",
+      "side": 1,
+      "message": "minor style nit: this could be declared at line 227 right before the for loop",
+      "revId": "1a91907d255cf0c9c584b68d18ec99cd3c5cf5fe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//9Sg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-06-14T02:18:43Z",
+      "side": 1,
+      "message": "unnecessary blank line",
+      "revId": "1a91907d255cf0c9c584b68d18ec99cd3c5cf5fe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//9Sc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-06-14T02:18:43Z",
+      "side": 1,
+      "message": "equals is a better name since you return boolean.\n\ni think you can also declare this method static.",
       "revId": "1a91907d255cf0c9c584b68d18ec99cd3c5cf5fe",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
