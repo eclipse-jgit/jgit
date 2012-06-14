@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AABOHn//9N0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/submodule/SubmoduleWalk.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-06-14T23:21:54Z",
+      "side": 1,
+      "message": "Its the caller\u0027s fault if they pass the treeId for \"dir\" and \"dir/.gitmodules\" exists and we read it incorrectly here. They shouldn\u0027t have done that. They should have passed the treeId for \"\" and made path be \"dir/blah\" instead of just \"blah\".\n\nIts also the caller\u0027s fault if they pass a treeId for a tree that doesn\u0027t exist. Etc.\n\nWe can\u0027t protect a caller from making mistakes at this level of the JGit API. There are just some assumptions we have to make about the input being (roughly) valid, and carry on.",
+      "parentUuid": "AABOHn//9N8\u003d",
+      "revId": "cad79abf39ff6706946af77efe3ae0f05b76a691",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOHn//9Os\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/submodule/SubmoduleWalk.java",
         "patchSetId": 2
