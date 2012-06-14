@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "AABOHn//9N8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/submodule/SubmoduleWalk.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-06-14T23:02:41Z",
+      "side": 1,
+      "message": "You could try, but you don\u0027t know that this tree is a root. For example, if you have\na submodule at dir/otherrepo, it\u0027s valid to pass either (id(\"\"), \"dir/otherrepo\") *or* (id(\"dir\"), \"otherrepo\"). Only in the former case can you correctly find .gitmodules. (In fact, dir/.gitmodules may exist, which is a bug in their repo, so we certainly don\u0027t want to read it.)\n\nThere\u0027s a similar but slightly different issue with the form of forPath that takes an AbstractTreeIterator. In that case, assuming the iterator came from a TreeWalk, there actually is some context information available. Somewhat confusingly (I was bit by this early today), you have to pass \"dir/otherrepo\" regardless of whether the tree param is tree(\"\") or tree(\"dir\"). Now, arguably you could walk up the getParent() chain from the AbstractTreeIterator until you get to the root and look for .gitmodules there, but I figured it would be impolite and/or a pain to wander around the already-partially-consumed root-level iterator.",
+      "parentUuid": "AABOHn//9Og\u003d",
+      "revId": "cad79abf39ff6706946af77efe3ae0f05b76a691",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOHn//9Os\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/submodule/SubmoduleWalk.java",
         "patchSetId": 2
