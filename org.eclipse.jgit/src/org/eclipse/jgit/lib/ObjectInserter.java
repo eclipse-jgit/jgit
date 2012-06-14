@@ -91,6 +91,60 @@ public abstract class ObjectInserter {
 		}
 	}
 
+	/** Wraps a delegate ObjectInserter. */
+	public static abstract class Filter extends ObjectInserter {
+		/** @return delegate ObjectInserter to handle all processing. */
+		protected abstract ObjectInserter delegate();
+
+		@Override
+		protected byte[] buffer() {
+			return delegate().buffer();
+		}
+
+		public ObjectId idFor(int type, byte[] data) {
+			return delegate().idFor(type, data);
+		}
+
+		public ObjectId idFor(int type, byte[] data, int off, int len) {
+			return delegate().idFor(type, data, off, len);
+		}
+
+		public ObjectId idFor(int objectType, long length, InputStream in)
+				throws IOException {
+			return delegate().idFor(objectType, length, in);
+		}
+
+		public ObjectId idFor(TreeFormatter formatter) {
+			return delegate().idFor(formatter);
+		}
+
+		public ObjectId insert(int type, byte[] data) throws IOException {
+			return delegate().insert(type, data);
+		}
+
+		public ObjectId insert(int type, byte[] data, int off, int len)
+				throws IOException {
+			return delegate().insert(type, data, off, len);
+		}
+
+		public ObjectId insert(int objectType, long length, InputStream in)
+				throws IOException {
+			return delegate().insert(objectType, length, in);
+		}
+
+		public PackParser newPackParser(InputStream in) throws IOException {
+			return delegate().newPackParser(in);
+		}
+
+		public void flush() throws IOException {
+			delegate().flush();
+		}
+
+		public void release() {
+			delegate().release();
+		}
+	}
+
 	/** Digest to compute the name of an object. */
 	private final MessageDigest digest;
 
