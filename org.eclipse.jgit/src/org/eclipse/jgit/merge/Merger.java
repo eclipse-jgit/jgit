@@ -108,11 +108,30 @@ public abstract class Merger {
 
 	/**
 	 * @return an object writer to create objects in {@link #getRepository()}.
+	 *         If no inserter has been set on this instance, one will be created
+	 *         and returned by all future calls.
 	 */
 	public ObjectInserter getObjectInserter() {
 		if (inserter == null)
 			inserter = getRepository().newObjectInserter();
 		return inserter;
+	}
+
+	/**
+	 * Set the inserter this merger will use to create objects.
+	 * <p>
+	 * If an inserter was already set on this instance (such as by a prior set,
+	 * or a prior call to {@link #getObjectInserter()}), the prior inserter will
+	 * be released first.
+	 *
+	 * @param oi
+	 *            the inserter instance to use. Must be associated with the
+	 *            repository instance returned by {@link #getRepository()}.
+	 */
+	public void setObjectInserter(ObjectInserter oi) {
+		if (inserter != null)
+			inserter.release();
+		inserter = oi;
 	}
 
 	/**
