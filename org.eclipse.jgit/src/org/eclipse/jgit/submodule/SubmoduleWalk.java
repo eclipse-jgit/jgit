@@ -46,6 +46,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.MessageFormat;
 
+import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheIterator;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.CorruptObjectException;
@@ -54,6 +55,8 @@ import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.BlobBasedConfig;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
@@ -78,6 +81,8 @@ public class SubmoduleWalk {
 	 * Create a generator to walk over the submodule entries currently in the
 	 * index
 	 *
+	 * The {@code .gitmodules} file is read from the index.
+	 *
 	 * @param repository
 	 * @return generator over submodule index entries
 	 * @throws IOException
@@ -85,7 +90,18 @@ public class SubmoduleWalk {
 	public static SubmoduleWalk forIndex(Repository repository)
 			throws IOException {
 		SubmoduleWalk generator = new SubmoduleWalk(repository);
-		generator.setTree(new DirCacheIterator(repository.readDirCache()));
+		try {
+			DirCache index = repository.readDirCache();
+			generator.setTree(new DirCacheIterator(index));
+			DirCacheIterator iterator = new DirCacheIterator(index);
+			generator.readModulesConfig(iterator);
+		} catch (IOException e) {
+			generator.release();
+			throw e;
+		} catch (ConfigInvalidException e) {
+			generator.release();
+			throw new IOException(e);
+    }
 		return generator;
 	}
 
@@ -278,7 +294,7 @@ public class SubmoduleWalk {
 
 	private StoredConfig repoConfig;
 
-	private FileBasedConfig modulesConfig;
+	private Config modulesConfig;
 
 	private String path;
 
@@ -295,14 +311,74 @@ public class SubmoduleWalk {
 		walk.setRecursive(true);
 	}
 
-	private void loadModulesConfig() throws IOException, ConfigInvalidException {
+	/**
+	 * Set the config used by this walk.
+	 *
+	 * This method need only be called if constructing a walk manually instead of
+	 * with one of the static factory methods above.
+	 *
+	 * @return this generator
+	 */
+	public SubmoduleWalk setModulesConfig(final Config config) {
+		modulesConfig = config;
+		return this;
+	}
+
+	/**
+	 * Read the config for this walk from a tree.
+	 *
+	 * This method need only be called if constructing a walk manually instead of
+	 * with one of the static factory methods above.
+	 *
+	 * @return this generator
+	 * @throws IOException
+	 * @throws ConfigInvalidException
+	 */
+	public SubmoduleWalk readModulesConfig(final AbstractTreeIterator tree)
+			throws IOException, ConfigInvalidException {
+		TreeWalk walk = new TreeWalk(repository);
+		try {
+			walk.addTree(tree);
+			walk.setRecursive(false);
+			PathFilter filter = PathFilter.create(Constants.DOT_GIT_MODULES);
+			walk.setFilter(filter);
+			boolean found = false;
+			while (walk.next()) {
+				if (filter.isDone(walk)) {
+					modulesConfig = new BlobBasedConfig(null, repository,
+							walk.getObjectId(0));
+					found = true;
+				}
+			}
+			if (!found) {
+				throw new ConfigInvalidException(JGitText.get().gitmodulesNotFound);
+			}
+		} finally {
+			walk.release();
+		}
+		return this;
+	}
+
+	/**
+	 * Load the config for this walk from {@code .gitmodules}.
+	 *
+	 * @return this generator
+	 * @throws IOException if an error occurred, or if the repository is bare
+	 * @throws ConfigInvalidException
+	 */
+	public SubmoduleWalk loadModulesConfig() throws IOException, ConfigInvalidException {
+		File modulesFile = new File(repository.getWorkTree(),
+				Constants.DOT_GIT_MODULES);
+		FileBasedConfig config = new FileBasedConfig(modulesFile,
+				repository.getFS());
+		config.load();
+		modulesConfig = config;
+		return this;
+	}
+
+	private void lazyLoadModulesConfig() throws IOException, ConfigInvalidException {
 		if (modulesConfig == null) {
-			File modulesFile = new File(repository.getWorkTree(),
-					Constants.DOT_GIT_MODULES);
-			FileBasedConfig config = new FileBasedConfig(modulesFile,
-					repository.getFS());
-			config.load();
-			modulesConfig = config;
+			loadModulesConfig();
 		}
 	}
 
@@ -412,7 +488,7 @@ public class SubmoduleWalk {
 	 * @throws IOException
 	 */
 	public String getModulesPath() throws IOException, ConfigInvalidException {
-		loadModulesConfig();
+		lazyLoadModulesConfig();
 		return modulesConfig.getString(
 				ConfigConstants.CONFIG_SUBMODULE_SECTION, path,
 				ConfigConstants.CONFIG_KEY_PATH);
@@ -440,7 +516,7 @@ public class SubmoduleWalk {
 	 * @throws IOException
 	 */
 	public String getModulesUrl() throws IOException, ConfigInvalidException {
-		loadModulesConfig();
+		lazyLoadModulesConfig();
 		return modulesConfig.getString(
 				ConfigConstants.CONFIG_SUBMODULE_SECTION, path,
 				ConfigConstants.CONFIG_KEY_URL);
@@ -468,7 +544,7 @@ public class SubmoduleWalk {
 	 * @throws IOException
 	 */
 	public String getModulesUpdate() throws IOException, ConfigInvalidException {
-		loadModulesConfig();
+		lazyLoadModulesConfig();
 		return modulesConfig.getString(
 				ConfigConstants.CONFIG_SUBMODULE_SECTION, path,
 				ConfigConstants.CONFIG_KEY_UPDATE);
