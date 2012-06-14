@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOHn//9Nk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/submodule/SubmoduleWalk.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-06-14T23:47:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOHn//9Ow\u003d",
+      "revId": "cad79abf39ff6706946af77efe3ae0f05b76a691",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOHn//9Og\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/submodule/SubmoduleWalk.java",
         "patchSetId": 2
@@ -72,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "AABOHn//9Ns\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/submodule/SubmoduleWalk.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-06-14T23:47:16Z",
+      "side": 1,
+      "message": "We can\u0027t protect them from making mistakes, but we can document restrictions :)\n\nAdded the readModulesConfig and tightened up the documentation.\n\nIncidentally I\u0027m not a huge fan of the fact that, for my use case at least, we just did a whole tree walk to verify that a given path was indeed a submodule, but now we can\u0027t reuse the same TreeWalk in our newly-created SubmoduleWalk. So we have to just parse all those trees again. Oh well.",
+      "parentUuid": "AABOHn//9N0\u003d",
+      "revId": "cad79abf39ff6706946af77efe3ae0f05b76a691",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOHn//9Os\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/submodule/SubmoduleWalk.java",
         "patchSetId": 2
@@ -83,6 +119,24 @@
       "writtenOn": "2012-06-14T22:45:06Z",
       "side": 1,
       "message": "curly braces aren\u0027t required",
+      "revId": "cad79abf39ff6706946af77efe3ae0f05b76a691",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//9No\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/submodule/SubmoduleWalk.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-06-14T23:47:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOHn//9Os\u003d",
       "revId": "cad79abf39ff6706946af77efe3ae0f05b76a691",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
