@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOHn//9MM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PackParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1164,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-06-15T05:33:45Z",
+      "side": 1,
+      "message": "nit: this should be before the packDigest.update or after the onStoreStream so those two calls are still next to each other as they operate on the same range of the buf, and this doesn\u0027t matter where it goes relative to those calls.",
+      "revId": "4e9f7a8b1962ca6f7262e901bb12b3ca5f89fb86",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
