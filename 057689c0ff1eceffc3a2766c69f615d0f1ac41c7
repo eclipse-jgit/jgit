@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOHn//9Mg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/io/UnionInputStream.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-06-15T05:31:25Z",
+      "side": 1,
+      "message": "actually you can simplify this code further. the only way cnt can be \u003e 0 is if this condition is running so we can drop the variable altogether and make some assumptions, like return cnt here instead of break, change the return cnt at 156 to be return 0, and change 152 to be return -1.",
+      "revId": "057689c0ff1eceffc3a2766c69f615d0f1ac41c7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
