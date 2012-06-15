@@ -33,6 +33,24 @@
       "revId": "4e9f7a8b1962ca6f7262e901bb12b3ca5f89fb86",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//9FQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PackParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1167,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-06-15T22:18:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOHn//9ME\u003d",
+      "revId": "4e9f7a8b1962ca6f7262e901bb12b3ca5f89fb86",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
