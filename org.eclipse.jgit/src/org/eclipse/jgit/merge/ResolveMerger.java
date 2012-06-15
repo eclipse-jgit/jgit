@@ -131,8 +131,6 @@ public class ResolveMerger extends ThreeWayMerger {
 
 	private Map<String, MergeFailureReason> failingPaths = new HashMap<String, MergeFailureReason>();
 
-	private ObjectInserter oi;
-
 	private boolean enterSubtree;
 
 	private boolean inCore;
@@ -155,7 +153,6 @@ public class ResolveMerger extends ThreeWayMerger {
 				SupportedAlgorithm.HISTOGRAM);
 		mergeAlgorithm = new MergeAlgorithm(DiffAlgorithm.getAlgorithm(diffAlg));
 		commitNames = new String[] { "BASE", "OURS", "THEIRS" };
-		oi = getObjectInserter();
 		this.inCore = inCore;
 
 		if (inCore) {
@@ -226,7 +223,7 @@ public class ResolveMerger extends ThreeWayMerger {
 			}
 
 			if (getUnmergedPaths().isEmpty()) {
-				resultTree = dircache.writeTree(oi);
+				resultTree = dircache.writeTree(getObjectInserter());
 				return true;
 			} else {
 				resultTree = null;
@@ -624,7 +621,8 @@ public class ResolveMerger extends ThreeWayMerger {
 			dce.setLength((int) of.length());
 			InputStream is = new FileInputStream(of);
 			try {
-				dce.setObjectId(oi.insert(Constants.OBJ_BLOB, of.length(), is));
+				dce.setObjectId(getObjectInserter().insert(
+				    Constants.OBJ_BLOB, of.length(), is));
 			} finally {
 				is.close();
 				if (inCore)
