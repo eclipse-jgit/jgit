@@ -16,6 +16,23 @@
       "revId": "4e9f7a8b1962ca6f7262e901bb12b3ca5f89fb86",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//9ME\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PackParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1167,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-06-15T05:39:49Z",
+      "side": 1,
+      "message": "This is actually buggy. when there was data left in the buffer (e.g. bAvail \u003d 17 bytes) we skip what we consumed (e.g. bOffset \u003d 8175 bytes), leaving the stream at the first of those 17 bytes that is still in our buffer. We slide those 17 bytes down to the start of buf, and then later read into buf those 17 bytes again. This will create a corrupted stream.\n\nYour unit test doesn\u0027t show this bug because where it happens is subtle. We have these split buffer cases when an object header spans over an 8192 byte boundary in the pack stream, or when an OBJ_REF_DELTA has its base SHA-1 span across the 8192 byte boundary. This is a difficult input to construct because you need to get the alignment right to have the header section of an object span over the 8k alignment.\n\nI think we want to skip by bAvail again after the new mark was set.",
+      "revId": "4e9f7a8b1962ca6f7262e901bb12b3ca5f89fb86",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
