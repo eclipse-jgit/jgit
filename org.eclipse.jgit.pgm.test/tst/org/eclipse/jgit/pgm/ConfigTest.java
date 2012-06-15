@@ -42,11 +42,11 @@
  */
 package org.eclipse.jgit.pgm;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertArrayEquals;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.CLIRepositoryTestCase;
+import org.eclipse.jgit.util.SystemReader;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -60,12 +60,14 @@ public class ConfigTest extends CLIRepositoryTestCase {
 
 	@Test
 	public void testListConfig() throws Exception {
+		boolean isWindows = SystemReader.getInstance().getProperty("os.name")
+				.startsWith("Windows");
+
 		String[] output = execute("git config --list");
-		// value depends on platform
-		assertTrue(output[0].startsWith("core.filemode="));
-		assertTrue(output[0].endsWith("true") || output[0].endsWith("false"));
-		assertEquals("core.logallrefupdates=true", output[1]);
-		assertEquals("core.repositoryformatversion=0", output[2]);
-		assertEquals("", output[3]); /* ends with LF (last line empty) */
+		assertArrayEquals("expected default configuration", //
+				new String[] { "core.filemode=" + !isWindows, //
+						"core.logallrefupdates=true", //
+						"core.repositoryformatversion=0", //
+						"" /* ends with LF (last line empty) */}, output);
 	}
 }
