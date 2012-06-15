@@ -627,7 +627,13 @@ public class SubmoduleWalk {
 	 */
 	public ObjectId getHead() throws IOException {
 		Repository subRepo = getRepository();
-		return subRepo != null ? subRepo.resolve(Constants.HEAD) : null;
+		if (subRepo == null)
+			return null;
+		try {
+			return subRepo.resolve(Constants.HEAD);
+		} finally {
+			subRepo.close();
+		}
 	}
 
 	/**
@@ -640,8 +646,12 @@ public class SubmoduleWalk {
 		Repository subRepo = getRepository();
 		if (subRepo == null)
 			return null;
-		Ref head = subRepo.getRef(Constants.HEAD);
-		return head != null ? head.getLeaf().getName() : null;
+		try {
+			Ref head = subRepo.getRef(Constants.HEAD);
+			return head != null ? head.getLeaf().getName() : null;
+		} finally {
+			subRepo.close();
+		}
 	}
 
 	/**
