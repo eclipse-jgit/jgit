@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOHn//94M\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-06-15T10:33:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOHn//+GA\u003d",
+      "revId": "1a91907d255cf0c9c584b68d18ec99cd3c5cf5fe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOHn//+F8\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
         "patchSetId": 19
@@ -30,6 +48,24 @@
       "writtenOn": "2012-06-04T17:28:16Z",
       "side": 1,
       "message": "inline this and drop the ?: operator when initializing pm.",
+      "revId": "1a91907d255cf0c9c584b68d18ec99cd3c5cf5fe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//938\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-06-15T10:33:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOHn//+F8\u003d",
       "revId": "1a91907d255cf0c9c584b68d18ec99cd3c5cf5fe",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -71,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "AABOHn//9KY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-06-15T10:33:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOHn//9SY\u003d",
+      "revId": "1a91907d255cf0c9c584b68d18ec99cd3c5cf5fe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOHn//+FY\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
         "patchSetId": 19
@@ -82,6 +136,24 @@
       "writtenOn": "2012-06-04T17:28:16Z",
       "side": 1,
       "message": "\u003cli\u003epack loose references into packed-refs\u003c/li\u003e",
+      "revId": "1a91907d255cf0c9c584b68d18ec99cd3c5cf5fe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//930\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-06-15T10:33:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOHn//+FY\u003d",
       "revId": "1a91907d255cf0c9c584b68d18ec99cd3c5cf5fe",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -105,6 +177,24 @@
     },
     {
       "key": {
+        "uuid": "AABOHn//93w\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-06-15T10:33:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOHn//+Fc\u003d",
+      "revId": "1a91907d255cf0c9c584b68d18ec99cd3c5cf5fe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOHn//+Fg\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
         "patchSetId": 19
@@ -116,6 +206,24 @@
       "writtenOn": "2012-06-04T17:28:16Z",
       "side": 1,
       "message": "nit: extra blank line",
+      "revId": "1a91907d255cf0c9c584b68d18ec99cd3c5cf5fe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//93s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-06-15T10:33:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOHn//+Fg\u003d",
       "revId": "1a91907d255cf0c9c584b68d18ec99cd3c5cf5fe",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -139,6 +247,24 @@
     },
     {
       "key": {
+        "uuid": "AABOHn//93k\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-06-15T10:33:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOHn//+EM\u003d",
+      "revId": "1a91907d255cf0c9c584b68d18ec99cd3c5cf5fe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOHn//9Sk\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
         "patchSetId": 19
@@ -150,6 +276,24 @@
       "writtenOn": "2012-06-14T02:18:43Z",
       "side": 1,
       "message": "minor style nit: this could be declared at line 227 right before the for loop",
+      "revId": "1a91907d255cf0c9c584b68d18ec99cd3c5cf5fe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//9KE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-06-15T10:33:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOHn//9Sk\u003d",
       "revId": "1a91907d255cf0c9c584b68d18ec99cd3c5cf5fe",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -173,6 +317,24 @@
     },
     {
       "key": {
+        "uuid": "AABOHn//9KA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-06-15T10:33:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOHn//9Sg\u003d",
+      "revId": "1a91907d255cf0c9c584b68d18ec99cd3c5cf5fe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOHn//9Sc\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
         "patchSetId": 19
@@ -184,6 +346,24 @@
       "writtenOn": "2012-06-14T02:18:43Z",
       "side": 1,
       "message": "equals is a better name since you return boolean.\n\ni think you can also declare this method static.",
+      "revId": "1a91907d255cf0c9c584b68d18ec99cd3c5cf5fe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//9J8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-06-15T10:33:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOHn//9Sc\u003d",
       "revId": "1a91907d255cf0c9c584b68d18ec99cd3c5cf5fe",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -207,6 +387,24 @@
     },
     {
       "key": {
+        "uuid": "AABOHn//9IA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-06-15T10:33:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOHn//+FU\u003d",
+      "revId": "1a91907d255cf0c9c584b68d18ec99cd3c5cf5fe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOHn//+E4\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
         "patchSetId": 19
@@ -218,6 +416,24 @@
       "writtenOn": "2012-06-04T17:28:16Z",
       "side": 1,
       "message": "This could just as well be a List. PackIndex in a set is relying on reference equality.",
+      "revId": "1a91907d255cf0c9c584b68d18ec99cd3c5cf5fe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//9Jw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 476,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-06-15T10:33:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOHn//+E4\u003d",
       "revId": "1a91907d255cf0c9c584b68d18ec99cd3c5cf5fe",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -241,6 +457,24 @@
     },
     {
       "key": {
+        "uuid": "AABOHn//9Js\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-06-15T10:33:49Z",
+      "side": 1,
+      "message": "Done. Added a utility method to PackFile",
+      "parentUuid": "AABOHn//+EI\u003d",
+      "revId": "1a91907d255cf0c9c584b68d18ec99cd3c5cf5fe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOHn//+Ew\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
         "patchSetId": 19
@@ -252,6 +486,24 @@
       "writtenOn": "2012-06-04T17:28:16Z",
       "side": 1,
       "message": "If you make excluded a list, put this at the front with add(0, ...) since it contains most of the objects you don\u0027t need to pack in the next writePack attempt for the nonHeads.",
+      "revId": "1a91907d255cf0c9c584b68d18ec99cd3c5cf5fe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//9Jo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 491,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-06-15T10:33:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOHn//+Ew\u003d",
       "revId": "1a91907d255cf0c9c584b68d18ec99cd3c5cf5fe",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -275,6 +527,24 @@
     },
     {
       "key": {
+        "uuid": "AABOHn//9Jk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 559,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-06-15T10:33:49Z",
+      "side": 1,
+      "message": "oh, right, didn\u0027t know that. I thought we support bare repos with an index. Anyhow: I just remove the comment. I think the code is still ok.",
+      "parentUuid": "AABOHn//+FM\u003d",
+      "revId": "1a91907d255cf0c9c584b68d18ec99cd3c5cf5fe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOHn//+FI\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
         "patchSetId": 19
@@ -286,6 +556,24 @@
       "writtenOn": "2012-06-04T17:28:16Z",
       "side": 1,
       "message": "add revWalk \u003d null after this line to save yourself from calling dispose again in the finally block. You still need that call in finally in case an exception throws during parseTree.",
+      "revId": "1a91907d255cf0c9c584b68d18ec99cd3c5cf5fe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//9Jg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 572,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-06-15T10:33:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOHn//+FI\u003d",
       "revId": "1a91907d255cf0c9c584b68d18ec99cd3c5cf5fe",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -309,6 +597,24 @@
     },
     {
       "key": {
+        "uuid": "AABOHn//9Jc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 580,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-06-15T10:33:49Z",
+      "side": 1,
+      "message": "Done. I just modified your suggestion by adding an extra check against NPE for the expression \"treeWalk.getObjectId(0).name()\".",
+      "parentUuid": "AABOHn//+FE\u003d",
+      "revId": "1a91907d255cf0c9c584b68d18ec99cd3c5cf5fe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOHn//+EY\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
         "patchSetId": 19
@@ -320,6 +626,24 @@
       "writtenOn": "2012-06-04T17:28:16Z",
       "side": 1,
       "message": "I prefer just using two random file names for this like ObjectDirectoryPackParser does:\n\n  File packdir \u003d new File(repo.getObjectsDirectory(), \"pack\");\n  tmpPack \u003d File.createTempFile(\"gc_\", \".pack_tmp\", packdir);\n  tmpIdx \u003d new File(\n    packdir,\n    tmpPack.getName().substring(0, tmpPack.getName().lastIndexOf(\u0027.\u0027))\n    + \".idx_tmp\");",
+      "revId": "1a91907d255cf0c9c584b68d18ec99cd3c5cf5fe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//9JI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 612,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-06-15T10:33:49Z",
+      "side": 1,
+      "message": "Done. Little bit strange now: Since temporary pack files are created with createTempFile we can always create them and don\u0027t have to care for exceptions. But temporary idx files have a computed name and we may hit the situation that this file already exists.",
+      "parentUuid": "AABOHn//+EY\u003d",
       "revId": "1a91907d255cf0c9c584b68d18ec99cd3c5cf5fe",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -343,6 +667,24 @@
     },
     {
       "key": {
+        "uuid": "AABOHn//9JE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 634,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-06-15T10:33:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOHn//+Es\u003d",
+      "revId": "1a91907d255cf0c9c584b68d18ec99cd3c5cf5fe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOHn//+EU\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
         "patchSetId": 19
@@ -354,6 +696,24 @@
       "writtenOn": "2012-06-04T17:28:16Z",
       "side": 1,
       "message": "This rename will fail on windows if the set of objects didn\u0027t change. The existing pack still exists, and its file handle is still open, so windows won\u0027t permit the pack to be replaced. This means we can\u0027t repack a repository on windows just to tweak the compression settings.\n\nNot sure what you want to do here. Do we just punt and say you can\u0027t use JGit on windows to adjust compression settings of an already packed repository?",
+      "revId": "1a91907d255cf0c9c584b68d18ec99cd3c5cf5fe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//9I8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 646,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-06-15T10:33:49Z",
+      "side": 1,
+      "message": "I was searching for an easy way to close the filehandles hold by the packfile - but couldn\u0027t find a good way. Even PackFile.close() does not seem to close the RandomAccessFile.\nSo, for now I also don\u0027t have a better solution than to not allow those repacks on windows.",
+      "parentUuid": "AABOHn//+EU\u003d",
       "revId": "1a91907d255cf0c9c584b68d18ec99cd3c5cf5fe",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -377,6 +737,24 @@
     },
     {
       "key": {
+        "uuid": "AABOHn//9Iw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 648,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-06-15T10:33:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOHn//+Eo\u003d",
+      "revId": "1a91907d255cf0c9c584b68d18ec99cd3c5cf5fe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOHn//+EQ\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
         "patchSetId": 19
@@ -388,6 +766,24 @@
       "writtenOn": "2012-06-04T17:28:16Z",
       "side": 1,
       "message": "If this fails but the prior renameTo succeeds to replace an existing pack, we have a corrupt repository. The new index isn\u0027t in position so the offset data is all wrong, but the new pack is already in place so the old index will point to corruption.\n\nWhen finally runs before the return, the tmpIdx still exists, so its deleted. So now the user has a corrupt repository, where the pack and index disagree with each other, and they can\u0027t finish the rename on their own because they don\u0027t have the new index file.\n\nIf there is anytime to panic in this routine, its when this rename fails, but the pack rename was OK, and the realIdx already exists.\n\nIt might be OK to do this, where we ensure we leave the remains behind and warn the caller that things did not go as expected:\n\n  boolean delete \u003d true;\n  try {\n\n    if (!tmpPack.renameTo(realPack))\n      return null;\n    delete \u003d false;\n\n    if (!tmpIdx.renameTo(realIdx)) {\n      File newIdx \u003d new File(realIdx.getParentFile(), realIdx.getName() + \".new\");\n      if (!tmpIdx.renameTo(newIdx))\n        newIdx \u003d tmpIdx;\n      throw new IOException(\"Panic index file \"\n        + newIdx + \" must be renamed to replace \"\n        + realIdx + \"; until then repository is corrupt\");\n    }\n  } finally {\n    if (delete \u0026\u0026 tmpPack !\u003d null \u0026\u0026 tmpPack.exists())\n      tmpPack.delete();\n    if (delete \u0026\u0026 tmpIdx !\u003d null \u0026\u0026 tmpIdx.exists())\n      tmpIdx.delete();\n  }",
+      "revId": "1a91907d255cf0c9c584b68d18ec99cd3c5cf5fe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//9Ic\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 651,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-06-15T10:33:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOHn//+EQ\u003d",
       "revId": "1a91907d255cf0c9c584b68d18ec99cd3c5cf5fe",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -411,6 +807,24 @@
     },
     {
       "key": {
+        "uuid": "AABOHn//9IU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 657,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-06-15T10:33:49Z",
+      "side": 1,
+      "message": "Is this still a problem? I changed coding so that temporary pack files are created by createTempFile(). Temporary indexes are named similar to their associated pack files. Therefore I think two threads will now work on two different set\u0027s of temporary files. So, your comment is ok because this code really has the problem you describe but the next patch set is not vulnerable anymore.",
+      "parentUuid": "AABOHn//+Ec\u003d",
+      "revId": "1a91907d255cf0c9c584b68d18ec99cd3c5cf5fe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOHn//+Fk\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
         "patchSetId": 19
@@ -422,6 +836,24 @@
       "writtenOn": "2012-06-04T17:28:16Z",
       "side": 1,
       "message": "optional nit: rename \"t\" to \"ext\"? its not clear it is supposed to be the extension.",
+      "revId": "1a91907d255cf0c9c584b68d18ec99cd3c5cf5fe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//9IY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 663,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-06-15T10:33:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOHn//+Fk\u003d",
       "revId": "1a91907d255cf0c9c584b68d18ec99cd3c5cf5fe",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -445,6 +877,24 @@
     },
     {
       "key": {
+        "uuid": "AABOHn//9IQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 702,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-06-15T10:33:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOHn//+Fs\u003d",
+      "revId": "1a91907d255cf0c9c584b68d18ec99cd3c5cf5fe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOHn//+Fo\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
         "patchSetId": 19
@@ -456,6 +906,24 @@
       "writtenOn": "2012-06-04T17:28:16Z",
       "side": 1,
       "message": "unnecessary assignment, the value is already 0 in a new object.",
+      "revId": "1a91907d255cf0c9c584b68d18ec99cd3c5cf5fe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//9IM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 708,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-06-15T10:33:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOHn//+Fo\u003d",
       "revId": "1a91907d255cf0c9c584b68d18ec99cd3c5cf5fe",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -479,6 +947,24 @@
     },
     {
       "key": {
+        "uuid": "AABOHn//9II\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 733,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-06-15T10:33:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOHn//+Fw\u003d",
+      "revId": "1a91907d255cf0c9c584b68d18ec99cd3c5cf5fe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOHn//+F0\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
         "patchSetId": 19
@@ -490,6 +976,24 @@
       "writtenOn": "2012-06-04T17:28:16Z",
       "side": 1,
       "message": "nit: none of these parens are necessary.",
+      "revId": "1a91907d255cf0c9c584b68d18ec99cd3c5cf5fe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//9IE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/GC.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 734,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-06-15T10:33:49Z",
+      "side": 1,
+      "message": "Done. Kept only one set of parens around the comparison. I find it easier to read.",
+      "parentUuid": "AABOHn//+F0\u003d",
       "revId": "1a91907d255cf0c9c584b68d18ec99cd3c5cf5fe",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -513,6 +1017,24 @@
     },
     {
       "key": {
+        "uuid": "AABOHn//93Y\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/RefDirectory.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 597,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-06-15T10:33:49Z",
+      "side": 1,
+      "message": "agree, I\u0027ll change this to List\u003cString\u003e",
+      "parentUuid": "AABOHn//+Gg\u003d",
+      "revId": "1a91907d255cf0c9c584b68d18ec99cd3c5cf5fe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOHn//+GY\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/RefDirectory.java",
         "patchSetId": 19
@@ -524,6 +1046,24 @@
       "writtenOn": "2012-06-04T17:28:16Z",
       "side": 1,
       "message": "It isn\u0027t necessary to lock every reference all at once in order to pack. You can rely on the atomic compare-and-swap sort of nature of loose references to avoid needing all of these locks at once.\n\nThe \"correct\" algorithm is:\n\n* Lock the packed-refs file.\n* Read each loose reference: update the new packed-refs in-memory\n* Commit the packed-refs file.\n* Lock each loose reference.\n* Delete the loose reference if it exactly matches the packed-refs file.\n\nThis avoids needing to lock all of them at once. Which could get you into some nasty deadlock conditions if other callers were also trying to do something similar and didn\u0027t lock them in a nice order.",
+      "revId": "1a91907d255cf0c9c584b68d18ec99cd3c5cf5fe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//9H8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/RefDirectory.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 623,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-06-15T10:33:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOHn//+GY\u003d",
       "revId": "1a91907d255cf0c9c584b68d18ec99cd3c5cf5fe",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -547,6 +1087,24 @@
     },
     {
       "key": {
+        "uuid": "AABOHn//9H4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/RefDirectory.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 631,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-06-15T10:33:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOHn//+GU\u003d",
+      "revId": "1a91907d255cf0c9c584b68d18ec99cd3c5cf5fe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOHn//+GQ\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/RefDirectory.java",
         "patchSetId": 19
@@ -558,6 +1116,24 @@
       "writtenOn": "2012-06-04T17:28:16Z",
       "side": 1,
       "message": "nit: extra blank line",
+      "revId": "1a91907d255cf0c9c584b68d18ec99cd3c5cf5fe",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//9H0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/file/RefDirectory.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 635,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-06-15T10:33:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOHn//+GQ\u003d",
       "revId": "1a91907d255cf0c9c584b68d18ec99cd3c5cf5fe",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
