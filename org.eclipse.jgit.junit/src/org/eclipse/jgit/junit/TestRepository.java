@@ -793,14 +793,18 @@ public class TestRepository<R extends Repository> {
 
 		public CommitBuilder add(String path, final RevBlob id)
 				throws Exception {
-			DirCacheEditor e = tree.editor();
-			e.add(new PathEdit(path) {
+			return edit(new PathEdit(path) {
 				@Override
 				public void apply(DirCacheEntry ent) {
 					ent.setFileMode(FileMode.REGULAR_FILE);
 					ent.setObjectId(id);
 				}
 			});
+		}
+
+		public CommitBuilder edit(PathEdit edit) {
+			DirCacheEditor e = tree.editor();
+			e.add(edit);
 			e.finish();
 			return this;
 		}
