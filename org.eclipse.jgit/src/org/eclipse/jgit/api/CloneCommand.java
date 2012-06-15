@@ -245,8 +245,13 @@ public class CloneCommand extends TransportCommand<CloneCommand, Git> {
 			SubmoduleWalk walk = SubmoduleWalk.forIndex(clonedRepo);
 			while (walk.next()) {
 				Repository subRepo = walk.getRepository();
-				if (subRepo != null)
-					cloneSubmodules(subRepo);
+				if (subRepo != null) {
+					try {
+						cloneSubmodules(subRepo);
+					} finally {
+						subRepo.close();
+					}
+				}
 			}
 		}
 	}
