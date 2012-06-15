@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOHn//9Mw\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/ConfigTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-06-15T05:04:58Z",
+      "side": 1,
+      "message": "why did you update the end date for a copyright line that isn\u0027t yourself?",
+      "revId": "2099e5362540592140ea1ba2cc71d6bc7d2b75cb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
