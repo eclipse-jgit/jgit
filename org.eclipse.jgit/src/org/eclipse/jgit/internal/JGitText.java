@@ -284,6 +284,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String indexSignatureIsInvalid;
 	/***/ public String indexWriteException;
 	/***/ public String inMemoryBufferLimitExceeded;
+	/***/ public String inputStreamMustSupportMark;
 	/***/ public String integerValueOutOfRange;
 	/***/ public String internalRevisionError;
 	/***/ public String internalServerError;
