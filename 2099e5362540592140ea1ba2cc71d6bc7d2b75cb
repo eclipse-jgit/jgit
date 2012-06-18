@@ -52,6 +52,24 @@
       "revId": "2099e5362540592140ea1ba2cc71d6bc7d2b75cb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//8+U\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/ConfigTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2012-06-18T15:43:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOHn//9A0\u003d",
+      "revId": "2099e5362540592140ea1ba2cc71d6bc7d2b75cb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
