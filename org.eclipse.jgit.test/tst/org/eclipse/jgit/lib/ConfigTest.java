@@ -75,16 +75,16 @@ public class ConfigTest {
 	@Test
 	public void test001_ReadBareKey() throws ConfigInvalidException {
 		final Config c = parse("[foo]\nbar\n");
-		assertEquals(true, c.getBoolean("foo", null, "bar", false));
+		assertTrue(c.getBoolean("foo", null, "bar", false));
 		assertEquals("", c.getString("foo", null, "bar"));
 	}
 
 	@Test
 	public void test002_ReadWithSubsection() throws ConfigInvalidException {
 		final Config c = parse("[foo \"zip\"]\nbar\n[foo \"zap\"]\nbar=false\nn=3\n");
-		assertEquals(true, c.getBoolean("foo", "zip", "bar", false));
+		assertTrue(c.getBoolean("foo", "zip", "bar", false));
 		assertEquals("", c.getString("foo","zip", "bar"));
-		assertEquals(false, c.getBoolean("foo", "zap", "bar", true));
+		assertFalse(c.getBoolean("foo", "zap", "bar", true));
 		assertEquals("false", c.getString("foo", "zap", "bar"));
 		assertEquals(3, c.getInt("foo", "zap", "n", 4));
 		assertEquals(4, c.getInt("foo", "zap","m", 4));
@@ -126,7 +126,7 @@ public class ConfigTest {
 	@Test
 	public void test006_readCaseInsensitive() throws ConfigInvalidException {
 		final Config c = parse("[Foo]\nBar\n");
-		assertEquals(true, c.getBoolean("foo", null, "bar", false));
+		assertTrue(c.getBoolean("foo", null, "bar", false));
 		assertEquals("", c.getString("foo", null, "bar"));
 	}
 
