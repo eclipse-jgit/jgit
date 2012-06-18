@@ -34,6 +34,24 @@
       "revId": "2099e5362540592140ea1ba2cc71d6bc7d2b75cb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//9A0\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/ConfigTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-06-18T14:27:37Z",
+      "side": 1,
+      "message": "We only update these lines when major changes have been made, otherwise the header would be 3000 lines long listing copyright information for under 400 lines of test code. In practice copyright is 70 years after the death of the author (thanks US law), which means this code is covered by copyright under the BSD until well past 2077. Updating the date from 2010 to 2012 is just useless noise.\n\nIf we do have major changes to justify updating the date, that also means using a new header line to add a new author, unless you already have a header line for yourself and can advance the date forward. But we rarely update the date (see above about copyright length). And adding a new author means the work is large enough to actually be covered by copyright law as a new contribution. This is usually over 250 lines of code and non-trivial in nature such that there might be alternative forms of the same idea.\n\nI am not trying to be a jerk about this particular contribution, I just want to point out that from a project style perspective we don\u0027t usually advance these dates or update these header lines, and we especially don\u0027t do it for 5 lines of test code that modified assertEquals-\u003eassertTrue.",
+      "parentUuid": "AABOHn//9Ls\u003d",
+      "revId": "2099e5362540592140ea1ba2cc71d6bc7d2b75cb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
