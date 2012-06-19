@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOHn//81E\u003d",
+        "filename": "tools/compare-cli-api.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-06-19T23:18:47Z",
+      "side": 1,
+      "message": "white-space",
+      "revId": "32e12b8de222a35fd50e272d9c57ad4f202cffd4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//81I\u003d",
+        "filename": "tools/compare-cli-api.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-06-19T23:18:47Z",
+      "side": 1,
+      "message": "The location of the script is not important. The way it is\nwritten the current directory is.\n\nComparing JGit CLI to JGit API... \n\nfind: ../org.eclipse.jgit/src/org/eclipse/jgit/api: No such file or directory",
+      "revId": "32e12b8de222a35fd50e272d9c57ad4f202cffd4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//81A\u003d",
+        "filename": "tools/compare-cli-api.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-06-19T23:18:47Z",
+      "side": 1,
+      "message": "white-space",
+      "revId": "32e12b8de222a35fd50e272d9c57ad4f202cffd4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
