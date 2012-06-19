@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOHn//87o\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-06-19T01:04:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOHn//88M\u003d",
+      "revId": "3cff721ab60505f8fe4c47b9b41ee64f0ad510b0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOHn//88s\u003d",
         "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Subscribe.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2012-06-18T23:30:29Z",
       "side": 1,
       "message": "unused import",
+      "revId": "3cff721ab60505f8fe4c47b9b41ee64f0ad510b0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//88E\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Subscribe.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-06-19T01:04:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOHn//88s\u003d",
       "revId": "3cff721ab60505f8fe4c47b9b41ee64f0ad510b0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AABOHn//88A\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Subscribe.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-06-19T01:04:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOHn//88o\u003d",
+      "revId": "3cff721ab60505f8fe4c47b9b41ee64f0ad510b0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOHn//88k\u003d",
         "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Subscribe.java",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2012-06-18T23:30:29Z",
       "side": 1,
       "message": "unused import",
+      "revId": "3cff721ab60505f8fe4c47b9b41ee64f0ad510b0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//878\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Subscribe.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-06-19T01:04:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOHn//88k\u003d",
       "revId": "3cff721ab60505f8fe4c47b9b41ee64f0ad510b0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AABOHn//874\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Subscribe.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-06-19T01:04:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOHn//88Y\u003d",
+      "revId": "3cff721ab60505f8fe4c47b9b41ee64f0ad510b0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOHn//88g\u003d",
         "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/SubscribeDaemon.java",
         "patchSetId": 1
@@ -98,6 +188,24 @@
       "writtenOn": "2012-06-18T23:30:29Z",
       "side": 1,
       "message": "unused field",
+      "revId": "3cff721ab60505f8fe4c47b9b41ee64f0ad510b0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//870\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/SubscribeDaemon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-06-19T01:04:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOHn//88g\u003d",
       "revId": "3cff721ab60505f8fe4c47b9b41ee64f0ad510b0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "AABOHn//87w\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Unsubscribe.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-06-19T01:04:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOHn//88c\u003d",
+      "revId": "3cff721ab60505f8fe4c47b9b41ee64f0ad510b0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOHn//88U\u003d",
         "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Unsubscribe.java",
         "patchSetId": 1
@@ -132,6 +258,24 @@
       "writtenOn": "2012-06-18T23:30:29Z",
       "side": 1,
       "message": "if there is no remote this fails:\n\njava.lang.IndexOutOfBoundsException: Index: 0, Size: 0\n\tat java.util.ArrayList.RangeCheck(ArrayList.java:547)\n\tat java.util.ArrayList.get(ArrayList.java:322)\n\tat java.util.Collections$UnmodifiableList.get(Collections.java:1154)\n\tat org.eclipse.jgit.pgm.Unsubscribe.run(Unsubscribe.java:69)\n\tat org.eclipse.jgit.pgm.TextBuiltin.execute(TextBuiltin.java:148)\n\tat org.eclipse.jgit.pgm.Main.execute(Main.java:191)\n\tat org.eclipse.jgit.pgm.Main.run(Main.java:120)\n\tat org.eclipse.jgit.pgm.Main.main(Main.java:94)\n\ninstead the command should explain that it doesn\u0027t handle this situation and what the user could do instead",
+      "revId": "3cff721ab60505f8fe4c47b9b41ee64f0ad510b0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//87s\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Unsubscribe.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-06-19T01:04:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOHn//88U\u003d",
       "revId": "3cff721ab60505f8fe4c47b9b41ee64f0ad510b0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
