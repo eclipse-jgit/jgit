@@ -955,6 +955,11 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 			return this.token;
 		}
 
+		@Override
+		public String toString() {
+			return "Action[" + token + "]";
+		}
+
 		static Action parse(String token) {
 			if (token.equals("pick") || token.equals("p"))
 				return PICK;
@@ -973,6 +978,15 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 
 		Step(Action action) {
 			this.action = action;
+		}
+
+		@Override
+		public String toString() {
+			return "Step[" + action + ", "
+					+ ((commit == null) ? "null" : commit)
+					+ ", "
+					+ ((shortMessage == null) ? "null" : new String(
+							shortMessage)) + "]";
 		}
 	}
 
