@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOHn//8eo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/submodule/SubmoduleWalk.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2012-06-25T17:38:28Z",
+      "side": 1,
+      "message": "How about simplifying this by just using a single if/else that uses the rootTree if non-null and falls back to the working tree config if the rootTree is null?\n\nThen the useWorkingTree field can be removed.",
+      "revId": "db7659f52ca90dc2dadabc33844b4447f429e559",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
