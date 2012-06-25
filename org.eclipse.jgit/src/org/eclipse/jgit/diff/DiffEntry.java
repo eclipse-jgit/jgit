@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008-2010, Google Inc.
+ * Copyright (C) 2008-2012, Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -48,6 +48,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.eclipse.jgit.errors.IncorrectObjectTypeException;
+import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.errors.StopWalkException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.AnyObjectId;
@@ -55,6 +58,7 @@ import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.MutableObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.treewalk.TreeWalk;
+import org.eclipse.jgit.treewalk.filter.TreeFilter;
 
 /** A value class representing a change to a file */
 public class DiffEntry {
@@ -123,7 +127,11 @@ public class DiffEntry {
 	 *            when {@code includeTrees} parameter is {@code true} it can't
 	 *            be recursive.
 	 * @param includeTrees
-	 *            include tree object's.
+	 *            include tree objects.
+	 * @param markTreeFilters
+	 *            optional tree filters, which will be tested for each entry. If
+	 *            an entry matches, the entry will later return true when
+	 *            queried through {{@link #isMarked(int)}.
 	 * @return headers describing the changed files.
 	 * @throws IOException
 	 *             the repository cannot be accessed.
@@ -132,7 +140,8 @@ public class DiffEntry {
 	 *             recursive. Or when given TreeWalk doesn't have exactly two
 	 *             trees
 	 */
-	public static List<DiffEntry> scan(TreeWalk walk, boolean includeTrees)
+	public static List<DiffEntry> scan(TreeWalk walk, boolean includeTrees,
+			TreeFilter... markTreeFilters)
 			throws IOException {
 		if (walk.getTreeCount() != 2)
 			throw new IllegalArgumentException(
@@ -140,9 +149,16 @@ public class DiffEntry {
 		if (includeTrees && walk.isRecursive())
 			throw new IllegalArgumentException(
 					JGitText.get().cannotBeRecursiveWhenTreesAreIncluded);
+		if (markTreeFilters.length > Integer.SIZE)
+			throw new IllegalArgumentException(
+					"Too many markTreeFilters passed, maximum number is "
+							+ Integer.SIZE);
 
 		List<DiffEntry> r = new ArrayList<DiffEntry>();
 		MutableObjectId idBuf = new MutableObjectId();
+		TreeFilter[] applicableFilters = new TreeFilter[markTreeFilters.length];
+		System.arraycopy(markTreeFilters, 0, applicableFilters, 0,
+				markTreeFilters.length);
 		while (walk.next()) {
 			DiffEntry entry = new DiffEntry();
 
@@ -155,6 +171,8 @@ public class DiffEntry {
 			entry.oldMode = walk.getFileMode(0);
 			entry.newMode = walk.getFileMode(1);
 			entry.newPath = entry.oldPath = walk.getPathString();
+
+			setTreeFilterMarks(entry, walk, applicableFilters);
 
 			if (entry.oldMode == FileMode.MISSING) {
 				entry.oldPath = DiffEntry.DEV_NULL;
@@ -181,6 +199,25 @@ public class DiffEntry {
 				walk.enterSubtree();
 		}
 		return r;
+	}
+
+	private static void setTreeFilterMarks(DiffEntry entry, TreeWalk walk,
+			TreeFilter[] filters) throws MissingObjectException,
+			IncorrectObjectTypeException, IOException {
+		for (int index = 0; index < filters.length; index++) {
+			TreeFilter filter = filters[index];
+			if (filter != null) {
+				try {
+					boolean marked = filter.include(walk);
+					if (marked)
+						entry.treeFilterMarks |= (1L << index);
+				} catch (StopWalkException e) {
+					// Don't check tree filter anymore, it will no longer
+					// match
+					filters[index] = null;
+				}
+			}
+		}
 	}
 
 	static DiffEntry add(String path, AnyObjectId id) {
@@ -295,6 +332,12 @@ public class DiffEntry {
 	protected AbbreviatedObjectId newId;
 
 	/**
+	 * Bitset for marked flags of tree filters passed to
+	 * {@link #scan(TreeWalk, boolean, TreeFilter...)}
+	 */
+	private int treeFilterMarks = 0;
+
+	/**
 	 * Get the old name associated with this file.
 	 * <p>
 	 * The meaning of the old name can differ depending on the semantic meaning
@@ -394,6 +437,45 @@ public class DiffEntry {
 	 */
 	public AbbreviatedObjectId getNewId() {
 		return newId;
+	}
+
+	/**
+	 * Whether the mark tree filter with the specified index matched during scan
+	 * or not, see {@link #scan(TreeWalk, boolean, TreeFilter...)}. Example:
+	 * <p>
+	 * <pre>
+	 * TreeFilter filterA = ...;
+	 * TreeFilter filterB = ...;
+	 * List<DiffEntry> entries = DiffEntry.scan(walk, false, filterA, filterB);
+	 * DiffEntry entry = entries.get(0);
+	 * boolean filterAMatched = entry.isMarked(0);
+	 * boolean filterBMatched = entry.isMarked(1);
+	 * </pre>
+	 * <p>
+	 * Note that 0 corresponds to filterA because it was the first filter that
+	 * was passed to scan.
+	 * <p>
+	 * To query more than one flag at once, see {@link #getTreeFilterMarks()}.
+	 *
+	 * @param index
+	 *            the index of the tree filter to check for (must be between 0
+	 *            and {@link Integer#SIZE}).
+	 *
+	 * @return true, if the tree filter matched; false if not
+	 */
+	public boolean isMarked(int index) {
+		return (treeFilterMarks & (1L << index)) != 0;
+	}
+
+	/**
+	 * Get the raw tree filter marks, as set during
+	 * {@link #scan(TreeWalk, boolean, TreeFilter...)}. See
+	 * {@link #isMarked(int)} to query each mark individually.
+	 *
+	 * @return the bitset of tree filter marks
+	 */
+	public int getTreeFilterMarks() {
+		return treeFilterMarks;
 	}
 
 	/**
