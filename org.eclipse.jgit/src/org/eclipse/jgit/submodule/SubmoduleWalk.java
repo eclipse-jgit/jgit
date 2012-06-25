@@ -94,8 +94,6 @@ public class SubmoduleWalk {
 		try {
 			DirCache index = repository.readDirCache();
 			generator.setTree(new DirCacheIterator(index));
-			generator.setRootTree(new DirCacheIterator(index));
-			generator.useWorkingTree = true;
 		} catch (IOException e) {
 			generator.release();
 			throw e;
@@ -304,8 +302,6 @@ public class SubmoduleWalk {
 
 	private String path;
 
-	private boolean useWorkingTree;
-
 	/**
 	 * Create submodule generator
 	 *
@@ -388,7 +384,14 @@ public class SubmoduleWalk {
 	 * @throws ConfigInvalidException
 	 */
 	public SubmoduleWalk loadModulesConfig() throws IOException, ConfigInvalidException {
-		if (rootTree != null) {
+		if (rootTree == null) {
+			File modulesFile = new File(repository.getWorkTree(),
+					Constants.DOT_GIT_MODULES);
+			FileBasedConfig config = new FileBasedConfig(modulesFile,
+					repository.getFS());
+			config.load();
+			modulesConfig = config;
+		} else {
 			TreeWalk configWalk = new TreeWalk(repository);
 			try {
 				configWalk.addTree(rootTree);
@@ -411,10 +414,7 @@ public class SubmoduleWalk {
 							return this;
 						}
 					}
-					if (!useWorkingTree) {
-						modulesConfig = new Config();
-						return this;
-					}
+					modulesConfig = new Config();
 				} finally {
 					if (idx > 0)
 						rootTree.next(idx);
@@ -422,16 +422,6 @@ public class SubmoduleWalk {
 			} finally {
 				configWalk.release();
 			}
-		}
-		if (repository.isBare()) {
-			modulesConfig = new Config();
-		} else {
-			File modulesFile = new File(repository.getWorkTree(),
-					Constants.DOT_GIT_MODULES);
-			FileBasedConfig config = new FileBasedConfig(modulesFile,
-					repository.getFS());
-			config.load();
-			modulesConfig = config;
 		}
 		return this;
 	}
