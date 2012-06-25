@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010, Sasa Zivkov <sasa.zivkov@sap.com>
+ * Copyright (C) 2010, 2013 Sasa Zivkov <sasa.zivkov@sap.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -538,6 +538,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String transportProtoSFTP;
 	/***/ public String transportProtoSSH;
 	/***/ public String treeEntryAlreadyExists;
+	/***/ public String treeFilterMarkerTooManyFilters;
 	/***/ public String treeIteratorDoesNotSupportRemove;
 	/***/ public String treeWalkMustHaveExactlyTwoTrees;
 	/***/ public String truncatedHunkLinesMissingForAncestor;
