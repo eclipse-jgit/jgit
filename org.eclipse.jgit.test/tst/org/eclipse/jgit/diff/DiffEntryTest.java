@@ -47,6 +47,7 @@ import static org.eclipse.jgit.util.FileUtils.delete;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
@@ -65,6 +66,8 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.treewalk.EmptyTreeIterator;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.treewalk.TreeWalk;
+import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
+import org.eclipse.jgit.treewalk.filter.TreeFilter;
 import org.eclipse.jgit.util.FileUtils;
 import org.junit.Test;
 
@@ -263,6 +266,42 @@ public class DiffEntryTest extends RepositoryTestCase {
 
 		assertThat(entry.getChangeType(), is(ChangeType.ADD));
 		assertThat(entry.getNewPath(), is("b.txt"));
+	}
+
+	@Test
+	public void shouldMarkEntriesWhenGivenMarkTreeFilter() throws Exception {
+		// given
+		Git git = new Git(db);
+		RevCommit c1 = git.commit().setMessage("initial commit").call();
+		writeTrashFile("a.txt", "a");
+		writeTrashFile("b.txt", "b");
+		writeTrashFile("c.txt", "c");
+		git.add().addFilepattern("a.txt").addFilepattern("b.txt")
+				.addFilepattern("c.txt").call();
+		RevCommit c2 = git.commit().setMessage("second commit").call();
+		TreeFilter markTreeFilter = PathFilterGroup.createFromStrings("a.txt",
+				"b.txt");
+
+		// when
+		TreeWalk walk = new TreeWalk(db);
+		walk.addTree(c1.getTree());
+		walk.addTree(c2.getTree());
+		List<DiffEntry> result = DiffEntry.scan(walk, false, markTreeFilter);
+
+		// then
+		assertThat(result, notNullValue());
+		assertThat(Integer.valueOf(result.size()), is(Integer.valueOf(3)));
+
+		DiffEntry entryA = result.get(0);
+		DiffEntry entryB = result.get(1);
+		DiffEntry entryC = result.get(2);
+
+		assertThat(entryA.getNewPath(), is("a.txt"));
+		assertTrue(entryA.isMarked());
+		assertThat(entryB.getNewPath(), is("b.txt"));
+		assertTrue(entryB.isMarked());
+		assertThat(entryC.getNewPath(), is("c.txt"));
+		assertFalse(entryC.isMarked());
 	}
 
 	@Test(expected = IllegalArgumentException.class)

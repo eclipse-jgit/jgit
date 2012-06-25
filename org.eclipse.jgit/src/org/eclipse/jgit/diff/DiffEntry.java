@@ -49,12 +49,14 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.errors.StopWalkException;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.MutableObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.treewalk.TreeWalk;
+import org.eclipse.jgit.treewalk.filter.TreeFilter;
 
 /** A value class representing a change to a file */
 public class DiffEntry {
@@ -134,6 +136,34 @@ public class DiffEntry {
 	 */
 	public static List<DiffEntry> scan(TreeWalk walk, boolean includeTrees)
 			throws IOException {
+		return scan(walk, includeTrees, null);
+	}
+
+	/**
+	 * Convert the TreeWalk into DiffEntry headers, depending on
+	 * {@code includeTrees} it will add tree objects into result or not.
+	 *
+	 * @param walk
+	 *            the TreeWalk to walk through. Must have exactly two trees and
+	 *            when {@code includeTrees} parameter is {@code true} it can't
+	 *            be recursive.
+	 * @param includeTrees
+	 *            include tree object's.
+	 * @param markTreeFilter
+	 *            a tree filter for entries which should be marked, or
+	 *            {@code null} for no marking. Marked entries can later be
+	 *            queried through {{@link #isMarked()}.
+	 * @return headers describing the changed files.
+	 * @throws IOException
+	 *             the repository cannot be accessed.
+	 * @throws IllegalArgumentException
+	 *             when {@code includeTrees} is true and given TreeWalk is
+	 *             recursive. Or when given TreeWalk doesn't have exactly two
+	 *             trees
+	 */
+	public static List<DiffEntry> scan(TreeWalk walk, boolean includeTrees,
+			TreeFilter markTreeFilter)
+			throws IOException {
 		if (walk.getTreeCount() != 2)
 			throw new IllegalArgumentException(
 					JGitText.get().treeWalkMustHaveExactlyTwoTrees);
@@ -155,6 +185,16 @@ public class DiffEntry {
 			entry.oldMode = walk.getFileMode(0);
 			entry.newMode = walk.getFileMode(1);
 			entry.newPath = entry.oldPath = walk.getPathString();
+
+			if (markTreeFilter != null) {
+				try {
+					entry.marked = markTreeFilter.include(walk);
+				} catch (StopWalkException e) {
+					// Don't check tree filter anymore, it will never match
+					markTreeFilter = null;
+					entry.marked = false;
+				}
+			}
 
 			if (entry.oldMode == FileMode.MISSING) {
 				entry.oldPath = DiffEntry.DEV_NULL;
@@ -294,6 +334,9 @@ public class DiffEntry {
 	/** ObjectId listed on the index line for the new (post-image) */
 	protected AbbreviatedObjectId newId;
 
+	/** Whether was marked during scan or not */
+	private boolean marked = false;
+
 	/**
 	 * Get the old name associated with this file.
 	 * <p>
@@ -394,6 +437,16 @@ public class DiffEntry {
 	 */
 	public AbbreviatedObjectId getNewId() {
 		return newId;
+	}
+
+	/**
+	 * Whether was marked during scan or not, see {
+	 * {@link #scan(TreeWalk, boolean, TreeFilter)}.
+	 *
+	 * @return true, if the entry was marked; false if not
+	 */
+	public boolean isMarked() {
+		return marked;
 	}
 
 	/**
