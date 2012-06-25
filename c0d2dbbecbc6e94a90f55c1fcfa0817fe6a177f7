@@ -16,6 +16,24 @@
       "revId": "c0d2dbbecbc6e94a90f55c1fcfa0817fe6a177f7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//8e0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/submodule/SubmoduleWalk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-06-25T17:28:15Z",
+      "side": 1,
+      "message": "True, it should throw NoWorkTreeException, which is reasonable. So I guess we should never prefer .gitmodules in the index to .gitmodules in the working tree, that makes sense. Done.",
+      "parentUuid": "AABOHn//8e8\u003d",
+      "revId": "c0d2dbbecbc6e94a90f55c1fcfa0817fe6a177f7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
