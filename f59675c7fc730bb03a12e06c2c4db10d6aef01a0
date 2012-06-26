@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOHn//8Xg\u003d",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/PubSubTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-06-26T18:48:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOHn//8bk\u003d",
+      "revId": "f59675c7fc730bb03a12e06c2c4db10d6aef01a0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOHn//8bo\u003d",
         "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/PubSubTest.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2012-06-26T08:53:46Z",
       "side": 1,
       "message": "compiler warning: Potential null pointer access: The variable pub may be null at this location",
+      "revId": "f59675c7fc730bb03a12e06c2c4db10d6aef01a0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//8Xc\u003d",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/PubSubTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-06-26T18:48:13Z",
+      "side": 1,
+      "message": "Fixed with SuppressWarnings, the assert above takes care of the actual check.",
+      "parentUuid": "AABOHn//8bo\u003d",
       "revId": "f59675c7fc730bb03a12e06c2c4db10d6aef01a0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AABOHn//8XY\u003d",
+        "filename": "org.eclipse.jgit.pgm.test/tst/org/eclipse/jgit/pgm/PubSubTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-06-26T18:48:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOHn//8bY\u003d",
+      "revId": "f59675c7fc730bb03a12e06c2c4db10d6aef01a0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOHn//8ao\u003d",
         "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Subscribe.java",
         "patchSetId": 2
@@ -64,6 +118,24 @@
       "writtenOn": "2012-06-26T08:53:46Z",
       "side": 1,
       "message": "throw die(msg) instead, this will care for error exit codes and use error stream for error output",
+      "revId": "f59675c7fc730bb03a12e06c2c4db10d6aef01a0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//8XQ\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Subscribe.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-06-26T18:48:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOHn//8ao\u003d",
       "revId": "f59675c7fc730bb03a12e06c2c4db10d6aef01a0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AABOHn//8XU\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Subscribe.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-06-26T18:48:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOHn//8a4\u003d",
+      "revId": "f59675c7fc730bb03a12e06c2c4db10d6aef01a0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOHn//8a8\u003d",
         "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/SubscribeDaemon.java",
         "patchSetId": 2
@@ -98,6 +188,24 @@
       "writtenOn": "2012-06-26T08:53:46Z",
       "side": 1,
       "message": "so this is going to be part of the API ? Or do you only need that for testing, then package visibility would be sufficient.",
+      "revId": "f59675c7fc730bb03a12e06c2c4db10d6aef01a0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//8XM\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/SubscribeDaemon.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-06-26T18:48:13Z",
+      "side": 1,
+      "message": "All callers will go through getConfigFile() so it can be made package-visible. This is just the constant config name, the same as \".gitconfig\".",
+      "parentUuid": "AABOHn//8a8\u003d",
       "revId": "f59675c7fc730bb03a12e06c2c4db10d6aef01a0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "AABOHn//8XI\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/SubscribeDaemon.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-06-26T18:48:13Z",
+      "side": 1,
+      "message": "The options in this file will cause writes into the listed repositories, so I don\u0027t think it would make much sense unless you have multiple users working out of a single directory instead of each with their own git copy. This doesn\u0027t hold any common config options that could be shared across all users, such as the flags for symlinks or coloring.",
+      "parentUuid": "AABOHn//8bI\u003d",
+      "revId": "f59675c7fc730bb03a12e06c2c4db10d6aef01a0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOHn//8as\u003d",
         "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Unsubscribe.java",
         "patchSetId": 2
@@ -132,6 +258,24 @@
       "writtenOn": "2012-06-26T08:53:46Z",
       "side": 1,
       "message": "throw die(msg, e) instead",
+      "revId": "f59675c7fc730bb03a12e06c2c4db10d6aef01a0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//8XE\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Unsubscribe.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-06-26T18:48:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOHn//8as\u003d",
       "revId": "f59675c7fc730bb03a12e06c2c4db10d6aef01a0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "AABOHn//8XA\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Unsubscribe.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-06-26T18:48:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOHn//8aw\u003d",
+      "revId": "f59675c7fc730bb03a12e06c2c4db10d6aef01a0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOHn//8a0\u003d",
         "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Unsubscribe.java",
         "patchSetId": 2
@@ -166,6 +328,24 @@
       "writtenOn": "2012-06-26T08:53:46Z",
       "side": 1,
       "message": "throw die(msg, e) instead",
+      "revId": "f59675c7fc730bb03a12e06c2c4db10d6aef01a0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOHn//8W8\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Unsubscribe.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-06-26T18:48:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOHn//8a0\u003d",
       "revId": "f59675c7fc730bb03a12e06c2c4db10d6aef01a0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
