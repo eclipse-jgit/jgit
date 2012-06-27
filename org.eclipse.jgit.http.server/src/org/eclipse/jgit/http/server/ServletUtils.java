@@ -134,7 +134,7 @@ public final class ServletUtils {
 		}
 	}
 
-	private static boolean isChunked(HttpServletRequest req) {
+	static boolean isChunked(HttpServletRequest req) {
 		return "chunked".equals(req.getHeader("Transfer-Encoding"));
 	}
 

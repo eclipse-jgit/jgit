@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010, Sasa Zivkov <sasa.zivkov@sap.com>
+ * Copyright (C) 2012, Google Inc.
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -43,42 +43,43 @@
 
 package org.eclipse.jgit.http.server;
 
-import org.eclipse.jgit.nls.NLS;
-import org.eclipse.jgit.nls.TranslationBundle;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.eclipse.jgit.http.server.ClientVersionUtil.hasPushStatusBug;
+import static org.eclipse.jgit.http.server.ClientVersionUtil.invalidVersion;
+import static org.eclipse.jgit.http.server.ClientVersionUtil.parseVersion;
 
-/**
- * Translation bundle for JGit http server
- */
-public class HttpServerText extends TranslationBundle {
+import org.junit.Assert;
+import org.junit.Test;
 
-	/**
-	 * @return an instance of this translation bundle
-	 */
-	public static HttpServerText get() {
-		return NLS.getBundleFor(HttpServerText.class);
+public class ClientVersionUtilTest {
+	@Test
+	public void testParse() {
+		assertEquals("1.6.5", parseVersion("git/1.6.6-rc0"));
+		assertEquals("1.6.6", parseVersion("git/1.6.6"));
+		assertEquals("1.7.5", parseVersion("git/1.7.5.GIT"));
+		assertEquals("1.7.6.1", parseVersion("git/1.7.6.1.45.gbe0cc"));
+
+		assertEquals("1.5.4.3", parseVersion("git/1.5.4.3,gzip(proxy)"));
+		assertEquals("1.7.0.2", parseVersion("git/1.7.0.2.msysgit.0.14.g956d7,gzip"));
+		assertEquals("1.7.10.2", parseVersion("git/1.7.10.2 (Apple Git-33)"));
+
+		assertEquals(ClientVersionUtil.toString(invalidVersion()), parseVersion("foo"));
 	}
 
-	/***/ public String alreadyInitializedByContainer;
-	/***/ public String cannotGetLengthOf;
-	/***/ public String clientHas175ChunkedEncodingBug;
-	/***/ public String encodingNotSupportedByThisLibrary;
-	/***/ public String expectedRepositoryAttribute;
-	/***/ public String filterMustNotBeNull;
-	/***/ public String internalErrorDuringReceivePack;
-	/***/ public String internalErrorDuringUploadPack;
-	/***/ public String internalServerError;
-	/***/ public String internalServerErrorRequestAttributeWasAlreadySet;
-	/***/ public String invalidBoolean;
-	/***/ public String invalidIndex;
-	/***/ public String invalidRegexGroup;
-	/***/ public String noResolverAvailable;
-	/***/ public String parameterNotSet;
-	/***/ public String pathForParamNotFound;
-	/***/ public String pathNotSupported;
-	/***/ public String repositoryAccessForbidden;
-	/***/ public String repositoryNotFound;
-	/***/ public String servletAlreadyInitialized;
-	/***/ public String servletMustNotBeNull;
-	/***/ public String servletWasAlreadyBound;
-	/***/ public String unexpectedeOFOn;
+	@Test
+	public void testPushStatusBug() {
+		assertTrue(hasPushStatusBug(parseVersion("git/1.6.6")));
+		assertTrue(hasPushStatusBug(parseVersion("git/1.6.6.1")));
+		assertTrue(hasPushStatusBug(parseVersion("git/1.7.9")));
+
+		assertFalse(hasPushStatusBug(parseVersion("git/1.7.8.6")));
+		assertFalse(hasPushStatusBug(parseVersion("git/1.7.9.1")));
+		assertFalse(hasPushStatusBug(parseVersion("git/1.7.9.2")));
+		assertFalse(hasPushStatusBug(parseVersion("git/1.7.10")));
+	}
+
+	private static void assertEquals(String exp, int[] act) {
+		Assert.assertEquals(exp, ClientVersionUtil.toString(act));
+	}
 }
