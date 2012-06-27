@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOH3////I\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ClientVersionUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-06-27T19:42:35Z",
+      "side": 1,
+      "message": "Yes, but we don\u0027t have version number support in any other protocol. That is partly intentional, servers aren\u0027t supposed to try and work around client bugs. Clients are just supposed to fail randomly and email Shawn Pearce with their woes.\n\nShawn wants to stop certain emails from arriving in his inbox every day. So... we violate the Git conventions and try and test for versions on HTTP that we know are bad.",
+      "parentUuid": "AABOH3////k\u003d",
+      "revId": "755565ab3307d44a03b1bc7b5fc714a9566ac0c0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOH3////g\u003d",
         "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ClientVersionUtil.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2012-06-27T18:48:38Z",
       "side": 1,
       "message": "I could see the argument that 1.7.6.1.XXX is \"newer\" than 1.7.6.1 (even if two different values of XXX are not comparable). \n\nIt just so happens that the only thing you\u0027re using version comparison for to say \"is version B one that is known to contain a fix to a bug that was present in version A\", which is a question you can\u0027t answer given a non-tagged version number.\n\nI guess you could clarify this a bit, or just ignore my comment :)",
+      "revId": "755565ab3307d44a03b1bc7b5fc714a9566ac0c0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOH3////E\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ClientVersionUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-06-27T19:42:35Z",
+      "side": 1,
+      "message": "So this is of course the problem, without the Git commit graph available its hard to test these sorts of versions for containing any given fix or not. We make an educated guess here and say a build based on 1.7.6.1 that isn\u0027t exactly 1.7.6.1 or 1.7.6.2 is more similar in behavior to 1.7.6.1. :-)",
+      "parentUuid": "AABOH3////g\u003d",
       "revId": "755565ab3307d44a03b1bc7b5fc714a9566ac0c0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AABOH3////A\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ClientVersionUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-06-27T19:42:35Z",
+      "side": 1,
+      "message": "Yes, we discard the -rcN component. It doesn\u0027t really fit into an integer coding scheme. I think that is OK.",
+      "parentUuid": "AABOH3////c\u003d",
+      "revId": "755565ab3307d44a03b1bc7b5fc714a9566ac0c0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOH3////Y\u003d",
         "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/UploadPackServlet.java",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2012-06-27T18:48:38Z",
       "side": 1,
       "message": "Worth factoring this block into GitSmartHttpTools?",
+      "revId": "755565ab3307d44a03b1bc7b5fc714a9566ac0c0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOH3///+8\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/UploadPackServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-06-27T19:42:35Z",
+      "side": 1,
+      "message": "Not really. Its only used twice.",
+      "parentUuid": "AABOH3////Y\u003d",
       "revId": "755565ab3307d44a03b1bc7b5fc714a9566ac0c0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AABOH3///+4\u003d",
+        "filename": "org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/server/ClientVersionUtilTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-06-27T19:42:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOH3////U\u003d",
+      "revId": "755565ab3307d44a03b1bc7b5fc714a9566ac0c0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOH3////Q\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
         "patchSetId": 1
@@ -98,6 +188,24 @@
       "writtenOn": "2012-06-27T18:48:38Z",
       "side": 1,
       "message": "Maybe I missed it, but I didn\u0027t see where you call setEchoCommandFailures(true)",
+      "revId": "755565ab3307d44a03b1bc7b5fc714a9566ac0c0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOH3///+0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-06-27T19:42:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOH3////Q\u003d",
       "revId": "755565ab3307d44a03b1bc7b5fc714a9566ac0c0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
