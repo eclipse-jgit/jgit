@@ -1210,9 +1210,10 @@ public abstract class BaseReceivePack {
 			}
 
 			final StringBuilder r = new StringBuilder();
-			r.append("ng ");
-			r.append(cmd.getRefName());
-			r.append(" ");
+			if (forClient)
+				r.append("ng ").append(cmd.getRefName()).append(" ");
+			else
+				r.append(" ! [rejected] ").append(cmd.getRefName()).append(" (");
 
 			switch (cmd.getResult()) {
 			case NOT_ATTEMPTED:
@@ -1259,6 +1260,8 @@ public abstract class BaseReceivePack {
 				// We shouldn't have reached this case (see 'ok' case above).
 				continue;
 			}
+			if (!forClient)
+				r.append(")");
 			out.sendString(r.toString());
 		}
 	}
