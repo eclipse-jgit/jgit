@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOH3////k\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ClientVersionUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-06-27T18:48:38Z",
+      "side": 1,
+      "message": "I wonder if this wouldn\u0027t be better off in a non-HTTP package; there could be non-HTTP bugs to work around too, yes?",
+      "revId": "755565ab3307d44a03b1bc7b5fc714a9566ac0c0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOH3////g\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ClientVersionUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-06-27T18:48:38Z",
+      "side": 1,
+      "message": "I could see the argument that 1.7.6.1.XXX is \"newer\" than 1.7.6.1 (even if two different values of XXX are not comparable). \n\nIt just so happens that the only thing you\u0027re using version comparison for to say \"is version B one that is known to contain a fix to a bug that was present in version A\", which is a question you can\u0027t answer given a non-tagged version number.\n\nI guess you could clarify this a bit, or just ignore my comment :)",
+      "revId": "755565ab3307d44a03b1bc7b5fc714a9566ac0c0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOH3////c\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ClientVersionUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-06-27T18:48:38Z",
+      "side": 1,
+      "message": "But you seem to be discarding the rc#? What\u0027s the intended output of this method on release candidates? Is it reversible?",
+      "revId": "755565ab3307d44a03b1bc7b5fc714a9566ac0c0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOH3////Y\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/UploadPackServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-06-27T18:48:38Z",
+      "side": 1,
+      "message": "Worth factoring this block into GitSmartHttpTools?",
+      "revId": "755565ab3307d44a03b1bc7b5fc714a9566ac0c0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOH3////U\u003d",
+        "filename": "org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/server/ClientVersionUtilTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-06-27T18:48:38Z",
+      "side": 1,
+      "message": "Um, surely 1.6.6 is closer to 1.6.5 than it is to 1.6.",
+      "revId": "755565ab3307d44a03b1bc7b5fc714a9566ac0c0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOH3////Q\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceivePack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-06-27T18:48:38Z",
+      "side": 1,
+      "message": "Maybe I missed it, but I didn\u0027t see where you call setEchoCommandFailures(true)",
+      "revId": "755565ab3307d44a03b1bc7b5fc714a9566ac0c0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
