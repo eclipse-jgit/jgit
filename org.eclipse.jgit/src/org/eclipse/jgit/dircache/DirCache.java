@@ -57,8 +57,10 @@ import java.io.UnsupportedEncodingException;
 import java.security.DigestOutputStream;
 import java.security.MessageDigest;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.List;
 
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.LockFailedException;
@@ -74,6 +76,7 @@ import org.eclipse.jgit.storage.file.FileSnapshot;
 import org.eclipse.jgit.storage.file.LockFile;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.treewalk.TreeWalk;
+import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.MutableInteger;
@@ -941,7 +944,15 @@ public class DirCache {
 	 */
 	private void updateSmudgedEntries() throws IOException {
 		TreeWalk walk = new TreeWalk(repository);
+		List<String> paths = new ArrayList<String>(128);
 		try {
+			for (int i = 0; i < entryCnt; i++)
+				if (sortedEntries[i].isSmudged())
+					paths.add(sortedEntries[i].getPathString());
+			if (paths.isEmpty())
+				return;
+			walk.setFilter(PathFilterGroup.createFromStrings(paths));
+
 			DirCacheIterator iIter = new DirCacheIterator(this);
 			FileTreeIterator fIter = new FileTreeIterator(repository);
 			walk.addTree(iIter);
