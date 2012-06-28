@@ -16,6 +16,24 @@
       "revId": "684f86403043d46feecff552e349943f45bab7ba",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOH3///58\u003d",
+        "filename": "org.eclipse.jgit.pgm.test/META-INF/MANIFEST.MF",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-06-28T19:48:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOH3///9M\u003d",
+      "revId": "684f86403043d46feecff552e349943f45bab7ba",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
