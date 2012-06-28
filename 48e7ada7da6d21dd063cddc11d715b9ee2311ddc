@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOH3///7c\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/dircache/DirCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 947,
+      "author": {
+        "id": 208
+      },
+      "writtenOn": "2012-06-28T16:19:38Z",
+      "side": 1,
+      "message": "Should be paths instead of pathes",
+      "revId": "48e7ada7da6d21dd063cddc11d715b9ee2311ddc",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
