@@ -16,6 +16,24 @@
       "revId": "1b16a8d25678e0b5fd50774e8d5ea3c686fa3dcb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIX///+k\u003d",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-06-29T20:19:50Z",
+      "side": 1,
+      "message": "Done, I was trying to stay consistent with the translation right above.",
+      "parentUuid": "AABOIX///+4\u003d",
+      "revId": "1b16a8d25678e0b5fd50774e8d5ea3c686fa3dcb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
