@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIX///+4\u003d",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-06-29T19:53:07Z",
+      "side": 1,
+      "message": "style nit: start sentence with an uppercase letter\n\ncould you add the name and/or URL of the remote to make it easier to identify what\u0027s wrong ?",
+      "revId": "1b16a8d25678e0b5fd50774e8d5ea3c686fa3dcb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
