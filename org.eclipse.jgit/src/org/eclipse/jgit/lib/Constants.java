@@ -246,6 +246,9 @@ public final class Constants {
 	/** Prefix for notes refs */
 	public static final String R_NOTES = "refs/notes/";
 
+	/** Prefix for pubsub refs */
+	public static final String R_PUBSUB = "refs/pubsub/";
+
 	/** Standard notes ref */
 	public static final String R_NOTES_COMMITS = R_NOTES + "commits";
 
