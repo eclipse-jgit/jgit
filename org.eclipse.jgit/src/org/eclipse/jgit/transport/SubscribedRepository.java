@@ -188,8 +188,8 @@ public class SubscribedRepository {
 						remoteConfig, spec.getSource());
 			Collection<Ref> c;
 			if (spec.isWildcard()) {
-				remoteRef = remoteRef.substring(0, remoteRef.length() - 1);
-				c = refdb.getRefs(remoteRef).values();
+				c = refdb.getRefs(SubscribeSpec.stripWildcard(remoteRef))
+						.values();
 			} else {
 				Ref r = refdb.getRef(remoteRef);
 				if (r == null)
