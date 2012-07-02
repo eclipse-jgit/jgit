@@ -83,6 +83,7 @@ public class CLIText extends TranslationBundle {
 	/***/ public String cannotRenameDetachedHEAD;
 	/***/ public String cannotResolve;
 	/***/ public String cannotSetupConsole;
+	/***/ public String cannotSubscribeTwice;
 	/***/ public String cannotUseObjectsWithGlog;
 	/***/ public String cannotWrite;
 	/***/ public String cantFindGitDirectory;
@@ -93,6 +94,8 @@ public class CLIText extends TranslationBundle {
 	/***/ public String dateInfo;
 	/***/ public String deletedBranch;
 	/***/ public String deletedRemoteBranch;
+	/***/ public String didSubscribe;
+	/***/ public String didUnsubscribe;
 	/***/ public String doesNotExist;
 	/***/ public String dontOverwriteLocalChanges;
 	/***/ public String everythingUpToDate;
@@ -154,6 +157,8 @@ public class CLIText extends TranslationBundle {
 	/***/ public String mostCommonlyUsedCommandsAre;
 	/***/ public String needApprovalToDestroyCurrentRepository;
 	/***/ public String noGitRepositoryConfigured;
+	/***/ public String noRemoteUriSubscribe;
+	/***/ public String noRemoteUriUnsubscribe;
 	/***/ public String noSuchFile;
 	/***/ public String noTREESectionInIndex;
 	/***/ public String nonFastForward;
@@ -180,6 +185,7 @@ public class CLIText extends TranslationBundle {
 	/***/ public String repaint;
 	/***/ public String serviceNotSupported;
 	/***/ public String skippingObject;
+	/***/ public String subscriptionDoesNotExist;
 	/***/ public String timeInMilliSeconds;
 	/***/ public String tooManyRefsGiven;
 	/***/ public String unknownMergeStratey;
