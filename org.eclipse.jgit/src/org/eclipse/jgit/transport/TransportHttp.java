@@ -54,6 +54,7 @@ import static org.eclipse.jgit.util.HttpSupport.HDR_USER_AGENT;
 import static org.eclipse.jgit.util.HttpSupport.METHOD_GET;
 import static org.eclipse.jgit.util.HttpSupport.METHOD_POST;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.FileNotFoundException;
@@ -77,6 +78,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
@@ -131,6 +133,8 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 	private static final String SVC_UPLOAD_PACK = "git-upload-pack"; //$NON-NLS-1$
 
 	private static final String SVC_RECEIVE_PACK = "git-receive-pack"; //$NON-NLS-1$
+
+	private static final String SVC_PUBLISH_SUBSCRIBE = "git-publish-subscribe"; //$NON-NLS-1$
 
 	private static final String userAgent = computeUserAgent();
 
@@ -416,6 +420,32 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 			throw err;
 		} catch (IOException err) {
 			throw new TransportException(uri, JGitText.get().errorReadingInfoRefs, err);
+		}
+	}
+
+	@Override
+	public SubscribeConnection openSubscribe()
+			throws NotSupportedException, TransportException {
+		final String service = SVC_PUBLISH_SUBSCRIBE;
+		try {
+			final HttpURLConnection c = connect(service);
+			final InputStream in = openInputStream(c);
+			try {
+				if (isSmartHttp(c, service)) {
+					readSmartHeaders(in, service);
+					return new SmartHttpSubscribeConnection(in);
+				} else {
+					String msg = JGitText
+							.get().remoteDoesNotSupportSmartHTTPSubscribe;
+					throw new NotSupportedException(MessageFormat.format(
+							msg, baseUrl.toString()));
+				}
+			} finally {
+				in.close();
+			}
+		} catch (IOException err) {
+			throw new TransportException(uri, JGitText
+					.get().errorReadingInfoRefs, err);
 		}
 	}
 
@@ -765,6 +795,27 @@ public class TransportHttp extends HttpTransport implements WalkTransport,
 			final Service svc = new MultiRequestService(SVC_RECEIVE_PACK);
 			init(svc.getInputStream(), svc.getOutputStream());
 			super.doPush(monitor, refUpdates);
+		}
+	}
+
+	class SmartHttpSubscribeConnection extends BasePackSubscribeConnection {
+		SmartHttpSubscribeConnection(InputStream advertisement) {
+			super(TransportHttp.this);
+			init(advertisement, DisabledOutputStream.INSTANCE);
+			outNeedsEnd = false;
+		}
+
+		@Override
+		public void doSubscribe(Subscriber subscriber,
+				Map<String, List<SubscribeCommand>> subscribeCommands,
+				ProgressMonitor monitor)
+				throws InterruptedException, TransportException, IOException {
+
+			Service svc = new LongPollService(SVC_PUBLISH_SUBSCRIBE);
+			InputStream bufferedInput = new BufferedInputStream(svc
+					.getInputStream(), 8192);
+			init(bufferedInput, svc.getOutputStream());
+			super.doSubscribe(subscriber, subscribeCommands, monitor);
 		}
 	}
 
