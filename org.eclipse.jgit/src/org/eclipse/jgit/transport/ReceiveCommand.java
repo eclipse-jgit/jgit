@@ -151,7 +151,7 @@ public class ReceiveCommand {
 
 	private final ObjectId newId;
 
-	private final String name;
+	private String name;
 
 	private Type type;
 
@@ -339,6 +339,10 @@ public class ReceiveCommand {
 		} catch (IOException err) {
 			reject(err);
 		}
+	}
+
+	void setRefName(String n) {
+		name = n;
 	}
 
 	void setRef(final Ref r) {
