@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIX///iM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 554,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-07-04T20:44:41Z",
+      "side": 1,
+      "message": "according to [1] parameters must be separated from media type by a semicolon, I think we should enforce this\n\n[1] http://www.w3.org/Protocols/rfc2616/rfc2616-sec3.html#sec3.7",
+      "revId": "8b274fa9459a604f7abbd7b176e9d9cc2646afe8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
