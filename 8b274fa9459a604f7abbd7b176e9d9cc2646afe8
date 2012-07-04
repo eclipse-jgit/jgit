@@ -16,6 +16,24 @@
       "revId": "8b274fa9459a604f7abbd7b176e9d9cc2646afe8",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIX///g8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 554,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-07-04T21:35:00Z",
+      "side": 1,
+      "message": "Not only that, but the Git MIME type used here does not have a character encoding specified. The server is wrong for sending a charset. We have been through this before. The Git protocol documentation states the MIME type is only \"application/x-git-upload-pack-advertisement\" and does not specify a character set, as the references are in an undefined character set.",
+      "parentUuid": "AABOIX///iM\u003d",
+      "revId": "8b274fa9459a604f7abbd7b176e9d9cc2646afe8",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
