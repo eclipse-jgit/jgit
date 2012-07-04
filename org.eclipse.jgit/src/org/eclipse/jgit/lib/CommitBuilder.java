@@ -166,7 +166,10 @@ public class CommitBuilder {
 	 *            branch being merged into the current branch.
 	 */
 	public void setParentIds(AnyObjectId parent1, AnyObjectId parent2) {
-		parentIds = new ObjectId[] { parent1.copy(), parent2.copy() };
+		if (!parent1.equals(parent2))
+			parentIds = new ObjectId[] { parent1.copy(), parent2.copy() };
+		else
+			parentIds = new ObjectId[] { parent1.copy() };
 	}
 
 	/**
@@ -177,8 +180,19 @@ public class CommitBuilder {
 	 */
 	public void setParentIds(ObjectId... newParents) {
 		parentIds = new ObjectId[newParents.length];
-		for (int i = 0; i < newParents.length; i++)
-			parentIds[i] = newParents[i].copy();
+
+		int newParentCount = 0;
+		outer: for (int i = 0; i < newParents.length; i++) {
+			for (int j = 0; j < newParentCount; j++)
+				if (parentIds[j].equals(newParents[i]))
+					continue outer;
+			parentIds[newParentCount++] = newParents[i].copy();
+		}
+		if (newParentCount == parentIds.length)
+			return;
+		ObjectId[] tmpIds = new ObjectId[newParentCount];
+		System.arraycopy(parentIds, 0, tmpIds, 0, newParentCount);
+		parentIds = tmpIds;
 	}
 
 	/**
@@ -189,8 +203,19 @@ public class CommitBuilder {
 	 */
 	public void setParentIds(List<? extends AnyObjectId> newParents) {
 		parentIds = new ObjectId[newParents.size()];
-		for (int i = 0; i < newParents.size(); i++)
-			parentIds[i] = newParents.get(i).copy();
+
+		int newParentCount = 0;
+		outer: for (AnyObjectId newId : newParents) {
+			for (int j = 0; j < newParentCount; j++)
+				if (parentIds[j].equals(newId))
+					continue outer;
+			parentIds[newParentCount++] = newId.copy();
+		}
+		if (newParentCount == parentIds.length)
+			return;
+		ObjectId[] tmpIds = new ObjectId[newParentCount];
+		System.arraycopy(parentIds, 0, tmpIds, 0, newParentCount);
+		parentIds = tmpIds;
 	}
 
 	/**
@@ -203,6 +228,9 @@ public class CommitBuilder {
 		if (parentIds.length == 0) {
 			setParentId(additionalParent);
 		} else {
+			for (int i = 0; i < parentIds.length; i++)
+				if (parentIds[i].equals(additionalParent))
+					return;
 			ObjectId[] newParents = new ObjectId[parentIds.length + 1];
 			System.arraycopy(parentIds, 0, newParents, 0, parentIds.length);
 			newParents[parentIds.length] = additionalParent.copy();

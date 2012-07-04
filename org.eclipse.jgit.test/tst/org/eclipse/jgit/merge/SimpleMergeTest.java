@@ -50,10 +50,13 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
 import org.eclipse.jgit.dircache.DirCacheEntry;
+import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
@@ -61,6 +64,8 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.SampleDataRepositoryTestCase;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.junit.Test;
 
@@ -88,6 +93,65 @@ public class SimpleMergeTest extends SampleDataRepositoryTestCase {
 		boolean merge = ourMerger.merge(new ObjectId[] { db.resolve("a"), db.resolve("c") });
 		assertTrue(merge);
 		assertEquals("02ba32d3649e510002c21651936b7077aa75ffa9",ourMerger.getResultTreeId().name());
+	}
+
+	@Test
+	public void testDuplicateParents() throws Exception {
+		ObjectId commitId;
+		RevCommit newCommit;
+		final ObjectInserter ow = db.newObjectInserter();
+		RevWalk rw = new RevWalk(db);
+		ObjectId parentA = db.resolve("a");
+		ObjectId parentB = db.resolve("b");
+		ObjectId[] parentIds_AA = new ObjectId[] { parentA, parentA };
+		ObjectId[] parentIds_AB = new ObjectId[] { parentA, parentB };
+		ObjectId[] parentIds_BA = new ObjectId[] { parentB, parentA };
+		ObjectId[] parentIds_BBAB = new ObjectId[] { parentB, parentB, parentA,
+				parentB };
+
+		commitId = commit(ow, db.readDirCache(), parentA, parentA);
+		newCommit = rw.parseCommit(commitId);
+		assertEquals(1, newCommit.getParentCount());
+
+		commitId = commit(ow, db.readDirCache(), parentA, parentB);
+		newCommit = rw.parseCommit(commitId);
+		assertEquals(2, newCommit.getParentCount());
+
+		commitId = commit(ow, db.readDirCache(), parentB, parentA);
+		newCommit = rw.parseCommit(commitId);
+		assertEquals(2, newCommit.getParentCount());
+
+		commitId = commit(ow, db.readDirCache(), parentIds_AA);
+		newCommit = rw.parseCommit(commitId);
+		assertEquals(1, newCommit.getParentCount());
+
+		commitId = commit(ow, db.readDirCache(), parentIds_AB);
+		newCommit = rw.parseCommit(commitId);
+		assertEquals(2, newCommit.getParentCount());
+
+		commitId = commit(ow, db.readDirCache(), parentIds_BA);
+		newCommit = rw.parseCommit(commitId);
+		assertEquals(2, newCommit.getParentCount());
+
+		commitId = commit(ow, db.readDirCache(), parentIds_BBAB);
+		newCommit = rw.parseCommit(commitId);
+		assertEquals(2, newCommit.getParentCount());
+
+		commitId = commit(ow, db.readDirCache(), Arrays.asList(parentIds_AA));
+		newCommit = rw.parseCommit(commitId);
+		assertEquals(1, newCommit.getParentCount());
+
+		commitId = commit(ow, db.readDirCache(), parentIds_AB);
+		newCommit = rw.parseCommit(commitId);
+		assertEquals(2, newCommit.getParentCount());
+
+		commitId = commit(ow, db.readDirCache(), parentIds_BA);
+		newCommit = rw.parseCommit(commitId);
+		assertEquals(2, newCommit.getParentCount());
+
+		commitId = commit(ow, db.readDirCache(), parentIds_BBAB);
+		newCommit = rw.parseCommit(commitId);
+		assertEquals(2, newCommit.getParentCount());
 	}
 
 	@Test
@@ -388,6 +452,33 @@ public class SimpleMergeTest extends SampleDataRepositoryTestCase {
 		c.setAuthor(new PersonIdent("A U Thor", "a.u.thor", 1L, 0));
 		c.setCommitter(c.getAuthor());
 		c.setParentIds(parentIds);
+		c.setMessage("Tree " + c.getTreeId().name());
+		ObjectId id = odi.insert(c);
+		odi.flush();
+		return id;
+	}
+
+	private ObjectId commit(final ObjectInserter odi, final DirCache treeB,
+			final AnyObjectId parentId1, final AnyObjectId parentId2)
+			throws Exception {
+		final CommitBuilder c = new CommitBuilder();
+		c.setTreeId(treeB.writeTree(odi));
+		c.setAuthor(new PersonIdent("A U Thor", "a.u.thor", 1L, 0));
+		c.setCommitter(c.getAuthor());
+		c.setParentIds(parentId1, parentId2);
+		c.setMessage("Tree " + c.getTreeId().name());
+		ObjectId id = odi.insert(c);
+		odi.flush();
+		return id;
+	}
+
+	private ObjectId commit(final ObjectInserter odi, final DirCache treeB,
+			List<ObjectId> parents) throws Exception {
+		final CommitBuilder c = new CommitBuilder();
+		c.setTreeId(treeB.writeTree(odi));
+		c.setAuthor(new PersonIdent("A U Thor", "a.u.thor", 1L, 0));
+		c.setCommitter(c.getAuthor());
+		c.setParentIds(parents);
 		c.setMessage("Tree " + c.getTreeId().name());
 		ObjectId id = odi.insert(c);
 		odi.flush();
