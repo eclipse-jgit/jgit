@@ -47,10 +47,12 @@ import static org.junit.Assert.assertFalse;
 import java.io.File;
 
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.lib.RepositoryTestCase;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.treewalk.FileTreeIterator;
 import org.eclipse.jgit.util.FileUtils;
+import org.junit.Assert;
 import org.junit.Test;
 
 public class ResolveMergerTest extends RepositoryTestCase {
@@ -95,4 +97,87 @@ public class ResolveMergerTest extends RepositoryTestCase {
 		assertFalse(ok);
 	}
 
+	@Test
+	public void checkForCorrectIndex() throws Exception {
+		File f;
+		Git git = Git.wrap(db);
+
+		// Create initial content
+		f = writeTrashFiles(true, "orig", "orig", "1\n2\n3", "orig", "orig");
+		fsTick(f);
+		git.add().addFilepattern(".").call();
+		RevCommit firstCommit = git.commit().setMessage("initial commit")
+				.call();
+		Assert.assertEquals("[0, mode:100644, time:t0, length:4, content:orig]"
+				+ "[1, mode:100644, time:t1, length:4, content:orig]"
+				+ "[2, mode:100644, time:t2, length:5, content:1\n2\n3]"
+				+ "[3, mode:100644, time:t3, length:4, content:orig]"
+				+ "[4, mode:100644, time:t4, length:4, content:orig]",
+				indexState(LENGTH | MOD_TIME | SMUDGE | CONTENT));
+
+		// Do modifications on the master branch. This should touch only "0",
+		// "2 and "3"
+		f = writeTrashFiles(true, "master", null, "1master\n2\n3", "master",
+				null);
+		fsTick(f);
+		git.add().addFilepattern(".").call();
+		RevCommit masterCommit = git.commit().setMessage("master commit")
+				.call();
+		Assert.assertEquals(
+				"[0, mode:100644, time:t2, length:6, content:master]"
+						+ "[1, mode:100644, time:t0, length:4, content:orig]"
+						+ "[2, mode:100644, time:t3, length:11, content:1master\n2\n3]"
+						+ "[3, mode:100644, time:t4, length:6, content:master]"
+						+ "[4, mode:100644, time:t1, length:4, content:orig]",
+				indexState(LENGTH | MOD_TIME | SMUDGE | CONTENT));
+
+		// Checkout a side branch. This should touch only "0", "2 and "3"
+		git.checkout().setCreateBranch(true).setStartPoint(firstCommit)
+				.setName("side").call();
+		// This checkout may have populated worktree and index so fast that we
+		// may have smudged entries now. Check that we have the right content
+		// and then rewrite the index to get rid of smudged state
+		Assert.assertEquals("[0, mode:100644, content:orig]" //
+				+ "[1, mode:100644, content:orig]" //
+				+ "[2, mode:100644, content:1\n2\n3]" //
+				+ "[3, mode:100644, content:orig]" //
+				+ "[4, mode:100644, content:orig]", //
+				indexState(CONTENT));
+		f = writeTrashFiles(true, "orig", "orig", "1\n2\n3", "orig", "orig");
+		fsTick(f);
+		git.add().addFilepattern(".").call();
+
+		// Do modifications on the side branch. Touch only "1", "2 and "3"
+		f = writeTrashFiles(true, null, "side", "1\n2\n3side", "side", null);
+		fsTick(f);
+		git.add().addFilepattern(".").call();
+		git.commit().setMessage("side commit").call();
+		Assert.assertEquals("[0, mode:100644, time:t0, length:4, content:orig]"
+				+ "[1, mode:100644, time:t2, length:4, content:side]"
+				+ "[2, mode:100644, time:t3, length:9, content:1\n2\n3side]"
+				+ "[3, mode:100644, time:t4, length:4, content:side]"
+				+ "[4, mode:100644, time:t1, length:4, content:orig]",
+				indexState(LENGTH | MOD_TIME | SMUDGE | CONTENT));
+
+		// merge master and side. Should only touch "2" and "3"
+		git.merge().include(masterCommit).call();
+		Assert.assertEquals(
+				"[0, mode:100644, content:master]" //
+						+ "[1, mode:100644, content:side]" //
+						+ "[2, mode:100644, content:1master\n2\n3side\n]" //
+						+ "[3, mode:100644, stage:1, content:orig][3, mode:100644, stage:2, content:side][3, mode:100644, stage:3, content:master]" //
+						+ "[4, mode:100644, content:orig]", //
+				indexState(CONTENT));
+
+		// Check that we have at least correct lastmodification timestamps.
+		DirCache dc=db.readDirCache();
+		Assert.assertTrue(db.getIndexFile().lastModified() >= dc.getEntry("2")
+				.getLastModified());
+		Assert.assertTrue(dc.getEntry("2").getLastModified() > dc.getEntry("1")
+				.getLastModified());
+		Assert.assertTrue(dc.getEntry("1").getLastModified() > dc.getEntry("0")
+				.getLastModified());
+		Assert.assertTrue(dc.getEntry("0").getLastModified() > dc.getEntry("4")
+				.getLastModified());
+	}
 }

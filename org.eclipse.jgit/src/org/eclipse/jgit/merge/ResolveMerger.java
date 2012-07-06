@@ -383,13 +383,14 @@ public class ResolveMerger extends ThreeWayMerger {
 			return false;
 
 		if (nonTree(modeO) && nonTree(modeT) && tw.idEqual(T_OURS, T_THEIRS)) {
+			DirCacheEntry entry;
 			// OURS and THEIRS have equal content. Check the file mode
 			if (modeO == modeT) {
 				// content and mode of OURS and THEIRS are equal: it doesn't
 				// matter which one we choose. OURS is chosen.
-				add(tw.getRawPath(), ours, DirCacheEntry.STAGE_0);
+				entry = add(tw.getRawPath(), ours,
+						DirCacheEntry.STAGE_0);
 				// no checkout needed!
-				return true;
 			} else {
 				// same content but different mode on OURS and THEIRS.
 				// Try to merge the mode and report an error if this is
@@ -398,17 +399,18 @@ public class ResolveMerger extends ThreeWayMerger {
 				if (newMode != FileMode.MISSING.getBits()) {
 					if (newMode == modeO)
 						// ours version is preferred
-						add(tw.getRawPath(), ours, DirCacheEntry.STAGE_0);
+						entry = add(tw.getRawPath(), ours,
+								DirCacheEntry.STAGE_0);
 					else {
 						// the preferred version THEIRS has a different mode
 						// than ours. Check it out!
 						if (isWorktreeDirty(work))
 							return false;
-						DirCacheEntry e = add(tw.getRawPath(), theirs,
+						entry = add(tw.getRawPath(), theirs,
 								DirCacheEntry.STAGE_0);
-						toBeCheckedOut.put(tw.getPathString(), e);
+						toBeCheckedOut.put(tw.getPathString(), entry);
+						return true;
 					}
-					return true;
 				} else {
 					// FileModes are not mergeable. We found a conflict on modes
 					add(tw.getRawPath(), base, DirCacheEntry.STAGE_1);
@@ -419,9 +421,16 @@ public class ResolveMerger extends ThreeWayMerger {
 							tw.getPathString(),
 							new MergeResult<RawText>(Collections
 									.<RawText> emptyList()));
+					return true;
 				}
-				return true;
 			}
+
+			if (workingTreeIterator != null) {
+				entry.setLength(workingTreeIterator.getEntryLength());
+				entry.setLastModified(workingTreeIterator
+						.getEntryLastModified());
+			}
+			return true;
 		}
 
 		if (nonTree(modeO) && modeB == modeT && tw.idEqual(T_BASE, T_THEIRS)) {
@@ -444,6 +453,7 @@ public class ResolveMerger extends ThreeWayMerger {
 						DirCacheEntry.STAGE_0);
 				if (e != null)
 					toBeCheckedOut.put(tw.getPathString(), e);
+
 				return true;
 			} else if (modeT == 0 && modeB != 0) {
 				// we want THEIRS ... but THEIRS contains the deletion of the
