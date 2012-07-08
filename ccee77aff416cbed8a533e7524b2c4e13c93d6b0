@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn///z0\u003d",
+        "filename": "org.eclipse.jgit.packaging/org.eclipse.jgit.source.feature/feature.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2012-07-08T22:11:51Z",
+      "side": 1,
+      "message": "This should be 2000, 2010, 2012, right?",
+      "revId": "ccee77aff416cbed8a533e7524b2c4e13c93d6b0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
