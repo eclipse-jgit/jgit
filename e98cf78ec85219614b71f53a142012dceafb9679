@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn///0U\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/revplot/PlotCommitListTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2012-07-08T21:48:45Z",
+      "side": 1,
+      "message": "Typo: Langes -\u003e Lanes",
+      "revId": "e98cf78ec85219614b71f53a142012dceafb9679",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///0I\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revplot/PlotCommit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2012-07-08T21:48:45Z",
+      "side": 1,
+      "message": "Why is the first entry of children not checked here? A comment would be appropriate here.",
+      "revId": "e98cf78ec85219614b71f53a142012dceafb9679",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
