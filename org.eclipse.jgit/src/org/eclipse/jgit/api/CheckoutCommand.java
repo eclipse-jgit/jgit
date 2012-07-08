@@ -78,6 +78,7 @@ import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
+import org.eclipse.jgit.util.FileUtils;
 
 /**
  * Checkout a branch to the working tree
@@ -297,9 +298,11 @@ public class CheckoutCommand extends GitCommand<Ref> {
 						public void apply(DirCacheEntry ent) {
 							ent.setObjectId(blobId);
 							ent.setFileMode(mode);
+							File file = new File(workTree, ent.getPathString());
+							File parentDir = file.getParentFile();
 							try {
-								DirCacheCheckout.checkoutEntry(repo, new File(
-										workTree, ent.getPathString()), ent, r);
+								FileUtils.mkdirs(parentDir, true);
+								DirCacheCheckout.checkoutEntry(repo, file, ent, r);
 							} catch (IOException e) {
 								throw new JGitInternalException(
 										MessageFormat.format(

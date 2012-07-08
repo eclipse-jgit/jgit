@@ -220,6 +220,21 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
+	public void testCheckoutOfFileWithInexistentParentDir() throws Exception {
+		File a = writeTrashFile("dir/a.txt", "A");
+		writeTrashFile("dir/b.txt", "A");
+		git.add().addFilepattern("dir/a.txt").addFilepattern("dir/b.txt")
+				.call();
+		git.commit().setMessage("Added dir").call();
+
+		File dir = new File(db.getWorkTree(), "dir");
+		FileUtils.delete(dir, FileUtils.RECURSIVE);
+
+		git.checkout().addPath("dir/a.txt").call();
+		assertTrue(a.exists());
+	}
+
+	@Test
 	public void testDetachedHeadOnCheckout() throws JGitInternalException,
 			IOException, GitAPIException {
 		CheckoutCommand co = git.checkout();
