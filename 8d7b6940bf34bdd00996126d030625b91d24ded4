@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn///2s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-07-08T11:12:37Z",
+      "side": 1,
+      "message": "Shouldn\u0027t we copy length and lastmodified here too?",
+      "revId": "8d7b6940bf34bdd00996126d030625b91d24ded4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///38\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 456,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-07-08T11:12:37Z",
+      "side": 1,
+      "message": "Can\u0027t see the reason for this extra line here. Doesn\u0027t fit the style.",
+      "revId": "8d7b6940bf34bdd00996126d030625b91d24ded4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
