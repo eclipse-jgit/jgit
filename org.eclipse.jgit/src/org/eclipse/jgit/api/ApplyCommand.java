@@ -167,6 +167,8 @@ public class ApplyCommand extends GitCommand<ApplyResult> {
 		File f = new File(getRepository().getWorkTree(), path);
 		if (create)
 			try {
+				File parent = f.getParentFile();
+				FileUtils.mkdirs(parent, true);
 				FileUtils.createNewFile(f);
 			} catch (IOException e) {
 				throw new PatchApplyException(MessageFormat.format(
