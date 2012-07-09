@@ -2,6 +2,57 @@
   "comments": [
     {
       "key": {
+        "uuid": "AABOIn///vE\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/SubscribeTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-07-09T23:45:38Z",
+      "side": 1,
+      "message": "Nit: unnecessary blank line.",
+      "revId": "67bb3ebe2ede3c0877bc4aea04ad31eb1cd419d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///vA\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/SubscribeTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-07-09T23:45:38Z",
+      "side": 1,
+      "message": "Use assertNotNull for these.\n\nAlthough, actually, I\u0027d probably rather you write this as an assertion over db.getRefs(\"refs/pubsub/origin/\").keySet():\n\nSet\u003cString\u003e expected \u003d new HashSet\u003cString\u003e();\n...\nassertEquals(expected, db.getRefs(\"refs/pubsub/origin/\").keySet());",
+      "revId": "67bb3ebe2ede3c0877bc4aea04ad31eb1cd419d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///u8\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/SubscribeTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-07-09T23:45:38Z",
+      "side": 1,
+      "message": "Assertions over the keySet",
+      "revId": "67bb3ebe2ede3c0877bc4aea04ad31eb1cd419d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn///v8\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscribeCommand.java",
         "patchSetId": 9
