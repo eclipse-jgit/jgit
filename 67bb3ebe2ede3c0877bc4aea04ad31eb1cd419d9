@@ -1,0 +1,225 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn///v8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscribeCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-07-09T23:39:01Z",
+      "side": 1,
+      "message": "Add toString() for debugging",
+      "revId": "67bb3ebe2ede3c0877bc4aea04ad31eb1cd419d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///v4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscribeConnection.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-07-09T23:39:01Z",
+      "side": 1,
+      "message": "This param at least needs javadoc. The keys are repository names, I\u0027m assuming?",
+      "revId": "67bb3ebe2ede3c0877bc4aea04ad31eb1cd419d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///v0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscribedRepository.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-07-09T23:39:01Z",
+      "side": 1,
+      "message": "This was slightly confusing to me. I think the second sentence could be reworded to emphasize how this ref tree differs from the usual remote namespace. For example:\nUnlike remote ref names, pubsub refs can refer to branches, tags, or other refs. Thus, the ref name under the remote is prefixed with \"/heads/\".",
+      "revId": "67bb3ebe2ede3c0877bc4aea04ad31eb1cd419d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///vw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscribedRepository.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-07-09T23:39:01Z",
+      "side": 1,
+      "message": "This feels a bit unsafe (see also my comment on translateRef below), since there is a space of valid pubsub refs, namely anything not under heads, that has no remote counterpart.",
+      "revId": "67bb3ebe2ede3c0877bc4aea04ad31eb1cd419d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///vs\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscribedRepository.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-07-09T23:39:01Z",
+      "side": 1,
+      "message": "I would feel more comfortable with this if you did something like throw an IllegalArgumentException if !ref.startsWith(oldPrefix)",
+      "revId": "67bb3ebe2ede3c0877bc4aea04ad31eb1cd419d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///vo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscribedRepository.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-07-09T23:39:01Z",
+      "side": 1,
+      "message": "This is ok for now, but I\u0027m not sure we want to tie this permanently to a FileRepository.",
+      "revId": "67bb3ebe2ede3c0877bc4aea04ad31eb1cd419d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///vk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscribedRepository.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-07-09T23:39:01Z",
+      "side": 1,
+      "message": "IMHO this should include a descriptive reflog update, since this is a local repository that a user might be poking around in. cf. the output of \"git reflog refs/remotes/origin/master\" in a repo of your choice.",
+      "revId": "67bb3ebe2ede3c0877bc4aea04ad31eb1cd419d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///vg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscribedRepository.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-07-09T23:39:01Z",
+      "side": 1,
+      "message": "Collections.singleton",
+      "revId": "67bb3ebe2ede3c0877bc4aea04ad31eb1cd419d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///vc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscribedRepository.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-07-09T23:39:01Z",
+      "side": 1,
+      "message": "No braces",
+      "revId": "67bb3ebe2ede3c0877bc4aea04ad31eb1cd419d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///vY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Subscriber.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-07-09T23:39:01Z",
+      "side": 1,
+      "message": "I might make this a Set so removeAll is faster. Use LinkedHashSet to preserve the original ordering. (OTOH, the number of subscribe specs may typically be too small enough to worry about.)",
+      "revId": "67bb3ebe2ede3c0877bc4aea04ad31eb1cd419d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///vU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Subscriber.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-07-09T23:39:01Z",
+      "side": 1,
+      "message": "Ditto maybe a Set",
+      "revId": "67bb3ebe2ede3c0877bc4aea04ad31eb1cd419d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///vQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Subscriber.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-07-09T23:39:01Z",
+      "side": 1,
+      "message": "I don\u0027t think you\u0027re done with toRemove at this point. sr.setUpRefs() below doesn\u0027t know how to remove these on its own, AFAICT.",
+      "revId": "67bb3ebe2ede3c0877bc4aea04ad31eb1cd419d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///vM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Subscriber.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-07-09T23:39:01Z",
+      "side": 1,
+      "message": "Is this the same thing that you call a \"pack number\" elsewhere? Should we synchronize this terminology?",
+      "revId": "67bb3ebe2ede3c0877bc4aea04ad31eb1cd419d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
