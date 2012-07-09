@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn///xc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-07-09T16:19:30Z",
+      "side": 1,
+      "message": "I think we should simply copy from the previous index entry. In such a case where THEIRS brings nothing new we should do as minimal as we can do. Especially we should avoid filesystem access. Theoretically we could even have an index different from the working tree file and copying metadata from file to index entry would be wrong here.",
+      "parentUuid": "AABOIn///2s\u003d",
+      "revId": "8d7b6940bf34bdd00996126d030625b91d24ded4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn///38\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
         "patchSetId": 1
