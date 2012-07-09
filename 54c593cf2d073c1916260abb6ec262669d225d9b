@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn///us\u003d",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 3
+      },
+      "lineNbr": 444,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-07-09T23:56:26Z",
+      "side": 1,
+      "message": "I suppose this wording will require some bikeshedding.",
+      "revId": "54c593cf2d073c1916260abb6ec262669d225d9b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///u0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackSubscribeConnection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-07-09T23:56:26Z",
+      "side": 1,
+      "message": "volatile?",
+      "revId": "54c593cf2d073c1916260abb6ec262669d225d9b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///uw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackSubscribeConnection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-07-09T23:56:26Z",
+      "side": 1,
+      "message": "Unnecessary, booleans default to false.",
+      "revId": "54c593cf2d073c1916260abb6ec262669d225d9b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///uo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackSubscribeConnection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-07-09T23:56:26Z",
+      "side": 1,
+      "message": "Hm, I\u0027m not sure I would expect a method called validateFoo to have this kind of side effect.",
+      "revId": "54c593cf2d073c1916260abb6ec262669d225d9b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///uk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackSubscribeConnection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-07-09T23:56:26Z",
+      "side": 1,
+      "message": "It\u0027s not clear from context why you can\u0027t use a bidirectional pipe for this, especially considering the class javadoc.",
+      "revId": "54c593cf2d073c1916260abb6ec262669d225d9b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
