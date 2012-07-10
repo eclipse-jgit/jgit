@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn///ow\u003d",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 3
+      },
+      "lineNbr": 444,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-07-10T22:16:54Z",
+      "side": 1,
+      "message": "Yeah, I\u0027m not entirely sure how much logging detail to output when a new update comes in.",
+      "parentUuid": "AABOIn///us\u003d",
+      "revId": "54c593cf2d073c1916260abb6ec262669d225d9b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn///u0\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackSubscribeConnection.java",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2012-07-09T23:56:26Z",
       "side": 1,
       "message": "volatile?",
+      "revId": "54c593cf2d073c1916260abb6ec262669d225d9b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///os\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackSubscribeConnection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-07-10T22:16:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn///u0\u003d",
       "revId": "54c593cf2d073c1916260abb6ec262669d225d9b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn///oo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackSubscribeConnection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-07-10T22:16:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn///uw\u003d",
+      "revId": "54c593cf2d073c1916260abb6ec262669d225d9b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn///uo\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackSubscribeConnection.java",
         "patchSetId": 3
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn///ok\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackSubscribeConnection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-07-10T22:16:54Z",
+      "side": 1,
+      "message": "Not sure I would either, but I\u0027m at a slight loss as to where to do the ref translation and this seemed like the best point. Renaming after ReceivePack finishes won\u0027t work because the local refs will be touched and the old IDs won\u0027t match up. The pre-receive hook is called after validation takes place, and only contains valid refs (which will be none of them if not translated first).\n\nI could drop down to repo.newObjectInserter().newPackParser(in) and re-implement the command reading portion. Would that be better?",
+      "parentUuid": "AABOIn///uo\u003d",
+      "revId": "54c593cf2d073c1916260abb6ec262669d225d9b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn///uk\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackSubscribeConnection.java",
         "patchSetId": 3
@@ -81,6 +153,24 @@
       "writtenOn": "2012-07-09T23:56:26Z",
       "side": 1,
       "message": "It\u0027s not clear from context why you can\u0027t use a bidirectional pipe for this, especially considering the class javadoc.",
+      "revId": "54c593cf2d073c1916260abb6ec262669d225d9b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///oY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackSubscribeConnection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-07-10T22:16:54Z",
+      "side": 1,
+      "message": "The javadoc (wrongly) uses bi-directional in the HTTP sense of send then receive, so I will change that wording. The protocol is designed to not need to talk back to the server, and with the bidirectional pipe setting on ReceivePack will send back status messages.",
+      "parentUuid": "AABOIn///uk\u003d",
       "revId": "54c593cf2d073c1916260abb6ec262669d225d9b",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
