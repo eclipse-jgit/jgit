@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn///uc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-07-10T00:04:53Z",
+      "side": 1,
+      "message": "isSmartHttp is designed to distinguish between servers that support smart HTTP *at all* and those that don\u0027t. Dumb HTTP servers will just serve the contents of the file called /info/refs when asked for /info/refs?service\u003dfoo.\n\nBecause you\u0027re adding a new service that is not supported by extant *smart* HTTP servers, the error handling may have to be a little different.\n\nOf course, now that I\u0027ve written that, I realize that extant servers (googlesource.com, kernel.org, github.com) just return 403, so there might not be a right answer here.",
+      "revId": "48f355b1de07161011acd6ccaa238141fa5b1a1d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///uY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 813,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-07-10T00:04:53Z",
+      "side": 1,
+      "message": "Nit: unnecessary blank line.",
+      "revId": "48f355b1de07161011acd6ccaa238141fa5b1a1d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
