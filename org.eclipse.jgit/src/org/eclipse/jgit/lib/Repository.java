@@ -383,18 +383,18 @@ public abstract class Repository {
 	}
 
 	private ObjectId resolve(final RevWalk rw, final String revstr) throws IOException {
-		char[] rev = revstr.toCharArray();
-		RevObject ref = null;
-		for (int i = 0; i < rev.length; ++i) {
-			switch (rev[i]) {
+		char[] revChars = revstr.toCharArray();
+		RevObject rev = null;
+		for (int i = 0; i < revChars.length; ++i) {
+			switch (revChars[i]) {
 			case '^':
-				if (ref == null) {
-					ref = parseSimple(rw, new String(rev, 0, i));
-					if (ref == null)
+				if (rev == null) {
+					rev = parseSimple(rw, new String(revChars, 0, i));
+					if (rev == null)
 						return null;
 				}
-				if (i + 1 < rev.length) {
-					switch (rev[i + 1]) {
+				if (i + 1 < revChars.length) {
+					switch (revChars[i + 1]) {
 					case '0':
 					case '1':
 					case '2':
@@ -406,12 +406,13 @@ public abstract class Repository {
 					case '8':
 					case '9':
 						int j;
-						ref = rw.parseCommit(ref);
-						for (j = i + 1; j < rev.length; ++j) {
-							if (!Character.isDigit(rev[j]))
+						rev = rw.parseCommit(rev);
+						for (j = i + 1; j < revChars.length; ++j) {
+							if (!Character.isDigit(revChars[j]))
 								break;
 						}
-						String parentnum = new String(rev, i + 1, j - i - 1);
+						String parentnum = new String(revChars, i + 1, j - i
+								- 1);
 						int pnum;
 						try {
 							pnum = Integer.parseInt(parentnum);
@@ -421,85 +422,85 @@ public abstract class Repository {
 									revstr);
 						}
 						if (pnum != 0) {
-							RevCommit commit = (RevCommit) ref;
+							RevCommit commit = (RevCommit) rev;
 							if (pnum > commit.getParentCount())
-								ref = null;
+								rev = null;
 							else
-								ref = commit.getParent(pnum - 1);
+								rev = commit.getParent(pnum - 1);
 						}
 						i = j - 1;
 						break;
 					case '{':
 						int k;
 						String item = null;
-						for (k = i + 2; k < rev.length; ++k) {
-							if (rev[k] == '}') {
-								item = new String(rev, i + 2, k - i - 2);
+						for (k = i + 2; k < revChars.length; ++k) {
+							if (revChars[k] == '}') {
+								item = new String(revChars, i + 2, k - i - 2);
 								break;
 							}
 						}
 						i = k;
 						if (item != null)
 							if (item.equals("tree")) {
-								ref = rw.parseTree(ref);
+								rev = rw.parseTree(rev);
 							} else if (item.equals("commit")) {
-								ref = rw.parseCommit(ref);
+								rev = rw.parseCommit(rev);
 							} else if (item.equals("blob")) {
-								ref = rw.peel(ref);
-								if (!(ref instanceof RevBlob))
-									throw new IncorrectObjectTypeException(ref,
+								rev = rw.peel(rev);
+								if (!(rev instanceof RevBlob))
+									throw new IncorrectObjectTypeException(rev,
 											Constants.TYPE_BLOB);
 							} else if (item.equals("")) {
-								ref = rw.peel(ref);
+								rev = rw.peel(rev);
 							} else
 								throw new RevisionSyntaxException(revstr);
 						else
 							throw new RevisionSyntaxException(revstr);
 						break;
 					default:
-						ref = rw.parseAny(ref);
-						if (ref instanceof RevCommit) {
-							RevCommit commit = ((RevCommit) ref);
+						rev = rw.parseAny(rev);
+						if (rev instanceof RevCommit) {
+							RevCommit commit = ((RevCommit) rev);
 							if (commit.getParentCount() == 0)
-								ref = null;
+								rev = null;
 							else
-								ref = commit.getParent(0);
+								rev = commit.getParent(0);
 						} else
-							throw new IncorrectObjectTypeException(ref,
+							throw new IncorrectObjectTypeException(rev,
 									Constants.TYPE_COMMIT);
 
 					}
 				} else {
-					ref = rw.peel(ref);
-					if (ref instanceof RevCommit) {
-						RevCommit commit = ((RevCommit) ref);
+					rev = rw.peel(rev);
+					if (rev instanceof RevCommit) {
+						RevCommit commit = ((RevCommit) rev);
 						if (commit.getParentCount() == 0)
-							ref = null;
+							rev = null;
 						else
-							ref = commit.getParent(0);
+							rev = commit.getParent(0);
 					} else
-						throw new IncorrectObjectTypeException(ref,
+						throw new IncorrectObjectTypeException(rev,
 								Constants.TYPE_COMMIT);
 				}
 				break;
 			case '~':
-				if (ref == null) {
-					ref = parseSimple(rw, new String(rev, 0, i));
-					if (ref == null)
+				if (rev == null) {
+					rev = parseSimple(rw, new String(revChars, 0, i));
+					if (rev == null)
 						return null;
 				}
-				ref = rw.peel(ref);
-				if (!(ref instanceof RevCommit))
-					throw new IncorrectObjectTypeException(ref,
+				rev = rw.peel(rev);
+				if (!(rev instanceof RevCommit))
+					throw new IncorrectObjectTypeException(rev,
 							Constants.TYPE_COMMIT);
 				int l;
-				for (l = i + 1; l < rev.length; ++l) {
-					if (!Character.isDigit(rev[l]))
+				for (l = i + 1; l < revChars.length; ++l) {
+					if (!Character.isDigit(revChars[l]))
 						break;
 				}
 				int dist;
 				if (l - i > 1) {
-					String distnum = new String(rev, i + 1, l - i - 1);
+					String distnum = new String(revChars, i + 1, l - i - 1);
 					try {
 						dist = Integer.parseInt(distnum);
 					} catch (NumberFormatException e) {
@@ -509,14 +510,14 @@ public abstract class Repository {
 				} else
 					dist = 1;
 				while (dist > 0) {
-					RevCommit commit = (RevCommit) ref;
+					RevCommit commit = (RevCommit) rev;
 					if (commit.getParentCount() == 0) {
-						ref = null;
+						rev = null;
 						break;
 					}
 					commit = commit.getParent(0);
 					rw.parseHeaders(commit);
-					ref = commit;
+					rev = commit;
 					--dist;
 				}
 				i = l - 1;
@@ -524,32 +525,32 @@ public abstract class Repository {
 			case '@':
 				int m;
 				String time = null;
-				for (m = i + 2; m < rev.length; ++m) {
-					if (rev[m] == '}') {
-						time = new String(rev, i + 2, m - i - 2);
+				for (m = i + 2; m < revChars.length; ++m) {
+					if (revChars[m] == '}') {
+						time = new String(revChars, i + 2, m - i - 2);
 						break;
 					}
 				}
 				if (time != null) {
-					String refName = new String(rev, 0, i);
+					String refName = new String(revChars, 0, i);
 					Ref resolved = getRefDatabase().getRef(refName);
 					if (resolved == null)
 						return null;
-					ref = resolveReflog(rw, resolved, time);
+					rev = resolveReflog(rw, resolved, time);
 					i = m;
 				} else
 					i = m - 1;
 				break;
 			case ':': {
 				RevTree tree;
-				if (ref == null) {
+				if (rev == null) {
 					// We might not yet have parsed the left hand side.
 					ObjectId id;
 					try {
 						if (i == 0)
 							id = resolve(rw, Constants.HEAD);
 						else
-							id = resolve(rw, new String(rev, 0, i));
+							id = resolve(rw, new String(revChars, 0, i));
 					} catch (RevisionSyntaxException badSyntax) {
 						throw new RevisionSyntaxException(revstr);
 					}
@@ -557,23 +558,24 @@ public abstract class Repository {
 						return null;
 					tree = rw.parseTree(id);
 				} else {
-					tree = rw.parseTree(ref);
+					tree = rw.parseTree(rev);
 				}
 
-				if (i == rev.length - 1)
+				if (i == revChars.length - 1)
 					return tree.copy();
 
 				TreeWalk tw = TreeWalk.forPath(rw.getObjectReader(),
-						new String(rev, i + 1, rev.length - i - 1), tree);
+						new String(revChars, i + 1, revChars.length - i - 1),
+						tree);
 				return tw != null ? tw.getObjectId(0) : null;
 			}
 
 			default:
-				if (ref != null)
+				if (rev != null)
 					throw new RevisionSyntaxException(revstr);
 			}
 		}
-		return ref != null ? ref.copy() : resolveSimple(revstr);
+		return rev != null ? rev.copy() : resolveSimple(revstr);
 	}
 
 	private static boolean isHex(char c) {
