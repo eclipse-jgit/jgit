@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn///uI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2012-07-10T06:03:29Z",
+      "side": 1,
+      "message": "i think we should copy previous index entries wherever possible - i also think that getting metadata from files here is a really bad idea.",
+      "parentUuid": "AABOIn///xc\u003d",
+      "revId": "8d7b6940bf34bdd00996126d030625b91d24ded4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn///38\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
         "patchSetId": 1
