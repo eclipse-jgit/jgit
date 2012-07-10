@@ -1,0 +1,208 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn///tA\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/SubscribeDaemon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-07-10T18:46:01Z",
+      "side": 1,
+      "message": "I think you want to use FileSnapshot for this.",
+      "revId": "ff8d8c497d09dfa2a65ba094625f8cc3f452ba34",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///s8\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/SubscribeDaemon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-07-10T18:46:01Z",
+      "side": 1,
+      "message": "I wonder if this should be configurable?",
+      "revId": "ff8d8c497d09dfa2a65ba094625f8cc3f452ba34",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///s0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscriptionManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-07-10T18:46:01Z",
+      "side": 1,
+      "message": "Don\u0027t use System.currentTimeMillis() to measure elapsed time; it changes when the system clock changes. Use System.nanoTime().",
+      "revId": "ff8d8c497d09dfa2a65ba094625f8cc3f452ba34",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///sw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscriptionManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-07-10T18:46:01Z",
+      "side": 1,
+      "message": "What does \"have their state reset\" mean?",
+      "revId": "ff8d8c497d09dfa2a65ba094625f8cc3f452ba34",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///sk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscriptionManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-07-10T18:46:01Z",
+      "side": 1,
+      "message": "This method is getting a bit long. Maybe make the anonymous Thread class a nested class or something?",
+      "revId": "ff8d8c497d09dfa2a65ba094625f8cc3f452ba34",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///ss\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscriptionManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-07-10T18:46:01Z",
+      "side": 1,
+      "message": "Lots of unnecessary finals here. (Not all unnecessary due to the Thread, but still some.)",
+      "revId": "ff8d8c497d09dfa2a65ba094625f8cc3f452ba34",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///sg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscriptionManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-07-10T18:46:01Z",
+      "side": 1,
+      "message": "Did you mean this to be inside the if, before the continue? Doesn\u0027t seem like you should be closing the instance right before using it on l. 177 below.",
+      "revId": "ff8d8c497d09dfa2a65ba094625f8cc3f452ba34",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///sc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscriptionManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-07-10T18:46:01Z",
+      "side": 1,
+      "message": "Hoist this outside the try block so you can call instance.close() in the two continue cases?",
+      "revId": "ff8d8c497d09dfa2a65ba094625f8cc3f452ba34",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///sU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscriptionManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-07-10T18:46:01Z",
+      "side": 1,
+      "message": "How is this time compared to the maximum validity time of a fast-restart token? Is it worth it to detect when we think our fast-restart token is no longer going to be valid, and then not send it? Or do we just assume it\u0027s good enough that the server will reject it and we\u0027ll have to connect one more time?",
+      "revId": "ff8d8c497d09dfa2a65ba094625f8cc3f452ba34",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///sY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscriptionManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-07-10T18:46:01Z",
+      "side": 1,
+      "message": "Optional nit: \"socket\" seems too specific, perhaps \"connection\"",
+      "revId": "ff8d8c497d09dfa2a65ba094625f8cc3f452ba34",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///sA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscriptionManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-07-10T18:46:01Z",
+      "side": 1,
+      "message": "Would this make more sense as a method on subscriber, so you could just call subscriber.reset() or something?",
+      "revId": "ff8d8c497d09dfa2a65ba094625f8cc3f452ba34",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///r4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscriptionManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-07-10T18:46:01Z",
+      "side": 1,
+      "message": "Seems like the right thing to do here would be to let the thread die, i.e. return.\n\nAlso, since you\u0027re doing a lot of work here, and there is only one obvious point that I see that can throw an InterruptedException, you may want to check Thread.interrupted() at the end of the loop as well.",
+      "revId": "ff8d8c497d09dfa2a65ba094625f8cc3f452ba34",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
