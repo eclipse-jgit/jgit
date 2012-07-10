@@ -1,0 +1,310 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn///rM\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/GitFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-07-10T19:52:10Z",
+      "side": 1,
+      "message": "Unnecessary reformatting here and a few places below. Was this from the Eclipse auto-formatting? IMHO these changes are distracting enough from the review that it\u0027s probably worth it to put the Eclipse auto-format in its own change.",
+      "revId": "ea381a14886d5dcabf17c39a85cab0633a635fa9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///rE\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/GitFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-07-10T19:52:10Z",
+      "side": 1,
+      "message": "This is a bit absurd, if you\u0027re doing formatting fixes, I\u0027d change this one to an if/else :)",
+      "revId": "ea381a14886d5dcabf17c39a85cab0633a635fa9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///rA\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/GitFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-07-10T19:52:10Z",
+      "side": 1,
+      "message": "Typo: factory",
+      "revId": "ea381a14886d5dcabf17c39a85cab0633a635fa9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///q8\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/GitFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-07-10T19:52:10Z",
+      "side": 1,
+      "message": "This wording (copied from above, I see) sounds like a non-sequitur. I think what you\u0027re trying to say is \"Filter implementations may access the PublisherClient instance from the request attribute {@link...}.\"",
+      "revId": "ea381a14886d5dcabf17c39a85cab0633a635fa9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///q4\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/GitFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-07-10T19:52:10Z",
+      "side": 1,
+      "message": "I disagree with Eclipse here, I would put the newline after the IllegalStateException(",
+      "revId": "ea381a14886d5dcabf17c39a85cab0633a635fa9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///qo\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/GitFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-07-10T19:52:10Z",
+      "side": 1,
+      "message": "Nit: we tend to be precise about binary/decimal sizes, so this would be 1 GiB.",
+      "revId": "ea381a14886d5dcabf17c39a85cab0633a635fa9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///qw\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/GitFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-07-10T19:52:10Z",
+      "side": 1,
+      "message": "1 \u003c\u003c 30 would be ok, and shorter methinks.",
+      "revId": "ea381a14886d5dcabf17c39a85cab0633a635fa9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///qU\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/GitFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-07-10T19:52:10Z",
+      "side": 1,
+      "message": "It may be worth documenting somewhere like the class javadoc that the URL matching behavior for pubsub differs in that there is a single endpoint that services multiple repositories. This is obvious to people who understand pubsub, but perhaps not for casual readers of this class.\n\nNote that this also means that if pubsub is enabled, you cannot serve a repository named \"git-publish-subscribe\" from a GitFilter.",
+      "revId": "ea381a14886d5dcabf17c39a85cab0633a635fa9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///qQ\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/GitSmartHttpTools.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-07-10T19:52:10Z",
+      "side": 1,
+      "message": "Long line.",
+      "revId": "ea381a14886d5dcabf17c39a85cab0633a635fa9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///qM\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/GitSmartHttpTools.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-07-10T19:52:10Z",
+      "side": 1,
+      "message": "Because the pubsub handler matches ^/ rather than */, this logic needs to be different.",
+      "revId": "ea381a14886d5dcabf17c39a85cab0633a635fa9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///p8\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/PublisherServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-07-10T19:52:10Z",
+      "side": 1,
+      "message": "Why does this need to exist? Obviously it will never return useful information other than whether or not pubsub is enabled/supported on the server. Why can\u0027t an HTTP pubsub client just connect directly to /git-publish-subscribe to get that information?",
+      "revId": "ea381a14886d5dcabf17c39a85cab0633a635fa9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///p0\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ReceivePackServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-07-10T19:52:10Z",
+      "side": 1,
+      "message": "Ditto my previous comments on aggressive Eclipse auto-formatting.",
+      "revId": "ea381a14886d5dcabf17c39a85cab0633a635fa9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///ps\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ReceivePackServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-07-10T19:52:10Z",
+      "side": 1,
+      "message": "I recommend setting postReceiveHook \u003d PostReceiveHook.NULL in the constructor, then you can drop this null check. newChain is smart enough to collapse out NULLs (but not nulls).\n\nThis also matches the behavior in ReceivePack.",
+      "revId": "ea381a14886d5dcabf17c39a85cab0633a635fa9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///po\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ReceivePackServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-07-10T19:52:10Z",
+      "side": 1,
+      "message": "hook !\u003d null ? hook : PostReceiveHook.NULL",
+      "revId": "ea381a14886d5dcabf17c39a85cab0633a635fa9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///pk\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ServletUtils.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-07-10T19:52:10Z",
+      "side": 1,
+      "message": "Long line. I suppose we could come up with something shorter if Shawn\u0027s alright with it, though :)",
+      "revId": "ea381a14886d5dcabf17c39a85cab0633a635fa9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///pY\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/glue/MetaFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-07-10T19:52:10Z",
+      "side": 1,
+      "message": "What does \"minimum\" mean? Are you contrasting between the ones configured by default and user-added ones? If so, maybe say that.\n\nAlso, not crazy about using \"bare\", which has another meaning in Git.",
+      "revId": "ea381a14886d5dcabf17c39a85cab0633a635fa9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///pU\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/resolver/DefaultPublisherClientFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-07-10T19:52:10Z",
+      "side": 1,
+      "message": "Nit: class names are generally nouns, so Wrap -\u003e Wrapper\n\nAlthough this doesn\u0027t feel exactly right as a wrapper class. It seems like it make sense to instead parameterize PublisherClient itself.\n\nAlthough, that raises the question of why we need to associate an HttpServletRequest with a PublisherClient when we don\u0027t for a n Upload/ReceivePack.",
+      "revId": "ea381a14886d5dcabf17c39a85cab0633a635fa9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///pQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PostReceiveHookChain.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-07-10T19:52:10Z",
+      "side": 1,
+      "message": "Thanks for adding this, I\u0027ve been meaning to do it.\n\nWould you mind also adding analogous static factory methods to (deep breath) AdvertiseRefsHookChain, PreReceiveHookChain, PreUploadHookChain, and UploadPackLoggerChain? In a separate change, clearly.",
+      "revId": "ea381a14886d5dcabf17c39a85cab0633a635fa9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
