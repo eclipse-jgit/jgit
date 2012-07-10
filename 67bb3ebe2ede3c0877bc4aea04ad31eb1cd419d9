@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn///r8\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/SubscribeTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-07-10T21:21:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn///vE\u003d",
+      "revId": "67bb3ebe2ede3c0877bc4aea04ad31eb1cd419d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn///vA\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/SubscribeTest.java",
         "patchSetId": 9
@@ -30,6 +48,24 @@
       "writtenOn": "2012-07-09T23:45:38Z",
       "side": 1,
       "message": "Use assertNotNull for these.\n\nAlthough, actually, I\u0027d probably rather you write this as an assertion over db.getRefs(\"refs/pubsub/origin/\").keySet():\n\nSet\u003cString\u003e expected \u003d new HashSet\u003cString\u003e();\n...\nassertEquals(expected, db.getRefs(\"refs/pubsub/origin/\").keySet());",
+      "revId": "67bb3ebe2ede3c0877bc4aea04ad31eb1cd419d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///rk\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/SubscribeTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-07-10T21:21:54Z",
+      "side": 1,
+      "message": "This test repository has 13 tags, so asserting all of them got copied seems messy using an expected key set. How does checking for the total number of copied refs and notNull for a few specific refs sound?",
+      "parentUuid": "AABOIn///vA\u003d",
       "revId": "67bb3ebe2ede3c0877bc4aea04ad31eb1cd419d9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn///rg\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/SubscribeTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-07-10T21:21:54Z",
+      "side": 1,
+      "message": "Same as above, 13 refs in this set. Checking for total expected number.",
+      "parentUuid": "AABOIn///u8\u003d",
+      "revId": "67bb3ebe2ede3c0877bc4aea04ad31eb1cd419d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn///v8\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscribeCommand.java",
         "patchSetId": 9
@@ -64,6 +118,24 @@
       "writtenOn": "2012-07-09T23:39:01Z",
       "side": 1,
       "message": "Add toString() for debugging",
+      "revId": "67bb3ebe2ede3c0877bc4aea04ad31eb1cd419d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///rc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscribeCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-07-10T21:21:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn///v8\u003d",
       "revId": "67bb3ebe2ede3c0877bc4aea04ad31eb1cd419d9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn///rY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscribeConnection.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-07-10T21:21:54Z",
+      "side": 1,
+      "message": "Done, yes keys are repository names.",
+      "parentUuid": "AABOIn///v4\u003d",
+      "revId": "67bb3ebe2ede3c0877bc4aea04ad31eb1cd419d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn///v0\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscribedRepository.java",
         "patchSetId": 9
@@ -98,6 +188,24 @@
       "writtenOn": "2012-07-09T23:39:01Z",
       "side": 1,
       "message": "This was slightly confusing to me. I think the second sentence could be reworded to emphasize how this ref tree differs from the usual remote namespace. For example:\nUnlike remote ref names, pubsub refs can refer to branches, tags, or other refs. Thus, the ref name under the remote is prefixed with \"/heads/\".",
+      "revId": "67bb3ebe2ede3c0877bc4aea04ad31eb1cd419d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///rU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscribedRepository.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-07-10T21:21:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn///v0\u003d",
       "revId": "67bb3ebe2ede3c0877bc4aea04ad31eb1cd419d9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn///rQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscribedRepository.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-07-10T21:21:54Z",
+      "side": 1,
+      "message": "This only translates the pubsub/origin/heads/ refs, so it doesn\u0027t allow trying to go pubsub/origin/tags -\u003e remotes/origin/fail. I\u0027ve added more javadoc to explain this restriction.",
+      "parentUuid": "AABOIn///vw\u003d",
+      "revId": "67bb3ebe2ede3c0877bc4aea04ad31eb1cd419d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn///vs\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscribedRepository.java",
         "patchSetId": 9
@@ -132,6 +258,24 @@
       "writtenOn": "2012-07-09T23:39:01Z",
       "side": 1,
       "message": "I would feel more comfortable with this if you did something like throw an IllegalArgumentException if !ref.startsWith(oldPrefix)",
+      "revId": "67bb3ebe2ede3c0877bc4aea04ad31eb1cd419d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///rI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscribedRepository.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-07-10T21:21:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn///vs\u003d",
       "revId": "67bb3ebe2ede3c0877bc4aea04ad31eb1cd419d9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn///q0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscribedRepository.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-07-10T21:21:54Z",
+      "side": 1,
+      "message": "I added a second constructor that allows passing an arbitrary repository.",
+      "parentUuid": "AABOIn///vo\u003d",
+      "revId": "67bb3ebe2ede3c0877bc4aea04ad31eb1cd419d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn///vk\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscribedRepository.java",
         "patchSetId": 9
@@ -166,6 +328,24 @@
       "writtenOn": "2012-07-09T23:39:01Z",
       "side": 1,
       "message": "IMHO this should include a descriptive reflog update, since this is a local repository that a user might be poking around in. cf. the output of \"git reflog refs/remotes/origin/master\" in a repo of your choice.",
+      "revId": "67bb3ebe2ede3c0877bc4aea04ad31eb1cd419d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///qs\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscribedRepository.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-07-10T21:21:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn///vk\u003d",
       "revId": "67bb3ebe2ede3c0877bc4aea04ad31eb1cd419d9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -189,6 +369,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn///qk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscribedRepository.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-07-10T21:21:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn///vg\u003d",
+      "revId": "67bb3ebe2ede3c0877bc4aea04ad31eb1cd419d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn///vc\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscribedRepository.java",
         "patchSetId": 9
@@ -200,6 +398,24 @@
       "writtenOn": "2012-07-09T23:39:01Z",
       "side": 1,
       "message": "No braces",
+      "revId": "67bb3ebe2ede3c0877bc4aea04ad31eb1cd419d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///qg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscribedRepository.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-07-10T21:21:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn///vc\u003d",
       "revId": "67bb3ebe2ede3c0877bc4aea04ad31eb1cd419d9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -223,6 +439,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn///qc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Subscriber.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-07-10T21:21:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn///vY\u003d",
+      "revId": "67bb3ebe2ede3c0877bc4aea04ad31eb1cd419d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn///vU\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Subscriber.java",
         "patchSetId": 9
@@ -234,6 +468,24 @@
       "writtenOn": "2012-07-09T23:39:01Z",
       "side": 1,
       "message": "Ditto maybe a Set",
+      "revId": "67bb3ebe2ede3c0877bc4aea04ad31eb1cd419d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///qY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Subscriber.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-07-10T21:21:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn///vU\u003d",
       "revId": "67bb3ebe2ede3c0877bc4aea04ad31eb1cd419d9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -257,6 +509,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn///p4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Subscriber.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-07-10T21:21:54Z",
+      "side": 1,
+      "message": "PubSub refs were never deleted, but I\u0027ve added logic to SubscribedRepository.setUpRefs() to delete any refs that no longer match.",
+      "parentUuid": "AABOIn///vQ\u003d",
+      "revId": "67bb3ebe2ede3c0877bc4aea04ad31eb1cd419d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn///vM\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Subscriber.java",
         "patchSetId": 9
@@ -268,6 +538,24 @@
       "writtenOn": "2012-07-09T23:39:01Z",
       "side": 1,
       "message": "Is this the same thing that you call a \"pack number\" elsewhere? Should we synchronize this terminology?",
+      "revId": "67bb3ebe2ede3c0877bc4aea04ad31eb1cd419d9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///qA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Subscriber.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-07-10T21:21:54Z",
+      "side": 1,
+      "message": "Yes, this is the last pack number received. I\u0027ll change it to getLastPackNumber().",
+      "parentUuid": "AABOIn///vM\u003d",
       "revId": "67bb3ebe2ede3c0877bc4aea04ad31eb1cd419d9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
