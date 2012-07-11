@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn///nM\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/ResolveMergerTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-07-11T19:27:24Z",
+      "side": 1,
+      "message": "Was there a problem?",
+      "revId": "df35a71ceca6502cb9de283503ca39c285080d09",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///nA\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/ResolveMergerTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-07-11T19:27:24Z",
+      "side": 1,
+      "message": "I\u0027d probably have used @ for fixed timestamp and leave * for \"any\" (future extension).",
+      "revId": "df35a71ceca6502cb9de283503ca39c285080d09",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///nI\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/ResolveMergerTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-07-11T19:27:24Z",
+      "side": 1,
+      "message": "Use javadoc format.",
+      "revId": "df35a71ceca6502cb9de283503ca39c285080d09",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///nE\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/merge/ResolveMergerTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-07-11T19:27:24Z",
+      "side": 1,
+      "message": "paths (no e)",
+      "revId": "df35a71ceca6502cb9de283503ca39c285080d09",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
