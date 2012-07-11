@@ -16,6 +16,24 @@
       "revId": "ccee77aff416cbed8a533e7524b2c4e13c93d6b0",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///mw\u003d",
+        "filename": "org.eclipse.jgit.packaging/org.eclipse.jgit.source.feature/feature.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 118
+      },
+      "writtenOn": "2012-07-11T10:29:53Z",
+      "side": 1,
+      "message": "You\u0027re right, I\u0027m used to a different pattern in Platform. Fixed in the latest patch set.",
+      "parentUuid": "AABOIn///z0\u003d",
+      "revId": "ccee77aff416cbed8a533e7524b2c4e13c93d6b0",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
