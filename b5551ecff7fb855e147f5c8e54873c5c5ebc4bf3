@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn///is\u003d",
+        "filename": "org.eclipse.jgit.pgm/resources/org/eclipse/jgit/pgm/CLIText.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-07-11T18:23:13Z",
+      "side": 1,
+      "message": "Probably could be a bit more specific about what kind of poll time.",
+      "revId": "b5551ecff7fb855e147f5c8e54873c5c5ebc4bf3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///iI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscribeProcess.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-07-11T18:23:13Z",
+      "side": 1,
+      "message": "This class and its methods should probably just be package-private",
+      "revId": "b5551ecff7fb855e147f5c8e54873c5c5ebc4bf3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///iA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscribeProcess.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-07-11T18:23:13Z",
+      "side": 1,
+      "message": "Huh, seems like some of these lines could be longer. Does the Eclipse auto-formatter know that tabs are 2 columns?",
+      "revId": "b5551ecff7fb855e147f5c8e54873c5c5ebc4bf3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
