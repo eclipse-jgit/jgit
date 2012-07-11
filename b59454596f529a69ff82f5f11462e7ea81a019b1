@@ -1,0 +1,259 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn///fU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackSubscribeConnection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-07-11T19:43:47Z",
+      "side": 1,
+      "message": "I think this is pointless and should be omitted from the protocol.",
+      "revId": "b59454596f529a69ff82f5f11462e7ea81a019b1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///fY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackSubscribeConnection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-07-11T19:43:47Z",
+      "side": 1,
+      "message": "Use a new string for the last pack. This means space will then be valid in a restart token. So instead say:\n\n  \"resume $TOKEN\"\n  \"last-pack $PACK\"\n\nTo keep the protocol readable we often include an LF at the end of strings written with writeString().\n\nI think \"resume\" or just \"restart\" is better command name then fast-restart. We probably made a mistake calling it fast restart.",
+      "revId": "b59454596f529a69ff82f5f11462e7ea81a019b1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///fI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackSubscribeConnection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-07-11T19:43:47Z",
+      "side": 1,
+      "message": "I don\u0027t like the abbreviation repo. repository?",
+      "revId": "b59454596f529a69ff82f5f11462e7ea81a019b1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///fE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackSubscribeConnection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-07-11T19:43:47Z",
+      "side": 1,
+      "message": "We could also call this \"want\".",
+      "revId": "b59454596f529a69ff82f5f11462e7ea81a019b1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///fA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackSubscribeConnection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-07-11T19:43:47Z",
+      "side": 1,
+      "message": "\"stop\"?",
+      "revId": "b59454596f529a69ff82f5f11462e7ea81a019b1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///fM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackSubscribeConnection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-07-11T19:43:47Z",
+      "side": 1,
+      "message": "you mean send the ref name the server knows the ref as?",
+      "revId": "b59454596f529a69ff82f5f11462e7ea81a019b1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///e4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackSubscribeConnection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-07-11T19:43:47Z",
+      "side": 1,
+      "message": "These should be sent as part of the earlier block, maybe do:\n\n  \"want $REF_NAME $SHA1\\n\"\n\nwhen the client already has the ref and:\n\n  \"want $REF_NAME\\n\"\n\nwhen the client doesn\u0027t?",
+      "revId": "b59454596f529a69ff82f5f11462e7ea81a019b1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///e0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackSubscribeConnection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-07-11T19:43:47Z",
+      "side": 1,
+      "message": "why not \"reconnect\".equals(line)?",
+      "revId": "b59454596f529a69ff82f5f11462e7ea81a019b1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///ew\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackSubscribeConnection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-07-11T19:43:47Z",
+      "side": 1,
+      "message": "Maybe instead \"ACK\\n\"?\n\nI would integrate the restart token code into the loop below. That way the server can rotate the token over time if it wants to by just making a new token, sending it down the wire, and maybe giving the client a short grace period where it can use either token before the old token is invalid and the new one must be used to resume successfully.",
+      "revId": "b59454596f529a69ff82f5f11462e7ea81a019b1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///es\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackSubscribeConnection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-07-11T19:43:47Z",
+      "side": 1,
+      "message": "There shouldn\u0027t be a flush packet here. Just heartbeat, continue.\n\nLike changing the restart token, I think the server should be able to tell you its ideal heartbeat window. Let the server decide how often it will send out these empty heartbeat messages to clients. Clients can then set their timeouts around the server\u0027s current heartbeat period.",
+      "revId": "b59454596f529a69ff82f5f11462e7ea81a019b1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///eo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackSubscribeConnection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-07-11T19:43:47Z",
+      "side": 1,
+      "message": "line.substring(\"update \".length()) ?",
+      "revId": "b59454596f529a69ff82f5f11462e7ea81a019b1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///eg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackSubscribeConnection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-07-11T19:43:47Z",
+      "side": 1,
+      "message": "line.substring(\"sequence \".length())",
+      "revId": "b59454596f529a69ff82f5f11462e7ea81a019b1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///ek\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackSubscribeConnection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-07-11T19:43:47Z",
+      "side": 1,
+      "message": "This shouldn\u0027t need a flush packet.",
+      "revId": "b59454596f529a69ff82f5f11462e7ea81a019b1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///ec\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackSubscribeConnection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-07-11T19:43:47Z",
+      "side": 1,
+      "message": "This should be at the top of the loop so that heartbeat pings still trigger this check.",
+      "revId": "b59454596f529a69ff82f5f11462e7ea81a019b1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///eY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackSubscribeConnection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-07-11T19:43:47Z",
+      "side": 1,
+      "message": "Use BaseReceivePack so you can avoid the status reporting stuff that exists in ReceivePack?",
+      "revId": "b59454596f529a69ff82f5f11462e7ea81a019b1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
