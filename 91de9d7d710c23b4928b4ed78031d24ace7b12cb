@@ -2,6 +2,91 @@
   "comments": [
     {
       "key": {
+        "uuid": "AABOIn///iY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscribeCommand.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-07-11T19:16:19Z",
+      "side": 1,
+      "message": ".toString() isn\u0027t necessary. + will call it for you.",
+      "revId": "91de9d7d710c23b4928b4ed78031d24ace7b12cb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///hY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscribedRepository.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-07-11T19:16:19Z",
+      "side": 1,
+      "message": "This isn\u0027t really the local ref, its the name of the remote ref from the tracking ref.\n\nWe call the things in refs/remotes/* tracking refs, to disambiguate them a bit from the local refs like our own refs/heads/foo and the remote server\u0027s refs/heads/master.",
+      "revId": "91de9d7d710c23b4928b4ed78031d24ace7b12cb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///hc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscribedRepository.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-07-11T19:16:19Z",
+      "side": 1,
+      "message": "Don\u0027t assume this refs/remotes/origin thing applies. Use the RemoteConfig and the fetch RefSpecs it contains.",
+      "revId": "91de9d7d710c23b4928b4ed78031d24ace7b12cb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///hg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscribedRepository.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-07-11T19:16:19Z",
+      "side": 1,
+      "message": "Don\u0027t assume this refs/remotes/origin/ thing applies. You need to do the translation using the RemoteConfig and the fetch RefSpecs that are declared within it.",
+      "revId": "91de9d7d710c23b4928b4ed78031d24ace7b12cb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///ho\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscribedRepository.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-07-11T19:16:19Z",
+      "side": 1,
+      "message": "This name is confusingly wrong. We are unlikely to be copying the remote\u0027s refs/heads/master to our refs/heads/master. So why is this method called local ref from pubsub?",
+      "revId": "91de9d7d710c23b4928b4ed78031d24ace7b12cb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn///jM\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscribedRepository.java",
         "patchSetId": 10
@@ -19,6 +104,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn///h0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscribedRepository.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-07-11T19:16:19Z",
+      "side": 1,
+      "message": "Yes please move to a translation file.",
+      "parentUuid": "AABOIn///jM\u003d",
+      "revId": "91de9d7d710c23b4928b4ed78031d24ace7b12cb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn///jI\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscribedRepository.java",
         "patchSetId": 10
@@ -30,6 +133,109 @@
       "writtenOn": "2012-07-11T18:06:30Z",
       "side": 1,
       "message": "I think you probably want false here. true appends one of \"created\", \"fast forward\", or \"forced-update\" to the message. Considering this is basically an unconditional copy, I don\u0027t think this information is useful to the user.\n\nAlso, it kinda feels like this should come from JGitText, but inspecting existing usages of setRefLogMessage shows that many aren\u0027t. I\u0027ll defer to Shawn.",
+      "revId": "91de9d7d710c23b4928b4ed78031d24ace7b12cb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///gs\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscribedRepository.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-07-11T19:16:19Z",
+      "side": 1,
+      "message": "I agree with Dave, false here.",
+      "parentUuid": "AABOIn///jI\u003d",
+      "revId": "91de9d7d710c23b4928b4ed78031d24ace7b12cb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///gw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscribedRepository.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-07-11T19:16:19Z",
+      "side": 1,
+      "message": "I think you want to forceUpdate().",
+      "revId": "91de9d7d710c23b4928b4ed78031d24ace7b12cb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///gg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscribedRepository.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-07-11T19:16:19Z",
+      "side": 1,
+      "message": "You need perform the deletes before you can create/update.\n\nConsider the case of a remote deleting \"refs/heads/foo\" and later creating \"refs/heads/foo/bar\". If you don\u0027t clear out the (now gone) refs/pubsub/origin/heads/foo first, you can\u0027t create refs/pubsub/origin/foo/bar because foo is a file and not a directory.",
+      "revId": "91de9d7d710c23b4928b4ed78031d24ace7b12cb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///go\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscribedRepository.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-07-11T19:16:19Z",
+      "side": 1,
+      "message": "refdb",
+      "revId": "91de9d7d710c23b4928b4ed78031d24ace7b12cb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///gk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscribedRepository.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-07-11T19:16:19Z",
+      "side": 1,
+      "message": "This is somewhat costly, given the amount of refs you need you are better off grabbing all local references once and passing that Map around.",
+      "revId": "91de9d7d710c23b4928b4ed78031d24ace7b12cb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///fg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Transport.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 1221,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-07-11T19:16:19Z",
+      "side": 1,
+      "message": "Probably should go into a text properties file.",
       "revId": "91de9d7d710c23b4928b4ed78031d24ace7b12cb",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
