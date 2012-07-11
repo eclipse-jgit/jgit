@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn///d0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/revplot/PlotCommit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2012-07-11T21:46:56Z",
+      "side": 1,
+      "message": "So now that this is a normal iteration, why not use the following?:\n\n    for (PlotCommit child : children)",
+      "revId": "1ed6d2d6ed3168ad3dff4637acaedae848a1a646",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
