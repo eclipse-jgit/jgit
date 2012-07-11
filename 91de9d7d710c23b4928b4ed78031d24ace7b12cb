@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn///jM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscribedRepository.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-07-11T18:06:30Z",
+      "side": 1,
+      "message": "Needs JGitText entry, I think",
+      "revId": "91de9d7d710c23b4928b4ed78031d24ace7b12cb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///jI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscribedRepository.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-07-11T18:06:30Z",
+      "side": 1,
+      "message": "I think you probably want false here. true appends one of \"created\", \"fast forward\", or \"forced-update\" to the message. Considering this is basically an unconditional copy, I don\u0027t think this information is useful to the user.\n\nAlso, it kinda feels like this should come from JGitText, but inspecting existing usages of setRefLogMessage shows that many aren\u0027t. I\u0027ll defer to Shawn.",
+      "revId": "91de9d7d710c23b4928b4ed78031d24ace7b12cb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
