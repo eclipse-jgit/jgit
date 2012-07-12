@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn///iU\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/GitFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-07-12T23:59:53Z",
+      "side": 1,
+      "message": "Done, reverted all of the auto-formatting so there will be lines \u003e 80 chars.",
+      "parentUuid": "AABOIn///rM\u003d",
+      "revId": "ea381a14886d5dcabf17c39a85cab0633a635fa9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn///rE\u003d",
         "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/GitFilter.java",
         "patchSetId": 3
@@ -53,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn///iQ\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/GitFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-07-12T23:59:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn///rA\u003d",
+      "revId": "ea381a14886d5dcabf17c39a85cab0633a635fa9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn///q8\u003d",
         "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/GitFilter.java",
         "patchSetId": 3
@@ -64,6 +100,24 @@
       "writtenOn": "2012-07-10T19:52:10Z",
       "side": 1,
       "message": "This wording (copied from above, I see) sounds like a non-sequitur. I think what you\u0027re trying to say is \"Filter implementations may access the PublisherClient instance from the request attribute {@link...}.\"",
+      "revId": "ea381a14886d5dcabf17c39a85cab0633a635fa9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///h8\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/GitFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-07-12T23:59:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn///q8\u003d",
       "revId": "ea381a14886d5dcabf17c39a85cab0633a635fa9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -87,6 +141,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn///iM\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/GitFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-07-12T23:59:53Z",
+      "side": 1,
+      "message": "Reverted formatting",
+      "parentUuid": "AABOIn///q4\u003d",
+      "revId": "ea381a14886d5dcabf17c39a85cab0633a635fa9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn///qo\u003d",
         "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/GitFilter.java",
         "patchSetId": 3
@@ -98,6 +170,24 @@
       "writtenOn": "2012-07-10T19:52:10Z",
       "side": 1,
       "message": "Nit: we tend to be precise about binary/decimal sizes, so this would be 1 GiB.",
+      "revId": "ea381a14886d5dcabf17c39a85cab0633a635fa9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///hs\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/GitFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-07-12T23:59:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn///qo\u003d",
       "revId": "ea381a14886d5dcabf17c39a85cab0633a635fa9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -121,6 +211,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn///hw\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/GitFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-07-12T23:59:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn///qw\u003d",
+      "revId": "ea381a14886d5dcabf17c39a85cab0633a635fa9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn///qU\u003d",
         "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/GitFilter.java",
         "patchSetId": 3
@@ -132,6 +240,24 @@
       "writtenOn": "2012-07-10T19:52:10Z",
       "side": 1,
       "message": "It may be worth documenting somewhere like the class javadoc that the URL matching behavior for pubsub differs in that there is a single endpoint that services multiple repositories. This is obvious to people who understand pubsub, but perhaps not for casual readers of this class.\n\nNote that this also means that if pubsub is enabled, you cannot serve a repository named \"git-publish-subscribe\" from a GitFilter.",
+      "revId": "ea381a14886d5dcabf17c39a85cab0633a635fa9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///hk\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/GitFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-07-12T23:59:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn///qU\u003d",
       "revId": "ea381a14886d5dcabf17c39a85cab0633a635fa9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -155,6 +281,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn///hU\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/GitSmartHttpTools.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-07-12T23:59:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn///qQ\u003d",
+      "revId": "ea381a14886d5dcabf17c39a85cab0633a635fa9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn///qM\u003d",
         "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/GitSmartHttpTools.java",
         "patchSetId": 3
@@ -166,6 +310,24 @@
       "writtenOn": "2012-07-10T19:52:10Z",
       "side": 1,
       "message": "Because the pubsub handler matches ^/ rather than */, this logic needs to be different.",
+      "revId": "ea381a14886d5dcabf17c39a85cab0633a635fa9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///hQ\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/GitSmartHttpTools.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-07-12T23:59:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn///qM\u003d",
       "revId": "ea381a14886d5dcabf17c39a85cab0633a635fa9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -189,6 +351,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn///hA\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/PublisherServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-07-12T23:59:53Z",
+      "side": 1,
+      "message": "For simplicity I was re-using the isSmartHttp function in TransportHttp to detect if pubsub was enabled, which will ping /info/refs. It also avoids POSTing a potentially large subscription request to a server that doesn\u0027t support it (minor case), and avoids further mess in the main doSubscribe error handling.",
+      "parentUuid": "AABOIn///p8\u003d",
+      "revId": "ea381a14886d5dcabf17c39a85cab0633a635fa9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn///p0\u003d",
         "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ReceivePackServlet.java",
         "patchSetId": 3
@@ -200,6 +380,24 @@
       "writtenOn": "2012-07-10T19:52:10Z",
       "side": 1,
       "message": "Ditto my previous comments on aggressive Eclipse auto-formatting.",
+      "revId": "ea381a14886d5dcabf17c39a85cab0633a635fa9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///g8\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ReceivePackServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-07-12T23:59:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn///p0\u003d",
       "revId": "ea381a14886d5dcabf17c39a85cab0633a635fa9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -223,6 +421,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn///g4\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ReceivePackServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-07-12T23:59:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn///ps\u003d",
+      "revId": "ea381a14886d5dcabf17c39a85cab0633a635fa9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn///po\u003d",
         "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ReceivePackServlet.java",
         "patchSetId": 3
@@ -234,6 +450,24 @@
       "writtenOn": "2012-07-10T19:52:10Z",
       "side": 1,
       "message": "hook !\u003d null ? hook : PostReceiveHook.NULL",
+      "revId": "ea381a14886d5dcabf17c39a85cab0633a635fa9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///g0\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ReceivePackServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-07-12T23:59:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn///po\u003d",
       "revId": "ea381a14886d5dcabf17c39a85cab0633a635fa9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -274,6 +508,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn///hM\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/glue/MetaFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-07-12T23:59:53Z",
+      "side": 1,
+      "message": "There are 2 filters added by default: a caching one and one that adds a repository attribute to each request. In the pubsub case, there is no repository to be added, so that filter needs to be disabled.\n\ns/isBare/noRepository",
+      "parentUuid": "AABOIn///pY\u003d",
+      "revId": "ea381a14886d5dcabf17c39a85cab0633a635fa9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn///pU\u003d",
         "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/resolver/DefaultPublisherClientFactory.java",
         "patchSetId": 3
@@ -291,6 +543,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn///hI\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/resolver/DefaultPublisherClientFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-07-12T23:59:53Z",
+      "side": 1,
+      "message": "We need the request object to do repository lookups. Upload/ReceivePack don\u0027t need to keep a reference because their repository instance is looked up once in a filter and attached to the request. I had a \u003cC\u003e parameter on PublisherClient earlier, but Shawn said to take it out.",
+      "parentUuid": "AABOIn///pU\u003d",
+      "revId": "ea381a14886d5dcabf17c39a85cab0633a635fa9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn///pQ\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PostReceiveHookChain.java",
         "patchSetId": 3
@@ -302,6 +572,24 @@
       "writtenOn": "2012-07-10T19:52:10Z",
       "side": 1,
       "message": "Thanks for adding this, I\u0027ve been meaning to do it.\n\nWould you mind also adding analogous static factory methods to (deep breath) AdvertiseRefsHookChain, PreReceiveHookChain, PreUploadHookChain, and UploadPackLoggerChain? In a separate change, clearly.",
+      "revId": "ea381a14886d5dcabf17c39a85cab0633a635fa9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///hE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PostReceiveHookChain.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-07-12T23:59:53Z",
+      "side": 1,
+      "message": "Sure.",
+      "parentUuid": "AABOIn///pQ\u003d",
       "revId": "ea381a14886d5dcabf17c39a85cab0633a635fa9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
