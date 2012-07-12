@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn///VU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackSubscribeConnection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-07-12T21:12:05Z",
+      "side": 1,
+      "message": "Replaced with an [END] packet after the restart section.",
+      "parentUuid": "AABOIn///ck\u003d",
+      "revId": "b59454596f529a69ff82f5f11462e7ea81a019b1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn///fY\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackSubscribeConnection.java",
         "patchSetId": 4
@@ -159,6 +177,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn///Us\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackSubscribeConnection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-07-12T21:12:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn///fA\u003d",
+      "revId": "b59454596f529a69ff82f5f11462e7ea81a019b1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn///fM\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackSubscribeConnection.java",
         "patchSetId": 4
@@ -247,6 +283,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn///VQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackSubscribeConnection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-07-12T21:12:05Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "AABOIn///WE\u003d",
+      "revId": "b59454596f529a69ff82f5f11462e7ea81a019b1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn///e0\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackSubscribeConnection.java",
         "patchSetId": 4
@@ -258,6 +312,24 @@
       "writtenOn": "2012-07-11T19:43:47Z",
       "side": 1,
       "message": "why not \"reconnect\".equals(line)?",
+      "revId": "b59454596f529a69ff82f5f11462e7ea81a019b1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///W0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackSubscribeConnection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-07-12T21:12:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn///e0\u003d",
       "revId": "b59454596f529a69ff82f5f11462e7ea81a019b1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -317,6 +389,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn///Uw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackSubscribeConnection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-07-12T21:12:05Z",
+      "side": 1,
+      "message": "Ok, added the ability for the server to send \"change-restart-token\".",
+      "parentUuid": "AABOIn///WI\u003d",
+      "revId": "b59454596f529a69ff82f5f11462e7ea81a019b1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn///es\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackSubscribeConnection.java",
         "patchSetId": 4
@@ -369,6 +459,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn///W4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackSubscribeConnection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-07-12T21:12:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn///eo\u003d",
+      "revId": "b59454596f529a69ff82f5f11462e7ea81a019b1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn///eg\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackSubscribeConnection.java",
         "patchSetId": 4
@@ -386,6 +494,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn///U4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackSubscribeConnection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-07-12T21:12:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn///eg\u003d",
+      "revId": "b59454596f529a69ff82f5f11462e7ea81a019b1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn///ek\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackSubscribeConnection.java",
         "patchSetId": 4
@@ -397,6 +523,24 @@
       "writtenOn": "2012-07-11T19:43:47Z",
       "side": 1,
       "message": "This shouldn\u0027t need a flush packet.",
+      "revId": "b59454596f529a69ff82f5f11462e7ea81a019b1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///U0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackSubscribeConnection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-07-12T21:12:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn///ek\u003d",
       "revId": "b59454596f529a69ff82f5f11462e7ea81a019b1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
