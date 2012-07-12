@@ -385,11 +385,18 @@ public abstract class Repository {
 	private ObjectId resolve(final RevWalk rw, final String revstr) throws IOException {
 		char[] revChars = revstr.toCharArray();
 		RevObject rev = null;
+		Ref ref = null;
+		int done = 0;
 		for (int i = 0; i < revChars.length; ++i) {
 			switch (revChars[i]) {
 			case '^':
 				if (rev == null) {
-					rev = parseSimple(rw, new String(revChars, 0, i));
+					if (ref == null)
+						rev = parseSimple(rw, new String(revChars, done, i));
+					else {
+						rev = rw.parseAny(ref.getLeaf().getObjectId());
+						ref = null;
+					}
 					if (rev == null)
 						return null;
 				}
@@ -429,6 +436,7 @@ public abstract class Repository {
 								rev = commit.getParent(pnum - 1);
 						}
 						i = j - 1;
+						done = i;
 						break;
 					case '{':
 						int k;
@@ -456,6 +464,7 @@ public abstract class Repository {
 								throw new RevisionSyntaxException(revstr);
 						else
 							throw new RevisionSyntaxException(revstr);
+						done = k;
 						break;
 					default:
 						rev = rw.parseAny(rev);
@@ -485,7 +494,12 @@ public abstract class Repository {
 				break;
 			case '~':
 				if (rev == null) {
-					rev = parseSimple(rw, new String(revChars, 0, i));
+					if (ref == null)
+						rev = parseSimple(rw, new String(revChars, done, i));
+					else {
+						rev = rw.parseAny(ref.getLeaf().getObjectId());
+						ref = null;
+					}
 					if (rev == null)
 						return null;
 				}
@@ -523,6 +537,8 @@ public abstract class Repository {
 				i = l - 1;
 				break;
 			case '@':
+				if (rev != null)
+					throw new RevisionSyntaxException(revstr);
 				int m;
 				String time = null;
 				for (m = i + 2; m < revChars.length; ++m) {
@@ -532,11 +548,24 @@ public abstract class Repository {
 					}
 				}
 				if (time != null) {
-					String refName = new String(revChars, 0, i);
-					Ref resolved = getRefDatabase().getRef(refName);
-					if (resolved == null)
-						return null;
-					rev = resolveReflog(rw, resolved, time);
+					if (ref == null) {
+						String refName = new String(revChars, done, i);
+						if (refName.equals("")) {
+							// Currently checked out branch, HEAD if
+							// detached
+							ref = getRef(Constants.HEAD);
+							if (ref == null)
+								return null;
+							if (ref.isSymbolic())
+								ref = ref.getLeaf();
+							if (ref.getObjectId() == null)
+								return null;
+						} else
+							ref = getRef(refName);
+						if (ref == null)
+							return null;
+					}
+					rev = resolveReflog(rw, ref, time);
 					i = m;
 				} else
 					i = m - 1;
@@ -544,23 +573,19 @@ public abstract class Repository {
 			case ':': {
 				RevTree tree;
 				if (rev == null) {
-					// We might not yet have parsed the left hand side.
-					ObjectId id;
-					try {
-						if (i == 0)
-							id = resolve(rw, Constants.HEAD);
+					if (ref == null) {
+						if (i - done == 0)
+							rev = rw.parseAny(resolve(rw, Constants.HEAD));
 						else
-							id = resolve(rw, new String(revChars, 0, i));
-					} catch (RevisionSyntaxException badSyntax) {
-						throw new RevisionSyntaxException(revstr);
+							rev = parseSimple(rw, new String(revChars, done, i));
+					} else {
+						rev = rw.parseAny(ref.getLeaf().getObjectId());
+						ref = null;
 					}
-					if (id == null)
+					if (rev == null)
 						return null;
-					tree = rw.parseTree(id);
-				} else {
-					tree = rw.parseTree(rev);
 				}
-
+				tree = rw.parseTree(rev);
 				if (i == revChars.length - 1)
 					return tree.copy();
 
