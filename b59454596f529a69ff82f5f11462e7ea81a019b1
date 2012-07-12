@@ -229,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn///WE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackSubscribeConnection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-07-12T20:23:39Z",
+      "side": 1,
+      "message": "Ack, I forgot about that problem. What about:\n\n  repository android\n  want refs/heads/*\n  want refs/tags/*\n  have 01234... refs/heads/master\n  have 56789... refs/heads/branch1\n  [flush-pkt]\n  repository kernel\n  want refs/heads/master\n  [flush-pkt]\n  done",
+      "parentUuid": "AABOIn///cs\u003d",
+      "revId": "b59454596f529a69ff82f5f11462e7ea81a019b1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn///e0\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackSubscribeConnection.java",
         "patchSetId": 4
@@ -275,6 +293,24 @@
       "side": 1,
       "message": "Why would the server want/need to change the token? Allowing two valid tokens at a time will make the server code uglier for no visible benefit.",
       "parentUuid": "AABOIn///ew\u003d",
+      "revId": "b59454596f529a69ff82f5f11462e7ea81a019b1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///WI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackSubscribeConnection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-07-12T20:23:39Z",
+      "side": 1,
+      "message": "Maybe the token includes the server IP and port number. And the current server knows it is about to terminate. So it sends the session\u0027s data to another server in the cluster. And it wants the client to get the new token that names the new server. So it sends an updated token to the client, and the client can use that when it restarts after this connection is broken by this server.\n\nI would rather build some flexibility into the protocol than to assume that someone would never ever want to change the token.",
+      "parentUuid": "AABOIn///cc\u003d",
       "revId": "b59454596f529a69ff82f5f11462e7ea81a019b1",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
