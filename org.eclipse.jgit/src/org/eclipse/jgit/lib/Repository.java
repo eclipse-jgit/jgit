@@ -376,13 +376,43 @@ public abstract class Repository {
 			throws AmbiguousObjectException, IOException {
 		RevWalk rw = new RevWalk(this);
 		try {
-			return resolve(rw, revstr);
+			Object resolved = resolve(rw, revstr);
+			if (resolved instanceof Ref) {
+				return ((Ref) resolved).getObjectId();
+			} else {
+				return (ObjectId) resolved;
+			}
 		} finally {
 			rw.release();
 		}
 	}
 
-	private ObjectId resolve(final RevWalk rw, final String revstr) throws IOException {
+	/**
+	 * @see #resolve(String)
+	 * @param revstr
+	 * @return object id or ref name from resolved expression
+	 * @throws AmbiguousObjectException
+	 * @throws IOException
+	 */
+	public String resolveExpr(final String revstr)
+			throws AmbiguousObjectException, IOException {
+		RevWalk rw = new RevWalk(this);
+		try {
+			Object resolved = resolve(rw, revstr);
+			if (resolved != null)
+				if (resolved instanceof Ref)
+					return Repository
+							.shortenRefName(((Ref) resolved).getName());
+				else
+					return ((AnyObjectId) resolved).getName();
+			return null;
+		} finally {
+			rw.release();
+		}
+	}
+
+	private Object resolve(final RevWalk rw, final String revstr)
+			throws IOException {
 		char[] revChars = revstr.toCharArray();
 		RevObject rev = null;
 		Ref ref = null;
@@ -568,14 +598,14 @@ public abstract class Repository {
 					rev = resolveReflog(rw, ref, time);
 					i = m;
 				} else
-					i = m - 1;
+					throw new RevisionSyntaxException(revstr);
 				break;
 			case ':': {
 				RevTree tree;
 				if (rev == null) {
 					if (ref == null) {
 						if (i - done == 0)
-							rev = rw.parseAny(resolve(rw, Constants.HEAD));
+							rev = parseSimple(rw, Constants.HEAD);
 						else
 							rev = parseSimple(rw, new String(revChars, done, i));
 					} else {
@@ -600,7 +630,8 @@ public abstract class Repository {
 					throw new RevisionSyntaxException(revstr);
 			}
 		}
-		return rev != null ? rev.copy() : resolveSimple(revstr);
+		return rev != null ? rev.copy() : ref != null ? ref
+				: resolveSimple(revstr);
 	}
 
 	private static boolean isHex(char c) {
