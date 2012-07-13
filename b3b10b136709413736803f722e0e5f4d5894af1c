@@ -16,6 +16,24 @@
       "revId": "b3b10b136709413736803f722e0e5f4d5894af1c",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///KI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscribeProcess.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-07-13T19:35:34Z",
+      "side": 1,
+      "message": "SubscribeProcess.execute() \u003c- Subscriber.sync() \u003c- SubscribedRepository.setUpRefs() \u003c- new RemoteConfig()",
+      "parentUuid": "AABOIn///KQ\u003d",
+      "revId": "b3b10b136709413736803f722e0e5f4d5894af1c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
