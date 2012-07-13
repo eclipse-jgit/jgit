@@ -68,6 +68,10 @@ public class CleanCommand extends GitCommand<Set<String>> {
 
 	private boolean dryRun;
 
+	private boolean directories;
+
+	private boolean ignore = true;
+
 	/**
 	 * @param repo
 	 */
@@ -90,17 +94,80 @@ public class CleanCommand extends GitCommand<Set<String>> {
 		try {
 			StatusCommand command = new StatusCommand(repo);
 			Status status = command.call();
-			for (String file : status.getUntracked()) {
+
+			Set<String> untrackedAndIgnoredFiles = new TreeSet<String>(
+					status.getUntracked());
+			Set<String> untrackedAndIgnoredDirs = new TreeSet<String>(
+					status.getUntrackedFolders());
+
+			for (String p : status.getIgnoredNotInIndex()) {
+				File f = new File(repo.getWorkTree(), p);
+				if (f.isFile()) {
+					untrackedAndIgnoredFiles.add(p);
+				} else if (f.isDirectory()) {
+					untrackedAndIgnoredDirs.add(p);
+				}
+			}
+
+			Set<String> filtered = filterFolders(untrackedAndIgnoredFiles,
+					untrackedAndIgnoredDirs);
+
+			Set<String> notIgnoredFiles = filterIgnorePaths(filtered,
+					status.getIgnoredNotInIndex(), true);
+			Set<String> notIgnoredDirs = filterIgnorePaths(
+					untrackedAndIgnoredDirs,
+					status.getIgnoredNotInIndex(), false);
+
+			for (String file : notIgnoredFiles)
 				if (paths.isEmpty() || paths.contains(file)) {
 					if (!dryRun)
 						FileUtils.delete(new File(repo.getWorkTree(), file));
 					files.add(file);
 				}
-			}
+
+			if (directories)
+				for (String dir : notIgnoredDirs)
+					if (paths.isEmpty() || paths.contains(dir)) {
+						if (!dryRun)
+							FileUtils.delete(new File(repo.getWorkTree(), dir),
+									FileUtils.RECURSIVE);
+						files.add(dir + "/");
+					}
 		} catch (IOException e) {
 			throw new JGitInternalException(e.getMessage(), e);
 		}
 		return files;
+	}
+
+	private Set<String> filterIgnorePaths(Set<String> inputPaths,
+			Set<String> ignoredNotInIndex, boolean exact) {
+		if (ignore) {
+			Set<String> filtered = new TreeSet<String>(inputPaths);
+			for (String path : inputPaths)
+				for (String ignored : ignoredNotInIndex)
+					if ((exact && path.equals(ignored))
+							|| (!exact && path.startsWith(ignored))) {
+						filtered.remove(path);
+						break;
+					}
+
+			return filtered;
+		}
+		return inputPaths;
+	}
+
+	private Set<String> filterFolders(Set<String> untracked,
+			Set<String> untrackedFolders) {
+		Set<String> filtered = new TreeSet<String>(untracked);
+		for (String file : untracked)
+			for (String folder : untrackedFolders)
+				if (file.startsWith(folder)) {
+					filtered.remove(file);
+					break;
+				}
+
+
+		return filtered;
 	}
 
 	/**
@@ -124,6 +191,31 @@ public class CleanCommand extends GitCommand<Set<String>> {
 	 */
 	public CleanCommand setDryRun(boolean dryRun) {
 		this.dryRun = dryRun;
+		return this;
+	}
+
+	/**
+	 * If dirs is set, in addition to files, also clean directories.
+	 *
+	 * @param dirs
+	 *            whether to clean directories too, or only files.
+	 * @return {@code this}
+	 */
+	public CleanCommand setCleanDirectories(boolean dirs) {
+		directories = dirs;
+		return this;
+	}
+
+	/**
+	 * If ignore is set, don't report/clean files/directories that are ignored
+	 * by a .gitignore. otherwise do handle them.
+	 *
+	 * @param ignore
+	 *            whether to respect .gitignore or not.
+	 * @return {@code this}
+	 */
+	public CleanCommand setIgnore(boolean ignore) {
+		this.ignore = ignore;
 		return this;
 	}
 }
