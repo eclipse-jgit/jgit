@@ -79,6 +79,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.storage.file.CheckoutEntry;
 import org.eclipse.jgit.storage.file.ReflogEntry;
 import org.eclipse.jgit.storage.file.ReflogReader;
 import org.eclipse.jgit.treewalk.TreeWalk;
@@ -578,24 +579,37 @@ public abstract class Repository {
 					}
 				}
 				if (time != null) {
-					if (ref == null) {
-						String refName = new String(revChars, done, i);
-						if (refName.equals("")) {
-							// Currently checked out branch, HEAD if
-							// detached
-							ref = getRef(Constants.HEAD);
+					if (time.matches("^-\\d+$")) {
+						if (ref != null)
+							throw new RevisionSyntaxException(revstr);
+						else {
+							String previousCheckout = resolveReflogCheckout(-Integer
+									.parseInt(time));
+							if (ObjectId.isId(previousCheckout))
+								rev = parseSimple(rw, previousCheckout);
+							else
+								ref = getRef(previousCheckout);
+						}
+					} else {
+						if (ref == null) {
+							String refName = new String(revChars, done, i);
+							if (refName.equals("")) {
+								// Currently checked out branch, HEAD if
+								// detached
+								ref = getRef(Constants.HEAD);
+								if (ref == null)
+									return null;
+								if (ref.isSymbolic())
+									ref = ref.getLeaf();
+								if (ref.getObjectId() == null)
+									return null;
+							} else
+								ref = getRef(refName);
 							if (ref == null)
 								return null;
-							if (ref.isSymbolic())
-								ref = ref.getLeaf();
-							if (ref.getObjectId() == null)
-								return null;
-						} else
-							ref = getRef(refName);
-						if (ref == null)
-							return null;
+						}
+						rev = resolveReflog(rw, ref, time);
 					}
-					rev = resolveReflog(rw, ref, time);
 					i = m;
 				} else
 					throw new RevisionSyntaxException(revstr);
@@ -678,6 +692,19 @@ public abstract class Repository {
 		return null;
 	}
 
+	private String resolveReflogCheckout(int checkoutNo)
+			throws IOException {
+		List<ReflogEntry> reflogEntries = new ReflogReader(this, Constants.HEAD)
+				.getReverseEntries();
+		for (ReflogEntry entry : reflogEntries) {
+			CheckoutEntry checkout = entry.parseCheckout();
+			if (checkout != null)
+				if (checkoutNo-- == 1)
+					return checkout.getFromBranch();
+		}
+		return null;
+	}
+
 	private RevCommit resolveReflog(RevWalk rw, Ref ref, String time)
 			throws IOException {
 		int number;
@@ -687,10 +714,7 @@ public abstract class Repository {
 			throw new RevisionSyntaxException(MessageFormat.format(
 					JGitText.get().invalidReflogRevision, time));
 		}
-		if (number < 0)
-			throw new RevisionSyntaxException(MessageFormat.format(
-					JGitText.get().invalidReflogRevision, time));
-
+		assert number >= 0;
 		ReflogReader reader = new ReflogReader(this, ref.getName());
 		ReflogEntry entry = reader.getReverseEntry(number);
 		if (entry == null)
