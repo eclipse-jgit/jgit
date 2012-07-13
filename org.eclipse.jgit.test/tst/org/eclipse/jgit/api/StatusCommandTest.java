@@ -44,6 +44,7 @@ package org.eclipse.jgit.api;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
@@ -125,6 +126,10 @@ public class StatusCommandTest extends RepositoryTestCase {
 		assertEquals(set("a"), stat.getUntracked());
 		git.commit().setMessage("t").call();
 
+		writeTrashFile("sub/a", "sub-file");
+		stat = git.status().call();
+		assertEquals(1, stat.getUntrackedFolders().size());
+		assertTrue(stat.getUntrackedFolders().contains("sub"));
 	}
 
 	public static Set<String> set(String... elements) {
