@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn///R8\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/CleanCommandTest.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2012-07-13T06:31:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOG3//8so\u003d",
+      "revId": "3ee9bec789f945cc0e4d93b7e538d7c61968c38e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOG3//8sw\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CleanCommand.java",
         "patchSetId": 12
