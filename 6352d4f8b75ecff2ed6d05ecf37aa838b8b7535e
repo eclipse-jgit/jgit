@@ -1,0 +1,225 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn///Jw\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PubSubTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-07-13T19:54:24Z",
+      "side": 1,
+      "message": "Ok, but wouldn\u0027t it be nice if we also tested the multiple repository case? :)\n\n(Not necessary in this change, though.)",
+      "revId": "6352d4f8b75ecff2ed6d05ecf37aa838b8b7535e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///Js\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PubSubTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-07-13T19:54:24Z",
+      "side": 1,
+      "message": "This should probably be test://test.com/, since your TransportProtocol\u0027s name is \"test\".\n\nIn fact, I\u0027m kind of surprised it works with http...",
+      "revId": "6352d4f8b75ecff2ed6d05ecf37aa838b8b7535e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///Jo\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PubSubTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-07-13T19:54:24Z",
+      "side": 1,
+      "message": "You probably want the test to fail in this case?",
+      "revId": "6352d4f8b75ecff2ed6d05ecf37aa838b8b7535e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///Jk\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PubSubTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-07-13T19:54:24Z",
+      "side": 1,
+      "message": "I\u0027m a bit shaky on this area of JUnit4, but I think a better way to do this is to name this method something else rather than overriding setUp, and then annotating it with @Before. Then you don\u0027t need to call super.setUp(). IIUC the test runner will automatically call all @Before/@After methods starting from the root of the inheritance chain, in order. (But it makes no guarantees about order of @Before/@After within the same class.)",
+      "revId": "6352d4f8b75ecff2ed6d05ecf37aa838b8b7535e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///Jg\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PubSubTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-07-13T19:54:24Z",
+      "side": 1,
+      "message": "See above.",
+      "revId": "6352d4f8b75ecff2ed6d05ecf37aa838b8b7535e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///Jc\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PubSubTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-07-13T19:54:24Z",
+      "side": 1,
+      "message": "-1 on using Thread.sleep in tests, it makes them slow and brittle.\n\nInstead, see if there\u0027s some place you can hook in a CountDownLatch that counts down when the client thread connects.",
+      "revId": "6352d4f8b75ecff2ed6d05ecf37aa838b8b7535e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///JY\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PubSubTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-07-13T19:54:24Z",
+      "side": 1,
+      "message": "Don\u0027t use Thread.sleep.",
+      "revId": "6352d4f8b75ecff2ed6d05ecf37aa838b8b7535e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///JU\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PubSubTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-07-13T19:54:24Z",
+      "side": 1,
+      "message": "Don\u0027t use Thread.sleep.",
+      "revId": "6352d4f8b75ecff2ed6d05ecf37aa838b8b7535e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///JQ\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PubSubTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-07-13T19:54:24Z",
+      "side": 1,
+      "message": "Don\u0027t use Thread.sleep.",
+      "revId": "6352d4f8b75ecff2ed6d05ecf37aa838b8b7535e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///JM\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PubSubTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-07-13T19:54:24Z",
+      "side": 1,
+      "message": "Don\u0027t use Thread.sleep.",
+      "revId": "6352d4f8b75ecff2ed6d05ecf37aa838b8b7535e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///JI\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PubSubTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-07-13T19:54:24Z",
+      "side": 1,
+      "message": "Don\u0027t use Thread.sleep.",
+      "revId": "6352d4f8b75ecff2ed6d05ecf37aa838b8b7535e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///JA\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PubSubTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-07-13T19:54:24Z",
+      "side": 1,
+      "message": "Might as well just store this in a field as serverGit.",
+      "revId": "6352d4f8b75ecff2ed6d05ecf37aa838b8b7535e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///I4\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PubSubTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-07-13T19:54:24Z",
+      "side": 1,
+      "message": "Nit: don\u0027t use exceptions for control flow if you can avoid it:\nparent \u003d commit.getParentCount() \u003e 0 ? commit.getParent(0) : ObjectId.zeroId()\n(or something)",
+      "revId": "6352d4f8b75ecff2ed6d05ecf37aa838b8b7535e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
