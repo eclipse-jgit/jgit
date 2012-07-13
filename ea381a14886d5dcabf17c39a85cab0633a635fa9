@@ -387,6 +387,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn///HM\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/PublisherServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-07-13T21:49:29Z",
+      "side": 1,
+      "message": "I\u0027m fine with GET /git-publish-subscribe and returning the same smart HTTP response. Shawn?",
+      "parentUuid": "AABOIn///J8\u003d",
+      "revId": "ea381a14886d5dcabf17c39a85cab0633a635fa9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn///p0\u003d",
         "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ReceivePackServlet.java",
         "patchSetId": 3
