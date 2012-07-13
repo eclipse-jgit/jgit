@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn///TU\u003d",
+        "filename": "org.eclipse.jgit.pgm/resources/org/eclipse/jgit/pgm/CLIText.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-07-13T00:16:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn///is\u003d",
+      "revId": "b5551ecff7fb855e147f5c8e54873c5c5ebc4bf3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn///iI\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscribeProcess.java",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn///TQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscribeProcess.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-07-13T00:16:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn///iI\u003d",
+      "revId": "b5551ecff7fb855e147f5c8e54873c5c5ebc4bf3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn///iA\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscribeProcess.java",
         "patchSetId": 2
@@ -47,6 +83,24 @@
       "writtenOn": "2012-07-11T18:23:13Z",
       "side": 1,
       "message": "Huh, seems like some of these lines could be longer. Does the Eclipse auto-formatter know that tabs are 2 columns?",
+      "revId": "b5551ecff7fb855e147f5c8e54873c5c5ebc4bf3",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///co\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscribeProcess.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-07-13T00:16:08Z",
+      "side": 1,
+      "message": "Those lines were overzealously wrapped, but builtin jgit settings have it at 4 spaces/tab...",
+      "parentUuid": "AABOIn///iA\u003d",
       "revId": "b5551ecff7fb855e147f5c8e54873c5c5ebc4bf3",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
