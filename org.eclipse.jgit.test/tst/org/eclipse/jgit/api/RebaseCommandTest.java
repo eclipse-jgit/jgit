@@ -1057,7 +1057,6 @@ public class RebaseCommandTest extends RepositoryTestCase {
 	}
 
 	@Test
-	@SuppressWarnings("null")
 	public void testRebaseWithUnstagedTopicChange() throws Exception {
 		// create file1, add and commit
 		writeTrashFile(FILE1, "file1");
@@ -1082,19 +1081,14 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		writeTrashFile("file2", "unstaged file2");
 
 		// rebase
-		JGitInternalException exception = null;
-		try {
-			git.rebase().setUpstream("refs/heads/master").call();
-		} catch (JGitInternalException e) {
-			exception = e;
-		}
-		assertNotNull(exception);
-		assertEquals("Checkout conflict with files: \nfile2",
-				exception.getMessage());
+		RebaseResult result = git.rebase().setUpstream("refs/heads/master")
+				.call();
+		assertEquals(Status.CONFLICTS, result.getStatus());
+		assertEquals(1, result.getConflicts().size());
+		assertEquals("file2", result.getConflicts().get(0));
 	}
 
 	@Test
-	@SuppressWarnings("null")
 	public void testRebaseWithUncommittedTopicChange() throws Exception {
 		// create file1, add and commit
 		writeTrashFile(FILE1, "file1");
@@ -1120,23 +1114,17 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		git.add().addFilepattern("file2").call();
 		// do not commit
 
-		// rebase
-		JGitInternalException exception = null;
-		try {
-			git.rebase().setUpstream("refs/heads/master").call();
-		} catch (JGitInternalException e) {
-			exception = e;
-		}
-		assertNotNull(exception);
-		assertEquals("Checkout conflict with files: \nfile2",
-				exception.getMessage());
+		RebaseResult result = git.rebase().setUpstream("refs/heads/master")
+				.call();
+		assertEquals(Status.CONFLICTS, result.getStatus());
+		assertEquals(1, result.getConflicts().size());
+		assertEquals("file2", result.getConflicts().get(0));
 
 		checkFile(uncommittedFile, "uncommitted file2");
 		assertEquals(RepositoryState.SAFE, git.getRepository().getRepositoryState());
 	}
 
 	@Test
-	@SuppressWarnings("null")
 	public void testRebaseWithUnstagedMasterChange() throws Exception {
 		// create file1, add and commit
 		writeTrashFile(FILE1, "file1");
@@ -1161,19 +1149,14 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		writeTrashFile(FILE1, "unstaged modified file1");
 
 		// rebase
-		JGitInternalException exception = null;
-		try {
-			git.rebase().setUpstream("refs/heads/master").call();
-		} catch (JGitInternalException e) {
-			exception = e;
-		}
-		assertNotNull(exception);
-		assertEquals("Checkout conflict with files: \nfile1",
-				exception.getMessage());
+		RebaseResult result = git.rebase().setUpstream("refs/heads/master")
+				.call();
+		assertEquals(Status.CONFLICTS, result.getStatus());
+		assertEquals(1, result.getConflicts().size());
+		assertEquals(FILE1, result.getConflicts().get(0));
 	}
 
 	@Test
-	@SuppressWarnings("null")
 	public void testRebaseWithUncommittedMasterChange() throws Exception {
 		// create file1, add and commit
 		writeTrashFile(FILE1, "file1");
@@ -1200,15 +1183,11 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		// do not commit
 
 		// rebase
-		JGitInternalException exception = null;
-		try {
-			git.rebase().setUpstream("refs/heads/master").call();
-		} catch (JGitInternalException e) {
-			exception = e;
-		}
-		assertNotNull(exception);
-		assertEquals("Checkout conflict with files: \nfile1",
-				exception.getMessage());
+		RebaseResult result = git.rebase().setUpstream("refs/heads/master")
+				.call();
+		assertEquals(Status.CONFLICTS, result.getStatus());
+		assertEquals(1, result.getConflicts().size());
+		assertEquals(FILE1, result.getConflicts().get(0));
 	}
 
 	@Test
@@ -1494,14 +1473,13 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		File theFile = writeTrashFile(FILE1, "dirty the file");
 
 		// and attempt to rebase
-		try {
-			RebaseResult rebaseResult = git.rebase()
+		RebaseResult rebaseResult = git.rebase()
 					.setUpstream("refs/heads/master").call();
-			fail("Checkout with conflict should have occured, not "
-					+ rebaseResult.getStatus());
-		} catch (JGitInternalException e) {
-			checkFile(theFile, "dirty the file");
-		}
+		assertEquals(Status.CONFLICTS, rebaseResult.getStatus());
+		assertEquals(1, rebaseResult.getConflicts().size());
+		assertEquals(FILE1, rebaseResult.getConflicts().get(0));
+
+		checkFile(theFile, "dirty the file");
 
 		assertEquals(RepositoryState.SAFE, git.getRepository()
 				.getRepositoryState());
