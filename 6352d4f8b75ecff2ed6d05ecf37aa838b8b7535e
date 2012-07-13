@@ -104,6 +104,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn///Is\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PubSubTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-07-13T19:58:46Z",
+      "side": 1,
+      "message": "Given that you would be reusing this latch, it might be cleaner to use a CyclicBarrier (which automatically resets after it trips), I\u0027m not sure. If you do, note that unlike CountDownLatch, you would be calling the same blocking await() method in both the \"sending\" and \"receiving\" threads, so the \"sending\" thread won\u0027t actually proceed/finish until the \"receiving\" thread \"receives\" its \"message\"",
+      "parentUuid": "AABOIn///Jc\u003d",
+      "revId": "6352d4f8b75ecff2ed6d05ecf37aa838b8b7535e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn///JY\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PubSubTest.java",
         "patchSetId": 1
