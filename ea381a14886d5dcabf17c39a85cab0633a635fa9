@@ -369,6 +369,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn///J8\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/PublisherServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-07-13T19:40:01Z",
+      "side": 1,
+      "message": "Yeah, I see your point about code simplicity, but I\u0027m still on the fence about it. /info/refs really just feels like the wrong place, but it is probably a good idea to avoid a large POST body if possible.\n\nActually, this is exactly the sort of thing that the Expect: Continue/HTTP/1.1 Continue feature is designed for. Unfortunately, we really can\u0027t use it, since even though it\u0027s frikkin\u0027 2012 we can\u0027t depend on proxy servers (including Google\u0027s) supporting it correctly.\n\nCan we come up with some other way to tell if pubsub is enabled/supported by the server? Perhaps a HEAD or GET request to /git-publish-subscribe?\n\nShawn, any thoughts?",
+      "parentUuid": "AABOIn///hA\u003d",
+      "revId": "ea381a14886d5dcabf17c39a85cab0633a635fa9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn///p0\u003d",
         "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ReceivePackServlet.java",
         "patchSetId": 3
