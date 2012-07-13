@@ -16,6 +16,24 @@
       "revId": "bb0efa3e961e0dc279f688be39c9921c1006a094",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///KA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscribedRepository.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-07-13T19:52:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn///Kc\u003d",
+      "revId": "bb0efa3e961e0dc279f688be39c9921c1006a094",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
