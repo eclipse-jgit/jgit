@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn///SU\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/RebaseCommandTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1082,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2012-07-13T06:26:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOHn//89M\u003d",
+      "revId": "84b3391b6ebcdcd4aa65abd9d8de34863d3315f7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOHn//89I\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/RebaseCommandTest.java",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2012-06-18T22:14:19Z",
       "side": 1,
       "message": "assertEquals(excpected, actual)",
+      "revId": "84b3391b6ebcdcd4aa65abd9d8de34863d3315f7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///SQ\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/RebaseCommandTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1116,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2012-07-13T06:26:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOHn//89I\u003d",
       "revId": "84b3391b6ebcdcd4aa65abd9d8de34863d3315f7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn///SM\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/RebaseCommandTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1152,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2012-07-13T06:26:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOHn//89E\u003d",
+      "revId": "84b3391b6ebcdcd4aa65abd9d8de34863d3315f7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOHn//89A\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/RebaseCommandTest.java",
         "patchSetId": 5
@@ -64,6 +118,24 @@
       "writtenOn": "2012-06-18T22:14:19Z",
       "side": 1,
       "message": "assertEquals(excpected, actual)",
+      "revId": "84b3391b6ebcdcd4aa65abd9d8de34863d3315f7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///SI\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/RebaseCommandTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1187,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2012-07-13T06:26:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOHn//89A\u003d",
       "revId": "84b3391b6ebcdcd4aa65abd9d8de34863d3315f7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn///SE\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/api/RebaseCommandTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1447,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2012-07-13T06:26:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOHn//888\u003d",
+      "revId": "84b3391b6ebcdcd4aa65abd9d8de34863d3315f7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOHn//884\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MergeResult.java",
         "patchSetId": 5
@@ -98,6 +188,24 @@
       "writtenOn": "2012-06-18T22:14:19Z",
       "side": 1,
       "message": "How about a real javadoc. What\u0027s the difference.\n\nAlso we\u0027re breaking the API. For 3.0?... May be worth it.",
+      "revId": "84b3391b6ebcdcd4aa65abd9d8de34863d3315f7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///SY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/MergeResult.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 326
+      },
+      "writtenOn": "2012-07-13T06:26:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOHn//884\u003d",
       "revId": "84b3391b6ebcdcd4aa65abd9d8de34863d3315f7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
