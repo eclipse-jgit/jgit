@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn///KQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscribeProcess.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-07-13T19:31:23Z",
+      "side": 1,
+      "message": "Sorry, I must have missed where this got introduced. What causes a URISyntaxException here?",
+      "revId": "b3b10b136709413736803f722e0e5f4d5894af1c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
