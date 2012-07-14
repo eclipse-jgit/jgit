@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn///H0\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PubSubTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-07-14T02:05:04Z",
+      "side": 1,
+      "message": "For another day :)",
+      "parentUuid": "AABOIn///Jw\u003d",
+      "revId": "6352d4f8b75ecff2ed6d05ecf37aa838b8b7535e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn///Js\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PubSubTest.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2012-07-13T19:54:24Z",
       "side": 1,
       "message": "This should probably be test://test.com/, since your TransportProtocol\u0027s name is \"test\".\n\nIn fact, I\u0027m kind of surprised it works with http...",
+      "revId": "6352d4f8b75ecff2ed6d05ecf37aa838b8b7535e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///Ik\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PubSubTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-07-14T02:05:04Z",
+      "side": 1,
+      "message": "Done. It works because new transports get added to the front of the list, and I always return \"true\" from the canHandle() call.",
+      "parentUuid": "AABOIn///Js\u003d",
       "revId": "6352d4f8b75ecff2ed6d05ecf37aa838b8b7535e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn///H4\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PubSubTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-07-14T02:05:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn///Jo\u003d",
+      "revId": "6352d4f8b75ecff2ed6d05ecf37aa838b8b7535e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn///Jk\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PubSubTest.java",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2012-07-13T19:54:24Z",
       "side": 1,
       "message": "I\u0027m a bit shaky on this area of JUnit4, but I think a better way to do this is to name this method something else rather than overriding setUp, and then annotating it with @Before. Then you don\u0027t need to call super.setUp(). IIUC the test runner will automatically call all @Before/@After methods starting from the root of the inheritance chain, in order. (But it makes no guarantees about order of @Before/@After within the same class.)",
+      "revId": "6352d4f8b75ecff2ed6d05ecf37aa838b8b7535e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///H8\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PubSubTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-07-14T02:05:04Z",
+      "side": 1,
+      "message": "Probably true, but all of the other tests stick with @Override+@Before+super.setUp()...trying to stay consistent :).",
+      "parentUuid": "AABOIn///Jk\u003d",
       "revId": "6352d4f8b75ecff2ed6d05ecf37aa838b8b7535e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -122,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn///Hs\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PubSubTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-07-14T02:05:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn///Is\u003d",
+      "revId": "6352d4f8b75ecff2ed6d05ecf37aa838b8b7535e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn///JY\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PubSubTest.java",
         "patchSetId": 1
@@ -133,6 +223,24 @@
       "writtenOn": "2012-07-13T19:54:24Z",
       "side": 1,
       "message": "Don\u0027t use Thread.sleep.",
+      "revId": "6352d4f8b75ecff2ed6d05ecf37aa838b8b7535e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///Ho\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PubSubTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-07-14T02:05:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn///JY\u003d",
       "revId": "6352d4f8b75ecff2ed6d05ecf37aa838b8b7535e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -156,6 +264,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn///Hk\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PubSubTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-07-14T02:05:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn///JU\u003d",
+      "revId": "6352d4f8b75ecff2ed6d05ecf37aa838b8b7535e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn///JQ\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PubSubTest.java",
         "patchSetId": 1
@@ -167,6 +293,24 @@
       "writtenOn": "2012-07-13T19:54:24Z",
       "side": 1,
       "message": "Don\u0027t use Thread.sleep.",
+      "revId": "6352d4f8b75ecff2ed6d05ecf37aa838b8b7535e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///Hg\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PubSubTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-07-14T02:05:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn///JQ\u003d",
       "revId": "6352d4f8b75ecff2ed6d05ecf37aa838b8b7535e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -190,6 +334,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn///Hc\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PubSubTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-07-14T02:05:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn///JM\u003d",
+      "revId": "6352d4f8b75ecff2ed6d05ecf37aa838b8b7535e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn///JI\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PubSubTest.java",
         "patchSetId": 1
@@ -201,6 +363,24 @@
       "writtenOn": "2012-07-13T19:54:24Z",
       "side": 1,
       "message": "Don\u0027t use Thread.sleep.",
+      "revId": "6352d4f8b75ecff2ed6d05ecf37aa838b8b7535e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///HY\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PubSubTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-07-14T02:05:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn///JI\u003d",
       "revId": "6352d4f8b75ecff2ed6d05ecf37aa838b8b7535e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -224,6 +404,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn///HU\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PubSubTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-07-14T02:05:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn///JA\u003d",
+      "revId": "6352d4f8b75ecff2ed6d05ecf37aa838b8b7535e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn///I4\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PubSubTest.java",
         "patchSetId": 1
@@ -235,6 +433,24 @@
       "writtenOn": "2012-07-13T19:54:24Z",
       "side": 1,
       "message": "Nit: don\u0027t use exceptions for control flow if you can avoid it:\nparent \u003d commit.getParentCount() \u003e 0 ? commit.getParent(0) : ObjectId.zeroId()\n(or something)",
+      "revId": "6352d4f8b75ecff2ed6d05ecf37aa838b8b7535e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn///HQ\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PubSubTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-07-14T02:05:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn///I4\u003d",
       "revId": "6352d4f8b75ecff2ed6d05ecf37aa838b8b7535e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
