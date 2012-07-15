@@ -47,13 +47,16 @@ import static org.eclipse.jgit.storage.dht.KeyUtils.format32;
 import static org.eclipse.jgit.storage.dht.KeyUtils.parse32;
 import static org.eclipse.jgit.util.RawParseUtils.decode;
 
+import java.io.Serializable;
 import java.text.MessageFormat;
 
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 
 /** Unique identifier of a {@link PackChunk} in the DHT. */
-public final class ChunkKey implements RowKey {
+public final class ChunkKey implements RowKey, Serializable {
+	private static final long serialVersionUID = 1L;
+
 	static final int KEYLEN = 49;
 
 	/**
