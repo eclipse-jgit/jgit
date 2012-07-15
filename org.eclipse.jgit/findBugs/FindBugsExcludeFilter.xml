@@ -52,4 +52,10 @@
        <Method name="toBooleanOrNull" />
        <Bug pattern="NP_BOOLEAN_RETURN_NULL" />
      </Match>
+
+     <!-- Transport initialization works like this -->
+     <Match>
+       <Class name="org.eclipse.jgit.transport.Transport" />
+       <Bug pattern="IC_SUPERCLASS_USES_SUBCLASS_DURING_INITIALIZATION" />
+     </Match>
 </FindBugsFilter>
