@@ -94,6 +94,8 @@ public class CLIGitCommand {
 		try {
 			cmd.execute(bean.getArguments().toArray(
 					new String[bean.getArguments().size()]));
+		} catch (Die e) {
+			return IO.readLines(e.getMessage());
 		} finally {
 			if (cmd.out != null)
 				cmd.out.flush();
