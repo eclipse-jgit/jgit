@@ -533,10 +533,22 @@ public abstract class Repository {
 				}
 				if (time != null) {
 					String refName = new String(revChars, 0, i);
-					Ref resolved = getRefDatabase().getRef(refName);
-					if (resolved == null)
+					Ref ref;
+					if (refName.equals("")) {
+						// Currently checked out branch, HEAD if
+						// detached
+						ref = getRef(Constants.HEAD);
+						if (ref == null)
+							return null;
+						if (ref.isSymbolic())
+							ref = ref.getLeaf();
+						if (ref.getObjectId() == null)
+							return null;
+					} else
+						ref = getRef(refName);
+					if (ref == null)
 						return null;
-					rev = resolveReflog(rw, resolved, time);
+					rev = resolveReflog(rw, ref, time);
 					i = m;
 				} else
 					i = m - 1;

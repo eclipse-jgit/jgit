@@ -72,6 +72,38 @@ public class ReflogResolveTest extends RepositoryTestCase {
 	}
 
 	@Test
+	public void resolveUnnamedCurrentBranchCommits() throws Exception {
+		Git git = new Git(db);
+		writeTrashFile("file.txt", "content");
+		git.add().addFilepattern("file.txt").call();
+		RevCommit c1 = git.commit().setMessage("create file").call();
+		writeTrashFile("file.txt", "content2");
+		git.add().addFilepattern("file.txt").call();
+		RevCommit c2 = git.commit().setMessage("edit file").call();
+
+		assertEquals(c2, db.resolve("master@{0}"));
+		assertEquals(c1, db.resolve("master@{1}"));
+
+		git.checkout().setCreateBranch(true).setName("newbranch")
+				.setStartPoint(c1).call();
+
+		// same as current branch, e.g. master
+		assertEquals(c1, db.resolve("@{0}"));
+		try {
+			assertEquals(c1, db.resolve("@{1}"));
+			fail(); // Looking at wrong ref, e.g HEAD
+		} catch (RevisionSyntaxException e) {
+			assertNotNull(e);
+		}
+
+		// detached head, read HEAD reflog
+		git.checkout().setName(c2.getName()).call();
+		assertEquals(c2, db.resolve("@{0}"));
+		assertEquals(c1, db.resolve("@{1}"));
+		assertEquals(c2, db.resolve("@{2}"));
+	}
+
+	@Test
 	public void resolveReflogParent() throws Exception {
 		Git git = new Git(db);
 		writeTrashFile("file.txt", "content");
