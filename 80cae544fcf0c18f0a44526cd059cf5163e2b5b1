@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn//+rg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-07-17T22:31:16Z",
+      "side": 1,
+      "message": "Doing an HTTP GET to the pubsub URL here is fine with me.",
+      "revId": "80cae544fcf0c18f0a44526cd059cf5163e2b5b1",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
