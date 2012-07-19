@@ -51,6 +51,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.Collections;
@@ -82,6 +83,8 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.storage.file.CheckoutEntry;
 import org.eclipse.jgit.storage.file.ReflogEntry;
 import org.eclipse.jgit.storage.file.ReflogReader;
+import org.eclipse.jgit.transport.RefSpec;
+import org.eclipse.jgit.transport.RemoteConfig;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
@@ -577,7 +580,45 @@ public abstract class Repository {
 					}
 				}
 				if (time != null) {
-					if (time.matches("^-\\d+$")) {
+					if (time.equals("upstream")) {
+						if (name == null)
+							name = new String(revChars, done, i);
+						if (name.equals(""))
+							// Currently checked out branch, HEAD if
+							// detached
+							name = Constants.HEAD;
+						Ref ref = getRef(name);
+						if (ref == null)
+							return null;
+						if (ref.isSymbolic())
+							ref = ref.getLeaf();
+						name = ref.getName();
+
+						RemoteConfig remoteConfig;
+						try {
+							remoteConfig = new RemoteConfig(getConfig(),
+									"origin");
+						} catch (URISyntaxException e) {
+							throw new RevisionSyntaxException(revstr);
+						}
+						String remoteBranchName = getConfig()
+								.getString(
+										ConfigConstants.CONFIG_BRANCH_SECTION,
+								Repository.shortenRefName(ref.getName()),
+										ConfigConstants.CONFIG_KEY_MERGE);
+						List<RefSpec> fetchRefSpecs = remoteConfig
+								.getFetchRefSpecs();
+						for (RefSpec refSpec : fetchRefSpecs) {
+							if (refSpec.matchSource(remoteBranchName)) {
+								RefSpec expandFromSource = refSpec
+										.expandFromSource(remoteBranchName);
+								name = expandFromSource.getDestination();
+								break;
+							}
+						}
+						if (name == null)
+							throw new RevisionSyntaxException(revstr);
+					} else if (time.matches("^-\\d+$")) {
 						if (name != null)
 							throw new RevisionSyntaxException(revstr);
 						else {
