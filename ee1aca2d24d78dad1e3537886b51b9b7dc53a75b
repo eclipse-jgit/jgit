@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn//+iA\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/lib/RepositoryResolveTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-07-19T14:32:41Z",
+      "side": 1,
+      "message": "Changed my mind here. The caller must handler this",
+      "revId": "ee1aca2d24d78dad1e3537886b51b9b7dc53a75b",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
