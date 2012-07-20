@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn//+a8\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/PubSubTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-07-20T17:09:51Z",
+      "side": 1,
+      "message": "Don\u0027t need volatile, tests are single-threaded. (Multiple test methods may be run concurrently, but there is one test object instantiated per thread, i.e. it effectively does:\n\nPubSubTest t \u003d new PubSubTest();\nt.setUp();\ntry {\n  t.testOneThing();\n} finally {\n  t.tearDown();\n}\n\n)",
+      "revId": "4db51502a23811948c40f16f6c461c4ba53a6caf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
