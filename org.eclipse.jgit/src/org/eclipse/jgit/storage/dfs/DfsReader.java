@@ -90,7 +90,13 @@ import org.eclipse.jgit.storage.pack.PackOutputStream;
 import org.eclipse.jgit.storage.pack.PackWriter;
 import org.eclipse.jgit.util.BlockList;
 
-final class DfsReader extends ObjectReader implements ObjectReuseAsIs {
+/**
+ * Reader to access repository content through.
+ * <p>
+ * See the base {@link ObjectReader} documentation for details. Notably, a
+ * reader is not thread safe.
+ */
+public final class DfsReader extends ObjectReader implements ObjectReuseAsIs {
 	/** Temporary buffer large enough for at least one raw object id. */
 	final byte[] tempId = new byte[OBJECT_ID_LENGTH];
 
