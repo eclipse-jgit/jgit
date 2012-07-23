@@ -272,7 +272,19 @@ public final class DfsPackFile {
 		}
 	}
 
-	boolean hasObject(DfsReader ctx, AnyObjectId id) throws IOException {
+	/**
+	 * Check if an object is stored within this pack.
+	 *
+	 * @param ctx
+	 *            reader context to support reading from the backing store if
+	 *            the index is not already loaded in memory.
+	 * @param id
+	 *            object to be located.
+	 * @return true if the object exists in this pack; false if it does not.
+	 * @throws IOException
+	 *             the pack index is not available, or is corrupt.
+	 */
+	public boolean hasObject(DfsReader ctx, AnyObjectId id) throws IOException {
 		final long offset = idx(ctx).findOffset(id);
 		return 0 < offset && !isCorrupt(offset);
 	}
