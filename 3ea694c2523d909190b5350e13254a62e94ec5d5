@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn//+Eg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-07-25T00:03:47Z",
+      "side": 1,
+      "message": "Poorly formatted comment. Please correct the line wrapping.",
+      "revId": "3ea694c2523d909190b5350e13254a62e94ec5d5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//+Ek\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-07-25T00:03:47Z",
+      "side": 1,
+      "message": "Wrong indentation.",
+      "revId": "3ea694c2523d909190b5350e13254a62e94ec5d5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//+Ec\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-07-25T00:03:47Z",
+      "side": 1,
+      "message": "This has broken Gerrit Code Review. It looks like we are now adding a tree mode here, and the DirCacheEntry type doesn\u0027t accept that. You are missing a nonTree guard on the modeO flag.",
+      "revId": "3ea694c2523d909190b5350e13254a62e94ec5d5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
