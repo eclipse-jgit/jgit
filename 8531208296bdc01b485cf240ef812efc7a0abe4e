@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//+DI\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/SubscribeConnectionTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-07-25T01:09:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//+EA\u003d",
+      "revId": "8531208296bdc01b485cf240ef812efc7a0abe4e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//+D8\u003d",
         "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/SubscribeConnectionTest.java",
         "patchSetId": 9
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//+DM\u003d",
+        "filename": "org.eclipse.jgit.test/tst/org/eclipse/jgit/transport/SubscribeConnectionTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-07-25T01:09:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//+D8\u003d",
+      "revId": "8531208296bdc01b485cf240ef812efc7a0abe4e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//+Dw\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackSubscribeConnection.java",
         "patchSetId": 9
@@ -47,6 +83,24 @@
       "writtenOn": "2012-07-25T01:02:48Z",
       "side": 1,
       "message": "Are there 2-word lines elsewhere? What\u0027s wrong with just \"done\"?",
+      "revId": "8531208296bdc01b485cf240ef812efc7a0abe4e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//+DY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackSubscribeConnection.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-07-25T01:09:16Z",
+      "side": 1,
+      "message": "I needed an extra distinction for advertisements so the server can cut out early before entering the stream loop instead of relying on an IOException from a closed socket.",
+      "parentUuid": "AABOIn//+Dw\u003d",
       "revId": "8531208296bdc01b485cf240ef812efc7a0abe4e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
