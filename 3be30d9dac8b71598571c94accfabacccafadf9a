@@ -106,6 +106,24 @@
       "revId": "3be30d9dac8b71598571c94accfabacccafadf9a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//9+8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscribeConnection.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-07-25T19:45:16Z",
+      "side": 1,
+      "message": "Makes sense now; JGit exception names had me confused. I didn\u0027t realize ServiceNotEnabledException was user-specific and really meant 403.",
+      "parentUuid": "AABOIn//9/E\u003d",
+      "revId": "3be30d9dac8b71598571c94accfabacccafadf9a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
