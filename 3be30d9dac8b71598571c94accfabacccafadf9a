@@ -88,6 +88,24 @@
       "revId": "3be30d9dac8b71598571c94accfabacccafadf9a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//9/E\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscribeConnection.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-07-25T19:30:53Z",
+      "side": 1,
+      "message": "We should distinguish between needs-authentication and needs-authorization. I\u0027m using \"authentication\" and \"authorization\" as defined here:\nhttp://en.wikipedia.org/wiki/Authentication#Authentication_vs._authorization\n\n(Note that HTTP\u0027s 401 Unauthorized code actually means \"unauthenticated\" by this definition. 403 Forbidden actually means \"unauthorized.\" But we can cut the spec authors some slack, at least they didn\u0027t misspell it like they did for \"referrer\" :)\n\nWhen an anonymous user doesn\u0027t have access, the server needs to return a 401 so libcurl/git can try again with credentials.\n\nWhen an authenticated user doesn\u0027t have access (i.e. is unauthorized) to one or more repositories, we have some more leeway. The general thing we do over smart HTTP (cf. GitSmartHttpTools) is return a 200 with some text in the body. This could be user-readable text, like \"Sorry, you don\u0027t have access to \u003crepository X\u003e\", that the client just echoes. Or it could be something in pkt-line format that the client is expected to parse and convert into user-readable text, like \"access-denied X\". The nice thing about this approach is that it\u0027s not HTTP specific; once the client gets 200 back from the server, it will interpret the body just like it would for a non-HTTP transport.\n\nDoes that make sense? I admit I may not be fully understanding your proposals...",
+      "parentUuid": "AABOIn//9/M\u003d",
+      "revId": "3be30d9dac8b71598571c94accfabacccafadf9a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
