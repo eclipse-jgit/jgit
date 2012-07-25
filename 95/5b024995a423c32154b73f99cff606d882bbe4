@@ -1,0 +1,9 @@
+Change-Id: I955b024995a423c32154b73f99cff606d882bbe4
+Code-Review+2: Shawn Pearce <sop@google.com>
+IP-Clean+1: Shawn Pearce <sop@google.com>
+Verified+1: Shawn Pearce <sop@google.com>
+Submitted-by: Shawn Pearce <sop@google.com>
+Submitted-at: Wed, 25 Jul 2012 10:59:32 -0400
+Reviewed-on: https://git.eclipse.org/r/6953
+Project: jgit/jgit
+Branch: refs/heads/master
