@@ -70,6 +70,24 @@
       "revId": "3be30d9dac8b71598571c94accfabacccafadf9a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//9/M\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscribeConnection.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-07-25T19:19:28Z",
+      "side": 1,
+      "message": "I don\u0027t think it is possible to give detailed error messages without breaking/introducing features to smart HTTP.\n\nSmart HTTP relies on a 401 auth error to configure the connection properly, and if auth fails the URI is returned which is enough to determine the repository being accessed. For pubsub, I would need another way to pass the repository that caused the problem. I could add a body to the 401 response with a detailed error message, but this would break on upload/receive-pack errors and spew HTML to the console for the servers that don\u0027t provide the new error message. \n\nI could put the message into the status field (HTTP/1.1 401 Unauthorized: android), but that doesn\u0027t carry over to other protocols.",
+      "parentUuid": "AABOIn//+Dk\u003d",
+      "revId": "3be30d9dac8b71598571c94accfabacccafadf9a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
