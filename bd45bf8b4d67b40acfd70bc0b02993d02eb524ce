@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn//+Do\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 487,
+      "author": {
+        "id": 383
+      },
+      "writtenOn": "2012-07-25T01:05:44Z",
+      "side": 1,
+      "message": "Unnecessary final",
+      "revId": "bd45bf8b4d67b40acfd70bc0b02993d02eb524ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
