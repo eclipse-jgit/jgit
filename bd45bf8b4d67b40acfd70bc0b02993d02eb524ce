@@ -16,6 +16,24 @@
       "revId": "bd45bf8b4d67b40acfd70bc0b02993d02eb524ce",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//+C4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/TransportHttp.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 487,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-07-25T22:12:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//+Do\u003d",
+      "revId": "bd45bf8b4d67b40acfd70bc0b02993d02eb524ce",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
