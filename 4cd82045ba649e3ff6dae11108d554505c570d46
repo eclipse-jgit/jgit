@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn//93c\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackSubscribeConnection.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-07-26T18:07:56Z",
+      "side": 1,
+      "message": "You call the string \"sequence \" in the loop below. i would prefer these to be similar. Maybe call this \"last-sequence \"?",
+      "revId": "4cd82045ba649e3ff6dae11108d554505c570d46",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//94E\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackSubscribeConnection.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-07-26T18:07:56Z",
+      "side": 1,
+      "message": "This looks weird, starting a non-resumed connection with \"0000\".\n\nMove this into the if restart block.",
+      "revId": "4cd82045ba649e3ff6dae11108d554505c570d46",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//93k\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackSubscribeConnection.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-07-26T18:07:56Z",
+      "side": 1,
+      "message": "\"restart-token \" is sufficient. I don\u0027t think you need to say \"change-\" prefix here.",
+      "revId": "4cd82045ba649e3ff6dae11108d554505c570d46",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//93U\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackSubscribeConnection.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-07-26T18:07:56Z",
+      "side": 1,
+      "message": "seems odd to start a transaction with \"0000\".",
+      "revId": "4cd82045ba649e3ff6dae11108d554505c570d46",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//93Y\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackSubscribeConnection.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-07-26T18:07:56Z",
+      "side": 1,
+      "message": "i would prefer just \"done\" here.\n\nThose ends between each repository name are also a bit odd. Maybe rewrite this to be:\n\n  ....access foo/bar\n  ....access foo/thing\n  ....access foo/thatotherthing\n  0000\n\nSo its clear to the server we are telling it we will access these repositories later, and it should let us know if authentication will be needed. It also doesn\u0027t have that ugly flush every other stuttering going on.",
+      "revId": "4cd82045ba649e3ff6dae11108d554505c570d46",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//93Q\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackSubscribeConnection.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-07-26T18:07:56Z",
+      "side": 1,
+      "message": "\"ERR \" is the existing convention within Git protocols.",
+      "revId": "4cd82045ba649e3ff6dae11108d554505c570d46",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//93M\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackSubscribeConnection.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-07-26T18:07:56Z",
+      "side": 1,
+      "message": "This should be handled in the loop above, not here. The server can already change the token. It can change the token from \"no token\" to \"token\" in the loop.",
+      "revId": "4cd82045ba649e3ff6dae11108d554505c570d46",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//93I\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackSubscribeConnection.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-07-26T18:07:56Z",
+      "side": 1,
+      "message": "This should be handled in the loop above, not here. I think its reasonable to hoist it up there, and thus also allow the server to modify the heartbeat-interval.",
+      "revId": "4cd82045ba649e3ff6dae11108d554505c570d46",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//93A\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackSubscribeConnection.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-07-26T18:07:56Z",
+      "side": 1,
+      "message": "If we don\u0027t get reconnect or \"ERR \", we basically get nothing if you make the changes I suggest above. So the server should send one of:\n\n  ACK\n  reconnect\n  ERR message explaining failure\n\nas a single message in reply to the request. No need for an END packet here. You get one of the above 3. ACK is fine, return true and the loop starts running to receive from the server. reconnect is return false, and you have to retry the whole thing. ERR is an exception and is obvious.",
+      "revId": "4cd82045ba649e3ff6dae11108d554505c570d46",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
