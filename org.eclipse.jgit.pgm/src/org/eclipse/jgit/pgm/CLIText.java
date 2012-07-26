@@ -43,6 +43,8 @@
 
 package org.eclipse.jgit.pgm;
 
+import java.text.MessageFormat;
+
 import org.eclipse.jgit.nls.NLS;
 import org.eclipse.jgit.nls.TranslationBundle;
 
@@ -56,6 +58,18 @@ public class CLIText extends TranslationBundle {
 	 */
 	public static CLIText get() {
 		return NLS.getBundleFor(CLIText.class);
+	}
+
+	/**
+	 * Format the given line for using the format defined by {@link #lineFormat}
+	 * ("# " by default).
+	 *
+	 * @param line
+	 *            the line to format
+	 * @return the formatted line
+	 */
+	public static String formatLine(String line) {
+		return MessageFormat.format(get().lineFormat, line);
 	}
 
 	/***/ public String IPZillaPasswordPrompt;
@@ -87,6 +101,8 @@ public class CLIText extends TranslationBundle {
 	/***/ public String cannotWrite;
 	/***/ public String cantFindGitDirectory;
 	/***/ public String cantWrite;
+	/***/ public String changesNotStagedForCommit;
+	/***/ public String changesToBeCommitted;
 	/***/ public String commitLabel;
 	/***/ public String conflictingUsageOf_git_dir_andArguments;
 	/***/ public String couldNotCreateBranch;
@@ -110,6 +126,7 @@ public class CLIText extends TranslationBundle {
 	/***/ public String initializedEmptyGitRepositoryIn;
 	/***/ public String invalidHttpProxyOnlyHttpSupported;
 	/***/ public String jgitVersion;
+	/***/ public String lineFormat;
 	/***/ public String listeningOn;
 	/***/ public String mergeConflict;
 	/***/ public String mergeFailed;
@@ -168,7 +185,9 @@ public class CLIText extends TranslationBundle {
 	/***/ public String notAnIndexFile;
 	/***/ public String notAnObject;
 	/***/ public String notFound;
+	/***/ public String notOnAnyBranch;
 	/***/ public String noteObjectTooLargeToPrint;
+	/***/ public String onBranch;
 	/***/ public String onlyOneMetaVarExpectedIn;
 	/***/ public String onlyOneOfIncludeOnlyAllInteractiveCanBeUsed;
 	/***/ public String pushTo;
@@ -180,11 +199,18 @@ public class CLIText extends TranslationBundle {
 	/***/ public String repaint;
 	/***/ public String serviceNotSupported;
 	/***/ public String skippingObject;
+	/***/ public String statusFileListFormat;
+	/***/ public String statusFileListFormatWithPrefix;
+	/***/ public String statusModified;
+	/***/ public String statusNewFile;
+	/***/ public String statusRemoved;
 	/***/ public String tagLabel;
 	/***/ public String taggerInfo;
 	/***/ public String timeInMilliSeconds;
 	/***/ public String tooManyRefsGiven;
 	/***/ public String unknownMergeStrategy;
+	/***/ public String unmergedPaths;
 	/***/ public String unsupportedOperation;
+	/***/ public String untrackedFiles;
 	/***/ public String warningNoCommitGivenOnCommandLine;
 }
