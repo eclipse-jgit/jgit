@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//9zE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackSubscribeConnection.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-07-26T22:34:21Z",
+      "side": 1,
+      "message": "These were changed from sequence -\u003e pack-number many patches ago. I\u0027m going to change \"sequence\" to \"pack-number\" below, and this to \"last-pack-number\".",
+      "parentUuid": "AABOIn//93c\u003d",
+      "revId": "4cd82045ba649e3ff6dae11108d554505c570d46",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//94E\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackSubscribeConnection.java",
         "patchSetId": 10
@@ -30,6 +48,24 @@
       "writtenOn": "2012-07-26T18:07:56Z",
       "side": 1,
       "message": "This looks weird, starting a non-resumed connection with \"0000\".\n\nMove this into the if restart block.",
+      "revId": "4cd82045ba649e3ff6dae11108d554505c570d46",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//9xg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackSubscribeConnection.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-07-26T22:34:21Z",
+      "side": 1,
+      "message": "This marks the end of the headers, and now there will be \"advertisement\" or \"subscribe\" at the beginning of each request.",
+      "parentUuid": "AABOIn//94E\u003d",
       "revId": "4cd82045ba649e3ff6dae11108d554505c570d46",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//9zo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackSubscribeConnection.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-07-26T22:34:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//93k\u003d",
+      "revId": "4cd82045ba649e3ff6dae11108d554505c570d46",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//93U\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackSubscribeConnection.java",
         "patchSetId": 10
@@ -64,6 +118,24 @@
       "writtenOn": "2012-07-26T18:07:56Z",
       "side": 1,
       "message": "seems odd to start a transaction with \"0000\".",
+      "revId": "4cd82045ba649e3ff6dae11108d554505c570d46",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//91Q\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackSubscribeConnection.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-07-26T22:34:21Z",
+      "side": 1,
+      "message": "It\u0027s there because the advert code follows the same path as the subscribe request. Along with your \"repositoryaccess ...\" keyword change, I would have to introduce a constant at the beginning of each message (the \"hello\" I had there many changes back) to differentiate between the advertisement code path and the actual publish path.",
+      "parentUuid": "AABOIn//93U\u003d",
       "revId": "4cd82045ba649e3ff6dae11108d554505c570d46",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//9xc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackSubscribeConnection.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-07-26T22:34:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//93Y\u003d",
+      "revId": "4cd82045ba649e3ff6dae11108d554505c570d46",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//93Q\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackSubscribeConnection.java",
         "patchSetId": 10
@@ -98,6 +188,24 @@
       "writtenOn": "2012-07-26T18:07:56Z",
       "side": 1,
       "message": "\"ERR \" is the existing convention within Git protocols.",
+      "revId": "4cd82045ba649e3ff6dae11108d554505c570d46",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//90M\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackSubscribeConnection.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-07-26T22:34:21Z",
+      "side": 1,
+      "message": "GitSmartHttpTools.java:writePacket uses \"error: \", \"ERR \" is used when responding to InfoRefs. Since the advert code uses the publish codepath, it uses \"error: \". If I make separate functions, I can send \"ERR \".",
+      "parentUuid": "AABOIn//93Q\u003d",
       "revId": "4cd82045ba649e3ff6dae11108d554505c570d46",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//9zk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackSubscribeConnection.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-07-26T22:34:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//93M\u003d",
+      "revId": "4cd82045ba649e3ff6dae11108d554505c570d46",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//93I\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackSubscribeConnection.java",
         "patchSetId": 10
@@ -138,6 +264,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//9zg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackSubscribeConnection.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-07-26T22:34:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//93I\u003d",
+      "revId": "4cd82045ba649e3ff6dae11108d554505c570d46",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//93A\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackSubscribeConnection.java",
         "patchSetId": 10
@@ -149,6 +293,24 @@
       "writtenOn": "2012-07-26T18:07:56Z",
       "side": 1,
       "message": "If we don\u0027t get reconnect or \"ERR \", we basically get nothing if you make the changes I suggest above. So the server should send one of:\n\n  ACK\n  reconnect\n  ERR message explaining failure\n\nas a single message in reply to the request. No need for an END packet here. You get one of the above 3. ACK is fine, return true and the loop starts running to receive from the server. reconnect is return false, and you have to retry the whole thing. ERR is an exception and is obvious.",
+      "revId": "4cd82045ba649e3ff6dae11108d554505c570d46",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//9zc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackSubscribeConnection.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-07-26T22:34:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//93A\u003d",
       "revId": "4cd82045ba649e3ff6dae11108d554505c570d46",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
