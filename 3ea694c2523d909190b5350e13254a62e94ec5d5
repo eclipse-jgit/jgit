@@ -50,6 +50,24 @@
       "revId": "3ea694c2523d909190b5350e13254a62e94ec5d5",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//98o\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/merge/ResolveMerger.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 5
+      },
+      "writtenOn": "2012-07-26T08:39:06Z",
+      "side": 1,
+      "message": "Uff, right - that\u0027s a severe bug. That\u0027s frustrating: although 3 people reviewed it, although I spent much time on writing a big test for this (much more time than for the fix of course) and although this was tested in advance by real-world-non-jgit developers using egit to merge .... although all of this happened a very basic use case doesn\u0027t work: merging two unchanged subtrees.\n\nWhen trying to fix this I wanted to write test which captures this bug. I found out that this is hard to reproduce with repos which have a real index. When merging with egit most people start with a c clean index and working tree: For each entry in ours we have an entry in the index and therefore we don\u0027t fall into this code block which is guarded with a \"if (index \u003d\u003d null)\". In Gerrit we are always working with an in-core (in-memory) index which is initially always empty. I think that\u0027s why nobody detected this in advance.",
+      "parentUuid": "AABOIn//+Ec\u003d",
+      "revId": "3ea694c2523d909190b5350e13254a62e94ec5d5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
