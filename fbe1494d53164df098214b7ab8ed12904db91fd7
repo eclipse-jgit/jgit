@@ -16,6 +16,24 @@
       "revId": "fbe1494d53164df098214b7ab8ed12904db91fd7",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//9tQ\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-07-27T13:58:55Z",
+      "side": 1,
+      "message": "me and vi apparently did not get along yesterday during a squash. :-(",
+      "parentUuid": "AABOIn//9xE\u003d",
+      "revId": "fbe1494d53164df098214b7ab8ed12904db91fd7",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
