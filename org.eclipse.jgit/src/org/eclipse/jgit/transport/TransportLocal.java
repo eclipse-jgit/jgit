@@ -118,10 +118,10 @@ class TransportLocal extends Transport implements PackTransport {
 		@Override
 		public Transport open(URIish uri, Repository local, String remoteName)
 				throws NoRemoteRepositoryException {
+			File localPath = local.isBare() ? local.getDirectory() : local.getWorkTree();
+			File path = local.getFS().resolve(localPath, uri.getPath());
 			// If the reference is to a local file, C Git behavior says
 			// assume this is a bundle, since repositories are directories.
-			//
-			File path = local.getFS().resolve(new File("."), uri.getPath());
 			if (path.isFile())
 				return new TransportBundleFile(local, uri, path);
 
