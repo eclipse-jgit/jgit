@@ -423,7 +423,8 @@ public abstract class DfsObjDatabase extends ObjectDatabase {
 		return forReuse;
 	}
 
-	void clearCache() {
+	/** Clears the cached list of packs, forcing them to be scanned again. */
+	protected void clearCache() {
 		packList.set(NO_PACKS);
 	}
 
