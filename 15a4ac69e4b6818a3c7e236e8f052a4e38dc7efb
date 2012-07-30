@@ -1,0 +1,225 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn//9dg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscribeCommand.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-07-30T22:25:56Z",
+      "side": 1,
+      "message": "make these final",
+      "revId": "15a4ac69e4b6818a3c7e236e8f052a4e38dc7efb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//9dc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscribeCommand.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-07-30T22:25:56Z",
+      "side": 1,
+      "message": "You must override hashCode() too.",
+      "revId": "15a4ac69e4b6818a3c7e236e8f052a4e38dc7efb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//9dQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscribeConnection.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-07-30T22:25:56Z",
+      "side": 1,
+      "message": "Subscribe connections send --\u003e SubscribeConnection sends",
+      "revId": "15a4ac69e4b6818a3c7e236e8f052a4e38dc7efb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//9dI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscribeConnection.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-07-30T22:25:56Z",
+      "side": 1,
+      "message": "missing docs",
+      "revId": "15a4ac69e4b6818a3c7e236e8f052a4e38dc7efb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//9dY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscribeConnection.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-07-30T22:25:56Z",
+      "side": 1,
+      "message": "nit: sendSubscribeAdvertisement",
+      "revId": "15a4ac69e4b6818a3c7e236e8f052a4e38dc7efb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//9dM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscribeConnection.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-07-30T22:25:56Z",
+      "side": 1,
+      "message": "comment is useless.  What does a subscribe actually do?  something about informing the server of references you wish to be pushed to you",
+      "revId": "15a4ac69e4b6818a3c7e236e8f052a4e38dc7efb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//9dU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscribeConnection.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-07-30T22:25:56Z",
+      "side": 1,
+      "message": "nit: subscribe",
+      "revId": "15a4ac69e4b6818a3c7e236e8f052a4e38dc7efb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//9bA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscribedRepository.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-07-30T22:25:56Z",
+      "side": 1,
+      "message": "move all the refspec munging out of this class and into a common utility class like PubSubRefSpecs.",
+      "revId": "15a4ac69e4b6818a3c7e236e8f052a4e38dc7efb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//9dE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Subscriber.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-07-30T22:25:56Z",
+      "side": 1,
+      "message": "units?",
+      "revId": "15a4ac69e4b6818a3c7e236e8f052a4e38dc7efb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//9ao\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Subscriber.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-07-30T22:25:56Z",
+      "side": 1,
+      "message": "what is your plan for closing these?",
+      "revId": "15a4ac69e4b6818a3c7e236e8f052a4e38dc7efb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//9dA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Subscriber.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-07-30T22:25:56Z",
+      "side": 1,
+      "message": "units?",
+      "revId": "15a4ac69e4b6818a3c7e236e8f052a4e38dc7efb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//9cw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Subscriber.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-07-30T22:25:56Z",
+      "side": 1,
+      "message": "most of this class should be immutable and just manage the logical state of the protocol.",
+      "revId": "15a4ac69e4b6818a3c7e236e8f052a4e38dc7efb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//9ak\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Subscriber.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-07-30T22:25:56Z",
+      "side": 1,
+      "message": "this method is not needed, since the Subscribe Executor should know the key when the process is created.",
+      "revId": "15a4ac69e4b6818a3c7e236e8f052a4e38dc7efb",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
