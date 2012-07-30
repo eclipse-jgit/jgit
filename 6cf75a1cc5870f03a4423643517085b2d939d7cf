@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn//9a8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscribeProcess.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-07-30T22:35:44Z",
+      "side": 1,
+      "message": "private",
+      "revId": "6cf75a1cc5870f03a4423643517085b2d939d7cf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//9aQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscriptionManager.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-07-30T22:35:44Z",
+      "side": 1,
+      "message": "As talked about in person, you should restructure the relationship of the classes so there is not a circular dependency between the Transport and Subscriber.\n\nThe SubscriptionManager should be a SubscriptionExecutor or SubscriptionService.\nThe SubscriptionProcess should manage the Transport and Subscription state.\nTry and keep the responsibilities of each class well specified and don\u0027t expose more than you need.",
+      "revId": "6cf75a1cc5870f03a4423643517085b2d939d7cf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//9a4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscriptionManager.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-07-30T22:35:44Z",
+      "side": 1,
+      "message": "make this applyConfig as discussed",
+      "revId": "6cf75a1cc5870f03a4423643517085b2d939d7cf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//9a0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscriptionManager.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-07-30T22:35:44Z",
+      "side": 1,
+      "message": "if the process does not exist, create and run it, then carry forward the applyConfig.",
+      "revId": "6cf75a1cc5870f03a4423643517085b2d939d7cf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//9as\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscriptionManager.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-07-30T22:35:44Z",
+      "side": 1,
+      "message": "Consider making this a helper class, so you don\u0027t need to set the thread on the process.",
+      "revId": "6cf75a1cc5870f03a4423643517085b2d939d7cf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
