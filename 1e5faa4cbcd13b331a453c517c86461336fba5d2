@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn//9cs\u003d",
+        "filename": "org.eclipse.jgit/resources/org/eclipse/jgit/internal/JGitText.properties",
+        "patchSetId": 11
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-07-30T22:29:49Z",
+      "side": 1,
+      "message": "i understand the words individually, but not together in this fashion.",
+      "revId": "1e5faa4cbcd13b331a453c517c86461336fba5d2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//9co\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackSubscribeConnection.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-07-30T22:29:49Z",
+      "side": 1,
+      "message": "private static. everything used within this file should be private.",
+      "revId": "1e5faa4cbcd13b331a453c517c86461336fba5d2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//9cU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackSubscribeConnection.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-07-30T22:29:49Z",
+      "side": 1,
+      "message": "unlock twice... see 86",
+      "revId": "1e5faa4cbcd13b331a453c517c86461336fba5d2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//9aY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackSubscribeConnection.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-07-30T22:29:49Z",
+      "side": 1,
+      "message": "long method. break up the logic into smaller functions or classes.",
+      "revId": "1e5faa4cbcd13b331a453c517c86461336fba5d2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//9cQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackSubscribeConnection.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-07-30T22:29:49Z",
+      "side": 1,
+      "message": "might as well use a case statement",
+      "revId": "1e5faa4cbcd13b331a453c517c86461336fba5d2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//9cM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackSubscribeConnection.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-07-30T22:29:49Z",
+      "side": 1,
+      "message": "this check looks familar, maybe in RefSpec.  Consider reusing the functionality.",
+      "revId": "1e5faa4cbcd13b331a453c517c86461336fba5d2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//9cg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/ReceiveCommand.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-07-30T22:29:49Z",
+      "side": 1,
+      "message": "setRefName",
+      "revId": "1e5faa4cbcd13b331a453c517c86461336fba5d2",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
