@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn//9bE\u003d",
+        "filename": "org.eclipse.jgit.pgm/src/org/eclipse/jgit/pgm/Subscribe.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-07-30T22:20:56Z",
+      "side": 1,
+      "message": "you also need to check that there is exactly one subscriber line in the config that has the same uri path on the host, since you do not support writing to the same repository in multiple local directories.",
+      "revId": "8d47c19b960a9a1cf527dcb7f47822aa17b67433",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//9fQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PubSubConfig.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-07-30T22:20:56Z",
+      "side": 1,
+      "message": "nit: make this final",
+      "revId": "8d47c19b960a9a1cf527dcb7f47822aa17b67433",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//9do\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PubSubConfig.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-07-30T22:20:56Z",
+      "side": 1,
+      "message": "private?",
+      "revId": "8d47c19b960a9a1cf527dcb7f47822aa17b67433",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//9eg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PubSubConfig.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-07-30T22:20:56Z",
+      "side": 1,
+      "message": "this entire class should be immutable.  Make all the fields final. You\u0027ll need to refactor load() to return RemoteConfig and then set the fields.",
+      "revId": "8d47c19b960a9a1cf527dcb7f47822aa17b67433",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//9e4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PubSubConfig.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-07-30T22:20:56Z",
+      "side": 1,
+      "message": "do you really want to do this here? While it may be convenient to be here, it doesn\u0027t really have anything to do with the Subscriber class, since a Subscriber should not care about the format of a configLine. Perhaps a utility method would be better to split the remote and directory?",
+      "revId": "8d47c19b960a9a1cf527dcb7f47822aa17b67433",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//9eQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PubSubConfig.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-07-30T22:20:56Z",
+      "side": 1,
+      "message": "should this be public? It seems like an implementation detail of the config file format.",
+      "revId": "8d47c19b960a9a1cf527dcb7f47822aa17b67433",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//9fA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PubSubConfig.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-07-30T22:20:56Z",
+      "side": 1,
+      "message": "this is listed 3 times in the file. perhaps make a private static method to generate the subscriber key?",
+      "revId": "8d47c19b960a9a1cf527dcb7f47822aa17b67433",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
