@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn//9Nc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscribeCommand.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-01T16:31:46Z",
+      "side": 1,
+      "message": "Alternatively you can do:\nArrays.hashCode(new Object[]{command, spec});",
+      "revId": "55493db8fbae2df7f03218c0939b408c175f0d25",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//9NY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Subscriber.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-01T16:31:46Z",
+      "side": 1,
+      "message": "comment that this clears all the subscribe specs on all of the SubscribedRepository",
+      "revId": "55493db8fbae2df7f03218c0939b408c175f0d25",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//9NI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Subscriber.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-01T16:31:46Z",
+      "side": 1,
+      "message": "this method is strange to me, since you are mucking with the SubscribedRepository SubscribeSpecs, even though you  make no other reference to them in this file.",
+      "revId": "55493db8fbae2df7f03218c0939b408c175f0d25",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//9NU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Subscriber.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-01T16:31:46Z",
+      "side": 1,
+      "message": "why would this be null? Is this a valid value to put in the map? If not, explicitly check in putRepository() that\nif (repository \u003d\u003d null)\n  throw new NullPointerException();",
+      "revId": "55493db8fbae2df7f03218c0939b408c175f0d25",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//9NM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Subscriber.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-01T16:31:46Z",
+      "side": 1,
+      "message": "comment that the repositories are closed.",
+      "revId": "55493db8fbae2df7f03218c0939b408c175f0d25",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//9NQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Subscriber.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-01T16:31:46Z",
+      "side": 1,
+      "message": "same as above",
+      "revId": "55493db8fbae2df7f03218c0939b408c175f0d25",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
