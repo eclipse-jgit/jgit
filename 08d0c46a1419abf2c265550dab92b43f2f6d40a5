@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn//9GA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackSubscribeConnection.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-01T19:54:49Z",
+      "side": 1,
+      "message": "include the cmd as the message.",
+      "revId": "08d0c46a1419abf2c265550dab92b43f2f6d40a5",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
