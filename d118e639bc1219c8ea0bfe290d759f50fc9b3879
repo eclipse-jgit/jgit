@@ -1,0 +1,242 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn//9MY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscribeProcess.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-01T18:20:35Z",
+      "side": 1,
+      "message": "all of the fields and functions should be private.",
+      "revId": "d118e639bc1219c8ea0bfe290d759f50fc9b3879",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//9Kk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscribeProcess.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-01T18:20:35Z",
+      "side": 1,
+      "message": "units?",
+      "revId": "d118e639bc1219c8ea0bfe290d759f50fc9b3879",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//9MU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscribeProcess.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-01T18:20:35Z",
+      "side": 1,
+      "message": "I usually prefer\n TimeUnit.NANOS.toMillis(System.nanoTime())",
+      "revId": "d118e639bc1219c8ea0bfe290d759f50fc9b3879",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//9KM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscribeProcess.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-01T18:20:35Z",
+      "side": 1,
+      "message": "nit: sync is unclear. I would say syncConfig or applyConfig.",
+      "revId": "d118e639bc1219c8ea0bfe290d759f50fc9b3879",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//9KQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscribeProcess.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-01T18:20:35Z",
+      "side": 1,
+      "message": "this should be private.",
+      "revId": "d118e639bc1219c8ea0bfe290d759f50fc9b3879",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//9J8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscribeProcess.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-01T18:20:35Z",
+      "side": 1,
+      "message": "remove this too if it is not used.",
+      "revId": "d118e639bc1219c8ea0bfe290d759f50fc9b3879",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//9KA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscribeProcess.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-01T18:20:35Z",
+      "side": 1,
+      "message": "is this used anywhere? if not, remove.",
+      "revId": "d118e639bc1219c8ea0bfe290d759f50fc9b3879",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//9KI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscribeProcess.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-01T18:20:35Z",
+      "side": 1,
+      "message": "remove this",
+      "revId": "d118e639bc1219c8ea0bfe290d759f50fc9b3879",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//9LA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscriptionExecutor.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-01T18:20:35Z",
+      "side": 1,
+      "message": "the name should be set here, since it doesn\u0027t change.",
+      "revId": "d118e639bc1219c8ea0bfe290d759f50fc9b3879",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//9LI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscriptionExecutor.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-01T18:20:35Z",
+      "side": 1,
+      "message": "let\u0027s change the semantics of this class so it is not crossing thread boundaries unnecessarily, otherwise you need to worry about the SubscribeProcessor synchronization. I would add the following fields:\n\nprivate Publisher pub;\nprivate List\u003cSubscribeCommand\u003e cmds;\nAtomicBoolean exit \u003d new AtomicBoolean();\n\nThen the methods on the task become:\n\nprivate void setData(Publisher pub, List\u003cSubscribeCommand\u003e\u003e cmds) {\n  // TODO: check not null\n  synchronized (this) {\n    this.pub \u003d pub;\n    this.cmds \u003d cmds;\n  }\n  thread.interrupt();\n}\n\nprivate void exit() {\n  exit.set(true);\n  thread.interrupt();\n}\n\nprivate boolean isRunning() {\n  return (thread !\u003d null) \u0026\u0026 !exit.get();\n}\n\nnone of the other operations are needs anymore and then your run() method becomes a loop:\n\ntry {\n  while (!exit.get()) {\n    try {\n      Publisher p;\n      List\u003cSubscribeCommand\u003e\u003e c;\n      synchronized (SubscribeTask.this) {\n         p \u003d pub;\n         c \u003d cmds;\n      }\n      // execute\n      ....\n    } catch (InterruptedException e) {\n      // re-execute with the updated commands\n    }\n    ...\n  }\n} finally {\n  process.close();\n}",
+      "revId": "d118e639bc1219c8ea0bfe290d759f50fc9b3879",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//9MI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscriptionExecutor.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-01T18:20:35Z",
+      "side": 1,
+      "message": "nit: i think it is clearer to inline p.getKey() everywhere",
+      "revId": "d118e639bc1219c8ea0bfe290d759f50fc9b3879",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//9LE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscriptionExecutor.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-01T18:20:35Z",
+      "side": 1,
+      "message": "remove this (see below)",
+      "revId": "d118e639bc1219c8ea0bfe290d759f50fc9b3879",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//9KE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscriptionExecutor.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-01T18:20:35Z",
+      "side": 1,
+      "message": "this should be done in the run loop (and update the logic accordingly).",
+      "revId": "d118e639bc1219c8ea0bfe290d759f50fc9b3879",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//9K8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscriptionExecutor.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-01T18:20:35Z",
+      "side": 1,
+      "message": "this block should be:\n\nif (syncCommands.size() \u003e 0) {\n  if (task.isRunning()) {\n    task.update(p, syncCommands);\n  } else {\n    task.start(p, syncCommands);\n    subscribers.put(key, task);\n  }\n} else if (task.isRunning()) {\n  task.exit();\n  subscribers.remove(key);\n}",
+      "revId": "d118e639bc1219c8ea0bfe290d759f50fc9b3879",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
