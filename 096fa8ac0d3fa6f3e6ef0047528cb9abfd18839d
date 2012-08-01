@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn//9VU\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-01T21:27:43Z",
+      "side": 1,
+      "message": "grammar nit: \nthat each client creates an iterator for.\n---\u003e\nfor which each client creates an iterator.",
+      "revId": "096fa8ac0d3fa6f3e6ef0047528cb9abfd18839d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//9UI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherBuffer.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-01T21:27:43Z",
+      "side": 1,
+      "message": "You don\u0027t need a GC thread if you have allocate return an object that keeps track of its position in a doubly linked list. You could then call deallocate() on that object.",
+      "revId": "096fa8ac0d3fa6f3e6ef0047528cb9abfd18839d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//9VA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/ConcurrentLinkedList.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-01T21:27:43Z",
+      "side": 1,
+      "message": "I don\u0027t think this should be called an Iterator, since there is a lot of additional functionality in this.",
+      "revId": "096fa8ac0d3fa6f3e6ef0047528cb9abfd18839d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//9Uo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/ConcurrentLinkedList.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-01T21:27:43Z",
+      "side": 1,
+      "message": "probably unused",
+      "revId": "096fa8ac0d3fa6f3e6ef0047528cb9abfd18839d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//9Uc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/ConcurrentLinkedList.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-01T21:27:43Z",
+      "side": 1,
+      "message": "copy is a bad name",
+      "revId": "096fa8ac0d3fa6f3e6ef0047528cb9abfd18839d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//9S8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/ConcurrentLinkedList.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-01T21:27:43Z",
+      "side": 1,
+      "message": "it seems suspect that you do this in a loop, since you will wait the entire timeout on wakeup",
+      "revId": "096fa8ac0d3fa6f3e6ef0047528cb9abfd18839d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//9Us\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/ConcurrentLinkedList.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-01T21:27:43Z",
+      "side": 1,
+      "message": "rename to add()",
+      "revId": "096fa8ac0d3fa6f3e6ef0047528cb9abfd18839d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//9Uw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/ConcurrentLinkedList.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-01T21:27:43Z",
+      "side": 1,
+      "message": "unused. remove",
+      "revId": "096fa8ac0d3fa6f3e6ef0047528cb9abfd18839d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//9EQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/ConcurrentLinkedList.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-01T21:27:43Z",
+      "side": 1,
+      "message": "So this class has more functionality than you need. I think if we remove the unneeded functionality, you can get some nice properties out of this class.  For example, if you only keep a pointer to the tail, then the garbage collector will automatically clean up any unused nodes as soon as they are not referenced by a Buffer (see below).  I\u0027ve updated this container to represent a stream, and each publisher has its own Buffer into the stream.\n\npublic class ConcurrentStream\u003cT\u003e {\n\n\tprivate static class Node\u003cT\u003e {\n\t\tprivate final CountDownLatch signal \u003d new CountDownLatch(1);\n\t\tprivate final T data;\n\t\tprivate volatile Node\u003cT\u003e next;\n\n\t\tprivate Node(T data) {\n\t\t\tthis.data \u003d data;\n\t\t}\n\n\t\tprivate Node\u003cT\u003e getNext() {\n\t\t\treturn next;\n\t\t}\n\n\t\tprivate T getData() {\n\t\t\treturn data;\n\t\t}\n\n\t\tprivate Node\u003cT\u003e getNext(long time, TimeUnit unit) {\n\t\t\tif (next !\u003d null) {\n\t\t\t\treturn next;\n\t\t\t}\n\t\t\tsignal.await(time, unit);\n\t\t\tif (next \u003d\u003d null) {\n\t\t\t\tthrow new TimeoutException();\n\t\t\t}\n\t\t\treturn next;\n\t\t}\n\n\t\tprivate void setNext(Node\u003cT\u003e n) {\n\t\t\tif (n \u003d\u003d null) {\n\t\t\t\tthrow new NullPointerException();\n\t\t\t}\n\t\t\tnext \u003d n;\n\t\t\tsignal.countDown();\n\t\t}\n\t}\n\n\tpublic static class Buffer\u003cT\u003e {\n\t\tprivate Node\u003cT\u003e curr;\n\t\tprivate Node\u003cT\u003e next;\n\t\tprivate Node\u003cT\u003e marked;\n\t\tprivate Node\u003cT\u003e first;\n\n\t\tprivate Buffer(Node\u003cT\u003e start) {\n\t\t\tif (start \u003d\u003d null) {\n\t\t\t\tthrow new NullPointerException(\"start\");\n\t\t\t}\n\t\t\tcurr \u003d first \u003d start;\n\t\t}\n\n\t\tpublic T poll(long time, TimeUnit unit)\n\t\t\t\tthrows InterruptedException, TimeoutException {\n\t\t\tif (next \u003d\u003d null) {\n\t\t\t\tnext \u003d curr.getNext(time, unit);\n\t\t\t}\n\t\t\tif (marked !\u003d first) {\n\t\t\t\tfirst \u003d null;\n\t\t\t}\n\t\t\tcurr \u003d next;\n\t\t\tnext \u003d null;\n\t\t\treturn curr.getData();\n\t\t}\n\n\t\tpublic T peek() {\n\t\t\tif (next \u003d\u003d null) {\n\t\t\t\tnext \u003d curr.getNext();\n\t\t\t}\n\t\t\treturn (next !\u003d null) ? next.getData() : null;\n\t\t}\n\n\t\tpublic void mark() {\n\t\t\tmarked \u003d curr;\n\t\t\tif (marked !\u003d first) {\n\t\t\t\tfirst \u003d null;\n\t\t\t}\n\t\t}\n\n\t\tpublic void reset() {\n\t\t\tif (marked \u003d\u003d null) {\n\t\t\t\tthrow new InvalidMarkException();\n\t\t\t}\n\t\t\tif (marked \u003d\u003d first) {\n\t\t\t\tcurr \u003d marked;\n\t\t\t} else {\n\t\t\t\tnext \u003d marked;\n\t\t\t}\n\t\t}\n\t}\n\n\tprivate final AtomicReference\u003cNode\u003cT\u003e\u003e tail \u003d new AtomicReference\u003cNode\u003cT\u003e\u003e(\n\t\t\tnew Node\u003cT\u003e(null));\n\n\tpublic void add(T item) {\n\t\tNode\u003cT\u003e n \u003d new Node\u003cT\u003e(item);\n\t\tNode\u003cT\u003e curr;\n\t\tdo {\n\t\t\tcurr \u003d tail.get();\n\t\t} while (!tail.compareAndSet(curr, n));\n\t\tcurr.setNext(n);\n\t}\n\n\tpublic Buffer\u003cT\u003e newBuffer() {\n\t\treturn new Buffer\u003cT\u003e(tail.get());\n\t}\n}",
+      "revId": "096fa8ac0d3fa6f3e6ef0047528cb9abfd18839d",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
