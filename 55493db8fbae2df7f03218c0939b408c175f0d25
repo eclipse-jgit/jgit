@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//9Ms\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Subscriber.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-01T16:47:47Z",
+      "side": 1,
+      "message": "can we rename pack-number to pack-id in the protocol?  since you are supposed to treat it as an opaque string.",
+      "revId": "55493db8fbae2df7f03218c0939b408c175f0d25",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//9NY\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Subscriber.java",
         "patchSetId": 16
