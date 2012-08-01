@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//9L4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Subscriber.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-01T17:20:20Z",
+      "side": 1,
+      "message": "I think this should be called SubscriptionState, since it is just a data holder now.",
+      "revId": "55493db8fbae2df7f03218c0939b408c175f0d25",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//9Ms\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Subscriber.java",
         "patchSetId": 16
