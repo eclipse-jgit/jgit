@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn//9NA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackSubscribeConnection.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-01T16:57:11Z",
+      "side": 1,
+      "message": "Subscribe --\u003e SubscribeConnection",
+      "revId": "c7dbba4263327f94d5ae79a932ac3dafeb05dabf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//9M4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackSubscribeConnection.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-01T16:57:11Z",
+      "side": 1,
+      "message": "this seems short, given some connections can be very slow. Why did you choose 4 and not 10 or 30?",
+      "revId": "c7dbba4263327f94d5ae79a932ac3dafeb05dabf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//9M8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackSubscribeConnection.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-01T16:57:11Z",
+      "side": 1,
+      "message": "private",
+      "revId": "c7dbba4263327f94d5ae79a932ac3dafeb05dabf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//9Mw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackSubscribeConnection.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-01T16:57:11Z",
+      "side": 1,
+      "message": "nice, much clearer!",
+      "revId": "c7dbba4263327f94d5ae79a932ac3dafeb05dabf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//9Mk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackSubscribeConnection.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-01T16:57:11Z",
+      "side": 1,
+      "message": "i think i would change this as follows to make it more readable:\n\nif (RefSpec.isWildcard(spec) \u0026\u0026 !refName.startsWith(\nspec.substring(0, spec.length() - 1)) {\n  continue;\n} else if (!refName.equals(spec)) {\n  continue;\n}\nString objId \u003d ref.getValue().getLeaf().getObjectId().getName();\nwrite(\"have \" + objId + \" \" + refName);",
+      "revId": "c7dbba4263327f94d5ae79a932ac3dafeb05dabf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//9M0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/BasePackSubscribeConnection.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-01T16:57:11Z",
+      "side": 1,
+      "message": "default:\nthrow new IllegalArgumentException...",
+      "revId": "c7dbba4263327f94d5ae79a932ac3dafeb05dabf",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
