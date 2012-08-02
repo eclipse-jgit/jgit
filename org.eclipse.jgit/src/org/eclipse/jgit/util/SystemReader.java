@@ -240,6 +240,19 @@ public abstract class SystemReader {
 	}
 
 	/**
+	 * @return true if we are running on a Windows.
+	 */
+	public boolean isWindows() {
+		String osDotName = AccessController
+				.doPrivileged(new PrivilegedAction<String>() {
+					public String run() {
+						return getProperty("os.name");
+					}
+				});
+		return osDotName.startsWith("Windows");
+	}
+
+	/**
 	 * @return true if we are running on Mac OS X
 	 */
 	public boolean isMacOS() {
