@@ -237,4 +237,12 @@ public abstract class SystemReader {
 		return DateFormat.getDateTimeInstance(dateStyle, timeStyle);
 	}
 
+	/**
+	 * @return true if we are running on Mac OS X
+	 */
+	public boolean isMacOS() {
+		String osDotName = getProperty("os.name");
+		return "Mac OS X".equals(osDotName) || "Darwin".equals(osDotName);
+	}
+
 }
