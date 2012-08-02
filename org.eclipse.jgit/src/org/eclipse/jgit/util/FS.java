@@ -89,7 +89,7 @@ public abstract class FS {
 	 * @return detected file system abstraction
 	 */
 	public static FS detect(Boolean cygwinUsed) {
-		if (FS_Win32.isWin32()) {
+		if (SystemReader.getInstance().isWindows()) {
 			if (cygwinUsed == null)
 				cygwinUsed = Boolean.valueOf(FS_Win32_Cygwin.isCygwin());
 			if (cygwinUsed.booleanValue())

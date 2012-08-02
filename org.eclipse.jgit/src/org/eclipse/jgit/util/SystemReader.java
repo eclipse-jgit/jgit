@@ -238,6 +238,13 @@ public abstract class SystemReader {
 	}
 
 	/**
+	 * @return true if we are running on a Windows.
+	 */
+	public boolean isWindows() {
+		return getProperty("os.name").startsWith("Windows");
+	}
+
+	/**
 	 * @return true if we are running on Mac OS X
 	 */
 	public boolean isMacOS() {
