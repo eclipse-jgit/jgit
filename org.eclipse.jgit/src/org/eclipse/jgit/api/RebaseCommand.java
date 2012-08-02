@@ -439,6 +439,7 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		// representation for date and timezone
 		sb.append(GIT_AUTHOR_DATE);
 		sb.append("='");
+		sb.append("@"); // @ for time on seconds since 1970
 		String externalString = author.toExternalString();
 		sb
 				.append(externalString.substring(externalString
@@ -1013,7 +1014,13 @@ public class RebaseCommand extends GitCommand<RebaseResult> {
 		String time = keyValueMap.get(GIT_AUTHOR_DATE);
 
 		// the time is saved as <seconds since 1970> <timezone offset>
-		long when = Long.parseLong(time.substring(0, time.indexOf(' '))) * 1000;
+		int timeStart = 0;
+		if (time.startsWith("@"))
+			timeStart = 1;
+		else
+			timeStart = 0;
+		long when = Long
+				.parseLong(time.substring(timeStart, time.indexOf(' '))) * 1000;
 		String tzOffsetString = time.substring(time.indexOf(' ') + 1);
 		int multiplier = -1;
 		if (tzOffsetString.charAt(0) == '+')
