@@ -724,8 +724,7 @@ public class DirCacheEntry {
 			case ':':
 				// Tree's never have a backslash in them, not even on Windows
 				// but even there we regard it as an invalid path
-				if ("Windows".equals(SystemReader.getInstance().getProperty(
-						"os.name")))
+				if (SystemReader.getInstance().isWindows())
 					return false;
 				//$FALL-THROUGH$
 			default:
