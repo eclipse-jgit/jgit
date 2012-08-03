@@ -962,6 +962,7 @@ public class DirCacheCheckout {
 			DirCacheEntry entry, ObjectReader or) throws IOException {
 		ObjectLoader ol = or.open(entry.getObjectId());
 		File parentDir = f.getParentFile();
+		parentDir.mkdirs();
 		File tmpFile = File.createTempFile("._" + f.getName(), null, parentDir);
 		WorkingTreeOptions opt = repo.getConfig().get(WorkingTreeOptions.KEY);
 		FileOutputStream rawChannel = new FileOutputStream(tmpFile);
