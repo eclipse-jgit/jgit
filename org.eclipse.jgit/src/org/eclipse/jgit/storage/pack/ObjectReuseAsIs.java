@@ -50,6 +50,7 @@ import java.util.List;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.StoredObjectRepresentationNotAvailableException;
 import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.BitmapIndex.BitmapBuilder;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.ProgressMonitor;
 
@@ -232,4 +233,22 @@ public interface ObjectReuseAsIs {
 	 */
 	public abstract void copyPackAsIs(PackOutputStream out, CachedPack pack,
 			boolean validate) throws IOException;
+
+	/**
+	 * Obtain the available cached packs that match the bitmap and update
+	 * the bitmap by removing the items that are in the CachedPack.
+	 * <p>
+	 * A cached pack has known starting points and may be sent entirely as-is,
+	 * with almost no effort on the sender's part.
+	 *
+	 * @param needBitmap
+	 *            the bitmap that contains all of the objects the client wants.
+	 * @return the available cached packs.
+	 * @throws IOException
+	 *             the cached packs cannot be listed from the repository.
+	 *             Callers may choose to ignore this and continue as-if there
+	 *             were no cached packs.
+	 */
+	public Collection<CachedPack> getCachedPacksAndUpdate(
+			BitmapBuilder needBitmap) throws IOException;
 }

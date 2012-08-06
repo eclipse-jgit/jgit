@@ -62,6 +62,7 @@ import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.BitmapIndex;
+import org.eclipse.jgit.lib.BitmapIndex.BitmapBuilder;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.InflaterCache;
 import org.eclipse.jgit.lib.ObjectId;
@@ -110,6 +111,17 @@ final class WindowCursor extends ObjectReader implements ObjectReuseAsIs {
 				return new BitmapIndexImpl(index);
 		}
 		return null;
+	}
+
+	public Collection<CachedPack> getCachedPacksAndUpdate(
+			BitmapBuilder needBitmap) throws IOException {
+		for (PackFile pack : db.getPacks()) {
+			PackBitmapIndex index = pack.getBitmapIndex();
+			if (needBitmap.removeAllOrNone(index))
+				return Collections.<CachedPack> singletonList(
+						new LocalCachedPack(Collections.singletonList(pack)));
+		}
+		return Collections.emptyList();
 	}
 
 	@Override
