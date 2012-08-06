@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn//8mc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SystemReader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-08-06T22:50:26Z",
+      "side": 1,
+      "message": "why isn\u0027t access to system property no longer wrapped with AccessController.accessPrivileged() ?",
+      "revId": "2f46f08cd51b35ff0f51a30f61a359547b46d52e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
