@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn//8ms\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-08-06T22:46:55Z",
+      "side": 1,
+      "message": "typo s/time on seconds/time in seconds/",
+      "revId": "aee003fb6c40dadfa2cefabb61a368ada5d285ec",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
