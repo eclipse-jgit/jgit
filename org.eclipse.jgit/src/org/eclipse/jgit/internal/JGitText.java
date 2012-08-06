@@ -84,10 +84,12 @@ public class JGitText extends TranslationBundle {
 	/***/ public String bareRepositoryNoWorkdirAndIndex;
 	/***/ public String base64InputNotProperlyPadded;
 	/***/ public String baseLengthIncorrect;
+	/***/ public String bitmapMissingObject;
 	/***/ public String blameNotCommittedYet;
 	/***/ public String blobNotFound;
 	/***/ public String blobNotFoundForPath;
 	/***/ public String branchNameInvalid;
+	/***/ public String buildingBitmaps;
 	/***/ public String cachedPacksPreventsIndexCreation;
 	/***/ public String cannotBeCombined;
 	/***/ public String cannotBeRecursiveWhenTreesAreIncluded;
@@ -477,6 +479,7 @@ public class JGitText extends TranslationBundle {
 	/***/ public String searchForReuse;
 	/***/ public String searchForSizes;
 	/***/ public String secondsAgo;
+	/***/ public String selectingCommits;
 	/***/ public String sequenceTooLargeForDiffAlgorithm;
 	/***/ public String serviceNotEnabledNoName;
 	/***/ public String serviceNotPermitted;
