@@ -84,6 +84,9 @@ import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.AsyncObjectSizeQueue;
 import org.eclipse.jgit.lib.BatchingProgressMonitor;
+import org.eclipse.jgit.lib.BitmapIndex;
+import org.eclipse.jgit.lib.BitmapIndex.BitmapBuilder;
+import org.eclipse.jgit.lib.BitmapObject;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
@@ -103,6 +106,8 @@ import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevSort;
 import org.eclipse.jgit.revwalk.RevTag;
 import org.eclipse.jgit.revwalk.RevTree;
+import org.eclipse.jgit.storage.file.PackBitmapIndexBuilder;
+import org.eclipse.jgit.storage.file.PackBitmapIndexWriterV1;
 import org.eclipse.jgit.storage.file.PackIndexWriter;
 import org.eclipse.jgit.util.BlockList;
 import org.eclipse.jgit.util.TemporaryBuffer;
@@ -213,6 +218,9 @@ public class PackWriter {
 	// edge objects for thin packs
 	private List<ObjectToPack> edgeObjects = new BlockList<ObjectToPack>();
 
+	// Objects the client is known to have already.
+	private BitmapBuilder haveObjects;
+
 	private List<CachedPack> cachedPacks = new ArrayList<CachedPack>(2);
 
 	private Set<ObjectId> tagTargets = Collections.emptySet();
@@ -254,15 +262,21 @@ public class PackWriter {
 
 	private boolean useCachedPacks;
 
+	private boolean useBitmaps;
+
 	private boolean ignoreMissingUninteresting = true;
 
 	private boolean pruneCurrentObjectList;
 
 	private boolean shallowPack;
 
+	private boolean canBuildBitmaps;
+
 	private int depth;
 
 	private Collection<? extends ObjectId> unshallowObjects;
+
+	private PackBitmapIndexBuilder writeBitmaps;
 
 	/**
 	 * Create writer for specified repository.
@@ -439,6 +453,19 @@ public class PackWriter {
 	 */
 	public void setUseCachedPacks(boolean useCached) {
 		useCachedPacks = useCached;
+	}
+
+	/** @return true to use bitmaps for ObjectWalks, if available. */
+	public boolean isUseBitmaps() {
+		return useBitmaps;
+	}
+
+	/**
+	 * @param useBitmaps
+	 *            if set to true, bitmaps will be used when preparing a pack.
+	 */
+	public void setUseBitmaps(boolean useBitmaps) {
+		this.useBitmaps = useBitmaps;
 	}
 
 	/**
@@ -792,6 +819,25 @@ public class PackWriter {
 	}
 
 	/**
+	 * Returns the index format version that will be written.
+	 * <p>
+	 * This method can only be invoked after
+	 * {@link #writePack(ProgressMonitor, ProgressMonitor, OutputStream)} has
+	 * been invoked and completed successfully.
+	 *
+	 * @return the index format version.
+	 */
+	public int getIndexVersion() {
+		int indexVersion = config.getIndexVersion();
+		if (indexVersion <= 0) {
+			for (BlockList<ObjectToPack> objs : objectsLists)
+				indexVersion = Math.max(indexVersion,
+						PackIndexWriter.oldestPossibleFormat(objs));
+		}
+		return indexVersion;
+	}
+
+	/**
 	 * Create an index file to match the pack file just written.
 	 * <p>
 	 * This method can only be invoked after
@@ -810,14 +856,34 @@ public class PackWriter {
 			throw new IOException(JGitText.get().cachedPacksPreventsIndexCreation);
 
 		long writeStart = System.currentTimeMillis();
-		final List<ObjectToPack> list = sortByName();
-		final PackIndexWriter iw;
-		int indexVersion = config.getIndexVersion();
-		if (indexVersion <= 0)
-			iw = PackIndexWriter.createOldestPossible(indexStream, list);
-		else
-			iw = PackIndexWriter.createVersion(indexStream, indexVersion);
-		iw.write(list, packcsum);
+		final PackIndexWriter iw = PackIndexWriter.createVersion(
+				indexStream, getIndexVersion());
+		iw.write(sortByName(), packcsum);
+		stats.timeWriting += System.currentTimeMillis() - writeStart;
+	}
+
+	/**
+	 * Create a bitmap index file to match the pack file just written.
+	 * <p>
+	 * This method can only be invoked after
+	 * {@link #prepareBitmapIndex(ProgressMonitor, Set)} has been invoked and
+	 * completed successfully. Writing a corresponding bitmap index is an
+	 * optional feature that not all pack users may require.
+	 *
+	 * @param bitmapIndexStream
+	 *            output for the bitmap index data. Caller is responsible for
+	 *            closing this stream.
+	 * @throws IOException
+	 *             the index data could not be written to the supplied stream.
+	 */
+	public void writeBitmapIndex(final OutputStream bitmapIndexStream)
+			throws IOException {
+		if (writeBitmaps == null)
+			throw new IOException(JGitText.get().bitmapsMustBePrepared);
+
+		long writeStart = System.currentTimeMillis();
+		final PackBitmapIndexWriterV1 iw = new PackBitmapIndexWriterV1(bitmapIndexStream);
+		iw.write(writeBitmaps, packcsum);
 		stats.timeWriting += System.currentTimeMillis() - writeStart;
 	}
 
@@ -858,6 +924,9 @@ public class PackWriter {
 			break;
 		case WRITING:
 			task = JGitText.get().writingObjects;
+			break;
+		case BUILDING_BITMAPS:
+			task = JGitText.get().buildingBitmaps;
 			break;
 		default:
 			throw new IllegalArgumentException(
@@ -1540,6 +1609,24 @@ public class PackWriter {
 		stats.interestingObjects = Collections.unmodifiableSet(new HashSet<ObjectId>(want));
 		stats.uninterestingObjects = Collections.unmodifiableSet(new HashSet<ObjectId>(have));
 
+		walker.setRetainBody(false);
+
+		canBuildBitmaps = config.isBuildBitmaps()
+				&& !shallowPack
+				&& have.isEmpty()
+				&& (excludeInPacks == null || excludeInPacks.length == 0);
+		if (!shallowPack && useBitmaps) {
+			BitmapIndex bitmapIndex = reader.getBitmapIndex();
+			if (bitmapIndex != null) {
+				PackWriterBitmapWalker bitmapWalker = new PackWriterBitmapWalker(
+						walker, bitmapIndex, countingMonitor);
+				findObjectsToPackUsingBitmaps(bitmapWalker, want, have);
+				endPhase(countingMonitor);
+				stats.timeCounting = System.currentTimeMillis() - countingStart;
+				return;
+			}
+		}
+
 		List<ObjectId> all = new ArrayList<ObjectId>(want.size() + have.size());
 		all.addAll(want);
 		all.addAll(have);
@@ -1552,7 +1639,6 @@ public class PackWriter {
 		final RevFlagSet keepOnRestart = new RevFlagSet();
 		keepOnRestart.add(inCachedPack);
 
-		walker.setRetainBody(false);
 		walker.carry(include);
 
 		int haveEst = have.size();
@@ -1761,6 +1847,34 @@ public class PackWriter {
 		stats.timeCounting = System.currentTimeMillis() - countingStart;
 	}
 
+	private void findObjectsToPackUsingBitmaps(
+			PackWriterBitmapWalker bitmapWalker, Set<? extends ObjectId> want,
+			Set<? extends ObjectId> have)
+			throws MissingObjectException, IncorrectObjectTypeException,
+			IOException {
+		BitmapBuilder haveBitmap = bitmapWalker.findObjects(have, null);
+		bitmapWalker.reset();
+		BitmapBuilder wantBitmap = bitmapWalker.findObjects(want, haveBitmap);
+		BitmapBuilder needBitmap = wantBitmap.andNot(haveBitmap);
+
+		if (useCachedPacks && reuseSupport != null
+				&& (excludeInPacks == null || excludeInPacks.length == 0))
+			cachedPacks.addAll(
+					reuseSupport.getCachedPacksAndUpdate(needBitmap));
+
+		for (BitmapObject obj : needBitmap) {
+			ObjectId objectId = obj.getObjectId();
+			if (exclude(objectId)) {
+				needBitmap.remove(objectId);
+				continue;
+			}
+			addObject(objectId, obj.getType(), 0);
+		}
+
+		if (thin)
+			haveObjects = haveBitmap;
+	}
+
 	private static void pruneEdgesFromObjectList(List<ObjectToPack> list) {
 		final int size = list.size();
 		int src = 0;
@@ -1892,7 +2006,7 @@ public class PackWriter {
 			if (ptr != null && !ptr.isEdge()) {
 				otp.setDeltaBase(ptr);
 				otp.setReuseAsIs();
-			} else if (thin && ptr != null && ptr.isEdge()) {
+			} else if (thin && have(ptr, baseId)) {
 				otp.setDeltaBase(baseId);
 				otp.setReuseAsIs();
 			} else {
@@ -1918,6 +2032,75 @@ public class PackWriter {
 
 		otp.setDeltaAttempted(next.wasDeltaAttempted());
 		otp.select(next);
+	}
+
+	private final boolean have(ObjectToPack ptr, AnyObjectId objectId) {
+		return (ptr != null && ptr.isEdge())
+				|| (haveObjects != null && haveObjects.contains(objectId));
+	}
+
+	/**
+	 * Prepares the bitmaps to be written to the pack index. Bitmaps can be used
+	 * to speed up fetches and clones by storing the entire object graph at
+	 * selected commits.
+	 *
+	 * This method can only be invoked after
+	 * {@link #writePack(ProgressMonitor, ProgressMonitor, OutputStream)} has
+	 * been invoked and completed successfully. Writing a corresponding bitmap
+	 * index is an optional feature that not all pack users may require.
+	 *
+	 * @param pm
+	 *            progress monitor to report bitmap building work.
+	 * @param want
+	 *            collection of objects to be marked as interesting (start
+	 *            points of graph traversal).
+	 * @return whether a bitmap index may be written.
+	 * @throws IOException
+	 *             when some I/O problem occur during reading objects.
+	 */
+	public boolean prepareBitmapIndex(
+			ProgressMonitor pm, Set<? extends ObjectId> want)
+			throws IOException {
+		if (!canBuildBitmaps || getObjectCount() > Integer.MAX_VALUE
+				|| !cachedPacks.isEmpty())
+			return false;
+
+		if (pm == null)
+			pm = NullProgressMonitor.INSTANCE;
+
+		writeBitmaps = new PackBitmapIndexBuilder(sortByName());
+		PackWriterBitmapPreparer bitmapPreparer =
+				new PackWriterBitmapPreparer(reader, writeBitmaps, pm, want);
+
+		int numCommits = objectsLists[Constants.OBJ_COMMIT].size();
+		Collection<PackWriterBitmapPreparer.BitmapCommit> selectedCommits =
+				bitmapPreparer.doCommitSelection(numCommits);
+
+		beginPhase(PackingPhase.BUILDING_BITMAPS, pm, selectedCommits.size());
+
+		PackWriterBitmapWalker walker = bitmapPreparer.newBitmapWalker();
+		AnyObjectId last = null;
+		for (PackWriterBitmapPreparer.BitmapCommit cmit : selectedCommits) {
+			if (cmit.isReuseWalker())
+				walker.reset();
+			else
+				walker = bitmapPreparer.newBitmapWalker();
+
+			BitmapBuilder bitmap = walker.findObjects(
+					Collections.singleton(cmit.getObjectId()), null);
+
+			if (last != null && cmit.isReuseWalker() && !bitmap.contains(last))
+				throw new IllegalStateException(MessageFormat.format(
+						JGitText.get().bitmapMissingObject,
+						cmit.getObjectId().name(), last.name()));
+			last = cmit.getObjectId();
+			writeBitmaps.addBitmap(cmit.getObjectId(), bitmap.build());
+
+			pm.update(1);
+		}
+
+		endPhase(pm);
+		return true;
 	}
 
 	private boolean reuseDeltaFor(ObjectToPack otp) {
@@ -2296,7 +2479,10 @@ public class PackWriter {
 		COMPRESSING,
 
 		/** Writing objects phase. */
-		WRITING;
+		WRITING,
+
+		/** Building bitmaps phase. */
+		BUILDING_BITMAPS;
 	}
 
 	/** Summary of the current state of a PackWriter. */
