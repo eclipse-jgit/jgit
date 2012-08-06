@@ -77,6 +77,13 @@ class LocalCachedPack extends CachedPack {
 		this.packNames = packNames.toArray(new String[packNames.size()]);
 	}
 
+	LocalCachedPack(List<PackFile> packs) {
+		odb = null;
+		tips = null;
+		packNames = null;
+		this.packs = packs.toArray(new PackFile[packs.size()]);
+	}
+
 	@Override
 	public Set<ObjectId> getTips() {
 		return tips;
