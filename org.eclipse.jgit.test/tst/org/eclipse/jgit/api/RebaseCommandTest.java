@@ -975,7 +975,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		String[] lines = convertedAuthor.split("\n");
 		assertEquals("GIT_AUTHOR_NAME='Author name'", lines[0]);
 		assertEquals("GIT_AUTHOR_EMAIL='a.mail@some.com'", lines[1]);
-		assertEquals("GIT_AUTHOR_DATE='123456789 -0100'", lines[2]);
+		assertEquals("GIT_AUTHOR_DATE='@123456789 -0100'", lines[2]);
 
 		PersonIdent parsedIdent = git.rebase().parseAuthor(
 				convertedAuthor.getBytes("UTF-8"));
@@ -992,7 +992,7 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		lines = convertedAuthor.split("\n");
 		assertEquals("GIT_AUTHOR_NAME='Author name'", lines[0]);
 		assertEquals("GIT_AUTHOR_EMAIL='a.mail@some.com'", lines[1]);
-		assertEquals("GIT_AUTHOR_DATE='123456789 +0930'", lines[2]);
+		assertEquals("GIT_AUTHOR_DATE='@123456789 +0930'", lines[2]);
 
 		parsedIdent = git.rebase().parseAuthor(
 				convertedAuthor.getBytes("UTF-8"));
