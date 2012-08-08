@@ -1,0 +1,1024 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn//8c0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Publisher.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-08T17:36:44Z",
+      "side": 1,
+      "message": "Instead of LIFETIME, i would use GRACE_PERIOD, since you only start after a client disconnects.",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8dE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Publisher.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-08T17:36:44Z",
+      "side": 1,
+      "message": "why not just have publisher implement the interface?",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8dI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Publisher.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-08T17:36:44Z",
+      "side": 1,
+      "message": "pre-size with the commands.size()",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8dA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Publisher.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-08T17:36:44Z",
+      "side": 1,
+      "message": "magic number",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8c8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Publisher.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-08T17:36:44Z",
+      "side": 1,
+      "message": "should you remove the session when the delete timer returns false?",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8c4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Publisher.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-08T17:36:44Z",
+      "side": 1,
+      "message": "might as well just inline this",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8e8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherClient.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-08T17:36:44Z",
+      "side": 1,
+      "message": "units",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8bY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherClient.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-08T17:36:44Z",
+      "side": 1,
+      "message": "this should be called clientRefState. Also, isn\u0027t it only used to generate the initial pack? If so, it shouldn\u0027t be stored in the class.",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8ak\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherClient.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-08T17:36:44Z",
+      "side": 1,
+      "message": "i would probably call this \"subscribeLoop\"",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8bs\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherClient.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-08T17:36:44Z",
+      "side": 1,
+      "message": "you should clear in and out in a try finally around the code below, and close out.",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8cs\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherClient.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-08T17:36:44Z",
+      "side": 1,
+      "message": "i think i would inline this function in subscribe:\n\n  String line \u003d in.readString();\n  if (line.equals(\"advertisement\"))\n    doAdvertisement();\n  else if (line.equals(\"subscribe\"))\n    doSubscribe();\n  else\n    throw new TransportException(MessageFormat.format(\n      JGitText.get().expectedGot, \"advertisement|subscribe\", line));\n\n\nthe other option would be to return an enum or constant.",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8co\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherClient.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-08T17:36:44Z",
+      "side": 1,
+      "message": "you shouldn\u0027t need a try finally for this. if open throws an exception, the repository should not be open and if you do open the repository the close will execute.\n\n  Repository r \u003d openRepository(line.substring(\"repositoryaccess \".length()));\n  r.close();",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8cU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherClient.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-08T17:36:44Z",
+      "side": 1,
+      "message": "shouldn\u0027t this send an end()",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8cI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherClient.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-08T17:36:44Z",
+      "side": 1,
+      "message": "why is a PublisherClient being passed?",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8cM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherClient.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-08T17:36:44Z",
+      "side": 1,
+      "message": "why do you need to mark? i thought you kept a fixed size window?",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8cE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherClient.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-08T17:36:44Z",
+      "side": 1,
+      "message": "the event loop body should be moved into its own method",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8cA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherClient.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-08T17:36:44Z",
+      "side": 1,
+      "message": "do you need to send the pktLineOut.end() ? probably doesn\u0027t really matter.",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8cQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherClient.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-08T17:36:44Z",
+      "side": 1,
+      "message": "nit: it --\u003e stream",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8b8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherClient.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-08T17:36:44Z",
+      "side": 1,
+      "message": "there should be a try finally after this assignment to r.close()",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8bw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherClient.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-08T17:36:44Z",
+      "side": 1,
+      "message": "i swear i\u0027ve seen this code a bunch. don\u0027t you have a utility method for this?",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8bU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherClient.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-08T17:36:44Z",
+      "side": 1,
+      "message": "shouldn\u0027t you clear out restartToken and lastPackId at the start? The way you are using class variables is error prone.  Any thing that should be remembered across sessions should be stored in the Session, otherwise pass the information as arguments.  This will require you to create some helper types to hold data e.g. a Header class with two fields, restartToken and lastPackId. This does not apply to in and out, since they are used everywhere.",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8bk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherClient.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-08T17:36:44Z",
+      "side": 1,
+      "message": "shouldn\u0027t you check cmdList and stateList are not null?",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8bg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherClient.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-08T17:36:44Z",
+      "side": 1,
+      "message": "it is supported, but doesn\u0027t do anything, right?",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8bc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherClient.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-08T17:36:44Z",
+      "side": 1,
+      "message": "you need to check the length of parts",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8bo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherClient.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-08T17:36:44Z",
+      "side": 1,
+      "message": "out and consumeThread is not synchronized, so you can\u0027t do this. though calling consumeThread.interrupt() should be enough.\n\nActually this class should not need any synchronization.  Whomever is creating this class and managing it should know it needs to interrupt the thread in order to stop it.",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8bM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherClient.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-08T17:36:44Z",
+      "side": 1,
+      "message": "i\u0027m not a big fan of having to subclass this in order to openRepository.",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8ag\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherMemoryPool.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-08T17:36:44Z",
+      "side": 1,
+      "message": "there are race conditions here that you may want to document i.e. two threads allocating at the same time",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8fc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherMemoryPool.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-08T17:36:44Z",
+      "side": 1,
+      "message": "need to handle this.",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8fA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherPack.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-08T17:36:44Z",
+      "side": 1,
+      "message": "existingSpecs \u003d new HashSet\u003cSubscribeSpec\u003e(specs);",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8fE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherPack.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-08T17:36:44Z",
+      "side": 1,
+      "message": "don\u0027t you need to check that the entire collection is equal?otherwise you could send more data than they should get.",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8ac\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherPackFactory.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-08T17:36:44Z",
+      "side": 1,
+      "message": "nit: initialSliceInMemoryLimit",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8fI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherPush.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-08T17:36:44Z",
+      "side": 1,
+      "message": "remove",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8fM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherPush.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-08T17:36:44Z",
+      "side": 1,
+      "message": "remove this",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8a4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherPush.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-08T17:36:44Z",
+      "side": 1,
+      "message": "So i see why you need the PublisherClient....  I think you should take a RepositoryFactory and a PublisherSession here, where RepositoryFactory has a method to open the repository.  It is likely the case that RepositoryFactory should be on the PublisherSession itself.",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8e4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherPush.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-08T17:36:44Z",
+      "side": 1,
+      "message": "maybe you want to create a wrapper object to generate the pack. that way specs that match will block on that lock, and everyone wont block while only one pack builds at a time.\n\n\n PublisherPackGenerator gen;\n  synchronized (this) {\n    for (PublisherPackGenerator p : packs) {\n      if (p.match(specs)) {\n        gen \u003d p\n        break;\n      }\n      gen \u003d new PublisherPackGenerator(specs);\n      packs.add(gen);\n   }\n }\n\n return gen.get();\n   \n\nwhere the get() would look something like:\n \n PublisherPack p;\n private synchronized PublisherPack get() {\n    if (p !\u003d null) {\n      return p;\n    }\n   \n    Repository r \u003d client.openRepository(repositoryName);\n    try {\n      p \u003d generate(r, commands, specs, pushId + \"-\" + packs.size());\n      return p;\n     } finally {\n       r.close()\n     }\n  }\n\nmaybe you can use a ConcurrentHashMap to lookup the value item based on set equality of the specs, using putIfAbsent, but it is probably may be a waste of memory.",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8fQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherPush.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-08T17:36:44Z",
+      "side": 1,
+      "message": "remove the setReferences and decrement",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8fU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherPush.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-08T17:36:44Z",
+      "side": 1,
+      "message": "you can probably remove the equals and hashCode.",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8a0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherReverseResolver.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-08T17:36:44Z",
+      "side": 1,
+      "message": "do you plan on using this anywhere besides Publisher? Maybe you should just make this functionality built into the Publisher",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8fY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherReverseResolver.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-08T17:36:44Z",
+      "side": 1,
+      "message": "private?",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8f4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherSession.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-08T17:36:44Z",
+      "side": 1,
+      "message": "Use a concurrentHasMap, then you can remove the synchronized on the public methods.",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8f0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherSession.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-08T17:36:44Z",
+      "side": 1,
+      "message": "you also have to synchronize on reads.",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8fo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherSession.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-08T17:36:44Z",
+      "side": 1,
+      "message": "remove this and call directly on the stream.",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8fg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherSession.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-08T17:36:44Z",
+      "side": 1,
+      "message": "I think PublisherStream.Window is clearer.",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8bE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherSession.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-08T17:36:44Z",
+      "side": 1,
+      "message": "nit: cancelDeleteTimer()",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8a8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherSession.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-08T17:36:44Z",
+      "side": 1,
+      "message": "should you set the deleteTimer \u003d null?",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8g8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherStream.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-08T17:36:44Z",
+      "side": 1,
+      "message": "comment needs updating. it refers to iterators.",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8gU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherStream.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-08T17:36:44Z",
+      "side": 1,
+      "message": "This is the wrong level of abstraction.  The refcount should be on the Node, when that count reaches 0 then the data should be released. You just need the data to implement the close() or release() or deallocate() method. You could make that an interface, however i think you should explicitly work with PublisherPush types here and not make this class generic. It will simplify the code.",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8g4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherStream.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-08T17:36:44Z",
+      "side": 1,
+      "message": "nit: name condition -\u003e nextSet",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8gQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherStream.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-08T17:36:44Z",
+      "side": 1,
+      "message": "take the refcount as a parameter and add a release() or close() or deallocate() method (whatever you will call on the PublisherPush when the refcount is zero).",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8aQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherStream.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-08T17:36:44Z",
+      "side": 1,
+      "message": "presize the capacity",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8gc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherStream.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-08T17:36:44Z",
+      "side": 1,
+      "message": "i don\u0027t think this is needed.",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8gM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherStream.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-08T17:36:44Z",
+      "side": 1,
+      "message": "this seems wrong, hasNext calls next, but peek calls get.\n\ni\u0027m pretty sure you can delete hasNext() and peek()",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8gE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherStream.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-08T17:36:44Z",
+      "side": 1,
+      "message": "shouldn\u0027t need this if you are taking the capacity. next should do the work of maintaining the window.",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8fw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherStream.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-08T17:36:44Z",
+      "side": 1,
+      "message": "this works. maybe this should be called \"attemptRollback\" and just take the pushId here, since you know that type is PublisherPush.",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8gA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherStream.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-08T17:36:44Z",
+      "side": 1,
+      "message": "this is fine but i would change the mechanics of the class so it behaves as expected. it should be as follows:\n\n  private Node\u003cD\u003e current;\n  private final List\u003cNode\u003cD\u003e\u003e marked;\n  private final List\u003cNode\u003cD\u003e\u003e prepended;\n\nthen the behavior for next() becomes:\n  if prepended is not empty:\n     pop the next prepended\n   else \n     use the next node on current\n\n   add the node to marked (trim excess)\n   return the node\n\nThe behavior for attemptRollback() becomes:\n   find the item in the marked list\n   if not found\n     return false\n   otherwise\n     push all the items from marked to the prepended list\n     return true",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8go\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherStream.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-08T17:36:44Z",
+      "side": 1,
+      "message": "tail and windowCount no longer need to be volatile, since you synchronize on all access.",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8g0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherStream.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-08T17:36:44Z",
+      "side": 1,
+      "message": "nit: name newWindow",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8gY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherStream.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-08T17:36:44Z",
+      "side": 1,
+      "message": "You should be able to do something like this:\n\n Node\u003cT\u003e last;\n synchronize(PublisherStream.this) {\n   last \u003d tail; \n   windowCount--;\n }\n consume(last); // inclusive.\n\nwhere consume would decrement the refcount until the last is reached.",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8gg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherStream.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-08T17:36:44Z",
+      "side": 1,
+      "message": "delete this method",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8f8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscribeSpec.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-08T17:36:44Z",
+      "side": 1,
+      "message": "use the utility method",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
