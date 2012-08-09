@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//8ZI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Publisher.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-08-09T21:54:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//8c0\u003d",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//8dE\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Publisher.java",
         "patchSetId": 13
@@ -30,6 +48,24 @@
       "writtenOn": "2012-08-08T17:36:44Z",
       "side": 1,
       "message": "why not just have publisher implement the interface?",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8ZE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Publisher.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-08-09T21:54:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//8dE\u003d",
       "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//8ZA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Publisher.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-08-09T21:54:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//8dI\u003d",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//8dA\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Publisher.java",
         "patchSetId": 13
@@ -64,6 +118,24 @@
       "writtenOn": "2012-08-08T17:36:44Z",
       "side": 1,
       "message": "magic number",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8Y8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Publisher.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-08-09T21:54:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//8dA\u003d",
       "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//8Y4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Publisher.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-08-09T21:54:00Z",
+      "side": 1,
+      "message": "if the delete timer returns false, then the delete method has already run and removed the session and closed it",
+      "parentUuid": "AABOIn//8c8\u003d",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//8c4\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Publisher.java",
         "patchSetId": 13
@@ -98,6 +188,24 @@
       "writtenOn": "2012-08-08T17:36:44Z",
       "side": 1,
       "message": "might as well just inline this",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8Y0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Publisher.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-08-09T21:54:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//8c4\u003d",
       "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//8Yw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherClient.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-08-09T21:54:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//8e8\u003d",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//8bY\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherClient.java",
         "patchSetId": 13
@@ -132,6 +258,24 @@
       "writtenOn": "2012-08-08T17:36:44Z",
       "side": 1,
       "message": "this should be called clientRefState. Also, isn\u0027t it only used to generate the initial pack? If so, it shouldn\u0027t be stored in the class.",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8Ys\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherClient.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-08-09T21:54:00Z",
+      "side": 1,
+      "message": "Renamed. It is only used in generateInitialPacks, but that function needs to write both the command list and the ref state.",
+      "parentUuid": "AABOIn//8bY\u003d",
       "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//8Yo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherClient.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-08-09T21:54:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//8ak\u003d",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//8bs\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherClient.java",
         "patchSetId": 13
@@ -166,6 +328,24 @@
       "writtenOn": "2012-08-08T17:36:44Z",
       "side": 1,
       "message": "you should clear in and out in a try finally around the code below, and close out.",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8Yk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherClient.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-08-09T21:54:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//8bs\u003d",
       "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -189,6 +369,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//8Yg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherClient.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-08-09T21:54:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//8cs\u003d",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//8co\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherClient.java",
         "patchSetId": 13
@@ -200,6 +398,24 @@
       "writtenOn": "2012-08-08T17:36:44Z",
       "side": 1,
       "message": "you shouldn\u0027t need a try finally for this. if open throws an exception, the repository should not be open and if you do open the repository the close will execute.\n\n  Repository r \u003d openRepository(line.substring(\"repositoryaccess \".length()));\n  r.close();",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8Yc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherClient.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-08-09T21:54:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//8co\u003d",
       "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -223,6 +439,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//8YY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherClient.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-08-09T21:54:00Z",
+      "side": 1,
+      "message": "This is only a single line so the client knows exactly when to stop consuming, so it doesn\u0027t need an end().",
+      "parentUuid": "AABOIn//8cU\u003d",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//8cI\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherClient.java",
         "patchSetId": 13
@@ -234,6 +468,24 @@
       "writtenOn": "2012-08-08T17:36:44Z",
       "side": 1,
       "message": "why is a PublisherClient being passed?",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8YU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherClient.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-08-09T21:54:00Z",
+      "side": 1,
+      "message": "Because the client has the openRepository() method, which the pack factory needs to generate a new pack if needed.",
+      "parentUuid": "AABOIn//8cI\u003d",
       "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -257,6 +509,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//8YQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherClient.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-08-09T21:54:00Z",
+      "side": 1,
+      "message": "I only mark the packs that actually get sent to this client, not the ones that can\u0027t possibly be rolled back to.",
+      "parentUuid": "AABOIn//8cM\u003d",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//8cE\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherClient.java",
         "patchSetId": 13
@@ -268,6 +538,24 @@
       "writtenOn": "2012-08-08T17:36:44Z",
       "side": 1,
       "message": "the event loop body should be moved into its own method",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8YM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherClient.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-08-09T21:54:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//8cE\u003d",
       "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -291,6 +579,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//8YI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherClient.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-08-09T21:54:00Z",
+      "side": 1,
+      "message": "Doesn\u0027t matter, if it got here then the client disconnected.",
+      "parentUuid": "AABOIn//8cA\u003d",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//8cQ\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherClient.java",
         "patchSetId": 13
@@ -302,6 +608,24 @@
       "writtenOn": "2012-08-08T17:36:44Z",
       "side": 1,
       "message": "nit: it --\u003e stream",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8YE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherClient.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-08-09T21:54:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//8cQ\u003d",
       "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -325,6 +649,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//8YA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherClient.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-08-09T21:54:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//8b8\u003d",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//8bw\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherClient.java",
         "patchSetId": 13
@@ -336,6 +678,24 @@
       "writtenOn": "2012-08-08T17:36:44Z",
       "side": 1,
       "message": "i swear i\u0027ve seen this code a bunch. don\u0027t you have a utility method for this?",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8X8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherClient.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-08-09T21:54:00Z",
+      "side": 1,
+      "message": "Huh, guess it\u0027s up to 4 places...added SubscribeSpec.stripWildcard(ref).",
+      "parentUuid": "AABOIn//8bw\u003d",
       "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -359,6 +719,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//8X4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherClient.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-08-09T21:54:00Z",
+      "side": 1,
+      "message": "PublisherClient instances have the same lifetime as the connection, so readHeaders()/subscribeLoop() will only be called once for this object. Class variables are being used to pass data between each function call, because these read... functions read multiple values. I\u0027ll switch everything to using classes to return values.",
+      "parentUuid": "AABOIn//8bU\u003d",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//8bk\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherClient.java",
         "patchSetId": 13
@@ -370,6 +748,24 @@
       "writtenOn": "2012-08-08T17:36:44Z",
       "side": 1,
       "message": "shouldn\u0027t you check cmdList and stateList are not null?",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8Xw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherClient.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-08-09T21:54:00Z",
+      "side": 1,
+      "message": "If the client sends 2 [end] packets, then it would drop into this condition. I added a check for repo !\u003d null, which means cmdList and stateList are also !\u003d null.",
+      "parentUuid": "AABOIn//8bk\u003d",
       "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -393,6 +789,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//8X0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherClient.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-08-09T21:54:00Z",
+      "side": 1,
+      "message": "It should disconnect the client. It\u0027s supported by the protocol, but not by the implementation.",
+      "parentUuid": "AABOIn//8bg\u003d",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//8bc\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherClient.java",
         "patchSetId": 13
@@ -404,6 +818,24 @@
       "writtenOn": "2012-08-08T17:36:44Z",
       "side": 1,
       "message": "you need to check the length of parts",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8Xs\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherClient.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-08-09T21:54:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//8bc\u003d",
       "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -427,6 +859,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//8Xk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherClient.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-08-09T21:54:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//8bo\u003d",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//8bM\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherClient.java",
         "patchSetId": 13
@@ -438,6 +888,24 @@
       "writtenOn": "2012-08-08T17:36:44Z",
       "side": 1,
       "message": "i\u0027m not a big fan of having to subclass this in order to openRepository.",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8Xo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherClient.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-08-09T21:54:00Z",
+      "side": 1,
+      "message": "It\u0027s the cleanest way to do this, I tried the generics way and that was way uglier. The repository resolver needs some opaque \"connection\" object to open repositories, so the PublisherClientFactory will implement this method and bind the connection with the function closure.",
+      "parentUuid": "AABOIn//8bM\u003d",
       "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -461,6 +929,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//8Xc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherMemoryPool.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-08-09T21:54:00Z",
+      "side": 1,
+      "message": "Or I can remove them by wrapping the for loop in synchronized {}, since we don\u0027t want two clients deallocating the same objects (even though store() is synchronized).",
+      "parentUuid": "AABOIn//8ag\u003d",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//8fc\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherMemoryPool.java",
         "patchSetId": 13
@@ -472,6 +958,24 @@
       "writtenOn": "2012-08-08T17:36:44Z",
       "side": 1,
       "message": "need to handle this.",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8Xg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherMemoryPool.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-08-09T21:54:00Z",
+      "side": 1,
+      "message": "I went through and added a fatal PublisherException class.",
+      "parentUuid": "AABOIn//8fc\u003d",
       "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -495,6 +999,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//8XY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherPack.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-08-09T21:54:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//8fA\u003d",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//8fE\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherPack.java",
         "patchSetId": 13
@@ -506,6 +1028,24 @@
       "writtenOn": "2012-08-08T17:36:44Z",
       "side": 1,
       "message": "don\u0027t you need to check that the entire collection is equal?otherwise you could send more data than they should get.",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8XU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherPack.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-08-09T21:54:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//8fE\u003d",
       "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -529,6 +1069,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//8XQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherPackFactory.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-08-09T21:54:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//8ac\u003d",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//8fI\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherPush.java",
         "patchSetId": 13
@@ -540,6 +1098,24 @@
       "writtenOn": "2012-08-08T17:36:44Z",
       "side": 1,
       "message": "remove",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8RM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherPush.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-08-09T21:54:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//8fI\u003d",
       "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -563,6 +1139,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//8RI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherPush.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-08-09T21:54:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//8fM\u003d",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//8a4\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherPush.java",
         "patchSetId": 13
@@ -574,6 +1168,24 @@
       "writtenOn": "2012-08-08T17:36:44Z",
       "side": 1,
       "message": "So i see why you need the PublisherClient....  I think you should take a RepositoryFactory and a PublisherSession here, where RepositoryFactory has a method to open the repository.  It is likely the case that RepositoryFactory should be on the PublisherSession itself.",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8XM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherPush.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-08-09T21:54:00Z",
+      "side": 1,
+      "message": "RepositoryFactory will be connection-scoped (it contains a reference to the connection object), so it should be part of PublisherClient. Should I make an interface RepositoryFactory and have PublisherClient implement that?",
+      "parentUuid": "AABOIn//8a4\u003d",
       "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -597,6 +1209,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//8Pw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherPush.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-08-09T21:54:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//8e4\u003d",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//8fQ\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherPush.java",
         "patchSetId": 13
@@ -608,6 +1238,24 @@
       "writtenOn": "2012-08-08T17:36:44Z",
       "side": 1,
       "message": "remove the setReferences and decrement",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8RE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherPush.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-08-09T21:54:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//8fQ\u003d",
       "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -631,6 +1279,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//8Qw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherPush.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-08-09T21:54:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//8fU\u003d",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//8a0\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherReverseResolver.java",
         "patchSetId": 13
@@ -642,6 +1308,24 @@
       "writtenOn": "2012-08-08T17:36:44Z",
       "side": 1,
       "message": "do you plan on using this anywhere besides Publisher? Maybe you should just make this functionality built into the Publisher",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8XI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherReverseResolver.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-08-09T21:54:00Z",
+      "side": 1,
+      "message": "This will get subclassed by other implementations to override getKey, since it now only returns keys for FileRepositories.",
+      "parentUuid": "AABOIn//8a0\u003d",
       "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -665,6 +1349,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//8XE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherReverseResolver.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-08-09T21:54:00Z",
+      "side": 1,
+      "message": "protected, needs to be overriden",
+      "parentUuid": "AABOIn//8fY\u003d",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//8f4\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherSession.java",
         "patchSetId": 13
@@ -676,6 +1378,24 @@
       "writtenOn": "2012-08-08T17:36:44Z",
       "side": 1,
       "message": "Use a concurrentHasMap, then you can remove the synchronized on the public methods.",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8XA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherSession.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-08-09T21:54:00Z",
+      "side": 1,
+      "message": "Changed to a set, it didn\u0027t need to be a map, and it didn\u0027t need to be concurrent.",
+      "parentUuid": "AABOIn//8f4\u003d",
       "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -699,6 +1419,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//8Pc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherSession.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-08-09T21:54:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//8f0\u003d",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//8fo\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherSession.java",
         "patchSetId": 13
@@ -710,6 +1448,24 @@
       "writtenOn": "2012-08-08T17:36:44Z",
       "side": 1,
       "message": "remove this and call directly on the stream.",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8Ps\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherSession.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-08-09T21:54:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//8fo\u003d",
       "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -733,6 +1489,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//8Po\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherSession.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-08-09T21:54:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//8fg\u003d",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//8bE\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherSession.java",
         "patchSetId": 13
@@ -744,6 +1518,24 @@
       "writtenOn": "2012-08-08T17:36:44Z",
       "side": 1,
       "message": "nit: cancelDeleteTimer()",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8Pk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherSession.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-08-09T21:54:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//8bE\u003d",
       "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -767,6 +1559,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//8Pg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherSession.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-08-09T21:54:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//8a8\u003d",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//8g8\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherStream.java",
         "patchSetId": 13
@@ -778,6 +1588,24 @@
       "writtenOn": "2012-08-08T17:36:44Z",
       "side": 1,
       "message": "comment needs updating. it refers to iterators.",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8Wc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherStream.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-08-09T21:54:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//8g8\u003d",
       "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -801,6 +1629,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//8W0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherStream.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-08-09T21:54:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//8gU\u003d",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//8g4\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherStream.java",
         "patchSetId": 13
@@ -812,6 +1658,24 @@
       "writtenOn": "2012-08-08T17:36:44Z",
       "side": 1,
       "message": "nit: name condition -\u003e nextSet",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8W8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherStream.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-08-09T21:54:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//8g4\u003d",
       "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -835,6 +1699,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//8W4\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherStream.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-08-09T21:54:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//8gQ\u003d",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//8aQ\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherStream.java",
         "patchSetId": 13
@@ -846,6 +1728,24 @@
       "writtenOn": "2012-08-08T17:36:44Z",
       "side": 1,
       "message": "presize the capacity",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8Ww\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherStream.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-08-09T21:54:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//8aQ\u003d",
       "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -869,6 +1769,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//8Ws\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherStream.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-08-09T21:54:00Z",
+      "side": 1,
+      "message": "Made private",
+      "parentUuid": "AABOIn//8gc\u003d",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//8gM\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherStream.java",
         "patchSetId": 13
@@ -880,6 +1798,24 @@
       "writtenOn": "2012-08-08T17:36:44Z",
       "side": 1,
       "message": "this seems wrong, hasNext calls next, but peek calls get.\n\ni\u0027m pretty sure you can delete hasNext() and peek()",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8Wo\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherStream.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-08-09T21:54:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//8gM\u003d",
       "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -903,6 +1839,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//8Wg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherStream.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-08-09T21:54:00Z",
+      "side": 1,
+      "message": "Items don\u0027t get added on every next() call.",
+      "parentUuid": "AABOIn//8gE\u003d",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//8fw\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherStream.java",
         "patchSetId": 13
@@ -914,6 +1868,24 @@
       "writtenOn": "2012-08-08T17:36:44Z",
       "side": 1,
       "message": "this works. maybe this should be called \"attemptRollback\" and just take the pushId here, since you know that type is PublisherPush.",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8Wk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherStream.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-08-09T21:54:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//8fw\u003d",
       "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -937,6 +1909,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//8PM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherStream.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-08-09T21:54:00Z",
+      "side": 1,
+      "message": "Every next() call shouldn\u0027t mark().",
+      "parentUuid": "AABOIn//8gA\u003d",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//8go\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherStream.java",
         "patchSetId": 13
@@ -948,6 +1938,24 @@
       "writtenOn": "2012-08-08T17:36:44Z",
       "side": 1,
       "message": "tail and windowCount no longer need to be volatile, since you synchronize on all access.",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8Rg\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherStream.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-08-09T21:54:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//8go\u003d",
       "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -971,6 +1979,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//8Rk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherStream.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-08-09T21:54:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//8g0\u003d",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//8gY\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherStream.java",
         "patchSetId": 13
@@ -982,6 +2008,24 @@
       "writtenOn": "2012-08-08T17:36:44Z",
       "side": 1,
       "message": "You should be able to do something like this:\n\n Node\u003cT\u003e last;\n synchronize(PublisherStream.this) {\n   last \u003d tail; \n   windowCount--;\n }\n consume(last); // inclusive.\n\nwhere consume would decrement the refcount until the last is reached.",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8Rc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherStream.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-08-09T21:54:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//8gY\u003d",
       "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -1005,6 +2049,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//8RY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherStream.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-08-09T21:54:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//8gg\u003d",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//8f8\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscribeSpec.java",
         "patchSetId": 13
@@ -1016,6 +2078,24 @@
       "writtenOn": "2012-08-08T17:36:44Z",
       "side": 1,
       "message": "use the utility method",
+      "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8RU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscribeSpec.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 694
+      },
+      "writtenOn": "2012-08-09T21:54:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//8f8\u003d",
       "revId": "f2b560039ecd120a67efd9f4eb32d1a9ee63982a",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
