@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn//8HI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BranchConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2012-08-11T12:52:27Z",
+      "side": 1,
+      "message": "Move this down, so that all public methods come before the private ones.",
+      "revId": "6ea7c945d0d61125b8b8d85ba790f365492b12d4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//8HM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/BranchConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2012-08-11T12:52:27Z",
+      "side": 1,
+      "message": "I\u0027d add a note here pointing to getTrackingBranch to also get local tracking branches.",
+      "revId": "6ea7c945d0d61125b8b8d85ba790f365492b12d4",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
