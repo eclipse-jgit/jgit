@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn//75o\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/DeltaWindow.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-08-13T21:26:50Z",
+      "side": 1,
+      "message": "Rewrite this to do the negation inside of the accessor method. It will be faster there because you can test the bits differently. :-)",
+      "revId": "9e56eecd1f3fd84dc114666c0dcf0e6e23283a6a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//75s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/storage/pack/ObjectToPack.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1
+      },
+      "writtenOn": "2012-08-13T21:26:50Z",
+      "side": 1,
+      "message": "Missing ~",
+      "revId": "9e56eecd1f3fd84dc114666c0dcf0e6e23283a6a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
