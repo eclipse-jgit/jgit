@@ -43,6 +43,8 @@
  */
 package org.eclipse.jgit.api;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -232,6 +234,69 @@ public class CheckoutCommandTest extends RepositoryTestCase {
 
 		git.checkout().addPath("dir/a.txt").call();
 		assertTrue(a.exists());
+	}
+
+	@Test
+	public void testCheckoutOfDirectoryShouldBeRecursive() throws Exception {
+		File a = writeTrashFile("dir/a.txt", "A");
+		File b = writeTrashFile("dir/sub/b.txt", "B");
+		git.add().addFilepattern("dir").call();
+		git.commit().setMessage("Added dir").call();
+
+		write(a, "modified");
+		write(b, "modified");
+		git.checkout().addPath("dir").call();
+
+		assertThat(read(a), is("A"));
+		assertThat(read(b), is("B"));
+	}
+
+	@Test
+	public void testCheckoutAllPaths() throws Exception {
+		File a = writeTrashFile("dir/a.txt", "A");
+		File b = writeTrashFile("dir/sub/b.txt", "B");
+		git.add().addFilepattern("dir").call();
+		git.commit().setMessage("Added dir").call();
+
+		write(a, "modified");
+		write(b, "modified");
+		git.checkout().setAllPaths(true).call();
+
+		assertThat(read(a), is("A"));
+		assertThat(read(b), is("B"));
+	}
+
+	@Test
+	public void testCheckoutWithStartPoint() throws Exception {
+		File a = writeTrashFile("a.txt", "A");
+		git.add().addFilepattern("a.txt").call();
+		RevCommit first = git.commit().setMessage("Added a").call();
+
+		write(a, "other");
+		git.commit().setAll(true).setMessage("Other").call();
+
+		git.checkout().setCreateBranch(true).setName("a")
+				.setStartPoint(first.getId().getName()).call();
+
+		assertThat(read(a), is("A"));
+	}
+
+	@Test
+	public void testCheckoutWithStartPointOnlyCertainFiles() throws Exception {
+		File a = writeTrashFile("a.txt", "A");
+		File b = writeTrashFile("b.txt", "B");
+		git.add().addFilepattern("a.txt").addFilepattern("b.txt").call();
+		RevCommit first = git.commit().setMessage("First").call();
+
+		write(a, "other");
+		write(b, "other");
+		git.commit().setAll(true).setMessage("Other").call();
+
+		git.checkout().setCreateBranch(true).setName("a")
+				.setStartPoint(first.getId().getName()).addPath("a.txt").call();
+
+		assertThat(read(a), is("A"));
+		assertThat(read(b), is("other"));
 	}
 
 	@Test
