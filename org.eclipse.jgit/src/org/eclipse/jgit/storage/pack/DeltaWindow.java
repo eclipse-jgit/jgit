@@ -141,7 +141,7 @@ class DeltaWindow {
 				}
 				res.set(toSearch[off]);
 
-				if (res.object.isEdge()) {
+				if (res.object.isEdge() || res.object.doNotAttemptDelta()) {
 					// We don't actually want to make a delta for
 					// them, just need to push them into the window
 					// so they can be read by other objects.
