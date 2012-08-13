@@ -76,8 +76,10 @@ public class InMemoryRepository extends DfsRepository {
 		@Override
 		protected DfsPackDescription newPack(PackSource source) {
 			int id = packId.incrementAndGet();
-			return new MemPack("pack-" + id + "-" + source.name(),
+			DfsPackDescription desc = new MemPack(
+					"pack-" + id + "-" + source.name(),
 					getRepository().getDescription());
+			return desc.setPackSource(source);
 		}
 
 		@Override
