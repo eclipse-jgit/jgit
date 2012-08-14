@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn//7wA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 626,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-08-14T19:06:02Z",
+      "side": 1,
+      "message": "I think this is wrong, git reference manual for git-tag [1] says:\n\"Unless -f is given, the tag to be created must not yet exist in the .git/refs/tags/ directory.\"\n\n[1] http://www.kernel.org/pub/software/scm/git/docs/git-tag.html",
+      "revId": "719c63d1c261c82eaefeb874012246255e71af69",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
