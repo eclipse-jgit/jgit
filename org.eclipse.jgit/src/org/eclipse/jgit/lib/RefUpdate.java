@@ -603,7 +603,8 @@ public abstract class RefUpdate {
 		try {
 			if (!tryLock(true))
 				return Result.LOCK_FAILURE;
-			if (expValue != null) {
+			boolean isTag = ref.getName().startsWith(Constants.R_TAGS);
+			if (expValue != null && !isTag) {
 				final ObjectId o;
 				o = oldValue != null ? oldValue : ObjectId.zeroId();
 				if (!AnyObjectId.equals(expValue, o))
@@ -622,7 +623,7 @@ public abstract class RefUpdate {
 					return store.execute(Result.FAST_FORWARD);
 			}
 
-			if (isForceUpdate())
+			if (isForceUpdate() || isTag)
 				return store.execute(Result.FORCED);
 			return Result.REJECTED;
 		} finally {
