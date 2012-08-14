@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn//7to\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CherryPickCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-08-14T22:22:13Z",
+      "side": 1,
+      "message": "looks really strange that setter is public but getter is private",
+      "revId": "acf9b09ecd2e8993401fb3bcf0421301549e33b9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//7t0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-08-14T22:22:13Z",
+      "side": 1,
+      "message": "so this leaves a TODO to be fixed when we implement -onto ?",
+      "revId": "acf9b09ecd2e8993401fb3bcf0421301549e33b9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//7ts\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-08-14T22:22:13Z",
+      "side": 1,
+      "message": "when doing \"rebase origin/master\" I get \"Upstream, based on \u003cSHA1\u003e\" instead I would like to see \"Upstream, based on origin/master (\u003cSHA1\u003e)",
+      "revId": "acf9b09ecd2e8993401fb3bcf0421301549e33b9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//7tw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 953,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-08-14T22:22:13Z",
+      "side": 1,
+      "message": "can we enforce this ?",
+      "revId": "acf9b09ecd2e8993401fb3bcf0421301549e33b9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
