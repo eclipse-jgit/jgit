@@ -1,0 +1,531 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn//73I\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Publisher.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-14T05:52:03Z",
+      "side": 1,
+      "message": "pull this into its own class.",
+      "revId": "412cc2d9f90bb08ac8722e94627078222a9b290e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//73s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Publisher.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-14T05:52:03Z",
+      "side": 1,
+      "message": "you should name this thread and make it a daemon thread.",
+      "revId": "412cc2d9f90bb08ac8722e94627078222a9b290e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//73c\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Publisher.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-14T05:52:03Z",
+      "side": 1,
+      "message": "synchronized",
+      "revId": "412cc2d9f90bb08ac8722e94627078222a9b290e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//73Y\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Publisher.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-14T05:52:03Z",
+      "side": 1,
+      "message": "synchronized",
+      "revId": "412cc2d9f90bb08ac8722e94627078222a9b290e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//73U\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Publisher.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-14T05:52:03Z",
+      "side": 1,
+      "message": "it --\u003e window",
+      "revId": "412cc2d9f90bb08ac8722e94627078222a9b290e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//73k\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Publisher.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-14T05:52:03Z",
+      "side": 1,
+      "message": "i don\u0027t think you want to close in this case",
+      "revId": "412cc2d9f90bb08ac8722e94627078222a9b290e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//73g\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Publisher.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-14T05:52:03Z",
+      "side": 1,
+      "message": "why not just throw the exception?",
+      "revId": "412cc2d9f90bb08ac8722e94627078222a9b290e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//73Q\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Publisher.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-14T05:52:03Z",
+      "side": 1,
+      "message": "is this done elsewhere in the code? I think you should just re-raise these exceptions.",
+      "revId": "412cc2d9f90bb08ac8722e94627078222a9b290e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//73M\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Publisher.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-14T05:52:03Z",
+      "side": 1,
+      "message": "shutdown the executor",
+      "revId": "412cc2d9f90bb08ac8722e94627078222a9b290e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//728\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherClient.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-14T05:52:03Z",
+      "side": 1,
+      "message": "Is it safe to write these messages to the client?",
+      "revId": "412cc2d9f90bb08ac8722e94627078222a9b290e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//724\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherClient.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-14T05:52:03Z",
+      "side": 1,
+      "message": "should this be \"last-pack-id\"?",
+      "revId": "412cc2d9f90bb08ac8722e94627078222a9b290e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//720\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherClient.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-14T05:52:03Z",
+      "side": 1,
+      "message": "you can inline these in the request.",
+      "revId": "412cc2d9f90bb08ac8722e94627078222a9b290e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//72w\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherClient.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 411,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-14T05:52:03Z",
+      "side": 1,
+      "message": "does this message need to go in the strings file",
+      "revId": "412cc2d9f90bb08ac8722e94627078222a9b290e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//72s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherClient.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-14T05:52:03Z",
+      "side": 1,
+      "message": "parts.length !\u003d 3",
+      "revId": "412cc2d9f90bb08ac8722e94627078222a9b290e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//72k\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherMemoryPool.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-14T05:52:03Z",
+      "side": 1,
+      "message": "you could check \u003c\u003d capacity and short-circuit the block below.",
+      "revId": "412cc2d9f90bb08ac8722e94627078222a9b290e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//72o\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherMemoryPool.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-14T05:52:03Z",
+      "side": 1,
+      "message": "i don\u0027t think this really helps, since other threads will be able to increment the size while you are iterating. You probably don\u0027t really need this synchronized block.",
+      "revId": "412cc2d9f90bb08ac8722e94627078222a9b290e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//72g\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherPackFactory.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-14T05:52:03Z",
+      "side": 1,
+      "message": "do these setters need to be synchronized?",
+      "revId": "412cc2d9f90bb08ac8722e94627078222a9b290e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//72Y\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherPackFactory.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-14T05:52:03Z",
+      "side": 1,
+      "message": "Why?",
+      "revId": "412cc2d9f90bb08ac8722e94627078222a9b290e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//72c\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherPackFactory.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-14T05:52:03Z",
+      "side": 1,
+      "message": "is this mutable?",
+      "revId": "412cc2d9f90bb08ac8722e94627078222a9b290e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//74Y\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherStream.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-14T05:52:03Z",
+      "side": 1,
+      "message": "why would data be null?",
+      "revId": "412cc2d9f90bb08ac8722e94627078222a9b290e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//74U\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherStream.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-14T05:52:03Z",
+      "side": 1,
+      "message": "*stream of pushes. Given an example of how you should use this api.",
+      "revId": "412cc2d9f90bb08ac8722e94627078222a9b290e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//74I\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherStream.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-14T05:52:03Z",
+      "side": 1,
+      "message": "why do you have first and start?  you should only need first. Also you never remove start, so the nodes will never be garbage collected.",
+      "revId": "412cc2d9f90bb08ac8722e94627078222a9b290e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//74E\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherStream.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-14T05:52:03Z",
+      "side": 1,
+      "message": "capacity + 1",
+      "revId": "412cc2d9f90bb08ac8722e94627078222a9b290e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//74Q\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherStream.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-14T05:52:03Z",
+      "side": 1,
+      "message": "comments",
+      "revId": "412cc2d9f90bb08ac8722e94627078222a9b290e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//74A\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherStream.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-14T05:52:03Z",
+      "side": 1,
+      "message": "you can\u0027t add the current if it is the first node.",
+      "revId": "412cc2d9f90bb08ac8722e94627078222a9b290e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//734\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherStream.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-14T05:52:03Z",
+      "side": 1,
+      "message": "doesn\u0027t the node need to be closed?",
+      "revId": "412cc2d9f90bb08ac8722e94627078222a9b290e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//738\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherStream.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-14T05:52:03Z",
+      "side": 1,
+      "message": "can\u0027t you just break here?",
+      "revId": "412cc2d9f90bb08ac8722e94627078222a9b290e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//74M\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherStream.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-14T05:52:03Z",
+      "side": 1,
+      "message": "the stream is not locked. updated comment",
+      "revId": "412cc2d9f90bb08ac8722e94627078222a9b290e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//74c\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherStream.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-14T05:52:03Z",
+      "side": 1,
+      "message": "if windowCount \u003d\u003d 0, then you don\u0027t have to do anything, except call close immediately (ideally outside of the synchronized block).\n\n  boolean hasWindows;\n  synchronized(this) {\n    hasWindows \u003d windowCount !\u003d 0;\n    if (hasWindows) {\n      Node prev \u003d tail;\n      tail \u003d new Node(item, windowCount);\n      prev.setNext(tail);\n    }\n  }\n  if (!hasWindows)\n    item.close()",
+      "revId": "412cc2d9f90bb08ac8722e94627078222a9b290e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//730\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscribeSpec.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-14T05:52:03Z",
+      "side": 1,
+      "message": "valid comments are needed in this file",
+      "revId": "412cc2d9f90bb08ac8722e94627078222a9b290e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//73w\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/SubscribeSpec.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-14T05:52:03Z",
+      "side": 1,
+      "message": "use stripWildcard(refName)",
+      "revId": "412cc2d9f90bb08ac8722e94627078222a9b290e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
