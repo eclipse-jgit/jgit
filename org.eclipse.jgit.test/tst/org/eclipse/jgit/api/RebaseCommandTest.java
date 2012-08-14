@@ -420,7 +420,8 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		assertEquals(Status.STOPPED, res.getStatus());
 		assertEquals(conflicting, res.getCurrentCommit());
 		checkFile(FILE1,
-				"<<<<<<< OURS\n1master\n=======\n1topic\n>>>>>>> THEIRS\n2\n3\ntopic4");
+				"<<<<<<< Upstream, based on master\n1master\n=======\n1topic",
+				">>>>>>> e0d1dea change file1 in topic\n2\n3\ntopic4");
 
 		assertEquals(RepositoryState.REBASING_INTERACTIVE, db
 				.getRepositoryState());
@@ -778,8 +779,10 @@ public class RebaseCommandTest extends RepositoryTestCase {
 
 		res = git.rebase().setOperation(Operation.SKIP).call();
 		// TODO is this correct? It is what the command line returns
-		checkFile(FILE1,
-				"1master\n2\n<<<<<<< OURS\n3master\n=======\n3topic\n>>>>>>> THEIRS\n4\n5topic");
+		checkFile(
+				FILE1,
+				"1master\n2\n<<<<<<< Upstream, based on master\n3master\n=======\n3topic",
+				">>>>>>> 5afc8df change file1 in topic again\n4\n5topic");
 		assertEquals(Status.STOPPED, res.getStatus());
 	}
 
