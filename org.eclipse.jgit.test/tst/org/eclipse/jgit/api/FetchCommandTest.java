@@ -46,16 +46,20 @@ import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.Collection;
 
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryTestCase;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.transport.FetchResult;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteConfig;
+import org.eclipse.jgit.transport.TrackingRefUpdate;
 import org.eclipse.jgit.transport.URIish;
 import org.junit.Test;
 
@@ -94,4 +98,28 @@ public class FetchCommandTest extends RepositoryTestCase {
 
 	}
 
+	@Test
+	public void fetchOfTagUpdateShouldUpdateLocal() throws Exception {
+		Git git1 = new Git(db);
+		git1.commit().setMessage("commit").call();
+		git1.tag().setName("tag1").call();
+
+		Repository db2 = createWorkRepository();
+		Git git2 = new Git(db2);
+		git2.commit().setMessage("initial commit").call();
+		Ref tagRef = git2.tag().setName("tag1").call();
+
+		RefSpec spec = new RefSpec("refs/tags/*:refs/tags/*");
+		FetchResult result = git1.fetch()
+				.setRemote(db2.getDirectory().getPath()).setRefSpecs(spec)
+				.call();
+
+		Collection<TrackingRefUpdate> refUpdates = result
+				.getTrackingRefUpdates();
+		assertEquals(1, refUpdates.size());
+		TrackingRefUpdate refUpdate = refUpdates.iterator().next();
+		assertEquals("refs/tags/tag1", refUpdate.getRemoteName());
+		assertEquals(RefUpdate.Result.FORCED, refUpdate.getResult());
+		assertEquals(tagRef.getObjectId(), db.resolve("tag1"));
+	}
 }
