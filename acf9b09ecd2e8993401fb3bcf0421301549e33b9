@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//7tY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CherryPickCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2012-08-15T09:35:09Z",
+      "side": 1,
+      "message": "It\u0027s not really a getter (as in the normal sense). I\u0027ll rename it to calculateOurName().",
+      "parentUuid": "AABOIn//7to\u003d",
+      "revId": "acf9b09ecd2e8993401fb3bcf0421301549e33b9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//7t0\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2012-08-14T22:22:13Z",
       "side": 1,
       "message": "so this leaves a TODO to be fixed when we implement -onto ?",
+      "revId": "acf9b09ecd2e8993401fb3bcf0421301549e33b9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//7tU\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2012-08-15T09:35:09Z",
+      "side": 1,
+      "message": "Hm, yes. Do you have an idea how to improve this?\n\nBasically, to be correct, it should always be \"Onto, based on ...\", but \"onto\" is not really a noun and AFAICS, there is no terminology for this. So I like \"Upstream\" much better, but if onto is different from upstream, it would be no longer correct.\n\nSo I\u0027d only like to call it onto when necessary, as is the case when onto and upstream are not the same.",
+      "parentUuid": "AABOIn//7t0\u003d",
       "revId": "acf9b09ecd2e8993401fb3bcf0421301549e33b9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//7tQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2012-08-15T09:35:09Z",
+      "side": 1,
+      "message": "How did you do that? Using EGit\u0027s History View, or Repositories View? I suspect it passes the resolved ID instead of the ref name, which would have to be fixed in EGit.",
+      "parentUuid": "AABOIn//7ts\u003d",
+      "revId": "acf9b09ecd2e8993401fb3bcf0421301549e33b9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//7tw\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2012-08-14T22:22:13Z",
       "side": 1,
       "message": "can we enforce this ?",
+      "revId": "acf9b09ecd2e8993401fb3bcf0421301549e33b9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//7tM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 953,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2012-08-15T09:35:09Z",
+      "side": 1,
+      "message": "Yes, will add a check like this here:\n\nif (upstreamCommit \u003d\u003d null) {\n  throw new IllegalStateException(\"setUpstreamName must be called after calling setUpstream\");\n}",
+      "parentUuid": "AABOIn//7tw\u003d",
       "revId": "acf9b09ecd2e8993401fb3bcf0421301549e33b9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
