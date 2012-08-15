@@ -76,7 +76,7 @@ import org.eclipse.jgit.treewalk.filter.PathFilter;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
 
 /**
- * Generate author information for lines based on introduction to the file.
+ * Generate author information for lines based on a provided file.
  * <p>
  * Applications that want a simple one-shot computation of blame for a file
  * should use {@link #computeBlameResult()} to prepare the entire result in one
@@ -145,7 +145,10 @@ public class BlameGenerator {
 
 	/**
 	 * Create a blame generator for the repository and path
-	 *
+	 * 
+	 * Make sure the path location of the file that is being passed in is
+	 * relative to the repository directory.
+	 * 
 	 * @param repository
 	 *            repository to access revision data from.
 	 * @param path
