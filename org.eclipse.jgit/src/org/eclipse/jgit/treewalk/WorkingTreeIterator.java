@@ -131,6 +131,9 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 	/** Cached canonical length, initialized from {@link #idBuffer()} */
 	private long canonLen = -1;
 
+	/** The offset of the content id in {@link #idBuffer()} */
+	private int contentIdOffset;
+
 	/**
 	 * Create a new iterator with no parent.
 	 *
@@ -234,11 +237,14 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 					DirCacheIterator.class);
 			if (i != null) {
 				DirCacheEntry ent = i.getDirCacheEntry();
-				if (ent != null && compareMetadata(ent) == MetadataDiff.EQUAL)
-					return i.idBuffer();
+				if (ent != null && compareMetadata(ent) == MetadataDiff.EQUAL) {
+					contentIdOffset = i.idOffset();
+					contentIdFromPtr = ptr;
+					return contentId = i.idBuffer();
+				}
+				contentIdOffset = 0;
 			}
 		}
-
 		switch (mode & FileMode.TYPE_MASK) {
 		case FileMode.TYPE_FILE:
 			contentIdFromPtr = ptr;
@@ -427,7 +433,7 @@ public abstract class WorkingTreeIterator extends AbstractTreeIterator {
 
 	@Override
 	public int idOffset() {
-		return 0;
+		return contentIdOffset;
 	}
 
 	@Override

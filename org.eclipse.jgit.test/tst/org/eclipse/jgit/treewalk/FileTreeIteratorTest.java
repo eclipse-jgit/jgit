@@ -198,6 +198,31 @@ public class FileTreeIteratorTest extends RepositoryTestCase {
 	}
 
 	@Test
+	public void testDirCacheMatchingId() throws Exception {
+		File f = writeTrashFile("file", "content");
+		Git git = new Git(db);
+		writeTrashFile("file", "content");
+		fsTick(f);
+		git.add().addFilepattern("file").call();
+		DirCacheEntry dce = db.readDirCache().getEntry("file");
+		TreeWalk tw = new TreeWalk(db);
+		FileTreeIterator fti = new FileTreeIterator(trash, db.getFS(), db
+				.getConfig().get(WorkingTreeOptions.KEY));
+		tw.addTree(fti);
+		DirCacheIterator dci = new DirCacheIterator(db.readDirCache());
+		tw.addTree(dci);
+		fti.setDirCacheIterator(tw, 1);
+		while (tw.next() && !tw.getPathString().equals("file")) {
+			//
+		}
+		assertEquals(MetadataDiff.EQUAL, fti.compareMetadata(dce));
+		ObjectId fromRaw = ObjectId.fromRaw(fti.idBuffer(), fti.idOffset());
+		assertEquals("6b584e8ece562ebffc15d38808cd6b98fc3d97ea",
+				fromRaw.getName());
+		assertFalse(fti.isModified(dce, false));
+	}
+
+	@Test
 	public void testIsModifiedSymlink() throws Exception {
 		File f = writeTrashFile("symlink", "content");
 		Git git = new Git(db);
