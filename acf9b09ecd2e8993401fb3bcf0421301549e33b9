@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//7s8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/CherryPickCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2012-08-15T10:39:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//7tY\u003d",
+      "revId": "acf9b09ecd2e8993401fb3bcf0421301549e33b9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//7t0\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
         "patchSetId": 1
@@ -136,6 +154,24 @@
       "side": 1,
       "message": "Yes, will add a check like this here:\n\nif (upstreamCommit \u003d\u003d null) {\n  throw new IllegalStateException(\"setUpstreamName must be called after calling setUpstream\");\n}",
       "parentUuid": "AABOIn//7tw\u003d",
+      "revId": "acf9b09ecd2e8993401fb3bcf0421301549e33b9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//7s0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 953,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2012-08-15T10:39:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AABOIn//7tM\u003d",
       "revId": "acf9b09ecd2e8993401fb3bcf0421301549e33b9",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
