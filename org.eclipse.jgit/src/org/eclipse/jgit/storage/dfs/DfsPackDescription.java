@@ -46,6 +46,7 @@ package org.eclipse.jgit.storage.dfs;
 import java.util.Set;
 
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.storage.dfs.DfsObjDatabase.PackSource;
 import org.eclipse.jgit.storage.pack.PackWriter;
 
 /**
@@ -60,6 +61,8 @@ public class DfsPackDescription implements Comparable<DfsPackDescription> {
 	private final DfsRepositoryDescription repoDesc;
 
 	private final String packName;
+
+	private PackSource packSource;
 
 	private long lastModified;
 
@@ -112,6 +115,21 @@ public class DfsPackDescription implements Comparable<DfsPackDescription> {
 		if (dot < 0)
 			dot = name.length();
 		return name.substring(0, dot) + ".idx";
+	}
+
+	/** @return the source of the pack. */
+	public PackSource getPackSource() {
+		return packSource;
+	}
+
+	/**
+	 * @param source
+	 *            the source of the pack.
+	 * @return {@code this}
+	 */
+	public DfsPackDescription setPackSource(PackSource source) {
+		packSource = source;
+		return this;
 	}
 
 	/** @return time the pack was created, in milliseconds. */
