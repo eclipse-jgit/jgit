@@ -1368,6 +1368,38 @@ public class RebaseCommandTest extends RepositoryTestCase {
 		assertEquals(RepositoryState.SAFE, db.getRepositoryState());
 	}
 
+	@Test
+	public void testRebaseWithUncommittedDelete() throws Exception {
+		// create file0 + file1, add and commit
+		File file0 = writeTrashFile("file0", "file0");
+		writeTrashFile(FILE1, "file1");
+		git.add().addFilepattern("file0").addFilepattern(FILE1).call();
+		RevCommit commit = git.commit().setMessage("commit1").call();
+
+		// create topic branch
+		createBranch(commit, "refs/heads/topic");
+
+		// still on master / modify file1, add and commit
+		writeTrashFile(FILE1, "modified file1");
+		git.add().addFilepattern(FILE1).call();
+		git.commit().setMessage("commit2").call();
+
+		// checkout topic branch / delete file0 and add to index
+		checkoutBranch("refs/heads/topic");
+		git.rm().addFilepattern("file0").call();
+		// do not commit
+
+		// rebase
+		RebaseResult result = git.rebase().setUpstream("refs/heads/master")
+				.call();
+		assertEquals(Status.FAST_FORWARD, result.getStatus());
+		assertFalse("File should still be deleted", file0.exists());
+		// index should only have updated file1
+		assertEquals("[file1, mode:100644, content:modified file1]",
+				indexState(CONTENT));
+		assertEquals(RepositoryState.SAFE, db.getRepositoryState());
+	}
+
 	private int countPicks() throws IOException {
 		int count = 0;
 		File todoFile = getTodoFile();
