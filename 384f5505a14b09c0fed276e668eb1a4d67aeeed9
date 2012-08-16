@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn//7kM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/blame/BlameGenerator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2012-08-16T10:45:16Z",
+      "side": 1,
+      "message": "I\u0027d add the note to te @param and change \"for the repository and path\" above to \"for the repository and path (relative to repository)\"",
+      "revId": "384f5505a14b09c0fed276e668eb1a4d67aeeed9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
