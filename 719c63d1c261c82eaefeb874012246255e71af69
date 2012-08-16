@@ -16,6 +16,24 @@
       "revId": "719c63d1c261c82eaefeb874012246255e71af69",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//7kA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/lib/RefUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 626,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2012-08-16T12:13:39Z",
+      "side": 1,
+      "message": "Hm, you\u0027re right, RefUpdate is also used for \"git tag\". Changed.",
+      "parentUuid": "AABOIn//7wA\u003d",
+      "revId": "719c63d1c261c82eaefeb874012246255e71af69",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
