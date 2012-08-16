@@ -261,11 +261,10 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 
 		merge = buildTree(mkmap("foo", "a"));
 		tw = TreeWalk.forPath(db, "foo", merge);
-		ObjectId anotherId = tw.getObjectId(0);
 
 		prescanTwoTrees(head, merge);
 
-		assertEquals(anotherId, getUpdated().get("foo"));
+		assertConflict("foo");
 	}
 
 	void setupCase(HashMap<String, String> headEntries, HashMap<String, String> mergeEntries, HashMap<String, String> indexEntries) throws IOException {
@@ -464,7 +463,7 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 	 *     ------------------------------------------------------------------
 	 *1    D        D       F       Y         N       Y       N           Update
 	 *2    D        D       F       N         N       Y       N           Conflict
-	 *3    D        F       D                 Y       N       N           Update
+	 *3    D        F       D                 Y       N       N           Keep
 	 *4    D        F       D                 N       N       N           Update
 	 *5    D        F       F       Y         N       N       Y           Keep
 	 *6    D        F       F       N         N       N       Y           Keep
@@ -522,18 +521,16 @@ public class DirCacheCheckoutTest extends RepositoryTestCase {
 
 	@Test
 	public void testDirectoryFileConflicts_3() throws Exception {
-		// 3 - the first to break!
+		// 3
 		doit(mk("DF/DF"), mk("DF/DF"), mk("DF"));
-		assertUpdated("DF/DF");
-		assertRemoved("DF");
+		assertNoConflicts();
 	}
 
 	@Test
 	public void testDirectoryFileConflicts_4() throws Exception {
 		// 4 (basically same as 3, just with H and M different)
 		doit(mk("DF/DF"), mkmap("DF/DF", "foo"), mk("DF"));
-		assertUpdated("DF/DF");
-		assertRemoved("DF");
+		assertConflict("DF/DF");
 
 	}
 
