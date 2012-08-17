@@ -632,6 +632,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//7as\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherPackFactory.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-17T18:14:02Z",
+      "side": 1,
+      "message": "please update the comment.",
+      "parentUuid": "AABOIn//7vc\u003d",
+      "revId": "412cc2d9f90bb08ac8722e94627078222a9b290e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//72c\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherPackFactory.java",
         "patchSetId": 15
