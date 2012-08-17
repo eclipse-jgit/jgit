@@ -223,6 +223,32 @@ public class CherryPickCommandTest extends RepositoryTestCase {
 		assertEquals(CherryPickStatus.OK, result.getStatus());
 	}
 
+	@Test
+	public void testCherryPickConflictMarkers() throws Exception {
+		Git git = new Git(db);
+		RevCommit sideCommit = prepareCherryPick(git);
+
+		CherryPickResult result = git.cherryPick().include(sideCommit.getId())
+				.call();
+		assertEquals(CherryPickStatus.CONFLICTING, result.getStatus());
+
+		String expected = "<<<<<<< master\na(master)\n=======\na(side)\n>>>>>>> 527460a side\n";
+		checkFile(new File(db.getWorkTree(), "a"), expected);
+	}
+
+	@Test
+	public void testCherryPickOurCommitName() throws Exception {
+		Git git = new Git(db);
+		RevCommit sideCommit = prepareCherryPick(git);
+
+		CherryPickResult result = git.cherryPick().include(sideCommit.getId())
+				.setOurCommitName("custom name").call();
+		assertEquals(CherryPickStatus.CONFLICTING, result.getStatus());
+
+		String expected = "<<<<<<< custom name\na(master)\n=======\na(side)\n>>>>>>> 527460a side\n";
+		checkFile(new File(db.getWorkTree(), "a"), expected);
+	}
+
 	private RevCommit prepareCherryPick(final Git git) throws Exception {
 		// create, add and commit file a
 		writeTrashFile("a", "a");

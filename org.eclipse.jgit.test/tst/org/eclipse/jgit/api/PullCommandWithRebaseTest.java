@@ -56,6 +56,7 @@ import java.io.IOException;
 import org.eclipse.jgit.api.CreateBranchCommand.SetupUpstreamMode;
 import org.eclipse.jgit.api.MergeResult.MergeStatus;
 import org.eclipse.jgit.api.RebaseResult.Status;
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.RepositoryState;
 import org.eclipse.jgit.lib.RepositoryTestCase;
@@ -164,9 +165,17 @@ public class PullCommandWithRebaseTest extends RepositoryTestCase {
 
 		res = target.pull().call();
 
+		String remoteUri = target
+				.getRepository()
+				.getConfig()
+				.getString(ConfigConstants.CONFIG_REMOTE_SECTION, "origin",
+						ConfigConstants.CONFIG_KEY_URL);
+
 		assertFalse(res.getFetchResult().getTrackingRefUpdates().isEmpty());
 		assertTrue(res.getRebaseResult().getStatus().equals(Status.STOPPED));
-		String result = "<<<<<<< OURS\nSource change\n=======\nTarget change\n>>>>>>> THEIRS\n";
+		String result = "<<<<<<< Upstream, based on branch 'master' of "
+				+ remoteUri
+				+ "\nSource change\n=======\nTarget change\n>>>>>>> 42453fd Target change in local\n";
 		assertFileContentsEqual(targetFile, result);
 		assertEquals(RepositoryState.REBASING_INTERACTIVE, target
 				.getRepository().getRepositoryState());
@@ -210,7 +219,8 @@ public class PullCommandWithRebaseTest extends RepositoryTestCase {
 
 		assertNull(res.getFetchResult());
 		assertEquals(Status.STOPPED, res.getRebaseResult().getStatus());
-		String result = "<<<<<<< OURS\nMaster change\n=======\nSlave change\n>>>>>>> THEIRS\n";
+		String result = "<<<<<<< Upstream, based on branch 'master' of local repository\n"
+				+ "Master change\n=======\nSlave change\n>>>>>>> 4049c9e Source change in based on master\n";
 		assertFileContentsEqual(targetFile, result);
 		assertEquals(RepositoryState.REBASING_INTERACTIVE, target
 				.getRepository().getRepositoryState());
