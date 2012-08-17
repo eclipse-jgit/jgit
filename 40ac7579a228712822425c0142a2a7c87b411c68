@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn//7Y0\u003d",
+        "filename": "org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/GitFilter.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-17T20:27:15Z",
+      "side": 1,
+      "message": "Make this size a constant.",
+      "revId": "40ac7579a228712822425c0142a2a7c87b411c68",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
