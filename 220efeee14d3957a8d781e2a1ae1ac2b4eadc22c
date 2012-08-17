@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn//7YQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherStream.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-17T23:18:36Z",
+      "side": 1,
+      "message": "extends Node, not DataNode.",
+      "revId": "220efeee14d3957a8d781e2a1ae1ac2b4eadc22c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//7YM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherStream.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-17T23:18:36Z",
+      "side": 1,
+      "message": "can\u0027t you take next via the constructor?",
+      "revId": "220efeee14d3957a8d781e2a1ae1ac2b4eadc22c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//7XI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherStream.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-17T23:18:36Z",
+      "side": 1,
+      "message": "equals and hashcode can be implemented on the abstract base class Node in terms of equality on the data\n\n  @Override\n  public int hashCode() {\n    PublisherPush pp \u003d get();\n    return pp \u003d\u003d null ? 0 : pp.hashCode();\n  }\n\n  @Override\n  public boolean equals(Object obj) {\n    if (obj instanceof Node) {\n      PublisherPush a \u003d get();\n      PublisherPush b \u003d ((Node) obj).get();\n      return a \u003d\u003d b || (a !\u003d null \u0026\u0026 a.equals(b));\n    } \n    return false\n  }",
+      "revId": "220efeee14d3957a8d781e2a1ae1ac2b4eadc22c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//7W0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherStream.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-17T23:18:36Z",
+      "side": 1,
+      "message": "you should also check that it is not already contained in the list. and verify the node.get() !\u003d null",
+      "revId": "220efeee14d3957a8d781e2a1ae1ac2b4eadc22c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//7WI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherStream.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-17T23:18:36Z",
+      "side": 1,
+      "message": "this loop is a little strange and I wonder if it will work if you have to rollback multiple times. you likely need to implement equals correctly on the node so this is not an issue. you may need to implement this by iterating in the reverse order to get the correct result, stating at the current node. Also, these nodes are inadvertently holding pointers to nodes that will never be referenced by this class again.",
+      "revId": "220efeee14d3957a8d781e2a1ae1ac2b4eadc22c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//7Ww\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherStream.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-17T23:18:36Z",
+      "side": 1,
+      "message": ".equals() for strings",
+      "revId": "220efeee14d3957a8d781e2a1ae1ac2b4eadc22c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//7Xw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherStream.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-17T23:18:36Z",
+      "side": 1,
+      "message": "if you change the order to iterate the linked list first, then the marked nodes, your logic will be simpler:\n\n  while (true) {\n    current.decrement();\n    marked.remove(current);\n    if (current \u003d\u003d last) \n      break;\n    current \u003d current.next();\n  }\n\n  for (Node n : marked)\n    n.decrement();",
+      "revId": "220efeee14d3957a8d781e2a1ae1ac2b4eadc22c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//7Xk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherStream.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-17T23:18:36Z",
+      "side": 1,
+      "message": "remove the synchronized here",
+      "revId": "220efeee14d3957a8d781e2a1ae1ac2b4eadc22c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
