@@ -161,6 +161,24 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//7dA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-08-17T14:25:02Z",
+      "side": 1,
+      "message": "yes, this seems to be the right place. \n\nIf there are multiple refs pointing to the selected commit \n- and if the branch being rebased tracks another one this tracked branch should be the one to pick if it\u0027s in the list\n- otherwise pick a remote tracking branch if it\u0027s in the list",
+      "parentUuid": "AABOIn//7eE\u003d",
+      "revId": "acf9b09ecd2e8993401fb3bcf0421301549e33b9",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//7tw\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/api/RebaseCommand.java",
         "patchSetId": 1
