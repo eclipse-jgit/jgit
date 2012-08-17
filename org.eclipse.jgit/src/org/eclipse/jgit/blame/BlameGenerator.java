@@ -144,15 +144,14 @@ public class BlameGenerator {
 	private Candidate currentSource;
 
 	/**
-	 * Create a blame generator for the repository and path
-	 * 
-	 * Make sure the path location of the file that is being passed in is
-	 * relative to the repository directory.
+	 * Create a blame generator for the repository and path (relative to
+	 * repository)
 	 * 
 	 * @param repository
 	 *            repository to access revision data from.
 	 * @param path
-	 *            initial path of the file to start scanning.
+	 *            initial path of the file to start scanning (relative to the
+	 *            repository).
 	 */
 	public BlameGenerator(Repository repository, String path) {
 		this.repository = repository;
