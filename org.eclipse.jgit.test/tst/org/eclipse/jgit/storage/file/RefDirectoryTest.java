@@ -360,6 +360,13 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 	}
 
 	@Test
+	public void testSpecialRefs() throws IOException {
+		writeLooseRef("refs/heads/config", A);
+
+		assertNotNull("find branch config", refdir.getRef("config"));
+	}
+
+	@Test
 	public void testGetRefs_HeadsOnly_AllLoose() throws IOException {
 		Map<String, Ref> heads;
 		Ref a, b;
