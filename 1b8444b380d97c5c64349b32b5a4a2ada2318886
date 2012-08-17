@@ -1,0 +1,208 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn//7bI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Publisher.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-17T19:14:15Z",
+      "side": 1,
+      "message": "i\u0027ll leave this up to shawn for the correct behavior",
+      "revId": "1b8444b380d97c5c64349b32b5a4a2ada2318886",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//7bE\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Publisher.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-17T19:14:15Z",
+      "side": 1,
+      "message": "same here",
+      "revId": "1b8444b380d97c5c64349b32b5a4a2ada2318886",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//7bc\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Publisher.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-17T19:14:15Z",
+      "side": 1,
+      "message": "ah so you can\u0027t read sessionLifetime outside of synchronization either. you could just make this field volatile and then you would be OK.",
+      "revId": "1b8444b380d97c5c64349b32b5a4a2ada2318886",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//7bY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/Publisher.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-17T19:14:15Z",
+      "side": 1,
+      "message": "nit: you could remove this field and rely on sessionDeleter.shutdown() and sessionDeleter.isShutdown()",
+      "revId": "1b8444b380d97c5c64349b32b5a4a2ada2318886",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//7bA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherClient.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-17T19:14:15Z",
+      "side": 1,
+      "message": "final",
+      "revId": "1b8444b380d97c5c64349b32b5a4a2ada2318886",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//7a8\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherClient.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-17T19:14:15Z",
+      "side": 1,
+      "message": "final",
+      "revId": "1b8444b380d97c5c64349b32b5a4a2ada2318886",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//7aw\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherMemoryPool.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-17T19:14:15Z",
+      "side": 1,
+      "message": "use the value returned from the previous op for comparison",
+      "revId": "1b8444b380d97c5c64349b32b5a4a2ada2318886",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//7aM\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherPackFactory.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-17T19:14:15Z",
+      "side": 1,
+      "message": "is there a way to reuse the buffer when the buf is copied or the slice is stored:\n  byte[] toWrite;\n  if (bufLen \u003c buf.length)\n    toWrite \u003d Arrays.copyOf(buf, bufLen);\n  else \n    toWrite \u003d buf;",
+      "revId": "1b8444b380d97c5c64349b32b5a4a2ada2318886",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//7aI\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherPackFactory.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-17T19:14:15Z",
+      "side": 1,
+      "message": "then in here\n\n  if (toWrite \u003d\u003d buf)\n    buf \u003d new byte[sliceSize];",
+      "revId": "1b8444b380d97c5c64349b32b5a4a2ada2318886",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//7aQ\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherPackSlice.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-17T19:14:15Z",
+      "side": 1,
+      "message": "nit: name NOOP or EMPTY",
+      "revId": "1b8444b380d97c5c64349b32b5a4a2ada2318886",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//7aA\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherPush.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-17T19:14:15Z",
+      "side": 1,
+      "message": "try {} finally may be needed for the close(), unless you want the db to remain open  when an exception is thrown. I\u0027m not sure the implications of db.incrementOpen();",
+      "revId": "1b8444b380d97c5c64349b32b5a4a2ada2318886",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//7Zk\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherStream.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-17T19:14:15Z",
+      "side": 1,
+      "message": "please subclass Node to simplify logic.",
+      "revId": "1b8444b380d97c5c64349b32b5a4a2ada2318886",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
