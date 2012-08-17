@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn//7eM\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 79
+      },
+      "writtenOn": "2012-08-17T08:41:21Z",
+      "side": 1,
+      "message": "This should be in a review comment, not in the commit message (I\u0027m sorry if that was not clear).",
+      "revId": "7d8b414405860a8205811d0d11164e1a6cce939a",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
