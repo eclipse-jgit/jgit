@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2011, Robin Stocker <robin@nibor.org>
+ * Copyright (C) 2012, Matthias Sohn <matthias.sohn@sap.com>
  * and other copyright owners as documented in the project's IP log.
  *
  * This program and the accompanying materials are made available
@@ -102,6 +103,45 @@ public class BranchConfigTest {
 				+ "  remote = origin\n");
 		BranchConfig branchConfig = new BranchConfig(c, "master");
 		assertNull(branchConfig.getRemoteTrackingBranch());
+	}
+
+	@Test
+	public void getTrackingBranchShouldReturnMergeBranchForLocalBranch() {
+		Config c = parse("" //
+				+ "[remote \"origin\"]\n"
+				+ "  fetch = +refs/heads/*:refs/remotes/origin/*\n"
+				+ "[branch \"master\"]\n"
+				+ "  remote = .\n"
+				+ "  merge = refs/heads/master\n");
+
+		BranchConfig branchConfig = new BranchConfig(c, "master");
+		assertEquals("refs/heads/master",
+				branchConfig.getTrackingBranch());
+	}
+
+	@Test
+	public void getTrackingBranchShouldReturnNullWithoutMergeBranchForLocalBranch() {
+		Config c = parse("" //
+				+ "[remote \"origin\"]\n"
+				+ "  fetch = +refs/heads/onlyone:refs/remotes/origin/onlyone\n"
+				+ "[branch \"master\"]\n" //
+				+ "  remote = .\n");
+		BranchConfig branchConfig = new BranchConfig(c, "master");
+		assertNull(branchConfig.getTrackingBranch());
+	}
+
+	@Test
+	public void getTrackingBranchShouldHandleNormalCaseForRemoteTrackingBranch() {
+		Config c = parse("" //
+				+ "[remote \"origin\"]\n"
+				+ "  fetch = +refs/heads/*:refs/remotes/origin/*\n"
+				+ "[branch \"master\"]\n"
+				+ "  remote = origin\n"
+				+ "  merge = refs/heads/master\n");
+
+		BranchConfig branchConfig = new BranchConfig(c, "master");
+		assertEquals("refs/remotes/origin/master",
+				branchConfig.getTrackingBranch());
 	}
 
 	private Config parse(final String content) {
