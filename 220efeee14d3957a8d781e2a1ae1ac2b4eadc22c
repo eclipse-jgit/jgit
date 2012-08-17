@@ -70,6 +70,23 @@
     },
     {
       "key": {
+        "uuid": "AABOIn//7V0\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherStream.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 759
+      },
+      "writtenOn": "2012-08-17T23:31:08Z",
+      "side": 1,
+      "message": "Something like this should work but i have to think about the implementation of equals on the Node and wether we are doing the right thing.\n\n  PublisherPush pp \u003d current.get()\n  if (pp !\u003d null \u0026\u0026 pp.getPushId().equals(pushId)) {\n    current \u003d new ForwardingNode(current);\n    return true;\n  }\n\n  Node next \u003d current;\n  for (int i \u003d marked.size() - 1; i \u003e\u003d 0; i--) {\n    Node n \u003d marked.get(i);\n    if (n.equals(current))\n      continue;\n    next \u003d new LinkNode(n, next);\n    if (n matches push id) {\n      current \u003d new ForwardingNode(next);\n      return true;\n    }\n  }\n  return false",
+      "revId": "220efeee14d3957a8d781e2a1ae1ac2b4eadc22c",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AABOIn//7WI\u003d",
         "filename": "org.eclipse.jgit/src/org/eclipse/jgit/transport/PublisherStream.java",
         "patchSetId": 17
