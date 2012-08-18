@@ -43,6 +43,8 @@
 
 package org.eclipse.jgit.transport;
 
+import static org.eclipse.jgit.transport.BasePackPushConnection.CAPABILITY_REPORT_STATUS;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -62,6 +64,9 @@ public class ReceivePack extends BaseReceivePack {
 
 	/** Hook to report on the commands after execution. */
 	private PostReceiveHook postReceive;
+
+	/** If {@link BasePackPushConnection#CAPABILITY_REPORT_STATUS} is enabled. */
+	private boolean reportStatus;
 
 	private boolean echoCommandFailures;
 
@@ -162,8 +167,14 @@ public class ReceivePack extends BaseReceivePack {
 		}
 	}
 
+	@Override
+	protected void enableCapabilities() {
+		reportStatus = isCapabilityEnabled(CAPABILITY_REPORT_STATUS);
+		super.enableCapabilities();
+	}
+
 	private void service() throws IOException {
-		if (biDirectionalPipe) {
+		if (isBiDirectionalPipe()) {
 			sendAdvertisedRefs(new PacketLineOutRefAdvertiser(pckOut));
 			pckOut.flush();
 		} else
