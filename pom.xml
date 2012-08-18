@@ -471,8 +471,6 @@
 
   <modules>
     <module>org.eclipse.jgit</module>
-	<module>org.eclipse.jgit.generated.storage.dht.proto</module>
-    <module>org.eclipse.jgit.storage.dht</module>
     <module>org.eclipse.jgit.ant</module>
     <module>org.eclipse.jgit.ui</module>
     <module>org.eclipse.jgit.http.server</module>
@@ -484,7 +482,6 @@
     <module>org.eclipse.jgit.test</module>
     <module>org.eclipse.jgit.ant.test</module>
     <module>org.eclipse.jgit.http.test</module>
-    <module>org.eclipse.jgit.storage.dht.test</module>
     <module>org.eclipse.jgit.pgm.test</module>
   </modules>
 
