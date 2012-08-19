@@ -56,7 +56,8 @@ class FS_POSIX_Java6 extends FS_POSIX {
 
 	static {
 		canExecute = needMethod(File.class, "canExecute");
-		setExecute = needMethod(File.class, "setExecutable", Boolean.TYPE);
+		setExecute = needMethod(File.class, "setExecutable", Boolean.TYPE,
+				Boolean.TYPE);
 	}
 
 	static boolean hasExecute() {
@@ -107,7 +108,8 @@ class FS_POSIX_Java6 extends FS_POSIX {
 	public boolean setExecute(final File f, final boolean canExec) {
 		try {
 			final Object r;
-			r = setExecute.invoke(f, new Object[] { Boolean.valueOf(canExec) });
+			r = setExecute.invoke(f, new Object[] { Boolean.valueOf(canExec),
+					Boolean.FALSE });
 			return ((Boolean) r).booleanValue();
 		} catch (IllegalArgumentException e) {
 			throw new Error(e);
