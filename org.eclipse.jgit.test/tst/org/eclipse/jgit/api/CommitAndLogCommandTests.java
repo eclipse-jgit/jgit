@@ -257,6 +257,9 @@ public class CommitAndLogCommandTests extends RepositoryTestCase {
 	@Test
 	public void testModeChange() throws IOException, GitAPIException {
 		Git git = new Git(db);
+		FS fs = db.getFS();
+		if (!fs.supportsExecute())
+			return;
 
 		// create file
 		File file = new File(db.getWorkTree(), "a.txt");
@@ -270,7 +273,6 @@ public class CommitAndLogCommandTests extends RepositoryTestCase {
 		git.commit().setMessage("commit1").setCommitter(committer).call();
 
 		// pure mode change should be committable
-		FS fs = db.getFS();
 		fs.setExecute(file, true);
 		git.add().addFilepattern("a.txt").call();
 		git.commit().setMessage("mode change").setCommitter(committer).call();
