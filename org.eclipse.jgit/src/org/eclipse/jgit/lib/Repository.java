@@ -51,6 +51,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.Collections;
@@ -79,8 +80,11 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.storage.file.CheckoutEntry;
 import org.eclipse.jgit.storage.file.ReflogEntry;
 import org.eclipse.jgit.storage.file.ReflogReader;
+import org.eclipse.jgit.transport.RefSpec;
+import org.eclipse.jgit.transport.RemoteConfig;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.FileUtils;
@@ -376,20 +380,58 @@ public abstract class Repository {
 			throws AmbiguousObjectException, IOException {
 		RevWalk rw = new RevWalk(this);
 		try {
-			return resolve(rw, revstr);
+			Object resolved = resolve(rw, revstr);
+			if (resolved instanceof String) {
+				return getRef((String) resolved).getLeaf().getObjectId();
+			} else {
+				return (ObjectId) resolved;
+			}
 		} finally {
 			rw.release();
 		}
 	}
 
-	private ObjectId resolve(final RevWalk rw, final String revstr) throws IOException {
+	/**
+	 * Simplify an expression, but unlike {@link #resolve(String)} it will not
+	 * resolve a branch passed or resulting from the expression, such as @{-}.
+	 * Thus this method can be used to process an expression to a method that
+	 * expects a branch or revision id.
+	 *
+	 * @param revstr
+	 * @return object id or ref name from resolved expression
+	 * @throws AmbiguousObjectException
+	 * @throws IOException
+	 */
+	public String simplify(final String revstr)
+			throws AmbiguousObjectException, IOException {
+		RevWalk rw = new RevWalk(this);
+		try {
+			Object resolved = resolve(rw, revstr);
+			if (resolved != null)
+				if (resolved instanceof String)
+					return (String) resolved;
+				else
+					return ((AnyObjectId) resolved).getName();
+			return null;
+		} finally {
+			rw.release();
+		}
+	}
+
+	private Object resolve(final RevWalk rw, final String revstr)
+			throws IOException {
 		char[] revChars = revstr.toCharArray();
 		RevObject rev = null;
+		String name = null;
+		int done = 0;
 		for (int i = 0; i < revChars.length; ++i) {
 			switch (revChars[i]) {
 			case '^':
 				if (rev == null) {
-					rev = parseSimple(rw, new String(revChars, 0, i));
+					if (name == null)
+						name = new String(revChars, done, i);
+					rev = parseSimple(rw, name);
+					name = null;
 					if (rev == null)
 						return null;
 				}
@@ -429,6 +471,7 @@ public abstract class Repository {
 								rev = commit.getParent(pnum - 1);
 						}
 						i = j - 1;
+						done = i;
 						break;
 					case '{':
 						int k;
@@ -456,6 +499,7 @@ public abstract class Repository {
 								throw new RevisionSyntaxException(revstr);
 						else
 							throw new RevisionSyntaxException(revstr);
+						done = k;
 						break;
 					default:
 						rev = rw.parseAny(rev);
@@ -485,7 +529,9 @@ public abstract class Repository {
 				break;
 			case '~':
 				if (rev == null) {
-					rev = parseSimple(rw, new String(revChars, 0, i));
+					if (name == null)
+						name = new String(revChars, done, i);
+					rev = parseSimple(rw, name);
 					if (rev == null)
 						return null;
 				}
@@ -523,6 +569,8 @@ public abstract class Repository {
 				i = l - 1;
 				break;
 			case '@':
+				if (rev != null)
+					throw new RevisionSyntaxException(revstr);
 				int m;
 				String time = null;
 				for (m = i + 2; m < revChars.length; ++m) {
@@ -532,35 +580,86 @@ public abstract class Repository {
 					}
 				}
 				if (time != null) {
-					String refName = new String(revChars, 0, i);
-					Ref resolved = getRefDatabase().getRef(refName);
-					if (resolved == null)
-						return null;
-					rev = resolveReflog(rw, resolved, time);
+					if (time.equals("upstream")) {
+						if (name == null)
+							name = new String(revChars, done, i);
+						if (name.equals(""))
+							// Currently checked out branch, HEAD if
+							// detached
+							name = Constants.HEAD;
+						Ref ref = getRef(name);
+						if (ref == null)
+							return null;
+						if (ref.isSymbolic())
+							ref = ref.getLeaf();
+						name = ref.getName();
+
+						RemoteConfig remoteConfig;
+						try {
+							remoteConfig = new RemoteConfig(getConfig(),
+									"origin");
+						} catch (URISyntaxException e) {
+							throw new RevisionSyntaxException(revstr);
+						}
+						String remoteBranchName = getConfig()
+								.getString(
+										ConfigConstants.CONFIG_BRANCH_SECTION,
+								Repository.shortenRefName(ref.getName()),
+										ConfigConstants.CONFIG_KEY_MERGE);
+						List<RefSpec> fetchRefSpecs = remoteConfig
+								.getFetchRefSpecs();
+						for (RefSpec refSpec : fetchRefSpecs) {
+							if (refSpec.matchSource(remoteBranchName)) {
+								RefSpec expandFromSource = refSpec
+										.expandFromSource(remoteBranchName);
+								name = expandFromSource.getDestination();
+								break;
+							}
+						}
+						if (name == null)
+							throw new RevisionSyntaxException(revstr);
+					} else if (time.matches("^-\\d+$")) {
+						if (name != null)
+							throw new RevisionSyntaxException(revstr);
+						else {
+							String previousCheckout = resolveReflogCheckout(-Integer
+									.parseInt(time));
+							if (ObjectId.isId(previousCheckout))
+								rev = parseSimple(rw, previousCheckout);
+							else
+								name = previousCheckout;
+						}
+					} else {
+						if (name == null)
+							name = new String(revChars, done, i);
+						if (name.equals(""))
+							name = Constants.HEAD;
+						Ref ref = getRef(name);
+						if (ref == null)
+							return null;
+						// @{n} means current branch, not HEAD@{1} unless
+						// detached
+						if (ref.isSymbolic())
+							ref = ref.getLeaf();
+						rev = resolveReflog(rw, ref, time);
+						name = null;
+					}
 					i = m;
 				} else
-					i = m - 1;
+					throw new RevisionSyntaxException(revstr);
 				break;
 			case ':': {
 				RevTree tree;
 				if (rev == null) {
-					// We might not yet have parsed the left hand side.
-					ObjectId id;
-					try {
-						if (i == 0)
-							id = resolve(rw, Constants.HEAD);
-						else
-							id = resolve(rw, new String(revChars, 0, i));
-					} catch (RevisionSyntaxException badSyntax) {
-						throw new RevisionSyntaxException(revstr);
-					}
-					if (id == null)
-						return null;
-					tree = rw.parseTree(id);
-				} else {
-					tree = rw.parseTree(rev);
+					if (name == null)
+						name = new String(revChars, done, i);
+					if (name.equals(""))
+						name = Constants.HEAD;
+					rev = parseSimple(rw, name);
 				}
-
+				if (rev == null)
+					return null;
+				tree = rw.parseTree(rev);
 				if (i == revChars.length - 1)
 					return tree.copy();
 
@@ -569,13 +668,19 @@ public abstract class Repository {
 						tree);
 				return tw != null ? tw.getObjectId(0) : null;
 			}
-
 			default:
 				if (rev != null)
 					throw new RevisionSyntaxException(revstr);
 			}
 		}
-		return rev != null ? rev.copy() : resolveSimple(revstr);
+		if (rev != null)
+			return rev.copy();
+		if (name != null)
+			return name;
+		name = revstr.substring(done);
+		if (getRef(name) != null)
+			return name;
+		return resolveSimple(name);
 	}
 
 	private static boolean isHex(char c) {
@@ -622,6 +727,19 @@ public abstract class Repository {
 		return null;
 	}
 
+	private String resolveReflogCheckout(int checkoutNo)
+			throws IOException {
+		List<ReflogEntry> reflogEntries = new ReflogReader(this, Constants.HEAD)
+				.getReverseEntries();
+		for (ReflogEntry entry : reflogEntries) {
+			CheckoutEntry checkout = entry.parseCheckout();
+			if (checkout != null)
+				if (checkoutNo-- == 1)
+					return checkout.getFromBranch();
+		}
+		return null;
+	}
+
 	private RevCommit resolveReflog(RevWalk rw, Ref ref, String time)
 			throws IOException {
 		int number;
@@ -631,10 +749,7 @@ public abstract class Repository {
 			throw new RevisionSyntaxException(MessageFormat.format(
 					JGitText.get().invalidReflogRevision, time));
 		}
-		if (number < 0)
-			throw new RevisionSyntaxException(MessageFormat.format(
-					JGitText.get().invalidReflogRevision, time));
-
+		assert number >= 0;
 		ReflogReader reader = new ReflogReader(this, ref.getName());
 		ReflogEntry entry = reader.getReverseEntry(number);
 		if (entry == null)
