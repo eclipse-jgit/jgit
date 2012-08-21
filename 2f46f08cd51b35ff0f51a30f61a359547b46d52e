@@ -16,6 +16,24 @@
       "revId": "2f46f08cd51b35ff0f51a30f61a359547b46d52e",
       "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AABOIn//68s\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SystemReader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 8
+      },
+      "writtenOn": "2012-08-21T21:47:52Z",
+      "side": 1,
+      "message": "Good question... I guess we have more places that should\ndo this then?",
+      "parentUuid": "AABOIn//8mc\u003d",
+      "revId": "2f46f08cd51b35ff0f51a30f61a359547b46d52e",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
     }
   ]
 }
