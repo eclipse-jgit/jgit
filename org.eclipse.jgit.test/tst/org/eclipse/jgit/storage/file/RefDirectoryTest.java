@@ -360,6 +360,19 @@ public class RefDirectoryTest extends LocalDiskRepositoryTestCase {
 	}
 
 	@Test
+	public void testReadNotExistingBranchConfig() throws IOException {
+		assertNull("find branch config", refdir.getRef("config"));
+		assertNull("find branch config", refdir.getRef("refs/heads/config"));
+	}
+
+	@Test
+	public void testReadBranchConfig() throws IOException {
+		writeLooseRef("refs/heads/config", A);
+
+		assertNotNull("find branch config", refdir.getRef("config"));
+	}
+
+	@Test
 	public void testGetRefs_HeadsOnly_AllLoose() throws IOException {
 		Map<String, Ref> heads;
 		Ref a, b;
