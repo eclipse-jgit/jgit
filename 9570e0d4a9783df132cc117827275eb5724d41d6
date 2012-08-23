@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AABOIn//6pY\u003d",
+        "filename": "org.eclipse.jgit/src/org/eclipse/jgit/util/SystemReader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 4
+      },
+      "writtenOn": "2012-08-23T22:37:37Z",
+      "side": 1,
+      "message": "are you sure that toLowerCase isn\u0027t needed anymore ?",
+      "revId": "9570e0d4a9783df132cc117827275eb5724d41d6",
+      "serverId": "97ee7c02-f12f-4043-b43e-dea463d88b31",
+      "unresolved": false
+    }
+  ]
+}
