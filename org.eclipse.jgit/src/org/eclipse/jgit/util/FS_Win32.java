@@ -46,25 +46,11 @@ package org.eclipse.jgit.util;
 
 import java.io.File;
 import java.nio.charset.Charset;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 class FS_Win32 extends FS {
-
-	static boolean isWin32() {
-		final String osDotName = AccessController
-				.doPrivileged(new PrivilegedAction<String>() {
-					public String run() {
-						return System.getProperty("os.name");
-					}
-				});
-		return osDotName != null
-				&& StringUtils.toLowerCase(osDotName).indexOf("windows") != -1;
-	}
-
 	FS_Win32() {
 		super();
 	}
