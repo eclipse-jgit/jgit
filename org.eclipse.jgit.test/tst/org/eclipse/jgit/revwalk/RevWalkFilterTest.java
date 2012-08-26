@@ -43,20 +43,27 @@
 
 package org.eclipse.jgit.revwalk;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Date;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.StopWalkException;
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.RefUpdate;
+import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.revwalk.filter.AndRevFilter;
 import org.eclipse.jgit.revwalk.filter.CommitTimeRevFilter;
 import org.eclipse.jgit.revwalk.filter.NotRevFilter;
 import org.eclipse.jgit.revwalk.filter.OrRevFilter;
 import org.eclipse.jgit.revwalk.filter.RevFilter;
+import org.eclipse.jgit.util.FileUtils;
 import org.junit.Test;
 
 public class RevWalkFilterTest extends RevWalkTestCase {
@@ -74,6 +81,71 @@ public class RevWalkFilterTest extends RevWalkTestCase {
 		assertCommit(b, rw.next());
 		assertCommit(a, rw.next());
 		assertNull(rw.next());
+	}
+
+	@Test
+	public void testFilter_ALL_w_grafts() throws Exception {
+		final RevCommit _ = commit();
+		final RevCommit a = commit(_);
+		final RevCommit b = commit(a);
+		final RevCommit c = commit(b);
+		File graftsFile = db.getGraftsFile();
+		FileUtils.mkdir(graftsFile.getParentFile(), true);
+		FileWriter fileWriter = new FileWriter(graftsFile);
+		fileWriter.write(c.getId().name() + " " + a.getId().name() + "\n");
+		fileWriter.close();
+		// We need new walker and commits since the initial ones are already
+		// parsed
+		RevWalk w = new RevWalk(db);
+		w.setRevFilter(RevFilter.ALL);
+		w.markStart(new RevCommit(c.getId()));
+		RevCommit newC = w.next();
+		assertCommit(c, newC);
+		assertEquals(0, newC.flags & RevWalk.GRAFTED);
+		// b was bypassed by the graft
+		RevCommit newA = w.next();
+		assertCommit(a, newA);
+		// New parent A is tagged so we know it
+		assertFlag(RevWalk.GRAFTED, newA);
+		// A graft is not history simplification
+		assertNotFlag(RevWalk.REWRITE, newA);
+		RevCommit new_ = w.next();
+		assertCommit(_, new_);
+		assertNotFlag(RevWalk.GRAFTED, new_); // FIXME; ok?
+		assertNull(w.next());
+	}
+
+	@Test
+	public void testFilter_ALL_w_replace() throws Exception {
+		final RevCommit _ = commit();
+		final RevCommit a = commit(_);
+		final RevCommit b = commit(a);
+		final RevCommit c = commit(b);
+		// Set up to skip by by replacing it with a
+		RefUpdate updateRef = db.updateRef(Constants.R_REPLACE + b.getName());
+		updateRef.setNewObjectId(a.getId());
+		Result update = updateRef.update();
+		assertEquals(Result.NEW, update); // setup
+
+		// We need new walker and commits since the initial ones are already
+		// parsed
+		RevWalk w = new RevWalk(db);
+		w.setRevFilter(RevFilter.ALL);
+		w.markStart(new RevCommit(c.getId()));
+		RevCommit newC = w.next();
+		assertCommit(c, newC);
+		assertEquals(0, newC.flags & RevWalk.GRAFTED);
+		// b was bypassed by the replace
+		RevCommit newA = w.next();
+		assertCommit(a, newA);
+		// New parent A is tagged so we know it
+		assertFlag(RevWalk.GRAFTED, newA);
+		// A graft is not history simplification
+		assertNotFlag(RevWalk.REWRITE, newA);
+		RevCommit new_ = w.next();
+		assertCommit(_, new_);
+		assertNotFlag(RevWalk.GRAFTED, new_); // FIXME; ok?
+		assertNull(w.next());
 	}
 
 	@Test
